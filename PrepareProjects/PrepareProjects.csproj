@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Resources\GtkWinFormsAppResources.Designer.cs" />
+		<Compile Remove="Resources\Resources.Designer.cs" />
+		<Compile Remove="Resources\System.ComponentModel.cs" />
+		<Compile Remove="Resources\System.Resources.ResourceManager.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\Resources.Designer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\System.ComponentModel.cs" />
+		<EmbeddedResource Include="Resources\System.Resources.ResourceManager.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\GtkWinFormsAppResources.xml" />
+		<EmbeddedResource Include="Resources\GtkWinFormsAppResources.zh-Hans.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Resources\GtkWinFormsAppResources.Designer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Prepare.Common\Prepare.Common.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="PostProcessing.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+</Project>

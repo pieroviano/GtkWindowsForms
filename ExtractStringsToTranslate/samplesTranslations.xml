@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Translations>
+  <Entry>
+    <Name>Res_You_selected_Cancel</Name>
+    <Chinese>你选择了 取消</Chinese>
+    <English>You selected Cancel</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Tab_group_e_Index</Name>
+    <Chinese>tab组{0}</Chinese>
+    <English>Tab group {0}</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Beijing_City</Name>
+    <Chinese>北京市</Chinese>
+    <English>Beijing City</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Tianjin_City</Name>
+    <Chinese>天津市</Chinese>
+    <English>Tianjin City</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Henan_Province</Name>
+    <Chinese>河南省</Chinese>
+    <English>Henan Province</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Shanxi_Province</Name>
+    <Chinese>山西省</Chinese>
+    <English>Shanxi Province</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Inner_Mongolia_Autonomous_Region</Name>
+    <Chinese>内蒙古自治区</Chinese>
+    <English>Inner Mongolia Autonomous Region</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Liaoning_Province</Name>
+    <Chinese>辽宁省</Chinese>
+    <English>Liaoning Province</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Jilin_Province</Name>
+    <Chinese>吉林省</Chinese>
+    <English>Jilin Province</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Heilongjiang_Province</Name>
+    <Chinese>黑龙江省</Chinese>
+    <English>Heilongjiang Province</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Shanghai_City</Name>
+    <Chinese>上海市</Chinese>
+    <English>Shanghai City</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Jiangsu_Province</Name>
+    <Chinese>江苏省</Chinese>
+    <English>Jiangsu Province</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Zhejiang_Province</Name>
+    <Chinese>浙江省</Chinese>
+    <English>Zhejiang Province</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Anhui_Province</Name>
+    <Chinese>安徽省</Chinese>
+    <English>Anhui Province</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Fujian_Province</Name>
+    <Chinese>福建省</Chinese>
+    <English>Fujian Province</English>
+  </Entry>
+  <Entry>
+    <Name>Res_yyyy_MM_dd_HH_mm_ss</Name>
+    <Chinese>yyyy年MM年dd HH时mm分ss秒</Chinese>
+    <English>yyyy-MM-dd HH:mm:ss</English>
+  </Entry>
+  <Entry>
+    <Name>Res_0000_90_90_90_00</Name>
+    <Chinese>0000年90月90日 90时00分</Chinese>
+    <English>0000-90-90 90:00</English>
+  </Entry>
+  <Entry>
+    <Name>Res_ListView_demonstration</Name>
+    <Chinese>listview演示</Chinese>
+    <English>ListView demonstration</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Container_table_example</Name>
+    <Chinese>容器类表格示例</Chinese>
+    <English>Container table example</English>
+  </Entry>
+  <Entry>
+    <Name>Res_This_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox_this_is_a_RichTextBox</Name>
+    <Chinese>这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox，这是richtextbox</Chinese>
+    <English>This is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox, this is a RichTextBox</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Primary_menu_1</Name>
+    <Chinese>一级菜单1</Chinese>
+    <English>Primary menu 1</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Primary_menu_2</Name>
+    <Chinese>一级菜单2</Chinese>
+    <English>Primary menu 2</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Date_r_nTime</Name>
+    <Chinese>日期\r\n时间</Chinese>
+    <English>Date\r\nTime</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Exception_warning_i_Data_center_air_conditioning_operation_monitoring_event_DateTime_Now_Ticks_DateTime_Now_ToString</Name>
+    <Chinese>异常警告{0} --- 机房空调运行监控事件 --- {1} ------ {2}</Chinese>
+    <English>Exception warning {i} --- Data center air conditioning operation monitoring event --- {DateTime.Now.Ticks} ------ {DateTime.Now.ToString()}</English>
+  </Entry>
+  <Entry>
+    <Name>Res_The_ListView_control_provides_a_basic_structure_for_displaying_a_collection_of_data_items_using_different_layouts_or_views_For_example_users_may_need_to_display_items_in_a_table_and_sort_the_table_columns_at_the_same_time</Name>
+    <Chinese>ListView 控件提供了使用不同布局or视图中显示一组数据项的基础结构。 例如，用户可能需要在表格中显示数据项，并同时对表格的列进行排序。</Chinese>
+    <English>The ListView control provides a basic structure for displaying a collection of data items using different layouts or views. For example, users may need to display items in a table and sort the table columns at the same time.</English>
+  </Entry>
+  <Entry>
+    <Name>Res_0_Exception_warning_0_Data_center_air_conditioning_operation_monitoring_event_638526419125153303_2024_5_30_4_58_32</Name>
+    <Chinese>0-异常警告0 --- 机房空调运行监控事件 --- 638526419125153303 ------ 2024/5/30 4:58:32</Chinese>
+    <English>0-Exception warning 0 --- Data center air conditioning operation monitoring event --- 638526419125153303 ------ 2024/5/30 4:58:32</English>
+  </Entry>
+  <Entry>
+    <Name>Res_1_Exception_warning_1_Data_center_air_conditioning_operation_monitoring_event_638526419135198480_2024_5_30_4_58_33</Name>
+    <Chinese>1-异常警告1 --- 机房空调运行监控事件 --- 638526419135198480 ------ 2024/5/30 4:58:33</Chinese>
+    <English>1-Exception warning 1 --- Data center air conditioning operation monitoring event --- 638526419135198480 ------ 2024/5/30 4:58:33</English>
+  </Entry>
+  <Entry>
+    <Name>Res_2_Exception_warning_2_Data_center_air_conditioning_operation_monitoring_event_638526419155233741_2024_5_30_4_58_35</Name>
+    <Chinese>2-异常警告2 --- 机房空调运行监控事件 --- 638526419155233741 ------ 2024/5/30 4:58:35</Chinese>
+    <English>2-Exception warning 2 --- Data center air conditioning operation monitoring event --- 638526419155233741 ------ 2024/5/30 4:58:35</English>
+  </Entry>
+  <Entry>
+    <Name>Res_3_Exception_warning_3_Data_center_air_conditioning_operation_monitoring_event_638526419495254800_2024_5_30_4_59_09</Name>
+    <Chinese>3-异常警告3 --- 机房空调运行监控事件 --- 638526419495254800 ------ 2024/5/30 4:59:09</Chinese>
+    <English>3-Exception warning 3 --- Data center air conditioning operation monitoring event --- 638526419495254800 ------ 2024/5/30 4:59:09</English>
+  </Entry>
+  <Entry>
+    <Name>Res_4_Exception_warning_4_Data_center_air_conditioning_operation_monitoring_event_638526419505198651_2024_5_30_4_59_10</Name>
+    <Chinese>4-异常警告4 --- 机房空调运行监控事件 --- 638526419505198651 ------ 2024/5/30 4:59:10</Chinese>
+    <English>4-Exception warning 4 --- Data center air conditioning operation monitoring event --- 638526419505198651 ------ 2024/5/30 4:59:10</English>
+  </Entry>
+  <Entry>
+    <Name>Res_5_Exception_warning_5_Data_center_air_conditioning_operation_monitoring_event_638526419565218661_2024_5_30_4_59_16</Name>
+    <Chinese>5-异常警告5 --- 机房空调运行监控事件 --- 638526419565218661 ------ 2024/5/30 4:59:16</Chinese>
+    <English>5-Exception warning 5 --- Data center air conditioning operation monitoring event --- 638526419565218661 ------ 2024/5/30 4:59:16</English>
+  </Entry>
+  <Entry>
+    <Name>Res_Image_files_jpg_png_Image_files_2_bmp</Name>
+    <Chinese>图像文件|*.jpg;*.png|图像文件2|*.bmp</Chinese>
+    <English>Image files|*.jpg;*.png|Image files 2|*.bmp</English>
+  </Entry>
+  <Entry>
+    <Name>Res_This_is_a_custom_control</Name>
+    <Chinese>这是自定义控件</Chinese>
+    <English>This is a custom control</English>
+  </Entry>
+</Translations>

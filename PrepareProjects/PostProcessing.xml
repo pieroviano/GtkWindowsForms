@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Items>
+	<Item>
+		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+		<SourceString>&lt;Copyright&gt;438865652@qq.com Benjing henhongjin&lt;/Copyright&gt;</SourceString>
+		<TargetString>&lt;Copyright&gt;Copyright (c) Piero Viano. All right reserved.&lt;/Copyright&gt;</TargetString>
+	</Item>
+	<Item>
+		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+		<SourceString>windows\linux\macos</SourceString>
+		<TargetString>windows/linux/macos</TargetString>
+	</Item>
+	<Item>
+		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+		<SourceString>&lt;Authors&gt;chenhongjin&lt;/Authors&gt;</SourceString>
+		<TargetString>&lt;Authors&gt;Piero Viano&lt;/Authors&gt;</TargetString>
+	</Item>
+	<Item>
+		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+		<SourceString>&lt;Company&gt;chenhongjin&lt;/Company&gt;</SourceString>
+		<TargetString>&lt;Company&gt;Piero Viano&lt;/Company&gt;</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\Dialog\FileDialog.cs</FileName>
+		<SourceString>坽pattern}</SourceString>
+		<TargetString>pattern</TargetString>
+	</Item>
+	<Item>
+		<FileName>..\GtkWinFormsApp\Form1.cs</FileName>
+		<SourceString>treeView1.Nodes.AddRange(childs.ToArray());</SourceString>
+		<TargetString>treeView1.Nodes.AddRange(childs.ToArray());
+                int i = 1;
+                while (treeView1.Nodes[0].Nodes[2].Nodes.Count &lt; 4)
+                {
+                    treeView1.Nodes[0].Nodes[2].Nodes.Add(new TreeNode(i.ToString()));
+                    i++;
+                }</TargetString>
+	</Item>
+	<Item>
+		<FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>
+		<SourceString>GtkWinFormsApp</SourceString>
+		<TargetString>GtkSystemWinFormsApp11</TargetString>
+	</Item>
+	<Item>
+		<FileName>..\GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+		<SourceString>if (type.Name == "System.Windows.Forms.ImageListStreamer")</SourceString>
+		<TargetString>if (type.FullName == "System.Windows.Forms.ImageListStreamer")</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\ControlBase\FormBase.cs</FileName>
+		<SourceString> Properties.Resources.Gtk_FormBase_FormBase_Close</SourceString>
+		<TargetString> System.Properties.Resources.Gtk_FormBase_FormBase_Close</TargetString>
+	</Item>
+	<Item>
+		<FileName>..\*.cs</FileName>
+		<SourceString>"https://www.gtkapp.com</SourceString>
+		<TargetString>"https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</TargetString>
+	</Item>
+	<Item>
+		<FileName>*.cs</FileName>
+		<SourceString>GTKSystem</SourceString>
+		<TargetString>GtkSystem</TargetString>
+	</Item>
+	<Item>
+		<FileName>*.cs</FileName>
+		<SourceString>"GtkSystem.Windows.Forms.Resources</SourceString>
+		<TargetString>"Net4x.Gtk.Windows.Forms.Resources</TargetString>
+	</Item>
+	<Item>
+		<FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>
+		<SourceString>"GtkWinFormsApp.Properties.GtkWinFormsAppResources"</SourceString>
+		<TargetString>"GtkSystemWinFormsApp11.Properties.GtkWinFormsAppResources.resources"</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+		<SourceString>if (type == typeof(System.Drawing.Bitmap))</SourceString>
+		<TargetString>if (type == typeof(Icon))
+                        {
+                            obj = new System.Drawing.Icon((byte[])value);
+                        }
+                        else if (type == typeof(System.Drawing.Bitmap))
+		</TargetString>
+	</Item>
+</Items>

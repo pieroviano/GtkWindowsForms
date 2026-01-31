@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>annotations</Nullable>
+    <UseWindowsForms>False</UseWindowsForms>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <IsPublishable>False</IsPublishable>
+    <EnableUnsafeBinaryFormatterSerialization>True</EnableUnsafeBinaryFormatterSerialization>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="TestData1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\PrepareProjects\Resources\ProjectDescription.txt" Link="ProjectDescription.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="GtkSharp" Version="3.24.24.95" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Form2.cs" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\net8.0\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\010.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\BindingNavigator.Delete.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\img10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\timg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\timg2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\timg6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="**\*.resx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Net4x.Gtk.Windows.Forms\Content\System.ComponentModel.cs" Link="System.ComponentModel.cs" />
+    <Compile Include="..\Net4x.Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs" Link="System.Resources.ResourceManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.csproj" />
+    <ProjectReference Include="..\Net4x.System.Resources.Extensions\Net4x.System.Resources.Extensions.csproj" />
+  </ItemGroup>
+  <Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
+    <Message Importance="High" Text="&quot;$(MSBuildThisFileDirectory)..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\Net4x.XUnit.Copy.exe&quot; $(TargetFramework) &quot;$(TargetDir)&quot; &quot;$(MSBuildProjectFullPath)&quot;" />
+    <Exec Command="&quot;$(MSBuildThisFileDirectory)..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\Net4x.ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
+  </Target>
+  <ItemGroup>
+    <Compile Update="Properties\GtkWinFormsAppResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GtkWinFormsAppResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\GtkWinFormsAppResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GtkWinFormsAppResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\GtkWinFormsAppResources.zh-Hans.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <DependentUpon>GtkWinFormsAppResources.resx</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\TestData1.en.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\TestData1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,6 @@
+Close Visual Studio, then double-click the GTKWinformVSIX.vsix file to install it.
+
+The plugin installs three features, all of which are added to both the right-click context menu and the Tools menu:
++ New Items (Form templates, UserControl templates, GTKWinform project templates)
++ Fix Form Designer
++ Open Project Website

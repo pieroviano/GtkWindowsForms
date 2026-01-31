@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props')" />
+    <PropertyGroup>
+        <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <RootNamespace>Gtk.Windows.FormsDesigner</RootNamespace>
+        <DontConvert>False</DontConvert>
+        <Company>Piero Viano</Company>
+        <Product>Net4x.Gtk.Windows.FormsDesigner</Product>
+        <Description>
+			This is a tool accompanying the Net4x.Gtk.Windows.Forms framework project,
+			used to open the Visual Studio form designer.
+		</Description>
+        <Copyright>Piero Viano</Copyright>
+        <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+        <Version>$(VersionPrefix).$(VersionSuffix)</Version>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <PackegeId>Net4x.Gtk.Windows.FormsDesigner</PackegeId>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="$(MSBuildProjectName).xml" Pack="true" PackagePath="\Documentation.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <SourceRoot Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\'))" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Build.Framework" Version="18.0.2" />
+        <PackageReference Include="Net4x.BaseTypes" Version="$(Net4xBaseTypesVersion).$(VersionBuildSuffix)" />
+        <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.0.2" />
+    </ItemGroup>
+    <ItemGroup>
+        <SourceRoot Include="$(MSBuildProjectDirectory)\" />
+    </ItemGroup>
+    <PropertyGroup>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageId>$(AssemblyName)</PackageId>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="README.md" Link="README.md" Pack="true" PackagePath="\README.md" />
+        <Content Include="$(SolutionDir)License.txt" Link="License.txt" Pack="true" PackagePath="\License.txt" Condition="Exists('$(SolutionDir)License.txt')" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Properties\Resources.it.resx">
+            <DependentUpon>Resources.resx</DependentUpon>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="Net4x.Gtk.Windows.FormsDesigner.props" Pack="true" PackagePath="/build/Net4x.Gtk.Windows.FormsDesigner.props" />
+        <Content Include="Net4x.Gtk.Windows.FormsDesigner.targets" Pack="true" PackagePath="/build/Net4x.Gtk.Windows.FormsDesigner.targets" />
+    </ItemGroup>
+    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
+</Project>

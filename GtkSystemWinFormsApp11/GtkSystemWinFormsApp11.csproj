@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>false</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="GtkSharp" Version="3.24.24.95" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\net8.0\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="**\*.resx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Net4x.Gtk.Windows.Forms\Content\System.ComponentModel.cs" Link="System.ComponentModel.cs" />
+    <Compile Include="..\Net4x.Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs" Link="System.Resources.ResourceManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.csproj" />
+    <ProjectReference Include="..\Net4x.System.Resources.Extensions\Net4x.System.Resources.Extensions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
+    <Message Importance="High" Text="&quot;$(MSBuildThisFileDirectory)..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\Net4x.XUnit.Copy.exe&quot; $(TargetFramework) &quot;$(TargetDir)&quot; &quot;$(MSBuildProjectFullPath)&quot;" />
+    <Exec Command="&quot;$(MSBuildThisFileDirectory)..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\Net4x.ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
+  </Target>
+  <ItemGroup>
+    <Compile Update="Properties\GtkWinFormsAppResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GtkWinFormsAppResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\GtkWinFormsAppResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GtkWinFormsAppResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\GtkWinFormsAppResources.zh-Hans.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <DependentUpon>GtkWinFormsAppResources.resx</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\TestData1.en.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\TestData1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

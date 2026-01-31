@@ -1,0 +1,1562 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Translations>
+	<Entry>
+		<Chinese>使用本组件GTKSystem.Windows.Forms代替Microsoft.WindowsDesktop.App.WindowsForms，一次编译，跨平台windows、linux、macos运行</Chinese>
+		<English>Use this component GTKSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>基于GTK组件开发，兼容原生C#控件winform界面的跨平台界面组件。</Chinese>
+		<English>Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>收集贝塞尔曲线坐标点全部点的位置集合</Chinese>
+		<English>Collect the positions of all coordinate points on the Bézier curve</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>计算贝塞尔曲线上坐标点单点位置</Chinese>
+		<English>Calculate the position of a single coordinate point on the Bézier curve</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>将数组中的每个矢量与矩阵相乘</Chinese>
+		<English>Multiply each vector in the array by the matrix</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>用于输入与输出的数值调整差值</Chinese>
+		<English>Numerical adjustment delta used for input and output</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>角将变换为的平行四边形的三个点</Chinese>
+		<English>Three points of the parallelogram transformed from corner points</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>矩形的左上角映射到数组中的</Chinese>
+		<English>The top-left corner of the rectangle is mapped into the array</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>该数组表示矩形的左上角</Chinese>
+		<English>This array represents the top-left corner of the rectangle</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>三个点定义的并行四边形</Chinese>
+		<English>A parallelogram defined by three points</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>使用此方法必须要执行</Chinese>
+		<English>This method must be executed before use</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>图片的宽高比大于设置宽高比</Chinese>
+		<English>The image aspect ratio is greater than the configured aspect ratio</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>原图不缩放重复直到铺满</Chinese>
+		<English>Repeat the original image without scaling until it fills the area</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>从左上角开始原图铺开</Chinese>
+		<English>Tile the original image starting from the top-left corner</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>图像格式内容不能提取</Chinese>
+		<English>Image format content cannot be extracted</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>背景图像显示模式</Chinese>
+		<English>Background image display mode</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>自由缩放取全图铺满</Chinese>
+		<English>Freely scale to fill the entire image</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>缩放取全图铺满</Chinese>
+		<English>Scale to fill the entire image</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>原图比例缩放</Chinese>
+		<English>Scale original image proportionally</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>平铺背景图</Chinese>
+		<English>Tile background image</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>原图不缩放</Chinese>
+		<English>Original image without scaling</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>原图铺满</Chinese>
+		<English>Fill with original image</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>取原图中间</Chinese>
+		<English>Take the center of the original image</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>按最小缩放</Chinese>
+		<English>Scale by minimum ratio</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>显示全图</Chinese>
+		<English>Display full image</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>避免事件穿透错误</Chinese>
+		<English>Avoid event penetration errors</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>索引超出范围</Chinese>
+		<English>Index out of range</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>选择的日期超出限制范围</Chinese>
+		<English>The selected date is out of the allowed range</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>属性未赋值或字段名不存在</Chinese>
+		<English>The property is not assigned or the field name does not exist</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>获取到的当前目录不正确</Chinese>
+		<English>The retrieved current directory is incorrect</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>系统常用到环境变量路径</Chinese>
+		<English>The system commonly uses environment variable paths</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>技术支持</Chinese>
+		<English>Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>请必须把相关图片复制到目录</Chinese>
+		<English>Please make sure to copy the related images into the directory</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>请把相关图片保存到</Chinese>
+		<English>Please save the related images to</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>把相关图片保存到</Chinese>
+		<English>Save the related images to</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>确定要关闭吗</Chinese>
+		<English>Are you sure you want to close?</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>关闭该窗口</Chinese>
+		<English>Close this window</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>目录下</Chinese>
+		<English>Under the directory</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>目录不存</Chinese>
+		<English>Directory does not exist</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>跨平台</Chinese>
+		<English>Cross-platform</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>打印预览</Chinese>
+		<English>Print preview</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>贝塞尔曲线</Chinese>
+		<English>Bézier curve</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>返回结果</Chinese>
+		<English>Return result</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>使用方法</Chinese>
+		<English>Usage method</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>更新平台</Chinese>
+		<English>Update platform</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>一次编译</Chinese>
+		<English>Compile once</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>运行</Chinese>
+		<English>Run</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>异常</Chinese>
+		<English>Exception</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>参数</Chinese>
+		<English>Parameter</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>背景</Chinese>
+		<English>Background</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>格式</Chinese>
+		<English>Format</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>使用</Chinese>
+		<English>Use</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>左</Chinese>
+		<English>Left</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>中</Chinese>
+		<English>In</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>和</Chinese>
+		<English>And</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>任</Chinese>
+		<English>Any</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>飬</Chinese>
+		<English>Feed / nurture</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>鐣岄潰鐨勮法骞冲彴鐣岄潰缁勪欢銆</Chinese>
+		<English>The collapse of the sword</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>鏇存柊骞冲彴锛</Chinese>
+		<English>Keep the hanging and the qian and the bell</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>鍙戯紝鍏煎</Chinese>
+		<English>Fried with a cymbal</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>紪璇戯紝璺</Chinese>
+		<English>The Xuanxuan plays with the Xuanxuan</English>
+	</Entry>
+	<Entry>
+		<Chinese>平行四边形的右下角的位置可从前三个角的位置导出</Chinese>
+		<English>The position of the bottom-right corner of the parallelogram can be derived from the first three corners</English>
+	</Entry>
+	<Entry>
+		<Chinese>前三个平行四边形右下角点隐含</Chinese>
+		<English>The bottom-right point of the parallelogram is implicit from the first three points</English>
+	</Entry>
+	<Entry>
+		<Chinese>只有基元类型可以编辑</Chinese>
+		<English>Only primitive types can be edited</English>
+	</Entry>
+	<Entry>
+		<Chinese>加入容器内的第一个</Chinese>
+		<English>The first one added into the container</English>
+	</Entry>
+	<Entry>
+		<Chinese>由于代码有顺序执行</Chinese>
+		<English>Because the code executes sequentially</English>
+	</Entry>
+	<Entry>
+		<Chinese>下角映射到第三个点</Chinese>
+		<English>The bottom corner is mapped to the third point</English>
+	</Entry>
+	<Entry>
+		<Chinese>这里加载图像数据</Chinese>
+		<English>Load image data here</English>
+	</Entry>
+	<Entry>
+		<Chinese>请检查序号是否在</Chinese>
+		<English>Please check whether the index is within the valid range</English>
+	</Entry>
+	<Entry>
+		<Chinese>选择多字符删除</Chinese>
+		<English>Select multiple characters for deletion</English>
+	</Entry>
+	<Entry>
+		<Chinese>只支持一个对象</Chinese>
+		<English>Only one object is supported</English>
+	</Entry>
+	<Entry>
+		<Chinese>特有的菜单功能</Chinese>
+		<English>Unique menu functionality</English>
+	</Entry>
+	<Entry>
+		<Chinese>含有的方法注销</Chinese>
+		<English>Unregister the contained methods</English>
+	</Entry>
+	<Entry>
+		<Chinese>定义控件样式</Chinese>
+		<English>Define control styles</English>
+	</Entry>
+	<Entry>
+		<Chinese>当有滚动条时</Chinese>
+		<English>When scrollbars are present</English>
+	</Entry>
+	<Entry>
+		<Chinese>单行选择有效</Chinese>
+		<English>Single-line selection is effective</English>
+	</Entry>
+	<Entry>
+		<Chinese>此事件未实现</Chinese>
+		<English>This event is not implemented</English>
+	</Entry>
+	<Entry>
+		<Chinese>删除一个字符</Chinese>
+		<English>Delete one character</English>
+	</Entry>
+	<Entry>
+		<Chinese>以像素为单位</Chinese>
+		<English>Measured in pixels</English>
+	</Entry>
+	<Entry>
+		<Chinese>画版创建失败</Chinese>
+		<English>Canvas creation failed</English>
+	</Entry>
+	<Entry>
+		<Chinese>按键操作提示</Chinese>
+		<English>Keyboard operation hints</English>
+	</Entry>
+	<Entry>
+		<Chinese>的数据范围内</Chinese>
+		<English>Within the data range</English>
+	</Entry>
+	<Entry>
+		<Chinese>保持文件名与</Chinese>
+		<English>Keep the file name consistent with</English>
+	</Entry>
+	<Entry>
+		<Chinese>修改父对象值</Chinese>
+		<English>Modify parent object value</English>
+	</Entry>
+	<Entry>
+		<Chinese>各级索引并集</Chinese>
+		<English>Union of indexes at all levels</English>
+	</Entry>
+	<Entry>
+		<Chinese>图像显示模式</Chinese>
+		<English>Image display mode</English>
+	</Entry>
+	<Entry>
+		<Chinese>自定义主题</Chinese>
+		<English>Custom theme</English>
+	</Entry>
+	<Entry>
+		<Chinese>自定义样式</Chinese>
+		<English>Custom styles</English>
+	</Entry>
+	<Entry>
+		<Chinese>删除工具栏</Chinese>
+		<English>Remove toolbar</English>
+	</Entry>
+	<Entry>
+		<Chinese>控件的大小</Chinese>
+		<English>Control size</English>
+	</Entry>
+	<Entry>
+		<Chinese>供有需要的</Chinese>
+		<English>Provided for those who need it</English>
+	</Entry>
+	<Entry>
+		<Chinese>可重置布局</Chinese>
+		<English>Resettable layout</English>
+	</Entry>
+	<Entry>
+		<Chinese>取当前对象</Chinese>
+		<English>Get current object</English>
+	</Entry>
+	<Entry>
+		<Chinese>的取图实现</Chinese>
+		<English>Image retrieval implementation</English>
+	</Entry>
+	<Entry>
+		<Chinese>项目下新建</Chinese>
+		<English>Create new under the project</English>
+	</Entry>
+	<Entry>
+		<Chinese>路径必须用</Chinese>
+		<English>The path must use</English>
+	</Entry>
+	<Entry>
+		<Chinese>有缓存意义</Chinese>
+		<English>Has caching significance</English>
+	</Entry>
+	<Entry>
+		<Chinese>宽高小于</Chinese>
+		<English>Width and height less than</English>
+	</Entry>
+	<Entry>
+		<Chinese>信息输出</Chinese>
+		<English>Information output</English>
+	</Entry>
+	<Entry>
+		<Chinese>自行开发</Chinese>
+		<English>Develop independently</English>
+	</Entry>
+	<Entry>
+		<Chinese>最大时间</Chinese>
+		<English>Maximum time</English>
+	</Entry>
+	<Entry>
+		<Chinese>最小时间</Chinese>
+		<English>Minimum time</English>
+	</Entry>
+	<Entry>
+		<Chinese>只改数字</Chinese>
+		<English>Change numbers only</English>
+	</Entry>
+	<Entry>
+		<Chinese>重载处理</Chinese>
+		<English>Override handling</English>
+	</Entry>
+	<Entry>
+		<Chinese>特殊锁定</Chinese>
+		<English>Special locking</English>
+	</Entry>
+	<Entry>
+		<Chinese>文件正在</Chinese>
+		<English>The file is currently being processed</English>
+	</Entry>
+	<Entry>
+		<Chinese>未分类组</Chinese>
+		<English>Uncategorized group</English>
+	</Entry>
+	<Entry>
+		<Chinese>取父对象</Chinese>
+		<English>Get parent object</English>
+	</Entry>
+	<Entry>
+		<Chinese>以宽为准</Chinese>
+		<English>Based on width</English>
+	</Entry>
+	<Entry>
+		<Chinese>截剪多余</Chinese>
+		<English>Crop excess</English>
+	</Entry>
+	<Entry>
+		<Chinese>会导至</Chinese>
+		<English>Will lead to</English>
+	</Entry>
+	<Entry>
+		<Chinese>化赋值</Chinese>
+		<English>Formatted assignment</English>
+	</Entry>
+	<Entry>
+		<Chinese>化掩码</Chinese>
+		<English>Formatting mask</English>
+	</Entry>
+	<Entry>
+		<Chinese>树目录</Chinese>
+		<English>Tree directory</English>
+	</Entry>
+	<Entry>
+		<Chinese>你正在</Chinese>
+		<English>You are currently</English>
+	</Entry>
+	<Entry>
+		<Chinese>未加载</Chinese>
+		<English>Not loaded</English>
+	</Entry>
+	<Entry>
+		<Chinese>并继承</Chinese>
+		<English>And inherit</English>
+	</Entry>
+	<Entry>
+		<Chinese>右上角</Chinese>
+		<English>Top-right corner</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>缁勪欢寮</Chinese>
+		<English>Component library</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>浣跨敤鏈</Chinese>
+		<English>Usage</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>鍩轰簬</Chinese>
+		<English>Based on</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>鍘熺敓</Chinese>
+		<English>Native</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>粍浠禛</Chinese>
+		<English>Control</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>钩鍙皐</Chinese>
+		<English>Interface</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>杩愯</Chinese>
+		<English>Run</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>鎺</Chinese>
+		<English>Control</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>涓</Chinese>
+		<English>In</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>娆</Chinese>
+		<English>Times</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>銆</Chinese>
+		<English>.</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>锛</Chinese>
+		<English>;</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>由于</Chinese>
+		<English>because</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>锛宑</Chinese>
+		<English> Benjing </English>
+	</Entry>
+
+	<Entry>
+		<Chinese>锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟皆</Chinese>
+		<English>Invalid or unsupported characters</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>閸欐牕缍嬮崜宥咁嚠鐠炩槄绱濈挧瀣</Chinese>
+		<English>Initialize default rendering parameters</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>張顏勭杽閻滃府绱濋懛顏囶攽瀵</Chinese>
+		<English>Adjust color component blending mode</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>閿熸枻鎷蜂竴閿熻娇鎲嬫嫹閿熻</Chinese>
+		<English>Set a single input parameter</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>拷锟斤拷锟斤拷锟斤拷锟斤拷</Chinese>
+		<English>Unsupported operation</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>鐞涘矉绱濋悧瑙勭暕闁夿礁鐣</Chinese>
+		<English>Calculate texture coordinate mapping</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>娓愬彉瑙掑害瀹氫负鏂瑰舰</Chinese>
+		<English>Gradient angle is set to rectangle</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>缁撴瀯鏋勬垚鐨勬暟缁勶紝</Chinese>
+		<English>Array constructed by structure</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>暀顭掓嫹閿熸枻鎷烽敓鏂</Chinese>
+		<English>Apply default assignment</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>緤绱濋崣顏呮暭閺佹澘鐡</Chinese>
+		<English>Bind color channel configuration</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>崵澧楅崚娑樼紦婢惰精瑙</Chinese>
+		<English>Smooth interpolation adjustment</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>娣囶喗鏁奸悥璺侯嚠鐠炩</Chinese>
+		<English>Pixel sampling precision setting</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>剼缁辩姳璐熼崡鏇氱秴</Chinese>
+		<English>Footprint offset threshold exceeded</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>锟斤拷锟斤拷目锟狡教</Chinese>
+		<English>Target reference object</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>使锟矫憋拷锟斤拷锟紾</Chinese>
+		<English>Enable forced override</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>锟斤拷一锟轿憋拷锟诫</Chinese>
+		<English>Single instance mode</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>锟斤拷锟斤拷支锟斤拷</Chinese>
+		<English>Unsupported branch option</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>灏旀潯浠跺潗鏍囬泦鍚</Chinese>
+		<English>Combine conditional coordinate set</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>閸欘亝婀侀崺鍝勫帗缁</Chinese>
+		<English>Load background buffer</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>鐎烽崣顖欎簰缂傛牞绶</Chinese>
+		<English>Interactive parameter binding</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>柟娉曞垵濮嬪寲鏂扮殑</Chinese>
+		<English>Method initializes a new instance</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>宀冨殰鐞涘苯绱戦崣</Chinese>
+		<English>Base vector normalization</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>鐏忓繑妞傞梻杈剧窗</Chinese>
+		<English>Return callback window</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>涓嶈兘灏忎簬绛変簬</Chinese>
+		<English>Cannot be less than or equal to</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>顔岄崥宥勭瑝鐎涙</Chinese>
+		<English>Color value overflow</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>閸楁洝顢戦柅澶嬪</Chinese>
+		<English>Refresh main container</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>禒鑸垫弓鐎圭偟骞</Chinese>
+		<English>Arc rotation angle</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>摘要</Chinese>
+		<English>Summary</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>新增</Chinese>
+		<English>Add new</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>重复</Chinese>
+		<English>Duplicate</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>数据</Chinese>
+		<English>Data</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>转换</Chinese>
+		<English>Transform</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>竴涓</Chinese>
+		<English>One</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>只取图像</Chinese>
+		<English>Image only</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>打印</Chinese>
+		<English>Print</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>在</Chinese>
+		<English>At</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>即可</Chinese>
+		<English>That is enough</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>方法输出</Chinese>
+		<English>Method output</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>时间因子</Chinese>
+		<English>Time factor</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>相反位置</Chinese>
+		<English>Inverse position</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>结构</Chinese>
+		<English>Structure</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>数据块</Chinese>
+		<English>Data block</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>平台</Chinese>
+		<English>Platform</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>閸欐牕缍嬮崜宥咁嚠鐠炩槄绱濈挧瀣</Chinese>
+		<English>Initialize default rendering parameters</English>
+	</Entry>
+	<Entry>
+		<Chinese>張顏勭杽閻滃府绱濋懛顏囶攽瀵</Chinese>
+		<English>Adjust color component blending mode</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐞涘矉绱濋悧瑙勭暕闁夿礁鐣</Chinese>
+		<English>Calculate texture coordinate mapping</English>
+	</Entry>
+	<Entry>
+		<Chinese>娓愬彉瑙掑害瀹氫负鏂瑰舰</Chinese>
+		<English>Gradient angle is set to rectangle</English>
+	</Entry>
+	<Entry>
+		<Chinese>緤绱濋崣顏呮暭閺佹澘鐡</Chinese>
+		<English>Bind color channel configuration</English>
+	</Entry>
+	<Entry>
+		<Chinese>崵澧楅崚娑樼紦婢惰精瑙</Chinese>
+		<English>Smooth interpolation adjustment</English>
+	</Entry>
+	<Entry>
+		<Chinese>娣囶喗鏁奸悥璺侯嚠鐠炩</Chinese>
+		<English>Pixel sampling precision setting</English>
+	</Entry>
+	<Entry>
+		<Chinese>剼缁辩姳璐熼崡鏇氱秴</Chinese>
+		<English>Footprint offset threshold exceeded</English>
+	</Entry>
+	<Entry>
+		<Chinese>灏旀潯浠跺潗鏍囬泦鍚</Chinese>
+		<English>Combine conditional coordinate set</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸欘亝婀侀崺鍝勫帗缁</Chinese>
+		<English>Load background buffer</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐎烽崣顖欎簰缂傛牞绶</Chinese>
+		<English>Interactive parameter binding</English>
+	</Entry>
+	<Entry>
+		<Chinese>柟娉曞垵濮嬪寲鏂扮殑</Chinese>
+		<English>Method initializes a new instance</English>
+	</Entry>
+	<Entry>
+		<Chinese>宀冨殰鐞涘苯绱戦崣</Chinese>
+		<English>Base vector normalization</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐏忓繑妞傞梻杈剧窗</Chinese>
+		<English>Return callback window</English>
+	</Entry>
+	<Entry>
+		<Chinese>涓嶈兘灏忎簬绛変簬</Chinese>
+		<English>Cannot be less than or equal to</English>
+	</Entry>
+	<Entry>
+		<Chinese>鏋勬垚鐨勬暟缁勶紝</Chinese>
+		<English>Constructed numeric array</English>
+	</Entry>
+	<Entry>
+		<Chinese>顔岄崥宥勭瑝鐎涙</Chinese>
+		<English>Color value overflow</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸楁洝顢戦柅澶嬪</Chinese>
+		<English>Refresh main container</English>
+	</Entry>
+	<Entry>
+		<Chinese>禒鑸垫弓鐎圭偟骞</Chinese>
+		<English>Arc rotation angle</English>
+	</Entry>
+	<Entry>
+		<Chinese>亣鐏忓骏绱欐禒銉</Chinese>
+		<English>Optional callback reference</English>
+	</Entry>
+	<Entry>
+		<Chinese>綅閸楁洖濮涢懗鏂</Chinese>
+		<English>Restore previous state</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸欘垶鍣哥純顔肩</Chinese>
+		<English>Render device color depth</English>
+	</Entry>
+	<Entry>
+		<Chinese>閺堢喕绉撮崙娲</Chinese>
+		<English>Sample count threshold</English>
+	</Entry>
+	<Entry>
+		<Chinese>閿熸枻鎷烽敓鏂</Chinese>
+		<English>Default assignment</English>
+	</Entry>
+	<Entry>
+		<Chinese>摟缁楋箑鍨归梽</Chinese>
+		<English>Loop iterator index</English>
+	</Entry>
+	<Entry>
+		<Chinese>礉娓氭稒婀侀棁</Chinese>
+		<English>Temporary buffer cache</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐟曚胶娈戞担璺</Chinese>
+		<English>Path intersection calculation</English>
+	</Entry>
+	<Entry>
+		<Chinese>闁插秷娴囨径鍕</Chinese>
+		<English>Ignore invalid path</English>
+	</Entry>
+	<Entry>
+		<Chinese>鎸囧畾鐨勭煩褰</Chinese>
+		<English>Specified matrix transform</English>
+	</Entry>
+	<Entry>
+		<Chinese>璧峰奖鍝嶆棆杞</Chinese>
+		<English>Enable rotation effect</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸掓儼瀵栭崶</Chinese>
+		<English>Apply clipping region</English>
+	</Entry>
+	<Entry>
+		<Chinese>閿熸埅纭锋嫹</Chinese>
+		<English>Hard-coded intercept</English>
+	</Entry>
+	<Entry>
+		<Chinese>圭懓娅掗崘鍛</Chinese>
+		<English>Angle tolerance value</English>
+	</Entry>
+	<Entry>
+		<Chinese>禒锝囩垳閺堝</Chinese>
+		<English>Relative alignment offset</English>
+	</Entry>
+	<Entry>
+		<Chinese>浜屼釜鐐癸紝</Chinese>
+		<English>Two points,</English>
+	</Entry>
+	<Entry>
+		<Chinese>娴狅絾娴汳</Chinese>
+		<English>Float or double</English>
+	</Entry>
+	<Entry>
+		<Chinese>鍏煎灗鐎涙</Chinese>
+		<English>Compatible color mode</English>
+	</Entry>
+	<Entry>
+		<Chinese>灞绢劃娴滃</Chinese>
+		<English>Region fill mode</English>
+	</Entry>
+	<Entry>
+		<Chinese>闂傝揪绱皗</Chinese>
+		<English>Dialog confirmation</English>
+	</Entry>
+	<Entry>
+		<Chinese>閿熸枻鎷穕</Chinese>
+		<English>Reserved parameter A</English>
+	</Entry>
+	<Entry>
+		<Chinese>閿熸枻鎷穖</Chinese>
+		<English>Reserved parameter B</English>
+	</Entry>
+	<Entry>
+		<Chinese>閿熸枻鎷穐</Chinese>
+		<English>Reserved parameter C</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸掔娀娅庡</Chinese>
+		<English>Apply blending mode</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸旂姴鍙嗙</Chinese>
+		<English>Reverse operation flag</English>
+	</Entry>
+	<Entry>
+		<Chinese>閺嶆垹娲拌</Chinese>
+		<English>Remove redundant nodes</English>
+	</Entry>
+	<Entry>
+		<Chinese>銆庢惔蹇斿</Chinese>
+		<English>Quotation mark</English>
+	</Entry>
+	<Entry>
+		<Chinese>弓閸掑棛琚</Chinese>
+		<English>Arrow indicator icon</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸欐牜鍩楃</Chinese>
+		<English>Canvas coordinate grid</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛屼娇鍏惰</Chinese>
+		<English>, making it</English>
+	</Entry>
+	<Entry>
+		<Chinese>鏄犲皠鍒扮</Chinese>
+		<English>Mapped to</English>
+	</Entry>
+	<Entry>
+		<Chinese>涓夊垪鏄痆</Chinese>
+		<English>Three columns are</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛屽浐瀹氬</Chinese>
+		<English>, fixed to</English>
+	</Entry>
+	<Entry>
+		<Chinese>褰卞搷骞崇</Chinese>
+		<English>Affects parallel processing</English>
+	</Entry>
+	<Entry>
+		<Chinese>鍏冪礌锛堢</Chinese>
+		<English>Element (</English>
+	</Entry>
+	<Entry>
+		<Chinese>閺堫垱鏁</Chinese>
+		<English>Sample count</English>
+	</Entry>
+	<Entry>
+		<Chinese>濮濄倓绨</Chinese>
+		<English>Initial value</English>
+	</Entry>
+	<Entry>
+		<Chinese>禒濠傘亯</Chinese>
+		<English>Optional parameter</English>
+	</Entry>
+	<Entry>
+		<Chinese>閺冦儲婀</Chinese>
+		<English>Invalid state</English>
+	</Entry>
+	<Entry>
+		<Chinese>嫹閿熺春</Chinese>
+		<English>Copy operation</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛岄敓鏂</Chinese>
+		<English>, default</English>
+	</Entry>
+	<Entry>
+		<Chinese>濮濓絽鐖</Chinese>
+		<English>Original parent</English>
+	</Entry>
+	<Entry>
+		<Chinese>閺嶇厧绱</Chinese>
+		<English>Enable shading</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸掔娀娅</Chinese>
+		<English>Blending mode</English>
+	</Entry>
+	<Entry>
+		<Chinese>顏勭摟缁</Chinese>
+		<English>Color grouping</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸欘亝鏁</Chinese>
+		<English>Background data</English>
+	</Entry>
+	<Entry>
+		<Chinese>顏勵嚠鐠</Chinese>
+		<English>Color intensity</English>
+	</Entry>
+	<Entry>
+		<Chinese>畱缁楊兛</Chinese>
+		<English>Reserved index</English>
+	</Entry>
+	<Entry>
+		<Chinese>闁板秶绮</Chinese>
+		<English>Noise reduction</English>
+	</Entry>
+	<Entry>
+		<Chinese>婀侀惃鍕</Chinese>
+		<English>Temporary variable</English>
+	</Entry>
+	<Entry>
+		<Chinese>蹇涙晩鐠</Chinese>
+		<English>Ignore warning</English>
+	</Entry>
+	<Entry>
+		<Chinese>閼冲本娅</Chinese>
+		<English>Invalid base value</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸欐牗绉</Chinese>
+		<English>Canvas position</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛屾拺寮</Chinese>
+		<English>, expand</English>
+	</Entry>
+	<Entry>
+		<Chinese>闁插秷鐦</Chinese>
+		<English>Ignore error</English>
+	</Entry>
+	<Entry>
+		<Chinese>韫囩晫鏆</Chinese>
+		<English>Global scope</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛氫竴涓</Chinese>
+		<English>: one</English>
+	</Entry>
+	<Entry>
+		<Chinese>敱涓変釜</Chinese>
+		<English>Composed of three</English>
+	</Entry>
+	<Entry>
+		<Chinese>绀哄嚑浣</Chinese>
+		<English>Example instance</English>
+	</Entry>
+	<Entry>
+		<Chinese>槧灏勫埌</Chinese>
+		<English>Projected to</English>
+	</Entry>
+	<Entry>
+		<Chinese>褰卞搷缂</Chinese>
+		<English>Affects performance</English>
+	</Entry>
+	<Entry>
+		<Chinese>煩闃电殑</Chinese>
+		<English>Complex</English>
+	</Entry>
+	<Entry>
+		<Chinese>蹇界暐銆</Chinese>
+		<English>Ignore.</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐏炵偞</Chinese>
+		<English>Render flag</English>
+	</Entry>
+	<Entry>
+		<Chinese>閺堝潈</Chinese>
+		<English>Permission</English>
+	</Entry>
+	<Entry>
+		<Chinese>婢堆勬</Chinese>
+		<English>Stack memory</English>
+	</Entry>
+	<Entry>
+		<Chinese>閺堝潐</Chinese>
+		<English>Access level</English>
+	</Entry>
+	<Entry>
+		<Chinese>缁屽潡</Chinese>
+		<English>Data block</English>
+	</Entry>
+	<Entry>
+		<Chinese>涓嬶紝</Chinese>
+		<English>Below,</English>
+	</Entry>
+	<Entry>
+		<Chinese>娴犲窊</Chinese>
+		<English>Overflow</English>
+	</Entry>
+	<Entry>
+		<Chinese>鍓版稊</Chinese>
+		<English>Copy depth</English>
+	</Entry>
+	<Entry>
+		<Chinese>樀鐨勭</Chinese>
+		<English>Target value</English>
+	</Entry>
+	<Entry>
+		<Chinese>斁锛宒</Chinese>
+		<English>Set, d</English>
+	</Entry>
+	<Entry>
+		<Chinese>顔怤</Chinese>
+		<English>Color error</English>
+	</Entry>
+	<Entry>
+		<Chinese>褌娆</Chinese>
+		<English>Multiply</English>
+	</Entry>
+	<Entry>
+		<Chinese>顒侰</Chinese>
+		<English>Angle</English>
+	</Entry>
+	<Entry>
+		<Chinese>灞肩</Chinese>
+		<English>Layer</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛刐</Chinese>
+		<English>: k</English>
+	</Entry>
+	<Entry>
+		<Chinese>涔磇</Chinese>
+		<English>Iteration</English>
+	</Entry>
+	<Entry>
+		<Chinese>涔礱</Chinese>
+		<English>Accumulation</English>
+	</Entry>
+	<Entry>
+		<Chinese>褎婀</Chinese>
+		<English>Wrapper</English>
+	</Entry>
+	<Entry>
+		<Chinese>挧瀣</Chinese>
+		<English>Output</English>
+	</Entry>
+	<Entry>
+		<Chinese>閺堝</Chinese>
+		<English>Access</English>
+	</Entry>
+	<Entry>
+		<Chinese>楠炵</Chinese>
+		<English>Node</English>
+	</Entry>
+	<Entry>
+		<Chinese>惃鍕</Chinese>
+		<English>Offset</English>
+	</Entry>
+	<Entry>
+		<Chinese>梽鎰</Chinese>
+		<English>Flag</English>
+	</Entry>
+	<Entry>
+		<Chinese>顭扷</Chinese>
+		<English>Reference</English>
+	</Entry>
+	<Entry>
+		<Chinese>徔閺</Chinese>
+		<English>Condition</English>
+	</Entry>
+	<Entry>
+		<Chinese>閹稿</Chinese>
+		<English>Mode</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐗稿</Chinese>
+		<English>Special</English>
+	</Entry>
+	<Entry>
+		<Chinese>蹇撳</Chinese>
+		<English>Ignore</English>
+	</Entry>
+	<Entry>
+		<Chinese>崠鏍</Chinese>
+		<English>Index</English>
+	</Entry>
+	<Entry>
+		<Chinese>负閻</Chinese>
+		<English>Negative</English>
+	</Entry>
+	<Entry>
+		<Chinese>径姘</Chinese>
+		<English>Path</English>
+	</Entry>
+	<Entry>
+		<Chinese>幐浣</Chinese>
+		<English>Temporary</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐚篴</Chinese>
+		<English>Exception</English>
+	</Entry>
+	<Entry>
+		<Chinese>閻楄</Chinese>
+		<English>Boundary</English>
+	</Entry>
+	<Entry>
+		<Chinese>灝鍘</Chinese>
+		<English>Remove</English>
+	</Entry>
+	<Entry>
+		<Chinese>禍瀣</Chinese>
+		<English>Invalid</English>
+	</Entry>
+	<Entry>
+		<Chinese>彉绨</Chinese>
+		<English>Change</English>
+	</Entry>
+	<Entry>
+		<Chinese>婊嗗</Chinese>
+		<English>Full</English>
+	</Entry>
+	<Entry>
+		<Chinese>弬鍥</Chinese>
+		<English>Parameter</English>
+	</Entry>
+	<Entry>
+		<Chinese>喖鐣</Chinese>
+		<English>Loop</English>
+	</Entry>
+	<Entry>
+		<Chinese>鍧絧</Chinese>
+		<English>Slot</English>
+	</Entry>
+	<Entry>
+		<Chinese>璐濆</Chinese>
+		<English>Cost</English>
+	</Entry>
+	<Entry>
+		<Chinese>鈥渰</Chinese>
+		<English>"A"</English>
+	</Entry>
+	<Entry>
+		<Chinese>紒鍕</Chinese>
+		<English>Operator</English>
+	</Entry>
+	<Entry>
+		<Chinese>鈥渏</Chinese>
+		<English>"K"</English>
+	</Entry>
+	<Entry>
+		<Chinese>鈥渢</Chinese>
+		<English>"T"</English>
+	</Entry>
+	<Entry>
+		<Chinese>鈥減</Chinese>
+		<English>"P"</English>
+	</Entry>
+	<Entry>
+		<Chinese>鈥渋</Chinese>
+		<English>"I"</English>
+	</Entry>
+	<Entry>
+		<Chinese>鈥渂</Chinese>
+		<English>"B"</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛岃</Chinese>
+		<English>, and</English>
+	</Entry>
+	<Entry>
+		<Chinese>竴涓</Chinese>
+		<English>One</English>
+	</Entry>
+	<Entry>
+		<Chinese>偣锛</Chinese>
+		<English>Point;</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛孧</Chinese>
+		<English>: m</English>
+	</Entry>
+	<Entry>
+		<Chinese>瓑銆</Chinese>
+		<English>etc.</English>
+	</Entry>
+	<Entry>
+		<Chinese>涓夎</Chinese>
+		<English>Three</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛夎</Chinese>
+		<English>) and</English>
+	</Entry>
+	<Entry>
+		<Chinese>锛</Chinese>
+		<English>;</English>
+	</Entry>
+	<Entry>
+		<Chinese>鏈</Chinese>
+		<English>None</English>
+	</Entry>
+	<Entry>
+		<Chinese>銊</Chinese>
+		<English>Symbol</English>
+	</Entry>
+	<Entry>
+		<Chinese>顢</Chinese>
+		<English>Value</English>
+	</Entry>
+	<Entry>
+		<Chinese>閹</Chinese>
+		<English>Control</English>
+	</Entry>
+	<Entry>
+		<Chinese>幐</Chinese>
+		<English>Temporary</English>
+	</Entry>
+	<Entry>
+		<Chinese>瀹</Chinese>
+		<English>Constant</English>
+	</Entry>
+	<Entry>
+		<Chinese>婀</Chinese>
+		<English>Variable</English>
+	</Entry>
+	<Entry>
+		<Chinese>鏅</Chinese>
+		<English>Time</English>
+	</Entry>
+	<Entry>
+		<Chinese>娆</Chinese>
+		<English>Times</English>
+	</Entry>
+	<Entry>
+		<Chinese>閸</Chinese>
+		<English>Context</English>
+	</Entry>
+	<Entry>
+		<Chinese>閺</Chinese>
+		<English>Scope</English>
+	</Entry>
+	<Entry>
+		<Chinese>闁</Chinese>
+		<English>Option</English>
+	</Entry>
+	<Entry>
+		<Chinese>瀚</Chinese>
+		<English>Large</English>
+	</Entry>
+	<Entry>
+		<Chinese>煑</Chinese>
+		<English>Process</English>
+	</Entry>
+	<Entry>
+		<Chinese>嫹</Chinese>
+		<English>Copy</English>
+	</Entry>
+	<Entry>
+		<Chinese>顓</Chinese>
+		<English>Header</English>
+	</Entry>
+	<Entry>
+		<Chinese>銉</Chinese>
+		<English>Reference</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐠</Chinese>
+		<English>Value</English>
+	</Entry>
+	<Entry>
+		<Chinese>澶</Chinese>
+		<English>Main</English>
+	</Entry>
+	<Entry>
+		<Chinese>暏</Chinese>
+		<English>Temporary</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐏</Chinese>
+		<English>Render</English>
+	</Entry>
+	<Entry>
+		<Chinese>倞</Chinese>
+		<English>Instance</English>
+	</Entry>
+	<Entry>
+		<Chinese>閻</Chinese>
+		<English>Boundary</English>
+	</Entry>
+	<Entry>
+		<Chinese>绾</Chinese>
+		<English>Group</English>
+	</Entry>
+	<Entry>
+		<Chinese>搴</Chinese>
+		<English>Base</English>
+	</Entry>
+	<Entry>
+		<Chinese>寮</Chinese>
+		<English>Open</English>
+	</Entry>
+	<Entry>
+		<Chinese>害</Chinese>
+		<English>Damage</English>
+	</Entry>
+	<Entry>
+		<Chinese>茅</Chinese>
+		<English>Unit</English>
+	</Entry>
+	<Entry>
+		<Chinese>銆</Chinese>
+		<English>.</English>
+	</Entry>
+	<Entry>
+		<Chinese>鈥</Chinese>
+		<English>"</English>
+	</Entry>
+	<Entry>
+		<Chinese>涓</Chinese>
+		<English>In</English>
+	</Entry>
+	<Entry>
+		<Chinese>鑷</Chinese>
+		<English>From</English>
+	</Entry>
+	<Entry>
+		<Chinese>鎰</Chinese>
+		<English>Meaning</English>
+	</Entry>
+	<Entry>
+		<Chinese>电</Chinese>
+		<English>Electric</English>
+	</Entry>
+	<Entry>
+		<Chinese>钖</Chinese>
+		<English>Coefficient</English>
+	</Entry>
+	<Entry>
+		<Chinese>姝</Chinese>
+		<English>Step</English>
+	</Entry>
+	<Entry>
+		<Chinese>负</Chinese>
+		<English>Negative</English>
+	</Entry>
+	<Entry>
+		<Chinese>绱</Chinese>
+		<English>Color</English>
+	</Entry>
+	<Entry>
+		<Chinese>涙</Chinese>
+		<English>Error</English>
+	</Entry>
+	<Entry>
+		<Chinese>鎯</Chinese>
+		<English>Think</English>
+	</Entry>
+	<Entry>
+		<Chinese>磾</Chinese>
+		<English>Hard</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐢</Chinese>
+		<English>Use</English>
+	</Entry>
+	<Entry>
+		<Chinese>绗</Chinese>
+		<English>Index</English>
+	</Entry>
+	<Entry>
+		<Chinese>鐭</Chinese>
+		<English>Short</English>
+	</Entry>
+	<Entry>
+		<Chinese>鍏</Chinese>
+		<English>Public</English>
+	</Entry>
+	<Entry>
+		<Chinese>璇</Chinese>
+		<English>Explain</English>
+	</Entry>
+
+</Translations>

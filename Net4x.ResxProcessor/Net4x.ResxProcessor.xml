@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Net4x.ResxProcessor</name>
+    </assembly>
+    <members>
+        <member name="T:Net4x.ResxProcessor.Processes">
+            <summary>
+            Provides utility methods for detecting and synchronizing with other running instances of the current process.
+            </summary>
+            <remarks>The Processes class enables applications to check for other running instances of themselves and to
+            wait for those instances to exit before proceeding. This can be useful in scenarios where only one instance should
+            perform a particular operation at a time, or where coordination between multiple instances is required. All methods
+            operate on the current process name and compare process start times to distinguish between instances.</remarks>
+        </member>
+        <member name="M:Net4x.ResxProcessor.Processes.WaitSameProcessesStartedEarlier">
+            <summary>
+            Waits for any other running instances of the current process, with the same name and command-line arguments, to
+            exit before continuing.
+            </summary>
+            <remarks>This method is useful for ensuring that only one instance of a process with the same name and
+            arguments runs at a time. It blocks execution until all previously started matching processes have exited. If no
+            such processes are found, the method returns immediately.</remarks>
+            <returns>true if the method waited for at least one matching process to exit; otherwise, false.</returns>
+        </member>
+        <member name="M:Net4x.ResxProcessor.Processes.IsProcessRunning(System.String)">
+            <summary>
+            Determines whether a process with the specified name is currently running, excluding the current process
+            instance.
+            </summary>
+            <remarks>This method excludes the current process from the search results. If multiple processes with
+            the specified name are running, the first matching process is returned. The caller is responsible for disposing
+            the returned <see cref="T:System.Diagnostics.Process"/> object if necessary.</remarks>
+            <param name="processName">The name of the process to search for. This value is case-insensitive and should not include the file extension.
+            Cannot be null or empty.</param>
+            <returns>A <see cref="T:System.Diagnostics.Process"/> object representing a running process with the specified name, or
+            <see langword="null"/> if no such process is found.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Net4x.ResxProcessor.Program" -->
+        <member name="M:Net4x.ResxProcessor.Program.Main(System.String[])">
+            <summary>
+            Serves as the entry point for the application, processing resource files in the specified root folder.
+            </summary>
+            <remarks>The method expects the root folder to exist and contain .resx files to process. If the folder
+            does not exist, an error message is displayed and the application exits with a non-zero code. All .resx files
+            found in the root folder and its subdirectories are processed.</remarks>
+            <param name="args">An array of command-line arguments. The first argument, if provided, specifies the root folder to process. If no
+            arguments are supplied, the user is prompted to enter the root folder path.</param>
+            <returns>An integer exit code. Returns 0 if processing completes successfully; returns 1 if the specified folder does not
+            exist.</returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,6 @@
+﻿docker run -d `
+  -p 5000:5000 `
+  --name libretranslate `
+  libretranslate/libretranslate `
+  --load-only zh,en `
+  --disable-web-ui

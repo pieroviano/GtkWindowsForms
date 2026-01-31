@@ -1,0 +1,16 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>Form.cs</DefaultName>
+    <Name>Form窗体(GTKSystem窗体)</Name>
+    <Description>GTKSystem.Windows.Forms框架下新建窗体</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>10</SortOrder>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="Form" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">Form1.cs</ProjectItem>
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.Designer.cs" ReplaceParameters="true">Form1.Designer.cs</ProjectItem>
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.resx" ReplaceParameters="true">Form1.resx</ProjectItem>
+  </TemplateContent>
+</VSTemplate>
