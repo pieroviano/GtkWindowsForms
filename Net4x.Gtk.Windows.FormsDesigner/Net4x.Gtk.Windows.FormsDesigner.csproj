@@ -30,7 +30,6 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Build.Framework" Version="18.0.2" />
-        <PackageReference Include="Net4x.BaseTypes" Version="$(Net4xBaseTypesVersion).$(VersionBuildSuffix)" />
         <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
         <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.0.2" />
     </ItemGroup>

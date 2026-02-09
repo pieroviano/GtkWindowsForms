@@ -2,6 +2,9 @@
 // GtkSystem.ComponentModel.ComponentResourceManager implements reading of project resource files and image files.
 // If the resource image file is not used in the project, there is no need to create this file.
 
+global using System.Drawing;
+global using System.Windows.Forms;
+
 using System.Globalization;
 
 namespace System.ComponentModel

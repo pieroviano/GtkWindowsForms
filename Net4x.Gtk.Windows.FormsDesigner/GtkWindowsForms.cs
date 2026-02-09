@@ -37,6 +37,9 @@ public class GtkWindowsForms : Task
     [Required]
     public string FileName { get; set; }
 
+    [Required]
+    public string ProjectFullPath { get; set; }
+
     /// <summary>
     ///     Gets or sets the target .NET framework for the project.
     /// </summary>
@@ -74,6 +77,11 @@ public class GtkWindowsForms : Task
         if (!Directory.Exists(ObjPath))
         {
             Directory.CreateDirectory(ObjPath);
+        }
+
+        if (!string.IsNullOrEmpty(ProjectFullPath))
+        {
+            CsprojFixer.FixProject(ProjectFullPath);
         }
 
         if (Directory.Exists(ObjPath))
@@ -118,7 +126,7 @@ public class GtkWindowsForms : Task
                         }
                         catch (Exception ex)
                         {
-                            LoggerFactoryContainer.Instance.LoggerFactory.Debug(ex);
+                            Trace.Write(ex);
                         }
                     }
 
