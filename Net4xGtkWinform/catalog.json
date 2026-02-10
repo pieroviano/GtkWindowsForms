@@ -1,0 +1,42 @@
+{
+  "manifestVersion": "1.1",
+  "info": {
+    "id": "Net4x.GtkForms.86EC834B-402A-4494-8537-8650A9A50161,version=2.2",
+    "manifestType": "Extension"
+  },
+  "packages": [
+    {
+      "id": "Component.Net4x.GtkForms.86EC834B-402A-4494-8537-8650A9A50161",
+      "version": "2.2",
+      "type": "Component",
+      "extension": true,
+      "dependencies": {
+        "Net4x.GtkForms.86EC834B-402A-4494-8537-8650A9A50161": "2.2",
+        "Microsoft.VisualStudio.Component.CoreEditor": "[17.0,18.0)"
+      },
+      "localizedResources": [
+        {
+          "language": "en-US",
+          "title": "Net4xGtk Windows Forms tool",
+          "description": "Net4x.Gtk.Windows.Forms development assistant tool, create a new form template, configure the form designer"
+        }
+      ]
+    },
+    {
+      "id": "Net4x.GtkForms.86EC834B-402A-4494-8537-8650A9A50161",
+      "version": "2.2",
+      "type": "Vsix",
+      "payloads": [
+        {
+          "fileName": "Net4xGtkWinformVSIX.vsix",
+          "size": 207048
+        }
+      ],
+      "vsixId": "Net4x.GtkForms.86EC834B-402A-4494-8537-8650A9A50161",
+      "extensionDir": "[installdir]\\Common7\\IDE\\Extensions\\u5uoj3pn.ajn",
+      "installSizes": {
+        "targetDrive": 196944
+      }
+    }
+  ]
+}

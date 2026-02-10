@@ -1,0 +1,107 @@
+{
+  "id": "Net4xGtkWindowsForms.86EC834B-402A-4494-8537-8650A9A50161",
+  "version": "2.2",
+  "type": "Vsix",
+  "vsixId": "Net4xGtkWindowsForms.86EC834B-402A-4494-8537-8650A9A50161",
+  "extensionDir": "[installdir]\\Common7\\IDE\\Extensions\\u5uoj3pn.ajn",
+  "files": [
+    {
+      "fileName": "/extension.vsixmanifest",
+      "sha256": null
+    },
+    {
+      "fileName": "/Net4xGtkWinformVSIX.pkgdef",
+      "sha256": null
+    },
+    {
+      "fileName": "/catalog.json",
+      "sha256": null
+    },
+    {
+      "fileName": "/Menus.ctmenu",
+      "sha256": null
+    },
+    {
+      "fileName": "/ItemTemplates/templateManifest0.noloc.vstman",
+      "sha256": null
+    },
+    {
+      "fileName": "/ProjectTemplates/templateManifest1.noloc.vstman",
+      "sha256": null
+    },
+    {
+      "fileName": "/ItemTemplates/GtkForm/Form1.cs",
+      "sha256": null
+    },
+    {
+      "fileName": "/ItemTemplates/GtkForm/Form1.Designer.cs",
+      "sha256": null
+    },
+    {
+      "fileName": "/ItemTemplates/GtkForm/Form1.resx",
+      "sha256": null
+    },
+    {
+      "fileName": "/ItemTemplates/GtkForm/Net4xGtkFormTemplate.vsttemplate",
+      "sha256": null
+    },
+    {
+      "fileName": "/ItemTemplates/GtkUserControl/UserControl1.cs",
+      "sha256": null
+    },
+    {
+      "fileName": "/ItemTemplates/GtkUserControl/UserControl1.Designer.cs",
+      "sha256": null
+    },
+    {
+      "fileName": "/ItemTemplates/GtkUserControl/UserControl1.resx",
+      "sha256": null
+    },
+    {
+      "fileName": "/ItemTemplates/GtkUserControl/Net4xGtkFormTemplate.vsttemplate",
+      "sha256": null
+    },
+    {
+      "fileName": "/ProjectTemplates/Net4xGtkWinFormsTemplate/Form1.cs",
+      "sha256": null
+    },
+    {
+      "fileName": "/ProjectTemplates/Net4xGtkWinFormsTemplate/Form1.Designer.cs",
+      "sha256": null
+    },
+    {
+      "fileName": "/ProjectTemplates/Net4xGtkWinFormsTemplate/Form1.resx",
+      "sha256": null
+    },
+    {
+      "fileName": "/ProjectTemplates/Net4xGtkWinFormsTemplate/Program.cs",
+      "sha256": null
+    },
+    {
+      "fileName": "/ProjectTemplates/Net4xGtkWinFormsTemplate/Net4xGtkWinFormsTemplate.vsttemplate",
+      "sha256": null
+    },
+    {
+      "fileName": "/ProjectTemplates/Net4xGtkWinFormsTemplate/GtkWinFormsApp1.csproj",
+      "sha256": null
+    },
+    {
+      "fileName": "/ProjectTemplates/Net4xGtkWinFormsTemplate/Properties/Resources.Designer.cs",
+      "sha256": null
+    },
+    {
+      "fileName": "/ProjectTemplates/Net4xGtkWinFormsTemplate/Properties/Resources.resx",
+      "sha256": null
+    },
+    {
+      "fileName": "/[Content_Types].xml",
+      "sha256": null
+    }
+  ],
+  "installSizes": {
+    "targetDrive": 196944
+  },
+  "dependencies": {
+    "Microsoft.VisualStudio.Component.CoreEditor": "[17.0,18.0)"
+  }
+}

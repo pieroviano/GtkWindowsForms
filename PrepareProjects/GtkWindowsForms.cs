@@ -11,7 +11,7 @@ public class GtkWindowsForms
     {
         var (targetProjectDirectory, sourceProjectPath) = await ProjectPreparation.PrepareTargetProjectFiles(sourceProjectName, targetProjectName);
 
-        ProjectPatching.PatchProject(targetProjectDirectory, sourceProjectPath);
+        ProjectPatching.PatchProject(targetProjectDirectory, sourceProjectPath, CopyResources);
 
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetProjectDirectory,
             ProjectPatching.PatchProjectNamespace, "Resources", "translations");
@@ -21,4 +21,12 @@ public class GtkWindowsForms
         Console.WriteLine("Preparation completed successfully.");
         return targetProjectDirectory;
     }
+
+    private static void CopyResources(string targetProjectDirectory)
+    {
+        ProjectUtility.CopyLocalizationResourcesFiles(Path.Combine(targetProjectDirectory, "Properties"),
+            "Resources.xml", "Resources.zh-Hans.xml",
+            "Resources.it.xml", "Resources.fr.xml", "Resources.de.xml", "Resources.es.xml");
+    }
+
 }

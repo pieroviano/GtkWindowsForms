@@ -1,0 +1,30 @@
+﻿<VSTemplateManifest Version="1.0" xmlns="http://schemas.microsoft.com/developer/vstemplatemanifest/2015">
+  <VSTemplateContainer TemplateType="Item">
+    <RelativePathOnDisk>GtkForm</RelativePathOnDisk>
+    <TemplateFileName>Net4xGtkFormTemplate.vstemplate</TemplateFileName>
+    <VSTemplateHeader>
+      <TemplateData xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+        <DefaultName>Form.cs</DefaultName>
+        <Name>Form Window (Net4x.Gtk Form)</Name>
+        <Description>Create a New Form in the Net4x.Gtk.Windows.Forms Framework</Description>
+        <ProjectType>CSharp</ProjectType>
+        <SortOrder>10</SortOrder>
+        <Icon>__TemplateIcon.ico</Icon>
+      </TemplateData>
+    </VSTemplateHeader>
+  </VSTemplateContainer>
+  <VSTemplateContainer TemplateType="Item">
+    <RelativePathOnDisk>GtkFormUserControl</RelativePathOnDisk>
+    <TemplateFileName>Net4xGtkFormTemplate.vstemplate</TemplateFileName>
+    <VSTemplateHeader>
+      <TemplateData xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+        <DefaultName>UserControl.cs</DefaultName>
+        <Name>User Control (Net4x.Gtk Form)</Name>
+        <Description>Create a User Control in the Net4x.Gtk.Windows.Forms Framework</Description>
+        <ProjectType>CSharp</ProjectType>
+        <SortOrder>10</SortOrder>
+        <Icon>__TemplateIcon.ico</Icon>
+      </TemplateData>
+    </VSTemplateHeader>
+  </VSTemplateContainer>
+</VSTemplateManifest>

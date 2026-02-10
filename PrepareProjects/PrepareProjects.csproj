@@ -10,13 +10,8 @@
 
 	<ItemGroup>
 		<Compile Remove="Resources\GtkWinFormsAppResources.Designer.cs" />
-		<Compile Remove="Resources\Resources.Designer.cs" />
 		<Compile Remove="Resources\System.ComponentModel.cs" />
 		<Compile Remove="Resources\System.Resources.ResourceManager.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Resources\Resources.Designer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

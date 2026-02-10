@@ -1,4 +1,4 @@
-# GTKSystem.Windows.Forms
+# Net4x.Gtk.Windows.Forms
 ### Introduction
 
 Native Visual Studio development, no learning curve, compile once, run cross-platform.
@@ -9,15 +9,4 @@ Compile once and run across platforms.
 It makes cross-platform WinForms application development easy and enables existing C# WinForms applications to be upgraded to cross-platform applications with minimal effort.
 
 Project website:
-https://www.gtkapp.com
-
-Due to limited access to GitHub in some regions, please obtain the latest versions from NuGet or Gitee:
-
-Download from NuGet:
-https://www.nuget.org/packages/GTKSystem.Windows.Forms
-
-Gitee repository:
-https://gitee.com/easywebfactory/gtksystem-windows-forms
-
-Gitee releases:
-https://gitee.com/easywebfactory/gtksystem-windows-forms/releases
+https://bitbucket.org/piero-viano/net4x.gtk.windows.forms

@@ -7,7 +7,7 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Authors>Piero Viano</Authors>
     <Company>Piero Viano</Company>
-    <Copyright>438865652@qq.com，chenhongjin</Copyright>
+    <Copyright>Copyright (c) Piero Viano. All right reserved.</Copyright>
     <Version>1.3.24.64</Version>
     <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
     <PackageReleaseNotes>C# interface cross-platform development component gtk-windows-forms</PackageReleaseNotes>
@@ -23,7 +23,7 @@ Based on GTKSystem.Windows.Forms:
  https://github.com/easywebfactory/gtksystem-windows-forms；</Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://gitee.com/easywebfactory/gtksystem-windows-forms</RepositoryUrl>
+    <RepositoryUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</RepositoryUrl>
     <PackAsTool>False</PackAsTool>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
@@ -31,6 +31,7 @@ Based on GTKSystem.Windows.Forms:
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>annotations</Nullable>
+    <RootNamespace />
     <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
     <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
@@ -228,11 +229,10 @@ Based on GTKSystem.Windows.Forms:
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\gtksystem-windows-forms\README.md">
+    <None Include="..\PrepareProjects\Resources\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\PrepareProjects\Resources\README.en.md" Link="README.en.md" />
     <None Include="..\gtksystem-windows-forms\Source\licenses\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -261,6 +261,16 @@ Based on GTKSystem.Windows.Forms:
     <EmbeddedResource Update="Properties\Resources.fr.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>System.Properties</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.zh-Hans.resx">
       <Generator>ResXFileCodeGenerator</Generator>

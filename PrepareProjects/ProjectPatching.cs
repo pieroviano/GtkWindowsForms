@@ -22,16 +22,15 @@ public static class ProjectPatching
         return fileContent;
     }
 
-    public static void PatchProject(string targetProjectDirectory, string csprojPath)
+    public static void PatchProject(string targetProjectDirectory, string csprojPath, Action<string> CopyResources)
     {
         CopyContentAndResources(targetProjectDirectory);
         CopyPropsFile(targetProjectDirectory);
         CopyTargetsFile(targetProjectDirectory);
 
         PatchResourceManagerFile(targetProjectDirectory);
-        ProjectUtility.CopyLocalizationResourcesFiles(Path.Combine(targetProjectDirectory, "Properties"),
-            "Resources.Designer.cs", "Resources.xml", "Resources.zh-Hans.xml",
-            "Resources.it.xml", "Resources.fr.xml", "Resources.de.xml", "Resources.es.xml");
+
+        CopyResources?.Invoke(targetProjectDirectory);
 
         UpdateNoneItems(csprojPath);
         UpdatePackageMetadata(csprojPath);
@@ -455,9 +454,6 @@ public static class ProjectPatching
         const string newReadmeInclude =
             @"..\gtksystem-windows-forms\README.md";
 
-        const string readmeEnInclude =
-            @"..\PrepareProjects\Resources\README.en.md";
-
         // --- Update LICENSE.txt ---
         var licenseNone = doc
             .Descendants(ns + "None")
@@ -480,12 +476,6 @@ public static class ProjectPatching
         }
 
         readmeNone.SetAttributeValue("Include", newReadmeInclude);
-
-        // Add README.en.md next to it
-        readmeNone.AddAfterSelf(
-            new XElement(ns + "None",
-                new XAttribute("Include", readmeEnInclude),
-                new XAttribute("Link", "README.en.md")));
 
         doc.Save(csprojPath);
     }
