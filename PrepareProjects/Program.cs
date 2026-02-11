@@ -11,21 +11,24 @@ public class Program
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        var targetDir = await GtkWindowsForms.PrepareAsync("GTKSystem.Windows.Forms", "Net4x.Gtk.Windows.Forms");
+        var (targetDir, sourceProjectPath) = await GtkWindowsForms.PrepareAsync("GTKSystem.Windows.Forms", "Net4x.Gtk.Windows.Forms");
         SystemResourcesExtensions.Prepare();
         var version = VersionPrepare.PrepareSolutionVersion();
 
         var projectName = await GtkSampleApp.PrepareAsync("GTKWinFormsApp", "GtkWinFormsApp", version);
         var otherProjectName = await GtkSampleApp.PrepareAsync("GTKSystemWinFormsApp11", "GtkSystemWinFormsApp11", version);
 
-        PostProcessing.ApplyPostProcessing(targetDir);
-
-        // --- Run resgen for each project ---
+        var currentDirectory = Environment.CurrentDirectory;
         Environment.CurrentDirectory = Path.Combine(targetDir, "Properties");
         var combine = Path.Combine(targetDir, "Net4x.Gtk.Windows.Forms.csproj");
         RunResGen(combine, "Resources.resx", "System.Properties");
         RunResGen(projectName, "GtkWinFormsAppResources.resx", $"{Path.GetFileNameWithoutExtension(projectName)}.Properties");
         RunResGen(otherProjectName, "GtkWinFormsAppResources.resx", $"{Path.GetFileNameWithoutExtension(otherProjectName)}.Properties");
+        Environment.CurrentDirectory = currentDirectory;
+
+        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" });
+
+        ProjectCompilation.RestoreProject(sourceProjectPath);
     }
 
     private static void RunResGen(string projectName, string resourceName, string targetNamespace)

@@ -3,7 +3,11 @@
   <Import Project="Directory.Nuget.Props" Condition="'$(DirectoryNuGet)'==''" />
   <PropertyGroup>
     <VersionPrefix>$(Net4xGtkWindowsFormsVersion)</VersionPrefix>
-    <VersionSuffix>64</VersionSuffix>
+    <VersionSuffix>64-a20260211060908</VersionSuffix>
     <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryUrl>https://pieroviano@bitbucket.org/piero-viano/net4x.gtk.windows.forms.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 </Project>

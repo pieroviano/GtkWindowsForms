@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 
 namespace PrepareProjects;
 
@@ -18,7 +19,7 @@ public static class VersionPrepare
         // --- Read Version from csproj ---
         var csprojDoc = XDocument.Load(csprojPath);
 
-        var ns = csprojDoc.Root!.Name.Namespace;
+        var ns = csprojDoc.Root.Name.Namespace;
 
         var versionElement = csprojDoc
             .Descendants(ns + "Version")
@@ -40,15 +41,20 @@ public static class VersionPrepare
         var firstThree = string.Join(".", parts.Take(3));
         var lastPart = parts.Last();
 
-        Console.WriteLine($"Detected Version: {versionText}");
-        Console.WriteLine($"First three parts: {firstThree}");
-        Console.WriteLine($"Last part: {lastPart}");
+        Console.WriteLine(@$"Detected Version: {versionText}");
+        Console.WriteLine(@$"First three parts: {firstThree}");
+        Console.WriteLine(@$"Last part: {lastPart}");
 
         // --- Update Directory.Build.Props ---
+#if DEBUG
+        var destinationValue = $"-a{DateTime.Now:yyyyMMddHHmmss}";
+#else
+        var destinationValue = "000";
+#endif
         UpdatePropsValue(
             directoryBuildPropsPath,
             "VersionSuffix",
-            lastPart);
+            lastPart + destinationValue);
 
         // --- Update Directory.Nuget.Props ---
         UpdatePropsValue(
@@ -56,17 +62,17 @@ public static class VersionPrepare
             "Net4xGtkWindowsFormsVersion",
             firstThree);
 
-        Console.WriteLine("Done.");
+        Console.WriteLine(@"Done.");
         return versionText;
     }
 
     private static void UpdatePropsValue(string propsPath, string elementName, string value)
     {
         var doc = XDocument.Load(propsPath);
-        var ns = doc.Root!.Name.Namespace;
+        var ns = doc.Root.Name.Namespace;
 
         var propertyGroup = doc
-            .Root!
+            .Root
             .Elements(ns + "PropertyGroup")
             .FirstOrDefault();
 
@@ -85,6 +91,6 @@ public static class VersionPrepare
         element.Value = value;
 
         doc.Save(propsPath);
-        Console.WriteLine($"Updated {elementName} in {Path.GetFileName(propsPath)}");
+        Console.WriteLine(@$"Updated {elementName} in {Path.GetFileName(propsPath)}");
     }
 }

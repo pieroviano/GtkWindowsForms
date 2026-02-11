@@ -9,6 +9,7 @@
 		<Nullable>enable</Nullable>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
+		<Version>$(VersionPrefix).$(VersionSuffix)</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(MSBuildProjectName).xml" Pack="true" PackagePath="\Documentation.xml" />

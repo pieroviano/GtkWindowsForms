@@ -360,7 +360,7 @@ namespace GtkWinFormsApp
             linkLabel1.Size = new Size(191, 20);
             linkLabel1.TabIndex = 6;
             linkLabel1.TabStop = true;
-            linkLabel1.Text =  "https://bitbucket.org/piero-viano/net4x.gtk.windows.forms";
+            linkLabel1.Text = "https://bitbucket.org/piero-viano/net4x.gtk.windows.forms";
             // 
             // trackBar1
             // 

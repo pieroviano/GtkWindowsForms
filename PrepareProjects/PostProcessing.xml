@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Items>
 	<Item>
+		<FileName>..\*.csproj</FileName>
+		<SourceString>&lt;Version&gt;$RegEx$([a-zA-Z0-9\-.]+)&lt;/Version&gt;</SourceString>
+		<TargetString>&lt;Version&gt;$(VersionPrefix).$(VersionSuffix)&lt;/Version&gt;</TargetString>
+	</Item>
+	<Item>
 		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
 		<SourceString>&lt;Copyright&gt;438865652@qq.com，chenhongjin&lt;/Copyright&gt;</SourceString>
 		<TargetString>&lt;Copyright&gt;Copyright (c) Piero Viano. All right reserved.&lt;/Copyright&gt;</TargetString>
@@ -20,6 +25,12 @@
 		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
 		<SourceString>&lt;None Include="..\gtksystem-windows-forms\README.md"&gt;</SourceString>
 		<TargetString>&lt;None Include="..\PrepareProjects\Resources\README.md"&gt;</TargetString>
+	</Item>
+	<Item>
+		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+		<SourceString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;</SourceString>
+		<TargetString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;
+    &lt;PackageReference Include="Net4x.NuGetUtility" Version="1.0.8" /&gt;</TargetString>
 	</Item>
 	<Item>
 		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
@@ -69,8 +80,8 @@
 	</Item>
 	<Item>
 		<FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>
-		<SourceString>GtkWinFormsApp</SourceString>
-		<TargetString>GtkSystemWinFormsApp11</TargetString>
+		<SourceString>GtkWinFormsApp.</SourceString>
+		<TargetString>GtkSystemWinFormsApp11.</TargetString>
 	</Item>
 	<Item>
 		<FileName>..\GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
@@ -101,6 +112,11 @@
 		<FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>
 		<SourceString>"GtkWinFormsApp.Properties.GtkWinFormsAppResources"</SourceString>
 		<TargetString>"GtkSystemWinFormsApp11.Properties.GtkWinFormsAppResources.resources"</TargetString>
+	</Item>
+	<Item>
+		<FileName>Properties\Resources.Designer.cs</FileName>
+		<SourceString>global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("System.Properties.Resources", typeof(Resources).Assembly);</SourceString>
+		<TargetString>global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);</TargetString>
 	</Item>
 	<Item>
 		<FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
