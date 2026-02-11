@@ -10,16 +10,13 @@ Using the GTKWinFormsApp project as an example:
    Install Net4x.System.Windows.FormsDesigner from NuGet, then simply build the project.
 
 Creation steps:
-+ Create a new WinForms (.NET Framework) project (for example, GTKWinFormsApp_Win).
-+ Select .NET Framework v4.8 (v4.7 is also acceptable; higher versions provide better language feature compatibility).
-+ After the project is created, go to the project directory.
-+ Copy GTKWinFormsApp_Win.csproj and App.config into the GTKSystem framework project directory.
-+ Open the project using this GTKWinFormsApp_Win.csproj.
++ Create a new Windows Forms App project (for example, GtkWinFormsApp_Win).
++ After the project is created, add a package reference to Net4x.Gtk.Windows.Forms and Net4x.Gtk.Windows.FormsDesigner.
 + Enable Show All Files and add all forms and user controls to the project.
++ Compile and run the project.
 
 Fix any issues if they appear.
 Open the project properties and change the Default Namespace to GTKWinFormsApp.
 
 Note:
-You do not need to build the GTKWinFormsApp_Win.csproj project.
 If you do build it and Visual Studio displays errors that affect the form designer, simply restart the project to resolve the issue.
