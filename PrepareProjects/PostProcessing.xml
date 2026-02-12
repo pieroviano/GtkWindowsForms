@@ -28,6 +28,12 @@
 	</Item>
 	<Item>
 		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+		<SourceString>&lt;PackageReference Include="GtkSharp"</SourceString>
+		<TargetString>&lt;PackageReference Include="System.Memory" Version="4.6.0" /&gt;
+        &lt;PackageReference Include="GtkSharp"</TargetString>
+	</Item>
+	<Item>
+		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
 		<SourceString>&lt;None Include="..\gtksystem-windows-forms\README.md"&gt;</SourceString>
 		<TargetString>&lt;None Include="..\PrepareProjects\Resources\README.md"&gt;</TargetString>
 	</Item>

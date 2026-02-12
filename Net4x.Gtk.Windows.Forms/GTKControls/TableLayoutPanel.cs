@@ -267,7 +267,6 @@ namespace System.Windows.Forms
 		{
             GridCell child=control.GetGridCell(grid);
             if (child != null)
-		
                 child.LeftAttach = column;
 
         }
@@ -282,7 +281,6 @@ namespace System.Windows.Forms
             TableLayoutPanelCellPosition cellPosition = new TableLayoutPanelCellPosition(-1, -1);
             GridCell cell=control.GetGridCell(grid);
             if (cell != null)
-		
             {
                 cellPosition.Column = cell.LeftAttach;
                 cellPosition.Row = cell.TopAttach;
