@@ -132,7 +132,7 @@ namespace System.Windows.Forms
                         if (_owner.DrawMode == TabDrawMode.OwnerDrawFixed && _owner.DrawItem != null)
                         {
                             Gtk.Label tab = (Gtk.Label)sender;
-                            tab.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline);
+                            Gdk.Rectangle allocation= tab.Allocation;
                             args.Cr.ResetClip();
                             int width = allocation.Width + 24;
                             int height = allocation.Height + 2;

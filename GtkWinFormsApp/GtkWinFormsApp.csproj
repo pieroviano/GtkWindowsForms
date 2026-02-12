@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -26,7 +26,7 @@
     <Content Include="..\PrepareProjects\Resources\ProjectDescription.txt" Link="ProjectDescription.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GtkSharp" Version="3.24.24.95" />
+    <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Form2.cs" />

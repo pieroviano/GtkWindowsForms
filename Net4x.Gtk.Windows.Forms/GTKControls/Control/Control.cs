@@ -1404,7 +1404,7 @@ namespace System.Windows.Forms
                 this.Widget.SetClip(rect);
             }
         }
-        public virtual Rectangle ClientRectangle { get { this.Widget.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline); return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }
+        public virtual Rectangle ClientRectangle { get { Gdk.Rectangle allocation = this.Widget.Allocation; return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }
 
         public virtual Size ClientSize { get { return new Size(Widget.AllocatedWidth, this.Widget.AllocatedHeight); } set { this.Widget.SetSizeRequest(value.Width, value.Height); } }
 

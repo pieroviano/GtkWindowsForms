@@ -77,6 +77,7 @@
     <FluentValidationVersion>9.2.2</FluentValidationVersion>
     <FormLoggingVersion>1.4.0</FormLoggingVersion>
     <FreeImageDotnetCoreVersion>4.5.0</FreeImageDotnetCoreVersion>
+    <GtkSharpLatestVersion>3.24.24</GtkSharpLatestVersion>
     <GtkSharpVersion>3.24.24</GtkSharpVersion>
     <GtkWindowsFormsExtensionVersion>1.4.2463</GtkWindowsFormsExtensionVersion>
     <GtkWindowsFormsVersion>1.4.2464</GtkWindowsFormsVersion>

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Drawing;
+using GTKControls;
 using static System.Windows.Forms.TableLayoutControlCollection;
 
 namespace System.Windows.Forms
@@ -224,19 +225,20 @@ namespace System.Windows.Forms
 		[DisplayName("Row")]
 		public int GetRow(Control control)
 		{
-            return ((Gtk.Grid.GridChild)grid[control.Widget.Parent]).TopAttach;
+            return control.GetGridCell(grid).TopAttach;
         }
 
 		public void SetRow(Control control, int row)
 		{
-            ((Gtk.Grid.GridChild)grid[control.Widget.Parent]).TopAttach = row;
+            control.GetGridCell(grid).TopAttach = row;
         }
 
 		[DisplayName("Cell")]
 		public TableLayoutPanelCellPosition GetCellPosition(Control control)
 		{
             TableLayoutPanelCellPosition cellPosition = new TableLayoutPanelCellPosition(-1, -1);
-            if (grid[control.Widget.Parent] is Gtk.Grid.GridChild cell)
+            GridCell cell=control.GetGridCell(grid);
+            if (cell != null)
             {
                 cellPosition.Column = cell.LeftAttach;
                 cellPosition.Row = cell.TopAttach;
@@ -246,7 +248,8 @@ namespace System.Windows.Forms
 
 		public void SetCellPosition(Control control, TableLayoutPanelCellPosition position)
 		{
-            if (grid[control.Widget.Parent] is Gtk.Grid.GridChild cell)
+            GridCell cell=control.GetGridCell(grid);
+            if (cell != null)
             {
                 cell.LeftAttach = position.Column;
                 cell.TopAttach = position.Row;
@@ -257,12 +260,14 @@ namespace System.Windows.Forms
 		[DisplayName("Column")]
 		public int GetColumn(Control control)
 		{
-            return ((Gtk.Grid.GridChild)grid[control.Widget.Parent]).LeftAttach;
+            return control.GetGridCell(grid).LeftAttach;
         }
 
 		public void SetColumn(Control control, int column)
 		{
-            if (grid[control.Widget.Parent] is Gtk.Grid.GridChild child)
+            GridCell child=control.GetGridCell(grid);
+            if (child != null)
+		
                 child.LeftAttach = column;
 
         }
@@ -275,7 +280,9 @@ namespace System.Windows.Forms
         public TableLayoutPanelCellPosition GetPositionFromControl(Control control)
         {
             TableLayoutPanelCellPosition cellPosition = new TableLayoutPanelCellPosition(-1, -1);
-            if (grid[control.Widget.Parent] is Gtk.Grid.GridChild cell)
+            GridCell cell=control.GetGridCell(grid);
+            if (cell != null)
+		
             {
                 cellPosition.Column = cell.LeftAttach;
                 cellPosition.Row = cell.TopAttach;

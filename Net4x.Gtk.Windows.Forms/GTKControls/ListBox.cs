@@ -366,7 +366,11 @@ namespace System.Windows.Forms
             {
                 if (self.ListBox.SelectionMode == Gtk.SelectionMode.Multiple)
                 {
-                    var texts = self.ListBox.SelectedRows.Select(row => ((Gtk.Label)row.Child).Text);
+                    var texts = new List<string>();
+                    foreach (Gtk.ListBoxRow row in self.ListBox.SelectedRows)
+                    {
+                        texts.Add(((Gtk.Label)row.Child).Text);
+                    }
                     return string.Join(",", texts);
                 }
                 else

@@ -9,9 +9,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Resources\ControlExtension.cs" />
+		<Compile Remove="Resources\GridCell.cs" />
 		<Compile Remove="Resources\GtkWinFormsAppResources.Designer.cs" />
 		<Compile Remove="Resources\System.ComponentModel.cs" />
 		<Compile Remove="Resources\System.Resources.ResourceManager.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\ControlExtension.cs" />
+	  <Content Include="Resources\GridCell.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

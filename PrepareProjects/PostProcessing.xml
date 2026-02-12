@@ -6,6 +6,11 @@
 		<TargetString>&lt;Version&gt;$(VersionPrefix).$(VersionSuffix)&lt;/Version&gt;</TargetString>
 	</Item>
 	<Item>
+		<FileName>..\*.csproj</FileName>
+		<SourceString>&lt;PackageReference Include="GtkSharp" Version="$RegEx$([a-zA-Z0-9\-.]+)" /&gt;</SourceString>
+		<TargetString>&lt;PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" /&gt;</TargetString>
+	</Item>
+	<Item>
 		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
 		<SourceString>&lt;Copyright&gt;438865652@qq.com，chenhongjin&lt;/Copyright&gt;</SourceString>
 		<TargetString>&lt;Copyright&gt;Copyright (c) Piero Viano. All right reserved.&lt;/Copyright&gt;</TargetString>
@@ -66,6 +71,53 @@
 		<FileName>GTKControls\Dialog\FileDialog.cs</FileName>
 		<SourceString>坽pattern}</SourceString>
 		<TargetString>pattern</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\Control\Control.cs</FileName>
+		<SourceString>public virtual Rectangle ClientRectangle { get { this.Widget.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline); return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</SourceString>
+		<TargetString>public virtual Rectangle ClientRectangle { get { Gdk.Rectangle allocation = this.Widget.Allocation; return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\TabControl.cs</FileName>
+		<SourceString>tab.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline);</SourceString>
+		<TargetString>Gdk.Rectangle allocation= tab.Allocation;</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
+		<SourceString>using System.Drawing;</SourceString>
+		<TargetString>using System.Drawing;
+using GTKControls;</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
+		<SourceString>((Gtk.Grid.GridChild)grid[control.Widget.Parent])</SourceString>
+		<TargetString>control.GetGridCell(grid)</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
+		<SourceString>((Gtk.Grid.GridChild)grid[control.Widget.Parent])</SourceString>
+		<TargetString>control.GetGridCell(grid)</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
+		<SourceString>if (grid[control.Widget.Parent] is Gtk.Grid.GridChild cell)</SourceString>
+		<TargetString>GridCell cell=control.GetGridCell(grid);
+            if (cell != null)</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
+		<SourceString>if (grid[control.Widget.Parent] is Gtk.Grid.GridChild child)</SourceString>
+		<TargetString>GridCell child=control.GetGridCell(grid);
+            if (child != null)</TargetString>
+	</Item>
+	<Item>
+		<FileName>GTKControls\ListBox.cs</FileName>
+		<SourceString>var texts = self.ListBox.SelectedRows.Select(row => ((Gtk.Label)row.Child).Text);</SourceString>
+		<TargetString>var texts = new List&lt;string&gt;();
+                    foreach (Gtk.ListBoxRow row in self.ListBox.SelectedRows)
+                    {
+                        texts.Add(((Gtk.Label)row.Child).Text);
+                    }</TargetString>
 	</Item>
 	<Item>
 		<FileName>..\GtkWinFormsApp\Form1.cs</FileName>

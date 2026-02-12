@@ -28,6 +28,9 @@ public class Program
 
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" });
 
+        File.Copy(@"..\..\..\Resources\ControlExtension.cs", Path.Combine(targetDir, @"GTKControls\ControlExtension.cs"));
+        File.Copy(@"..\..\..\Resources\GridCell.cs", Path.Combine(targetDir, @"GTKControls\GridCell.cs"));
+
         ProjectCompilation.RestoreProject(sourceProjectPath);
     }
 
