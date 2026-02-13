@@ -169,7 +169,7 @@ namespace GtkWinFormsApp
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(882, 115);
             label1.TabIndex = 15;
-            label1.Text = resources.GetString("label1.Text");
+            label1.Text = GtkWinFormsApp.Properties.GtkWinFormsAppResources.Gtk_ListViewForm_Monitoring_Scroll_Event_Log;
             // 
             // button1
             // 

@@ -167,6 +167,16 @@ using GTKControls;</TargetString>
 		<TargetString>"Resources</TargetString>
 	</Item>
 	<Item>
+		<FileName>..\GtkWinFormsApp\Form2.Designer.cs</FileName>
+		<SourceString>label1.Text = resources.GetString("label1.Text");</SourceString>
+		<TargetString>label1.Text = GtkWinFormsApp.Properties.GtkWinFormsAppResources.Gtk_ListViewForm_Monitoring_Scroll_Event_Log;</TargetString>
+	</Item>
+	<Item>
+		<FileName>..\GtkWinFormsApp\Form2.cs</FileName>
+		<SourceString>listBox1.Items.Add( string.Format("异常警告{0} --- 机房空调运行监控事件 --- {1} ------ {2}", i, DateTime.Now.Ticks, DateTime.Now.ToString()));</SourceString>
+		<TargetString>listBox1.Items.Add(string.Format(GtkWinFormsApp.Properties.GtkWinFormsAppResources.Gtk_Exception_warning_i_Data_center_air_conditioning_operation_monitoring_event_DateTime_Now_Ticks_DateTime_Now_ToString, i, DateTime.Now.Ticks, DateTime.Now.ToString()));</TargetString>
+	</Item>
+	<Item>
 		<FileName>GTKControls\Control\Control.cs</FileName>
 		<SourceString>bgpixbuf.Save(bgimguri, "png");</SourceString>
 		<TargetString>bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });</TargetString>

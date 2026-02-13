@@ -59,7 +59,7 @@ namespace GtkWinFormsApp
         private void Timer1_Tick(object sender, System.EventArgs e)
         {
             i++;
-            listBox1.Items.Add( string.Format("异常警告{0} --- 机房空调运行监控事件 --- {1} ------ {2}", i, DateTime.Now.Ticks, DateTime.Now.ToString()));
+            listBox1.Items.Add(string.Format(GtkWinFormsApp.Properties.GtkWinFormsAppResources.Gtk_Exception_warning_i_Data_center_air_conditioning_operation_monitoring_event_DateTime_Now_Ticks_DateTime_Now_ToString, i, DateTime.Now.Ticks, DateTime.Now.ToString()));
             listBox1.TopIndex = i;
         }
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
