@@ -167,6 +167,11 @@ using GTKControls;</TargetString>
 		<TargetString>"Resources</TargetString>
 	</Item>
 	<Item>
+		<FileName>GTKControls\Control\Control.cs</FileName>
+		<SourceString>bgpixbuf.Save(bgimguri, "png");</SourceString>
+		<TargetString>bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });</TargetString>
+	</Item>
+	<Item>
 		<FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>
 		<SourceString>"GtkWinFormsApp.Properties.GtkWinFormsAppResources"</SourceString>
 		<TargetString>"GtkSystemWinFormsApp11.Properties.GtkWinFormsAppResources.resources"</TargetString>

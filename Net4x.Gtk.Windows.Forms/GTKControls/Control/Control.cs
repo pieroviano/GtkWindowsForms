@@ -348,7 +348,7 @@ namespace System.Windows.Forms
                         if (!File.Exists(bgimguri))
                         {
                             Gdk.Pixbuf bgpixbuf = new Gdk.Pixbuf(this.BackgroundImage.PixbufData);
-                            bgpixbuf.Save(bgimguri, "png");
+                            bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });
                         }
 
                         style.AppendFormat(",url(\"{0}\") repeat", bgimguri);
@@ -366,7 +366,7 @@ namespace System.Windows.Forms
                     {
                         if (!Directory.Exists(bgimgdir))
                             Directory.CreateDirectory(bgimgdir);
-                        bgpixbuf.Save(bgimguri, "png");
+                        bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });
                     }
                     style.AppendFormat("background-image:url(\"{0}\");", bgimguri);
                     if (this.BackgroundImageLayout == ImageLayout.Tile)
