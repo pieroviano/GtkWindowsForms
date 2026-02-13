@@ -78,7 +78,10 @@ namespace System.Windows.Forms
                 else
                 {
                     System.Drawing.Image image = ImageList.GetBitmap(ImageKey);
-                    rendererPixbuf.Pixbuf = image.Pixbuf;
+                    if (image != null)
+                    {
+                        rendererPixbuf.Pixbuf = image.Pixbuf;
+                    }
                 }
             }
         }
@@ -377,7 +380,13 @@ namespace System.Windows.Forms
                 set
                 {
                     if (value < _treeView.ImageList.Images.Count)
-                        this.Pixbuf = _treeView.ImageList.Images[value].Pixbuf;
+                    {
+                        var imageListImage = _treeView.ImageList.Images[value];
+                        if (imageListImage != null)
+                        {
+                            this.Pixbuf = imageListImage.Pixbuf;
+                        }
+                    }
                 }
             }
             [Property("pixbufkey")]
@@ -387,7 +396,13 @@ namespace System.Windows.Forms
                 {
 
                     if (string.IsNullOrWhiteSpace(value) == false && _treeView.ImageList.Images.ContainsKey(value))
-                        this.Pixbuf = _treeView.ImageList.Images[value].Pixbuf;
+                    {
+                        var imageListImage = _treeView.ImageList.Images[value];
+                        if (imageListImage != null)
+                        {
+                            this.Pixbuf = imageListImage.Pixbuf;
+                        }
+                    }
                 }
             }
         }

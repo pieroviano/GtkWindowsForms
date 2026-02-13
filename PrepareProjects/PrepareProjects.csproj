@@ -10,15 +10,19 @@
 
 	<ItemGroup>
 		<Compile Remove="Resources\ControlExtension.cs" />
+		<Compile Remove="Resources\DeserializingResourceReader.cs" />
 		<Compile Remove="Resources\GridCell.cs" />
 		<Compile Remove="Resources\GtkWinFormsAppResources.Designer.cs" />
 		<Compile Remove="Resources\System.ComponentModel.cs" />
 		<Compile Remove="Resources\System.Resources.ResourceManager.cs" />
+		<Compile Remove="Resources\TreeView.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Content Include="Resources\ControlExtension.cs" />
+	  <Content Include="Resources\DeserializingResourceReader.cs" />
 	  <Content Include="Resources\GridCell.cs" />
+	  <Content Include="Resources\TreeView.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -24,7 +24,7 @@ namespace System.Windows.Forms
 
             self.SecondaryIconActivatable = true;
             self.SecondaryIconStock= "open-menu";
-            self.SecondaryIconPixbuf = new Gdk.Pixbuf(this.GetType().Assembly, "Net4x.Gtk.Windows.Forms.Resources.System.MonthCalendar.ico");
+            self.SecondaryIconPixbuf = new Gdk.Pixbuf(this.GetType().Assembly, "Resources.System.MonthCalendar.ico");
             self.IconRelease += DateTimePicker_IconRelease;
             self.Shown += Self_Shown;
 

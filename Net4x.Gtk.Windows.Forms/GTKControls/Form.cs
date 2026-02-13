@@ -218,7 +218,7 @@ namespace System.Windows.Forms
                         }
                         else
                         {
-                            self.Icon = new Gdk.Pixbuf(this.GetType().Assembly, "Net4x.Gtk.Windows.Forms.Resources.System.view-more.png");
+                            self.Icon = new Gdk.Pixbuf(this.GetType().Assembly, "Resources.System.view-more.png");
                         }
 
                     }

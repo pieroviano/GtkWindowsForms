@@ -30,6 +30,10 @@ public class Program
 
         File.Copy(@"..\..\..\Resources\ControlExtension.cs", Path.Combine(targetDir, @"GTKControls\ControlExtension.cs"));
         File.Copy(@"..\..\..\Resources\GridCell.cs", Path.Combine(targetDir, @"GTKControls\GridCell.cs"));
+        File.Delete(Path.Combine(targetDir, @"GTKSystem\Resources\Extensions\DeserializingResourceReader.cs"));
+        File.Copy(@"..\..\..\Resources\DeserializingResourceReader.cs", Path.Combine(targetDir, @"GTKSystem\Resources\Extensions\DeserializingResourceReader.cs"));
+        File.Delete(Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
+        File.Copy(@"..\..\..\Resources\TreeView.cs", Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
 
         ProjectCompilation.RestoreProject(sourceProjectPath);
     }

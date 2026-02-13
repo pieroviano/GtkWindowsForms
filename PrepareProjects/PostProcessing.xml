@@ -164,7 +164,7 @@ using GTKControls;</TargetString>
 	<Item>
 		<FileName>*.cs</FileName>
 		<SourceString>"GtkSystem.Windows.Forms.Resources</SourceString>
-		<TargetString>"Net4x.Gtk.Windows.Forms.Resources</TargetString>
+		<TargetString>"Resources</TargetString>
 	</Item>
 	<Item>
 		<FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>

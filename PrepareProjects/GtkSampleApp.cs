@@ -21,6 +21,7 @@ public static class GtkSampleApp
         ReplaceJson(targetDir);
 
         DeleteIfExists(Path.Combine(targetDir, "工程说明.txt"));
+        CopyIfExists(Path.Combine(targetDir, "Resources", "010.jpg"), Path.Combine(targetDir, "Resources", "img11.jpg"));
 
         ProjectUtility.CopyLocalizationResourcesFiles(Path.Combine(targetDir, "Properties"),
             "GtkWinFormsAppResources.xml", "GtkWinFormsAppResources.zh-Hans.xml", "TestData1.json", "TestData1.en.json");
@@ -30,6 +31,7 @@ public static class GtkSampleApp
 
         EnsureStrongNameSigning(csprojPath);
         EnsureResxEmbeddedResources(csprojPath);
+        EnsureResources(csprojPath);
 
         UpdateLinkedCompileItems(csprojPath);
         UpdateProjectReferences(csprojPath, sourceProjectName, targetProjectName);
@@ -184,6 +186,14 @@ public static class GtkSampleApp
         doc.Save(csprojPath);
     }
 
+    private static void CopyIfExists(string path, string target)
+    {
+        if (File.Exists(path))
+        {
+            File.Copy(path, target);
+        }
+    }
+
     private static void DeleteIfExists(string path)
     {
         if (File.Exists(path))
@@ -260,6 +270,34 @@ public static class GtkSampleApp
         // Add as the last child of the project root
         doc.Root!.Add(itemGroup);
 
+        doc.Save(csprojPath);
+    }
+
+    private static void EnsureResources(string csprojPath)
+    {
+        var doc = XDocument.Load(csprojPath);
+        var ns = doc.Root!.Name.Namespace;
+
+        const string updateValue = @"Resources\*.*";
+
+        // Check if it already exists
+        var existing = doc
+            .Descendants(ns + "None")
+            .FirstOrDefault(e =>
+                (string?)e.Attribute("Update") == updateValue &&
+                e.Element(ns + "CopyToOutputDirectory")?.Value == "PreserveNewest");
+
+        if (existing != null)
+        {
+            return;
+        }
+
+        var itemGroup = new XElement(ns + "ItemGroup",
+            new XElement(ns + "None",
+                new XAttribute("Update", updateValue),
+                new XElement(ns + "CopyToOutputDirectory", "PreserveNewest")));
+
+        doc.Root!.Add(itemGroup);
         doc.Save(csprojPath);
     }
 

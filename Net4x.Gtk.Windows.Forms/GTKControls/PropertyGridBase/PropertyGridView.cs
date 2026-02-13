@@ -36,7 +36,7 @@ internal sealed partial class PropertyGridView
         Gtk.Button button1 = column1.Button as Gtk.Button;
         if (button1.Child is Gtk.Box box1)
         {
-            Gtk.Image img = new Gtk.Image(this.GetType().Assembly, "Net4x.Gtk.Windows.Forms.Resources.System.PBCategory.ico");
+            Gtk.Image img = new Gtk.Image(this.GetType().Assembly, "Resources.System.PBCategory.ico");
             img.Visible = true;
             box1.PackStart(img, false, true, 1);
             box1.ReorderChild(img, 0);
@@ -60,7 +60,7 @@ internal sealed partial class PropertyGridView
         Gtk.Button button2 = column2.Button as Gtk.Button;
         if (button2.Child is Gtk.Box box)
         {
-            Gtk.Image img = new Gtk.Image(this.GetType().Assembly, "Net4x.Gtk.Windows.Forms.Resources.System.PBAlpha.ico");
+            Gtk.Image img = new Gtk.Image(this.GetType().Assembly, "Resources.System.PBAlpha.ico");
             img.Visible = true;
             box.PackStart(img, false, true, 1);
             box.ReorderChild(img, 0);
@@ -260,8 +260,8 @@ internal sealed partial class PropertyGridView
     public event SelectedGridItemChangedEventHandler SelectedGridItemChanged;
     public class CellRendererExpander : Gtk.CellRendererToggle
     {
-        Pixbuf gonextpixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Net4x.Gtk.Windows.Forms.Resources.System.go-next-symbolic.png");
-        Pixbuf godownixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Net4x.Gtk.Windows.Forms.Resources.System.go-down-symbolic.png");
+        Pixbuf gonextpixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-next-symbolic.png");
+        Pixbuf godownixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-down-symbolic.png");
         public CellRendererExpander(PropertyGridView owner)
         {
 

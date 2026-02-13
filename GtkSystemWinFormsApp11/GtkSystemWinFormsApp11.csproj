@@ -27,6 +27,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Update="Resources\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="..\Net4x.Gtk.Windows.Forms\Content\System.ComponentModel.cs" Link="System.ComponentModel.cs" />
     <Compile Include="..\Net4x.Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs" Link="System.Resources.ResourceManager.cs" />
   </ItemGroup>
