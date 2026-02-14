@@ -1,4 +1,4 @@
-﻿using Atk;
+using Atk;
 using GLib;
 using System.Collections;
 using System.Collections.Generic;

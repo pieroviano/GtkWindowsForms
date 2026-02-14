@@ -4,48 +4,58 @@
 
 namespace System.Windows.Forms
 {
-    //
-    // Summary:
-    //     Defines constants that represent the possible states of a System.Windows.Forms.TreeNode.
+
+    /// <summary>
+    /// Defines constants that represent the possible states of a System.Windows.Forms.TreeNode.
+    /// </summary>
     [Flags]
     public enum TreeNodeStates
     {
-        //
-        // Summary:
-        //     The node is selected.
+
+        /// <summary>
+        /// The node is selected.
+        /// </summary>
         Selected = 1,
-        //
-        // Summary:
-        //     The node is disabled.
+
+        /// <summary>
+        /// The node is disabled.
+        /// </summary>
         Grayed = 2,
-        //
-        // Summary:
-        //     The node is checked.
+
+        /// <summary>
+        /// The node is checked.
+        /// </summary>
         Checked = 8,
-        //
-        // Summary:
-        //     The node has focus.
+
+        /// <summary>
+        /// The node has focus.
+        /// </summary>
         Focused = 16,
-        //
-        // Summary:
-        //     The node is in its default state.
+
+        /// <summary>
+        /// The node is in its default state.
+        /// </summary>
         Default = 32,
-        //
-        // Summary:
-        //     The node is hot. This state occurs when the System.Windows.Forms.TreeView.HotTracking
-        //     property is set to true and the mouse pointer is over the node.
+
+        /// <summary>
+        /// The node is hot. This state occurs when the System.Windows.Forms.TreeView.HotTracking
+        /// property is set to true and the mouse pointer is over the node.
+        /// </summary>
         Hot = 64,
-        //
-        // Summary:
-        //     The node is marked.
+
+        /// <summary>
+        /// The node is marked.
+        /// </summary>
         Marked = 128,
-        //
-        // Summary:
-        //     The node in an indeterminate state.
+
+        /// <summary>
+        /// The node in an indeterminate state.
+        /// </summary>
         Indeterminate = 256,
-        //
-        // Summary:
-        //     The node should indicate a keyboard shortcut.
+
+        /// <summary>
+        /// The node should indicate a keyboard shortcut.
+        /// </summary>
         ShowKeyboardCues = 512
     }
 }

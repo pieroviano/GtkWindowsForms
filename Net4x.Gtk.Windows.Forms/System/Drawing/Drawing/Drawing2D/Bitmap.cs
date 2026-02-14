@@ -1,4 +1,4 @@
-﻿using Cairo;
+using Cairo;
 using Gdk;
 using Pango;
 using System.ComponentModel;

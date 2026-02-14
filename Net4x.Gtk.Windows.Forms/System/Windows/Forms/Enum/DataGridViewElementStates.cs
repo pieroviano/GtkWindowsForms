@@ -4,46 +4,55 @@ using System.Text;
 
 namespace System.Windows.Forms
 {
-    //
-    // Summary:
-    //     Specifies the user interface (UI) state of a element within a System.Windows.Forms.DataGridView
-    //     control.
+
+    /// <summary>
+    /// Specifies the user interface (UI) state of a element within a System.Windows.Forms.DataGridView
+    /// control.
+    /// </summary>
     [Flags]
     public enum DataGridViewElementStates
     {
-        //
-        // Summary:
-        //     Indicates that an element is in its default state.
+
+        /// <summary>
+        /// Indicates that an element is in its default state.
+        /// </summary>
         None = 0,
-        //
-        // Summary:
-        //     Indicates the an element is currently displayed onscreen.
+
+        /// <summary>
+        /// Indicates the an element is currently displayed onscreen.
+        /// </summary>
         Displayed = 1,
-        //
-        // Summary:
-        //     Indicates that an element cannot be scrolled through the UI.
+
+        /// <summary>
+        /// Indicates that an element cannot be scrolled through the UI.
+        /// </summary>
         Frozen = 2,
-        //
-        // Summary:
-        //     Indicates that an element will not accept user input to change its value.
+
+        /// <summary>
+        /// Indicates that an element will not accept user input to change its value.
+        /// </summary>
         ReadOnly = 4,
-        //
-        // Summary:
-        //     Indicates that an element can be resized through the UI. This value is ignored
-        //     except when combined with the System.Windows.Forms.DataGridViewElementStates.ResizableSet
-        //     value.
+
+        /// <summary>
+        /// Indicates that an element can be resized through the UI. This value is ignored
+        /// except when combined with the System.Windows.Forms.DataGridViewElementStates.ResizableSet
+        /// value.
+        /// </summary>
         Resizable = 8,
-        //
-        // Summary:
-        //     Indicates that an element does not inherit the resizable state of its parent.
+
+        /// <summary>
+        /// Indicates that an element does not inherit the resizable state of its parent.
+        /// </summary>
         ResizableSet = 16,
-        //
-        // Summary:
-        //     Indicates that an element is in a selected (highlighted) UI state.
+
+        /// <summary>
+        /// Indicates that an element is in a selected (highlighted) UI state.
+        /// </summary>
         Selected = 32,
-        //
-        // Summary:
-        //     Indicates that an element is visible (displayable).
+
+        /// <summary>
+        /// Indicates that an element is visible (displayable).
+        /// </summary>
         Visible = 64
     }
 }

@@ -2,17 +2,20 @@ namespace System.Windows.Forms
 {
     public enum BorderStyle
     {
-        //
-        // Summary:
-        //     No border.
+
+        /// <summary>
+        /// No border.
+        /// </summary>
         None = 0,
-        //
-        // Summary:
-        //     A single-line border.
+
+        /// <summary>
+        /// A single-line border.
+        /// </summary>
         FixedSingle = 1,
-        //
-        // Summary:
-        //     A three-dimensional border.
+
+        /// <summary>
+        /// A three-dimensional border.
+        /// </summary>
         Fixed3D = 2
     }
 }

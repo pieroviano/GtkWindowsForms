@@ -1,22 +1,26 @@
 namespace System.Windows.Forms
 {
-    //
-    // Summary:
-    //     Provides options that specify the relationship between the control and preprocessing
-    //     messages.
+
+    /// <summary>
+    /// Provides options that specify the relationship between the control and preprocessing
+    /// messages.
+    /// </summary>
     public enum PreProcessControlState
     {
-        //
-        // Summary:
-        //     Specifies that the message has been processed and no further processing is required.
+
+        /// <summary>
+        /// Specifies that the message has been processed and no further processing is required.
+        /// </summary>
         MessageProcessed = 0,
-        //
-        // Summary:
-        //     Specifies that the control requires the message and that processing should continue.
+
+        /// <summary>
+        /// Specifies that the control requires the message and that processing should continue.
+        /// </summary>
         MessageNeeded = 1,
-        //
-        // Summary:
-        //     Specifies that the control does not require the message.
+
+        /// <summary>
+        /// Specifies that the control does not require the message.
+        /// </summary>
         MessageNotNeeded = 2
     }
 }

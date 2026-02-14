@@ -61,8 +61,8 @@ namespace System.Windows.Forms
 		{
 			if (this.Exists(m => m.Name == group.Name))
 			{
-				//Console.WriteLine("新增Group.Name重复");
-				// throw new ArgumentException("Group.Name重复");
+				//Console.WriteLine("锟斤拷锟斤拷Group.Name锟截革拷");
+				// throw new ArgumentException("Group.Name锟截革拷");
 				return;
 			}
             group.ListView = _listView;

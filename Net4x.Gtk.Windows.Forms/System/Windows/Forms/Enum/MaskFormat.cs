@@ -6,23 +6,27 @@ namespace System.Windows.Forms
 {
     public enum MaskFormat
     {
-        //
-        // Summary:
-        //     Return only text input by the user.
+
+        /// <summary>
+        /// Return only text input by the user.
+        /// </summary>
         ExcludePromptAndLiterals = 0,
-        //
-        // Summary:
-        //     Return text input by the user as well as any instances of the prompt character.
+
+        /// <summary>
+        /// Return text input by the user as well as any instances of the prompt character.
+        /// </summary>
         IncludePrompt = 1,
-        //
-        // Summary:
-        //     Return text input by the user as well as any literal characters defined in the
-        //     mask.
+
+        /// <summary>
+        /// Return text input by the user as well as any literal characters defined in the
+        /// mask.
+        /// </summary>
         IncludeLiterals = 2,
-        //
-        // Summary:
-        //     Return text input by the user as well as any literal characters defined in the
-        //     mask and any instances of the prompt character.
+
+        /// <summary>
+        /// Return text input by the user as well as any literal characters defined in the
+        /// mask and any instances of the prompt character.
+        /// </summary>
         IncludePromptAndLiterals = 3
     }
 }

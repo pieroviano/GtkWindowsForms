@@ -4,27 +4,32 @@ using System.Text;
 
 namespace System.Windows.Forms
 {
-    //
-    // Summary:
-    //     Defines values for specifying how the width of a column is adjusted.
+
+    /// <summary>
+    /// Defines values for specifying how the width of a column is adjusted.
+    /// </summary>
 
 
-    //
-    // Summary:
-    //     Defines values for specifying one of three possible states.
+
+    /// <summary>
+    /// Defines values for specifying one of three possible states.
+    /// </summary>
     public enum DataGridViewTriState
     {
-        //
-        // Summary:
-        //     The property is not set and will behave in a default manner.
+
+        /// <summary>
+        /// The property is not set and will behave in a default manner.
+        /// </summary>
         NotSet = 0,
-        //
-        // Summary:
-        //     The property's state is true.
+
+        /// <summary>
+        /// The property's state is true.
+        /// </summary>
         True = 1,
-        //
-        // Summary:
-        //     The property's state is false.
+
+        /// <summary>
+        /// The property's state is false.
+        /// </summary>
         False = 2
     }
 }

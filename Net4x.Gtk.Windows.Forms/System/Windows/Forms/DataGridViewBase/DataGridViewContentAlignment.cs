@@ -1,58 +1,69 @@
 namespace System.Windows.Forms
 {
-    //
-    // Summary:
-    //     Defines constants that indicate the alignment of content within a System.Windows.Forms.DataGridView
-    //     cell.
+
+    /// <summary>
+    /// Defines constants that indicate the alignment of content within a System.Windows.Forms.DataGridView
+    /// cell.
+    /// </summary>
     public enum DataGridViewContentAlignment
     {
-        //
-        // Summary:
-        //     The alignment is not set.
+
+        /// <summary>
+        /// The alignment is not set.
+        /// </summary>
         NotSet = 0,
-        //
-        // Summary:
-        //     The content is aligned vertically at the top and horizontally at the left of
-        //     a cell.
+
+        /// <summary>
+        /// The content is aligned vertically at the top and horizontally at the left of
+        /// a cell.
+        /// </summary>
         TopLeft = 1,
-        //
-        // Summary:
-        //     The content is aligned vertically at the top and horizontally at the center of
-        //     a cell.
+
+        /// <summary>
+        /// The content is aligned vertically at the top and horizontally at the center of
+        /// a cell.
+        /// </summary>
         TopCenter = 2,
-        //
-        // Summary:
-        //     The content is aligned vertically at the top and horizontally at the right of
-        //     a cell.
+
+        /// <summary>
+        /// The content is aligned vertically at the top and horizontally at the right of
+        /// a cell.
+        /// </summary>
         TopRight = 4,
-        //
-        // Summary:
-        //     The content is aligned vertically at the middle and horizontally at the left
-        //     of a cell.
+
+        /// <summary>
+        /// The content is aligned vertically at the middle and horizontally at the left
+        /// of a cell.
+        /// </summary>
         MiddleLeft = 16,
-        //
-        // Summary:
-        //     The content is aligned at the vertical and horizontal center of a cell.
+
+        /// <summary>
+        /// The content is aligned at the vertical and horizontal center of a cell.
+        /// </summary>
         MiddleCenter = 32,
-        //
-        // Summary:
-        //     The content is aligned vertically at the middle and horizontally at the right
-        //     of a cell.
+
+        /// <summary>
+        /// The content is aligned vertically at the middle and horizontally at the right
+        /// of a cell.
+        /// </summary>
         MiddleRight = 64,
-        //
-        // Summary:
-        //     The content is aligned vertically at the bottom and horizontally at the left
-        //     of a cell.
+
+        /// <summary>
+        /// The content is aligned vertically at the bottom and horizontally at the left
+        /// of a cell.
+        /// </summary>
         BottomLeft = 256,
-        //
-        // Summary:
-        //     The content is aligned vertically at the bottom and horizontally at the center
-        //     of a cell.
+
+        /// <summary>
+        /// The content is aligned vertically at the bottom and horizontally at the center
+        /// of a cell.
+        /// </summary>
         BottomCenter = 512,
-        //
-        // Summary:
-        //     The content is aligned vertically at the bottom and horizontally at the right
-        //     of a cell.
+
+        /// <summary>
+        /// The content is aligned vertically at the bottom and horizontally at the right
+        /// of a cell.
+        /// </summary>
         BottomRight = 1024
     }
 }

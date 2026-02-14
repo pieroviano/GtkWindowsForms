@@ -4,22 +4,26 @@
 
 namespace System.Drawing
 {
-    //
-    // Summary:
-    //     Specifies a generic System.Drawing.FontFamily object.
+
+    /// <summary>
+    /// Specifies a generic System.Drawing.FontFamily object.
+    /// </summary>
     public enum GenericFontFamilies
     {
-        //
-        // Summary:
-        //     A generic Serif System.Drawing.FontFamily object.
+
+        /// <summary>
+        /// A generic Serif System.Drawing.FontFamily object.
+        /// </summary>
         Serif = 0,
-        //
-        // Summary:
-        //     A generic Sans Serif System.Drawing.FontFamily object.
+
+        /// <summary>
+        /// A generic Sans Serif System.Drawing.FontFamily object.
+        /// </summary>
         SansSerif = 1,
-        //
-        // Summary:
-        //     A generic Monospace System.Drawing.FontFamily object.
+
+        /// <summary>
+        /// A generic Monospace System.Drawing.FontFamily object.
+        /// </summary>
         Monospace = 2
     }
 }

@@ -1,42 +1,51 @@
 
 namespace System.Windows.Forms
 {
-    //
-    // Summary:
-    //     Specifies the day of the week.
+
+    /// <summary>
+    /// Specifies the day of the week.
+    /// </summary>
     public enum Day
     {
-        //
-        // Summary:
-        //     The day Monday.
+
+        /// <summary>
+        /// The day Monday.
+        /// </summary>
         Monday,
-        //
-        // Summary:
-        //     The day Tuesday.
+
+        /// <summary>
+        /// The day Tuesday.
+        /// </summary>
         Tuesday,
-        //
-        // Summary:
-        //     The day Wednesday.
+
+        /// <summary>
+        /// The day Wednesday.
+        /// </summary>
         Wednesday,
-        //
-        // Summary:
-        //     The day Thursday.
+
+        /// <summary>
+        /// The day Thursday.
+        /// </summary>
         Thursday,
-        //
-        // Summary:
-        //     The day Friday.
+
+        /// <summary>
+        /// The day Friday.
+        /// </summary>
         Friday,
-        //
-        // Summary:
-        //     The day Saturday.
+
+        /// <summary>
+        /// The day Saturday.
+        /// </summary>
         Saturday,
-        //
-        // Summary:
-        //     The day Sunday.
+
+        /// <summary>
+        /// The day Sunday.
+        /// </summary>
         Sunday,
-        //
-        // Summary:
-        //     A default day of the week specified by the application.
+
+        /// <summary>
+        /// A default day of the week specified by the application.
+        /// </summary>
         Default
     }
 }

@@ -38,7 +38,8 @@ public class Program
             Path.Combine(targetDir, @"GTKSystem\Resources\Extensions\DeserializingResourceReader.cs"));
         File.Delete(Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
         File.Copy(@"..\..\..\Resources\TreeView.cs", Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
-
+        var transformer = new SummaryCommentTransformer();
+        transformer.TransformFolder(targetDir);
         ProjectCompilation.RestoreProject(sourceProjectPath);
 
         new FolderFixer().ReorganizeFiles(csprojPath, new[]

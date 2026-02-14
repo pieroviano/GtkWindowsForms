@@ -1,31 +1,37 @@
 namespace System.Windows.Forms
 {
-    //
-    // Summary:
-    //     Specifies the possible alignments with which the items of a System.Windows.Forms.ToolStrip
-    //     can be displayed.
+
+    /// <summary>
+    /// Specifies the possible alignments with which the items of a System.Windows.Forms.ToolStrip
+    /// can be displayed.
+    /// </summary>
     public enum ToolStripLayoutStyle
     {
-        //
-        // Summary:
-        //     Specifies that items are laid out automatically.
+
+        /// <summary>
+        /// Specifies that items are laid out automatically.
+        /// </summary>
         StackWithOverflow = 0,
-        //
-        // Summary:
-        //     Specifies that items are laid out horizontally and overflow as necessary.
+
+        /// <summary>
+        /// Specifies that items are laid out horizontally and overflow as necessary.
+        /// </summary>
         HorizontalStackWithOverflow = 1,
-        //
-        // Summary:
-        //     Specifies that items are laid out vertically, are centered within the control,
-        //     and overflow as necessary.
+
+        /// <summary>
+        /// Specifies that items are laid out vertically, are centered within the control,
+        /// and overflow as necessary.
+        /// </summary>
         VerticalStackWithOverflow = 2,
-        //
-        // Summary:
-        //     Specifies that items flow horizontally or vertically as necessary.
+
+        /// <summary>
+        /// Specifies that items flow horizontally or vertically as necessary.
+        /// </summary>
         Flow = 3,
-        //
-        // Summary:
-        //     Specifies that items are laid out flush left.
+
+        /// <summary>
+        /// Specifies that items are laid out flush left.
+        /// </summary>
         Table = 4
     }
 }

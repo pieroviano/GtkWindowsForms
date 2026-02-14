@@ -2,25 +2,30 @@ namespace System.Windows.Forms
 {
     public enum ImageLayout
     {
-        //
-        // Summary:
-        //     The image is left-aligned at the top across the control's client rectangle.
+
+        /// <summary>
+        /// The image is left-aligned at the top across the control's client rectangle.
+        /// </summary>
         None = 0,
-        //
-        // Summary:
-        //     The image is tiled across the control's client rectangle.
+
+        /// <summary>
+        /// The image is tiled across the control's client rectangle.
+        /// </summary>
         Tile = 1,
-        //
-        // Summary:
-        //     The image is centered within the control's client rectangle.
+
+        /// <summary>
+        /// The image is centered within the control's client rectangle.
+        /// </summary>
         Center = 2,
-        //
-        // Summary:
-        //     The image is stretched across the control's client rectangle.
+
+        /// <summary>
+        /// The image is stretched across the control's client rectangle.
+        /// </summary>
         Stretch = 3,
-        //
-        // Summary:
-        //     The image is enlarged within the control's client rectangle.
+
+        /// <summary>
+        /// The image is enlarged within the control's client rectangle.
+        /// </summary>
         Zoom = 4
     }
 }

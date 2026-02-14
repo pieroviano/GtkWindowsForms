@@ -1,22 +1,26 @@
 namespace System.Windows.Forms
 {
-    //
-    // Summary:
-    //     Defines values for specifying how the height of the column headers is adjusted.
+
+    /// <summary>
+    /// Defines values for specifying how the height of the column headers is adjusted.
+    /// </summary>
     public enum DataGridViewColumnHeadersHeightSizeMode
     {
-        //
-        // Summary:
-        //     Users can adjust the column header height with the mouse.
+
+        /// <summary>
+        /// Users can adjust the column header height with the mouse.
+        /// </summary>
         EnableResizing,
-        //
-        // Summary:
-        //     Users cannot adjust the column header height with the mouse.
+
+        /// <summary>
+        /// Users cannot adjust the column header height with the mouse.
+        /// </summary>
         DisableResizing,
-        //
-        // Summary:
-        //     The column header height adjusts to fit the contents of all the column header
-        //     cells.
+
+        /// <summary>
+        /// The column header height adjusts to fit the contents of all the column header
+        /// cells.
+        /// </summary>
         AutoSize
     }
 }

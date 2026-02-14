@@ -772,6 +772,68 @@
         <member name="F:System.Drawing.Drawing2D.WrapMode.Clamp">
             <summary>The texture or gradient is not tiled.</summary>
         </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsState">
+            <summary>
+            Represents the state of a System.Drawing.Graphics object. This object is returned
+            by a call to the System.Drawing.Graphics.Save methods. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.InterpolationMode">
+            <summary>
+            The System.Drawing.Drawing2D.InterpolationMode enumeration specifies the algorithm
+            that is used when images are scaled or rotated.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.InterpolationMode.Invalid">
+            <summary>
+            Equivalent to the System.Drawing.Drawing2D.QualityMode.Invalid element of the
+            System.Drawing.Drawing2D.QualityMode enumeration.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.InterpolationMode.Default">
+            <summary>
+            Specifies default mode.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.InterpolationMode.Low">
+            <summary>
+            Specifies low quality interpolation.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.InterpolationMode.High">
+            <summary>
+            Specifies high quality interpolation.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.InterpolationMode.Bilinear">
+            <summary>
+            Specifies bilinear interpolation. No prefiltering is done. This mode is not suitable
+            for shrinking an image below 50 percent of its original size.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.InterpolationMode.Bicubic">
+            <summary>
+            Specifies bicubic interpolation. No prefiltering is done. This mode is not suitable
+            for shrinking an image below 25 percent of its original size.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor">
+            <summary>
+            Specifies nearest-neighbor interpolation.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear">
+            <summary>
+            Specifies high-quality, bilinear interpolation. Prefiltering is performed to
+            ensure high-quality shrinking.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic">
+            <summary>
+            Specifies high-quality, bicubic interpolation. Prefiltering is performed to ensure
+            high-quality shrinking. This mode produces the highest quality transformed images.
+            </summary>
+        </member>
         <member name="T:System.Drawing.Drawing2D.FillMode">
             <summary>Specifies how the interior of a closed path is filled.</summary>
         </member>
@@ -2675,6 +2737,827 @@
         <member name="F:System.Drawing.RotateFlipType.Rotate270FlipXY">
             <summary>Specifies a 270-degree clockwise rotation followed by a horizontal and vertical flip.</summary>
         </member>
+        <member name="T:System.Drawing.ContentAlignment">
+            <summary>
+            Specifies alignment of content on the drawing surface.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.ContentAlignment.TopLeft">
+            <summary>
+            Content is vertically aligned at the top, and horizontally aligned on the left.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.ContentAlignment.TopCenter">
+            <summary>
+            Content is vertically aligned at the top, and horizontally aligned at the center.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.ContentAlignment.TopRight">
+            <summary>
+            Content is vertically aligned at the top, and horizontally aligned on the right.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.ContentAlignment.MiddleLeft">
+            <summary>
+            Content is vertically aligned in the middle, and horizontally aligned on the
+            left.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.ContentAlignment.MiddleCenter">
+            <summary>
+            Content is vertically aligned in the middle, and horizontally aligned at the
+            center.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.ContentAlignment.MiddleRight">
+            <summary>
+            Content is vertically aligned in the middle, and horizontally aligned on the
+            right.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.ContentAlignment.BottomLeft">
+            <summary>
+            Content is vertically aligned at the bottom, and horizontally aligned on the
+            left.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.ContentAlignment.BottomCenter">
+            <summary>
+            Content is vertically aligned at the bottom, and horizontally aligned at the
+            center.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.ContentAlignment.BottomRight">
+            <summary>
+            Content is vertically aligned at the bottom, and horizontally aligned on the
+            right.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Font">
+            <summary>
+            Defines a particular format for text, including font face, size, and style attributes.
+            This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.Drawing.Font,System.Drawing.FontStyle)">
+            <summary>
+            Initializes a new System.Drawing.Font that uses the specified existing System.Drawing.Font
+            and System.Drawing.FontStyle enumeration.
+            Parameter:
+            prototype:
+            The existing System.Drawing.Font from which to create the new System.Drawing.Font.
+            newStyle:
+            The System.Drawing.FontStyle to apply to the new System.Drawing.Font. Multiple
+            values of the System.Drawing.FontStyle enumeration can be combined with the OR
+            operator.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size.
+            Parameter:
+            family:
+            The System.Drawing.FontFamily of the new System.Drawing.Font.
+            emSize:
+            The em-size, in points, of the new font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size.
+            Parameter:
+            familyName:
+            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
+            emSize:
+            The em-size, in points, of the new font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity or is not a valid number.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size and style.
+            Parameter:
+            family:
+            The System.Drawing.FontFamily of the new System.Drawing.Font.
+            emSize:
+            The em-size, in points, of the new font.
+            style:
+            The System.Drawing.FontStyle of the new font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            T:System.ArgumentNullException:
+            family is null.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.GraphicsUnit)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size and unit. The style
+            is set to System.Drawing.FontStyle.Regular.
+            Parameter:
+            familyName:
+            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
+            emSize:
+            The em-size of the new font in the units specified by the unit parameter.
+            unit:
+            The System.Drawing.GraphicsUnit of the new font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size and style.
+            Parameter:
+            familyName:
+            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
+            emSize:
+            The em-size, in points, of the new font.
+            style:
+            The System.Drawing.FontStyle of the new font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.GraphicsUnit)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size and unit. Sets the
+            style to System.Drawing.FontStyle.Regular.
+            Parameter:
+            family:
+            The System.Drawing.FontFamily of the new System.Drawing.Font.
+            emSize:
+            The em-size of the new font in the units specified by the unit parameter.
+            unit:
+            The System.Drawing.GraphicsUnit of the new font.
+            Exception:
+            T:System.ArgumentNullException:
+            family is null.
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size, style, and unit.
+            Parameter:
+            familyName:
+            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
+            emSize:
+            The em-size of the new font in the units specified by the unit parameter.
+            style:
+            The System.Drawing.FontStyle of the new font.
+            unit:
+            The System.Drawing.GraphicsUnit of the new font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity or is not a valid number.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size, style, and unit.
+            Parameter:
+            family:
+            The System.Drawing.FontFamily of the new System.Drawing.Font.
+            emSize:
+            The em-size of the new font in the units specified by the unit parameter.
+            style:
+            The System.Drawing.FontStyle of the new font.
+            unit:
+            The System.Drawing.GraphicsUnit of the new font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            T:System.ArgumentNullException:
+            family is null.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size, style, unit, and
+            character set.
+            Parameter:
+            family:
+            The System.Drawing.FontFamily of the new System.Drawing.Font.
+            emSize:
+            The em-size of the new font in the units specified by the unit parameter.
+            style:
+            The System.Drawing.FontStyle of the new font.
+            unit:
+            The System.Drawing.GraphicsUnit of the new font.
+            gdiCharSet:
+            A System.Byte that specifies a GDI character set to use for the new font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            T:System.ArgumentNullException:
+            family is null.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size, style, unit, and
+            character set.
+            Parameter:
+            familyName:
+            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
+            emSize:
+            The em-size of the new font in the units specified by the unit parameter.
+            style:
+            The System.Drawing.FontStyle of the new font.
+            unit:
+            The System.Drawing.GraphicsUnit of the new font.
+            gdiCharSet:
+            A System.Byte that specifies a GDI character set to use for this font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte,System.Boolean)">
+            <summary>
+            Initializes a new System.Drawing.Font using the specified size, style, unit,
+            and character set.
+            Parameter:
+            familyName:
+            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
+            emSize:
+            The em-size of the new font in the units specified by the unit parameter.
+            style:
+            The System.Drawing.FontStyle of the new font.
+            unit:
+            The System.Drawing.GraphicsUnit of the new font.
+            gdiCharSet:
+            A System.Byte that specifies a GDI character set to use for this font.
+            gdiVerticalFont:
+            A Boolean value indicating whether the new System.Drawing.Font is derived from
+            a GDI vertical font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte,System.Boolean)">
+            <summary>
+            Initializes a new System.Drawing.Font using a specified size, style, unit, and
+            character set.
+            Parameter:
+            family:
+            The System.Drawing.FontFamily of the new System.Drawing.Font.
+            emSize:
+            The em-size of the new font in the units specified by the unit parameter.
+            style:
+            The System.Drawing.FontStyle of the new font.
+            unit:
+            The System.Drawing.GraphicsUnit of the new font.
+            gdiCharSet:
+            A System.Byte that specifies a GDI character set to use for this font.
+            gdiVerticalFont:
+            A Boolean value indicating whether the new font is derived from a GDI vertical
+            font.
+            Exception:
+            T:System.ArgumentException:
+            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+            T:System.ArgumentNullException:
+            family is null
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.Italic">
+            <summary>
+            Gets a value that indicates whether this font has the italic style applied.
+            Return result:
+            true to indicate this font has the italic style applied; otherwise, false.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.GdiCharSet">
+            <summary>
+            Gets a byte value that specifies the GDI character set that this System.Drawing.Font
+            uses.
+            Return result:
+            A byte value that specifies the GDI character set that this System.Drawing.Font
+            uses. The default is 1.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.GdiVerticalFont">
+            <summary>
+            Gets a Boolean value that indicates whether this System.Drawing.Font is derived
+            from a GDI vertical font.
+            Return result:
+            true if this System.Drawing.Font is derived from a GDI vertical font; otherwise,
+            false.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.Height">
+            <summary>
+            Gets the line spacing of this font.
+            Return result:
+            The line spacing, in pixels, of this font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.IsSystemFont">
+            <summary>
+            Gets a value indicating whether the font is a member of System.Drawing.SystemFonts.
+            Return result:
+            true if the font is a member of System.Drawing.SystemFonts; otherwise, false.
+            The default is false.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.Name">
+            <summary>
+            Gets the face name of this System.Drawing.Font.
+            Return result:
+            A string representation of the face name of this System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.SystemFontName">
+            <summary>
+            Gets the name of the system font if the System.Drawing.Font.IsSystemFont property
+            returns true.
+            Return result:
+            The name of the system font, if System.Drawing.Font.IsSystemFont returns true;
+            otherwise, an empty string ("").
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.Size">
+            <summary>
+            Gets the em-size of this System.Drawing.Font measured in the units specified
+            by the System.Drawing.Font.Unit property.
+            Return result:
+            The em-size of this System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.SizeInPoints">
+            <summary>
+            Gets the em-size, in points, of this System.Drawing.Font.
+            Return result:
+            The em-size, in points, of this System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.Strikeout">
+            <summary>
+            Gets a value that indicates whether this System.Drawing.Font specifies a horizontal
+            line through the font.
+            Return result:
+            true if this System.Drawing.Font has a horizontal line through it; otherwise,
+            false.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.Style">
+            <summary>
+            Gets style information for this System.Drawing.Font.
+            Return result:
+            A System.Drawing.FontStyle enumeration that contains style information for this
+            System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.FontFamily">
+            <summary>
+            Gets the System.Drawing.FontFamily associated with this System.Drawing.Font.
+            Return result:
+            The System.Drawing.FontFamily associated with this System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.OriginalFontName">
+            <summary>
+            Gets the name of the font originally specified.
+            Return result:
+            The string representing the name of the font originally specified.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.Bold">
+            <summary>
+            Gets a value that indicates whether this System.Drawing.Font is bold.
+            Return result:
+            true if this System.Drawing.Font is bold; otherwise, false.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.Unit">
+            <summary>
+            Gets the unit of measure for this System.Drawing.Font.
+            Return result:
+            A System.Drawing.GraphicsUnit that represents the unit of measure for this System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Font.Underline">
+            <summary>
+            Gets a value that indicates whether this System.Drawing.Font is underlined.
+            Return result:
+            true if this System.Drawing.Font is underlined; otherwise, false.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.FromHdc(System.IntPtr)">
+            <summary>
+            Creates a System.Drawing.Font from the specified Windows handle to a device context.
+            Parameter:
+            hdc:
+            A handle to a device context.
+            Return result:
+            The System.Drawing.Font this method creates.
+            Exception:
+            T:System.ArgumentException:
+            The font for the specified device context is not a TrueType font.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.FromHfont(System.IntPtr)">
+            <summary>
+            Creates a System.Drawing.Font from the specified Windows handle.
+            Parameter:
+            hfont:
+            A Windows handle to a GDI font.
+            Return result:
+            The System.Drawing.Font this method creates.
+            Exception:
+            T:System.ArgumentException:
+            hfont points to an object that is not a TrueType font.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.FromLogFont(System.Object,System.IntPtr)">
+            <summary>
+            Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
+            Parameter:
+            lf:
+            An System.Object that represents the GDI LOGFONT structure from which to create
+            the System.Drawing.Font.
+            hdc:
+            A handle to a device context that contains additional information about the lf
+            structure.
+            Return result:
+            The System.Drawing.Font that this method creates.
+            Exception:
+            T:System.ArgumentException:
+            The font is not a TrueType font.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.FromLogFont(System.Object)">
+            <summary>
+            Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
+            Parameter:
+            lf:
+            An System.Object that represents the GDI LOGFONT structure from which to create
+            the System.Drawing.Font.
+            Return result:
+            The System.Drawing.Font that this method creates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.Clone">
+            <summary>
+            Creates an exact copy of this System.Drawing.Font.
+            Return result:
+            The System.Drawing.Font this method creates, cast as an System.Object.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.Dispose">
+            <summary>
+            Releases all resources used by this System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.Equals(System.Object)">
+            <summary>
+            Indicates whether the specified object is a System.Drawing.Font and has the same
+            System.Drawing.Font.FontFamily, System.Drawing.Font.GdiVerticalFont, System.Drawing.Font.GdiCharSet,
+            System.Drawing.Font.Style, System.Drawing.Font.Size, and System.Drawing.Font.Unit
+            property values as this System.Drawing.Font.
+            Parameter:
+            obj:
+            The object to test.
+            Return result:
+            true if the obj parameter is a System.Drawing.Font and has the same System.Drawing.Font.FontFamily,
+            System.Drawing.Font.GdiVerticalFont, System.Drawing.Font.GdiCharSet, System.Drawing.Font.Style,
+            System.Drawing.Font.Size, and System.Drawing.Font.Unit property values as this
+            System.Drawing.Font; otherwise, false.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.GetHashCode">
+            <summary>
+            Gets the hash code for this System.Drawing.Font.
+            Return result:
+            The hash code for this System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.GetHeight(System.Single)">
+            <summary>
+            Returns the height, in pixels, of this System.Drawing.Font when drawn to a device
+            with the specified vertical resolution.
+            Parameter:
+            dpi:
+            The vertical resolution, in dots per inch, used to calculate the height of the
+            font.
+            Return result:
+            The height, in pixels, of this System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.GetHeight(System.Drawing.Graphics)">
+            <summary>
+            Returns the line spacing, in the current unit of a specified System.Drawing.Graphics,
+            of this font.
+            Parameter:
+            graphics:
+            A System.Drawing.Graphics that holds the vertical resolution, in dots per inch,
+            of the display device as well as settings for page unit and page scale.
+            Return result:
+            The line spacing, in pixels, of this font.
+            Exception:
+            T:System.ArgumentNullException:
+            graphics is null.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.GetHeight">
+            <summary>
+            Returns the line spacing, in pixels, of this font.
+            Return result:
+            The line spacing, in pixels, of this font.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.ToHfont">
+            <summary>
+            Returns a handle to this System.Drawing.Font.
+            Return result:
+            A Windows handle to this System.Drawing.Font.
+            Exception:
+            T:System.ComponentModel.Win32Exception:
+            The operation was unsuccessful.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.ToLogFont(System.Object,System.Drawing.Graphics)">
+            <summary>
+            Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.
+            Parameter:
+            logFont:
+            An System.Object to represent the LOGFONT structure that this method creates.
+            graphics:
+            A System.Drawing.Graphics that provides additional information for the LOGFONT
+            structure.
+            Exception:
+            T:System.ArgumentNullException:
+            graphics is null.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.ToLogFont(System.Object)">
+            <summary>
+            Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.
+            Parameter:
+            logFont:
+            An System.Object to represent the LOGFONT structure that this method creates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Font.ToString">
+            <summary>
+            Returns a human-readable string representation of this System.Drawing.Font.
+            Return result:
+            A string that represents this System.Drawing.Font.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.FontFamily">
+            <summary>
+            Defines a group of type faces having a similar basic design and certain variations
+            in styles. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.#ctor(System.Drawing.GenericFontFamilies)">
+            <summary>
+            Initializes a new System.Drawing.FontFamily from the specified generic font family.
+            Parameter:
+            genericFamily:
+            The System.Drawing.Text.GenericFontFamilies from which to create the new System.Drawing.FontFamily.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.#ctor(System.String)">
+            <summary>
+            Initializes a new System.Drawing.FontFamily with the specified name.
+            Parameter:
+            name:
+            The name of the new System.Drawing.FontFamily.
+            Exception:
+            T:System.ArgumentException:
+            name is an empty string (""). -or- name specifies a font that is not installed
+            on the computer running the application. -or- name specifies a font that is not
+            a TrueType font.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.#ctor(System.String,System.Drawing.Text.FontCollection)">
+            <summary>
+            Initializes a new System.Drawing.FontFamily in the specified System.Drawing.Text.FontCollection
+            with the specified name.
+            Parameter:
+            name:
+            A System.String that represents the name of the new System.Drawing.FontFamily.
+            fontCollection:
+            The System.Drawing.Text.FontCollection that contains this System.Drawing.FontFamily.
+            Exception:
+            T:System.ArgumentException:
+            name is an empty string (""). -or- name specifies a font that is not installed
+            on the computer running the application. -or- name specifies a font that is not
+            a TrueType font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.FontFamily.GenericSansSerif">
+            <summary>
+            Gets a generic sans serif System.Drawing.FontFamily object.
+            Return result:
+            A System.Drawing.FontFamily object that represents a generic sans serif font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.FontFamily.GenericMonospace">
+            <summary>
+            Gets a generic monospace System.Drawing.FontFamily.
+            Return result:
+            A System.Drawing.FontFamily that represents a generic monospace font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.FontFamily.Families">
+            <summary>
+            Returns an array that contains all the System.Drawing.FontFamily objects associated
+            with the current graphics context.
+            Return result:
+            An array of System.Drawing.FontFamily objects associated with the current graphics
+            context.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.FontFamily.GenericSerif">
+            <summary>
+            Gets a generic serif System.Drawing.FontFamily.
+            Return result:
+            A System.Drawing.FontFamily that represents a generic serif font.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.FontFamily.Name">
+            <summary>
+            Gets the name of this System.Drawing.FontFamily.
+            Return result:
+            A System.String that represents the name of this System.Drawing.FontFamily.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.GetFamilies(System.Drawing.Graphics)">
+            <summary>
+            Returns an array that contains all the System.Drawing.FontFamily objects available
+            for the specified graphics context.
+            Parameter:
+            graphics:
+            The System.Drawing.Graphics object from which to return System.Drawing.FontFamily
+            objects.
+            Return result:
+            An array of System.Drawing.FontFamily objects available for the specified System.Drawing.Graphics
+            object.
+            Exception:
+            T:System.ArgumentNullException:
+            graphics is null.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.Dispose">
+            <summary>
+            Releases all resources used by this System.Drawing.FontFamily.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.Equals(System.Object)">
+            <summary>
+            Indicates whether the specified object is a System.Drawing.FontFamily and is
+            identical to this System.Drawing.FontFamily.
+            Parameter:
+            obj:
+            The object to test.
+            Return result:
+            true if obj is a System.Drawing.FontFamily and is identical to this System.Drawing.FontFamily;
+            otherwise, false.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.GetCellAscent(System.Drawing.FontStyle)">
+            <summary>
+            Returns the cell ascent, in design units, of the System.Drawing.FontFamily of
+            the specified style.
+            Parameter:
+            style:
+            A System.Drawing.FontStyle that contains style information for the font.
+            Return result:
+            The cell ascent for this System.Drawing.FontFamily that uses the specified System.Drawing.FontStyle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.GetCellDescent(System.Drawing.FontStyle)">
+            <summary>
+            Returns the cell descent, in design units, of the System.Drawing.FontFamily of
+            the specified style.
+            Parameter:
+            style:
+            A System.Drawing.FontStyle that contains style information for the font.
+            Return result:
+            The cell descent metric for this System.Drawing.FontFamily that uses the specified
+            System.Drawing.FontStyle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.GetEmHeight(System.Drawing.FontStyle)">
+            <summary>
+            Gets the height, in font design units, of the em square for the specified style.
+            Parameter:
+            style:
+            The System.Drawing.FontStyle for which to get the em height.
+            Return result:
+            The height of the em square.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.GetHashCode">
+            <summary>
+            Gets a hash code for this System.Drawing.FontFamily.
+            Return result:
+            The hash code for this System.Drawing.FontFamily.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.GetLineSpacing(System.Drawing.FontStyle)">
+            <summary>
+            Returns the line spacing, in design units, of the System.Drawing.FontFamily of
+            the specified style. The line spacing is the vertical distance between the base
+            lines of two consecutive lines of text.
+            Parameter:
+            style:
+            The System.Drawing.FontStyle to apply.
+            Return result:
+            The distance between two consecutive lines of text.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.GetName(System.Int32)">
+            <summary>
+            Returns the name, in the specified language, of this System.Drawing.FontFamily.
+            Parameter:
+            language:
+            The language in which the name is returned.
+            Return result:
+            A System.String that represents the name, in the specified language, of this
+            System.Drawing.FontFamily.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.IsStyleAvailable(System.Drawing.FontStyle)">
+            <summary>
+            Indicates whether the specified System.Drawing.FontStyle enumeration is available.
+            Parameter:
+            style:
+            The System.Drawing.FontStyle to test.
+            Return result:
+            true if the specified System.Drawing.FontStyle is available; otherwise, false.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.FontFamily.ToString">
+            <summary>
+            Converts this System.Drawing.FontFamily to a human-readable string representation.
+            Return result:
+            The string that represents this System.Drawing.FontFamily.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.FontStyle">
+            <summary>
+            Specifies style information applied to text.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.FontStyle.Regular">
+            <summary>
+            Normal text.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.FontStyle.Bold">
+            <summary>
+            Bold text.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.FontStyle.Italic">
+            <summary>
+            Italic text.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.FontStyle.Underline">
+            <summary>
+            Underlined text.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.FontStyle.Strikeout">
+            <summary>
+            Text with a line through the middle.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.GenericFontFamilies">
+            <summary>
+            Specifies a generic System.Drawing.FontFamily object.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GenericFontFamilies.Serif">
+            <summary>
+            A generic Serif System.Drawing.FontFamily object.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GenericFontFamilies.SansSerif">
+            <summary>
+            A generic Sans Serif System.Drawing.FontFamily object.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GenericFontFamilies.Monospace">
+            <summary>
+            A generic Monospace System.Drawing.FontFamily object.
+            </summary>
+        </member>
         <member name="M:System.Drawing.Graphics.GetBezierPoints(System.Collections.Generic.List{System.Drawing.PointF})">
             <summary>
             Collect the positions of all coordinate points on the Bézier curve
@@ -2697,6 +3580,47 @@
             <param name="image"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="T:System.Drawing.GraphicsUnit">
+            <summary>
+            Specifies the unit of measure for the given data.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GraphicsUnit.World">
+            <summary>
+            Specifies the world coordinate system unit as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GraphicsUnit.Display">
+            <summary>
+            Specifies the unit of measure of the display device. Typically pixels for video
+            displays, and 1/100 inch for printers.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GraphicsUnit.Pixel">
+            <summary>
+            Specifies a device pixel as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GraphicsUnit.Point">
+            <summary>
+            Specifies a printer's point (1/72 inch) as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GraphicsUnit.Inch">
+            <summary>
+            Specifies the inch as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GraphicsUnit.Document">
+            <summary>
+            Specifies the document unit (1/300 inch) as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.GraphicsUnit.Millimeter">
+            <summary>
+            Specifies the millimeter as the unit of measure.
+            </summary>
         </member>
         <member name="P:System.Drawing.Icon.Height">
             <summary>Gets the height of this <see cref="T:System.Drawing.Icon" />.</summary>
@@ -2803,6 +3727,24 @@
         <member name="M:System.Drawing.Icon.ToString">
             <summary>Gets a human-readable string that describes the <see cref="T:System.Drawing.Icon" />.</summary>
             <returns>A string that describes the <see cref="T:System.Drawing.Icon" />.</returns>
+        </member>
+        <member name="T:System.Drawing.IDeviceContext">
+            <summary>
+            Defines methods for obtaining and releasing an existing handle to a Windows device
+            context.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.IDeviceContext.GetHdc">
+            <summary>
+            Returns the handle to a Windows device context.
+            Return result:
+            An System.IntPtr representing the handle of a device context.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.IDeviceContext.ReleaseHdc">
+            <summary>
+            Releases the handle of a Windows device context.
+            </summary>
         </member>
         <member name="T:System.Drawing.Imaging.BitmapData">
             <summary>Specifies the attributes of a bitmap image. The <see cref="T:System.Drawing.Imaging.BitmapData" /> class is used by the <see cref="!:Overload:System.Drawing.Bitmap.LockBits" /> and <see cref="M:System.Drawing.Bitmap.UnlockBits(System.Drawing.Imaging.BitmapData)" /> methods of the <see cref="T:System.Drawing.Bitmap" /> class. Not inheritable.</summary>
@@ -7422,6 +8364,33 @@
         <member name="F:System.Drawing.StringTrimming.EllipsisPath">
             <summary>The center is removed from trimmed lines and replaced by an ellipsis. The algorithm keeps as much of the last slash-delimited segment of the line as possible.</summary>
         </member>
+        <member name="T:System.Drawing.Text.FontCollection">
+            <summary>
+            Provides a base class for installed and private font collections.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Text.FontCollection.Families">
+            <summary>
+            Gets the array of System.Drawing.FontFamily objects associated with this System.Drawing.Text.FontCollection.
+            Return result:
+            An array of System.Drawing.FontFamily objects.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Text.FontCollection.Dispose">
+            <summary>
+            Releases all resources used by this System.Drawing.Text.FontCollection.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Text.FontCollection.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the System.Drawing.Text.FontCollection
+            and optionally releases the managed resources.
+            Parameter:
+            disposing:
+            true to release both managed and unmanaged resources; false to release only unmanaged
+            resources.
+            </summary>
+        </member>
         <member name="T:System.Drawing.Text.HotkeyPrefix">
             <summary>Specifies the type of display for hot-key prefixes that relate to text.</summary>
         </member>
@@ -7972,6 +8941,74 @@
             <summary>
              Determines if this object supports a standard set of values
              that can be picked from a list.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.OpacityConverter">
+            <summary>
+            Provides a type converter to convert opacity values to and from a string.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.OpacityConverter.#ctor">
+            <summary>
+            Initializes an instance of the System.Windows.Forms.OpacityConverter class.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.OpacityConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Returns a value indicating whether this converter can convert an object of the
+            specified source type to the native type of the converter that uses the specified
+            context.
+            Parameter:
+            context:
+            A System.ComponentModel.ITypeDescriptorContext that provides information about
+            the context of a type converter.
+            sourceType:
+            The System.Type that represents the type you want to convert from.
+            Return result:
+            true if this converter can perform the conversion; otherwise, false.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.OpacityConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            Converts the specified object to the converter's native type.
+            Parameter:
+            context:
+            A System.ComponentModel.ITypeDescriptorContext that provides information about
+            the context of a type converter.
+            culture:
+            The locale information for the conversion.
+            value:
+            The object to convert.
+            Return result:
+            An System.Object that represents the converted value.
+            Exception:
+            T:System.Exception:
+            The object was not a supported type for the conversion.
+            T:System.FormatException:
+            value could not be properly converted to type System.Double. -or- The resulting
+            converted value was less than zero percent or greater than one hundred percent.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.OpacityConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <summary>
+            Converts from the converter's native type to a value of the destination type.
+            Parameter:
+            context:
+            A System.ComponentModel.ITypeDescriptorContext that provides information about
+            the context of a type converter.
+            culture:
+            The locale information for the conversion.
+            value:
+            The value to convert.
+            destinationType:
+            The type to convert the object to.
+            Return result:
+            An System.Object that represents the converted value.
+            Exception:
+            T:System.ArgumentNullException:
+            destinationType is null.
+            T:System.NotSupportedException:
+            value cannot be converted to the destinationType.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.BaseCollection.Count">
@@ -9429,6 +10466,37 @@
              Standard cursors
             </summary>
         </member>
+        <member name="F:System.Windows.Forms.DockStyle.None">
+            <summary>
+            The control is not docked.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DockStyle.Top">
+            <summary>
+            The control's top edge is docked to the top of its containing control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DockStyle.Bottom">
+            <summary>
+            The control's bottom edge is docked to the bottom of its containing control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DockStyle.Left">
+            <summary>
+            The control's left edge is docked to the left edge of its containing control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DockStyle.Right">
+            <summary>
+            The control's right edge is docked to the right edge of its containing control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DockStyle.Fill">
+            <summary>
+            All the control's edges are docked to the all edges of its containing control
+            and sized appropriately.
+            </summary>
+        </member>
         <member name="T:System.Windows.Forms.IContainerControl">
             <summary>
              Provides functionality for a control to parent other controls.
@@ -9533,9 +10601,162 @@
              be notified when the values are changed.
             </summary>
         </member>
+        <member name="F:System.Windows.Forms.DataGridViewAutoSizeColumnMode.NotSet">
+            <summary>
+            The sizing behavior of the column is inherited from the System.Windows.Forms.DataGridView.AutoSizeColumnsMode
+            property.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewAutoSizeColumnMode.None">
+            <summary>
+            The column width does not automatically adjust.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader">
+            <summary>
+            The column width adjusts to fit the contents of the column header cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader">
+            <summary>
+            The column width adjusts to fit the contents of all cells in the column, excluding
+            the header cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells">
+            <summary>
+            The column width adjusts to fit the contents of all cells in the column, including
+            the header cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader">
+            <summary>
+            The column width adjusts to fit the contents of all cells in the column that
+            are in rows currently displayed onscreen, excluding the header cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells">
+            <summary>
+            The column width adjusts to fit the contents of all cells in the column that
+            are in rows currently displayed onscreen, including the header cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill">
+            <summary>
+            The column width adjusts so that the widths of all columns exactly fills the
+            display area of the control, requiring horizontal scrolling only to keep column
+            widths above the System.Windows.Forms.DataGridViewColumn.MinimumWidth property
+            values. Relative column widths are determined by the relative System.Windows.Forms.DataGridViewColumn.FillWeight
+            property values.
+            </summary>
+        </member>
         <member name="T:System.Windows.Forms.DataGridViewCellLinkedList">
             <summary>
              Represents a linked list of <see cref="T:System.Windows.Forms.DataGridViewCell"/> objects
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode">
+            <summary>
+            Defines values for specifying how the height of the column headers is adjusted.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing">
+            <summary>
+            Users can adjust the column header height with the mouse.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing">
+            <summary>
+            Users cannot adjust the column header height with the mouse.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize">
+            <summary>
+            The column header height adjusts to fit the contents of all the column header
+            cells.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewColumnSortMode.NotSortable">
+            <summary>
+            The column can only be sorted programmatically, but it is not intended for sorting,
+            so the column header will not include space for a sorting glyph.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewColumnSortMode.Automatic">
+            <summary>
+            The user can sort the column by clicking the column header (or pressing F3 on
+            a cell) unless the column headers are used for selection. A sorting glyph will
+            be displayed automatically.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewColumnSortMode.Programmatic">
+            <summary>
+            The column can only be sorted programmatically, and the column header will include
+            space for a sorting glyph.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewContentAlignment">
+            <summary>
+            Defines constants that indicate the alignment of content within a System.Windows.Forms.DataGridView
+            cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.NotSet">
+            <summary>
+            The alignment is not set.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.TopLeft">
+            <summary>
+            The content is aligned vertically at the top and horizontally at the left of
+            a cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.TopCenter">
+            <summary>
+            The content is aligned vertically at the top and horizontally at the center of
+            a cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.TopRight">
+            <summary>
+            The content is aligned vertically at the top and horizontally at the right of
+            a cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft">
+            <summary>
+            The content is aligned vertically at the middle and horizontally at the left
+            of a cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter">
+            <summary>
+            The content is aligned at the vertical and horizontal center of a cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.MiddleRight">
+            <summary>
+            The content is aligned vertically at the middle and horizontally at the right
+            of a cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.BottomLeft">
+            <summary>
+            The content is aligned vertically at the bottom and horizontally at the left
+            of a cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.BottomCenter">
+            <summary>
+            The content is aligned vertically at the bottom and horizontally at the center
+            of a cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewContentAlignment.BottomRight">
+            <summary>
+            The content is aligned vertically at the bottom and horizontally at the right
+            of a cell.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.DataGridViewSelectedCellCollection">
@@ -9583,6 +10804,40 @@
         <member name="M:System.Windows.Forms.DataGridViewSelectedRowCollection.Contains(System.Windows.Forms.DataGridViewRow)">
             <summary>
              Checks to see if a DataGridViewCell is contained in this collection.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewSelectionMode">
+            <summary>
+            Describes how cells of a DataGridView control can be selected.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewSelectionMode.CellSelect">
+            <summary>
+            One or more individual cells can be selected.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect">
+            <summary>
+            The entire row will be selected by clicking its row's header or a cell contained
+            in that row.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewSelectionMode.FullColumnSelect">
+            <summary>
+            The entire column will be selected by clicking the column's header or a cell
+            contained in that column.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewSelectionMode.RowHeaderSelect">
+            <summary>
+            The row will be selected by clicking in the row's header cell. An individual
+            cell can be selected by clicking that cell.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect">
+            <summary>
+            The column will be selected by clicking in the column's header cell. An individual
+            cell can be selected by clicking that cell.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.Design.ControlDesigner">
@@ -9641,6 +10896,52 @@
         <member name="T:System.Windows.Forms.Design.UserControlDocumentDesigner">
             <summary>
              <para>Provides a base implementation of a designer for user controls.</para>
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.DialogResult">
+            <summary>
+            Specifies identifiers to indicate the return value of a dialog box.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DialogResult.None">
+            <summary>
+            Nothing is returned from the dialog box. This means that the modal dialog continues
+            running.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DialogResult.OK">
+            <summary>
+            The dialog box return value is OK (usually sent from a button labeled OK).
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DialogResult.Cancel">
+            <summary>
+            The dialog box return value is Cancel (usually sent from a button labeled Cancel).
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DialogResult.Abort">
+            <summary>
+            The dialog box return value is Abort (usually sent from a button labeled Abort).
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DialogResult.Retry">
+            <summary>
+            The dialog box return value is Retry (usually sent from a button labeled Retry).
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DialogResult.Ignore">
+            <summary>
+            The dialog box return value is Ignore (usually sent from a button labeled Ignore).
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DialogResult.Yes">
+            <summary>
+            The dialog box return value is Yes (usually sent from a button labeled Yes).
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DialogResult.No">
+            <summary>
+            The dialog box return value is No (usually sent from a button labeled No).
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
@@ -10484,6 +11785,21 @@
              AutoValidate setting for this container is determined by its parent container.
             </summary>
         </member>
+        <member name="F:System.Windows.Forms.BorderStyle.None">
+            <summary>
+            No border.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.BorderStyle.FixedSingle">
+            <summary>
+            A single-line border.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.BorderStyle.Fixed3D">
+            <summary>
+            A three-dimensional border.
+            </summary>
+        </member>
         <member name="T:System.Windows.Forms.BoundsSpecified">
             <summary>
              Specifies the bounds of the control to use when defining a control's size
@@ -10536,6 +11852,32 @@
         <member name="T:System.Windows.Forms.ButtonState">
             <summary>
              Specifies the appearance of a button.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ButtonState.Normal">
+            <summary>
+            The button has its normal appearance (three-dimensional).
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ButtonState.Inactive">
+            <summary>
+            The button is inactive (grayed).
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ButtonState.Pushed">
+            <summary>
+            The button appears pressed.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ButtonState.Checked">
+            <summary>
+            The button has a checked or latched appearance. Use this appearance to show that
+            a toggle button has been pressed.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ButtonState.Flat">
+            <summary>
+            The button has a flat, two-dimensional appearance.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.ButtonState.All">
@@ -10606,6 +11948,77 @@
              A form is closing because Application.Exit() was called.
             </summary>
         </member>
+        <member name="T:System.Windows.Forms.DataGridViewElementStates">
+            <summary>
+            Specifies the user interface (UI) state of a element within a System.Windows.Forms.DataGridView
+            control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewElementStates.None">
+            <summary>
+            Indicates that an element is in its default state.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewElementStates.Displayed">
+            <summary>
+            Indicates the an element is currently displayed onscreen.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewElementStates.Frozen">
+            <summary>
+            Indicates that an element cannot be scrolled through the UI.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewElementStates.ReadOnly">
+            <summary>
+            Indicates that an element will not accept user input to change its value.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewElementStates.Resizable">
+            <summary>
+            Indicates that an element can be resized through the UI. This value is ignored
+            except when combined with the System.Windows.Forms.DataGridViewElementStates.ResizableSet
+            value.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewElementStates.ResizableSet">
+            <summary>
+            Indicates that an element does not inherit the resizable state of its parent.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewElementStates.Selected">
+            <summary>
+            Indicates that an element is in a selected (highlighted) UI state.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewElementStates.Visible">
+            <summary>
+            Indicates that an element is visible (displayable).
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewTriState">
+            <summary>
+            Defines values for specifying how the width of a column is adjusted.
+            </summary>
+            <summary>
+            Defines values for specifying one of three possible states.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewTriState.NotSet">
+            <summary>
+            The property is not set and will behave in a default manner.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewTriState.True">
+            <summary>
+            The property's state is true.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DataGridViewTriState.False">
+            <summary>
+            The property's state is false.
+            </summary>
+        </member>
         <member name="T:System.Windows.Forms.DateTimePickerFormat">
             <summary>
              Constants that specify how the date and time picker control displays
@@ -10630,6 +12043,51 @@
         <member name="F:System.Windows.Forms.DateTimePickerFormat.Custom">
             <summary>
              Custom format - produces output in custom format.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.Day">
+            <summary>
+            Specifies the day of the week.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Day.Monday">
+            <summary>
+            The day Monday.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Day.Tuesday">
+            <summary>
+            The day Tuesday.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Day.Wednesday">
+            <summary>
+            The day Wednesday.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Day.Thursday">
+            <summary>
+            The day Thursday.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Day.Friday">
+            <summary>
+            The day Friday.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Day.Saturday">
+            <summary>
+            The day Saturday.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Day.Sunday">
+            <summary>
+            The day Sunday.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Day.Default">
+            <summary>
+            A default day of the week specified by the application.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.DragAction">
@@ -10669,6 +12127,72 @@
         </member>
         <member name="F:System.Windows.Forms.DragDropEffects.All">
             <summary>The combination of the <see cref="F:System.Windows.DragDropEffects.Copy" />, <see cref="F:System.Windows.Forms.DragDropEffects.Move" />, and <see cref="F:System.Windows.Forms.DragDropEffects.Scroll" /> effects.</summary>
+        </member>
+        <member name="T:System.Windows.Forms.DrawItemState">
+            <summary>
+            Specifies the state of an item that is being drawn.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.None">
+            <summary>
+            The item currently has no state.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.Selected">
+            <summary>
+            The item is selected.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.Grayed">
+            <summary>
+            The item is grayed. Only menu controls use this value.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.Disabled">
+            <summary>
+            The item is unavailable.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.Checked">
+            <summary>
+            The item is checked. Only menu controls use this value.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.Focus">
+            <summary>
+            The item has focus.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.Default">
+            <summary>
+            The item is in its default visual state.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.HotLight">
+            <summary>
+            The item is being hot-tracked, that is, the item is highlighted as the mouse
+            pointer passes over it.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.Inactive">
+            <summary>
+            The item is inactive.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.NoAccelerator">
+            <summary>
+            The item displays without a keyboard accelerator.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.NoFocusRect">
+            <summary>
+            The item displays without the visual cue that indicates it has focus.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.DrawItemState.ComboBoxEdit">
+            <summary>
+            The item is the editing portion of a System.Windows.Forms.ComboBox.
+            </summary>
         </member>
         <member name="T:System.Windows.Forms.DrawMode">
             <summary>
@@ -10717,6 +12241,46 @@
         <member name="F:System.Windows.Forms.FlatStyle.System">
             <summary>
              The control appears three-dimensional.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.FormBorderStyle.None">
+            <summary>
+            No border.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.FormBorderStyle.FixedSingle">
+            <summary>
+            A fixed, single-line border.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.FormBorderStyle.Fixed3D">
+            <summary>
+            A fixed, three-dimensional border.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.FormBorderStyle.FixedDialog">
+            <summary>
+            A thick, fixed dialog-style border.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.FormBorderStyle.Sizable">
+            <summary>
+            A resizable border.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.FormBorderStyle.FixedToolWindow">
+            <summary>
+            A tool window border that is not resizable. A tool window does not appear in
+            the taskbar or in the window that appears when the user presses ALT+TAB. Although
+            forms that specify System.Windows.Forms.FormBorderStyle.FixedToolWindow typically
+            are not shown in the taskbar, you must also ensure that the System.Windows.Forms.Form.ShowInTaskbar
+            property is set to false, since its default value is true.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.FormBorderStyle.SizableToolWindow">
+            <summary>
+            A resizable tool window border. A tool window does not appear in the taskbar
+            or in the window that appears when the user presses ALT+TAB.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.FormWindowState">
@@ -10801,6 +12365,31 @@
         <member name="F:System.Windows.Forms.HorizontalAlignment.Center">
             <summary>
              The object or text is aligned in the center of the control element.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ImageLayout.None">
+            <summary>
+            The image is left-aligned at the top across the control's client rectangle.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ImageLayout.Tile">
+            <summary>
+            The image is tiled across the control's client rectangle.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ImageLayout.Center">
+            <summary>
+            The image is centered within the control's client rectangle.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ImageLayout.Stretch">
+            <summary>
+            The image is stretched across the control's client rectangle.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ImageLayout.Zoom">
+            <summary>
+            The image is enlarged within the control's client rectangle.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ImeMode">
@@ -11881,6 +13470,78 @@
              The object or text is aligned to the right of the reference point.
             </summary>
         </member>
+        <member name="T:System.Windows.Forms.ListViewItemStates">
+            <summary>
+            Defines constants that represent the possible states of a System.Windows.Forms.ListViewItem.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ListViewItemStates.Selected">
+            <summary>
+            The item is selected.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ListViewItemStates.Grayed">
+            <summary>
+            The item is disabled.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ListViewItemStates.Checked">
+            <summary>
+            The item is checked.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ListViewItemStates.Focused">
+            <summary>
+            The item has focus.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ListViewItemStates.Default">
+            <summary>
+            The item is in its default state.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ListViewItemStates.Hot">
+            <summary>
+            The item is currently under the mouse pointer.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ListViewItemStates.Marked">
+            <summary>
+            The item is marked.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ListViewItemStates.Indeterminate">
+            <summary>
+            The item is in an indeterminate state.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ListViewItemStates.ShowKeyboardCues">
+            <summary>
+            The item should indicate a keyboard shortcut.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals">
+            <summary>
+            Return only text input by the user.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.MaskFormat.IncludePrompt">
+            <summary>
+            Return text input by the user as well as any instances of the prompt character.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.MaskFormat.IncludeLiterals">
+            <summary>
+            Return text input by the user as well as any literal characters defined in the
+            mask.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.MaskFormat.IncludePromptAndLiterals">
+            <summary>
+            Return text input by the user as well as any literal characters defined in the
+            mask and any instances of the prompt character.
+            </summary>
+        </member>
         <member name="T:System.Windows.Forms.Message">
             <summary>
              Implements a Windows message.
@@ -11931,6 +13592,269 @@
              The middle mouse button was pressed.
             </summary>
         </member>
+        <member name="T:System.Windows.Forms.Orientation">
+            <summary>
+            Specifies the orientation of controls or elements of controls.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Orientation.Horizontal">
+            <summary>
+            The control or element is oriented horizontally.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Orientation.Vertical">
+            <summary>
+            The control or element is oriented vertically.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.Padding">
+            <summary>
+            Represents padding or margin information associated with a user interface (UI)
+            element.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.Padding.Empty">
+            <summary>
+            Provides a System.Windows.Forms.Padding object with no padding.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the System.Windows.Forms.Padding class using the
+            supplied padding size for all edges.
+            Parameter:
+            all:
+            The number of pixels to be used for padding for all edges.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the System.Windows.Forms.Padding class using a
+            separate padding size for each edge.
+            Parameter:
+            left:
+            The padding size, in pixels, for the left edge.
+            top:
+            The padding size, in pixels, for the top edge.
+            right:
+            The padding size, in pixels, for the right edge.
+            bottom:
+            The padding size, in pixels, for the bottom edge.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Padding.Horizontal">
+            <summary>
+            Gets the combined padding for the right and left edges.
+            Return result:
+            Gets the sum, in pixels, of the System.Windows.Forms.Padding.Left and System.Windows.Forms.Padding.Right
+            padding values.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Padding.Top">
+            <summary>
+            Gets or sets the padding value for the top edge.
+            Return result:
+            The padding, in pixels, for the top edge.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Padding.Right">
+            <summary>
+            Gets or sets the padding value for the right edge.
+            Return result:
+            The padding, in pixels, for the right edge.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Padding.Left">
+            <summary>
+            Gets or sets the padding value for the left edge.
+            Return result:
+            The padding, in pixels, for the left edge.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Padding.Bottom">
+            <summary>
+            Gets or sets the padding value for the bottom edge.
+            Return result:
+            The padding, in pixels, for the bottom edge.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Padding.All">
+            <summary>
+            Gets or sets the padding value for all the edges.
+            Return result:
+            The padding, in pixels, for all edges if the same; otherwise, -1.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Padding.Size">
+            <summary>
+            Gets the padding information in the form of a System.Drawing.Size.
+            Return result:
+            A System.Drawing.Size containing the padding information.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Padding.Vertical">
+            <summary>
+            Gets the combined padding for the top and bottom edges.
+            Return result:
+            Gets the sum, in pixels, of the System.Windows.Forms.Padding.Top and System.Windows.Forms.Padding.Bottom
+            padding values.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.Add(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
+            <summary>
+            Computes the sum of the two specified System.Windows.Forms.Padding values.
+            Parameter:
+            p1:
+            A System.Windows.Forms.Padding.
+            p2:
+            A System.Windows.Forms.Padding.
+            Return result:
+            A System.Windows.Forms.Padding that contains the sum of the two specified System.Windows.Forms.Padding
+            values.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.Subtract(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
+            <summary>
+            Subtracts one specified System.Windows.Forms.Padding value from another.
+            Parameter:
+            p1:
+            A System.Windows.Forms.Padding.
+            p2:
+            A System.Windows.Forms.Padding.
+            Return result:
+            A System.Windows.Forms.Padding that contains the result of the subtraction of
+            one specified System.Windows.Forms.Padding value from another.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.Equals(System.Object)">
+            <summary>
+            Determines whether the value of the specified object is equivalent to the current
+            System.Windows.Forms.Padding.
+            Parameter:
+            other:
+            The object to compare to the current System.Windows.Forms.Padding.
+            Return result:
+            true if the System.Windows.Forms.Padding objects are equivalent; otherwise, false.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.GetHashCode">
+            <summary>
+            Generates a hash code for the current System.Windows.Forms.Padding.
+            Return result:
+            A 32-bit signed integer hash code.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.ToString">
+            <summary>
+            Returns a string that represents the current System.Windows.Forms.Padding.
+            Return result:
+            A System.String that represents the current System.Windows.Forms.Padding.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.op_Addition(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
+            <summary>
+            Performs vector addition on the two specified System.Windows.Forms.Padding objects,
+            resulting in a new System.Windows.Forms.Padding.
+            Parameter:
+            p1:
+            The first System.Windows.Forms.Padding to add.
+            p2:
+            The second System.Windows.Forms.Padding to add.
+            Return result:
+            A new System.Windows.Forms.Padding that results from adding p1 and p2.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.op_Subtraction(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
+            <summary>
+            Performs vector subtraction on the two specified System.Windows.Forms.Padding
+            objects, resulting in a new System.Windows.Forms.Padding.
+            Parameter:
+            p1:
+            The System.Windows.Forms.Padding to subtract from (the minuend).
+            p2:
+            The System.Windows.Forms.Padding to subtract from (the subtrahend).
+            Return result:
+            The System.Windows.Forms.Padding result of subtracting p2 from p1.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.op_Equality(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
+            <summary>
+            Tests whether two specified System.Windows.Forms.Padding objects are equivalent.
+            Parameter:
+            p1:
+            A System.Windows.Forms.Padding to test.
+            p2:
+            A System.Windows.Forms.Padding to test.
+            Return result:
+            true if the two System.Windows.Forms.Padding objects are equal; otherwise, false.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Padding.op_Inequality(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
+            <summary>
+            Tests whether two specified System.Windows.Forms.Padding objects are not equivalent.
+            Parameter:
+            p1:
+            A System.Windows.Forms.Padding to test.
+            p2:
+            A System.Windows.Forms.Padding to test.
+            Return result:
+            true if the two System.Windows.Forms.Padding objects are different; otherwise,
+            false.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.PictureBoxSizeMode.Normal">
+            <summary>
+            The image is placed in the upper-left corner of the System.Windows.Forms.PictureBox.
+            The image is clipped if it is larger than the System.Windows.Forms.PictureBox
+            it is contained in.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.PictureBoxSizeMode.StretchImage">
+            <summary>
+            The image within the System.Windows.Forms.PictureBox is stretched or shrunk to
+            fit the size of the System.Windows.Forms.PictureBox.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.PictureBoxSizeMode.AutoSize">
+            <summary>
+            The System.Windows.Forms.PictureBox is sized equal to the size of the image that
+            it contains.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.PictureBoxSizeMode.CenterImage">
+            <summary>
+            The image is displayed in the center if the System.Windows.Forms.PictureBox is
+            larger than the image. If the image is larger than the System.Windows.Forms.PictureBox,
+            the picture is placed in the center of the System.Windows.Forms.PictureBox and
+            the outside edges are clipped.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.PictureBoxSizeMode.Zoom">
+            <summary>
+            The size of the image is increased or decreased maintaining the size ratio.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.PreProcessControlState">
+            <summary>
+            Provides options that specify the relationship between the control and preprocessing
+            messages.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.PreProcessControlState.MessageProcessed">
+            <summary>
+            Specifies that the message has been processed and no further processing is required.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.PreProcessControlState.MessageNeeded">
+            <summary>
+            Specifies that the control requires the message and that processing should continue.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.PreProcessControlState.MessageNotNeeded">
+            <summary>
+            Specifies that the control does not require the message.
+            </summary>
+        </member>
         <member name="F:System.Windows.Forms.SelectionMode.None">
             <summary>
              Indicates that no items can be selected.
@@ -11956,6 +13880,57 @@
         <member name="T:System.Windows.Forms.TabControlAction">
             <summary>
              This enum is used to specify the action that caused a TreeViewEventArgs.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.TreeNodeStates">
+            <summary>
+            Defines constants that represent the possible states of a System.Windows.Forms.TreeNode.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TreeNodeStates.Selected">
+            <summary>
+            The node is selected.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TreeNodeStates.Grayed">
+            <summary>
+            The node is disabled.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TreeNodeStates.Checked">
+            <summary>
+            The node is checked.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TreeNodeStates.Focused">
+            <summary>
+            The node has focus.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TreeNodeStates.Default">
+            <summary>
+            The node is in its default state.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TreeNodeStates.Hot">
+            <summary>
+            The node is hot. This state occurs when the System.Windows.Forms.TreeView.HotTracking
+            property is set to true and the mouse pointer is over the node.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TreeNodeStates.Marked">
+            <summary>
+            The node is marked.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TreeNodeStates.Indeterminate">
+            <summary>
+            The node in an indeterminate state.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TreeNodeStates.ShowKeyboardCues">
+            <summary>
+            The node should indicate a keyboard shortcut.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.TreeViewAction">
@@ -13950,14 +15925,143 @@
              GtkMenuItem
             </summary>
         </member>
+        <member name="T:System.Windows.Forms.ToolStripDropDownDirection">
+            <summary>
+            Specifies the direction in which a System.Windows.Forms.ToolStripDropDown control
+            is displayed relative to its parent control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripDropDownDirection.AboveLeft">
+            <summary>
+            Uses the mouse position to specify that the System.Windows.Forms.ToolStripDropDown
+            is displayed above and to the left of its parent control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripDropDownDirection.AboveRight">
+            <summary>
+            Uses the mouse position to specify that the System.Windows.Forms.ToolStripDropDown
+            is displayed above and to the right of its parent control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripDropDownDirection.BelowLeft">
+            <summary>
+            Uses the mouse position to specify that the System.Windows.Forms.ToolStripDropDown
+            is displayed below and to the left of its parent control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripDropDownDirection.BelowRight">
+            <summary>
+            Uses the mouse position to specify that the System.Windows.Forms.ToolStripDropDown
+            is displayed below and to the right of its parent control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripDropDownDirection.Left">
+            <summary>
+            Compensates for nested drop-down controls and specifies that the System.Windows.Forms.ToolStripDropDown
+            is displayed to the left of its parent control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripDropDownDirection.Right">
+            <summary>
+            Compensates for nested drop-down controls and specifies that the System.Windows.Forms.ToolStripDropDown
+            is displayed to the right of its parent control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripDropDownDirection.Default">
+            <summary>
+            Compensates for nested drop-down controls and responds to the System.Windows.Forms.RightToLeft
+            setting, specifying either System.Windows.Forms.ToolStripDropDownDirection.Left
+            or System.Windows.Forms.ToolStripDropDownDirection.Right accordingly.
+            </summary>
+        </member>
         <member name="T:System.Windows.Forms.ToolStripItem">
             <summary>
              A non selectable ToolStrip item
             </summary>
         </member>
+        <member name="T:System.Windows.Forms.ToolStripItemAlignment">
+            <summary>
+            Determines the alignment of a System.Windows.Forms.ToolStripItem in a System.Windows.Forms.ToolStrip.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripItemAlignment.Left">
+            <summary>
+            Specifies that the System.Windows.Forms.ToolStripItem is to be anchored toward
+            the left or top end of the System.Windows.Forms.ToolStrip, depending on the System.Windows.Forms.ToolStrip
+            orientation. If the value of System.Windows.Forms.RightToLeft is Yes, items marked
+            as System.Windows.Forms.ToolStripItemAlignment.Left are aligned to the right
+            side of the System.Windows.Forms.ToolStrip.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripItemAlignment.Right">
+            <summary>
+            Specifies that the System.Windows.Forms.ToolStripItem is to be anchored toward
+            the right or bottom end of the System.Windows.Forms.ToolStrip, depending on the
+            System.Windows.Forms.ToolStrip orientation. If the value of System.Windows.Forms.RightToLeft
+            is Yes, items marked as System.Windows.Forms.ToolStripItemAlignment.Right are
+            aligned to the left side of the System.Windows.Forms.ToolStrip.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.ToolStripItemDisplayStyle">
+            <summary>
+            Specifies what to render (image or text) for this System.Windows.Forms.ToolStripItem.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripItemDisplayStyle.None">
+            <summary>
+            Specifies that neither image nor text is to be rendered for this System.Windows.Forms.ToolStripItem.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripItemDisplayStyle.Text">
+            <summary>
+            Specifies that only text is to be rendered for this System.Windows.Forms.ToolStripItem.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripItemDisplayStyle.Image">
+            <summary>
+            Specifies that only an image is to be rendered for this System.Windows.Forms.ToolStripItem.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText">
+            <summary>
+            Specifies that both an image and text are to be rendered for this System.Windows.Forms.ToolStripItem.
+            </summary>
+        </member>
         <member name="T:System.Windows.Forms.ToolStripLabel">
             <summary>
              A non selectable ToolStrip item
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.ToolStripLayoutStyle">
+            <summary>
+            Specifies the possible alignments with which the items of a System.Windows.Forms.ToolStrip
+            can be displayed.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripLayoutStyle.StackWithOverflow">
+            <summary>
+            Specifies that items are laid out automatically.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow">
+            <summary>
+            Specifies that items are laid out horizontally and overflow as necessary.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow">
+            <summary>
+            Specifies that items are laid out vertically, are centered within the control,
+            and overflow as necessary.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripLayoutStyle.Flow">
+            <summary>
+            Specifies that items flow horizontally or vertically as necessary.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.ToolStripLayoutStyle.Table">
+            <summary>
+            Specifies that items are laid out flush left.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.ToolTipIcon.None">
@@ -14293,6 +16397,31 @@
              Draws a handy focus rect in the given rectangle.
             </summary>
         </member>
+        <member name="T:System.Windows.Forms.TabAlignment">
+            <summary>
+            Specifies the locations of the tabs in a tab control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TabAlignment.Top">
+            <summary>
+            The tabs are located across the top of the control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TabAlignment.Bottom">
+            <summary>
+            The tabs are located across the bottom of the control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TabAlignment.Left">
+            <summary>
+            The tabs are located along the left edge of the control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TabAlignment.Right">
+            <summary>
+            The tabs are located along the right edge of the control.
+            </summary>
+        </member>
         <member name="T:System.Windows.Forms.TabDrawMode">
             <summary>
              The TabStrip and TabControl both support ownerdraw functionality, but
@@ -14309,6 +16438,30 @@
         <member name="F:System.Windows.Forms.TabDrawMode.OwnerDrawFixed">
             <summary>
              The user paints the items in the control manually
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.TabSizeMode">
+            <summary>
+            Specifies how tabs in a tab control are sized.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TabSizeMode.Normal">
+            <summary>
+            The width of each tab is sized to accommodate what is displayed on the tab, and
+            the size of tabs in a row are not adjusted to fill the entire width of the container
+            control.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TabSizeMode.FillToRight">
+            <summary>
+            The width of each tab is sized so that each row of tabs fills the entire width
+            of the container control. This is only applicable to tab controls with more than
+            one row.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.TabSizeMode.Fixed">
+            <summary>
+            All tabs in a control are the same width.
             </summary>
         </member>
     </members>

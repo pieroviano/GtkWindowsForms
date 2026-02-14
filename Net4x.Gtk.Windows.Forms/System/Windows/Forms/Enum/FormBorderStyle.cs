@@ -2,38 +2,45 @@ namespace System.Windows.Forms
 {
     public enum FormBorderStyle
     {
-        //
-        // Summary:
-        //     No border.
+
+        /// <summary>
+        /// No border.
+        /// </summary>
         None,
-        //
-        // Summary:
-        //     A fixed, single-line border.
+
+        /// <summary>
+        /// A fixed, single-line border.
+        /// </summary>
         FixedSingle,
-        //
-        // Summary:
-        //     A fixed, three-dimensional border.
+
+        /// <summary>
+        /// A fixed, three-dimensional border.
+        /// </summary>
         Fixed3D,
-        //
-        // Summary:
-        //     A thick, fixed dialog-style border.
+
+        /// <summary>
+        /// A thick, fixed dialog-style border.
+        /// </summary>
         FixedDialog,
-        //
-        // Summary:
-        //     A resizable border.
+
+        /// <summary>
+        /// A resizable border.
+        /// </summary>
         Sizable,
-        //
-        // Summary:
-        //     A tool window border that is not resizable. A tool window does not appear in
-        //     the taskbar or in the window that appears when the user presses ALT+TAB. Although
-        //     forms that specify System.Windows.Forms.FormBorderStyle.FixedToolWindow typically
-        //     are not shown in the taskbar, you must also ensure that the System.Windows.Forms.Form.ShowInTaskbar
-        //     property is set to false, since its default value is true.
+
+        /// <summary>
+        /// A tool window border that is not resizable. A tool window does not appear in
+        /// the taskbar or in the window that appears when the user presses ALT+TAB. Although
+        /// forms that specify System.Windows.Forms.FormBorderStyle.FixedToolWindow typically
+        /// are not shown in the taskbar, you must also ensure that the System.Windows.Forms.Form.ShowInTaskbar
+        /// property is set to false, since its default value is true.
+        /// </summary>
         FixedToolWindow,
-        //
-        // Summary:
-        //     A resizable tool window border. A tool window does not appear in the taskbar
-        //     or in the window that appears when the user presses ALT+TAB.
+
+        /// <summary>
+        /// A resizable tool window border. A tool window does not appear in the taskbar
+        /// or in the window that appears when the user presses ALT+TAB.
+        /// </summary>
         SizableToolWindow
     }
 }

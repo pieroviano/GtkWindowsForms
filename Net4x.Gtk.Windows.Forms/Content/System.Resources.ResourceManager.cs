@@ -1,4 +1,4 @@
-﻿// This file is mainly to overwrite the native System.Resources.ResourceManager class.
+// This file is mainly to overwrite the native System.Resources.ResourceManager class.
 // The native class does not support reading project resource image files.
 // GtkSystem.Resources.ResourceManager implements reading of project resource files and image files.
 // If the resource image file is not used in the project, there is no need to create this file.

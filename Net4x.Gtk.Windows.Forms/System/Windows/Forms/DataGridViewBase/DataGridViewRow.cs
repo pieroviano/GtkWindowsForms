@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 using System.Collections.Generic;
 
 namespace System.Windows.Forms

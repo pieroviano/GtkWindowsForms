@@ -10,26 +10,31 @@ namespace System.Windows.Forms
     [Flags]
     public enum ButtonState
     {
-        //
-        // Summary:
-        //     The button has its normal appearance (three-dimensional).
+
+        /// <summary>
+        /// The button has its normal appearance (three-dimensional).
+        /// </summary>
         Normal = 0,
-        //
-        // Summary:
-        //     The button is inactive (grayed).
+
+        /// <summary>
+        /// The button is inactive (grayed).
+        /// </summary>
         Inactive = 256,
-        //
-        // Summary:
-        //     The button appears pressed.
+
+        /// <summary>
+        /// The button appears pressed.
+        /// </summary>
         Pushed = 512,
-        //
-        // Summary:
-        //     The button has a checked or latched appearance. Use this appearance to show that
-        //     a toggle button has been pressed.
+
+        /// <summary>
+        /// The button has a checked or latched appearance. Use this appearance to show that
+        /// a toggle button has been pressed.
+        /// </summary>
         Checked = 1024,
-        //
-        // Summary:
-        //     The button has a flat, two-dimensional appearance.
+
+        /// <summary>
+        /// The button has a flat, two-dimensional appearance.
+        /// </summary>
         Flat = 16384,
         /// <summary>
         ///  All viable flags in the bit mask are used.
