@@ -5,7 +5,7 @@
  * author:chenhongjin
  * date: 2024/1/3
  */
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

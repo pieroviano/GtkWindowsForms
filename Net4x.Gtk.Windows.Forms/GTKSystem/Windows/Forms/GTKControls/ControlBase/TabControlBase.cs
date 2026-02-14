@@ -2,7 +2,7 @@ using Gtk;
 using System;
 using System.Linq;
 
-namespace GtkSystem.Windows.Forms.GTKControls.ControlBase
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class TabControlBase : Gtk.Notebook, IControlGtk
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace GtkSystem.Windows.Forms.GTKControls.ControlBase
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public delegate void PaintGraphicsEventHandler(Cairo.Context cr, Rectangle rec);
     public sealed class GtkControlOverride: IControlOverride

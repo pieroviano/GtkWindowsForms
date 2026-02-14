@@ -1,7 +1,7 @@
 using Gtk;
 
 
-namespace GtkSystem.Windows.Forms.GTKControls.ControlBase
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class UserControlBase : ScrollableBoxBase
     {

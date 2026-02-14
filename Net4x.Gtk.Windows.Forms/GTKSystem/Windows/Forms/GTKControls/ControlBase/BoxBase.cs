@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 
 
-namespace GtkSystem.Windows.Forms.GTKControls.ControlBase
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class BoxBase: Gtk.Box, IControlGtk
     {

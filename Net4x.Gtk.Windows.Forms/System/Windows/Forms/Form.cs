@@ -5,7 +5,7 @@
  */
 
 using Gtk;
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;

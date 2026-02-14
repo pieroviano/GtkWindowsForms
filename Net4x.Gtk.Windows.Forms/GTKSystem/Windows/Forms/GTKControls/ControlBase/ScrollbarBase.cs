@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 
-namespace GtkSystem.Windows.Forms.GTKControls.ControlBase
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ScrollbarBase<T>: Gtk.Scrollbar, IControlGtk
     {

@@ -1,4 +1,4 @@
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;

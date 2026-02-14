@@ -1,6 +1,6 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
-namespace GTKControls;
+namespace GtkControls;
 
 internal static class ControlExtension
 {

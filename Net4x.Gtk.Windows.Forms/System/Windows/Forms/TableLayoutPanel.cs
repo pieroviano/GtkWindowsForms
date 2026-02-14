@@ -6,12 +6,12 @@
  */
  
 using GLib;
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Drawing;
-using GTKControls;
+using GtkControls;
 using static System.Windows.Forms.TableLayoutControlCollection;
 
 namespace System.Windows.Forms

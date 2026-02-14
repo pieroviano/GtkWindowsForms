@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms
 {

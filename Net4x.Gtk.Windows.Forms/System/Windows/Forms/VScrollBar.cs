@@ -5,7 +5,7 @@
  * author:chenhongjin
  */
 using System.ComponentModel;
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms
 {

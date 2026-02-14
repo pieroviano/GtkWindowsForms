@@ -43,6 +43,126 @@ public class Program
             "Content",
             "Resources"
         }, ["GTKControls", "GTKSystem"], ["Application"]);
+        NormalizeGtkFolders(csprojPath);
+        FixTableLayoutPanelReference(csprojPath);
+        FixClass(csprojPath, Path.Combine(
+            "GtkSystem",
+            "Windows",
+            "Forms",
+            "GTKControls",
+            "ControlBase",
+            "TableLayoutPanelBase.cs"));
+        FixClass(csprojPath, Path.Combine(
+            "System",
+            "Windows",
+            "Forms",
+            "TreeView.cs"));
+        string projectDirectory = Path.GetDirectoryName(csprojPath)!;
+        RenameFolder(Path.Combine(projectDirectory, "GtkSystem", "Windows", "Forms"), 
+            "GTKControls", "GtkControls");
+    }
+
+    private static void NormalizeGtkFolders(string csprojPath)
+    {
+        string projectDirectory = Path.GetDirectoryName(csprojPath)!;
+
+        RenameFolder(projectDirectory, "GTKSystem", "GtkSystem");
+        RenameFolder(projectDirectory, "GTKControls", "GtkControls");
+
+        // After renaming, update .cs files inside GtkControls
+        string gtkControlsPath = Path.Combine(projectDirectory, "GtkControls");
+
+        if (Directory.Exists(gtkControlsPath))
+        {
+            var csFiles = Directory.GetFiles(
+                gtkControlsPath,
+                "*.cs",
+                SearchOption.AllDirectories);
+
+            foreach (var file in csFiles)
+            {
+                string content = File.ReadAllText(file);
+
+                if (content.Contains("GTKControls"))
+                {
+                    content = content.Replace("GTKControls", "GtkControls");
+                    File.WriteAllText(file, content);
+                }
+            }
+        }
+    }
+
+    private static void RenameFolder(
+        string projectDirectory,
+        string oldName,
+        string newName)
+    {
+        string oldPath = Path.Combine(projectDirectory, oldName);
+        string newPath = Path.Combine(projectDirectory, newName);
+
+        if (!Directory.Exists(oldPath))
+            return;
+
+        if (Directory.Exists(newPath))
+        {
+            var path = oldPath + Guid.NewGuid().ToString();
+            Directory.Move(oldPath, path);
+            oldPath = path;
+        }
+        if (Directory.Exists(newPath))
+            throw new InvalidOperationException(
+                $"Cannot rename '{oldName}' because '{newName}' already exists.");
+
+        // Windows is case-insensitive, so do a two-step rename if only casing changes
+        string tempPath = Path.Combine(projectDirectory, Guid.NewGuid().ToString());
+
+        Directory.Move(oldPath, tempPath);
+        Directory.Move(tempPath, newPath);
+    }
+
+    private static void FixClass(string csprojPath, string relativePath)
+    {
+        string projectDirectory = Path.GetDirectoryName(csprojPath)!;
+        string fullPath = Path.Combine(projectDirectory, relativePath);
+
+        if (!File.Exists(fullPath))
+            return;
+
+        string content = File.ReadAllText(fullPath);
+
+        if (!content.Contains("GTKControls"))
+            return;
+
+        content = content.Replace("GTKControls", "GtkControls");
+
+        File.WriteAllText(fullPath, content);
+    }
+
+    private static void FixTableLayoutPanelReference(string csprojPath)
+    {
+        string projectDirectory = Path.GetDirectoryName(csprojPath)!;
+
+        string relativePath = Path.Combine("System", "Windows", "Forms", "TableLayoutPanel.cs");
+        string fullPath = Path.Combine(projectDirectory, relativePath);
+
+        if (!File.Exists(fullPath))
+            return;
+
+        string content = File.ReadAllText(fullPath);
+
+        bool modified = false;
+
+        // 1️⃣ Replace GTKControls -> GtkControls
+        if (content.Contains("GTKControls"))
+        {
+            content = content.Replace("GTKControls", "GtkControls");
+            modified = true;
+        }
+
+        if (modified)
+        {
+            File.WriteAllText(fullPath, content);
+        }
     }
 
     private static void RunResGen(string projectName, string resourceName, string targetNamespace)

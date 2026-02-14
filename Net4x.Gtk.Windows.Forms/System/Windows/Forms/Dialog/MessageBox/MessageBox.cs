@@ -5,7 +5,7 @@
  * author:chenhongjin
  */
 using Gtk;
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;

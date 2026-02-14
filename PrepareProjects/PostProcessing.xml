@@ -79,6 +79,11 @@
 		<TargetString>pattern</TargetString>
 	</Item>
 	<Item>
+		<FileName>*.cs</FileName>
+		<SourceString>GTKControls</SourceString>
+		<TargetString>GtkControls</TargetString>
+	</Item>
+	<Item>
 		<FileName>GTKControls\Control\Control.cs</FileName>
 		<SourceString>public virtual Rectangle ClientRectangle { get { this.Widget.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline); return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</SourceString>
 		<TargetString>public virtual Rectangle ClientRectangle { get { Gdk.Rectangle allocation = this.Widget.Allocation; return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</TargetString>

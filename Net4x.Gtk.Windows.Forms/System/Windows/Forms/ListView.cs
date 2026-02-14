@@ -7,7 +7,7 @@
 
 using GLib;
 using Gtk;
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using Pango;
 using System.Collections;
 using System.Collections.Generic;

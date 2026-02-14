@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using GLib;
 
-namespace GTKControls
+namespace GtkControls
 {
     internal class GridCell
     {

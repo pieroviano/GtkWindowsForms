@@ -5,7 +5,7 @@
  * author:chenhongjin
  */
 
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -274,7 +274,7 @@ namespace System.Windows.Forms
                 Gtk.Widget parent = widget.Parent;
                 while (parent != null)
                 {
-                    if (parent is GtkSystem.Windows.Forms.GTKControls.ControlBase.IControlGtk)
+                    if (parent is GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk)
                     {
                         return parent;
                     }

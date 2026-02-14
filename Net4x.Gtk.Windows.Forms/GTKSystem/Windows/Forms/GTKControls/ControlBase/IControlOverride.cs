@@ -1,9 +1,9 @@
 using Gtk;
 using System.Drawing;
 using System.Windows.Forms;
-using static GtkSystem.Windows.Forms.GTKControls.ControlBase.GtkControlOverride;
+using static GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride;
 
-namespace GtkSystem.Windows.Forms.GTKControls.ControlBase
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public interface IControlOverride
     {

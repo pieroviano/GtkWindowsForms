@@ -5,7 +5,7 @@
  * author:chenhongjin
  */
 using Gtk;
-using GtkSystem.Windows.Forms.GTKControls.ControlBase;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Linq;

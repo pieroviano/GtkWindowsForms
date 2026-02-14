@@ -1,6 +1,6 @@
 using GLib;
 
-namespace GtkSystem.Windows.Forms.GTKControls.ControlBase
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class SwitchBoxBase : Gtk.Switch, IControlGtk
     {
