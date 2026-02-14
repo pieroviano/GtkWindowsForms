@@ -1,9 +1,11 @@
+using Prepare.Common.Languages;
+using Prepare.Common.Projects;
 using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace Prepare.Common;
+namespace Prepare.Common.IO;
 
 public static class ProjectUtility
 {

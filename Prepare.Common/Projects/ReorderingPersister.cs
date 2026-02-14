@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace PrepareProjects
+namespace Prepare.Common.Projects
 {
     internal static class ReorderingPersister
     {

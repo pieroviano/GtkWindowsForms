@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using PrepareProjects.Model;
 
-namespace PrepareProjects;
+namespace PrepareProjects.Preparation;
 
 public static class PostProcessing
 {

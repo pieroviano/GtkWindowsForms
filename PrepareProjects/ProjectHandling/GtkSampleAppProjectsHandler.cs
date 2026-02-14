@@ -1,11 +1,13 @@
 ﻿using System.Reflection;
 using System.Xml.Linq;
-using Prepare.Common;
+using Prepare.Common.IO;
+using Prepare.Common.Languages;
+using PrepareProjects.Preparation;
 using PrepareProjects.Properties;
 
-namespace PrepareProjects;
+namespace PrepareProjects.ProjectHandling;
 
-public static class GtkSampleApp
+public static class GtkSampleAppProjectsHandler
 {
     public static async Task<string> PrepareAsync(string? sourceProjectName, string? targetProjectName, string version)
     {

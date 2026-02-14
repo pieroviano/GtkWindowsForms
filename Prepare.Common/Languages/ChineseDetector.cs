@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace Prepare.Common;
+namespace Prepare.Common.Languages;
 
 public static class ChineseDetector
 {

@@ -1,6 +1,7 @@
-﻿using System.Xml.Linq;
+﻿using Prepare.Common.Projects;
+using System.Xml.Linq;
 
-namespace PrepareProjects;
+namespace Prepare.Common.IO;
 
 public class FolderFixer
 {

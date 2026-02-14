@@ -1,4 +1,4 @@
-namespace PrepareProjects;
+namespace Prepare.Common.IO;
 
 public static class PathProcessing
 {

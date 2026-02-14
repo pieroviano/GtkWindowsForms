@@ -1,11 +1,13 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Prepare.Common;
+using Prepare.Common.IO;
+using Prepare.Common.Languages;
+using PrepareProjects.Preparation;
 
-namespace PrepareProjects;
+namespace PrepareProjects.ProjectHandling;
 
-public class GtkWindowsForms
+public class GtkWindowsFormsProjectHandler
 {
     public static async Task<(string targetProjectDirectory, string sourceProjectPath, string csprojPath)> PrepareAsync(string? sourceProjectName, string? targetProjectName)
     {

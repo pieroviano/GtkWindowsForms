@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace PrepareProjects;
+namespace Prepare.Common.Projects;
 
 public static class ProjectCompilation
 {

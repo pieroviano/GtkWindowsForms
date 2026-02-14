@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Prepare.Common;
+namespace Prepare.Common.Text;
 
 public class EncodeDetector
 {

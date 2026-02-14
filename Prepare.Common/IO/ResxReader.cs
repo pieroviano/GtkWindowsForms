@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace Prepare.Common;
+namespace Prepare.Common.IO;
 
 public static class ResxReader
 {

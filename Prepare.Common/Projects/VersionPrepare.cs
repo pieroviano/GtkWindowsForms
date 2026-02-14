@@ -1,7 +1,7 @@
 using System.Xml.Linq;
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
-namespace PrepareProjects;
+namespace Prepare.Common.Projects;
 
 public static class VersionPrepare
 {

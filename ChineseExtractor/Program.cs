@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Prepare.Common;
+using Prepare.Common.Languages;
 
 namespace ChineseExtractor
 {

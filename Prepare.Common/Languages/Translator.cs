@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Prepare.Common;
+namespace Prepare.Common.Languages;
 
 public static class Translator
 {

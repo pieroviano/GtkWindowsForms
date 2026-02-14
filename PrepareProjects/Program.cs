@@ -1,5 +1,10 @@
-﻿using System.Text;
+﻿using Prepare.Common.Projects;
+using PrepareProjects.ProjectHandling;
+using System.Text;
 using System.Xml.Linq;
+using Prepare.Common;
+using Prepare.Common.IO;
+using PrepareProjects.Preparation;
 
 namespace PrepareProjects;
 
@@ -10,13 +15,13 @@ public class Program
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         var (targetDir, sourceProjectPath, csprojPath) =
-            await GtkWindowsForms.PrepareAsync("GTKSystem.Windows.Forms", "Net4x.Gtk.Windows.Forms");
-        SystemResourcesExtensions.Prepare();
+            await GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", "Net4x.Gtk.Windows.Forms");
+        SystemResourcesExtensionsProjectHandler.Prepare();
         var version = VersionPrepare.PrepareSolutionVersion();
 
-        var projectName = await GtkSampleApp.PrepareAsync("GTKWinFormsApp", "GtkWinFormsApp", version);
+        var projectName = await GtkSampleAppProjectsHandler.PrepareAsync("GTKWinFormsApp", "GtkWinFormsApp", version);
         var otherProjectName =
-            await GtkSampleApp.PrepareAsync("GTKSystemWinFormsApp11", "GtkSystemWinFormsApp11", version);
+            await GtkSampleAppProjectsHandler.PrepareAsync("GTKSystemWinFormsApp11", "GtkSystemWinFormsApp11", version);
 
         var currentDirectory = Environment.CurrentDirectory;
         Environment.CurrentDirectory = Path.Combine(targetDir, "Properties");

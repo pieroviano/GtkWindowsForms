@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Prepare.Common;
 
-namespace PrepareProjects;
+namespace PrepareProjects.Preparation;
 
 public static class ProjectPatching
 {

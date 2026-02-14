@@ -2,9 +2,9 @@ namespace PrepareProjects.Model;
 
 public class Replacement(string? fileName, string? source, string? target)
 {
-    public string FileName { get; } = fileName;
-    public string Source { get; } = source;
-    public string Target { get; } = target;
+    public string FileName { get; } = fileName ?? string.Empty;
+    public string Source { get; } = source ?? string.Empty;
+    public string Target { get; } = target ?? string.Empty;
 
     public override string ToString()
     {

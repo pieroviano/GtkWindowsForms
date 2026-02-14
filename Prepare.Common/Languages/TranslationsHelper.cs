@@ -1,6 +1,6 @@
 using System.Xml.Linq;
 
-namespace Prepare.Common;
+namespace Prepare.Common.Languages;
 
 public static class TranslationsHelper
 {

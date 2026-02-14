@@ -1,4 +1,6 @@
-namespace Prepare.Common;
+using Prepare.Common.IO;
+
+namespace Prepare.Common.Languages;
 
 public static class ProjectTranslation
 {

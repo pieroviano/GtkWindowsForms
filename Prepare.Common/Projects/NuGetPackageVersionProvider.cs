@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 
-namespace Prepare.Common;
+namespace Prepare.Common.Projects;
 
 public static class NuGetPackageVersionProvider
 {

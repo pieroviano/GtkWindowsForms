@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PrepareProjects;
+namespace Prepare.Common.Projects;
 
 public class SummaryCommentTransformer
 {

@@ -1,4 +1,4 @@
-namespace PrepareProjects;
+namespace Prepare.Common.Content;
 
 public static class Normalizer
 {

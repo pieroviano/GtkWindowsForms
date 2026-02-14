@@ -3,7 +3,7 @@ using System.CodeDom.Compiler;
 using System.Resources.Tools;
 using Microsoft.CSharp;
 
-namespace PrepareProjects;
+namespace PrepareProjects.Preparation;
 
 public static class ResxTypedClassGenerator
 {

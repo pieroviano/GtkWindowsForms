@@ -1,9 +1,10 @@
 using System.Xml.Linq;
-using Prepare.Common;
+using Prepare.Common.IO;
+using PrepareProjects.Preparation;
 
-namespace PrepareProjects;
+namespace PrepareProjects.ProjectHandling;
 
-public static class SystemResourcesExtensions
+public static class SystemResourcesExtensionsProjectHandler
 {
     public static void Prepare()
     {
