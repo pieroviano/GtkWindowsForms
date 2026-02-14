@@ -1,6 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using Prepare.Common;
+using PrepareProjects.Properties;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Prepare.Common;
 
 namespace PrepareProjects.Preparation;
 
@@ -27,6 +28,7 @@ public static class ProjectPatching
         CopyContentAndResources(targetProjectDirectory);
         CopyPropsFile(targetProjectDirectory);
         CopyTargetsFile(targetProjectDirectory);
+        CopyXmlDocFile(targetProjectDirectory);
 
         PatchResourceManagerFile(targetProjectDirectory);
 
@@ -139,6 +141,22 @@ public static class ProjectPatching
         var targetProps = Path.Combine(
             targetDir,
             "Net4x.Gtk.Windows.Forms.props");
+
+        CopyIfExists(sourceProps, targetProps);
+    }
+
+    private static void CopyXmlDocFile(string targetDir)
+    {
+        var resourcesDir = Path.GetFullPath(
+            @"..\..\..\Resources");
+
+        var sourceProps = Path.Combine(
+            resourcesDir,
+            "Net4x.Gtk.Windows.Forms.xml");
+
+        var targetProps = Path.Combine(
+            targetDir,
+            "Net4x.Gtk.Windows.Forms.xml");
 
         CopyIfExists(sourceProps, targetProps);
     }

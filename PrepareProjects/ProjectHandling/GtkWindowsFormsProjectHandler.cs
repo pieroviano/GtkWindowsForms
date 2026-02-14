@@ -13,7 +13,7 @@ public class GtkWindowsFormsProjectHandler
     {
         var (targetProjectDirectory, sourceProjectPath) = await ProjectPreparation.PrepareTargetProjectFiles(sourceProjectName, targetProjectName);
 
-        var csprojPath=ProjectPatching.PatchProject(targetProjectDirectory, sourceProjectPath, CopyResources);
+        var csprojPath = ProjectPatching.PatchProject(targetProjectDirectory, sourceProjectPath, CopyResources);
 
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetProjectDirectory,
             ProjectPatching.PatchProjectNamespace, "Resources", "translations");
