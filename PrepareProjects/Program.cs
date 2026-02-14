@@ -11,7 +11,7 @@ public class Program
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        var (targetDir, sourceProjectPath) = await GtkWindowsForms.PrepareAsync("GTKSystem.Windows.Forms", "Net4x.Gtk.Windows.Forms");
+        var (targetDir, sourceProjectPath, csprojPath) = await GtkWindowsForms.PrepareAsync("GTKSystem.Windows.Forms", "Net4x.Gtk.Windows.Forms");
         SystemResourcesExtensions.Prepare();
         var version = VersionPrepare.PrepareSolutionVersion();
 
@@ -36,6 +36,13 @@ public class Program
         File.Copy(@"..\..\..\Resources\TreeView.cs", Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
 
         ProjectCompilation.RestoreProject(sourceProjectPath);
+
+        new FolderFixer().ReorganizeFiles(csprojPath, new[]
+        {
+            "Properties",
+            "Content",
+            "Resources"
+        }, ["GTKControls", "GTKSystem"], ["Application"]);
     }
 
     private static void RunResGen(string projectName, string resourceName, string targetNamespace)

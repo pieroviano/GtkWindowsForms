@@ -22,7 +22,7 @@ public static class ProjectPatching
         return fileContent;
     }
 
-    public static void PatchProject(string targetProjectDirectory, string csprojPath, Action<string> CopyResources)
+    public static string PatchProject(string targetProjectDirectory, string csprojPath, Action<string> CopyResources)
     {
         CopyContentAndResources(targetProjectDirectory);
         CopyPropsFile(targetProjectDirectory);
@@ -38,6 +38,7 @@ public static class ProjectPatching
         ForceNetstandard(csprojPath);
         EnsureResxProcessorInNugetPackageAsTool(csprojPath);
         EnsureLocalizedResourcesItemsInProject(csprojPath);
+        return csprojPath;
     }
 
     private static void AddNoneIfMissing(

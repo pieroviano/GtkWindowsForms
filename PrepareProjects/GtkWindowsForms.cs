@@ -7,17 +7,17 @@ namespace PrepareProjects;
 
 public class GtkWindowsForms
 {
-    public static async Task<(string targetProjectDirectory, string sourceProjectPath)> PrepareAsync(string? sourceProjectName, string? targetProjectName)
+    public static async Task<(string targetProjectDirectory, string sourceProjectPath, string csprojPath)> PrepareAsync(string? sourceProjectName, string? targetProjectName)
     {
         var (targetProjectDirectory, sourceProjectPath) = await ProjectPreparation.PrepareTargetProjectFiles(sourceProjectName, targetProjectName);
 
-        ProjectPatching.PatchProject(targetProjectDirectory, sourceProjectPath, CopyResources);
+        var csprojPath=ProjectPatching.PatchProject(targetProjectDirectory, sourceProjectPath, CopyResources);
 
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetProjectDirectory,
             ProjectPatching.PatchProjectNamespace, "Resources", "translations");
 
         Console.WriteLine("Preparation completed successfully.");
-        return (targetProjectDirectory, sourceProjectPath);
+        return (targetProjectDirectory, sourceProjectPath, csprojPath);
     }
 
     private static void CopyResources(string targetProjectDirectory)
