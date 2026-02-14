@@ -1633,7 +1633,7 @@ namespace System.Windows.Forms
 
 }
 </Item>
-  <Item Source="GTKControls\ControlExtension.cs" Destination="GTKControls\ControlExtension.cs">using System.Windows.Forms;
+  <Item Source="GTKControls\ControlExtension.cs" Destination="GtkControls/ControlExtension.cs">using System.Windows.Forms;
 
 namespace GTKControls;
 
@@ -3076,7 +3076,7 @@ namespace System.Windows.Forms
 }
 
 </Item>
-  <Item Source="GTKControls\GridCell.cs" Destination="GTKControls\GridCell.cs">using System;
+  <Item Source="GTKControls\GridCell.cs" Destination="GtkControls/GridCell.cs">using System;
 using System.Collections.Generic;
 using System.Text;
 using GLib;
@@ -21973,7 +21973,7 @@ namespace System.Windows.Forms
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\BoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\BoxBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\BoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/BoxBase.cs">using Gtk;
 using System;
 using System.Drawing;
 
@@ -21998,7 +21998,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ButtonBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ButtonBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\ButtonBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ButtonBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ButtonBase: Gtk.Button, IControlGtk
     {
@@ -22024,7 +22024,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\CheckBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\CheckBoxBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\CheckBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/CheckBoxBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class CheckBoxBase : Gtk.CheckButton, IControlGtk
     {
@@ -22044,7 +22044,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\CheckedListBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\CheckedListBoxBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\CheckedListBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/CheckedListBoxBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class CheckedListBoxBase : ScrollableBoxBase
     {
@@ -22056,7 +22056,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ComboBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ComboBoxBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\ComboBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ComboBoxBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ComboBoxBase : Gtk.ComboBoxText, IControlGtk
     {
@@ -22089,7 +22089,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\DataGridViewBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\DataGridViewBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\DataGridViewBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/DataGridViewBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class DataGridViewBase : ScrollableBoxBase
     {
@@ -22112,7 +22112,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\FlowLayoutPanelBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\FlowLayoutPanelBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\FlowLayoutPanelBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/FlowLayoutPanelBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class FlowLayoutPanelBase : Gtk.FlowBox, IControlGtk
     {
@@ -22138,7 +22138,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\FormBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\FormBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\FormBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs">using Gtk;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -22271,7 +22271,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\GroupBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\GroupBoxBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\GroupBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/GroupBoxBase.cs">using Gtk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22326,7 +22326,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\GtkControlOverride.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\GtkControlOverride.cs">
+  <Item Source="GTKControls\ControlBase\GtkControlOverride.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs">
 using Gtk;
 using GtkSystem.Windows.Forms.Utility;
 using System;
@@ -22436,7 +22436,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\GtkLib.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\GtkLib.cs">using System;
+  <Item Source="GTKControls\ControlBase\GtkLib.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkLib.cs">using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -22661,7 +22661,7 @@ class FuncLoader
     }
 
 }</Item>
-  <Item Source="GTKControls\ControlBase\IControlGtk.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\IControlGtk.cs">using System;
+  <Item Source="GTKControls\ControlBase\IControlGtk.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/IControlGtk.cs">using System;
 using System.Windows.Forms;
 
 
@@ -22673,7 +22673,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\IControlOverride.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\IControlOverride.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\IControlOverride.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/IControlOverride.cs">using Gtk;
 using System.Drawing;
 using System.Windows.Forms;
 using static GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride;
@@ -22695,7 +22695,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\IScrollableBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\IScrollableBoxBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\IScrollableBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/IScrollableBoxBase.cs">using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
@@ -22713,7 +22713,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         void AddClass(string cssClass);
     }
 }</Item>
-  <Item Source="GTKControls\ControlBase\LabelBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\LabelBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\LabelBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/LabelBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class LabelBase : Gtk.Label, IControlGtk
     {
@@ -22758,7 +22758,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\LayoutBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\LayoutBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\LayoutBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/LayoutBase.cs">using Gtk;
 
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
@@ -22781,7 +22781,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\LinkLabelBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\LinkLabelBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\LinkLabelBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/LinkLabelBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class LinkLabelBase : Gtk.LinkButton, IControlGtk
     {
@@ -22808,7 +22808,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ListBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ListBoxBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\ListBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ListBoxBase.cs">using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
@@ -22828,7 +22828,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ListViewBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ListViewBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\ListViewBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ListViewBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ListViewBase : Gtk.Viewport, IControlGtk
     {
@@ -22845,7 +22845,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\MonthCalendarBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\MonthCalendarBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\MonthCalendarBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class MonthCalendarBase : Gtk.Calendar, IControlGtk
     {
@@ -22875,7 +22875,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\NumericUpDownBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\NumericUpDownBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\NumericUpDownBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/NumericUpDownBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class NumericUpDownBase : Gtk.SpinButton, IControlGtk
     {
@@ -22908,7 +22908,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\PanelBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\PanelBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\PanelBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/PanelBase.cs">using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
@@ -22929,7 +22929,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\PictureBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\PictureBoxBase.cs">using System;
+  <Item Source="GTKControls\ControlBase\PictureBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/PictureBoxBase.cs">using System;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
@@ -22966,7 +22966,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ProgressBarBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ProgressBarBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\ProgressBarBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ProgressBarBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ProgressBarBase : Gtk.LevelBar, IControlGtk
     {
@@ -22996,7 +22996,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\PropertyGridBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\PropertyGridBase.cs">/*
+  <Item Source="GTKControls\ControlBase\PropertyGridBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/PropertyGridBase.cs">/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -23044,7 +23044,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\RadioButtonBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\RadioButtonBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\RadioButtonBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/RadioButtonBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class RadioButtonBase : Gtk.RadioButton, IControlGtk
     {
@@ -23081,7 +23081,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\RichTextBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\RichTextBoxBase.cs">using System.Drawing;
+  <Item Source="GTKControls\ControlBase\RichTextBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/RichTextBoxBase.cs">using System.Drawing;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
@@ -23104,7 +23104,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ScrollableBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ScrollableBoxBase.cs">using Gdk;
+  <Item Source="GTKControls\ControlBase\ScrollableBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs">using Gdk;
 using System;
 using System.Windows.Forms;
 
@@ -23192,7 +23192,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ScrollbarBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ScrollbarBase.cs">using GLib;
+  <Item Source="GTKControls\ControlBase\ScrollbarBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollbarBase.cs">using GLib;
 using Gtk;
 using System;
 using System.Drawing;
@@ -23220,7 +23220,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\SplitContainerBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\SplitContainerBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\SplitContainerBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/SplitContainerBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class SplitContainerBase : Gtk.Paned, IControlGtk
     {
@@ -23254,7 +23254,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\SwitchBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\SwitchBoxBase.cs">using GLib;
+  <Item Source="GTKControls\ControlBase\SwitchBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/SwitchBoxBase.cs">using GLib;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
@@ -23276,7 +23276,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\TabControlBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\TabControlBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\TabControlBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/TabControlBase.cs">using Gtk;
 using System;
 using System.Linq;
 
@@ -23312,7 +23312,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\TableLayoutPanelBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\TableLayoutPanelBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\TableLayoutPanelBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/TableLayoutPanelBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class TableLayoutPanelBase : ScrollableBoxBase, IControlGtk
     {
@@ -23351,7 +23351,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\TabPageBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\TabPageBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\TabPageBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/TabPageBase.cs">using Gtk;
 using System;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
@@ -23387,7 +23387,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\TextBoxBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\TextBoxBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\TextBoxBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/TextBoxBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class TextBoxBase : Gtk.Entry, IControlGtk
     {
@@ -23418,7 +23418,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ToolStripBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ToolStripBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\ToolStripBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ToolStripBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ToolStripBase : Gtk.MenuBar, IControlGtk
     {
@@ -23445,7 +23445,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ToolStripDropDownBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ToolStripDropDownBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\ToolStripDropDownBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ToolStripDropDownBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ToolStripDropDownBase : Gtk.Menu, IControlGtk
     {
@@ -23468,7 +23468,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\TrackBarBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\TrackBarBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\TrackBarBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/TrackBarBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class TrackBarBase : Gtk.Viewport, IControlGtk
     {
@@ -23499,7 +23499,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\TreeViewBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\TreeViewBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\TreeViewBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/TreeViewBase.cs">using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
@@ -23525,7 +23525,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\UserControlBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\UserControlBase.cs">using Gtk;
+  <Item Source="GTKControls\ControlBase\UserControlBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/UserControlBase.cs">using Gtk;
 
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
@@ -23547,7 +23547,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     }
 }
 </Item>
-  <Item Source="GTKControls\ControlBase\ViewportBase.cs" Destination="GtkSystem\Windows\Forms\GtkControls\ControlBase\ViewportBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
+  <Item Source="GTKControls\ControlBase\ViewportBase.cs" Destination="GtkSystem/Windows/Forms/GtkControls/ControlBase/ViewportBase.cs">namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ViewportBase : Gtk.Viewport, IControlGtk
     {
@@ -26539,7 +26539,7 @@ namespace System.Windows.Forms
     }
 }
 </Item>
-  <Item Source="GTKControls\Designer\AssemblyRef.cs" Destination="GTKControls\Designer\AssemblyRef.cs">// Licensed to the .NET Foundation under one or more agreements.
+  <Item Source="GTKControls\Designer\AssemblyRef.cs" Destination="GtkControls/Designer/AssemblyRef.cs">// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 internal static class FXAssembly
@@ -49848,7 +49848,7 @@ namespace System.Windows.Forms
     }
 }
 </Item>
-  <Item Source="GTKControls\Utility\ImageUtility.cs" Destination="GtkSystem\Windows\Forms\Utility\ImageUtility.cs">using System;
+  <Item Source="GTKControls\Utility\ImageUtility.cs" Destination="GtkSystem/Windows/Forms/Utility/ImageUtility.cs">using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -50146,7 +50146,7 @@ namespace GtkSystem.Windows.Forms.Utility
     }
 }
 </Item>
-  <Item Source="GTKSystem\ComponentModel\ComponentResourceManager.cs" Destination="GtkSystem\ComponentModel\ComponentResourceManager.cs">using System;
+  <Item Source="GTKSystem\ComponentModel\ComponentResourceManager.cs" Destination="GtkSystem/ComponentModel/ComponentResourceManager.cs">using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -50568,7 +50568,7 @@ namespace System.Resources
     }
 }
 </Item>
-  <Item Source="GTKSystem\Resources\FastResourceComparer.cs" Destination="GtkSystem\Resources\FastResourceComparer.cs">using System.Collections;
+  <Item Source="GTKSystem\Resources\FastResourceComparer.cs" Destination="GtkSystem/Resources/FastResourceComparer.cs">using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -50768,7 +50768,7 @@ namespace System.Windows.Forms.Design
     }
 }
 </Item>
-  <Item Source="GTKSystem\Resources\ResourceManager.cs" Destination="GtkSystem\Resources\ResourceManager.cs">using System;
+  <Item Source="GTKSystem\Resources\ResourceManager.cs" Destination="GtkSystem/Resources/ResourceManager.cs">using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -51025,7 +51025,7 @@ namespace GtkSystem.Resources
         }
     }
 }</Item>
-  <Item Source="GTKSystem\Resources\ResourceTypeCode.cs" Destination="GtkSystem\Resources\ResourceTypeCode.cs">namespace GtkSystem.Resources
+  <Item Source="GTKSystem\Resources\ResourceTypeCode.cs" Destination="GtkSystem/Resources/ResourceTypeCode.cs">namespace GtkSystem.Resources
 {
 	internal enum ResourceTypeCode
 	{
@@ -53718,7 +53718,7 @@ namespace System.Resources
     }
 }
 </Item>
-  <Item Source="GTKSystem\Resources\SR.cs" Destination="GtkSystem\Resources\SR.cs">using System;
+  <Item Source="GTKSystem\Resources\SR.cs" Destination="GtkSystem/Resources/SR.cs">using System;
 //using System.Resources;
 using System.Runtime.CompilerServices;
 using GtkSystem.Resources;
@@ -61092,7 +61092,7 @@ namespace System.Drawing.Printing
 	}
 }
 </Item>
-  <Item Source="GTKSystem\Numerics\Hashing\HashHelpers.cs" Destination="GtkSystem\Numerics\Hashing\HashHelpers.cs">using System;
+  <Item Source="GTKSystem\Numerics\Hashing\HashHelpers.cs" Destination="GtkSystem/Numerics/Hashing/HashHelpers.cs">using System;
 
 namespace GtkSystem.Numerics.Hashing
 {
@@ -61108,7 +61108,7 @@ namespace GtkSystem.Numerics.Hashing
 	}
 }
 </Item>
-  <Item Source="GTKSystem\Resources\Extensions\DeserializingResourceReader.cs" Destination="GtkSystem\Resources\Extensions\DeserializingResourceReader.cs">using GtkSystem.IO;
+  <Item Source="GTKSystem\Resources\Extensions\DeserializingResourceReader.cs" Destination="GtkSystem/Resources/Extensions/DeserializingResourceReader.cs">using GtkSystem.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -62147,7 +62147,7 @@ namespace GtkSystem.Resources.Extensions
 
 }
 </Item>
-  <Item Source="GTKSystem\Resources\Extensions\PreserializedResourceWriter.cs" Destination="GtkSystem\Resources\Extensions\PreserializedResourceWriter.cs">using System;
+  <Item Source="GTKSystem\Resources\Extensions\PreserializedResourceWriter.cs" Destination="GtkSystem/Resources/Extensions/PreserializedResourceWriter.cs">using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -62934,7 +62934,7 @@ namespace GtkSystem.Resources.Extensions
 	}
 }
 </Item>
-  <Item Source="GTKSystem\Resources\Extensions\ResourceLocator.cs" Destination="GtkSystem\Resources\Extensions\ResourceLocator.cs">namespace GtkSystem.Resources.Extensions
+  <Item Source="GTKSystem\Resources\Extensions\ResourceLocator.cs" Destination="GtkSystem/Resources/Extensions/ResourceLocator.cs">namespace GtkSystem.Resources.Extensions
 {
 	internal struct ResourceLocator
 	{
@@ -62969,7 +62969,7 @@ namespace GtkSystem.Resources.Extensions
 	}
 }
 </Item>
-  <Item Source="GTKSystem\Resources\Extensions\ResXExtensions.cs" Destination="GtkSystem\Resources\Extensions\ResXExtensions.cs">using System;
+  <Item Source="GTKSystem\Resources\Extensions\ResXExtensions.cs" Destination="GtkSystem/Resources/Extensions/ResXExtensions.cs">using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
@@ -63011,7 +63011,7 @@ namespace GtkSystem.Resources.Extensions
     }
 }
 </Item>
-  <Item Source="GTKSystem\Resources\Extensions\RuntimeResourceSet.cs" Destination="GtkSystem\Resources\Extensions\RuntimeResourceSet.cs">using System;
+  <Item Source="GTKSystem\Resources\Extensions\RuntimeResourceSet.cs" Destination="GtkSystem/Resources/Extensions/RuntimeResourceSet.cs">using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
@@ -63244,7 +63244,7 @@ namespace GtkSystem.Resources.Extensions
 	}
 }
 </Item>
-  <Item Source="GTKSystem\Resources\Extensions\SerializationFormat.cs" Destination="GtkSystem\Resources\Extensions\SerializationFormat.cs">namespace GtkSystem.Resources.Extensions
+  <Item Source="GTKSystem\Resources\Extensions\SerializationFormat.cs" Destination="GtkSystem/Resources/Extensions/SerializationFormat.cs">namespace GtkSystem.Resources.Extensions
 {
 	internal enum SerializationFormat
 	{
@@ -63264,7 +63264,7 @@ namespace FxResources.System.Resources.Extensions
 	}
 }</Item>
   <Item Source="GTKSystem\Resources\Extensions\SR.resx" Destination="GTKSystem\Resources\Extensions\SR.resx" />
-  <Item Source="GTKSystem\Resources\Extensions\TypeNameComparer.cs" Destination="GtkSystem\Resources\Extensions\TypeNameComparer.cs">using System;
+  <Item Source="GTKSystem\Resources\Extensions\TypeNameComparer.cs" Destination="GtkSystem/Resources/Extensions/TypeNameComparer.cs">using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -63382,14 +63382,14 @@ namespace GtkSystem.Resources.Extensions
 	}
 }
 </Item>
-  <Item Source="GTKSystem\Resources\Extensions\UnknownType.cs" Destination="GtkSystem\Resources\Extensions\UnknownType.cs">namespace GtkSystem.Resources.Extensions
+  <Item Source="GTKSystem\Resources\Extensions\UnknownType.cs" Destination="GtkSystem/Resources/Extensions/UnknownType.cs">namespace GtkSystem.Resources.Extensions
 {
 	internal class UnknownType
 	{
 	}
 }
 </Item>
-  <Item Source="GTKSystem\Resources\IO\BinaryReaderExtensions.cs" Destination="GtkSystem\IO\Resources\IO\BinaryReaderExtensions.cs">using System;
+  <Item Source="GTKSystem\Resources\IO\BinaryReaderExtensions.cs" Destination="GtkSystem/IO/Resources/IO/BinaryReaderExtensions.cs">using System;
 using System.IO;
 using GtkSystem;
 
@@ -63418,7 +63418,7 @@ namespace GtkSystem.IO
     }
 }
 </Item>
-  <Item Source="GTKSystem\Resources\IO\PinnedBufferMemoryStream.cs" Destination="GtkSystem\IO\Resources\IO\PinnedBufferMemoryStream.cs">using System.IO;
+  <Item Source="GTKSystem\Resources\IO\PinnedBufferMemoryStream.cs" Destination="GtkSystem/IO/Resources/IO/PinnedBufferMemoryStream.cs">using System.IO;
 using System.Runtime.InteropServices;
 
 namespace GtkSystem.IO
