@@ -73,12 +73,12 @@ namespace System.Windows.Forms
                 if (string.IsNullOrWhiteSpace(ImageKey))
                 {
                     System.Drawing.Image image = ImageList.GetBitmap(ImageIndex);
-                    rendererPixbuf.Pixbuf = image.Pixbuf;
+                    if (image != null) rendererPixbuf.Pixbuf = image.Pixbuf;
                 }
                 else
                 {
                     System.Drawing.Image image = ImageList.GetBitmap(ImageKey);
-                    rendererPixbuf.Pixbuf = image.Pixbuf;
+                    if (image != null) rendererPixbuf.Pixbuf = image.Pixbuf;
                 }
             }
         }

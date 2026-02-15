@@ -221,10 +221,15 @@ using GTKControls;</TargetString>
     <SourceString>namespace GTKSystem.Resources.Extensions</SourceString>
     <TargetString>namespace GtkSystem.Resources.Extensions</TargetString>
   </Item>
+	<Item>
+		<FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+		<SourceString>using System.Windows.Forms.Design;</SourceString>
+		<TargetString>using System.Windows.Forms;</TargetString>
+	</Item>
   <Item>
-    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
-    <SourceString>using System.Windows.Forms.Design;</SourceString>
-    <TargetString>using System.Windows.Forms;</TargetString>
+    <FileName>GTKControls\TreeView.cs</FileName>
+    <SourceString>rendererPixbuf.Pixbuf = image.Pixbuf;</SourceString>
+    <TargetString>if (image != null) rendererPixbuf.Pixbuf = image.Pixbuf;</TargetString>
   </Item>
   <Item>
     <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>

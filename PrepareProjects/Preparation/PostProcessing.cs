@@ -114,10 +114,6 @@ private static int ProcessFile(string filePath, Replacement replacement, int app
         var target = replacement.Target;
 
         string newText = text;
-        if (filePath.Contains("DeserializingResourceReader") && source.Contains("$RegEx"))
-        {
-        }
-
 
         // Detect embedded $RegEx$(...)
         var markerRegex = new Regex(@"\$RegEx\$\((.*?)\)");
