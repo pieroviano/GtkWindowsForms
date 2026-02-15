@@ -1,7 +1,8 @@
+using PrepareProjects.Model;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using PrepareProjects.Model;
 
 namespace PrepareProjects.Preparation;
 
@@ -96,7 +97,7 @@ public static class PostProcessing
         // Escape remaining literal text
         sb.Append(Regex.Escape(source.Substring(lastIndex)));
 
-        return new Regex(sb.ToString());
+        return new Regex(sb.ToString(), RegexOptions.Singleline);
     }
 
 
@@ -113,6 +114,10 @@ private static int ProcessFile(string filePath, Replacement replacement, int app
         var target = replacement.Target;
 
         string newText = text;
+        if (filePath.Contains("DeserializingResourceReader") && source.Contains("$RegEx"))
+        {
+        }
+
 
         // Detect embedded $RegEx$(...)
         var markerRegex = new Regex(@"\$RegEx\$\((.*?)\)");

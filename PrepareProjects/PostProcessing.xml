@@ -1,52 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Items>
-	<Item>
-		<FileName>..\*.csproj</FileName>
-		<SourceString>&lt;Version&gt;$RegEx$([a-zA-Z0-9\-.]+)&lt;/Version&gt;</SourceString>
-		<TargetString>&lt;Version&gt;$(VersionPrefix).$(VersionSuffix)&lt;/Version&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>..\*.csproj</FileName>
-		<SourceString>&lt;PackageReference Include="GtkSharp" Version="$RegEx$([a-zA-Z0-9\-.]+)" /&gt;</SourceString>
-		<TargetString>&lt;PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" /&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>&lt;Copyright&gt;438865652@qq.com，chenhongjin&lt;/Copyright&gt;</SourceString>
-		<TargetString>&lt;Copyright&gt;Copyright (c) Piero Viano. All right reserved.&lt;/Copyright&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>&lt;RepositoryUrl&gt;https://gitee.com/easywebfactory/gtksystem-windows-forms&lt;/RepositoryUrl&gt;</SourceString>
-		<TargetString>&lt;RepositoryUrl&gt;https://bitbucket.org/piero-viano/net4x.gtk.windows.forms&lt;/RepositoryUrl&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>&lt;Nullable&gt;annotations&lt;/Nullable&gt;</SourceString>
-		<TargetString>&lt;Nullable&gt;annotations&lt;/Nullable&gt;
+  <Item>
+    <FileName>..\*.csproj</FileName>
+    <SourceString>&lt;Version&gt;$RegEx$([a-zA-Z0-9\-.]+)&lt;/Version&gt;</SourceString>
+    <TargetString>&lt;Version&gt;$(VersionPrefix).$(VersionSuffix)&lt;/Version&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\*.csproj</FileName>
+    <SourceString>&lt;PackageReference Include="GtkSharp" Version="$RegEx$([a-zA-Z0-9\-.]+)" /&gt;</SourceString>
+    <TargetString>&lt;PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" /&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;Copyright&gt;438865652@qq.com，chenhongjin&lt;/Copyright&gt;</SourceString>
+    <TargetString>&lt;Copyright&gt;Copyright (c) Piero Viano. All right reserved.&lt;/Copyright&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;RepositoryUrl&gt;https://gitee.com/easywebfactory/gtksystem-windows-forms&lt;/RepositoryUrl&gt;</SourceString>
+    <TargetString>&lt;RepositoryUrl&gt;https://bitbucket.org/piero-viano/net4x.gtk.windows.forms&lt;/RepositoryUrl&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;Nullable&gt;annotations&lt;/Nullable&gt;</SourceString>
+    <TargetString>&lt;Nullable&gt;annotations&lt;/Nullable&gt;
     &lt;RootNamespace /&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>&lt;PackageReference Include="GtkSharp"</SourceString>
-		<TargetString>&lt;PackageReference Include="System.Memory" Version="4.6.0" /&gt;
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;PackageReference Include="GtkSharp"</SourceString>
+    <TargetString>&lt;PackageReference Include="System.Memory" Version="4.6.0" /&gt;
         &lt;PackageReference Include="GtkSharp"</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>&lt;None Include="..\gtksystem-windows-forms\README.md"&gt;</SourceString>
-		<TargetString>&lt;None Include="..\PrepareProjects\Resources\README.md"&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;</SourceString>
-		<TargetString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;None Include="..\gtksystem-windows-forms\README.md"&gt;</SourceString>
+    <TargetString>&lt;None Include="..\PrepareProjects\Resources\README.md"&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;</SourceString>
+    <TargetString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;
     &lt;PackageReference Include="Net4x.NuGetUtility" Version="1.0.8" /&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>    &lt;EmbeddedResource Update="Properties\Resources.zh-Hans.resx"&gt;</SourceString>
-		<TargetString>    &lt;Compile Update="Properties\Resources.Designer.cs"&gt;
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>    &lt;EmbeddedResource Update="Properties\Resources.zh-Hans.resx"&gt;</SourceString>
+    <TargetString>    &lt;Compile Update="Properties\Resources.Designer.cs"&gt;
       &lt;DesignTime&gt;True&lt;/DesignTime&gt;
       &lt;AutoGen&gt;True&lt;/AutoGen&gt;
       &lt;DependentUpon&gt;Resources.resx&lt;/DependentUpon&gt;
@@ -57,153 +57,279 @@
       &lt;CustomToolNamespace&gt;System.Properties&lt;/CustomToolNamespace&gt;
     &lt;/EmbeddedResource&gt;
     &lt;EmbeddedResource Update="Properties\Resources.zh-Hans.resx"&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>windows\linux\macos</SourceString>
-		<TargetString>windows/linux/macos</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>&lt;Authors&gt;chenhongjin&lt;/Authors&gt;</SourceString>
-		<TargetString>&lt;Authors&gt;Piero Viano&lt;/Authors&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
-		<SourceString>&lt;Company&gt;chenhongjin&lt;/Company&gt;</SourceString>
-		<TargetString>&lt;Company&gt;Piero Viano&lt;/Company&gt;</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\Dialog\FileDialog.cs</FileName>
-		<SourceString>坽pattern}</SourceString>
-		<TargetString>pattern</TargetString>
-	</Item>
-	<Item>
-		<FileName>*.cs</FileName>
-		<SourceString>GTKControls</SourceString>
-		<TargetString>GtkControls</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\Control\Control.cs</FileName>
-		<SourceString>public virtual Rectangle ClientRectangle { get { this.Widget.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline); return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</SourceString>
-		<TargetString>public virtual Rectangle ClientRectangle { get { Gdk.Rectangle allocation = this.Widget.Allocation; return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\TabControl.cs</FileName>
-		<SourceString>tab.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline);</SourceString>
-		<TargetString>Gdk.Rectangle allocation= tab.Allocation;</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
-		<SourceString>using System.Drawing;</SourceString>
-		<TargetString>using System.Drawing;
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>windows\linux\macos</SourceString>
+    <TargetString>windows/linux/macos</TargetString>
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;Authors&gt;chenhongjin&lt;/Authors&gt;</SourceString>
+    <TargetString>&lt;Authors&gt;Piero Viano&lt;/Authors&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;Company&gt;chenhongjin&lt;/Company&gt;</SourceString>
+    <TargetString>&lt;Company&gt;Piero Viano&lt;/Company&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKControls\Dialog\FileDialog.cs</FileName>
+    <SourceString>坽pattern}</SourceString>
+    <TargetString>pattern</TargetString>
+  </Item>
+  <Item>
+    <FileName>*.cs</FileName>
+    <SourceString>GTKControls</SourceString>
+    <TargetString>GtkControls</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKControls\Control\Control.cs</FileName>
+    <SourceString>public virtual Rectangle ClientRectangle { get { this.Widget.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline); return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</SourceString>
+    <TargetString>public virtual Rectangle ClientRectangle { get { Gdk.Rectangle allocation = this.Widget.Allocation; return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKControls\TabControl.cs</FileName>
+    <SourceString>tab.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline);</SourceString>
+    <TargetString>Gdk.Rectangle allocation= tab.Allocation;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKControls\TableLayoutPanel.cs</FileName>
+    <SourceString>using System.Drawing;</SourceString>
+    <TargetString>using System.Drawing;
 using GTKControls;</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
-		<SourceString>((Gtk.Grid.GridChild)grid[control.Widget.Parent])</SourceString>
-		<TargetString>control.GetGridCell(grid)</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
-		<SourceString>((Gtk.Grid.GridChild)grid[control.Widget.Parent])</SourceString>
-		<TargetString>control.GetGridCell(grid)</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
-		<SourceString>if (grid[control.Widget.Parent] is Gtk.Grid.GridChild cell)</SourceString>
-		<TargetString>GridCell cell=control.GetGridCell(grid);
+  </Item>
+  <Item>
+    <FileName>GTKControls\TableLayoutPanel.cs</FileName>
+    <SourceString>((Gtk.Grid.GridChild)grid[control.Widget.Parent])</SourceString>
+    <TargetString>control.GetGridCell(grid)</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKControls\TableLayoutPanel.cs</FileName>
+    <SourceString>((Gtk.Grid.GridChild)grid[control.Widget.Parent])</SourceString>
+    <TargetString>control.GetGridCell(grid)</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKControls\TableLayoutPanel.cs</FileName>
+    <SourceString>if (grid[control.Widget.Parent] is Gtk.Grid.GridChild cell)</SourceString>
+    <TargetString>GridCell cell=control.GetGridCell(grid);
             if (cell != null)</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\TableLayoutPanel.cs</FileName>
-		<SourceString>if (grid[control.Widget.Parent] is Gtk.Grid.GridChild child)</SourceString>
-		<TargetString>GridCell child=control.GetGridCell(grid);
+  </Item>
+  <Item>
+    <FileName>GTKControls\TableLayoutPanel.cs</FileName>
+    <SourceString>if (grid[control.Widget.Parent] is Gtk.Grid.GridChild child)</SourceString>
+    <TargetString>GridCell child=control.GetGridCell(grid);
             if (child != null)</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\ListBox.cs</FileName>
-		<SourceString>var texts = self.ListBox.SelectedRows.Select(row => ((Gtk.Label)row.Child).Text);</SourceString>
-		<TargetString>var texts = new List&lt;string&gt;();
+  </Item>
+  <Item>
+    <FileName>GTKControls\ListBox.cs</FileName>
+    <SourceString>var texts = self.ListBox.SelectedRows.Select(row =&gt; ((Gtk.Label)row.Child).Text);</SourceString>
+    <TargetString>var texts = new List&lt;string&gt;();
                     foreach (Gtk.ListBoxRow row in self.ListBox.SelectedRows)
                     {
                         texts.Add(((Gtk.Label)row.Child).Text);
                     }</TargetString>
-	</Item>
-	<Item>
-		<FileName>..\GtkWinFormsApp\Form1.cs</FileName>
-		<SourceString>treeView1.Nodes.AddRange(childs.ToArray());</SourceString>
-		<TargetString>treeView1.Nodes.AddRange(childs.ToArray());
+  </Item>
+  <Item>
+    <FileName>..\GtkWinFormsApp\Form1.cs</FileName>
+    <SourceString>treeView1.Nodes.AddRange(childs.ToArray());</SourceString>
+    <TargetString>treeView1.Nodes.AddRange(childs.ToArray());
                 int i = 1;
                 while (treeView1.Nodes[0].Nodes[2].Nodes.Count &lt; 4)
                 {
                     treeView1.Nodes[0].Nodes[2].Nodes.Add(new TreeNode(i.ToString()));
                     i++;
                 }</TargetString>
-	</Item>
-	<Item>
-		<FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>
-		<SourceString>GtkWinFormsApp.</SourceString>
-		<TargetString>GtkSystemWinFormsApp11.</TargetString>
-	</Item>
-	<Item>
-		<FileName>..\GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
-		<SourceString>if (type.Name == "System.Windows.Forms.ImageListStreamer")</SourceString>
-		<TargetString>if (type.FullName == "System.Windows.Forms.ImageListStreamer")</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\ControlBase\FormBase.cs</FileName>
-		<SourceString> Properties.Resources.Gtk_FormBase_FormBase_Close</SourceString>
-		<TargetString> System.Properties.Resources.Gtk_FormBase_FormBase_Close</TargetString>
-	</Item>
-	<Item>
-		<FileName>..\*.cs</FileName>
-		<SourceString>"https://www.gtkapp.com</SourceString>
-		<TargetString>"https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</TargetString>
-	</Item>
-	<Item>
-		<FileName>*.cs</FileName>
-		<SourceString>GTKSystem</SourceString>
-		<TargetString>GtkSystem</TargetString>
-	</Item>
-	<Item>
-		<FileName>*.cs</FileName>
-		<SourceString>"GtkSystem.Windows.Forms.Resources</SourceString>
-		<TargetString>"Resources</TargetString>
-	</Item>
-	<Item>
-		<FileName>..\GtkWinFormsApp\Form2.Designer.cs</FileName>
-		<SourceString>label1.Text = resources.GetString("label1.Text");</SourceString>
-		<TargetString>label1.Text = GtkWinFormsApp.Properties.GtkWinFormsAppResources.Gtk_ListViewForm_Monitoring_Scroll_Event_Log;</TargetString>
-	</Item>
-	<Item>
-		<FileName>..\GtkWinFormsApp\Form2.cs</FileName>
-		<SourceString>listBox1.Items.Add( string.Format("异常警告{0} --- 机房空调运行监控事件 --- {1} ------ {2}", i, DateTime.Now.Ticks, DateTime.Now.ToString()));</SourceString>
-		<TargetString>listBox1.Items.Add(string.Format(GtkWinFormsApp.Properties.GtkWinFormsAppResources.Gtk_Exception_warning_i_Data_center_air_conditioning_operation_monitoring_event_DateTime_Now_Ticks_DateTime_Now_ToString, i, DateTime.Now.Ticks, DateTime.Now.ToString()));</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKControls\Control\Control.cs</FileName>
-		<SourceString>bgpixbuf.Save(bgimguri, "png");</SourceString>
-		<TargetString>bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });</TargetString>
-	</Item>
-	<Item>
-		<FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>
-		<SourceString>"GtkWinFormsApp.Properties.GtkWinFormsAppResources"</SourceString>
-		<TargetString>"GtkSystemWinFormsApp11.Properties.GtkWinFormsAppResources.resources"</TargetString>
-	</Item>
-	<Item>
-		<FileName>Properties\Resources.Designer.cs</FileName>
-		<SourceString>global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("System.Properties.Resources", typeof(Resources).Assembly);</SourceString>
-		<TargetString>global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);</TargetString>
-	</Item>
-	<Item>
-		<FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
-		<SourceString>if (type == typeof(System.Drawing.Bitmap))</SourceString>
-		<TargetString>if (type == typeof(Icon))
+  </Item>
+  <Item>
+    <FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>
+    <SourceString>GtkWinFormsApp.</SourceString>
+    <TargetString>GtkSystemWinFormsApp11.</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>if (type.Name == "System.Windows.Forms.ImageListStreamer")</SourceString>
+    <TargetString>if (type.FullName == "System.Windows.Forms.ImageListStreamer")</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKControls\ControlBase\FormBase.cs</FileName>
+    <SourceString> Properties.Resources.Gtk_FormBase_FormBase_Close</SourceString>
+    <TargetString> System.Properties.Resources.Gtk_FormBase_FormBase_Close</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\*.cs</FileName>
+    <SourceString>"https://www.gtkapp.com</SourceString>
+    <TargetString>"https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</TargetString>
+  </Item>
+  <Item>
+    <FileName>*.cs</FileName>
+    <SourceString>GTKSystem</SourceString>
+    <TargetString>GtkSystem</TargetString>
+  </Item>
+  <Item>
+    <FileName>*.cs</FileName>
+    <SourceString>"GtkSystem.Windows.Forms.Resources</SourceString>
+    <TargetString>"Resources</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkWinFormsApp\Form2.Designer.cs</FileName>
+    <SourceString>label1.Text = resources.GetString("label1.Text");</SourceString>
+    <TargetString>label1.Text = GtkWinFormsApp.Properties.GtkWinFormsAppResources.Gtk_ListViewForm_Monitoring_Scroll_Event_Log;</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkWinFormsApp\Form2.cs</FileName>
+    <SourceString>listBox1.Items.Add( string.Format("异常警告{0} --- 机房空调运行监控事件 --- {1} ------ {2}", i, DateTime.Now.Ticks, DateTime.Now.ToString()));</SourceString>
+    <TargetString>listBox1.Items.Add(string.Format(GtkWinFormsApp.Properties.GtkWinFormsAppResources.Gtk_Exception_warning_i_Data_center_air_conditioning_operation_monitoring_event_DateTime_Now_Ticks_DateTime_Now_ToString, i, DateTime.Now.Ticks, DateTime.Now.ToString()));</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKControls\Control\Control.cs</FileName>
+    <SourceString>bgpixbuf.Save(bgimguri, "png");</SourceString>
+    <TargetString>bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkSystemWinFormsApp11\Properties\GtkWinFormsAppResources.Designer.cs</FileName>
+    <SourceString>"GtkWinFormsApp.Properties.GtkWinFormsAppResources"</SourceString>
+    <TargetString>"GtkSystemWinFormsApp11.Properties.GtkWinFormsAppResources.resources"</TargetString>
+  </Item>
+  <Item>
+    <FileName>Properties\Resources.Designer.cs</FileName>
+    <SourceString>global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("System.Properties.Resources", typeof(Resources).Assembly);</SourceString>
+    <TargetString>global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>if (type == typeof(System.Drawing.Bitmap))</SourceString>
+    <TargetString>if (type == typeof(Icon))
                         {
                             obj = new System.Drawing.Icon((byte[])value);
                         }
                         else if (type == typeof(System.Drawing.Bitmap))
 		</TargetString>
-	</Item>
+  </Item>
+  <Item>
+    <FileName>GTKControls\ControlExtension.cs</FileName>
+    <SourceString>namespace GTKControls;</SourceString>
+    <TargetString>namespace GtkControls;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>using GTKSystem.IO;</SourceString>
+    <TargetString>using GtkSystem.IO;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>namespace GTKSystem.Resources.Extensions</SourceString>
+    <TargetString>namespace GtkSystem.Resources.Extensions</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>using System.Windows.Forms.Design;</SourceString>
+    <TargetString>using System.Windows.Forms;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>if(typeName== "System.Resources.Extensions.UnknownType")</SourceString>
+    <TargetString>if (typeName == "System.Resources.Extensions.UnknownType")</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$RegEx$(case 1:.*?break;)</SourceString>
+    <TargetString>case 1:
+                    {
+                        int size = _store.Read7BitEncodedInt();
+                        if (size &lt; 0)
+                        {
+                            throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                        }
+                        long position = _store.BaseStream.Position;
+                        if (type == typeof(System.Windows.Forms.ImageListStreamer))
+                        {
+                            byte[] byteData = _store.ReadBytes(size);
+                    
+                            obj = new ImageListStreamer(byteData);
+                        }
+                        else
+                        {
+                            obj = ReadBinaryFormattedObject();
+                        }
+                        if (type == typeof(UnknownType))
+                        {
+                            type = obj.GetType();
+                        }
+                        long streamPosition = _store.BaseStream.Position - position;
+                        if (streamPosition != size)
+                        {
+                            throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                        }
+                        break;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$RegEx$(case 2:.*?break;)</SourceString>
+    <TargetString>case 2:
+	                {
+	                    int size = _store.Read7BitEncodedInt();
+	                    if (size &lt; 0)
+		                {
+		                    throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+		                }
+		                byte[] value = _store.ReadBytes(size);
+		                TypeConverter converter = TypeDescriptor.GetConverter(type);
+		                if (converter == null)
+		                {
+		                    throw new TypeLoadException(SR.Format(SR.TypeLoadException_CannotLoadConverter, type));
+		                }
+
+		                if (type == typeof(Icon))
+		                {
+		                    obj = new System.Drawing.Icon((byte[])value);
+		                }
+		                else if (type == typeof(System.Drawing.Bitmap))
+		                {
+  		                    obj = new System.Drawing.Bitmap(value);
+		                }
+		                else
+		                {
+		                    obj = converter.ConvertFrom(value);
+		                }
+		                break;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$RegEx$(case 3:.*?break;)</SourceString>
+    <TargetString>case 3:
+                    {
+                        string text = _store.ReadString();
+                        TypeConverter converter = TypeDescriptor.GetConverter(type);
+                        if (converter == null)
+                        {
+                            throw new TypeLoadException(SR.Format(SR.TypeLoadException_CannotLoadConverter, type));
+                        }
+                        obj = converter.ConvertFromInvariantString(text);
+                        break;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$RegEx$(case 4:.*?break;)</SourceString>
+    <TargetString>case 4:
+                    {
+                        int size = _store.Read7BitEncodedInt();
+                        if (size &lt; 0)
+                        {
+                            throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                        }
+                        UnmanagedMemoryStream unmanagedMemoryStream = _store.BaseStream as UnmanagedMemoryStream;
+                        Stream stream;
+                        if (unmanagedMemoryStream != null)
+                        {
+                            stream = new UnmanagedMemoryStream(unmanagedMemoryStream.PositionPointer, size, size, FileAccess.Read);
+                        }
+                        else
+                        {
+                            byte[] buffer = _store.ReadBytes(size);
+                            stream = new MemoryStream(buffer, writable: false);
+                        }
+                        obj = Activator.CreateInstance(type, stream);
+                        break;</TargetString>
+  </Item>
 </Items>

@@ -35,14 +35,24 @@ public class Program
 
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" });
 
-        File.Copy(@"..\..\..\Resources\ControlExtension.cs",
+        if (File.Exists(@"..\..\..\Resources\ControlExtension.cs"))
+        {
+            File.Copy(@"..\..\..\Resources\ControlExtension.cs",
             Path.Combine(targetDir, @"GTKControls\ControlExtension.cs"));
+        }
         File.Copy(@"..\..\..\Resources\GridCell.cs", Path.Combine(targetDir, @"GTKControls\GridCell.cs"));
-        File.Delete(Path.Combine(targetDir, @"GTKSystem\Resources\Extensions\DeserializingResourceReader.cs"));
-        File.Copy(@"..\..\..\Resources\DeserializingResourceReader.cs",
-            Path.Combine(targetDir, @"GTKSystem\Resources\Extensions\DeserializingResourceReader.cs"));
-        File.Delete(Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
-        File.Copy(@"..\..\..\Resources\TreeView.cs", Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
+        if (File.Exists(@"..\..\..\Resources\DeserializingResourceReader.cs"))
+        {
+            var destFileName = Path.Combine(targetDir, @"GTKSystem\Resources\Extensions\DeserializingResourceReader.cs");
+            File.Delete(destFileName);
+            File.Copy(@"..\..\..\Resources\DeserializingResourceReader.cs",
+                destFileName);
+        }
+        if (File.Exists(@"..\..\..\Resources\TreeView.cs"))
+        {
+            File.Delete(Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
+            File.Copy(@"..\..\..\Resources\TreeView.cs", Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
+        }
         var transformer = new SummaryCommentTransformer();
         transformer.TransformFolder(targetDir);
         ProjectCompilation.RestoreProject(sourceProjectPath);
@@ -54,64 +64,50 @@ public class Program
             "Resources"
         }, ["GTKControls", "GTKSystem"], ["Application"]);
         NormalizeGtkFolders(csprojPath);
-        var list = new List<string>();
-        var file = FixTableLayoutPanelReference(csprojPath);
-        if (!string.IsNullOrEmpty(file))
-        {
-            list.Add(file);
-        }
+        FixTableLayoutPanelReference(csprojPath);
 
-        file = FixClass(csprojPath, Path.Combine(
+        FixClass(csprojPath, Path.Combine(
             "GtkSystem",
             "Windows",
             "Forms",
             "GTKControls",
             "ControlBase",
             "TableLayoutPanelBase.cs"));
-        if (!string.IsNullOrEmpty(file))
-        {
-            list.Add(file);
-        }
 
-        file = FixClass(csprojPath, Path.Combine(
+        FixClass(csprojPath, Path.Combine(
             "System",
             "Windows",
             "Forms",
             "TreeView.cs"));
-        if (!string.IsNullOrEmpty(file))
-        {
-            list.Add(file);
-        }
 
         var projectDirectory = Path.GetDirectoryName(csprojPath)!;
         RenameFolder(Path.Combine(projectDirectory, "GtkSystem", "Windows", "Forms"),
             "GTKControls", "GtkControls", csprojPath);
     }
 
-    private static string? FixClass(string csprojPath, string relativePath)
+    private static void FixClass(string csprojPath, string relativePath)
     {
         var projectDirectory = Path.GetDirectoryName(csprojPath)!;
         var fullPath = Path.Combine(projectDirectory, relativePath);
 
         if (!File.Exists(fullPath))
         {
-            return null;
+            return;
         }
 
         var content = File.ReadAllText(fullPath);
 
         if (!content.Contains("GTKControls"))
         {
-            return null;
+            return;
         }
 
         content = content.Replace("GTKControls", "GtkControls");
 
         File.WriteAllText(fullPath, content);
-        return fullPath;
     }
 
-    private static string? FixTableLayoutPanelReference(string csprojPath)
+    private static void FixTableLayoutPanelReference(string csprojPath)
     {
         var projectDirectory = Path.GetDirectoryName(csprojPath)!;
 
@@ -120,7 +116,7 @@ public class Program
 
         if (!File.Exists(fullPath))
         {
-            return null;
+            return;
         }
 
         var content = File.ReadAllText(fullPath);
@@ -137,10 +133,8 @@ public class Program
         if (modified)
         {
             File.WriteAllText(fullPath, content);
-            return fullPath;
+            return;
         }
-
-        return null;
     }
 
     private static void NormalizeGtkFolders(string csprojPath)

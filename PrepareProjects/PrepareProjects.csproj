@@ -9,8 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Resources\ControlExtension.cs" />
 		<Compile Remove="Resources\DeserializingResourceReader.cs" />
+		<Compile Remove="Resources\ControlExtension.cs" />
 		<Compile Remove="Resources\GridCell.cs" />
 		<Compile Remove="Resources\GtkWinFormsAppResources.Designer.cs" />
 		<Compile Remove="Resources\System.ComponentModel.cs" />
@@ -19,10 +19,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Resources\ControlExtension.cs" />
-	  <Content Include="Resources\DeserializingResourceReader.cs" />
+	  <Content Include="Resources\ControlExtension.cs" Condition="Exists('Resources\ControlExtension.cs')" />
+	  <Content Include="Resources\DeserializingResourceReader.cs" Condition="Exists('Resources\DeserializingResourceReader.cs')" />
 	  <Content Include="Resources\GridCell.cs" />
-	  <Content Include="Resources\TreeView.cs" />
+	  <Content Include="Resources\TreeView.cs" Condition="Exists('Resources\TreeView.cs')" />
 	</ItemGroup>
 
 	<ItemGroup>
