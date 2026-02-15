@@ -214,4 +214,13 @@
   <data name="FontDialog_RunDialog_Select_Font" xml:space="preserve">
     <value>Sélectionner une police</value>
   </data>
+  <data name="Print_preview" xml:space="preserve">
+  <value>Aperçu avant impression</value>
+</data>
+  <data name="Tree_directory" xml:space="preserve">
+  <value>Arborescence des répertoires</value>
+</data>
+  <data name="Print" xml:space="preserve">
+  <value>Imprimer</value>
+</data>
 </root>

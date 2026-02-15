@@ -411,6 +411,28 @@ namespace System.Properties
         }
         
         /// <summary>
+        ///     Looks up a localized string similar to Print.
+        /// </summary>
+        internal static string Gtk_Print
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Print preview.
+        /// </summary>
+        internal static string Gtk_Print_preview
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Print_preview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///     Looks up a localized string similar to File is in use and cannot be overwritten.
         /// </summary>
         internal static string Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten
@@ -418,6 +440,17 @@ namespace System.Properties
             get
             {
                 return ResourceManager.GetString("Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Tree directory.
+        /// </summary>
+        internal static string Gtk_Tree_directory
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Tree_directory", resourceCulture);
             }
         }
     }

@@ -221,9 +221,24 @@
                 Looks up a localized string similar to Yes.
             </summary>
         </member>
+        <member name="P:System.Properties.Resources.Gtk_Print">
+            <summary>
+                Looks up a localized string similar to Print.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_Print_preview">
+            <summary>
+                Looks up a localized string similar to Print preview.
+            </summary>
+        </member>
         <member name="P:System.Properties.Resources.Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten">
             <summary>
                 Looks up a localized string similar to File is in use and cannot be overwritten.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_Tree_directory">
+            <summary>
+                Looks up a localized string similar to Tree directory.
             </summary>
         </member>
         <member name="T:System.ComponentModel.Design.ComponentDesigner">

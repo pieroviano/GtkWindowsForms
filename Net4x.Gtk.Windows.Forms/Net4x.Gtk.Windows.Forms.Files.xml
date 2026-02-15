@@ -7552,7 +7552,7 @@ namespace System.Windows.Forms
             this.BorderStyle = BorderStyle.Fixed3D;
 
             Gtk.TreeViewColumn column = new Gtk.TreeViewColumn();
-            column.Title = " tree directory";
+            column.Title = Properties.Resources.Gtk_Tree_directory;
 
             renderercheckbox = new CellRendererToggle();
             renderercheckbox.Activatable = true;
@@ -8846,6 +8846,28 @@ namespace System.Properties
         }
         
         /// &lt;summary&gt;
+        ///     Looks up a localized string similar to Print.
+        /// &lt;/summary&gt;
+        internal static string Gtk_Print
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Print", resourceCulture);
+            }
+        }
+        
+        /// &lt;summary&gt;
+        ///     Looks up a localized string similar to Print preview.
+        /// &lt;/summary&gt;
+        internal static string Gtk_Print_preview
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Print_preview", resourceCulture);
+            }
+        }
+        
+        /// &lt;summary&gt;
         ///     Looks up a localized string similar to File is in use and cannot be overwritten.
         /// &lt;/summary&gt;
         internal static string Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten
@@ -8853,6 +8875,17 @@ namespace System.Properties
             get
             {
                 return ResourceManager.GetString("Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten", resourceCulture);
+            }
+        }
+        
+        /// &lt;summary&gt;
+        ///     Looks up a localized string similar to Tree directory.
+        /// &lt;/summary&gt;
+        internal static string Gtk_Tree_directory
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Tree_directory", resourceCulture);
             }
         }
     }
@@ -47821,8 +47854,8 @@ namespace System.Windows.Forms
             previewForm.ClientSize = new Size(formwidth, formheight);
             box = new Gtk.Box(Gtk.Orientation.Vertical, 15);
             Gtk.Box header = new Gtk.Box(Gtk.Orientation.Horizontal, 20);
-            header.PackStart(new Gtk.Label(" print preview"), false, false, 0);
-            Gtk.Button printbutton = new Gtk.Button(" print") { WidthRequest = 200 };
+            header.PackStart(new Gtk.Label(Properties.Resources.Gtk_Print_preview), false, false, 0);
+            Gtk.Button printbutton = new Gtk.Button(Properties.Resources.Gtk_Print) { WidthRequest = 200 };
             printbutton.ButtonReleaseEvent += Printbutton_ButtonReleaseEvent;
             header.PackEnd(printbutton, false, false, 0);
             box.PackStart(header, false, true, 0);
@@ -61372,7 +61405,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Windows.Forms.Design;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace GtkSystem.Resources.Extensions

@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdatePostProcessing", "UpdatePostProcessing\UpdatePostProcessing.csproj", "{3274A6DB-8EFC-4F1E-AE67-20178B486096}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationEnricher", "TranslationEnricher\TranslationEnricher.csproj", "{02A809AA-7A2D-4C35-A65B-F61D4B252ACA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{3274A6DB-8EFC-4F1E-AE67-20178B486096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3274A6DB-8EFC-4F1E-AE67-20178B486096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3274A6DB-8EFC-4F1E-AE67-20178B486096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A809AA-7A2D-4C35-A65B-F61D4B252ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A809AA-7A2D-4C35-A65B-F61D4B252ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A809AA-7A2D-4C35-A65B-F61D4B252ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A809AA-7A2D-4C35-A65B-F61D4B252ACA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

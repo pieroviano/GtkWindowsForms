@@ -214,4 +214,13 @@
   <data name="Gtk_FontDialog_RunDialog_Select_Font" xml:space="preserve">
     <value>Select Font</value>
   </data>
+  <data name="Gtk_Print_preview" xml:space="preserve">
+    <value>Print preview</value>
+  </data>
+  <data name="Gtk_Tree_directory" xml:space="preserve">
+    <value>Tree directory</value>
+  </data>
+  <data name="Gtk_Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
 </root>
