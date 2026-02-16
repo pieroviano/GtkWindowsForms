@@ -48,6 +48,10 @@ internal class Program
             var replacements = fileItem.ProcessItem(csprojDirectory, fileName, contents);
             if (replacements != null)
             {
+                replacements = replacements.Where(r =>
+                    !string.IsNullOrWhiteSpace(r.OldText) &&
+                    !string.IsNullOrWhiteSpace(r.NewText)
+                    && r.NewText != r.OldText).ToList();
                 var persister = new PostProcessingPersister();
                 persister.PersistReplacements(replacements, fileItem);
             }
@@ -65,7 +69,7 @@ internal class Program
 
         var resourceFiles = Directory
             .GetFiles(resourcesPath, "*.cs", SearchOption.TopDirectoryOnly).Where(
-                f=>!f.EndsWith("GtkWinFormsAppResources.Designer.cs") &&
+                f => !f.EndsWith("GtkWinFormsAppResources.Designer.cs") &&
                    !f.EndsWith("ControlExtension.cs") &&
                    !f.EndsWith("GridCell.cs") &&
                    !f.EndsWith("System.ComponentModel.cs") &&

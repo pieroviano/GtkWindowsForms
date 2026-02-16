@@ -57,6 +57,13 @@ public class Program
         transformer.TransformFolder(targetDir);
         ProjectCompilation.RestoreProject(sourceProjectPath);
 
+#pragma warning disable CS8604 // Possible null reference argument.
+        var path = Path.Combine(Path.GetDirectoryName(csprojPath), "GTKSystem.Windows.Forms.xml");
+#pragma warning restore CS8604 // Possible null reference argument.
+        if (!File.Exists(path))
+        {
+            File.Delete(path);
+        }
         new FolderFixer().ReorganizeFiles(csprojPath, new[]
         {
             "Properties",

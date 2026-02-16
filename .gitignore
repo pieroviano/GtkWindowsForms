@@ -289,3 +289,4 @@ __pycache__/
 *.xsd.cs
 obfuscar.xml
 /Directory.NuGet.json
+/Net4x.Gtk.Windows.Forms/GTKSystem.Windows.Forms.xml

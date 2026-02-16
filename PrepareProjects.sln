@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdatePostProcessing", "Upd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationEnricher", "TranslationEnricher\TranslationEnricher.csproj", "{02A809AA-7A2D-4C35-A65B-F61D4B252ACA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{DC36EC4B-4C5B-4E6B-B185-30A437033B0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DE90F2D8-6338-42F2-9576-BEFA4EA24B1C} = {DC36EC4B-4C5B-4E6B-B185-30A437033B0C}
+		{168AFD2F-0FE9-409B-B356-A32AF5784F7D} = {DC36EC4B-4C5B-4E6B-B185-30A437033B0C}
+		{4F8A08B8-9A74-44AE-AAA5-AA8D3B1517BF} = {DC36EC4B-4C5B-4E6B-B185-30A437033B0C}
+		{5FA41583-011B-43EE-8CEA-6317DCAD166F} = {DC36EC4B-4C5B-4E6B-B185-30A437033B0C}
+		{5358B762-032C-478A-BB45-305C7E5080DE} = {DC36EC4B-4C5B-4E6B-B185-30A437033B0C}
+		{02A809AA-7A2D-4C35-A65B-F61D4B252ACA} = {DC36EC4B-4C5B-4E6B-B185-30A437033B0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {550ECDF7-3F11-4F4C-94B5-DD697DFC69ED}
