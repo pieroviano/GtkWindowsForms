@@ -565,4 +565,7 @@ imageList1.Images.SetKeyName(1, "timg2.jpg");</value>
   <data name="Gtk_this_FileName" xml:space="preserve">
     <value>Properties\GtkWinFormsAppResources.resx</value>
   </data>
+  <data name="this_FileName" xml:space="preserve">
+    <value>Properties\GtkWinFormsAppResources.resx</value>
+  </data>
 </root>

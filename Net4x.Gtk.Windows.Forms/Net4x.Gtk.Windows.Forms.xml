@@ -6,7 +6,7 @@
     <members>
         <member name="T:GtkSystem.ComponentModel.ComponentResourceManager">
             <summary>
-            此为System.ComponentModel.ComponentResourceManager image retrieval implementation
+            This is System.ComponentModel.ComponentResourceManager image retrieval implementation
             Usage method： atform create new under the projectSystem.ComponentModel.ComponentResourceManager and inheritGtkSystem.ComponentModel.ComponentResourceManager that is enough
             </summary>
         </member>
@@ -221,9 +221,24 @@
                 Looks up a localized string similar to Yes.
             </summary>
         </member>
+        <member name="P:System.Properties.Resources.Gtk_Print">
+            <summary>
+                Looks up a localized string similar to Print.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_Print_preview">
+            <summary>
+                Looks up a localized string similar to Print preview.
+            </summary>
+        </member>
         <member name="P:System.Properties.Resources.Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten">
             <summary>
                 Looks up a localized string similar to File is in use and cannot be overwritten.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_Tree_directory">
+            <summary>
+                Looks up a localized string similar to Tree directory.
             </summary>
         </member>
         <member name="T:System.ComponentModel.Design.ComponentDesigner">
@@ -2799,237 +2814,19 @@
             This class cannot be inherited.
             </summary>
         </member>
-        <member name="M:System.Drawing.Font.#ctor(System.Drawing.Font,System.Drawing.FontStyle)">
-            <summary>
-            Initializes a new System.Drawing.Font that uses the specified existing System.Drawing.Font
-            and System.Drawing.FontStyle enumeration.
-            Parameter:
-            prototype:
-            The existing System.Drawing.Font from which to create the new System.Drawing.Font.
-            newStyle:
-            The System.Drawing.FontStyle to apply to the new System.Drawing.Font. Multiple
-            values of the System.Drawing.FontStyle enumeration can be combined with the OR
-            operator.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size.
-            Parameter:
-            family:
-            The System.Drawing.FontFamily of the new System.Drawing.Font.
-            emSize:
-            The em-size, in points, of the new font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size.
-            Parameter:
-            familyName:
-            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-            emSize:
-            The em-size, in points, of the new font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity or is not a valid number.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size and style.
-            Parameter:
-            family:
-            The System.Drawing.FontFamily of the new System.Drawing.Font.
-            emSize:
-            The em-size, in points, of the new font.
-            style:
-            The System.Drawing.FontStyle of the new font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            T:System.ArgumentNullException:
-            family is null.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.GraphicsUnit)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size and unit. The style
-            is set to System.Drawing.FontStyle.Regular.
-            Parameter:
-            familyName:
-            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-            emSize:
-            The em-size of the new font in the units specified by the unit parameter.
-            unit:
-            The System.Drawing.GraphicsUnit of the new font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size and style.
-            Parameter:
-            familyName:
-            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-            emSize:
-            The em-size, in points, of the new font.
-            style:
-            The System.Drawing.FontStyle of the new font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.GraphicsUnit)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size and unit. Sets the
-            style to System.Drawing.FontStyle.Regular.
-            Parameter:
-            family:
-            The System.Drawing.FontFamily of the new System.Drawing.Font.
-            emSize:
-            The em-size of the new font in the units specified by the unit parameter.
-            unit:
-            The System.Drawing.GraphicsUnit of the new font.
-            Exception:
-            T:System.ArgumentNullException:
-            family is null.
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size, style, and unit.
-            Parameter:
-            familyName:
-            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-            emSize:
-            The em-size of the new font in the units specified by the unit parameter.
-            style:
-            The System.Drawing.FontStyle of the new font.
-            unit:
-            The System.Drawing.GraphicsUnit of the new font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity or is not a valid number.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size, style, and unit.
-            Parameter:
-            family:
-            The System.Drawing.FontFamily of the new System.Drawing.Font.
-            emSize:
-            The em-size of the new font in the units specified by the unit parameter.
-            style:
-            The System.Drawing.FontStyle of the new font.
-            unit:
-            The System.Drawing.GraphicsUnit of the new font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            T:System.ArgumentNullException:
-            family is null.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size, style, unit, and
-            character set.
-            Parameter:
-            family:
-            The System.Drawing.FontFamily of the new System.Drawing.Font.
-            emSize:
-            The em-size of the new font in the units specified by the unit parameter.
-            style:
-            The System.Drawing.FontStyle of the new font.
-            unit:
-            The System.Drawing.GraphicsUnit of the new font.
-            gdiCharSet:
-            A System.Byte that specifies a GDI character set to use for the new font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            T:System.ArgumentNullException:
-            family is null.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size, style, unit, and
-            character set.
-            Parameter:
-            familyName:
-            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-            emSize:
-            The em-size of the new font in the units specified by the unit parameter.
-            style:
-            The System.Drawing.FontStyle of the new font.
-            unit:
-            The System.Drawing.GraphicsUnit of the new font.
-            gdiCharSet:
-            A System.Byte that specifies a GDI character set to use for this font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte,System.Boolean)">
-            <summary>
-            Initializes a new System.Drawing.Font using the specified size, style, unit,
-            and character set.
-            Parameter:
-            familyName:
-            A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-            emSize:
-            The em-size of the new font in the units specified by the unit parameter.
-            style:
-            The System.Drawing.FontStyle of the new font.
-            unit:
-            The System.Drawing.GraphicsUnit of the new font.
-            gdiCharSet:
-            A System.Byte that specifies a GDI character set to use for this font.
-            gdiVerticalFont:
-            A Boolean value indicating whether the new System.Drawing.Font is derived from
-            a GDI vertical font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte,System.Boolean)">
-            <summary>
-            Initializes a new System.Drawing.Font using a specified size, style, unit, and
-            character set.
-            Parameter:
-            family:
-            The System.Drawing.FontFamily of the new System.Drawing.Font.
-            emSize:
-            The em-size of the new font in the units specified by the unit parameter.
-            style:
-            The System.Drawing.FontStyle of the new font.
-            unit:
-            The System.Drawing.GraphicsUnit of the new font.
-            gdiCharSet:
-            A System.Byte that specifies a GDI character set to use for this font.
-            gdiVerticalFont:
-            A Boolean value indicating whether the new font is derived from a GDI vertical
-            font.
-            Exception:
-            T:System.ArgumentException:
-            emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-            T:System.ArgumentNullException:
-            family is null
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.Drawing.Font,System.Drawing.FontStyle)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.String,System.Single)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.GraphicsUnit)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.GraphicsUnit)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.String,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single,System.Drawing.FontStyle,System.Drawing.GraphicsUnit,System.Byte,System.Boolean)" -->
         <member name="P:System.Drawing.Font.Italic">
             <summary>
             Gets a value that indicates whether this font has the italic style applied.
@@ -3153,60 +2950,10 @@
             true if this System.Drawing.Font is underlined; otherwise, false.
             </summary>
         </member>
-        <member name="M:System.Drawing.Font.FromHdc(System.IntPtr)">
-            <summary>
-            Creates a System.Drawing.Font from the specified Windows handle to a device context.
-            Parameter:
-            hdc:
-            A handle to a device context.
-            Return result:
-            The System.Drawing.Font this method creates.
-            Exception:
-            T:System.ArgumentException:
-            The font for the specified device context is not a TrueType font.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.FromHfont(System.IntPtr)">
-            <summary>
-            Creates a System.Drawing.Font from the specified Windows handle.
-            Parameter:
-            hfont:
-            A Windows handle to a GDI font.
-            Return result:
-            The System.Drawing.Font this method creates.
-            Exception:
-            T:System.ArgumentException:
-            hfont points to an object that is not a TrueType font.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.FromLogFont(System.Object,System.IntPtr)">
-            <summary>
-            Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
-            Parameter:
-            lf:
-            An System.Object that represents the GDI LOGFONT structure from which to create
-            the System.Drawing.Font.
-            hdc:
-            A handle to a device context that contains additional information about the lf
-            structure.
-            Return result:
-            The System.Drawing.Font that this method creates.
-            Exception:
-            T:System.ArgumentException:
-            The font is not a TrueType font.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.FromLogFont(System.Object)">
-            <summary>
-            Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
-            Parameter:
-            lf:
-            An System.Object that represents the GDI LOGFONT structure from which to create
-            the System.Drawing.Font.
-            Return result:
-            The System.Drawing.Font that this method creates.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.FromHdc(System.IntPtr)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.FromHfont(System.IntPtr)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.FromLogFont(System.Object,System.IntPtr)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.FromLogFont(System.Object)" -->
         <member name="M:System.Drawing.Font.Clone">
             <summary>
             Creates an exact copy of this System.Drawing.Font.
@@ -3219,22 +2966,7 @@
             Releases all resources used by this System.Drawing.Font.
             </summary>
         </member>
-        <member name="M:System.Drawing.Font.Equals(System.Object)">
-            <summary>
-            Indicates whether the specified object is a System.Drawing.Font and has the same
-            System.Drawing.Font.FontFamily, System.Drawing.Font.GdiVerticalFont, System.Drawing.Font.GdiCharSet,
-            System.Drawing.Font.Style, System.Drawing.Font.Size, and System.Drawing.Font.Unit
-            property values as this System.Drawing.Font.
-            Parameter:
-            obj:
-            The object to test.
-            Return result:
-            true if the obj parameter is a System.Drawing.Font and has the same System.Drawing.Font.FontFamily,
-            System.Drawing.Font.GdiVerticalFont, System.Drawing.Font.GdiCharSet, System.Drawing.Font.Style,
-            System.Drawing.Font.Size, and System.Drawing.Font.Unit property values as this
-            System.Drawing.Font; otherwise, false.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.Equals(System.Object)" -->
         <member name="M:System.Drawing.Font.GetHashCode">
             <summary>
             Gets the hash code for this System.Drawing.Font.
@@ -3242,33 +2974,8 @@
             The hash code for this System.Drawing.Font.
             </summary>
         </member>
-        <member name="M:System.Drawing.Font.GetHeight(System.Single)">
-            <summary>
-            Returns the height, in pixels, of this System.Drawing.Font when drawn to a device
-            with the specified vertical resolution.
-            Parameter:
-            dpi:
-            The vertical resolution, in dots per inch, used to calculate the height of the
-            font.
-            Return result:
-            The height, in pixels, of this System.Drawing.Font.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.GetHeight(System.Drawing.Graphics)">
-            <summary>
-            Returns the line spacing, in the current unit of a specified System.Drawing.Graphics,
-            of this font.
-            Parameter:
-            graphics:
-            A System.Drawing.Graphics that holds the vertical resolution, in dots per inch,
-            of the display device as well as settings for page unit and page scale.
-            Return result:
-            The line spacing, in pixels, of this font.
-            Exception:
-            T:System.ArgumentNullException:
-            graphics is null.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.GetHeight(System.Single)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.GetHeight(System.Drawing.Graphics)" -->
         <member name="M:System.Drawing.Font.GetHeight">
             <summary>
             Returns the line spacing, in pixels, of this font.
@@ -3276,38 +2983,9 @@
             The line spacing, in pixels, of this font.
             </summary>
         </member>
-        <member name="M:System.Drawing.Font.ToHfont">
-            <summary>
-            Returns a handle to this System.Drawing.Font.
-            Return result:
-            A Windows handle to this System.Drawing.Font.
-            Exception:
-            T:System.ComponentModel.Win32Exception:
-            The operation was unsuccessful.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.ToLogFont(System.Object,System.Drawing.Graphics)">
-            <summary>
-            Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.
-            Parameter:
-            logFont:
-            An System.Object to represent the LOGFONT structure that this method creates.
-            graphics:
-            A System.Drawing.Graphics that provides additional information for the LOGFONT
-            structure.
-            Exception:
-            T:System.ArgumentNullException:
-            graphics is null.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Font.ToLogFont(System.Object)">
-            <summary>
-            Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.
-            Parameter:
-            logFont:
-            An System.Object to represent the LOGFONT structure that this method creates.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.ToHfont" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.ToLogFont(System.Object,System.Drawing.Graphics)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Font.ToLogFont(System.Object)" -->
         <member name="M:System.Drawing.Font.ToString">
             <summary>
             Returns a human-readable string representation of this System.Drawing.Font.
@@ -3321,43 +2999,9 @@
             in styles. This class cannot be inherited.
             </summary>
         </member>
-        <member name="M:System.Drawing.FontFamily.#ctor(System.Drawing.GenericFontFamilies)">
-            <summary>
-            Initializes a new System.Drawing.FontFamily from the specified generic font family.
-            Parameter:
-            genericFamily:
-            The System.Drawing.Text.GenericFontFamilies from which to create the new System.Drawing.FontFamily.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.FontFamily.#ctor(System.String)">
-            <summary>
-            Initializes a new System.Drawing.FontFamily with the specified name.
-            Parameter:
-            name:
-            The name of the new System.Drawing.FontFamily.
-            Exception:
-            T:System.ArgumentException:
-            name is an empty string (""). -or- name specifies a font that is not installed
-            on the computer running the application. -or- name specifies a font that is not
-            a TrueType font.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.FontFamily.#ctor(System.String,System.Drawing.Text.FontCollection)">
-            <summary>
-            Initializes a new System.Drawing.FontFamily in the specified System.Drawing.Text.FontCollection
-            with the specified name.
-            Parameter:
-            name:
-            A System.String that represents the name of the new System.Drawing.FontFamily.
-            fontCollection:
-            The System.Drawing.Text.FontCollection that contains this System.Drawing.FontFamily.
-            Exception:
-            T:System.ArgumentException:
-            name is an empty string (""). -or- name specifies a font that is not installed
-            on the computer running the application. -or- name specifies a font that is not
-            a TrueType font.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.#ctor(System.Drawing.GenericFontFamilies)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.#ctor(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.#ctor(System.String,System.Drawing.Text.FontCollection)" -->
         <member name="P:System.Drawing.FontFamily.GenericSansSerif">
             <summary>
             Gets a generic sans serif System.Drawing.FontFamily object.
@@ -3395,72 +3039,16 @@
             A System.String that represents the name of this System.Drawing.FontFamily.
             </summary>
         </member>
-        <member name="M:System.Drawing.FontFamily.GetFamilies(System.Drawing.Graphics)">
-            <summary>
-            Returns an array that contains all the System.Drawing.FontFamily objects available
-            for the specified graphics context.
-            Parameter:
-            graphics:
-            The System.Drawing.Graphics object from which to return System.Drawing.FontFamily
-            objects.
-            Return result:
-            An array of System.Drawing.FontFamily objects available for the specified System.Drawing.Graphics
-            object.
-            Exception:
-            T:System.ArgumentNullException:
-            graphics is null.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.GetFamilies(System.Drawing.Graphics)" -->
         <member name="M:System.Drawing.FontFamily.Dispose">
             <summary>
             Releases all resources used by this System.Drawing.FontFamily.
             </summary>
         </member>
-        <member name="M:System.Drawing.FontFamily.Equals(System.Object)">
-            <summary>
-            Indicates whether the specified object is a System.Drawing.FontFamily and is
-            identical to this System.Drawing.FontFamily.
-            Parameter:
-            obj:
-            The object to test.
-            Return result:
-            true if obj is a System.Drawing.FontFamily and is identical to this System.Drawing.FontFamily;
-            otherwise, false.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.FontFamily.GetCellAscent(System.Drawing.FontStyle)">
-            <summary>
-            Returns the cell ascent, in design units, of the System.Drawing.FontFamily of
-            the specified style.
-            Parameter:
-            style:
-            A System.Drawing.FontStyle that contains style information for the font.
-            Return result:
-            The cell ascent for this System.Drawing.FontFamily that uses the specified System.Drawing.FontStyle.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.FontFamily.GetCellDescent(System.Drawing.FontStyle)">
-            <summary>
-            Returns the cell descent, in design units, of the System.Drawing.FontFamily of
-            the specified style.
-            Parameter:
-            style:
-            A System.Drawing.FontStyle that contains style information for the font.
-            Return result:
-            The cell descent metric for this System.Drawing.FontFamily that uses the specified
-            System.Drawing.FontStyle.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.FontFamily.GetEmHeight(System.Drawing.FontStyle)">
-            <summary>
-            Gets the height, in font design units, of the em square for the specified style.
-            Parameter:
-            style:
-            The System.Drawing.FontStyle for which to get the em height.
-            Return result:
-            The height of the em square.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.Equals(System.Object)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.GetCellAscent(System.Drawing.FontStyle)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.GetCellDescent(System.Drawing.FontStyle)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.GetEmHeight(System.Drawing.FontStyle)" -->
         <member name="M:System.Drawing.FontFamily.GetHashCode">
             <summary>
             Gets a hash code for this System.Drawing.FontFamily.
@@ -3468,39 +3056,9 @@
             The hash code for this System.Drawing.FontFamily.
             </summary>
         </member>
-        <member name="M:System.Drawing.FontFamily.GetLineSpacing(System.Drawing.FontStyle)">
-            <summary>
-            Returns the line spacing, in design units, of the System.Drawing.FontFamily of
-            the specified style. The line spacing is the vertical distance between the base
-            lines of two consecutive lines of text.
-            Parameter:
-            style:
-            The System.Drawing.FontStyle to apply.
-            Return result:
-            The distance between two consecutive lines of text.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.FontFamily.GetName(System.Int32)">
-            <summary>
-            Returns the name, in the specified language, of this System.Drawing.FontFamily.
-            Parameter:
-            language:
-            The language in which the name is returned.
-            Return result:
-            A System.String that represents the name, in the specified language, of this
-            System.Drawing.FontFamily.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.FontFamily.IsStyleAvailable(System.Drawing.FontStyle)">
-            <summary>
-            Indicates whether the specified System.Drawing.FontStyle enumeration is available.
-            Parameter:
-            style:
-            The System.Drawing.FontStyle to test.
-            Return result:
-            true if the specified System.Drawing.FontStyle is available; otherwise, false.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.GetLineSpacing(System.Drawing.FontStyle)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.GetName(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.FontFamily.IsStyleAvailable(System.Drawing.FontStyle)" -->
         <member name="M:System.Drawing.FontFamily.ToString">
             <summary>
             Converts this System.Drawing.FontFamily to a human-readable string representation.
@@ -8381,16 +7939,7 @@
             Releases all resources used by this System.Drawing.Text.FontCollection.
             </summary>
         </member>
-        <member name="M:System.Drawing.Text.FontCollection.Dispose(System.Boolean)">
-            <summary>
-            Releases the unmanaged resources used by the System.Drawing.Text.FontCollection
-            and optionally releases the managed resources.
-            Parameter:
-            disposing:
-            true to release both managed and unmanaged resources; false to release only unmanaged
-            resources.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Drawing.Text.FontCollection.Dispose(System.Boolean)" -->
         <member name="T:System.Drawing.Text.HotkeyPrefix">
             <summary>Specifies the type of display for hot-key prefixes that relate to text.</summary>
         </member>
@@ -8953,64 +8502,9 @@
             Initializes an instance of the System.Windows.Forms.OpacityConverter class.
             </summary>
         </member>
-        <member name="M:System.Windows.Forms.OpacityConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
-            <summary>
-            Returns a value indicating whether this converter can convert an object of the
-            specified source type to the native type of the converter that uses the specified
-            context.
-            Parameter:
-            context:
-            A System.ComponentModel.ITypeDescriptorContext that provides information about
-            the context of a type converter.
-            sourceType:
-            The System.Type that represents the type you want to convert from.
-            Return result:
-            true if this converter can perform the conversion; otherwise, false.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.OpacityConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
-            <summary>
-            Converts the specified object to the converter's native type.
-            Parameter:
-            context:
-            A System.ComponentModel.ITypeDescriptorContext that provides information about
-            the context of a type converter.
-            culture:
-            The locale information for the conversion.
-            value:
-            The object to convert.
-            Return result:
-            An System.Object that represents the converted value.
-            Exception:
-            T:System.Exception:
-            The object was not a supported type for the conversion.
-            T:System.FormatException:
-            value could not be properly converted to type System.Double. -or- The resulting
-            converted value was less than zero percent or greater than one hundred percent.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.OpacityConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
-            <summary>
-            Converts from the converter's native type to a value of the destination type.
-            Parameter:
-            context:
-            A System.ComponentModel.ITypeDescriptorContext that provides information about
-            the context of a type converter.
-            culture:
-            The locale information for the conversion.
-            value:
-            The value to convert.
-            destinationType:
-            The type to convert the object to.
-            Return result:
-            An System.Object that represents the converted value.
-            Exception:
-            T:System.ArgumentNullException:
-            destinationType is null.
-            T:System.NotSupportedException:
-            value cannot be converted to the destinationType.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.OpacityConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.OpacityConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.OpacityConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)" -->
         <member name="P:System.Windows.Forms.BaseCollection.Count">
             <summary>
              Gets the total number of elements in a collection.
@@ -11350,30 +10844,30 @@
         </member>
         <member name="F:System.Windows.Forms.AccessibleEvents.Create">
             <summary>
-             <c>EVENT_OBJECT_CREATE</c>
-             Sent when an object has been created. 
-             The system sends this event for the following user interface elements:
-             caret, header control, list-view control, tab control, toolbar control, tree view control, 
-             and window object. Server applications send this event for their accessible objects.
+            <c>EVENT_OBJECT_CREATE</c>
+            Sent when an object has been created.
+            The system sends this event for the following user interface elements:
+            caret, header control, list-view control, tab control, toolbar control, tree view control,
+            and window object. Server applications send this event for their accessible objects.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.AccessibleEvents.Destroy">
             <summary>
-             <c>EVENT_OBJECT_DESTROY</c>
-             Sent when an object has been destroyed. 
-             The system sends this event for the following user interface elements:
-             caret, header control, list-view control, tab control, toolbar control, tree view control, 
-             and window object. Server applications send this event for their accessible objects.
+            <c>EVENT_OBJECT_DESTROY</c>
+            Sent when an object has been destroyed.
+            The system sends this event for the following user interface elements:
+            caret, header control, list-view control, tab control, toolbar control, tree view control,
+            and window object. Server applications send this event for their accessible objects.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.AccessibleEvents.Show">
             <summary>
             <c>EVENT_OBJECT_SHOW</c>
-             Sent when a hidden object is shown. 
-             The system sends this event for the following user interface elements:
-             caret, cursor, and window object. Server applications send this event for their accessible objects.
-             Clients assume that when this event is sent by a parent object, all child objects are already displayed. 
-             Therefore, server applications do not send this event for the child objects.
+            Sent when a hidden object is shown.
+            The system sends this event for the following user interface elements:
+            caret, cursor, and window object. Server applications send this event for their accessible objects.
+            Clients assume that when this event is sent by a parent object, all child objects are already displayed.
+            Therefore, server applications do not send this event for the child objects.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.AccessibleEvents.Hide">
@@ -11389,10 +10883,10 @@
         <member name="F:System.Windows.Forms.AccessibleEvents.Reorder">
             <summary>
             <c>EVENT_OBJECT_REORDER</c>
-             Sent when a container object has added, removed, or reordered its children.
-             The system sends this event for the following user interface elements: 
-             header control, list-view control, toolbar control, and window object.
-             Server applications send this event as appropriate for their accessible objects.
+            Sent when a container object has added, removed, or reordered its children.
+            The system sends this event for the following user interface elements:
+            header control, list-view control, toolbar control, and window object.
+            Server applications send this event as appropriate for their accessible objects.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.AccessibleEvents.Focus">
@@ -11405,40 +10899,40 @@
             </summary>
         </member>
         <member name="F:System.Windows.Forms.AccessibleEvents.StateChange">
-             <summary>
-              There is only one "focused" child item in a parent. This is the place
-              keystrokes are going at a given moment. Hence only send a notification
-              about where the NEW focus is going. A NEW item getting the focus already
-              implies that the OLD item is losing it.
+            <summary>
+            There is only one "focused" child item in a parent. This is the place
+            keystrokes are going at a given moment. Hence only send a notification
+            about where the NEW focus is going. A NEW item getting the focus already
+            implies that the OLD item is losing it.
             
-              SELECTION however can be multiple. Hence the different SELECTION
-              notifications. Here's when to use each:
+            SELECTION however can be multiple. Hence the different SELECTION
+            notifications. Here's when to use each:
             
-              (1) Send a SELECTION notification in the simple single selection
-              case (like the focus) when the item with the selection is
-              merely moving to a different item within a container. hwnd + ID
-              is the container control, idChildItem is the new child with the
-              selection.
+            (1) Send a SELECTION notification in the simple single selection
+            case (like the focus) when the item with the selection is
+            merely moving to a different item within a container. hwnd + ID
+            is the container control, idChildItem is the new child with the
+            selection.
             
-              (2) Send a SELECTIONADD notification when a new item has simply been added
-              to the selection within a container. This is appropriate when the
-              number of newly selected items is very small. hwnd + ID is the
-              container control, idChildItem is the new child added to the selection.
+            (2) Send a SELECTIONADD notification when a new item has simply been added
+            to the selection within a container. This is appropriate when the
+            number of newly selected items is very small. hwnd + ID is the
+            container control, idChildItem is the new child added to the selection.
             
-              (3) Send a SELECTIONREMOVE notification when a new item has simply been
-              removed from the selection within a container. This is appropriate
-              when the number of newly selected items is very small, just like
-              SELECTIONADD. hwnd + ID is the container control, idChildItem is the
-              new child removed from the selection.
+            (3) Send a SELECTIONREMOVE notification when a new item has simply been
+            removed from the selection within a container. This is appropriate
+            when the number of newly selected items is very small, just like
+            SELECTIONADD. hwnd + ID is the container control, idChildItem is the
+            new child removed from the selection.
             
-              (4) Send a SELECTIONWITHIN notification when the selected items within a
-              control have changed substantially. Rather than propagate a large
-              number of changes to reflect removal for some items, addition of
-              others, just tell somebody who cares that a lot happened. It will
-              be faster an easier for somebody watching to just turn around and
-              query the container control what the new bunch of selected items
-              are.
-             </summary>
+            (4) Send a SELECTIONWITHIN notification when the selected items within a
+            control have changed substantially. Rather than propagate a large
+            number of changes to reflect removal for some items, addition of
+            others, just tell somebody who cares that a lot happened. It will
+            be faster an easier for somebody watching to just turn around and
+            query the container control what the new bunch of selected items
+            are.
+            </summary>
         </member>
         <member name="T:System.Windows.Forms.AccessibleStates">
             <summary>
@@ -13618,30 +13112,8 @@
             Provides a System.Windows.Forms.Padding object with no padding.
             </summary>
         </member>
-        <member name="M:System.Windows.Forms.Padding.#ctor(System.Int32)">
-            <summary>
-            Initializes a new instance of the System.Windows.Forms.Padding class using the
-            supplied padding size for all edges.
-            Parameter:
-            all:
-            The number of pixels to be used for padding for all edges.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.Padding.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Initializes a new instance of the System.Windows.Forms.Padding class using a
-            separate padding size for each edge.
-            Parameter:
-            left:
-            The padding size, in pixels, for the left edge.
-            top:
-            The padding size, in pixels, for the top edge.
-            right:
-            The padding size, in pixels, for the right edge.
-            bottom:
-            The padding size, in pixels, for the bottom edge.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.Padding.#ctor(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.Padding.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)" -->
         <member name="P:System.Windows.Forms.Padding.Horizontal">
             <summary>
             Gets the combined padding for the right and left edges.
@@ -13700,43 +13172,9 @@
             padding values.
             </summary>
         </member>
-        <member name="M:System.Windows.Forms.Padding.Add(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
-            <summary>
-            Computes the sum of the two specified System.Windows.Forms.Padding values.
-            Parameter:
-            p1:
-            A System.Windows.Forms.Padding.
-            p2:
-            A System.Windows.Forms.Padding.
-            Return result:
-            A System.Windows.Forms.Padding that contains the sum of the two specified System.Windows.Forms.Padding
-            values.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.Padding.Subtract(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
-            <summary>
-            Subtracts one specified System.Windows.Forms.Padding value from another.
-            Parameter:
-            p1:
-            A System.Windows.Forms.Padding.
-            p2:
-            A System.Windows.Forms.Padding.
-            Return result:
-            A System.Windows.Forms.Padding that contains the result of the subtraction of
-            one specified System.Windows.Forms.Padding value from another.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.Padding.Equals(System.Object)">
-            <summary>
-            Determines whether the value of the specified object is equivalent to the current
-            System.Windows.Forms.Padding.
-            Parameter:
-            other:
-            The object to compare to the current System.Windows.Forms.Padding.
-            Return result:
-            true if the System.Windows.Forms.Padding objects are equivalent; otherwise, false.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.Padding.Add(System.Windows.Forms.Padding,System.Windows.Forms.Padding)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.Padding.Subtract(System.Windows.Forms.Padding,System.Windows.Forms.Padding)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.Padding.Equals(System.Object)" -->
         <member name="M:System.Windows.Forms.Padding.GetHashCode">
             <summary>
             Generates a hash code for the current System.Windows.Forms.Padding.
@@ -13751,57 +13189,10 @@
             A System.String that represents the current System.Windows.Forms.Padding.
             </summary>
         </member>
-        <member name="M:System.Windows.Forms.Padding.op_Addition(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
-            <summary>
-            Performs vector addition on the two specified System.Windows.Forms.Padding objects,
-            resulting in a new System.Windows.Forms.Padding.
-            Parameter:
-            p1:
-            The first System.Windows.Forms.Padding to add.
-            p2:
-            The second System.Windows.Forms.Padding to add.
-            Return result:
-            A new System.Windows.Forms.Padding that results from adding p1 and p2.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.Padding.op_Subtraction(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
-            <summary>
-            Performs vector subtraction on the two specified System.Windows.Forms.Padding
-            objects, resulting in a new System.Windows.Forms.Padding.
-            Parameter:
-            p1:
-            The System.Windows.Forms.Padding to subtract from (the minuend).
-            p2:
-            The System.Windows.Forms.Padding to subtract from (the subtrahend).
-            Return result:
-            The System.Windows.Forms.Padding result of subtracting p2 from p1.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.Padding.op_Equality(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
-            <summary>
-            Tests whether two specified System.Windows.Forms.Padding objects are equivalent.
-            Parameter:
-            p1:
-            A System.Windows.Forms.Padding to test.
-            p2:
-            A System.Windows.Forms.Padding to test.
-            Return result:
-            true if the two System.Windows.Forms.Padding objects are equal; otherwise, false.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.Padding.op_Inequality(System.Windows.Forms.Padding,System.Windows.Forms.Padding)">
-            <summary>
-            Tests whether two specified System.Windows.Forms.Padding objects are not equivalent.
-            Parameter:
-            p1:
-            A System.Windows.Forms.Padding to test.
-            p2:
-            A System.Windows.Forms.Padding to test.
-            Return result:
-            true if the two System.Windows.Forms.Padding objects are different; otherwise,
-            false.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.Padding.op_Addition(System.Windows.Forms.Padding,System.Windows.Forms.Padding)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.Padding.op_Subtraction(System.Windows.Forms.Padding,System.Windows.Forms.Padding)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.Padding.op_Equality(System.Windows.Forms.Padding,System.Windows.Forms.Padding)" -->
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.Padding.op_Inequality(System.Windows.Forms.Padding,System.Windows.Forms.Padding)" -->
         <member name="F:System.Windows.Forms.PictureBoxSizeMode.Normal">
             <summary>
             The image is placed in the upper-left corner of the System.Windows.Forms.PictureBox.

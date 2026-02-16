@@ -5085,4 +5085,7 @@ ImageList 所添加的图片必须放到程序目录下的Resource目录下（�
         CycOZQJrUIerIcV1dXXtHnpJn//Z
 </value>
   </data>
+  <data name="this_FileName" xml:space="preserve">
+    <value>Form2.resx</value>
+  </data>
 </root>

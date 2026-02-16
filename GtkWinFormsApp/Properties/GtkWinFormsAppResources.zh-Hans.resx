@@ -565,4 +565,7 @@ ImageList 所添加的图片必须放到程序目录下的Resource目录下（�
   <data name="Gtk_this_FileName" xml:space="preserve">
     <value>Properties\GtkWinFormsAppResources.zh-Hans.resx</value>
   </data>
+  <data name="this_FileName" xml:space="preserve">
+    <value>Properties\GtkWinFormsAppResources.zh-Hans.resx</value>
+  </data>
 </root>
