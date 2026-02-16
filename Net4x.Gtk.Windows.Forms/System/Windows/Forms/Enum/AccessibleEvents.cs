@@ -210,30 +210,30 @@ namespace System.Windows.Forms
         //          Like a button on a titlebar which is 'small' and has no children.
 
         /// <summary>
-        ///  <c>EVENT_OBJECT_CREATE</c>
-        ///  Sent when an object has been created. 
-        ///  The system sends this event for the following user interface elements:
-        ///  caret, header control, list-view control, tab control, toolbar control, tree view control, 
-        ///  and window object. Server applications send this event for their accessible objects.
+        /// <c>EVENT_OBJECT_CREATE</c>
+        /// Sent when an object has been created.
+        /// The system sends this event for the following user interface elements:
+        /// caret, header control, list-view control, tab control, toolbar control, tree view control,
+        /// and window object. Server applications send this event for their accessible objects.
         /// </summary>
         Create = 0x8000,                // hwnd + ID + idChild is created item
 
         /// <summary>
-        ///  <c>EVENT_OBJECT_DESTROY</c>
-        ///  Sent when an object has been destroyed. 
-        ///  The system sends this event for the following user interface elements:
-        ///  caret, header control, list-view control, tab control, toolbar control, tree view control, 
-        ///  and window object. Server applications send this event for their accessible objects.
+        /// <c>EVENT_OBJECT_DESTROY</c>
+        /// Sent when an object has been destroyed.
+        /// The system sends this event for the following user interface elements:
+        /// caret, header control, list-view control, tab control, toolbar control, tree view control,
+        /// and window object. Server applications send this event for their accessible objects.
         /// </summary>
         Destroy = 0x8001,               // hwnd + ID + idChild is destroyed item
 
         /// <summary>
         /// <c>EVENT_OBJECT_SHOW</c>
-        ///  Sent when a hidden object is shown. 
-        ///  The system sends this event for the following user interface elements:
-        ///  caret, cursor, and window object. Server applications send this event for their accessible objects.
-        ///  Clients assume that when this event is sent by a parent object, all child objects are already displayed. 
-        ///  Therefore, server applications do not send this event for the child objects.
+        /// Sent when a hidden object is shown.
+        /// The system sends this event for the following user interface elements:
+        /// caret, cursor, and window object. Server applications send this event for their accessible objects.
+        /// Clients assume that when this event is sent by a parent object, all child objects are already displayed.
+        /// Therefore, server applications do not send this event for the child objects.
         /// </summary>
         Show = 0x8002,                  // hwnd + ID + idChild is shown item
 
@@ -249,10 +249,10 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// <c>EVENT_OBJECT_REORDER</c>
-        ///  Sent when a container object has added, removed, or reordered its children.
-        ///  The system sends this event for the following user interface elements: 
-        ///  header control, list-view control, toolbar control, and window object.
-        ///  Server applications send this event as appropriate for their accessible objects.
+        /// Sent when a container object has added, removed, or reordered its children.
+        /// The system sends this event for the following user interface elements:
+        /// header control, list-view control, toolbar control, and window object.
+        /// Server applications send this event as appropriate for their accessible objects.
         /// </summary>
         Reorder = 0x8004,               // hwnd + ID + idChild is parent of zordering children
 
@@ -271,38 +271,38 @@ namespace System.Windows.Forms
         SelectionWithin = 0x8009,       // hwnd + ID + idChild is parent of changed selected items
 
         /// <summary>
-        ///  There is only one "focused" child item in a parent. This is the place
-        ///  keystrokes are going at a given moment. Hence only send a notification
-        ///  about where the NEW focus is going. A NEW item getting the focus already
-        ///  implies that the OLD item is losing it.
-        ///
-        ///  SELECTION however can be multiple. Hence the different SELECTION
-        ///  notifications. Here's when to use each:
-        ///
-        ///  (1) Send a SELECTION notification in the simple single selection
-        ///  case (like the focus) when the item with the selection is
-        ///  merely moving to a different item within a container. hwnd + ID
-        ///  is the container control, idChildItem is the new child with the
-        ///  selection.
-        ///
-        ///  (2) Send a SELECTIONADD notification when a new item has simply been added
-        ///  to the selection within a container. This is appropriate when the
-        ///  number of newly selected items is very small. hwnd + ID is the
-        ///  container control, idChildItem is the new child added to the selection.
-        ///
-        ///  (3) Send a SELECTIONREMOVE notification when a new item has simply been
-        ///  removed from the selection within a container. This is appropriate
-        ///  when the number of newly selected items is very small, just like
-        ///  SELECTIONADD. hwnd + ID is the container control, idChildItem is the
-        ///  new child removed from the selection.
-        ///
-        ///  (4) Send a SELECTIONWITHIN notification when the selected items within a
-        ///  control have changed substantially. Rather than propagate a large
-        ///  number of changes to reflect removal for some items, addition of
-        ///  others, just tell somebody who cares that a lot happened. It will
-        ///  be faster an easier for somebody watching to just turn around and
-        ///  query the container control what the new bunch of selected items
-        ///  are.
+        /// There is only one "focused" child item in a parent. This is the place
+        /// keystrokes are going at a given moment. Hence only send a notification
+        /// about where the NEW focus is going. A NEW item getting the focus already
+        /// implies that the OLD item is losing it.
+        /// 
+        /// SELECTION however can be multiple. Hence the different SELECTION
+        /// notifications. Here's when to use each:
+        /// 
+        /// (1) Send a SELECTION notification in the simple single selection
+        /// case (like the focus) when the item with the selection is
+        /// merely moving to a different item within a container. hwnd + ID
+        /// is the container control, idChildItem is the new child with the
+        /// selection.
+        /// 
+        /// (2) Send a SELECTIONADD notification when a new item has simply been added
+        /// to the selection within a container. This is appropriate when the
+        /// number of newly selected items is very small. hwnd + ID is the
+        /// container control, idChildItem is the new child added to the selection.
+        /// 
+        /// (3) Send a SELECTIONREMOVE notification when a new item has simply been
+        /// removed from the selection within a container. This is appropriate
+        /// when the number of newly selected items is very small, just like
+        /// SELECTIONADD. hwnd + ID is the container control, idChildItem is the
+        /// new child removed from the selection.
+        /// 
+        /// (4) Send a SELECTIONWITHIN notification when the selected items within a
+        /// control have changed substantially. Rather than propagate a large
+        /// number of changes to reflect removal for some items, addition of
+        /// others, just tell somebody who cares that a lot happened. It will
+        /// be faster an easier for somebody watching to just turn around and
+        /// query the container control what the new bunch of selected items
+        /// are.
         /// </summary>
         StateChange = 0x800A,           // hwnd + ID + idChild is item w/ state change
         LocationChange = 0x800B,        // hwnd + ID + idChild is moved/sized item

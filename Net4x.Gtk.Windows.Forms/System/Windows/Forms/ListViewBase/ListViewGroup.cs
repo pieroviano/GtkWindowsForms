@@ -1,4 +1,3 @@
-
 using Gtk;
 using System.Runtime.Serialization;
 

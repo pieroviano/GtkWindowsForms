@@ -8,7 +8,7 @@ namespace GtkSystem.ComponentModel
 {
     /// <summary>
     /// This is System.ComponentModel.ComponentResourceManager image retrieval implementation
-    /// Usage method： at form create new under the projectSystem.ComponentModel.ComponentResourceManager and inheritGtkSystem.ComponentModel.ComponentResourceManager that is enough
+    /// Usage method： atform create new under the projectSystem.ComponentModel.ComponentResourceManager and inheritGtkSystem.ComponentModel.ComponentResourceManager that is enough
     /// </summary>
     public class ComponentResourceManager : System.ComponentModel.ComponentResourceManager
     {
@@ -37,4 +37,3 @@ namespace GtkSystem.ComponentModel
     }
 
 }
-

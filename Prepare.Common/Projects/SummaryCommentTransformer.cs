@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Prepare.Common.Content;
 
 namespace Prepare.Common.Projects;
 
@@ -72,7 +73,8 @@ public class SummaryCommentTransformer
             }
         }
 
-        File.WriteAllText(filePath, output.ToString());
+        var contents = output.ToString();
+        File.WriteAllText(filePath, new XmlDocCommentFixer().Rewrite(contents));
     }
 
     private bool IsSummaryStart(string line)

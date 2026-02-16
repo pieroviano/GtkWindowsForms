@@ -16,13 +16,8 @@ namespace System.Drawing
         /// <summary>
         /// Initializes a new System.Drawing.Font that uses the specified existing System.Drawing.Font
         /// and System.Drawing.FontStyle enumeration.
-        /// Parameter:
-        /// prototype:
-        /// The existing System.Drawing.Font from which to create the new System.Drawing.Font.
-        /// newStyle:
-        /// The System.Drawing.FontStyle to apply to the new System.Drawing.Font. Multiple
-        /// values of the System.Drawing.FontStyle enumeration can be combined with the OR
-        /// operator.
+        /// <param name="prototype">The existing System.Drawing.Font from which to create the new System.Drawing.Font.</param>
+        /// <param name="newStyle">The System.Drawing.FontStyle to apply to the new System.Drawing.Font. Multiple values of the System.Drawing.FontStyle enumeration can be combined with the OR operator. </summary></param>
         /// </summary>
         public Font(Font prototype, FontStyle newStyle) : this(prototype.FontFamily, prototype.Size, newStyle, prototype.Unit, prototype.GdiCharSet, prototype.GdiVerticalFont)
         {
@@ -31,14 +26,10 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size.
-        /// Parameter:
-        /// family:
-        /// The System.Drawing.FontFamily of the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size, in points, of the new font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// <param name="family">The System.Drawing.FontFamily of the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size, in points, of the new font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number. </summary></param>
         /// </summary>
         public Font(FontFamily family, float emSize) : this(family, emSize, FontStyle.Regular, GraphicsUnit.Point, 1, false)
         {
@@ -47,47 +38,32 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size.
-        /// Parameter:
-        /// familyName:
-        /// A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size, in points, of the new font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity or is not a valid number.
+        /// <param name="familyName">A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size, in points, of the new font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity or is not a valid number. </summary></param>
         /// </summary>
         public Font(string familyName, float emSize) : this(new FontFamily(familyName), emSize, FontStyle.Regular, GraphicsUnit.Point, 1, false) { }
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size and style.
-        /// Parameter:
-        /// family:
-        /// The System.Drawing.FontFamily of the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size, in points, of the new font.
-        /// style:
-        /// The System.Drawing.FontStyle of the new font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-        /// T:System.ArgumentNullException:
-        /// family is null.
+        /// <param name="family">The System.Drawing.FontFamily of the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size, in points, of the new font.</param>
+        /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</param>
+        /// <param name="T:System.ArgumentNullException">family is null. </summary></param>
         /// </summary>
         public Font(FontFamily family, float emSize, FontStyle style) : this(family, emSize, style, GraphicsUnit.Point, 1, false) { }
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size and unit. The style
         /// is set to System.Drawing.FontStyle.Regular.
-        /// Parameter:
-        /// familyName:
-        /// A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size of the new font in the units specified by the unit parameter.
-        /// unit:
-        /// The System.Drawing.GraphicsUnit of the new font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// <param name="familyName">A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
+        /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number. </summary></param>
         /// </summary>
         public Font(string familyName, float emSize, GraphicsUnit unit) : this(new FontFamily(familyName), emSize, FontStyle.Regular, unit, 1, false)
         {
@@ -97,16 +73,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size and style.
-        /// Parameter:
-        /// familyName:
-        /// A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size, in points, of the new font.
-        /// style:
-        /// The System.Drawing.FontStyle of the new font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// <param name="familyName">A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size, in points, of the new font.</param>
+        /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number. </summary></param>
         /// </summary>
         public Font(string familyName, float emSize, FontStyle style) : this(new FontFamily(familyName), emSize, style, GraphicsUnit.Point, 1, false)
         {
@@ -118,18 +89,12 @@ namespace System.Drawing
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size and unit. Sets the
         /// style to System.Drawing.FontStyle.Regular.
-        /// Parameter:
-        /// family:
-        /// The System.Drawing.FontFamily of the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size of the new font in the units specified by the unit parameter.
-        /// unit:
-        /// The System.Drawing.GraphicsUnit of the new font.
-        /// Exception:
-        /// T:System.ArgumentNullException:
-        /// family is null.
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// <param name="family">The System.Drawing.FontFamily of the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
+        /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentNullException">family is null.</param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number. </summary></param>
         /// </summary>
         public Font(FontFamily family, float emSize, GraphicsUnit unit) : this(family, emSize, FontStyle.Regular, unit, 1, false)
         {
@@ -138,18 +103,12 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size, style, and unit.
-        /// Parameter:
-        /// familyName:
-        /// A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size of the new font in the units specified by the unit parameter.
-        /// style:
-        /// The System.Drawing.FontStyle of the new font.
-        /// unit:
-        /// The System.Drawing.GraphicsUnit of the new font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity or is not a valid number.
+        /// <param name="familyName">A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
+        /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
+        /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity or is not a valid number. </summary></param>
         /// </summary>
         public Font(string familyName, float emSize, FontStyle style, GraphicsUnit unit) : this(new FontFamily(familyName), emSize, style, unit, 1, false)
         {
@@ -157,110 +116,69 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size, style, and unit.
-        /// Parameter:
-        /// family:
-        /// The System.Drawing.FontFamily of the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size of the new font in the units specified by the unit parameter.
-        /// style:
-        /// The System.Drawing.FontStyle of the new font.
-        /// unit:
-        /// The System.Drawing.GraphicsUnit of the new font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-        /// T:System.ArgumentNullException:
-        /// family is null.
+        /// <param name="family">The System.Drawing.FontFamily of the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
+        /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
+        /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</param>
+        /// <param name="T:System.ArgumentNullException">family is null. </summary></param>
         /// </summary>
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit) : this(family, emSize, style, unit, 1, false) { }
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size, style, unit, and
         /// character set.
-        /// Parameter:
-        /// family:
-        /// The System.Drawing.FontFamily of the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size of the new font in the units specified by the unit parameter.
-        /// style:
-        /// The System.Drawing.FontStyle of the new font.
-        /// unit:
-        /// The System.Drawing.GraphicsUnit of the new font.
-        /// gdiCharSet:
-        /// A System.Byte that specifies a GDI character set to use for the new font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-        /// T:System.ArgumentNullException:
-        /// family is null.
+        /// <param name="family">The System.Drawing.FontFamily of the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
+        /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
+        /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
+        /// <param name="gdiCharSet">A System.Byte that specifies a GDI character set to use for the new font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</param>
+        /// <param name="T:System.ArgumentNullException">family is null. </summary></param>
         /// </summary>
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet) : this(family, emSize, style, unit, gdiCharSet, false) { }
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size, style, unit, and
         /// character set.
-        /// Parameter:
-        /// familyName:
-        /// A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size of the new font in the units specified by the unit parameter.
-        /// style:
-        /// The System.Drawing.FontStyle of the new font.
-        /// unit:
-        /// The System.Drawing.GraphicsUnit of the new font.
-        /// gdiCharSet:
-        /// A System.Byte that specifies a GDI character set to use for this font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// <param name="familyName">A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
+        /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
+        /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
+        /// <param name="gdiCharSet">A System.Byte that specifies a GDI character set to use for this font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number. </summary></param>
         /// </summary>
         public Font(string familyName, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet) : this(new FontFamily(familyName), emSize, style, unit, gdiCharSet, false) { }
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using the specified size, style, unit,
         /// and character set.
-        /// Parameter:
-        /// familyName:
-        /// A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size of the new font in the units specified by the unit parameter.
-        /// style:
-        /// The System.Drawing.FontStyle of the new font.
-        /// unit:
-        /// The System.Drawing.GraphicsUnit of the new font.
-        /// gdiCharSet:
-        /// A System.Byte that specifies a GDI character set to use for this font.
-        /// gdiVerticalFont:
-        /// A Boolean value indicating whether the new System.Drawing.Font is derived from
-        /// a GDI vertical font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// <param name="familyName">A string representation of the System.Drawing.FontFamily for the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
+        /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
+        /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
+        /// <param name="gdiCharSet">A System.Byte that specifies a GDI character set to use for this font.</param>
+        /// <param name="gdiVerticalFont">A Boolean value indicating whether the new System.Drawing.Font is derived from a GDI vertical font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number. </summary></param>
         /// </summary>
         public Font(string familyName, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont) :this(new FontFamily(familyName), emSize, style, unit, gdiCharSet, gdiVerticalFont) { }
 
         /// <summary>
         /// Initializes a new System.Drawing.Font using a specified size, style, unit, and
         /// character set.
-        /// Parameter:
-        /// family:
-        /// The System.Drawing.FontFamily of the new System.Drawing.Font.
-        /// emSize:
-        /// The em-size of the new font in the units specified by the unit parameter.
-        /// style:
-        /// The System.Drawing.FontStyle of the new font.
-        /// unit:
-        /// The System.Drawing.GraphicsUnit of the new font.
-        /// gdiCharSet:
-        /// A System.Byte that specifies a GDI character set to use for this font.
-        /// gdiVerticalFont:
-        /// A Boolean value indicating whether the new font is derived from a GDI vertical
-        /// font.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
-        /// T:System.ArgumentNullException:
-        /// family is null
+        /// <param name="family">The System.Drawing.FontFamily of the new System.Drawing.Font.</param>
+        /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
+        /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
+        /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
+        /// <param name="gdiCharSet">A System.Byte that specifies a GDI character set to use for this font.</param>
+        /// <param name="gdiVerticalFont">A Boolean value indicating whether the new font is derived from a GDI vertical font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</param>
+        /// <param name="T:System.ArgumentNullException">family is null </summary></param>
         /// </summary>
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont) {
             this.Name = family?.Name;
@@ -413,55 +331,36 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates a System.Drawing.Font from the specified Windows handle to a device context.
-        /// Parameter:
-        /// hdc:
-        /// A handle to a device context.
-        /// Return result:
-        /// The System.Drawing.Font this method creates.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// The font for the specified device context is not a TrueType font.
+        /// <param name="hdc">A handle to a device context.</param>
+        /// <param name="Return result">The System.Drawing.Font this method creates.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">The font for the specified device context is not a TrueType font. </summary></param>
         /// </summary>
         public static Font FromHdc(IntPtr hdc) { return new Font("Arial", 12); }
 
         /// <summary>
         /// Creates a System.Drawing.Font from the specified Windows handle.
-        /// Parameter:
-        /// hfont:
-        /// A Windows handle to a GDI font.
-        /// Return result:
-        /// The System.Drawing.Font this method creates.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// hfont points to an object that is not a TrueType font.
+        /// <param name="hfont">A Windows handle to a GDI font.</param>
+        /// <param name="Return result">The System.Drawing.Font this method creates.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">hfont points to an object that is not a TrueType font. </summary></param>
         /// </summary>
         public static Font FromHfont(IntPtr hfont) { return new Font("Arial", 12); }
 
         /// <summary>
         /// Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
-        /// Parameter:
-        /// lf:
-        /// An System.Object that represents the GDI LOGFONT structure from which to create
-        /// the System.Drawing.Font.
-        /// hdc:
-        /// A handle to a device context that contains additional information about the lf
-        /// structure.
-        /// Return result:
-        /// The System.Drawing.Font that this method creates.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// The font is not a TrueType font.
+        /// <param name="lf">An System.Object that represents the GDI LOGFONT structure from which to create the System.Drawing.Font.</param>
+        /// <param name="hdc">A handle to a device context that contains additional information about the lf structure.</param>
+        /// <param name="Return result">The System.Drawing.Font that this method creates.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">The font is not a TrueType font. </summary></param>
         /// </summary>
         public static Font FromLogFont(object lf, IntPtr hdc) { return new Font("Arial", 12); }
 
         /// <summary>
         /// Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
-        /// Parameter:
-        /// lf:
-        /// An System.Object that represents the GDI LOGFONT structure from which to create
-        /// the System.Drawing.Font.
-        /// Return result:
-        /// The System.Drawing.Font that this method creates.
+        /// <param name="lf">An System.Object that represents the GDI LOGFONT structure from which to create the System.Drawing.Font.</param>
+        /// <param name="Return result">The System.Drawing.Font that this method creates. </summary></param>
         /// </summary>
         public static Font FromLogFont(object lf) { return new Font("Arial", 12); }
 
@@ -482,14 +381,8 @@ namespace System.Drawing
         /// System.Drawing.Font.FontFamily, System.Drawing.Font.GdiVerticalFont, System.Drawing.Font.GdiCharSet,
         /// System.Drawing.Font.Style, System.Drawing.Font.Size, and System.Drawing.Font.Unit
         /// property values as this System.Drawing.Font.
-        /// Parameter:
-        /// obj:
-        /// The object to test.
-        /// Return result:
-        /// true if the obj parameter is a System.Drawing.Font and has the same System.Drawing.Font.FontFamily,
-        /// System.Drawing.Font.GdiVerticalFont, System.Drawing.Font.GdiCharSet, System.Drawing.Font.Style,
-        /// System.Drawing.Font.Size, and System.Drawing.Font.Unit property values as this
-        /// System.Drawing.Font; otherwise, false.
+        /// <param name="obj">The object to test.</param>
+        /// <param name="Return result">true if the obj parameter is a System.Drawing.Font and has the same System.Drawing.Font.FontFamily, System.Drawing.Font.GdiVerticalFont, System.Drawing.Font.GdiCharSet, System.Drawing.Font.Style, System.Drawing.Font.Size, and System.Drawing.Font.Unit property values as this System.Drawing.Font; otherwise, false. </summary></param>
         /// </summary>
         public override bool Equals(object obj) { return Equals(obj as Font); }
 
@@ -503,27 +396,18 @@ namespace System.Drawing
         /// <summary>
         /// Returns the height, in pixels, of this System.Drawing.Font when drawn to a device
         /// with the specified vertical resolution.
-        /// Parameter:
-        /// dpi:
-        /// The vertical resolution, in dots per inch, used to calculate the height of the
-        /// font.
-        /// Return result:
-        /// The height, in pixels, of this System.Drawing.Font.
+        /// <param name="dpi">The vertical resolution, in dots per inch, used to calculate the height of the font.</param>
+        /// <param name="Return result">The height, in pixels, of this System.Drawing.Font. </summary></param>
         /// </summary>
         public float GetHeight(float dpi) { return Height; }
 
         /// <summary>
         /// Returns the line spacing, in the current unit of a specified System.Drawing.Graphics,
         /// of this font.
-        /// Parameter:
-        /// graphics:
-        /// A System.Drawing.Graphics that holds the vertical resolution, in dots per inch,
-        /// of the display device as well as settings for page unit and page scale.
-        /// Return result:
-        /// The line spacing, in pixels, of this font.
-        /// Exception:
-        /// T:System.ArgumentNullException:
-        /// graphics is null.
+        /// <param name="graphics">A System.Drawing.Graphics that holds the vertical resolution, in dots per inch, of the display device as well as settings for page unit and page scale.</param>
+        /// <param name="Return result">The line spacing, in pixels, of this font.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentNullException">graphics is null. </summary></param>
         /// </summary>
         public float GetHeight(Graphics graphics) { return Height; }
 
@@ -544,31 +428,22 @@ namespace System.Drawing
         /// Returns a handle to this System.Drawing.Font.
         /// Return result:
         /// A Windows handle to this System.Drawing.Font.
-        /// Exception:
-        /// T:System.ComponentModel.Win32Exception:
-        /// The operation was unsuccessful.
+        /// <exception cref="System.ComponentModel.Win32Exception">The operation was unsuccessful. </summary></exception>
         /// </summary>
         public IntPtr ToHfont() { return IntPtr.Zero; }
 
         /// <summary>
         /// Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.
-        /// Parameter:
-        /// logFont:
-        /// An System.Object to represent the LOGFONT structure that this method creates.
-        /// graphics:
-        /// A System.Drawing.Graphics that provides additional information for the LOGFONT
-        /// structure.
-        /// Exception:
-        /// T:System.ArgumentNullException:
-        /// graphics is null.
+        /// <param name="logFont">An System.Object to represent the LOGFONT structure that this method creates.</param>
+        /// <param name="graphics">A System.Drawing.Graphics that provides additional information for the LOGFONT structure.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentNullException">graphics is null. </summary></param>
         /// </summary>
         public void ToLogFont(object logFont, Graphics graphics) { }
 
         /// <summary>
         /// Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.
-        /// Parameter:
-        /// logFont:
-        /// An System.Object to represent the LOGFONT structure that this method creates.
+        /// <param name="logFont">An System.Object to represent the LOGFONT structure that this method creates. </summary></param>
         /// </summary>
         public void ToLogFont(object logFont) { }
 

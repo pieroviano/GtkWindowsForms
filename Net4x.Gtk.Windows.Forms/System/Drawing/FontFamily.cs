@@ -1,4 +1,3 @@
-
 using Gdk;
 using System.Drawing.Text;
 using System.Linq;
@@ -15,9 +14,7 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new System.Drawing.FontFamily from the specified generic font family.
-        /// Parameter:
-        /// genericFamily:
-        /// The System.Drawing.Text.GenericFontFamilies from which to create the new System.Drawing.FontFamily.
+        /// <param name="genericFamily">The System.Drawing.Text.GenericFontFamilies from which to create the new System.Drawing.FontFamily. </summary></param>
         /// </summary>
         public FontFamily(GenericFontFamilies genericFamily) : this(genericFamily.ToString(), null)
         {
@@ -25,30 +22,19 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new System.Drawing.FontFamily with the specified name.
-        /// Parameter:
-        /// name:
-        /// The name of the new System.Drawing.FontFamily.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// name is an empty string (""). -or- name specifies a font that is not installed
-        /// on the computer running the application. -or- name specifies a font that is not
-        /// a TrueType font.
+        /// <param name="name">The name of the new System.Drawing.FontFamily.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">name is an empty string (""). -or- name specifies a font that is not installed on the computer running the application. -or- name specifies a font that is not a TrueType font. </summary></param>
         /// </summary>
         public FontFamily(string name) : this(name, null) { }
 
         /// <summary>
         /// Initializes a new System.Drawing.FontFamily in the specified System.Drawing.Text.FontCollection
         /// with the specified name.
-        /// Parameter:
-        /// name:
-        /// A System.String that represents the name of the new System.Drawing.FontFamily.
-        /// fontCollection:
-        /// The System.Drawing.Text.FontCollection that contains this System.Drawing.FontFamily.
-        /// Exception:
-        /// T:System.ArgumentException:
-        /// name is an empty string (""). -or- name specifies a font that is not installed
-        /// on the computer running the application. -or- name specifies a font that is not
-        /// a TrueType font.
+        /// <param name="name">A System.String that represents the name of the new System.Drawing.FontFamily.</param>
+        /// <param name="fontCollection">The System.Drawing.Text.FontCollection that contains this System.Drawing.FontFamily.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentException">name is an empty string (""). -or- name specifies a font that is not installed on the computer running the application. -or- name specifies a font that is not a TrueType font. </summary></param>
         /// </summary>
         public FontFamily(string name, FontCollection fontCollection) {
             this.Name = name;
@@ -98,16 +84,10 @@ namespace System.Drawing
         /// <summary>
         /// Returns an array that contains all the System.Drawing.FontFamily objects available
         /// for the specified graphics context.
-        /// Parameter:
-        /// graphics:
-        /// The System.Drawing.Graphics object from which to return System.Drawing.FontFamily
-        /// objects.
-        /// Return result:
-        /// An array of System.Drawing.FontFamily objects available for the specified System.Drawing.Graphics
-        /// object.
-        /// Exception:
-        /// T:System.ArgumentNullException:
-        /// graphics is null.
+        /// <param name="graphics">The System.Drawing.Graphics object from which to return System.Drawing.FontFamily objects.</param>
+        /// <param name="Return result">An array of System.Drawing.FontFamily objects available for the specified System.Drawing.Graphics object.</param>
+        /// <param name="Exception"></param>
+        /// <param name="T:System.ArgumentNullException">graphics is null. </summary></param>
         /// </summary>
         [Obsolete("Do not use method GetFamilies, use property Families instead")]
         public static FontFamily[] GetFamilies(Graphics graphics) { return new FontFamily[0]; }
@@ -120,45 +100,31 @@ namespace System.Drawing
         /// <summary>
         /// Indicates whether the specified object is a System.Drawing.FontFamily and is
         /// identical to this System.Drawing.FontFamily.
-        /// Parameter:
-        /// obj:
-        /// The object to test.
-        /// Return result:
-        /// true if obj is a System.Drawing.FontFamily and is identical to this System.Drawing.FontFamily;
-        /// otherwise, false.
+        /// <param name="obj">The object to test.</param>
+        /// <param name="Return result">true if obj is a System.Drawing.FontFamily and is identical to this System.Drawing.FontFamily; otherwise, false. </summary></param>
         /// </summary>
         public override bool Equals(object obj) { return Equals(obj as FontFamily); }
 
         /// <summary>
         /// Returns the cell ascent, in design units, of the System.Drawing.FontFamily of
         /// the specified style.
-        /// Parameter:
-        /// style:
-        /// A System.Drawing.FontStyle that contains style information for the font.
-        /// Return result:
-        /// The cell ascent for this System.Drawing.FontFamily that uses the specified System.Drawing.FontStyle.
+        /// <param name="style">A System.Drawing.FontStyle that contains style information for the font.</param>
+        /// <param name="Return result">The cell ascent for this System.Drawing.FontFamily that uses the specified System.Drawing.FontStyle. </summary></param>
         /// </summary>
         public int GetCellAscent(FontStyle style) { return 0; }
 
         /// <summary>
         /// Returns the cell descent, in design units, of the System.Drawing.FontFamily of
         /// the specified style.
-        /// Parameter:
-        /// style:
-        /// A System.Drawing.FontStyle that contains style information for the font.
-        /// Return result:
-        /// The cell descent metric for this System.Drawing.FontFamily that uses the specified
-        /// System.Drawing.FontStyle.
+        /// <param name="style">A System.Drawing.FontStyle that contains style information for the font.</param>
+        /// <param name="Return result">The cell descent metric for this System.Drawing.FontFamily that uses the specified System.Drawing.FontStyle. </summary></param>
         /// </summary>
         public int GetCellDescent(FontStyle style) { return 0; }
 
         /// <summary>
         /// Gets the height, in font design units, of the em square for the specified style.
-        /// Parameter:
-        /// style:
-        /// The System.Drawing.FontStyle for which to get the em height.
-        /// Return result:
-        /// The height of the em square.
+        /// <param name="style">The System.Drawing.FontStyle for which to get the em height.</param>
+        /// <param name="Return result">The height of the em square. </summary></param>
         /// </summary>
         public int GetEmHeight(FontStyle style) { return 0; }
 
@@ -173,32 +139,22 @@ namespace System.Drawing
         /// Returns the line spacing, in design units, of the System.Drawing.FontFamily of
         /// the specified style. The line spacing is the vertical distance between the base
         /// lines of two consecutive lines of text.
-        /// Parameter:
-        /// style:
-        /// The System.Drawing.FontStyle to apply.
-        /// Return result:
-        /// The distance between two consecutive lines of text.
+        /// <param name="style">The System.Drawing.FontStyle to apply.</param>
+        /// <param name="Return result">The distance between two consecutive lines of text. </summary></param>
         /// </summary>
         public int GetLineSpacing(FontStyle style) { return 0; }
 
         /// <summary>
         /// Returns the name, in the specified language, of this System.Drawing.FontFamily.
-        /// Parameter:
-        /// language:
-        /// The language in which the name is returned.
-        /// Return result:
-        /// A System.String that represents the name, in the specified language, of this
-        /// System.Drawing.FontFamily.
+        /// <param name="language">The language in which the name is returned.</param>
+        /// <param name="Return result">A System.String that represents the name, in the specified language, of this System.Drawing.FontFamily. </summary></param>
         /// </summary>
         public string GetName(int language) { return Name; }
 
         /// <summary>
         /// Indicates whether the specified System.Drawing.FontStyle enumeration is available.
-        /// Parameter:
-        /// style:
-        /// The System.Drawing.FontStyle to test.
-        /// Return result:
-        /// true if the specified System.Drawing.FontStyle is available; otherwise, false.
+        /// <param name="style">The System.Drawing.FontStyle to test.</param>
+        /// <param name="Return result">true if the specified System.Drawing.FontStyle is available; otherwise, false. </summary></param>
         /// </summary>
         public bool IsStyleAvailable(FontStyle style) { return false; }
 

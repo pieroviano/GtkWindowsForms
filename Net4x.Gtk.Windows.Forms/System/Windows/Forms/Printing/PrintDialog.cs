@@ -1,4 +1,3 @@
-
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.ComponentModel;
