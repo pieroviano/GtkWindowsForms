@@ -40,7 +40,6 @@ internal static class FileItemExtensions
 
         if (!string.IsNullOrWhiteSpace(currentDifferences))
         {
-            Console.WriteLine($"Differences found for {fileName}:");
             var parser = new GitDiffParser();
             var replacements = parser.Parse(currentDifferences);
             return replacements;

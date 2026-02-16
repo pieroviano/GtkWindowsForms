@@ -14,6 +14,13 @@ public class Program
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
+#if REFERENCE
+        var fullPath = Path.GetFullPath(Path.Combine(@"..\..\..\..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.csproj"));
+        if (File.Exists(fullPath))
+        {
+            ProcessFileUpdatesProcessor.ProcessFilesUpdates(fullPath);
+        }
+#endif
         var (targetDir, sourceProjectPath, csprojPath) =
             await GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", "Net4x.Gtk.Windows.Forms");
         SystemResourcesExtensionsProjectHandler.Prepare();
