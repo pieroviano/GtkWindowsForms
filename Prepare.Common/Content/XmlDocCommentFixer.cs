@@ -98,7 +98,15 @@ public sealed class XmlDocCommentFixer
                 $"{indent}/// <exception cref=\"{ex.Type}\">{ex.Description}</exception>");
         }
 
-        sb.AppendLine($"{indent}/// </summary>");
+        foreach (var ret in content.Returns)
+        {
+            sb.AppendLine($"{indent}/// <returns>{ret?.Replace("</summary>","")}</returns>");
+        }
+
+        if (!sb.ToString().Contains("</summary>"))
+        {
+            sb.AppendLine($"{indent}/// </summary>");
+        }
         return sb.ToString();
     }
 
@@ -112,48 +120,68 @@ public sealed class XmlDocCommentFixer
     private static DocContent ExtractContent(List<string> block)
     {
         var content = new DocContent();
-        int i = 0;
+        var section = DocSection.Summary;
 
+        int i = 0;
         while (i < block.Count)
         {
             var line = Clean(block[i]);
 
-            if (line == "<summary>" || line == "</summary>")
+            if (line is "<summary>" or "</summary>")
             {
                 i++;
                 continue;
             }
 
-            if (line == "Parameter:")
+            if (line.Equals("Parameter:", StringComparison.OrdinalIgnoreCase))
             {
-                i++;
-                while (i < block.Count && block[i].Trim().EndsWith(":"))
-                {
-                    var name = Clean(block[i]).TrimEnd(':');
-                    i++;
-
-                    var desc = ReadDescription(block, ref i);
-                    content.Parameters.Add(new DocParam(name, desc));
-                }
-                continue;
+                section = DocSection.Parameters; i++; continue;
             }
 
-            if (line == "Exception:")
+            if (line.Equals("Exception:", StringComparison.OrdinalIgnoreCase))
             {
-                i++;
-                if (i < block.Count && Clean(block[i]).StartsWith("T:"))
-                {
-                    var type = Clean(block[i]).Substring(2).TrimEnd(':');
-                    i++;
-
-                    var desc = ReadDescription(block, ref i);
-                    content.Exceptions.Add(new DocException(type, desc));
-                }
-                continue;
+                section = DocSection.Exceptions; i++; continue;
             }
 
-            content.SummaryLines.Add(line);
-            i++;
+            if (line.Equals("Return result:", StringComparison.OrdinalIgnoreCase))
+            {
+                section = DocSection.Returns; i++; continue;
+            }
+
+            if (line.Equals("Remarks:", StringComparison.OrdinalIgnoreCase))
+            {
+                section = DocSection.Remarks; i++; continue;
+            }
+
+            switch (section)
+            {
+                case DocSection.Summary:
+                    content.SummaryLines.Add(line); i++; break;
+
+                case DocSection.Parameters:
+                    if (!line.EndsWith(":")) { i++; break; }
+                    var paramName = line.TrimEnd(':'); i++;
+                    var paramDesc = ReadDescription(block, ref i);
+                    content.Parameters.Add(new DocParam(paramName, paramDesc));
+                    break;
+
+                case DocSection.Exceptions:
+                    if (!line.StartsWith("T:") || !line.EndsWith(":")) { i++; break; }
+                    var exType = line.Substring(2).TrimEnd(':'); i++;
+                    var exDesc = ReadDescription(block, ref i);
+                    content.Exceptions.Add(new DocException(exType, exDesc));
+                    break;
+
+                case DocSection.Returns:
+                    var retDesc = ReadDescription(block, ref i);
+                    content.Returns.Add(retDesc);
+                    break;
+
+                case DocSection.Remarks:
+                    var remarkDesc = ReadDescription(block, ref i);
+                    content.Remarks.Add(remarkDesc);
+                    break;
+            }
         }
 
         return content;
@@ -167,7 +195,7 @@ public sealed class XmlDocCommentFixer
         {
             var line = Clean(block[index]);
 
-            if (line.EndsWith(":") || line == "Parameter:" || line == "Exception:")
+            if (line.EndsWith(":") || line == "Parameter:" || line == "Exception:" || line == "Return result:" || line == "Remarks:")
                 break;
 
             sb.Append(line).Append(' ');

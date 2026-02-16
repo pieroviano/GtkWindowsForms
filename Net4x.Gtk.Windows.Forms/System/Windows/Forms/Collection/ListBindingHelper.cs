@@ -6,7 +6,9 @@ namespace System.Windows.Forms;
 
 internal class ListBindingHelper
 {
-    /// <summary>Returns the name of an underlying list, given a data source and optional <see cref="T:System.ComponentModel.PropertyDescriptor" /> array.</summary>
+    /// <summary>
+    /// Returns the name of an underlying list, given a data source and optional <see cref="T:System.ComponentModel.PropertyDescriptor" /> array.
+    /// </summary>
     /// <returns>The name of the list in the data source, as described by <paramref name="listAccessors" />, orthe name of the data source type.</returns>
     /// <param name="list">The data source to examine for the list name.</param>
     /// <param name="listAccessors">An array of <see cref="T:System.ComponentModel.PropertyDescriptor" /> objects to find in the data source. This can be null.</param>
@@ -57,7 +59,9 @@ internal class ListBindingHelper
         return name;
     }
 
-    /// <summary>Returns the data type of the items in the specified data source.</summary>
+    /// <summary>
+    /// Returns the data type of the items in the specified data source.
+    /// </summary>
     /// <returns>For complex data binding, the <see cref="T:System.Type" /> of the items represented by the <paramref name="dataMember" /> in the data source; otherwise, the <see cref="T:System.Type" /> of the item in the list itself.</returns>
     /// <param name="dataSource">The data source to examine for items. </param>
     /// <param name="dataMember">The optional name of the property on the data source that is to be used as the data member. This can be null.</param>
@@ -84,7 +88,9 @@ internal class ListBindingHelper
         return GetListItemType(propertyDescriptor.PropertyType);
     }
 
-    /// <summary>Returns an object, typically a list, from the evaluation of a specified data source and optional data member.</summary>
+    /// <summary>
+    /// Returns an object, typically a list, from the evaluation of a specified data source and optional data member.
+    /// </summary>
     /// <returns>An <see cref="T:System.Object" /> representing the underlying list if it was found; otherwise, <paramref name="dataSource" />.</returns>
     /// <param name="dataSource">The data source from which to find the list.</param>
     /// <param name="dataMember">The name of the data source property that contains the list. This can be null.</param>
@@ -358,7 +364,9 @@ internal class ListBindingHelper
         return listItemPropertiesByInstance;
     }
 
-    /// <summary>Returns the <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> that describes the properties of an item type contained in the specified data member of a data source. Uses the specified <see cref="T:System.ComponentModel.PropertyDescriptor" /> array to indicate which properties to examine.</summary>
+    /// <summary>
+    /// Returns the <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> that describes the properties of an item type contained in the specified data member of a data source. Uses the specified <see cref="T:System.ComponentModel.PropertyDescriptor" /> array to indicate which properties to examine.
+    /// </summary>
     /// <returns>The <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> describing the properties of an item type contained in a collection property of the specified data source.</returns>
     /// <param name="dataSource">The data source to be examined for property information.</param>
     /// <param name="dataMember">The optional data member to be examined for property information. This can be null.</param>

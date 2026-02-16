@@ -10,9 +10,8 @@ namespace System.Drawing
 
         /// <summary>
         /// Returns the handle to a Windows device context.
-        /// Return result:
-        /// An System.IntPtr representing the handle of a device context.
         /// </summary>
+        /// <returns>An System.IntPtr representing the handle of a device context. </returns>
         IntPtr GetHdc();
 
         /// <summary>

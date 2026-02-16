@@ -9,9 +9,8 @@ namespace System.Drawing.Text
 
         /// <summary>
         /// Gets the array of System.Drawing.FontFamily objects associated with this System.Drawing.Text.FontCollection.
-        /// Return result:
-        /// An array of System.Drawing.FontFamily objects.
         /// </summary>
+        /// <returns>An array of System.Drawing.FontFamily objects. </returns>
         public FontFamily[] Families { get; }
 
 
@@ -24,7 +23,6 @@ namespace System.Drawing.Text
         /// Releases the unmanaged resources used by the System.Drawing.Text.FontCollection
         /// and optionally releases the managed resources.
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources. </summary></param>
-        /// </summary>
         protected virtual void Dispose(bool disposing) { }
     }
 }

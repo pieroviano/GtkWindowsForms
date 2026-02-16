@@ -17,7 +17,6 @@ namespace System.Windows.Forms
     {
         /// <devdov>
         ///  Parameter units are pixels(dots) per inch.
-        /// </summary>
         internal DpiChangedEventArgs(int old, Message m)
         {
 

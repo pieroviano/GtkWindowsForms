@@ -2,13 +2,17 @@ using System.Runtime.InteropServices;
 
 namespace System.Drawing.Imaging
 {
-	/// <summary>Contains information about a windows-format (WMF) metafile.</summary>
+	/// <summary>
+	/// Contains information about a windows-format (WMF) metafile.
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential, Pack = 2)]
 	public sealed class MetaHeader
 	{
 		private WmfMetaHeader _data;
 
-		/// <summary>Gets or sets the type of the associated <see cref="T:System.Drawing.Imaging.Metafile" /> object.</summary>
+		/// <summary>
+		/// Gets or sets the type of the associated <see cref="T:System.Drawing.Imaging.Metafile" /> object.
+		/// </summary>
 		/// <returns>The type of the associated <see cref="T:System.Drawing.Imaging.Metafile" /> object.</returns>
 		public short Type
 		{
@@ -22,7 +26,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Gets or sets the size, in bytes, of the header file.</summary>
+		/// <summary>
+		/// Gets or sets the size, in bytes, of the header file.
+		/// </summary>
 		/// <returns>The size, in bytes, of the header file.</returns>
 		public short HeaderSize
 		{
@@ -36,7 +42,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Gets or sets the version number of the header format.</summary>
+		/// <summary>
+		/// Gets or sets the version number of the header format.
+		/// </summary>
 		/// <returns>The version number of the header format.</returns>
 		public short Version
 		{
@@ -50,7 +58,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Gets or sets the size, in bytes, of the associated <see cref="T:System.Drawing.Imaging.Metafile" /> object.</summary>
+		/// <summary>
+		/// Gets or sets the size, in bytes, of the associated <see cref="T:System.Drawing.Imaging.Metafile" /> object.
+		/// </summary>
 		/// <returns>The size, in bytes, of the associated <see cref="T:System.Drawing.Imaging.Metafile" /> object.</returns>
 		public int Size
 		{
@@ -64,7 +74,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Gets or sets the maximum number of objects that exist in the <see cref="T:System.Drawing.Imaging.Metafile" /> object at the same time.</summary>
+		/// <summary>
+		/// Gets or sets the maximum number of objects that exist in the <see cref="T:System.Drawing.Imaging.Metafile" /> object at the same time.
+		/// </summary>
 		/// <returns>The maximum number of objects that exist in the <see cref="T:System.Drawing.Imaging.Metafile" /> object at the same time.</returns>
 		public short NoObjects
 		{
@@ -78,7 +90,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Gets or sets the size, in bytes, of the largest record in the associated <see cref="T:System.Drawing.Imaging.Metafile" /> object.</summary>
+		/// <summary>
+		/// Gets or sets the size, in bytes, of the largest record in the associated <see cref="T:System.Drawing.Imaging.Metafile" /> object.
+		/// </summary>
 		/// <returns>The size, in bytes, of the largest record in the associated <see cref="T:System.Drawing.Imaging.Metafile" /> object.</returns>
 		public int MaxRecord
 		{
@@ -92,7 +106,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Not used. Always returns 0.</summary>
+		/// <summary>
+		/// Not used. Always returns 0.
+		/// </summary>
 		/// <returns>Always 0.</returns>
 		public short NoParameters
 		{
@@ -106,7 +122,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Initializes a new instance of the <see langword="MetaHeader" /> class.</summary>
+		/// <summary>
+		/// Initializes a new instance of the <see langword="MetaHeader" /> class.
+		/// </summary>
 		public MetaHeader()
 		{
 		}

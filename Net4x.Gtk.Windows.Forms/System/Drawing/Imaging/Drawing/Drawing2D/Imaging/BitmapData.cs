@@ -3,7 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace System.Drawing.Imaging
 {
-	/// <summary>Specifies the attributes of a bitmap image. The <see cref="T:System.Drawing.Imaging.BitmapData" /> class is used by the <see cref="Overload:System.Drawing.Bitmap.LockBits" /> and <see cref="M:System.Drawing.Bitmap.UnlockBits(System.Drawing.Imaging.BitmapData)" /> methods of the <see cref="T:System.Drawing.Bitmap" /> class. Not inheritable.</summary>
+	/// <summary>
+	/// Specifies the attributes of a bitmap image. The <see cref="T:System.Drawing.Imaging.BitmapData" /> class is used by the <see cref="Overload:System.Drawing.Bitmap.LockBits" /> and <see cref="M:System.Drawing.Bitmap.UnlockBits(System.Drawing.Imaging.BitmapData)" /> methods of the <see cref="T:System.Drawing.Bitmap" /> class. Not inheritable.
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public sealed class BitmapData
 	{
@@ -19,7 +21,9 @@ namespace System.Drawing.Imaging
 
 		private int _reserved;
 
-		/// <summary>Gets or sets the pixel width of the <see cref="T:System.Drawing.Bitmap" /> object. This can also be thought of as the number of pixels in one scan line.</summary>
+		/// <summary>
+		/// Gets or sets the pixel width of the <see cref="T:System.Drawing.Bitmap" /> object. This can also be thought of as the number of pixels in one scan line.
+		/// </summary>
 		/// <returns>The pixel width of the <see cref="T:System.Drawing.Bitmap" /> object.</returns>
 		public int Width
 		{
@@ -33,7 +37,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Gets or sets the pixel height of the <see cref="T:System.Drawing.Bitmap" /> object. Also sometimes referred to as the number of scan lines.</summary>
+		/// <summary>
+		/// Gets or sets the pixel height of the <see cref="T:System.Drawing.Bitmap" /> object. Also sometimes referred to as the number of scan lines.
+		/// </summary>
 		/// <returns>The pixel height of the <see cref="T:System.Drawing.Bitmap" /> object.</returns>
 		public int Height
 		{
@@ -47,7 +53,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Gets or sets the stride width (also called scan width) of the <see cref="T:System.Drawing.Bitmap" /> object.</summary>
+		/// <summary>
+		/// Gets or sets the stride width (also called scan width) of the <see cref="T:System.Drawing.Bitmap" /> object.
+		/// </summary>
 		/// <returns>The stride width, in bytes, of the <see cref="T:System.Drawing.Bitmap" /> object.</returns>
 		public int Stride
 		{
@@ -61,7 +69,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Gets or sets the format of the pixel information in the <see cref="T:System.Drawing.Bitmap" /> object that returned this <see cref="T:System.Drawing.Imaging.BitmapData" /> object.</summary>
+		/// <summary>
+		/// Gets or sets the format of the pixel information in the <see cref="T:System.Drawing.Bitmap" /> object that returned this <see cref="T:System.Drawing.Imaging.BitmapData" /> object.
+		/// </summary>
 		/// <returns>A <see cref="T:System.Drawing.Imaging.PixelFormat" /> that specifies the format of the pixel information in the associated <see cref="T:System.Drawing.Bitmap" /> object.</returns>
 		public PixelFormat PixelFormat
 		{
@@ -103,7 +113,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Gets or sets the address of the first pixel data in the bitmap. This can also be thought of as the first scan line in the bitmap.</summary>
+		/// <summary>
+		/// Gets or sets the address of the first pixel data in the bitmap. This can also be thought of as the first scan line in the bitmap.
+		/// </summary>
 		/// <returns>The address of the first pixel data in the bitmap.</returns>
 		public IntPtr Scan0
 		{
@@ -117,7 +129,9 @@ namespace System.Drawing.Imaging
 			}
 		}
 
-		/// <summary>Reserved. Do not use.</summary>
+		/// <summary>
+		/// Reserved. Do not use.
+		/// </summary>
 		/// <returns>Reserved. Do not use.</returns>
 		public int Reserved
 		{
@@ -136,7 +150,9 @@ namespace System.Drawing.Imaging
 			return ref _width;
 		}
 
-		/// <summary>Initializes a new instance of the <see cref="T:System.Drawing.Imaging.BitmapData" /> class.</summary>
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:System.Drawing.Imaging.BitmapData" /> class.
+		/// </summary>
 		public BitmapData()
 		{
 		}

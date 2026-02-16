@@ -1,6 +1,8 @@
 namespace System.Drawing.Imaging
 {
-	/// <summary>This delegate is not used. For an example of enumerating the records of a metafile, see <see cref="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Graphics.EnumerateMetafileProc)" />.</summary>
+	/// <summary>
+	/// This delegate is not used. For an example of enumerating the records of a metafile, see <see cref="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Graphics.EnumerateMetafileProc)" />.
+	/// </summary>
 	/// <param name="recordType">Not used.</param>
 	/// <param name="flags">Not used.</param>
 	/// <param name="dataSize">Not used.</param>

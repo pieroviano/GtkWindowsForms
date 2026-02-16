@@ -5,7 +5,9 @@ using System.Security.Permissions;
 
 namespace System.Windows.Forms;
 
-/// <summary>Represents the simple binding between the property value of an object and the property value of a control.</summary>
+/// <summary>
+/// Represents the simple binding between the property value of an object and the property value of a control.
+/// </summary>
 /// <filterpriority>1</filterpriority>
 public class Binding
 {
@@ -57,7 +59,9 @@ public class Binding
 
     private BindingCompleteEventHandler? _bindingComplete;
 
-    /// <summary>Gets the control the <see cref="T:System.Windows.Forms.Binding" /> is associated with.</summary>
+    /// <summary>
+    /// Gets the control the <see cref="T:System.Windows.Forms.Binding" /> is associated with.
+    /// </summary>
     /// <returns>The <see cref="T:System.Windows.Forms.IBindableComponent" /> the <see cref="T:System.Windows.Forms.Binding" /> is associated with.</returns>
     /// <filterpriority>1</filterpriority>
     /// <PermissionSet>
@@ -71,12 +75,16 @@ public class Binding
         internal set => _control = value;
     }
 
-    /// <summary>Gets the <see cref="T:System.Windows.Forms.BindingManagerBase" /> for this <see cref="T:System.Windows.Forms.Binding" />.</summary>
+    /// <summary>
+    /// Gets the <see cref="T:System.Windows.Forms.BindingManagerBase" /> for this <see cref="T:System.Windows.Forms.Binding" />.
+    /// </summary>
     /// <returns>The <see cref="T:System.Windows.Forms.BindingManagerBase" /> that manages this <see cref="T:System.Windows.Forms.Binding" />.</returns>
     /// <filterpriority>1</filterpriority>
     public BindingManagerBase? BindingManagerBase => _bindingManagerBase;
 
-    /// <summary>Gets an object that contains information about this binding based on the dataMember parameter in the Overload:System.Windows.Forms.Binding constructor.</summary>
+    /// <summary>
+    /// Gets an object that contains information about this binding based on the dataMember parameter in the Overload:System.Windows.Forms.Binding constructor.
+    /// </summary>
     /// <returns>A <see cref="T:System.Windows.Forms.BindingMemberInfo" /> that contains information about this <see cref="T:System.Windows.Forms.Binding" />.</returns>
     /// <filterpriority>1</filterpriority>
     public BindingMemberInfo? BindingMemberInfo => _bindToObject?.BindingMemberInfo;
@@ -85,7 +93,9 @@ public class Binding
 
     internal bool ComponentCreated => IsComponentCreated(_control);
 
-    /// <summary>Gets the control that the binding belongs to.</summary>
+    /// <summary>
+    /// Gets the control that the binding belongs to.
+    /// </summary>
     /// <returns>The <see cref="T:System.Windows.Forms.Control" /> that the binding belongs to.</returns>
     /// <filterpriority>1</filterpriority>
     /// <PermissionSet>
@@ -99,7 +109,9 @@ public class Binding
         internal set => _control = value;
     }
 
-    /// <summary>Gets or sets when changes to the data source are propagated to the bound control property.</summary>
+    /// <summary>
+    /// Gets or sets when changes to the data source are propagated to the bound control property.
+    /// </summary>
     /// <returns>One of the <see cref="T:System.Windows.Forms.ControlUpdateMode" /> values. The default is <see cref="F:System.Windows.Forms.ControlUpdateMode.OnPropertyChanged" />.</returns>
     [DefaultValue(ControlUpdateMode.OnPropertyChanged)]
     public ControlUpdateMode ControlUpdateMode
@@ -118,12 +130,16 @@ public class Binding
         }
     }
 
-    /// <summary>Gets the data source for this binding.</summary>
+    /// <summary>
+    /// Gets the data source for this binding.
+    /// </summary>
     /// <returns>An <see cref="T:System.Object" /> that represents the data source.</returns>
     /// <filterpriority>1</filterpriority>
     public object? DataSource => _bindToObject?.DataSource;
 
-    /// <summary>Gets or sets the value to be stored in the data source if the control value is null or empty.</summary>
+    /// <summary>
+    /// Gets or sets the value to be stored in the data source if the control value is null or empty.
+    /// </summary>
     /// <returns>The <see cref="T:System.Object" /> to be stored in the data source when the control property is empty or null. The default is <see cref="T:System.DBNull" /> for value types and null for non-value types.</returns>
     public object? DataSourceNullValue
     {
@@ -151,7 +167,9 @@ public class Binding
         }
     }
 
-    /// <summary>Gets or sets a value that indicates when changes to the bound control property are propagated to the data source.</summary>
+    /// <summary>
+    /// Gets or sets a value that indicates when changes to the bound control property are propagated to the data source.
+    /// </summary>
     /// <returns>A value that indicates when changes are propagated. The default is <see cref="F:System.Windows.Forms.DataSourceUpdateMode.OnValidation" />.</returns>
     [DefaultValue(DataSourceUpdateMode.OnValidation)]
     public DataSourceUpdateMode DataSourceUpdateMode
@@ -160,7 +178,9 @@ public class Binding
         set => _dataSourceUpdateMode = value;
     }
 
-    /// <summary>Gets or sets the <see cref="T:System.IFormatProvider" /> that provides custom formatting behavior.</summary>
+    /// <summary>
+    /// Gets or sets the <see cref="T:System.IFormatProvider" /> that provides custom formatting behavior.
+    /// </summary>
     /// <returns>The <see cref="T:System.IFormatProvider" /> implementation that provides custom formatting behavior.</returns>
     /// <filterpriority>1</filterpriority>
     [DefaultValue(null)]
@@ -182,7 +202,9 @@ public class Binding
         }
     }
 
-    /// <summary>Gets or sets the format specifier characters that indicate how a value is to be displayed.</summary>
+    /// <summary>
+    /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
+    /// </summary>
     /// <returns>The string of format specifier characters that indicate how a value is to be displayed.</returns>
     /// <filterpriority>1</filterpriority>
     public string? FormatString
@@ -205,7 +227,9 @@ public class Binding
         }
     }
 
-    /// <summary>Gets or sets a value indicating whether type conversion and formatting is applied to the control property data.</summary>
+    /// <summary>
+    /// Gets or sets a value indicating whether type conversion and formatting is applied to the control property data.
+    /// </summary>
     /// <returns>true if type conversion and formatting of control property data is enabled; otherwise, false. The default is false.</returns>
     /// <filterpriority>1</filterpriority>
     public bool FormattingEnabled
@@ -236,12 +260,16 @@ public class Binding
         }
     }
 
-    /// <summary>Gets a value indicating whether the binding is active.</summary>
+    /// <summary>
+    /// Gets a value indicating whether the binding is active.
+    /// </summary>
     /// <returns>true if the binding is active; otherwise, false.</returns>
     /// <filterpriority>1</filterpriority>
     public bool IsBinding => _bound;
 
-    /// <summary>Gets or sets the <see cref="T:System.Object" /> to be set as the control property when the data source contains a <see cref="T:System.DBNull" /> value. </summary>
+    /// <summary>
+    /// Gets or sets the <see cref="T:System.Object" /> to be set as the control property when the data source contains a <see cref="T:System.DBNull" /> value.
+    /// </summary>
     /// <returns>The <see cref="T:System.Object" /> to be set as the control property when the data source contains a <see cref="T:System.DBNull" /> value. The default is null.</returns>
     /// <filterpriority>1</filterpriority>
     public object? NullValue
@@ -260,13 +288,17 @@ public class Binding
         }
     }
 
-    /// <summary>Gets or sets the name of the control's data-bound property.</summary>
+    /// <summary>
+    /// Gets or sets the name of the control's data-bound property.
+    /// </summary>
     /// <returns>The name of a control property to bind to.</returns>
     /// <filterpriority>1</filterpriority>
     [DefaultValue("")]
     public string PropertyName => _propertyName;
 
-    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that simple-binds the indicated control property to the specified data member of the data source.</summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that simple-binds the indicated control property to the specified data member of the data source.
+    /// </summary>
     /// <param name="propertyName">The name of the control property to bind. </param>
     /// <param name="dataSource">An <see cref="T:System.Object" /> that represents the data source. </param>
     /// <param name="dataMember">The property or list to bind to. </param>
@@ -277,7 +309,9 @@ public class Binding
     {
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that binds the indicated control property to the specified data member of the data source, and optionally enables formatting to be applied.</summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that binds the indicated control property to the specified data member of the data source, and optionally enables formatting to be applied.
+    /// </summary>
     /// <param name="propertyName">The name of the control property to bind. </param>
     /// <param name="dataSource">An <see cref="T:System.Object" /> that represents the data source. </param>
     /// <param name="dataMember">The property or list to bind to. </param>
@@ -288,7 +322,9 @@ public class Binding
     {
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting and propagates values to the data source based on the specified update setting.</summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting and propagates values to the data source based on the specified update setting.
+    /// </summary>
     /// <param name="propertyName">The name of the control property to bind. </param>
     /// <param name="dataSource">An <see cref="T:System.Object" /> representing the data source. </param>
     /// <param name="dataMember">The property or list to bind to.</param>
@@ -299,7 +335,9 @@ public class Binding
     {
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that binds the indicated control property to the specified data member of the specified data source. Optionally enables formatting, propagates values to the data source based on the specified update setting, and sets the property to the specified value when a <see cref="T:System.DBNull" /> is returned from the data source.</summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that binds the indicated control property to the specified data member of the specified data source. Optionally enables formatting, propagates values to the data source based on the specified update setting, and sets the property to the specified value when a <see cref="T:System.DBNull" /> is returned from the data source.
+    /// </summary>
     /// <param name="propertyName">The name of the control property to bind. </param>
     /// <param name="dataSource">An <see cref="T:System.Object" /> representing the data source. </param>
     /// <param name="dataMember">The property or list to bind to.</param>
@@ -311,7 +349,9 @@ public class Binding
     {
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; and sets the property to the specified value when a <see cref="T:System.DBNull" /> is returned from the data source.</summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; and sets the property to the specified value when a <see cref="T:System.DBNull" /> is returned from the data source.
+    /// </summary>
     /// <param name="propertyName">The name of the control property to bind. </param>
     /// <param name="dataSource">An <see cref="T:System.Object" /> representing the data source. </param>
     /// <param name="dataMember">The property or list to bind to.</param>
@@ -324,7 +364,9 @@ public class Binding
     {
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class with the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; enables formatting with the specified format string; sets the property to the specified value when a <see cref="T:System.DBNull" /> is returned from the data source; and sets the specified format provider.</summary>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.Binding" /> class with the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; enables formatting with the specified format string; sets the property to the specified value when a <see cref="T:System.DBNull" /> is returned from the data source; and sets the specified format provider.
+    /// </summary>
     /// <param name="propertyName">The name of the control property to bind. </param>
     /// <param name="dataSource">An <see cref="T:System.Object" /> representing the data source. </param>
     /// <param name="dataMember">The property or list to bind to.</param>
@@ -583,7 +625,9 @@ public class Binding
         return control.Created;
     }
 
-    /// <summary>Raises the <see cref="E:System.Windows.Forms.Binding.BindingComplete" /> event. </summary>
+    /// <summary>
+    /// Raises the <see cref="E:System.Windows.Forms.Binding.BindingComplete" /> event.
+    /// </summary>
     /// <param name="e">A <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" />  that contains the event data. </param>
     protected virtual void OnBindingComplete(BindingCompleteEventArgs e)
     {
@@ -612,7 +656,9 @@ public class Binding
         }
     }
 
-    /// <summary>Raises the <see cref="E:System.Windows.Forms.Binding.Format" /> event.</summary>
+    /// <summary>
+    /// Raises the <see cref="E:System.Windows.Forms.Binding.Format" /> event.
+    /// </summary>
     /// <param name="e">A <see cref="T:System.Windows.Forms.ConvertEventArgs" /> that contains the event data. </param>
     protected virtual void OnFormat(ConvertEventArgs e)
     {
@@ -623,7 +669,9 @@ public class Binding
         }
     }
 
-    /// <summary>Raises the <see cref="E:System.Windows.Forms.Binding.Parse" /> event.</summary>
+    /// <summary>
+    /// Raises the <see cref="E:System.Windows.Forms.Binding.Parse" /> event.
+    /// </summary>
     /// <param name="e">A <see cref="T:System.Windows.Forms.ConvertEventArgs" /> that contains the event data. </param>
     protected virtual void OnParse(ConvertEventArgs e)
     {
@@ -833,7 +881,9 @@ public class Binding
         return bindingCompleteEventArg.Cancel;
     }
 
-    /// <summary>Sets the control property to the value read from the data source.</summary>
+    /// <summary>
+    /// Sets the control property to the value read from the data source.
+    /// </summary>
     public void ReadValue()
     {
         PushData(true);
@@ -996,20 +1046,26 @@ public class Binding
         }
     }
 
-    /// <summary>Reads the current value from the control property and writes it to the data source.</summary>
+    /// <summary>
+    /// Reads the current value from the control property and writes it to the data source.
+    /// </summary>
     public void WriteValue()
     {
         PullData(true, true);
     }
 
-    /// <summary>Occurs when the <see cref="P:System.Windows.Forms.Binding.FormattingEnabled" /> property is set to true and a binding operation is complete, such as when data is pushed from the control to the data source or vice versa</summary>
+    /// <summary>
+    /// Occurs when the <see cref="P:System.Windows.Forms.Binding.FormattingEnabled" /> property is set to true and a binding operation is complete, such as when data is pushed from the control to the data source or vice versa
+    /// </summary>
     public event BindingCompleteEventHandler? BindingComplete
     {
         add => _bindingComplete += value;
         remove => _bindingComplete -= value;
     }
 
-    /// <summary>Occurs when the property of a control is bound to a data value.</summary>
+    /// <summary>
+    /// Occurs when the property of a control is bound to a data value.
+    /// </summary>
     /// <filterpriority>1</filterpriority>
     public event ConvertEventHandler? Format
     {
@@ -1017,7 +1073,9 @@ public class Binding
         remove => _format -= value;
     }
 
-    /// <summary>Occurs when the value of a data-bound control changes.</summary>
+    /// <summary>
+    /// Occurs when the value of a data-bound control changes.
+    /// </summary>
     /// <filterpriority>1</filterpriority>
     public event ConvertEventHandler? Parse
     {

@@ -74,7 +74,8 @@ public class SummaryCommentTransformer
         }
 
         var contents = output.ToString();
-        File.WriteAllText(filePath, new XmlDocCommentFixer().Rewrite(contents));
+        var rewrite = new XmlDocCommentFixer().Rewrite(contents);
+        File.WriteAllText(filePath, new XmlDocSummaryNormalizer().Normalize(rewrite));
     }
 
     private bool IsSummaryStart(string line)
