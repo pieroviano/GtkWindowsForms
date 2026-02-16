@@ -10,7 +10,7 @@ namespace System.Windows.Forms
 			[CompilerGenerated]
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -19,7 +19,7 @@ namespace System.Windows.Forms
 			[CompilerGenerated]
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -28,7 +28,7 @@ namespace System.Windows.Forms
 			[CompilerGenerated]
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace System.Windows.Forms
 			[CompilerGenerated]
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -46,28 +46,28 @@ namespace System.Windows.Forms
 			[CompilerGenerated]
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
 		public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText, Exception exception, bool cancel)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText, Exception exception)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 	}
 }

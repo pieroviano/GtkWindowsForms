@@ -129,7 +129,7 @@ namespace System.Drawing
         {
             get
             {
-                throw null;
+                throw new System.NotImplementedException();
             }
             set
             {
@@ -140,7 +140,7 @@ namespace System.Drawing
         {
             get
             {
-                throw null;
+                throw new System.NotImplementedException();
             }
             set
             {
@@ -151,7 +151,7 @@ namespace System.Drawing
         {
             get
             {
-                throw null;
+                throw new System.NotImplementedException();
             }
             set
             {
@@ -172,17 +172,17 @@ namespace System.Drawing
 
         public GraphicsContainer BeginContainer()
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public GraphicsContainer BeginContainer(Rectangle dstrect, Rectangle srcrect, GraphicsUnit unit)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public GraphicsContainer BeginContainer(RectangleF dstrect, RectangleF srcrect, GraphicsUnit unit)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         internal void SetTranslateWithDifference(double x, double y)
@@ -1469,31 +1469,31 @@ namespace System.Drawing
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHdc(IntPtr hdc)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHdc(IntPtr hdc, IntPtr hdevice)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHdcInternal(IntPtr hdc)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHwnd(IntPtr hwnd)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHwndInternal(IntPtr hwnd)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
         private static Cairo.ImageSurface imagesurface;
         private static Cairo.Surface simisurface;
@@ -1556,17 +1556,17 @@ namespace System.Drawing
 
         public static IntPtr GetHalftonePalette()
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public IntPtr GetHdc()
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public Color GetNearestColor(Color color)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public void IntersectClip(Rectangle rect)
@@ -1583,72 +1583,72 @@ namespace System.Drawing
 
         public bool IsVisible(Point point)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public bool IsVisible(PointF point)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public bool IsVisible(Rectangle rect)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public bool IsVisible(RectangleF rect)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public bool IsVisible(int x, int y)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public bool IsVisible(int x, int y, int width, int height)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public bool IsVisible(float x, float y)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public bool IsVisible(float x, float y, float width, float height)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public Region[] MeasureCharacterRanges(string text, Font font, RectangleF layoutRect, StringFormat stringFormat)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public SizeF MeasureString(string text, Font font)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public SizeF MeasureString(string text, Font font, PointF origin, StringFormat stringFormat)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public SizeF MeasureString(string text, Font font, SizeF layoutArea)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat, out int charactersFitted, out int linesFilled)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public SizeF MeasureString(string text, Font font, int width)

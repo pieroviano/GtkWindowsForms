@@ -132,7 +132,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 

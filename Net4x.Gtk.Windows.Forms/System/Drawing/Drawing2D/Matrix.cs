@@ -9,7 +9,7 @@ namespace System.Drawing.Drawing2D
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -19,7 +19,7 @@ namespace System.Drawing.Drawing2D
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -29,7 +29,7 @@ namespace System.Drawing.Drawing2D
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 

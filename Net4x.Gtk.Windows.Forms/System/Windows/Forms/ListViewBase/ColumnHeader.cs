@@ -37,7 +37,7 @@ namespace System.Windows.Forms
         {
             get
             {
-                throw null;
+                throw new System.NotImplementedException();
             }
         }
 
@@ -118,7 +118,7 @@ namespace System.Windows.Forms
 
         //public void AutoResize(ColumnHeaderAutoResizeStyle headerAutoResize)
         //{
-        //	throw null;
+        //	throw new System.NotImplementedException();
         //}
 
         public object Clone()

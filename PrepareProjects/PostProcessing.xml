@@ -162,6 +162,11 @@ using GTKControls;</TargetString>
     <TargetString>"https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</TargetString>
   </Item>
   <Item>
+    <FileName>..\*.cs</FileName>
+    <SourceString>throw null;</SourceString>
+    <TargetString>throw new System.NotImplementedException();</TargetString>
+  </Item>
+  <Item>
     <FileName>*.cs</FileName>
     <SourceString>GTKSystem</SourceString>
     <TargetString>GtkSystem</TargetString>

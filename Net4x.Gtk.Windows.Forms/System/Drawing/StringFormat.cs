@@ -11,7 +11,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -24,7 +24,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -34,7 +34,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -57,7 +57,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -90,7 +90,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -103,7 +103,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -140,7 +140,7 @@ namespace System.Drawing
 		/// <returns>The <see cref="T:System.Drawing.StringFormat" /> object this method creates.</returns>
 		public object Clone()
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Releases all resources used by this <see cref="T:System.Drawing.StringFormat" /> object.</summary>
@@ -158,7 +158,7 @@ namespace System.Drawing
 		/// <returns>An array of distances (in number of spaces) between tab stops.</returns>
 		public float[] GetTabStops(out float firstTabOffset)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Specifies the language and method to be used when local digits are substituted for western digits.</summary>
@@ -186,7 +186,7 @@ namespace System.Drawing
 		/// <returns>A string representation of this <see cref="T:System.Drawing.StringFormat" /> object.</returns>
 		public override string ToString()
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 	}
 }

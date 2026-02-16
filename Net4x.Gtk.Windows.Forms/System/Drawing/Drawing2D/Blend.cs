@@ -9,7 +9,7 @@ namespace System.Drawing.Drawing2D
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -22,7 +22,7 @@ namespace System.Drawing.Drawing2D
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{

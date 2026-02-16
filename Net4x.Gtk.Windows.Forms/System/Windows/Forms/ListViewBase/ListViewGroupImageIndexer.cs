@@ -6,17 +6,17 @@ namespace System.Windows.Forms
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
 		public ListViewGroupImageIndexer(ListViewGroup group)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 	}
 }

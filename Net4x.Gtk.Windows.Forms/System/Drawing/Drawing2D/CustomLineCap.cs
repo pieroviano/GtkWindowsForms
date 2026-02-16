@@ -12,7 +12,7 @@ namespace System.Drawing.Drawing2D
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -25,7 +25,7 @@ namespace System.Drawing.Drawing2D
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -38,7 +38,7 @@ namespace System.Drawing.Drawing2D
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -51,7 +51,7 @@ namespace System.Drawing.Drawing2D
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -111,7 +111,7 @@ namespace System.Drawing.Drawing2D
 		/// <param name="endCap">The <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the end of a line within this cap.</param>
 		public void GetStrokeCaps(out LineCap startCap, out LineCap endCap)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Sets the caps used to start and end lines that make up this custom cap.</summary>

@@ -241,11 +241,11 @@ namespace System.Windows.Forms
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -449,32 +449,32 @@ namespace System.Windows.Forms
 
 		public int FindString(string s)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public int FindString(string s, int startIndex)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public int FindStringExact(string s)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public int FindStringExact(string s, int startIndex)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public int GetItemHeight(int index)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public Drawing.Rectangle GetItemRectangle(int index)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 		public bool GetSelected(int index)
 		{
@@ -483,12 +483,12 @@ namespace System.Windows.Forms
 
 		public int IndexFromPoint(Drawing.Point p)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public int IndexFromPoint(int x, int y)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public override void Refresh()

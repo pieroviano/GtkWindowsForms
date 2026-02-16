@@ -209,7 +209,7 @@ namespace System.Drawing
 		/// <returns>The <see cref="T:System.Drawing.Icon" /> this method creates.</returns>
 		public static Icon FromHandle(IntPtr handle)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Saves this <see cref="T:System.Drawing.Icon" /> to the specified output <see cref="T:System.IO.Stream" />.</summary>

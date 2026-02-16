@@ -687,7 +687,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>A <see cref="T:System.Drawing.RectangleF" /> that represents a rectangle that bounds this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</returns>
 		public RectangleF GetBounds()
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Returns a rectangle that bounds this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when this path is transformed by the specified <see cref="T:System.Drawing.Drawing2D.Matrix" />.</summary>
@@ -695,7 +695,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>A <see cref="T:System.Drawing.RectangleF" /> that represents a rectangle that bounds this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</returns>
 		public RectangleF GetBounds(Matrix matrix)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Returns a rectangle that bounds this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when the current path is transformed by the specified <see cref="T:System.Drawing.Drawing2D.Matrix" /> and drawn with the specified <see cref="T:System.Drawing.Pen" />.</summary>
@@ -704,14 +704,14 @@ namespace System.Drawing.Drawing2D
 		/// <returns>A <see cref="T:System.Drawing.RectangleF" /> that represents a rectangle that bounds this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</returns>
 		public RectangleF GetBounds(Matrix matrix, Pen pen)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Gets the last point in the <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</summary>
 		/// <returns>A <see cref="T:System.Drawing.PointF" /> that represents the last point in this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</returns>
 		public PointF GetLastPoint()
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" />.</summary>
@@ -720,7 +720,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" />; otherwise, <see langword="false" />.</returns>
 		public bool IsOutlineVisible(Point point, Pen pen)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" /> and using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -730,7 +730,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified <see cref="T:System.Drawing.Pen" />; otherwise, <see langword="false" />.</returns>
 		public bool IsOutlineVisible(Point pt, Pen pen, Graphics graphics)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" />.</summary>
@@ -739,7 +739,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" />; otherwise, <see langword="false" />.</returns>
 		public bool IsOutlineVisible(PointF point, Pen pen)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" /> and using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -749,7 +749,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified <see cref="T:System.Drawing.Pen" />; otherwise, <see langword="false" />.</returns>
 		public bool IsOutlineVisible(PointF pt, Pen pen, Graphics graphics)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" />.</summary>
@@ -759,7 +759,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" />; otherwise, <see langword="false" />.</returns>
 		public bool IsOutlineVisible(int x, int y, Pen pen)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" /> and using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -770,7 +770,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified <see cref="T:System.Drawing.Pen" />; otherwise, <see langword="false" />.</returns>
 		public bool IsOutlineVisible(int x, int y, Pen pen, Graphics graphics)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" />.</summary>
@@ -780,7 +780,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" />; otherwise, <see langword="false" />.</returns>
 		public bool IsOutlineVisible(float x, float y, Pen pen)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified <see cref="T:System.Drawing.Pen" /> and using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -791,7 +791,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within (under) the outline of this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified <see cref="T:System.Drawing.Pen" />; otherwise, <see langword="false" />.</returns>
 		public bool IsOutlineVisible(float x, float y, Pen pen, Graphics graphics)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</summary>
@@ -799,7 +799,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(Point point)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</summary>
@@ -808,7 +808,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(Point pt, Graphics graphics)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</summary>
@@ -816,7 +816,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(PointF point)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</summary>
@@ -825,7 +825,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within this; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(PointF pt, Graphics graphics)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</summary>
@@ -834,7 +834,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(int x, int y)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />, using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -844,7 +844,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(int x, int y, Graphics graphics)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</summary>
@@ -853,7 +853,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(float x, float y)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Indicates whether the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> in the visible clip region of the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -863,7 +863,7 @@ namespace System.Drawing.Drawing2D
 		/// <returns>This method returns <see langword="true" /> if the specified point is contained within this <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(float x, float y, Graphics graphics)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Empties the <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> and <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> arrays and sets the <see cref="T:System.Drawing.Drawing2D.FillMode" /> to <see cref="F:System.Drawing.Drawing2D.FillMode.Alternate" />.</summary>

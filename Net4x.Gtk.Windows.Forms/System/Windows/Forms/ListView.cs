@@ -1245,7 +1245,7 @@ namespace System.Windows.Forms
 
             public void CopyTo(Array dest, int index)
             {
-                throw null;
+                throw new System.NotImplementedException();
             }
 
             public ListViewItem[] Find(string key, bool searchAllSubItems)
@@ -1467,7 +1467,7 @@ namespace System.Windows.Forms
         }
         public Drawing.Rectangle GetItemRect(int index)
         {
-            throw null;
+            throw new System.NotImplementedException();
         }
 
         public event ColumnClickEventHandler ColumnClick;

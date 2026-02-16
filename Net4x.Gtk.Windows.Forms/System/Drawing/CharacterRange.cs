@@ -11,7 +11,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -24,7 +24,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 			set
 			{
@@ -36,7 +36,7 @@ namespace System.Drawing
 		/// <param name="Length">The number of positions in the range.</param>
 		public CharacterRange(int First, int Length)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Gets a value indicating whether this object is equivalent to the specified object.</summary>
@@ -45,14 +45,14 @@ namespace System.Drawing
 		///   <see langword="true" /> to indicate the specified object is an instance with the same <see cref="P:System.Drawing.CharacterRange.First" /> and <see cref="P:System.Drawing.CharacterRange.Length" /> value as this instance; otherwise, <see langword="false" />.</returns>
 		public override bool Equals(object obj)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Returns the hash code for this instance.</summary>
 		/// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
 		public override int GetHashCode()
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Compares two <see cref="T:System.Drawing.CharacterRange" /> objects. Gets a value indicating whether the <see cref="P:System.Drawing.CharacterRange.First" /> and <see cref="P:System.Drawing.CharacterRange.Length" /> values of the two <see cref="T:System.Drawing.CharacterRange" /> objects are equal.</summary>
@@ -62,7 +62,7 @@ namespace System.Drawing
 		///   <see langword="true" /> to indicate the two <see cref="T:System.Drawing.CharacterRange" /> objects have the same <see cref="P:System.Drawing.CharacterRange.First" /> and <see cref="P:System.Drawing.CharacterRange.Length" /> values; otherwise, <see langword="false" />.</returns>
 		public static bool operator ==(CharacterRange cr1, CharacterRange cr2)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Compares two <see cref="T:System.Drawing.CharacterRange" /> objects. Gets a value indicating whether the <see cref="P:System.Drawing.CharacterRange.First" /> or <see cref="P:System.Drawing.CharacterRange.Length" /> values of the two <see cref="T:System.Drawing.CharacterRange" /> objects are not equal.</summary>
@@ -72,7 +72,7 @@ namespace System.Drawing
 		///   <see langword="true" /> to indicate the either the <see cref="P:System.Drawing.CharacterRange.First" /> or <see cref="P:System.Drawing.CharacterRange.Length" /> values of the two <see cref="T:System.Drawing.CharacterRange" /> objects differ; otherwise, <see langword="false" />.</returns>
 		public static bool operator !=(CharacterRange cr1, CharacterRange cr2)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 	}
 }

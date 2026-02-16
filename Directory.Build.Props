@@ -3,7 +3,7 @@
   <Import Project="Directory.Nuget.Props" Condition="'$(DirectoryNuGet)'==''" />
   <PropertyGroup>
     <VersionPrefix>$(Net4xGtkWindowsFormsVersion)</VersionPrefix>
-    <VersionSuffix>64-a20260216045918</VersionSuffix>
+    <VersionSuffix>64-a20260216052245</VersionSuffix>
     <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

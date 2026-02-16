@@ -9,13 +9,13 @@ namespace System.Windows.Forms
 			[CompilerGenerated]
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
 		public BindingManagerDataErrorEventArgs(Exception exception)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 	}
 }

@@ -7,42 +7,42 @@ namespace System.Windows.Forms
 	{
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		public ListViewGroupConverter()
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 	}
 }

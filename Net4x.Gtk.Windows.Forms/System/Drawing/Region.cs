@@ -149,7 +149,7 @@ namespace System.Drawing
 		/// <returns>The new <see cref="T:System.Drawing.Region" />.</returns>
 		public static Region FromHrgn(IntPtr hrgn)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Gets a <see cref="T:System.Drawing.RectangleF" /> structure that represents a rectangle that bounds this <see cref="T:System.Drawing.Region" /> on the drawing surface of a <see cref="T:System.Drawing.Graphics" /> object.</summary>
@@ -169,7 +169,7 @@ namespace System.Drawing
 		///   <paramref name="g" /> is <see langword="null" />.</exception>
 		public IntPtr GetHrgn(Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Returns a <see cref="T:System.Drawing.Drawing2D.RegionData" /> that represents the information that describes this <see cref="T:System.Drawing.Region" />.</summary>
@@ -186,7 +186,7 @@ namespace System.Drawing
 		///   <paramref name="matrix" /> is <see langword="null" />.</exception>
 		public RectangleF[] GetRegionScans(Matrix matrix)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Updates this <see cref="T:System.Drawing.Region" /> to the intersection of itself with the specified <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.</summary>
@@ -221,7 +221,7 @@ namespace System.Drawing
 		///   <paramref name="g" /> is <see langword="null" />.</exception>
 		public bool IsEmpty(Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether this <see cref="T:System.Drawing.Region" /> has an infinite interior on the specified drawing surface.</summary>
@@ -232,7 +232,7 @@ namespace System.Drawing
 		///   <paramref name="g" /> is <see langword="null" />.</exception>
 		public bool IsInfinite(Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether the specified <see cref="T:System.Drawing.Point" /> structure is contained within this <see cref="T:System.Drawing.Region" />.</summary>
@@ -241,7 +241,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when <paramref name="point" /> is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(Point point)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether the specified <see cref="T:System.Drawing.Point" /> structure is contained within this <see cref="T:System.Drawing.Region" /> when drawn using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -251,7 +251,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when <paramref name="point" /> is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(Point point, Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether the specified <see cref="T:System.Drawing.PointF" /> structure is contained within this <see cref="T:System.Drawing.Region" />.</summary>
@@ -260,7 +260,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when <paramref name="point" /> is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(PointF point)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether the specified <see cref="T:System.Drawing.PointF" /> structure is contained within this <see cref="T:System.Drawing.Region" /> when drawn using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -270,7 +270,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when <paramref name="point" /> is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(PointF point, Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether any portion of the specified <see cref="T:System.Drawing.Rectangle" /> structure is contained within this <see cref="T:System.Drawing.Region" />.</summary>
@@ -278,7 +278,7 @@ namespace System.Drawing
 		/// <returns>This method returns <see langword="true" /> when any portion of <paramref name="rect" /> is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(Rectangle rect)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether any portion of the specified <see cref="T:System.Drawing.Rectangle" /> structure is contained within this <see cref="T:System.Drawing.Region" /> when drawn using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -288,7 +288,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when any portion of the <paramref name="rect" /> is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(Rectangle rect, Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether any portion of the specified <see cref="T:System.Drawing.RectangleF" /> structure is contained within this <see cref="T:System.Drawing.Region" />.</summary>
@@ -297,7 +297,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when any portion of <paramref name="rect" /> is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(RectangleF rect)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether any portion of the specified <see cref="T:System.Drawing.RectangleF" /> structure is contained within this <see cref="T:System.Drawing.Region" /> when drawn using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -307,7 +307,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when <paramref name="rect" /> is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(RectangleF rect, Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether the specified point is contained within this <see cref="T:System.Drawing.Region" /> object when drawn using the specified <see cref="T:System.Drawing.Graphics" /> object.</summary>
@@ -318,7 +318,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when the specified point is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(int x, int y, Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether any portion of the specified rectangle is contained within this <see cref="T:System.Drawing.Region" />.</summary>
@@ -330,7 +330,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when any portion of the specified rectangle is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(int x, int y, int width, int height)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether any portion of the specified rectangle is contained within this <see cref="T:System.Drawing.Region" /> when drawn using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -343,7 +343,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when any portion of the specified rectangle is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(int x, int y, int width, int height, Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether the specified point is contained within this <see cref="T:System.Drawing.Region" />.</summary>
@@ -353,7 +353,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when the specified point is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(float x, float y)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether the specified point is contained within this <see cref="T:System.Drawing.Region" /> when drawn using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -364,7 +364,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when the specified point is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(float x, float y, Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether any portion of the specified rectangle is contained within this <see cref="T:System.Drawing.Region" />.</summary>
@@ -376,7 +376,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when any portion of the specified rectangle is contained within this <see cref="T:System.Drawing.Region" /> object; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(float x, float y, float width, float height)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Tests whether any portion of the specified rectangle is contained within this <see cref="T:System.Drawing.Region" /> when drawn using the specified <see cref="T:System.Drawing.Graphics" />.</summary>
@@ -389,7 +389,7 @@ namespace System.Drawing
 		///   <see langword="true" /> when any portion of the specified rectangle is contained within this <see cref="T:System.Drawing.Region" />; otherwise, <see langword="false" />.</returns>
 		public bool IsVisible(float x, float y, float width, float height, Graphics g)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		/// <summary>Initializes this <see cref="T:System.Drawing.Region" /> to an empty interior.</summary>

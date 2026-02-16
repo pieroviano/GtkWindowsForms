@@ -192,7 +192,7 @@ namespace System.Windows.Forms
         }
         bool IExtenderProvider.CanExtend(object obj)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 
 		[DefaultValue(1)]

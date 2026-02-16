@@ -9,13 +9,13 @@ namespace System.Windows.Forms
 			[CompilerGenerated]
 			get
 			{
-				throw null;
+				throw new System.NotImplementedException();
 			}
 		}
 
 		public ListViewGroupEventArgs(int groupIndex)
 		{
-			throw null;
+			throw new System.NotImplementedException();
 		}
 	}
 }
