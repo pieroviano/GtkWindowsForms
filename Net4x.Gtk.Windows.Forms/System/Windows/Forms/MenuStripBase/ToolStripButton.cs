@@ -37,6 +37,7 @@ namespace System.Windows.Forms
         public bool CheckOnClick { get; set; }
        
       
+
         protected bool DefaultAutoToolTip { get; }
        
         [EditorBrowsable(EditorBrowsableState.Advanced)]

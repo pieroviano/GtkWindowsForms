@@ -13,24 +13,31 @@ namespace System.Windows.Forms
     [DefaultProperty(nameof(Document))]
     public sealed class PageSetupDialog : CommonDialog
     {
+
         private PrintDocument _printDocument;
+
         private PageSettings _pageSettings;
         private PrinterSettings _printerSettings;
 
         private Margins _minMargins;
 
+
         public PageSetupDialog() => Reset();
 
         [DefaultValue(true)]
+
         public bool AllowMargins { get; set; }
 
         [DefaultValue(true)]
+
         public bool AllowOrientation { get; set; }
 
         [DefaultValue(true)]
+
         public bool AllowPaper { get; set; }
 
         [DefaultValue(true)]
+
         public bool AllowPrinter { get; set; }
 
         [DefaultValue(null)]
@@ -86,6 +93,7 @@ namespace System.Windows.Forms
         }
 
         [DefaultValue(false)]
+
         public bool ShowHelp { get; set; }
 
         [DefaultValue(true)]

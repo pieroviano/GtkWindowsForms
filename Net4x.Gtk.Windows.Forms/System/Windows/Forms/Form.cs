@@ -19,11 +19,17 @@ namespace System.Windows.Forms
     InitializationEvent(nameof(Load))]
     public partial class Form: ContainerControl, IWin32Window
     {
+
         private Gtk.Application app = Application.Init();
+
         public FormBase self = new FormBase();
+
         public override object GtkControl { get => self; }
+
         private Gtk.Overlay contanter = new Gtk.Overlay();
+
         private ObjectCollection _ObjectCollection;
+
         public override event EventHandler SizeChanged;
         public Form() : base()
         {
@@ -69,6 +75,7 @@ namespace System.Windows.Forms
             }
             return closing.Cancel == false;
         }
+
         private bool Is_Control_Shown = false;
         private void Control_Shown(object sender, EventArgs e)
         {
@@ -257,10 +264,15 @@ namespace System.Windows.Forms
             return this.DialogResult;
         }
 
+
         public event EventHandler Shown;
+
         public event FormClosingEventHandler FormClosing;
+
         public event FormClosedEventHandler FormClosed;
+
         public override event EventHandler Load;
+
         public override string Text { get { return self.Title; } set { self.Title = value; } }
         public override Size ClientSize
         {
@@ -275,8 +287,11 @@ namespace System.Windows.Forms
                 self.SetDefaultSize(value.Width, value.Height);
             }
         }
+
         public SizeF AutoScaleDimensions { get; set; }
+
         public AutoScaleMode AutoScaleMode { get; set; }
+
         public FormBorderStyle formBorderStyle = FormBorderStyle.Sizable;
         public FormBorderStyle FormBorderStyle
         {
@@ -305,7 +320,9 @@ namespace System.Windows.Forms
                 }
             }
         }
+
         public FormStartPosition StartPosition { get; set; }
+
         private FormWindowState _WindowState = FormWindowState.Normal;
         public FormWindowState WindowState {
             get { 
@@ -327,6 +344,7 @@ namespace System.Windows.Forms
                 }
             } 
         }
+
         public DialogResult DialogResult { get; set; }
         public void Close() {
             if (self != null)
@@ -342,6 +360,7 @@ namespace System.Windows.Forms
             }
         }
 
+
         public new ObjectCollection Controls { get { return _ObjectCollection; } }
         public override Padding Padding
         {
@@ -355,11 +374,17 @@ namespace System.Windows.Forms
                 contanter.MarginBottom = value.Bottom;
             }
         }
+
         public bool MaximizeBox { get; set; } = true;
+
         public bool MinimizeBox { get; set; } = true;
+
         public double Opacity { get { return self.Opacity; } set { self.Opacity = value; } }
+
         public bool ShowIcon { get; set; } = true;
+
         public bool ShowInTaskbar { get { return self.SkipTaskbarHint == false; } set { self.SkipTaskbarHint = value == false; } }
+
         public System.Drawing.Icon Icon { get; set; }
         public override void SuspendLayout()
         {

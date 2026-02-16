@@ -16,9 +16,11 @@ namespace System.Windows.Forms
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public virtual int Count => List!.Count;
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public void CopyTo(Array ar, int index) => List!.CopyTo(ar, index);
 
         /// <summary>
@@ -28,14 +30,17 @@ namespace System.Windows.Forms
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public bool IsReadOnly => false;
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public bool IsSynchronized => false;
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public object SyncRoot => this;
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]

@@ -195,6 +195,7 @@ namespace System.Drawing
 
 		private static Thread s_animationThread;
 
+
 		private static readonly ReaderWriterLock s_rwImgListLock = new ReaderWriterLock();
 
 		[ThreadStatic]

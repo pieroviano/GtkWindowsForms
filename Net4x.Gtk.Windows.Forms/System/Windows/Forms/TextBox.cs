@@ -15,7 +15,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class TextBox: Control
     {
+
         public readonly TextBoxBase self = new TextBoxBase();
+
         public override object GtkControl => self;
         public TextBox() : base()
         {
@@ -40,6 +42,7 @@ namespace System.Windows.Forms
             }
         }
 
+
         public override event KeyEventHandler KeyDown;
         private void Self_TextInserted(object o, TextInsertedArgs args)
         {
@@ -61,12 +64,19 @@ namespace System.Windows.Forms
             if (TextChanged != null && self.IsVisible) { TextChanged(this, EventArgs.Empty); }
         }
 
+
         public string PlaceholderText { get { return self.PlaceholderText; } set { self.PlaceholderText = value ?? ""; } }
+
         public override string Text { get { return self.Text; } set { self.Text = value ?? ""; } }
+
         public virtual char PasswordChar { get => self.InvisibleChar; set { self.InvisibleChar = value; self.Visibility = false; } }
+
         public virtual bool ReadOnly { get { return self.IsEditable == false; } set { self.IsEditable = value == false;  } }
+
         public override event EventHandler TextChanged;
+
         public bool Multiline { get; set; }
+
         public int MaxLength { get => self.MaxLength; set => self.MaxLength = value; }
         public string[] Lines
         {

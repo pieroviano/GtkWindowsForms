@@ -10,8 +10,11 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     {
+
         public GtkControlOverride Override { get; set; }
+
         public bool AutoScroll { get; set; }
+
         public bool HScroll { get; set; } = false;
         public bool VScroll { get; set; } = false;
 

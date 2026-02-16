@@ -13,7 +13,9 @@ namespace System.Windows.Forms
         /// </summary>
         private class Original
         {
+
             internal object _image;
+
             internal OriginalOptions _options;
             internal Color _customTransparentColor = Color.Transparent;
 

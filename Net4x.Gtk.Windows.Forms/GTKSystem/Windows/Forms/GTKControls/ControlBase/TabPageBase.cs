@@ -5,6 +5,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class TabPageBase : ScrollableBoxBase
     {
+
         public Gtk.Overlay Content = new Gtk.Overlay();
         public TabPageBase() : base()
         {

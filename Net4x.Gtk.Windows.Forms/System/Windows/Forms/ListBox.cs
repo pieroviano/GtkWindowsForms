@@ -20,14 +20,18 @@ namespace System.Windows.Forms
 	[DefaultBindingProperty("SelectedValue")]
 	public partial class ListBox : ListControl
     {
+
         public readonly ListBoxBase self = new ListBoxBase();
+
         public override object GtkControl => self;
+
         public override IControlGtk ISelf { get => self; }
         protected override void SetStyle(Widget widget)
         {
             self.ListBox.Name = this.Name;
             base.SetStyle(self.ListBox);
         }
+
         private ControlBindingsCollection _collect;
         private ObjectCollection _items;
 
@@ -65,6 +69,7 @@ namespace System.Windows.Forms
             binding.WriteValue();
         }
         #region listcontrol
+
         private object _DataSource;
         public override object DataSource
         {
@@ -214,11 +219,14 @@ namespace System.Windows.Forms
                 self.ListBox.SelectRow(self.ListBox.SelectedRow);
         }
         #endregion
+
         public override ControlBindingsCollection DataBindings { get => _collect; }
+
         internal bool ShowCheckBox { get; set; }
         internal bool ShowImage { get; set; }
 
         public const int NoMatches = -1;
+
 
 		public const int DefaultItemHeight = 13;
 
@@ -319,6 +327,7 @@ namespace System.Windows.Forms
                 return indexs;
             }
         }
+
         public SelectionMode _SelectionMode;
         [DefaultValue(SelectionMode.One)]
 		public virtual SelectionMode SelectionMode
@@ -352,6 +361,7 @@ namespace System.Windows.Forms
             //    throw new ArgumentException("SR.DataSourceLocksItems");
             //}
         }
+
         private bool _sorted;
         [DefaultValue(false)]
 		public bool Sorted
@@ -394,6 +404,7 @@ namespace System.Windows.Forms
                 }
             }
         }
+
         private int _topIndex;
 		public int TopIndex
         {
@@ -435,6 +446,7 @@ namespace System.Windows.Forms
         {
             self.ListBox.UnselectAll();
         }
+
         internal bool IsUpdateing = false;
         public void BeginUpdate()
 		{
@@ -518,7 +530,9 @@ namespace System.Windows.Forms
             public ListBoxItem() { 
                base.Xalign = 0;
             }
+
             public object DisplayText { get { return base.Text; } set { base.Text = value?.ToString(); } }
+
             public object ItemValue { get; set; }
             public object CheckValue { get; set; }
 

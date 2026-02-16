@@ -15,6 +15,7 @@ internal partial class PropertyStore
 {
     private static int s_currentKey;
 
+
     private IntegerEntry[]? _intEntries;
     private ObjectEntry[]? _objEntries;
 
@@ -598,10 +599,15 @@ internal partial class PropertyStore
     /// </summary>
     private struct IntegerEntry
     {
+
         public short Key;
+
         public short Mask;  // only lower four bits are used; mask of used values.
+
         public int Value1;
+
         public int Value2;
+
         public int Value3;
         public int Value4;
     }
@@ -615,10 +621,15 @@ internal partial class PropertyStore
     /// </summary>
     private struct ObjectEntry
     {
+
         public short Key;
+
         public short Mask;  // only lower four bits are used; mask of used values.
+
         public object? Value1;
+
         public object? Value2;
+
         public object? Value3;
         public object? Value4;
     }

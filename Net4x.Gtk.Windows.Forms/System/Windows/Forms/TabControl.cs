@@ -17,9 +17,13 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class TabControl : ContainerControl
     {
+
         public readonly TabControlBase self = new TabControlBase();
+
         public override object GtkControl => self;
+
         private TabControl.ControlCollection _controls;
+
         private TabControl.TabPageCollection _tabPageControls;
         public TabControl() : base()
         {
@@ -65,17 +69,25 @@ namespace System.Windows.Forms
                     self.TabPos = PositionType.Bottom;
             }
         }
+
         public bool Multiline { get; set; }
         public int SelectedIndex { get { return self.CurrentPage; } set { self.CurrentPage = value; } }
 
         public TabPage SelectedTab { get { return _controls[self.CurrentPage]; } set { } }
 
+
         public TabSizeMode SizeMode { get; set; }
+
         public TabDrawMode DrawMode { get; set; }
+
         public bool ShowToolTips { get; set; }
+
         public bool ShowTabs { get => self.ShowTabs; set => self.ShowTabs = value; }
+
         public Size ItemSize { get; set; }
+
         public int TabCount { get => self.NPages; }
+
         public TabPageCollection TabPages { get { return _tabPageControls; } }
         public Rectangle GetTabRect(int index)
         {
@@ -88,6 +100,7 @@ namespace System.Windows.Forms
             Gdk.Rectangle rect = tab.Allocation;
             return new Rectangle(0, 0, rect.Width, rect.Height);
         }
+
 
         public new TabControl.ControlCollection Controls => _controls;
         public event EventHandler SelectedIndexChanged;
@@ -168,11 +181,13 @@ namespace System.Windows.Forms
 
         public class TabPageCollection : IList, ICollection, IEnumerable
         {
+
             private TabControl _owner;
             public TabPageCollection(TabControl owner)
             {
                 _owner = owner;
             }
+
 
             public virtual TabPage this[string key] { get { return _owner.Controls.Find(p => p.Name == key); } }
             public virtual TabPage this[int index] { get { return _owner.Controls[index]; } set { Add(value); } }

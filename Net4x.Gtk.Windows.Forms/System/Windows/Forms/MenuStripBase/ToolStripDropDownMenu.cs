@@ -14,12 +14,15 @@ namespace System.Windows.Forms
         
         //public LayoutEngine LayoutEngine { get; }
 
+
         public ToolStripLayoutStyle LayoutStyle { get; set; }
 
         [DefaultValue(true)]
+
         public bool ShowImageMargin { get; set; } = true;
 
         [DefaultValue(false)]
+
         public bool ShowCheckMargin { get; set; }
         protected Padding DefaultPadding { get; }
 

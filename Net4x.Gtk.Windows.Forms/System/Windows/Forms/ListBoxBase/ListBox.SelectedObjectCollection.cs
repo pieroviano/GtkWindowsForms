@@ -15,8 +15,11 @@ namespace System.Windows.Forms
             // This is the bitmask used within ItemArray to identify selected objects.
             internal static int SelectedObjectMask = ItemArray.CreateMask();
 
+
             private readonly ListBox _owner;
+
             private bool _stateDirty;
+
             private int _lastVersion;
             private int _count;
 

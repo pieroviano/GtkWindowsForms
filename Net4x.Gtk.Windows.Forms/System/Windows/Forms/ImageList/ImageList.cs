@@ -26,14 +26,18 @@ namespace System.Windows.Forms
     [TypeConverter(typeof(ImageListConverter))]
     public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
     {
+
         private static readonly Color s_fakeTransparencyColor = Color.FromArgb(0x0d, 0x0b, 0x0c);
         private static readonly Size s_defaultImageSize = new Size(16, 16);
 
+
         private static int s_maxImageWidth;
+
         private static int s_maxImageHeight;
         private static bool s_isScalingInitialized;
 
         private NativeImageList? _nativeImageList;
+
 
         private ColorDepth _colorDepth = ColorDepth.Depth32Bit;
         private Size _imageSize = s_defaultImageSize;
@@ -44,7 +48,9 @@ namespace System.Windows.Forms
         // lists are lossy. At runtime, we delay handle creation as long as possible, and store
         // away the original images until handle creation (and hope no one disposes of the images!). At design time, we keep the originals around indefinitely.
         // This variable will become null when the original images are lost.
+
         private List<Original>? _originals = new List<Original>();
+
         private EventHandler? _recreateHandler;
         private EventHandler? _changeHandler;
 
@@ -111,6 +117,7 @@ namespace System.Windows.Forms
         }
 
         private bool ShouldSerializeImageSize() => Images.Count == 0;
+
 
         private ImageListStreamer? _ImageStream;
         public ImageListStreamer? ImageStream

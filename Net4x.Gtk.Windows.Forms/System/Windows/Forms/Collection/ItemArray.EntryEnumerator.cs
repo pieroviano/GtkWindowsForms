@@ -13,9 +13,13 @@ namespace System.Windows.Forms
         /// </summary>
         private class EntryEnumerator : IEnumerator
         {
+
             private readonly ItemArray _items;
+
             private readonly bool _anyBit;
+
             private readonly int _state;
+
             private int _current;
             private readonly int _version;
 

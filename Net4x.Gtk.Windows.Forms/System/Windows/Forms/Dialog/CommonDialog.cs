@@ -14,6 +14,7 @@ namespace System.Windows.Forms
     [ToolboxItemFilter("System.Windows.Forms")]
     public abstract class CommonDialog : Component
     {
+
         private static readonly object s_helpRequestEvent = new object();
         public CommonDialog()
         {

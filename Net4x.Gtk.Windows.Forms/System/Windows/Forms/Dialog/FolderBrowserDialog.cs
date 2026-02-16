@@ -22,16 +22,22 @@ namespace System.Windows.Forms
             ShowNewFolderButton = true;
             base.Reset();
         }
+
         public Environment.SpecialFolder RootFolder { get; set; } = Environment.SpecialFolder.Desktop;
         public string SelectedPath
         {
             get => SelectedDirectory;
             set => SelectedDirectory = value;
         }
+
         public string[] SelectedPaths => base.FileNames;
+
         private new bool Multiselect => base.Multiselect;
+
         private new string Title => base.Title;
+
         public bool ShowNewFolderButton { get; set; }
+
         public bool SelectedPathNeedsCheck { get; set; }
         public override DialogResult ShowDialog(IWin32Window owner)
         {

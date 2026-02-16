@@ -25,11 +25,17 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     {
+
         public readonly TableLayoutPanelBase self = new TableLayoutPanelBase();
+
         public override object GtkControl => self;
+
         private TableLayoutControlCollection _controls;
+
 		private TableLayoutColumnStyleCollection _columnStyles;
+
 		private TableLayoutRowStyleCollection _rowStyles;
+
         public Gtk.Grid grid => self.grid;
         public TableLayoutPanel():base()
         {
@@ -45,6 +51,7 @@ namespace System.Windows.Forms
         }
 
         [Browsable(false)]
+
         public override BorderStyle BorderStyle { get => base.BorderStyle; set => base.BorderStyle = value; }
 
 
@@ -61,6 +68,7 @@ namespace System.Windows.Forms
 		{
 			get => _controls;
         }
+
 		private int _ColumnCount;
 		[DefaultValue(0)]
 		[Localizable(true)]
@@ -93,6 +101,7 @@ namespace System.Windows.Forms
             get;
             set;
         }
+
         private int _RowCount;
         [DefaultValue(0)]
 		[Localizable(true)]

@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class TrackBarBase : Gtk.Viewport, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public TrackBarBase() : base()
         {

@@ -14,15 +14,20 @@ namespace System.Drawing.Printing
     {
         private string _documentName = "document";
 
+
         private PrintEventHandler _beginPrintHandler;
+
         private PrintEventHandler _endPrintHandler;
+
         private PrintPageEventHandler _printPageHandler;
         private QueryPageSettingsEventHandler _queryHandler;
+
 
         private PrinterSettings _printerSettings = new PrinterSettings();
         private PageSettings _defaultPageSettings;
 
         //private PrintController _printController;
+
 
         private bool _originAtMargins;
         private bool _userSetPageSettings;
@@ -32,6 +37,7 @@ namespace System.Drawing.Printing
             _defaultPageSettings = new PageSettings(_printerSettings);
             _pageSetup = new PageSetup();
         }
+
         private PageSetup _pageSetup;
         public PageSetup PageSetup { 
             get=> _pageSetup; 

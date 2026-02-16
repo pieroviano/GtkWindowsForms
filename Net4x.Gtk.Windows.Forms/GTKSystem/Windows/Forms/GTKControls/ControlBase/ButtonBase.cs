@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ButtonBase: Gtk.Button, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public ButtonBase() : base(new Gtk.Label() { Wrap = true, SingleLineMode = false, LineWrap = true, LineWrapMode = Pango.WrapMode.WordChar })
         {

@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class LabelBase : Gtk.Label, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public LabelBase() : base()
         {

@@ -19,12 +19,19 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class DataGridView : ScrollableControl
     {
+
         public readonly DataGridViewBase self = new DataGridViewBase();
+
         public override object GtkControl => self;
+
         private DataGridViewColumnCollection _columns;
+
         private DataGridViewRowCollection _rows;
+
         private ControlBindingsCollection _collect;
+
         internal Gtk.TreeStore Store = new TreeStore(typeof(DataGridViewCell));
+
         public Gtk.TreeView GridView { get { return self.GridView; } }
         public DataGridView():base()
         {
@@ -44,6 +51,7 @@ namespace System.Windows.Forms
             GridView.RowActivated += GridView_RowActivated;
             GridView.Selection.Changed += Selection_Changed;
         }
+
 
         private List<int> _selectedBandIndexes = new List<int>();
         private void Selection_Changed(object sender, EventArgs e)
@@ -81,7 +89,9 @@ namespace System.Windows.Forms
             Binding binding = DataBindings[args.Property];
             binding.WriteValue();
         }
+
         public event EventHandler SelectionChanged;
+
         public event DataGridViewCellEventHandler CellClick;
         internal void CellValueChanagedHandler(int column, int row)
         {
@@ -90,6 +100,7 @@ namespace System.Windows.Forms
                 CellValueChanged(this, new DataGridViewCellEventArgs(column, row));
             }
         }
+
         public event DataGridViewCellEventHandler CellValueChanged;
         public void SetExpandRow(DataGridViewRow row, bool all)
         {
@@ -99,6 +110,7 @@ namespace System.Windows.Forms
         {
             GridView.CollapseRow(Store.GetPath(row.TreeIter));
         }
+
         private bool _MultiSelect = true;
         public bool MultiSelect { 
             get => _MultiSelect; 
@@ -118,6 +130,7 @@ namespace System.Windows.Forms
                 }
             } 
         }
+
 
         private DataGridViewSelectionMode _SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
         public DataGridViewSelectionMode SelectionMode {
@@ -148,27 +161,40 @@ namespace System.Windows.Forms
                 }
                 
             } }
+
         public string Markup { get; set; } = "...";
+
         public bool ReadOnly { get; set; }
+
         public int RowHeadersWidth { get; set; }
+
         public int ColumnHeadersHeight { get; set; }
         public DataGridViewColumnHeadersHeightSizeMode ColumnHeadersHeightSizeMode
         {
             get;set;
         }
+
         public DataGridViewAutoSizeRowsMode AutoSizeRowsMode { get; set; }
+
         private DataGridViewRow _RowTemplate;
         public DataGridViewRow RowTemplate
         {
             get { return _RowTemplate ??= new DataGridViewRow(); }
             set { _RowTemplate = value; }
         }
+
         public DataGridViewCellStyle DefaultCellStyle { get; set; }
+
         public DataGridViewCellStyle ColumnHeadersDefaultCellStyle { get; set; }
+
         public DataGridViewCellStyle AlternatingRowsDefaultCellStyle { get; set; }
+
         public DataGridViewCellStyle RowsDefaultCellStyle { get; set; }
+
         public DataGridViewCellStyle RowHeadersDefaultCellStyle { get; set; }
+
         public override ControlBindingsCollection DataBindings { get => _collect; }
+
         private object _DataSource;
         public object DataSource
         {
@@ -210,6 +236,7 @@ namespace System.Windows.Forms
             }
             _Created = true;
         }
+
         public string DataMember { get; set; }
         private void LoadDataTableSource(DataTable dt)
         {
@@ -287,6 +314,7 @@ namespace System.Windows.Forms
                 return _columns;
             }
         }
+
         public DataGridViewRowCollection Rows { get { return _rows; } }
         [Browsable(false)]
         public DataGridViewSelectedCellCollection SelectedCells
@@ -441,22 +469,31 @@ namespace System.Windows.Forms
         //[Obsolete(" this event is not implemented， develop independently")]
         //public event EventHandler BackColorChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewAutoSizeModeEventHandler AutoSizeRowsModeChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewAutoSizeColumnsModeEventHandler AutoSizeColumnsModeChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler AutoGenerateColumnsChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler AlternatingRowsDefaultCellStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler AllowUserToResizeRowsChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler AllowUserToResizeColumnsChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler AllowUserToDeleteRowsChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler AllowUserToAddRowsChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler Sorted;
         [Obsolete(" this event is not implemented， develop independently")]
         public event DataGridViewSortCompareEventHandler SortCompare;
@@ -469,132 +506,190 @@ namespace System.Windows.Forms
         //[Obsolete(" this event is not implemented， develop independently")]
         //public event EventHandler BackgroundImageLayoutChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler CellBorderStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewDataErrorEventHandler DataError;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewBindingCompleteEventHandler DataBindingComplete;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler CurrentCellDirtyStateChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler CurrentCellChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnWidthChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnToolTipTextChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnStateChangedEventHandler ColumnStateChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnSortModeChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnRemoved;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnNameChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler DefaultValuesNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnMinimumWidthChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellMouseEventHandler ColumnHeaderMouseDoubleClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellMouseEventHandler ColumnHeaderMouseClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnDividerWidthChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnDividerDoubleClickEventHandler ColumnDividerDoubleClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnDisplayIndexChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnDefaultCellStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnDataPropertyNameChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnContextMenuStripChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnAdded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellValueEventHandler CellValuePushed;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewColumnEventHandler ColumnHeaderCellChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellValueEventHandler CellValueNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewEditingControlShowingEventHandler EditingControlShowing;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler RowContextMenuStripChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler RowUnshared;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowStateChangedEventHandler RowStateChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowsRemovedEventHandler RowsRemoved;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowsAddedEventHandler RowsAdded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowPrePaintEventHandler RowPrePaint;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowPostPaintEventHandler RowPostPaint;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler RowMinimumHeightChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler RowLeave;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowHeightInfoPushedEventHandler RowHeightInfoPushed;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowHeightInfoNeededEventHandler RowHeightInfoNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler NewRowNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler RowHeightChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellMouseEventHandler RowHeaderMouseDoubleClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellMouseEventHandler RowHeaderMouseClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowErrorTextNeededEventHandler RowErrorTextNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler RowErrorTextChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler RowEnter;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler RowDividerHeightChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowDividerDoubleClickEventHandler RowDividerDoubleClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event QuestionEventHandler RowDirtyStateNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler RowDefaultCellStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowContextMenuStripNeededEventHandler RowContextMenuStripNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
         public event DataGridViewRowEventHandler RowHeaderCellChanged;
         //[Obsolete(" this event is not implemented， develop independently")]
         //public event DataGridViewCellEventHandler CellValueChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellValidatingEventHandler CellValidating;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellValidated;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event QuestionEventHandler CancelRowEdit;
         [Obsolete(" this event is not implemented， develop independently")]
         public event DataGridViewAutoSizeColumnModeEventHandler AutoSizeColumnModeChanged;
         //[Obsolete(" this event is not implemented， develop independently")]
         //public event EventHandler TextChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler RowsDefaultCellStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewAutoSizeModeEventHandler RowHeadersWidthSizeModeChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler RowHeadersWidthChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler RowHeadersDefaultCellStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler RowHeadersBorderStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
         public event EventHandler ReadOnlyChanged;
         //[Obsolete(" this event is not implemented， develop independently")]
         //public event EventHandler PaddingChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellCancelEventHandler CellBeginEdit;
         [Obsolete(" this event is not implemented， this event is not implemented， develop independently")]
         public event EventHandler MultiSelectChanged;
@@ -603,83 +698,121 @@ namespace System.Windows.Forms
         //[Obsolete(" this event is not implemented， develop independently")]
         //public event EventHandler ForeColorChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler EditModeChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler DefaultCellStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler DataSourceChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler DataMemberChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewAutoSizeModeEventHandler ColumnHeadersHeightSizeModeChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler ColumnHeadersHeightChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler ColumnHeadersDefaultCellStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler ColumnHeadersBorderStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
         public event EventHandler GridColorChanged;
         //[Obsolete(" this event is not implemented， develop independently")]
         //public event DataGridViewCellEventHandler CellClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellContentClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellContentDoubleClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellToolTipTextNeededEventHandler CellToolTipTextNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellToolTipTextChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellStyleContentChangedEventHandler CellStyleContentChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellStateChangedEventHandler CellStateChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellParsingEventHandler CellParsing;
+
         public event DataGridViewCellPaintingEventHandler CellPainting;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellMouseEventHandler CellMouseUp;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellMouseEventHandler CellMouseMove;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellMouseLeave;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellMouseEnter;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellMouseEventHandler CellMouseDown;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellMouseEventHandler CellMouseDoubleClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellMouseEventHandler CellMouseClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellLeave;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellFormattingEventHandler CellFormatting;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellErrorTextNeededEventHandler CellErrorTextNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellErrorTextChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellEnter;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellEndEdit;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellDoubleClick;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellContextMenuStripNeededEventHandler CellContextMenuStripNeeded;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler CellContextMenuStripChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event EventHandler BorderStyleChanged;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellEventHandler RowValidated;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewCellCancelEventHandler RowValidating;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowCancelEventHandler UserDeletingRow;
         [Obsolete(" this event is not implemented， develop independently")]
+
         public event DataGridViewRowEventHandler UserDeletedRow;
         [Obsolete(" this event is not implemented， develop independently")]
         public event DataGridViewRowEventHandler UserAddedRow;

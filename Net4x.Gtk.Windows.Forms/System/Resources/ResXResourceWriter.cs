@@ -17,18 +17,31 @@ namespace System.Resources
     /// </summary>
     public class ResXResourceWriter : IResourceWriter
     {
+
         internal const string TypeStr = "type";
+
         internal const string NameStr = "name";
+
         internal const string DataStr = "data";
+
         internal const string MetadataStr = "metadata";
+
         internal const string MimeTypeStr = "mimetype";
+
         internal const string ValueStr = "value";
+
         internal const string ResHeaderStr = "resheader";
+
         internal const string VersionStr = "version";
+
         internal const string ResMimeTypeStr = "resmimetype";
+
         internal const string ReaderStr = "reader";
+
         internal const string WriterStr = "writer";
+
         internal const string CommentStr = "comment";
+
         internal const string AssemblyStr = "assembly";
         internal const string AliasStr = "alias";
 
@@ -37,10 +50,15 @@ namespace System.Resources
         private static readonly TraceSwitch s_resValueProviderSwitch = new TraceSwitch("ResX", "Debug the resource value provider");
 
 #pragma warning disable IDE1006 // Naming Styles (Shipped public API)
+
         public static readonly string BinSerializedObjectMimeType = "application/x-microsoft.net.object.binary.base64";
+
         public static readonly string SoapSerializedObjectMimeType = "application/x-microsoft.net.object.soap.base64";
+
         public static readonly string DefaultSerializedObjectMimeType = BinSerializedObjectMimeType;
+
         public static readonly string ByteArraySerializedObjectMimeType = "application/x-microsoft.net.object.bytearray.base64";
+
         public static readonly string ResMimeType = "text/microsoft-resx";
         public static readonly string Version = "2.0";
 
@@ -94,10 +112,14 @@ namespace System.Resources
         ";
 #pragma warning restore IDE1006 // Naming Styles
 
+
         private readonly string _fileName;
+
         private Stream _stream;
+
         private TextWriter _textWriter;
         private XmlTextWriter _xmlTextWriter;
+
 
         private bool _hasBeenSaved;
         private bool _initialized;

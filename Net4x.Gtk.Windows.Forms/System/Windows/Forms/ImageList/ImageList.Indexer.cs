@@ -16,10 +16,13 @@ namespace System.Windows.Forms
             internal const int NoneIndex = -2;
 
             // Used by generally across the board to indicate unset image
+
             internal const string DefaultKey = "";
             internal const int DefaultIndex = -1;
 
+
             private string _key = DefaultKey;
+
             private int _index = DefaultIndex;
             private bool _useIntegerIndex = true;
 

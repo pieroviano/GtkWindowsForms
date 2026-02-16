@@ -12,8 +12,11 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public class VScrollBar : ScrollBar
     {
+
         public ScrollbarBase<Gtk.VScrollbar> self=new ScrollbarBase<Gtk.VScrollbar>(Gtk.Orientation.Vertical);
+
         public override object GtkControl => self;
+
         public override Gtk.Adjustment Adjustment { get => self.Adjustment; }
         public VScrollBar() : base()
         {

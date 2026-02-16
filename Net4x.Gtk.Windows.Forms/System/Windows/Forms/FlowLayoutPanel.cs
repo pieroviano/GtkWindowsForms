@@ -16,8 +16,11 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class FlowLayoutPanel : Control, IExtenderProvider
     {
+
         public readonly FlowLayoutPanelBase self = new FlowLayoutPanelBase();
+
         public override object GtkControl => self;
+
         private ObjectCollection _controls;
         public FlowLayoutPanel() : base()
         {
@@ -30,6 +33,7 @@ namespace System.Windows.Forms
             self.BorderWidth = 0;
             _controls = new ObjectCollection(this);
         }
+
 
         private FlowDirection _FlowDirection;
 		public FlowDirection FlowDirection
@@ -53,6 +57,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         public override ControlCollection Controls => _controls;
         public bool CanExtend(object extendee)
         {
@@ -60,6 +65,7 @@ namespace System.Windows.Forms
         }
         public class ObjectCollection : ControlCollection
         {
+
             private FlowLayoutPanel _owner;
             public ObjectCollection(FlowLayoutPanel owner) : base(owner)
             {

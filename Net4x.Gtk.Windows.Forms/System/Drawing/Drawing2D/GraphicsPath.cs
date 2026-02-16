@@ -58,6 +58,7 @@ namespace System.Drawing.Drawing2D
 			get;
 			private set;
 		}
+
         public List<PointF> SizePoints = new List<PointF>();
         private void AddPathPoints(params PointF[] points) {
             foreach (var p in points)
@@ -65,14 +66,19 @@ namespace System.Drawing.Drawing2D
         }
 		public class ArcMode
 		{
+
             public RectangleF rect { get; set; }
+
             public float startAngle { get; set; }
             public float sweepAngle { get; set; }
         }
         public class BezierMode
         {
+
             public PointF pt1 { get; set; }
+
             public PointF pt2 { get; set; }
+
             public PointF pt3 { get; set; }
             public PointF pt4 { get; set; }
         }
@@ -82,14 +88,19 @@ namespace System.Drawing.Drawing2D
         }
         public class ClosedCurveMode
         {
+
             public PointF[] points { get; set; }
+
             public float tension { get; set; }
             public FillMode fillmode { get; set; }
         }
         public class CurveMode
         {
+
             public PointF[] points { get; set; }
+
             public int offset { get; set; }
+
             public int numberOfSegments { get; set; }
             public float tension { get; set; }
         }
@@ -99,6 +110,7 @@ namespace System.Drawing.Drawing2D
         }
         public class LineMode
         {
+
             public PointF pt1 { get; set; }
             public PointF pt2 { get; set; }
         }
@@ -108,12 +120,15 @@ namespace System.Drawing.Drawing2D
         }
         public class PathMode
         {
+
             public GraphicsPath path { get; set; }
             public bool connect { get; set; }
         }
         public class PieMode
         {
+
             public RectangleF rect { get; set; }
+
             public float startAngle { get; set; }
             public float sweepAngle { get; set; }
         }
@@ -131,18 +146,25 @@ namespace System.Drawing.Drawing2D
         }
         public class StringMode
         {
+
             public string text { get; set; }
+
             public FontFamily family { get; set; }
+
             public int style { get; set; }
+
             public float emSize { get; set; }
+
             public RectangleF layoutRect { get; set; }
             public StringFormat? format { get; set; }
         }
         public class FigureMode
         {
+
             public bool start { get; set; }
             public bool close { get; set; }
         }
+
         internal Cairo.Context Context { get; set; }
         internal ArrayList list = new ArrayList();
 
@@ -1159,10 +1181,15 @@ namespace System.Drawing.Drawing2D
             this.matrix= matrix;
             this.flatness= flatness;
 		}
+
         internal PointF[] destPoints { get; set; }
+
         internal RectangleF srcRect { get; set; }
+
         internal WarpMode warpMode { get; set; }
+
         internal Pen pen { get; set; }
+
         internal Matrix matrix { get; set; }
         internal float flatness { get; set; }
     }

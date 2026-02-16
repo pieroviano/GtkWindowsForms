@@ -5,13 +5,21 @@ namespace System.Windows.Forms;
 
 public sealed class DataGridViewAdvancedBorderStyle : ICloneable
 {
+
     private readonly DataGridView? _owner;
+
     private bool _all = true;
+
     private readonly DataGridViewAdvancedCellBorderStyle _banned1;
+
     private readonly DataGridViewAdvancedCellBorderStyle _banned2;
+
     private readonly DataGridViewAdvancedCellBorderStyle _banned3;
+
     private DataGridViewAdvancedCellBorderStyle _top = DataGridViewAdvancedCellBorderStyle.None;
+
     private DataGridViewAdvancedCellBorderStyle _left = DataGridViewAdvancedCellBorderStyle.None;
+
     private DataGridViewAdvancedCellBorderStyle _right = DataGridViewAdvancedCellBorderStyle.None;
     private DataGridViewAdvancedCellBorderStyle _bottom = DataGridViewAdvancedCellBorderStyle.None;
 

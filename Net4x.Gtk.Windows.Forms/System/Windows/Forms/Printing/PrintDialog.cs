@@ -9,6 +9,7 @@ namespace System.Windows.Forms
     [DefaultProperty(nameof(Document))]
     public sealed class PrintDialog : CommonDialog
     {
+
         private PrinterSettings _printerSettings;
         private PrintDocument _printDocument;
 

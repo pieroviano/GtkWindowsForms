@@ -9,6 +9,7 @@ namespace System.Windows.Forms;
 
 public abstract class BindingManagerBase
 {
+
     private BindingsCollection? _bindings;
     private bool _pullingData;
 
@@ -222,9 +223,12 @@ public abstract class BindingManagerBase
         remove => _dataError -= value;
     }
 
+
     internal abstract string? GetListName();
+
     public abstract void CancelCurrentEdit();
     public abstract void EndCurrentEdit();
+
 
     public abstract void AddNew();
     public abstract void RemoveAt(int index);

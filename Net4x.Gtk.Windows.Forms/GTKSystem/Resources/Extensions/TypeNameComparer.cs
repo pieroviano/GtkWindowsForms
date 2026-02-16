@@ -9,6 +9,7 @@ namespace GtkSystem.Resources.Extensions
 	{
 		private static readonly char[] s_whiteSpaceChars = new char[4] { ' ', '\n', '\r', '\t' };
 
+
 		public static TypeNameComparer Instance { get; } = new TypeNameComparer();
 
 

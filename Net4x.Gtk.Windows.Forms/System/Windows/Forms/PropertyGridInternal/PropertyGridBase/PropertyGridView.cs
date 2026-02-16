@@ -16,9 +16,13 @@ namespace System.Windows.Forms.PropertyGridInternal;
 
 internal sealed partial class PropertyGridView 
 {
+
     public Gtk.TreeView tree = new Gtk.TreeView();
+
     public Gtk.TreeStore store = new Gtk.TreeStore(typeof(GridEntry));
+
     public PropertyGrid OwnerGrid { get; private set; }
+
     private object _selectedObject;
     public PropertyGridView(PropertyGrid propertyGrid)
     {
@@ -107,6 +111,7 @@ internal sealed partial class PropertyGridView
 
         tree.Model = store;
     }
+
     private GridEntry oldSelectedPropertyItem;
     private void Selection_Changed(object sender, EventArgs e)
     {
@@ -256,7 +261,9 @@ internal sealed partial class PropertyGridView
         else
             return store.AppendValues(parent.Value, value);
     }
+
     public event PropertyValueChangedEventHandler PropertyValueChanged;
+
     public event SelectedGridItemChangedEventHandler SelectedGridItemChanged;
     public class CellRendererExpander : Gtk.CellRendererToggle
     {
@@ -418,6 +425,7 @@ internal sealed partial class PropertyGridView
                     owner.PropertyValueChanged(o, new PropertyValueChangedEventArgs(val, oldvalue));
             }
         }
+
         private GridEntry _value;
         [Property("otext")]
         public GridEntry OText

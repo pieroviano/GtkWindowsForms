@@ -20,15 +20,25 @@ namespace System.Windows.Forms
     [DefaultEvent("SelectedIndexChanged")]
     public class ListView : ContainerControl
     {
+
         public readonly ListViewBase self = new ListViewBase();
+
         public override object GtkControl => self;
+
         private ListViewItemCollection _items;
+
         private ListViewGroupCollection _groups;
+
         private ColumnHeaderCollection _columns;
+
         internal Gtk.ScrolledWindow scrolledWindow = new Gtk.ScrolledWindow();
+
         internal Gtk.Box flowBoxContainer = new Gtk.Box(Gtk.Orientation.Vertical, 0);
+
         internal Gtk.Box header = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
+
         internal Gtk.Layout headerView;
+
         private int __headerheight = 30;
         public ListView() : base()
         {
@@ -69,6 +79,7 @@ namespace System.Windows.Forms
             headerView.Hadjustment.Value = scrolledWindow.Hadjustment.Value;
         }
 
+
         private bool ControlRealized = false;
         private void Control_Realized(object sender, EventArgs e)
         {
@@ -95,19 +106,31 @@ namespace System.Windows.Forms
             MultiSelect = MultiSelect == true;
             self.ShowAll();
         }
+
         public bool Sorted { get; set; }
+
         public System.Windows.Forms.SortOrder Sorting { get; set; }
+
         public System.Windows.Forms.ListViewAlignment Alignment { get; set; }
+
         public bool AllowColumnReorder { get; set; }
+
         public bool GridLines { get; set; } = true;
+
         public ImageList GroupImageList { get; set; }
         public System.Windows.Forms.ColumnHeaderStyle HeaderStyle { get; set; } = ColumnHeaderStyle.Clickable;
 
+
         public bool HideSelection { get; set; }
+
         public bool HoverSelection { get; set; }
+
         public bool LabelEdit { get; set; }
+
         public bool LabelWrap { get; set; }
+
         public ImageList LargeImageList { get; set; }
+
         private bool _MultiSelect = true;
         public virtual bool MultiSelect
         {
@@ -132,8 +155,11 @@ namespace System.Windows.Forms
             }
         }
 
+
         public bool OwnerDraw { get; set; }
+
         public bool Scrollable { get; set; }
+
         public bool ShowGroups { get; set; } = true;
         public bool ShowItemToolTips { get; set; }
 
@@ -141,8 +167,11 @@ namespace System.Windows.Forms
 
         public ImageList StateImageList { get; set; }
 
+
         public bool UseCompatibleStateImageBehavior { get; set; }
+
         public System.Windows.Forms.View View { get; set; }
+
         private int _fontSize;
         internal int FontSize
         {
@@ -234,6 +263,7 @@ namespace System.Windows.Forms
                 }
             }
         }
+
         private int SortingColumnIndex = -1;
         private void Columbt_Clicked(object sender, EventArgs e)
         {
@@ -920,6 +950,7 @@ namespace System.Windows.Forms
                 group.FlowBox.InvalidateSort();
             }
         }
+
         private bool IsCacheUpdate;
         public void BeginUpdate()
         {
@@ -931,6 +962,7 @@ namespace System.Windows.Forms
             self.Window.ProcessUpdates(true);
             self.ShowAll();
         }
+
         private ListViewGroup _defaultGroup;
         internal ListViewGroup DefaultGroup
         {
@@ -1470,11 +1502,17 @@ namespace System.Windows.Forms
             throw new System.NotImplementedException();
         }
 
+
         public event ColumnClickEventHandler ColumnClick;
+
         public event ColumnReorderedEventHandler ColumnReordered;
+
         public event ItemCheckEventHandler ItemCheck;
+
         public event ItemCheckedEventHandler ItemChecked;
+
         public event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
+
         public event EventHandler SelectedIndexChanged;
         public event EventHandler ItemActivate;
     }

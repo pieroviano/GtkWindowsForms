@@ -21,12 +21,17 @@ namespace System.Windows.Forms
     [ToolboxItemFilter("System.Windows.Forms")]
     public partial class Control : Component, IControl, ISynchronizeInvoke, IComponent, IDisposable, ISupportInitialize, IArrangedElement, IBindableComponent
     {
+
         private Gtk.Application app = Application.Init();
         public string unique_key { get; protected set; }
 
+
         public virtual Gtk.Widget Widget { get => GtkControl as Gtk.Widget; }
+
         public virtual Gtk.Container GtkContainer { get => GtkControl as Gtk.Container; }
+
         public virtual IControlGtk ISelf { get => GtkControl as IControlGtk; }
+
         public virtual object GtkControl { get; set; }
         public Control()
         {
@@ -63,9 +68,13 @@ namespace System.Windows.Forms
                 widget.SizeAllocated += Widget_SizeAllocated;
             }
         }
+
         private int size_width = 0;
+
         private int size_height = 0;
+
         private int location_x = 0;
+
         private int location_y = 0;
         private void Widget_SizeAllocated(object o, SizeAllocatedArgs args)
         {
@@ -93,6 +102,7 @@ namespace System.Windows.Forms
             Move?.Invoke(this, args);
         }
         #region events
+
         private bool WidgetRealized = false;
         private void Widget_Realized(object sender, EventArgs e)
         {
@@ -485,12 +495,17 @@ namespace System.Windows.Forms
         }
 
         #region Background
+
         public virtual System.Drawing.Image Image { get; set; }
         public virtual System.Drawing.ContentAlignment ImageAlign { get; set; }
 
+
         public virtual bool UseVisualStyleBackColor { get; set; } = true;
+
         public virtual Color VisualStyleBackColor { get; }
+
         public virtual ImageLayout BackgroundImageLayout { get => ISelf == null ? ImageLayout.None : ISelf.Override.BackgroundImageLayout; set { if (ISelf != null) { ISelf.Override.BackgroundImageLayout = value; } } }
+
         public virtual Drawing.Image BackgroundImage { get => ISelf == null ? null : ISelf.Override.BackgroundImage; set { if (ISelf != null) { ISelf.Override.BackgroundImage = value; Refresh(); } } }
         public virtual Color BackColor
         {
@@ -521,11 +536,17 @@ namespace System.Windows.Forms
         #endregion
         public virtual AccessibleObject AccessibilityObject { get; }
 
+
         public virtual string AccessibleDefaultActionDescription { get; set; }
+
         public virtual string AccessibleDescription { get; set; }
+
         public virtual string AccessibleName { get; set; }
+
         public virtual AccessibleRole AccessibleRole { get; set; }
+
         public virtual bool AllowDrop { get; set; }
+
         private AnchorStyles _anchor;
         public virtual AnchorStyles Anchor
         {
@@ -574,7 +595,9 @@ namespace System.Windows.Forms
                 widget.Valign = Gtk.Align.Start;
             }
         }
+
         public virtual Point AutoScrollOffset { get; set; }
+
         private bool _autoSize;
         public virtual bool AutoSize
         {
@@ -585,6 +608,7 @@ namespace System.Windows.Forms
                 if (_autoSize == true) { this.Widget.WidthRequest = -1; this.Widget.HeightRequest = -1; } else { Size = _size; }
             }
         }
+
         public virtual BindingContext BindingContext { get; set; }
         public virtual Rectangle Bounds { get => new Rectangle(Widget.Clip.X, this.Widget.Clip.Y, this.Widget.Clip.Width, this.Widget.Clip.Height); set { SetBounds(value.X, value.Y, value.Width, value.Height); } }
 
@@ -592,7 +616,9 @@ namespace System.Windows.Forms
 
         public virtual bool CanSelect { get; }
 
+
         public virtual bool Capture { get; set; }
+
         public virtual bool CausesValidation { get; set; }
         public virtual string CompanyName { get; }
 
@@ -601,6 +627,7 @@ namespace System.Windows.Forms
         public virtual ContextMenuStrip ContextMenuStrip { get; set; }
 
         public virtual ControlCollection Controls { get; }
+
 
         public virtual bool Created => _Created;
         internal bool _Created;
@@ -613,7 +640,9 @@ namespace System.Windows.Forms
 
         public virtual Rectangle DisplayRectangle { get; }
 
+
         public virtual bool Disposing { get; }
+
         private DockStyle _dock;
         public virtual DockStyle Dock
         {
@@ -660,7 +689,9 @@ namespace System.Windows.Forms
         }
         public virtual bool Enabled { get { return this.Widget.Sensitive; } set { this.Widget.Sensitive = value; } }
 
+
         public virtual bool Focused { get { return this.Widget.IsFocus; } }
+
         private Font _Font;
         public virtual Font Font
         {
@@ -685,6 +716,7 @@ namespace System.Windows.Forms
                 UpdateStyle(); 
             }
         }
+
         private Color _ForeColor;
         public virtual Color ForeColor
         {
@@ -705,6 +737,7 @@ namespace System.Windows.Forms
         public virtual bool IsHandleCreated { get => this.Widget.IsRealized; }
 
         public virtual bool IsMirrored { get; }
+
 
         public virtual LayoutEngine LayoutEngine { get; }
         public virtual int Top
@@ -739,6 +772,7 @@ namespace System.Windows.Forms
         {
             get => this.Widget.MarginBottom;
         }
+
         internal bool LockLocation = false;// because the code executes sequentially， special locking
         public virtual Point Location
         {
@@ -755,16 +789,25 @@ namespace System.Windows.Forms
                 }
             }
         }
+
         public virtual string Name { get { return this.Widget.Name; } set { this.Widget.Name = value; } }
+
         public virtual Padding Padding { get; set; }
+
         public virtual Control Parent { get; set; }
+
         public virtual Size PreferredSize { get; }
+
         public virtual string ProductName { get; }
+
         public virtual string ProductVersion { get; }
+
         public virtual bool RecreatingHandle { get; }
         public virtual Drawing.Region Region { get; set; }
 
+
         public virtual RightToLeft RightToLeft { get; set; }
+
         private Size _size;
         public virtual Size Size
         {
@@ -828,32 +871,53 @@ namespace System.Windows.Forms
                     AnchorChanged(this, EventArgs.Empty);
             }
         }
+
         public virtual int TabIndex { get; set; }
+
         public virtual bool TabStop { get; set; }
+
         public virtual object Tag { get; set; }
+
         public virtual string Text { get; set; }
+
         public virtual Control TopLevelControl { get; }
+
         public virtual bool UseWaitCursor { get; set; }
         public virtual bool Visible { get { return this.Widget.Visible; } set { this.Widget.Visible = value; this.Widget.NoShowAll = value == false; } }
 
+
         protected virtual Size DefaultSize { get; }
+
         protected virtual Padding DefaultPadding { get; }
+
         protected virtual Size DefaultMinimumSize { get; }
+
         protected virtual Padding DefaultMargin { get; }
+
         protected virtual Cursor DefaultCursor { get; }
+
         protected override bool CanRaiseEvents { get; }
+
         protected virtual bool DoubleBuffered { get; set; }
+
         protected int FontHeight { get; set; }
+
         protected virtual Size DefaultMaximumSize { get; }
+
         protected virtual ImeMode ImeModeBase { get; set; }
+
         protected virtual ImeMode DefaultImeMode { get; }
+
         protected virtual bool CanEnableIme { get; }
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         protected virtual bool ScaleChildren { get; }
+
         protected bool ResizeRedraw { get; set; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         protected internal virtual bool ShowFocusCues { get; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -861,79 +925,147 @@ namespace System.Windows.Forms
         protected internal virtual bool ShowKeyboardCues { get; }
 
 
+
         public virtual IWindowTarget WindowTarget { get; set; }
+
         public virtual event EventHandler AutoSizeChanged;
+
         public virtual event EventHandler BackColorChanged;
+
         public virtual event EventHandler BackgroundImageChanged;
+
         public virtual event EventHandler BackgroundImageLayoutChanged;
+
         public virtual event EventHandler BindingContextChanged;
+
         public virtual event EventHandler CausesValidationChanged;
+
         public virtual event UICuesEventHandler ChangeUICues;
+
         public virtual event EventHandler Click;
+
         public virtual event EventHandler ClientSizeChanged;
+
         public virtual event EventHandler ContextMenuStripChanged;
+
         public virtual event ControlEventHandler ControlAdded;
+
         public virtual event ControlEventHandler ControlRemoved;
+
         public virtual event EventHandler CursorChanged;
+
         public virtual event EventHandler DockChanged;
+
         public virtual event EventHandler AnchorChanged;
+
         public virtual event EventHandler DoubleClick;
+
         public virtual event EventHandler DpiChangedAfterParent;
+
         public virtual event EventHandler DpiChangedBeforeParent;
+
         public virtual event DragEventHandler DragDrop;
+
         public virtual event DragEventHandler DragEnter;
+
         public virtual event EventHandler DragLeave;
+
         public virtual event DragEventHandler DragOver;
+
         public virtual event EventHandler EnabledChanged;
+
         public virtual event EventHandler Enter;
+
         public virtual event EventHandler FontChanged;
+
         public virtual event EventHandler ForeColorChanged;
+
         public virtual event GiveFeedbackEventHandler GiveFeedback;
+
         public virtual event EventHandler GotFocus;
+
         public virtual event EventHandler HandleCreated;
+
         public virtual event EventHandler HandleDestroyed;
+
         public virtual event HelpEventHandler HelpRequested;
+
         public virtual event EventHandler ImeModeChanged;
+
         public virtual event InvalidateEventHandler Invalidated;
+
         public virtual event KeyEventHandler KeyDown;
+
         public virtual event KeyPressEventHandler KeyPress;
+
         public virtual event KeyEventHandler KeyUp;
+
         public virtual event LayoutEventHandler Layout;
+
         public virtual event EventHandler Leave;
+
         public virtual event EventHandler LocationChanged;
+
         public virtual event EventHandler LostFocus;
+
         public virtual event EventHandler MarginChanged;
+
         public virtual event EventHandler MouseCaptureChanged;
+
         public virtual event MouseEventHandler MouseClick;
+
         public virtual event MouseEventHandler MouseDoubleClick;
+
         public virtual event MouseEventHandler MouseDown;
+
         public virtual event EventHandler MouseEnter;
+
         public virtual event EventHandler MouseHover;
+
         public virtual event EventHandler MouseLeave;
+
         public virtual event MouseEventHandler MouseMove;
+
         public virtual event MouseEventHandler MouseUp;
+
         public virtual event MouseEventHandler MouseWheel;
+
         public virtual event EventHandler Move;
         public virtual event EventHandler PaddingChanged;
         //public virtual event PaintEventHandler Paint;
+
         public virtual event EventHandler ParentChanged;
+
         public virtual event PreviewKeyDownEventHandler PreviewKeyDown;
+
         public virtual event QueryAccessibilityHelpEventHandler QueryAccessibilityHelp;
+
         public virtual event QueryContinueDragEventHandler QueryContinueDrag;
+
         public virtual event EventHandler RegionChanged;
+
         public virtual event EventHandler Resize;
+
         public virtual event EventHandler RightToLeftChanged;
+
         public virtual event EventHandler SizeChanged;
+
         public virtual event EventHandler StyleChanged;
+
         public virtual event EventHandler SystemColorsChanged;
+
         public virtual event EventHandler TabIndexChanged;
+
         public virtual event EventHandler TabStopChanged;
         public virtual event EventHandler TextChanged;
 
+
         public virtual event EventHandler Validated;
+
         public virtual event CancelEventHandler Validating;
         public virtual event EventHandler VisibleChanged;
         //public event EventHandler Disposed;
+
         public virtual event EventHandler Load;
         public virtual IAsyncResult BeginInvoke(Delegate method, params object[] args)
         {
@@ -1408,10 +1540,15 @@ namespace System.Windows.Forms
 
         public virtual Size ClientSize { get { return new Size(Widget.AllocatedWidth, this.Widget.AllocatedHeight); } set { this.Widget.SetSizeRequest(value.Width, value.Height); } }
 
+
         public virtual IntPtr Handle { get => this.Widget == null ? IntPtr.Zero : this.Widget.Handle; }
+
         public virtual Padding Margin { get; set; }
+
         public virtual Size MaximumSize { get; set; }
+
         public virtual Size MinimumSize { get; set; }
+
         private BorderStyle _BorderStyle;
         public virtual BorderStyle BorderStyle
         {
@@ -1541,7 +1678,9 @@ namespace System.Windows.Forms
 
         IArrangedElement IArrangedElement.Container => throw new NotImplementedException();
 
+
         private ArrangedElementCollection arrangedElementCollection;
+
         public ArrangedElementCollection Children => arrangedElementCollection;
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnLoad(EventArgs e)

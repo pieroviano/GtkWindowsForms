@@ -27,10 +27,14 @@ namespace System.Windows.Forms
 
         public bool RestoreDirectory { get; set; }
 
+
         public string InitialDirectory { get; set; }
+
         public string Description { get; set; }
+
         internal bool Multiselect { get; set; }
         public int FilterIndex { get; set; }
+
 
         private string _filter;
         public string Filter
@@ -70,9 +74,13 @@ namespace System.Windows.Forms
             }
         }
 
+
         public bool AutoUpgradeEnabled { get; set; }
+
         internal string SelectedDirectory { get; set; }
+
         public string FileName { get; set; }
+
         public string[] FileNames { get; internal set; }
         public bool DereferenceLinks { get; set; }
 
@@ -84,7 +92,9 @@ namespace System.Windows.Forms
 
         public bool AddExtension { get; set; }
 
+
         public event CancelEventHandler FileOk;
+
         internal Gtk.FileChooserAction ActionType { get; set; }
         public override void Reset()
         {
@@ -156,6 +166,7 @@ namespace System.Windows.Forms
             fileDialog.Destroy();
             return response == -5;
         }
+
         static Dictionary<string, string> MimeMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         static FileDialog()
         {

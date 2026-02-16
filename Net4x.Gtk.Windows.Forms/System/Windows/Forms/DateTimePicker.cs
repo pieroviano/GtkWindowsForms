@@ -132,7 +132,9 @@ namespace System.Windows.Forms
             }
         }
 
+
         public DateTime MaxDate { get; set; } = DateTime.MaxValue;
+
         public DateTime MinDate { get; set; } = DateTime.MinValue;
         public DateTime Value
         {
@@ -181,12 +183,14 @@ namespace System.Windows.Forms
                     base.Text = value.ToString(Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd); 
             }
         }
+
         private string _CustomFormat= Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd;
         public string CustomFormat { get => _CustomFormat; 
             set { _CustomFormat = value; 
                 base.Mask = Regex.Replace(value,"[ymdhs]","_",RegexOptions.IgnoreCase); 
             }
         }
+
         public DateTimePickerFormat _Format;
         public DateTimePickerFormat Format { get => _Format;
             set {
@@ -203,10 +207,15 @@ namespace System.Windows.Forms
                     base.Mask = Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
             } 
         }
+
         public Font CalendarFont { get; set; }
+
         public Color CalendarForeColor { get; set; }
+
         public Color CalendarMonthBackground { get; set; }
+
         public Color CalendarTitleBackColor { get; set; }
+
         public Color CalendarTitleForeColor { get; set; }
         public Color CalendarTrailingForeColor { get; set; }
 

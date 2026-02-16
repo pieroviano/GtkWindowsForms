@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class TextBoxBase : Gtk.Entry, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public TextBoxBase() : base()
         {

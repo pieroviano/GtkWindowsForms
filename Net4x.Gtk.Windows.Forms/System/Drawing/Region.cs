@@ -7,7 +7,9 @@ namespace System.Drawing
 	/// </summary>
 	public sealed class Region : MarshalByRefObject, IDisposable
 	{
+
 		private RectangleF rectangle = new RectangleF(0, 0, 0, 0);
+
 		private RegionData regionData = new RegionData();
 		private GraphicsPath graphicsPath = new GraphicsPath();
         /// <summary>

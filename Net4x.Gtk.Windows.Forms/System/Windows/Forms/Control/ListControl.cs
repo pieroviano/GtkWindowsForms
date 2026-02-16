@@ -6,6 +6,7 @@ namespace System.Windows.Forms
 	[LookupBindingProperties("DataSource", "DisplayMember", "ValueMember", "SelectedValue")]
 	public abstract class ListControl : ScrollableControl
     {
+
         protected new EventHandlerList Events = new EventHandlerList();
         [DefaultValue(null)]
 		[RefreshProperties(RefreshProperties.Repaint)]
@@ -48,6 +49,7 @@ namespace System.Windows.Forms
             get; set;
         }
 
+
         public abstract int SelectedIndex { get; set; }
 
 		[DefaultValue(null)]
@@ -67,6 +69,7 @@ namespace System.Windows.Forms
 
         public event EventHandler DisplayMemberChanged;
 
+
 		public event ListControlConvertEventHandler Format;
 
 		[Browsable(false)]
@@ -76,6 +79,7 @@ namespace System.Windows.Forms
 		public event EventHandler FormatStringChanged;
 
         public event EventHandler FormattingEnabledChanged;
+
 
         public event EventHandler ValueMemberChanged;
         public event EventHandler SelectedItemChanged

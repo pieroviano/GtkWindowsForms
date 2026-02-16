@@ -28,7 +28,9 @@ namespace System.Windows.Forms.GtkRender
 
     public class CellRendererValue : CellRendererText, ICellRenderer
     {
+
         private DataGridViewColumn Column;
+
         private CellReandererUtility utility;
         public CellRendererValue(DataGridViewColumn view)
         {
@@ -52,6 +54,7 @@ namespace System.Windows.Forms.GtkRender
                 }
             }
         }
+
         public DataGridViewCellStyle ColumnStyle { get; set; }
         public bool Activatable { get; set; }
         string ICellRenderer.Markup { get; set; }
@@ -59,6 +62,7 @@ namespace System.Windows.Forms.GtkRender
     public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     {
         DataGridViewColumn Column;
+
         private CellReandererUtility utility;
         public CellRendererToggleValue(DataGridViewColumn view)
         {
@@ -82,16 +86,22 @@ namespace System.Windows.Forms.GtkRender
                 }
             }
         }
+
         public DataGridViewCellStyle ColumnStyle { get; set; }
+
         public Pango.WrapMode WrapMode { get; set; }
+
         public int WrapWidth { get; set; }
+
         public int WidthChars { get; set; }
+
         public string Markup { get; set; }
         public bool Editable { get; set; }
     }
     public class CellRendererComboValue : CellRendererCombo, ICellRenderer
     {
         DataGridViewColumn Column;
+
         private CellReandererUtility utility;
         public CellRendererComboValue(DataGridViewColumn view)
         {
@@ -114,6 +124,7 @@ namespace System.Windows.Forms.GtkRender
                 }
             }
         }
+
         public DataGridViewCellStyle ColumnStyle { get; set; }
         public bool Activatable { get; set; }
         string ICellRenderer.Markup { get; set; }
@@ -121,6 +132,7 @@ namespace System.Windows.Forms.GtkRender
     public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     {
         DataGridViewColumn Column;
+
         private CellReandererUtility utility;
         public CellRendererPixbufValue(DataGridViewColumn view)
         {
@@ -162,17 +174,24 @@ namespace System.Windows.Forms.GtkRender
                 }
             }
         }
+
         public DataGridViewCellStyle ColumnStyle { get; set; }
+
         public Pango.WrapMode WrapMode { get; set; }
+
         public int WrapWidth { get; set; }
+
         public int WidthChars { get; set; }
+
         public string Markup { get; set; }
+
         public bool Editable { get; set; }
         public bool Activatable { get; set; }
     }
     public class CellRendererButtonValue : CellRendererText, ICellRenderer
     {
         DataGridViewColumn Column;
+
         private CellReandererUtility utility;
         public CellRendererButtonValue(DataGridViewColumn view)
         {
@@ -198,6 +217,7 @@ namespace System.Windows.Forms.GtkRender
                 }
             }
         }
+
         public DataGridViewCellStyle ColumnStyle { get; set; }
         public bool Activatable { get; set; }
         string ICellRenderer.Markup { get; set; }

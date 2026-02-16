@@ -17,8 +17,11 @@ namespace System.Windows.Forms
     [ToolboxItem(true)]
     public partial class UserControl : ContainerControl
     {
+
         public readonly UserControlBase self = new UserControlBase();
+
         public override object GtkControl => self;
+
         private Gtk.Overlay contaner;
         private ControlCollection _controls;
 
@@ -60,8 +63,11 @@ namespace System.Windows.Forms
             OnPaint(e);
         }
 
+
         public override event EventHandler Load;
+
         public System.Drawing.SizeF AutoScaleDimensions { get; set; }
+
         public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
         public override ControlCollection Controls => _controls;
 

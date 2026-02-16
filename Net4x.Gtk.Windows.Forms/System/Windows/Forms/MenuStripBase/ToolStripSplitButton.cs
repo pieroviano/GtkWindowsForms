@@ -25,22 +25,28 @@ namespace System.Windows.Forms
 
         }
         [Browsable(false)]
+
         public bool DropDownButtonSelected { get; }
        
         [Browsable(false)]
+
         public bool DropDownButtonPressed { get; }
        
         [Browsable(false)]
+
         public Rectangle DropDownButtonBounds { get; }
       
         [Browsable(false)]
         [DefaultValue(null)]
+
         public ToolStripItem DefaultItem { get; set; }
         
         [Browsable(false)]
+
         public bool ButtonSelected { get; }
       
         [Browsable(false)]
+
         public bool ButtonPressed { get; }
       
         [Browsable(false)]
@@ -50,6 +56,7 @@ namespace System.Windows.Forms
         //public bool AutoToolTip { get; set; }
         //
        
+
         public int DropDownButtonWidth { get; set; }
        
         [Browsable(false)]

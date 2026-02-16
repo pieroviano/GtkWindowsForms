@@ -8,7 +8,9 @@ namespace System.Windows.Forms
     [DefaultEvent("CollectionChanged")]
     public class BindingsCollection : BaseCollection
     {
+
         private List<Binding> _list = new List<Binding>();
+
         private CollectionChangeEventHandler? _onCollectionChanging;
         private CollectionChangeEventHandler? _onCollectionChanged;
 

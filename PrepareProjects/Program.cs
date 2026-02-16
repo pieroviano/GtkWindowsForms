@@ -1,10 +1,11 @@
-﻿using Prepare.Common.Projects;
+﻿using Prepare.Common;
+using Prepare.Common.Content;
+using Prepare.Common.IO;
+using Prepare.Common.Projects;
+using PrepareProjects.Preparation;
 using PrepareProjects.ProjectHandling;
 using System.Text;
 using System.Xml.Linq;
-using Prepare.Common;
-using Prepare.Common.IO;
-using PrepareProjects.Preparation;
 
 namespace PrepareProjects;
 
@@ -62,6 +63,7 @@ public class Program
         }
         var transformer = new SummaryCommentTransformer();
         transformer.TransformFolder(targetDir);
+        MemberSpacingFormatter.TransformFolder(targetDir);
         ProjectCompilation.RestoreProject(sourceProjectPath);
 
 #pragma warning disable CS8604 // Possible null reference argument.

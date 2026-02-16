@@ -23,6 +23,7 @@ namespace System.Drawing.Imaging
 
 		public int Width;
 
+
 		public int Height;
 
 		[MarshalAs(UnmanagedType.Struct)]

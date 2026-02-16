@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ComboBoxBase : Gtk.ComboBoxText, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public ComboBoxBase() : base(true)
         {

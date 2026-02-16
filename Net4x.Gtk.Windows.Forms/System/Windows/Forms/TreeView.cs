@@ -16,17 +16,24 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class TreeView : ScrollableControl
     {
+
         public readonly TreeViewBase self = new TreeViewBase();
+
         public override object GtkControl => self;
+
         private Gtk.TreeStore _store;
+
         internal TreeNode root;
+
         internal Gtk.TreeStore Store { get { return _store; } }
         protected override void SetStyle(Widget widget)
         {
             self.TreeView.Name = this.Name;
             base.SetStyle(self.TreeView);
         }
+
         private CellRendererToggle renderercheckbox;
+
         private CellRendererIcon rendererPixbuf;
         public TreeView() : base()
         {
@@ -102,6 +109,7 @@ namespace System.Windows.Forms
                 AfterCollapse(this, new TreeViewEventArgs(result, TreeViewAction.Collapse));
             }
         }
+
 
         private TreeViewCancelEventArgs cancelEventArgs = null;
         private void Selection_Changed(object sender, EventArgs e)
@@ -217,6 +225,7 @@ namespace System.Windows.Forms
                 return root.Nodes;
             }
         }
+
         private bool _checkBoxs;
         public bool CheckBoxes
         {
@@ -235,6 +244,7 @@ namespace System.Windows.Forms
             bool val = (bool)(model.GetValue(iter, 1));
             model.SetValue(iter, 1, val == false);
         }
+
         private ImageList _imageList;
         public ImageList ImageList { get => _imageList; 
             set {
@@ -248,11 +258,17 @@ namespace System.Windows.Forms
                 }
             } 
         }
+
         public int ImageIndex { get; set; } = -1;
+
         public string ImageKey { get; set; }
+
         public int SelectedImageIndex { get; set; }
+
         public string SelectedImageKey { get; set; }
+
         public int StateImageIndex { get; set; }
+
         public string StateImageKey { get; set; }
         public void ExpandAll()
         {
@@ -279,9 +295,13 @@ namespace System.Windows.Forms
         {
             _store.Remove(ref node.TreeIter);
         }
+
         public bool ShowLines { get=> self.TreeView.EnableTreeLines; set { self.TreeView.EnableTreeLines = true; self.TreeView.EnableGridLines = Gtk.TreeViewGridLines.Horizontal; } }
+
         public bool ShowNodeToolsTips { get; set; }
+
         public bool ShowPlusMinus { get; set; } = true;
+
         public bool ShowRootLines { get; set; } = true;
         public object SelectedItem
         {
@@ -344,9 +364,13 @@ namespace System.Windows.Forms
             }
         }
         
+
         public event TreeViewCancelEventHandler BeforeSelect;
+
         public event TreeViewEventHandler AfterSelect;
+
         public event TreeViewEventHandler AfterCollapse;
+
         public event TreeViewEventHandler AfterExpand;
         private void GetNodeChild(TreeNode node, int[] indices, ref TreeNode result)
         {
@@ -366,6 +390,7 @@ namespace System.Windows.Forms
         }
         private class CellRendererIcon : Gtk.CellRendererPixbuf
         {
+
             public TreeView _treeView;
             public CellRendererIcon(TreeView treeView)
             {

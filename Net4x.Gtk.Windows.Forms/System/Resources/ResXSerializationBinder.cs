@@ -14,6 +14,7 @@ namespace System.Resources
 
     internal class ResXSerializationBinder : SerializationBinder
     {
+
         private readonly ITypeResolutionService _typeResolver;
         private readonly Func<Type, string> _typeNameConverter;
 

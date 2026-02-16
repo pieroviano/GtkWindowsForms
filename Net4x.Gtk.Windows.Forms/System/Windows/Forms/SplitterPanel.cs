@@ -16,6 +16,7 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public sealed class SplitterPanel : Panel
     {
+
         internal SplitContainer Owner;
         public SplitterPanel(SplitContainer owner) : base()
         {
@@ -30,8 +31,11 @@ namespace System.Windows.Forms
             self.Vexpand = false;
         }
 
+
         public override DockStyle Dock { get { return DockStyle.Fill; } set { } }
+
         public override Size Size { get; set; }
+
         public override int Width { get; set; }
         public override int Height { get; set; }
     }

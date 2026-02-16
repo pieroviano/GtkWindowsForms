@@ -15,9 +15,13 @@ namespace System.Windows.Forms
 {
     public class TabPage : ContainerControl
     {
+
         public readonly TabPageBase self = new TabPageBase();
+
         public override object GtkControl => self;
+
         internal Gtk.Label _tabLabel = new Gtk.Label();
+
         private ControlCollection _controls;
         public TabPage() : base()
         {
@@ -48,13 +52,17 @@ namespace System.Windows.Forms
             }
             set { base.Dock = DockStyle.Fill; }
         }
+
         public override string Text { get { return _tabLabel.Text; } set { _tabLabel.Text = value; } }
         public Gtk.Label TabLabel { get { return _tabLabel; } }
 
         public new ControlCollection Controls => _controls;
 
+
         public int ImageIndex { get; set; }
+
         public string ImageKey { get; set; }
+
         public List<object> ImageList { get; set; }
         public override Padding Padding
         {
@@ -68,6 +76,7 @@ namespace System.Windows.Forms
                 self.Content.MarginBottom = value.Bottom;
             }
         }
+
         private Size _size;
         public override Size Size { get => _size; set { _size = value; } }
     }

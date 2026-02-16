@@ -12,7 +12,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class RadioButton : Control
     {
+
         public readonly RadioButtonBase self = new RadioButtonBase();
+
         public override object GtkControl => self;
         public RadioButton():base() {
             self.ParentSet += Self_ParentSet;
@@ -42,7 +44,9 @@ namespace System.Windows.Forms
         }
         public event EventHandler CheckedChanged;
 
+
         public override string Text { get { return self.Label; } set { self.Label = value;} }
+
         public bool Checked { get { return self.Active; } set { _Checked = true; self.Active = true; } }
         private bool _Checked;
     }

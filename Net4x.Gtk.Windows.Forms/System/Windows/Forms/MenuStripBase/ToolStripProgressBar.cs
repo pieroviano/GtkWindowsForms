@@ -31,13 +31,18 @@ namespace System.Windows.Forms
             }
 		}
 
+
 		public int MarqueeAnimationSpeed { get; set; } = 100;
+
         public int Maximum { get; set; } = 100;
         public int Minimum { get; set; } = 0;
 
+
         private int _step;
         [DefaultValue(10)]
+
         public int Step { get; set; }
+
         public ProgressBarStyle Style { get; set; }
         public int Value
         {

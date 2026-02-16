@@ -13,18 +13,25 @@ namespace System.Drawing.Printing
     [TypeConverter(typeof(MarginsConverter))]
     public partial class Margins : ICloneable
     {
+
         private int _left;
+
         private int _right;
+
         private int _bottom;
+
         private int _top;
 
         [OptionalField]
+
         private double _doubleLeft;
 
         [OptionalField]
+
         private double _doubleRight;
 
         [OptionalField]
+
         private double _doubleTop;
 
         [OptionalField]
@@ -173,6 +180,7 @@ namespace System.Drawing.Printing
                 throw new ArgumentOutOfRangeException(name, margin, "InvalidLowBoundArgumentEx");
             }
         }
+
 
         public object Clone() => MemberwiseClone();
         public override bool Equals(object obj) =>

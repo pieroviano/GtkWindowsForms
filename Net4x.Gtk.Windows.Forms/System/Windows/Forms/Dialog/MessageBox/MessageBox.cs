@@ -215,6 +215,7 @@ namespace System.Windows.Forms
             }
             return result;
         }
+
         private static Gtk.Window ActiveWindow = null; // has caching significance
         private static DialogResult ShowCore(IWin32Window owner, string text, string caption,
                                              MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,

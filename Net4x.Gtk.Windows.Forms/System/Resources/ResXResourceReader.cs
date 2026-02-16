@@ -20,21 +20,35 @@ namespace System.Resources
     /// </summary>
     public partial class ResXResourceReader : IResourceReader
     {
+
         private readonly string _fileName;
+
         private TextReader _reader;
+
         private Stream _stream;
+
         private string _fileContents;
+
         private readonly AssemblyName[] _assemblyNames;
+
         private string _basePath;
+
         private bool _isReaderDirty;
+
         private readonly ITypeResolutionService _typeResolver;
         private readonly IAliasResolver _aliasResolver;
 
+
         private ListDictionary _resData;
+
         private ListDictionary _resMetadata;
+
         private string _resHeaderVersion;
+
         private string _resHeaderMimeType;
+
         private string _resHeaderReaderType;
+
         private string _resHeaderWriterType;
         private bool _useResXDataNodes;
 

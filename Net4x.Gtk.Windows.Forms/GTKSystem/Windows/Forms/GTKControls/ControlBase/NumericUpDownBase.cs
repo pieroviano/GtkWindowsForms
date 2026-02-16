@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class NumericUpDownBase : Gtk.SpinButton, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public NumericUpDownBase() : base(0, 100, 1)
         {

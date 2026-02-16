@@ -12,6 +12,7 @@ namespace System.Windows.Forms.Design
 {
     public class ImageListImage
     {
+
         private string _name;
         public ImageListImage(Image image)
         {

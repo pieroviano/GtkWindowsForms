@@ -171,6 +171,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>true to indicate this font has the italic style applied; otherwise, false. </returns>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public bool Italic { get => Style.HasFlag(FontStyle.Italic); }
 
         /// <summary>
@@ -179,6 +180,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>A byte value that specifies the GDI character set that this System.Drawing.Font uses. The default is 1. </returns>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public byte GdiCharSet { get; }
 
         /// <summary>
@@ -187,6 +189,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>true if this System.Drawing.Font is derived from a GDI vertical font; otherwise, false. </returns>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public bool GdiVerticalFont { get; }
 
         /// <summary>
@@ -194,6 +197,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>The line spacing, in pixels, of this font. </returns>
         [Browsable(false)]
+
         public int Height { get; }
 
         /// <summary>
@@ -201,6 +205,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>true if the font is a member of System.Drawing.SystemFonts; otherwise, false. The default is false. </returns>
         [Browsable(false)]
+
         public bool IsSystemFont { get; }
 
         /// <summary>
@@ -208,6 +213,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>A string representation of the face name of this System.Drawing.Font. </returns>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public string Name { get; }
 
         /// <summary>
@@ -216,6 +222,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>The name of the system font, if System.Drawing.Font.IsSystemFont returns true; otherwise, an empty string (""). </returns>
         [Browsable(false)]
+
         public string SystemFontName { get; }
 
         /// <summary>
@@ -230,6 +237,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>The em-size, in points, of this System.Drawing.Font. </returns>
         [Browsable(false)]
+
         public float SizeInPoints { get; }
 
         /// <summary>
@@ -238,6 +246,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>true if this System.Drawing.Font has a horizontal line through it; otherwise, false. </returns>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public bool Strikeout { get; }
 
         /// <summary>
@@ -245,6 +254,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>A System.Drawing.FontStyle enumeration that contains style information for this System.Drawing.Font. </returns>
         [Browsable(false)]
+
         public FontStyle Style { get; }
 
         /// <summary>
@@ -252,6 +262,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>The System.Drawing.FontFamily associated with this System.Drawing.Font. </returns>
         [Browsable(false)]
+
         public FontFamily FontFamily { get; }
 
         /// <summary>
@@ -259,6 +270,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>The string representing the name of the font originally specified. </returns>
         [Browsable(false)]
+
         public string OriginalFontName { get; }
 
         /// <summary>
@@ -266,6 +278,7 @@ namespace System.Drawing
         /// </summary>
         /// <returns>true if this System.Drawing.Font is bold; otherwise, false. </returns>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public bool Bold { get=> Style.HasFlag(FontStyle.Bold); }
 
         /// <summary>

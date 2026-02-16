@@ -24,6 +24,7 @@ namespace System.Windows.Forms
             self.TextInserted += Control_TextInserted;
             self.Shown += Control_Shown;
         }
+
         public override string Text { get { return self.Text; } set { IsMasking = false; self.Text = value??""; IsMasking = true; } }
         private void Control_Shown(object sender, EventArgs e)
         {
@@ -124,11 +125,17 @@ namespace System.Windows.Forms
             return (char.IsNumber(w) || w == '_');
         }
 
+
         public string Mask { get; set; }
+
         private char _PasswordChar;
+
         public override char PasswordChar { get => _PasswordChar; set { _PasswordChar = value; self.InvisibleChar = value; } }
+
         public Type ValidatingType { get; set; }
+
         public MaskFormat TextMaskFormat { get; set; }
+
         internal bool IsMasking = true;
         private bool IsMaskPassword
         {

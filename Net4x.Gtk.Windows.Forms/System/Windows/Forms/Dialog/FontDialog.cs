@@ -14,10 +14,13 @@ namespace System.Windows.Forms
         [DefaultValue(true)]
         public virtual bool AllowFullOpen { get; set; }
 
+
         private Font? _font;
+
         public Font? Font { get => _font; set => _font = value; }
 
         [DefaultValue(false)]
+
         public virtual bool FullOpen { get; set; }
 
         [DefaultValue(false)]
@@ -31,6 +34,7 @@ namespace System.Windows.Forms
         {
             _font = null;
         }
+
 
         private static Gtk.Window ActiveWindow = null;
         protected override bool RunDialog(IWin32Window owner)

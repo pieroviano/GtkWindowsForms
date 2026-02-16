@@ -13,6 +13,7 @@ class FuncLoader
         private class Windows
         {
             [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+
             public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
 
             [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
@@ -22,6 +23,7 @@ class FuncLoader
         private class Linux
         {
             [DllImport("libdl.so.2")]
+
             public static extern IntPtr dlopen(string path, int flags);
 
             [DllImport("libdl.so.2")]
@@ -31,6 +33,7 @@ class FuncLoader
         private class OSX
         {
             [DllImport("/usr/lib/libSystem.dylib")]
+
             public static extern IntPtr dlopen(string path, int flags);
 
             [DllImport("/usr/lib/libSystem.dylib")]
@@ -40,6 +43,7 @@ class FuncLoader
         private class Unix
         {
             [DllImport("libc")]
+
             public static extern IntPtr dlopen(string path, int flags);
 
             [DllImport("libc")]
@@ -48,6 +52,7 @@ class FuncLoader
 
         [DllImport("libc")]
         private static extern int uname(IntPtr buf);
+
 
         private const int RTLD_LAZY = 0x0001;
         private const int RTLD_GLOBAL = 0x0100;
@@ -129,6 +134,7 @@ class FuncLoader
         private static Dictionary<Library, IntPtr> _libraries;
 
         private static Dictionary<string, IntPtr> _customlibraries;
+
 
         private static Dictionary<Library, string[]> _libraryDefinitions;
 

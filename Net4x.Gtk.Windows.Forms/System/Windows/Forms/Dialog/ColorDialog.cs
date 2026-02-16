@@ -18,19 +18,25 @@ namespace System.Windows.Forms
         }
 
         [DefaultValue(true)]
+
         public virtual bool AllowFullOpen { get; set; }
 
         [DefaultValue(false)]
+
         public virtual bool AnyColor { get; set; }
+
         public Color Color { get; set; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public int[] CustomColors { get; set; }
 
         [DefaultValue(false)]
+
         public virtual bool FullOpen { get; set; }
 
         [DefaultValue(false)]
+
         public virtual bool ShowHelp { get; set; }
 
         [DefaultValue(false)]

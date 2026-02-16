@@ -23,14 +23,18 @@ namespace System.Windows.Forms.Design
 
         // used to keep the state of the tab order view
         //
+
         private bool queriedTabOrder;
         private MenuCommand tabOrderCommand;
 
         internal static IDesignerSerializationManager manager;
 
 
+
         private int trayHeight = 80;
+
         private bool trayLargeIcon;
+
         private bool trayAutoArrange;
         private bool trayLayoutSuspended;
 

@@ -55,6 +55,7 @@ namespace System.Windows.Forms
         }
         public static string StartupPath { get { return System.IO.Directory.GetCurrentDirectory(); } }
 
+
         private static readonly object internalSyncObject = new object();
         public static CultureInfo CurrentCulture
         {
@@ -96,6 +97,7 @@ namespace System.Windows.Forms
             while(Gtk.Application.EventsPending())
                 Gtk.Application.RunIteration(false);
         }
+
         public static Gtk.Application App { get; private set; }
         public static Gtk.Application Init()
         {
@@ -391,6 +393,7 @@ namespace System.Windows.Forms
 
     public static class InitAppliction
     {
+
        private static Gtk.Application app = Application.Init();
         static InitAppliction()
         {

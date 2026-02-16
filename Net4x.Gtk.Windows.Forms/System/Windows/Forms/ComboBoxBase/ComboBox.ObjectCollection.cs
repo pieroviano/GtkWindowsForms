@@ -12,6 +12,7 @@ namespace System.Windows.Forms
         [ListBindable(false)]
         public partial class ObjectCollection : IList, IComparer<ComboBox.ObjectCollection.Entry>
         {
+
             private readonly ComboBox _owner;
             private List<Entry> _innerList = new List<Entry>();
 

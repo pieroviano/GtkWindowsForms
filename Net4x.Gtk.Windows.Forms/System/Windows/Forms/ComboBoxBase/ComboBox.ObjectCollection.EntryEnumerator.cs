@@ -17,6 +17,7 @@ namespace System.Windows.Forms
             /// </summary>
             private class EntryEnumerator : IEnumerator
             {
+
                 private readonly List<Entry> _entries;
                 private int _current;
 

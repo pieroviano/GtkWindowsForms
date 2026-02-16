@@ -15,9 +15,13 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class CheckedListBox : ContainerControl
     {
+
         public readonly CheckedListBoxBase self = new CheckedListBoxBase();
+
         public override object GtkControl => self;
+
         internal Gtk.FlowBox _flow = new Gtk.FlowBox();
+
         private ObjectCollection _items;
         public CheckedListBox() : base()
         {
@@ -47,11 +51,17 @@ namespace System.Windows.Forms
                 SelectedItemChanged(this, args);
         }
 
+
         public int ColumnWidth { get; set; }
+
         public bool MultiColumn { get { return _flow.Orientation == Gtk.Orientation.Vertical; } set { if (value == false) { _flow.Orientation = Gtk.Orientation.Horizontal; } else { _flow.Orientation = Gtk.Orientation.Vertical; } } }
+
         public bool HorizontalScrollbar { get; set; }
+
         public bool FormattingEnabled { get; set; }
+
         public int ItemHeight { get; set; }
+
         public SelectionMode SelectionMode { get; set; }
         public void ClearSelected() {
             foreach(Gtk.FlowBoxChild wi in _flow.Children) { 
@@ -63,6 +73,7 @@ namespace System.Windows.Forms
             };
             _flow.UnselectAll();
         }
+
         public bool CheckOnClick { get; set; }
         public ObjectCollection Items { 
             get {
@@ -107,9 +118,13 @@ namespace System.Windows.Forms
             }
         }
 
+
         public event ItemCheckEventHandler ItemCheck;
+
         public event EventHandler SelectedIndexChanged;
+
         public event EventHandler SelectedValueChanged;
+
         public event EventHandler SelectedItemChanged;
         internal void NativeAdd(CheckBox checkbox, bool isChecked, int position)
         {
@@ -170,6 +185,7 @@ namespace System.Windows.Forms
         }
         public class ObjectCollection : ArrayList
         {
+
             private CheckedListBox _owner;
             public ObjectCollection(CheckedListBox owner)
             {

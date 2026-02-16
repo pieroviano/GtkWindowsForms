@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class SplitContainerBase : Gtk.Paned, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public SplitContainerBase() : base(Gtk.Orientation.Vertical)
         {

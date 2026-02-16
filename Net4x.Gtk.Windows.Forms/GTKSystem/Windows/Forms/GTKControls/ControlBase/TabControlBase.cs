@@ -6,6 +6,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class TabControlBase : Gtk.Notebook, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public TabControlBase() : base()
         {

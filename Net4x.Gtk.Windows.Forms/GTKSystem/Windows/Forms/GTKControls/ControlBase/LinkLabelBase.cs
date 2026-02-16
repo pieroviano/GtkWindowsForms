@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class LinkLabelBase : Gtk.LinkButton, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public LinkLabelBase() : base("")
         {

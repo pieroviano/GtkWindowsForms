@@ -22,6 +22,7 @@ namespace System.Drawing
             get { if (_PixbufData == null && _Pixbuf != null) { _PixbufData = _Pixbuf.SaveToBuffer("bmp"); } return _PixbufData; }
             set { _PixbufData = value; _Pixbuf = new Gdk.Pixbuf(value); }
         }
+
         private Gdk.Pixbuf _Pixbuf;
         public Gdk.Pixbuf Pixbuf
         {
@@ -31,6 +32,7 @@ namespace System.Drawing
             }
             set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
         }
+
 		private string _fileName;
         public string FileName { get=> _fileName; set { _fileName = value; Pixbuf = new Gdk.Pixbuf(value); } }
         #endregion
@@ -44,6 +46,7 @@ namespace System.Drawing
 		internal IntPtr nativeImage;
 
 		private object _userData;
+
 
 		private byte[] _rawData;
 
@@ -84,12 +87,14 @@ namespace System.Drawing
 		/// </summary>
 		/// <returns>A <see cref="T:System.Drawing.Size" /> structure that represents the width and height, in pixels, of this image.</returns>
 		public Size Size => new Size(Width, Height);
+
 		private int _width;
 		public int Width
 		{
             get => Pixbuf == null ? _width : Pixbuf.Width;
             internal set { _width = value; }
         }
+
 		private int _height;
 		public int Height
         {

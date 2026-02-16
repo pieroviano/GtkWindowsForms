@@ -9,13 +9,21 @@ namespace System.Windows.Forms
     /// </summary>
     public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
     {
+
         public virtual string unique_key { get; protected set; }
+
         public virtual Gtk.Widget Widget { get; }
+
         public virtual Gtk.MenuItem MenuItem { get; set; }
+
         public virtual bool Created { get; set; }
+
         public virtual bool Checked { get; set; }
+
         public virtual CheckState CheckState { get; set; }
+
         internal Gtk.Image DefaultImage = new Gtk.Image("image-missing", Gtk.IconSize.Menu);
+
         public virtual System.Drawing.Image Image { get; set; }
         public ToolStripItem()
         {
@@ -36,6 +44,7 @@ namespace System.Windows.Forms
             if (onClick != null)
                 Click += onClick;
         }
+
         public virtual void CreateControl() { }
         public virtual ToolStripItemCollection Items
         {
@@ -57,7 +66,9 @@ namespace System.Windows.Forms
         }
         public virtual string Name { get; set; }
         //public virtual string Text { get { return base.Label; } set { base.Label = value; } }
+
         public virtual string Text { get; set; }
+
         public virtual Color ImageTransparentColor { get; set; }
         public virtual ToolStripItemDisplayStyle DisplayStyle { get; set; }
         //public virtual Size Size { get; set; }
@@ -68,9 +79,13 @@ namespace System.Windows.Forms
         public virtual ImageLayout BackgroundImageLayout { get; set; }
 
         //public virtual bool Enabled { get; set; }
+
         public virtual string ToolTipText { get; set; }
+
         public virtual ContentAlignment ImageAlign { get; set; }
+
         public virtual int ImageIndex { get; set; }
+
         public virtual string ImageKey { get; set; }
         public virtual ToolStripItemImageScaling ImageScaling { get; set; }
 
@@ -84,12 +99,16 @@ namespace System.Windows.Forms
 
         public virtual bool RightToLeftAutoMirrorImage { get; set; }
 
+
         public virtual bool Pressed { get; }
+
         public virtual ToolStripItemPlacement Placement { get; }
+
         public virtual ToolStripItemOverflow Overflow { get; set; }
         public virtual ToolStripItem OwnerItem { get; }
 
         public virtual ToolStrip Owner { get; set; }
+
 
         public virtual int MergeIndex { get; set; }
         public virtual MergeAction MergeAction { get; set; }
@@ -102,10 +121,15 @@ namespace System.Windows.Forms
 
         public virtual Font Font { get; set; }
 
+
         public virtual Color ForeColor { get; set; }
+
         public virtual Color BackColor { get; set; }
+
         public virtual bool HasChildren { get; }
+
         public virtual bool AutoSize { get; set; }
+
         public virtual int Height { get; set; }
         public virtual ImeMode ImeMode { get; set; }
 
@@ -118,14 +142,18 @@ namespace System.Windows.Forms
         //public override Padding Margin { get; set; }
         //public override Size MaximumSize { get; set; }
         //public override Size MinimumSize { get; set; }
+
         public virtual Padding Padding { get; set; }
+
         public virtual ToolStripItem Parent { get; set; }
+
         public virtual System.Drawing.Region Region { get; set; }
         public virtual int Right { get; }
 
         public virtual RightToLeft RightToLeft { get; set; }
         //public virtual ISite Site { get; set; }
         public virtual Size Size { get; set; }
+
 
         public virtual object Tag { get; set; }
         public virtual int Top
@@ -172,6 +200,7 @@ namespace System.Windows.Forms
             throw new NotImplementedException();
         }
 
+
         public virtual bool UseWaitCursor { get; set; }
         public virtual int Width { get; set; }
 
@@ -187,8 +216,11 @@ namespace System.Windows.Forms
 
         public ArrangedElementCollection Children => throw new NotImplementedException();
 
+
         public virtual event EventHandler Click;
+
         public virtual event EventHandler CheckedChanged;
+
         public virtual event EventHandler CheckStateChanged;
         public virtual event ToolStripItemClickedEventHandler DropDownItemClicked;
     }

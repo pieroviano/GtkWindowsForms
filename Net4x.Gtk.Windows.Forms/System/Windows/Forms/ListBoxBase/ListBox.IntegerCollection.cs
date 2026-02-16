@@ -10,7 +10,9 @@ namespace System.Windows.Forms
     {
         public partial class IntegerCollection : IList
         {
+
             private readonly ListBox _owner;
+
             private int[]? _innerArray;
             private int _count;
 

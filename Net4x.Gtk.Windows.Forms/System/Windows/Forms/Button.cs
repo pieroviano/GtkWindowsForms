@@ -13,7 +13,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class Button : Control
     {
+
         public readonly ButtonBase self = new ButtonBase();
+
         public override object GtkControl => self;
         public Button() : base()
         {
@@ -26,7 +28,9 @@ namespace System.Windows.Forms
 
         public override string Text { get => ((Gtk.Label)self.Child).Text; set => ((Gtk.Label)self.Child).Text = value; }
 
+
         public override event EventHandler Click;
+
         public override RightToLeft RightToLeft { get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; } set { self.Direction = value == RightToLeft.Yes ? Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; } }
         public System.Drawing.ContentAlignment TextAlign
         {

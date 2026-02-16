@@ -15,7 +15,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class RichTextBox : ScrollableControl
     {
+
         public readonly RichTextBoxBase self = new RichTextBoxBase();
+
         public override object GtkControl => self;
         protected override void SetStyle(Widget widget)
         {
@@ -35,8 +37,10 @@ namespace System.Windows.Forms
             }
         }
 
+
         public override string Text { get => self.TextView.Buffer.Text; set => self.TextView.Buffer.Text = value; }
         public virtual bool ReadOnly { get { return self.TextView.CanFocus; } set { self.TextView.CanFocus = value; } }
+
 
         public override event EventHandler TextChanged;
         public void AppendText(string text)

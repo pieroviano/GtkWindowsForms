@@ -10,7 +10,9 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class PropertyGridBase:Gtk.Paned, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
+
         public Gtk.Box child2 = new Gtk.Box(Gtk.Orientation.Vertical,2);
         public Gtk.ScrolledWindow child1 = new Gtk.ScrolledWindow();
         Gtk.Label titleLabel = new Gtk.Label("name") { Xalign = 0, Yalign = 0 };

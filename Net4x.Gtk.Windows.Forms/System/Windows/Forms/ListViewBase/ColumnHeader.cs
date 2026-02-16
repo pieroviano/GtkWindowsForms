@@ -14,9 +14,11 @@ namespace System.Windows.Forms
 
         internal string _name;
 
+
         internal int _width = 120;
 
         [Localizable(true)]
+
         public int DisplayIndex { get; set; }
 
         [Browsable(false)]
@@ -30,6 +32,7 @@ namespace System.Windows.Forms
 
         [DefaultValue(-1)]
 
+
         public int ImageIndex { get; set; } = -1;
 
         [Browsable(false)]
@@ -40,6 +43,7 @@ namespace System.Windows.Forms
                 throw new System.NotImplementedException();
             }
         }
+
 
         public string ImageKey { get; set; }
 

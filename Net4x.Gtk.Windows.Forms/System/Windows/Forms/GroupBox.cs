@@ -14,9 +14,13 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class GroupBox : ContainerControl
     {
+
         public readonly GroupBoxBase self = new GroupBoxBase();
+
         public override object GtkControl => self;
+
         private Gtk.Overlay contaner = new Gtk.Overlay();
+
         private ControlCollection _controls = null;
         public GroupBox() : base()
         {
@@ -29,7 +33,9 @@ namespace System.Windows.Forms
             contaner.Add(new Gtk.Fixed() { Halign = Align.Fill, Valign = Align.Fill });
             self.Child = contaner;
         }
+
         public override string Text { get { return self.Label; } set { self.Label = value; } }
+
         public override ControlCollection Controls => _controls;
         public override Padding Padding
         {

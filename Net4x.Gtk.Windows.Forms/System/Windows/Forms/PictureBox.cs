@@ -17,7 +17,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class PictureBox : Control
     {
+
         private readonly PictureBoxBase self = new PictureBoxBase();
+
         public override object GtkControl => self;
         public PictureBox()
         {
@@ -59,9 +61,12 @@ namespace System.Windows.Forms
 
         public PictureBoxSizeMode SizeMode { get; set; }
 
+
         public System.Drawing.Image InitialImage { get; set; }
+
         private string _ImageLocation;
         public string ImageLocation { get { return _ImageLocation; } set { _ImageLocation = value; Load(value); } }
+
 
         private System.Drawing.Image _image;
         public override System.Drawing.Image Image { 
@@ -75,10 +80,12 @@ namespace System.Windows.Forms
             }
         }
 
+
         public System.Drawing.Image ErrorImage { get; set; }
 
         [DefaultValue(BorderStyle.None)]
         public override BorderStyle BorderStyle { get; set; }
+
 
         public void CancelAsync() { }
         public new void Load(string url) {

@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class DataGridViewBase : ScrollableBoxBase
     {
+
         internal Gtk.TreeView GridView = new Gtk.TreeView();
         public DataGridViewBase() : base()
         {

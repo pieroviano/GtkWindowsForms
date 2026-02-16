@@ -11,8 +11,11 @@ namespace System.Windows.Forms
 {
     public class DataGridViewColumnCollection : List<DataGridViewColumn>
     {
+
         public event CollectionChangeEventHandler CollectionChanged;
+
         private DataGridView __owner;
+
         private Gtk.TreeView GridView;
         public DataGridViewColumnCollection(DataGridView dataGridView)
         {

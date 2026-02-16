@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace System.Windows.Forms
 {
+
     public delegate void ToolStripItemClickedEventHandler(object sender, ToolStripItemClickedEventArgs e);
     public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     {
@@ -27,10 +28,12 @@ namespace System.Windows.Forms
             DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
         }
 
+
         public override string Text { get => base.Text; set => base.Text = value; } //+ " ▼"
 
 
         [Browsable(false)]
+
         public bool HasDropDown { get; }
        
         [Browsable(false)]
@@ -39,6 +42,7 @@ namespace System.Windows.Forms
         //public ToolStripItemCollection DropDownItems { get; }
        
         [Browsable(false)]
+
         public ToolStripDropDownDirection DropDownDirection { get; set; }
       
         [TypeConverter(typeof(ReferenceConverter))]

@@ -14,9 +14,12 @@ namespace System.Resources
 {
     internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
     {
+
         private AssemblyName[] _names;
+
         private Hashtable _cachedAssemblies;
         private Hashtable _cachedTypes;
+
 
         private static readonly string s_dotNetPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "dotnet\\shared");
         private static readonly string s_dotNetPathX86 = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles(x86)"), "dotnet\\shared");

@@ -109,6 +109,7 @@ namespace System.Windows.Forms
     public class DataGridViewComboBoxColumn : DataGridViewColumn
     {
         ObjectCollection _items;
+
         internal Gtk.ListStore model = new Gtk.ListStore(typeof(string));
         public DataGridViewComboBoxColumn() : this(null)
         {
@@ -148,9 +149,11 @@ namespace System.Windows.Forms
             newcell.ValueType = valueType;
             return newcell;
         }
+
         public ObjectCollection Items => _items;
         public class ObjectCollection : ArrayList
         {
+
             private DataGridViewComboBoxColumn _owner;
             public ObjectCollection(DataGridViewComboBoxColumn owner)
             {
@@ -252,9 +255,13 @@ namespace System.Windows.Forms
 
     public class DataGridViewColumn : TreeViewColumn
     {
+
         internal DataGridViewCell _cellTemplate;
+
         internal Gtk.TreeView _treeView;
+
         internal DataGridView _gridview;
+
         internal ICellRenderer _cellRenderer;
         protected DataGridViewColumn(int column, DataGridView ownerGridView, DataGridViewCell cellTemplate) : base()
         {
@@ -359,15 +366,21 @@ namespace System.Windows.Forms
                 return DefaultHeight;
             }
         }
+
         public DataGridView DataGridView { get { return _gridview; } set { _gridview = value; _treeView = value.GridView; } }
+
         private string _markup;
         public string Markup { get => _markup; set { _markup = value; _cellRenderer.Markup = value; } }
 
+
         public DataGridViewElementStates State { get { return DataGridViewElementStates.None; } internal set { } }
         [DefaultValue("")]
+
         public string HeaderText { get { return this.Title; } set { this.Title = value; } }
+
         private int _DisplayIndex;
         [Browsable(false)]
+
         public int DisplayIndex { get => _DisplayIndex; set { _DisplayIndex = value; } }
         [Localizable(true)]
         [RefreshProperties(RefreshProperties.Repaint)]
@@ -383,7 +396,9 @@ namespace System.Windows.Forms
         [DefaultValue("")]
         [Localizable(true)]
 
+
         public string ToolTipText { get; set; }
+
         private DataGridViewColumnSortMode _SortMode = DataGridViewColumnSortMode.Automatic;
         public DataGridViewColumnSortMode SortMode
         {
@@ -399,11 +414,13 @@ namespace System.Windows.Forms
         }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public ISite Site { get; set; }
         public new DataGridViewTriState Resizable {
             get { return base.Resizable == true ? DataGridViewTriState.True : DataGridViewTriState.False; } 
             set { base.Resizable = value == DataGridViewTriState.True; }
         }
+
         private bool _ReadOnly;
         public bool ReadOnly {
             get=> _ReadOnly; 
@@ -420,15 +437,19 @@ namespace System.Windows.Forms
         [Localizable(true)]
         [RefreshProperties(RefreshProperties.Repaint)]
 
+
         public int MinimumWidth { get => base.MinWidth; set { base.MinWidth = value; } }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public bool IsDataBound { get; }
         [Browsable(false)]
+
         public DataGridViewCellStyle InheritedStyle { get; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public DataGridViewAutoSizeColumnMode InheritedAutoSizeMode { get; }
 
 
@@ -446,21 +467,25 @@ namespace System.Windows.Forms
 
         public int DividerWidth { get; set; }
 
+
         private DataGridViewCellStyle _DefaultCellStyle;
         [Browsable(true)]
         public DataGridViewCellStyle DefaultCellStyle { 
             get=> _DefaultCellStyle; 
             set { _DefaultCellStyle = value; _cellRenderer.ColumnStyle = value; }
         }
+
         private string _DataPropertyName = string.Empty;
         [Browsable(true)]
         [DefaultValue("")]
         public string DataPropertyName { get => _DataPropertyName; set => _DataPropertyName = value; }
         [DefaultValue(null)]
 
+
         public ContextMenuStrip ContextMenuStrip { get; set; }
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public virtual Type CellType { get { return _cellTemplate.GetType(); } }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -480,6 +505,7 @@ namespace System.Windows.Forms
                 if (value == DataGridViewAutoSizeColumnMode.None) { _AutoSizeMode = value; base.Resizable = false; base.Sizing = TreeViewColumnSizing.Fixed; } else { base.Resizable = true; base.Sizing = TreeViewColumnSizing.GrowOnly; }
             }
         }
+
         private DataGridViewAutoSizeColumnMode _AutoSizeMode;
 
         [Browsable(false)]
@@ -496,6 +522,7 @@ namespace System.Windows.Forms
         }
         public override string ToString() { return this.GetType().Name; }
         //protected override void Dispose(bool disposing) {  }
+
         private int _index;
         public int Index
         {

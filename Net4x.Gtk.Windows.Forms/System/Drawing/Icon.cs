@@ -9,12 +9,14 @@ namespace System.Drawing
 	public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISerializable
 	{
         #region Image onlybyte[] data 
+
         private byte[] _PixbufData;
         public byte[] PixbufData
         {
             get { if (_PixbufData == null && _Pixbuf != null) { _PixbufData = _Pixbuf.SaveToBuffer("bmp"); } return _PixbufData; }
             set { _PixbufData = value; _Pixbuf = new Gdk.Pixbuf((byte[])value.Clone()); }
         }
+
         private Gdk.Pixbuf _Pixbuf;
         public Gdk.Pixbuf Pixbuf
         {

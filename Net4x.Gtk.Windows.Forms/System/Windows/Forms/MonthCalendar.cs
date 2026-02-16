@@ -12,7 +12,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class MonthCalendar : Control
     {
+
         public readonly MonthCalendarBase self = new MonthCalendarBase();
+
         public override object GtkControl => self;
         public MonthCalendar():base()
         {
@@ -42,14 +44,18 @@ namespace System.Windows.Forms
             get; set;
         }
 
+
         public bool ShowToday { get; set; }
+
         public bool ShowTodayCircle { get; set; }
+
         public SelectionRange SelectionRange { get; set; }
         public DateTime TodayDate
         {
             get { return self.Date; }
             set { self.Date = value; }
         }
+
         public bool ShowWeekNumbers { get; set; }
         public event DateRangeEventHandler DateChanged;
 

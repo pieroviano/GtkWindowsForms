@@ -5,9 +5,11 @@ namespace System.Windows.Forms
 {
 	public sealed class ListViewGroup : ISerializable
 	{
+
         public readonly string SerialGuid = Guid.NewGuid().ToString();
         public static readonly string defaultListViewGroupKey = "_DefaultListViewGroup_";
         ListView.ListViewItemCollection _items;
+
         internal Gtk.Box _groupbox { get; set; }
         public static ListViewGroup CreateDefaultListViewGroup() {
             ListViewGroup _defaultGroup = new ListViewGroup("default", HorizontalAlignment.Left);
@@ -36,6 +38,7 @@ namespace System.Windows.Forms
 			this.HeaderAlignment = headerAlignment;
 
         }
+
         internal readonly Gtk.FlowBox FlowBox = new Gtk.FlowBox() { Orientation = Gtk.Orientation.Horizontal, Name = Guid.NewGuid().ToString() };
         public string Header
 		{

@@ -8,6 +8,7 @@ namespace System.Windows.Forms
     [DefaultEvent(nameof(Scroll))]
     public abstract partial class ScrollBar : Control
     {
+
         public virtual Gtk.Adjustment Adjustment {  get; }
         public ScrollBar() : base()
         {
@@ -22,11 +23,17 @@ namespace System.Windows.Forms
             Scroll?.Invoke(this, args);
             _oldValue = newValue;
         }
+
         public int SmallChange { get => (int)Adjustment.StepIncrement; set => Adjustment.StepIncrement = value; }
+
         public int LargeChange { get => (int)Adjustment.PageIncrement; set => Adjustment.PageIncrement = value; }
+
         public int Maximum { get => (int)Adjustment.Upper; set => Adjustment.Upper = value; }
+
         public int Minimum { get => (int)Adjustment.Lower; set => Adjustment.Lower = value; }
+
         public int Value { get => (int)Adjustment.Value; set { Adjustment.Value = value; } }
+
         public event ScrollEventHandler Scroll;
         public event EventHandler ValueChanged;
     }

@@ -57,6 +57,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>Gets the sum, in pixels, of the System.Windows.Forms.Padding.Left and System.Windows.Forms.Padding.Right padding values. </returns>
         [Browsable(false)]
+
         public int Horizontal { get { return Right - Left; } }
 
         /// <summary>
@@ -64,6 +65,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The padding, in pixels, for the top edge. </returns>
         [RefreshProperties(RefreshProperties.All)]
+
         public int Top { get; set; }
 
         /// <summary>
@@ -71,6 +73,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The padding, in pixels, for the right edge. </returns>
         [RefreshProperties(RefreshProperties.All)]
+
         public int Right { get; set; }
 
         /// <summary>
@@ -78,6 +81,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The padding, in pixels, for the left edge. </returns>
         [RefreshProperties(RefreshProperties.All)]
+
         public int Left { get; set; }
 
         /// <summary>
@@ -85,6 +89,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The padding, in pixels, for the bottom edge. </returns>
         [RefreshProperties(RefreshProperties.All)]
+
         public int Bottom { get; set; }
 
         /// <summary>
@@ -92,6 +97,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The padding, in pixels, for all edges if the same; otherwise, -1. </returns>
         [RefreshProperties(RefreshProperties.All)]
+
         public int All { get; set; }
 
         /// <summary>
@@ -99,6 +105,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>A System.Drawing.Size containing the padding information. </returns>
         [Browsable(false)]
+
         public Size Size { get; }
 
         /// <summary>

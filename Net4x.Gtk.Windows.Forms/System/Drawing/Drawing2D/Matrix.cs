@@ -116,26 +116,45 @@ namespace System.Drawing.Drawing2D
 			this.dx = dx;
 			this.dy = dy;
 		}
+
         public float m11 { get; set; } = 1;
+
         public float m12 { get; set; } = 0;
+
         public float m21 { get; set; } = 0;
+
         public float m22 { get; set; } = 1;
+
         public float dx { get; set; } = 0;
+
         public float dy { get; set; } = 0;
         public MatrixOrder order { get; set; } = MatrixOrder.Prepend;
 
+
         public float angle { get; set; }
+
         public PointF rotateAtPoint { get; set; }
+
         public float scaleX { get; set; }
+
         public float scaleY { get; set; }
+
         public float shearX { get; set; }
+
         public float shearY { get; set; }
+
         public PointF[] transformPoints { get; set; }
+
         public PointF[] transformVectors{ get; set; }
+
         public Point[] vectorTransformPoints{ get; set; }
+
         public RectangleF initRectangle { get; set; }
+
         public PointF[] initPointF { get; set; }
+
         public Matrix initMatrix { get; set; }
+
         public bool invert { get; set; }
         public Matrix multiply { get; set; }
 

@@ -8,11 +8,14 @@ namespace System.Drawing.Printing
 
     public partial class PaperSize
     {
+
         private PaperKind _kind;
         private string _name;
 
         // Standard hundredths of an inch units
+
         private int _width;
+
         private int _height;
         private readonly bool _createdByDefaultConstructor;
 

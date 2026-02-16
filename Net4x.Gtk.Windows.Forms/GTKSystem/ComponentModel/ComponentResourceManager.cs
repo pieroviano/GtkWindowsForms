@@ -12,7 +12,9 @@ namespace GtkSystem.ComponentModel
     /// </summary>
     public class ComponentResourceManager : System.ComponentModel.ComponentResourceManager
     {
+
         private Type formtype;
+
         private string formName;
         public ComponentResourceManager(Type form) : base(form)
         {

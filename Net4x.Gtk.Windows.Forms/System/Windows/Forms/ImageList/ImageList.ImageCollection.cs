@@ -17,6 +17,7 @@ namespace System.Windows.Forms
 
         public sealed partial class ImageCollection : IList
         {
+
             private readonly ImageList _owner;
             private readonly List<ImageInfo> _imageInfoCollection = new List<ImageInfo>();
 
@@ -83,6 +84,7 @@ namespace System.Windows.Forms
             bool ICollection.IsSynchronized => false;
 
             bool IList.IsFixedSize => false;
+
 
             public bool IsReadOnly => false;
 

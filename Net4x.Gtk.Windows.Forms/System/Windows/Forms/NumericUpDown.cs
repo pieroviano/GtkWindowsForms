@@ -12,7 +12,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class NumericUpDown : Control
     {
+
         public readonly NumericUpDownBase self = new NumericUpDownBase();
+
         public override object GtkControl => self;
         public NumericUpDown() : base()
         {
@@ -25,7 +27,9 @@ namespace System.Windows.Forms
                 ValueChanged(this, e);
         }
 
+
         public event EventHandler ValueChanged;
+
         public int DecimalPlaces { get => Convert.ToInt32(self.Digits); set => self.Digits = Convert.ToUInt32(value); }
         public decimal Increment
         {
@@ -33,6 +37,7 @@ namespace System.Windows.Forms
             set => self.Adjustment.StepIncrement = Convert.ToDouble(value);
         }
         public decimal Maximum { get => Convert.ToDecimal(self.Adjustment.Upper); set => self.Adjustment.Upper = Convert.ToDouble(value); }
+
 
         public decimal Minimum { get => Convert.ToDecimal(self.Adjustment.Lower); set => self.Adjustment.Lower = Convert.ToDouble(value); }
         public decimal Value { get { return Convert.ToDecimal(self.Value); } set { self.Value = Convert.ToDouble(value); } }

@@ -16,10 +16,15 @@ namespace System.Windows.Forms
     [ToolboxItem(true)]
     public partial class PrintPreviewDialog : ScrollableControl
     {
+
         public ViewportBase self = new ViewportBase();
+
         public override object GtkControl { get => self; }
+
         private PrintPreviewControl _previewControl;
+
         private Form previewForm;
+
         private Gtk.Box box;
         public PrintPreviewDialog():base()
         {

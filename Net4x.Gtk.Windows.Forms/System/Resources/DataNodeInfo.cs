@@ -8,10 +8,15 @@ namespace System.Resources
 {
     internal class DataNodeInfo
     {
+
         public string Name;
+
         public string Comment;
+
         public string TypeName;
+
         public string MimeType;
+
         public string ValueData;
         public Point ReaderPosition; //only used to track position in the reader
 

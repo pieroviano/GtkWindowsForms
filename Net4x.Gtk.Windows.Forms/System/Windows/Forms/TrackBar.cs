@@ -12,6 +12,7 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public class TrackBar : Control
     {
+
         public readonly TrackBarBase self = new TrackBarBase();
         public override object GtkControl => self;
         Gtk.Adjustment adjustment = new Gtk.Adjustment(10, 0, 100, 1, 1, 0);
@@ -43,12 +44,19 @@ namespace System.Windows.Forms
                 Scroll(this, e);
         }
 
+
         public int LargeChange { get; set; } = 5;
+
         public int Maximum { get; set; }
+
         public int Minimum { get; set; }
+
         public int Value { get=> (int)adjustment.Value; set { adjustment.Value = value; } }
+
         public System.Windows.Forms.Orientation Orientation { get; set; }
+
         public int TickFrequency { get; set; }
+
         public System.Windows.Forms.TickStyle TickStyle { get; set; }
         public event EventHandler Scroll;
     }

@@ -2,6 +2,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ProgressBarBase : Gtk.LevelBar, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public ProgressBarBase() : base()
         {

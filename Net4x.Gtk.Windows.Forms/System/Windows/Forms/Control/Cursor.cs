@@ -15,13 +15,21 @@ namespace System.Windows.Forms
 
     public sealed class Cursor : IDisposable, ISerializable
     {
+
         private static Size s_cursorSize = Size.Empty;
+
         private readonly byte[]? _cursorData;
+
         private readonly bool _freeHandle;
+
         private IntPtr _handle;
+
         internal string? CursorsProperty { get; }
+
         internal Gdk.CursorType CursorType { get; set; }
+
         internal Gdk.Pixbuf CursorPixbuf{ get; set; }
+
         internal Point CursorsXY { get; }
         internal Cursor(string resource, string cursorsProperty)
             : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))

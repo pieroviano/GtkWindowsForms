@@ -56,6 +56,7 @@ namespace System.Windows.Forms
 
         protected override ArrayList List => ArrayList.Adapter(_items);
 
+
         public DataGridViewRow this[int index] => _items[index];
 
         /// <summary>
@@ -70,6 +71,7 @@ namespace System.Windows.Forms
         ///  Checks to see if a DataGridViewCell is contained in this collection.
         /// </summary>
         public bool Contains(DataGridViewRow dataGridViewRow) => ((IList)_items).Contains(dataGridViewRow);
+
 
         public void CopyTo(DataGridViewRow[] array, int index) => _items.CopyTo(array, index);
 

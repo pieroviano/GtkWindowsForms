@@ -7,22 +7,32 @@ using System.Windows.Forms;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+
     public delegate void PaintGraphicsEventHandler(Cairo.Context cr, Rectangle rec);
     public sealed class GtkControlOverride: IControlOverride
     {
+
         private Widget container;
         public GtkControlOverride(Widget container)
         {
             this.container = container;
         }
+
         public event DrawnHandler DrawnBackground;
+
         public event PaintEventHandler Paint;
+
         public System.Drawing.Color? BackColor { get; set; }
+
         private System.Drawing.Image _BackgroundImage;
+
         public System.Drawing.Image BackgroundImage { get { return _BackgroundImage; } set { _BackgroundImage = value; backgroundPixbuf = null; } }
+
         public ImageLayout BackgroundImageLayout { get; set; }
+
         public System.Drawing.Image Image { get; set; }
         public System.Drawing.ContentAlignment ImageAlign { get; set; }
+
 
         private List<string> cssList = new List<string>();
         public void AddClass(string cssClass)
@@ -46,6 +56,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         public void ClearNativeBackground()
         {
         }
+
         private Gdk.Pixbuf backgroundPixbuf;
         public void DrawnBackColor(Cairo.Context cr, Gdk.Rectangle area)
         {
@@ -81,6 +92,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
                 DrawnBackground(this.container, args);
             }
         }
+
         private Gdk.Pixbuf imagePixbuf;
         public void OnDrawnImage(Cairo.Context cr, Gdk.Rectangle area)
         {
@@ -95,6 +107,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             }
         }
         
+
         public event PaintGraphicsEventHandler PaintGraphics;
         public void OnPaint(Cairo.Context cr, Gdk.Rectangle area)
         {

@@ -7,7 +7,9 @@ namespace System.Windows.Forms.PropertyGridInternal;
 
 internal partial class GridEntry : GridItem, ITypeDescriptorContext
 {
+
     public PropertyGrid OwnerGrid { get; set; }
+
     public GridEntry _parent;
     protected GridEntry(PropertyGrid ownerGrid, GridEntry parent)
     {
@@ -32,7 +34,9 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
 
     public override GridItem Parent { get; }
 
+
     public override PropertyDescriptor PropertyDescriptor { get; }
+
     internal object value;
     public override object Value { get => value; }
 
@@ -41,9 +45,13 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
         return false;
     }
 
+
     public Type ValueType { get; set; }
+
     public int Level { get; set; }
+
     public bool Editable { get; set; }
+
     public string Description { get; set; }
     internal System.Reflection.PropertyInfo PropertyInfo { get; set; }
 

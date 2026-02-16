@@ -10,6 +10,7 @@ namespace System.Windows.Forms
     /// </summary>
     internal class DataGridViewCellLinkedList : IEnumerable
     {
+
         private int _count;
         public DataGridViewCellLinkedList()
         {

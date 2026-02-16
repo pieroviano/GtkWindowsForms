@@ -13,22 +13,36 @@ namespace System.Windows.Forms
     [DefaultProperty(nameof(Document))]
     public partial class PrintPreviewControl : Control
     {
+
         public readonly ViewportBase self = new ViewportBase();
+
         public override object GtkControl => self;
+
         private const int ScrollSmallChange = 5;
         private const double DefaultZoom = .3;
 
         // Spacing per page, in mm
+
         private const int Border = 10;
+
         private static readonly object s_startPageChangedEvent = new object();
+
         private PrintDocument _document;
+
         private int _startPage;  // 0-based
+
         private int _rows = 1;
+
         private int _columns = 1;
+
         private bool _autoZoom = true;
+
         private double _zoom = DefaultZoom;
+
         private Gtk.ScrolledWindow scroll;
+
         private ViewportBase paper;
+
         private const double pxscale = 0.75;
         public PrintPreviewControl()
         {
@@ -225,6 +239,7 @@ namespace System.Windows.Forms
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
+
         public override void ResetBackColor() => BackColor = SystemColors.AppWorkspace;
 
         [EditorBrowsable(EditorBrowsableState.Never)]

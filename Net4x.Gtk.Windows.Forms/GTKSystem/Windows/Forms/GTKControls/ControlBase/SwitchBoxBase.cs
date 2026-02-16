@@ -4,6 +4,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class SwitchBoxBase : Gtk.Switch, IControlGtk
     {
+
         public GtkControlOverride Override { get; set; }
         public SwitchBoxBase() : base()
         {

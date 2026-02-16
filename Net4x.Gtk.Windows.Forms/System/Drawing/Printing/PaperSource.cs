@@ -5,6 +5,7 @@ namespace System.Drawing.Printing
 {
     public partial class PaperSource
     {
+
         private string _name;
         private PaperSourceKind _kind;
 

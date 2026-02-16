@@ -15,7 +15,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class SplitContainer : ContainerControl
     {
+
         public readonly SplitContainerBase self = new SplitContainerBase();
+
         public override object GtkControl => self;
         public SplitContainer() : base()
         {
@@ -26,7 +28,9 @@ namespace System.Windows.Forms
             self.Pack1(_panel1.Widget, false, true);
             self.Pack2(_panel2.Widget, true, true);
         }
+
         private SplitterPanel _panel1;
+
         private SplitterPanel _panel2;
         public SplitterPanel Panel1
         {
@@ -49,10 +53,15 @@ namespace System.Windows.Forms
                 _panel2 = value;
             }
         }
+
         public int _SplitterDistance;
+
         public int SplitterDistance { get => self.Position + 5; set { _SplitterDistance = Math.Max(1, value - 5); self.Position = _SplitterDistance; } }
+
         private int _SplitterWidth;
+
         public int SplitterWidth { get { return _SplitterWidth; } set { _SplitterWidth = value; self.WideHandle = value > 2; } }
+
         public int SplitterIncrement { get; set; }
         public Orientation Orientation {
             get { return self.Orientation == Gtk.Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal; }
@@ -60,6 +69,7 @@ namespace System.Windows.Forms
                 self.Orientation = value == Orientation.Horizontal ? Gtk.Orientation.Vertical : Gtk.Orientation.Horizontal;
             }
         }
+
         private FixedPanel _fixedPanel = FixedPanel.Panel1;
         public FixedPanel FixedPanel {
             get => _fixedPanel;

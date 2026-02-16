@@ -18,18 +18,27 @@ namespace System.Windows.Forms
 {
     public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
     {
+
         public override string unique_key { get; protected set; }
+
         public override Gtk.MenuItem MenuItem { get => base.MenuItem; set { base.MenuItem = value; } }
+
         public override Gtk.Widget Widget => MenuItem;
+
         internal Gtk.Box itemBox = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
+
         internal Gtk.Label label = new Gtk.Label();
+
         internal Gtk.Button button = new Gtk.Button();
+
         internal Gtk.Entry entry = new Gtk.Entry();
         internal Gtk.ComboBoxText comboBox = new Gtk.ComboBoxText() { HasFrame = false };
         // internal Gtk.ProgressBar progressBar = new Gtk.ProgressBar();
+
         internal Gtk.LevelBar progressBar = new Gtk.LevelBar();
         internal Gtk.Viewport flagBox = new Gtk.Viewport();
         Gtk.CssProvider provider = new Gtk.CssProvider();
+
         public string StripType { get; set; }
         public WidgetToolStrip() : this(null, "", null, null, "", null)
         {
@@ -147,7 +156,9 @@ namespace System.Windows.Forms
                 ey.IsFocus = true;
             }
         }
+
         public override bool Checked { get; set; }
+
         public override CheckState CheckState { get; set; } = CheckState.Unchecked;
         public override System.Drawing.Image Image
         {
@@ -157,7 +168,9 @@ namespace System.Windows.Forms
                 base.Image = value;
             }
         }
+
         public ToolStripItemAlignment Alignment { get => MenuItem.Halign == Gtk.Align.End ? ToolStripItemAlignment.Right : ToolStripItemAlignment.Left; set { MenuItem.Hexpand = true; MenuItem.Halign = Gtk.Align.End; MenuItem.RightJustified = value == ToolStripItemAlignment.Right; } }
+
         internal Gtk.RadioButton groupradio = new Gtk.RadioButton("");
         private void ToolStripItem_Realized(object sender, EventArgs e)
         {
@@ -336,28 +349,51 @@ namespace System.Windows.Forms
             }
             set { this.label.Text = value; this.button.Label = value; }
         }
+
         public override Color ImageTransparentColor { get; set; }
+
         public override ToolStripItemDisplayStyle DisplayStyle { get; set; }
+
         public override bool AutoToolTip { get; set; }
+
         public override System.Drawing.Image BackgroundImage { get; set; }
+
         public override ImageLayout BackgroundImageLayout { get; set; }
+
         public override string ToolTipText { get { return this.Widget.TooltipText; } set { this.Widget.TooltipText = value; } }
+
         public override ContentAlignment ImageAlign { get; set; }
+
         public override int ImageIndex { get; set; }
+
         public override string ImageKey { get; set; }
+
         public override ToolStripItemImageScaling ImageScaling { get; set; }
+
         public override TextImageRelation TextImageRelation { get; set; }
+
         public override ToolStripTextDirection TextDirection { get; set; }
+
         public override ContentAlignment TextAlign { get; set; }
+
         public override bool RightToLeftAutoMirrorImage { get; set; }
+
         public override bool Pressed { get; }
+
         public override ToolStripItemPlacement Placement { get; }
+
         public override ToolStripItemOverflow Overflow { get; set; }
+
         public override ToolStripItem OwnerItem { get; }
+
         public override ToolStrip Owner { get; set; }
+
         public override int MergeIndex { get; set; }
+
         public override MergeAction MergeAction { get; set; }
+
         public override bool Enabled { get { return this.Widget.Sensitive; } set { this.Widget.Sensitive = value; } }
+
         private Font _Font;
         public override Font Font
         {
@@ -374,12 +410,19 @@ namespace System.Windows.Forms
             }
             set { _Font = value; UpdateStyle(); }
         }
+
         private Color _ForeColor;
+
         public override Color ForeColor { get => _ForeColor; set { _ForeColor = value; UpdateStyle(); } }
+
         private Color _BackColor;
+
         public override Color BackColor { get => _BackColor; set { _BackColor = value; UpdateStyle(); } }
+
         public override bool HasChildren { get; }
+
         public override bool AutoSize { get; set; }
+
         public override int Height { get { return this.Widget.HeightRequest; } set { this.Widget.HeightRequest = value; } }
         public override ImeMode ImeMode { get; set; }
 
@@ -392,12 +435,17 @@ namespace System.Windows.Forms
         //public override Padding Margin { get; set; }
         //public override Size MaximumSize { get; set; }
         //public override Size MinimumSize { get; set; }
+
         public override Padding Padding { get; set; }
+
         public override ToolStripItem Parent { get; set; }
+
         public override System.Drawing.Region Region { get; set; }
         public override int Right { get; }
 
+
         public override RightToLeft RightToLeft { get; set; }
+
         public override ISite Site { get; set; }
         public override Size Size
         {
@@ -411,6 +459,7 @@ namespace System.Windows.Forms
             }
         }
 
+
         public override object Tag { get; set; }
         public override int Top
         {
@@ -418,12 +467,17 @@ namespace System.Windows.Forms
             set;
         }
 
+
         public override bool UseWaitCursor { get; set; }
+
         public override int Width { get { return this.Widget.WidthRequest; } set { this.Widget.WidthRequest = value; } }
         public virtual bool Visible { get { return this.Widget.Visible; } set { this.Widget.Visible = value; this.Widget.NoShowAll = value == false; } }
 
+
         public override event EventHandler Click;
+
         public override event EventHandler CheckedChanged;
+
         public override event EventHandler CheckStateChanged;
         public override event ToolStripItemClickedEventHandler DropDownItemClicked;
     }

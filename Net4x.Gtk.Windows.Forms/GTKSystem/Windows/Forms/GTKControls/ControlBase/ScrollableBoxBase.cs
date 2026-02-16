@@ -6,7 +6,9 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScrollableBoxBase
     {
+
         public event ScrollEventHandler Scroll;
+
         public GtkControlOverride Override { get; set; }
         public ScrollableBoxBase() : base()
         {
@@ -47,7 +49,9 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         {
             this.Override.AddClass(cssClass);
         }
+
         public bool VScroll { get; set; } = true;
+
         public bool HScroll { get; set; } = true;
         public virtual bool AutoScroll
         {

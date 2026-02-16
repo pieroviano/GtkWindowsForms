@@ -13,6 +13,7 @@ namespace System.Windows.Forms
 #if DEBUG
             private readonly string _callStack = new StackTrace().ToString();
 #endif
+
             private const int GrowBy = 4;
             private const int InitialCapacity = 4;
 

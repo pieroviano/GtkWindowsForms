@@ -15,6 +15,7 @@ namespace System.Windows.Forms
             /// </summary>
             private class SelectedIndexEnumerator : IEnumerator
             {
+
                 private readonly SelectedIndexCollection _items;
                 private int _current;
 

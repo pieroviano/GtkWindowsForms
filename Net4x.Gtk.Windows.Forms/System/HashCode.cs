@@ -53,13 +53,19 @@ internal struct HashCode
 {
     private static readonly uint s_seed = GenerateGlobalSeed();
 
+
     private const uint Prime1 = 2654435761U;
+
     private const uint Prime2 = 2246822519U;
+
     private const uint Prime3 = 3266489917U;
+
     private const uint Prime4 = 668265263U;
     private const uint Prime5 = 374761393U;
 
+
     private uint _v1, _v2, _v3, _v4;
+
     private uint _queue1, _queue2, _queue3;
     private uint _length;
 

@@ -4,6 +4,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ListBoxBase : ScrollableBoxBase
     {
+
         public Gtk.ListBox ListBox = new Gtk.ListBox();
         public ListBoxBase() : base()
         {

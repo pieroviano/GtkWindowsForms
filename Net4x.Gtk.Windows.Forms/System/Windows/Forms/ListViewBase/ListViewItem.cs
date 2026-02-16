@@ -6,9 +6,11 @@ namespace System.Windows.Forms
 
     public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
 	{
+
 		private ListViewSubItemCollection _subitems;
         public class ListViewSubItem
 		{
+
 			internal Gtk.Label _label;
 			public Color? BackColor
 			{
@@ -40,6 +42,7 @@ namespace System.Windows.Forms
                 get;
                 set;
             }
+
 
 
             internal string _text = string.Empty;
@@ -94,6 +97,7 @@ namespace System.Windows.Forms
 
 		public class ListViewSubItemCollection : List<ListViewSubItem>
 		{
+
 			private ListViewItem _owner;
             public virtual ListViewSubItem this[string key]
             {
@@ -162,7 +166,9 @@ namespace System.Windows.Forms
 
 		internal ListViewGroup _group;
 
+
 		internal int ID;
+
 		internal Gtk.FlowBoxChild _flowBoxChild;
 		internal virtual AccessibleObject AccessibilityObject
 		{
@@ -189,6 +195,7 @@ namespace System.Windows.Forms
 
 		
 		
+
 		internal bool _checked;
 		public bool Checked
 		{
@@ -303,6 +310,7 @@ namespace System.Windows.Forms
             get;
             set;
         }
+
 		internal bool _selected;
         public bool Selected
         {
@@ -359,6 +367,7 @@ namespace System.Windows.Forms
             get;
             set;
         }
+
 
         internal string _text = string.Empty;
         public string Text

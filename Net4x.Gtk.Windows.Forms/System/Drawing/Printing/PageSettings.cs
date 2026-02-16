@@ -8,9 +8,13 @@ namespace System.Drawing.Printing
 
     public unsafe class PageSettings : ICloneable
     {
+
         private PrinterSettings _printerSettings;
+
         private PaperSize _paperSize;
+
         private PaperSource _paperSource;
+
         private PrinterResolution _printerResolution;
         private Margins _margins = new Margins();
 

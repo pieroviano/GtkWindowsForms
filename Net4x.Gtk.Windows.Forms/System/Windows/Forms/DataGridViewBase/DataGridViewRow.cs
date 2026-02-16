@@ -5,17 +5,25 @@ namespace System.Windows.Forms
 {
     public class DataGridViewRow
     {
+
         public int Index { get; internal set; }
+
         public TreeIter TreeIter { get; internal set; }
+
         public DataGridView DataGridView { get; set; }
+
         private DataGridViewCellCollection _cell;
+
         private DataGridViewRowCollection _children;
         public DataGridViewRow()
         {
             _cell = new DataGridViewCellCollection(this);
         }
+
         public DataGridViewCellCollection Cells { get { return _cell; } }
+
         public DataGridViewRowCollection Children { get => _children ?? new DataGridViewRowCollection(DataGridView, this); }
+
         public object DataBoundItem { get; }
         public DataGridViewCellStyle DefaultCellStyle { get; set; }
 

@@ -18,10 +18,15 @@ namespace GtkSystem.Resources
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class ResourceManager : System.Resources.ResourceManager
     {
+
         internal const string ResFileExtension = ".resources";
+
         private System.Type _resourceSource;
+
         private Assembly _assembly;
+
         private string _baseName;
+
         public ResourceInfo GetResourceInfo = new ResourceInfo();
         public ResourceManager([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : this(null, null, usingResourceSet)
         {
@@ -247,9 +252,13 @@ namespace GtkSystem.Resources
         }
         public class ResourceInfo
         {
+
             public string ResourceName { get; set; }
+
             public byte[] ImageBytes { get; set; }
+
             public string BaseName { get; set; }
+
             public Assembly Assembly { get; set; }
             public System.Type SourceType { get; set; }
         }

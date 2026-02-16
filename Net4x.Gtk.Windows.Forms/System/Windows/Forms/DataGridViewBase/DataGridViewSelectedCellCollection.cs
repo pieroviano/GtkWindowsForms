@@ -116,6 +116,7 @@ namespace System.Windows.Forms
         /// </summary>
         public bool Contains(DataGridViewCell dataGridViewCell) => ((IList)_items).Contains(dataGridViewCell);
 
+
         public void CopyTo(DataGridViewCell[] array, int index) => _items.CopyTo(array, index);
 
         [EditorBrowsable(EditorBrowsableState.Never)]

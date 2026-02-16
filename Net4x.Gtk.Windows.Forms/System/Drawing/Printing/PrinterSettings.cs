@@ -11,18 +11,28 @@ namespace System.Drawing.Printing
 {
     public partial class PrinterSettings : ICloneable
     {
+
         private string _printerName; // default printer.
+
         private string _driverName = "";
+
         private ushort _extraBytes;
         private byte[] _extraInfo;
 
+
         private short _copies = -1;
+
         private readonly PageSettings _defaultPageSettings;
+
         private int _fromPage;
+
         private int _toPage;
+
         private int _maxPage = 9999;
+
         private int _minPage;
         private PrintRange _printRange;
+
 
         private ushort _devmodeBytes;
         private byte[] _cachedDevmode;

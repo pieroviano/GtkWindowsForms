@@ -67,6 +67,7 @@ namespace GtkSystem
 
 		internal static string Resources_StreamNotValid => GetResourceString("Resources_StreamNotValid");
 
+
 		internal static string TypeLoadException_CannotLoadConverter => GetResourceString("TypeLoadException_CannotLoadConverter");
 
 		[MethodImpl(MethodImplOptions.NoInlining)]

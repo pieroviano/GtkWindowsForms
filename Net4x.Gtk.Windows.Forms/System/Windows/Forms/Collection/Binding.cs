@@ -57,6 +57,7 @@ public class Binding
 
     private DataSourceUpdateMode _dataSourceUpdateMode;
 
+
     private BindingCompleteEventHandler? _bindingComplete;
 
     /// <summary>
@@ -90,6 +91,7 @@ public class Binding
     public BindingMemberInfo? BindingMemberInfo => _bindToObject?.BindingMemberInfo;
 
     internal BindToObject? BindToObject => _bindToObject;
+
 
     internal bool ComponentCreated => IsComponentCreated(_control);
 

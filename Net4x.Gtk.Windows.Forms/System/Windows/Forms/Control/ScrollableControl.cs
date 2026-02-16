@@ -19,6 +19,7 @@ namespace System.Windows.Forms
 
         protected const int ScrollStateFullDrag = 16;
 
+
         private IScrollableBoxBase scrollbase;
         public ScrollableControl():base()
         {
@@ -28,10 +29,15 @@ namespace System.Windows.Forms
         {
             scrollbase = scrolledwindow;
         }
+
         public override Rectangle DisplayRectangle { get; }
+
         public Size AutoScrollMinSize { get; set; }
+
         public Point AutoScrollPosition { get; set; }
+
         public Size AutoScrollMargin { get; set; }
+
         private bool _AutoScroll;
         public virtual bool AutoScroll
         {
@@ -62,6 +68,7 @@ namespace System.Windows.Forms
         //public VScrollProperties VerticalScroll { get; }
         //public DockPaddingEdges DockPadding { get; }
         //public HScrollProperties HorizontalScroll { get; }
+
         protected bool VScroll { get => scrollbase.VScroll; set => scrollbase.VScroll = value; }
         protected bool HScroll { get => scrollbase.HScroll; set => scrollbase.HScroll = value; }
 

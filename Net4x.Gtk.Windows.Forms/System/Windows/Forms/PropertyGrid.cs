@@ -21,16 +21,26 @@ namespace System.Windows.Forms
     [Designer($"System.Windows.Forms.Design.PropertyGridDesigner, {AssemblyRef.SystemDesign}")]
     public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     {
+
         public readonly PropertyGridBase self = new PropertyGridBase();
+
         public override object GtkControl => self;
+
         private static readonly object s_propertyValueChangedEvent = new();
+
         private static readonly object s_comComponentNameChangedEvent = new();
+
         private static readonly object s_propertyTabChangedEvent = new();
+
         private static readonly object s_selectedGridItemChangedEvent = new();
+
         private static readonly object s_propertySortChangedEvent = new();
+
         private static readonly object s_selectedObjectsChangedEvent = new();
+
         private object[] _selectedObjects;
         private readonly List<TabInfo> _tabs = new List<TabInfo>();
+
 
         private PropertyGridView _propertyView;
         public PropertyGrid()
@@ -71,87 +81,122 @@ namespace System.Windows.Forms
 
         [Browsable(true)]
         [Description(" control size（ measured in pixels）。")]
+
         public override Size Size { get => base.Size; set { base.Size = value; self.Position = value.Height - 60; } }
 
         [DefaultValue(true)]
         [Localizable(true)]
+
         public virtual bool HelpVisible { get; set; }
         [DefaultValue(typeof(Color), "ControlDark")]
+
         public Color HelpBorderColor { get; set; }
         [DefaultValue(typeof(Color), "ControlText")]
+
         public Color HelpForeColor { get; set; }
         [DefaultValue(typeof(Color), "Control")]
+
         public Color HelpBackColor { get; set; }
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+
         public override Color ForeColor { get; set; }
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+
         public override bool AutoScroll { get; set; }
         public override Color BackColor { get; set; }
 #nullable disable
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+
         public override Image BackgroundImage { get; set; }
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+
         public override ImageLayout BackgroundImageLayout { get; set; }
         [DefaultValue(typeof(Color), "Highlight")]
+
         public Color SelectedItemWithFocusBackColor { get; set; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public AttributeCollection BrowsableAttributes { get; set; }
         [DefaultValue(typeof(Color), "ControlText")]
+
         public Color CategoryForeColor { get; set; }
+
         public Color CommandsBackColor { get; set; }
+
         public Color CommandsForeColor { get; set; }
+
         public Color CommandsLinkColor { get; set; }
+
         public Color CommandsActiveLinkColor { get; set; }
+
         public Color CommandsDisabledLinkColor { get; set; }
         [DefaultValue(typeof(Color), "ControlDark")]
+
         public Color CommandsBorderColor { get; set; }
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public virtual bool CommandsVisible { get; }
         [DefaultValue(true)]
+
         public virtual bool CommandsVisibleIfAvailable { get; set; }
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public virtual bool CanShowCommands { get; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public Point ContextMenuDefaultLocation { get; }
         [DefaultValue(typeof(Color), "HighlightText")]
+
         public Color SelectedItemWithFocusForeColor { get; set; }
         [DefaultValue(typeof(Color), "Control")]
+
         public Color CategorySplitterColor { get; set; }
         [DefaultValue(false)]
+
         public bool UseCompatibleTextRendering { get; set; }
         [DefaultValue(typeof(Color), "ControlDark")]
+
         public Color ViewBorderColor { get; set; }
         [DefaultValue(typeof(Color), "WindowText")]
+
         public Color ViewForeColor { get; set; }
         [DefaultValue(typeof(Color), "Window")]
+
         public Color ViewBackColor { get; set; }
         [DefaultValue(true)]
+
         public virtual bool ToolbarVisible { get; set; }
         [DefaultValue(false)]
+
         public bool LargeButtons { get; set; }
         [DefaultValue(typeof(Color), "GrayText")]
+
         public Color DisabledItemForeColor { get; set; }
+
         public override ISite Site { get; set; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public GridItem SelectedGridItem { get; set; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public override string Text { get; set; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public PropertyTabCollection PropertyTabs { get; }
      
         [DefaultValue(PropertySort.CategorizedAlphabetical)]
@@ -161,17 +206,22 @@ namespace System.Windows.Forms
         //[EditorBrowsable(EditorBrowsableState.Never)]
         //public Padding Padding { get; set; }
         [DefaultValue(typeof(Color), "InactiveBorder")]
+
         public Color LineColor { get; set; }
         [DefaultValue(true)]
+
         public bool CanShowVisualStyleGlyphs { get; set; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         public PropertyTab SelectedTab { get; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+
         public override ControlCollection Controls { get; }
+
         public bool InPropertySet => true;
         protected bool DrawFlatToolbar { get; set; }
         //protected ToolStripRenderer ToolStripRenderer { get; set; }
@@ -179,21 +229,28 @@ namespace System.Windows.Forms
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         protected virtual Bitmap SortByPropertyImage { get; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         protected virtual Bitmap SortByCategoryImage { get; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         protected virtual Bitmap ShowPropertyPageImage { get; }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+
         protected virtual Type DefaultTabType { get; }
+
         protected override Size DefaultSize { get; }
+
         protected internal override bool ShowFocusCues { get; }
+
         public event ComponentRenameEventHandler ComComponentNameChanged;
         public event EventHandler SelectedObjectsChanged
         {

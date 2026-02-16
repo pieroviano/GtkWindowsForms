@@ -10,11 +10,15 @@ namespace System.Drawing
 {
     public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     {
+
         public Cairo.Context context;
+
         private Gdk.Rectangle rectangle;
+
         private Gtk.Widget widget;
         public static Cairo.Context Context;
         #region Numerical adjustment delta used for input and output
+
         internal double diff_left { get; set; }
         internal double diff_top { get; set; }
         //internal int diff_right { get; set; }
@@ -1494,7 +1498,9 @@ namespace System.Drawing
         {
             throw new System.NotImplementedException();
         }
+
         private static Cairo.ImageSurface imagesurface;
+
         private static Cairo.Surface simisurface;
         private static Cairo.Context imagecontext;
         /// <summary>
@@ -1720,6 +1726,7 @@ namespace System.Drawing
         {
             this.context.Restore();
         }
+
         private float _angle = 0;
         public void RotateTransform(float angle)
         {

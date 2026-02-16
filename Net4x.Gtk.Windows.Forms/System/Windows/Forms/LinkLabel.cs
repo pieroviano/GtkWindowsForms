@@ -14,7 +14,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class LinkLabel: Control
     {
+
         public readonly LinkLabelBase self = new LinkLabelBase();
+
         public override object GtkControl => self;
         public LinkLabel():base()
         {
@@ -38,6 +40,7 @@ namespace System.Windows.Forms
                 Click(this, e);
             }
         }
+
         public override event EventHandler Click;
         public override string Text { get { return string.IsNullOrEmpty(self.Label)? self.Uri : self.Label; } set { self.Label = value; self.Uri = value; } }
          
@@ -62,6 +65,7 @@ namespace System.Windows.Forms
 
         public Color ActiveLinkColor { get; set; }
 
+
         public Color VisitedLinkColor { get; set; }
         public bool UseCompatibleTextRendering { get; set; }
 
@@ -81,13 +85,16 @@ namespace System.Windows.Forms
             {
 
             }
+
             public string Description { get; set; }
             [DefaultValue(null)]
             public object LinkData { get; set; }
         }
         public class LinkCollection : IList
         {
+
             private readonly LinkLabel owner;
+
             private bool linksAdded = false;   
             private int lastAccessedIndex = -1;
 

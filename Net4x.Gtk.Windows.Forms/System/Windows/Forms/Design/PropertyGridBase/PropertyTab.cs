@@ -6,6 +6,7 @@ namespace System.Windows.Forms.Design
 
     public abstract class PropertyTab : IExtenderProvider
     {
+
         private Bitmap? _bitmap;
         private bool _checkedBitmap;
 

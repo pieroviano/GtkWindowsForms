@@ -8,6 +8,7 @@ namespace System.Windows.Forms
 {
     public class DataGridViewRowHeightInfoNeededEventArgs : EventArgs
     {
+
         private int _height;
         private int _minimumHeight;
 

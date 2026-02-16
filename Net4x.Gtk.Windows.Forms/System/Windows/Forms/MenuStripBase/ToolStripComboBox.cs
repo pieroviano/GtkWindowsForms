@@ -16,6 +16,7 @@ namespace System.Windows.Forms
 
     public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     {
+
         private ObjectCollection __itemsData;
         public ToolStripComboBox() : base("ToolStripComboBox",null)
         {
@@ -35,11 +36,15 @@ namespace System.Windows.Forms
 
         public bool FormattingEnabled { get; set; }
 
+
         public object SelectedItem { get { return __itemsData[SelectedIndex]; } }
+
         public int SelectedIndex { get { return base.comboBox.Active; } }
         public new ObjectCollection Items { get { return __itemsData; } }
 
+
         public event EventHandler SelectedIndexChanged;
+
         public event EventHandler SelectedValueChanged;
 
         [ListBindable(false)]

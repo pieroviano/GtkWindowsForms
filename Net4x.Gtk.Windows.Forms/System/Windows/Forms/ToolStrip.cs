@@ -12,8 +12,11 @@ namespace System.Windows.Forms
 {
     public class ToolStrip : Control
     {
+
         public readonly ToolStripBase self = new ToolStripBase();
+
         public override object GtkControl => self;
+
         public ToolStripItemCollection toolStripItemCollection;
         public ToolStrip() : base()
         {
@@ -50,6 +53,7 @@ namespace System.Windows.Forms
                 CheckStateChanged(this, e);
             }
         }
+
         public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, 30); }
         public ToolStripItemCollection Items
         {
@@ -59,10 +63,15 @@ namespace System.Windows.Forms
             }
         }
 
+
         public Size ImageScalingSize { get; set; }
+
         public ToolStripLayoutStyle LayoutStyle { get; set; }
+
         public override event EventHandler Click;
+
         public event EventHandler CheckedChanged;
+
         public event EventHandler CheckStateChanged;
         public event ToolStripItemClickedEventHandler DropDownItemClicked;
     }

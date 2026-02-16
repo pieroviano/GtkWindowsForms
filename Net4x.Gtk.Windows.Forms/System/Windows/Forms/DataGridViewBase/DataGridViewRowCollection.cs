@@ -14,8 +14,11 @@ namespace System.Windows.Forms
     [ListBindable(false)]
     public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     {
+
         private ArrayList items = new ArrayList();
+
         private DataGridView dataGridView;
+
         private DataGridViewRow parentRow;
         public DataGridViewRowCollection(DataGridView dataGridView)
         {
@@ -177,8 +180,11 @@ namespace System.Windows.Forms
                 return dataGridViewRow;
             }
         }
+
         protected DataGridView DataGridView { get { return dataGridView; } }
+
         internal ArrayList SharedList => items;
+
         protected ArrayList List { get { return items; } }
         public int Count => items.Count;
         bool IList.IsFixedSize => false;
@@ -192,6 +198,7 @@ namespace System.Windows.Forms
 
         object IList.this[int index] { get => items[index]; set => throw new NotSupportedException(); }
         
+
         public event CollectionChangeEventHandler CollectionChanged;
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -447,6 +454,7 @@ namespace System.Windows.Forms
         }
 
         public virtual void InsertCopies(int indexSource, int indexDestination, int count) { }
+
 
         public virtual void InsertCopy(int indexSource, int indexDestination) { }
         public virtual void InsertRange(int rowIndex, params DataGridViewRow[] dataGridViewRows)

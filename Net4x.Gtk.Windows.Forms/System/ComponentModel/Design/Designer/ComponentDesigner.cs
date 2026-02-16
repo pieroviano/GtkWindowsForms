@@ -14,7 +14,9 @@ namespace System.ComponentModel.Design
     {
         private InheritanceAttribute? _inheritanceAttribute;
 
+
         private DesignerVerbCollection? _verbs;
+
         private bool _settingsKeyExplicitlySet;
         private IComponent? _component;
 

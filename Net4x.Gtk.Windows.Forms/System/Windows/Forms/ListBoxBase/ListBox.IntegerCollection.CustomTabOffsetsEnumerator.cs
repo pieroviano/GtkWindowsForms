@@ -15,6 +15,7 @@ namespace System.Windows.Forms
             /// </summary>
             private class CustomTabOffsetsEnumerator : IEnumerator
             {
+
                 private readonly IntegerCollection _items;
                 private int _current;
 

@@ -18,8 +18,11 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class ComboBox: ListControl
     {
+
         public readonly ComboBoxBase self = new ComboBoxBase();
+
         public override object GtkControl => self;
+
         private ObjectCollection __itemsData;
         public ComboBox():base()
         {
@@ -66,6 +69,7 @@ namespace System.Windows.Forms
                 ws.Drawn += Ws_Drawn;
             }
         }
+
         public event EventHandler DropDown;
         private void Ws_Toggled(object sender, EventArgs e)
         {
@@ -105,6 +109,7 @@ namespace System.Windows.Forms
             args.Cr.Restore();
         }
 
+
         private ComboBoxStyle _DropDownStyle;
         public ComboBoxStyle DropDownStyle { 
             get=> _DropDownStyle; 
@@ -124,14 +129,19 @@ namespace System.Windows.Forms
         }
 
 
+
         public override string Text { get => self.Entry.Text; set { self.Entry.Text = value; } }
         public object SelectedItem { 
             get { return SelectedIndex == -1 ? null : __itemsData[SelectedIndex]; }
             set { int _index = __itemsData.IndexOf(value); if (_index != -1) { SelectedIndex = _index; } } 
         }
+
         internal int _selectedIndex;
+
         public override int SelectedIndex { get { return self.Active; } set { self.Active = value; _selectedIndex = value; if (value == -1) { Text = ""; } } }
+
         public override object SelectedValue { get { return self.ActiveId; } set => self.ActiveId = value?.ToString(); }
+
         public ObjectCollection Items { get { return __itemsData; } }
         public override string GetItemText(object item)
         {
@@ -165,8 +175,11 @@ namespace System.Windows.Forms
                 self.Append(value, text);
             }
         }
+
         private bool _sorted;
+
         public bool Sorted { get=> _sorted; set=> _sorted = value; }
+
         public object _DataSource;
         public override object DataSource
         {

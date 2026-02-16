@@ -11,12 +11,19 @@ namespace System.Windows.Forms
 {
     public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumerable
     {
+
         private ToolStripItem owner;
+
         private ToolStrip toolStrip;
+
         private StatusStrip statusStrip;
+
         private Gtk.Menu menu;
+
         private bool isToolStrip;
+
         private bool isStatusStrip;
+
         private bool isMenuStrip;
         private bool isToolStripDropDown;
 

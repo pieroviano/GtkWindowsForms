@@ -88,6 +88,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     private bool _innerListChanging;
 
+
     private bool _endingEdit;
 
     /// <summary>
@@ -194,6 +195,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>The <see cref="T:System.Windows.Forms.CurrencyManager" /> associated with this <see cref="T:System.Windows.Forms.BindingSource" />.</returns>
     [Browsable(false)]
+
     public virtual CurrencyManager? CurrencyManager => ((ICurrencyManagerProvider)this).GetRelatedCurrencyManager(null);
 
     /// <summary>
@@ -370,6 +372,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>true to indicate the binding is suspended; otherwise, false. </returns>
     [Browsable(false)]
+
     public bool IsBindingSuspended => _currencyManager is { IsBindingSuspended: true };
 
     /// <summary>
@@ -377,6 +380,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>true if the underlying list has a fixed size; otherwise, false.</returns>
     [Browsable(false)]
+
     public virtual bool IsFixedSize => List.IsFixedSize;
 
     /// <summary>
@@ -384,6 +388,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>true if the list is read-only; otherwise, false.</returns>
     [Browsable(false)]
+
     public virtual bool IsReadOnly => List.IsReadOnly;
 
     /// <summary>
@@ -408,6 +413,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>true to indicate the list is synchronized; otherwise, false.</returns>
     [Browsable(false)]
+
     public virtual bool IsSynchronized => List.IsSynchronized;
 
     /// <summary>
@@ -568,6 +574,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>true in all cases.</returns>
     [Browsable(false)]
+
     public virtual bool SupportsChangeNotification => true;
 
     /// <summary>

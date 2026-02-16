@@ -10,7 +10,9 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin32Window
     {
+
         public readonly Gtk.ScrolledWindow ScrollView = new Gtk.ScrolledWindow();
+
         public GtkControlOverride Override { get; set; }
         public bool AutoScroll
         {
@@ -31,11 +33,15 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
                 }
             }
         }
+
         public bool VScroll { get; set; } = true;
         public bool HScroll { get; set; } = true;
 
+
         public delegate bool CloseWindowHandler(object sender, EventArgs e);
+
         public event CloseWindowHandler CloseWindowEvent;
+
         public event System.Windows.Forms.ScrollEventHandler Scroll;
         public FormBase(Gtk.Window parent = null) : base("title", Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive), DialogFlags.UseHeaderBar)
         {

@@ -16,8 +16,11 @@ namespace System.Drawing.Design
     public class ToolboxItem : ISerializable
     {
 
+
         private static bool s_isScalingInitialized;
+
         private const int ICON_DIMENSION = 16;
+
         private static int s_iconWidth = ICON_DIMENSION;
         private static int s_iconHeight = ICON_DIMENSION;
 

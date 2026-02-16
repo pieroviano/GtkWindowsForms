@@ -12,7 +12,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class SwitchBox : Control
     {
+
         public readonly SwitchBoxBase self = new SwitchBoxBase();
+
         public override object GtkControl => self;
         public SwitchBox() {
             self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
@@ -22,6 +24,7 @@ namespace System.Windows.Forms
             if (CheckedChanged != null && self.IsVisible)
                 CheckedChanged(this, EventArgs.Empty);
         }
+
         public override string Text { get { return self.TooltipText; } set { self.TooltipText = value; } }
         public  bool Checked { get { return self.Active; } 
             set { 

@@ -12,7 +12,9 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class CheckBox : Control
     {
+
         public readonly CheckBoxBase self = new CheckBoxBase();
+
         public override object GtkControl => self;
         public CheckBox() {
             self.Toggled += Self_Toggled;
@@ -33,12 +35,14 @@ namespace System.Windows.Forms
                 CheckStateChanged(this, EventArgs.Empty);
         }
 
+
         public override string Text { get { return self.Label; } set { self.Label = value; } }
         public  bool Checked { get { return self.Active; } 
             set { self.Active = value; if (self.IsRealized) { self.Inconsistent = false; } } }
         public CheckState CheckState { 
             get { if (self.Inconsistent == true) { return CheckState.Indeterminate; } else { return self.Active ? CheckState.Checked : CheckState.Unchecked; } } 
             set { self.Inconsistent = value == CheckState.Indeterminate; self.Active = value == CheckState.Checked; } }
+
         public event EventHandler CheckedChanged;
         public virtual event EventHandler CheckStateChanged;
     }

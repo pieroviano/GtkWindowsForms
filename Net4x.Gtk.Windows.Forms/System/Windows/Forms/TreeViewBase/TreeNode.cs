@@ -10,9 +10,13 @@ namespace System.Windows.Forms
     public class TreeNode: ICloneable, ISerializable, IEquatable<TreeNode>
     {
         // format， union of indexes at all levels：0,1,2,3....
+
         private string index = "";
+
         public string Index { get { return index; } internal set { index = value ?? ""; } }
+
         internal Gtk.TreeIter TreeIter = Gtk.TreeIter.Zero;
+
         private TreeNode parent;
         internal TreeView treeView;
 
@@ -25,6 +29,7 @@ namespace System.Windows.Forms
                 return treeView;
             }
         }
+
         private TreeNodeCollection nodes;
         public TreeNode()
         {
@@ -67,6 +72,7 @@ namespace System.Windows.Forms
             get { return parent; }
             internal set { parent = value; }
         }
+
         private string _text;
         public string Text
         {
@@ -87,6 +93,7 @@ namespace System.Windows.Forms
         {
             get; set;
         }
+
         private bool _IsChecked;
         public bool Checked
         {
@@ -119,6 +126,7 @@ namespace System.Windows.Forms
                 GetFullPath(node.Parent, paths);
             }
         }
+
         private bool _IsSelected;
         public bool IsSelected
         {
@@ -155,19 +163,25 @@ namespace System.Windows.Forms
                     return parent.Level + 1;
             }
         }
+
         private int _imageIndex;
         public int ImageIndex { 
             get=>_imageIndex; 
             set { _imageIndex = value; TreeView?.NativeNodeImage(this, value); }
         }
+
         private string _imageKey;
         public string ImageKey { 
             get => _imageKey; 
             set { _imageKey = value; TreeView?.NativeNodeImage(this, value); }
         }
+
         public int SelectedImageIndex { get; set; }
+
         public string SelectedImageKey { get; set; }
+
         public int StateImageIndex { get; set; }
+
         public string StateImageKey { get; set; }
         public object Tag { get; set; }
 

@@ -38,9 +38,11 @@ namespace System.Windows.Forms
         }
 
         [DefaultValue(Border3DStyle.Flat)]
+
         public Border3DStyle BorderStyle { get; set; }
 
         [DefaultValue(ToolStripStatusLabelBorderSides.None)]
+
         public ToolStripStatusLabelBorderSides BorderSides { get; set; }
 
         [DefaultValue(false)]

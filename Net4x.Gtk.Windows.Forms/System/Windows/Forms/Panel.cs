@@ -14,9 +14,13 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class Panel : ScrollableControl
     {
+
         public readonly PanelBase self = new PanelBase();
+
         public override object GtkControl => self;
+
         public Gtk.Overlay contaner = new Gtk.Overlay();
+
         private ControlCollection _controls;
         public Panel() : base()
         {
@@ -30,6 +34,7 @@ namespace System.Windows.Forms
             contaner.Add(new Gtk.Fixed() { Halign = Align.Fill, Valign = Align.Fill });
             self.Add(contaner);
         }
+
         public override ControlCollection Controls => _controls;
         public override Padding Padding
         {

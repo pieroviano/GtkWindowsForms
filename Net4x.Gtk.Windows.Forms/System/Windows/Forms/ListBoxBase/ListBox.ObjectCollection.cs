@@ -16,6 +16,7 @@ namespace System.Windows.Forms
         [ListBindable(false)]
         public class ObjectCollection : IList
         {
+
             private readonly ListBox _owner;
             private ItemArray _items = null!;
 

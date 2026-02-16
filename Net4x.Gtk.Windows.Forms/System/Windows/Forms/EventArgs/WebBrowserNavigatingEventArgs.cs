@@ -11,6 +11,7 @@ namespace System.Windows.Forms
     /// </summary>
     public class WebBrowserNavigatingEventArgs : CancelEventArgs
     {
+
         private readonly Uri _url;
         private readonly string _targetFrameName;
 

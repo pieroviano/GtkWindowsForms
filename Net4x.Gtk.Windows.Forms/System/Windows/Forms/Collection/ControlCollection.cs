@@ -45,6 +45,7 @@ namespace System.Windows.Forms
                 }
             }
 
+
             private bool is__ownerControl_Mapped = false;
             private void __ownerControl_Mapped(object sender, EventArgs e)
             {
@@ -524,6 +525,7 @@ namespace System.Windows.Forms
             {
                 _widget = widget;
             }
+
             public Gtk.Widget GetWidget { get => _widget; }
             public Rectangle Bounds => throw new NotImplementedException();
 

@@ -24,6 +24,7 @@ namespace System.Windows.Forms
     {
         private static int s_lastMask = 1;
 
+
         private readonly ListControl _listControl;
         private List<Entry> _entries;
 
