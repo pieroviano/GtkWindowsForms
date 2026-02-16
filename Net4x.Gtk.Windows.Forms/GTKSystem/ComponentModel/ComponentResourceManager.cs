@@ -7,8 +7,8 @@ using System.Globalization;
 namespace GtkSystem.ComponentModel
 {
     /// <summary>
-    /// 此为System.ComponentModel.ComponentResourceManager image retrieval implementation
-    /// Usage method： atform create new under the projectSystem.ComponentModel.ComponentResourceManager and inheritGtkSystem.ComponentModel.ComponentResourceManager that is enough
+    /// This is System.ComponentModel.ComponentResourceManager image retrieval implementation
+    /// Usage method： at form create new under the projectSystem.ComponentModel.ComponentResourceManager and inheritGtkSystem.ComponentModel.ComponentResourceManager that is enough
     /// </summary>
     public class ComponentResourceManager : System.ComponentModel.ComponentResourceManager
     {
