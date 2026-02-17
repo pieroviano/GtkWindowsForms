@@ -61,8 +61,7 @@ public class Program
             File.Delete(Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
             File.Copy(@"..\..\..\Resources\TreeView.cs", Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
         }
-        var transformer = new SummaryCommentTransformer();
-        transformer.TransformFolder(targetDir);
+        SummaryCommentTransformer.TransformFolder(targetDir);
         MemberSpacingFormatter.TransformFolder(targetDir);
         ProjectCompilation.RestoreProject(sourceProjectPath);
 

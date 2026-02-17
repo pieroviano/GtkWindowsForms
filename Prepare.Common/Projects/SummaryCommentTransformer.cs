@@ -4,9 +4,9 @@ using Prepare.Common.Content;
 
 namespace Prepare.Common.Projects;
 
-public class SummaryCommentTransformer
+public static class SummaryCommentTransformer
 {
-    public void TransformFolder(string folderPath)
+    public static void TransformFolder(string folderPath)
     {
         var files = Directory.GetFiles(folderPath, "*.cs", SearchOption.AllDirectories);
 
@@ -16,7 +16,7 @@ public class SummaryCommentTransformer
         }
     }
 
-    private void TransformFile(string filePath)
+    private static void TransformFile(string filePath)
     {
         var lines = File.ReadAllLines(filePath).ToList();
         var output = new StringBuilder();
@@ -78,32 +78,32 @@ public class SummaryCommentTransformer
         File.WriteAllText(filePath, new XmlDocSummaryNormalizer().Normalize(rewrite));
     }
 
-    private bool IsSummaryStart(string line)
+    private static bool IsSummaryStart(string line)
     {
         return Regex.IsMatch(line, @"^\s*//\s*Summary:\s*$");
     }
 
-    private bool IsCommentLine(string line)
+    private static bool IsCommentLine(string line)
     {
         return Regex.IsMatch(line, @"^\s*//");
     }
 
-    private bool IsEmptyCommentLine(string line)
+    private static bool IsEmptyCommentLine(string line)
     {
         return Regex.IsMatch(line, @"^\s*//\s*$");
     }
 
-    private string ExtractCommentContent(string line)
+    private static string ExtractCommentContent(string line)
     {
         return Regex.Replace(line, @"^\s*//\s?", "");
     }
 
-    private string GetIndentation(string line)
+    private static string GetIndentation(string line)
     {
         return new string(line.TakeWhile(char.IsWhiteSpace).ToArray());
     }
 
-    private string GetLastLine(StringBuilder sb)
+    private static string GetLastLine(StringBuilder sb)
     {
         var content = sb.ToString().TrimEnd('\r', '\n');
         var lastNewLine = content.LastIndexOf(Environment.NewLine, StringComparison.Ordinal);
@@ -114,7 +114,7 @@ public class SummaryCommentTransformer
         return content.Substring(lastNewLine + Environment.NewLine.Length);
     }
 
-    private void RemoveLastLine(StringBuilder sb)
+    private static void RemoveLastLine(StringBuilder sb)
     {
         var content = sb.ToString().TrimEnd('\r', '\n');
         var lastNewLine = content.LastIndexOf(Environment.NewLine, StringComparison.Ordinal);
