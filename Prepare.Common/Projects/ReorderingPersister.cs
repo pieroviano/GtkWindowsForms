@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using Prepare.Common.IO;
 
 namespace Prepare.Common.Projects
 {
@@ -10,7 +11,7 @@ namespace Prepare.Common.Projects
             string projectDirectory)
         {
             XElement root = new XElement("Files");
-
+            BackupUtility.CleanBackup(projectDirectory);
             foreach (var kvp in projectFiles)
             {
                 var itemElement = new XElement("Item",
@@ -40,8 +41,8 @@ namespace Prepare.Common.Projects
 
                 if (File.Exists(fullPath))
                 {
-                    string fileContent = File.ReadAllText(fullPath);
-                    itemElement.Value = fileContent;
+                    var destFileName = BackupUtility.GetDestFileName(fullPath);
+                    itemElement.Value = destFileName;
                 }
             }
         }

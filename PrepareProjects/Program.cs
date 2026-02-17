@@ -78,6 +78,7 @@ public class Program
             "Content",
             "Resources"
         }, ["GTKControls", "GTKSystem"], ["Application"]);
+
         NormalizeGtkFolders(csprojPath);
         FixTableLayoutPanelReference(csprojPath);
 
@@ -180,6 +181,7 @@ public class Program
                 }
             }
         }
+        BackupUtility.CleanBackupEmptyFolders(projectDirectory);
     }
 
     private static void RenameFolder(
@@ -287,7 +289,13 @@ public class Program
 
         if (File.Exists(fullPath))
         {
-            item.Value = File.ReadAllText(fullPath);
+            if (File.Exists(item.Value))
+            {
+                File.Delete(item.Value);
+            }
+
+            var destFileName = BackupUtility.GetDestFileName(fullPath);
+            item.Value = destFileName;
         }
 
         doc.Save(filesXmlPath);

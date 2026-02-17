@@ -16,7 +16,7 @@ internal static class FileItemsService
             {
                 Source = (string?)e.Attribute("Source") ?? string.Empty,
                 Destination = (string?)e.Attribute("Destination") ?? string.Empty,
-                OldSource = e.Value
+                OldSource = File.ReadAllText(e.Value)
             })
             .Where(i =>
                 i.Source.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) &&
