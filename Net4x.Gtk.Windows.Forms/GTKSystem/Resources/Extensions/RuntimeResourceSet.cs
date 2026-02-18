@@ -25,7 +25,7 @@ namespace GtkSystem.Resources.Extensions
 			{
 				throw new ArgumentNullException("reader");
 			}
-			_defaultReader = (reader as DeserializingResourceReader) ?? throw new ArgumentException(SR.Format(SR.NotSupported_WrongResourceReader_Type, reader.GetType()), "reader");
+			_defaultReader = (reader as DeserializingResourceReader) ?? throw new ArgumentException(SystemResources.Format(SR.NotSupported_WrongResourceReader_Type, reader.GetType()), "reader");
 			_resCache = new Dictionary<string, ResourceLocator>(FastResourceComparer.Default);
 			_defaultReader._resCache = _resCache;
 		}

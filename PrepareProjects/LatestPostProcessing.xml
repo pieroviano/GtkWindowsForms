@@ -12,7 +12,22 @@
 	</Item>
 	<Item>
 		<FileName>GtkSystem\Resources\SR.cs</FileName>
-		<SourceString>internal static ResourceManager ResourceManager => s_resourceManager ?? (s_resourceManager = new GtkSystem.Resources.ResourceManager(typeof(FxResources.System.Resources.Extensions.SR)));</SourceString>
-		<TargetString>internal static ResourceManager ResourceManager => s_resourceManager ?? (s_resourceManager = new GtkSystem.Resources.ResourceManager(typeof(System.Properties.Resources)));</TargetString>
+		<SourceString></SourceString>
+		<TargetString></TargetString>
+	</Item>
+	<Item>
+		<FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+		<SourceString>SR.Format</SourceString>
+		<TargetString>SystemResources.Format</TargetString>
+	</Item>
+	<Item>
+		<FileName>GtkSystem\Resources\Extensions\PreserializedResourceWriter.cs</FileName>
+		<SourceString>SR.Format</SourceString>
+		<TargetString>SystemResources.Format</TargetString>
+	</Item>
+	<Item>
+		<FileName>GtkSystem\Resources\Extensions\RuntimeResourceSet.cs</FileName>
+		<SourceString>SR.Format</SourceString>
+		<TargetString>SystemResources.Format</TargetString>
 	</Item>
 </Items>

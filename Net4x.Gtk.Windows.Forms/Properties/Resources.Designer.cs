@@ -202,182 +202,6 @@ namespace System.Properties
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Arg resource file unsupported version.
-        /// </summary>
-        internal static string Gtk_Arg_ResourceFileUnsupportedVersion
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_Arg_ResourceFileUnsupportedVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Argument stream not readable.
-        /// </summary>
-        internal static string Gtk_Argument_StreamNotReadable
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_Argument_StreamNotReadable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Argument stream not writable.
-        /// </summary>
-        internal static string Gtk_Argument_StreamNotWritable
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_Argument_StreamNotWritable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Argument out of range stream length.
-        /// </summary>
-        internal static string Gtk_ArgumentOutOfRange_StreamLength
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_ArgumentOutOfRange_StreamLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format invalid type.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_InvalidType
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_InvalidType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format negative string length.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_NegativeStringLength
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_NegativeStringLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format resource data length invalid.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_ResourceDataLengthInvalid
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_ResourceDataLengthInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format resource name corrupted.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_ResourceNameCorrupted
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_ResourceNameCorrupted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format resource name corrupted name index.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_ResourceNameCorrupted_NameIndex
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_ResourceNameCorrupted_NameIndex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format resources data invalid offset.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_ResourcesDataInvalidOffset
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_ResourcesDataInvalidOffset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format resources header corrupted.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_ResourcesHeaderCorrupted
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_ResourcesHeaderCorrupted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format resources index too long.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_ResourcesIndexTooLong
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_ResourcesIndexTooLong", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format resources name invalid offset.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_ResourcesNameInvalidOffset
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_ResourcesNameInvalidOffset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format resources name too long.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_ResourcesNameTooLong
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_ResourcesNameTooLong", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format res type ser blob mismatch.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_ResType_SerBlobMismatch
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_ResType_SerBlobMismatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Bad image format type mismatch.
-        /// </summary>
-        internal static string Gtk_BadImageFormat_TypeMismatch
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_BadImageFormat_TypeMismatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///     Looks up a localized string similar to Choose color.
         /// </summary>
         internal static string Gtk_ColorDialog_RunDialog_Choose_color
@@ -500,17 +324,6 @@ namespace System.Properties
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Format bad 7 bit int 32.
-        /// </summary>
-        internal static string Gtk_Format_Bad7BitInt32
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_Format_Bad7BitInt32", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///     Looks up a localized string similar to You are closing this window, are you sure you want to close it?.
         /// </summary>
         internal static string Gtk_FormBase_FormBase_Close
@@ -518,50 +331,6 @@ namespace System.Properties
             get
             {
                 return ResourceManager.GetString("Gtk_FormBase_FormBase_Close", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Invalid operation enum ended.
-        /// </summary>
-        internal static string Gtk_InvalidOperation_EnumEnded
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_InvalidOperation_EnumEnded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Invalid operation enum not started.
-        /// </summary>
-        internal static string Gtk_InvalidOperation_EnumNotStarted
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_InvalidOperation_EnumNotStarted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Invalid operation resource not string type.
-        /// </summary>
-        internal static string Gtk_InvalidOperation_ResourceNotString_Type
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_InvalidOperation_ResourceNotString_Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Invalid operation resource writer saved.
-        /// </summary>
-        internal static string Gtk_InvalidOperation_ResourceWriterSaved
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_InvalidOperation_ResourceWriterSaved", resourceCulture);
             }
         }
         
@@ -643,61 +412,6 @@ namespace System.Properties
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Not supported binary serialized resources.
-        /// </summary>
-        internal static string Gtk_NotSupported_BinarySerializedResources
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_NotSupported_BinarySerializedResources", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Not supported resource object serialization.
-        /// </summary>
-        internal static string Gtk_NotSupported_ResourceObjectSerialization
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_NotSupported_ResourceObjectSerialization", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Not supported unseekable stream.
-        /// </summary>
-        internal static string Gtk_NotSupported_UnseekableStream
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_NotSupported_UnseekableStream", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Not supported wrong resource reader type.
-        /// </summary>
-        internal static string Gtk_NotSupported_WrongResourceReader_Type
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_NotSupported_WrongResourceReader_Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Object disposed resource set.
-        /// </summary>
-        internal static string Gtk_ObjectDisposed_ResourceSet
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_ObjectDisposed_ResourceSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///     Looks up a localized string similar to Print.
         /// </summary>
         internal static string Gtk_Print
@@ -731,28 +445,6 @@ namespace System.Properties
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Resource reader is closed.
-        /// </summary>
-        internal static string Gtk_ResourceReaderIsClosed
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_ResourceReaderIsClosed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Resources stream not valid.
-        /// </summary>
-        internal static string Gtk_Resources_StreamNotValid
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_Resources_StreamNotValid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///     Looks up a localized string similar to Tree directory.
         /// </summary>
         internal static string Gtk_Tree_directory
@@ -760,17 +452,6 @@ namespace System.Properties
             get
             {
                 return ResourceManager.GetString("Gtk_Tree_directory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Type load exception cannot load converter.
-        /// </summary>
-        internal static string Gtk_TypeLoadException_CannotLoadConverter
-        {
-            get
-            {
-                return ResourceManager.GetString("Gtk_TypeLoadException_CannotLoadConverter", resourceCulture);
             }
         }
     }

@@ -59,6 +59,21 @@
     &lt;EmbeddedResource Update="Properties\Resources.zh-Hans.resx"&gt;</TargetString>
   </Item>
   <Item>
+  	<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+  	<SourceString>&lt;EmbeddedResource Update="Properties\Resources.it.resx"&gt;</SourceString>
+  	<TargetString>&lt;EmbeddedResource Update="GtkSystem\Resources\Extensions\SR.resx"&gt;
+              &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
+              &lt;LastGenOutput&gt;SR.Designer.cs&lt;/LastGenOutput&gt;
+              &lt;CustomToolNamespace&gt;GtkSystem&lt;/CustomToolNamespace&gt;
+          &lt;/EmbeddedResource&gt;
+          &lt;Compile Update="GtkSystem\Resources\Extensions\SR.Designer.cs"&gt;
+  	        &lt;DesignTime&gt;True&lt;/DesignTime&gt;
+  	        &lt;AutoGen&gt;True&lt;/AutoGen&gt;
+  	        &lt;DependentUpon&gt;SR.resx&lt;/DependentUpon&gt;
+          &lt;/Compile&gt;
+          &lt;EmbeddedResource Update="Properties\Resources.it.resx"&gt;</TargetString>
+  </Item>
+  <Item>
     <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
     <SourceString>windows\linux\macos</SourceString>
     <TargetString>windows/linux/macos</TargetString>

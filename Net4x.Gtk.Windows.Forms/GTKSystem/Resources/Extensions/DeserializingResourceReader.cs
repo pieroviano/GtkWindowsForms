@@ -267,7 +267,7 @@ namespace GtkSystem.Resources.Extensions
 			int num = ((_ums != null) ? ReadUnalignedI4(_namePositionsPtr + index) : _namePositions[index]);
 			if (num < 0 || num > _dataSectionOffset - _nameSectionOffset)
 			{
-				throw new FormatException(SR.Format(SR.BadImageFormat_ResourcesNameInvalidOffset, num));
+				throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesNameInvalidOffset, num));
 			}
 			return num;
 		}
@@ -345,7 +345,7 @@ namespace GtkSystem.Resources.Extensions
 						int num5 = _store.ReadInt32();
 						if (num5 < 0 || num5 >= _store.BaseStream.Length - _dataSectionOffset)
 						{
-							throw new FormatException(SR.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, num5));
+							throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, num5));
 						}
 						return num5;
 					}
@@ -402,7 +402,7 @@ namespace GtkSystem.Resources.Extensions
 				{
 					if (_ums.Position > _ums.Length - num2)
 					{
-						throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourcesIndexTooLong, index));
+						throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourcesIndexTooLong, index));
 					}
 					string text = null;
 					char* positionPointer = (char*)_ums.PositionPointer;
@@ -411,7 +411,7 @@ namespace GtkSystem.Resources.Extensions
 					dataOffset = _store.ReadInt32();
 					if (dataOffset < 0 || dataOffset >= _store.BaseStream.Length - _dataSectionOffset)
 					{
-						throw new FormatException(SR.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
+						throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
 					}
 					return text;
 				}
@@ -422,14 +422,14 @@ namespace GtkSystem.Resources.Extensions
 					int num4 = _store.Read(array, num2 - num3, num3);
 					if (num4 == 0)
 					{
-						throw new EndOfStreamException(SR.Format(SR.BadImageFormat_ResourceNameCorrupted_NameIndex, index));
+						throw new EndOfStreamException(SystemResources.Format(SR.BadImageFormat_ResourceNameCorrupted_NameIndex, index));
 					}
 					num3 -= num4;
 				}
 				dataOffset = _store.ReadInt32();
 				if (dataOffset < 0 || dataOffset >= _store.BaseStream.Length - _dataSectionOffset)
 				{
-					throw new FormatException(SR.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
+					throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
 				}
 			}
 			return Encoding.Unicode.GetString(array, 0, num2);
@@ -445,7 +445,7 @@ namespace GtkSystem.Resources.Extensions
 				int num2 = _store.ReadInt32();
 				if (num2 < 0 || num2 >= _store.BaseStream.Length - _dataSectionOffset)
 				{
-					throw new FormatException(SR.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, num2));
+					throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, num2));
 				}
 				if (_version == 1)
 				{
@@ -469,7 +469,7 @@ namespace GtkSystem.Resources.Extensions
 				}
 				if (FindType(num) != typeof(string))
 				{
-					throw new InvalidOperationException(SR.Format(SR.InvalidOperation_ResourceNotString_Type, FindType(num).FullName));
+					throw new InvalidOperationException(SystemResources.Format(SR.InvalidOperation_ResourceNotString_Type, FindType(num).FullName));
 				}
 				result = _store.ReadString();
 			}
@@ -478,7 +478,7 @@ namespace GtkSystem.Resources.Extensions
 				ResourceTypeCode resourceTypeCode = (ResourceTypeCode)num;
 				if (resourceTypeCode != ResourceTypeCode.String && resourceTypeCode != 0)
 				{
-					throw new InvalidOperationException(SR.Format(p1: (resourceTypeCode >= ResourceTypeCode.StartOfUserTypes) ? FindType((int)(resourceTypeCode - 64)).FullName : resourceTypeCode.ToString(), resourceFormat: SR.InvalidOperation_ResourceNotString_Type));
+					throw new InvalidOperationException(SystemResources.Format(p1: (resourceTypeCode >= ResourceTypeCode.StartOfUserTypes) ? FindType((int)(resourceTypeCode - 64)).FullName : resourceTypeCode.ToString(), resourceFormat: SR.InvalidOperation_ResourceNotString_Type));
 				}
 				if (resourceTypeCode == ResourceTypeCode.String)
 				{
@@ -665,19 +665,19 @@ namespace GtkSystem.Resources.Extensions
 						int num2 = _store.ReadInt32();
 						if (num2 < 0)
 						{
-							throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num2));
+							throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num2));
 						}
 						if (_ums == null)
 						{
 							if (num2 > _store.BaseStream.Length)
 							{
-								throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num2));
+								throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num2));
 							}
 							return _store.ReadBytes(num2);
 						}
 						if (num2 > _ums.Length - _ums.Position)
 						{
-							throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num2));
+							throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num2));
 						}
 						byte[] array2 = new byte[num2];
 						int num3 = _ums.Read(array2, 0, num2);
@@ -688,7 +688,7 @@ namespace GtkSystem.Resources.Extensions
 						int num = _store.ReadInt32();
 						if (num < 0)
 						{
-							throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num));
+							throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num));
 						}
 						if (_ums == null)
 						{
@@ -697,7 +697,7 @@ namespace GtkSystem.Resources.Extensions
 						}
 						if (num > _ums.Length - _ums.Position)
 						{
-							throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num));
+							throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num));
 						}
 						return new UnmanagedMemoryStream(_ums.PositionPointer, num, num, FileAccess.Read);
 					}
@@ -751,14 +751,14 @@ namespace GtkSystem.Resources.Extensions
 				string text = _store.ReadString();
 				if (!ValidateReaderType(text))
 				{
-					throw new NotSupportedException(SR.Format(SR.NotSupported_WrongResourceReader_Type, text));
+					throw new NotSupportedException(SystemResources.Format(SR.NotSupported_WrongResourceReader_Type, text));
 				}
 				SkipString();
 			}
 			int num4 = _store.ReadInt32();
 			if (num4 != 2 && num4 != 1)
 			{
-				throw new ArgumentException(SR.Format(SR.Arg_ResourceFileUnsupportedVersion, 2, num4));
+				throw new ArgumentException(SystemResources.Format(SR.Arg_ResourceFileUnsupportedVersion, 2, num4));
 			}
 			_version = num4;
 			_numResources = _store.ReadInt32();
@@ -932,7 +932,7 @@ namespace GtkSystem.Resources.Extensions
                         int size = _store.Read7BitEncodedInt();
                         if (size < 0)
                         {
-                            throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                            throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
                         }
                         long position = _store.BaseStream.Position;
                         if (type == typeof(System.Windows.Forms.ImageListStreamer))
@@ -952,7 +952,7 @@ namespace GtkSystem.Resources.Extensions
                         long streamPosition = _store.BaseStream.Position - position;
                         if (streamPosition != size)
                         {
-                            throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                            throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
                         }
                         break;
 					}
@@ -961,13 +961,13 @@ namespace GtkSystem.Resources.Extensions
 	                    int size = _store.Read7BitEncodedInt();
 	                    if (size < 0)
 		                {
-		                    throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+		                    throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
 		                }
 		                byte[] value = _store.ReadBytes(size);
 		                TypeConverter converter = TypeDescriptor.GetConverter(type);
 		                if (converter == null)
 		                {
-		                    throw new TypeLoadException(SR.Format(SR.TypeLoadException_CannotLoadConverter, type));
+		                    throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, type));
 		                }
 
 		                if (type == typeof(Icon))
@@ -990,7 +990,7 @@ namespace GtkSystem.Resources.Extensions
                         TypeConverter converter = TypeDescriptor.GetConverter(type);
                         if (converter == null)
                         {
-                            throw new TypeLoadException(SR.Format(SR.TypeLoadException_CannotLoadConverter, type));
+                            throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, type));
                         }
                         obj = converter.ConvertFromInvariantString(text);
                         break;
@@ -1000,7 +1000,7 @@ namespace GtkSystem.Resources.Extensions
                         int size = _store.Read7BitEncodedInt();
                         if (size < 0)
                         {
-                            throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                            throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
                         }
                         UnmanagedMemoryStream unmanagedMemoryStream = _store.BaseStream as UnmanagedMemoryStream;
                         Stream stream;
@@ -1021,7 +1021,7 @@ namespace GtkSystem.Resources.Extensions
 			}
 			if (obj.GetType() != type)
 			{
-				throw new BadImageFormatException(SR.Format(SR.BadImageFormat_ResType_SerBlobMismatch, type.FullName, obj.GetType().FullName));
+				throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResType_SerBlobMismatch, type.FullName, obj.GetType().FullName));
 			}
 			return obj;
 		}

@@ -653,7 +653,7 @@ namespace GtkSystem.Resources.Extensions
 				TypeConverter converter = TypeDescriptor.GetConverter(value2);
 				if (converter == null)
 				{
-					throw new TypeLoadException(SR.Format(SR.TypeLoadException_CannotLoadConverter, value2));
+					throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, value2));
 				}
 				object value3 = converter.ConvertFromInvariantString(value);
 				AddResource(name, value3);

@@ -35,11 +35,11 @@ public class Program
         var currentDirectory = Environment.CurrentDirectory;
         Environment.CurrentDirectory = Path.Combine(targetDir, "Properties");
         var combine = Path.Combine(targetDir, "Net4x.Gtk.Windows.Forms.csproj");
-        RunResGen(combine, "Resources.resx", "System.Properties");
+        RunResGen(combine, "Resources.resx", "System.Properties", "Properties");
         RunResGen(projectName, "GtkWinFormsAppResources.resx",
-            $"{Path.GetFileNameWithoutExtension(projectName)}.Properties");
+            $"{Path.GetFileNameWithoutExtension(projectName)}.Properties", "Properties");
         RunResGen(otherProjectName, "GtkWinFormsAppResources.resx",
-            $"{Path.GetFileNameWithoutExtension(otherProjectName)}.Properties");
+            $"{Path.GetFileNameWithoutExtension(otherProjectName)}.Properties", "Properties");
         Environment.CurrentDirectory = currentDirectory;
 
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
@@ -49,6 +49,15 @@ public class Program
         {
             File.Copy(@"..\..\..\Resources\ControlExtension.cs",
                 Path.Combine(targetDir, @"GTKControls\ControlExtension.cs"));
+        }
+        if (File.Exists(@"..\..\..\Resources\SystemResources.cs"))
+        {
+            var destFileName = Path.Combine(targetDir, @"System\SystemResources.cs");
+#pragma warning disable CS8604 // Possible null reference argument.
+            Directory.CreateDirectory(Path.GetDirectoryName(destFileName));
+#pragma warning restore CS8604 // Possible null reference argument.
+            File.Copy(@"..\..\..\Resources\SystemResources.cs",
+                destFileName);
         }
 
         File.Copy(@"..\..\..\Resources\GridCell.cs", Path.Combine(targetDir, @"GTKControls\GridCell.cs"));
@@ -113,6 +122,12 @@ public class Program
 #pragma warning restore CS8604 // Possible null reference argument.
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
             postprocessingXml);
+        currentDirectory = Environment.CurrentDirectory;
+        Environment.CurrentDirectory = Path.Combine(projectDirectory, "GtkSystem\\Resources\\Extensions");
+        RunResGen(csprojPath, "SR.resx",
+            "GtkSystem", "GtkSystem\\Resources\\Extensions");
+        Environment.CurrentDirectory = currentDirectory;
+
         BackupUtility.CleanEmptyFolders(projectDirectory);
     }
 
@@ -233,7 +248,7 @@ public class Program
         UpdateFilesXmlEntries(projectDirectory, oldName, newName, csprojPath, newPath);
     }
 
-    private static void RunResGen(string projectName, string resourceName, string targetNamespace)
+    private static void RunResGen(string projectName, string resourceName, string targetNamespace, string partToCombine)
     {
         if (string.IsNullOrWhiteSpace(projectName))
         {
@@ -243,7 +258,7 @@ public class Program
 
         // Assume project path is the projectName directory
         var projectDir = Path.GetDirectoryName(Path.GetFullPath(projectName));
-        var resxPath = Path.Combine(projectDir, "Properties", resourceName);
+        var resxPath = Path.Combine(projectDir, partToCombine, resourceName);
 
         ResxTypedClassGenerator.GenerateDesigner(resxPath, targetNamespace);
     }

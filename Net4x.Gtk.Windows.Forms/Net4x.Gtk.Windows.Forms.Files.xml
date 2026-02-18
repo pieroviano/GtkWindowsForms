@@ -67,6 +67,7 @@
   <Item Source="Properties\Resources.it.resx" Destination="Properties\Resources.it.resx" />
   <Item Source="Properties\Resources.resx" Destination="Properties\Resources.resx" />
   <Item Source="Properties\Resources.zh-Hans.resx" Destination="Properties\Resources.zh-Hans.resx" />
+  <Item Source="System\SystemResources.cs" Destination="System\SystemResources.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\SystemResources.cs</Item>
   <Item Source="System.Diagnostics.CodeAnalysis\AllowNullAttribute.cs" Destination="System\Diagnostics\CodeAnalysis\AllowNullAttribute.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Diagnostics\CodeAnalysis\AllowNullAttribute.cs</Item>
   <Item Source="System.Diagnostics.CodeAnalysis\DisallowNullAttribute.cs" Destination="System\Diagnostics\CodeAnalysis\DisallowNullAttribute.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Diagnostics\CodeAnalysis\DisallowNullAttribute.cs</Item>
   <Item Source="System.Diagnostics.CodeAnalysis\DynamicallyAccessedMembersAttribute.cs" Destination="System\Diagnostics\CodeAnalysis\DynamicallyAccessedMembersAttribute.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Diagnostics\CodeAnalysis\DynamicallyAccessedMembersAttribute.cs</Item>
