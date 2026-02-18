@@ -12,11 +12,15 @@ internal static class FileItemsService
         var items = document
             .Root?
             .Elements("Item")
-            .Select(e => new FileItem
+            .Select(e =>
             {
-                Source = (string?)e.Attribute("Source") ?? string.Empty,
-                Destination = (string?)e.Attribute("Destination") ?? string.Empty,
-                OldSource = File.ReadAllText(e.Value)
+                var readAllText = !string.IsNullOrEmpty(e.Value) && File.Exists(e.Value)?File.ReadAllText(e.Value):string.Empty;
+                return new FileItem
+                {
+                    Source = (string?)e.Attribute("Source") ?? string.Empty,
+                    Destination = (string?)e.Attribute("Destination") ?? string.Empty,
+                    OldSource = readAllText
+                };
             })
             .Where(i =>
                 i.Source.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) &&

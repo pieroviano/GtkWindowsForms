@@ -1,7 +1,6 @@
 using Prepare.Common.Languages;
 using Prepare.Common.Projects;
 using System.Diagnostics;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -18,7 +17,7 @@ public static class ProjectUtility
             File.Copy(file, destFile, true);
         }
 
-        var directories = Directory.GetDirectories(sourceDir).Where(d=> !d.EndsWith("\\bin") && !d.EndsWith("\\obj"));
+        var directories = Directory.GetDirectories(sourceDir).Where(d => !d.EndsWith("\\bin") && !d.EndsWith("\\obj"));
         foreach (var directory in directories)
         {
             var destDir = Path.Combine(targetDir, Path.GetFileName(directory));
@@ -35,7 +34,7 @@ public static class ProjectUtility
                 {
                     File.Delete(file);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     // Ignore delete failures (locked, readonly, etc.)
                     LoggerFactoryContainer.Instance.LoggerFactory.Debug(ex);
@@ -212,5 +211,54 @@ public static class ProjectUtility
         }
         // Prepend prefix
         return $"Gtk_{result}";
+    }
+
+    public static Dictionary<string, string> GetProjectFiles(string csprojPath, out string projectDirectory)
+    {
+        projectDirectory = Path.GetDirectoryName(csprojPath)!;
+
+        var files = Directory.GetFiles(projectDirectory, "*.*", SearchOption.AllDirectories);
+
+        var projectFiles = PathProcessing.GetProjectFiles(files, projectDirectory);
+        return projectFiles;
+    }
+
+    public static void PersistProjectFiles(
+        string csprojPath,
+        Dictionary<string, string> projectFiles,
+        string projectDirectory, string backupName)
+    {
+        XElement root = new XElement("Files");
+        BackupUtility.CleanBackup(projectDirectory, backupName);
+        foreach (var kvp in projectFiles)
+        {
+            var itemElement = new XElement("Item",
+                new XAttribute("Source", kvp.Key),
+                new XAttribute("Destination", kvp.Value)
+            );
+
+            ReorderingPersister.AddInnerTextFromFileContent(projectDirectory, kvp, itemElement, backupName);
+
+            root.Add(itemElement);
+        }
+
+        string outputPath = Path.ChangeExtension(csprojPath, $".{backupName.Replace(BackupUtility.Backup, BackupUtility.Files)}.xml");
+
+        XDocument doc = new XDocument(root);
+        doc.Save(outputPath);
+    }
+
+    public static string? GetFilesXmlPath(string csprojPath, string backupName)
+    {
+        var filesXmlPath = Path.ChangeExtension(csprojPath,
+            $".{backupName.Replace(BackupUtility.Backup, BackupUtility.Files)}.xml");
+
+        if (!File.Exists(filesXmlPath))
+        {
+            Console.Error.WriteLine($"Associated .{backupName.Replace(BackupUtility.Backup, BackupUtility.Files)}.xml not found: {filesXmlPath}");
+            return null;
+        }
+
+        return filesXmlPath;
     }
 }

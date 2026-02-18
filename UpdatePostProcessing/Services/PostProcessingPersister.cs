@@ -39,6 +39,11 @@ internal class PostProcessingPersister
                 continue;
             }
 
+            if (string.IsNullOrEmpty(replacement.TargetString))
+            {
+                replacement.SourceString += "$RegEx$([ \\t]*[\\r]?[\\n]?)";
+            }
+
             var itemElement = new XElement("Item",
                 new XElement("FileName", replacement.SourceFileName),
                 new XElement("SourceString", replacement.SourceString),

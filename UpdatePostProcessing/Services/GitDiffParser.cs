@@ -24,7 +24,7 @@ internal class GitDiffParser
             if (line.StartsWith("@@"))
             {
                 // Flush previous block if exists
-                FlushReplacement();
+                FlushReplacement(oldBuilder, newBuilder, replacements);
                 insideHunk = true;
                 continue;
             }
@@ -43,33 +43,31 @@ internal class GitDiffParser
             else
             {
                 // Context line → block boundary
-                FlushReplacement();
+                FlushReplacement(oldBuilder, newBuilder, replacements);
             }
         }
 
         // Final flush
-        FlushReplacement();
+        FlushReplacement(oldBuilder, newBuilder, replacements);
 
         return replacements;
+    }
 
-        void FlushReplacement()
+    void FlushReplacement(StringBuilder oldBuilder, StringBuilder newBuilder, List<TextReplacement> replacements)
+    {
+        if (oldBuilder.Length == 0 && newBuilder.Length == 0)
+            return;
+
+        var oldText = oldBuilder.ToString().TrimEnd('\r', '\n');
+        var newText = newBuilder.ToString().TrimEnd('\r', '\n');
+
+        replacements.Add(new TextReplacement
         {
-            if (oldBuilder.Length == 0 && newBuilder.Length == 0)
-                return;
+            OldText = oldText,
+            NewText = newText
+        });
 
-            var oldText = oldBuilder.ToString().TrimEnd('\r', '\n');
-            var newText = newBuilder.ToString().TrimEnd('\r', '\n');
-            if (!string.IsNullOrEmpty(oldText) && !string.IsNullOrEmpty(newText))
-            {
-                replacements.Add(new TextReplacement
-                {
-                    OldText = oldText,
-                    NewText = newText
-                });
-            }
-
-            oldBuilder.Clear();
-            newBuilder.Clear();
-        }
+        oldBuilder.Clear();
+        newBuilder.Clear();
     }
 }

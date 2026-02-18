@@ -4,7 +4,7 @@ public class ToPersist
 {
     public string SourceFileName { get; }
     public string TargetFileName { get; }
-    public string SourceString { get; }
+    public string SourceString { get; set; }
     public string TargetString { get; }
 
     public ToPersist(string sourceFileName, string targetFileName, string sourceString, string targetString)

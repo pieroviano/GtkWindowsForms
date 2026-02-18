@@ -1,4 +1,6 @@
-﻿namespace UpdatePostProcessing;
+﻿using Prepare.Common.IO;
+
+namespace UpdatePostProcessing;
 
 public class Program
 {
@@ -10,6 +12,6 @@ public class Program
             return 1;
         }
         var csprojPath = args[0];
-        return ProcessFileUpdatesProcessor.ProcessFilesUpdates(csprojPath);
+        return ProcessFileUpdatesProcessor.ProcessFilesUpdates(csprojPath, BackupUtility.LatestBackup);
     }
 }

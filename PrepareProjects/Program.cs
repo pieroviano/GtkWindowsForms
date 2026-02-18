@@ -129,6 +129,10 @@ public class Program
         Environment.CurrentDirectory = currentDirectory;
 
         BackupUtility.CleanEmptyFolders(projectDirectory);
+
+        BackupUtility.CleanBackup(projectDirectory, BackupUtility.LatestBackup);
+        var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
+        ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.LatestBackup);
     }
 
     private static void FixClass(string csprojPath, string relativePath)
@@ -211,7 +215,7 @@ public class Program
             }
         }
 
-        BackupUtility.CleanBackupEmptyFolders(projectDirectory);
+        BackupUtility.CleanBackupEmptyFolders(projectDirectory, BackupUtility.Backup);
     }
 
     private static void RenameFolder(
@@ -307,7 +311,7 @@ public class Program
                 File.Delete(item.Value);
             }
 
-            var destFileName = BackupUtility.GetDestFileName(fullPath);
+            var destFileName = BackupUtility.GetDestFileName(fullPath, BackupUtility.Backup);
             item.Value = destFileName;
         }
 

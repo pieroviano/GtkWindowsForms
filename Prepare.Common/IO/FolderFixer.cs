@@ -21,11 +21,7 @@ public class FolderFixer
             throw new FileNotFoundException("The specified csproj file does not exist.", csprojPath);
         }
 
-        var projectDirectory = Path.GetDirectoryName(csprojPath)!;
-
-        var files = Directory.GetFiles(projectDirectory, "*.*", SearchOption.AllDirectories);
-
-        var projectFiles = PathProcessing.GetProjectFiles(files, projectDirectory);
+        var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out var projectDirectory);
 
         FixFolders(projectFiles, csprojPath, excludedPrefixes, specialRoots, specialRootsIncludingRoot);
 
@@ -33,7 +29,7 @@ public class FolderFixer
         UpdateCsprojCompileItems(csprojPath, projectFiles);
 
         // Persist XML mapping file
-        ReorderingPersister.PersistProjectFiles(csprojPath, projectFiles, projectDirectory);
+        ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.Backup);
 
         // ✅ Cleanup empty directories
         DeleteEmptyDirectories(projectDirectory);

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using UpdatePostProcessing.Model;
 
 namespace UpdatePostProcessing.Extensions;
@@ -9,10 +8,9 @@ internal static class ItemsExtensions
     {
         fileName = Path.GetFileName(resourceFile);
 
-        bool Predicate(FileItem i, string fileName) => i.Destination.EndsWith(fileName, StringComparison.OrdinalIgnoreCase);
+        bool Predicate(FileItem fileItem, string fileName) => fileItem.Destination.EndsWith(fileName, StringComparison.OrdinalIgnoreCase);
+
         var name = fileName;
-        var item = items
-            .FirstOrDefault((i) => Predicate(i, name));
-        return item;
+        return items.FirstOrDefault(fileItem => Predicate(fileItem, name));
     }
 }
