@@ -18,6 +18,11 @@ public static class BackupUtility
     {
         projectDirectory = GetBackupFullPath(projectDirectory);
 
+        CleanEmptyFolders(projectDirectory);
+    }
+
+    public static void CleanEmptyFolders(string projectDirectory)
+    {
         if (!Directory.Exists(projectDirectory))
         {
             return;

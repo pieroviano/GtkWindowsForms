@@ -126,6 +126,86 @@
                 Looks up a localized string similar to /*Whether to use custom style, corresponding to [custom style]*/.
             </summary>
         </member>
+        <member name="P:System.Properties.Resources.Gtk_Arg_ResourceFileUnsupportedVersion">
+            <summary>
+                Looks up a localized string similar to Arg resource file unsupported version.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_Argument_StreamNotReadable">
+            <summary>
+                Looks up a localized string similar to Argument stream not readable.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_Argument_StreamNotWritable">
+            <summary>
+                Looks up a localized string similar to Argument stream not writable.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_ArgumentOutOfRange_StreamLength">
+            <summary>
+                Looks up a localized string similar to Argument out of range stream length.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_InvalidType">
+            <summary>
+                Looks up a localized string similar to Bad image format invalid type.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_NegativeStringLength">
+            <summary>
+                Looks up a localized string similar to Bad image format negative string length.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_ResourceDataLengthInvalid">
+            <summary>
+                Looks up a localized string similar to Bad image format resource data length invalid.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_ResourceNameCorrupted">
+            <summary>
+                Looks up a localized string similar to Bad image format resource name corrupted.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_ResourceNameCorrupted_NameIndex">
+            <summary>
+                Looks up a localized string similar to Bad image format resource name corrupted name index.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_ResourcesDataInvalidOffset">
+            <summary>
+                Looks up a localized string similar to Bad image format resources data invalid offset.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_ResourcesHeaderCorrupted">
+            <summary>
+                Looks up a localized string similar to Bad image format resources header corrupted.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_ResourcesIndexTooLong">
+            <summary>
+                Looks up a localized string similar to Bad image format resources index too long.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_ResourcesNameInvalidOffset">
+            <summary>
+                Looks up a localized string similar to Bad image format resources name invalid offset.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_ResourcesNameTooLong">
+            <summary>
+                Looks up a localized string similar to Bad image format resources name too long.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_ResType_SerBlobMismatch">
+            <summary>
+                Looks up a localized string similar to Bad image format res type ser blob mismatch.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_BadImageFormat_TypeMismatch">
+            <summary>
+                Looks up a localized string similar to Bad image format type mismatch.
+            </summary>
+        </member>
         <member name="P:System.Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color">
             <summary>
                 Looks up a localized string similar to Choose color.
@@ -181,9 +261,34 @@
                 Looks up a localized string similar to Select Font.
             </summary>
         </member>
+        <member name="P:System.Properties.Resources.Gtk_Format_Bad7BitInt32">
+            <summary>
+                Looks up a localized string similar to Format bad 7 bit int 32.
+            </summary>
+        </member>
         <member name="P:System.Properties.Resources.Gtk_FormBase_FormBase_Close">
             <summary>
                 Looks up a localized string similar to You are closing this window, are you sure you want to close it?.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_InvalidOperation_EnumEnded">
+            <summary>
+                Looks up a localized string similar to Invalid operation enum ended.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_InvalidOperation_EnumNotStarted">
+            <summary>
+                Looks up a localized string similar to Invalid operation enum not started.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_InvalidOperation_ResourceNotString_Type">
+            <summary>
+                Looks up a localized string similar to Invalid operation resource not string type.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_InvalidOperation_ResourceWriterSaved">
+            <summary>
+                Looks up a localized string similar to Invalid operation resource writer saved.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel">
@@ -221,6 +326,31 @@
                 Looks up a localized string similar to Yes.
             </summary>
         </member>
+        <member name="P:System.Properties.Resources.Gtk_NotSupported_BinarySerializedResources">
+            <summary>
+                Looks up a localized string similar to Not supported binary serialized resources.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_NotSupported_ResourceObjectSerialization">
+            <summary>
+                Looks up a localized string similar to Not supported resource object serialization.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_NotSupported_UnseekableStream">
+            <summary>
+                Looks up a localized string similar to Not supported unseekable stream.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_NotSupported_WrongResourceReader_Type">
+            <summary>
+                Looks up a localized string similar to Not supported wrong resource reader type.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_ObjectDisposed_ResourceSet">
+            <summary>
+                Looks up a localized string similar to Object disposed resource set.
+            </summary>
+        </member>
         <member name="P:System.Properties.Resources.Gtk_Print">
             <summary>
                 Looks up a localized string similar to Print.
@@ -236,9 +366,24 @@
                 Looks up a localized string similar to File is in use and cannot be overwritten.
             </summary>
         </member>
+        <member name="P:System.Properties.Resources.Gtk_ResourceReaderIsClosed">
+            <summary>
+                Looks up a localized string similar to Resource reader is closed.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_Resources_StreamNotValid">
+            <summary>
+                Looks up a localized string similar to Resources stream not valid.
+            </summary>
+        </member>
         <member name="P:System.Properties.Resources.Gtk_Tree_directory">
             <summary>
                 Looks up a localized string similar to Tree directory.
+            </summary>
+        </member>
+        <member name="P:System.Properties.Resources.Gtk_TypeLoadException_CannotLoadConverter">
+            <summary>
+                Looks up a localized string similar to Type load exception cannot load converter.
             </summary>
         </member>
         <member name="T:System.ComponentModel.Design.ComponentDesigner">

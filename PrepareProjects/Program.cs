@@ -106,11 +106,6 @@ public class Program
         var projectDirectory = Path.GetDirectoryName(csprojPath)!;
         RenameFolder(Path.Combine(projectDirectory, "GtkSystem", "Windows", "Forms"),
             "GTKControls", "GtkControls", csprojPath);
-        var s = Path.Combine(projectDirectory, "GTKSystem.Windows.Forms.xml");
-        if (File.Exists(s))
-        {
-            File.Delete(s);
-        }
         var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 #pragma warning disable CS8604 // Possible null reference argument.
         var postprocessingXml =
@@ -118,6 +113,7 @@ public class Program
 #pragma warning restore CS8604 // Possible null reference argument.
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
             postprocessingXml);
+        BackupUtility.CleanEmptyFolders(projectDirectory);
     }
 
     private static void FixClass(string csprojPath, string relativePath)

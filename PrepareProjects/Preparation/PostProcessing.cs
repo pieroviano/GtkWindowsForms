@@ -23,9 +23,7 @@ public static class PostProcessing
             .Select(i => new Replacement(i.Element("FileName")?.Value,
                 i.Element("SourceString")?.Value, i.Element("TargetString")?.Value))
             .Where(i =>
-                !string.IsNullOrWhiteSpace(i.FileName) &&
-                !string.IsNullOrEmpty(i.Source) &&
-                !string.IsNullOrEmpty(i.Target))
+                !string.IsNullOrWhiteSpace(i.FileName))
             .ToList();
 
         if (replacements == null || replacements.Count == 0)
@@ -106,9 +104,16 @@ private static int ProcessFile(string filePath, Replacement replacement, int app
             return applied;
         }
 
-        var text = File.ReadAllText(filePath);
         var source = (string)replacement.Source;
         var target = replacement.Target;
+        if (File.Exists(filePath) && string.IsNullOrEmpty(source) && string.IsNullOrEmpty(target))
+        {
+            File.Delete(filePath);
+            applied++;
+            return applied;
+        }
+        var text = File.ReadAllText(filePath);
+
 
         string newText = text;
 

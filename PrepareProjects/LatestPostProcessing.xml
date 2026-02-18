@@ -1,3 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Items>
+	<Item>
+		<FileName>GTKSystem.Windows.Forms.xml</FileName>
+		<SourceString></SourceString>
+		<TargetString></TargetString>
+	</Item>
+	<Item>
+		<FileName>FxResources\System\Resources\Extensions\SR.cs</FileName>
+		<SourceString></SourceString>
+		<TargetString></TargetString>
+	</Item>
+	<Item>
+		<FileName>GtkSystem\Resources\SR.cs</FileName>
+		<SourceString>internal static ResourceManager ResourceManager => s_resourceManager ?? (s_resourceManager = new GtkSystem.Resources.ResourceManager(typeof(FxResources.System.Resources.Extensions.SR)));</SourceString>
+		<TargetString>internal static ResourceManager ResourceManager => s_resourceManager ?? (s_resourceManager = new GtkSystem.Resources.ResourceManager(typeof(System.Properties.Resources)));</TargetString>
+	</Item>
 </Items>
