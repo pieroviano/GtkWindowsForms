@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Prepare.Common\Prepare.Common.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,4 @@
 using PrepareProjects.Model;
-using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -8,17 +7,15 @@ namespace PrepareProjects.Preparation;
 
 public static class PostProcessing
 {
-    public static void ApplyPostProcessing(string targetDir, string[] exclude)
+    public static void ApplyPostProcessing(string targetDir, string[] exclude, string postprocessingXml)
     {
-        var xmlPath = "PostProcessing.xml";
-
-        if (!File.Exists(xmlPath))
+        if (!File.Exists(postprocessingXml))
         {
-            Console.WriteLine("PostProcessing.xml not found.");
+            Console.WriteLine(@$"{postprocessingXml} not found.");
             return;
         }
 
-        var doc = XDocument.Load(xmlPath);
+        var doc = XDocument.Load(postprocessingXml);
 
         var replacements = doc
             .Root?

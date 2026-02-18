@@ -1,11 +1,11 @@
-﻿using Prepare.Common;
+﻿using System.Reflection;
+using System.Text;
+using System.Xml.Linq;
 using Prepare.Common.Content;
 using Prepare.Common.IO;
 using Prepare.Common.Projects;
 using PrepareProjects.Preparation;
 using PrepareProjects.ProjectHandling;
-using System.Text;
-using System.Xml.Linq;
 
 namespace PrepareProjects;
 
@@ -16,7 +16,8 @@ public class Program
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 #if REFERENCE
-        var fullPath = Path.GetFullPath(Path.Combine(@"..\..\..\..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.csproj"));
+        var fullPath =
+ Path.GetFullPath(Path.Combine(@"..\..\..\..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.csproj"));
         if (File.Exists(fullPath))
         {
             ProcessFileUpdatesProcessor.ProcessFilesUpdates(fullPath);
@@ -41,26 +42,31 @@ public class Program
             $"{Path.GetFileNameWithoutExtension(otherProjectName)}.Properties");
         Environment.CurrentDirectory = currentDirectory;
 
-        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" });
+        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
+            BackupUtility.PostProcessing);
 
         if (File.Exists(@"..\..\..\Resources\ControlExtension.cs"))
         {
             File.Copy(@"..\..\..\Resources\ControlExtension.cs",
-            Path.Combine(targetDir, @"GTKControls\ControlExtension.cs"));
+                Path.Combine(targetDir, @"GTKControls\ControlExtension.cs"));
         }
+
         File.Copy(@"..\..\..\Resources\GridCell.cs", Path.Combine(targetDir, @"GTKControls\GridCell.cs"));
         if (File.Exists(@"..\..\..\Resources\DeserializingResourceReader.cs"))
         {
-            var destFileName = Path.Combine(targetDir, @"GTKSystem\Resources\Extensions\DeserializingResourceReader.cs");
+            var destFileName =
+                Path.Combine(targetDir, @"GTKSystem\Resources\Extensions\DeserializingResourceReader.cs");
             File.Delete(destFileName);
             File.Copy(@"..\..\..\Resources\DeserializingResourceReader.cs",
                 destFileName);
         }
+
         if (File.Exists(@"..\..\..\Resources\TreeView.cs"))
         {
             File.Delete(Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
             File.Copy(@"..\..\..\Resources\TreeView.cs", Path.Combine(targetDir, @"GTKControls\TreeView.cs"));
         }
+
         SummaryCommentTransformer.TransformFolder(targetDir);
         MemberSpacingFormatter.TransformFolder(targetDir);
         ProjectCompilation.RestoreProject(sourceProjectPath);
@@ -72,6 +78,7 @@ public class Program
         {
             File.Delete(path);
         }
+
         new FolderFixer().ReorganizeFiles(csprojPath, new[]
         {
             "Properties",
@@ -99,6 +106,18 @@ public class Program
         var projectDirectory = Path.GetDirectoryName(csprojPath)!;
         RenameFolder(Path.Combine(projectDirectory, "GtkSystem", "Windows", "Forms"),
             "GTKControls", "GtkControls", csprojPath);
+        var s = Path.Combine(projectDirectory, "GTKSystem.Windows.Forms.xml");
+        if (File.Exists(s))
+        {
+            File.Delete(s);
+        }
+        var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+#pragma warning disable CS8604 // Possible null reference argument.
+        var postprocessingXml =
+            Path.GetFullPath(Path.Combine(directoryName, @"..\..\..\", BackupUtility.LatestPostProcessing));
+#pragma warning restore CS8604 // Possible null reference argument.
+        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
+            postprocessingXml);
     }
 
     private static void FixClass(string csprojPath, string relativePath)
@@ -149,7 +168,6 @@ public class Program
         if (modified)
         {
             File.WriteAllText(fullPath, content);
-            return;
         }
     }
 
@@ -181,6 +199,7 @@ public class Program
                 }
             }
         }
+
         BackupUtility.CleanBackupEmptyFolders(projectDirectory);
     }
 
@@ -216,23 +235,6 @@ public class Program
         Directory.Move(oldPath, tempPath);
         Directory.Move(tempPath, newPath);
         UpdateFilesXmlEntries(projectDirectory, oldName, newName, csprojPath, newPath);
-    }
-
-    private static void UpdateFilesXmlEntries(string projectDirectory, string oldName, string newName, string csprojPath,
-        string newPath)
-    {
-        // 🔽 NEW PART — update Files.xml entries
-        var renamedFiles = Directory.GetFiles(newPath, "*.cs", SearchOption.AllDirectories);
-
-        foreach (var file in renamedFiles)
-        {
-            string oldRelative = Path.GetRelativePath(projectDirectory,
-                file.Replace(newName, oldName));
-
-            string newRelative = Path.GetRelativePath(projectDirectory, file);
-
-            UpdateFilesXmlAfterRename(csprojPath, oldRelative, newRelative);
-        }
     }
 
     private static void RunResGen(string projectName, string resourceName, string targetNamespace)
@@ -299,5 +301,23 @@ public class Program
         }
 
         doc.Save(filesXmlPath);
+    }
+
+    private static void UpdateFilesXmlEntries(string projectDirectory, string oldName, string newName,
+        string csprojPath,
+        string newPath)
+    {
+        // 🔽 NEW PART — update Files.xml entries
+        var renamedFiles = Directory.GetFiles(newPath, "*.cs", SearchOption.AllDirectories);
+
+        foreach (var file in renamedFiles)
+        {
+            var oldRelative = Path.GetRelativePath(projectDirectory,
+                file.Replace(newName, oldName));
+
+            var newRelative = Path.GetRelativePath(projectDirectory, file);
+
+            UpdateFilesXmlAfterRename(csprojPath, oldRelative, newRelative);
+        }
     }
 }

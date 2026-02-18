@@ -2,6 +2,8 @@ namespace Prepare.Common.IO;
 
 public static class BackupUtility
 {
+    public const string LatestPostProcessing = "LatestPostProcessing.xml";
+    public const string PostProcessing = "PostProcessing.xml";
 
     public static void CleanBackup(string projectDirectory)
     {
@@ -9,6 +11,43 @@ public static class BackupUtility
         if (Directory.Exists(projectDirectory))
         {
             Directory.Delete(projectDirectory, true);
+        }
+    }
+
+    public static void CleanBackupEmptyFolders(string projectDirectory)
+    {
+        projectDirectory = GetBackupFullPath(projectDirectory);
+
+        if (!Directory.Exists(projectDirectory))
+        {
+            return;
+        }
+
+        var root = new DirectoryInfo(projectDirectory);
+
+        // Get all directories ordered by depth (deepest first)
+        var directories = root
+            .GetDirectories("*", SearchOption.AllDirectories)
+            .OrderByDescending(d => d.FullName.Length)
+            .ToList();
+
+        // Include root at the end
+        directories.Add(root);
+
+        foreach (var dir in directories)
+        {
+            if (!dir.Exists)
+            {
+                continue;
+            }
+
+            var hasFiles = dir.EnumerateFiles().Any();
+            var hasSubDirs = dir.EnumerateDirectories().Any();
+
+            if (!hasFiles && !hasSubDirs)
+            {
+                dir.Delete();
+            }
         }
     }
 
@@ -26,7 +65,7 @@ public static class BackupUtility
 
     private static string GetBackupFullPath(string fullPath)
     {
-        var lastIndexOf = fullPath.LastIndexOf("Net4x.Gtk.Windows.Forms", 
+        var lastIndexOf = fullPath.LastIndexOf("Net4x.Gtk.Windows.Forms",
             StringComparison.InvariantCultureIgnoreCase);
         var newFullPath = fullPath;
         if (lastIndexOf >= 0)
@@ -36,38 +75,5 @@ public static class BackupUtility
         }
 
         return newFullPath;
-    }
-
-    public static void CleanBackupEmptyFolders(string projectDirectory)
-    {
-        projectDirectory = GetBackupFullPath(projectDirectory);
-
-        if (!Directory.Exists(projectDirectory))
-            return;
-
-        var root = new DirectoryInfo(projectDirectory);
-
-        // Get all directories ordered by depth (deepest first)
-        var directories = root
-            .GetDirectories("*", SearchOption.AllDirectories)
-            .OrderByDescending(d => d.FullName.Length)
-            .ToList();
-
-        // Include root at the end
-        directories.Add(root);
-
-        foreach (var dir in directories)
-        {
-            if (!dir.Exists)
-                continue;
-
-            bool hasFiles = dir.EnumerateFiles().Any();
-            bool hasSubDirs = dir.EnumerateDirectories().Any();
-
-            if (!hasFiles && !hasSubDirs)
-            {
-                dir.Delete();
-            }
-        }
     }
 }

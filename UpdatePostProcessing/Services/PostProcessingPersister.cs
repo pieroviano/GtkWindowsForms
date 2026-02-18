@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using Prepare.Common.IO;
 using UpdatePostProcessing.Model;
 
 namespace UpdatePostProcessing.Services;
@@ -6,7 +7,7 @@ namespace UpdatePostProcessing.Services;
 internal class PostProcessingPersister
 {
     private readonly string _postProcessingPath = Path.GetFullPath(
-        Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\PrepareProjects\PostProcessing.xml"));
+        Path.Combine(AppContext.BaseDirectory, @$"..\..\..\..\PrepareProjects\{BackupUtility.LatestPostProcessing}"));
 
     public void PersistReplacements(IEnumerable<TextReplacement> replacements, FileItem fileItem)
     {
@@ -23,7 +24,7 @@ internal class PostProcessingPersister
 
         if (root == null)
         {
-            throw new InvalidOperationException("PostProcessing.xml has no root element.");
+            throw new InvalidOperationException($"{BackupUtility.LatestPostProcessing} has no root element.");
         }
 
         var toTersist = replacements.Select(replacement =>
