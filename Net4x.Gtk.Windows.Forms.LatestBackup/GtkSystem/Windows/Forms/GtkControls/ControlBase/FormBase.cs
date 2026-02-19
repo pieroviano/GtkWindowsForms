@@ -70,7 +70,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             ScrollView.Hadjustment.ValueChanged += Hadjustment_ValueChanged;
             ScrollView.Vadjustment.ValueChanged += Vadjustment_ValueChanged;
             this.ContentArea.PackStart(ScrollView, true, true, 0);
-            //this.Decorated = false; // remove toolbar
             this.Drawn += FormBase_Drawn;
             this.Close += FormBase_Close;
         }

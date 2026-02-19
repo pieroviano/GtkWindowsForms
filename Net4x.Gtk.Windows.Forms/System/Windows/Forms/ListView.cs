@@ -53,7 +53,6 @@ namespace System.Windows.Forms
             header.Halign = Gtk.Align.Fill;
             header.Valign = Gtk.Align.Fill;
             header.HeightRequest = 1;
-            // header.WidthRequest = 500;
             header.Homogeneous = false;
             flowBoxContainer.Halign = Gtk.Align.Fill;
             flowBoxContainer.Valign = Gtk.Align.Start;
@@ -67,7 +66,7 @@ namespace System.Windows.Forms
             headerView.Valign = Gtk.Align.Start;
             headerView.Hexpand = true;
             headerView.Vexpand = false;
-            headerView.HeightRequest = 1;// __headerheight;
+            headerView.HeightRequest = 1;
             headerView.Width = 100000;
             headerView.Add(header);
             self.box.PackStart(headerView, false, true, 0);
@@ -267,7 +266,6 @@ namespace System.Windows.Forms
         private int SortingColumnIndex = -1;
         private void Columbt_Clicked(object sender, EventArgs e)
         {
-            //Console.WriteLine(((Gtk.Widget)sender).AllocatedWidth);
             Gtk.Button btn = (Gtk.Button)sender;
 
             if (this.HeaderStyle == ColumnHeaderStyle.Clickable)

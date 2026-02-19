@@ -34,7 +34,6 @@ namespace System.Windows.Forms
 
         protected virtual void AddCore(Binding dataBinding)
         {
-           // ArgumentNullException.ThrowIfNull(dataBinding);
             _list.Add(dataBinding);
         }
         public event CollectionChangeEventHandler? CollectionChanging

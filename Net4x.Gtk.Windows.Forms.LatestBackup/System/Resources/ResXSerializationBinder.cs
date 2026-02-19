@@ -124,7 +124,6 @@ namespace System.Resources
             // for un-serializable types will redirect to another type.
             // For example:
             //
-            // Encoding = Encoding.GetEncoding("shift_jis");
             // public Encoding Encoding { get; set; }
             // property type (Encoding) is abstract, but the value is instantiated to a specific class,
             // and should be serialized as a specific class in order to be able to instantiate the result.

@@ -116,7 +116,7 @@ namespace System.Drawing.Imaging
 		public ImageFormat(Guid guid)
 		{
 			_guid = guid;
-		}
+	    }
 
 		/// <summary>
 		/// Returns a value that indicates whether the specified object is an <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that is equivalent to this <see cref="T:System.Drawing.Imaging.ImageFormat" /> object.
@@ -130,9 +130,9 @@ namespace System.Drawing.Imaging
 			if (imageFormat == null)
 			{
 				return false;
-			}
+		    }
 			return _guid == imageFormat._guid;
-		}
+	    }
 
 		/// <summary>
 		/// Returns a hash code value that represents this object.
@@ -141,7 +141,7 @@ namespace System.Drawing.Imaging
 		public override int GetHashCode()
 		{
 			return _guid.GetHashCode();
-		}
+	    }
 
 		internal ImageCodecInfo FindEncoder()
 		{
@@ -209,51 +209,51 @@ namespace System.Drawing.Imaging
 			if (Guid == s_memoryBMP.Guid)
 			{
 				return "MemoryBMP";
-			}
+		    }
 			if (Guid == s_bmp.Guid)
 			{
 				return "Bmp";
-			}
+		    }
 			if (Guid == s_emf.Guid)
 			{
 				return "Emf";
-			}
+		    }
 			if (Guid == s_wmf.Guid)
 			{
 				return "Wmf";
-			}
+		    }
 			if (Guid == s_gif.Guid)
 			{
 				return "Gif";
-			}
+		    }
 			if (Guid == s_jpeg.Guid)
 			{
 				return "Jpeg";
-			}
+		    }
 			if (Guid == s_png.Guid)
 			{
 				return "Png";
-			}
+		    }
 			if (Guid == s_tiff.Guid)
 			{
 				return "Tiff";
-			}
+		    }
 			if (Guid == s_exif.Guid)
 			{
 				return "Exif";
-			}
+		    }
 			if (Guid == s_icon.Guid)
 			{
 				return "Icon";
-			}
+		    }
 			if (Guid == s_heif.Guid)
 			{
 				return "Heif";
-			}
+		    }
 			if (Guid == s_webp.Guid)
 			{
 				return "Webp";
-			}
+		    }
 			//DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(15, 1);
 			//defaultInterpolatedStringHandler.AppendLiteral("[ImageFormat: ");
 			//defaultInterpolatedStringHandler.AppendFormatted(_guid);
@@ -262,5 +262,5 @@ namespace System.Drawing.Imaging
 			return $"[ImageFormat: {_guid}]";
 
         }
-	}
+    }
 }

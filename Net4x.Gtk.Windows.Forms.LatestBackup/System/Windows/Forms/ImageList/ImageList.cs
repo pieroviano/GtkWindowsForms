@@ -68,7 +68,6 @@ namespace System.Windows.Forms
         /// </summary>
         public ImageList(IContainer container) : this()
         {
-            //ArgumentNullException.ThrowIfNull(container);
 
             container.Add(this);
         }
@@ -138,7 +137,6 @@ namespace System.Windows.Forms
 
         internal Image GetOriginalImage(string name)
         {
-           // string direc = Path.GetDirectoryName(Application.ExecutablePath);
             string path1 = $"./Resources";
             var value = this.ImageStream;
             if (value.ResourceInfo != null && value.ResourceInfo.BaseName != null)

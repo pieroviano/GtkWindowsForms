@@ -78,7 +78,6 @@ internal sealed partial class PropertyGridView
 
         Gtk.TreeViewColumn column3 = new Gtk.TreeViewColumn();
         column3.MinWidth = 10;
-        //column3.FixedWidth = 50;
         column3.Resizable = false;
         column3.Clickable = false;
         column3.Title = " ";

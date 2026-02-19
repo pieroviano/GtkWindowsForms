@@ -207,7 +207,6 @@ namespace System.Windows.Forms
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            //throw new NotImplementedException();
         }
 
         public bool Equals([AllowNull] TreeNode other)

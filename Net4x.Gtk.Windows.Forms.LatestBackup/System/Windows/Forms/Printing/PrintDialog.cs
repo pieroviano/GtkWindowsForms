@@ -171,7 +171,6 @@ namespace System.Windows.Forms
         private void PrintOperation_EndPrint(object o, EndPrintArgs args)
         {
             _printDocument?.OnEndPrint(new PrintEventArgs());
-            //Console.WriteLine($"PrintOperation_EndPrint:{args.Context.Width},{args.Context.Height}");
         }
 
         private void PrintOperation_BeginPrint(object o, BeginPrintArgs args)
@@ -179,7 +178,6 @@ namespace System.Windows.Forms
             _printDocument?.OnBeginPrint(new PrintEventArgs());
             Gtk.PrintOperation oper = (Gtk.PrintOperation)o;
             oper.RenderPage(0);
-            //Console.WriteLine($"PrintOperation_BeginPrint:{args.Context.Width},{args.Context.Height}");
         }
 
         private void PrintOperation_DrawPage(object o, DrawPageArgs args)

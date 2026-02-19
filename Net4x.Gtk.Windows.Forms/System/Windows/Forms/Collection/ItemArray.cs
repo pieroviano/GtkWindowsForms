@@ -70,7 +70,6 @@ namespace System.Windows.Forms
         {
             int mask = s_lastMask;
             s_lastMask <<= 1;
-            //Debug.Assert(s_lastMask > mask, "We have overflowed our state mask.");
             return mask;
         }
 

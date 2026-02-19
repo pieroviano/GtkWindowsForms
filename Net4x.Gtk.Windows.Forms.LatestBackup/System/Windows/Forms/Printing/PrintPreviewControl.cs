@@ -154,7 +154,6 @@ namespace System.Windows.Forms
             set
             {
                 _rows = value;
-               // InvalidateLayout();
             }
         }
 
@@ -165,7 +164,6 @@ namespace System.Windows.Forms
             set
             {
                 _columns = value;
-                //InvalidateLayout();
             }
         }
 
@@ -185,8 +183,7 @@ namespace System.Windows.Forms
                 _startPage = value;
                 if (oldValue != _startPage)
                 {
-                   // InvalidateLayout();
-                    OnStartPageChanged(EventArgs.Empty);
+                        OnStartPageChanged(EventArgs.Empty);
                 }
             }
         }

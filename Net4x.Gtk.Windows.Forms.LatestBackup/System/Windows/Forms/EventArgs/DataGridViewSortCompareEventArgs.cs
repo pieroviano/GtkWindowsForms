@@ -26,7 +26,6 @@ namespace System.Windows.Forms
             int rowIndex2)
         {
             Debug.Assert(dataGridViewColumn != null);
-            //Debug.Assert(dataGridViewColumn.Index >= 0);
             this.dataGridViewColumn = dataGridViewColumn;
             this.cellValue1 = cellValue1;
             this.cellValue2 = cellValue2;

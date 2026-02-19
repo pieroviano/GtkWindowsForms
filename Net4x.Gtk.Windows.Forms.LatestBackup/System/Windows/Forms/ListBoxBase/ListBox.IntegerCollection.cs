@@ -145,7 +145,6 @@ namespace System.Windows.Forms
             public int Add(int item)
             {
                 int index = AddInternal(item);
-                //_owner.UpdateCustomTabOffsets();
 
                 return index;
             }
@@ -191,8 +190,7 @@ namespace System.Windows.Forms
                         }
                     }
 
-                    //_owner.UpdateCustomTabOffsets();
-                }
+                    }
                 finally
                 {
                     _owner.EndUpdate();
@@ -282,8 +280,7 @@ namespace System.Windows.Forms
                 set
                 {
                     _innerArray![index] = value;
-                    //_owner.UpdateCustomTabOffsets();
-                }
+                    }
             }
 
             object? IList.this[int index]

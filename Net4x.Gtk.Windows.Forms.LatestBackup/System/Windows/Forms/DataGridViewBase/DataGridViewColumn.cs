@@ -218,7 +218,6 @@ namespace System.Windows.Forms
         {
             ValueType = typeof(Drawing.Image);
             var renderer = new CellRendererPixbufValue(this);
-            //renderer.IconName = "face-smile";
             renderer.Height = RowHeight;
             base.PackStart(renderer, false);
             base.SortMode = DataGridViewColumnSortMode.NotSortable;

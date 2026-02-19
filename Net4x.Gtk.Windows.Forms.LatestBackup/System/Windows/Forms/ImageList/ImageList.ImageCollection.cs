@@ -189,7 +189,6 @@ namespace System.Windows.Forms
             /// </summary>
             public void Add(Image value)
             {
-                //ArgumentNullException.ThrowIfNull(value);
 
                 Original original = new Original(value, OriginalOptions.Default);
                 Add(original, null);
@@ -202,7 +201,6 @@ namespace System.Windows.Forms
             /// </summary>
             public int Add(Image value, Color transparentColor)
             {
-                //ArgumentNullException.ThrowIfNull(value);
 
                 Original original = new Original(value, OriginalOptions.CustomTransparentColor, transparentColor);
                 return Add(original, null);

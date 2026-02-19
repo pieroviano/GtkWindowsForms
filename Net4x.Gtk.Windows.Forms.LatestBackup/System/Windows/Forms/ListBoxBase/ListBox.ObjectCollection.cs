@@ -111,7 +111,6 @@ namespace System.Windows.Forms
                         index = 0;
                     }
 
-                    //Debug.Assert(index >= 0 && index <= Count, "Wrong index for insert");
                     InnerArray.InsertEntry(index, entry);
                 }
 

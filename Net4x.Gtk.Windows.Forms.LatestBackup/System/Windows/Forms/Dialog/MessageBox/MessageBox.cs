@@ -224,7 +224,6 @@ namespace System.Windows.Forms
             int irun = 0;
             if (owner is System.Windows.Forms.Form control)
             {
-                //irun = ShowMessageDialogCore(control.self, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon, defaultButton, options, showHelp);
                 irun = ShowCore((Gtk.Window)control.Widget, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
             }
             else
@@ -234,7 +233,6 @@ namespace System.Windows.Forms
                 {
                     ActiveWindow = window;
                 }
-                //irun = ShowMessageDialogCore(null, Gtk.WindowPosition.Center, text, caption, buttons, icon, defaultButton, options, showHelp);
                 irun = ShowCore(ActiveWindow, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
             }
 

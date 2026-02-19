@@ -118,7 +118,6 @@ namespace System.Windows.Forms
             if ((State & DrawItemState.Focus) == DrawItemState.Focus
                 && (State & DrawItemState.NoFocusRect) != DrawItemState.NoFocusRect)
             {
-               // ControlPaint.DrawFocusRectangle(GraphicsInternal, Bounds, ForeColor, BackColor);
             }
         }
 

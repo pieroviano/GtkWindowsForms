@@ -202,7 +202,6 @@ namespace GtkSystem.Windows.Forms.Utility
                 else if (sizeMode == PictureBoxSizeMode.AutoSize)
                 {
                     // original image without scaling，撑开PictureBox
-                    //destImage = srcPixbuf;
                     srcPixbuf.Scale(destImage, 0, 0, Math.Min(srcPixbuf.Width, destImage.Width), Math.Min(srcPixbuf.Height, destImage.Height), 0, 0, 1, 1, Gdk.InterpType.Tiles);
                 }
             }

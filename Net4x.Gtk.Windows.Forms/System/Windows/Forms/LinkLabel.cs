@@ -34,7 +34,6 @@ namespace System.Windows.Forms
 
         private void LinkLabel_Click(object sender, EventArgs e)
         {
-            //Console.WriteLine("LinkLabel_Click");
             if (Click != null)
             {
                 Click(this, e);

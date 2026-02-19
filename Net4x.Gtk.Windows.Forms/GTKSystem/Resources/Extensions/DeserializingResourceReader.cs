@@ -910,7 +910,6 @@ namespace GtkSystem.Resources.Extensions
 			{
                 _formatter = new DataContractSerializer(typeof(Bitmap));
      
-               // _formatter.Binder = new ImageListSerializationBinder();
             }
 			return _formatter.ReadObject(_store.BaseStream);
 		}
