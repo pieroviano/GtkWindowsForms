@@ -40,7 +40,6 @@ namespace System.Resources
         private object _value;
         private ResXFileRef _fileRef;
 
-        //private IFormatter _binaryFormatter;
         private DataContractSerializer _binaryFormatter;
         // this is going to be used to check if a ResXDataNode is of type ResXFileRef
         private static readonly ITypeResolutionService s_internalTypeResolver = new AssemblyNamesTypeResolutionService(new AssemblyName[] { new AssemblyName("System.Windows.Forms") });
@@ -80,7 +79,6 @@ namespace System.Resources
 
         public ResXDataNode(string name, object value, Func<Type, string> typeNameConverter)
         {
-            //ArgumentNullException.ThrowIfNull(name);
             if (name.Length == 0)
             {
                 throw (new ArgumentException(nameof(name)));
@@ -189,7 +187,6 @@ namespace System.Resources
             }
             set
             {
-                //ArgumentNullException.ThrowIfNull(value, nameof(Name));
                 if (value.Length == 0)
                 {
                     throw new ArgumentException(nameof(Name));
@@ -350,7 +347,6 @@ namespace System.Resources
                     using (MemoryStream ms = new MemoryStream())
                     {
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                        //_binaryFormatter.Serialize(ms, value);
                         _binaryFormatter.WriteObject(ms, value);
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                         nodeInfo.ValueData = ToBase64WrappedString(ms.ToArray());
@@ -387,11 +383,9 @@ namespace System.Resources
                         _binaryFormatter = new DataContractSerializer(typeof(ResXNullRef));
                     }
 
-                    //IFormatter formatter = _binaryFormatter;
                     if (serializedData != null && serializedData.Length > 0)
                     {
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                        // result = formatter.Deserialize(new MemoryStream(serializedData));
                         result = _binaryFormatter.ReadObject(new MemoryStream(serializedData));
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                         if (result is ResXNullRef)

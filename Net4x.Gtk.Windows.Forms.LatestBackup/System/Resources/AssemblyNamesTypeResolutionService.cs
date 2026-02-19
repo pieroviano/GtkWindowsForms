@@ -34,7 +34,6 @@ namespace System.Resources
             return GetAssembly(name, true);
         }
 
-       // [UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "Handles single file case")]
         public Assembly GetAssembly(AssemblyName name, bool throwOnError)
         {
             Assembly result = null;
@@ -82,7 +81,6 @@ namespace System.Resources
             return result;
         }
 
-        //[UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "Returns null if in a single file")]
         public string GetPathOfAssembly(AssemblyName name)
         {
 #pragma warning disable SYSLIB0044 // Type or member is obsolete. Ref https://github.com/dotnet/winforms/issues/7308

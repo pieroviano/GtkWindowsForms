@@ -135,7 +135,6 @@ namespace System.Resources
             {
 
             }else
-           // if (_typeNameConverter != null)
             {
                 string assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
                 if (!string.IsNullOrEmpty(assemblyQualifiedTypeName))

@@ -89,4 +89,370 @@ using System.IO;
 using GtkSystem;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
     <TargetString></TargetString>
   </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        private Gtk.Widget widget;</SourceString>
+    <TargetString>        private Gtk.Widget widget;
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        #region Numerical adjustment delta used for input and output$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        internal double diff_left { get; set; }</SourceString>
+    <TargetString>        internal double diff_left { get; set; }
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        //internal int diff_right { get; set; }
+        //internal int diff_bottom { get; set; }
+        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        }</SourceString>
+    <TargetString>        }
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        #region Bézier curve$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>                    //this.context.Fill();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>            //TranslateTransform(dx, dy, MatrixOrder.Append);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Icon.cs</FileName>
+    <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Icon.cs</FileName>
+    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\AssemblyNamesTypeResolutionService.cs</FileName>
+    <SourceString>       // [UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "Handles single file case")]$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\AssemblyNamesTypeResolutionService.cs</FileName>
+    <SourceString>        //[UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "Returns null if in a single file")]$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>        //private IFormatter _binaryFormatter;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>            //ArgumentNullException.ThrowIfNull(name);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>                //ArgumentNullException.ThrowIfNull(value, nameof(Name));$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>                        //_binaryFormatter = new BinaryFormatter
+                        //{
+                        //    Binder = new ResXSerializationBinder(_typeNameConverter)
+                        //};$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>                        //_binaryFormatter.Serialize(ms, value);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>                        //_binaryFormatter = new BinaryFormatter
+                        //{
+                        //    Binder = new ResXSerializationBinder(typeResolver)
+                        //};$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>                    //IFormatter formatter = _binaryFormatter;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>                        // result = formatter.Deserialize(new MemoryStream(serializedData));$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>        //public override Type BindToType(string assemblyName, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]string typeName)
+        //{
+        //    if (_typeResolver is null)
+        //    {
+        //        return null;
+        //    }
+
+        //    typeName = typeName + ", " + assemblyName;
+
+        //    Type type = _typeResolver.GetType(typeName);
+        //    if (type is null)
+        //    {
+        //        string[] typeParts = typeName.Split(',');
+
+        //        // Break up the assembly name from the rest of the assembly strong name.
+        //        // we try 1) FQN 2) FQN without a version 3) just the short name
+        //        if (typeParts != null &amp;&amp; typeParts.Length &gt; 2)
+        //        {
+        //            string partialName = typeParts[0].Trim();
+
+        //            for (int i = 1; i &lt; typeParts.Length; ++i)
+        //            {
+        //                string typePart = typeParts[i].Trim();
+        //                if (!typePart.StartsWith("Version=") &amp;&amp; !typePart.StartsWith("version="))
+        //                {
+        //                    partialName = partialName + ", " + typePart;
+        //                }
+        //            }
+
+        //            type = _typeResolver.GetType(partialName);
+        //            if (type is null)
+        //            {
+        //                type = _typeResolver.GetType(typeParts[0].Trim());
+        //            }
+        //        }
+        //    }
+
+        //    // Binder couldn't handle it, let the default loader take over.
+        //    return type;
+        //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>           // if (_typeNameConverter != null)$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>		//private BinaryFormatter _formatter;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>     
+               // _formatter.Binder = new ImageListSerializationBinder();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>			//return null;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>            //plgpts´┐¢´┐¢Ê╗´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ PointF ´┐¢ß╣╣´┐¢´┐¢´┐¢╔Á´┐¢´┐¢´┐¢´┐¢Feed / nurture´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢╩¥´┐¢´┐¢´┐¢╬Á´┐¢´┐¢´┐¢´┐¢¤¢Ãí´┐¢´┐¢´┐¢´┐¢¤¢Ã║´┐¢´┐¢´┐¢´┐¢┬¢Ã¢´┐¢´┐¢Any╬¬´┐¢´┐¢ã¢´┐¢´┐¢´┐¢─▒´┐¢´┐¢╬Á´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Òíú ã¢´┐¢´┐¢´┐¢─▒´┐¢´┐¢╬Á´┐¢´┐¢´┐¢´┐¢┬¢ÃÁ´┐¢╬╗´┐¢├┐╔┤´┐¢Ã░´┐¢´┐¢´┐¢´┐¢´┐¢ÃÁ´┐¢╬╗´┐¢├Á´┐¢´┐¢´┐¢
+            //´┐¢╦À´┐¢´┐¢´┐¢´┐¢´┐¢╩╝´┐¢´┐¢´┐¢┬Á´┐¢ Matrix ´┐¢´┐¢╩╣´┐¢´┐¢´┐¢╩¥´┐¢´┐¢´┐¢´┐¢Î¬´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Î¬´┐¢´┐¢´┐¢´┐¢ rect ´┐¢´┐¢´┐¢´┐¢Í©´┐¢´┐¢´┐¢─¥´┐¢´┐¢´┐¢Ë│´┐¢õÁ¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ plgpts ´┐¢´┐¢´┐¢´┐¢´┐¢ÒÂ¿´┐¢´┐¢─▓´┐¢´┐¢´┐¢´┐¢─▒´┐¢´┐¢╬í´┐¢ ´┐¢´┐¢´┐¢╬Á´┐¢´┐¢´┐¢´┐¢¤¢´┐¢Ë│´┐¢õÁ¢´┐¢´┐¢´┐¢´┐¢´┐¢ðÁ´┐¢ plgpts ´┐¢´┐¢Ê╗´┐¢´┐¢´┐¢Òú¼´┐¢´┐¢´┐¢¤¢´┐¢Ë│´┐¢õÁ¢´┐¢┌Â´┐¢´┐¢´┐¢´┐¢Òú¼´┐¢´┐¢´┐¢┬¢´┐¢Ë│´┐¢õÁ¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Òíú Ã░´┐¢´┐¢´┐¢´┐¢ã¢´┐¢´┐¢´┐¢─▒´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢┬¢ÃÁ´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>            //[m11,m12,0]
+            //[m21,m22,0]
+            //[dx,dy,1]
+            // ´┐¢´┐¢´┐¢´┐¢─Á´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢[0,0,1]´┐¢´┐¢´┐¢╠Â´┐¢ÍÁ
+            //´┐¢´┐¢´┐¢´┐¢M11,M22Ë░´┐¢´┐¢´┐¢´┐¢´┐¢┼ú´┐¢dx=OffsetX,dy=OffsetYË░´┐¢´┐¢ã¢´┐¢ãú´┐¢M12,M21(´┐¢´┐¢M11´┐¢´┐¢M22)Ê╗´┐¢´┐¢Ë░´┐¢´┐¢´┐¢´┐¢Î¬´┐¢╚í´┐¢$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>   //         Matrix m = new Matrix();
+			//m.initMatrix = this.initMatrix;
+			//m.initRectangle = this.initRectangle;
+			//m.initPointF = this.initPointF;
+			//m.vectorTransformPoints = this.vectorTransformPoints;
+			//m.transformVectors = this.transformVectors;
+			//m.transformPoints = this.transformPoints;
+			//m.shearX = this.shearX;
+			//m.shearY = this.shearY;
+			//m.angle = this.angle;
+			//m.scaleX = this.scaleX;
+			//m.scaleY = this.scaleY;
+			//m.rotateAtPoint = this.rotateAtPoint;
+			//m.order = this.order;
+			//m.dx = this.dx;
+			//m.dy = this.dy;
+			//m.m11 = this.m11;
+			//m.m12 = this.m12;
+			//m.m21 = this.m21;
+			//m.m22 = this.m22;
+
+            //return m;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>            //this.m11 = (float)Math.Cos(angle * Math.PI / 180.0);
+            //this.m12 = -(float)Math.Sin(angle * Math.PI / 180.0);
+
+            //this.m21 = (float)Math.Sin(angle * Math.PI / 180.0);
+            //this.m22 = (float)Math.Cos(angle * Math.PI / 180.0);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>			//´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ðÁ´┐¢├┐´┐¢´┐¢╩©´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢╦í´┐¢ ´┐¢├¥´┐¢´┐¢´┐¢´┐¢Î¬´┐¢´┐¢È¬´┐¢Ïú´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ðú´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Èí´┐¢
+			//         this.m11 = this.m11 * pts[0].X + this.m11 * pts[1].X;
+			//this.m12 = this.m12 * pts[0].Y + this.m12 * pts[1].Y;
+
+			//this.m21 = this.m21 * pts[0].X + this.m21 * pts[1].X;
+			//this.m22 = this.m22 * pts[0].Y + this.m22 * pts[1].Y;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>            //´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ðÁ´┐¢├┐´┐¢´┐¢╩©´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢╦í´┐¢ ´┐¢├¥´┐¢´┐¢´┐¢´┐¢Î¬´┐¢´┐¢È¬´┐¢Ïú´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ðú´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Èí´┐¢
+   //         this.m11 = this.m11 * pts[0].X + this.m11 * pts[1].X;
+			//this.m12 = this.m12 * pts[0].Y + this.m12 * pts[1].Y;
+
+			//this.m21 = this.m21 * pts[0].X + this.m21 * pts[1].X;
+			//this.m22 = this.m22 * pts[0].Y + this.m22 * pts[1].Y;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Printing\PrintDocument.cs</FileName>
+    <SourceString>
+        //[Browsable(false)]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        //public PrintController PrintController
+        //{
+        //    get =&gt; _printController ??= new StandardPrintController();
+        //    set =&gt; _printController = value;
+        //}</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
+    <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
+    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
+    <SourceString>		/// &lt;summary&gt;
+		/// Releases all resources used by this &lt;see cref="T:System.Drawing.Image" /&gt;.
+		/// &lt;/summary&gt;
+		//public void Dispose()
+		//{
+		//	Dispose(disposing: true);
+		//	GC.SuppressFinalize(this);
+		//}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <SourceString>			//if (!(sourceType == typeof(byte[])))
+			//{
+			//	return sourceType == typeof(Icon);
+			//}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <SourceString>			//Icon icon = value as Icon;
+			//if (icon != null)
+			//{
+			//	return icon.ToBitmap();
+			//}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <SourceString>		//[RequiresUnreferencedCode("The Type of value cannot be statically discovered. The public parameterless constructor or the 'Default' static field may be trimmed from the Attribute's Type.")]$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Atrribute\KeysConverter.cs</FileName>
+    <SourceString>            //AddKey(SR.toStringEnter, Keys.Return);
+            //AddKey("F12", Keys.F12);
+            //AddKey("F11", Keys.F11);
+            //AddKey("F10", Keys.F10);
+            //AddKey(SR.toStringEnd, Keys.End);
+            //AddKey(SR.toStringControl, Keys.Control);
+            //AddKey("F8", Keys.F8);
+            //AddKey("F9", Keys.F9);
+            //AddKey(SR.toStringAlt, Keys.Alt);
+            //AddKey("F4", Keys.F4);
+            //AddKey("F5", Keys.F5);
+            //AddKey("F6", Keys.F6);
+            //AddKey("F7", Keys.F7);
+            //AddKey("F1", Keys.F1);
+            //AddKey("F2", Keys.F2);
+            //AddKey("F3", Keys.F3);
+            //AddKey(SR.toStringPageDown, Keys.Next);
+            //AddKey(SR.toStringInsert, Keys.Insert);
+            //AddKey(SR.toStringHome, Keys.Home);
+            //AddKey(SR.toStringDelete, Keys.Delete);
+            //AddKey(SR.toStringShift, Keys.Shift);
+            //AddKey(SR.toStringPageUp, Keys.Prior);
+            //AddKey(SR.toStringBack, Keys.Back);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\GtkLib.cs</FileName>
+    <SourceString>    internal
+class FuncLoader</SourceString>
+    <TargetString>    internal class FuncLoader</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\FrameDimension.cs</FileName>
+    <SourceString>			//DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(18, 1);
+			//defaultInterpolatedStringHandler.AppendLiteral("[FrameDimension: ");
+			//defaultInterpolatedStringHandler.AppendFormatted(_guid);
+			//defaultInterpolatedStringHandler.AppendLiteral("]");
+			//return defaultInterpolatedStringHandler.ToStringAndClear();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
+    <SourceString>			//DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(15, 1);
+			//defaultInterpolatedStringHandler.AppendLiteral("[ImageFormat: ");
+			//defaultInterpolatedStringHandler.AppendFormatted(_guid);
+			//defaultInterpolatedStringHandler.AppendLiteral("]");
+			//return defaultInterpolatedStringHandler.ToStringAndClear();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\PropertyItemInternal.cs</FileName>
+    <SourceString>
+		//public unsafe byte* value;
+
+		//public unsafe Span&lt;byte&gt; Value =&gt; new Span&lt;byte&gt;(value, len);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
 </Items>

@@ -8,7 +8,6 @@ namespace System.Drawing
 {
 	public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISerializable
 	{
-        #region Image onlybyte[] data 
 
         private byte[] _PixbufData;
         public byte[] PixbufData
@@ -24,7 +23,6 @@ namespace System.Drawing
             set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
         }
         public string FileName { get; set; }
-        #endregion
 
         [Browsable(false)]
 		public IntPtr Handle

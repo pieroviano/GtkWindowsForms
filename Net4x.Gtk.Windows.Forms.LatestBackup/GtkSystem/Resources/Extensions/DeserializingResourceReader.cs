@@ -174,7 +174,6 @@ namespace GtkSystem.Resources.Extensions
 
 		private bool _assumeBinaryFormatter;
 
-		//private BinaryFormatter _formatter;
 
         private DataContractSerializer _formatter;
         public DeserializingResourceReader(string fileName)
@@ -914,7 +913,6 @@ namespace GtkSystem.Resources.Extensions
                // _formatter.Binder = new ImageListSerializationBinder();
             }
 			return _formatter.ReadObject(_store.BaseStream);
-			//return null;
 		}
 
 		private unsafe object DeserializeObject(int typeIndex)

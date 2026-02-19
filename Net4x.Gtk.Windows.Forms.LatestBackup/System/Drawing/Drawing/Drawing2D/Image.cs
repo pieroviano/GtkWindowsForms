@@ -10,7 +10,6 @@ namespace System.Drawing
     [Serializable]
 	public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable//,MarshalByRefObject
     {
-        #region Image onlybyte[] data 
         internal Image(byte[] pixbuf)
 		{
             PixbufData = pixbuf;
@@ -35,7 +34,6 @@ namespace System.Drawing
 
 		private string _fileName;
         public string FileName { get=> _fileName; set { _fileName = value; Pixbuf = new Gdk.Pixbuf(value); } }
-        #endregion
 
         /// <summary>
         /// Provides a callback method for determining when the <see cref="M:System.Drawing.Image.GetThumbnailImage(System.Int32,System.Int32,System.Drawing.Image.GetThumbnailImageAbort,System.IntPtr)" /> method should prematurely cancel execution.
