@@ -10,23 +10,29 @@ namespace UpdatePostProcessing.Services
 
             foreach (var change in rawDiffsFromGit)
             {
-                var (sourceFragment, targetFragment) =
-                    GetAnchoredMinimalDifference(change.SourceString, change.TargetString);
-
-                if (!string.IsNullOrEmpty(sourceFragment))
+                if (change.SourceString.Length < 100 && change.TargetString.Length < 100)
                 {
-                    // Deduplicate logically identical diffs
-                    if (!result.Any(r =>
-                        r.SourceFileName == change.SourceFileName &&
-                        r.TargetFileName == change.TargetFileName &&
-                        r.SourceString == sourceFragment &&
-                        r.TargetString == targetFragment))
+                    result.Add(change);
+                }
+                else
+                {
+                    var (sourceFragment, targetFragment) =
+                        GetAnchoredMinimalDifference(change.SourceString, change.TargetString);
+                    if (!string.IsNullOrEmpty(sourceFragment))
                     {
-                        result.Add(new ToPersist(
-                            change.SourceFileName,
-                            change.TargetFileName,
-                            sourceFragment,
-                            targetFragment));
+                        // Deduplicate logically identical diffs
+                        if (!result.Any(r =>
+                            r.SourceFileName == change.SourceFileName &&
+                            r.TargetFileName == change.TargetFileName &&
+                            r.SourceString == sourceFragment &&
+                            r.TargetString == targetFragment))
+                        {
+                            result.Add(new ToPersist(
+                                change.SourceFileName,
+                                change.TargetFileName,
+                                sourceFragment,
+                                targetFragment));
+                        }
                     }
                 }
             }

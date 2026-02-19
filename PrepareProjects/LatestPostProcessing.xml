@@ -36,8 +36,14 @@
     <TargetString></TargetString>
   </Item>
   <Item>
+    <FileName>GtkControls\GridCell.cs</FileName>
+    <SourceString>         public int Width { get; set; }</SourceString>
+    <TargetString>         public int Width { get; set; }
+</TargetString>
+  </Item>
+  <Item>
     <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>//</SourceString>
-    <TargetString>´╗┐//</TargetString>
+    <SourceString>//------------------------------------------------------------------------------</SourceString>
+    <TargetString>´╗┐//------------------------------------------------------------------------------</TargetString>
   </Item>
 </Items>

@@ -22,8 +22,8 @@ internal static class FileItemExtensions
                 continue;
             }
 
-            var contents = fileItem.OldSource;
-            var replacements = fileItem.GetReplacements(csprojDirectory, fileName, contents);
+            var oldContent = fileItem.OldSource;
+            var replacements = fileItem.GetReplacements(csprojDirectory, fileName, oldContent);
             if (replacements != null)
             {
                 replacements = replacements.Where(r =>

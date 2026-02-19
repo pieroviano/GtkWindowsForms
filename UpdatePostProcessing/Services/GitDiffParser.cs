@@ -18,14 +18,18 @@ internal class GitDiffParser
         var newBuilder = new StringBuilder();
 
         bool insideHunk = false;
+        string? lastContextLine = null;
 
         foreach (var line in lines)
         {
+            if (line.StartsWith("\\ "))
+                continue;
+            
             if (line.StartsWith("@@"))
             {
-                // Flush previous block if exists
-                FlushReplacement(oldBuilder, newBuilder, replacements);
+                FlushReplacement(oldBuilder, newBuilder, replacements, lastContextLine);
                 insideHunk = true;
+                lastContextLine = null;
                 continue;
             }
 
@@ -42,30 +46,57 @@ internal class GitDiffParser
             }
             else
             {
-                // Context line → block boundary
-                FlushReplacement(oldBuilder, newBuilder, replacements);
+                // Context line
+                FlushReplacement(oldBuilder, newBuilder, replacements, lastContextLine);
+
+                lastContextLine = line; // store anchor
             }
         }
 
         // Final flush
-        FlushReplacement(oldBuilder, newBuilder, replacements);
-
+        FlushReplacement(oldBuilder, newBuilder, replacements, lastContextLine);
+        foreach (var replacement in replacements)
+        {
+            replacement.NewText = replacement.NewText.Replace("\r\n", "\n");
+        }
         return replacements;
     }
 
-    void FlushReplacement(StringBuilder oldBuilder, StringBuilder newBuilder, List<TextReplacement> replacements)
+    private void FlushReplacement(
+        StringBuilder oldBuilder,
+        StringBuilder newBuilder,
+        List<TextReplacement> replacements,
+        string? lastContextLine)
     {
-        if (oldBuilder.Length == 0 && newBuilder.Length == 0)
+        bool hasOld = oldBuilder.Length > 0;
+        bool hasNew = newBuilder.Length > 0;
+
+        if (!hasOld && !hasNew)
             return;
 
         var oldText = oldBuilder.ToString().TrimEnd('\r', '\n');
         var newText = newBuilder.ToString().TrimEnd('\r', '\n');
 
-        replacements.Add(new TextReplacement
+        // PURE INSERTION (even blank line)
+        if (!hasOld && hasNew)
         {
-            OldText = oldText,
-            NewText = newText
-        });
+            if (!string.IsNullOrEmpty(lastContextLine))
+            {
+                replacements.Add(new TextReplacement
+                {
+                    OldText = lastContextLine,
+                    NewText = lastContextLine + Environment.NewLine + newText
+                });
+            }
+        }
+        else
+        {
+            replacements.Add(new TextReplacement
+            {
+                OldText = oldText,
+                NewText = newText
+            });
+        }
 
         oldBuilder.Clear();
         newBuilder.Clear();
