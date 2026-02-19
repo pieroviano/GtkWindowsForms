@@ -233,16 +233,23 @@ public class Program
 
         if (Directory.Exists(newPath))
         {
-            var path = oldPath + Guid.NewGuid();
-            Directory.Move(oldPath, path);
-            oldPath = path;
+            try
+            {
+                var path = oldPath + Guid.NewGuid();
+                Directory.Move(oldPath, path);
+                oldPath = path;
+                if (Directory.Exists(newPath))
+                {
+                    throw new InvalidOperationException(
+                        $"Cannot rename '{oldName}' because '{newName}' already exists.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
-        if (Directory.Exists(newPath))
-        {
-            throw new InvalidOperationException(
-                $"Cannot rename '{oldName}' because '{newName}' already exists.");
-        }
 
         // Windows is case-insensitive, so do a two-step rename if only casing changes
         var tempPath = Path.Combine(projectDirectory, Guid.NewGuid().ToString());

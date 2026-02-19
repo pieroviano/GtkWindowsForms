@@ -46,4 +46,29 @@
     <SourceString>//------------------------------------------------------------------------------</SourceString>
     <TargetString>´╗┐//------------------------------------------------------------------------------</TargetString>
   </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString> at</SourceString>
+    <TargetString> at </TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString>        private string formName;</SourceString>
+    <TargetString>        private string formName;
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString>formName = form.Name;
+        }
+</SourceString>
+    <TargetString>formName = form.Name;
+		}</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString>        }</SourceString>
+    <TargetString>        }
+</TargetString>
+  </Item>
 </Items>

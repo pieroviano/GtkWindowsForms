@@ -24,7 +24,7 @@ internal class GitDiffParser
         {
             if (line.StartsWith("\\ "))
                 continue;
-            
+
             if (line.StartsWith("@@"))
             {
                 FlushReplacement(oldBuilder, newBuilder, replacements, lastContextLine);
@@ -50,6 +50,10 @@ internal class GitDiffParser
                 FlushReplacement(oldBuilder, newBuilder, replacements, lastContextLine);
 
                 lastContextLine = line; // store anchor
+                if (lastContextLine.Length > 1 && lastContextLine[0] == ' ')
+                {
+                    lastContextLine = lastContextLine.Substring(1);
+                }
             }
         }
 

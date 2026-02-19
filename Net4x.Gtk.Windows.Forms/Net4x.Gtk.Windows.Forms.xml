@@ -7,7 +7,7 @@
         <member name="T:GtkSystem.ComponentModel.ComponentResourceManager">
             <summary>
             This is System.ComponentModel.ComponentResourceManager image retrieval implementation
-            Usage method： atform create new under the projectSystem.ComponentModel.ComponentResourceManager and inheritGtkSystem.ComponentModel.ComponentResourceManager that is enough
+            Usage method： at form create new under the projectSystem.ComponentModel.ComponentResourceManager and inheritGtkSystem.ComponentModel.ComponentResourceManager that is enough
             </summary>
         </member>
         <member name="T:GtkSystem.SR">
