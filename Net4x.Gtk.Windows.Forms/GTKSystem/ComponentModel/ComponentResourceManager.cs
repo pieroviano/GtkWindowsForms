@@ -23,6 +23,7 @@ namespace GtkSystem.ComponentModel
             formName = form.Name;
         }
 
+
         public override object GetObject(string name, CultureInfo culture)
         {
             return GetObject(name);

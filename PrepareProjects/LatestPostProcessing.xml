@@ -71,4 +71,22 @@
     <TargetString>        }
 </TargetString>
   </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString>using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
+
+</SourceString>
+    <TargetString>using System.Globalization;
+</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\IO\Resources\IO\BinaryReaderExtensions.cs</FileName>
+    <SourceString>using System;
+using System.IO;
+using GtkSystem;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
 </Items>

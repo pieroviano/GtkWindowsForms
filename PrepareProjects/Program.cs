@@ -250,7 +250,6 @@ public class Program
             }
         }
 
-
         // Windows is case-insensitive, so do a two-step rename if only casing changes
         var tempPath = Path.Combine(projectDirectory, Guid.NewGuid().ToString());
 
