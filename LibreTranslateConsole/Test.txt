@@ -1,5 +1,0 @@
-﻿Invoke-RestMethod `
-  -Uri http://localhost:5000/translate `
-  -Method Post `
-  -ContentType "application/json" `
-  -Body '{"q":"你好世界","source":"zh","target":"en","format":"text"}'
