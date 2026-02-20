@@ -11,10 +11,6 @@ namespace System.Drawing
 	{
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
-			//if (!(sourceType == typeof(byte[])))
-			//{
-			//	return sourceType == typeof(Icon);
-			//}
 			return true;
 		}
 
@@ -29,11 +25,6 @@ namespace System.Drawing
 
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
-			//Icon icon = value as Icon;
-			//if (icon != null)
-			//{
-			//	return icon.ToBitmap();
-			//}
 			byte[] array = value as byte[];
 			if (array != null)
 			{

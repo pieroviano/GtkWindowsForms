@@ -183,7 +183,7 @@ namespace System.Windows.Forms
                 _startPage = value;
                 if (oldValue != _startPage)
                 {
-                        OnStartPageChanged(EventArgs.Empty);
+                    OnStartPageChanged(EventArgs.Empty);
                 }
             }
         }

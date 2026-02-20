@@ -289,8 +289,6 @@ namespace System.Windows.Forms
         /// </summary>
         public void Draw(Graphics g, int x, int y, int width, int height, int index)
         {
-            //ArgumentOutOfRangeException.ThrowIfNegative(index);
-            //ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, Images.Count);
 
             //HDC dc = (HDC)g.GetHdc();
             //try

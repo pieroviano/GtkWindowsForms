@@ -337,10 +337,6 @@ namespace System.Resources
                 {
                     if (_binaryFormatter is null)
                     {
-                        //_binaryFormatter = new BinaryFormatter
-                        //{
-                        //    Binder = new ResXSerializationBinder(_typeNameConverter)
-                        //};
                         _binaryFormatter = new DataContractSerializer(typeof(ResXNullRef));
                     }
 
@@ -376,10 +372,6 @@ namespace System.Resources
 
                     if (_binaryFormatter is null)
                     {
-                        //_binaryFormatter = new BinaryFormatter
-                        //{
-                        //    Binder = new ResXSerializationBinder(typeResolver)
-                        //};
                         _binaryFormatter = new DataContractSerializer(typeof(ResXNullRef));
                     }
 

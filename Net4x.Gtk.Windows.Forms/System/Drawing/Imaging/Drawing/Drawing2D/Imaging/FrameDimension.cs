@@ -92,11 +92,6 @@ namespace System.Drawing.Imaging
 			{
 				return "Page";
 			}
-			//DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(18, 1);
-			//defaultInterpolatedStringHandler.AppendLiteral("[FrameDimension: ");
-			//defaultInterpolatedStringHandler.AppendFormatted(_guid);
-			//defaultInterpolatedStringHandler.AppendLiteral("]");
-			//return defaultInterpolatedStringHandler.ToStringAndClear();
 			return $"[FrameDimension: {_guid}]";
 		}
 	}

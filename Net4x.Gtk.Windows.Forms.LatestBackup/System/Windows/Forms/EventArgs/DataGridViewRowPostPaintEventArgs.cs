@@ -58,12 +58,6 @@ namespace System.Windows.Forms
 
         public bool IsLastVisibleRow { get; private set; }
 
-        //public void DrawFocus(Rectangle bounds, bool cellsPaintSelectionBackground)
-        //{
-        //    if (RowIndex < 0 || RowIndex >= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
 
         //    _dataGridView.Rows.SharedRow(RowIndex).DrawFocus(Graphics,
         //                                                     ClipBounds,
@@ -74,12 +68,6 @@ namespace System.Windows.Forms
         //                                                     cellsPaintSelectionBackground);
         //}
 
-        //public void PaintCells(Rectangle clipBounds, DataGridViewPaintParts paintParts)
-        //{
-        //    if (RowIndex < 0 || RowIndex >= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
 
         //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
         //                                                      clipBounds,
@@ -91,12 +79,6 @@ namespace System.Windows.Forms
         //                                                      paintParts);
         //}
 
-        //public void PaintCellsBackground(Rectangle clipBounds, bool cellsPaintSelectionBackground)
-        //{
-        //    if (RowIndex < 0 || RowIndex >= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
 
         //    DataGridViewPaintParts paintParts = DataGridViewPaintParts.Background | DataGridViewPaintParts.Border;
         //    if (cellsPaintSelectionBackground)
@@ -113,12 +95,6 @@ namespace System.Windows.Forms
         //                                                      paintParts);
         //}
 
-        //public void PaintCellsContent(Rectangle clipBounds)
-        //{
-        //    if (RowIndex < 0 || RowIndex >= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
 
         //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
         //                                                      clipBounds,
@@ -130,22 +106,7 @@ namespace System.Windows.Forms
         //                                                      DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ErrorIcon);
         //}
 
-        //public void PaintHeader(bool paintSelectionBackground)
-        //{
-        //    DataGridViewPaintParts paintParts = DataGridViewPaintParts.Background | DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ErrorIcon;
-        //    if (paintSelectionBackground)
-        //    {
-        //        paintParts |= DataGridViewPaintParts.SelectionBackground;
-        //    }
-        //    PaintHeader(paintParts);
-        //}
 
-        //public void PaintHeader(DataGridViewPaintParts paintParts)
-        //{
-        //    if (RowIndex < 0 || RowIndex >= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
 
         //    _dataGridView.Rows.SharedRow(RowIndex).PaintHeader(Graphics,
         //                                                       ClipBounds,

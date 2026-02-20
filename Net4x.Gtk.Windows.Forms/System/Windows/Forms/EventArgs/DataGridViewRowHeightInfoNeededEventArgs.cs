@@ -21,33 +21,11 @@ namespace System.Windows.Forms
 
         public int RowIndex { get; private set; }
 
-        //public int Height
-        //{
-        //    get => _height;
-        //    set
-        //    {
-        //        if (value < _minimumHeight)
-        //        {
-        //            value = _minimumHeight;
-        //        }
-        //        if (value > DataGridViewBand.MaxBandThickness)
-        //        {
-        //            throw new ArgumentOutOfRangeException(nameof(value), string.Format(SR.InvalidHighBoundArgumentEx, nameof(Height), value, DataGridViewBand.MaxBandThickness));
-        //        }
 
         //        _height = value;
         //    }
         //}
 
-        //public int MinimumHeight
-        //{
-        //    get => _minimumHeight;
-        //    set
-        //    {
-        //        if (value < DataGridViewBand.MinBandThickness)
-        //        {
-        //            throw new ArgumentOutOfRangeException(nameof(value), value, string.Format(SR.DataGridViewBand_MinimumHeightSmallerThanOne, DataGridViewBand.MinBandThickness));
-        //        }
 
         //        if (_height < value)
         //        {

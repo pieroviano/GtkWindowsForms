@@ -19,27 +19,7 @@ namespace System.Windows.Forms
 
             private static readonly object s_syncLock = new object();
 
-            //public unsafe NativeImageList(IStream.Interface pstm)
-            //{
-            //    //HIMAGELIST himl;
-            //    //lock (s_syncLock)
-            //    //{
-            //    //    using var stream = ComHelpers.TryGetComScope<IStream>(pstm, out HRESULT hr);
-            //    //    Debug.Assert(hr.Succeeded);
-            //    //    himl = PInvoke.ImageList_Read(stream);
-            //    //    Init(himl);
-            //    //}
-            //}
 
-            //public NativeImageList(Size imageSize, IMAGELIST_CREATION_FLAGS flags)
-            //{
-            //    HIMAGELIST himl;
-            //    lock (s_syncLock)
-            //    {
-            //        himl = PInvoke.ImageList_Create(imageSize.Width, imageSize.Height, flags, InitialCapacity, GrowBy);
-            //        Init(himl);
-            //    }
-            //}
 
             //private NativeImageList(HIMAGELIST himl)
             //{
@@ -72,12 +52,6 @@ namespace System.Windows.Forms
 
             private void Dispose(bool disposing)
             {
-                //lock (s_syncLock)
-                //{
-                //    if (HIMAGELIST.IsNull)
-                //    {
-                //        return;
-                //    }
 
                 //    PInvoke.ImageList.Destroy(this);
                 //    HIMAGELIST = HIMAGELIST.Null;
@@ -97,16 +71,6 @@ namespace System.Windows.Forms
                 Dispose(disposing: false);
             }
 
-            //internal NativeImageList Duplicate()
-            //{
-            //            lock (s_syncLock)
-            //            {
-            //                HIMAGELIST himl = PInvoke.ImageList_Duplicate(HIMAGELIST);
-            //                if (!HIMAGELIST.IsNull)
-            //                {
-            //                    return new NativeImageList(himl);
-            //                }
-            //            }
 
             //#if DEBUG
             //            Debug.Fail($"{nameof(NativeImageList)} could not be duplicated. Originating stack:\n{_callStack}");

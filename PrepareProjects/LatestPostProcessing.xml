@@ -1,13 +1,434 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Items>
   <Item>
-    <FileName>GTKSystem.Windows.Forms.xml</FileName>
-    <SourceString></SourceString>
+    <FileName>System\Windows\Forms\TreeViewBase\TreeNode.cs</FileName>
+    <SourceString>$CommentedCode$(throw )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>FxResources\System\Resources\Extensions\SR.cs</FileName>
-    <SourceString></SourceString>
+    <FileName>System\Windows\Forms\ToolStrip.cs</FileName>
+    <SourceString>$CommentedCode$(Dock )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\TabControlBase\DrawItemEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$(using )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\TabControlBase\DrawItemEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$( ControlPaint.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\PropertyGridInternal\PropertyGridBase\PropertyGridView.cs</FileName>
+    <SourceString>$CommentedCode$(column3.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Printing\PrintPreviewControl.cs</FileName>
+    <SourceString>$CommentedCode$( InvalidateLayout)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Printing\PrintPreviewControl.cs</FileName>
+    <SourceString>$CommentedCode$(InvalidateLayout)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Printing\PrintDialog.cs</FileName>
+    <SourceString>$CommentedCode$(Console.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListViewBase\ListViewGroupCollection.cs</FileName>
+    <SourceString>$CommentedCode$(Console.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListViewBase\ColumnHeader.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListViewBase\ColumnHeader.cs</FileName>
+    <SourceString>$CommentedCode$(string )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListView.cs</FileName>
+    <SourceString>$CommentedCode$( header.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListView.cs</FileName>
+    <SourceString>$CommentedCode$( __headerheight)</SourceString>
+    <TargetString>            headerView.HeightRequest = 1;</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListView.cs</FileName>
+    <SourceString>$CommentedCode$(Console.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListBoxBase\ListBox.SelectedObjectCollection.cs</FileName>
+    <SourceString>$CommentedCode$(if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListBoxBase\ListBox.SelectedObjectCollection.cs</FileName>
+    <SourceString>$CommentedCode$( we )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListBoxBase\ListBox.ObjectCollection.cs</FileName>
+    <SourceString>$CommentedCode$(Debug.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.cs</FileName>
+    <SourceString>$CommentedCode$(_owner.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\LinkLabel.cs</FileName>
+    <SourceString>$CommentedCode$(Console.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$(int )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$(SpanReader)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$( We )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$(if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$(HandleRef)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.Original.cs</FileName>
+    <SourceString>$CommentedCode$(if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
+    <SourceString>$CommentedCode$(lock )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
+    <SourceString>$CommentedCode$(internal )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.ImageCollection.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentNullException.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentNullException.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
+    <SourceString>$CommentedCode$( string )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentOutOfRangeException.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\EventArgs\DataGridViewSortCompareEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$(Debug.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\EventArgs\DataGridViewRowPrePaintEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$( private )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\EventArgs\DataGridViewRowPostPaintEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\EventArgs\DataGridViewRowHeightInfoNeededEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Dialog\MessageBox\MessageBox.cs</FileName>
+    <SourceString>$CommentedCode$(irun )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\DataGridViewBase\DataGridViewColumn.cs</FileName>
+    <SourceString>$CommentedCode$(renderer.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Collection\ItemArray.cs</FileName>
+    <SourceString>$CommentedCode$(Debug.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Collection\BindingsCollection.cs</FileName>
+    <SourceString>$CommentedCode$( ArgumentNullException.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Atrribute\KeysConverter.cs</FileName>
+    <SourceString>$CommentedCode$(AddKey)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$( if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$( Encoding )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXResourceWriter.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentNullException)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$(private )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentNullException)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$(_binaryFormatter)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$(IFormatter )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$( result =)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\AssemblyNamesTypeResolutionService.cs</FileName>
+    <SourceString>$CommentedCode$([UnconditionalSuppressMessage)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Printing\PrintDocument.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Printing\PrintDocument.cs</FileName>
+    <SourceString>$CommentedCode$(Browsable)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\PropertyItemInternal.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
+    <SourceString>$CommentedCode$(DefaultInterpolatedStringHandler )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
+    <SourceString>	}</SourceString>
+    <TargetString>    }</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\FrameDimension.cs</FileName>
+    <SourceString>$CommentedCode$(DefaultInterpolatedStringHandler )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Icon.cs</FileName>
+    <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Icon.cs</FileName>
+    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        private Gtk.Widget widget;</SourceString>
+    <TargetString>        private Gtk.Widget widget;
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        #region Numerical adjustment delta used for input and output$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        internal double diff_left { get; set; }</SourceString>
+    <TargetString>        internal double diff_left { get; set; }
+        </TargetString>
+  </Item>
+  <Item>
+	  <FileName>System\Drawing\Graphics.cs</FileName>
+	  <SourceString>$CommentedCode$(internal )</SourceString>
+	  <TargetString></TargetString>
+  </Item>
+  <Item>
+	<FileName>System\Drawing\Graphics.cs</FileName>
+	<SourceString>		#endregion$RegEx$([ \t]*[\r]?[\n]?)
+	</SourceString>
+	<TargetString></TargetString>
+	</Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        }</SourceString>
+    <TargetString>        }
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        #region Bézier curve$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>$CommentedCode$(this.context.Fill();)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>$CommentedCode$(TranslateTransform)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>$CommentedCode$(this.context)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$(plgpts)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$([m11,m12,0])</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$(Matrix m)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$(this.m11 =)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$(this.m21 = )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <SourceString>$CommentedCode$(if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <SourceString>$CommentedCode$(Icon icon =)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <SourceString>$CommentedCode$([RequiresUnreferencedCode)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
+    <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
+    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
+    <SourceString>
+	    $CommentedCode$(/ &lt;summary&gt;)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Drawing\Drawing2D\Bitmap.cs</FileName>
+    <SourceString>$CommentedCode$(object )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Windows\Forms\Utility\ImageUtility.cs</FileName>
+    <SourceString>$CommentedCode$(destImage )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\GtkLib.cs</FileName>
+    <SourceString>    internal
+class FuncLoader</SourceString>
+    <TargetString>    internal class FuncLoader</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\FormBase.cs</FileName>
+    <SourceString>$CommentedCode$(this.)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
@@ -16,7 +437,123 @@
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>$CommentedCode$(------------------------------------------------------------------------------)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>$CommentedCode$(     This )</SourceString>
+    <TargetString>//     This code was generated by a tool.
+//     Runtime Version:4.0.30319.42000</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>namespace GtkSystem
+{</SourceString>
+    <TargetString>namespace GtkSystem {</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>$CommentedCode$(    A )</SourceString>
+    <TargetString>    ///   A strongly-typed resource class, for looking up localized strings, etc.</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString> "</SourceString>
+    <TargetString> "1</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>    internal class SR
+    {</SourceString>
+    <TargetString>    internal class SR {</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>        internal SR()
+        {</SourceString>
+    <TargetString>        internal SR() {</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>$CommentedCode$(    Returns )</SourceString>
+    <TargetString>        ///   Returns the cached ResourceManager instance used by this class.</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GtkSystem</SourceString>
+    <TargetString> {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GtkSystem.Resources.Extensions</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>$CommentedCode$()</SourceString>
+    <TargetString>Overrides the current thread's CurrentUICulture property for all
+        ///</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>
+        {
+            get
+           </SourceString>
+    <TargetString> {
+            get</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>            set
+            {</SourceString>
+    <TargetString>            set {</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>  $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>$CommentedCode$(     Looks )</SourceString>
+    <TargetString>        ///   Looks up a localized string similar to Stream was not readable.</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>        internal static string Format_Bad7BitInt32
+        {
+            get
+            {</SourceString>
+    <TargetString>        internal static string Format_Bad7BitInt32 {
+            get {</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>        internal static string ResourceReaderIsClosed
+        {
+            get
+            {</SourceString>
+    <TargetString>        internal static string ResourceReaderIsClosed {
+            get {</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
+    <SourceString>        internal static string Resources_StreamNotValid
+        {
+            get
+            {</SourceString>
+    <TargetString>        internal static string Resources_StreamNotValid {
+            get {</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\RuntimeResourceSet.cs</FileName>
     <SourceString>SR.Format</SourceString>
     <TargetString>SystemResources.Format</TargetString>
   </Item>
@@ -26,25 +563,36 @@
     <TargetString>SystemResources.Format</TargetString>
   </Item>
   <Item>
-    <FileName>GtkSystem\Resources\Extensions\RuntimeResourceSet.cs</FileName>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
     <SourceString>SR.Format</SourceString>
     <TargetString>SystemResources.Format</TargetString>
   </Item>
   <Item>
-    <FileName>GtkControls\Designer\AssemblyRef.cs</FileName>
-    <SourceString>   // internal const string SystemDesign = $"System.Design, Version={FXAssembly.Version}, Culture=neutral, PublicKeyToken={MicrosoftPublicKey}";$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$CommentedCode$(private )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>GtkControls\GridCell.cs</FileName>
-    <SourceString>         public int Width { get; set; }</SourceString>
-    <TargetString>         public int Width { get; set; }
-</TargetString>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$CommentedCode$( _formatter.Binder)</SourceString>
+    <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>//------------------------------------------------------------------------------</SourceString>
-    <TargetString>´╗┐//------------------------------------------------------------------------------</TargetString>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$CommentedCode$(return null;)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$CommentedCode$( _formatter.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\IO\Resources\IO\BinaryReaderExtensions.cs</FileName>
+    <SourceString>using System;
+using System.IO;
+using GtkSystem;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
   </Item>
   <Item>
     <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
@@ -83,1325 +631,24 @@ using System.Globalization;
 </TargetString>
   </Item>
   <Item>
-    <FileName>GtkSystem\IO\Resources\IO\BinaryReaderExtensions.cs</FileName>
-    <SourceString>using System;
-using System.IO;
-using GtkSystem;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <FileName>GTKSystem.Windows.Forms.xml</FileName>
+    <SourceString></SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>        private Gtk.Widget widget;</SourceString>
-    <TargetString>        private Gtk.Widget widget;
-        </TargetString>
+    <FileName>GtkControls\GridCell.cs</FileName>
+    <SourceString>         public int Width { get; set; }</SourceString>
+    <TargetString>         public int Width { get; set; }
+</TargetString>
   </Item>
   <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>        #region Numerical adjustment delta used for input and output$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <FileName>GtkControls\Designer\AssemblyRef.cs</FileName>
+    <SourceString>$CommentedCode$(internal )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>        internal double diff_left { get; set; }</SourceString>
-    <TargetString>        internal double diff_left { get; set; }
-        </TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>        //internal int diff_right { get; set; }
-        //internal int diff_bottom { get; set; }
-        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>        }</SourceString>
-    <TargetString>        }
-        </TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>        #region Bézier curve$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>                    //this.context.Fill();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>            //TranslateTransform(dx, dy, MatrixOrder.Append);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Icon.cs</FileName>
-    <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Icon.cs</FileName>
-    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\AssemblyNamesTypeResolutionService.cs</FileName>
-    <SourceString>       // [UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "Handles single file case")]$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\AssemblyNamesTypeResolutionService.cs</FileName>
-    <SourceString>        //[UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "Returns null if in a single file")]$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXDataNode.cs</FileName>
-    <SourceString>        //private IFormatter _binaryFormatter;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXDataNode.cs</FileName>
-    <SourceString>            //ArgumentNullException.ThrowIfNull(name);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXDataNode.cs</FileName>
-    <SourceString>                //ArgumentNullException.ThrowIfNull(value, nameof(Name));$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXDataNode.cs</FileName>
-    <SourceString>                        //_binaryFormatter = new BinaryFormatter
-                        //{
-                        //    Binder = new ResXSerializationBinder(_typeNameConverter)
-                        //};$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXDataNode.cs</FileName>
-    <SourceString>                        //_binaryFormatter.Serialize(ms, value);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXDataNode.cs</FileName>
-    <SourceString>                        //_binaryFormatter = new BinaryFormatter
-                        //{
-                        //    Binder = new ResXSerializationBinder(typeResolver)
-                        //};$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXDataNode.cs</FileName>
-    <SourceString>                    //IFormatter formatter = _binaryFormatter;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXDataNode.cs</FileName>
-    <SourceString>                        // result = formatter.Deserialize(new MemoryStream(serializedData));$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
-    <SourceString>        //public override Type BindToType(string assemblyName, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]string typeName)
-        //{
-        //    if (_typeResolver is null)
-        //    {
-        //        return null;
-        //    }
-
-        //    typeName = typeName + ", " + assemblyName;
-
-        //    Type type = _typeResolver.GetType(typeName);
-        //    if (type is null)
-        //    {
-        //        string[] typeParts = typeName.Split(',');
-
-        //        // Break up the assembly name from the rest of the assembly strong name.
-        //        // we try 1) FQN 2) FQN without a version 3) just the short name
-        //        if (typeParts != null &amp;&amp; typeParts.Length &gt; 2)
-        //        {
-        //            string partialName = typeParts[0].Trim();
-
-        //            for (int i = 1; i &lt; typeParts.Length; ++i)
-        //            {
-        //                string typePart = typeParts[i].Trim();
-        //                if (!typePart.StartsWith("Version=") &amp;&amp; !typePart.StartsWith("version="))
-        //                {
-        //                    partialName = partialName + ", " + typePart;
-        //                }
-        //            }
-
-        //            type = _typeResolver.GetType(partialName);
-        //            if (type is null)
-        //            {
-        //                type = _typeResolver.GetType(typeParts[0].Trim());
-        //            }
-        //        }
-        //    }
-
-        //    // Binder couldn't handle it, let the default loader take over.
-        //    return type;
-        //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
-    <SourceString>           // if (_typeNameConverter != null)$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
-    <SourceString>		//private BinaryFormatter _formatter;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
-    <SourceString>     
-               // _formatter.Binder = new ImageListSerializationBinder();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
-    <SourceString>			//return null;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
-    <SourceString>            //plgpts´┐¢´┐¢Ê╗´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ PointF ´┐¢ß╣╣´┐¢´┐¢´┐¢╔Á´┐¢´┐¢´┐¢´┐¢Feed / nurture´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢╩¥´┐¢´┐¢´┐¢╬Á´┐¢´┐¢´┐¢´┐¢¤¢Ãí´┐¢´┐¢´┐¢´┐¢¤¢Ã║´┐¢´┐¢´┐¢´┐¢┬¢Ã¢´┐¢´┐¢Any╬¬´┐¢´┐¢ã¢´┐¢´┐¢´┐¢─▒´┐¢´┐¢╬Á´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Òíú ã¢´┐¢´┐¢´┐¢─▒´┐¢´┐¢╬Á´┐¢´┐¢´┐¢´┐¢┬¢ÃÁ´┐¢╬╗´┐¢├┐╔┤´┐¢Ã░´┐¢´┐¢´┐¢´┐¢´┐¢ÃÁ´┐¢╬╗´┐¢├Á´┐¢´┐¢´┐¢
-            //´┐¢╦À´┐¢´┐¢´┐¢´┐¢´┐¢╩╝´┐¢´┐¢´┐¢┬Á´┐¢ Matrix ´┐¢´┐¢╩╣´┐¢´┐¢´┐¢╩¥´┐¢´┐¢´┐¢´┐¢Î¬´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Î¬´┐¢´┐¢´┐¢´┐¢ rect ´┐¢´┐¢´┐¢´┐¢Í©´┐¢´┐¢´┐¢─¥´┐¢´┐¢´┐¢Ë│´┐¢õÁ¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ plgpts ´┐¢´┐¢´┐¢´┐¢´┐¢ÒÂ¿´┐¢´┐¢─▓´┐¢´┐¢´┐¢´┐¢─▒´┐¢´┐¢╬í´┐¢ ´┐¢´┐¢´┐¢╬Á´┐¢´┐¢´┐¢´┐¢¤¢´┐¢Ë│´┐¢õÁ¢´┐¢´┐¢´┐¢´┐¢´┐¢ðÁ´┐¢ plgpts ´┐¢´┐¢Ê╗´┐¢´┐¢´┐¢Òú¼´┐¢´┐¢´┐¢¤¢´┐¢Ë│´┐¢õÁ¢´┐¢┌Â´┐¢´┐¢´┐¢´┐¢Òú¼´┐¢´┐¢´┐¢┬¢´┐¢Ë│´┐¢õÁ¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Òíú Ã░´┐¢´┐¢´┐¢´┐¢ã¢´┐¢´┐¢´┐¢─▒´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢┬¢ÃÁ´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
-    <SourceString>            //[m11,m12,0]
-            //[m21,m22,0]
-            //[dx,dy,1]
-            // ´┐¢´┐¢´┐¢´┐¢─Á´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢[0,0,1]´┐¢´┐¢´┐¢╠Â´┐¢ÍÁ
-            //´┐¢´┐¢´┐¢´┐¢M11,M22Ë░´┐¢´┐¢´┐¢´┐¢´┐¢┼ú´┐¢dx=OffsetX,dy=OffsetYË░´┐¢´┐¢ã¢´┐¢ãú´┐¢M12,M21(´┐¢´┐¢M11´┐¢´┐¢M22)Ê╗´┐¢´┐¢Ë░´┐¢´┐¢´┐¢´┐¢Î¬´┐¢╚í´┐¢$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
-    <SourceString>   //         Matrix m = new Matrix();
-			//m.initMatrix = this.initMatrix;
-			//m.initRectangle = this.initRectangle;
-			//m.initPointF = this.initPointF;
-			//m.vectorTransformPoints = this.vectorTransformPoints;
-			//m.transformVectors = this.transformVectors;
-			//m.transformPoints = this.transformPoints;
-			//m.shearX = this.shearX;
-			//m.shearY = this.shearY;
-			//m.angle = this.angle;
-			//m.scaleX = this.scaleX;
-			//m.scaleY = this.scaleY;
-			//m.rotateAtPoint = this.rotateAtPoint;
-			//m.order = this.order;
-			//m.dx = this.dx;
-			//m.dy = this.dy;
-			//m.m11 = this.m11;
-			//m.m12 = this.m12;
-			//m.m21 = this.m21;
-			//m.m22 = this.m22;
-
-            //return m;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
-    <SourceString>            //this.m11 = (float)Math.Cos(angle * Math.PI / 180.0);
-            //this.m12 = -(float)Math.Sin(angle * Math.PI / 180.0);
-
-            //this.m21 = (float)Math.Sin(angle * Math.PI / 180.0);
-            //this.m22 = (float)Math.Cos(angle * Math.PI / 180.0);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
-    <SourceString>			//´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ðÁ´┐¢├┐´┐¢´┐¢╩©´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢╦í´┐¢ ´┐¢├¥´┐¢´┐¢´┐¢´┐¢Î¬´┐¢´┐¢È¬´┐¢Ïú´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ðú´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Èí´┐¢
-			//         this.m11 = this.m11 * pts[0].X + this.m11 * pts[1].X;
-			//this.m12 = this.m12 * pts[0].Y + this.m12 * pts[1].Y;
-
-			//this.m21 = this.m21 * pts[0].X + this.m21 * pts[1].X;
-			//this.m22 = this.m22 * pts[0].Y + this.m22 * pts[1].Y;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing2D\Matrix.cs</FileName>
-    <SourceString>            //´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ðÁ´┐¢├┐´┐¢´┐¢╩©´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢╦í´┐¢ ´┐¢├¥´┐¢´┐¢´┐¢´┐¢Î¬´┐¢´┐¢È¬´┐¢Ïú´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢ðú´┐¢´┐¢´┐¢´┐¢´┐¢´┐¢Èí´┐¢
-   //         this.m11 = this.m11 * pts[0].X + this.m11 * pts[1].X;
-			//this.m12 = this.m12 * pts[0].Y + this.m12 * pts[1].Y;
-
-			//this.m21 = this.m21 * pts[0].X + this.m21 * pts[1].X;
-			//this.m22 = this.m22 * pts[0].Y + this.m22 * pts[1].Y;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Printing\PrintDocument.cs</FileName>
-    <SourceString>
-        //[Browsable(false)]
-        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        //public PrintController PrintController
-        //{
-        //    get =&gt; _printController ??= new StandardPrintController();
-        //    set =&gt; _printController = value;
-        //}</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
-    <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
-    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
-    <SourceString>		/// &lt;summary&gt;
-		/// Releases all resources used by this &lt;see cref="T:System.Drawing.Image" /&gt;.
-		/// &lt;/summary&gt;
-		//public void Dispose()
-		//{
-		//	Dispose(disposing: true);
-		//	GC.SuppressFinalize(this);
-		//}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
-    <SourceString>			//if (!(sourceType == typeof(byte[])))
-			//{
-			//	return sourceType == typeof(Icon);
-			//}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
-    <SourceString>			//Icon icon = value as Icon;
-			//if (icon != null)
-			//{
-			//	return icon.ToBitmap();
-			//}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
-    <SourceString>		//[RequiresUnreferencedCode("The Type of value cannot be statically discovered. The public parameterless constructor or the 'Default' static field may be trimmed from the Attribute's Type.")]$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Atrribute\KeysConverter.cs</FileName>
-    <SourceString>            //AddKey(SR.toStringEnter, Keys.Return);
-            //AddKey("F12", Keys.F12);
-            //AddKey("F11", Keys.F11);
-            //AddKey("F10", Keys.F10);
-            //AddKey(SR.toStringEnd, Keys.End);
-            //AddKey(SR.toStringControl, Keys.Control);
-            //AddKey("F8", Keys.F8);
-            //AddKey("F9", Keys.F9);
-            //AddKey(SR.toStringAlt, Keys.Alt);
-            //AddKey("F4", Keys.F4);
-            //AddKey("F5", Keys.F5);
-            //AddKey("F6", Keys.F6);
-            //AddKey("F7", Keys.F7);
-            //AddKey("F1", Keys.F1);
-            //AddKey("F2", Keys.F2);
-            //AddKey("F3", Keys.F3);
-            //AddKey(SR.toStringPageDown, Keys.Next);
-            //AddKey(SR.toStringInsert, Keys.Insert);
-            //AddKey(SR.toStringHome, Keys.Home);
-            //AddKey(SR.toStringDelete, Keys.Delete);
-            //AddKey(SR.toStringShift, Keys.Shift);
-            //AddKey(SR.toStringPageUp, Keys.Prior);
-            //AddKey(SR.toStringBack, Keys.Back);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\GtkLib.cs</FileName>
-    <SourceString>    internal
-class FuncLoader</SourceString>
-    <TargetString>    internal class FuncLoader</TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\FrameDimension.cs</FileName>
-    <SourceString>			//DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(18, 1);
-			//defaultInterpolatedStringHandler.AppendLiteral("[FrameDimension: ");
-			//defaultInterpolatedStringHandler.AppendFormatted(_guid);
-			//defaultInterpolatedStringHandler.AppendLiteral("]");
-			//return defaultInterpolatedStringHandler.ToStringAndClear();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
-    <SourceString>			//DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(15, 1);
-			//defaultInterpolatedStringHandler.AppendLiteral("[ImageFormat: ");
-			//defaultInterpolatedStringHandler.AppendFormatted(_guid);
-			//defaultInterpolatedStringHandler.AppendLiteral("]");
-			//return defaultInterpolatedStringHandler.ToStringAndClear();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\PropertyItemInternal.cs</FileName>
-    <SourceString>
-		//public unsafe byte* value;
-
-		//public unsafe Span&lt;byte&gt; Value =&gt; new Span&lt;byte&gt;(value, len);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>        //internal int diff_right { get; set; }
-        //internal int diff_bottom { get; set; }$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Graphics.cs</FileName>
-    <SourceString>            //this.context.ArcNegative(x, y, Math.Min(width / 2, height / 2), Math.PI * startAngle / 180, Math.PI * sweepAngle / 180); // inverse position$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXResourceWriter.cs</FileName>
-    <SourceString>            //ArgumentNullException.ThrowIfNull(assemblyName);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
-    <SourceString>            // Encoding = Encoding.GetEncoding("shift_jis");$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
-    <SourceString>               // _formatter.Binder = new ImageListSerializationBinder();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>//     This code was generated by a tool.</SourceString>
-    <TargetString>//     This code was generated by a tool.
-//     Runtime Version:4.0.30319.42000</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>namespace GtkSystem
-{</SourceString>
-    <TargetString>namespace GtkSystem {</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>    ///    A strongly-typed resource class, for looking up localized strings, etc.</SourceString>
-    <TargetString>    ///   A strongly-typed resource class, for looking up localized strings, etc.</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString> "</SourceString>
-    <TargetString> "1</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>    internal class SR
-    {</SourceString>
-    <TargetString>    internal class SR {</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        internal SR()
-        {</SourceString>
-    <TargetString>        internal SR() {</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///    Returns the cached ResourceManager instance used by this class.</SourceString>
-    <TargetString>        ///   Returns the cached ResourceManager instance used by this class.</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GtkSystem</SourceString>
-    <TargetString> {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GtkSystem.Resources.Extensions</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString> Overrides the current thread's CurrentUICulture property for all
-        /// </SourceString>
-    <TargetString>Overrides the current thread's CurrentUICulture property for all
-        ///</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>
-        {
-            get
-           </SourceString>
-    <TargetString> {
-            get</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>            set
-            {</SourceString>
-    <TargetString>            set {</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>  $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///     Looks up a localized string similar to Stream was not readable.</SourceString>
-    <TargetString>        ///   Looks up a localized string similar to Stream was not readable.</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///     Looks up a localized string similar to Stream was not writable..</SourceString>
-    <TargetString>        ///   Looks up a localized string similar to Stream was not writable..</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        internal static string Format_Bad7BitInt32
-        {
-            get
-            {</SourceString>
-    <TargetString>        internal static string Format_Bad7BitInt32 {
-            get {</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///     Looks up a localized string similar to Enumeration already finished..</SourceString>
-    <TargetString>        ///   Looks up a localized string similar to Enumeration already finished..</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///     Looks up a localized string similar to Enumeration has not started. Call MoveNext..</SourceString>
-    <TargetString>        ///   Looks up a localized string similar to Enumeration has not started. Call MoveNext..</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///     Looks up a localized string similar to Stream does not support seeking..</SourceString>
-    <TargetString>        ///   Looks up a localized string similar to Stream does not support seeking..</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///     Looks up a localized string similar to Cannot access a closed resource set..</SourceString>
-    <TargetString>        ///   Looks up a localized string similar to Cannot access a closed resource set..</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///     Looks up a localized string similar to ResourceReader is closed..</SourceString>
-    <TargetString>        ///   Looks up a localized string similar to ResourceReader is closed..</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        internal static string ResourceReaderIsClosed
-        {
-            get
-            {</SourceString>
-    <TargetString>        internal static string ResourceReaderIsClosed {
-            get {</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///     Looks up a localized string similar to Stream is not a valid resource file..</SourceString>
-    <TargetString>        ///   Looks up a localized string similar to Stream is not a valid resource file..</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        internal static string Resources_StreamNotValid
-        {
-            get
-            {</SourceString>
-    <TargetString>        internal static string Resources_StreamNotValid {
-            get {</TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Resources\Extensions\SR.Designer.cs</FileName>
-    <SourceString>        ///     Looks up a localized string similar to Could not load a converter for type {0}..</SourceString>
-    <TargetString>        ///   Looks up a localized string similar to Could not load a converter for type {0}..</TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Printing\PrintDocument.cs</FileName>
-    <SourceString>        //[Browsable(false)]
-        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        //public PrintController PrintController
-        //{
-        //    get =&gt; _printController ??= new StandardPrintController();
-        //    set =&gt; _printController = value;
-        //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\LinkLabel.cs</FileName>
-    <SourceString>            //Console.WriteLine("LinkLabel_Click");$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListView.cs</FileName>
-    <SourceString>            // header.WidthRequest = 500;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListView.cs</FileName>
-    <SourceString>            headerView.HeightRequest = 1;// __headerheight;</SourceString>
-    <TargetString>            headerView.HeightRequest = 1;</TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListView.cs</FileName>
-    <SourceString>            //Console.WriteLine(((Gtk.Widget)sender).AllocatedWidth);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ToolStrip.cs</FileName>
-    <SourceString>            //Dock = DockStyle.Top;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Windows\Forms\Utility\ImageUtility.cs</FileName>
-    <SourceString>                    //destImage = srcPixbuf;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Drawing\Drawing2D\Bitmap.cs</FileName>
-    <SourceString>            //object obj =  Activator.CreateInstance("System.Drawing", "System.Drawing.Design.BitmapEditor, System.Drawing.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
-          //  Reflection.Assembly.CreateQualifiedName("");$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Collection\BindingsCollection.cs</FileName>
-    <SourceString>           // ArgumentNullException.ThrowIfNull(dataBinding);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Collection\ItemArray.cs</FileName>
-    <SourceString>            //Debug.Assert(s_lastMask &gt; mask, "We have overflowed our state mask.");$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\DataGridViewBase\DataGridViewColumn.cs</FileName>
-    <SourceString>            //renderer.IconName = "face-smile";$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\EventArgs\DataGridViewRowHeightInfoNeededEventArgs.cs</FileName>
-    <SourceString>        //public int Height
-        //{
-        //    get =&gt; _height;
-        //    set
-        //    {
-        //        if (value &lt; _minimumHeight)
-        //        {
-        //            value = _minimumHeight;
-        //        }
-        //        if (value &gt; DataGridViewBand.MaxBandThickness)
-        //        {
-        //            throw new ArgumentOutOfRangeException(nameof(value), string.Format(SR.InvalidHighBoundArgumentEx, nameof(Height), value, DataGridViewBand.MaxBandThickness));
-        //        }
-
-        //        _height = value;
-        //    }
-        //}
-
-        //public int MinimumHeight
-        //{
-        //    get =&gt; _minimumHeight;
-        //    set
-        //    {
-        //        if (value &lt; DataGridViewBand.MinBandThickness)
-        //        {
-        //            throw new ArgumentOutOfRangeException(nameof(value), value, string.Format(SR.DataGridViewBand_MinimumHeightSmallerThanOne, DataGridViewBand.MinBandThickness));
-        //        }
-
-        //        if (_height &lt; value)
-        //        {
-        //            _height = value;
-        //        }
-        //        _minimumHeight = value;
-        //    }
-        //}
-
-        //internal void SetProperties(int rowIndex, int height, int minimumHeight)
-        //{
-        //    Debug.Assert(rowIndex &gt;= -1);
-        //    Debug.Assert(height &gt; 0);
-        //    Debug.Assert(minimumHeight &gt; 0);
-        //    Debug.Assert(height &gt;= minimumHeight);
-        //    RowIndex = rowIndex;
-        //    _height = height;
-        //    _minimumHeight = minimumHeight;
-        //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\EventArgs\DataGridViewRowPostPaintEventArgs.cs</FileName>
-    <SourceString>        //public void DrawFocus(Rectangle bounds, bool cellsPaintSelectionBackground)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    _dataGridView.Rows.SharedRow(RowIndex).DrawFocus(Graphics,
-        //                                                     ClipBounds,
-        //                                                     bounds,
-        //                                                     RowIndex,
-        //                                                     State,
-        //                                                     InheritedRowStyle,
-        //                                                     cellsPaintSelectionBackground);
-        //}
-
-        //public void PaintCells(Rectangle clipBounds, DataGridViewPaintParts paintParts)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
-        //                                                      clipBounds,
-        //                                                      RowBounds,
-        //                                                      RowIndex,
-        //                                                      State,
-        //                                                      IsFirstDisplayedRow,
-        //                                                      IsLastVisibleRow,
-        //                                                      paintParts);
-        //}
-
-        //public void PaintCellsBackground(Rectangle clipBounds, bool cellsPaintSelectionBackground)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    DataGridViewPaintParts paintParts = DataGridViewPaintParts.Background | DataGridViewPaintParts.Border;
-        //    if (cellsPaintSelectionBackground)
-        //    {
-        //        paintParts |= DataGridViewPaintParts.SelectionBackground;
-        //    }
-        //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
-        //                                                      clipBounds,
-        //                                                      RowBounds,
-        //                                                      RowIndex,
-        //                                                      State,
-        //                                                      IsFirstDisplayedRow,
-        //                                                      IsLastVisibleRow,
-        //                                                      paintParts);
-        //}
-
-        //public void PaintCellsContent(Rectangle clipBounds)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
-        //                                                      clipBounds,
-        //                                                      RowBounds,
-        //                                                      RowIndex,
-        //                                                      State,
-        //                                                      IsFirstDisplayedRow,
-        //                                                      IsLastVisibleRow,
-        //                                                      DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ErrorIcon);
-        //}
-
-        //public void PaintHeader(bool paintSelectionBackground)
-        //{
-        //    DataGridViewPaintParts paintParts = DataGridViewPaintParts.Background | DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ErrorIcon;
-        //    if (paintSelectionBackground)
-        //    {
-        //        paintParts |= DataGridViewPaintParts.SelectionBackground;
-        //    }
-        //    PaintHeader(paintParts);
-        //}
-
-        //public void PaintHeader(DataGridViewPaintParts paintParts)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    _dataGridView.Rows.SharedRow(RowIndex).PaintHeader(Graphics,
-        //                                                       ClipBounds,
-        //                                                       RowBounds,
-        //                                                       RowIndex,
-        //                                                       State,
-        //                                                       IsFirstDisplayedRow,
-        //                                                       IsLastVisibleRow,
-        //                                                       paintParts);
-        //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\EventArgs\DataGridViewRowPrePaintEventArgs.cs</FileName>
-    <SourceString>       // private DataGridViewPaintParts _paintParts;
-
-        //public DataGridViewRowPrePaintEventArgs(DataGridView dataGridView,
-        //                                        Graphics graphics,
-        //                                        Rectangle clipBounds,
-        //                                        Rectangle rowBounds,
-        //                                        int rowIndex,
-        //                                        DataGridViewElementStates rowState,
-        //                                        string errorText,
-        //                                        DataGridViewCellStyle inheritedRowStyle,
-        //                                        bool isFirstDisplayedRow,
-        //                                        bool isLastVisibleRow)
-        //{
-        //    _dataGridView = dataGridView ?? throw new ArgumentNullException(nameof(dataGridView));
-        //    Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
-        //    ClipBounds = clipBounds;
-        //    RowBounds = rowBounds;
-        //    RowIndex = rowIndex;
-        //    State = rowState;
-        //    ErrorText = errorText;
-        //    InheritedRowStyle = inheritedRowStyle ?? throw new ArgumentNullException(nameof(inheritedRowStyle));
-        //    IsFirstDisplayedRow = isFirstDisplayedRow;
-        //    IsLastVisibleRow = isLastVisibleRow;
-        //    _paintParts = DataGridViewPaintParts.All;
-        //}
-
-        //internal DataGridViewRowPrePaintEventArgs(DataGridView dataGridView)
-        //{
-        //    Debug.Assert(dataGridView != null);
-        //    _dataGridView = dataGridView;
-        //}
-
-        //public Graphics Graphics { get; private set; }
-
-        //public Rectangle ClipBounds { get; set; }
-
-        //public Rectangle RowBounds { get; private set; }
-
-        //public int RowIndex { get; private set; }
-
-        //public DataGridViewElementStates State { get; private set; }
-
-        //public string ErrorText { get; private set; }
-
-        //public DataGridViewCellStyle InheritedRowStyle { get; private set; }
-
-        //public bool IsFirstDisplayedRow { get; private set; }
-
-        //public bool IsLastVisibleRow { get; private set; }
-
-        //public DataGridViewPaintParts PaintParts
-        //{
-        //    get =&gt; _paintParts;
-        //    set
-        //    {
-        //        if ((value &amp; ~DataGridViewPaintParts.All) != 0)
-        //        {
-        //            throw new ArgumentException(string.Format(SR.DataGridView_InvalidDataGridViewPaintPartsCombination, nameof(value)), nameof(value));
-        //        }
-
-        //        _paintParts = value;
-        //    }
-        //}
-
-        //public void DrawFocus(Rectangle bounds, bool cellsPaintSelectionBackground)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    _dataGridView.Rows.SharedRow(RowIndex).DrawFocus(Graphics,
-        //                                                     ClipBounds,
-        //                                                     bounds,
-        //                                                     RowIndex,
-        //                                                     State,
-        //                                                     InheritedRowStyle,
-        //                                                     cellsPaintSelectionBackground);
-        //}
-
-        //public void PaintCells(Rectangle clipBounds, DataGridViewPaintParts paintParts)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
-        //                                                      clipBounds,
-        //                                                      RowBounds,
-        //                                                      RowIndex,
-        //                                                      State,
-        //                                                      IsFirstDisplayedRow,
-        //                                                      IsLastVisibleRow,
-        //                                                      paintParts);
-        //}
-
-        //public void PaintCellsBackground(Rectangle clipBounds, bool cellsPaintSelectionBackground)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    DataGridViewPaintParts paintParts = DataGridViewPaintParts.Background | DataGridViewPaintParts.Border;
-        //    if (cellsPaintSelectionBackground)
-        //    {
-        //        paintParts |= DataGridViewPaintParts.SelectionBackground;
-        //    }
-        //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
-        //                                                      clipBounds,
-        //                                                      RowBounds,
-        //                                                      RowIndex,
-        //                                                      State,
-        //                                                      IsFirstDisplayedRow,
-        //                                                      IsLastVisibleRow,
-        //                                                      paintParts);
-        //}
-
-        //public void PaintCellsContent(Rectangle clipBounds)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
-        //                                                      clipBounds,
-        //                                                      RowBounds,
-        //                                                      RowIndex,
-        //                                                      State,
-        //                                                      IsFirstDisplayedRow,
-        //                                                      IsLastVisibleRow,
-        //                                                      DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ErrorIcon);
-        //}
-
-        //public void PaintHeader(bool paintSelectionBackground)
-        //{
-        //    DataGridViewPaintParts paintParts = DataGridViewPaintParts.Background | DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ErrorIcon;
-        //    if (paintSelectionBackground)
-        //    {
-        //        paintParts |= DataGridViewPaintParts.SelectionBackground;
-        //    }
-        //    PaintHeader(paintParts);
-        //}
-
-        //public void PaintHeader(DataGridViewPaintParts paintParts)
-        //{
-        //    if (RowIndex &lt; 0 || RowIndex &gt;= _dataGridView.Rows.Count)
-        //    {
-        //        throw new InvalidOperationException(SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange);
-        //    }
-
-        //    _dataGridView.Rows.SharedRow(RowIndex).PaintHeader(Graphics,
-        //                                                       ClipBounds,
-        //                                                       RowBounds,
-        //                                                       RowIndex,
-        //                                                       State,
-        //                                                       IsFirstDisplayedRow,
-        //                                                       IsLastVisibleRow,
-        //                                                       paintParts);
-        //}
-
-        //internal void SetProperties(Graphics graphics,
-        //                            Rectangle clipBounds,
-        //                            Rectangle rowBounds,
-        //                            int rowIndex,
-        //                            DataGridViewElementStates rowState,
-        //                            string errorText,
-        //                            DataGridViewCellStyle inheritedRowStyle,
-        //                            bool isFirstDisplayedRow,
-        //                            bool isLastVisibleRow)
-        //{
-        //    Debug.Assert(graphics != null);
-
-        //    Graphics = graphics;
-        //    ClipBounds = clipBounds;
-        //    RowBounds = rowBounds;
-        //    RowIndex = rowIndex;
-        //    State = rowState;
-        //    ErrorText = errorText;
-        //    InheritedRowStyle = inheritedRowStyle;
-        //    IsFirstDisplayedRow = isFirstDisplayedRow;
-        //    IsLastVisibleRow = isLastVisibleRow;
-        //    _paintParts = DataGridViewPaintParts.All;
-        //    Handled = false;
-        //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\EventArgs\DataGridViewSortCompareEventArgs.cs</FileName>
-    <SourceString>            //Debug.Assert(dataGridViewColumn.Index &gt;= 0);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
-    <SourceString>            //ArgumentNullException.ThrowIfNull(container);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
-    <SourceString>           // string direc = Path.GetDirectoryName(Application.ExecutablePath);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
-    <SourceString>            //ArgumentOutOfRangeException.ThrowIfNegative(index);
-            //ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, Images.Count);
-
-            //HDC dc = (HDC)g.GetHdc();
-            //try
-            //{
-            //    PInvoke.ImageList.DrawEx(
-            //        this,
-            //        index,
-            //        new HandleRef&lt;HDC&gt;(g, dc),
-            //        x,
-            //        y,
-            //        width,
-            //        height,
-            //        (COLORREF)PInvoke.CLR_NONE,
-            //        (COLORREF)PInvoke.CLR_NONE,
-            //        IMAGE_LIST_DRAW_STYLE.ILD_TRANSPARENT);
-            //}
-            //finally
-            //{
-            //    g.ReleaseHdcInternal(dc);
-            //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageList.ImageCollection.cs</FileName>
-    <SourceString>                //ArgumentNullException.ThrowIfNull(value);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
-    <SourceString>            //public unsafe NativeImageList(IStream.Interface pstm)
-            //{
-            //    //HIMAGELIST himl;
-            //    //lock (s_syncLock)
-            //    //{
-            //    //    using var stream = ComHelpers.TryGetComScope&lt;IStream&gt;(pstm, out HRESULT hr);
-            //    //    Debug.Assert(hr.Succeeded);
-            //    //    himl = PInvoke.ImageList_Read(stream);
-            //    //    Init(himl);
-            //    //}
-            //}
-
-            //public NativeImageList(Size imageSize, IMAGELIST_CREATION_FLAGS flags)
-            //{
-            //    HIMAGELIST himl;
-            //    lock (s_syncLock)
-            //    {
-            //        himl = PInvoke.ImageList_Create(imageSize.Width, imageSize.Height, flags, InitialCapacity, GrowBy);
-            //        Init(himl);
-            //    }
-            //}
-
-            //private NativeImageList(HIMAGELIST himl)
-            //{
-            //    HIMAGELIST = himl;
-            //}
-
-            //        private void Init(HIMAGELIST himl)
-            //        {
-            //            if (!himl.IsNull)
-            //            {
-            //                HIMAGELIST = himl;
-            //                return;
-            //            }
-
-            //#if DEBUG
-            //            Debug.Fail($"{nameof(NativeImageList)} could not be created. Originating stack:\n{_callStack}");
-            //#endif
-            //            throw new InvalidOperationException(SR.ImageListCreateFailed);
-            //        }
-
-            //        HIMAGELIST IHandle&lt;HIMAGELIST&gt;.Handle =&gt; HIMAGELIST;
-
-            //        internal HIMAGELIST HIMAGELIST { get; private set; }$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
-    <SourceString>                //lock (s_syncLock)
-                //{
-                //    if (HIMAGELIST.IsNull)
-                //    {
-                //        return;
-                //    }
-
-                //    PInvoke.ImageList.Destroy(this);
-                //    HIMAGELIST = HIMAGELIST.Null;
-                //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
-    <SourceString>            //internal NativeImageList Duplicate()
-            //{
-            //            lock (s_syncLock)
-            //            {
-            //                HIMAGELIST himl = PInvoke.ImageList_Duplicate(HIMAGELIST);
-            //                if (!HIMAGELIST.IsNull)
-            //                {
-            //                    return new NativeImageList(himl);
-            //                }
-            //            }
-
-            //#if DEBUG
-            //            Debug.Fail($"{nameof(NativeImageList)} could not be duplicated. Originating stack:\n{_callStack}");
-            //#endif
-            //            throw new InvalidOperationException(SR.ImageListDuplicateFailed);
-            //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <FileName>FxResources\System\Resources\Extensions\SR.cs</FileName>
+    <SourceString></SourceString>
     <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageList.Original.cs</FileName>
-    <SourceString>                //if (image is not Icon &amp;&amp; image is not Image)
-                //{
-                //    throw new InvalidOperationException(SR.ImageListEntryType);
-                //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
-    <SourceString>            //int length = RunLengthEncoder.GetEncodedLength(input) + HeaderMagic.Length;
-            //byte[] output = new byte[length];
-            //SpanWriter&lt;byte&gt; writer = new(output);
-            //writer.TryWrite(HeaderMagic);
-            //RunLengthEncoder.TryEncode(input, writer.Span[writer.Position..], out int written);
-            //Debug.Assert(written == length - HeaderMagic.Length, "RLE compression failure");
-            //return output;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
-    <SourceString>            //SpanReader&lt;byte&gt; reader = new(input);
-            //if (!reader.TryAdvancePast(HeaderMagic))
-            //{
-            //    // Not compressed, return the original
-            //    return input;
-            //}
-
-            //ReadOnlySpan&lt;byte&gt; remaining = reader.Span[reader.Position..];
-            //int length = RunLengthEncoder.GetDecodedLength(remaining);
-            //byte[] output = new byte[length];
-            //RunLengthEncoder.TryDecode(remaining, output, out int written);
-            //Debug.Assert(written == length, "RLE decompression failure");
-            //return output;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
-    <SourceString>            //// We enclose this ImageList handle create in a theming scope.
-            //using ThemingScope scope = new(Application.UseVisualStyles);
-            //using MemoryStream memoryStream = new(Decompress(data));
-            //lock (s_syncObject)
-            //{
-            //    PInvoke.InitCommonControls();
-            //    _nativeImageList = new ImageList.NativeImageList(new ComManagedStream(memoryStream));
-            //}
-
-            //if (_nativeImageList.HIMAGELIST.IsNull)
-            //{
-            //    throw new InvalidOperationException(SR.ImageListStreamerLoadFailed);
-            //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
-    <SourceString>            //if (!WriteImageList(stream))
-            //{
-            //    throw new InvalidOperationException(SR.ImageListStreamerSaveFailed);
-            //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
-    <SourceString>            //HandleRef&lt;HIMAGELIST&gt; handle = default;
-            //if (_imageList != null)
-            //{
-            //    handle = new(_imageList, (HIMAGELIST)_imageList.Handle);
-            //}
-            //else if (_nativeImageList != null)
-            //{
-            //    handle = new(_nativeImageList, _nativeImageList.HIMAGELIST);
-            //}
-
-            //if (handle.IsNull)
-            //{
-            //    return false;
-            //}
-
-            //try
-            //{
-            //    return PInvoke.ImageList.WriteEx(
-            //        handle,
-            //        IMAGE_LIST_WRITE_STREAM_FLAGS.ILP_DOWNLEVEL,
-            //        stream).Succeeded;
-            //}
-            //catch (EntryPointNotFoundException)
-            //{
-            //    // Not running on ComCtl32 v6, fall back to the old API.
-            //}
-
-            //return PInvoke.ImageList.Write(handle, stream);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.cs</FileName>
-    <SourceString>                //_owner.UpdateCustomTabOffsets();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.cs</FileName>
-    <SourceString>                    //_owner.UpdateCustomTabOffsets();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListBoxBase\ListBox.ObjectCollection.cs</FileName>
-    <SourceString>                    //Debug.Assert(index &gt;= 0 &amp;&amp; index &lt;= Count, "Wrong index for insert");$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListBoxBase\ListBox.SelectedObjectCollection.cs</FileName>
-    <SourceString>                //if (_stateDirty)
-                //{
-                //    _stateDirty = false;
-                //    if (_owner.IsHandleCreated)
-                //    {
-                //        _owner.NativeUpdateSelection();
-                //    }
-                //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListBoxBase\ListBox.SelectedObjectCollection.cs</FileName>
-    <SourceString>                //// we can't use ItemArray accessor because this will wipe out our Selection collection
-                //bool selected = _owner.Items.InnerArray.GetState(index, SelectedObjectMask);
-                //// push selection only if the item is actually selected
-                //// this also takes care of the case where owner.SelectionMode == SelectionMode.One
-                //if (selected)
-                //{
-                //    _owner.NativeSetSelected(index, true /*we signal selection to the native listBox only if the item is actually selected*/);
-                //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListViewBase\ColumnHeader.cs</FileName>
-    <SourceString>        //public void AutoResize(ColumnHeaderAutoResizeStyle headerAutoResize)
-        //{
-        //	throw new System.NotImplementedException();
-        //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListViewBase\ColumnHeader.cs</FileName>
-    <SourceString>            //string data = System.Text.Json.JsonSerializer.Serialize(this,typeof(ColumnHeader));
-            //return System.Text.Json.JsonSerializer.Deserialize&lt;ColumnHeader&gt;(data);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\ListViewBase\ListViewGroupCollection.cs</FileName>
-    <SourceString>				//Console.WriteLine("´┐¢´┐¢´┐¢´┐¢Group.Name´┐¢Ï©´┐¢");
-				// throw new ArgumentException("Group.Name´┐¢Ï©´┐¢");$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Printing\PrintDialog.cs</FileName>
-    <SourceString>            //Console.WriteLine($"PrintOperation_EndPrint:{args.Context.Width},{args.Context.Height}");$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Printing\PrintDialog.cs</FileName>
-    <SourceString>            //Console.WriteLine($"PrintOperation_BeginPrint:{args.Context.Width},{args.Context.Height}");$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Printing\PrintPreviewControl.cs</FileName>
-    <SourceString>               // InvalidateLayout();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Printing\PrintPreviewControl.cs</FileName>
-    <SourceString>                //InvalidateLayout();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Printing\PrintPreviewControl.cs</FileName>
-    <SourceString>                   // InvalidateLayout();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\TabControlBase\DrawItemEventArgs.cs</FileName>
-    <SourceString>            //using var backBrush = BackColor.GetCachedSolidBrushScope();
-            //GraphicsInternal.FillRectangle(backBrush, Bounds);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\TabControlBase\DrawItemEventArgs.cs</FileName>
-    <SourceString>               // ControlPaint.DrawFocusRectangle(GraphicsInternal, Bounds, ForeColor, BackColor);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\TreeViewBase\TreeNode.cs</FileName>
-    <SourceString>            //throw new NotImplementedException();$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\FormBase.cs</FileName>
-    <SourceString>            //this.Decorated = false; // remove toolbar$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Dialog\MessageBox\MessageBox.cs</FileName>
-    <SourceString>                //irun = ShowMessageDialogCore(control.self, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon, defaultButton, options, showHelp);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\Dialog\MessageBox\MessageBox.cs</FileName>
-    <SourceString>                //irun = ShowMessageDialogCore(null, Gtk.WindowPosition.Center, text, caption, buttons, icon, defaultButton, options, showHelp);$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Windows\Forms\PropertyGridInternal\PropertyGridBase\PropertyGridView.cs</FileName>
-    <SourceString>        //column3.FixedWidth = 50;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\FrameDimension.cs</FileName>
-    <SourceString>//DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(18, 1);
-			//defaultInterpolatedStringHandler.AppendLiteral("[FrameDimension: ");
-			//defaultInterpolatedStringHandler.AppendFormatted(_guid);
-			//defaultInterpolatedStringHandler.AppendLiteral("]");
-			//return defaultInterpolatedStringHandler.ToStringAndClear();
-			return $"[FrameDimension: {_guid}</SourceString>
-    <TargetString>return $"[FrameDimension: _guid</TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
-    <SourceString>			//DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(15, 1);
-			//defaultInterpolatedStringHandler.AppendLiteral("[ImageFormat: ");
-			//defaultInterpolatedStringHandler.AppendFormatted(_guid);
-			//defaultInterpolatedStringHandler.AppendLiteral("]");
-			//return defaultInterpolatedStringHandler.ToStringAndClear();
-			</SourceString>
-    <TargetString>            </TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
-    <SourceString>	}</SourceString>
-    <TargetString>    }</TargetString>
   </Item>
 </Items>

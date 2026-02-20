@@ -75,8 +75,6 @@ namespace System.Drawing.Drawing2D
 		/// <param name="plgpts">An array of three <see cref="T:System.Drawing.Point" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.</param>
 		public Matrix(Rectangle rect, Point[] plgpts)
         {
-            //plgpts��һ�������� PointF �ṹ���ɵ����Feed / nurture�������ʾ���ε����Ͻǡ����ϽǺ����½ǽ��AnyΪ��ƽ���ı��ε������㡣 ƽ���ı��ε����½ǵ�λ�ÿɴ�ǰ�����ǵ�λ�õ���
-            //�˷�����ʼ���µ� Matrix ��ʹ���ʾ����ת������ת���� rect ����ָ���ľ���ӳ�䵽������ plgpts �����㶨��Ĳ����ı��Ρ� ���ε����Ͻ�ӳ�䵽�����е� plgpts ��һ���㣬���Ͻ�ӳ�䵽�ڶ����㣬���½�ӳ�䵽�������㡣 ǰ����ƽ���ı������½ǵ�������
 
         }
 
@@ -87,8 +85,6 @@ namespace System.Drawing.Drawing2D
         /// <param name="plgpts">An array of three <see cref="T:System.Drawing.PointF" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.</param>
         public Matrix(RectangleF rect, PointF[] plgpts)
         {
-            //plgpts��һ�������� PointF �ṹ���ɵ����Feed / nurture�������ʾ���ε����Ͻǡ����ϽǺ����½ǽ��AnyΪ��ƽ���ı��ε������㡣 ƽ���ı��ε����½ǵ�λ�ÿɴ�ǰ�����ǵ�λ�õ���
-            //�˷�����ʼ���µ� Matrix ��ʹ���ʾ����ת������ת���� rect ����ָ���ľ���ӳ�䵽������ plgpts �����㶨��Ĳ����ı��Ρ� ���ε����Ͻ�ӳ�䵽�����е� plgpts ��һ���㣬���Ͻ�ӳ�䵽�ڶ����㣬���½�ӳ�䵽�������㡣 ǰ����ƽ���ı������½ǵ�������
 
         }
 
@@ -103,11 +99,6 @@ namespace System.Drawing.Drawing2D
 		/// <param name="dy">The value in the third row and second column of the new <see cref="T:System.Drawing.Drawing2D.Matrix" />.</param>
 		public Matrix(float m11, float m12, float m21, float m22, float dx, float dy)
 		{
-            //[m11,m12,0]
-            //[m21,m22,0]
-            //[dx,dy,1]
-            // ����ĵ�������[0,0,1]���̶�ֵ
-            //����M11,M22Ӱ�����ţ�dx=OffsetX,dy=OffsetYӰ��ƽ�ƣ�M12,M21(��M11��M22)һ��Ӱ����ת�ȡ�
 
             this.m11 = m11;
 			this.m12 = m12;
@@ -290,11 +281,7 @@ namespace System.Drawing.Drawing2D
 		/// <param name="angle">The angle of the rotation, in degrees.</param>
 		public void Rotate(float angle)
         {
-            //this.m11 = (float)Math.Cos(angle * Math.PI / 180.0);
-            //this.m12 = -(float)Math.Sin(angle * Math.PI / 180.0);
 
-            //this.m21 = (float)Math.Sin(angle * Math.PI / 180.0);
-            //this.m22 = (float)Math.Cos(angle * Math.PI / 180.0);
 
             this.angle = angle;
         }
@@ -409,8 +396,6 @@ namespace System.Drawing.Drawing2D
 			//         this.m11 = this.m11 * pts[0].X + this.m11 * pts[1].X;
 			//this.m12 = this.m12 * pts[0].Y + this.m12 * pts[1].Y;
 
-			//this.m21 = this.m21 * pts[0].X + this.m21 * pts[1].X;
-			//this.m22 = this.m22 * pts[0].Y + this.m22 * pts[1].Y;
 
 			this.transformVectors = pts;
 		}
@@ -457,8 +442,6 @@ namespace System.Drawing.Drawing2D
    //         this.m11 = this.m11 * pts[0].X + this.m11 * pts[1].X;
 			//this.m12 = this.m12 * pts[0].Y + this.m12 * pts[1].Y;
 
-			//this.m21 = this.m21 * pts[0].X + this.m21 * pts[1].X;
-			//this.m22 = this.m22 * pts[0].Y + this.m22 * pts[1].Y;
 			this.vectorTransformPoints = pts;
 		}
     }

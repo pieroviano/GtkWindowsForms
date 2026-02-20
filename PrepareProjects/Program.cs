@@ -250,11 +250,22 @@ public class Program
             }
         }
 
-        // Windows is case-insensitive, so do a two-step rename if only casing changes
-        var tempPath = Path.Combine(projectDirectory, Guid.NewGuid().ToString());
+        try
+        {
+            // Windows is case-insensitive, so do a two-step rename if only casing changes
+            var tempPath = Path.Combine(projectDirectory, Guid.NewGuid().ToString());
 
-        Directory.Move(oldPath, tempPath);
-        Directory.Move(tempPath, newPath);
+            Directory.Move(oldPath, tempPath);
+            Directory.Move(tempPath, newPath);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            if (string.Compare(oldPath, newPath, StringComparison.InvariantCultureIgnoreCase) != 0)
+            {
+                throw;
+            }
+        }
         UpdateFilesXmlEntries(projectDirectory, oldName, newName, csprojPath, newPath);
     }
 

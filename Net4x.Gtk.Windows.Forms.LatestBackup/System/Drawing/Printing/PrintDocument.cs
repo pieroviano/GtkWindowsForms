@@ -78,13 +78,6 @@ namespace System.Drawing.Printing
             set => _originAtMargins = value;
         }
 
-        //[Browsable(false)]
-        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        //public PrintController PrintController
-        //{
-        //    get => _printController ??= new StandardPrintController();
-        //    set => _printController = value;
-        //}
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

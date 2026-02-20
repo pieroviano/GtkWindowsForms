@@ -57,13 +57,6 @@ namespace System.Windows.Forms
         private static byte[] Compress(ReadOnlySpan<byte> input)
         {
             return input.ToArray();
-            //int length = RunLengthEncoder.GetEncodedLength(input) + HeaderMagic.Length;
-            //byte[] output = new byte[length];
-            //SpanWriter<byte> writer = new(output);
-            //writer.TryWrite(HeaderMagic);
-            //RunLengthEncoder.TryEncode(input, writer.Span[writer.Position..], out int written);
-            //Debug.Assert(written == length - HeaderMagic.Length, "RLE compression failure");
-            //return output;
         }
 
         /// <summary>
@@ -72,19 +65,7 @@ namespace System.Windows.Forms
         private static byte[] Decompress1(byte[] input)
         {
             return input;
-            //SpanReader<byte> reader = new(input);
-            //if (!reader.TryAdvancePast(HeaderMagic))
-            //{
-            //    // Not compressed, return the original
-            //    return input;
-            //}
 
-            //ReadOnlySpan<byte> remaining = reader.Span[reader.Position..];
-            //int length = RunLengthEncoder.GetDecodedLength(remaining);
-            //byte[] output = new byte[length];
-            //RunLengthEncoder.TryDecode(remaining, output, out int written);
-            //Debug.Assert(written == length, "RLE decompression failure");
-            //return output;
         }
         private static byte[] Decompress(byte[] input)
         {
@@ -141,19 +122,7 @@ namespace System.Windows.Forms
 
         private void Deserialize(byte[] data)
         {
-            //// We enclose this ImageList handle create in a theming scope.
-            //using ThemingScope scope = new(Application.UseVisualStyles);
-            //using MemoryStream memoryStream = new(Decompress(data));
-            //lock (s_syncObject)
-            //{
-            //    PInvoke.InitCommonControls();
-            //    _nativeImageList = new ImageList.NativeImageList(new ComManagedStream(memoryStream));
-            //}
 
-            //if (_nativeImageList.HIMAGELIST.IsNull)
-            //{
-            //    throw new InvalidOperationException(SR.ImageListStreamerLoadFailed);
-            //}
         }
 
         public void GetObjectData(SerializationInfo si, StreamingContext context) =>
@@ -162,10 +131,6 @@ namespace System.Windows.Forms
         internal byte[] Serialize()
         {
             using MemoryStream stream = new MemoryStream();
-            //if (!WriteImageList(stream))
-            //{
-            //    throw new InvalidOperationException(SR.ImageListStreamerSaveFailed);
-            //}
 
             ReadOnlySpan<byte> buffer = stream.GetBuffer().AsSpan(0, (int)stream.Length);
             return Compress(buffer);
@@ -173,10 +138,6 @@ namespace System.Windows.Forms
 
         internal void GetObjectData(Stream stream)
         {
-            //if (!WriteImageList(stream))
-            //{
-            //    throw new InvalidOperationException(SR.ImageListStreamerSaveFailed);
-            //}
         }
 
         internal ImageList.NativeImageList? GetNativeImageList() => _nativeImageList;
@@ -184,20 +145,7 @@ namespace System.Windows.Forms
         private bool WriteImageList(Stream stream)
         {
             return true;
-            //HandleRef<HIMAGELIST> handle = default;
-            //if (_imageList != null)
-            //{
-            //    handle = new(_imageList, (HIMAGELIST)_imageList.Handle);
-            //}
-            //else if (_nativeImageList != null)
-            //{
-            //    handle = new(_nativeImageList, _nativeImageList.HIMAGELIST);
-            //}
 
-            //if (handle.IsNull)
-            //{
-            //    return false;
-            //}
 
             //try
             //{

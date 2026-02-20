@@ -46,29 +46,6 @@ namespace System.Windows.Forms
             keyNames = new Hashtable(34);
             displayOrder = new List<string>(34);
 
-            //AddKey(SR.toStringEnter, Keys.Return);
-            //AddKey("F12", Keys.F12);
-            //AddKey("F11", Keys.F11);
-            //AddKey("F10", Keys.F10);
-            //AddKey(SR.toStringEnd, Keys.End);
-            //AddKey(SR.toStringControl, Keys.Control);
-            //AddKey("F8", Keys.F8);
-            //AddKey("F9", Keys.F9);
-            //AddKey(SR.toStringAlt, Keys.Alt);
-            //AddKey("F4", Keys.F4);
-            //AddKey("F5", Keys.F5);
-            //AddKey("F6", Keys.F6);
-            //AddKey("F7", Keys.F7);
-            //AddKey("F1", Keys.F1);
-            //AddKey("F2", Keys.F2);
-            //AddKey("F3", Keys.F3);
-            //AddKey(SR.toStringPageDown, Keys.Next);
-            //AddKey(SR.toStringInsert, Keys.Insert);
-            //AddKey(SR.toStringHome, Keys.Home);
-            //AddKey(SR.toStringDelete, Keys.Delete);
-            //AddKey(SR.toStringShift, Keys.Shift);
-            //AddKey(SR.toStringPageUp, Keys.Prior);
-            //AddKey(SR.toStringBack, Keys.Back);
 
             //new whidbey keys follow here...
             // Add string mappings for these values (numbers 0-9) so that the keyboard shortcuts

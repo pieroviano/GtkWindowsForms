@@ -190,7 +190,7 @@ namespace System.Windows.Forms
                         }
                     }
 
-                    }
+                }
                 finally
                 {
                     _owner.EndUpdate();
@@ -280,7 +280,7 @@ namespace System.Windows.Forms
                 set
                 {
                     _innerArray![index] = value;
-                    }
+                }
             }
 
             object? IList.this[int index]

@@ -120,16 +120,10 @@ namespace System.Windows.Forms
             Width = width;
         }
 
-        //public void AutoResize(ColumnHeaderAutoResizeStyle headerAutoResize)
-        //{
-        //	throw new System.NotImplementedException();
-        //}
 
         public object Clone()
         {
             return null;
-            //string data = System.Text.Json.JsonSerializer.Serialize(this,typeof(ColumnHeader));
-            //return System.Text.Json.JsonSerializer.Deserialize<ColumnHeader>(data);
         }
         protected override void Dispose(bool disposing)
         {

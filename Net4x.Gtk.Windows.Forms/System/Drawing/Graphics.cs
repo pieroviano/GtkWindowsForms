@@ -22,8 +22,6 @@ namespace System.Drawing
         internal double diff_left { get; set; }
         
         internal double diff_top { get; set; }
-        //internal int diff_right { get; set; }
-        //internal int diff_bottom { get; set; }
         internal Graphics(Gtk.Widget widget, Cairo.Context context, Gdk.Rectangle rectangle)
         {
             Graphics.Context = context;

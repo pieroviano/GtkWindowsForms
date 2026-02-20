@@ -61,8 +61,6 @@ namespace System.Windows.Forms
 		{
 			if (this.Exists(m => m.Name == group.Name))
 			{
-				//Console.WriteLine("����Group.Name�ظ�");
-				// throw new ArgumentException("Group.Name�ظ�");
 				return;
 			}
             group.ListView = _listView;

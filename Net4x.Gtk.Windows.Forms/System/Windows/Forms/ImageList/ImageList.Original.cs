@@ -32,10 +32,6 @@ namespace System.Windows.Forms
 
             internal Original(object image, OriginalOptions options, Color customTransparentColor)
             {
-                //if (image is not Icon && image is not Image)
-                //{
-                //    throw new InvalidOperationException(SR.ImageListEntryType);
-                //}
 
                 _image = image;
                 _options = options;

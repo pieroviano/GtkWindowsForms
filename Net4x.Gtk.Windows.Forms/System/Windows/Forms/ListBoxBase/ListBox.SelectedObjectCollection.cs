@@ -125,14 +125,6 @@ namespace System.Windows.Forms
             /// </summary>
             internal void EnsureUpToDate()
             {
-                //if (_stateDirty)
-                //{
-                //    _stateDirty = false;
-                //    if (_owner.IsHandleCreated)
-                //    {
-                //        _owner.NativeUpdateSelection();
-                //    }
-                //}
             }
 
             public bool IsReadOnly
@@ -232,14 +224,6 @@ namespace System.Windows.Forms
             // when we create the handle we need to be able to do the opposite : push the selection from .Net ListBox into Native ListBox
             internal void PushSelectionIntoNativeListBox(int index)
             {
-                //// we can't use ItemArray accessor because this will wipe out our Selection collection
-                //bool selected = _owner.Items.InnerArray.GetState(index, SelectedObjectMask);
-                //// push selection only if the item is actually selected
-                //// this also takes care of the case where owner.SelectionMode == SelectionMode.One
-                //if (selected)
-                //{
-                //    _owner.NativeSetSelected(index, true /*we signal selection to the native listBox only if the item is actually selected*/);
-                //}
             }
 
             /// <summary>

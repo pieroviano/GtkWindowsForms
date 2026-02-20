@@ -254,11 +254,6 @@ namespace System.Drawing.Imaging
 			{
 				return "Webp";
 		    }
-			//DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(15, 1);
-			//defaultInterpolatedStringHandler.AppendLiteral("[ImageFormat: ");
-			//defaultInterpolatedStringHandler.AppendFormatted(_guid);
-			//defaultInterpolatedStringHandler.AppendLiteral("]");
-			//return defaultInterpolatedStringHandler.ToStringAndClear();
 			return $"[ImageFormat: {_guid}]";
 
         }

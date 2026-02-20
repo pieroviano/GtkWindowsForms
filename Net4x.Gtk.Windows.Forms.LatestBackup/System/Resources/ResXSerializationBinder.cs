@@ -28,12 +28,6 @@ namespace System.Resources
             _typeNameConverter = typeNameConverter;
         }
 
-        //public override Type BindToType(string assemblyName, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]string typeName)
-        //{
-        //    if (_typeResolver is null)
-        //    {
-        //        return null;
-        //    }
 
         //    typeName = typeName + ", " + assemblyName;
 
@@ -89,7 +83,6 @@ namespace System.Resources
 
                 }
                 else if (typeParts.Length > 2)
-                  // if (typeParts != null && typeParts.Length > 2)
                 {
                     string partialName = typeParts[0].Trim();
 
@@ -117,18 +110,6 @@ namespace System.Resources
         // Get the multitarget-aware string representation for the give type.
         public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
-            // Normally we don't change typeName when changing the target framework,
-            // only assembly version or assembly name might change, thus we are setting
-            // typeName only if it changed with the framework version.
-            // If binder passes in a null, BinaryFormatter will use the original value or
-            // for un-serializable types will redirect to another type.
-            // For example:
-            //
-            // public Encoding Encoding { get; set; }
-            // property type (Encoding) is abstract, but the value is instantiated to a specific class,
-            // and should be serialized as a specific class in order to be able to instantiate the result.
-            //
-            // another example are singleton objects like DBNull.Value which are serialized by System.UnitySerializationHolder
             typeName = null;
             if(_typeNameConverter is null)
             {

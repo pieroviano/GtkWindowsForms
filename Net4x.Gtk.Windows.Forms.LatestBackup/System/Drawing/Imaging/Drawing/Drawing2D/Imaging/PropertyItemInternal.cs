@@ -8,8 +8,6 @@ namespace System.Drawing.Imaging
 
 		public short type;
 
-		//public unsafe byte* value;
 
-		//public unsafe Span<byte> Value => new Span<byte>(value, len);
 	}
 }

@@ -1,4 +1,6 @@
 using PrepareProjects.Model;
+using System;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -61,9 +63,9 @@ public static class PostProcessing
         }
         else
         {
-            fileNames = Directory.GetFiles(fullPath, searchPattern, SearchOption.AllDirectories).Where(f=>
+            fileNames = Directory.GetFiles(fullPath, searchPattern, SearchOption.AllDirectories).Where(f =>
             {
-                return !exclude.Any(v=>f.Contains(v));
+                return !exclude.Any(v => f.Contains(v));
             }).ToArray();
         }
 
@@ -96,7 +98,7 @@ public static class PostProcessing
     }
 
 
-private static int ProcessFile(string filePath, Replacement replacement, int applied)
+    private static int ProcessFile(string filePath, Replacement replacement, int applied)
     {
         if (!File.Exists(filePath))
         {
@@ -134,10 +136,22 @@ private static int ProcessFile(string filePath, Replacement replacement, int app
         }
         else
         {
-            if (!text.Contains(source))
-                return applied;
+            markerRegex = new Regex(@"\$CommentedCode\$\(.*\)");
+            match = markerRegex.Match(source);
 
-            newText = text.Replace(source, target);
+            if (match.Success)
+            {
+                var commentedCode=$"//{match.Value.TrimEnd(')').Substring(match.Value.IndexOf("$CommentedCode$(") + "$CommentedCode$(".Length)}";
+                
+                newText = CommentCleaner.RemoveCommentBlock(text, commentedCode);
+            }
+            else
+            {
+                if (!text.Contains(source))
+                    return applied;
+
+                newText = text.Replace(source, target);
+            }
         }
 
         if (!string.Equals(text, newText, StringComparison.Ordinal))
