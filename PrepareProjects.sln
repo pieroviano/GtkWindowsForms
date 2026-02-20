@@ -19,7 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncodeFix", "EncodeFix\Enco
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4EE597D4-4AC4-4DE9-BA4F-6D859F7C281A}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.Props = Directory.Build.Props
+		Directory.Nuget.Props = Directory.Nuget.Props
 		Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.Files.xml = Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.Files.xml
+		Nuget.Config = Nuget.Config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdatePostProcessing", "UpdatePostProcessing\UpdatePostProcessing.csproj", "{3274A6DB-8EFC-4F1E-AE67-20178B486096}"
