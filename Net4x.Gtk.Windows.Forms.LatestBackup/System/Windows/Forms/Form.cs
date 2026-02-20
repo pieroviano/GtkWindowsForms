@@ -346,7 +346,23 @@ namespace System.Windows.Forms
         }
 
         public DialogResult DialogResult { get; set; }
-        public void Close() {
+        public void Close()
+        {
+        	var timer = new System.Windows.Forms.Timer
+        	{
+        	    Interval = 100
+        	};
+  
+        	timer.Tick += (s, e) =>
+        	{
+        	    timer.Stop();
+        	    CloseImmediately();
+        	};
+
+            timer.Start();
+        }
+        
+        public void CloseImmediately() {
             if (self != null)
             {
                 self.CloseWindow();

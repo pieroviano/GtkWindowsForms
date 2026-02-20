@@ -313,16 +313,16 @@
         </TargetString>
   </Item>
   <Item>
-	  <FileName>System\Drawing\Graphics.cs</FileName>
-	  <SourceString>$CommentedCode$(internal )</SourceString>
-	  <TargetString></TargetString>
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>$CommentedCode$(internal )</SourceString>
+    <TargetString></TargetString>
   </Item>
   <Item>
-	<FileName>System\Drawing\Graphics.cs</FileName>
-	<SourceString>		#endregion$RegEx$([ \t]*[\r]?[\n]?)
+    <FileName>System\Drawing\Graphics.cs</FileName>
+    <SourceString>		#endregion$RegEx$([ \t]*[\r]?[\n]?)
 	</SourceString>
-	<TargetString></TargetString>
-	</Item>
+    <TargetString></TargetString>
+  </Item>
   <Item>
     <FileName>System\Drawing\Graphics.cs</FileName>
     <SourceString>        }</SourceString>
@@ -650,5 +650,26 @@ using System.Globalization;
     <FileName>FxResources\System\Resources\Extensions\SR.cs</FileName>
     <SourceString></SourceString>
     <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Form.cs</FileName>
+    <SourceString>public void Close()</SourceString>
+    <TargetString>public void Close()
+        {
+        	var timer = new System.Windows.Forms.Timer
+        	{
+        	    Interval = 100
+        	};
+  
+        	timer.Tick += (s, e) =&gt;
+        	{
+        	    timer.Stop();
+        	    CloseImmediately();
+        	};
+
+            timer.Start();
+        }
+        
+        public void CloseImmediately()</TargetString>
   </Item>
 </Items>
