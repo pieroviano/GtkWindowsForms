@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>false</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Net4x.Gtk.Windows.Extensions\Net4x.Gtk.Windows.Extensions.csproj" />
+		<ProjectReference Include="..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.csproj" />
+		<ProjectReference Include="..\Net4x.System.Resources.Extensions\Net4x.System.Resources.Extensions.csproj" />
+	</ItemGroup>
+	<Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
+		<Message Importance="High" Text="&quot;$(MSBuildThisFileDirectory)..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\Net4x.XUnit.Copy.exe&quot; $(TargetFramework) &quot;$(TargetDir)&quot; &quot;$(MSBuildProjectFullPath)&quot;" />
+		<Exec Command="&quot;$(MSBuildThisFileDirectory)..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\Net4x.ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
+	</Target>
+
+</Project>
