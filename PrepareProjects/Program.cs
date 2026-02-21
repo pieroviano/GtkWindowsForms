@@ -13,6 +13,22 @@ public class Program
 {
     public static async Task Main()
     {
+        var newPath = @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GtkControls";
+        if (!CaseSensitiveChecker.DirectoryExists(newPath))
+        {
+            Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKControls",
+                @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKControls1");
+            Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKControls1", newPath);
+        }
+
+        newPath = @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GtkSystem";
+        if (!CaseSensitiveChecker.DirectoryExists(newPath))
+        {
+            Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem",
+            @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem1");
+            Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem1", newPath);
+        }
+
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 #if REFERENCE
@@ -239,7 +255,7 @@ public class Program
             return;
         }
 
-        if (Directory.Exists(newPath))
+        if (!CaseSensitiveChecker.DirectoryExists(newPath))
         {
             try
             {
@@ -258,20 +274,23 @@ public class Program
             }
         }
 
-        try
+        if (!CaseSensitiveChecker.DirectoryExists(newPath))
         {
-            // Windows is case-insensitive, so do a two-step rename if only casing changes
-            var tempPath = Path.Combine(projectDirectory, Guid.NewGuid().ToString());
-
-            Directory.Move(oldPath, tempPath);
-            Directory.Move(tempPath, newPath);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            if (string.Compare(oldPath, newPath, StringComparison.InvariantCultureIgnoreCase) != 0)
+            try
             {
-                throw;
+                // Windows is case-insensitive, so do a two-step rename if only casing changes
+                var tempPath = Path.Combine(projectDirectory, Guid.NewGuid().ToString());
+
+                Directory.Move(oldPath, tempPath);
+                Directory.Move(tempPath, newPath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                if (string.Compare(oldPath, newPath, StringComparison.InvariantCultureIgnoreCase) != 0)
+                {
+                    throw;
+                }
             }
         }
         UpdateFilesXmlEntries(projectDirectory, oldName, newName, csprojPath, newPath);
