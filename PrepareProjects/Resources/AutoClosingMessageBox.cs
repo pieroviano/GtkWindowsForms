@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -26,7 +26,7 @@ public class AutoClosingMessageBox
     private AutoClosingMessageBox()
     {
         instance = this;
-        MessageBox = ExtensionsMessageBox.ReplaceInstance();
+        MessageBox = System.Windows.Forms.MessageBox.ReplaceInstance();
         Instance.Initialize();
         MessageBox.DialogAvailable += FormsMessageBox_DialogAvailable;
     }

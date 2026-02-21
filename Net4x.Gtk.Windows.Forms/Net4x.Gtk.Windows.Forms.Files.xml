@@ -13,6 +13,7 @@
   <Item Source="Application\InputLanguageCollection.cs" Destination="System\Windows\Forms\Application\InputLanguageCollection.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\Application\InputLanguageCollection.cs</Item>
   <Item Source="Content\System.ComponentModel.cs" Destination="Content\System.ComponentModel.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\Content\System.ComponentModel.cs</Item>
   <Item Source="Content\System.Resources.ResourceManager.cs" Destination="Content\System.Resources.ResourceManager.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\Content\System.Resources.ResourceManager.cs</Item>
+  <Item Source="GTKControls\AutoClosingMessageBox.cs" Destination="System\Windows\Forms\AutoClosingMessageBox.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\AutoClosingMessageBox.cs</Item>
   <Item Source="GTKControls\Button.cs" Destination="System\Windows\Forms\Button.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\Button.cs</Item>
   <Item Source="GTKControls\CheckBox.cs" Destination="System\Windows\Forms\CheckBox.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\CheckBox.cs</Item>
   <Item Source="GTKControls\CheckedListBox.cs" Destination="System\Windows\Forms\CheckedListBox.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\CheckedListBox.cs</Item>
@@ -21,11 +22,14 @@
   <Item Source="GTKControls\ControlExtension.cs" Destination="GtkControls/ControlExtension.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkControls\ControlExtension.cs</Item>
   <Item Source="GTKControls\DataGridView.cs" Destination="System\Windows\Forms\DataGridView.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\DataGridView.cs</Item>
   <Item Source="GTKControls\DateTimePicker.cs" Destination="System\Windows\Forms\DateTimePicker.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\DateTimePicker.cs</Item>
+  <Item Source="GTKControls\DialogEventArgs.cs" Destination="System\Windows\Forms\DialogEventArgs.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\DialogEventArgs.cs</Item>
+  <Item Source="GTKControls\ExtensionsMessageBox.Static.cs" Destination="System\Windows\Forms\ExtensionsMessageBox.Static.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\ExtensionsMessageBox.Static.cs</Item>
   <Item Source="GTKControls\FlowLayoutPanel.cs" Destination="System\Windows\Forms\FlowLayoutPanel.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\FlowLayoutPanel.cs</Item>
   <Item Source="GTKControls\Form.cs" Destination="System\Windows\Forms\Form.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\Form.cs</Item>
   <Item Source="GTKControls\GridCell.cs" Destination="GtkControls/GridCell.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkControls\GridCell.cs</Item>
   <Item Source="GTKControls\GroupBox.cs" Destination="System\Windows\Forms\GroupBox.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\GroupBox.cs</Item>
   <Item Source="GTKControls\HScrollBar.cs" Destination="System\Windows\Forms\HScrollBar.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\HScrollBar.cs</Item>
+  <Item Source="GTKControls\IMessageBox.cs" Destination="System\Windows\Forms\IMessageBox.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\IMessageBox.cs</Item>
   <Item Source="GTKControls\Label.cs" Destination="System\Windows\Forms\Label.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\Label.cs</Item>
   <Item Source="GTKControls\LinkLabel.cs" Destination="System\Windows\Forms\LinkLabel.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\LinkLabel.cs</Item>
   <Item Source="GTKControls\ListBox.cs" Destination="System\Windows\Forms\ListBox.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\ListBox.cs</Item>
@@ -33,6 +37,7 @@
   <Item Source="GTKControls\MaskedTextBox.cs" Destination="System\Windows\Forms\MaskedTextBox.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\MaskedTextBox.cs</Item>
   <Item Source="GTKControls\MenuStrip.cs" Destination="System\Windows\Forms\MenuStrip.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\MenuStrip.cs</Item>
   <Item Source="GTKControls\MonthCalendar.cs" Destination="System\Windows\Forms\MonthCalendar.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\MonthCalendar.cs</Item>
+  <Item Source="GTKControls\NonStaticMessageBox.cs" Destination="System\Windows\Forms\NonStaticMessageBox.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\NonStaticMessageBox.cs</Item>
   <Item Source="GTKControls\NumericUpDown.cs" Destination="System\Windows\Forms\NumericUpDown.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\NumericUpDown.cs</Item>
   <Item Source="GTKControls\Panel.cs" Destination="System\Windows\Forms\Panel.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\Panel.cs</Item>
   <Item Source="GTKControls\PictureBox.cs" Destination="System\Windows\Forms\PictureBox.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\PictureBox.cs</Item>
@@ -60,6 +65,13 @@
   <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" />
   <Item Source="obj\project.assets.json" Destination="obj\project.assets.json" />
   <Item Source="obj\project.nuget.cache" Destination="obj\project.nuget.cache" />
+  <Item Source="Properties\MessageBoxResources.de.resx" Destination="Properties\MessageBoxResources.de.resx" />
+  <Item Source="Properties\MessageBoxResources.Designer.cs" Destination="Properties\MessageBoxResources.Designer.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\Properties\MessageBoxResources.Designer.cs</Item>
+  <Item Source="Properties\MessageBoxResources.es.resx" Destination="Properties\MessageBoxResources.es.resx" />
+  <Item Source="Properties\MessageBoxResources.fr.resx" Destination="Properties\MessageBoxResources.fr.resx" />
+  <Item Source="Properties\MessageBoxResources.it.resx" Destination="Properties\MessageBoxResources.it.resx" />
+  <Item Source="Properties\MessageBoxResources.resx" Destination="Properties\MessageBoxResources.resx" />
+  <Item Source="Properties\MessageBoxResources.zh-Hans.resx" Destination="Properties\MessageBoxResources.zh-Hans.resx" />
   <Item Source="Properties\Resources.de.resx" Destination="Properties\Resources.de.resx" />
   <Item Source="Properties\Resources.Designer.cs" Destination="Properties\Resources.Designer.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\Properties\Resources.Designer.cs</Item>
   <Item Source="Properties\Resources.es.resx" Destination="Properties\Resources.es.resx" />

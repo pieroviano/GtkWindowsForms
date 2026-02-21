@@ -13,7 +13,7 @@ using System.Runtime.CompilerServices;
 
 namespace System.Windows.Forms
 {
-    public class MessageBox
+    public class MessageBoxOld
     {
         /// <summary>
         ///  Displays a message box with specified text, caption, and style with Help Button.
@@ -344,34 +344,34 @@ namespace System.Windows.Forms
             dia.Icon = new Gdk.Pixbuf(typeof(MessageBox).Assembly, "Resources.System.help-faq.png");
             if (buttons == MessageBoxButtons.OK)
             {
-                dia.AddButton(Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
+                dia.AddButton(System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
             }
             else if (buttons == MessageBoxButtons.OKCancel)
             {
-                dia.AddButton(Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
+                dia.AddButton(System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
             }
             else if (buttons == MessageBoxButtons.YesNo)
             {
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Yes, Gtk.ResponseType.Yes);
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_No, Gtk.ResponseType.No);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Yes, Gtk.ResponseType.Yes);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_No, Gtk.ResponseType.No);
             }
             else if (buttons == MessageBoxButtons.YesNoCancel)
             {
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Yes, Gtk.ResponseType.Yes);
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_No, Gtk.ResponseType.No);
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Yes, Gtk.ResponseType.Yes);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_No, Gtk.ResponseType.No);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
             }
             else if (buttons == MessageBoxButtons.AbortRetryIgnore)
             {
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Reject, Gtk.ResponseType.Reject);
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Help, Gtk.ResponseType.Help);
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Close, Gtk.ResponseType.Close);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Reject, Gtk.ResponseType.Reject);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Help, Gtk.ResponseType.Help);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Close, Gtk.ResponseType.Close);
             }
             else if (buttons == MessageBoxButtons.RetryCancel)
             {
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Help, Gtk.ResponseType.Help);
-                dia.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Help, Gtk.ResponseType.Help);
+                dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
             }
             dia.ShowAll();
             return dia.Run();

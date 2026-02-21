@@ -250,7 +250,7 @@ namespace System.Windows.Forms
                                 }
                                 else
                                 {
-                                    Console.WriteLine(themefolder + Properties.Resources.Gtk_Application_Init_Directory_does_not_exist);
+                                    Console.WriteLine(themefolder + System.Properties.Resources.Gtk_Application_Init_Directory_does_not_exist);
                                 }
                             }
                             if (nameValue.TryGetValue("ThemeCssPath", out string themecss))
@@ -274,7 +274,7 @@ namespace System.Windows.Forms
                             }
                             else
                             {
-                                File.WriteAllText(stylepath, Properties.Resources.Gtk_Application_Init_Here_you_can_customize_or_adjust_the_control_style, Text.Encoding.UTF8);
+                                File.WriteAllText(stylepath, System.Properties.Resources.Gtk_Application_Init_Here_you_can_customize_or_adjust_the_control_style, Text.Encoding.UTF8);
                             }
                         }
                     }
@@ -285,27 +285,27 @@ namespace System.Windows.Forms
 
                     StringBuilder setupthemecontent = new StringBuilder();
                     setupthemecontent.AppendLine("[setup]");
-                    setupthemecontent.AppendLine(Properties.Resources.Gtk_Application_Init_Whether_to_follow_the_system_theme_by_default);
+                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_follow_the_system_theme_by_default);
                     setupthemecontent.AppendLine("AutoTheme=true");
-                    setupthemecontent.AppendLine(Properties.Resources.Gtk_Application_Init_Whether_to_apply_built_in_styles);
+                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_apply_built_in_styles);
                     setupthemecontent.AppendLine("UseDefaultStyle=true");
-                    setupthemecontent.AppendLine(Properties.Resources.Gtk_Application_Init_Specify_the_theme_valid_when_AutoTheme_is_false);
+                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Specify_the_theme_valid_when_AutoTheme_is_false);
                     setupthemecontent.AppendLine("DefaultThemeName=Default");
-                    setupthemecontent.AppendLine(Properties.Resources.Gtk_Application_Init_Whether_to_use_a_custom_theme_corresponding_to_custom_theme);
+                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_use_a_custom_theme_corresponding_to_custom_theme);
                     setupthemecontent.AppendLine("UseCustomTheme=false");
-                    setupthemecontent.AppendLine(Properties.Resources.Gtk_Application_Init_Whether_to_use_custom_style_corresponding_to_custom_style);
+                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_use_custom_style_corresponding_to_custom_style);
                     setupthemecontent.AppendLine("UseCustomStyle=true");
 
                     setupthemecontent.AppendLine().AppendLine("[custom theme]");
-                    setupthemecontent.AppendLine(Properties.Resources.Gtk_Application_Init_Custom_theme_name);
+                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Custom_theme_name);
                     setupthemecontent.AppendLine("Name=mytheme");
-                    setupthemecontent.AppendLine(Properties.Resources.Gtk_Application_Init_The_folder_where_the_theme_files_are_located);
+                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_The_folder_where_the_theme_files_are_located);
                     setupthemecontent.AppendLine("ThemeFolder=theme");
-                    setupthemecontent.AppendLine(Properties.Resources.Gtk_Application_Init_css_file_path);
+                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_css_file_path);
                     setupthemecontent.AppendLine("ThemeCssPath=theme/mytheme/theme.css");
 
                     setupthemecontent.AppendLine().AppendLine("[custom style]");
-                    setupthemecontent.AppendLine(Properties.Resources.Gtk_Application_Init_Freely_defined_style_files);
+                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Freely_defined_style_files);
                     setupthemecontent.AppendLine("StylePath=style.css");
 
                     File.WriteAllText(themesetuppath, setupthemecontent.ToString(), Text.Encoding.UTF8);

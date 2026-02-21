@@ -112,17 +112,17 @@ namespace System.Windows.Forms
             Gtk.FileChooserDialog fileDialog = null;
             if (owner != null && owner is Form ownerform)
             {
-                fileDialog = new Gtk.FileChooserDialog(Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, ownerform.self, ActionType);
+                fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, ownerform.self, ActionType);
                 fileDialog.WindowPosition = Gtk.WindowPosition.CenterOnParent;
             }
             else
             {
-                fileDialog = new Gtk.FileChooserDialog(Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, null, ActionType);
+                fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, null, ActionType);
                 fileDialog.WindowPosition = Gtk.WindowPosition.Center;
             }
             fileDialog.IconName = "document-open";
-            fileDialog.AddButton(Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
-            fileDialog.AddButton(Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
+            fileDialog.AddButton(System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
+            fileDialog.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
             fileDialog.SelectMultiple = this.Multiselect;
             fileDialog.Title = this.Title ?? string.Empty;
             fileDialog.TooltipText = this.Description ?? string.Empty;

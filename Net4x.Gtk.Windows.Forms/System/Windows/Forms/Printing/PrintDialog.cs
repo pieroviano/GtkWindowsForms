@@ -143,7 +143,7 @@ namespace System.Windows.Forms
                 Gtk.MessageDialog messageDialog = new MessageDialog(owner == null ? null : ((Form)owner).self, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "");
                 messageDialog.WindowPosition = owner == null ? WindowPosition.Center : WindowPosition.CenterOnParent;
                 if (ex.Message.ToLower().Contains("doc"))
-                    messageDialog.Text = Properties.Resources.Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten;
+                    messageDialog.Text = System.Properties.Resources.Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten;
                 else
                     messageDialog.Text = ex.Message;
                 messageDialog.Response += MessageDialog_Response;

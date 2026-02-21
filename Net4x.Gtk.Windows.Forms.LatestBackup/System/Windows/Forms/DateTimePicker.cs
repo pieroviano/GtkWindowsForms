@@ -20,7 +20,7 @@ namespace System.Windows.Forms
         Gtk.Calendar calendar = new Gtk.Calendar();
         public DateTimePicker() : base("DateTimePicker")
         {
-            base.Mask = Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
+            base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
 
             self.SecondaryIconActivatable = true;
             self.SecondaryIconStock= "open-menu";
@@ -43,7 +43,7 @@ namespace System.Windows.Forms
 
             Gtk.Box popbody=new Gtk.Box(Gtk.Orientation.Vertical, 6);
             popbody.Add(calendar);
-            Gtk.Button todaybtn = new Gtk.Button() { Label = Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Choose_Today+DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") };
+            Gtk.Button todaybtn = new Gtk.Button() { Label = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Choose_Today+DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") };
             todaybtn.Clicked += Todaybtn_Clicked;
             popbody.Add(todaybtn);
             popver.Add(popbody);
@@ -123,7 +123,7 @@ namespace System.Windows.Forms
             if (dt > MaxDate || dt < MinDate)
             {
                 calendar.Date = Value;
-                MessageBox.Show($" the selected date is out of the allowed range \n maximum time：{MaxDate.ToString("yyyy/MM/dd HH:mm:ss")}\n minimum time：{MinDate.ToString("yyyy/MM/dd HH:mm:ss")}",Properties.Resources.Gtk_DateTimePicker_Calendar_DaySelected_Date_restrictions);
+                MessageBox.Show($" the selected date is out of the allowed range \n maximum time：{MaxDate.ToString("yyyy/MM/dd HH:mm:ss")}\n minimum time：{MinDate.ToString("yyyy/MM/dd HH:mm:ss")}",System.Properties.Resources.Gtk_DateTimePicker_Calendar_DaySelected_Date_restrictions);
             }
             else
             {
@@ -172,7 +172,7 @@ namespace System.Windows.Forms
                     value = MinDate.AddDays(1);
                 }
                 if (Format==DateTimePickerFormat.Long)
-                    base.Text = value.ToString(Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd);
+                    base.Text = value.ToString(System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd);
                 else if (Format == DateTimePickerFormat.Short)
                     base.Text = value.ToString("yyyy/MM/dd");
                 else if (Format == DateTimePickerFormat.Time)
@@ -180,11 +180,11 @@ namespace System.Windows.Forms
                 else if (Format == DateTimePickerFormat.Custom)
                     base.Text = value.ToString(CustomFormat);
                 else
-                    base.Text = value.ToString(Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd); 
+                    base.Text = value.ToString(System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd); 
             }
         }
 
-        private string _CustomFormat= Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd;
+        private string _CustomFormat= System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd;
         public string CustomFormat { get => _CustomFormat; 
             set { _CustomFormat = value; 
                 base.Mask = Regex.Replace(value,"[ymdhs]","_",RegexOptions.IgnoreCase); 
@@ -196,7 +196,7 @@ namespace System.Windows.Forms
             set {
                 _Format = value;
                 if (Format == DateTimePickerFormat.Long)
-                    base.Mask = Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
+                    base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
                 else if (Format == DateTimePickerFormat.Short)
                     base.Mask = "____/__/__";
                 else if (Format == DateTimePickerFormat.Time)
@@ -204,7 +204,7 @@ namespace System.Windows.Forms
                 else if (Format == DateTimePickerFormat.Custom)
                     base.Mask = Regex.Replace(CustomFormat, "[ymdhs]", "_", RegexOptions.IgnoreCase);
                 else
-                    base.Mask = Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
+                    base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
             } 
         }
 

@@ -1,6 +1,6 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 
-public class ExtensionsMessageBox
+public class MessageBox
 {
     internal static NonStaticMessageBox Instance { get; set; } = new();
 

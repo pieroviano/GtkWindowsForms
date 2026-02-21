@@ -60,6 +60,12 @@ public class Program
                 destFileName);
         }
 
+        File.Copy(@"..\..\..\Resources\AutoClosingMessageBox.cs", Path.Combine(targetDir, @"GTKControls\AutoClosingMessageBox.cs"));
+        File.Copy(@"..\..\..\Resources\DialogEventArgs.cs", Path.Combine(targetDir, @"GTKControls\DialogEventArgs.cs"));
+        File.Copy(@"..\..\..\Resources\ExtensionsMessageBox.Static.cs", Path.Combine(targetDir, @"GTKControls\ExtensionsMessageBox.Static.cs"));
+        File.Copy(@"..\..\..\Resources\IMessageBox.cs", Path.Combine(targetDir, @"GTKControls\IMessageBox.cs"));
+        File.Copy(@"..\..\..\Resources\NonStaticMessageBox.cs", Path.Combine(targetDir, @"GTKControls\NonStaticMessageBox.cs"));
+
         File.Copy(@"..\..\..\Resources\GridCell.cs", Path.Combine(targetDir, @"GTKControls\GridCell.cs"));
         if (File.Exists(@"..\..\..\Resources\DeserializingResourceReader.cs"))
         {

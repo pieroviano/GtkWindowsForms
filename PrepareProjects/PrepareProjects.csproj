@@ -9,11 +9,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Resources\AutoClosingMessageBox.cs" />
 		<Compile Remove="Resources\DeserializingResourceReader.cs" />
 		<Compile Remove="Resources\ControlExtension.cs" />
+		<Compile Remove="Resources\DialogEventArgs.cs" />
+		<Compile Remove="Resources\ExtensionsMessageBox.Static.cs" />
 		<Compile Remove="Resources\FormExtension.cs" />
 		<Compile Remove="Resources\GridCell.cs" />
 		<Compile Remove="Resources\GtkWinFormsAppResources.Designer.cs" />
+		<Compile Remove="Resources\IMessageBox.cs" />
+		<Compile Remove="Resources\MessageBoxResources.Designer.cs" />
+		<Compile Remove="Resources\NonStaticMessageBox.cs" />
+		<Compile Remove="Resources\Resources.Designer.cs" />
 		<Compile Remove="Resources\System.ComponentModel.cs" />
 		<Compile Remove="Resources\System.Resources.ResourceManager.cs" />
 		<Compile Remove="Resources\SystemResources.cs" />
@@ -21,10 +28,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Include="Resources\AutoClosingMessageBox.cs" />
 	  <Content Include="Resources\ControlExtension.cs" Condition="Exists('Resources\ControlExtension.cs')" />
 	  <Content Include="Resources\DeserializingResourceReader.cs" Condition="Exists('Resources\DeserializingResourceReader.cs')" />
+	  <Content Include="Resources\DialogEventArgs.cs" />
+	  <Content Include="Resources\ExtensionsMessageBox.Static.cs" />
 	  <Content Include="Resources\FormExtension.cs" />
 	  <Content Include="Resources\GridCell.cs" />
+	  <Content Include="Resources\IMessageBox.cs" />
+	  <Content Include="Resources\MessageBoxResources.Designer.cs" />
+	  <Content Include="Resources\NonStaticMessageBox.cs" />
+	  <Content Include="Resources\Resources.Designer.cs" />
 	  <Content Include="Resources\SystemResources.cs" />
 	  <Content Include="Resources\TreeView.cs" Condition="Exists('Resources\TreeView.cs')" />
 	</ItemGroup>

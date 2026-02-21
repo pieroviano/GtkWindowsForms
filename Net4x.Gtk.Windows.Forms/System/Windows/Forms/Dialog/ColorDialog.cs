@@ -56,12 +56,12 @@ namespace System.Windows.Forms
             Gtk.ColorChooserDialog colorChooserDialog = null;
             if (owner != null && owner is Form ownerform)
             {
-                colorChooserDialog = new Gtk.ColorChooserDialog(Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color, ownerform.self);
+                colorChooserDialog = new Gtk.ColorChooserDialog(System.Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color, ownerform.self);
                 colorChooserDialog.WindowPosition = Gtk.WindowPosition.CenterOnParent;
             }
             else
             {
-                colorChooserDialog = new Gtk.ColorChooserDialog(Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color, null);
+                colorChooserDialog = new Gtk.ColorChooserDialog(System.Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color, null);
                 colorChooserDialog.WindowPosition = Gtk.WindowPosition.Center;
             }
             colorChooserDialog.IconName = "image-x-generic";

@@ -50,7 +50,7 @@ namespace System.Windows.Forms
             this.BorderStyle = BorderStyle.Fixed3D;
 
             Gtk.TreeViewColumn column = new Gtk.TreeViewColumn();
-            column.Title = Properties.Resources.Gtk_Tree_directory;
+            column.Title = System.Properties.Resources.Gtk_Tree_directory;
 
             renderercheckbox = new CellRendererToggle();
             renderercheckbox.Activatable = true;

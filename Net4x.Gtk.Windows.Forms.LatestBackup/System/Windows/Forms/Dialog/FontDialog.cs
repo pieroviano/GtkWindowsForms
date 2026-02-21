@@ -42,12 +42,12 @@ namespace System.Windows.Forms
             Gtk.FontChooserDialog fontChooserDialog = null;
             if (owner != null && owner is Form ownerform)
             {
-                fontChooserDialog = new Gtk.FontChooserDialog(Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, ownerform.self);
+                fontChooserDialog = new Gtk.FontChooserDialog(System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, ownerform.self);
                 fontChooserDialog.WindowPosition = Gtk.WindowPosition.CenterOnParent;
             }
             else
             {
-                fontChooserDialog = new Gtk.FontChooserDialog(Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, null);
+                fontChooserDialog = new Gtk.FontChooserDialog(System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, null);
                 fontChooserDialog.WindowPosition = Gtk.WindowPosition.Center;
             }
             fontChooserDialog.IconName = "font-x-generic";

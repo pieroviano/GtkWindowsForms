@@ -25,7 +25,10 @@ public class GtkWindowsFormsProjectHandler
     private static void CopyResources(string targetProjectDirectory)
     {
         ProjectUtility.CopyLocalizationResourcesFiles(Path.Combine(targetProjectDirectory, "Properties"),
-            "Resources.xml", "Resources.zh-Hans.xml",
+            "Resources.Designer.cs", "Resources.xml", "Resources.zh-Hans.xml",
             "Resources.it.xml", "Resources.fr.xml", "Resources.de.xml", "Resources.es.xml");
+        ProjectUtility.CopyLocalizationResourcesFiles(Path.Combine(targetProjectDirectory, "Properties"),
+            "MessageBoxResources.Designer.cs", "MessageBoxResources.xml", "MessageBoxResources.zh-Hans.xml",
+            "MessageBoxResources.it.xml", "MessageBoxResources.fr.xml", "MessageBoxResources.de.xml", "MessageBoxResources.es.xml");
     }
 }

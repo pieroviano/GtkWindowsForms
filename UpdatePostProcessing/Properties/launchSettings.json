@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UpdatePostProcessing": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms\\Net4x.Gtk.Windows.Forms.csproj"
+    }
+  }
+}
