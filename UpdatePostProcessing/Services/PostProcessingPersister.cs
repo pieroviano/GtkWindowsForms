@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Configuration;
+using System.Xml.Linq;
 using Prepare.Common.IO;
 using UpdatePostProcessing.Model;
 
@@ -50,11 +51,12 @@ internal class PostProcessingPersister
                 new XElement("TargetString", replacement.TargetString)
             );
 
+            var appSetting = (ConfigurationManager.AppSettings["ToExclude"] ?? string.Empty).Split('|');
             if (!ItemExists(
                     root,
                     replacement.SourceFileName,
                     replacement.SourceString,
-                    replacement.TargetString))
+                    replacement.TargetString) && !appSetting.Any(i=>!string.IsNullOrEmpty(i) && replacement.TargetString.Contains(i)))
             {
                 Console.WriteLine($"Differences found for {replacement.SourceFileName}: {itemElement}");
                 root.Add(itemElement);
