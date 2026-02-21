@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.0.11217.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net4x.Gtk.Windows.FormsDesigner", "Net4x.Gtk.Windows.FormsDesigner\Net4x.Gtk.Windows.FormsDesigner.csproj", "{ABE92077-6FC6-4DAD-9AD4-30FD4CE389C9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4C728B54-921F-4A58-A24C-20BEA50A4BA0}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.Props = Directory.Build.Props
@@ -44,10 +42,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ABE92077-6FC6-4DAD-9AD4-30FD4CE389C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABE92077-6FC6-4DAD-9AD4-30FD4CE389C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABE92077-6FC6-4DAD-9AD4-30FD4CE389C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABE92077-6FC6-4DAD-9AD4-30FD4CE389C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5065ECF-B344-487D-87AD-ADD83AA12919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5065ECF-B344-487D-87AD-ADD83AA12919}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5065ECF-B344-487D-87AD-ADD83AA12919}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -89,7 +83,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{ABE92077-6FC6-4DAD-9AD4-30FD4CE389C9} = {D0EBA166-A87C-409B-AB5C-DF22E407DC73}
 		{D5065ECF-B344-487D-87AD-ADD83AA12919} = {23F30C9C-0EDB-48B1-AF9E-B7952D573DFE}
 		{84241EDD-6C03-5E50-5CB4-9B03474B3354} = {23F30C9C-0EDB-48B1-AF9E-B7952D573DFE}
 		{D8216EDF-B046-47FA-955D-ADA0062DC935} = {D0EBA166-A87C-409B-AB5C-DF22E407DC73}

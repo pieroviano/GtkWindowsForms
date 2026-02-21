@@ -60,11 +60,6 @@
   <Item Source="GTKControls\VScrollBar.cs" Destination="System\Windows\Forms\VScrollBar.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\VScrollBar.cs</Item>
   <Item Source="GTKSystem\HashCode.cs" Destination="System\HashCode.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\HashCode.cs</Item>
   <Item Source="Microsoft.Win32\RegistryKey.cs" Destination="Microsoft\Win32\RegistryKey.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\Microsoft\Win32\RegistryKey.cs</Item>
-  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.dgspec.json" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.dgspec.json" />
-  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.props" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.props" />
-  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" />
-  <Item Source="obj\project.assets.json" Destination="obj\project.assets.json" />
-  <Item Source="obj\project.nuget.cache" Destination="obj\project.nuget.cache" />
   <Item Source="Properties\MessageBoxResources.de.resx" Destination="Properties\MessageBoxResources.de.resx" />
   <Item Source="Properties\MessageBoxResources.Designer.cs" Destination="Properties\MessageBoxResources.Designer.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\Properties\MessageBoxResources.Designer.cs</Item>
   <Item Source="Properties\MessageBoxResources.es.resx" Destination="Properties\MessageBoxResources.es.resx" />

@@ -84,7 +84,6 @@ public class Program
 
         SummaryCommentTransformer.TransformFolder(targetDir);
         MemberSpacingFormatter.TransformFolder(targetDir);
-        ProjectCompilation.RestoreProject(sourceProjectPath);
 
 #pragma warning disable CS8604 // Possible null reference argument.
         var path = Path.Combine(Path.GetDirectoryName(csprojPath), "GTKSystem.Windows.Forms.xml");
@@ -139,6 +138,9 @@ public class Program
         BackupUtility.CleanBackup(projectDirectory, BackupUtility.LatestBackup);
         var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.LatestBackup);
+        var solutionPath = Path.Combine(projectDirectory, "..\\Net4x.Gtk.Windows.Forms.sln");
+        ProjectCompilation.RestoreSolution(solutionPath);
+        ProjectCompilation.BuildSolution(solutionPath);
     }
 
     private static void FixClass(string csprojPath, string relativePath)

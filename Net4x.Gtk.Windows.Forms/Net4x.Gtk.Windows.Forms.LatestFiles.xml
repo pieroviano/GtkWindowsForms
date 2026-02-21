@@ -10,11 +10,6 @@
   <Item Source="Content\System.Resources.ResourceManager.cs" Destination="Content\System.Resources.ResourceManager.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\Content\System.Resources.ResourceManager.cs</Item>
   <Item Source="GtkControls\ControlExtension.cs" Destination="GtkControls\ControlExtension.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\GtkControls\ControlExtension.cs</Item>
   <Item Source="GtkControls\GridCell.cs" Destination="GtkControls\GridCell.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\GtkControls\GridCell.cs</Item>
-  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.dgspec.json" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.dgspec.json" />
-  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.props" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.props" />
-  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" />
-  <Item Source="obj\project.assets.json" Destination="obj\project.assets.json" />
-  <Item Source="obj\project.nuget.cache" Destination="obj\project.nuget.cache" />
   <Item Source="Properties\MessageBoxResources.de.resx" Destination="Properties\MessageBoxResources.de.resx" />
   <Item Source="Properties\MessageBoxResources.Designer.cs" Destination="Properties\MessageBoxResources.Designer.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\Properties\MessageBoxResources.Designer.cs</Item>
   <Item Source="Properties\MessageBoxResources.es.resx" Destination="Properties\MessageBoxResources.es.resx" />

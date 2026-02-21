@@ -4,13 +4,23 @@ namespace Prepare.Common.Projects;
 
 public static class ProjectCompilation
 {
-    public static void RestoreProject(string csprojPath)
+    public static void RestoreSolution(string solutionPath)
     {
-        if (!File.Exists(csprojPath))
+        RunDotNet(solutionPath, "restore");
+    }
+
+    public static void BuildSolution(string solutionPath)
+    {
+        RunDotNet(solutionPath, "build");
+    }
+
+    private static void RunDotNet(string projectSolutionPath, object? whatToDo)
+    {
+        if (!File.Exists(projectSolutionPath))
         {
             throw new FileNotFoundException(
                 "Cannot run dotnet restore. Project file not found.",
-                csprojPath);
+                projectSolutionPath);
         }
 
         var process = new Process
@@ -18,8 +28,8 @@ public static class ProjectCompilation
             StartInfo = new ProcessStartInfo
             {
                 FileName = "dotnet",
-                Arguments = $"restore \"{csprojPath}\"",
-                WorkingDirectory = Path.GetDirectoryName(csprojPath)!,
+                Arguments = $"{whatToDo} \"{projectSolutionPath}\"",
+                WorkingDirectory = Path.GetDirectoryName(projectSolutionPath)!,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
@@ -38,8 +48,9 @@ public static class ProjectCompilation
 
         if (process.ExitCode != 0)
         {
-            throw new InvalidOperationException(
-                $"dotnet restore failed:{Environment.NewLine}{error}");
+            var message = $"dotnet {whatToDo} failed:{Environment.NewLine}{output}{Environment.NewLine}{error}";
+            Console.WriteLine(message);
+            throw new InvalidOperationException(message);
         }
     }
 }
