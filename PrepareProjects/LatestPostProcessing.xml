@@ -38,16 +38,36 @@
 &lt;/Project&gt;</TargetString>
   </Item>
   <Item>
+  	<FileName>..\GtkWinFormsApp\GTKWinFormsApp.xml</FileName>
+  	<SourceString></SourceString>
+  	<TargetString></TargetString>
+  </Item>
+  <Item>
+  	<FileName>..\GtkWinFormsApp\GtkWinFormsApp.csproj</FileName>
+  	<SourceString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</SourceString>
+  	<TargetString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystemWinFormsApp11.xml</FileName>
+    <SourceString></SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkSystemWinFormsApp11\GtkSystemWinFormsApp11.csproj</FileName>
+    <SourceString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</SourceString>
+    <TargetString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</TargetString>
+  </Item>
+  <Item>
     <FileName>..\GtkSystemWinFormsApp11\Program.cs</FileName>
-    <SourceString>MessageBox.ReplaceInstance(2000);
-            Application.EnableVisualStyles();</SourceString>
-    <TargetString>Application.EnableVisualStyles();</TargetString>
+	<SourceString>Application.EnableVisualStyles();</SourceString>
+	<TargetString>MessageBox.ReplaceInstance(2000);
+            Application.EnableVisualStyles();</TargetString>
   </Item>
   <Item>
     <FileName>..\GtkWinFormsApp\Program.cs</FileName>
-    <SourceString>MessageBox.ReplaceInstance(2000);
-            Application.EnableVisualStyles();</SourceString>
-    <TargetString>Application.EnableVisualStyles();</TargetString>
+	<SourceString>Application.EnableVisualStyles();</SourceString>
+    <TargetString>MessageBox.ReplaceInstance(2000);
+            Application.EnableVisualStyles();</TargetString>
   </Item>
   <Item>
     <FileName>System\Windows\Forms\TreeViewBase\TreeNode.cs</FileName>
