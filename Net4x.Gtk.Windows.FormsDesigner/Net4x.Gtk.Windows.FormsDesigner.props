@@ -1,0 +1,10 @@
+<Project>
+	<PropertyGroup>
+		<MyObjDebugFolder>$(MSBuildProjectDirectory)$(IntermediateOutputPath)</MyObjDebugFolder>
+		<MyTargetFramework>$(TargetFramework)</MyTargetFramework>
+		<MyTargetFrameworkVersion>$(TargetFrameworkVersion)</MyTargetFrameworkVersion>
+		<MyTargetFilePath>$(MSBuildThisFileDirectory)bin\Debug\$(TargetFramework)\$(MSBuildProjectName).dll</MyTargetFilePath>
+	</PropertyGroup>
+
+	<UsingTask TaskName="Gtk.Windows.FormsDesigner.GtkWindowsForms" AssemblyFile="..\lib\netstandard2.0\Net4x.Gtk.Windows.FormsDesigner.dll"/>
+</Project>

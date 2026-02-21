@@ -1,0 +1,9 @@
+<Project>
+	<Target Name="BeforeCompile" BeforeTargets="Build">
+		<Message Text="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)" Importance="high" />
+		<GtkWindowsForms ObjPath="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)" 
+		                 FileName="$(MSBuildProjectName)" TargetFramework="$(TargetFramework)" 
+		                 ProjectFullPath="$(MSBuildProjectFullPath)"
+		                 TargetFrameworkVersion="$(TargetFrameworkVersion)" />
+	</Target>
+</Project>
