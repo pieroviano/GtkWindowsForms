@@ -38,6 +38,18 @@
 &lt;/Project&gt;</TargetString>
   </Item>
   <Item>
+    <FileName>..\GtkSystemWinFormsApp11\Program.cs</FileName>
+    <SourceString>MessageBox.ReplaceInstance(2000);
+            Application.EnableVisualStyles();</SourceString>
+    <TargetString>Application.EnableVisualStyles();</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkWinFormsApp\Program.cs</FileName>
+    <SourceString>MessageBox.ReplaceInstance(2000);
+            Application.EnableVisualStyles();</SourceString>
+    <TargetString>Application.EnableVisualStyles();</TargetString>
+  </Item>
+  <Item>
     <FileName>System\Windows\Forms\TreeViewBase\TreeNode.cs</FileName>
     <SourceString>$CommentedCode$(throw )</SourceString>
     <TargetString></TargetString>

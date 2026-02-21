@@ -15,6 +15,7 @@ namespace GtkWinFormsApp
         [STAThread]
         static void Main()
         {
+            MessageBox.ReplaceInstance(2000);
            // Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
