@@ -64,63 +64,63 @@ namespace System.Windows.Forms.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string MessageBox_ShowCore_Cancel {
+        internal static string Gtk_MessageBox_ShowCore_Cancel {
             get {
-                return ResourceManager.GetString("MessageBox_ShowCore_Cancel", resourceCulture);
+                return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Cancel", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        internal static string MessageBox_ShowCore_Close {
+        internal static string Gtk_MessageBox_ShowCore_Close {
             get {
-                return ResourceManager.GetString("MessageBox_ShowCore_Close", resourceCulture);
+                return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Close", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
-        internal static string MessageBox_ShowCore_Help {
+        internal static string Gtk_MessageBox_ShowCore_Help {
             get {
-                return ResourceManager.GetString("MessageBox_ShowCore_Help", resourceCulture);
+                return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Help", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
-        internal static string MessageBox_ShowCore_No {
+        internal static string Gtk_MessageBox_ShowCore_No {
             get {
-                return ResourceManager.GetString("MessageBox_ShowCore_No", resourceCulture);
+                return ResourceManager.GetString("Gtk_MessageBox_ShowCore_No", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        internal static string MessageBox_ShowCore_OK {
+        internal static string Gtk_MessageBox_ShowCore_OK {
             get {
-                return ResourceManager.GetString("MessageBox_ShowCore_OK", resourceCulture);
+                return ResourceManager.GetString("Gtk_MessageBox_ShowCore_OK", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Reject.
         /// </summary>
-        internal static string MessageBox_ShowCore_Reject {
+        internal static string Gtk_MessageBox_ShowCore_Reject {
             get {
-                return ResourceManager.GetString("MessageBox_ShowCore_Reject", resourceCulture);
+                return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Reject", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
-        internal static string MessageBox_ShowCore_Yes {
+        internal static string Gtk_MessageBox_ShowCore_Yes {
             get {
-                return ResourceManager.GetString("MessageBox_ShowCore_Yes", resourceCulture);
+                return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Yes", resourceCulture);
             }
         }
     }

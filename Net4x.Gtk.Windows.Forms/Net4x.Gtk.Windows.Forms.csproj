@@ -288,5 +288,37 @@ Based on GTKSystem.Windows.Forms:
             <DependentUpon>Resources.resx</DependentUpon>
         </EmbeddedResource>
     </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Properties\MessageBoxResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Properties\MessageBoxResources.it.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.es.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.de.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.fr.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
+            <CustomToolNamespace>System.Windows.Forms.Properties</CustomToolNamespace>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.zh-Hans.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+    </ItemGroup>
     <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
 </Project>

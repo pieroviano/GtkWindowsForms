@@ -193,6 +193,7 @@ internal class NonStaticMessageBox : IMessageBox
 
 
 
+
     private Window? activeWindow; // Caching significance
     internal DialogResult ShowCore(IWin32Window? owner, string? text, string caption,
         MessageBoxButtons buttons, MessageBoxIcon icon)
@@ -200,7 +201,6 @@ internal class NonStaticMessageBox : IMessageBox
         int irun;
         if (owner is Form control)
         {
-            //irun = ShowMessageDialogCore(control.self, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon, defaultButton, options, showHelp);
             irun = ShowCore((Window)control.Widget, WindowPosition.CenterOnParent, text, caption, buttons, icon);
         }
         else
@@ -210,7 +210,6 @@ internal class NonStaticMessageBox : IMessageBox
             {
                 activeWindow = window;
             }
-            //irun = ShowMessageDialogCore(null, Gtk.WindowPosition.Center, text, caption, buttons, icon, defaultButton, options, showHelp);
             irun = ShowCore(activeWindow, WindowPosition.CenterOnParent, text, caption, buttons, icon);
         }
 
@@ -323,37 +322,37 @@ internal class NonStaticMessageBox : IMessageBox
         dia.Icon = new Gdk.Pixbuf(typeof(MessageBox).Assembly, "Resources.System.help-faq.png");
         if (buttons == MessageBoxButtons.OK)
         {
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_OK, ResponseType.Ok);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_OK, ResponseType.Ok);
         }
         else if (buttons == MessageBoxButtons.OKCancel)
         {
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_OK, ResponseType.Ok);
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_Cancel,
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_OK, ResponseType.Ok);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel,
                 ResponseType.Cancel);
         }
         else if (buttons == MessageBoxButtons.YesNo)
         {
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_Yes, ResponseType.Yes);
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_No, ResponseType.No);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Yes, ResponseType.Yes);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_No, ResponseType.No);
         }
         else if (buttons == MessageBoxButtons.YesNoCancel)
         {
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_Yes, ResponseType.Yes);
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_No, ResponseType.No);
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_Cancel,
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Yes, ResponseType.Yes);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_No, ResponseType.No);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel,
                 ResponseType.Cancel);
         }
         else if (buttons == MessageBoxButtons.AbortRetryIgnore)
         {
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_Reject,
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Reject,
                 ResponseType.Reject);
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_Help, ResponseType.Help);
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_Close, ResponseType.Close);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Help, ResponseType.Help);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Close, ResponseType.Close);
         }
         else if (buttons == MessageBoxButtons.RetryCancel)
         {
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_Help, ResponseType.Help);
-            dia.AddButton(Properties.MessageBoxResources.MessageBox_ShowCore_Cancel,
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Help, ResponseType.Help);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel,
                 ResponseType.Cancel);
         }
         dia.ShowAll();

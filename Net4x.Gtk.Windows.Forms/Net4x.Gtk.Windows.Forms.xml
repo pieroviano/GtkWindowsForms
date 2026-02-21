@@ -227,37 +227,37 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.MessageBox_ShowCore_Cancel">
+        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel">
             <summary>
               Looks up a localized string similar to Cancel.
             </summary>
         </member>
-        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.MessageBox_ShowCore_Close">
+        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Close">
             <summary>
               Looks up a localized string similar to Close.
             </summary>
         </member>
-        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.MessageBox_ShowCore_Help">
+        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Help">
             <summary>
               Looks up a localized string similar to Help.
             </summary>
         </member>
-        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.MessageBox_ShowCore_No">
+        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_No">
             <summary>
               Looks up a localized string similar to No.
             </summary>
         </member>
-        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.MessageBox_ShowCore_OK">
+        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_OK">
             <summary>
               Looks up a localized string similar to OK.
             </summary>
         </member>
-        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.MessageBox_ShowCore_Reject">
+        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Reject">
             <summary>
               Looks up a localized string similar to Reject.
             </summary>
         </member>
-        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.MessageBox_ShowCore_Yes">
+        <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Yes">
             <summary>
               Looks up a localized string similar to Yes.
             </summary>

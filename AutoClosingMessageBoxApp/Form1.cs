@@ -12,8 +12,8 @@ namespace AutoClosingMessageBoxApp
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            AutoClosingMessageBox.Instance.MessageBoxTimeout = 3000;
-            AutoClosingMessageBox.Instance.Show("Auto closing");
+            MessageBox.ReplaceInstance(3000);
+            MessageBox.Show("Auto closing");
             Close();
         }
 
