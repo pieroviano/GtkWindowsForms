@@ -856,8 +856,17 @@ namespace GtkSystem.Resources.Extensions
 					string typeName = _store.ReadString();
 					if (typeName == "System.Resources.Extensions.UnknownType")
                         _typeTable[typeIndex] = typeof(System.Windows.Forms.ImageListStreamer);
-					else
-						_typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
+                    else
+                    {
+                        if (typeName.Contains("System.Drawing"))
+                        {
+                            _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
+                        else
+                        {
+                            _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
+                    }
 				}
 				catch (FileNotFoundException)
 				{
@@ -961,6 +970,10 @@ namespace GtkSystem.Resources.Extensions
 		                    throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
 		                }
 		                byte[] value = _store.ReadBytes(size);
+                        if (type == null)
+                        {
+
+                        }
 		                TypeConverter converter = TypeDescriptor.GetConverter(type);
 		                if (converter == null)
 		                {

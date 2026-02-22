@@ -1,5 +1,4 @@
 using Gdk;
-using GtkSystem.Resources;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;

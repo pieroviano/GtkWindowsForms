@@ -242,6 +242,7 @@ Based on GTKSystem.Windows.Forms:
     <ItemGroup>
         <Folder Include="obj\Debug\" />
         <None Include="..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\**\*.*" Link="tools/%(RecursiveDir)%(Filename)%(Extension)" Pack="True" PackagePath="tools/" />
+        <ProjectReference Include="..\Net4x.Gtk.Drawings\Net4x.Gtk.Drawings.csproj" />
         <Compile Update="Properties/Resources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>

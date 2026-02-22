@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PoC", "PoC", "{23F30C9C-0ED
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net4x.Gtk.Windows.FormsDesigner", "Net4x.Gtk.Windows.FormsDesigner\Net4x.Gtk.Windows.FormsDesigner.csproj", "{771BB0D1-F376-AF7F-94F5-9B4F5D5FD1D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net4x.Gtk.Drawings", "Net4x.Gtk.Drawings\Net4x.Gtk.Drawings.csproj", "{3D6FE829-BD2C-44A1-83AA-C490E2594BAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{771BB0D1-F376-AF7F-94F5-9B4F5D5FD1D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771BB0D1-F376-AF7F-94F5-9B4F5D5FD1D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771BB0D1-F376-AF7F-94F5-9B4F5D5FD1D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D6FE829-BD2C-44A1-83AA-C490E2594BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D6FE829-BD2C-44A1-83AA-C490E2594BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D6FE829-BD2C-44A1-83AA-C490E2594BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D6FE829-BD2C-44A1-83AA-C490E2594BAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

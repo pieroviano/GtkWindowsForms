@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Windows.Forms;
 
 namespace System.Drawing.Design
 {
