@@ -14,7 +14,7 @@ namespace GtkSystemWinFormsApp11
             // see https://aka.ms/applicationconfiguration.
             // ApplicationConfiguration.Initialize();
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            MessageBox.ReplaceInstance(2000);
+            MessageBox.ReplaceInstance();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

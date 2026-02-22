@@ -55,6 +55,7 @@
 
 	<ItemGroup>
 	  <None Include="Resources\GtkWinFormsAppResources.Designer.cs" />
+	  <None Include="Resources\Net4x.Gtk.Drawings.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

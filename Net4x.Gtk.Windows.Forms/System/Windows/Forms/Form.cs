@@ -346,14 +346,20 @@ namespace System.Windows.Forms
         }
 
         public DialogResult DialogResult { get; set; }
-        public void Close()
-        {
-        	var timer = new System.Windows.Forms.Timer
-        	{
-        	    Interval = 100
-        	};
-  
-        	timer.Tick += (s, e) =>
+        
+		public void Close()
+		{
+		    if (MessageBox.Instance is NonStaticMessageBox nonStaticMessageBox)
+		    {
+		        CloseImmediately();
+		        return;
+		    }
+		    var timer = new System.Windows.Forms.Timer
+	        {
+    	    	Interval = 100
+		    };
+            
+		    timer.Tick += (s, e) =>
         	{
         	    timer.Stop();
         	    CloseImmediately();

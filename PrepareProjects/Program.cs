@@ -141,6 +141,9 @@ public class Program
         var postprocessingXml =
             Path.GetFullPath(Path.Combine(directoryName, @"..\..\..\", BackupUtility.LatestPostProcessing));
 #pragma warning restore CS8604 // Possible null reference argument.
+
+        DrawinfService.SeparateDrawing();
+        
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
             postprocessingXml);
         currentDirectory = Environment.CurrentDirectory;
@@ -152,6 +155,7 @@ public class Program
         BackupUtility.CleanEmptyFolders(projectDirectory);
 
         BackupUtility.CleanBackup(projectDirectory, BackupUtility.LatestBackup);
+
         var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.LatestBackup);
         var solutionPath = Path.Combine(projectDirectory, "..\\Net4x.Gtk.Windows.Forms.sln");

@@ -5,7 +5,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Reflection;
-using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 
 namespace System.Drawing.Design
 {
