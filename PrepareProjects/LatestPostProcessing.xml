@@ -43,7 +43,7 @@
     <TargetString>&lt;Folder Include="obj\Debug\" /&gt;
 &lt;/ItemGroup&gt;
 &lt;ItemGroup&gt;
-	&lt;ProjectReference Include="..\Net4x.Gtk.Drawings\Net4x.Gtk.Drawings.csproj" /&gt;
+	&lt;ProjectReference Include="..\Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.csproj" /&gt;
 &lt;/ItemGroup&gt;
 &lt;ItemGroup&gt;</TargetString>
   </Item>
@@ -62,12 +62,12 @@
     }</TargetString>
   </Item>
   <Item>
-  	<FileName>..\Net4x.Gtk.Drawings\System\Drawing\Icon.cs</FileName>
+  	<FileName>..\Net4x.Gtk.Drawing\System\Drawing\Icon.cs</FileName>
   	<SourceString>using GtkSystem.Resources;</SourceString>
   	<TargetString></TargetString>
   </Item>
   <Item>
-  	<FileName>..\Net4x.Gtk.Drawings\System\Drawing\Design\Designer\ToolboxItem.cs</FileName>
+  	<FileName>..\Net4x.Gtk.Drawing\System\Drawing\Design\Designer\ToolboxItem.cs</FileName>
   	<SourceString>
 using System.Windows.Forms;</SourceString>
   	<TargetString></TargetString>
@@ -360,162 +360,162 @@ using System.Windows.Forms;</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Printing\PrintDocument.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Printing\PrintDocument.cs</FileName>
     <SourceString>$CommentedCode$(public )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Printing\PrintDocument.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Printing\PrintDocument.cs</FileName>
     <SourceString>$CommentedCode$(Browsable)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Imaging\Drawing\Drawing2D\Imaging\PropertyItemInternal.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Imaging\Drawing\Drawing2D\Imaging\PropertyItemInternal.cs</FileName>
     <SourceString>$CommentedCode$(public )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
     <SourceString>$CommentedCode$(DefaultInterpolatedStringHandler )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Imaging\Drawing\Drawing2D\Imaging\ImageFormat.cs</FileName>
     <SourceString>	}</SourceString>
     <TargetString>    }</TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Imaging\Drawing\Drawing2D\Imaging\FrameDimension.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Imaging\Drawing\Drawing2D\Imaging\FrameDimension.cs</FileName>
     <SourceString>$CommentedCode$(DefaultInterpolatedStringHandler )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Icon.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Icon.cs</FileName>
     <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Icon.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Icon.cs</FileName>
     <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>        private Gtk.Widget widget;</SourceString>
     <TargetString>        private Gtk.Widget widget;
         </TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>        #region Numerical adjustment delta used for input and output$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>        internal double diff_left { get; set; }</SourceString>
     <TargetString>        internal double diff_left { get; set; }
         </TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>$CommentedCode$(internal )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>		#endregion$RegEx$([ \t]*[\r]?[\n]?)
 	</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>        }</SourceString>
     <TargetString>        }
         </TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>        #region Bézier curve$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>$CommentedCode$(this.context.Fill();)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>$CommentedCode$(TranslateTransform)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Graphics.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>$CommentedCode$(this.context)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
     <SourceString>$CommentedCode$(plgpts)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
     <SourceString>$CommentedCode$([m11,m12,0])</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
     <SourceString>$CommentedCode$(Matrix m)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
     <SourceString>$CommentedCode$(this.m11 =)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
     <SourceString>$CommentedCode$(this.m21 = )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
     <SourceString>$CommentedCode$(if )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
     <SourceString>$CommentedCode$(Icon icon =)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing\Drawing2D\ImageConverter.cs</FileName>
     <SourceString>$CommentedCode$([RequiresUnreferencedCode)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
     <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
     <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing\Drawing2D\Image.cs</FileName>
     <SourceString>
 	    $CommentedCode$(/ &lt;summary&gt;)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\Net4x.Gtk.Drawings\System\Drawing\Drawing\Drawing2D\Bitmap.cs</FileName>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing\Drawing2D\Bitmap.cs</FileName>
     <SourceString>$CommentedCode$(object )</SourceString>
     <TargetString></TargetString>
   </Item>

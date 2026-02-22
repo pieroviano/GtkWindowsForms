@@ -53,7 +53,7 @@
     <ItemGroup>
         <PackageReference Include="System.Memory" Version="4.6.0" />
         <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" />
-        <PackageReference Include="System.Resources.Extensions" Version="$(Net4xGtkWindowsFormsVersion).$(VersionBuildSuffix)" />
+        <PackageReference Include="System.Resources.Extensions" Version="$(Net4xGtkWindowsFormsVersion).*" />
         <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>

@@ -4,12 +4,12 @@ namespace PrepareProjects.Preparation.Directories;
 
 public static class DrawingService
 {
-    public static void SeparateDrawing(string gtkDrawings)
+    public static void SeparateDrawing(string gtkDrawing)
     {
-        string resourcesNet4xGtkDrawingsCsproj = @$"..\..\..\Resources\{gtkDrawings}.csproj";
-        const string net4xGtkDrawings = @"..\..\..\..\Net4x.Gtk.Drawings";
-        const string net4xGtkDrawingsSystem = @"..\..\..\..\Net4x.Gtk.Drawings\System";
-        const string net4xGtkDrawingsSystemDrawing = @$"{net4xGtkDrawingsSystem}\Drawing";
+        string resourcesNet4xGtkDrawingsCsproj = @$"..\..\..\Resources\{gtkDrawing}.csproj";
+        string net4xGtkDrawings = @$"..\..\..\..\{gtkDrawing}";
+        string net4xGtkDrawingsSystem = @$"..\..\..\..\{gtkDrawing}\System";
+        string net4xGtkDrawingsSystemDrawing = @$"{net4xGtkDrawingsSystem}\Drawing";
         const string net4xGtkWindowsFormsSystemDrawing = @"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Drawing";
 
         if (Directory.Exists(net4xGtkDrawings))
@@ -26,6 +26,6 @@ public static class DrawingService
             excludedFolderFullPath: @$"{net4xGtkWindowsFormsSystemDrawing}\Printing"
         );
 
-        File.Copy(resourcesNet4xGtkDrawingsCsproj, @$"{net4xGtkDrawings}\Net4x.Gtk.Drawings.csproj");
+        File.Copy(resourcesNet4xGtkDrawingsCsproj, @$"{net4xGtkDrawings}\{gtkDrawing}.csproj");
     }
 }

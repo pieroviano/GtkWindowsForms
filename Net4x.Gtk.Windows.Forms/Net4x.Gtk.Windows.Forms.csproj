@@ -244,7 +244,7 @@ Based on GTKSystem.Windows.Forms:
     <Folder Include="obj\Debug\" />
 </ItemGroup>
 <ItemGroup>
-	<ProjectReference Include="..\Net4x.Gtk.Drawings\Net4x.Gtk.Drawings.csproj" />
+	<ProjectReference Include="..\Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.csproj" />
 </ItemGroup>
 <ItemGroup>
     <None Include="..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\**\*.*" Link="tools/%(RecursiveDir)%(Filename)%(Extension)" Pack="True" PackagePath="tools/" />

@@ -3,6 +3,7 @@ using System.Text;
 using Prepare.Common.Content;
 using Prepare.Common.IO;
 using Prepare.Common.Projects;
+using Prepare.Common.Text;
 using PrepareProjects.Preparation.Compilation;
 using PrepareProjects.Preparation.Directories;
 using PrepareProjects.Preparation.Source;
@@ -27,37 +28,37 @@ public class Program
         }
 #endif
         const string net4xGtkWindowsForms = "Net4x.Gtk.Windows.Forms";
-        WriteInGreen(@$"Preparing {net4xGtkWindowsForms}");
+        ConsoleUtility.WriteInGreen(@$"Preparing {net4xGtkWindowsForms}");
         var (targetDir, sourceProjectPath, csprojPath) =
             await GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", net4xGtkWindowsForms);
 
         const string net4XSystemResourcesExtensions = "Net4x.System.Resources.Extensions";
-        WriteInGreen(@$"Preparing {net4XSystemResourcesExtensions}");
+        ConsoleUtility.WriteInGreen(@$"Preparing {net4XSystemResourcesExtensions}");
         SystemResourcesExtensionsProjectHandler.Prepare($"{net4XSystemResourcesExtensions}.csproj");
         var version = VersionPrepare.PrepareSolutionVersion();
 
-        WriteInGreen(@"Preparing PoC projects");
+        ConsoleUtility.WriteInGreen(@"Preparing PoC projects");
         var projectName = await GtkSampleAppProjectsHandler.PrepareAsync("GTKWinFormsApp", "GtkWinFormsApp", version);
         var otherProjectName =
             await GtkSampleAppProjectsHandler.PrepareAsync("GTKSystemWinFormsApp11", "GtkSystemWinFormsApp11", version);
 
-        WriteInGreen(@"Regenerating *.Designer.cs from resources for PoC projects");
+        ConsoleUtility.WriteInGreen(@"Regenerating *.Designer.cs from resources for PoC projects");
         ResGenService.RegenerateDesignersFromResources(targetDir, projectName, otherProjectName);
 
-        WriteInGreen(@"Appling translations and first post processings");
+        ConsoleUtility.WriteInGreen(@"Appling translations and first post processings");
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
             BackupUtility.PostProcessing);
 
-        WriteInGreen(@"Copying code from Resources");
+        ConsoleUtility.WriteInGreen(@"Copying code from Resources");
         ResourcesCopyService.CopyCodeFromResources(targetDir);
 
-        WriteInGreen(@"Normalyzing comments");
+        ConsoleUtility.WriteInGreen(@"Normalyzing comments");
         SummaryCommentTransformer.TransformFolder(targetDir);
         MemberSpacingFormatter.TransformFolder(targetDir);
 
         RemoveXmlComments(csprojPath);
 
-        WriteInGreen(@$"Reorganizing files for {net4xGtkWindowsForms}");
+        ConsoleUtility.WriteInGreen(@$"Reorganizing files for {net4xGtkWindowsForms}");
         new FolderFixer().ReorganizeFiles(csprojPath, new[]
         {
             "Properties",
@@ -73,11 +74,11 @@ public class Program
             "GTKControls", "GtkControls", csprojPath);
         var postprocessingXml = GetPostprocessingXml();
 
-        const string net4xGtkDrawings = "Net4x.Gtk.Drawings";
-        WriteInGreen(@$"Separating {net4xGtkDrawings} from {net4xGtkWindowsForms}");
-        DrawingService.SeparateDrawing(net4xGtkDrawings);
+        const string net4xGtkDrawing = "Net4x.Gtk.Drawing";
+        ConsoleUtility.WriteInGreen(@$"Separating {net4xGtkDrawing} from {net4xGtkWindowsForms}");
+        DrawingService.SeparateDrawing(net4xGtkDrawing);
 
-        WriteInGreen(@"Applying files post processings");
+        ConsoleUtility.WriteInGreen(@"Applying files post processings");
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
             postprocessingXml);
         ResGenService.RegenerateSrDesigner(projectDirectory, csprojPath);
@@ -86,7 +87,7 @@ public class Program
 
         BackupUtility.CleanBackup(projectDirectory, BackupUtility.LatestBackup);
 
-        WriteInGreen(@"Building the solution");
+        ConsoleUtility.WriteInGreen(@"Building the solution");
         var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.LatestBackup);
         var solutionPath = GetSolutionPath(projectDirectory);
@@ -102,15 +103,6 @@ public class Program
             Path.GetFullPath(Path.Combine(directoryName, @"..\..\..\", BackupUtility.LatestPostProcessing));
 #pragma warning restore CS8604 // Possible null reference argument.
         return postprocessingXml;
-    }
-
-    private static void WriteInGreen(string? text)
-    {
-        var previousColor = Console.ForegroundColor;
-
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine(text);
-        Console.ForegroundColor = previousColor;
     }
 
     private static string GetSolutionPath(string projectDirectory)
