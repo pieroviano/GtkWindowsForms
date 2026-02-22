@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using System.Xml.Linq;
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
@@ -46,15 +47,11 @@ public static class VersionPrepare
         Console.WriteLine(@$"Last part: {lastPart}");
 
         // --- Update Directory.Build.Props ---
-#if DEBUG
-        var destinationValue = $"-a{DateTime.Now:yyyyMMddHHmmss}";
-#else
-        var destinationValue = "000";
-#endif
+        var destinationValue = GetDestinationValue(lastPart);
         UpdatePropsValue(
-            directoryBuildPropsPath,
-            "VersionSuffix",
-            lastPart + destinationValue);
+                    directoryBuildPropsPath,
+                    "VersionSuffix",
+                    destinationValue);
 
         // --- Update Directory.Nuget.Props ---
         UpdatePropsValue(
@@ -64,6 +61,18 @@ public static class VersionPrepare
 
         Console.WriteLine(@"Done.");
         return versionText;
+    }
+
+    private static string GetDestinationValue(string lastPart)
+    {
+#if DEBUG
+        var destinationValue = $"{lastPart}-a{DateTime.Now:yyyyMMddHHmmss}";
+#else
+        var destinationValue = string.Format("{0}{1}",
+            (DateTime.Today.Year % 100).ToString().PadLeft(2, '0'),
+            DateTime.Today.DayOfYear.ToString().PadLeft(3, '0'));
+#endif
+        return destinationValue;
     }
 
     private static void UpdatePropsValue(string propsPath, string elementName, string value)

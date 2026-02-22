@@ -11,7 +11,11 @@ public static class ProjectCompilation
 
     public static void BuildSolution(string solutionPath)
     {
+#if RELEASE
+        RunDotNet(solutionPath, "build -c Release");
+#else
         RunDotNet(solutionPath, "build");
+#endif
     }
 
     private static void RunDotNet(string projectSolutionPath, object? whatToDo)
