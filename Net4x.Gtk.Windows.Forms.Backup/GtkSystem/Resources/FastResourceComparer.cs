@@ -100,7 +100,7 @@ namespace GtkSystem.Resources
 			return -CompareOrdinal(b, bytes, aCharLength);
 		}
 
-		internal unsafe static int CompareOrdinal(byte* a, int byteLen, string b)
+		internal static unsafe int CompareOrdinal(byte* a, int byteLen, string b)
 		{
 			int num = 0;
 			int num2 = 0;

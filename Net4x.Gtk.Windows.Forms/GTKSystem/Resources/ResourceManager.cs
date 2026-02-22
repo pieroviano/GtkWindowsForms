@@ -55,8 +55,6 @@ namespace GtkSystem.Resources
             byte[] result = null;
             try
             {
-                //string resourceDirctory = System.AppContext.BaseDirectory.Replace("\\", "/") + $"Resources";//linux the path must use/
-                //string resourceDirctory = Environment.CurrentDirectory.Replace("\\", "/") + $"Resources";//linux the path must use/
                 string filepath = $"./{ReadResourceData("this_FileName")}"; //linux the path must use/
                 if (System.IO.File.Exists(filepath))
                 {
@@ -224,24 +222,6 @@ namespace GtkSystem.Resources
             }
         }
       
-        //public  UnmanagedMemoryStream GetStream(string name)
-        //{
-        //    return GetStream(name);
-        //}
-        //public UnmanagedMemoryStream GetStream(string name, CultureInfo culture)
-        //{
-        //    byte[] data = ReadResourceFile(name);
-        //    if (data == null)
-        //        return null;
-        //    else
-        //    {
-        //        using (MemoryStream ms = new MemoryStream(data))
-        //        {
-        //            BinaryReader br = new BinaryReader(ms);
-        //            return br.BaseStream as UnmanagedMemoryStream;
-        //        }
-        //    }
-        //}
         public override string GetString(string name)
         {
             return GetString(name, null);

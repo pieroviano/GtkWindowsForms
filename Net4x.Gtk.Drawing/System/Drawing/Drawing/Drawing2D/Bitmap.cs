@@ -104,6 +104,8 @@ namespace System.Drawing
         public Bitmap(int width, int height)
             : this(width, height, PixelFormat.Format32bppArgb)
         {
+            //object obj =  Activator.CreateInstance("System.Drawing", "System.Drawing.Design.BitmapEditor, System.Drawing.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
+          //  Reflection.Assembly.CreateQualifiedName("");
         }
 
         /// <summary>

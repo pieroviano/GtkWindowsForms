@@ -99,13 +99,20 @@ public static class PathProcessing
 
     private static string RemoveRepeatedTrailingSegments(string fullPath)
     {
+        if (string.IsNullOrWhiteSpace(fullPath))
+            return fullPath;
+
         fullPath = fullPath.TrimEnd(Path.DirectorySeparatorChar);
 
         var parts = fullPath
             .Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries)
             .ToList();
 
-        // Try every possible suffix length
+        if (parts.Count < 2)
+            return fullPath;
+
+        bool removed = false;
+
         for (int len = 1; len <= parts.Count / 2; len++)
         {
             var lastSegment = parts.Skip(parts.Count - len).Take(len).ToList();
@@ -114,13 +121,24 @@ public static class PathProcessing
             if (SegmentsEqual(previousSegment, lastSegment))
             {
                 parts.RemoveRange(parts.Count - len, len);
+                removed = true;
                 break; // remove only one repetition
+            }
+        }
+
+        if (!removed)
+        {
+            var last = parts[^1];
+
+            if (parts.Take(parts.Count - 1)
+                .Any(p => string.Equals(p, last, StringComparison.Ordinal)))
+            {
+                parts.RemoveAt(parts.Count - 1);
             }
         }
 
         return string.Join(Path.DirectorySeparatorChar, parts);
     }
-
     private static bool SegmentsEqual(List<string> a, List<string> b)
     {
         if (a.Count != b.Count)

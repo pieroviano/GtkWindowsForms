@@ -99,6 +99,11 @@
     <TargetString>GtkControls</TargetString>
   </Item>
   <Item>
+    <FileName>*.cs</FileName>
+    <SourceString>internal unsafe static </SourceString>
+    <TargetString>internal static unsafe </TargetString>
+  </Item>
+  <Item>
     <FileName>GTKControls\Control\Control.cs</FileName>
     <SourceString>public virtual Rectangle ClientRectangle { get { this.Widget.GetAllocatedSize(out Gdk.Rectangle allocation, out int baseline); return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</SourceString>
     <TargetString>public virtual Rectangle ClientRectangle { get { Gdk.Rectangle allocation = this.Widget.Allocation; return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height); } }</TargetString>
@@ -356,5 +361,15 @@ using GTKControls;</TargetString>
                         }
                         obj = Activator.CreateInstance(type, stream);
                         break;</TargetString>
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms\Properties\PublishProfiles\FolderProfile.pubxml</FileName>
+    <SourceString></SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms\Properties\PublishProfiles\FolderProfile.pubxml.user</FileName>
+    <SourceString></SourceString>
+    <TargetString></TargetString>
   </Item>
 </Items>

@@ -29,39 +29,11 @@ namespace System.Resources
         }
 
 
-        //    typeName = typeName + ", " + assemblyName;
 
-        //    Type type = _typeResolver.GetType(typeName);
-        //    if (type is null)
-        //    {
-        //        string[] typeParts = typeName.Split(',');
 
-        //        // Break up the assembly name from the rest of the assembly strong name.
-        //        // we try 1) FQN 2) FQN without a version 3) just the short name
-        //        if (typeParts != null && typeParts.Length > 2)
-        //        {
-        //            string partialName = typeParts[0].Trim();
 
-        //            for (int i = 1; i < typeParts.Length; ++i)
-        //            {
-        //                string typePart = typeParts[i].Trim();
-        //                if (!typePart.StartsWith("Version=") && !typePart.StartsWith("version="))
-        //                {
-        //                    partialName = partialName + ", " + typePart;
-        //                }
-        //            }
 
-        //            type = _typeResolver.GetType(partialName);
-        //            if (type is null)
-        //            {
-        //                type = _typeResolver.GetType(typeParts[0].Trim());
-        //            }
-        //        }
-        //    }
 
-        //    // Binder couldn't handle it, let the default loader take over.
-        //    return type;
-        //}
         public override Type BindToType(string assemblyName, string typeName)
         {
             if (_typeResolver is null)

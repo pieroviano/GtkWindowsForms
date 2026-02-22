@@ -3,9 +3,9 @@ using System.Xml.Linq;
 
 namespace Prepare.Common.IO;
 
-public class FolderFixer
+public static class FolderFixer
 {
-    public void ReorganizeFiles(
+    public static void ReorganizeFiles(
         string csprojPath,
         string[] excludedPrefixes,
         string[] specialRoots,
@@ -25,13 +25,10 @@ public class FolderFixer
 
         FixFolders(projectFiles, csprojPath, excludedPrefixes, specialRoots, specialRootsIncludingRoot);
 
-        // ✅ Update csproj Compile items
         UpdateCsprojCompileItems(csprojPath, projectFiles);
 
-        // Persist XML mapping file
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.Backup);
 
-        // ✅ Cleanup empty directories
         DeleteEmptyDirectories(projectDirectory);
     }
 
@@ -61,7 +58,7 @@ public class FolderFixer
     private static void FixFolders(Dictionary<string, string> projectFiles, string csprojPath,
         string[] excludedPrefixes, string[] specialRoots, string[] specialRootsIncludingRoot)
     {
-        var projectDirectory = Path.GetDirectoryName(csprojPath)!;
+        var projectDirectory = Path.GetDirectoryName(csprojPath);
 
         foreach (var key in projectFiles.Keys.ToList())
         {

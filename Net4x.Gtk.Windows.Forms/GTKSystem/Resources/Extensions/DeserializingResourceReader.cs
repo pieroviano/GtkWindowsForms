@@ -237,7 +237,7 @@ namespace GtkSystem.Resources.Extensions
 			}
 		}
 
-		internal unsafe static int ReadUnalignedI4(int* p)
+		internal static unsafe int ReadUnalignedI4(int* p)
 		{
 			return *(byte*)p | (((byte*)p)[1] << 8) | (((byte*)p)[2] << 16) | (((byte*)p)[3] << 24);
 		}
@@ -858,15 +858,15 @@ namespace GtkSystem.Resources.Extensions
                         _typeTable[typeIndex] = typeof(System.Windows.Forms.ImageListStreamer);
 					else
 					{
-        if (typeName.Contains("System.Drawing"))
-        {
-            _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
-        }
-        else
-        {
-            _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
-        }
-    }
+                        if (typeName.Contains("System.Drawing"))
+                        {
+                            _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
+                        else
+                        {
+                            _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
+                    }
 				}
 				catch (FileNotFoundException)
 				{

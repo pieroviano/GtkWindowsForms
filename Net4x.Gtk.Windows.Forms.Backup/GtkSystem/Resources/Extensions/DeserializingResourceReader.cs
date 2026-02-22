@@ -238,7 +238,7 @@ namespace GtkSystem.Resources.Extensions
 			}
 		}
 
-		internal unsafe static int ReadUnalignedI4(int* p)
+		internal static unsafe int ReadUnalignedI4(int* p)
 		{
 			return *(byte*)p | (((byte*)p)[1] << 8) | (((byte*)p)[2] << 16) | (((byte*)p)[3] << 24);
 		}

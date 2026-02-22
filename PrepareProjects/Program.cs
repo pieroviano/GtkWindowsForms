@@ -56,10 +56,10 @@ public class Program
         SummaryCommentTransformer.TransformFolder(targetDir);
         MemberSpacingFormatter.TransformFolder(targetDir);
 
-        RemoveXmlComments(csprojPath);
+        RemoveOldXmlComments(csprojPath);
 
         ConsoleUtility.WriteInGreen(@$"Reorganizing files for {net4xGtkWindowsForms}");
-        new FolderFixer().ReorganizeFiles(csprojPath, new[]
+        FolderFixer.ReorganizeFiles(csprojPath, new[]
         {
             "Properties",
             "Content",
@@ -72,15 +72,17 @@ public class Program
         var projectDirectory = Path.GetDirectoryName(csprojPath)!;
         GtkFoldersService.RenameFolder(Path.Combine(projectDirectory, "GtkSystem", "Windows", "Forms"),
             "GTKControls", "GtkControls", csprojPath);
-        var postprocessingXml = GetPostprocessingXml();
 
         const string net4xGtkDrawing = "Net4x.Gtk.Drawing";
         ConsoleUtility.WriteInGreen(@$"Separating {net4xGtkDrawing} from {net4xGtkWindowsForms}");
         DrawingService.SeparateDrawing(net4xGtkDrawing);
 
         ConsoleUtility.WriteInGreen(@"Applying files post processings");
+
+        var postprocessingXml = GetPostprocessingXml();
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
             postprocessingXml);
+
         ResGenService.RegenerateSrDesigner(projectDirectory, csprojPath);
 
         BackupUtility.CleanEmptyFolders(projectDirectory);
@@ -111,7 +113,7 @@ public class Program
         return solutionPath;
     }
 
-    private static void RemoveXmlComments(string csprojPath)
+    private static void RemoveOldXmlComments(string csprojPath)
     {
 #pragma warning disable CS8604 // Possible null reference argument.
         var path = Path.Combine(Path.GetDirectoryName(csprojPath), "GTKSystem.Windows.Forms.xml");

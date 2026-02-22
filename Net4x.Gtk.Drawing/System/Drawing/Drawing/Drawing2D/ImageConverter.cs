@@ -11,6 +11,10 @@ namespace System.Drawing
 	{
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
+			//if (!(sourceType == typeof(byte[])))
+			//{
+			//	return sourceType == typeof(Icon);
+			//}
 			return true;
 		}
 
@@ -25,6 +29,11 @@ namespace System.Drawing
 
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
+			//Icon icon = value as Icon;
+			//if (icon != null)
+			//{
+			//	return icon.ToBitmap();
+			//}
 			byte[] array = value as byte[];
 			if (array != null)
 			{
@@ -86,6 +95,7 @@ namespace System.Drawing
 			return null;
 		}
 
+		//[RequiresUnreferencedCode("The Type of value cannot be statically discovered. The public parameterless constructor or the 'Default' static field may be trimmed from the Attribute's Type.")]
 		public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
 		{
 			return TypeDescriptor.GetProperties(typeof(Image), attributes);
