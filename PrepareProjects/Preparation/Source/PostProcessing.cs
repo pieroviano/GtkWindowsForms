@@ -1,11 +1,9 @@
-using PrepareProjects.Model;
-using System;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using PrepareProjects.Model;
 
-namespace PrepareProjects.Preparation;
+namespace PrepareProjects.Preparation.Source;
 
 public static class PostProcessing
 {

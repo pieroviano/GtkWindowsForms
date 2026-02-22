@@ -1,12 +1,12 @@
 using Prepare.Common.IO;
 
-namespace PrepareProjects.Preparation;
+namespace PrepareProjects.Preparation.Directories;
 
-public static class DrawinfService
+public static class DrawingService
 {
-    public static void SeparateDrawing()
+    public static void SeparateDrawing(string gtkDrawings)
     {
-        const string resourcesNet4xGtkDrawingsCsproj = @"..\..\..\Resources\Net4x.Gtk.Drawings.csproj";
+        string resourcesNet4xGtkDrawingsCsproj = @$"..\..\..\Resources\{gtkDrawings}.csproj";
         const string net4xGtkDrawings = @"..\..\..\..\Net4x.Gtk.Drawings";
         const string net4xGtkDrawingsSystem = @"..\..\..\..\Net4x.Gtk.Drawings\System";
         const string net4xGtkDrawingsSystemDrawing = @$"{net4xGtkDrawingsSystem}\Drawing";

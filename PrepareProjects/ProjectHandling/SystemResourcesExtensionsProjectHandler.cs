@@ -1,19 +1,20 @@
 using System.Xml.Linq;
 using Prepare.Common.IO;
 using PrepareProjects.Preparation;
+using PrepareProjects.Preparation.Source;
 
 namespace PrepareProjects.ProjectHandling;
 
 public static class SystemResourcesExtensionsProjectHandler
 {
-    public static void Prepare()
+    public static void Prepare(string net4xSystemResourcesExtensionsCsproj)
     {
         var targetDir = ProjectUtility.CopyProjectAndTranslateIt(
             "System.Resources.Extensions",
             "Net4x.System.Resources.Extensions", ProjectPatching.PatchProjectNamespace);
 
         var oldCsproj = Path.Combine(targetDir, "System.Resources.Extensions.csproj");
-        var newCsproj = Path.Combine(targetDir, "Net4x.System.Resources.Extensions.csproj");
+        var newCsproj = Path.Combine(targetDir, net4xSystemResourcesExtensionsCsproj);
 
         File.Move(oldCsproj, newCsproj, true);
 

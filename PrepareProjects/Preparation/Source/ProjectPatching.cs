@@ -1,9 +1,8 @@
-﻿using Prepare.Common;
-using PrepareProjects.Properties;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Prepare.Common.Projects;
 
-namespace PrepareProjects.Preparation;
+namespace PrepareProjects.Preparation.Source;
 
 public static class ProjectPatching
 {
@@ -40,6 +39,8 @@ public static class ProjectPatching
         ForceNetstandard(csprojPath);
         EnsureResxProcessorInNugetPackageAsTool(csprojPath);
         EnsureLocalizedResourcesItemsInProject(csprojPath);
+        ReferenceService.EnsureProjectReference(csprojPath, 
+            @"..\Net4x.Gtk.Windows.FormsDesigner\Net4x.Gtk.Windows.FormsDesigner.csproj");
         return csprojPath;
     }
 
@@ -62,43 +63,6 @@ public static class ProjectPatching
                     new XAttribute("PackagePath", link)));
         }
     }
-
-    private static void EnsurePackageReference(
-        string csprojPath,
-        string packageId,
-        string version)
-    {
-        var doc = XDocument.Load(csprojPath);
-        var ns = doc.Root!.Name.Namespace;
-
-        // Find an ItemGroup that already has PackageReference(s)
-        var itemGroup = doc
-            .Root!
-            .Elements(ns + "ItemGroup")
-            .FirstOrDefault(ig => ig.Elements(ns + "PackageReference").Any());
-
-        // If none exists, create a new ItemGroup
-        if (itemGroup == null)
-        {
-            itemGroup = new XElement(ns + "ItemGroup");
-            doc.Root!.Add(itemGroup);
-        }
-
-        var exists = itemGroup
-            .Elements(ns + "PackageReference")
-            .Any(pr => (string?)pr.Attribute("Include") == packageId);
-
-        if (!exists)
-        {
-            itemGroup.Add(
-                new XElement(ns + "PackageReference",
-                    new XAttribute("Include", packageId),
-                    new XAttribute("Version", version)));
-        }
-
-        doc.Save(csprojPath);
-    }
-
 
     private static void CopyContentAndResources(string projectDirectory)
     {

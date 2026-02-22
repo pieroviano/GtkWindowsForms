@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace PrepareProjects.Preparation;
+﻿namespace PrepareProjects.Preparation.Source;
 
 public static class CommentCleaner
 {

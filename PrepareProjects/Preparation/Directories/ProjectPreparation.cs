@@ -1,7 +1,8 @@
 using Prepare.Common.Content;
 using Prepare.Common.IO;
+using PrepareProjects.Preparation.Source;
 
-namespace PrepareProjects.Preparation;
+namespace PrepareProjects.Preparation.Directories;
 
 public static class ProjectPreparation
 {

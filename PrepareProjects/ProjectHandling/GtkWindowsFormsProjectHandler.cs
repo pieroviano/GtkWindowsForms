@@ -4,6 +4,8 @@ using System.Xml.Linq;
 using Prepare.Common.IO;
 using Prepare.Common.Languages;
 using PrepareProjects.Preparation;
+using PrepareProjects.Preparation.Directories;
+using PrepareProjects.Preparation.Source;
 
 namespace PrepareProjects.ProjectHandling;
 

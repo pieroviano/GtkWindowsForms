@@ -41,7 +41,7 @@
     <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;</SourceString>
     <TargetString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;
-    &lt;PackageReference Include="Net4x.NuGetUtility" Version="1.0.8" /&gt;</TargetString>
+    &lt;PackageReference Include="Net4x.NuGetUtility" Version="1.0.8" PrivateAssets="All" /&gt;</TargetString>
   </Item>
   <Item>
     <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
