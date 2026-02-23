@@ -220,6 +220,259 @@
              Initializes a new instance of the ToolboxItem class using the specified type.
             </summary>
         </member>
+        <member name="T:System.Drawing.Bitmap">
+            <summary>
+            Encapsulates a GDI+ bitmap, which consists of the pixel data for a graphics image and its attributes. A <see cref="T:System.Drawing.Bitmap" /> is an object used to work with images defined by pixel data.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
+            </summary>
+            <param name="filename">The bitmap file name and path.</param>
+            <exception cref="T:System.IO.FileNotFoundException">The specified file is not found.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
+            </summary>
+            <param name="filename">The name of the bitmap file.</param>
+            <param name="useIcm">
+              <see langword="true" /> to use color correction for this <see cref="T:System.Drawing.Bitmap" />; otherwise, <see langword="false" />.</param>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.IO.Stream)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified data stream.
+            </summary>
+            <param name="stream">The data stream used to load the image.</param>
+            <exception cref="T:System.ArgumentException">
+              <paramref name="stream" /> does not contain image data or is <see langword="null" />.
+            -or-
+            <paramref name="stream" /> contains a PNG image file with a single dimension greater than 65,535 pixels.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.IO.Stream,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified data stream.
+            </summary>
+            <param name="stream">The data stream used to load the image.</param>
+            <param name="useIcm">
+              <see langword="true" /> to use color correction for this <see cref="T:System.Drawing.Bitmap" />; otherwise, <see langword="false" />.</param>
+            <exception cref="T:System.ArgumentException">
+              <paramref name="stream" /> does not contain image data or is <see langword="null" />.
+            -or-
+            <paramref name="stream" /> contains a PNG image file with a single dimension greater than 65,535 pixels.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.Type,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from a specified resource.
+            </summary>
+            <param name="type">The class used to extract the resource.</param>
+            <param name="resource">The name of the resource.</param>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class with the specified size.
+            </summary>
+            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Drawing.Graphics)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class with the specified size and with the resolution of the specified <see cref="T:System.Drawing.Graphics" /> object.
+            </summary>
+            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="g">The <see cref="T:System.Drawing.Graphics" /> object that specifies the resolution for the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <exception cref="T:System.ArgumentNullException">
+              <paramref name="g" /> is <see langword="null" />.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Int32,System.Drawing.Imaging.PixelFormat,System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class with the specified size, pixel format, and pixel data.
+            </summary>
+            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="stride">Integer that specifies the byte offset between the beginning of one scan line and the next. This is usually (but not necessarily) the number of bytes in the pixel format (for example, 2 for 16 bits per pixel) multiplied by the width of the bitmap. The value passed to this parameter must be a multiple of four.</param>
+            <param name="format">The pixel format for the new <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with <c>Format</c>.</param>
+            <param name="scan0">Pointer to an array of bytes that contains the pixel data.</param>
+            <exception cref="T:System.ArgumentException">A <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an <see cref="T:System.ArgumentException" />, but <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class with the specified size and format.
+            </summary>
+            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="format">The pixel format for the new <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with <c>Format</c>.</param>
+            <exception cref="T:System.ArgumentException">A <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an <see cref="T:System.ArgumentException" />, but <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.Drawing.Image)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified existing image.
+            </summary>
+            <param name="original">The <see cref="T:System.Drawing.Image" /> from which to create the new <see cref="T:System.Drawing.Bitmap" />.</param>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.Drawing.Image,System.Drawing.Size)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified existing image, scaled to the specified size.
+            </summary>
+            <param name="original">The <see cref="T:System.Drawing.Image" /> from which to create the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="newSize">The <see cref="T:System.Drawing.Size" /> structure that represent the size of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.Drawing.Image,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified existing image, scaled to the specified size.
+            </summary>
+            <param name="original">The <see cref="T:System.Drawing.Image" /> from which to create the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.FromHicon(System.IntPtr)">
+            <summary>
+            Creates a <see cref="T:System.Drawing.Bitmap" /> from a Windows handle to an icon.
+            </summary>
+            <param name="hicon">A handle to an icon.</param>
+            <returns>The <see cref="T:System.Drawing.Bitmap" /> that this method creates.</returns>
+        </member>
+        <member name="M:System.Drawing.Bitmap.FromResource(System.IntPtr,System.String)">
+            <summary>
+            Creates a <see cref="T:System.Drawing.Bitmap" /> from the specified Windows resource.
+            </summary>
+            <param name="hinstance">A handle to an instance of the executable file that contains the resource.</param>
+            <param name="bitmapName">A string that contains the name of the resource bitmap.</param>
+            <returns>The <see cref="T:System.Drawing.Bitmap" /> that this method creates.</returns>
+        </member>
+        <member name="M:System.Drawing.Bitmap.GetHbitmap">
+            <summary>
+            Creates a GDI bitmap object from this <see cref="T:System.Drawing.Bitmap" />.
+            </summary>
+            <returns>A handle to the GDI bitmap object that this method creates.</returns>
+            <exception cref="T:System.ArgumentException">The height or width of the bitmap is greater than <see cref="F:System.Int16.MaxValue" />.</exception>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.GetHbitmap(System.Drawing.Color)">
+            <summary>
+            Creates a GDI bitmap object from this <see cref="T:System.Drawing.Bitmap" />.
+            </summary>
+            <param name="background">A <see cref="T:System.Drawing.Color" /> structure that specifies the background color. This parameter is ignored if the bitmap is totally opaque.</param>
+            <returns>A handle to the GDI bitmap object that this method creates.</returns>
+            <exception cref="T:System.ArgumentException">The height or width of the bitmap is greater than <see cref="F:System.Int16.MaxValue" />.</exception>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.GetHicon">
+            <summary>
+            Returns the handle to an icon.
+            </summary>
+            <returns>A Windows handle to an icon with the same image as the <see cref="T:System.Drawing.Bitmap" />.</returns>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.Clone(System.Drawing.RectangleF,System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Creates a copy of the section of this <see cref="T:System.Drawing.Bitmap" /> defined with a specified <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration.
+            </summary>
+            <param name="rect">Defines the portion of this <see cref="T:System.Drawing.Bitmap" /> to copy.</param>
+            <param name="format">Specifies the <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration for the destination <see cref="T:System.Drawing.Bitmap" />.</param>
+            <returns>The <see cref="T:System.Drawing.Bitmap" /> that this method creates.</returns>
+            <exception cref="T:System.OutOfMemoryException">
+              <paramref name="rect" /> is outside of the source bitmap bounds.</exception>
+            <exception cref="T:System.ArgumentException">The height or width of <paramref name="rect" /> is 0.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.MakeTransparent">
+            <summary>
+            Makes the default transparent color transparent for this <see cref="T:System.Drawing.Bitmap" />.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">The image format of the <see cref="T:System.Drawing.Bitmap" /> is an icon format.</exception>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.MakeTransparent(System.Drawing.Color)">
+            <summary>
+            Makes the specified color transparent for this <see cref="T:System.Drawing.Bitmap" />.
+            </summary>
+            <param name="transparentColor">The <see cref="T:System.Drawing.Color" /> structure that represents the color to make transparent.</param>
+            <exception cref="T:System.InvalidOperationException">The image format of the <see cref="T:System.Drawing.Bitmap" /> is an icon format.</exception>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.LockBits(System.Drawing.Rectangle,System.Drawing.Imaging.ImageLockMode,System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Locks a <see cref="T:System.Drawing.Bitmap" /> into system memory.
+            </summary>
+            <param name="rect">A <see cref="T:System.Drawing.Rectangle" /> structure that specifies the portion of the <see cref="T:System.Drawing.Bitmap" /> to lock.</param>
+            <param name="flags">An <see cref="T:System.Drawing.Imaging.ImageLockMode" /> enumeration that specifies the access level (read/write) for the <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="format">A <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration that specifies the data format of this <see cref="T:System.Drawing.Bitmap" />.</param>
+            <returns>A <see cref="T:System.Drawing.Imaging.BitmapData" /> that contains information about this lock operation.</returns>
+            <exception cref="T:System.ArgumentException">The <see cref="T:System.Drawing.Imaging.PixelFormat" /> is not a specific bits-per-pixel value.
+            -or-
+            The incorrect <see cref="T:System.Drawing.Imaging.PixelFormat" /> is passed in for a bitmap.</exception>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.LockBits(System.Drawing.Rectangle,System.Drawing.Imaging.ImageLockMode,System.Drawing.Imaging.PixelFormat,System.Drawing.Imaging.BitmapData)">
+            <summary>
+            Locks a <see cref="T:System.Drawing.Bitmap" /> into system memory.
+            </summary>
+            <param name="rect">A rectangle structure that specifies the portion of the <see cref="T:System.Drawing.Bitmap" /> to lock.</param>
+            <param name="flags">One of the <see cref="T:System.Drawing.Imaging.ImageLockMode" /> values that specifies the access level (read/write) for the <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="format">One of the <see cref="T:System.Drawing.Imaging.PixelFormat" /> values that specifies the data format of the <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="bitmapData">A <see cref="T:System.Drawing.Imaging.BitmapData" /> that contains information about the lock operation.</param>
+            <returns>A <see cref="T:System.Drawing.Imaging.BitmapData" /> that contains information about the lock operation.</returns>
+            <exception cref="T:System.ArgumentException">
+              <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is not a specific bits-per-pixel value.
+            -or-
+            The incorrect <see cref="T:System.Drawing.Imaging.PixelFormat" /> is passed in for a bitmap.</exception>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.UnlockBits(System.Drawing.Imaging.BitmapData)">
+            <summary>
+            Unlocks this <see cref="T:System.Drawing.Bitmap" /> from system memory.
+            </summary>
+            <param name="bitmapdata">A <see cref="T:System.Drawing.Imaging.BitmapData" /> that specifies information about the lock operation.</param>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.GetPixel(System.Int32,System.Int32)">
+            <summary>
+            Gets the color of the specified pixel in this <see cref="T:System.Drawing.Bitmap" />.
+            </summary>
+            <param name="x">The x-coordinate of the pixel to retrieve.</param>
+            <param name="y">The y-coordinate of the pixel to retrieve.</param>
+            <returns>A <see cref="T:System.Drawing.Color" /> structure that represents the color of the specified pixel.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+              <paramref name="x" /> is less than 0, or greater than or equal to <see cref="P:System.Drawing.Image.Width" />.
+            -or-
+            <paramref name="y" /> is less than 0, or greater than or equal to <see cref="P:System.Drawing.Image.Height" />.</exception>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.SetPixel(System.Int32,System.Int32,System.Drawing.Color)">
+            <summary>
+            Sets the color of the specified pixel in this <see cref="T:System.Drawing.Bitmap" />.
+            </summary>
+            <param name="x">The x-coordinate of the pixel to set.</param>
+            <param name="y">The y-coordinate of the pixel to set.</param>
+            <param name="color">A <see cref="T:System.Drawing.Color" /> structure that represents the color to assign to the specified pixel.</param>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.SetResolution(System.Single,System.Single)">
+            <summary>
+            Sets the resolution for this <see cref="T:System.Drawing.Bitmap" />.
+            </summary>
+            <param name="xDpi">The horizontal resolution, in dots per inch, of the <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="yDpi">The vertical resolution, in dots per inch, of the <see cref="T:System.Drawing.Bitmap" />.</param>
+            <exception cref="T:System.Exception">The operation failed.</exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.Clone(System.Drawing.Rectangle,System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Creates a copy of the section of this <see cref="T:System.Drawing.Bitmap" /> defined by <see cref="T:System.Drawing.Rectangle" /> structure and with a specified <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration.
+            </summary>
+            <param name="rect">Defines the portion of this <see cref="T:System.Drawing.Bitmap" /> to copy. Coordinates are relative to this <see cref="T:System.Drawing.Bitmap" />.</param>
+            <param name="format">The pixel format for the new <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with <c>Format</c>.</param>
+            <returns>The new <see cref="T:System.Drawing.Bitmap" /> that this method creates.</returns>
+            <exception cref="T:System.OutOfMemoryException">
+              <paramref name="rect" /> is outside of the source bitmap bounds.</exception>
+            <exception cref="T:System.ArgumentException">The height or width of <paramref name="rect" /> is 0.
+            -or-
+            A <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an <see cref="T:System.ArgumentException" />, but <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.</exception>
+        </member>
         <member name="T:System.Drawing.Drawing2D.Blend">
             <summary>
             Defines a blend pattern for a <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" /> object. This class cannot be inherited.
@@ -524,57 +777,6 @@
         <member name="F:System.Drawing.Drawing2D.DashStyle.Custom">
             <summary>
             Specifies a user-defined custom dash style.
-            </summary>
-        </member>
-        <member name="T:System.Drawing.Drawing2D.WarpMode">
-            <summary>
-            Specifies the type of warp transformation applied in a <see cref="!:Overload:System.Drawing.Drawing2D.GraphicsPath.Warp" /> method.
-            </summary>
-        </member>
-        <member name="F:System.Drawing.Drawing2D.WarpMode.Perspective">
-            <summary>
-            Specifies a perspective warp.
-            </summary>
-        </member>
-        <member name="F:System.Drawing.Drawing2D.WarpMode.Bilinear">
-            <summary>
-            Specifies a bilinear warp.
-            </summary>
-        </member>
-        <member name="T:System.Drawing.Drawing2D.WrapMode">
-            <summary>
-            Specifies how a texture or gradient is tiled when it is smaller than the area being filled.
-            </summary>
-        </member>
-        <member name="F:System.Drawing.Drawing2D.WrapMode.Tile">
-            <summary>
-            Tiles the gradient or texture.
-            </summary>
-        </member>
-        <member name="F:System.Drawing.Drawing2D.WrapMode.TileFlipX">
-            <summary>
-            Reverses the texture or gradient horizontally and then tiles the texture or gradient.
-            </summary>
-        </member>
-        <member name="F:System.Drawing.Drawing2D.WrapMode.TileFlipY">
-            <summary>
-            Reverses the texture or gradient vertically and then tiles the texture or gradient.
-            </summary>
-        </member>
-        <member name="F:System.Drawing.Drawing2D.WrapMode.TileFlipXY">
-            <summary>
-            Reverses the texture or gradient horizontally and vertically and then tiles the texture or gradient.
-            </summary>
-        </member>
-        <member name="F:System.Drawing.Drawing2D.WrapMode.Clamp">
-            <summary>
-            The texture or gradient is not tiled.
-            </summary>
-        </member>
-        <member name="T:System.Drawing.Drawing2D.GraphicsState">
-            <summary>
-            Represents the state of a System.Drawing.Graphics object. This object is returned
-            by a call to the System.Drawing.Graphics.Save methods. This class cannot be inherited.
             </summary>
         </member>
         <member name="T:System.Drawing.Drawing2D.InterpolationMode">
@@ -1721,6 +1923,51 @@
             Specifies a hatch that has the appearance of a checkerboard placed diagonally.
             </summary>
         </member>
+        <member name="T:System.Drawing.Drawing2D.WarpMode">
+            <summary>
+            Specifies the type of warp transformation applied in a <see cref="!:Overload:System.Drawing.Drawing2D.GraphicsPath.Warp" /> method.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.WarpMode.Perspective">
+            <summary>
+            Specifies a perspective warp.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.WarpMode.Bilinear">
+            <summary>
+            Specifies a bilinear warp.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.WrapMode">
+            <summary>
+            Specifies how a texture or gradient is tiled when it is smaller than the area being filled.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.WrapMode.Tile">
+            <summary>
+            Tiles the gradient or texture.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.WrapMode.TileFlipX">
+            <summary>
+            Reverses the texture or gradient horizontally and then tiles the texture or gradient.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.WrapMode.TileFlipY">
+            <summary>
+            Reverses the texture or gradient vertically and then tiles the texture or gradient.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.WrapMode.TileFlipXY">
+            <summary>
+            Reverses the texture or gradient horizontally and vertically and then tiles the texture or gradient.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Drawing2D.WrapMode.Clamp">
+            <summary>
+            The texture or gradient is not tiled.
+            </summary>
+        </member>
         <member name="T:System.Drawing.Drawing2D.LinearGradientBrush">
             <summary>
             Encapsulates a <see cref="T:System.Drawing.Brush" /> with a linear gradient. This class cannot be inherited.
@@ -2641,258 +2888,11 @@
             Specifies antialiased rendering.
             </summary>
         </member>
-        <member name="T:System.Drawing.Bitmap">
+        <member name="T:System.Drawing.Drawing2D.GraphicsState">
             <summary>
-            Encapsulates a GDI+ bitmap, which consists of the pixel data for a graphics image and its attributes. A <see cref="T:System.Drawing.Bitmap" /> is an object used to work with images defined by pixel data.
+            Represents the state of a System.Drawing.Graphics object. This object is returned
+            by a call to the System.Drawing.Graphics.Save methods. This class cannot be inherited.
             </summary>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
-            </summary>
-            <param name="filename">The bitmap file name and path.</param>
-            <exception cref="T:System.IO.FileNotFoundException">The specified file is not found.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.String,System.Boolean)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
-            </summary>
-            <param name="filename">The name of the bitmap file.</param>
-            <param name="useIcm">
-              <see langword="true" /> to use color correction for this <see cref="T:System.Drawing.Bitmap" />; otherwise, <see langword="false" />.</param>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.IO.Stream)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified data stream.
-            </summary>
-            <param name="stream">The data stream used to load the image.</param>
-            <exception cref="T:System.ArgumentException">
-              <paramref name="stream" /> does not contain image data or is <see langword="null" />.
-            -or-
-            <paramref name="stream" /> contains a PNG image file with a single dimension greater than 65,535 pixels.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.IO.Stream,System.Boolean)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified data stream.
-            </summary>
-            <param name="stream">The data stream used to load the image.</param>
-            <param name="useIcm">
-              <see langword="true" /> to use color correction for this <see cref="T:System.Drawing.Bitmap" />; otherwise, <see langword="false" />.</param>
-            <exception cref="T:System.ArgumentException">
-              <paramref name="stream" /> does not contain image data or is <see langword="null" />.
-            -or-
-            <paramref name="stream" /> contains a PNG image file with a single dimension greater than 65,535 pixels.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Type,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from a specified resource.
-            </summary>
-            <param name="type">The class used to extract the resource.</param>
-            <param name="resource">The name of the resource.</param>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class with the specified size.
-            </summary>
-            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Drawing.Graphics)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class with the specified size and with the resolution of the specified <see cref="T:System.Drawing.Graphics" /> object.
-            </summary>
-            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="g">The <see cref="T:System.Drawing.Graphics" /> object that specifies the resolution for the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <exception cref="T:System.ArgumentNullException">
-              <paramref name="g" /> is <see langword="null" />.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Int32,System.Drawing.Imaging.PixelFormat,System.IntPtr)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class with the specified size, pixel format, and pixel data.
-            </summary>
-            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="stride">Integer that specifies the byte offset between the beginning of one scan line and the next. This is usually (but not necessarily) the number of bytes in the pixel format (for example, 2 for 16 bits per pixel) multiplied by the width of the bitmap. The value passed to this parameter must be a multiple of four.</param>
-            <param name="format">The pixel format for the new <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with <c>Format</c>.</param>
-            <param name="scan0">Pointer to an array of bytes that contains the pixel data.</param>
-            <exception cref="T:System.ArgumentException">A <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an <see cref="T:System.ArgumentException" />, but <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Drawing.Imaging.PixelFormat)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class with the specified size and format.
-            </summary>
-            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="format">The pixel format for the new <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with <c>Format</c>.</param>
-            <exception cref="T:System.ArgumentException">A <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an <see cref="T:System.ArgumentException" />, but <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Drawing.Image)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified existing image.
-            </summary>
-            <param name="original">The <see cref="T:System.Drawing.Image" /> from which to create the new <see cref="T:System.Drawing.Bitmap" />.</param>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Drawing.Image,System.Drawing.Size)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified existing image, scaled to the specified size.
-            </summary>
-            <param name="original">The <see cref="T:System.Drawing.Image" /> from which to create the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="newSize">The <see cref="T:System.Drawing.Size" /> structure that represent the size of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Drawing.Image,System.Int32,System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap" /> class from the specified existing image, scaled to the specified size.
-            </summary>
-            <param name="original">The <see cref="T:System.Drawing.Image" /> from which to create the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="width">The width, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="height">The height, in pixels, of the new <see cref="T:System.Drawing.Bitmap" />.</param>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.FromHicon(System.IntPtr)">
-            <summary>
-            Creates a <see cref="T:System.Drawing.Bitmap" /> from a Windows handle to an icon.
-            </summary>
-            <param name="hicon">A handle to an icon.</param>
-            <returns>The <see cref="T:System.Drawing.Bitmap" /> that this method creates.</returns>
-        </member>
-        <member name="M:System.Drawing.Bitmap.FromResource(System.IntPtr,System.String)">
-            <summary>
-            Creates a <see cref="T:System.Drawing.Bitmap" /> from the specified Windows resource.
-            </summary>
-            <param name="hinstance">A handle to an instance of the executable file that contains the resource.</param>
-            <param name="bitmapName">A string that contains the name of the resource bitmap.</param>
-            <returns>The <see cref="T:System.Drawing.Bitmap" /> that this method creates.</returns>
-        </member>
-        <member name="M:System.Drawing.Bitmap.GetHbitmap">
-            <summary>
-            Creates a GDI bitmap object from this <see cref="T:System.Drawing.Bitmap" />.
-            </summary>
-            <returns>A handle to the GDI bitmap object that this method creates.</returns>
-            <exception cref="T:System.ArgumentException">The height or width of the bitmap is greater than <see cref="F:System.Int16.MaxValue" />.</exception>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.GetHbitmap(System.Drawing.Color)">
-            <summary>
-            Creates a GDI bitmap object from this <see cref="T:System.Drawing.Bitmap" />.
-            </summary>
-            <param name="background">A <see cref="T:System.Drawing.Color" /> structure that specifies the background color. This parameter is ignored if the bitmap is totally opaque.</param>
-            <returns>A handle to the GDI bitmap object that this method creates.</returns>
-            <exception cref="T:System.ArgumentException">The height or width of the bitmap is greater than <see cref="F:System.Int16.MaxValue" />.</exception>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.GetHicon">
-            <summary>
-            Returns the handle to an icon.
-            </summary>
-            <returns>A Windows handle to an icon with the same image as the <see cref="T:System.Drawing.Bitmap" />.</returns>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.Clone(System.Drawing.RectangleF,System.Drawing.Imaging.PixelFormat)">
-            <summary>
-            Creates a copy of the section of this <see cref="T:System.Drawing.Bitmap" /> defined with a specified <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration.
-            </summary>
-            <param name="rect">Defines the portion of this <see cref="T:System.Drawing.Bitmap" /> to copy.</param>
-            <param name="format">Specifies the <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration for the destination <see cref="T:System.Drawing.Bitmap" />.</param>
-            <returns>The <see cref="T:System.Drawing.Bitmap" /> that this method creates.</returns>
-            <exception cref="T:System.OutOfMemoryException">
-              <paramref name="rect" /> is outside of the source bitmap bounds.</exception>
-            <exception cref="T:System.ArgumentException">The height or width of <paramref name="rect" /> is 0.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.MakeTransparent">
-            <summary>
-            Makes the default transparent color transparent for this <see cref="T:System.Drawing.Bitmap" />.
-            </summary>
-            <exception cref="T:System.InvalidOperationException">The image format of the <see cref="T:System.Drawing.Bitmap" /> is an icon format.</exception>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.MakeTransparent(System.Drawing.Color)">
-            <summary>
-            Makes the specified color transparent for this <see cref="T:System.Drawing.Bitmap" />.
-            </summary>
-            <param name="transparentColor">The <see cref="T:System.Drawing.Color" /> structure that represents the color to make transparent.</param>
-            <exception cref="T:System.InvalidOperationException">The image format of the <see cref="T:System.Drawing.Bitmap" /> is an icon format.</exception>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.LockBits(System.Drawing.Rectangle,System.Drawing.Imaging.ImageLockMode,System.Drawing.Imaging.PixelFormat)">
-            <summary>
-            Locks a <see cref="T:System.Drawing.Bitmap" /> into system memory.
-            </summary>
-            <param name="rect">A <see cref="T:System.Drawing.Rectangle" /> structure that specifies the portion of the <see cref="T:System.Drawing.Bitmap" /> to lock.</param>
-            <param name="flags">An <see cref="T:System.Drawing.Imaging.ImageLockMode" /> enumeration that specifies the access level (read/write) for the <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="format">A <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration that specifies the data format of this <see cref="T:System.Drawing.Bitmap" />.</param>
-            <returns>A <see cref="T:System.Drawing.Imaging.BitmapData" /> that contains information about this lock operation.</returns>
-            <exception cref="T:System.ArgumentException">The <see cref="T:System.Drawing.Imaging.PixelFormat" /> is not a specific bits-per-pixel value.
-            -or-
-            The incorrect <see cref="T:System.Drawing.Imaging.PixelFormat" /> is passed in for a bitmap.</exception>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.LockBits(System.Drawing.Rectangle,System.Drawing.Imaging.ImageLockMode,System.Drawing.Imaging.PixelFormat,System.Drawing.Imaging.BitmapData)">
-            <summary>
-            Locks a <see cref="T:System.Drawing.Bitmap" /> into system memory.
-            </summary>
-            <param name="rect">A rectangle structure that specifies the portion of the <see cref="T:System.Drawing.Bitmap" /> to lock.</param>
-            <param name="flags">One of the <see cref="T:System.Drawing.Imaging.ImageLockMode" /> values that specifies the access level (read/write) for the <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="format">One of the <see cref="T:System.Drawing.Imaging.PixelFormat" /> values that specifies the data format of the <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="bitmapData">A <see cref="T:System.Drawing.Imaging.BitmapData" /> that contains information about the lock operation.</param>
-            <returns>A <see cref="T:System.Drawing.Imaging.BitmapData" /> that contains information about the lock operation.</returns>
-            <exception cref="T:System.ArgumentException">
-              <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is not a specific bits-per-pixel value.
-            -or-
-            The incorrect <see cref="T:System.Drawing.Imaging.PixelFormat" /> is passed in for a bitmap.</exception>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.UnlockBits(System.Drawing.Imaging.BitmapData)">
-            <summary>
-            Unlocks this <see cref="T:System.Drawing.Bitmap" /> from system memory.
-            </summary>
-            <param name="bitmapdata">A <see cref="T:System.Drawing.Imaging.BitmapData" /> that specifies information about the lock operation.</param>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.GetPixel(System.Int32,System.Int32)">
-            <summary>
-            Gets the color of the specified pixel in this <see cref="T:System.Drawing.Bitmap" />.
-            </summary>
-            <param name="x">The x-coordinate of the pixel to retrieve.</param>
-            <param name="y">The y-coordinate of the pixel to retrieve.</param>
-            <returns>A <see cref="T:System.Drawing.Color" /> structure that represents the color of the specified pixel.</returns>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-              <paramref name="x" /> is less than 0, or greater than or equal to <see cref="P:System.Drawing.Image.Width" />.
-            -or-
-            <paramref name="y" /> is less than 0, or greater than or equal to <see cref="P:System.Drawing.Image.Height" />.</exception>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.SetPixel(System.Int32,System.Int32,System.Drawing.Color)">
-            <summary>
-            Sets the color of the specified pixel in this <see cref="T:System.Drawing.Bitmap" />.
-            </summary>
-            <param name="x">The x-coordinate of the pixel to set.</param>
-            <param name="y">The y-coordinate of the pixel to set.</param>
-            <param name="color">A <see cref="T:System.Drawing.Color" /> structure that represents the color to assign to the specified pixel.</param>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.SetResolution(System.Single,System.Single)">
-            <summary>
-            Sets the resolution for this <see cref="T:System.Drawing.Bitmap" />.
-            </summary>
-            <param name="xDpi">The horizontal resolution, in dots per inch, of the <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="yDpi">The vertical resolution, in dots per inch, of the <see cref="T:System.Drawing.Bitmap" />.</param>
-            <exception cref="T:System.Exception">The operation failed.</exception>
-        </member>
-        <member name="M:System.Drawing.Bitmap.Clone(System.Drawing.Rectangle,System.Drawing.Imaging.PixelFormat)">
-            <summary>
-            Creates a copy of the section of this <see cref="T:System.Drawing.Bitmap" /> defined by <see cref="T:System.Drawing.Rectangle" /> structure and with a specified <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration.
-            </summary>
-            <param name="rect">Defines the portion of this <see cref="T:System.Drawing.Bitmap" /> to copy. Coordinates are relative to this <see cref="T:System.Drawing.Bitmap" />.</param>
-            <param name="format">The pixel format for the new <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with <c>Format</c>.</param>
-            <returns>The new <see cref="T:System.Drawing.Bitmap" /> that this method creates.</returns>
-            <exception cref="T:System.OutOfMemoryException">
-              <paramref name="rect" /> is outside of the source bitmap bounds.</exception>
-            <exception cref="T:System.ArgumentException">The height or width of <paramref name="rect" /> is 0.
-            -or-
-            A <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an <see cref="T:System.ArgumentException" />, but <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.</exception>
         </member>
         <member name="T:System.Drawing.ImageAnimator">
             <summary>
