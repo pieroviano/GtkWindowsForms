@@ -77,13 +77,13 @@ public class Program
         ConsoleUtility.WriteInGreen(@$"Separating {net4xGtkDrawing} from {net4xGtkWindowsForms}");
         DrawingService.SeparateDrawing(net4xGtkDrawing);
         DrawingDirectoryMover.MoveDrawing2D(
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawings\System\Drawing\Drawing2D\Drawing\")), 
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawings\System\Drawing\")), 
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawings\System\Drawing\Drawing2D\Drawing\")));
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Drawing\")), 
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\")), 
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Drawing\")));
         DrawingDirectoryMover.MoveDrawing2D(
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawings\System\Drawing\Drawing\")), 
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawings\System\Drawing\")), 
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawings\System\Drawing\Drawing\")));
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")), 
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\")), 
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")));
 
         ConsoleUtility.WriteInGreen(@"Applying files post processings");
 

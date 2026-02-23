@@ -11,6 +11,7 @@ public static class FilesXmlService
         string newRelativePath)
     {
         var filesXmlPath = Path.ChangeExtension(csprojPath, ".Files.xml");
+        filesXmlPath = PathService.ChangeLocationToParentFolder(filesXmlPath);
 
         if (!File.Exists(filesXmlPath))
         {

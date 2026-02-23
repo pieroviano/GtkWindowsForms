@@ -2,7 +2,6 @@
 <Files>
   <Item Source="Net4x.Gtk.Windows.Forms.csproj" Destination="Net4x.Gtk.Windows.Forms.csproj" />
   <Item Source="Net4x.Gtk.Windows.Forms.csproj.user" Destination="Net4x.Gtk.Windows.Forms.csproj.user" />
-  <Item Source="Net4x.Gtk.Windows.Forms.Files.xml" Destination="Net4x.Gtk.Windows.Forms.Files.xml" />
   <Item Source="Net4x.Gtk.Windows.Forms.props" Destination="Net4x.Gtk.Windows.Forms.props" />
   <Item Source="Net4x.Gtk.Windows.Forms.targets" Destination="Net4x.Gtk.Windows.Forms.targets" />
   <Item Source="Net4x.Gtk.Windows.Forms.xml" Destination="Net4x.Gtk.Windows.Forms.xml" />

@@ -243,6 +243,7 @@ public static class ProjectUtility
         }
 
         string outputPath = Path.ChangeExtension(csprojPath, $".{backupName.Replace(BackupUtility.Backup, BackupUtility.Files)}.xml");
+        outputPath = PathService.ChangeLocationToParentFolder(outputPath);
 
         XDocument doc = new XDocument(root);
         doc.Save(outputPath);
@@ -252,6 +253,7 @@ public static class ProjectUtility
     {
         var filesXmlPath = Path.ChangeExtension(csprojPath,
             $".{backupName.Replace(BackupUtility.Backup, BackupUtility.Files)}.xml");
+        filesXmlPath = PathService.ChangeLocationToParentFolder(filesXmlPath);
 
         if (!File.Exists(filesXmlPath))
         {
