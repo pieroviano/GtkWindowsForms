@@ -5,13 +5,23 @@ using System.Collections;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ListBox
     {
+        /// <summary>
+        /// Represents the collection containing the indexes to the selected items in a
+        /// <see cref="System.Windows.Forms.ListBox" />
+        /// </summary>
         public partial class SelectedIndexCollection : IList
         {
             /// <summary>
-            ///  EntryEnumerator is an enumerator that will enumerate over
-            ///  a given state mask.
+            /// EntryEnumerator is an enumerator that will enumerate over
+            /// a given state mask.
             /// </summary>
             private class SelectedIndexEnumerator : IEnumerator
             {
@@ -20,7 +30,7 @@ namespace System.Windows.Forms
                 private int _current;
 
                 /// <summary>
-                ///  Creates a new enumerator that will enumerate over the given state.
+                /// Creates a new enumerator that will enumerate over the given state.
                 /// </summary>
                 public SelectedIndexEnumerator(SelectedIndexCollection items)
                 {
@@ -29,7 +39,7 @@ namespace System.Windows.Forms
                 }
 
                 /// <summary>
-                ///  Moves to the next element, or returns false if at the end.
+                /// Moves to the next element, or returns false if at the end.
                 /// </summary>
                 bool IEnumerator.MoveNext()
                 {
@@ -46,7 +56,7 @@ namespace System.Windows.Forms
                 }
 
                 /// <summary>
-                ///  Resets the enumeration back to the beginning.
+                /// Resets the enumeration back to the beginning.
                 /// </summary>
                 void IEnumerator.Reset()
                 {
@@ -54,7 +64,7 @@ namespace System.Windows.Forms
                 }
 
                 /// <summary>
-                ///  Retrieves the current value in the enumerator.
+                /// Retrieves the current value in the enumerator.
                 /// </summary>
                 object IEnumerator.Current
                 {

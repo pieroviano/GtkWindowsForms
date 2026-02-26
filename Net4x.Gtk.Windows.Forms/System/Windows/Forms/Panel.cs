@@ -11,6 +11,12 @@ using System.Xml.Linq;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Used to group collections of controls.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class Panel : ScrollableControl
     {
@@ -22,6 +28,10 @@ namespace System.Windows.Forms
         public Gtk.Overlay contaner = new Gtk.Overlay();
 
         private ControlCollection _controls;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.Panel" /> class.
+        /// </summary>
         public Panel() : base()
         {
             _controls = new ControlCollection(this, contaner);

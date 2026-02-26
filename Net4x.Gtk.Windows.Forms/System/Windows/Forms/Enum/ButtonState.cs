@@ -5,8 +5,11 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Specifies the appearance of a button.
+    /// Specifies the appearance of a button.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [Flags]
     public enum ButtonState
     {
@@ -37,7 +40,7 @@ namespace System.Windows.Forms
         /// </summary>
         Flat = 16384,
         /// <summary>
-        ///  All viable flags in the bit mask are used.
+        /// All viable flags in the bit mask are used.
         /// </summary>
         All = Flat | Checked | Pushed | Inactive,
     }

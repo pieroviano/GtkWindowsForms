@@ -1,6 +1,6 @@
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
-    public sealed class ButtonBase: Gtk.Button, IControlGtk
+    public sealed class ButtonBase : Gtk.Button, IControlGtk
     {
 
         public GtkControlOverride Override { get; set; }

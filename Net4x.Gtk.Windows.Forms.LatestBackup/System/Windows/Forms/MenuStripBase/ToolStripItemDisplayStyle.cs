@@ -3,8 +3,12 @@ namespace System.Windows.Forms
 {
 
     /// <summary>
-    /// Specifies what to render (image or text) for this System.Windows.Forms.ToolStripItem.
+    /// Specifies what to render (image or text) for this
+    /// <see cref="System.Windows.Forms.ToolStripItem" /> .
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum ToolStripItemDisplayStyle
     {
 

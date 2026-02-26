@@ -5,21 +5,35 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  A ControlEventArgs is an event that has a control as a property.
+    /// Provides data for the
+    /// <see cref="System.Windows.Forms.Control.ControlAdded" /> and
+    /// <see cref="System.Windows.Forms.Control.ControlRemoved" /> events.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public class ControlEventArgs : EventArgs
     {
         /// <summary>
-        ///  Creates a new ControlEventArgs.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ControlEventArgs" /> class for the specified control.
         /// </summary>
+        /// <param name="control">The
+        /// <see cref="System.Windows.Forms.Control" /> to store in this event.
+        /// </param>
         public ControlEventArgs(Control control)
         {
             Control = control;
         }
 
         /// <summary>
-        ///  Retrieves the control object stored in this event.
+        /// Gets the control object used by this event.
         /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.Control" /> used by this event.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public Control Control { get; }
     }
 }

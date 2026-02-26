@@ -2,9 +2,12 @@ namespace System.Windows.Forms
 {
 
     /// <summary>
-    /// Defines constants that indicate the alignment of content within a System.Windows.Forms.DataGridView
-    /// cell.
+    /// Defines constants that indicate the alignment of content within a
+    /// <see cref="System.Windows.Forms.DataGridView" /> cell.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum DataGridViewContentAlignment
     {
 
@@ -14,20 +17,17 @@ namespace System.Windows.Forms
         NotSet = 0,
 
         /// <summary>
-        /// The content is aligned vertically at the top and horizontally at the left of
-        /// a cell.
+        /// The content is aligned vertically at the top and horizontally at the left of a cell.
         /// </summary>
         TopLeft = 1,
 
         /// <summary>
-        /// The content is aligned vertically at the top and horizontally at the center of
-        /// a cell.
+        /// The content is aligned vertically at the top and horizontally at the center of a cell.
         /// </summary>
         TopCenter = 2,
 
         /// <summary>
-        /// The content is aligned vertically at the top and horizontally at the right of
-        /// a cell.
+        /// The content is aligned vertically at the top and horizontally at the right of a cell.
         /// </summary>
         TopRight = 4,
 

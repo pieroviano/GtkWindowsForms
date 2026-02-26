@@ -6,7 +6,8 @@ using System.Collections;
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Represents a linked list of <see cref="DataGridViewCell"/> objects
+    /// Represents a linked list of
+    /// <see cref="System.Windows.Forms.DataGridViewCell" /> objects
     /// </summary>
     internal class DataGridViewCellLinkedList : IEnumerable
     {
@@ -14,7 +15,7 @@ namespace System.Windows.Forms
         private int _count;
         public DataGridViewCellLinkedList()
         {
- 
+
         }
 
         public DataGridViewCell this[int index]
@@ -37,17 +38,17 @@ namespace System.Windows.Forms
 
         public void Add(DataGridViewCell dataGridViewCell)
         {
-            
+
         }
 
         public void Clear()
         {
- 
+
         }
 
         public bool Contains(DataGridViewCell dataGridViewCell)
         {
- 
+
             return false;
         }
 
@@ -58,14 +59,14 @@ namespace System.Windows.Forms
 
         public bool Remove(DataGridViewCell dataGridViewCell)
         {
- 
+
             return false;
         }
 
         public int RemoveAllCellsAtBand(bool column, int bandIndex)
         {
             int removedCount = 0;
-          
+
             return removedCount;
         }
     }

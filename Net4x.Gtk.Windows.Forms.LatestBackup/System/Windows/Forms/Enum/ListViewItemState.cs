@@ -6,8 +6,12 @@ namespace System.Windows.Forms
 {
 
     /// <summary>
-    /// Defines constants that represent the possible states of a System.Windows.Forms.ListViewItem.
+    /// Defines constants that represent the possible states of a
+    /// <see cref="System.Windows.Forms.ListViewItem" /> .
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [Flags]
     public enum ListViewItemStates
     {

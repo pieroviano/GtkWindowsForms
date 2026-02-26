@@ -3,12 +3,48 @@
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// Provides methods to manage a collection of
+    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// Provides methods to manage a collection of
+    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// Provides methods to manage a collection of
+    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// Provides methods to manage a collection of
+    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// Provides methods to manage a collection of
+    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// Provides methods to manage a collection of
+    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
     public sealed partial class ImageList
     {
         /// <summary>
-        ///  This class is for classes that want to support both an ImageIndex
-        ///  and ImageKey. We want to toggle between using keys or indexes.
-        ///  Default is to use the integer index.
+        /// This class is for classes that want to support both an ImageIndex
+        /// and ImageKey. We want to toggle between using keys or indexes.
+        /// Default is to use the integer index.
         /// </summary>
         internal class Indexer
         {
@@ -63,7 +99,7 @@ namespace System.Windows.Forms
                     {
 
                     }
-                     else //  if (ImageList != null)
+                    else //  if (ImageList != null)
                     {
                         return ImageList.Images.IndexOfKey(Key);
                     }

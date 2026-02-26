@@ -9,6 +9,13 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Enables the user to select a single option from a group of choices when paired with other
+    /// <see cref="System.Windows.Forms.RadioButton" /> controls.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class RadioButton : Control
     {
@@ -16,7 +23,12 @@ namespace System.Windows.Forms
         public readonly RadioButtonBase self = new RadioButtonBase();
 
         public override object GtkControl => self;
-        public RadioButton():base() {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.RadioButton" /> class.
+        /// </summary>
+        public RadioButton() : base()
+        {
             self.ParentSet += Self_ParentSet;
         }
 
@@ -30,7 +42,7 @@ namespace System.Windows.Forms
                     ((Gtk.RadioButton)o).Group = new Gtk.RadioButton[0];
                     // the first one added into the containerradio配组
                     ((Gtk.RadioButton)o).JoinGroup(group);
-                     break;
+                    break;
                 }
             }
             self.Active = _Checked;
@@ -45,8 +57,20 @@ namespace System.Windows.Forms
         public event EventHandler CheckedChanged;
 
 
-        public override string Text { get { return self.Label; } set { self.Label = value;} }
-
+        public override string Text { get { return self.Label; } set { self.Label = value; } }
+        /// <summary>
+        /// Gets or sets a value indicating whether the control is checked.
+        /// </summary>
+        /// <returns>true if the check box is checked; otherwise, false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool Checked { get { return self.Active; } set { _Checked = true; self.Active = true; } }
         private bool _Checked;
     }

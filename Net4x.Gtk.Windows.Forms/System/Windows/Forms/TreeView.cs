@@ -13,6 +13,13 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Displays a hierarchical collection of labeled items, each represented by a
+    /// <see cref="System.Windows.Forms.TreeNode" />
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class TreeView : ScrollableControl
     {
@@ -35,6 +42,10 @@ namespace System.Windows.Forms
         private CellRendererToggle renderercheckbox;
 
         private CellRendererIcon rendererPixbuf;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.TreeView" /> class.
+        /// </summary>
         public TreeView() : base()
         {
             root = new TreeNode(this);
@@ -118,7 +129,7 @@ namespace System.Windows.Forms
             {
                 Gtk.TreeSelection selection = sender as Gtk.TreeSelection;
                 TreePath[] paths = selection.GetSelectedRows();
-                if(paths.Length>0)
+                if (paths.Length > 0)
                 {
                     TreePath currpath = paths.Last();
                     TreeNode result = null;
@@ -155,7 +166,7 @@ namespace System.Windows.Forms
         }
         internal void InsertNode(int position, TreeNode node, TreeNode parent)
         {
-            if (node != null && parent != null) 
+            if (node != null && parent != null)
             {
                 var iter = Store.InsertWithValues(parent.TreeIter, position, node.Text, node.Checked, node.ImageIndex, node.ImageKey);
                 Gtk.TreePath path = Store.GetPath(iter);
@@ -169,7 +180,7 @@ namespace System.Windows.Forms
         {
             if (node != null)
             {
-                _store.SetValue(node.TreeIter,1,isChecked);
+                _store.SetValue(node.TreeIter, 1, isChecked);
             }
         }
         internal bool GetNodeChecked(TreeNode node)
@@ -218,6 +229,14 @@ namespace System.Windows.Forms
                 _store.SetValue(node.TreeIter, 3, key);
             }
         }
+        /// <summary>
+        /// Gets the collection of tree nodes that are assigned to the tree view control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TreeNodeCollection" /> that represents the tree nodes assigned to the tree view control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public TreeNodeCollection Nodes
         {
             get
@@ -227,6 +246,19 @@ namespace System.Windows.Forms
         }
 
         private bool _checkBoxs;
+        /// <summary>
+        /// Gets or sets a value indicating whether check boxes are displayed next to the tree nodes in the tree view control.
+        /// </summary>
+        /// <returns>true if a check box is displayed next to each tree node in the tree view control; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool CheckBoxes
         {
             get => _checkBoxs;
@@ -246,8 +278,28 @@ namespace System.Windows.Forms
         }
 
         private ImageList _imageList;
-        public ImageList ImageList { get => _imageList; 
-            set {
+        /// <summary>
+        /// Gets or sets the
+        /// <see cref="System.Windows.Forms.ImageList" /> that contains the
+        /// <see cref="System.Drawing.Image" /> objects that are used by the tree nodes.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.ImageList" /> that contains the
+        /// <see cref="System.Drawing.Image" /> objects that are used by the tree nodes. The default value is null.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public ImageList ImageList
+        {
+            get => _imageList;
+            set
+            {
                 _imageList = value;
                 rendererPixbuf.Visible = _imageList != null;
                 if (_imageList != null)
@@ -256,24 +308,106 @@ namespace System.Windows.Forms
                     column.AddAttribute(rendererPixbuf, "pixbufkey", 3);
                     column.AddAttribute(rendererPixbuf, "pixbufindex", 2);
                 }
-            } 
+            }
         }
-
+        /// <summary>
+        /// Gets or sets the image-list index value of the default image that is displayed by the tree nodes.
+        /// </summary>
+        /// <returns>A zero-based index that represents the position of an
+        /// <see cref="System.Drawing.Image" /> in an
+        /// <see cref="System.Windows.Forms.ImageList" /> The default is zero.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">The specified index is less than 0.
+        /// </exception>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public int ImageIndex { get; set; } = -1;
-
+        /// <summary>
+        /// Gets or sets the key of the default image for each node in the
+        /// <see cref="System.Windows.Forms.TreeView" /> control when it is in an unselected state.
+        /// </summary>
+        /// <returns>The key of the default image shown for each node
+        /// <see cref="System.Windows.Forms.TreeView" /> control when the node is in an unselected state.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public string ImageKey { get; set; }
-
+        /// <summary>
+        /// Gets or sets the image list index value of the image that is displayed when a tree node is selected.
+        /// </summary>
+        /// <returns>A zero-based index value that represents the position of an
+        /// <see cref="System.Drawing.Image" /> in an
+        /// <see cref="System.Windows.Forms.ImageList" />
+        /// </returns>
+        /// <exception cref="System.ArgumentException">The index assigned value is less than zero.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public int SelectedImageIndex { get; set; }
-
+        /// <summary>
+        /// Gets or sets the key of the default image shown when a
+        /// <see cref="System.Windows.Forms.TreeNode" /> is in a selected state.
+        /// </summary>
+        /// <returns>The key of the default image shown when a
+        /// <see cref="System.Windows.Forms.TreeNode" /> is in a selected state.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public string SelectedImageKey { get; set; }
 
         public int StateImageIndex { get; set; }
 
         public string StateImageKey { get; set; }
+        /// <summary>
+        /// Expands all the tree nodes.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void ExpandAll()
         {
             self.TreeView.ExpandAll();
         }
+        /// <summary>
+        /// Collapses all the tree nodes.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void CollapseAll()
         {
             self.TreeView.CollapseAll();
@@ -284,7 +418,7 @@ namespace System.Windows.Forms
         }
         internal void SetCollapseNode(TreeNode node)
         {
-            
+
             self.TreeView.CollapseRow(_store.GetPath(node.TreeIter));
         }
         internal bool GetNodeExpanded(TreeNode node)
@@ -295,13 +429,40 @@ namespace System.Windows.Forms
         {
             _store.Remove(ref node.TreeIter);
         }
-
-        public bool ShowLines { get=> self.TreeView.EnableTreeLines; set { self.TreeView.EnableTreeLines = true; self.TreeView.EnableGridLines = Gtk.TreeViewGridLines.Horizontal; } }
+        /// <summary>
+        /// Gets or sets a value indicating whether lines are drawn between tree nodes in the tree view control.
+        /// </summary>
+        /// <returns>true if lines are drawn between tree nodes in the tree view control; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public bool ShowLines { get => self.TreeView.EnableTreeLines; set { self.TreeView.EnableTreeLines = true; self.TreeView.EnableGridLines = Gtk.TreeViewGridLines.Horizontal; } }
 
         public bool ShowNodeToolsTips { get; set; }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether plus-sign (+) and minus-sign (-) buttons are displayed next to tree nodes that contain child tree nodes.
+        /// </summary>
+        /// <returns>true if plus sign and minus sign buttons are displayed next to tree nodes that contain child tree nodes; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool ShowPlusMinus { get; set; } = true;
-
+        /// <summary>
+        /// Gets or sets a value indicating whether lines are drawn between the tree nodes that are at the root of the tree view.
+        /// </summary>
+        /// <returns>true if lines are drawn between the tree nodes that are at the root of the tree view; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool ShowRootLines { get; set; } = true;
         public object SelectedItem
         {
@@ -317,13 +478,34 @@ namespace System.Windows.Forms
                 return SelectedNode.Text;
             }
         }
-
+        /// <summary>
+        /// Gets or sets the delimiter string that the tree node path uses.
+        /// </summary>
+        /// <returns>The delimiter string that the tree node
+        /// <see cref="System.Windows.Forms.TreeNode.FullPath" /> property uses. The default is the backslash character (\).
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [DefaultValue("\\")]
         public string PathSeparator
         {
             get;
             set;
         } = "\\";
+        /// <summary>
+        /// Gets or sets the tree node that is currently selected in the tree view control.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.TreeNode" /> that is currently selected in the tree view control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public TreeNode SelectedNode
         {
             get
@@ -352,6 +534,20 @@ namespace System.Windows.Forms
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets the first fully-visible tree node in the tree view control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TreeNode" /> that represents the first fully-visible tree node in the tree view control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public TreeNode TopNode
         {
             get
@@ -360,10 +556,10 @@ namespace System.Windows.Forms
             }
             set
             {
-               
+
             }
         }
-        
+
 
         public event TreeViewCancelEventHandler BeforeSelect;
 
@@ -374,7 +570,7 @@ namespace System.Windows.Forms
         public event TreeViewEventHandler AfterExpand;
         private void GetNodeChild(TreeNode node, int[] indices, ref TreeNode result)
         {
-            string nodeIndex= string.Join(",", indices);
+            string nodeIndex = string.Join(",", indices);
             foreach (TreeNode child in node.Nodes)
             {
                 if (child.Index == nodeIndex)

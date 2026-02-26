@@ -4,12 +4,14 @@ using System.Text;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Defines values for specifying how the width of a column is adjusted.
+    /// </summary>
     public enum DataGridViewAutoSizeColumnMode
     {
 
         /// <summary>
-        /// The sizing behavior of the column is inherited from the System.Windows.Forms.DataGridView.AutoSizeColumnsMode
-        /// property.
+        /// The sizing behavior of the column is inherited from the System.Windows.Forms.DataGridView.AutoSizeColumnsMode property.
         /// </summary>
         NotSet = 0,
 

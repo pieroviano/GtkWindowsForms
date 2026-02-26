@@ -11,41 +11,106 @@ using System.Windows.Forms;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Provides static methods and properties to manage an application, such as methods to start and stop an application, to process Windows messages, and properties to get information about an application. This class cannot be inherited.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public sealed class Application
     {
-        static Application() {
+        static Application()
+        {
             Init();
         }
 
-        private static string appDataDirectory { get {
+        private static string appDataDirectory
+        {
+            get
+            {
                 string[] assemblyFullName = Assembly.GetEntryAssembly().FullName.Split(',');
                 string _namespace = assemblyFullName[0];
                 AssemblyName assembly = Assembly.GetExecutingAssembly().GetName();
                 return Path.Combine(_namespace, assembly.Name, assembly.Version.ToString());
             }
         }
-
-        public static string CommonAppDataPath {
-            get {
-                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),appDataDirectory);
-            } 
+        /// <summary>
+        /// Gets the path for the application data that is shared among all users.
+        /// </summary>
+        /// <returns>The path for the application data that is shared among all users.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public static string CommonAppDataPath
+        {
+            get
+            {
+                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), appDataDirectory);
+            }
         }
+        /// <summary>
+        /// Gets the path for the application data of a user.
+        /// </summary>
+        /// <returns>The path for the application data of a user.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public static string UserAppDataPath
         {
             get
             {
-                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),appDataDirectory);
+                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appDataDirectory);
             }
         }
+        /// <summary>
+        /// Gets the path for the application data of a local, non-roaming user.
+        /// </summary>
+        /// <returns>The path for the application data of a local, non-roaming user.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public static string LocalUserAppDataPath
         {
             get
             {
-                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),appDataDirectory);
+                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appDataDirectory);
             }
         }
-        public static string ExecutablePath { 
-            get {
+        /// <summary>
+        /// Gets the path for the executable file that started the application, including the executable name.
+        /// </summary>
+        /// <returns>The path and executable name for the executable file that started the application.This path will be different depending on whether the Windows Forms application is deployed using ClickOnce. ClickOnce applications are stored in a per-user application cache in the C:\Documents and Settings\username directory. For more information, see Accessing Local and Remote Data in ClickOnce Applications.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public static string ExecutablePath
+        {
+            get
+            {
                 System.Diagnostics.ProcessModule module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
                 if (module.ModuleName.ToLower() == "dotnet" || module.ModuleName.ToLower() == "dotnet.exe")
                     return Assembly.GetEntryAssembly().Location;
@@ -53,10 +118,31 @@ namespace System.Windows.Forms
                     return module.FileName;
             }
         }
+        /// <summary>
+        /// Gets the path for the executable file that started the application, not including the executable name.
+        /// </summary>
+        /// <returns>The path for the executable file that started the application.This path will be different depending on whether the Windows Forms application is deployed using ClickOnce. ClickOnce applications are stored in a per-user application cache in the C:\Documents and Settings\username directory. For more information, see Accessing Local and Remote Data in ClickOnce Applications.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public static string StartupPath { get { return System.IO.Directory.GetCurrentDirectory(); } }
 
 
         private static readonly object internalSyncObject = new object();
+        /// <summary>
+        /// Gets or sets the culture information for the current thread.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Globalization.CultureInfo" /> representing the culture information for the current thread.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="ControlThread" />
+        /// </PermissionSet>
         public static CultureInfo CurrentCulture
         {
             get
@@ -68,7 +154,14 @@ namespace System.Windows.Forms
                 Thread.CurrentThread.CurrentCulture = value;
             }
         }
-
+        /// <summary>
+        /// Gets or sets the current input language for the current thread.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="System.Windows.Forms.InputLanguage" /> representing the current input language for the current thread.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
         public static InputLanguage CurrentInputLanguage
         {
             get
@@ -80,6 +173,17 @@ namespace System.Windows.Forms
                 InputLanguage.CurrentInputLanguage = value;
             }
         }
+        /// <summary>
+        /// Gets a collection of open forms owned by the application.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.FormCollection" /> containing all the currently open forms owned by this application.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.UIPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Window="AllWindows" />
+        /// </PermissionSet>
         public static FormCollection OpenForms
         {
             get
@@ -92,9 +196,21 @@ namespace System.Windows.Forms
                 return forms;
             }
         }
+        /// <summary>
+        /// Processes all Windows messages currently in the message queue.
+        /// </summary>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Security.Permissions.UIPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public static void DoEvents()
         {
-            while(Gtk.Application.EventsPending())
+            while (Gtk.Application.EventsPending())
                 Gtk.Application.RunIteration(false);
         }
 
@@ -211,18 +327,19 @@ namespace System.Windows.Forms
                     Gtk.Window.SetDefaultIconFromFile(iconpath);
 
                 Gtk.CssProvider css = new Gtk.CssProvider();
-                StringBuilder cssBuilder=new StringBuilder();
+                StringBuilder cssBuilder = new StringBuilder();
 
                 if (File.Exists(themesetuppath))
                 {
                     string[] setuptheme = File.ReadAllLines(themesetuppath, Text.Encoding.UTF8);
-                    Dictionary<string,string> nameValue = setuptheme.Where(w=>w.Contains("=")).ToDictionary(k => k.Split('=')[0],v=>v.Split('=')[1]);
+                    Dictionary<string, string> nameValue = setuptheme.Where(w => w.Contains("=")).ToDictionary(k => k.Split('=')[0], v => v.Split('=')[1]);
                     nameValue.TryGetValue("UseDefaultStyle", out string usedef);
                     if (usedef != "false")
                         cssBuilder.AppendLine(css_style);
 
                     nameValue.TryGetValue("AutoTheme", out string autotheme);
-                    if (autotheme == "false") {
+                    if (autotheme == "false")
+                    {
                         if (nameValue.TryGetValue("DefaultThemeName", out string themename))
                             Gtk.Settings.Default.ThemeName = themename;
                     }
@@ -327,15 +444,52 @@ namespace System.Windows.Forms
             Gtk.Application.Quit();
         }
 
-        public static bool SetHighDpiMode(HighDpiMode highDpiMode) {
-             return true;
-         }
-        public static void EnableVisualStyles() {
+        public static bool SetHighDpiMode(HighDpiMode highDpiMode)
+        {
+            return true;
+        }
+        /// <summary>
+        /// Enables visual styles for the application.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public static void EnableVisualStyles()
+        {
 
         }
-        public static void SetCompatibleTextRenderingDefault(bool defaultValue) {
-            
+        /// <summary>
+        /// Sets the application-wide default for the UseCompatibleTextRendering property defined on certain controls.
+        /// </summary>
+        /// <param name="defaultValue">The default value to use for new controls. If true, new controls that support UseCompatibleTextRendering use the GDI+ based
+        /// <see cref="System.Drawing.Graphics" /> class for text rendering; if false, new controls use the GDI based
+        /// <see cref="System.Windows.Forms.TextRenderer" /> class.
+        /// </param>
+        /// <exception cref="System.InvalidOperationException">You can only call this method before the first window is created by your Windows Forms application.
+        /// </exception>
+        public static void SetCompatibleTextRenderingDefault(bool defaultValue)
+        {
+
         }
+        /// <summary>
+        /// Begins running a standard application message loop on the current thread, and makes the specified form visible.
+        /// </summary>
+        /// <param name="mainForm">A
+        /// <see cref="System.Windows.Forms.Form" /> that represents the form to make visible.
+        /// </param>
+        /// <exception cref="System.InvalidOperationException">A main message loop is already running on the current thread.
+        /// </exception>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Security.Permissions.UIPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public static void Run(Form mainForm)
         {
             mainForm.self.Destroyed += Control_Destroyed;
@@ -346,7 +500,17 @@ namespace System.Windows.Forms
         {
             ExitThread();
         }
-
+        /// <summary>
+        /// Informs all message pumps that they must terminate, and then closes all application windows after the messages have been processed.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public static void Exit()
         {
             ExitThread();
@@ -376,7 +540,17 @@ namespace System.Windows.Forms
                 }
             }
         }
-
+        /// <summary>
+        /// Exits the message loop on the current thread and closes all windows on the thread.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public static void ExitThread()
         {
             lock (internalSyncObject)
@@ -394,7 +568,7 @@ namespace System.Windows.Forms
     public static class InitAppliction
     {
 
-       private static Gtk.Application app = Application.Init();
+        private static Gtk.Application app = Application.Init();
         static InitAppliction()
         {
 

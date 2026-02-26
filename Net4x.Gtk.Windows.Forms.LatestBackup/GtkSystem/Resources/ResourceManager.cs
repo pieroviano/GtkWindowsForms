@@ -105,7 +105,7 @@ namespace GtkSystem.Resources
                         {
                             try
                             {
-                                if(dict.Value is ImageListStreamer streamer)
+                                if (dict.Value is ImageListStreamer streamer)
                                 {
                                     streamer.ResourceInfo = GetResourceInfo;
                                     return streamer;
@@ -196,11 +196,11 @@ namespace GtkSystem.Resources
                     }
                     if (name.EndsWith(".BackgroundImage"))
                     {
-                        return new System.Drawing.Bitmap(filebytes) { FileName = fileName }; 
+                        return new System.Drawing.Bitmap(filebytes) { FileName = fileName };
                     }
                     else if (name.EndsWith(".Image"))
                     {
-                        return new System.Drawing.Bitmap(filebytes) { FileName = fileName }; 
+                        return new System.Drawing.Bitmap(filebytes) { FileName = fileName };
                     }
                     else if (name.EndsWith(".Icon"))
                     {
@@ -221,7 +221,7 @@ namespace GtkSystem.Resources
                 return obj;
             }
         }
-      
+
         public override string GetString(string name)
         {
             return GetString(name, null);

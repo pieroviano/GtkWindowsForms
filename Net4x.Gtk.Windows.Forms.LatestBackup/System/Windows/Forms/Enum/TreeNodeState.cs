@@ -6,8 +6,12 @@ namespace System.Windows.Forms
 {
 
     /// <summary>
-    /// Defines constants that represent the possible states of a System.Windows.Forms.TreeNode.
+    /// Defines constants that represent the possible states of a
+    /// <see cref="System.Windows.Forms.TreeNode" /> .
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [Flags]
     public enum TreeNodeStates
     {

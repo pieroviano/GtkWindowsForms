@@ -4,29 +4,29 @@
 namespace System.Drawing.Printing
 {
     /// <summary>
-    ///  Specifies several of the units of measure Microsoft Win32 uses for printing.
+    /// Specifies several of the units of measure Microsoft Win32 uses for printing.
     /// </summary>
     public enum PrinterUnit
     {
         /// <summary>
-        ///  The default unit (0.01 in.).
+        /// The default unit (0.01 in.).
         /// </summary>
         Display = 0,
 
         /// <summary>
-        ///  One thousandth of an inch (0.001 in.).
+        /// One thousandth of an inch (0.001 in.).
         /// </summary>
         // Used by PAGESETUPDLG.rtMargin and rtMinMargin
         ThousandthsOfAnInch = 1,
 
         /// <summary>
-        ///  One hundredth of a millimeter (0.01 mm).
+        /// One hundredth of a millimeter (0.01 mm).
         /// </summary>
         // Used by PAGESETUPDLG.rtMargin and rtMinMargin
         HundredthsOfAMillimeter = 2,
 
         /// <summary>
-        ///  One tenth of a millimeter (0.1 mm).
+        /// One tenth of a millimeter (0.1 mm).
         /// </summary>
         // DeviceCapabilities(DC_PAPERSIZE)
         TenthsOfAMillimeter = 3,

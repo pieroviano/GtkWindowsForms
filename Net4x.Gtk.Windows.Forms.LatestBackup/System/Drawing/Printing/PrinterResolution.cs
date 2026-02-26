@@ -7,14 +7,15 @@ namespace System.Drawing.Printing
 {
 
     /// <summary>
-    ///  Retrieves the resolution supported by a printer.
+    /// Retrieves the resolution supported by a printer.
     /// </summary>
     public partial class PrinterResolution
     {
         private PrinterResolutionKind _kind;
 
         /// <summary>
-        ///  Initializes a new instance of the <see cref='PrinterResolution'/> class with default properties.
+        /// Initializes a new instance of the
+        /// <see cref='PrinterResolution'/> class with default properties.
         /// </summary>
         public PrinterResolution()
         {
@@ -29,7 +30,7 @@ namespace System.Drawing.Printing
         }
 
         /// <summary>
-        ///  Gets a value indicating the kind of printer resolution.
+        /// Gets a value indicating the kind of printer resolution.
         /// </summary>
         public PrinterResolutionKind Kind
         {
@@ -41,12 +42,12 @@ namespace System.Drawing.Printing
         }
 
         /// <summary>
-        ///  Gets the printer resolution in the horizontal direction, in dots per inch.
+        /// Gets the printer resolution in the horizontal direction, in dots per inch.
         /// </summary>
         public int X { get; set; }
 
         /// <summary>
-        ///  Gets the printer resolution in the vertical direction, in dots per inch.
+        /// Gets the printer resolution in the vertical direction, in dots per inch.
         /// </summary>
         public int Y { get; set; }
 

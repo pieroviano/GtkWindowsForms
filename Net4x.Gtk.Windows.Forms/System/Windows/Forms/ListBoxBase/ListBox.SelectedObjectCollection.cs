@@ -6,10 +6,19 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
-
+    /// <summary>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ListBox
     {
-        // Should be "ObjectCollection", except we already have one of those.
+        /// <summary>
+        /// Represents the collection of selected items in the
+        /// <see cref="System.Windows.Forms.ListBox" />
+        /// </summary>
+// Should be "ObjectCollection", except we already have one of those.
         public class SelectedObjectCollection : IList
         {
             // This is the bitmask used within ItemArray to identify selected objects.
@@ -31,7 +40,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Number of current selected items.
+            /// Number of current selected items.
             /// </summary>
             public int Count
             {
@@ -99,7 +108,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Called by the list box to dirty the selected item state.
+            /// Called by the list box to dirty the selected item state.
             /// </summary>
             internal void Dirty()
             {
@@ -107,8 +116,8 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  This is the item array that stores our data.  We share this backing store
-            ///  with the main object collection.
+            /// This is the item array that stores our data.  We share this backing store
+            /// with the main object collection.
             /// </summary>
             private ItemArray InnerArray
             {
@@ -120,8 +129,8 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  This is the function that Ensures that the selections are uptodate with
-            ///  current listbox handle selections.
+            /// This is the function that Ensures that the selections are uptodate with
+            /// current listbox handle selections.
             /// </summary>
             internal void EnsureUpToDate()
             {
@@ -181,7 +190,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Retrieves the specified selected item.
+            /// Retrieves the specified selected item.
             /// </summary>
             [Browsable(false)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -212,8 +221,8 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  This method returns if the actual item index is selected.  The index is the index to the MAIN
-            ///  collection, not this one.
+            /// This method returns if the actual item index is selected.  The index is the index to the MAIN
+            /// collection, not this one.
             /// </summary>
             internal bool GetSelected(int index)
             {
@@ -227,7 +236,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Same thing for GetSelected.
+            /// Same thing for GetSelected.
             /// </summary>
             internal void SetSelected(int index, bool value)
             {

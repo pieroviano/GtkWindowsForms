@@ -2,9 +2,12 @@ namespace System.Windows.Forms
 {
 
     /// <summary>
-    /// Specifies the possible alignments with which the items of a System.Windows.Forms.ToolStrip
-    /// can be displayed.
+    /// Specifies the possible alignments with which the items of a
+    /// <see cref="System.Windows.Forms.ToolStrip" /> can be displayed.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum ToolStripLayoutStyle
     {
 

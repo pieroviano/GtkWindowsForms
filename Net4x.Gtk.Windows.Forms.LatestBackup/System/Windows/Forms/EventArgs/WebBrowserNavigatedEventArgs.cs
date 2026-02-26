@@ -5,23 +5,42 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Provides data for the <see cref='WebBrowser.OnNavigated'/> event.
+    /// Provides data for the
+    /// <see cref="!:System.Windows.Forms.WebBrowser.Navigated" /> event.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public class WebBrowserNavigatedEventArgs : EventArgs
     {
         private readonly Uri _url;
 
         /// <summary>
-        ///  Creates an instance of the <see cref='WebBrowserNavigatedEventArgs'/> class.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.WebBrowserNavigatedEventArgs" /> class.
         /// </summary>
+        /// <param name="url">A
+        /// <see cref="System.Uri" /> representing the location of the document to which the
+        /// <see cref="System.Windows.Forms.WebBrowser" /> control has navigated.
+        /// </param>
         public WebBrowserNavigatedEventArgs(Uri url)
         {
             _url = url;
         }
 
         /// <summary>
-        ///  Url the browser navigated to.
+        /// Gets the location of the document to which the
+        /// <see cref="System.Windows.Forms.WebBrowser" /> control has navigated.
         /// </summary>
+        /// <returns>A
+        /// <see cref="System.Uri" /> representing the location of the document to which the
+        /// <see cref="System.Windows.Forms.WebBrowser" /> control has navigated.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Net.WebPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Uri Url
         {
             get

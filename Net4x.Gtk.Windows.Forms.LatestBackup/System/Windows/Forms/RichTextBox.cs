@@ -12,6 +12,12 @@ using System.Text;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a Windows rich text box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class RichTextBox : ScrollableControl
     {
@@ -24,7 +30,11 @@ namespace System.Windows.Forms
             self.TextView.Name = this.Name;
             base.SetStyle(self.TextView);
         }
-        public RichTextBox():base()
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.RichTextBox" /> class.
+        /// </summary>
+        public RichTextBox() : base()
         {
             self.TextView.Buffer.Changed += Buffer_Changed;
             this.BorderStyle = BorderStyle.Fixed3D;
@@ -36,8 +46,13 @@ namespace System.Windows.Forms
                 TextChanged(this, e);
             }
         }
-
-
+        /// <summary>
+        /// Gets or sets the current text in the rich text box.
+        /// </summary>
+        /// <returns>The text displayed in the control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public override string Text { get => self.TextView.Buffer.Text; set => self.TextView.Buffer.Text = value; }
         public virtual bool ReadOnly { get { return self.TextView.CanFocus; } set { self.TextView.CanFocus = value; } }
 
@@ -51,8 +66,9 @@ namespace System.Windows.Forms
 
         public string[] Lines
         {
-            get {
-                return self.TextView.Buffer.Text.Split([Environment.NewLine], StringSplitOptions.None); 
+            get
+            {
+                return self.TextView.Buffer.Text.Split([Environment.NewLine], StringSplitOptions.None);
             }
             set
             {
@@ -67,11 +83,24 @@ namespace System.Windows.Forms
             }
         }
 
-        public int SelectionStart { 
+        public int SelectionStart
+        {
             get { self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end); return start.Offset; }
             set { Select(value, SelectionLength); }
         }
-        
+        /// <summary>
+        /// Gets or sets the number of characters selected in control.
+        /// </summary>
+        /// <returns>The number of characters selected in the text box.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         [System.ComponentModel.Browsable(false)]
         public virtual int SelectionLength
         {

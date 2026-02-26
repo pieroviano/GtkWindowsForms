@@ -4,12 +4,14 @@ namespace System.Windows.Forms
     /// <summary>
     /// Specifies identifiers to indicate the return value of a dialog box.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum DialogResult
     {
 
         /// <summary>
-        /// Nothing is returned from the dialog box. This means that the modal dialog continues
-        /// running.
+        /// Nothing is returned from the dialog box. This means that the modal dialog continues running.
         /// </summary>
         None = 0,
 

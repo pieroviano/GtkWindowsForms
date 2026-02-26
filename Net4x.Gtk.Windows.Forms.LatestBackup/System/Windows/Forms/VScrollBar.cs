@@ -9,11 +9,17 @@ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a standard Windows vertical scroll bar.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public class VScrollBar : ScrollBar
     {
 
-        public ScrollbarBase<Gtk.VScrollbar> self=new ScrollbarBase<Gtk.VScrollbar>(Gtk.Orientation.Vertical);
+        public ScrollbarBase<Gtk.VScrollbar> self = new ScrollbarBase<Gtk.VScrollbar>(Gtk.Orientation.Vertical);
 
         public override object GtkControl => self;
 

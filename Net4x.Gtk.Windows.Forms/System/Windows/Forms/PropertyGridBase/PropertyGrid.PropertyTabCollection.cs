@@ -5,8 +5,17 @@ using System.Windows.Forms.Design;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Provides a user interface for browsing the properties of an object.
+    /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
     public partial class PropertyGrid
     {
+        /// <summary>
+        /// Contains a collection of
+        /// <see cref="System.Windows.Forms.Design.PropertyTab" /> objects.
+        /// </summary>
         public class PropertyTabCollection : ICollection
         {
             private readonly PropertyGrid _ownerPropertyGrid;
@@ -43,17 +52,17 @@ namespace System.Windows.Forms
 
             public void AddTabType(Type propertyTabType)
             {
-              
+
             }
 
             public void AddTabType(Type propertyTabType, PropertyTabScope tabScope)
             {
-                
+
             }
 
             public void Clear(PropertyTabScope tabScope)
             {
-                
+
             }
 
             void ICollection.CopyTo(Array dest, int index)
@@ -86,7 +95,7 @@ namespace System.Windows.Forms
 
             public void RemoveTabType(Type propertyTabType)
             {
-          
+
             }
         }
     }

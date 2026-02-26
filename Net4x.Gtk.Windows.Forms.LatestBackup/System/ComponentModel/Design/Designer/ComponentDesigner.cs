@@ -8,7 +8,7 @@ using System.Windows.Forms.Design;
 namespace System.ComponentModel.Design
 {
     /// <summary>
-    ///  The default designer for all components.
+    /// The default designer for all components.
     /// </summary>
     public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, IComponentInitializer
     {

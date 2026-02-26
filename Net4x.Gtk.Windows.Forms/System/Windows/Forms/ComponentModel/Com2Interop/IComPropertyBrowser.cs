@@ -7,49 +7,65 @@ using Microsoft.Win32;
 namespace System.Windows.Forms.ComponentModel.Com2Interop;
 
 /// <summary>
-///  Allows Visual Studio to communicate internally with the PropertyGrid control.
+/// Allows Visual Studio to communicate internally with the PropertyGrid control.
 /// </summary>
 internal interface IComPropertyBrowser
 {
     /// <summary>
-    ///  Closes andy open drop-down controls on the <see cref="PropertyGrid"/> control.
+    /// Closes andy open drop-down controls on the
+    /// <see cref="System.Windows.Forms.PropertyGrid" /> control.
     /// </summary>
     void DropDownDone();
 
     /// <summary>
-    ///  Gets a value indicating whether the <see cref="PropertyGrid"/> control is currently setting one of the
-    ///  properties of its selected object.
+    /// Gets a value indicating whether the
+    /// <see cref="System.Windows.Forms.PropertyGrid" /> control is currently setting one of the properties of its selected object.
     /// </summary>
+    /// <returns>
+    /// true if the
+    /// <see cref="System.Windows.Forms.PropertyGrid" /> control is currently setting one of the properties of its selected object; otherwise, false.
+    /// </returns>
     bool InPropertySet { get; }
 
     /// <summary>
-    ///  Occurs when the <see cref="PropertyGrid"/> control is browsing a COM object and the user renames the object.
+    /// Occurs when the
+    /// <see cref="PropertyGrid"/> control is browsing a COM object and the user renames the object.
     /// </summary>
     event ComponentRenameEventHandler? ComComponentNameChanged;
 
     /// <summary>
-    ///  Commits all pending changes to the <see cref="PropertyGrid"/> control.
+    /// Commits all pending changes to the
+    /// <see cref="System.Windows.Forms.PropertyGrid" /> control.
     /// </summary>
     /// <returns>
-    ///  <see langword="true"/> if the <see cref="PropertyGrid"/> successfully commits changes; otherwise,
-    ///  <see langword="false"/>.
+    /// <see langword="true" /> if the
+    /// <see cref="System.Windows.Forms.PropertyGrid" />
+    /// successfully commits changes; otherwise,
+    /// <see langword="false" />
     /// </returns>
     bool EnsurePendingChangesCommitted();
 
     /// <summary>
-    ///  Activates the <see cref="PropertyGrid"/> control when the user chooses Properties for a control in Design view.
+    /// Activates the
+    /// <see cref="System.Windows.Forms.PropertyGrid" /> control when the user chooses Properties for a control in Design view.
     /// </summary>
     void HandleF4();
 
     /// <summary>
-    ///  Loads user states from the registry into the <see cref="PropertyGrid"/> control.
+    /// Loads user states from the registry into the
+    /// <see cref="PropertyGrid"/> control.
     /// </summary>
-    /// <param name="key">The registry key that contains the user states.</param>
+    /// <param name="key">
+    /// The registry key that contains the user states.
+    /// </param>
     void LoadState(RegistryKey? key);
 
     /// <summary>
-    ///  Saves user states from the <see cref="PropertyGrid"/> control to the registry.
+    /// Saves user states from the
+    /// <see cref="PropertyGrid"/> control to the registry.
     /// </summary>
-    /// <param name="key">The registry key that contains the user states.</param>
+    /// <param name="key">
+    /// The registry key that contains the user states.
+    /// </param>
     void SaveState(RegistryKey? key);
 }

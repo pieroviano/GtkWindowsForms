@@ -7,8 +7,18 @@ using System.Globalization;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ComboBox
     {
+        /// <summary>
+        /// Represents the collection of items in a
+        /// <see cref="System.Windows.Forms.ComboBox" />
+        /// </summary>
         [ListBindable(false)]
         public partial class ObjectCollection : IList, IComparer<ComboBox.ObjectCollection.Entry>
         {
@@ -30,7 +40,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Retrieves the number of items.
+            /// Retrieves the number of items.
             /// </summary>
             public int Count => InnerList.Count;
 
@@ -67,13 +77,13 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Adds an item to the combo box. For an unsorted combo box, the item is
-            ///  added to the end of the existing list of items. For a sorted combo box,
-            ///  the item is inserted into the list according to its sorted position.
-            ///  The item's toString() method is called to obtain the string that is
-            ///  displayed in the combo box.
-            ///  A SystemException occurs if there is insufficient space available to
-            ///  store the new item.
+            /// Adds an item to the combo box. For an unsorted combo box, the item is
+            /// added to the end of the existing list of items. For a sorted combo box,
+            /// the item is inserted into the list according to its sorted position.
+            /// The item's toString() method is called to obtain the string that is
+            /// displayed in the combo box.
+            /// A SystemException occurs if there is insufficient space available to
+            /// store the new item.
             /// </summary>
             public int Add(object item)
             {
@@ -81,7 +91,7 @@ namespace System.Windows.Forms
                 NativeAdd(-1, item.ToString(), item.ToString());
                 return index;
             }
-            internal int Add( string value, string text, object item)
+            internal int Add(string value, string text, object item)
             {
                 int index = AddInternal(item);
                 NativeAdd(-1, value, text);
@@ -138,7 +148,7 @@ namespace System.Windows.Forms
                 }
             }
             /// <summary>
-            ///  Retrieves the item with the specified index.
+            /// Retrieves the item with the specified index.
             /// </summary>
             [Browsable(false)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -155,7 +165,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Removes all items from the ComboBox.
+            /// Removes all items from the ComboBox.
             /// </summary>
             public void Clear()
             {
@@ -175,7 +185,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Copies the ComboBox Items collection to a destination array.
+            /// Copies the ComboBox Items collection to a destination array.
             /// </summary>
             public void CopyTo(object[] destination, int arrayIndex)
             {
@@ -191,7 +201,7 @@ namespace System.Windows.Forms
             {
 
                 int count = InnerList.Count;
- 
+
                 for (int i = 0; i < count; i++)
                 {
                     destination.SetValue(InnerList[i], i + index);
@@ -199,18 +209,18 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Returns an enumerator for the ComboBox Items collection.
+            /// Returns an enumerator for the ComboBox Items collection.
             /// </summary>
             public IEnumerator GetEnumerator() => new EntryEnumerator(InnerList);
 
             /// <summary>
-            ///  Adds an item to the combo box. For an unsorted combo box, the item is
-            ///  added to the end of the existing list of items. For a sorted combo box,
-            ///  the item is inserted into the list according to its sorted position.
-            ///  The item's toString() method is called to obtain the string that is
-            ///  displayed in the combo box.
-            ///  A SystemException occurs if there is insufficient space available to
-            ///  store the new item.
+            /// Adds an item to the combo box. For an unsorted combo box, the item is
+            /// added to the end of the existing list of items. For a sorted combo box,
+            /// the item is inserted into the list according to its sorted position.
+            /// The item's toString() method is called to obtain the string that is
+            /// displayed in the combo box.
+            /// A SystemException occurs if there is insufficient space available to
+            /// store the new item.
             /// </summary>
             public void Insert(int index, object? item)
             {
@@ -227,7 +237,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Removes an item from the ComboBox at the given index.
+            /// Removes an item from the ComboBox at the given index.
             /// </summary>
             public void RemoveAt(int index)
             {
@@ -248,8 +258,8 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Removes the given item from the ComboBox, provided that it is
-            ///  actually in the list.
+            /// Removes the given item from the ComboBox, provided that it is
+            /// actually in the list.
             /// </summary>
             public void Remove(object? value)
             {

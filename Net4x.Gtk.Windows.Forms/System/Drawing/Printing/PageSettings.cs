@@ -102,12 +102,12 @@ namespace System.Drawing.Printing
 
         public void CopyToHdevmode(IntPtr hdevmode)
         {
-            
+
         }
 
         public void SetHdevmode(IntPtr hdevmode)
         {
-        
+
         }
 
         public override string ToString() =>

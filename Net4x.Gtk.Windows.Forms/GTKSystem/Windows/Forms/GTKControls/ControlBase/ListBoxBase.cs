@@ -13,7 +13,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             ListBox.Margin = 0;
             ListBox.Hexpand = true;
             ListBox.Vexpand = true;
-            base.AutoScroll= true;
+            base.AutoScroll = true;
             base.Add(ListBox);
         }
     }

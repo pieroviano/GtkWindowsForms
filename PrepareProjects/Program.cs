@@ -8,6 +8,7 @@ using PrepareProjects.Preparation.Compilation;
 using PrepareProjects.Preparation.Directories;
 using PrepareProjects.Preparation.Source;
 using PrepareProjects.ProjectHandling;
+using XmlDocSync;
 
 namespace PrepareProjects;
 
@@ -16,6 +17,8 @@ public class Program
     public static async Task Main()
     {
         RenameDirectoriesInSourceRepository();
+
+        RefreshNet4xGtkWindowsFormsXml();
 
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -28,37 +31,37 @@ public class Program
         }
 #endif
         const string net4xGtkWindowsForms = "Net4x.Gtk.Windows.Forms";
-        ConsoleUtility.WriteInGreen(@$"Preparing {net4xGtkWindowsForms}");
+        ConsoleUtility.WriteInColor(@$"Preparing {net4xGtkWindowsForms}", ConsoleColor.Green);
         var (targetDir, sourceProjectPath, csprojPath) =
             await GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", net4xGtkWindowsForms);
 
         const string net4XSystemResourcesExtensions = "Net4x.System.Resources.Extensions";
-        ConsoleUtility.WriteInGreen(@$"Preparing {net4XSystemResourcesExtensions}");
+        ConsoleUtility.WriteInColor(@$"Preparing {net4XSystemResourcesExtensions}", ConsoleColor.Green);
         SystemResourcesExtensionsProjectHandler.Prepare($"{net4XSystemResourcesExtensions}.csproj");
         var version = VersionPrepare.PrepareSolutionVersion();
 
-        ConsoleUtility.WriteInGreen(@"Preparing PoC projects");
+        ConsoleUtility.WriteInColor(@"Preparing PoC projects", ConsoleColor.Green);
         var projectName = await GtkSampleAppProjectsHandler.PrepareAsync("GTKWinFormsApp", "GtkWinFormsApp", version);
         var otherProjectName =
             await GtkSampleAppProjectsHandler.PrepareAsync("GTKSystemWinFormsApp11", "GtkSystemWinFormsApp11", version);
 
-        ConsoleUtility.WriteInGreen(@"Regenerating *.Designer.cs from resources for PoC projects");
+        ConsoleUtility.WriteInColor(@"Regenerating *.Designer.cs from resources for PoC projects", ConsoleColor.Green);
         ResGenService.RegenerateDesignersFromResources(targetDir, projectName, otherProjectName);
 
-        ConsoleUtility.WriteInGreen(@"Appling translations and first post processings");
+        ConsoleUtility.WriteInColor(@"Appling translations and first post processings", ConsoleColor.Green);
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
             BackupUtility.PostProcessing);
 
-        ConsoleUtility.WriteInGreen(@"Copying code from Resources");
+        ConsoleUtility.WriteInColor(@"Copying code from Resources", ConsoleColor.Green);
         ResourcesCopyService.CopyCodeFromResources(targetDir);
 
-        ConsoleUtility.WriteInGreen(@"Normalyzing comments");
+        ConsoleUtility.WriteInColor(@"Normalyzing comments", ConsoleColor.Green);
         SummaryCommentTransformer.TransformFolder(targetDir);
         MemberSpacingFormatter.TransformFolder(targetDir);
 
         RemoveOldXmlComments(csprojPath);
 
-        ConsoleUtility.WriteInGreen(@$"Reorganizing files for {net4xGtkWindowsForms}");
+        ConsoleUtility.WriteInColor(@$"Reorganizing files for {net4xGtkWindowsForms}", ConsoleColor.Green);
         FolderFixer.ReorganizeFiles(csprojPath, new[]
         {
             "Properties",
@@ -74,18 +77,11 @@ public class Program
             "GTKControls", "GtkControls", csprojPath);
 
         const string net4xGtkDrawing = "Net4x.Gtk.Drawing";
-        ConsoleUtility.WriteInGreen(@$"Separating {net4xGtkDrawing} from {net4xGtkWindowsForms}");
+        ConsoleUtility.WriteInColor(@$"Separating {net4xGtkDrawing} from {net4xGtkWindowsForms}", ConsoleColor.Green);
         DrawingService.SeparateDrawing(net4xGtkDrawing);
-        DrawingDirectoryMover.MoveDrawing2D(
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Drawing\")), 
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\")), 
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Drawing\")));
-        DrawingDirectoryMover.MoveDrawing2D(
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")), 
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\")), 
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")));
+        OptimizeNet4xGtkDrawingFileSystem(projectDirectory);
 
-        ConsoleUtility.WriteInGreen(@"Applying files post processings");
+        ConsoleUtility.WriteInColor(@"Applying files post processings", ConsoleColor.Green);
 
         var postprocessingXml = GetPostprocessingXml();
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
@@ -97,12 +93,20 @@ public class Program
 
         BackupUtility.CleanBackup(projectDirectory, BackupUtility.LatestBackup);
 
-        ConsoleUtility.WriteInGreen(@"Building the solution");
+        await MergeXmlDocumentationAsync();
+
+        ConsoleUtility.WriteInColor("Formatting Net4x.Gtk.Windows.Forms.csproj", ConsoleColor.DarkMagenta);
+        await  DotnetFormatter.FormatAsync(csprojPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
+        ConsoleUtility.WriteInColor("Formatting Net4x.Gtk.Drawing.csproj", ConsoleColor.DarkMagenta);
+        await DotnetFormatter.FormatAsync("..\\..\\..\\..\\Net4x.Gtk.Drawing\\Net4x.Gtk.Drawing.csproj", Path.GetFullPath(@"..\..\..\..\.editorconfig"));
+
+        ConsoleUtility.WriteInColor(@"Building the solution", ConsoleColor.Green);
         var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.LatestBackup);
         var solutionPath = GetSolutionPath(projectDirectory);
         ProjectCompilation.RestoreSolution(solutionPath);
         ProjectCompilation.BuildSolution(solutionPath);
+        ConsoleUtility.WriteInColor("Preparation complete", ConsoleColor.Green);
     }
 
     private static string GetPostprocessingXml()
@@ -119,6 +123,57 @@ public class Program
     {
         var solutionPath = Path.Combine(projectDirectory, "..\\Net4x.Gtk.Windows.Forms.sln");
         return solutionPath;
+    }
+
+    private static async Task MergeXmlDocumentationAsync()
+    {
+        ConsoleUtility.WriteInColor("Processing Net4x.Gtk.Windows.Forms.xml", ConsoleColor.DarkMagenta);
+        await XmlDocumentationService.MergeXmlDocumentationAsync(
+            "..\\..\\..\\..\\PrepareProjects\\Resources\\Net4x.Gtk.Windows.Forms.xml",
+            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms");
+        ConsoleUtility.WriteInColor("Processing Net4x.Gtk.Drawing.xml", ConsoleColor.DarkMagenta);
+        await XmlDocumentationService.MergeXmlDocumentationAsync(
+            "..\\..\\..\\..\\PrepareProjects\\Resources\\Net4x.Gtk.Drawing.xml",
+            "..\\..\\..\\..\\Net4x.Gtk.Drawing");
+#if !SKIP_INITIAL
+        ConsoleUtility.WriteInColor("Processing System.Windows.Forms.xml", ConsoleColor.DarkMagenta);
+        await XmlDocumentationService.MergeXmlDocumentationAsync(
+            "..\\..\\..\\..\\PrepareProjects\\Resources\\System.Windows.Forms.xml",
+            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms");
+        ConsoleUtility.WriteInColor("Processing System.Drawing.xml", ConsoleColor.DarkMagenta);
+        await XmlDocumentationService.MergeXmlDocumentationAsync(
+            "..\\..\\..\\..\\PrepareProjects\\Resources\\System.Drawing.xml",
+            "..\\..\\..\\..\\Net4x.Gtk.Drawing");
+#endif
+    }
+
+    private static void OptimizeNet4xGtkDrawingFileSystem(string projectDirectory)
+    {
+        DrawingDirectoryMover.MoveDrawing2D(
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Drawing\")),
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\")),
+            Path.GetFullPath(Path.Combine(projectDirectory,
+                @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Drawing\")));
+        DrawingDirectoryMover.MoveDrawing2D(
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")),
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\")),
+            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")));
+    }
+
+    private static void RefreshNet4xGtkWindowsFormsXml()
+    {
+        if (File.Exists(@"..\..\..\..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.xml"))
+        {
+            File.Delete(@"..\..\..\Resources\Net4x.Gtk.Windows.Forms.xml");
+            File.Copy(@"..\..\..\..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.xml",
+                @"..\..\..\Resources\Net4x.Gtk.Windows.Forms.xml");
+        }
+        if (File.Exists(@"..\..\..\..\Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.xml"))
+        {
+            File.Delete(@"..\..\..\Resources\Net4x.Gtk.Drawing.xml");
+            File.Copy(@"..\..\..\..\Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.xml",
+                @"..\..\..\Resources\Net4x.Gtk.Drawing.xml");
+        }
     }
 
     private static void RemoveOldXmlComments(string csprojPath)

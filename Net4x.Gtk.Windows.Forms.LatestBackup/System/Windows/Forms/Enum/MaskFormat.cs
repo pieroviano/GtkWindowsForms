@@ -4,6 +4,10 @@ using System.Text;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Defines how to format the text inside of a
+    /// <see cref="System.Windows.Forms.MaskedTextBox" /> .
+    /// </summary>
     public enum MaskFormat
     {
 
@@ -18,8 +22,7 @@ namespace System.Windows.Forms
         IncludePrompt = 1,
 
         /// <summary>
-        /// Return text input by the user as well as any literal characters defined in the
-        /// mask.
+        /// Return text input by the user as well as any literal characters defined in the mask.
         /// </summary>
         IncludeLiterals = 2,
 

@@ -8,14 +8,22 @@ using System.Globalization;
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Provides data for the <see cref='Form.InputLanguageChanging'/> event.
+    /// Provides data for the
+    /// <see cref="!:System.Windows.Forms.Form.InputLanguageChanging" /> event.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public class InputLanguageChangingEventArgs : CancelEventArgs
     {
         /// <summary>
-        ///  Initializes a new instance of the <see cref='InputLanguageChangingEventArgs'/> class with the
-        ///  specified locale, character set, and acceptance.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.InputLanguageChangingEventArgs" /> class with the specified locale, character set, and acceptance.
         /// </summary>
+        /// <param name="culture">The locale of the requested input language.
+        /// </param>
+        /// <param name="sysCharSet">true if the system default font supports the character set required for the requested input language; otherwise, false.
+        /// </param>
         public InputLanguageChangingEventArgs(CultureInfo culture, bool sysCharSet)
         {
             InputLanguage = InputLanguage.FromCulture(culture);
@@ -24,9 +32,16 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Initializes a new instance of the <see cref='InputLanguageChangingEventArgs'/> class with the
-        ///  specified input language, character set, and acceptance of a language change.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.InputLanguageChangingEventArgs" /> class with the specified input language, character set, and acceptance of a language change.
         /// </summary>
+        /// <param name="inputLanguage">The requested input language.
+        /// </param>
+        /// <param name="sysCharSet">true if the system default font supports the character set required for the requested input language; otherwise, false.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="inputLanguage" /> is null.
+        /// </exception>
         public InputLanguageChangingEventArgs(InputLanguage inputLanguage, bool sysCharSet)
         {
             InputLanguage = inputLanguage ?? throw new ArgumentNullException(nameof(inputLanguage));
@@ -35,19 +50,32 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Gets the requested input language.
+        /// Gets a value indicating the input language.
         /// </summary>
+        /// <returns>An
+        /// <see cref="System.Windows.Forms.InputLanguage" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public InputLanguage InputLanguage { get; }
 
         /// <summary>
-        ///  Gets the locale of the requested input language.
+        /// Gets the locale of the requested input language.
         /// </summary>
+        /// <returns>A
+        /// <see cref="System.Globalization.CultureInfo" /> that specifies the locale of the requested input language.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public CultureInfo Culture { get; }
 
         /// <summary>
-        ///  Gets a value indicating whether the system default font supports the character set
-        ///  required for the requested input language.
+        /// Gets a value indicating whether the system default font supports the character set required for the requested input language.
         /// </summary>
+        /// <returns>true if the system default font supports the character set required for the requested input language; otherwise, false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public bool SysCharSet { get; }
     }
 }

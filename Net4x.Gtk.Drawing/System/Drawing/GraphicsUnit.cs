@@ -8,6 +8,9 @@ namespace System.Drawing
     /// <summary>
     /// Specifies the unit of measure for the given data.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum GraphicsUnit
     {
 

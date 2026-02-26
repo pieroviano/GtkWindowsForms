@@ -5,13 +5,33 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  This enum is used to specify the action that caused a TreeViewEventArgs.
+    /// Defines values representing
+    /// <see cref="System.Windows.Forms.TabControl" /> events.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum TabControlAction
     {
+        /// <summary>
+        /// Represents the
+        /// <see cref="System.Windows.Forms.TabControl.Selecting" /> event.
+        /// </summary>
         Selecting,
+        /// <summary>
+        /// Represents the
+        /// <see cref="System.Windows.Forms.TabControl.Selected" /> event.
+        /// </summary>
         Selected,
+        /// <summary>
+        /// Represents the
+        /// <see cref="System.Windows.Forms.TabControl.Deselecting" /> event.
+        /// </summary>
         Deselecting,
+        /// <summary>
+        /// Represents the
+        /// <see cref="System.Windows.Forms.TabControl.Deselected" /> event.
+        /// </summary>
         Deselected
     }
 }

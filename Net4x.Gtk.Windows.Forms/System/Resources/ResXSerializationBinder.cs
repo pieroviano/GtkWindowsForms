@@ -83,10 +83,11 @@ namespace System.Resources
         public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
             typeName = null;
-            if(_typeNameConverter is null)
+            if (_typeNameConverter is null)
             {
 
-            }else
+            }
+            else
             {
                 string assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
                 if (!string.IsNullOrEmpty(assemblyQualifiedTypeName))

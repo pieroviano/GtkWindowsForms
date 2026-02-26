@@ -60,6 +60,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Prepare.Common\Prepare.Common.csproj" />
+	  <ProjectReference Include="..\XmlDocSync\XmlDocSync.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

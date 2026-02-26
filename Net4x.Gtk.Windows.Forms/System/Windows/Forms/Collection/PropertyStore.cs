@@ -7,9 +7,9 @@ using System.Drawing;
 namespace System.Windows.Forms;
 
 /// <summary>
-///  This is a small class that can efficiently store property values.
-///  It tries to optimize for size first, "get" access second, and
-///  "set" access third.
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
 /// </summary>
 internal partial class PropertyStore
 {
@@ -20,9 +20,9 @@ internal partial class PropertyStore
     private ObjectEntry[]? _objEntries;
 
     /// <summary>
-    ///  Retrieves an integer value from our property list.
-    ///  This will set value to zero and return false if the
-    ///  list does not contain the given key.
+    /// Retrieves an integer value from our property list.
+    /// This will set value to zero and return false if the
+    /// list does not contain the given key.
     /// </summary>
     public bool ContainsInteger(int key)
     {
@@ -31,9 +31,9 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Retrieves an integer value from our property list.
-    ///  This will set value to zero and return false if the
-    ///  list does not contain the given key.
+    /// Retrieves an integer value from our property list.
+    /// This will set value to zero and return false if the
+    /// list does not contain the given key.
     /// </summary>
     public bool ContainsObject(int key)
     {
@@ -42,19 +42,19 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Creates a new key for this property store. This is NOT
-    ///  guarded by any thread safety so if you are calling it on
-    ///  multiple threads you should guard. For our purposes,
-    ///  we're fine because this is designed to be called in a class
-    ///  initializer, and we never have the same class hierarchy
-    ///  initializing on multiple threads at once.
+    /// Creates a new key for this property store. This is NOT
+    /// guarded by any thread safety so if you are calling it on
+    /// multiple threads you should guard. For our purposes,
+    /// we're fine because this is designed to be called in a class
+    /// initializer, and we never have the same class hierarchy
+    /// initializing on multiple threads at once.
     /// </summary>
     public static int CreateKey() => s_currentKey++;
 
     public Color GetColor(int key) => GetColor(key, out _);
 
     /// <summary>
-    ///  A wrapper around GetObject designed to reduce the boxing hit
+    /// A wrapper around GetObject designed to reduce the boxing hit
     /// </summary>
     public Color GetColor(int key, out bool found)
     {
@@ -74,7 +74,7 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  A wrapper around GetObject designed to reduce the boxing hit.
+    /// A wrapper around GetObject designed to reduce the boxing hit.
     /// </summary>
     public Padding GetPadding(int key, out bool found)
     {
@@ -94,7 +94,7 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  A wrapper around GetObject designed to reduce the boxing hit.
+    /// A wrapper around GetObject designed to reduce the boxing hit.
     /// </summary>
     public Size GetSize(int key, out bool found)
     {
@@ -114,7 +114,7 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  A wrapper around GetObject designed to reduce the boxing hit.
+    /// A wrapper around GetObject designed to reduce the boxing hit.
     /// </summary>
     public Rectangle GetRectangle(int key, out bool found)
     {
@@ -134,16 +134,16 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Retrieves an integer value from our property list.
-    ///  This will set value to zero and return false if the
-    ///  list does not contain the given key.
+    /// Retrieves an integer value from our property list.
+    /// This will set value to zero and return false if the
+    /// list does not contain the given key.
     /// </summary>
     public int GetInteger(int key) => GetInteger(key, out _);
 
     /// <summary>
-    ///  Retrieves an integer value from our property list.
-    ///  This will set value to zero and return false if the
-    ///  list does not contain the given key.
+    /// Retrieves an integer value from our property list.
+    /// This will set value to zero and return false if the
+    /// list does not contain the given key.
     /// </summary>
     public int GetInteger(int key, out bool found)
     {
@@ -180,24 +180,35 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Retrieves an object value from our property list.
-    ///  This will set value to null and return false if the
-    ///  list does not contain the given key.
+    /// Retrieves an object value from our property list.
+    /// This will set value to null and return false if the
+    /// list does not contain the given key.
     /// </summary>
     public object? GetObject(int key) => GetObject(key, out _);
 
     /// <summary>
-    ///  Retrieves an object value from our property list.
-    ///  This will set value to null and return false if the
-    ///  list does not contain the given key.
+    /// Retrieves an object value from our property list.
+    /// This will set value to null and return false if the
+    /// list does not contain the given key.
     /// </summary>
-    /// <typeparam name="T">The type of object to retrieve.</typeparam>
-    /// <param name="key">The key corresponding to the object in the property list.</param>
-    /// <param name="value">Output parameter where the object will be set if found.
-    ///  Will be set to null if the key is not present.</param>
-    /// <remarks><para>If a null value is set for a given key
-    ///  it will return true and a null value.</para></remarks>
-    /// <returns>True if an object (including null) is found for the given key; otherwise, false.</returns>
+    /// <typeparam name="T">
+    /// The type of object to retrieve.
+    /// </typeparam>
+    /// <param name="key">
+    /// The key corresponding to the object in the property list.
+    /// </param>
+    /// <param name="value">
+    /// Output parameter where the object will be set if found.
+    /// Will be set to null if the key is not present.
+    /// </param>
+    /// <remarks>
+    /// <para>
+    /// If a null value is set for a given key it will return true and a null value.
+    /// </para>
+    /// </remarks>
+    /// <returns>
+    /// True if an object (including null) is found for the given key; otherwise, false.
+    /// </returns>
     public bool TryGetObject<T>(int key, out T? value)
     {
         object? entry = GetObject(key, out bool found);
@@ -219,9 +230,9 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Retrieves an object value from our property list.
-    ///  This will set value to null and return false if the
-    ///  list does not contain the given key.
+    /// Retrieves an object value from our property list.
+    /// This will set value to null and return false if the
+    /// list does not contain the given key.
     /// </summary>
     public object? GetObject(int key, out bool found)
     {
@@ -258,39 +269,39 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Locates the requested entry in our array if entries. This does
-    ///  not do the mask check to see if the entry is currently being used,
-    ///  but it does locate the entry. If the entry is found, this returns
-    ///  true and fills in index and element. If the entry is not found,
-    ///  this returns false. If the entry is not found, index will contain
-    ///  the insert point at which one would add a new element.
+    /// Locates the requested entry in our array if entries. This does
+    /// not do the mask check to see if the entry is currently being used,
+    /// but it does locate the entry. If the entry is found, this returns
+    /// true and fills in index and element. If the entry is not found,
+    /// this returns false. If the entry is not found, index will contain
+    /// the insert point at which one would add a new element.
     /// </summary>
     private bool LocateIntegerEntry(short entryKey, out int index)
     {
 
-            index = 0;
-            return false;
-        
+        index = 0;
+        return false;
+
     }
 
     /// <summary>
-    ///  Locates the requested entry in our array if entries. This does
-    ///  not do the mask check to see if the entry is currently being used,
-    ///  but it does locate the entry. If the entry is found, this returns
-    ///  true and fills in index and element. If the entry is not found,
-    ///  this returns false. If the entry is not found, index will contain
-    ///  the insert point at which one would add a new element.
+    /// Locates the requested entry in our array if entries. This does
+    /// not do the mask check to see if the entry is currently being used,
+    /// but it does locate the entry. If the entry is found, this returns
+    /// true and fills in index and element. If the entry is not found,
+    /// this returns false. If the entry is not found, index will contain
+    /// the insert point at which one would add a new element.
     /// </summary>
     private bool LocateObjectEntry(short entryKey, out int index)
     {
 
-            index = 0;
-            return false;
-        
+        index = 0;
+        return false;
+
     }
 
     /// <summary>
-    ///  Removes the given key from the array
+    /// Removes the given key from the array
     /// </summary>
     public void RemoveInteger(int key)
     {
@@ -298,7 +309,7 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Removes the given key from the array
+    /// Removes the given key from the array
     /// </summary>
     public void RemoveObject(int key)
     {
@@ -460,7 +471,7 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Stores the given value in the key.
+    /// Stores the given value in the key.
     /// </summary>
     public void SetInteger(int key, int value)
     {
@@ -521,7 +532,7 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Stores the given value in the key.
+    /// Stores the given value in the key.
     /// </summary>
     public void SetObject(int key, object? value)
     {
@@ -582,7 +593,7 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Takes the given key and splits it into an index and an element.
+    /// Takes the given key and splits it into an index and an element.
     /// </summary>
     private static short SplitKey(int key, out short element)
     {
@@ -591,11 +602,11 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Stores the relationship between a key and a value.
-    ///  We do not want to be so inefficient that we require
-    ///  four bytes for each four byte property, so use an algorithm
-    ///  that uses the bottom two bits of the key to identify
-    ///  one of four elements in an entry.
+    /// Stores the relationship between a key and a value.
+    /// We do not want to be so inefficient that we require
+    /// four bytes for each four byte property, so use an algorithm
+    /// that uses the bottom two bits of the key to identify
+    /// one of four elements in an entry.
     /// </summary>
     private struct IntegerEntry
     {
@@ -613,11 +624,11 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    ///  Stores the relationship between a key and a value.
-    ///  We do not want to be so inefficient that we require
-    ///  four bytes for each four byte property, so use an algorithm
-    ///  that uses the bottom two bits of the key to identify
-    ///  one of four elements in an entry.
+    /// Stores the relationship between a key and a value.
+    /// We do not want to be so inefficient that we require
+    /// four bytes for each four byte property, so use an algorithm
+    /// that uses the bottom two bits of the key to identify
+    /// one of four elements in an entry.
     /// </summary>
     private struct ObjectEntry
     {

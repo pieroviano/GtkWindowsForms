@@ -7,28 +7,32 @@ using System.ComponentModel;
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  ApplicationContext provides contextual information about an application
-    ///  thread. Specifically this allows an application author to redifine what
-    ///  circurmstances cause a message loop to exit. By default the application
-    ///  context listens to the close event on the mainForm, then exits the
-    ///  thread's message loop.
+    /// ApplicationContext provides contextual information about an application
+    /// thread. Specifically this allows an application author to redifine what
+    /// circurmstances cause a message loop to exit. By default the application
+    /// context listens to the close event on the mainForm, then exits the
+    /// thread's message loop.
     /// </summary>
     public class ApplicationContext : IDisposable
     {
         private Form _mainForm;
 
         /// <summary>
-        ///  Creates a new ApplicationContext with no mainForm.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ApplicationContext" /> class with no context.
         /// </summary>
         public ApplicationContext() : this(null)
         {
         }
 
         /// <summary>
-        ///  Creates a new ApplicationContext with the specified mainForm.
-        ///  If OnMainFormClosed is not overriden, the thread's message
-        ///  loop will be terminated when mainForm is closed.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ApplicationContext" /> class with the specified
+        /// <see cref="System.Windows.Forms.Form" />
         /// </summary>
+        /// <param name="mainForm">The main
+        /// <see cref="System.Windows.Forms.Form" /> of the application to use for context.
+        /// </param>
         public ApplicationContext(Form mainForm)
         {
             MainForm = mainForm;
@@ -37,10 +41,10 @@ namespace System.Windows.Forms
         ~ApplicationContext() => Dispose(false);
 
         /// <summary>
-        ///  Determines the mainForm for this context. This may be changed
-        ///  at anytime.
-        ///  If OnMainFormClosed is not overriden, the thread's message
-        ///  loop will be terminated when mainForm is closed.
+        /// Determines the mainForm for this context. This may be changed
+        /// at anytime.
+        /// If OnMainFormClosed is not overriden, the thread's message
+        /// loop will be terminated when mainForm is closed.
         /// </summary>
         public Form MainForm
         {
@@ -61,7 +65,14 @@ namespace System.Windows.Forms
                 }
             }
         }
-
+        /// <summary>
+        /// Gets or sets an object that contains data about the control.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="System.Object" /> that contains data about the control. The default is null.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
         [Localizable(false)]
         [Bindable(true)]
         [DefaultValue(null)]
@@ -69,22 +80,27 @@ namespace System.Windows.Forms
         public object Tag { get; set; }
 
         /// <summary>
-        ///  Is raised when the thread's message loop should be terminated.
-        ///  This is raised by calling ExitThread.
+        /// Is raised when the thread's message loop should be terminated.
+        /// This is raised by calling ExitThread.
         /// </summary>
         public event EventHandler ThreadExit;
 
         /// <summary>
-        ///  Disposes the context. This should dispose the mainForm. This is
-        ///  called immediately after the thread's message loop is terminated.
-        ///  Application will dispose all forms on this thread by default.
+        /// Disposes the context. This should dispose the mainForm. This is
+        /// called immediately after the thread's message loop is terminated.
+        /// Application will dispose all forms on this thread by default.
         /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
+        /// <summary>
+        /// Releases the unmanaged resources used by the
+        /// <see cref="System.Windows.Forms.ApplicationContext" /> and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
+        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -102,24 +118,30 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Causes the thread's message loop to be terminated. This will call ExitThreadCore.
+        /// Causes the thread's message loop to be terminated. This will call ExitThreadCore.
         /// </summary>
         public void ExitThread() => ExitThreadCore();
 
         /// <summary>
-        ///  Causes the thread's message loop to be terminated.
+        /// Causes the thread's message loop to be terminated.
         /// </summary>
         protected virtual void ExitThreadCore() => ThreadExit?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
-        ///  Called when the mainForm is closed. The default implementation
-        ///  of this will call ExitThreadCore.
+        /// Calls
+        /// <see cref="System.Windows.Forms.ApplicationContext.ExitThreadCore" />, which raises the
+        /// <see cref="System.Windows.Forms.ApplicationContext.ThreadExit" /> event.
         /// </summary>
+        /// <param name="sender">The object that raised the event.
+        /// </param>
+        /// <param name="e">The
+        /// <see cref="System.EventArgs" /> that contains the event data.
+        /// </param>
         protected virtual void OnMainFormClosed(object sender, EventArgs e) => ExitThreadCore();
 
         /// <summary>
-        ///  Called when the mainForm is closed. The default implementation
-        ///  of this will call ExitThreadCore.
+        /// Called when the mainForm is closed. The default implementation
+        /// of this will call ExitThreadCore.
         /// </summary>
         private void OnMainFormDestroy(object sender, EventArgs e)
         {

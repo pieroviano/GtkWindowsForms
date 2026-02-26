@@ -4,6 +4,13 @@ using System.Text;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Defines how a
+    /// <see cref="System.Windows.Forms.DataGridView" /> column can be sorted by the user.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum DataGridViewColumnSortMode
     {
 

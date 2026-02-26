@@ -10,6 +10,12 @@ using System.Drawing;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Provides a container for Windows toolbar objects.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public class ToolStrip : Control
     {
 
@@ -18,6 +24,10 @@ namespace System.Windows.Forms
         public override object GtkControl => self;
 
         public ToolStripItemCollection toolStripItemCollection;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ToolStrip" /> class.
+        /// </summary>
         public ToolStrip() : base()
         {
             toolStripItemCollection = new ToolStripItemCollection(this);
@@ -53,6 +63,16 @@ namespace System.Windows.Forms
         }
 
         public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, 30); }
+        /// <summary>
+        /// Gets all the items that belong to a
+        /// <see cref="System.Windows.Forms.ToolStrip" />
+        /// </summary>
+        /// <returns>An object of type
+        /// <see cref="System.Windows.Forms.ToolStripItemCollection" />, representing all the elements contained by a
+        /// <see cref="System.Windows.Forms.ToolStrip" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public ToolStripItemCollection Items
         {
             get
@@ -60,10 +80,32 @@ namespace System.Windows.Forms
                 return toolStripItemCollection;
             }
         }
-
-
+        /// <summary>
+        /// Gets or sets the size, in pixels, of an image used on a
+        /// <see cref="System.Windows.Forms.ToolStrip" />
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Size" /> value representing the size of the image, in pixels. The default is 16 x 16 pixels.
+        /// </returns>
         public Size ImageScalingSize { get; set; }
-
+        /// <summary>
+        /// Gets or sets a value indicating how the
+        /// <see cref="System.Windows.Forms.ToolStrip" /> lays out the items collection.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.ToolStripLayoutStyle" /> values. The possible values are
+        /// <see cref="System.Windows.Forms.ToolStripLayoutStyle.Table" />,
+        /// <see cref="System.Windows.Forms.ToolStripLayoutStyle.Flow" />,
+        /// <see cref="System.Windows.Forms.ToolStripLayoutStyle.StackWithOverflow" />,
+        /// <see cref="System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow" />, and
+        /// <see cref="System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value of
+        /// <see cref="System.Windows.Forms.ToolStrip.LayoutStyle" /> is not one of the
+        /// <see cref="System.Windows.Forms.ToolStripLayoutStyle" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
         public ToolStripLayoutStyle LayoutStyle { get; set; }
 
         public override event EventHandler Click;

@@ -4,6 +4,9 @@ namespace System.Windows.Forms
     /// <summary>
     /// Specifies the day of the week.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum Day
     {
 

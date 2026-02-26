@@ -6,8 +6,18 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ListBox
     {
+        /// <summary>
+        /// Represents the collection containing the indexes to the selected items in a
+        /// <see cref="System.Windows.Forms.ListBox" />
+        /// </summary>
         public partial class SelectedIndexCollection : IList
         {
             private readonly ListBox _owner;
@@ -18,7 +28,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Number of current selected items.
+            /// Number of current selected items.
             /// </summary>
             [Browsable(false)]
             public int Count
@@ -132,7 +142,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Retrieves the specified selected item.
+            /// Retrieves the specified selected item.
             /// </summary>
             public int this[int index]
             {
@@ -156,8 +166,8 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  This is the item array that stores our data.  We share this backing store
-            ///  with the main object collection.
+            /// This is the item array that stores our data.  We share this backing store
+            /// with the main object collection.
             /// </summary>
             private ItemArray InnerArray
             {

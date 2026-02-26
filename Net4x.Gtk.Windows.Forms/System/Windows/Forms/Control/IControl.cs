@@ -42,7 +42,7 @@ namespace System.Windows.Forms
         bool Focused { get; }
         Font Font { get; set; }
         Color ForeColor { get; set; }
-       // IntPtr Handle { get; }
+        // IntPtr Handle { get; }
         bool HasChildren { get; }
         int Height { get; set; }
         ImeMode ImeMode { get; set; }
@@ -167,7 +167,7 @@ namespace System.Windows.Forms
         IContainerControl GetContainerControl();
         Control GetNextControl(Control ctl, bool forward);
         Size GetPreferredSize(Size proposedSize);
-       // void Hide();
+        // void Hide();
         void Invalidate();
         void Invalidate(bool invalidateChildren);
         void Invalidate(Rectangle rc);
@@ -207,7 +207,7 @@ namespace System.Windows.Forms
         void SendToBack();
         void SetBounds(int x, int y, int width, int height);
         void SetBounds(int x, int y, int width, int height, BoundsSpecified specified);
-       // void Show();
+        // void Show();
         void SuspendLayout();
         void Update();
 

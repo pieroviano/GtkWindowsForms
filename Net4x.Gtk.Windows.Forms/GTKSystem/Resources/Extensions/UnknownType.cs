@@ -1,6 +1,6 @@
 namespace GtkSystem.Resources.Extensions
 {
-	internal class UnknownType
-	{
-	}
+    internal class UnknownType
+    {
+    }
 }

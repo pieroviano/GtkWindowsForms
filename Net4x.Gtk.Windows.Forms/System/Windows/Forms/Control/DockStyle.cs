@@ -1,5 +1,11 @@
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Specifies the position and manner in which a control is docked.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum DockStyle
     {
 

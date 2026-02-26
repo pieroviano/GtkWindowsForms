@@ -6,6 +6,12 @@
  */
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Prompts the user to select a location for saving a file. This class cannot be inherited.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public sealed class SaveFileDialog : FileDialog
     {
         public SaveFileDialog()
@@ -18,10 +24,17 @@ namespace System.Windows.Forms
             get => true;
             set { }
         }
+        /// <summary>
+        /// Opens the file with read/write permission selected by the user.
+        /// </summary>
+        /// <returns>The read/write file selected by the user.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public Stream OpenFile()
         {
             string filename = FileName;
-            if(string.IsNullOrEmpty(filename))
+            if (string.IsNullOrEmpty(filename))
             {
                 throw new ArgumentNullException("filename");
             }

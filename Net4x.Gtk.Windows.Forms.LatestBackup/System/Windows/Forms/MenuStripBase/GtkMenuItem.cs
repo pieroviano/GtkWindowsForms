@@ -6,7 +6,7 @@ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  GtkMenuItem
+    /// GtkMenuItem
     /// </summary>
     public class GtkMenuItem : Gtk.MenuItem
     {
@@ -76,7 +76,7 @@ namespace System.Windows.Forms
             }
         }
         public GtkMenuItem()
-        { 
+        {
         }
     }
 

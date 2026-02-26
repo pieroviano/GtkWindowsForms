@@ -206,12 +206,12 @@ namespace System.Windows.Forms
             DialogResult result = DialogResult.None;
             try
             {
-                
+
                 result = ShowCore(owner, text, caption, buttons, icon, defaultButton, options, true);
             }
             finally
             {
-              
+
             }
             return result;
         }
@@ -229,7 +229,7 @@ namespace System.Windows.Forms
             else
             {
                 Gtk.Window window = Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive);
-                if(window != null)
+                if (window != null)
                 {
                     ActiveWindow = window;
                 }
@@ -310,7 +310,7 @@ namespace System.Windows.Forms
             Gtk.Box msgbox = new Box(Gtk.Orientation.Horizontal, 10);
             msgbox.Valign = Align.Start;
             msgbox.Halign = Align.Fill;
-        
+
             if (icon == MessageBoxIcon.Question)
                 msgbox.PackStart(Gtk.Image.LoadFromResource("Resources.System.dialog-question.png"), false, false, 5);
             else if (icon == MessageBoxIcon.Warning || icon == MessageBoxIcon.Exclamation)
@@ -340,7 +340,7 @@ namespace System.Windows.Forms
             }
             msgbox.PackStart(content, false, true, 5);
             dia.ContentArea.PackStart(msgbox, false, true, 0);
-         
+
             dia.Icon = new Gdk.Pixbuf(typeof(MessageBox).Assembly, "Resources.System.help-faq.png");
             if (buttons == MessageBoxButtons.OK)
             {

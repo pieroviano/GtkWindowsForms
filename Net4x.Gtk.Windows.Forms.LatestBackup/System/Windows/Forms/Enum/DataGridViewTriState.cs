@@ -8,10 +8,10 @@ namespace System.Windows.Forms
     /// <summary>
     /// Defines values for specifying how the width of a column is adjusted.
     /// </summary>
-
-
-
-    /// <summary>
+    /// Defines values for specifying one of three possible states.
+    /// </summary>
+    /// Defines values for specifying how the width of a column is adjusted.
+    /// </summary>
     /// Defines values for specifying one of three possible states.
     /// </summary>
     public enum DataGridViewTriState

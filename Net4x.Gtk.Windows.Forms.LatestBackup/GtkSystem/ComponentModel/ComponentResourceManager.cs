@@ -16,7 +16,7 @@ namespace GtkSystem.ComponentModel
         private Type formtype;
 
         private string formName;
-        
+
         public ComponentResourceManager(Type form) : base(form)
         {
             formtype = form;

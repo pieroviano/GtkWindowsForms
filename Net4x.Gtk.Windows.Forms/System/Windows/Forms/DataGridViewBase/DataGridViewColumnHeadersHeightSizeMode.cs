@@ -18,8 +18,7 @@ namespace System.Windows.Forms
         DisableResizing,
 
         /// <summary>
-        /// The column header height adjusts to fit the contents of all the column header
-        /// cells.
+        /// The column header height adjusts to fit the contents of all the column header cells.
         /// </summary>
         AutoSize
     }

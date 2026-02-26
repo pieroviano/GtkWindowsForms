@@ -53,7 +53,7 @@ public static class ProjectCompilation
         if (process.ExitCode != 0)
         {
             var message = $"dotnet {whatToDo} failed:{Environment.NewLine}{output}{Environment.NewLine}{error}";
-            Console.WriteLine(message);
+            ConsoleUtility.WriteInColor(message, ConsoleColor.Red);
             throw new InvalidOperationException(message);
         }
     }

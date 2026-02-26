@@ -123,7 +123,7 @@ namespace GtkSystem.Windows.Forms.Utility
             else if (ImageAlign == ContentAlignment.BottomLeft)
                 ctx.Translate(rec.X, (img.Height - rec.Height) + rec.Y);
             else if (ImageAlign == ContentAlignment.BottomCenter)
-                ctx.Translate((img.Width - rec.Width)/2 + rec.X, (img.Height - rec.Height) + rec.Y);
+                ctx.Translate((img.Width - rec.Width) / 2 + rec.X, (img.Height - rec.Height) + rec.Y);
             else if (ImageAlign == ContentAlignment.BottomRight)
                 ctx.Translate((img.Width - rec.Width) + rec.X, (img.Height - rec.Height) + rec.Y);
             else

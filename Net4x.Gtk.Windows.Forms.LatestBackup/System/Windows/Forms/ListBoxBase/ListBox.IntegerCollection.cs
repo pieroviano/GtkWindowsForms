@@ -6,8 +6,18 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ListBox
     {
+        /// <summary>
+        /// Represents a collection of integers in a
+        /// <see cref="System.Windows.Forms.ListBox" />
+        /// </summary>
         public partial class IntegerCollection : IList
         {
 
@@ -22,7 +32,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Number of current selected items.
+            /// Number of current selected items.
             /// </summary>
             [Browsable(false)]
             public int Count
@@ -118,9 +128,9 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Add a unique integer to the collection in sorted order.
-            ///  A SystemException occurs if there is insufficient space available to
-            ///  store the new item.
+            /// Add a unique integer to the collection in sorted order.
+            /// A SystemException occurs if there is insufficient space available to
+            /// store the new item.
             /// </summary>
             private int AddInternal(int item)
             {
@@ -138,9 +148,9 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Adds a unique integer to the collection in sorted order.
-            ///  A SystemException occurs if there is insufficient space available to
-            ///  store the new item.
+            /// Adds a unique integer to the collection in sorted order.
+            /// A SystemException occurs if there is insufficient space available to
+            /// store the new item.
             /// </summary>
             public int Add(int item)
             {
@@ -170,7 +180,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Add range that bypasses the data source check.
+            /// Add range that bypasses the data source check.
             /// </summary>
             private void AddRangeInternal(ICollection items)
             {
@@ -198,8 +208,8 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Ensures that our internal array has space for
-            ///  the requested # of elements.
+            /// Ensures that our internal array has space for
+            /// the requested # of elements.
             /// </summary>
             private void EnsureSpace(int elements)
             {
@@ -242,8 +252,8 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Removes the given item from the array.  If
-            ///  the item is not in the array, this does nothing.
+            /// Removes the given item from the array.  If
+            /// the item is not in the array, this does nothing.
             /// </summary>
             public void Remove(int item)
             {
@@ -256,7 +266,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Removes the item at the given index.
+            /// Removes the item at the given index.
             /// </summary>
             public void RemoveAt(int index)
             {
@@ -268,7 +278,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Retrieves the specified selected item.
+            /// Retrieves the specified selected item.
             /// </summary>
             public int this[int index]
             {

@@ -5,18 +5,34 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Provides data for the <see cref='Form.OnClosed'/> event.
+    /// Provides data for the
+    /// <see cref="System.Windows.Forms.Form.FormClosed" /> event.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public class FormClosedEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.FormClosedEventArgs" /> class.
+        /// </summary>
+        /// <param name="closeReason">A
+        /// <see cref="System.Windows.Forms.CloseReason" /> value that represents the reason why the form was closed.
+        /// </param>
         public FormClosedEventArgs(CloseReason closeReason)
         {
             CloseReason = closeReason;
         }
 
         /// <summary>
-        ///  Provides the reason for the Form Close.
+        /// Gets a value that indicates why the form was closed.
         /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.CloseReason" /> enumerated values.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public CloseReason CloseReason { get; }
     }
 }

@@ -8,6 +8,9 @@ namespace System.Windows.Forms
     /// <summary>
     /// Specifies the state of an item that is being drawn.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [Flags]
     public enum DrawItemState
     {

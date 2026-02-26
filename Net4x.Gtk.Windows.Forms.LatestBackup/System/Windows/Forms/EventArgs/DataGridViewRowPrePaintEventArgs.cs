@@ -8,6 +8,13 @@ using System.Diagnostics;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Provides data for the
+    /// <see cref="System.Windows.Forms.DataGridView.RowPrePaint" /> event.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public class DataGridViewRowPrePaintEventArgs : HandledEventArgs
     {
         private readonly DataGridView _dataGridView;

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Files>
+  <Item Source=".editorconfig" Destination=".editorconfig" />
   <Item Source="Net4x.Gtk.Windows.Forms.csproj" Destination="Net4x.Gtk.Windows.Forms.csproj" />
   <Item Source="Net4x.Gtk.Windows.Forms.csproj.user" Destination="Net4x.Gtk.Windows.Forms.csproj.user" />
   <Item Source="Net4x.Gtk.Windows.Forms.props" Destination="Net4x.Gtk.Windows.Forms.props" />
@@ -9,6 +10,11 @@
   <Item Source="Content\System.Resources.ResourceManager.cs" Destination="Content\System.Resources.ResourceManager.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\Content\System.Resources.ResourceManager.cs</Item>
   <Item Source="GtkControls\ControlExtension.cs" Destination="GtkControls\ControlExtension.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\GtkControls\ControlExtension.cs</Item>
   <Item Source="GtkControls\GridCell.cs" Destination="GtkControls\GridCell.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\GtkControls\GridCell.cs</Item>
+  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.dgspec.json" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.dgspec.json" />
+  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.props" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.props" />
+  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" />
+  <Item Source="obj\project.assets.json" Destination="obj\project.assets.json" />
+  <Item Source="obj\project.nuget.cache" Destination="obj\project.nuget.cache" />
   <Item Source="Properties\MessageBoxResources.de.resx" Destination="Properties\MessageBoxResources.de.resx" />
   <Item Source="Properties\MessageBoxResources.Designer.cs" Destination="Properties\MessageBoxResources.Designer.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\Properties\MessageBoxResources.Designer.cs</Item>
   <Item Source="Properties\MessageBoxResources.es.resx" Destination="Properties\MessageBoxResources.es.resx" />
@@ -94,6 +100,13 @@
   <Item Source="GtkSystem\Resources\Extensions\SR.resx" Destination="GtkSystem\Resources\Extensions\SR.resx" />
   <Item Source="GtkSystem\Resources\Extensions\TypeNameComparer.cs" Destination="GtkSystem\Resources\Extensions\TypeNameComparer.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\GtkSystem\Resources\Extensions\TypeNameComparer.cs</Item>
   <Item Source="GtkSystem\Resources\Extensions\UnknownType.cs" Destination="GtkSystem\Resources\Extensions\UnknownType.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\GtkSystem\Resources\Extensions\UnknownType.cs</Item>
+  <Item Source="obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs" Destination="obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs</Item>
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.AssemblyInfo.cs" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.AssemblyInfo.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms\obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.LatestBackup.AssemblyInfo.cs</Item>
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.AssemblyInfoInputs.cache" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.AssemblyInfoInputs.cache" />
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.assets.cache" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.assets.cache" />
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.csproj.AssemblyReference.cache" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.csproj.AssemblyReference.cache" />
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.GeneratedMSBuildEditorConfig.editorconfig" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.GeneratedMSBuildEditorConfig.editorconfig" />
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.GlobalUsings.g.cs" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.GlobalUsings.g.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms\obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.LatestBackup.GlobalUsings.g.cs</Item>
   <Item Source="System\ComponentModel\Atrribute\TypeConverte.cs" Destination="System\ComponentModel\Atrribute\TypeConverte.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\System\ComponentModel\Atrribute\TypeConverte.cs</Item>
   <Item Source="System\Diagnostics\CodeAnalysis\AllowNullAttribute.cs" Destination="System\Diagnostics\CodeAnalysis\AllowNullAttribute.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\System\Diagnostics\CodeAnalysis\AllowNullAttribute.cs</Item>
   <Item Source="System\Diagnostics\CodeAnalysis\DisallowNullAttribute.cs" Destination="System\Diagnostics\CodeAnalysis\DisallowNullAttribute.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\System\Diagnostics\CodeAnalysis\DisallowNullAttribute.cs</Item>

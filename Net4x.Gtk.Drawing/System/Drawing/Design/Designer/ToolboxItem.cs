@@ -5,12 +5,12 @@ using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Reflection;
-using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 
 namespace System.Drawing.Design
 {
     /// <summary>
-    ///  Provides a base implementation of a toolbox item.
+    /// Provides a base implementation of a toolbox item.
     /// </summary>
     public class ToolboxItem : ISerializable
     {
@@ -25,7 +25,8 @@ namespace System.Drawing.Design
 
 
         /// <summary>
-        ///  Initializes a new instance of the ToolboxItem class.
+        /// Initializes a new instance of the
+        /// <see cref="System.Drawing.Design.ToolboxItem" /> class.
         /// </summary>
         public ToolboxItem()
         {
@@ -33,8 +34,15 @@ namespace System.Drawing.Design
         }
 
         /// <summary>
-        ///  Initializes a new instance of the ToolboxItem class using the specified type.
+        /// Initializes a new instance of the
+        /// <see cref="System.Drawing.Design.ToolboxItem" /> class that creates the specified type of component.
         /// </summary>
+        /// <param name="toolType">The type of
+        /// <see cref="System.ComponentModel.IComponent" /> that the toolbox item creates.
+        /// </param>
+        /// <exception cref="System.InvalidOperationException">The
+        /// <see cref="System.Drawing.Design.ToolboxItem" /> was locked.
+        /// </exception>
         public ToolboxItem(Type? toolType) : this()
         {
 

@@ -11,7 +11,7 @@ using System.Drawing.Design;
 namespace System.Windows.Forms.Design
 {
     /// <summary>
-    ///  Provides a designer that can design components that extend Control.
+    /// Provides a designer that can design components that extend Control.
     /// </summary>
     public partial class ControlDesigner : ComponentDesigner
     {

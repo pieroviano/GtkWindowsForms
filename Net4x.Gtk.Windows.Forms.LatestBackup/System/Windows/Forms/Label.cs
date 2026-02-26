@@ -10,6 +10,12 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a standard Windows label.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class Label : Control
     {
@@ -17,16 +23,45 @@ namespace System.Windows.Forms
         public readonly LabelBase self = new LabelBase();
 
         public override object GtkControl => self;
-        public Label() : base() {
-      
-        }
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.Label" /> class.
+        /// </summary>
+        public Label() : base()
+        {
 
+        }
+        /// <returns>
+        /// The text associated with this control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public override string Text { get => self.Text; set { self.Text = value; } }
 
-        public override RightToLeft RightToLeft { get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; } set { self.Direction = value == RightToLeft.Yes ?  Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; } }
-        public System.Drawing.ContentAlignment TextAlign { 
-            get { return textAlign; } 
-            set { 
+        public override RightToLeft RightToLeft { get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; } set { self.Direction = value == RightToLeft.Yes ? Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; } }
+        /// <summary>
+        /// Gets or sets the alignment of text in the label.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Drawing.ContentAlignment" /> values. The default is
+        /// <see cref="System.Drawing.ContentAlignment.TopLeft" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value assigned is not one of the
+        /// <see cref="System.Drawing.ContentAlignment" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public System.Drawing.ContentAlignment TextAlign
+        {
+            get { return textAlign; }
+            set
+            {
                 textAlign = value;
                 if (value == System.Drawing.ContentAlignment.TopLeft)
                 {

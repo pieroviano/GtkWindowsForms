@@ -9,6 +9,12 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a standard Windows horizontal scroll bar.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public class HScrollBar : ScrollBar
     {
@@ -20,7 +26,7 @@ namespace System.Windows.Forms
         public override Gtk.Adjustment Adjustment { get => self.Adjustment; }
         public HScrollBar() : base()
         {
- 
+
         }
 
     }

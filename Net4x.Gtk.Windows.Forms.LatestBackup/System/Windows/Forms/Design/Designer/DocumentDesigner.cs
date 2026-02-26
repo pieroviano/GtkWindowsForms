@@ -12,8 +12,8 @@ using System.Drawing.Design;
 namespace System.Windows.Forms.Design
 {
     /// <summary>
-    ///  Provides a designer that extends the ScrollableControlDesigner and implements
-    ///  IRootDesigner.
+    /// Provides a designer that extends the ScrollableControlDesigner and implements
+    /// IRootDesigner.
     /// </summary>
     [ToolboxItemFilter("System.Windows.Forms")]
     public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner, IToolboxUser, IOleDragClient

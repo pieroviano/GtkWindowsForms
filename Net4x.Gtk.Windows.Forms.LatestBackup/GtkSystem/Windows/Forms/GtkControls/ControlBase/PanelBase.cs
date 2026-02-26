@@ -2,7 +2,7 @@ using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
-    public sealed class PanelBase: ScrollableBoxBase
+    public sealed class PanelBase : ScrollableBoxBase
     {
         public PanelBase() : base()
         {

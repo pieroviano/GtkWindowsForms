@@ -9,7 +9,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
 
     public delegate void PaintGraphicsEventHandler(Cairo.Context cr, Rectangle rec);
-    public sealed class GtkControlOverride: IControlOverride
+    public sealed class GtkControlOverride : IControlOverride
     {
 
         private Widget container;
@@ -47,7 +47,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         {
             foreach (string cssClass in cssList)
             {
-                if(container.StyleContext.HasClass(cssClass))
+                if (container.StyleContext.HasClass(cssClass))
                     container.StyleContext.RemoveClass(cssClass);
                 container.StyleContext.AddClass(cssClass);
             }
@@ -106,12 +106,13 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
                 ImageUtility.DrawImage(cr, imagePixbuf, area, ImageAlign);
             }
         }
-        
+
 
         public event PaintGraphicsEventHandler PaintGraphics;
         public void OnPaint(Cairo.Context cr, Gdk.Rectangle area)
         {
-            if (PaintGraphics != null) {
+            if (PaintGraphics != null)
+            {
                 PaintGraphics(cr, new Rectangle(area.X, area.Y, area.Width, area.Height));
             }
             if (Paint != null)

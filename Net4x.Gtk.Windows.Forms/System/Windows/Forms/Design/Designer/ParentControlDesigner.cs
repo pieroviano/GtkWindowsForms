@@ -10,9 +10,9 @@ using System.Drawing.Design;
 namespace System.Windows.Forms.Design
 {
     /// <summary>
-    ///  The ParentControlDesigner class builds on the ControlDesigner.  It adds the ability
-    ///  to manipulate child components, and provides a selection UI handler for all
-    ///  components it contains.
+    /// The ParentControlDesigner class builds on the ControlDesigner.  It adds the ability
+    /// to manipulate child components, and provides a selection UI handler for all
+    /// components it contains.
     /// </summary>
     public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     {

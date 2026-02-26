@@ -4,6 +4,9 @@ namespace System.Windows.Forms
     /// <summary>
     /// Specifies the locations of the tabs in a tab control.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum TabAlignment
     {
 

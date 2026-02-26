@@ -14,8 +14,17 @@ using System.Windows.Forms.Layout;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Defines the base class for controls, which are components with visual representation.
+    /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
     public partial class Control
     {
+        /// <summary>
+        /// Represents a collection of
+        /// <see cref="System.Windows.Forms.Control" /> objects.
+        /// </summary>
         public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable
         {
             Gtk.Container __ownerControl;
@@ -114,7 +123,7 @@ namespace System.Windows.Forms
                         else if (item is Control control)
                         {
                             lay.AddOverlay(control.Widget);
-                            if(control.Widget is Gtk.Label || control.Widget is Gtk.Button || control.Widget is Gtk.Entry || control.Widget is Gtk.TextView || control.Widget is Gtk.ScrolledWindow)
+                            if (control.Widget is Gtk.Label || control.Widget is Gtk.Button || control.Widget is Gtk.Entry || control.Widget is Gtk.TextView || control.Widget is Gtk.ScrolledWindow)
                                 lay.SetOverlayPassThrough(control.Widget, true);
                             control.DockChanged += Control_DockChanged;
                             control.AnchorChanged += Control_AnchorChanged;

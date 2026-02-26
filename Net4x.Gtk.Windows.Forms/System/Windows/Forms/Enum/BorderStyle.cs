@@ -1,5 +1,11 @@
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Specifies the border style for a control.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum BorderStyle
     {
 

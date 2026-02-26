@@ -13,17 +13,27 @@ using System.Text.RegularExpressions;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a Windows control that allows the user to select a date and a time and to display the date and time with a specified format.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class DateTimePicker : MaskedTextBox
     {
         Gtk.Popover popver;
         Gtk.Calendar calendar = new Gtk.Calendar();
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.DateTimePicker" /> class.
+        /// </summary>
         public DateTimePicker() : base("DateTimePicker")
         {
             base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
 
             self.SecondaryIconActivatable = true;
-            self.SecondaryIconStock= "open-menu";
+            self.SecondaryIconStock = "open-menu";
             self.SecondaryIconPixbuf = new Gdk.Pixbuf(this.GetType().Assembly, "Resources.System.MonthCalendar.ico");
             self.IconRelease += DateTimePicker_IconRelease;
             self.Shown += Self_Shown;
@@ -41,9 +51,9 @@ namespace System.Windows.Forms
             calendar.PrevMonth += Calendar_PrevMonth;
             calendar.NextMonth += Calendar_NextMonth;
 
-            Gtk.Box popbody=new Gtk.Box(Gtk.Orientation.Vertical, 6);
+            Gtk.Box popbody = new Gtk.Box(Gtk.Orientation.Vertical, 6);
             popbody.Add(calendar);
-            Gtk.Button todaybtn = new Gtk.Button() { Label = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Choose_Today+DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") };
+            Gtk.Button todaybtn = new Gtk.Button() { Label = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Choose_Today + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") };
             todaybtn.Clicked += Todaybtn_Clicked;
             popbody.Add(todaybtn);
             popver.Add(popbody);
@@ -105,7 +115,7 @@ namespace System.Windows.Forms
             {
                 calendar.Date = MaxDate.Date.AddDays(-1);
             }
-            else if(current <= MinDate)
+            else if (current <= MinDate)
             {
                 calendar.Date = MinDate.AddDays(1);
             }
@@ -123,7 +133,7 @@ namespace System.Windows.Forms
             if (dt > MaxDate || dt < MinDate)
             {
                 calendar.Date = Value;
-                MessageBox.Show($" the selected date is out of the allowed range \n maximum time：{MaxDate.ToString("yyyy/MM/dd HH:mm:ss")}\n minimum time：{MinDate.ToString("yyyy/MM/dd HH:mm:ss")}",System.Properties.Resources.Gtk_DateTimePicker_Calendar_DaySelected_Date_restrictions);
+                MessageBox.Show($" the selected date is out of the allowed range \n maximum time：{MaxDate.ToString("yyyy/MM/dd HH:mm:ss")}\n minimum time：{MinDate.ToString("yyyy/MM/dd HH:mm:ss")}", System.Properties.Resources.Gtk_DateTimePicker_Calendar_DaySelected_Date_restrictions);
             }
             else
             {
@@ -131,11 +141,64 @@ namespace System.Windows.Forms
                 this.Value = dt.AddHours(current.Hour).AddMinutes(current.Minute).AddSeconds(current.Second);
             }
         }
-
-
+        /// <summary>
+        /// Gets or sets the maximum date and time that can be selected in the control.
+        /// </summary>
+        /// <returns>The maximum date and time that can be selected in the control. The default is 12/31/9998 23:59:59.
+        /// </returns>
+        /// <exception cref="System.ArgumentException">The value assigned is less than the
+        /// <see cref="System.Windows.Forms.DateTimePicker.MinDate" /> value.
+        /// </exception>
+        /// <exception cref="System.SystemException">The value assigned is greater than the
+        /// <see cref="System.Windows.Forms.DateTimePicker.MaxDateTime" /> value.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DateTime MaxDate { get; set; } = DateTime.MaxValue;
-
+        /// <summary>
+        /// Gets or sets the minimum date and time that can be selected in the control.
+        /// </summary>
+        /// <returns>The minimum date and time that can be selected in the control. The default is 1/1/1753 00:00:00.
+        /// </returns>
+        /// <exception cref="System.ArgumentException">The value assigned is not less than the
+        /// <see cref="System.Windows.Forms.DateTimePicker.MaxDate" /> value.
+        /// </exception>
+        /// <exception cref="System.SystemException">The value assigned is less than the
+        /// <see cref="System.Windows.Forms.DateTimePicker.MinDateTime" /> value.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DateTime MinDate { get; set; } = DateTime.MinValue;
+        /// <summary>
+        /// Gets or sets the date/time value assigned to the control.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.DateTime" /> value assign to the control.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">The set value is less than
+        /// <see cref="System.Windows.Forms.DateTimePicker.MinDate" /> or more than
+        /// <see cref="System.Windows.Forms.DateTimePicker.MaxDate" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DateTime Value
         {
             get
@@ -149,7 +212,7 @@ namespace System.Windows.Forms
                 else if (DateTime.TryParse(Text, provider, Globalization.DateTimeStyles.AllowWhiteSpaces, out result))
                 { }
                 else
-                { 
+                {
                     result = DateTime.Now;
                 }
                 if (result > MaxDate)
@@ -162,8 +225,9 @@ namespace System.Windows.Forms
                 }
                 return result;
             }
-            set { 
-                if(value > MaxDate)
+            set
+            {
+                if (value > MaxDate)
                 {
                     value = MaxDate.AddDays(-1);
                 }
@@ -171,7 +235,7 @@ namespace System.Windows.Forms
                 {
                     value = MinDate.AddDays(1);
                 }
-                if (Format==DateTimePickerFormat.Long)
+                if (Format == DateTimePickerFormat.Long)
                     base.Text = value.ToString(System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd);
                 else if (Format == DateTimePickerFormat.Short)
                     base.Text = value.ToString("yyyy/MM/dd");
@@ -180,20 +244,58 @@ namespace System.Windows.Forms
                 else if (Format == DateTimePickerFormat.Custom)
                     base.Text = value.ToString(CustomFormat);
                 else
-                    base.Text = value.ToString(System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd); 
+                    base.Text = value.ToString(System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd);
             }
         }
 
-        private string _CustomFormat= System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd;
-        public string CustomFormat { get => _CustomFormat; 
-            set { _CustomFormat = value; 
-                base.Mask = Regex.Replace(value,"[ymdhs]","_",RegexOptions.IgnoreCase); 
+        private string _CustomFormat = System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd;
+        /// <summary>
+        /// Gets or sets the custom date/time format string.
+        /// </summary>
+        /// <returns>A string that represents the custom date/time format. The default is null.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public string CustomFormat
+        {
+            get => _CustomFormat;
+            set
+            {
+                _CustomFormat = value;
+                base.Mask = Regex.Replace(value, "[ymdhs]", "_", RegexOptions.IgnoreCase);
             }
         }
 
         public DateTimePickerFormat _Format;
-        public DateTimePickerFormat Format { get => _Format;
-            set {
+        /// <summary>
+        /// Gets or sets the format of the date and time displayed in the control.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.DateTimePickerFormat" /> values. The default is
+        /// <see cref="System.Windows.Forms.DateTimePickerFormat.Long" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value assigned is not one of the
+        /// <see cref="System.Windows.Forms.DateTimePickerFormat" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public DateTimePickerFormat Format
+        {
+            get => _Format;
+            set
+            {
                 _Format = value;
                 if (Format == DateTimePickerFormat.Long)
                     base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
@@ -205,18 +307,107 @@ namespace System.Windows.Forms
                     base.Mask = Regex.Replace(CustomFormat, "[ymdhs]", "_", RegexOptions.IgnoreCase);
                 else
                     base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
-            } 
+            }
         }
-
+        /// <summary>
+        /// Gets or sets the font style applied to the calendar.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Font" /> that represents the font style applied to the calendar.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Font CalendarFont { get; set; }
-
+        /// <summary>
+        /// Gets or sets the foreground color of the calendar.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Color" /> that represents the foreground color of the calendar.
+        /// </returns>
+        /// <exception cref="System.ArgumentException">The value assigned is null.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Color CalendarForeColor { get; set; }
-
+        /// <summary>
+        /// Gets or sets the background color of the calendar month.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Color" /> that represents the background color of the calendar month.
+        /// </returns>
+        /// <exception cref="System.ArgumentException">The value assigned is null.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Color CalendarMonthBackground { get; set; }
-
+        /// <summary>
+        /// Gets or sets the background color of the calendar title.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Color" /> that represents the background color of the calendar title.
+        /// </returns>
+        /// <exception cref="System.ArgumentException">The value assigned is null.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Color CalendarTitleBackColor { get; set; }
-
+        /// <summary>
+        /// Gets or sets the foreground color of the calendar title.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Color" /> that represents the foreground color of the calendar title.
+        /// </returns>
+        /// <exception cref="System.ArgumentException">The value assigned is null.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Color CalendarTitleForeColor { get; set; }
+        /// <summary>
+        /// Gets or sets the foreground color of the calendar trailing dates.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Color" /> that represents the foreground color of the calendar trailing dates.
+        /// </returns>
+        /// <exception cref="System.ArgumentException">The value assigned is null.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Color CalendarTrailingForeColor { get; set; }
 
         public event EventHandler ValueChanged;

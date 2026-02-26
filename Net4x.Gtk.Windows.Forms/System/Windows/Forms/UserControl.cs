@@ -13,6 +13,12 @@ using System.Xml.Linq;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Provides an empty control that can be used to create other controls.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [DesignerCategory("UserControl")]
     [ToolboxItem(true)]
     public partial class UserControl : ContainerControl
@@ -24,7 +30,10 @@ namespace System.Windows.Forms
 
         private Gtk.Overlay contaner;
         private ControlCollection _controls;
-
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.UserControl" /> class.
+        /// </summary>
         public UserControl() : base()
         {
             contaner = new Gtk.Overlay();

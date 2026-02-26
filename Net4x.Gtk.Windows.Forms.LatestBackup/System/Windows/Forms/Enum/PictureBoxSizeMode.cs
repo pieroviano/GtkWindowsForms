@@ -4,6 +4,13 @@ using System.Text;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Specifies how an image is positioned within a
+    /// <see cref="System.Windows.Forms.PictureBox" /> .
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum PictureBoxSizeMode
     {
 

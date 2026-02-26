@@ -4,25 +4,31 @@
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Defines a set of standardized icons that can be associated with a ToolTip.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum ToolTipIcon
     {
         /// <summary>
-        ///  No Icon.
+        /// No Icon.
         /// </summary>
         None = 0,
 
         /// <summary>
-        ///  A Information Icon.
+        /// A Information Icon.
         /// </summary>
         Info = 1,
 
         /// <summary>
-        ///  A Warning Icon.
+        /// A Warning Icon.
         /// </summary>
         Warning = 2,
 
         /// <summary>
-        ///  A Error Icon.
+        /// A Error Icon.
         /// </summary>
         Error = 3
     }

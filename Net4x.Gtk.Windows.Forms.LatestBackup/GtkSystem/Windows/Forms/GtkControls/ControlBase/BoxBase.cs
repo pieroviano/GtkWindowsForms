@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
-    public sealed class BoxBase: Gtk.Box, IControlGtk
+    public sealed class BoxBase : Gtk.Box, IControlGtk
     {
 
         public GtkControlOverride Override { get; set; }

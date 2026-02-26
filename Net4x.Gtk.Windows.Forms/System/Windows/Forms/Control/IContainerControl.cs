@@ -5,18 +5,35 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Provides functionality for a control to parent other controls.
+    /// Provides functionality for a control to parent other controls.
     /// </summary>
     public interface IContainerControl
     {
         /// <summary>
-        ///  Indicates the control that is currently active on the container control.
+        /// Gets or sets the control that is active on the container control.
         /// </summary>
+        /// <returns>
+        /// The
+        /// <see cref="System.Windows.Forms.Control" /> that is currently active on the container control.
+        /// </returns>
+        /// <filterpriority>
+        /// 1
+        /// </filterpriority>
         Control ActiveControl { get; set; }
 
         /// <summary>
-        ///  Activates the specified control.
+        /// Activates a specified control.
         /// </summary>
+        /// <returns>
+        /// true if the control is successfully activated; otherwise, false.
+        /// </returns>
+        /// <param name="active">
+        /// The
+        /// <see cref="System.Windows.Forms.Control" /> being activated.
+        /// </param>
+        /// <filterpriority>
+        /// 1
+        /// </filterpriority>
         bool ActivateControl(Control active);
 
     }

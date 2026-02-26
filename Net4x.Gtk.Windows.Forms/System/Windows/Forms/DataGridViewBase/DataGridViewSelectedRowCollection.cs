@@ -8,30 +8,102 @@ using System.ComponentModel;
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Represents a collection of selected <see cref="DataGridViewCell"/> objects in the <see cref="DataGridView"/>
-    ///  control.
+    /// Represents a collection of selected
+    /// <see cref="System.Windows.Forms.DataGridViewCell" />
+    /// objects in the
+    /// <see cref="System.Windows.Forms.DataGridView" /> control.
     /// </summary>
     [ListBindable(false)]
     public class DataGridViewSelectedRowCollection : BaseCollection, IList
     {
         private readonly List<DataGridViewRow> _items = new List<DataGridViewRow>();
-
+        /// <summary>
+        /// Implements the
+        /// <see cref="System.Collections.IList.Add(System.Object)" /> method. Always throws
+        /// <see cref="System.NotSupportedException" />
+        /// </summary>
+        /// <returns>The index at which
+        /// <paramref name="value" /> was inserted.
+        /// </returns>
+        /// <param name="value">The item to be added to the
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedRowCollection" />
+        /// </param>
+        /// <exception cref="System.NotSupportedException">Always thrown.
+        /// </exception>
         int IList.Add(object? value) => throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
-
+        /// <summary>
+        /// Implements the
+        /// <see cref="System.Collections.IList.Clear" /> method. Always throws
+        /// <see cref="System.NotSupportedException" />
+        /// </summary>
+        /// <exception cref="System.NotSupportedException">Always thrown.
+        /// </exception>
         void IList.Clear() => throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
-
+        /// <summary>
+        /// Determines whether the specified value is contained in the collection.
+        /// </summary>
+        /// <returns>true if the
+        /// <paramref name="value" /> parameter is in the collection; otherwise, false.
+        /// </returns>
+        /// <param name="value">An object to locate in the
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedRowCollection" />
+        /// </param>
         bool IList.Contains(object? value) => ((IList)_items).Contains(value);
-
+        /// <summary>
+        /// Returns the index of the specified element.
+        /// </summary>
+        /// <returns>The zero-based index of the
+        /// <paramref name="value" /> parameter if it is found in the collection; otherwise, -1.
+        /// </returns>
+        /// <param name="value">The element to locate in the collection.
+        /// </param>
         int IList.IndexOf(object? value) => ((IList)_items).IndexOf(value);
-
+        /// <summary>
+        /// Implements the
+        /// <see cref="System.Collections.IList.Insert(System.Int32,System.Object)" /> method. Always throws
+        /// <see cref="System.NotSupportedException" />
+        /// </summary>
+        /// <param name="index">The index at which
+        /// <paramref name="value" /> should be inserted.
+        /// </param>
+        /// <param name="value">The object to add to the
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedRowCollection" />
+        /// </param>
+        /// <exception cref="System.NotSupportedException">Always thrown.
+        /// </exception>
         void IList.Insert(int index, object? value) => throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
-
+        /// <summary>
+        /// Implements the
+        /// <see cref="System.Collections.IList.Remove(System.Object)" /> method. Always throws
+        /// <see cref="System.NotSupportedException" />
+        /// </summary>
+        /// <param name="value">The object to remove from the
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedRowCollection" />
+        /// </param>
+        /// <exception cref="System.NotSupportedException">Always thrown.
+        /// </exception>
         void IList.Remove(object? value) => throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
-
+        /// <summary>
+        /// Implements the
+        /// <see cref="System.Collections.IList.RemoveAt(System.Int32)" /> method. Always throws
+        /// <see cref="System.NotSupportedException" />
+        /// </summary>
+        /// <param name="index">The zero-based index of the item to remove.
+        /// </param>
+        /// <exception cref="System.NotSupportedException">Always thrown.
+        /// </exception>
         void IList.RemoveAt(int index) => throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
-
+        /// <summary>
+        /// Gets a value indicating whether the collection has a fixed size.
+        /// </summary>
+        /// <returns>false in all cases.
+        /// </returns>
         bool IList.IsFixedSize => true;
-
+        /// <summary>
+        /// Gets a value indicating whether the collection is read-only.
+        /// </summary>
+        /// <returns>true in all cases.
+        /// </returns>
         bool IList.IsReadOnly => true;
 
         object? IList.this[int index]
@@ -39,42 +111,140 @@ namespace System.Windows.Forms
             get { return _items[index]; }
             set { throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection"); }
         }
-
+        /// <summary>
+        /// Copies the elements of the collection to the specified array, starting at the specified index.
+        /// </summary>
+        /// <param name="array">The one-dimensional array that is the destination of the elements copied from the collection. The array must have zero-based indexing.
+        /// </param>
+        /// <param name="index">The zero-based index in the array at which copying begins.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="array" /> is null.
+        /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <paramref name="index" />
+        /// is less than zero.
+        /// </exception>
+        /// <exception cref="System.ArgumentException">
+        /// <paramref name="array" /> is multidimensional.-or-The number of elements in the
+        /// <see cref="System.Windows.Forms.DataGridViewCellCollection" /> is greater than the available space from
+        /// <paramref name="index" /> to the end of
+        /// <paramref name="array" />
+        /// </exception>
+        /// <exception cref="System.InvalidCastException">The
+        /// <see cref="System.Windows.Forms.DataGridViewCellCollection" /> cannot be cast automatically to the type of
+        /// <paramref name="array" />
+        /// </exception>
         void ICollection.CopyTo(Array array, int index) => ((ICollection)_items).CopyTo(array, index);
-
+        /// <summary>
+        /// Gets the number of elements in the collection.
+        /// </summary>
+        /// <returns>The number of elements in the collection.
+        /// </returns>
         int ICollection.Count => _items.Count;
-
+        /// <summary>
+        /// Gets a value indicating whether access to the collection is synchronized (thread safe).
+        /// </summary>
+        /// <returns>false in all cases.
+        /// </returns>
         bool ICollection.IsSynchronized => false;
-
+        /// <summary>
+        /// Gets an object that can be used to synchronize access to the collection.
+        /// </summary>
+        /// <returns>An object that can be used to synchronize access to the
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedRowCollection" />
+        /// </returns>
         object ICollection.SyncRoot => this;
-
+        /// <summary>
+        /// Returns an enumerator that can be used to iterate through the collection.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="System.Collections.IEnumerator" /> that can be used to iterate through the collection.
+        /// </returns>
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
         internal DataGridViewSelectedRowCollection()
         {
         }
-
+        /// <returns>
+        /// An
+        /// <see cref="System.Collections.ArrayList" /> containing the elements of the collection. This property returns null unless overridden in a derived class.
+        /// </returns>
         protected override ArrayList List => ArrayList.Adapter(_items);
 
 
         public DataGridViewRow this[int index] => _items[index];
 
         /// <summary>
-        ///  Adds a <see cref="DataGridViewCell"/> to this collection.
+        /// Adds a
+        /// <see cref="DataGridViewCell"/>
+        /// to this collection.
         /// </summary>
         internal int Add(DataGridViewRow dataGridViewRow) => ((IList)_items).Add(dataGridViewRow);
-
+        /// <summary>
+        /// Clears the collection.
+        /// </summary>
+        /// <exception cref="System.NotSupportedException">Always thrown.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void Clear() => throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
 
         /// <summary>
-        ///  Checks to see if a DataGridViewCell is contained in this collection.
+        /// Determines whether the specified row is contained in the collection.
         /// </summary>
+        /// <returns>true if
+        /// <paramref name="dataGridViewRow" /> is in the collection; otherwise, false.
+        /// </returns>
+        /// <param name="dataGridViewRow">The
+        /// <see cref="System.Windows.Forms.DataGridViewRow" /> to locate in the
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedRowCollection" />
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
         public bool Contains(DataGridViewRow dataGridViewRow) => ((IList)_items).Contains(dataGridViewRow);
-
-
+        /// <summary>
+        /// Copies the elements of the collection to the specified array, starting at the specified index.
+        /// </summary>
+        /// <param name="array">The one-dimensional array that is the destination of the elements copied from the collection. The array must have zero-based indexing.
+        /// </param>
+        /// <param name="index">The zero-based index in the array at which copying begins.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="array" /> is null.
+        /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <paramref name="index" />
+        /// is less than zero.
+        /// </exception>
+        /// <exception cref="System.ArgumentException">
+        /// <paramref name="array" /> is multidimensional.-or-The number of elements in the
+        /// <see cref="System.Windows.Forms.DataGridViewCellCollection" /> is greater than the available space from
+        /// <paramref name="index" /> to the end of
+        /// <paramref name="array" />
+        /// </exception>
+        /// <exception cref="System.InvalidCastException">The
+        /// <see cref="System.Windows.Forms.DataGridViewCellCollection" /> cannot be cast automatically to the type of
+        /// <paramref name="array" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
         public void CopyTo(DataGridViewRow[] array, int index) => _items.CopyTo(array, index);
-
+        /// <summary>
+        /// Inserts a row into the collection at the specified position.
+        /// </summary>
+        /// <param name="index">The zero-based index at which
+        /// <paramref name="dataGridViewRow" /> should be inserted.
+        /// </param>
+        /// <param name="dataGridViewRow">The
+        /// <see cref="System.Windows.Forms.DataGridViewRow" /> to insert into the
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedRowCollection" />
+        /// </param>
+        /// <exception cref="System.NotSupportedException">Always thrown.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void Insert(int index, DataGridViewRow dataGridViewRow) => throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
     }

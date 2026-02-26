@@ -4,13 +4,21 @@
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Provides data for the
+    /// <see cref="System.Windows.Forms.DataGridView.CellToolTipTextNeeded" /> event.
+    /// </summary>
     public class DataGridViewCellToolTipTextNeededEventArgs : DataGridViewCellEventArgs
     {
         internal DataGridViewCellToolTipTextNeededEventArgs(int columnIndex, int rowIndex, string toolTipText) : base(columnIndex, rowIndex)
         {
             ToolTipText = toolTipText;
         }
-
+        /// <summary>
+        /// Gets or sets the ToolTip text.
+        /// </summary>
+        /// <returns>The current ToolTip text.
+        /// </returns>
         public string ToolTipText { get; set; }
     }
 }

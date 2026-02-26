@@ -11,8 +11,14 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
-	[ProvideProperty("FlowBreak", typeof(Control))]
-	[DefaultProperty("FlowDirection")]
+    /// <summary>
+    /// Represents a panel that dynamically lays out its contents horizontally or vertically.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    [ProvideProperty("FlowBreak", typeof(Control))]
+    [DefaultProperty("FlowDirection")]
     [DesignerCategory("Component")]
     public partial class FlowLayoutPanel : Control, IExtenderProvider
     {
@@ -22,6 +28,10 @@ namespace System.Windows.Forms
         public override object GtkControl => self;
 
         private ObjectCollection _controls;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> class.
+        /// </summary>
         public FlowLayoutPanel() : base()
         {
             self.Orientation = Gtk.Orientation.Horizontal;
@@ -36,8 +46,18 @@ namespace System.Windows.Forms
 
 
         private FlowDirection _FlowDirection;
-		public FlowDirection FlowDirection
-		{
+        /// <summary>
+        /// Gets or sets a value indicating the flow direction of the
+        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.FlowDirection" /> values indicating the direction of consecutive placement of controls in the panel. The default is
+        /// <see cref="System.Windows.Forms.FlowDirection.LeftToRight" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        public FlowDirection FlowDirection
+        {
             get { return _FlowDirection; }
             set
             {
@@ -45,14 +65,35 @@ namespace System.Windows.Forms
                 else if (value == FlowDirection.TopDown || value == FlowDirection.BottomUp) { self.Orientation = Gtk.Orientation.Vertical; }
             }
         }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether the
+        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control should wrap its contents or let the contents be clipped.
+        /// </summary>
+        /// <returns>true if the contents should be wrapped; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public bool WrapContents { get; set; }
-
+        /// <summary>
+        /// Returns a value that represents the flow-break setting of the
+        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control.
+        /// </summary>
+        /// <returns>true if the flow break is set; otherwise, false.
+        /// </returns>
+        /// <param name="control">The child control.
+        /// </param>
         public bool GetFlowBreak(Control control)
         {
             return false;
         }
-
+        /// <summary>
+        /// Sets the value that represents the flow-break setting of the
+        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control.
+        /// </summary>
+        /// <param name="control">The child control.
+        /// </param>
+        /// <param name="value">The flow-break value to set.
+        /// </param>
         public void SetFlowBreak(Control control, bool value)
         {
 
@@ -77,7 +118,7 @@ namespace System.Windows.Forms
                 box.Valign = Align.Start;
                 box.Halign = Align.Start;
                 box.Expand = false;
-                control.Location=new Drawing.Point(0, 0);
+                control.Location = new Drawing.Point(0, 0);
                 control.LockLocation = true;
                 control.Parent = _owner;
                 Gtk.Widget widg = control.Widget;

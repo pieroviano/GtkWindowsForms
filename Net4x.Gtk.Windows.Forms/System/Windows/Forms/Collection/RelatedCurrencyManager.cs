@@ -28,7 +28,7 @@ internal class RelatedCurrencyManager : CurrencyManager
         UnwireParentManager(_parentManager);
         _parentManager = manager;
         _dataField = dataFieldName;
-        _fieldInfo = manager?.GetItemProperties()?.Find(dataFieldName??string.Empty, true);
+        _fieldInfo = manager?.GetItemProperties()?.Find(dataFieldName ?? string.Empty, true);
         if (_fieldInfo == null || !typeof(IList).IsAssignableFrom(_fieldInfo.PropertyType))
         {
             throw new ArgumentException("RelatedListManagerChild");

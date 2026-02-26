@@ -6,28 +6,34 @@ using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Specifies the selection behavior of a list box.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [ComVisible(true)]
     public enum SelectionMode
     {
         /// <summary>
-        ///  Indicates that no items can be selected.
+        /// Indicates that no items can be selected.
         /// </summary>
         None = 0,
 
         /// <summary>
-        ///  Indicates that only one item at a time can be selected.
+        /// Indicates that only one item at a time can be selected.
         /// </summary>
         One = 1,
 
         /// <summary>
-        ///  Indicates that more than one item at a time can be selected.
+        /// Indicates that more than one item at a time can be selected.
         /// </summary>
         MultiSimple = 2,
 
         /// <summary>
-        ///  Indicates that more than one item at a time can be selected, and
-        ///  keyboard combinations, such as SHIFT and CTRL can be used to help
-        ///  in selection.
+        /// Indicates that more than one item at a time can be selected, and
+        /// keyboard combinations, such as SHIFT and CTRL can be used to help
+        /// in selection.
         /// </summary>
         MultiExtended = 3,
     }

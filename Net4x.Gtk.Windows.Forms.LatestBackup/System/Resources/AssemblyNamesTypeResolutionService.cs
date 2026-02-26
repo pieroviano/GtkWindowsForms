@@ -34,7 +34,7 @@ namespace System.Resources
             return GetAssembly(name, true);
         }
 
-       // [UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "Handles single file case")]
+        // [UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "Handles single file case")]
         public Assembly GetAssembly(AssemblyName name, bool throwOnError)
         {
             Assembly result = null;

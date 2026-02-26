@@ -1,5 +1,11 @@
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Specifies the position of the image on the control.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum ImageLayout
     {
 

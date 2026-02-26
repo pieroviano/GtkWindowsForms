@@ -8,14 +8,34 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
-    public class ContextMenuStrip:ToolStripDropDownMenu
+    /// <summary>
+    /// Represents a shortcut menu.
+    /// </summary>
+    public class ContextMenuStrip : ToolStripDropDownMenu
     {
-        public ContextMenuStrip() { 
-        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ContextMenuStrip" /> class.
+        /// </summary>
+        public ContextMenuStrip()
+        {
+
         }
-        public ContextMenuStrip(IContainer container) {
-        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ContextMenuStrip" /> class and associates it with the specified container.
+        /// </summary>
+        /// <param name="container">A component that implements
+        /// <see cref="System.ComponentModel.IContainer" /> that is the container of the
+        /// <see cref="System.Windows.Forms.ContextMenuStrip" />
+        /// </param>
+        public ContextMenuStrip(IContainer container)
+        {
+
         }
+        /// <param name="visible">
+        /// true to make the control visible; otherwise, false.
+        /// </param>
         protected void SetVisibleCore(bool visible) { }
     }
 

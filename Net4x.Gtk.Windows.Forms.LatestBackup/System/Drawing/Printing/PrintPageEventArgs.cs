@@ -5,12 +5,14 @@ namespace System.Drawing.Printing
 {
 
     /// <summary>
-    ///  Provides data for the <see cref='PrintDocument.PrintPage'/> event.
+    /// Provides data for the
+    /// <see cref="System.Drawing.Printing.PrintDocument.PrintPage" /> event.
     /// </summary>
     public class PrintPageEventArgs : EventArgs
     {
         /// <summary>
-        ///  Initializes a new instance of the <see cref='PrintPageEventArgs'/> class.
+        /// Initializes a new instance of the
+        /// <see cref='PrintPageEventArgs'/> class.
         /// </summary>
         public PrintPageEventArgs(Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings)
         {
@@ -21,42 +23,44 @@ namespace System.Drawing.Printing
         }
 
         /// <summary>
-        ///  Gets or sets a value indicating whether the print job should be canceled.
+        /// Gets or sets a value indicating whether the print job should be canceled.
         /// </summary>
         public bool Cancel { get; set; }
 
         /// <summary>
-        ///  Gets the <see cref='Drawing.Graphics'/> used to paint the item.
+        /// Gets the
+        /// <see cref='Drawing.Graphics'/> used to paint the item.
         /// </summary>
         public Graphics Graphics { get; private set; }
 
         /// <summary>
-        ///  Gets or sets a value indicating whether an additional page should be printed.
+        /// Gets or sets a value indicating whether an additional page should be printed.
         /// </summary>
         public bool HasMorePages { get; set; }
 
         /// <summary>
-        ///  Gets the rectangular area that represents the portion of the page between the margins.
+        /// Gets the rectangular area that represents the portion of the page between the margins.
         /// </summary>
         public Rectangle MarginBounds { get; }
 
         /// <summary>
-        ///  Gets the rectangular area that represents the total area of the page.
+        /// Gets the rectangular area that represents the total area of the page.
         /// </summary>
         public Rectangle PageBounds { get; }
 
         /// <summary>
-        ///  Gets the page settings for the current page.
+        /// Gets the page settings for the current page.
         /// </summary>
         public PageSettings PageSettings { get; }
 
         /// <summary>
-        ///  Apply page settings to the printer.
+        /// Apply page settings to the printer.
         /// </summary>
         internal bool CopySettingsToDevMode { get; set; } = true;
 
         /// <summary>
-        ///  Disposes of the resources (other than memory) used by the <see cref='PrintPageEventArgs'/>.
+        /// Disposes of the resources (other than memory) used by the
+        /// <see cref='PrintPageEventArgs'/>.
         /// </summary>
         internal void Dispose() => Graphics?.Dispose();
 

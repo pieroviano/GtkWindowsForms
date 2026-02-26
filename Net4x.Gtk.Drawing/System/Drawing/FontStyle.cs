@@ -8,6 +8,9 @@ namespace System.Drawing
     /// <summary>
     /// Specifies style information applied to text.
     /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [Flags]
     public enum FontStyle
     {

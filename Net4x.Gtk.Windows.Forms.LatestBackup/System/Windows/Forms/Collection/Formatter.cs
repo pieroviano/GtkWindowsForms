@@ -34,7 +34,7 @@ internal class Formatter
             {
                 formatInfo = CultureInfo.CurrentCulture;
             }
-            obj = Convert.ChangeType(value, type??typeof(object), formatInfo);
+            obj = Convert.ChangeType(value, type ?? typeof(object), formatInfo);
         }
         catch (InvalidCastException invalidCastException1)
         {
@@ -69,7 +69,7 @@ internal class Formatter
         targetConverter = NullableUnwrap(targetConverter);
         var flag = targetType != type;
         var obj = FormatObjectInternal(value, targetType, sourceConverter, targetConverter, formatString, formatInfo, formattedNullValue);
-        if ((type?.IsValueType??false) && obj == null && !flag)
+        if ((type?.IsValueType ?? false) && obj == null && !flag)
         {
             throw new FormatException(GetCantConvertMessage(value, targetType));
         }
@@ -173,7 +173,7 @@ internal class Formatter
         {
             return CultureInfo.CurrentCulture;
         }
-        return formatInfo as CultureInfo??CultureInfo.InvariantCulture;
+        return formatInfo as CultureInfo ?? CultureInfo.InvariantCulture;
     }
 
     public static object? InvokeStringParseMethod(object? value, Type? targetType, IFormatProvider? formatInfo)
@@ -226,7 +226,7 @@ internal class Formatter
         {
             return StringType;
         }
-        return Nullable.GetUnderlyingType(type??typeof(object)) ?? type;
+        return Nullable.GetUnderlyingType(type ?? typeof(object)) ?? type;
     }
 
     private static TypeConverter? NullableUnwrap(TypeConverter? typeConverter)
@@ -240,7 +240,7 @@ internal class Formatter
 
     public static object? NullData(Type? type, object? dataSourceNullValue)
     {
-        if (!(type?.IsGenericType??false) || !(type.GetGenericTypeDefinition() == typeof(Nullable<>)))
+        if (!(type?.IsGenericType ?? false) || !(type.GetGenericTypeDefinition() == typeof(Nullable<>)))
         {
             return dataSourceNullValue;
         }

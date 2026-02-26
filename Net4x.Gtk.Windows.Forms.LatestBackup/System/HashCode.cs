@@ -71,7 +71,7 @@ internal struct HashCode
 
     private static unsafe uint GenerateGlobalSeed()
     {
-        return unchecked ((uint)new Random().Next());
+        return unchecked((uint)new Random().Next());
     }
 
     public static int Combine<T1>(T1 value1)

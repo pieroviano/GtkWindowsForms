@@ -12,25 +12,38 @@ using System.Drawing.Imaging;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public sealed partial class ImageList
     {
-
+        /// <summary>
+        /// Encapsulates the collection of
+        /// <see cref="System.Drawing.Image" /> objects in an
+        /// <see cref="System.Windows.Forms.ImageList" />
+        /// </summary>
         public sealed partial class ImageCollection : IList
         {
 
             private readonly ImageList _owner;
             private readonly List<ImageInfo> _imageInfoCollection = new List<ImageInfo>();
 
-            ///  A caching mechanism for key accessor
-            ///  We use an index here rather than control so that we don't have lifetime
-            ///  issues by holding on to extra references.
+            /// A caching mechanism for key accessor
+            /// We use an index here rather than control so that we don't have lifetime
+            /// issues by holding on to extra references.
             private int _lastAccessedIndex = -1;
 
             // Indicates whether images are added in a batch.
             private bool _isBatchAdd;
 
             /// <summary>
-            ///  Returns the keys in the image list - images without keys return String.Empty.
+            /// Returns the keys in the image list - images without keys return String.Empty.
             /// </summary>
             public StringCollection Keys
             {
@@ -89,7 +102,7 @@ namespace System.Windows.Forms
             public bool IsReadOnly => false;
 
             /// <summary>
-            ///  Determines if the ImageList has any images, without forcing a handle creation.
+            /// Determines if the ImageList has any images, without forcing a handle creation.
             /// </summary>
             public bool Empty => Count == 0;
 
@@ -116,12 +129,12 @@ namespace System.Windows.Forms
                 get => this[index];
                 set
                 {
-                     
+
                 }
             }
 
             /// <summary>
-            ///  Retrieves the child control with the specified key.
+            /// Retrieves the child control with the specified key.
             /// </summary>
             public Image? this[string key]
             {
@@ -142,7 +155,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Adds an image to the end of the image list with a key accessor.
+            /// Adds an image to the end of the image list with a key accessor.
             /// </summary>
             public void Add(string key, Image image)
             {
@@ -157,7 +170,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Adds an icon to the end of the image list with a key accessor.
+            /// Adds an icon to the end of the image list with a key accessor.
             /// </summary>
             public void Add(string key, Icon icon)
             {
@@ -185,7 +198,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Add the given image to the ImageList.
+            /// Add the given image to the ImageList.
             /// </summary>
             public void Add(Image value)
             {
@@ -195,9 +208,9 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Add the given image to the ImageList, using the given color
-            ///  to generate the mask. The number of images to add is inferred from
-            ///  the width of the given image.
+            /// Add the given image to the ImageList, using the given color
+            /// to generate the mask. The number of images to add is inferred from
+            /// the width of the given image.
             /// </summary>
             public int Add(Image value, Color transparentColor)
             {
@@ -223,8 +236,8 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Add an image strip the given image to the ImageList. A strip is a single Image
-            ///  which is treated as multiple images arranged side-by-side.
+            /// Add an image strip the given image to the ImageList. A strip is a single Image
+            /// which is treated as multiple images arranged side-by-side.
             /// </summary>
             public int AddStrip(Image value)
             {
@@ -236,7 +249,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Remove all images and masks from the ImageList.
+            /// Remove all images and masks from the ImageList.
             /// </summary>
             public void Clear()
             {
@@ -261,7 +274,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Returns true if the collection contains an item with the specified key, false otherwise.
+            /// Returns true if the collection contains an item with the specified key, false otherwise.
             /// </summary>
             public bool ContainsKey(string key) => IsValidIndex(IndexOfKey(key));
 
@@ -273,14 +286,14 @@ namespace System.Windows.Forms
                 if (value is Image image)
                 {
                     return IndexOf(image);
-                    
+
                 }
                 return -1;
             }
 
             /// <summary>
-            ///  The zero-based index of the first occurrence of value within the entire CollectionBase,
-            ///  if found; otherwise, -1.
+            /// The zero-based index of the first occurrence of value within the entire CollectionBase,
+            /// if found; otherwise, -1.
             /// </summary>
             public int IndexOfKey(string key)
             {
@@ -295,7 +308,7 @@ namespace System.Windows.Forms
             void IList.Insert(int index, object? value) => throw new NotSupportedException();
 
             /// <summary>
-            ///  Determines if the index is valid for the collection.
+            /// Determines if the index is valid for the collection.
             /// </summary>
             private bool IsValidIndex(int index) => index >= 0 && index < Count;
 
@@ -344,7 +357,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Removes the child control with the specified key.
+            /// Removes the child control with the specified key.
             /// </summary>
             public void RemoveByKey(string key)
             {
@@ -356,7 +369,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Please make sure to copy the related images into the directoryResources下， keep the file name consistent withname一致
+            /// Please make sure to copy the related images into the directoryResources下， keep the file name consistent withname一致
             /// </summary>
             public void SetKeyName(int index, string name)
             {

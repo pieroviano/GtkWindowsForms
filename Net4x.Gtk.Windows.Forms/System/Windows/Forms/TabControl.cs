@@ -14,6 +14,12 @@ using System.Drawing;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Manages a related set of tab pages.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class TabControl : ContainerControl
     {
@@ -25,6 +31,10 @@ namespace System.Windows.Forms
         private TabControl.ControlCollection _controls;
 
         private TabControl.TabPageCollection _tabPageControls;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.TabControl" /> class.
+        /// </summary>
         public TabControl() : base()
         {
             _controls = new ControlCollection(this);
@@ -41,10 +51,29 @@ namespace System.Windows.Forms
         /// gtk unique menu functionality， provided for those who need it use
         /// </summary>
         [Browsable(false)]
-        public bool EnablePopup { 
-            set { self.EnablePopup = true; self.PopupEnable(); } 
+        public bool EnablePopup
+        {
+            set { self.EnablePopup = true; self.PopupEnable(); }
         }
-        public TabAlignment Alignment {
+        /// <summary>
+        /// Gets or sets the area of the control (for example, along the top) where the tabs are aligned.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.TabAlignment" /> values. The default is Top.
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The property value is not a valid
+        /// <see cref="System.Windows.Forms.TabAlignment" /> value.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public TabAlignment Alignment
+        {
             get
             {
                 if (self.TabPos == PositionType.Left)
@@ -58,8 +87,9 @@ namespace System.Windows.Forms
                 else
                     return TabAlignment.Top;
             }
-            set {
-                if(value == TabAlignment.Left)
+            set
+            {
+                if (value == TabAlignment.Left)
                     self.TabPos = PositionType.Left;
                 else if (value == TabAlignment.Top)
                     self.TabPos = PositionType.Top;
@@ -69,26 +99,159 @@ namespace System.Windows.Forms
                     self.TabPos = PositionType.Bottom;
             }
         }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether more than one row of tabs can be displayed.
+        /// </summary>
+        /// <returns>true if more than one row of tabs can be displayed; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool Multiline { get; set; }
+        /// <summary>
+        /// Gets or sets the index of the currently selected tab page.
+        /// </summary>
+        /// <returns>The zero-based index of the currently selected tab page. The default is -1, which is also the value if no tab page is selected.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">The value is less than -1.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public int SelectedIndex { get { return self.CurrentPage; } set { self.CurrentPage = value; } }
-
+        /// <summary>
+        /// Gets or sets the currently selected tab page.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TabPage" /> that represents the selected tab page. If no tab page is selected, the value is null.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public TabPage SelectedTab { get { return _controls[self.CurrentPage]; } set { } }
-
-
+        /// <summary>
+        /// Gets or sets the way that the control's tabs are sized.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.TabSizeMode" /> values. The default is Normal.
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The property value is not a valid
+        /// <see cref="System.Windows.Forms.TabSizeMode" /> value.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public TabSizeMode SizeMode { get; set; }
-
+        /// <summary>
+        /// Gets or sets the way that the control's tabs are drawn.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.TabDrawMode" /> values. The default is Normal.
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The property value is not a valid
+        /// <see cref="System.Windows.Forms.TabDrawMode" /> value.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public TabDrawMode DrawMode { get; set; }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether a tab's ToolTip is shown when the mouse passes over the tab.
+        /// </summary>
+        /// <returns>true if ToolTips are shown for the tabs that have them; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool ShowToolTips { get; set; }
 
         public bool ShowTabs { get => self.ShowTabs; set => self.ShowTabs = value; }
-
+        /// <summary>
+        /// Gets or sets the size of the control's tabs.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Size" /> that represents the size of the tabs. The default automatically sizes the tabs to fit the icons and labels on the tabs.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">The width or height of the
+        /// <see cref="System.Drawing.Size" /> is less than 0.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Size ItemSize { get; set; }
-
+        /// <summary>
+        /// Gets the number of tabs in the tab strip.
+        /// </summary>
+        /// <returns>The number of tabs in the tab strip.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int TabCount { get => self.NPages; }
-
+        /// <summary>
+        /// Gets the collection of tab pages in this tab control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TabControl.TabPageCollection" /> that contains the
+        /// <see cref="System.Windows.Forms.TabPage" /> objects in this
+        /// <see cref="System.Windows.Forms.TabControl" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public TabPageCollection TabPages { get { return _tabPageControls; } }
+        /// <summary>
+        /// Returns the bounding rectangle for a specified tab in this tab control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Rectangle" /> that represents the bounds of the specified tab.
+        /// </returns>
+        /// <param name="index">The zero-based index of the tab you want.
+        /// </param>
+        /// <exception cref="System.ArgumentOutOfRangeException">The index is less than zero.-or- The index is greater than or equal to
+        /// <see cref="System.Windows.Forms.TabControl.TabPageCollection.Count" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Rectangle GetTabRect(int index)
         {
             if (index < 0 || (index >= TabCount))
@@ -106,7 +269,10 @@ namespace System.Windows.Forms
         public event EventHandler SelectedIndexChanged;
 
         public event DrawItemEventHandler DrawItem;
-
+        /// <summary>
+        /// Contains a collection of
+        /// <see cref="System.Windows.Forms.Control" /> objects.
+        /// </summary>
         public new class ControlCollection : List<TabPage>
         {
             TabControl _owner;
@@ -118,7 +284,8 @@ namespace System.Windows.Forms
 
             private void Self_Shown(object sender, EventArgs e)
             {
-                foreach(TabPage item in this) {
+                foreach (TabPage item in this)
+                {
                     _owner.self.SetMenuLabelText(item.self, _owner.self.GetTabLabelText(item.self));
                 }
             }
@@ -145,7 +312,7 @@ namespace System.Windows.Forms
                         if (_owner.DrawMode == TabDrawMode.OwnerDrawFixed && _owner.DrawItem != null)
                         {
                             Gtk.Label tab = (Gtk.Label)sender;
-                            Gdk.Rectangle allocation= tab.Allocation;
+                            Gdk.Rectangle allocation = tab.Allocation;
                             args.Cr.ResetClip();
                             int width = allocation.Width + 24;
                             int height = allocation.Height + 2;
@@ -177,8 +344,10 @@ namespace System.Windows.Forms
                 _owner.self.Remove(((TabPage)value).Widget);
             }
         }
-
-
+        /// <summary>
+        /// Contains a collection of
+        /// <see cref="System.Windows.Forms.TabPage" /> objects.
+        /// </summary>
         public class TabPageCollection : IList, ICollection, IEnumerable
         {
 

@@ -30,7 +30,7 @@ namespace System.Windows.Forms
         //Padding Margin { get; set; }
         Size MaximumSize { get; set; }
         Size MinimumSize { get; set; }
-       // string Name { get; set; }
+        // string Name { get; set; }
         Padding Padding { get; set; }
         //Control Parent { get; set; }
         RightToLeft RightToLeft { get; set; }

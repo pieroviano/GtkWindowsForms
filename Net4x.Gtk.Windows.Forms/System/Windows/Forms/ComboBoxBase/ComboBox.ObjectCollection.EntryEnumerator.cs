@@ -6,14 +6,23 @@ using System.Collections.Generic;
 
 namespace System.Windows.Forms
 {
-
+    /// <summary>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ComboBox
     {
+        /// <summary>
+        /// Represents the collection of items in a
+        /// <see cref="System.Windows.Forms.ComboBox" />
+        /// </summary>
         public partial class ObjectCollection
         {
             /// <summary>
-            ///  EntryEnumerator is an enumerator that will enumerate over
-            ///  a given state mask.
+            /// EntryEnumerator is an enumerator that will enumerate over
+            /// a given state mask.
             /// </summary>
             private class EntryEnumerator : IEnumerator
             {
@@ -22,7 +31,7 @@ namespace System.Windows.Forms
                 private int _current;
 
                 /// <summary>
-                ///  Creates a new enumerator that will enumerate over the given state.
+                /// Creates a new enumerator that will enumerate over the given state.
                 /// </summary>
                 public EntryEnumerator(List<Entry> entries)
                 {
@@ -31,7 +40,7 @@ namespace System.Windows.Forms
                 }
 
                 /// <summary>
-                ///  Moves to the next element, or returns false if at the end.
+                /// Moves to the next element, or returns false if at the end.
                 /// </summary>
                 bool IEnumerator.MoveNext()
                 {
@@ -48,7 +57,7 @@ namespace System.Windows.Forms
                 }
 
                 /// <summary>
-                ///  Resets the enumeration back to the beginning.
+                /// Resets the enumeration back to the beginning.
                 /// </summary>
                 void IEnumerator.Reset()
                 {
@@ -56,7 +65,7 @@ namespace System.Windows.Forms
                 }
 
                 /// <summary>
-                ///  Retrieves the current value in the enumerator.
+                /// Retrieves the current value in the enumerator.
                 /// </summary>
                 object IEnumerator.Current
                 {

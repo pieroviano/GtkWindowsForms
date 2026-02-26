@@ -3,7 +3,10 @@
   <Item>
     <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;/Project&gt;</SourceString>
-    <TargetString>    &lt;ItemGroup&gt;
+    <TargetString>    &lt;PropertyGroup&gt;
+		&lt;NoWarn&gt;$(NoWarn);MSB3243;&lt;/NoWarn&gt;
+    &lt;/PropertyGroup&gt;
+    &lt;ItemGroup&gt;
 	    &lt;Compile Update="Properties\MessageBoxResources.Designer.cs"&gt;
 		    &lt;DesignTime&gt;True&lt;/DesignTime&gt;
 		    &lt;AutoGen&gt;True&lt;/AutoGen&gt;

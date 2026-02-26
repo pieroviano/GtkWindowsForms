@@ -16,6 +16,12 @@ using System.Reflection;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Displays data in a customizable grid.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class DataGridView : ScrollableControl
     {
@@ -33,7 +39,11 @@ namespace System.Windows.Forms
         internal Gtk.TreeStore Store = new TreeStore(typeof(DataGridViewCell));
 
         public Gtk.TreeView GridView { get { return self.GridView; } }
-        public DataGridView():base()
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.DataGridView" /> class.
+        /// </summary>
+        public DataGridView() : base()
         {
             this.BorderStyle = BorderStyle.FixedSingle;
             GridView.Margin = 0;
@@ -43,7 +53,7 @@ namespace System.Windows.Forms
             GridView.HeadersClickable = true;
             GridView.HeadersVisible = true;
             GridView.ActivateOnSingleClick = false;
-           
+
             _columns = new DataGridViewColumnCollection(this);
             _rows = new DataGridViewRowCollection(this);
             _collect = new ControlBindingsCollection(this);
@@ -112,9 +122,25 @@ namespace System.Windows.Forms
         }
 
         private bool _MultiSelect = true;
-        public bool MultiSelect { 
-            get => _MultiSelect; 
-            set {
+        /// <summary>
+        /// Gets or sets a value indicating whether the user is allowed to select more than one cell, row, or column of the
+        /// <see cref="System.Windows.Forms.DataGridView" /> at a time.
+        /// </summary>
+        /// <returns>true if the user can select more than one cell, row, or column at a time; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public bool MultiSelect
+        {
+            get => _MultiSelect;
+            set
+            {
                 _MultiSelect = value;
                 GridView.ActivateOnSingleClick = !_MultiSelect;
                 if (_SelectionMode == DataGridViewSelectionMode.CellSelect)
@@ -128,14 +154,41 @@ namespace System.Windows.Forms
                     else
                         GridView.Selection.Mode = Gtk.SelectionMode.Single;
                 }
-            } 
+            }
         }
 
 
         private DataGridViewSelectionMode _SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
-        public DataGridViewSelectionMode SelectionMode {
+        /// <summary>
+        /// Gets or sets a value indicating how the cells of the
+        /// <see cref="System.Windows.Forms.DataGridView" /> can be selected.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.DataGridViewSelectionMode" /> values. The default is
+        /// <see cref="System.Windows.Forms.DataGridViewSelectionMode.RowHeaderSelect" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The specified value when setting this property is not a valid
+        /// <see cref="System.Windows.Forms.DataGridViewSelectionMode" /> value.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">The specified value when setting this property is
+        /// <see cref="System.Windows.Forms.DataGridViewSelectionMode.FullColumnSelect" /> or
+        /// <see cref="System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect" /> and the
+        /// <see cref="System.Windows.Forms.DataGridViewColumn.SortMode" /> property of one or more columns is set to
+        /// <see cref="System.Windows.Forms.DataGridViewColumnSortMode.Automatic" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public DataGridViewSelectionMode SelectionMode
+        {
             get => _SelectionMode;
-            set {
+            set
+            {
                 _SelectionMode = value;
                 switch (_SelectionMode)
                 {
@@ -159,43 +212,221 @@ namespace System.Windows.Forms
                             break;
                         }
                 }
-                
-            } }
 
-        public string Markup { get; set; } = "...";
-
-        public bool ReadOnly { get; set; }
-
-        public int RowHeadersWidth { get; set; }
-
-        public int ColumnHeadersHeight { get; set; }
-        public DataGridViewColumnHeadersHeightSizeMode ColumnHeadersHeightSizeMode
-        {
-            get;set;
+            }
         }
 
+        public string Markup { get; set; } = "...";
+        /// <summary>
+        /// Gets or sets a value indicating whether the user can edit the cells of the
+        /// <see cref="System.Windows.Forms.DataGridView" /> control.
+        /// </summary>
+        /// <returns>true if the user cannot edit the cells of the
+        /// <see cref="System.Windows.Forms.DataGridView" /> control; otherwise, false. The default is false.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException">The specified value when setting this property is true, the current cell is in edit mode, and the current cell contains changes that cannot be committed.
+        /// </exception>
+        /// <exception cref="System.Exception">The specified value when setting this property would cause the control to enter edit mode, but initialization of the editing cell value failed and either there is no handler for the
+        /// <see cref="System.Windows.Forms.DataGridView.DataError" /> event or the handler has set the
+        /// <see cref="System.Windows.Forms.DataGridViewDataErrorEventArgs.ThrowException" /> property to true. The exception object can typically be cast to type
+        /// <see cref="System.FormatException" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public bool ReadOnly { get; set; }
+        /// <summary>
+        /// Gets or sets the width, in pixels, of the column that contains the row headers.
+        /// </summary>
+        /// <returns>The width, in pixels, of the column that contains row headers. The default is 43.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">The specified value when setting this property is less than the minimum width of 4 pixels or is greater than the maximum width of 32768 pixels.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public int RowHeadersWidth { get; set; }
+        /// <summary>
+        /// Gets or sets the height, in pixels, of the column headers row
+        /// </summary>
+        /// <returns>The height, in pixels, of the row that contains the column headers. The default is 23.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">The specified value when setting this property is less than the minimum height of 4 pixels or is greater than the maximum height of 32768 pixels.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        public int ColumnHeadersHeight { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether the height of the column headers is adjustable and whether it can be adjusted by the user or is automatically adjusted to fit the contents of the headers.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode" /> value indicating the mode by which the height of the column headers row can be adjusted. The default is
+        /// <see cref="System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The specified value when setting this property is not a valid
+        /// <see cref="System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode" /> value.
+        /// </exception>
+        public DataGridViewColumnHeadersHeightSizeMode ColumnHeadersHeightSizeMode
+        {
+            get; set;
+        }
+        /// <summary>
+        /// Gets or sets a value indicating how row heights are determined.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DataGridViewAutoSizeRowsMode" /> value indicating the sizing mode. The default is
+        /// <see cref="System.Windows.Forms.DataGridViewAutoSizeRowsMode.None" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The specified value when setting this property is not a valid
+        /// <see cref="System.Windows.Forms.DataGridViewAutoSizeRowsMode" /> value.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">The specified value when setting this property is
+        /// <see cref="System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllHeaders" /> or
+        /// <see cref="System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedHeaders" /> and row headers are hidden.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DataGridViewAutoSizeRowsMode AutoSizeRowsMode { get; set; }
 
         private DataGridViewRow _RowTemplate;
+        /// <summary>
+        /// Gets or sets the row that represents the template for all the rows in the control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DataGridViewRow" /> representing the row template.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException">The specified row when setting this property has its
+        /// <see cref="System.Windows.Forms.DataGridViewElement.DataGridView" /> property set.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DataGridViewRow RowTemplate
         {
             get { return _RowTemplate ??= new DataGridViewRow(); }
             set { _RowTemplate = value; }
         }
-
+        /// <summary>
+        /// Gets or sets the default cell style to be applied to the cells in the
+        /// <see cref="System.Windows.Forms.DataGridView" /> if no other cell style properties are set.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.DataGridViewCellStyle" /> to be applied as the default style.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DataGridViewCellStyle DefaultCellStyle { get; set; }
-
+        /// <summary>
+        /// Gets or sets the default column header style.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DataGridViewCellStyle" /> that represents the default column header style.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DataGridViewCellStyle ColumnHeadersDefaultCellStyle { get; set; }
-
+        /// <summary>
+        /// Gets or sets the default cell style applied to odd-numbered rows of the
+        /// <see cref="System.Windows.Forms.DataGridView" />
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DataGridViewCellStyle" /> to apply to the odd-numbered rows.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DataGridViewCellStyle AlternatingRowsDefaultCellStyle { get; set; }
-
+        /// <summary>
+        /// Gets or sets the default style applied to the row cells of the
+        /// <see cref="System.Windows.Forms.DataGridView" />
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.DataGridViewCellStyle" /> to apply to the row cells of the
+        /// <see cref="System.Windows.Forms.DataGridView" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DataGridViewCellStyle RowsDefaultCellStyle { get; set; }
-
+        /// <summary>
+        /// Gets or sets the default style applied to the row header cells.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.DataGridViewCellStyle" /> that represents the default style applied to the row header cells.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DataGridViewCellStyle RowHeadersDefaultCellStyle { get; set; }
 
         public override ControlBindingsCollection DataBindings { get => _collect; }
 
         private object _DataSource;
+        /// <summary>
+        /// Gets or sets the data source that the
+        /// <see cref="System.Windows.Forms.DataGridView" /> is displaying data for.
+        /// </summary>
+        /// <returns>The object that contains data for the
+        /// <see cref="System.Windows.Forms.DataGridView" /> to display.
+        /// </returns>
+        /// <exception cref="System.Exception">An error occurred in the data source and either there is no handler for the
+        /// <see cref="System.Windows.Forms.DataGridView.DataError" /> event or the handler has set the
+        /// <see cref="System.Windows.Forms.DataGridViewDataErrorEventArgs.ThrowException" /> property to true. The exception object can typically be cast to type
+        /// <see cref="System.FormatException" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public object DataSource
         {
             get { return _DataSource; }
@@ -236,7 +467,28 @@ namespace System.Windows.Forms
             }
             _Created = true;
         }
-
+        /// <summary>
+        /// Gets or sets the name of the list or table in the data source for which the
+        /// <see cref="System.Windows.Forms.DataGridView" /> is displaying data.
+        /// </summary>
+        /// <returns>The name of the table or list in the
+        /// <see cref="System.Windows.Forms.DataGridView.DataSource" /> for which the
+        /// <see cref="System.Windows.Forms.DataGridView" /> is displaying data. The default is
+        /// <see cref="System.String.Empty" />
+        /// </returns>
+        /// <exception cref="System.Exception">An error occurred in the data source and either there is no handler for the
+        /// <see cref="System.Windows.Forms.DataGridView.DataError" /> event or the handler has set the
+        /// <see cref="System.Windows.Forms.DataGridViewDataErrorEventArgs.ThrowException" /> property to true. The exception object can typically be cast to type
+        /// <see cref="System.FormatException" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public string DataMember { get; set; }
         private void LoadDataTableSource(DataTable dt)
         {
@@ -274,7 +526,7 @@ namespace System.Windows.Forms
             Type[] _entityType = _type.GetGenericArguments();
             if (_entityType.Length == 1)
             {
-                PropertyInfo[] pros = _entityType[0].GetProperties(BindingFlags.Public|BindingFlags.Instance);
+                PropertyInfo[] pros = _entityType[0].GetProperties(BindingFlags.Public | BindingFlags.Instance);
                 foreach (PropertyInfo pro in pros)
                 {
                     if (_columns.Exists(m => m.DataPropertyName == pro.Name) == false)
@@ -307,6 +559,15 @@ namespace System.Windows.Forms
                 }
             }
         }
+        /// <summary>
+        /// Gets a collection that contains all the columns in the control.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.DataGridViewColumnCollection" /> that contains all the columns in the
+        /// <see cref="System.Windows.Forms.DataGridView" /> control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public DataGridViewColumnCollection Columns
         {
             get
@@ -314,8 +575,37 @@ namespace System.Windows.Forms
                 return _columns;
             }
         }
-
+        /// <summary>
+        /// Gets a collection that contains all the rows in the
+        /// <see cref="System.Windows.Forms.DataGridView" /> control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DataGridViewRowCollection" /> that contains all the rows in the
+        /// <see cref="System.Windows.Forms.DataGridView" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DataGridViewRowCollection Rows { get { return _rows; } }
+        /// <summary>
+        /// Gets the collection of cells selected by the user.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedCellCollection" /> that represents the cells selected by the user.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         [Browsable(false)]
         public DataGridViewSelectedCellCollection SelectedCells
         {
@@ -327,7 +617,8 @@ namespace System.Windows.Forms
                     case DataGridViewSelectionMode.CellSelect:
                         {
                             int cols = Store.NColumns;
-                            Store.Foreach(new TreeModelForeachFunc((model, path, iter) => {
+                            Store.Foreach(new TreeModelForeachFunc((model, path, iter) =>
+                            {
                                 for (int i = 0; i < cols; i++)
                                 {
                                     DataGridViewCell cell = (DataGridViewCell)model.GetValue(iter, i);
@@ -370,7 +661,14 @@ namespace System.Windows.Forms
                 return stcc;
             }
         }
-
+        /// <summary>
+        /// Gets the collection of columns selected by the user.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedColumnCollection" /> that represents the columns selected by the user.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [Browsable(false)]
         public DataGridViewSelectedColumnCollection SelectedColumns
         {
@@ -396,7 +694,20 @@ namespace System.Windows.Forms
                 return strc;
             }
         }
-
+        /// <summary>
+        /// Gets the collection of rows selected by the user.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DataGridViewSelectedRowCollection" /> that contains the rows selected by the user.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         [Browsable(false)]
         public DataGridViewSelectedRowCollection SelectedRows
         {
@@ -433,7 +744,7 @@ namespace System.Windows.Forms
                     return false;
             }
         }
-        public void NativeRowSetSelected(int rowindex,bool selected)
+        public void NativeRowSetSelected(int rowindex, bool selected)
         {
             Gtk.Application.Invoke(delegate
             {
@@ -453,6 +764,17 @@ namespace System.Windows.Forms
         {
             _Created = true;
         }
+        /// <summary>
+        /// Clears the current selection by unselecting all selected cells.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void ClearSelection()
         {
             GridView.Selection.UnselectAll();

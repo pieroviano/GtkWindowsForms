@@ -11,7 +11,14 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
-
+    /// <summary>
+    /// Displays a
+    /// <see cref="System.Windows.Forms.ListBox" />
+    /// in which a check box is displayed to the left of each item.
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class CheckedListBox : ContainerControl
     {
@@ -23,6 +30,10 @@ namespace System.Windows.Forms
         internal Gtk.FlowBox _flow = new Gtk.FlowBox();
 
         private ObjectCollection _items;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.CheckedListBox" /> class.
+        /// </summary>
         public CheckedListBox() : base()
         {
             _items = new ObjectCollection(this);
@@ -34,7 +45,7 @@ namespace System.Windows.Forms
             _flow.ChildActivated += Control_ChildActivated;
             self.AutoScroll = true;
             self.Add(_flow);
-            
+
             this.BorderStyle = BorderStyle.Fixed3D;
         }
         private void Control_ChildActivated(object o, Gtk.ChildActivatedArgs args)
@@ -59,26 +70,72 @@ namespace System.Windows.Forms
         public bool HorizontalScrollbar { get; set; }
 
         public bool FormattingEnabled { get; set; }
-
+        /// <summary>
+        /// Gets the height of the item area.
+        /// </summary>
+        /// <returns>The height, in pixels, of the item area.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int ItemHeight { get; set; }
-
+        /// <summary>
+        /// Gets or sets a value specifying the selection mode.
+        /// </summary>
+        /// <returns>Either the One or None value of
+        /// <see cref="System.Windows.Forms.SelectionMode" />
+        /// </returns>
+        /// <exception cref="System.ArgumentException">An attempt was made to assign a value that is not a
+        /// <see cref="System.Windows.Forms.SelectionMode" /> value of One or None.
+        /// </exception>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">An attempt was made to assign the MultiExtended value of
+        /// <see cref="System.Windows.Forms.SelectionMode" /> to the control.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public SelectionMode SelectionMode { get; set; }
-        public void ClearSelected() {
-            foreach(Gtk.FlowBoxChild wi in _flow.Children) { 
+        public void ClearSelected()
+        {
+            foreach (Gtk.FlowBoxChild wi in _flow.Children)
+            {
                 Gtk.Widget box = ((Gtk.Box)wi.Child).Children[0];
                 if (box is Gtk.CheckButton check)
                 {
                     check.Active = false;
                 }
-            };
+            }
+            ;
             _flow.UnselectAll();
         }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether the check box should be toggled when an item is selected.
+        /// </summary>
+        /// <returns>true if the check mark is applied immediately; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public bool CheckOnClick { get; set; }
-        public ObjectCollection Items { 
-            get {
+        /// <summary>
+        /// Gets the collection of items in this
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.CheckedListBox.ObjectCollection" /> collection representing the items in the
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        public ObjectCollection Items
+        {
+            get
+            {
                 return _items;
-            } 
+            }
         }
         public SelectedItemCollection SelectedItems
         {
@@ -93,17 +150,39 @@ namespace System.Windows.Forms
                 return items;
             }
         }
-        public CheckedItemCollection CheckedItems { 
-            get {
+        /// <summary>
+        /// Collection of checked items in this
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.CheckedListBox.CheckedItemCollection" /> collection for the
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        public CheckedItemCollection CheckedItems
+        {
+            get
+            {
                 CheckedItemCollection items = new CheckedItemCollection();
                 foreach (Gtk.FlowBoxChild child in _flow.Children)
                 {
                     if ((bool)child.Child.GetProperty("active") == true)
                         items.Add(child.Child.GetProperty("label").Val);
                 }
-                return items; } 
+                return items;
+            }
         }
-
+        /// <summary>
+        /// Collection of checked indexes in this
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.CheckedListBox.CheckedIndexCollection" /> collection for the
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public CheckedIndexCollection CheckedIndices
         {
             get
@@ -167,6 +246,24 @@ namespace System.Windows.Forms
             foreach (var item in _flow.Children)
                 _flow.Remove(item);
         }
+        /// <summary>
+        /// Sets
+        /// <see cref="System.Windows.Forms.CheckState" /> for the item at the specified index to Checked.
+        /// </summary>
+        /// <param name="index">The index of the item to set the check state for.
+        /// </param>
+        /// <param name="value">true to set the item as checked; otherwise, false.
+        /// </param>
+        /// <exception cref="System.ArgumentException">The index specified is less than zero.-or- The index is greater than the count of items in the list.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void SetItemChecked(int index, bool value)
         {
             CheckBox item = _items.GetCheckedListBoxItem(index);
@@ -175,6 +272,30 @@ namespace System.Windows.Forms
                 item.Checked = value;
             }
         }
+        /// <summary>
+        /// Sets the check state of the item at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the item to set the state for.
+        /// </param>
+        /// <param name="value">One of the
+        /// <see cref="System.Windows.Forms.CheckState" /> values.
+        /// </param>
+        /// <exception cref="System.ArgumentOutOfRangeException">The
+        /// <paramref name="index" /> specified is less than zero.-or- The
+        /// <paramref name="index" /> is greater than or equal to the count of items in the list.
+        /// </exception>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The
+        /// <paramref name="value" /> is not one of the
+        /// <see cref="System.Windows.Forms.CheckState" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void SetItemCheckState(int index, System.Windows.Forms.CheckState value)
         {
             CheckBox item = _items.GetCheckedListBoxItem(index);
@@ -183,6 +304,10 @@ namespace System.Windows.Forms
                 item.Checked = value == System.Windows.Forms.CheckState.Checked;
             }
         }
+        /// <summary>
+        /// Represents the collection of items in a
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
         public class ObjectCollection : ArrayList
         {
 
@@ -216,7 +341,7 @@ namespace System.Windows.Forms
             public int AddCore(object item, bool isChecked, int position)
             {
                 CheckBox listBoxItem = new CheckBox();
-                listBoxItem.Text=item.ToString();
+                listBoxItem.Text = item.ToString();
                 listBoxItem.Checked = isChecked;
                 _owner.NativeAdd(listBoxItem, isChecked, position);
                 if (position < 0)
@@ -243,7 +368,7 @@ namespace System.Windows.Forms
             public override void Remove(object obj)
             {
                 int index = base.IndexOf(obj);
-                if (index>-1)
+                if (index > -1)
                 {
                     RemoveAt(index);
                 }
@@ -254,11 +379,17 @@ namespace System.Windows.Forms
                 base.Clear();
             }
         }
-
+        /// <summary>
+        /// Encapsulates the collection of indexes of checked items (including items in an indeterminate state) in a
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
         public class CheckedIndexCollection : List<int>
         {
         }
-
+        /// <summary>
+        /// Encapsulates the collection of checked items, including items in an indeterminate state, in a
+        /// <see cref="System.Windows.Forms.CheckedListBox" /> control.
+        /// </summary>
         public class CheckedItemCollection : List<object>
         {
 

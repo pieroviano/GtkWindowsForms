@@ -12,8 +12,14 @@ namespace System.Windows.Forms
     public interface IWin32Window
     {
         /// <summary>
-        ///  Gets the handle to the window represented by the implementor.
+        /// Gets the handle to the window represented by the implementer.
         /// </summary>
+        /// <returns>
+        /// A handle to the window represented by the implementer.
+        /// </returns>
+        /// <filterpriority>
+        /// 1
+        /// </filterpriority>
         IntPtr Handle { get; }
     }
 }

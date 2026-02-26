@@ -54,7 +54,7 @@ internal class RelatedPropertyManager : PropertyManager
 
     private static object? GetCurrentOrNull(BindingManagerBase? parentManager)
     {
-        if ((parentManager?.Position??0) < 0 || parentManager?.Position >= parentManager?.Count)
+        if ((parentManager?.Position ?? 0) < 0 || parentManager?.Position >= parentManager?.Count)
         {
             return null;
         }

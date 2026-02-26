@@ -7,7 +7,7 @@ namespace System.Drawing.Printing
 {
 
     /// <summary>
-    ///  Specifies a series of conversion methods that are useful when interoperating with the raw Win32 printing API.
+    /// Specifies a series of conversion methods that are useful when interoperating with the raw Win32 printing API.
     /// </summary>
     public sealed class PrinterUnitConvert
     {
@@ -16,7 +16,7 @@ namespace System.Drawing.Printing
         }
 
         /// <summary>
-        ///  Converts the value, in fromUnit units, to toUnit units.
+        /// Converts the value, in fromUnit units, to toUnit units.
         /// </summary>
         public static double Convert(double value, PrinterUnit fromUnit, PrinterUnit toUnit)
         {
@@ -26,25 +26,25 @@ namespace System.Drawing.Printing
         }
 
         /// <summary>
-        ///  Converts the value, in fromUnit units, to toUnit units.
+        /// Converts the value, in fromUnit units, to toUnit units.
         /// </summary>
         public static int Convert(int value, PrinterUnit fromUnit, PrinterUnit toUnit) =>
             (int)Math.Round(Convert((double)value, fromUnit, toUnit));
 
         /// <summary>
-        ///  Converts the value, in fromUnit units, to toUnit units.
+        /// Converts the value, in fromUnit units, to toUnit units.
         /// </summary>
         public static Point Convert(Point value, PrinterUnit fromUnit, PrinterUnit toUnit) =>
             new Point(Convert(value.X, fromUnit, toUnit), Convert(value.Y, fromUnit, toUnit));
 
         /// <summary>
-        ///  Converts the value, in fromUnit units, to toUnit units.
+        /// Converts the value, in fromUnit units, to toUnit units.
         /// </summary>
         public static Size Convert(Size value, PrinterUnit fromUnit, PrinterUnit toUnit) =>
             new Size(Convert(value.Width, fromUnit, toUnit), Convert(value.Height, fromUnit, toUnit));
 
         /// <summary>
-        ///  Converts the value, in fromUnit units, to toUnit units.
+        /// Converts the value, in fromUnit units, to toUnit units.
         /// </summary>
         public static Rectangle Convert(Rectangle value, PrinterUnit fromUnit, PrinterUnit toUnit) => new Rectangle(
             Convert(value.X, fromUnit, toUnit),
@@ -53,7 +53,7 @@ namespace System.Drawing.Printing
             Convert(value.Height, fromUnit, toUnit));
 
         /// <summary>
-        ///  Converts the value, in fromUnit units, to toUnit units.
+        /// Converts the value, in fromUnit units, to toUnit units.
         /// </summary>
         public static Margins Convert(Margins value, PrinterUnit fromUnit, PrinterUnit toUnit) => new Margins()
         {

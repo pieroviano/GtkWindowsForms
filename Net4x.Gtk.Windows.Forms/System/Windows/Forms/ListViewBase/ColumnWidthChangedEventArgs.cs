@@ -4,13 +4,27 @@
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Provides data for the
+    /// <see cref="!:System.Windows.Forms.ListView.ColumnWidthChanged" /> event.
+    /// </summary>
     public class ColumnWidthChangedEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ColumnWidthChangedEventArgs" /> class.
+        /// </summary>
+        /// <param name="columnIndex">The index of the column whose width is being changed.
+        /// </param>
         public ColumnWidthChangedEventArgs(int columnIndex)
         {
             ColumnIndex = columnIndex;
         }
-
+        /// <summary>
+        /// Gets the column index for the column whose width is being changed.
+        /// </summary>
+        /// <returns>The index of the column whose width is being changed.
+        /// </returns>
         public int ColumnIndex { get; }
     }
 }

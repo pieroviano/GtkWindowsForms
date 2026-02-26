@@ -3,7 +3,7 @@ using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
-    public sealed class LayoutBase: Gtk.Layout, IControlGtk
+    public sealed class LayoutBase : Gtk.Layout, IControlGtk
     {
 
         public GtkControlOverride Override { get; set; }

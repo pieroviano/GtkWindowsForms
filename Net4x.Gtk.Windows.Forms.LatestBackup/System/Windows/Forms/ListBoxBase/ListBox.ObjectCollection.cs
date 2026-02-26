@@ -8,10 +8,17 @@ using static System.Windows.Forms.ItemArray;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ListBox
     {
         /// <summary>
-        ///  A collection that stores objects.
+        /// Represents the collection of items in a
+        /// <see cref="System.Windows.Forms.ListBox" />
         /// </summary>
         [ListBindable(false)]
         public class ObjectCollection : IList
@@ -26,30 +33,30 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Initializes a new instance of ListBox.ObjectCollection based on another ListBox.ObjectCollection.
+            /// Initializes a new instance of ListBox.ObjectCollection based on another ListBox.ObjectCollection.
             /// </summary>
             public ObjectCollection(ListBox owner, ObjectCollection value)
-                : this(owner)
+            : this(owner)
             {
                 AddRange(value);
             }
 
             /// <summary>
-            ///  Initializes a new instance of ListBox.ObjectCollection containing any array of objects.
+            /// Initializes a new instance of ListBox.ObjectCollection containing any array of objects.
             /// </summary>
             public ObjectCollection(ListBox owner, object[] value)
-                : this(owner)
+            : this(owner)
             {
                 AddRange(value);
             }
 
             /// <summary>
-            ///  Retrieves the number of items.
+            /// Retrieves the number of items.
             /// </summary>
             public int Count => InnerArray.Count;
 
             /// <summary>
-            ///  Internal access to the actual data store.
+            /// Internal access to the actual data store.
             /// </summary>
             internal ItemArray InnerArray
             {
@@ -70,13 +77,13 @@ namespace System.Windows.Forms
             public bool IsReadOnly => false;
 
             /// <summary>
-            ///  Adds an item to the List box. For an unsorted List box, the item is
-            ///  added to the end of the existing list of items. For a sorted List box,
-            ///  the item is inserted into the list according to its sorted position.
-            ///  The item's toString() method is called to obtain the string that is
-            ///  displayed in the List box.
-            ///  A SystemException occurs if there is insufficient space available to
-            ///  store the new item.
+            /// Adds an item to the List box. For an unsorted List box, the item is
+            /// added to the end of the existing list of items. For a sorted List box,
+            /// the item is inserted into the list according to its sorted position.
+            /// The item's toString() method is called to obtain the string that is
+            /// displayed in the List box.
+            /// A SystemException occurs if there is insufficient space available to
+            /// store the new item.
             /// </summary>
             public int Add(object item)
             {
@@ -178,7 +185,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Retrieves the item with the specified index.
+            /// Retrieves the item with the specified index.
             /// </summary>
             [Browsable(false)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -202,7 +209,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Removes all items from the ListBox.
+            /// Removes all items from the ListBox.
             /// </summary>
             public virtual void Clear()
             {
@@ -211,7 +218,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Removes all items from the ListBox.  Bypasses the data source check.
+            /// Removes all items from the ListBox.  Bypasses the data source check.
             /// </summary>
             internal void ClearInternal()
             {
@@ -232,7 +239,7 @@ namespace System.Windows.Forms
             bool IList.Contains(object? value) => Contains(value!);
 
             /// <summary>
-            ///  Copies the ListBox Items collection to a destination array.
+            /// Copies the ListBox Items collection to a destination array.
             /// </summary>
             public void CopyTo(object[] destination, int arrayIndex)
             {
@@ -253,7 +260,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Returns an enumerator for the ListBox Items collection.
+            /// Returns an enumerator for the ListBox Items collection.
             /// </summary>
             public IEnumerator GetEnumerator() => InnerArray.GetEnumerator(0);
 
@@ -270,13 +277,13 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Adds an item to the List box. For an unsorted List box, the item is
-            ///  added to the end of the existing list of items. For a sorted List box,
-            ///  the item is inserted into the list according to its sorted position.
-            ///  The item's toString() method is called to obtain the string that is
-            ///  displayed in the List box.
-            ///  A SystemException occurs if there is insufficient space available to
-            ///  store the new item.
+            /// Adds an item to the List box. For an unsorted List box, the item is
+            /// added to the end of the existing list of items. For a sorted List box,
+            /// the item is inserted into the list according to its sorted position.
+            /// The item's toString() method is called to obtain the string that is
+            /// displayed in the List box.
+            /// A SystemException occurs if there is insufficient space available to
+            /// store the new item.
             /// </summary>
             public void Insert(int index, object item)
             {
@@ -313,8 +320,8 @@ namespace System.Windows.Forms
             void IList.Insert(int index, object? item) => Insert(index, item!);
 
             /// <summary>
-            ///  Removes the given item from the ListBox, provided that it is
-            ///  actually in the list.
+            /// Removes the given item from the ListBox, provided that it is
+            /// actually in the list.
             /// </summary>
             public void Remove(object value)
             {
@@ -330,7 +337,7 @@ namespace System.Windows.Forms
             void IList.Remove(object? value) => Remove(value!);
 
             /// <summary>
-            ///  Removes an item from the ListBox at the given index.
+            /// Removes an item from the ListBox at the given index.
             /// </summary>
             public void RemoveAt(int index)
             {

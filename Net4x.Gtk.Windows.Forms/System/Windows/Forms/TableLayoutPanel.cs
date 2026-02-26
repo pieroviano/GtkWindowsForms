@@ -4,7 +4,7 @@
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
- 
+
 using GLib;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.Collections.Generic;
@@ -16,6 +16,12 @@ using static System.Windows.Forms.TableLayoutControlCollection;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Represents a panel that dynamically lays out its contents in a grid composed of rows and columns.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     //[ProvideProperty("ColumnSpan", typeof(Control))]
     //[ProvideProperty("RowSpan", typeof(Control))]
     //[ProvideProperty("Row", typeof(Control))]
@@ -32,16 +38,20 @@ namespace System.Windows.Forms
 
         private TableLayoutControlCollection _controls;
 
-		private TableLayoutColumnStyleCollection _columnStyles;
+        private TableLayoutColumnStyleCollection _columnStyles;
 
-		private TableLayoutRowStyleCollection _rowStyles;
+        private TableLayoutRowStyleCollection _rowStyles;
 
         public Gtk.Grid grid => self.grid;
-        public TableLayoutPanel():base()
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" /> class.
+        /// </summary>
+        public TableLayoutPanel() : base()
         {
-            _controls=new TableLayoutControlCollection(this);
-			_columnStyles = new TableLayoutColumnStyleCollection();
-			_rowStyles = new TableLayoutRowStyleCollection();
+            _controls = new TableLayoutControlCollection(this);
+            _columnStyles = new TableLayoutColumnStyleCollection();
+            _rowStyles = new TableLayoutRowStyleCollection();
         }
 
         public override void PerformLayout()
@@ -49,31 +59,67 @@ namespace System.Windows.Forms
             SetColumnsStyles();
             SetRowsStyles();
         }
-
+        /// <summary>
+        /// Gets or sets the border style for the panel.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.BorderStyle" /> values describing the style of the border of the panel. The default is
+        /// <see cref="System.Windows.Forms.BorderStyle.None" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         [Browsable(false)]
-
         public override BorderStyle BorderStyle { get => base.BorderStyle; set => base.BorderStyle = value; }
-
-
-
+        /// <summary>
+        /// Gets or sets the style of the cell borders.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.TableLayoutPanelCellBorderStyle" /> values describing the style of all the cell borders in the table. The default is
+        /// <see cref="System.Windows.Forms.TableLayoutPanelCellBorderStyle.None" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         [Localizable(true)]
-		public TableLayoutPanelCellBorderStyle CellBorderStyle
-		{
+        public TableLayoutPanelCellBorderStyle CellBorderStyle
+        {
             get;
             set;
         }
-
-		[Browsable(false)]
-		public new TableLayoutControlCollection Controls
-		{
-			get => _controls;
+        /// <summary>
+        /// Gets the collection of controls contained within the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TableLayoutControlCollection" /> containing the controls associated with the current
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        [Browsable(false)]
+        public new TableLayoutControlCollection Controls
+        {
+            get => _controls;
         }
 
-		private int _ColumnCount;
-		[DefaultValue(0)]
-		[Localizable(true)]
-		public int ColumnCount
-		{
+        private int _ColumnCount;
+        /// <summary>
+        /// Gets or sets the number of columns in the table.
+        /// </summary>
+        /// <returns>The number of columns in the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" /> control. The default is 0.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        [DefaultValue(0)]
+        [Localizable(true)]
+        public int ColumnCount
+        {
             get => _ColumnCount;
             set
             {
@@ -95,18 +141,36 @@ namespace System.Windows.Forms
                 SetColumnsStyles();
             }
         }
-
-		public TableLayoutPanelGrowStyle GrowStyle
-		{
+        /// <summary>
+        /// Gets or sets a value indicating whether the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" /> control should expand to accommodate new cells when all existing cells are occupied.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TableLayoutPanelGrowStyle" /> indicating the growth scheme. The default is
+        /// <see cref="System.Windows.Forms.TableLayoutPanelGrowStyle.AddRows" />
+        /// </returns>
+        /// <exception cref="System.ArgumentException">The property value is invalid for the
+        /// <see cref="System.Windows.Forms.TableLayoutPanelGrowStyle" /> enumeration.
+        /// </exception>
+        public TableLayoutPanelGrowStyle GrowStyle
+        {
             get;
             set;
         }
 
         private int _RowCount;
+        /// <summary>
+        /// Gets or sets the number of rows in the table.
+        /// </summary>
+        /// <returns>The number of rows in the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" /> control. The default is 0.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [DefaultValue(0)]
-		[Localizable(true)]
-		public int RowCount
-		{
+        [Localizable(true)]
+        public int RowCount
+        {
             get => _RowCount;
             set
             {
@@ -128,24 +192,45 @@ namespace System.Windows.Forms
                 SetRowsStyles();
             }
         }
-
-		[DisplayName("Rows")]
-		[Browsable(false)]
-		public TableLayoutRowStyleCollection RowStyles
-		{
-			get => _rowStyles;
+        /// <summary>
+        /// Gets a collection of row styles for the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TableLayoutRowStyleCollection" /> containing a
+        /// <see cref="System.Windows.Forms.RowStyle" /> for each row in the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" /> control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        [DisplayName("Rows")]
+        [Browsable(false)]
+        public TableLayoutRowStyleCollection RowStyles
+        {
+            get => _rowStyles;
         }
-
-
-		[DisplayName("Columns")]
-		[Browsable(false)]
-		public TableLayoutColumnStyleCollection ColumnStyles
-		{
-			get => _columnStyles;
+        /// <summary>
+        /// Gets a collection of column styles for the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TableLayoutColumnStyleCollection" /> containing a
+        /// <see cref="System.Windows.Forms.ColumnStyle" /> for each column in the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" /> control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        [DisplayName("Columns")]
+        [Browsable(false)]
+        public TableLayoutColumnStyleCollection ColumnStyles
+        {
+            get => _columnStyles;
         }
-        public override Size Size { 
+        public override Size Size
+        {
             get => base.Size;
-            set {
+            set
+            {
                 base.Size = value;
                 SetColumnsStyles();
                 SetRowsStyles();
@@ -199,54 +284,142 @@ namespace System.Windows.Forms
                 }
             }
         }
+        /// <summary>
+        /// For a description of this member, see
+        /// <see cref="System.ComponentModel.IExtenderProvider.CanExtend(System.Object)" />
+        /// </summary>
+        /// <returns>true if this object can provide extender properties to the specified object; otherwise, false.
+        /// </returns>
+        /// <param name="obj">The
+        /// <see cref="System.Object" /> to receive the extender properties.
+        /// </param>
         bool IExtenderProvider.CanExtend(object obj)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		[DefaultValue(1)]
-		[DisplayName("ColumnSpan")]
-		public int GetColumnSpan(Control control)
-		{
-			return control.Widget.MarginStart;
-		}
-
-		public void SetColumnSpan(Control control, int value)
-		{
+        {
+            throw new System.NotImplementedException();
+        }
+        /// <summary>
+        /// Returns the number of columns spanned by the specified child control.
+        /// </summary>
+        /// <returns>The number of columns spanned by the child control. The default is 1.
+        /// </returns>
+        /// <param name="control">A child control of the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        [DefaultValue(1)]
+        [DisplayName("ColumnSpan")]
+        public int GetColumnSpan(Control control)
+        {
+            return control.Widget.MarginStart;
+        }
+        /// <summary>
+        /// Sets the number of columns spanned by the child control.
+        /// </summary>
+        /// <param name="control">A child control of the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </param>
+        /// <param name="value">The number of columns to span.
+        /// </param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <paramref name="value" /> is less than 1.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        public void SetColumnSpan(Control control, int value)
+        {
             control.Widget.MarginStart = value;
             control.Widget.MarginEnd = value;
         }
-
-		[DefaultValue(1)]
-		[DisplayName("RowSpan")]
-		public int GetRowSpan(Control control)
-		{
+        /// <summary>
+        /// Returns the number of rows spanned by the specified child control.
+        /// </summary>
+        /// <returns>The number of rows spanned by the child control. The default is 1.
+        /// </returns>
+        /// <param name="control">A child control of the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        [DefaultValue(1)]
+        [DisplayName("RowSpan")]
+        public int GetRowSpan(Control control)
+        {
             return control.Widget.MarginTop;
         }
-
-		public void SetRowSpan(Control control, int value)
-		{
+        /// <summary>
+        /// Sets the number of rows spanned by the child control.
+        /// </summary>
+        /// <param name="control">A child control of the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </param>
+        /// <param name="value">The number of rows to span.
+        /// </param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <paramref name="value" /> is less than 1.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        public void SetRowSpan(Control control, int value)
+        {
             control.Widget.MarginTop = value;
             control.Widget.MarginBottom = value;
         }
-
-		[DefaultValue(-1)]
-		[DisplayName("Row")]
-		public int GetRow(Control control)
-		{
+        /// <summary>
+        /// Returns the row position of the specified child control.
+        /// </summary>
+        /// <returns>The row position of
+        /// <paramref name="control" />, or -1 if the position of
+        /// <paramref name="control" /> is determined by
+        /// <see cref="System.Windows.Forms.TableLayoutPanel.LayoutEngine" />
+        /// </returns>
+        /// <param name="control">A child control of the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="control" /> is null.
+        /// </exception>
+        /// <exception cref="System.NotSupportedException">
+        /// <paramref name="control" />
+        /// is not a type that can be arranged by this
+        /// <see cref="System.Windows.Forms.Layout.LayoutEngine" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        [DefaultValue(-1)]
+        [DisplayName("Row")]
+        public int GetRow(Control control)
+        {
             return control.GetGridCell(grid).TopAttach;
         }
-
-		public void SetRow(Control control, int row)
-		{
+        /// <summary>
+        /// Sets the row position of the specified child control.
+        /// </summary>
+        /// <param name="control">The control to move to another row.
+        /// </param>
+        /// <param name="row">The row to which
+        /// <paramref name="control" /> will be moved.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        public void SetRow(Control control, int row)
+        {
             control.GetGridCell(grid).TopAttach = row;
         }
-
-		[DisplayName("Cell")]
-		public TableLayoutPanelCellPosition GetCellPosition(Control control)
-		{
+        /// <summary>
+        /// Gets the
+        /// <see cref="System.Windows.Forms.TableLayoutPanelCellPosition" /> that represents the row and the column of the cell.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TableLayoutPanelCellPosition" /> that represents the cell position.
+        /// </returns>
+        /// <param name="control">A control contained within a cell.
+        /// </param>
+        [DisplayName("Cell")]
+        public TableLayoutPanelCellPosition GetCellPosition(Control control)
+        {
             TableLayoutPanelCellPosition cellPosition = new TableLayoutPanelCellPosition(-1, -1);
-            GridCell cell=control.GetGridCell(grid);
+            GridCell cell = control.GetGridCell(grid);
             if (cell != null)
             {
                 cellPosition.Column = cell.LeftAttach;
@@ -254,41 +427,100 @@ namespace System.Windows.Forms
             }
             return cellPosition;
         }
-
-		public void SetCellPosition(Control control, TableLayoutPanelCellPosition position)
-		{
-            GridCell cell=control.GetGridCell(grid);
+        /// <summary>
+        /// Sets the
+        /// <see cref="System.Windows.Forms.TableLayoutPanelCellPosition" /> that represents the row and the column of the cell.
+        /// </summary>
+        /// <param name="control">A control contained within a cell.
+        /// </param>
+        /// <param name="position">A
+        /// <see cref="System.Windows.Forms.TableLayoutPanelCellPosition" /> that represents the row and the column of the cell.
+        /// </param>
+        public void SetCellPosition(Control control, TableLayoutPanelCellPosition position)
+        {
+            GridCell cell = control.GetGridCell(grid);
             if (cell != null)
             {
                 cell.LeftAttach = position.Column;
                 cell.TopAttach = position.Row;
             }
         }
-
-		[DefaultValue(-1)]
-		[DisplayName("Column")]
-		public int GetColumn(Control control)
-		{
+        /// <summary>
+        /// Returns the column position of the specified child control.
+        /// </summary>
+        /// <returns>The column position of the specified child control, or -1 if the position of
+        /// <paramref name="control" /> is determined by
+        /// <see cref="System.Windows.Forms.TableLayoutPanel.LayoutEngine" />
+        /// </returns>
+        /// <param name="control">A child control of the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="control" /> is null.
+        /// </exception>
+        /// <exception cref="System.NotSupportedException">
+        /// <paramref name="control" />
+        /// is not a type that can be arranged by this
+        /// <see cref="System.Windows.Forms.Layout.LayoutEngine" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        [DefaultValue(-1)]
+        [DisplayName("Column")]
+        public int GetColumn(Control control)
+        {
             return control.GetGridCell(grid).LeftAttach;
         }
-
-		public void SetColumn(Control control, int column)
-		{
-            GridCell child=control.GetGridCell(grid);
+        /// <summary>
+        /// Sets the column position of the specified child control.
+        /// </summary>
+        /// <param name="control">The control to move to another column.
+        /// </param>
+        /// <param name="column">The column to which
+        /// <paramref name="control" /> will be moved.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        public void SetColumn(Control control, int column)
+        {
+            GridCell child = control.GetGridCell(grid);
             if (child != null)
                 child.LeftAttach = column;
 
         }
-
-		public Control GetControlFromPosition(int column, int row)
-		{
+        /// <summary>
+        /// Returns the child control occupying the specified position.
+        /// </summary>
+        /// <returns>The child control occupying the specified cell; otherwise, null if no control exists at the specified column and row, or if the control has its
+        /// <see cref="System.Windows.Forms.Control.Visible" /> property set to false.
+        /// </returns>
+        /// <param name="column">The column position of the control to retrieve.
+        /// </param>
+        /// <param name="row">The row position of the control to retrieve.
+        /// </param>
+        /// <exception cref="System.ArgumentException">Either
+        /// <paramref name="column" /> or
+        /// <paramref name="row" /> (or both) is less than 0.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        public Control GetControlFromPosition(int column, int row)
+        {
             return grid.GetChildAt(column, row).Data["Control"] as Control;
-		}
-
+        }
+        /// <summary>
+        /// Gets the
+        /// <see cref="System.Windows.Forms.TableLayoutPanelCellPosition" /> that represents the row and the column of the cell that contains the control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.TableLayoutPanelCellPosition" /> that represents the cell position.
+        /// </returns>
+        /// <param name="control">A control contained within a cell.
+        /// </param>
         public TableLayoutPanelCellPosition GetPositionFromControl(Control control)
         {
             TableLayoutPanelCellPosition cellPosition = new TableLayoutPanelCellPosition(-1, -1);
-            GridCell cell=control.GetGridCell(grid);
+            GridCell cell = control.GetGridCell(grid);
             if (cell != null)
             {
                 cellPosition.Column = cell.LeftAttach;
@@ -296,11 +528,18 @@ namespace System.Windows.Forms
             }
             return cellPosition;
         }
-
+        /// <summary>
+        /// Returns an array representing the widths, in pixels, of the columns in the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </summary>
+        /// <returns>An array of type
+        /// <see cref="System.Int32" /> that contains the widths, in pixels, of the columns in the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </returns>
         [Browsable(false)]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public int[] GetColumnWidths()
-		{
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public int[] GetColumnWidths()
+        {
             List<int> list = new List<int>();
             if (RowCount > 0)
             {
@@ -308,11 +547,18 @@ namespace System.Windows.Forms
                     list.Add(grid.GetChildAt(c, 0).WidthRequest);
             }
             return list.ToArray();
-		}
-
-		[Browsable(false)]
-		public int[] GetRowHeights()
-		{
+        }
+        /// <summary>
+        /// Returns an array representing the heights, in pixels, of the rows in the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </summary>
+        /// <returns>An array of type
+        /// <see cref="System.Int32" /> that contains the heights, in pixels, of the rows in the
+        /// <see cref="System.Windows.Forms.TableLayoutPanel" />
+        /// </returns>
+        [Browsable(false)]
+        public int[] GetRowHeights()
+        {
             List<int> list = new List<int>();
             if (ColumnCount > 0)
             {
@@ -321,5 +567,5 @@ namespace System.Windows.Forms
             }
             return list.ToArray();
         }
-	}
+    }
 }

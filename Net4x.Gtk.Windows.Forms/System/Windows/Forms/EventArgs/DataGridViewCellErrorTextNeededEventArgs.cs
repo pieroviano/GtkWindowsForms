@@ -4,13 +4,23 @@
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Provides data for the
+    /// <see cref="System.Windows.Forms.DataGridView.CellErrorTextNeeded" />
+    /// event of a
+    /// <see cref="System.Windows.Forms.DataGridView" /> control.
+    /// </summary>
     public class DataGridViewCellErrorTextNeededEventArgs : DataGridViewCellEventArgs
     {
         internal DataGridViewCellErrorTextNeededEventArgs(int columnIndex, int rowIndex, string errorText) : base(columnIndex, rowIndex)
         {
             ErrorText = errorText;
         }
-
+        /// <summary>
+        /// Gets or sets the message that is displayed when the cell is selected.
+        /// </summary>
+        /// <returns>The error message.
+        /// </returns>
         public string ErrorText { get; set; }
     }
 }

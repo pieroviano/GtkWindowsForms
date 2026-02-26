@@ -26,7 +26,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             base.Hadjustment.ValueChanged += Hadjustment_ValueChanged;
             base.Vadjustment.ValueChanged += Vadjustment_ValueChanged;
         }
- 
+
         private void Vadjustment_ValueChanged(object sender, EventArgs e)
         {
             if (Scroll != null)

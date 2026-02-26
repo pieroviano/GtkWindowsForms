@@ -32,16 +32,18 @@ namespace System.Drawing.Printing
         private bool _originAtMargins;
         private bool _userSetPageSettings;
 
-        public PrintDocument() 
-        { 
+        public PrintDocument()
+        {
             _defaultPageSettings = new PageSettings(_printerSettings);
             _pageSetup = new PageSetup();
         }
 
         private PageSetup _pageSetup;
-        public PageSetup PageSetup { 
-            get=> _pageSetup; 
-            set {
+        public PageSetup PageSetup
+        {
+            get => _pageSetup;
+            set
+            {
                 _pageSetup = value;
                 PageSettings pageSettings = DefaultPageSettings;
                 pageSettings.Landscape = value.Orientation == Gtk.PageOrientation.Landscape || value.Orientation == Gtk.PageOrientation.ReverseLandscape;

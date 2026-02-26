@@ -3,35 +3,47 @@
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Specifies the valid grid item types for a
+    /// <see cref="System.Windows.Forms.PropertyGrid" /> .
+    /// </summary>
+    /// <filterpriority>
+    /// 2
+    /// </filterpriority>
     public enum GridItemType
     {
         /// <summary>
-        ///  The <see cref="GridItem"/> corresponds to a property.
+        /// The
+        /// <see cref="GridItem"/> corresponds to a property.
         /// </summary>
         Property,
 
         /// <summary>
-        ///  The <see cref="GridItem"/> is a category name.
+        /// The
+        /// <see cref="GridItem"/> is a category name.
         /// </summary>
         /// <remarks>
-        ///  <para>
-        ///   Typical categories include "Behavior", "Layout", "Data", and "Appearance".
-        ///  </para>
+        /// <para>
+        /// Typical categories include "Behavior", "Layout", "Data", and "Appearance".
+        /// </para>
         /// </remarks>
         Category,
 
         /// <summary>
-        ///  The <see cref="GridItem"/> is an element of an array.
+        /// The
+        /// <see cref="GridItem"/> is an element of an array.
         /// </summary>
         ArrayValue,
 
         /// <summary>
-        ///  The <see cref="GridItem"/> is the root in the grid hierarchy.
+        /// The
+        /// <see cref="GridItem"/> is the root in the grid hierarchy.
         /// </summary>
         /// <remarks>
-        ///  <para>
-        ///   This item represents the selection in the <see cref="PropertyGrid"/>.
-        ///  </para>
+        /// <para>
+        /// This item represents the selection in the
+        /// <see cref="PropertyGrid"/>.
+        /// </para>
         /// </remarks>
         Root
     }
