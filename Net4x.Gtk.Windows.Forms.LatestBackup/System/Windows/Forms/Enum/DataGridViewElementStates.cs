@@ -6,7 +6,8 @@ namespace System.Windows.Forms
 {
 
     /// <summary>
-    /// Specifies the user interface (UI) state of a element within a System.Windows.Forms.DataGridView control.
+    /// Specifies the user interface (UI) state of a element within a System.Windows.Forms.DataGridView
+    /// control.
     /// </summary>
     [Flags]
     public enum DataGridViewElementStates
@@ -34,7 +35,8 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Indicates that an element can be resized through the UI. This value is ignored
-        /// except when combined with the System.Windows.Forms.DataGridViewElementStates.ResizableSet value.
+        /// except when combined with the System.Windows.Forms.DataGridViewElementStates.ResizableSet
+        /// value.
         /// </summary>
         Resizable = 8,
 

@@ -10,6 +10,8 @@ namespace System.Resources
     /// <summary>
     /// Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
     /// </summary>
+    /// Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+    /// </summary>
     public partial class ResXResourceReader
     {
         private sealed class ReaderAliasResolver : IAliasResolver

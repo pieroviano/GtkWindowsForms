@@ -10,7 +10,8 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents padding or margin information associated with a user interface (UI) element.
     /// </summary>
-    /// <filterpriority>2
+    /// <filterpriority>
+    /// 2
     /// </filterpriority>
     public struct Padding
     {
@@ -66,9 +67,12 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the combined padding for the right and left edges.
         /// </summary>
-        /// <returns>
-        /// Gets the sum, in pixels, of the System.Windows.Forms.Padding.Left and System.Windows.Forms.Padding.Right padding values.
+        /// <returns>Gets the sum, in pixels, of the
+        /// <see cref="System.Windows.Forms.Padding.Left" /> and
+        /// <see cref="System.Windows.Forms.Padding.Right" /> padding values.
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [Browsable(false)]
         public int Horizontal { get { return Right - Left; } }
 
@@ -118,11 +122,14 @@ namespace System.Windows.Forms
         public int All { get; set; }
 
         /// <summary>
-        /// Gets the padding information in the form of a System.Drawing.Size.
+        /// Gets the padding information in the form of a
+        /// <see cref="System.Drawing.Size" />
         /// </summary>
-        /// <returns>
-        /// A System.Drawing.Size containing the padding information.
+        /// <returns>A
+        /// <see cref="System.Drawing.Size" /> containing the padding information.
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [Browsable(false)]
         public Size Size { get; }
 
@@ -197,11 +204,15 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Returns a string that represents the current System.Windows.Forms.Padding.
+        /// Returns a string that represents the current
+        /// <see cref="System.Windows.Forms.Padding" />
         /// </summary>
-        /// <returns>
-        /// A System.String that represents the current System.Windows.Forms.Padding.
+        /// <returns>A
+        /// <see cref="System.String" /> that represents the current
+        /// <see cref="System.Windows.Forms.Padding" />
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public override string ToString()
         {
             return this.GetType().Name;

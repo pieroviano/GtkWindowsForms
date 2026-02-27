@@ -2,7 +2,8 @@ namespace System.Windows.Forms
 {
 
     /// <summary>
-    /// Provides options that specify the relationship between the control and preprocessing messages.
+    /// Provides options that specify the relationship between the control and preprocessing
+    /// messages.
     /// </summary>
     public enum PreProcessControlState
     {

@@ -5,11 +5,21 @@ using System.Collections;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// This is similar to ArrayList except that it also
+    /// maintains a bit-flag based state element for each item in the array.
+    /// The methods to enumerate, count and get data support
+    /// virtualized indexes.  Indexes are virtualized according
+    /// to the state mask passed in.  This allows ItemArray
+    /// to be the backing store for one read-write "master"
+    /// collection and several read-only collections based
+    /// on masks.  ItemArray supports up to 31 masks.
+    /// </summary>
     internal partial class ItemArray
     {
         /// <summary>
-        ///  EntryEnumerator is an enumerator that will enumerate over
-        ///  a given state mask.
+        /// EntryEnumerator is an enumerator that will enumerate over
+        /// a given state mask.
         /// </summary>
         private class EntryEnumerator : IEnumerator
         {
@@ -24,7 +34,7 @@ namespace System.Windows.Forms
             private readonly int _version;
 
             /// <summary>
-            ///  Creates a new enumerator that will enumerate over the given state.
+            /// Creates a new enumerator that will enumerate over the given state.
             /// </summary>
             public EntryEnumerator(ItemArray items, int state, bool anyBit)
             {
@@ -36,7 +46,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Moves to the next element, or returns false if at the end.
+            /// Moves to the next element, or returns false if at the end.
             /// </summary>
             bool IEnumerator.MoveNext()
             {
@@ -77,7 +87,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Resets the enumeration back to the beginning.
+            /// Resets the enumeration back to the beginning.
             /// </summary>
             void IEnumerator.Reset()
             {
@@ -90,7 +100,7 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            ///  Retrieves the current value in the enumerator.
+            /// Retrieves the current value in the enumerator.
             /// </summary>
             object IEnumerator.Current
             {

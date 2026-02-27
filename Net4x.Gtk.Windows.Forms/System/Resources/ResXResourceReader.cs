@@ -65,25 +65,20 @@ namespace System.Resources
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// class for the specified resource file.
+        /// <see cref="System.Resources.ResXResourceReader" /> class for the specified resource file.
         /// </summary>
-        /// <param name="fileName">
-        /// The path of the resource file to read.
+        /// <param name="fileName">The path of the resource file to read.
         /// </param>
         public ResXResourceReader(string fileName) : this(fileName, (ITypeResolutionService)null, null)
         {
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// class using a file name and a type resolution service.
+        /// <see cref="System.Resources.ResXResourceReader" /> class using a file name and a type resolution service.
         /// </summary>
-        /// <param name="fileName">
-        /// The name of an XML resource file that contains resources.
+        /// <param name="fileName">The name of an XML resource file that contains resources.
         /// </param>
-        /// <param name="typeResolver">
-        /// An object that resolves type names specified in a resource.
+        /// <param name="typeResolver">An object that resolves type names specified in a resource.
         /// </param>
         public ResXResourceReader(string fileName, ITypeResolutionService typeResolver) : this(fileName, typeResolver, null)
         {
@@ -97,26 +92,21 @@ namespace System.Resources
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// class for the specified
+        /// <see cref="System.Resources.ResXResourceReader" /> class for the specified
         /// <see cref="System.IO.TextReader" />
         /// </summary>
-        /// <param name="reader">
-        /// A text input stream that contains resources.
+        /// <param name="reader">A text input stream that contains resources.
         /// </param>
         public ResXResourceReader(TextReader reader) : this(reader, (ITypeResolutionService)null, null)
         {
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// class using a text stream reader and a type resolution service.
+        /// <see cref="System.Resources.ResXResourceReader" /> class using a text stream reader and a type resolution service.
         /// </summary>
-        /// <param name="reader">
-        /// A text stream reader that contains resources.
+        /// <param name="reader">A text stream reader that contains resources.
         /// </param>
-        /// <param name="typeResolver">
-        /// An object that resolves type names specified in a resource.
+        /// <param name="typeResolver">An object that resolves type names specified in a resource.
         /// </param>
         public ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver) : this(reader, typeResolver, (IAliasResolver)null)
         {
@@ -130,25 +120,20 @@ namespace System.Resources
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// class for the specified stream.
+        /// <see cref="System.Resources.ResXResourceReader" /> class for the specified stream.
         /// </summary>
-        /// <param name="stream">
-        /// An input stream that contains resources.
+        /// <param name="stream">An input stream that contains resources.
         /// </param>
         public ResXResourceReader(Stream stream) : this(stream, (ITypeResolutionService)null, (IAliasResolver)null)
         {
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// class using an input stream and a type resolution service.
+        /// <see cref="System.Resources.ResXResourceReader" /> class using an input stream and a type resolution service.
         /// </summary>
-        /// <param name="stream">
-        /// An input stream that contains resources.
+        /// <param name="stream">An input stream that contains resources.
         /// </param>
-        /// <param name="typeResolver">
-        /// An object that resolves type names specified in a resource.
+        /// <param name="typeResolver">An object that resolves type names specified in a resource.
         /// </param>
         public ResXResourceReader(Stream stream, ITypeResolutionService typeResolver) : this(stream, typeResolver, (IAliasResolver)null)
         {
@@ -162,16 +147,12 @@ namespace System.Resources
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// class using a stream and an array of assembly names.
+        /// <see cref="System.Resources.ResXResourceReader" /> class using a stream and an array of assembly names.
         /// </summary>
-        /// <param name="stream">
-        /// An input stream that contains resources.
+        /// <param name="stream">An input stream that contains resources.
         /// </param>
-        /// <param name="assemblyNames">
-        /// An array of
-        /// <see cref="System.Reflection.AssemblyName" />
-        /// objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
+        /// <param name="assemblyNames">An array of
+        /// <see cref="System.Reflection.AssemblyName" /> objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
         /// </param>
         public ResXResourceReader(Stream stream, AssemblyName[] assemblyNames) : this(stream, assemblyNames, (IAliasResolver)null)
         {
@@ -185,18 +166,13 @@ namespace System.Resources
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// class using a
-        /// <see cref="System.IO.TextReader" />
-        /// object and an array of assembly names.
+        /// <see cref="System.Resources.ResXResourceReader" /> class using a
+        /// <see cref="System.IO.TextReader" /> object and an array of assembly names.
         /// </summary>
-        /// <param name="reader">
-        /// An object used to read resources from a stream of text.
+        /// <param name="reader">An object used to read resources from a stream of text.
         /// </param>
-        /// <param name="assemblyNames">
-        /// An array of
-        /// <see cref="System.Reflection.AssemblyName" />
-        /// objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
+        /// <param name="assemblyNames">An array of
+        /// <see cref="System.Reflection.AssemblyName" /> objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
         /// </param>
         public ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames) : this(reader, assemblyNames, (IAliasResolver)null)
         {
@@ -210,16 +186,12 @@ namespace System.Resources
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// class using an XML resource file name and an array of assembly names.
+        /// <see cref="System.Resources.ResXResourceReader" /> class using an XML resource file name and an array of assembly names.
         /// </summary>
-        /// <param name="fileName">
-        /// The name of an XML resource file that contains resources.
+        /// <param name="fileName">The name of an XML resource file that contains resources.
         /// </param>
-        /// <param name="assemblyNames">
-        /// An array of
-        /// <see cref="System.Reflection.AssemblyName" />
-        /// objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
+        /// <param name="assemblyNames">An array of
+        /// <see cref="System.Reflection.AssemblyName" /> objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
         /// </param>
         public ResXResourceReader(string fileName, AssemblyName[] assemblyNames) : this(fileName, assemblyNames, (IAliasResolver)null)
         {
@@ -241,13 +213,10 @@ namespace System.Resources
         /// Gets or sets the base path for the relative file path specified in a
         /// <see cref="System.Resources.ResXFileRef" /> object.
         /// </summary>
-        /// <returns>
-        /// A path that, if prepended to the relative file path specified in a
-        /// <see cref="System.Resources.ResXFileRef" />
-        /// object, yields an absolute path to a resource file.
+        /// <returns>A path that, if prepended to the relative file path specified in a
+        /// <see cref="System.Resources.ResXFileRef" /> object, yields an absolute path to a resource file.
         /// </returns>
-        /// <exception cref="System.InvalidOperationException">
-        /// In a set operation, a value cannot be specified because the XML resource file has already been accessed and is in use.
+        /// <exception cref="System.InvalidOperationException">In a set operation, a value cannot be specified because the XML resource file has already been accessed and is in use.
         /// </exception>
         public string BasePath
         {
@@ -268,14 +237,11 @@ namespace System.Resources
 
         /// <summary>
         /// Gets or sets a value indicating whether
-        /// <see cref="System.Resources.ResXDataNode" />
-        /// objects are returned when reading the current XML resource file or stream.
+        /// <see cref="System.Resources.ResXDataNode" /> objects are returned when reading the current XML resource file or stream.
         /// </summary>
-        /// <returns>
-        /// true if resource data nodes are retrieved; false if resource data nodes are ignored.
+        /// <returns>true if resource data nodes are retrieved; false if resource data nodes are ignored.
         /// </returns>
-        /// <exception cref="System.InvalidOperationException">
-        /// In a set operation, the enumerator for the resource file or stream is already open.
+        /// <exception cref="System.InvalidOperationException">In a set operation, the enumerator for the resource file or stream is already open.
         /// </exception>
         public bool UseResXDataNodes
         {
@@ -303,8 +269,7 @@ namespace System.Resources
         }
         /// <summary>
         /// Releases the unmanaged resources used by the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// and optionally releases the managed resources. For a description of this member, see
+        /// <see cref="System.Resources.ResXResourceReader" /> and optionally releases the managed resources. For a description of this member, see
         /// <see cref="System.IDisposable.Dispose" />
         /// </summary>
         void IDisposable.Dispose()
@@ -314,11 +279,9 @@ namespace System.Resources
         }
         /// <summary>
         /// Releases the unmanaged resources used by the
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// and optionally releases the managed resources.
+        /// <see cref="System.Resources.ResXResourceReader" /> and optionally releases the managed resources.
         /// </summary>
-        /// <param name="disposing">
-        /// true to release both managed and unmanaged resources; false to release only unmanaged resources.
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
@@ -407,15 +370,12 @@ namespace System.Resources
 
         /// <summary>
         /// Creates a new
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// object and initializes it to read a string whose contents are in the form of an XML resource file.
+        /// <see cref="System.Resources.ResXResourceReader" /> object and initializes it to read a string whose contents are in the form of an XML resource file.
         /// </summary>
-        /// <returns>
-        /// An object that reads resources from the
+        /// <returns>An object that reads resources from the
         /// <paramref name="fileContents" /> string.
         /// </returns>
-        /// <param name="fileContents">
-        /// A string containing XML resource-formatted information.
+        /// <param name="fileContents">A string containing XML resource-formatted information.
         /// </param>
         public static ResXResourceReader FromFileContents(string fileContents)
         {
@@ -424,20 +384,15 @@ namespace System.Resources
 
         /// <summary>
         /// Creates a new
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// object and initializes it to read a string whose contents are in the form of an XML resource file, and to use an
-        /// <see cref="System.ComponentModel.Design.ITypeResolutionService" />
-        /// object to resolve type names specified in a resource.
+        /// <see cref="System.Resources.ResXResourceReader" /> object and initializes it to read a string whose contents are in the form of an XML resource file, and to use an
+        /// <see cref="System.ComponentModel.Design.ITypeResolutionService" /> object to resolve type names specified in a resource.
         /// </summary>
-        /// <returns>
-        /// An object that reads resources from the
+        /// <returns>An object that reads resources from the
         /// <paramref name="fileContents" /> string.
         /// </returns>
-        /// <param name="fileContents">
-        /// A string containing XML resource-formatted information.
+        /// <param name="fileContents">A string containing XML resource-formatted information.
         /// </param>
-        /// <param name="typeResolver">
-        /// An object that resolves type names specified in a resource.
+        /// <param name="typeResolver">An object that resolves type names specified in a resource.
         /// </param>
         public static ResXResourceReader FromFileContents(string fileContents, ITypeResolutionService typeResolver)
         {
@@ -449,22 +404,16 @@ namespace System.Resources
 
         /// <summary>
         /// Creates a new
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// object and initializes it to read a string whose contents are in the form of an XML resource file, and to use an array of
-        /// <see cref="System.Reflection.AssemblyName" />
-        /// objects to resolve type names specified in a resource.
+        /// <see cref="System.Resources.ResXResourceReader" /> object and initializes it to read a string whose contents are in the form of an XML resource file, and to use an array of
+        /// <see cref="System.Reflection.AssemblyName" /> objects to resolve type names specified in a resource.
         /// </summary>
-        /// <returns>
-        /// An object that reads resources from the
+        /// <returns>An object that reads resources from the
         /// <paramref name="fileContents" /> string.
         /// </returns>
-        /// <param name="fileContents">
-        /// A string whose contents are in the form of an XML resource file.
+        /// <param name="fileContents">A string whose contents are in the form of an XML resource file.
         /// </param>
-        /// <param name="assemblyNames">
-        /// An array of
-        /// <see cref="System.Reflection.AssemblyName" />
-        /// objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
+        /// <param name="assemblyNames">An array of
+        /// <see cref="System.Reflection.AssemblyName" /> objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
         /// </param>
         public static ResXResourceReader FromFileContents(string fileContents, AssemblyName[] assemblyNames)
         {
@@ -475,12 +424,10 @@ namespace System.Resources
         }
         /// <summary>
         /// Returns an enumerator for the current
-        /// <see cref="System.Resources.ResXResourceReader" />
-        /// object. For a description of this member, see
+        /// <see cref="System.Resources.ResXResourceReader" /> object. For a description of this member, see
         /// <see cref="System.Collections.IEnumerable.GetEnumerator" />
         /// </summary>
-        /// <returns>
-        /// An enumerator that can iterate through the name/value pairs in the XML resource (.resx) stream or string associated with the current
+        /// <returns>An enumerator that can iterate through the name/value pairs in the XML resource (.resx) stream or string associated with the current
         /// <see cref="System.Resources.ResXResourceReader" /> object.
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
@@ -491,8 +438,7 @@ namespace System.Resources
         /// Returns an enumerator for the current
         /// <see cref="System.Resources.ResXResourceReader" /> object.
         /// </summary>
-        /// <returns>
-        /// An enumerator for the current
+        /// <returns>An enumerator for the current
         /// <see cref="System.Resources.ResourceReader" /> object.
         /// </returns>
         public IDictionaryEnumerator GetEnumerator()
@@ -505,8 +451,7 @@ namespace System.Resources
         /// <summary>
         /// Provides a dictionary enumerator that can retrieve the design-time properties from the current XML resource file or stream.
         /// </summary>
-        /// <returns>
-        /// An enumerator for the metadata in a resource.
+        /// <returns>An enumerator for the metadata in a resource.
         /// </returns>
         public IDictionaryEnumerator GetMetadataEnumerator()
         {

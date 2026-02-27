@@ -9,16 +9,14 @@ using static System.Windows.Forms.ItemArray;
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  This is similar to ArrayList except that it also
-    ///  maintains a bit-flag based state element for each item
-    ///  in the array.
-    ///
-    ///  The methods to enumerate, count and get data support
-    ///  virtualized indexes.  Indexes are virtualized according
-    ///  to the state mask passed in.  This allows ItemArray
-    ///  to be the backing store for one read-write "master"
-    ///  collection and several read-only collections based
-    ///  on masks.  ItemArray supports up to 31 masks.
+    /// This is similar to ArrayList except that it also
+    /// maintains a bit-flag based state element for each item in the array.
+    /// The methods to enumerate, count and get data support
+    /// virtualized indexes.  Indexes are virtualized according
+    /// to the state mask passed in.  This allows ItemArray
+    /// to be the backing store for one read-write "master"
+    /// collection and several read-only collections based
+    /// on masks.  ItemArray supports up to 31 masks.
     /// </summary>
     internal partial class ItemArray : IComparer<Entry>
     {
@@ -37,14 +35,13 @@ namespace System.Windows.Forms
         internal IReadOnlyList<Entry?> Entries => _entries;
 
         /// <summary>
-        ///  The version of this array.  This number changes with each
-        ///  change to the item list.
+        /// The version of this array.  This number changes with each
+        /// change to the item list.
         /// </summary>
         public int Version { get; private set; }
 
         /// <summary>
-        ///  Adds the given item to the array.  The state is initially
-        ///  zero.
+        /// Adds the given item to the array.  The state is initially zero.
         /// </summary>
         public object? Add(object item)
         {
@@ -55,7 +52,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Clears this array.
+        /// Clears this array.
         /// </summary>
         public void Clear()
         {
@@ -64,7 +61,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Allocates a new bitmask for use.
+        /// Allocates a new bitmask for use.
         /// </summary>
         public static int CreateMask()
         {
@@ -74,7 +71,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Turns a virtual index into an actual index.
+        /// Turns a virtual index into an actual index.
         /// </summary>
         public int GetActualIndex(int virtualIndex, int stateMask)
         {
@@ -102,12 +99,12 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Gets the main count
+        /// Gets the main count
         /// </summary>
         public int Count => _entries.Count;
 
         /// <summary>
-        ///  Gets the count of items matching the given mask.
+        /// Gets the count of items matching the given mask.
         /// </summary>
         public int GetCount(int stateMask = 0)
         {
@@ -133,8 +130,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Retrieves an enumerator that will enumerate based on
-        ///  the given mask.
+        /// Retrieves an enumerator that will enumerate based on
+        /// the given mask.
         /// </summary>
         public IEnumerator GetEnumerator(int stateMask = 0)
         {
@@ -142,8 +139,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Retrieves an enumerator that will enumerate based on
-        ///  the given mask.
+        /// Retrieves an enumerator that will enumerate based on
+        /// the given mask.
         /// </summary>
         public IEnumerator GetEnumerator(int stateMask, bool anyBit)
         {
@@ -151,8 +148,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Gets the item at the given index.  The index is
-        ///  virtualized against the given mask value.
+        /// Gets the item at the given index.  The index is
+        /// virtualized against the given mask value.
         /// </summary>
         public object GetItem(int virtualIndex, int stateMask = 0)
         {
@@ -166,8 +163,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Gets the item at the given index.  The index is
-        ///  virtualized against the given mask value.
+        /// Gets the item at the given index.  The index is
+        /// virtualized against the given mask value.
         /// </summary>
         internal Entry GetEntryObject(int virtualIndex, int stateMask = 0)
         {
@@ -181,8 +178,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Returns true if the requested state mask is set.
-        ///  The index is the actual index to the array.
+        /// Returns true if the requested state mask is set.
+        /// The index is the actual index to the array.
         /// </summary>
         public bool GetState(int index, int stateMask)
         {
@@ -190,8 +187,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Returns the virtual index of the item based on the
-        ///  state mask.
+        /// Returns the virtual index of the item based on the
+        /// state mask.
         /// </summary>
         public int IndexOf(object? item, int stateMask = 0)
         {
@@ -213,8 +210,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Inserts item at the given index.  The index
-        ///  is not virtualized.
+        /// Inserts item at the given index.  The index
+        /// is not virtualized.
         /// </summary>
         public void Insert(int index, object item)
         {
@@ -228,8 +225,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Removes the given item from the array.  If
-        ///  the item is not in the array, this does nothing.
+        /// Removes the given item from the array.  If
+        /// the item is not in the array, this does nothing.
         /// </summary>
         public void Remove(object item)
         {
@@ -241,7 +238,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Removes the item at the given index.
+        /// Removes the item at the given index.
         /// </summary>
         public void RemoveAt(int index)
         {
@@ -250,7 +247,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Sets the item at the given index to a new value.
+        /// Sets the item at the given index to a new value.
         /// </summary>
         public void SetItem(int index, object item)
         {
@@ -258,7 +255,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Sets the state data for the given index.
+        /// Sets the state data for the given index.
         /// </summary>
         public void SetState(int index, int stateMask, bool value)
         {
@@ -280,7 +277,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Find element in sorted array. If element is not found returns a binary complement of index for inserting
+        /// Find element in sorted array. If element is not found returns a binary complement of index for inserting
         /// </summary>
         public int BinarySearch(Entry element)
         {
@@ -288,7 +285,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Sorts our array.
+        /// Sorts our array.
         /// </summary>
         public void Sort()
         {

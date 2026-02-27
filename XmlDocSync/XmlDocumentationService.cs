@@ -155,7 +155,7 @@ public static class XmlDocumentationService
         var fixIndentationAndRemoveBlanks = XmlDocIndentFormatter.FixIndentationAndRemoveBlanks(removeTextBeforeNonOpenedSummary);
         var fixXmlCommentIndentation = CsXmlCommentFormatter.FixXmlCommentIndentation(fixIndentationAndRemoveBlanks);
         var normalizeXmlDocBlockIndentation = fixXmlCommentIndentation.TrimEnd(['\n', '\r', ' ', '\t']);
-        return XmlCommentProcessor.Process(XmlDocFormatter.Format(normalizeXmlDocBlockIndentation));
+        return XmlCommentTagSplitter.Process(XmlCommentProcessor.Process(XmlDocFormatter.Format(normalizeXmlDocBlockIndentation)));
     }
 
     private static async Task<string> GetNormalizedOriginalText(string filePath)

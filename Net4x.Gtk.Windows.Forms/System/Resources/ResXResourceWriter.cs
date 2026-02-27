@@ -12,8 +12,7 @@ using System.Xml;
 namespace System.Resources
 {
     /// <summary>
-    /// ResX resource writer. See the text in "ResourceSchema" for more
-    /// information.
+    /// ResX resource writer. See the text in "ResourceSchema" for more information.
     /// </summary>
     public class ResXResourceWriter : IResourceWriter
     {
@@ -189,8 +188,7 @@ namespace System.Resources
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Resources.ResXResourceWriter" /> class that writes the resources to a specified
-        /// <see cref="System.IO.TextWriter" />
-        /// object and sets a delegate that enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
+        /// <see cref="System.IO.TextWriter" /> object and sets a delegate that enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
         /// </summary>
         /// <param name="textWriter">The object to send output to.
         /// </param>

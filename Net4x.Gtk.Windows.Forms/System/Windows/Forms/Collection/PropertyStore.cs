@@ -202,8 +202,8 @@ internal partial class PropertyStore
     /// Will be set to null if the key is not present.
     /// </param>
     /// <remarks>
-    /// <para>
-    /// If a null value is set for a given key it will return true and a null value.
+    /// <para>If a null value is set for a given key
+    /// it will return true and a null value.
     /// </para>
     /// </remarks>
     /// <returns>

@@ -18,7 +18,8 @@ namespace System.Windows.Forms
     /// <summary>
     /// Provides a user interface for browsing the properties of an object.
     /// </summary>
-    /// <filterpriority>1
+    /// <filterpriority>
+    /// 1
     /// </filterpriority>
     [Designer($"System.Windows.Forms.Design.PropertyGridDesigner, {AssemblyRef.SystemDesign}")]
     public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
@@ -69,16 +70,12 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets the currently selected objects.
         /// </summary>
-        /// <returns>
-        /// An array of type
-        /// <see cref="System.Object" />
-        /// The default is an empty array.
+        /// <returns>An array of type
+        /// <see cref="System.Object" /> The default is an empty array.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// One of the items in the array of objects had a null value.
+        /// <exception cref="System.ArgumentException">One of the items in the array of objects had a null value.
         /// </exception>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -95,11 +92,9 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets the object for which the grid displays properties.
         /// </summary>
-        /// <returns>
-        /// The first object in the object list. If there is no currently selected object the return is null.
+        /// <returns>The first object in the object list. If there is no currently selected object the return is null.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [DefaultValue(null)]
         public object SelectedObject
@@ -115,11 +110,9 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets a value indicating whether the Help text is visible.
         /// </summary>
-        /// <returns>
-        /// true if the help text is visible; otherwise, false. The default is true.
+        /// <returns>true if the help text is visible; otherwise, false. The default is true.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [DefaultValue(true)]
         [Localizable(true)]
@@ -130,38 +123,30 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets the foreground color for the Help region.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Color" />
-        /// values. The default is the default system color for control text.
+        /// <returns>One of the
+        /// <see cref="System.Drawing.Color" /> values. The default is the default system color for control text.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [DefaultValue(typeof(Color), "ControlText")]
         public Color HelpForeColor { get; set; }
         /// <summary>
         /// Gets or sets the background color for the Help region.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Color" />
-        /// values. The default is the default system color for controls.
+        /// <returns>One of the
+        /// <see cref="System.Drawing.Color" /> values. The default is the default system color for controls.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [DefaultValue(typeof(Color), "Control")]
         public Color HelpBackColor { get; set; }
         /// <summary>
         /// This property is not relevant for this class.
         /// </summary>
-        /// <returns>
-        /// A
+        /// <returns>A
         /// <see cref="System.Drawing.Color" />
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -169,34 +154,28 @@ namespace System.Windows.Forms
         /// <summary>
         /// This property is not relevant for this class.
         /// </summary>
-        /// <returns>
-        /// true if enabled; otherwise, false.
+        /// <returns>true if enabled; otherwise, false.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool AutoScroll { get; set; }
         /// <returns>
         /// A
-        /// <see cref="System.Drawing.Color" />
-        /// that represents the background color of the control. The default is the value of the
-        /// <see cref="!:System.Windows.Forms.Control.DefaultBackColor" /> property.
+        /// <see cref="System.Drawing.Color" /> that represents the background color of the control. The default is the value of the
+        /// <see cref="System.Windows.Forms.Control.DefaultBackColor" /> property.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         public override Color BackColor { get; set; }
         /// <summary>
         /// This property is not relevant for this class.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="System.Drawing.Image" />
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
 #nullable disable
         [Browsable(false)]
@@ -206,12 +185,10 @@ namespace System.Windows.Forms
         /// <summary>
         /// This property is not relevant for this class.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="System.Windows.Forms.ImageLayout" />
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -222,11 +199,9 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets the browsable attributes associated with the object that the property grid is attached to.
         /// </summary>
-        /// <returns>
-        /// The collection of browsable attributes associated with the object.
+        /// <returns>The collection of browsable attributes associated with the object.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -235,62 +210,48 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets the text color used for category headings.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Color" />
-        /// structure representing the text color.
+        /// <returns>A
+        /// <see cref="System.Drawing.Color" /> structure representing the text color.
         /// </returns>
         [DefaultValue(typeof(Color), "ControlText")]
         public Color CategoryForeColor { get; set; }
         /// <summary>
         /// Gets or sets the background color of the hot commands region.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Color" />
-        /// values. The default is the default system color for controls.
+        /// <returns>One of the
+        /// <see cref="System.Drawing.Color" /> values. The default is the default system color for controls.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         public Color CommandsBackColor { get; set; }
         /// <summary>
         /// Gets or sets the foreground color for the hot commands region.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Color" />
-        /// values. The default is the default system color for control text.
+        /// <returns>One of the
+        /// <see cref="System.Drawing.Color" /> values. The default is the default system color for control text.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         public Color CommandsForeColor { get; set; }
         /// <summary>
         /// Gets or sets the link color for the executable commands region.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Color" />
-        /// structure representing the link color for the executable commands region.
+        /// <returns>A
+        /// <see cref="System.Drawing.Color" /> structure representing the link color for the executable commands region.
         /// </returns>
         public Color CommandsLinkColor { get; set; }
         /// <summary>
         /// Gets or sets the color of active links in the executable commands region.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Color" />
-        /// structure representing the active link color.
+        /// <returns>A
+        /// <see cref="System.Drawing.Color" /> structure representing the active link color.
         /// </returns>
         public Color CommandsActiveLinkColor { get; set; }
         /// <summary>
         /// Gets or sets the unavailable link color for the executable commands region.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Color" />
-        /// structure representing the unavailable link color.
+        /// <returns>A
+        /// <see cref="System.Drawing.Color" /> structure representing the unavailable link color.
         /// </returns>
         public Color CommandsDisabledLinkColor { get; set; }
         [DefaultValue(typeof(Color), "ControlDark")]
@@ -299,11 +260,9 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets a value indicating whether the commands pane is visible.
         /// </summary>
-        /// <returns>
-        /// true if the commands pane is visible; otherwise, false. The default is false.
+        /// <returns>true if the commands pane is visible; otherwise, false. The default is false.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -311,22 +270,18 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets a value indicating whether the commands pane is visible for objects that expose verbs.
         /// </summary>
-        /// <returns>
-        /// true if the commands pane is visible; otherwise, false. The default is true.
+        /// <returns>true if the commands pane is visible; otherwise, false. The default is true.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [DefaultValue(true)]
         public virtual bool CommandsVisibleIfAvailable { get; set; }
         /// <summary>
         /// Gets a value indicating whether the commands pane can be made visible for the currently selected objects.
         /// </summary>
-        /// <returns>
-        /// true if the commands pane can be made visible; otherwise, false.
+        /// <returns>true if the commands pane can be made visible; otherwise, false.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -334,11 +289,9 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the default location for the shortcut menu.
         /// </summary>
-        /// <returns>
-        /// The default location for the shortcut menu if the command is invoked. Typically, this is centered over the selected property.
+        /// <returns>The default location for the shortcut menu if the command is invoked. Typically, this is centered over the selected property.
         /// </returns>
-        /// <filterpriority>
-        /// 2
+        /// <filterpriority>2
         /// </filterpriority>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -352,15 +305,11 @@ namespace System.Windows.Forms
         public Color CategorySplitterColor { get; set; }
         /// <summary>
         /// Gets or sets a value that determines whether to use the
-        /// <see cref="System.Drawing.Graphics" />
-        /// class (GDI+) or the
-        /// <see cref="!:System.Windows.Forms.TextRenderer" />
-        /// class (GDI) to render text.
+        /// <see cref="System.Drawing.Graphics" /> class (GDI+) or the
+        /// <see cref="System.Windows.Forms.TextRenderer" /> class (GDI) to render text.
         /// </summary>
-        /// <returns>
-        /// true if the
-        /// <see cref="System.Drawing.Graphics" />
-        /// class should be used to perform text rendering for compatibility with versions 1.0 and 1.1. of the .NET Framework; otherwise, false. The default is false.
+        /// <returns>true if the
+        /// <see cref="System.Drawing.Graphics" /> class should be used to perform text rendering for compatibility with versions 1.0 and 1.1. of the .NET Framework; otherwise, false. The default is false.
         /// </returns>
         [DefaultValue(false)]
         public bool UseCompatibleTextRendering { get; set; }
@@ -370,48 +319,38 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets a value indicating the color of the text in the grid.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Color" />
-        /// values. The default is current system color for text in windows.
+        /// <returns>One of the
+        /// <see cref="System.Drawing.Color" /> values. The default is current system color for text in windows.
         /// </returns>
-        /// <filterpriority>
-        /// 2
+        /// <filterpriority>2
         /// </filterpriority>
         [DefaultValue(typeof(Color), "WindowText")]
         public Color ViewForeColor { get; set; }
         /// <summary>
         /// Gets or sets a value indicating the background color in the grid.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Color" />
-        /// values. The default is the default system color for windows.
+        /// <returns>One of the
+        /// <see cref="System.Drawing.Color" /> values. The default is the default system color for windows.
         /// </returns>
-        /// <filterpriority>
-        /// 2
+        /// <filterpriority>2
         /// </filterpriority>
         [DefaultValue(typeof(Color), "Window")]
         public Color ViewBackColor { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether the toolbar is visible.
         /// </summary>
-        /// <returns>
-        /// true if the toolbar is visible; otherwise, false. The default is true.
+        /// <returns>true if the toolbar is visible; otherwise, false. The default is true.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [DefaultValue(true)]
         public virtual bool ToolbarVisible { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether buttons appear in standard size or in large size.
         /// </summary>
-        /// <returns>
-        /// true if buttons on the control appear large; otherwise, false. The default is false.
+        /// <returns>true if buttons on the control appear large; otherwise, false. The default is false.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [DefaultValue(false)]
         public bool LargeButtons { get; set; }
@@ -420,22 +359,18 @@ namespace System.Windows.Forms
         public Color DisabledItemForeColor { get; set; }
         /// <returns>
         /// The
-        /// <see cref="System.ComponentModel.ISite" />
-        /// associated with the
-        /// <see cref="System.Windows.Forms.Control" /> , if any.
+        /// <see cref="System.ComponentModel.ISite" /> associated with the
+        /// <see cref="System.Windows.Forms.Control" />, if any.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         public override ISite Site { get; set; }
         /// <summary>
         /// Gets or sets the selected grid item.
         /// </summary>
-        /// <returns>
-        /// The currently selected row in the property grid.
+        /// <returns>The currently selected row in the property grid.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -450,16 +385,12 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the collection of property tabs that are displayed in the grid.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Windows.Forms.PropertyGrid.PropertyTabCollection" />
-        /// containing the collection of
-        /// <see cref="System.Windows.Forms.Design.PropertyTab" />
-        /// objects being displayed by the
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.PropertyGrid.PropertyTabCollection" /> containing the collection of
+        /// <see cref="System.Windows.Forms.Design.PropertyTab" /> objects being displayed by the
         /// <see cref="System.Windows.Forms.PropertyGrid" />
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -467,35 +398,27 @@ namespace System.Windows.Forms
         public PropertyTabCollection PropertyTabs { get; }
         /// <summary>
         /// Gets or sets the type of sorting the
-        /// <see cref="System.Windows.Forms.PropertyGrid" />
-        /// uses to display properties.
+        /// <see cref="System.Windows.Forms.PropertyGrid" /> uses to display properties.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Windows.Forms.PropertySort" />
-        /// values. The default is
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.PropertySort" /> values. The default is
         /// <see cref="System.Windows.Forms.PropertySort.Categorized" /> or
         /// <see cref="System.Windows.Forms.PropertySort.Alphabetical" />
         /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">
-        /// The assigned value is not one of the
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The assigned value is not one of the
         /// <see cref="System.Windows.Forms.PropertySort" /> values.
         /// </exception>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [DefaultValue(PropertySort.CategorizedAlphabetical)]
         public PropertySort PropertySort { get; set; }
         /// <summary>
         /// Gets or sets the color of the gridlines and borders.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Color" />
-        /// values. The default is the default system color for scroll bars.
+        /// <returns>One of the
+        /// <see cref="System.Drawing.Color" /> values. The default is the default system color for scroll bars.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         //[Browsable(false)]
         //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -509,13 +432,10 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the currently selected property tab.
         /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Windows.Forms.Design.PropertyTab" />
-        /// that is providing the selected view.
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.Design.PropertyTab" /> that is providing the selected view.
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -524,12 +444,10 @@ namespace System.Windows.Forms
         /// <summary>
         /// This property is not relevant for this class.
         /// </summary>
-        /// <returns>
-        /// A
+        /// <returns>A
         /// <see cref="System.Windows.Forms.Control.ControlCollection" />
         /// </returns>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -539,13 +457,10 @@ namespace System.Windows.Forms
         public bool InPropertySet => true;
         /// <summary>
         /// Gets or sets a value indicating whether the
-        /// <see cref="System.Windows.Forms.PropertyGrid" />
-        /// control paints its toolbar with flat buttons.
+        /// <see cref="System.Windows.Forms.PropertyGrid" /> control paints its toolbar with flat buttons.
         /// </summary>
-        /// <returns>
-        /// true if the
-        /// <see cref="System.Windows.Forms.PropertyGrid" />
-        /// paints its toolbar with flat buttons; otherwise false. The default is false.
+        /// <returns>true if the
+        /// <see cref="System.Windows.Forms.PropertyGrid" /> paints its toolbar with flat buttons; otherwise false. The default is false.
         /// </returns>
         protected bool DrawFlatToolbar { get; set; }
         //protected ToolStripRenderer ToolStripRenderer { get; set; }
@@ -568,10 +483,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the type of the default tab.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Type" />
-        /// representing the default tab.
+        /// <returns>A
+        /// <see cref="System.Type" /> representing the default tab.
         /// </returns>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -579,8 +492,7 @@ namespace System.Windows.Forms
         protected virtual Type DefaultTabType { get; }
         /// <returns>
         /// The default
-        /// <see cref="System.Drawing.Size" />
-        /// of the control.
+        /// <see cref="System.Drawing.Size" /> of the control.
         /// </returns>
         protected override Size DefaultSize { get; }
         /// <returns>
@@ -635,8 +547,7 @@ namespace System.Windows.Forms
         /// Collapses all the categories in the
         /// <see cref="System.Windows.Forms.PropertyGrid" />
         /// </summary>
-        /// <filterpriority>
-        /// 2
+        /// <filterpriority>2
         /// </filterpriority>
         public void CollapseAllGridItems()
         {
@@ -650,17 +561,14 @@ namespace System.Windows.Forms
         /// <summary>
         /// Refreshes the property tabs of the specified scope.
         /// </summary>
-        /// <param name="tabScope">
-        /// Either the Component or Document value of
+        /// <param name="tabScope">Either the Component or Document value of
         /// <see cref="System.ComponentModel.PropertyTabScope" />
         /// </param>
-        /// <exception cref="System.ArgumentException"> The
-        /// <paramref name="tabScope" />
-        /// parameter is not the Component or Document value of
+        /// <exception cref="System.ArgumentException">The
+        /// <paramref name="tabScope" /> parameter is not the Component or Document value of
         /// <see cref="System.ComponentModel.PropertyTabScope" />
         /// </exception>
-        /// <filterpriority>
-        /// 2
+        /// <filterpriority>2
         /// </filterpriority>
         public void RefreshTabs(PropertyTabScope tabScope)
         {
@@ -668,8 +576,7 @@ namespace System.Windows.Forms
         /// <summary>
         /// Resets the selected property to its default value.
         /// </summary>
-        /// <filterpriority>
-        /// 1
+        /// <filterpriority>1
         /// </filterpriority>
         public void ResetSelectedProperty()
         {
@@ -684,8 +591,7 @@ namespace System.Windows.Forms
         }
         /// <summary>
         /// Closes any open drop-down controls on the
-        /// <see cref="System.Windows.Forms.PropertyGrid" />
-        /// control. For a description of this member, see
+        /// <see cref="System.Windows.Forms.PropertyGrid" /> control. For a description of this member, see
         /// <see cref="System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser.DropDownDone" />
         /// </summary>
         void IComPropertyBrowser.DropDownDone()
@@ -694,14 +600,11 @@ namespace System.Windows.Forms
         }
         /// <summary>
         /// Commits all pending changes to the
-        /// <see cref="System.Windows.Forms.PropertyGrid" />
-        /// control. For a description of this member, see
+        /// <see cref="System.Windows.Forms.PropertyGrid" /> control. For a description of this member, see
         /// <see cref="System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser.EnsurePendingChangesCommitted" />
         /// </summary>
-        /// <returns>
-        /// true if all the
-        /// <see cref="System.Windows.Forms.PropertyGrid" />
-        /// successfully commits changes; otherwise, false.
+        /// <returns>true if all the
+        /// <see cref="System.Windows.Forms.PropertyGrid" /> successfully commits changes; otherwise, false.
         /// </returns>
         bool IComPropertyBrowser.EnsurePendingChangesCommitted()
         {
@@ -709,8 +612,7 @@ namespace System.Windows.Forms
         }
         /// <summary>
         /// Activates the
-        /// <see cref="System.Windows.Forms.PropertyGrid" />
-        /// control when the user chooses properties for a control in Design view. For a description of this member, see
+        /// <see cref="System.Windows.Forms.PropertyGrid" /> control when the user chooses properties for a control in Design view. For a description of this member, see
         /// <see cref="System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser.HandleF4" />
         /// </summary>
         void IComPropertyBrowser.HandleF4()
