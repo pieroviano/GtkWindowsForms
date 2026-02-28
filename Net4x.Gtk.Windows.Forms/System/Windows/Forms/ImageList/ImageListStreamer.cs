@@ -12,8 +12,7 @@ namespace System.Windows.Forms
     /// Provides the data portion of an
     /// <see cref="System.Windows.Forms.ImageList" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     [Serializable] // This type is participating in resx serialization scenarios.
     public sealed class ImageListStreamer : ISerializable, IDisposable

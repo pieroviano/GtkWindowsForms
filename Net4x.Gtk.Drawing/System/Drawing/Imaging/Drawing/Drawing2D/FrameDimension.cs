@@ -20,8 +20,7 @@ namespace System.Drawing.Imaging
         /// Gets a globally unique identifier (GUID) that represents this
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
         /// </summary>
-        /// <returns>
-        /// A
+        /// <returns>A
         /// <see langword="Guid" /> structure that contains a GUID that represents this
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
         /// </returns>
@@ -30,24 +29,21 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the time dimension.
         /// </summary>
-        /// <returns>
-        /// The time dimension.
+        /// <returns>The time dimension.
         /// </returns>
         public static FrameDimension Time => s_time;
 
         /// <summary>
         /// Gets the resolution dimension.
         /// </summary>
-        /// <returns>
-        /// The resolution dimension.
+        /// <returns>The resolution dimension.
         /// </returns>
         public static FrameDimension Resolution => s_resolution;
 
         /// <summary>
         /// Gets the page dimension.
         /// </summary>
-        /// <returns>
-        /// The page dimension.
+        /// <returns>The page dimension.
         /// </returns>
         public static FrameDimension Page => s_page;
 
@@ -56,8 +52,7 @@ namespace System.Drawing.Imaging
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> class using the specified
         /// <see langword="Guid" /> structure.
         /// </summary>
-        /// <param name="guid">
-        /// A
+        /// <param name="guid">A
         /// <see langword="Guid" /> structure that contains a GUID for this
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
         /// </param>
@@ -71,8 +66,7 @@ namespace System.Drawing.Imaging
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> equivalent to this
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
         /// </summary>
-        /// <param name="o">
-        /// The object to test.
+        /// <param name="o">The object to test.
         /// </param>
         /// <returns>
         /// <see langword="true" /> if
@@ -95,8 +89,7 @@ namespace System.Drawing.Imaging
         /// Returns a hash code for this
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
         /// </summary>
-        /// <returns>
-        /// The hash code of this
+        /// <returns>The hash code of this
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
         /// </returns>
         public override int GetHashCode()
@@ -108,8 +101,7 @@ namespace System.Drawing.Imaging
         /// Converts this
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object to a human-readable string.
         /// </summary>
-        /// <returns>
-        /// A string that represents this
+        /// <returns>A string that represents this
         /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
         /// </returns>
         public override string ToString()

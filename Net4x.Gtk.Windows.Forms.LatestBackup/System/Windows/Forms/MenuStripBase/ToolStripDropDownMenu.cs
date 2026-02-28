@@ -5,8 +5,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides basic functionality for the
-    /// <see cref="System.Windows.Forms.ContextMenuStrip" />
-    /// control. Although
+    /// <see cref="System.Windows.Forms.ContextMenuStrip" /> control. Although
     /// <see cref="System.Windows.Forms.ToolStripDropDownMenu" /> and
     /// <see cref="System.Windows.Forms.ToolStripDropDown" />
     /// replace and add functionality to the

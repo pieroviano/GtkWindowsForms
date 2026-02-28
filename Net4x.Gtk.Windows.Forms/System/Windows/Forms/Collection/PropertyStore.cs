@@ -11,6 +11,22 @@ namespace System.Windows.Forms;
 /// It tries to optimize for size first, "get" access second, and
 /// "set" access third.
 /// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
 internal partial class PropertyStore
 {
     private static int s_currentKey;
@@ -191,14 +207,11 @@ internal partial class PropertyStore
     /// This will set value to null and return false if the
     /// list does not contain the given key.
     /// </summary>
-    /// <typeparam name="T">
-    /// The type of object to retrieve.
+    /// <typeparam name="T">The type of object to retrieve.
     /// </typeparam>
-    /// <param name="key">
-    /// The key corresponding to the object in the property list.
+    /// <param name="key">The key corresponding to the object in the property list.
     /// </param>
-    /// <param name="value">
-    /// Output parameter where the object will be set if found.
+    /// <param name="value">Output parameter where the object will be set if found.
     /// Will be set to null if the key is not present.
     /// </param>
     /// <remarks>
@@ -206,8 +219,7 @@ internal partial class PropertyStore
     /// it will return true and a null value.
     /// </para>
     /// </remarks>
-    /// <returns>
-    /// True if an object (including null) is found for the given key; otherwise, false.
+    /// <returns>True if an object (including null) is found for the given key; otherwise, false.
     /// </returns>
     public bool TryGetObject<T>(int key, out T? value)
     {

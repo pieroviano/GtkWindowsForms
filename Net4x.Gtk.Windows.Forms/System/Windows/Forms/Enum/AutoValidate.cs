@@ -25,8 +25,9 @@ namespace System.Windows.Forms
         EnablePreventFocusChange = 1,
 
         /// <summary>
-        /// Implicit validation occurs, but if validation fails, focus will still change to the new control. If validation fails, the
-        /// <see cref="System.Windows.Forms.Control.Validated" /> event will not fire.
+        /// Controls in this container will be validated when the focus changes.
+        /// If a validation error occurs, the focus is allowed to move to the other
+        /// control.
         /// </summary>
         EnableAllowFocusChange = 2,
 

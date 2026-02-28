@@ -8,12 +8,10 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.UserDeletingRow" />
-    /// event of a
+    /// <see cref="System.Windows.Forms.DataGridView.UserDeletingRow" /> event of a
     /// <see cref="System.Windows.Forms.DataGridView" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     public class DataGridViewRowCancelEventArgs : CancelEventArgs
     {

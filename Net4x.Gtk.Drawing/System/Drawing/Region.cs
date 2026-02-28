@@ -17,7 +17,7 @@ namespace System.Drawing
         private GraphicsPath graphicsPath = new GraphicsPath();
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <see cref="T:System.Drawing.Region" />.
         /// </summary>
         public Region()
         {
@@ -25,18 +25,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.Region" />
-        /// with the specified
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> .
+        /// <see cref="T:System.Drawing.Region" /> with the specified
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="path"> A
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
-        /// that defines the new
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <param name="path">A
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> that defines the new
+        /// <see cref="T:System.Drawing.Region" />.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="path" /> is
-        /// <see langword="null" /> .
+        /// <see langword="null" />.
         /// </exception>
         public Region(GraphicsPath path)
         {
@@ -47,17 +45,15 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.Region" />
-        /// from the specified data.
+        /// <see cref="T:System.Drawing.Region" /> from the specified data.
         /// </summary>
-        /// <param name="rgnData"> A
-        /// <see cref="T:System.Drawing.Drawing2D.RegionData" />
-        /// that defines the interior of the new
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <param name="rgnData">A
+        /// <see cref="T:System.Drawing.Drawing2D.RegionData" /> that defines the interior of the new
+        /// <see cref="T:System.Drawing.Region" />.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="rgnData" /> is
-        /// <see langword="null" /> .
+        /// <see langword="null" />.
         /// </exception>
         public Region(RegionData rgnData)
         {
@@ -67,15 +63,12 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.Region" />
-        /// from the specified
-        /// <see cref="T:System.Drawing.Rectangle" />
-        /// structure.
+        /// <see cref="T:System.Drawing.Region" /> from the specified
+        /// <see cref="T:System.Drawing.Rectangle" /> structure.
         /// </summary>
-        /// <param name="rect"> A
-        /// <see cref="T:System.Drawing.Rectangle" />
-        /// structure that defines the interior of the new
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <param name="rect">A
+        /// <see cref="T:System.Drawing.Rectangle" /> structure that defines the interior of the new
+        /// <see cref="T:System.Drawing.Region" />.
         /// </param>
         public Region(Rectangle rect)
         {
@@ -84,15 +77,12 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.Region" />
-        /// from the specified
-        /// <see cref="T:System.Drawing.RectangleF" />
-        /// structure.
+        /// <see cref="T:System.Drawing.Region" /> from the specified
+        /// <see cref="T:System.Drawing.RectangleF" /> structure.
         /// </summary>
-        /// <param name="rect"> A
-        /// <see cref="T:System.Drawing.RectangleF" />
-        /// structure that defines the interior of the new
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <param name="rect">A
+        /// <see cref="T:System.Drawing.RectangleF" /> structure that defines the interior of the new
+        /// <see cref="T:System.Drawing.Region" />.
         /// </param>
         public Region(RectangleF rect)
         {
@@ -345,16 +335,13 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.Region" />
-        /// from a handle to the specified existing GDI region.
+        /// <see cref="T:System.Drawing.Region" /> from a handle to the specified existing GDI region.
         /// </summary>
-        /// <param name="hrgn">
-        /// A handle to an existing
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <param name="hrgn">A handle to an existing
+        /// <see cref="T:System.Drawing.Region" />.
         /// </param>
-        /// <returns>
-        /// The new
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <returns>The new
+        /// <see cref="T:System.Drawing.Region" />.
         /// </returns>
         public static Region FromHrgn(IntPtr hrgn)
         {
@@ -689,8 +676,7 @@ namespace System.Drawing
         /// <returns>
         /// This method returns true when any portion of
         /// <paramref name="rect" /> is contained within this
-        /// <see cref="System.Drawing.Region" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
         /// </returns>
         /// <param name="rect">The
         /// <see cref="System.Drawing.Rectangle" /> structure to test.
@@ -714,8 +700,7 @@ namespace System.Drawing
         /// <returns>
         /// true when any portion of the
         /// <paramref name="rect" /> is contained within this
-        /// <see cref="System.Drawing.Region" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
         /// </returns>
         /// <param name="rect">The
         /// <see cref="System.Drawing.Rectangle" /> structure to test.
@@ -741,8 +726,7 @@ namespace System.Drawing
         /// <returns>
         /// true when any portion of
         /// <paramref name="rect" /> is contained within this
-        /// <see cref="System.Drawing.Region" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
         /// </returns>
         /// <param name="rect">The
         /// <see cref="System.Drawing.RectangleF" /> structure to test.
@@ -785,26 +769,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// object when drawn using the specified
+        /// <see cref="T:System.Drawing.Region" /> object when drawn using the specified
         /// <see cref="T:System.Drawing.Graphics" /> object.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <param name="g"> A
-        /// <see cref="T:System.Drawing.Graphics" />
-        /// that represents a graphics context.
+        /// <param name="g">A
+        /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
         /// </param>
         /// <returns>
-        /// <see langword="true" />
-        /// when the specified point is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// ; otherwise,
-        /// <see langword="false" /> .
+        /// <see langword="true" /> when the specified point is contained within this
+        /// <see cref="T:System.Drawing.Region" />; otherwise,
+        /// <see langword="false" />.
         /// </returns>
         public bool IsVisible(int x, int y, Graphics g)
         {
@@ -813,26 +791,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether any portion of the specified rectangle is contained within this
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <see cref="T:System.Drawing.Region" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the upper-left corner of the rectangle to test.
+        /// <param name="x">The x-coordinate of the upper-left corner of the rectangle to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the upper-left corner of the rectangle to test.
+        /// <param name="y">The y-coordinate of the upper-left corner of the rectangle to test.
         /// </param>
-        /// <param name="width">
-        /// The width of the rectangle to test.
+        /// <param name="width">The width of the rectangle to test.
         /// </param>
-        /// <param name="height">
-        /// The height of the rectangle to test.
+        /// <param name="height">The height of the rectangle to test.
         /// </param>
         /// <returns>
-        /// <see langword="true" />
-        /// when any portion of the specified rectangle is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// ; otherwise,
-        /// <see langword="false" /> .
+        /// <see langword="true" /> when any portion of the specified rectangle is contained within this
+        /// <see cref="T:System.Drawing.Region" />; otherwise,
+        /// <see langword="false" />.
         /// </returns>
         public bool IsVisible(int x, int y, int width, int height)
         {
@@ -841,32 +813,24 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether any portion of the specified rectangle is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// when drawn using the specified
-        /// <see cref="T:System.Drawing.Graphics" /> .
+        /// <see cref="T:System.Drawing.Region" /> when drawn using the specified
+        /// <see cref="T:System.Drawing.Graphics" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the upper-left corner of the rectangle to test.
+        /// <param name="x">The x-coordinate of the upper-left corner of the rectangle to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the upper-left corner of the rectangle to test.
+        /// <param name="y">The y-coordinate of the upper-left corner of the rectangle to test.
         /// </param>
-        /// <param name="width">
-        /// The width of the rectangle to test.
+        /// <param name="width">The width of the rectangle to test.
         /// </param>
-        /// <param name="height">
-        /// The height of the rectangle to test.
+        /// <param name="height">The height of the rectangle to test.
         /// </param>
-        /// <param name="g"> A
-        /// <see cref="T:System.Drawing.Graphics" />
-        /// that represents a graphics context.
+        /// <param name="g">A
+        /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
         /// </param>
         /// <returns>
-        /// <see langword="true" />
-        /// when any portion of the specified rectangle is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// ; otherwise,
-        /// <see langword="false" /> .
+        /// <see langword="true" /> when any portion of the specified rectangle is contained within this
+        /// <see cref="T:System.Drawing.Region" />; otherwise,
+        /// <see langword="false" />.
         /// </returns>
         public bool IsVisible(int x, int y, int width, int height, Graphics g)
         {
@@ -875,20 +839,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <see cref="T:System.Drawing.Region" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
         /// <returns>
-        /// <see langword="true" />
-        /// when the specified point is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// ; otherwise,
-        /// <see langword="false" /> .
+        /// <see langword="true" /> when the specified point is contained within this
+        /// <see cref="T:System.Drawing.Region" />; otherwise,
+        /// <see langword="false" />.
         /// </returns>
         public bool IsVisible(float x, float y)
         {
@@ -897,26 +857,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// when drawn using the specified
-        /// <see cref="T:System.Drawing.Graphics" /> .
+        /// <see cref="T:System.Drawing.Region" /> when drawn using the specified
+        /// <see cref="T:System.Drawing.Graphics" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <param name="g"> A
-        /// <see cref="T:System.Drawing.Graphics" />
-        /// that represents a graphics context.
+        /// <param name="g">A
+        /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
         /// </param>
         /// <returns>
-        /// <see langword="true" />
-        /// when the specified point is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// ; otherwise,
-        /// <see langword="false" /> .
+        /// <see langword="true" /> when the specified point is contained within this
+        /// <see cref="T:System.Drawing.Region" />; otherwise,
+        /// <see langword="false" />.
         /// </returns>
         public bool IsVisible(float x, float y, Graphics g)
         {
@@ -925,26 +879,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether any portion of the specified rectangle is contained within this
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <see cref="T:System.Drawing.Region" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the upper-left corner of the rectangle to test.
+        /// <param name="x">The x-coordinate of the upper-left corner of the rectangle to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the upper-left corner of the rectangle to test.
+        /// <param name="y">The y-coordinate of the upper-left corner of the rectangle to test.
         /// </param>
-        /// <param name="width">
-        /// The width of the rectangle to test.
+        /// <param name="width">The width of the rectangle to test.
         /// </param>
-        /// <param name="height">
-        /// The height of the rectangle to test.
+        /// <param name="height">The height of the rectangle to test.
         /// </param>
         /// <returns>
-        /// <see langword="true" />
-        /// when any portion of the specified rectangle is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// object; otherwise,
-        /// <see langword="false" /> .
+        /// <see langword="true" /> when any portion of the specified rectangle is contained within this
+        /// <see cref="T:System.Drawing.Region" /> object; otherwise,
+        /// <see langword="false" />.
         /// </returns>
         public bool IsVisible(float x, float y, float width, float height)
         {
@@ -953,32 +901,24 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether any portion of the specified rectangle is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// when drawn using the specified
-        /// <see cref="T:System.Drawing.Graphics" /> .
+        /// <see cref="T:System.Drawing.Region" /> when drawn using the specified
+        /// <see cref="T:System.Drawing.Graphics" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the upper-left corner of the rectangle to test.
+        /// <param name="x">The x-coordinate of the upper-left corner of the rectangle to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the upper-left corner of the rectangle to test.
+        /// <param name="y">The y-coordinate of the upper-left corner of the rectangle to test.
         /// </param>
-        /// <param name="width">
-        /// The width of the rectangle to test.
+        /// <param name="width">The width of the rectangle to test.
         /// </param>
-        /// <param name="height">
-        /// The height of the rectangle to test.
+        /// <param name="height">The height of the rectangle to test.
         /// </param>
-        /// <param name="g"> A
-        /// <see cref="T:System.Drawing.Graphics" />
-        /// that represents a graphics context.
+        /// <param name="g">A
+        /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
         /// </param>
         /// <returns>
-        /// <see langword="true" />
-        /// when any portion of the specified rectangle is contained within this
-        /// <see cref="T:System.Drawing.Region" />
-        /// ; otherwise,
-        /// <see langword="false" /> .
+        /// <see langword="true" /> when any portion of the specified rectangle is contained within this
+        /// <see cref="T:System.Drawing.Region" />; otherwise,
+        /// <see langword="false" />.
         /// </returns>
         public bool IsVisible(float x, float y, float width, float height, Graphics g)
         {
@@ -1013,15 +953,14 @@ namespace System.Drawing
 
         /// <summary>
         /// Releases the handle of the
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <see cref="T:System.Drawing.Region" />.
         /// </summary>
-        /// <param name="regionHandle">
-        /// The handle to the
-        /// <see cref="T:System.Drawing.Region" /> .
+        /// <param name="regionHandle">The handle to the
+        /// <see cref="T:System.Drawing.Region" />.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="regionHandle" /> is
-        /// <see langword="null" /> .
+        /// <see langword="null" />.
         /// </exception>
         public void ReleaseHrgn(IntPtr regionHandle)
         {
@@ -1051,18 +990,13 @@ namespace System.Drawing
 
         /// <summary>
         /// Offsets the coordinates of this
-        /// <see cref="T:System.Drawing.Region" />
-        /// by the specified amount.
+        /// <see cref="T:System.Drawing.Region" /> by the specified amount.
         /// </summary>
-        /// <param name="dx">
-        /// The amount to offset this
-        /// <see cref="T:System.Drawing.Region" />
-        /// horizontally.
+        /// <param name="dx">The amount to offset this
+        /// <see cref="T:System.Drawing.Region" /> horizontally.
         /// </param>
-        /// <param name="dy">
-        /// The amount to offset this
-        /// <see cref="T:System.Drawing.Region" />
-        /// vertically.
+        /// <param name="dy">The amount to offset this
+        /// <see cref="T:System.Drawing.Region" /> vertically.
         /// </param>
         public void Translate(int dx, int dy)
         {
@@ -1070,18 +1004,13 @@ namespace System.Drawing
 
         /// <summary>
         /// Offsets the coordinates of this
-        /// <see cref="T:System.Drawing.Region" />
-        /// by the specified amount.
+        /// <see cref="T:System.Drawing.Region" /> by the specified amount.
         /// </summary>
-        /// <param name="dx">
-        /// The amount to offset this
-        /// <see cref="T:System.Drawing.Region" />
-        /// horizontally.
+        /// <param name="dx">The amount to offset this
+        /// <see cref="T:System.Drawing.Region" /> horizontally.
         /// </param>
-        /// <param name="dy">
-        /// The amount to offset this
-        /// <see cref="T:System.Drawing.Region" />
-        /// vertically.
+        /// <param name="dy">The amount to offset this
+        /// <see cref="T:System.Drawing.Region" /> vertically.
         /// </param>
         public void Translate(float dx, float dy)
         {

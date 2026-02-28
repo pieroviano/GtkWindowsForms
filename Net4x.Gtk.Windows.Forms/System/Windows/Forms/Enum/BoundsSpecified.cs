@@ -33,24 +33,24 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Both
-        /// <see cref='X'/> and
-        /// <see cref='Y'/> coordinates of the
+        /// <see cref="X" /> and
+        /// <see cref="Y" /> coordinates of the
         /// control are defined.
         /// </summary>
         Location = X | Y,
 
         /// <summary>
         /// Both
-        /// <see cref='Control.Width'/> and
-        /// <see cref='Control.Height'/>
+        /// <see cref="Control.Width" /> and
+        /// <see cref="Control.Height" />
         /// property values of the control are defined.
         /// </summary>
         Size = Width | Height,
 
         /// <summary>
         /// Both
-        /// <see cref='Control.Location'/> and
-        /// <see cref='Control.Size'/>
+        /// <see cref="Control.Location" /> and
+        /// <see cref="Control.Size" />
         /// property values are defined.
         /// </summary>
         All = Location | Size,

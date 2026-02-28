@@ -40,7 +40,7 @@ namespace System.Windows.Forms
                     object cellValue1,
                     object cellValue2,
                     int rowIndex1,
-                int rowIndex2)
+                    int rowIndex2)
         {
             Debug.Assert(dataGridViewColumn != null);
             this.dataGridViewColumn = dataGridViewColumn;

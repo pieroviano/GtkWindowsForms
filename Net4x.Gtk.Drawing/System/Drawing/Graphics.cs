@@ -238,7 +238,8 @@ namespace System.Drawing
         }
         /// <summary>
         /// Gets or sets the unit of measure used for page coordinates in this
-        /// <see cref="System.Drawing.Graphics" /> .
+        /// <see cref="System.Drawing.Graphics" />
+        /// .
         /// </summary>
         /// <returns>
         /// One of the
@@ -360,7 +361,8 @@ namespace System.Drawing
         }
         /// <summary>
         /// Gets or sets a copy of the geometric world transformation for this
-        /// <see cref="System.Drawing.Graphics" /> .
+        /// <see cref="System.Drawing.Graphics" />
+        /// .
         /// </summary>
         /// <returns>
         /// A copy of the
@@ -386,7 +388,8 @@ namespace System.Drawing
         }
         /// <summary>
         /// Gets the bounding rectangle of the visible clipping region of this
-        /// <see cref="System.Drawing.Graphics" /> .
+        /// <see cref="System.Drawing.Graphics" />
+        /// .
         /// </summary>
         /// <returns>
         /// A
@@ -856,10 +859,9 @@ namespace System.Drawing
         /// <summary>
         /// Calculate the position of a single coordinate point on the Bézier curve
         /// </summary>
-        /// <param name="points"> 贝塞尔条件坐标集合
+        /// <param name="points">贝塞尔条件坐标集合
         /// </param>
-        /// <param name="time">
-        /// Time factor
+        /// <param name="time">Time factor
         /// </param>
         /// <returns>
         /// </returns>
@@ -1428,8 +1430,7 @@ namespace System.Drawing
         /// </param>
         /// <param name="targetRect">
         /// <see cref="System.Drawing.Rectangle" /> structure that specifies the location and size of the resulting image on the display surface. The image contained in the
-        /// <paramref name="icon" />
-        /// parameter is scaled to the dimensions of this rectangular area.
+        /// <paramref name="icon" /> parameter is scaled to the dimensions of this rectangular area.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="icon" /> is null.
@@ -1769,7 +1770,8 @@ namespace System.Drawing
         /// <param name="callbackData">
         /// Value specifying additional data for the
         /// <see cref="System.Drawing.Graphics.DrawImageAbort" /> delegate to use when checking whether to stop execution of the
-        /// <see cref="System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)" /> method.
+        /// <see cref="System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)" />
+        /// method.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="image" /> is null.
@@ -1931,7 +1933,8 @@ namespace System.Drawing
         /// <param name="callbackData">
         /// Value specifying additional data for the
         /// <see cref="System.Drawing.Graphics.DrawImageAbort" /> delegate to use when checking whether to stop execution of the
-        /// <see cref="System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)" /> method.
+        /// <see cref="System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)" />
+        /// method.
         /// </param>
         /// <filterpriority>1
         /// </filterpriority>
@@ -5344,8 +5347,7 @@ namespace System.Drawing
         /// <returns>
         /// true if the point specified by the
         /// <paramref name="point" /> parameter is contained within the visible clip region of this
-        /// <see cref="System.Drawing.Graphics" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Graphics" />; otherwise, false.
         /// </returns>
         /// <param name="point">
         /// <see cref="System.Drawing.Point" /> structure to test for visibility.
@@ -5367,8 +5369,7 @@ namespace System.Drawing
         /// <returns>
         /// true if the point specified by the
         /// <paramref name="point" /> parameter is contained within the visible clip region of this
-        /// <see cref="System.Drawing.Graphics" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Graphics" />; otherwise, false.
         /// </returns>
         /// <param name="point">
         /// <see cref="System.Drawing.PointF" /> structure to test for visibility.
@@ -5390,8 +5391,7 @@ namespace System.Drawing
         /// <returns>
         /// true if the rectangle specified by the
         /// <paramref name="rect" /> parameter is contained within the visible clip region of this
-        /// <see cref="System.Drawing.Graphics" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Graphics" />; otherwise, false.
         /// </returns>
         /// <param name="rect">
         /// <see cref="System.Drawing.Rectangle" /> structure to test for visibility.
@@ -5413,8 +5413,7 @@ namespace System.Drawing
         /// <returns>
         /// true if the rectangle specified by the
         /// <paramref name="rect" /> parameter is contained within the visible clip region of this
-        /// <see cref="System.Drawing.Graphics" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Graphics" />; otherwise, false.
         /// </returns>
         /// <param name="rect">
         /// <see cref="System.Drawing.RectangleF" /> structure to test for visibility.
@@ -5436,8 +5435,7 @@ namespace System.Drawing
         /// true if the point defined by the
         /// <paramref name="x" /> and
         /// <paramref name="y" /> parameters is contained within the visible clip region of this
-        /// <see cref="System.Drawing.Graphics" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Graphics" />; otherwise, false.
         /// </returns>
         /// <param name="x">The x-coordinate of the point to test for visibility.
         /// </param>
@@ -5457,11 +5455,9 @@ namespace System.Drawing
         /// true if the rectangle defined by the
         /// <paramref name="x" />,
         /// <paramref name="y" />,
-        /// <paramref name="width" />
-        /// , and
+        /// <paramref name="width" />, and
         /// <paramref name="height" /> parameters is contained within the visible clip region of this
-        /// <see cref="System.Drawing.Graphics" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Graphics" />; otherwise, false.
         /// </returns>
         /// <param name="x">The x-coordinate of the upper-left corner of the rectangle to test for visibility.
         /// </param>
@@ -5485,8 +5481,7 @@ namespace System.Drawing
         /// true if the point defined by the
         /// <paramref name="x" /> and
         /// <paramref name="y" /> parameters is contained within the visible clip region of this
-        /// <see cref="System.Drawing.Graphics" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Graphics" />; otherwise, false.
         /// </returns>
         /// <param name="x">The x-coordinate of the point to test for visibility.
         /// </param>
@@ -5506,11 +5501,9 @@ namespace System.Drawing
         /// true if the rectangle defined by the
         /// <paramref name="x" />,
         /// <paramref name="y" />,
-        /// <paramref name="width" />
-        /// , and
+        /// <paramref name="width" />, and
         /// <paramref name="height" /> parameters is contained within the visible clip region of this
-        /// <see cref="System.Drawing.Graphics" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Graphics" />; otherwise, false.
         /// </returns>
         /// <param name="x">The x-coordinate of the upper-left corner of the rectangle to test for visibility.
         /// </param>
@@ -5683,8 +5676,7 @@ namespace System.Drawing
         /// <see cref="System.Drawing.SizeF" /> structure that represents the size of the string, in the units specified by the
         /// <see cref="System.Drawing.Graphics.PageUnit" /> property, of the
         /// <paramref name="text" /> parameter as drawn with the
-        /// <paramref name="font" />
-        /// parameter and the
+        /// <paramref name="font" /> parameter and the
         /// <paramref name="stringFormat" /> parameter.
         /// </returns>
         /// <param name="text">String to measure.
@@ -6055,8 +6047,7 @@ namespace System.Drawing
         /// <see cref="System.Drawing.Graphics" />
         /// </summary>
         /// <param name="g">
-        /// <see cref="System.Drawing.Graphics" />
-        /// that specifies the clip region to combine.
+        /// <see cref="System.Drawing.Graphics" /> that specifies the clip region to combine.
         /// </param>
         /// <param name="combineMode">Member of the
         /// <see cref="System.Drawing.Drawing2D.CombineMode" /> enumeration that specifies the combining operation to use.

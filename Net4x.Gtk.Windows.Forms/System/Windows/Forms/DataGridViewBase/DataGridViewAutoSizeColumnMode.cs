@@ -11,7 +11,8 @@ namespace System.Windows.Forms
     {
 
         /// <summary>
-        /// The sizing behavior of the column is inherited from the System.Windows.Forms.DataGridView.AutoSizeColumnsMode property.
+        /// The sizing behavior of the column is inherited from the System.Windows.Forms.DataGridView.AutoSizeColumnsMode
+        /// property.
         /// </summary>
         NotSet = 0,
 

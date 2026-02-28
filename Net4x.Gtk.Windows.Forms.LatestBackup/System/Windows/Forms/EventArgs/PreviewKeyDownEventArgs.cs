@@ -79,8 +79,9 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Gets the modifier flags for a
-        /// <see cref='Forms.Control.KeyDown'/> or
-        /// <see cref='Forms.Control.KeyUp'/> event.
+        /// <see cref="Forms.Control.KeyDown" />
+        /// or
+        /// <see cref="Forms.Control.KeyUp" /> event.
         /// This indicates which modifier keys (CTRL, SHIFT, and/or ALT) were pressed.
         /// </summary>
         public Keys Modifiers => KeyData & Keys.Modifiers;

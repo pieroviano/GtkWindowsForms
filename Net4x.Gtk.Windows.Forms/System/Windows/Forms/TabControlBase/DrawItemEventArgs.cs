@@ -53,7 +53,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DrawItemState" /> information.
         /// </param>
         public DrawItemEventArgs(Graphics graphics, Font? font, Rectangle rect, int index, DrawItemState state)
-        : this(graphics, font, rect, index, state, SystemColors.WindowText, SystemColors.Window)
+            : this(graphics, font, rect, index, state, SystemColors.WindowText, SystemColors.Window)
         { }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace System.Windows.Forms
             int index,
             DrawItemState state,
             Color foreColor,
-        Color backColor)
+            Color backColor)
         {
             this.graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
             this.Bounds = rect;

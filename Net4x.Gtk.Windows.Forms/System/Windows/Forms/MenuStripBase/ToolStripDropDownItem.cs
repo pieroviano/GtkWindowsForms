@@ -12,8 +12,7 @@ namespace System.Windows.Forms
     /// <see cref="System.Windows.Forms.ToolStripDropDown" /> when a
     /// <see cref="System.Windows.Forms.ToolStripDropDownButton" /> ,
     /// <see cref="System.Windows.Forms.ToolStripMenuItem" /> , or
-    /// <see cref="System.Windows.Forms.ToolStripSplitButton" />
-    /// control is clicked.
+    /// <see cref="System.Windows.Forms.ToolStripSplitButton" /> control is clicked.
     /// </summary>
     /// <filterpriority>
     /// 2

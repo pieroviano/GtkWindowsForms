@@ -17,8 +17,7 @@ namespace System.Windows.Forms
     /// Creates a panel that is associated with a
     /// <see cref="System.Windows.Forms.SplitContainer" />
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority> 1
     /// </filterpriority>
     [DesignerCategory("Component")]
     public sealed class SplitterPanel : Panel

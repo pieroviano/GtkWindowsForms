@@ -89,13 +89,10 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the color-adjustment matrix for the default category.
         /// </summary>
-        /// <param name="newColorMatrix">
-        /// The color-adjustment matrix.
+        /// <param name="newColorMatrix">The color-adjustment matrix.
         /// </param>
-        /// <param name="flags">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrixFlag" />
-        /// that specifies the type of image and color that will be affected by the color-adjustment matrix.
+        /// <param name="flags">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrixFlag" /> that specifies the type of image and color that will be affected by the color-adjustment matrix.
         /// </param>
         public void SetColorMatrix(ColorMatrix newColorMatrix, ColorMatrixFlag flags)
         {
@@ -105,18 +102,13 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the color-adjustment matrix for a specified category.
         /// </summary>
-        /// <param name="newColorMatrix">
-        /// The color-adjustment matrix.
+        /// <param name="newColorMatrix">The color-adjustment matrix.
         /// </param>
-        /// <param name="mode">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrixFlag" />
-        /// that specifies the type of image and color that will be affected by the color-adjustment matrix.
+        /// <param name="mode">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrixFlag" /> that specifies the type of image and color that will be affected by the color-adjustment matrix.
         /// </param>
-        /// <param name="type">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" />
-        /// that specifies the category for which the color-adjustment matrix is set.
+        /// <param name="type">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" /> that specifies the category for which the color-adjustment matrix is set.
         /// </param>
         public void SetColorMatrix(ColorMatrix newColorMatrix, ColorMatrixFlag mode, ColorAdjustType type)
         {
@@ -151,11 +143,9 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the color-adjustment matrix and the grayscale-adjustment matrix for the default category.
         /// </summary>
-        /// <param name="newColorMatrix">
-        /// The color-adjustment matrix.
+        /// <param name="newColorMatrix">The color-adjustment matrix.
         /// </param>
-        /// <param name="grayMatrix">
-        /// The grayscale-adjustment matrix.
+        /// <param name="grayMatrix">The grayscale-adjustment matrix.
         /// </param>
         public void SetColorMatrices(ColorMatrix newColorMatrix, ColorMatrix grayMatrix)
         {
@@ -165,16 +155,12 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the color-adjustment matrix and the grayscale-adjustment matrix for the default category.
         /// </summary>
-        /// <param name="newColorMatrix">
-        /// The color-adjustment matrix.
+        /// <param name="newColorMatrix">The color-adjustment matrix.
         /// </param>
-        /// <param name="grayMatrix">
-        /// The grayscale-adjustment matrix.
+        /// <param name="grayMatrix">The grayscale-adjustment matrix.
         /// </param>
-        /// <param name="flags">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrixFlag" />
-        /// that specifies the type of image and color that will be affected by the color-adjustment and grayscale-adjustment matrices.
+        /// <param name="flags">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrixFlag" /> that specifies the type of image and color that will be affected by the color-adjustment and grayscale-adjustment matrices.
         /// </param>
         public void SetColorMatrices(ColorMatrix newColorMatrix, ColorMatrix grayMatrix, ColorMatrixFlag flags)
         {
@@ -184,21 +170,15 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the color-adjustment matrix and the grayscale-adjustment matrix for a specified category.
         /// </summary>
-        /// <param name="newColorMatrix">
-        /// The color-adjustment matrix.
+        /// <param name="newColorMatrix">The color-adjustment matrix.
         /// </param>
-        /// <param name="grayMatrix">
-        /// The grayscale-adjustment matrix.
+        /// <param name="grayMatrix">The grayscale-adjustment matrix.
         /// </param>
-        /// <param name="mode">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrixFlag" />
-        /// that specifies the type of image and color that will be affected by the color-adjustment and grayscale-adjustment matrices.
+        /// <param name="mode">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrixFlag" /> that specifies the type of image and color that will be affected by the color-adjustment and grayscale-adjustment matrices.
         /// </param>
-        /// <param name="type">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" />
-        /// that specifies the category for which the color-adjustment and grayscale-adjustment matrices are set.
+        /// <param name="type">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" /> that specifies the category for which the color-adjustment and grayscale-adjustment matrices are set.
         /// </param>
         public void SetColorMatrices(ColorMatrix newColorMatrix, ColorMatrix grayMatrix, ColorMatrixFlag mode, ColorAdjustType type)
         {
@@ -208,8 +188,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the threshold (transparency range) for the default category.
         /// </summary>
-        /// <param name="threshold">
-        /// A real number that specifies the threshold value.
+        /// <param name="threshold">A real number that specifies the threshold value.
         /// </param>
         public void SetThreshold(float threshold)
         {
@@ -219,13 +198,10 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the threshold (transparency range) for a specified category.
         /// </summary>
-        /// <param name="threshold">
-        /// A threshold value from 0.0 to 1.0 that is used as a breakpoint to sort colors that will be mapped to either a maximum or a minimum value.
+        /// <param name="threshold">A threshold value from 0.0 to 1.0 that is used as a breakpoint to sort colors that will be mapped to either a maximum or a minimum value.
         /// </param>
-        /// <param name="type">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" />
-        /// that specifies the category for which the color threshold is set.
+        /// <param name="type">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" /> that specifies the category for which the color threshold is set.
         /// </param>
         public void SetThreshold(float threshold, ColorAdjustType type)
         {
@@ -260,8 +236,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the gamma value for the default category.
         /// </summary>
-        /// <param name="gamma">
-        /// The gamma correction value.
+        /// <param name="gamma">The gamma correction value.
         /// </param>
         public void SetGamma(float gamma)
         {
@@ -271,13 +246,10 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the gamma value for a specified category.
         /// </summary>
-        /// <param name="gamma">
-        /// The gamma correction value.
+        /// <param name="gamma">The gamma correction value.
         /// </param>
-        /// <param name="type">
-        /// An element of the
-        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" />
-        /// enumeration that specifies the category for which the gamma value is set.
+        /// <param name="type">An element of the
+        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" /> enumeration that specifies the category for which the gamma value is set.
         /// </param>
         public void SetGamma(float gamma, ColorAdjustType type)
         {
@@ -438,15 +410,11 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Sets the CMYK (cyan-magenta-yellow-black) output channel for a specified category.
         /// </summary>
-        /// <param name="flags">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorChannelFlag" />
-        /// that specifies the output channel.
+        /// <param name="flags">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorChannelFlag" /> that specifies the output channel.
         /// </param>
-        /// <param name="type">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" />
-        /// that specifies the category for which the output channel is set.
+        /// <param name="type">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" /> that specifies the category for which the output channel is set.
         /// </param>
         public void SetOutputChannel(ColorChannelFlag flags, ColorAdjustType type)
         {
@@ -521,10 +489,8 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Clears the output channel color profile setting for a specified category.
         /// </summary>
-        /// <param name="type">
-        /// An element of
-        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" />
-        /// that specifies the category for which the output channel profile setting is cleared.
+        /// <param name="type">An element of
+        /// <see cref="T:System.Drawing.Imaging.ColorAdjustType" /> that specifies the category for which the output channel profile setting is cleared.
         /// </param>
         public void ClearOutputChannelColorProfile(ColorAdjustType type)
         {
@@ -637,8 +603,7 @@ namespace System.Drawing.Imaging
         /// An
         /// <see cref="System.Drawing.Imaging.ImageAttributes" /> object that specifies the color of pixels outside of a rendered image. This color is visible if the mode parameter is set to
         /// <see cref="System.Drawing.Drawing2D.WrapMode.Clamp" /> and the source rectangle passed to
-        /// <see cref="!:Overload:System.Drawing.Graphics.DrawImage" />
-        /// is larger than the image itself.
+        /// <see cref="!:Overload:System.Drawing.Graphics.DrawImage" /> is larger than the image itself.
         /// </param>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
@@ -657,8 +622,7 @@ namespace System.Drawing.Imaging
         /// <param name="color">
         /// A color object that specifies the color of pixels outside of a rendered image. This color is visible if the mode parameter is set to
         /// <see cref="System.Drawing.Drawing2D.WrapMode.Clamp" /> and the source rectangle passed to
-        /// <see cref="!:Overload:System.Drawing.Graphics.DrawImage" />
-        /// is larger than the image itself.
+        /// <see cref="!:Overload:System.Drawing.Graphics.DrawImage" /> is larger than the image itself.
         /// </param>
         /// <param name="clamp">This parameter has no effect. Set it to false.
         /// </param>

@@ -24,16 +24,14 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Returns a value indicating whether this converter can convert an object of the
-        /// specified source type to the native type of the converter that uses the specified context.
+        /// specified source type to the native type of the converter that uses the specified
+        /// context.
         /// </summary>
-        /// <param name="context">
-        /// A System.ComponentModel.ITypeDescriptorContext that provides information about the context of a type converter.
+        /// <param name="context">A System.ComponentModel.ITypeDescriptorContext that provides information about the context of a type converter.
         /// </param>
-        /// <param name="sourceType">
-        /// The System.Type that represents the type you want to convert from.
+        /// <param name="sourceType">The System.Type that represents the type you want to convert from.
         /// </param>
-        /// <returns>
-        /// true if this converter can perform the conversion; otherwise, false.
+        /// <returns>true if this converter can perform the conversion; otherwise, false.
         /// </returns>
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
@@ -68,24 +66,28 @@ namespace System.Windows.Forms
         /// <summary>
         /// Converts from the converter's native type to a value of the destination type.
         /// </summary>
-        /// <param name="context">
-        /// A System.ComponentModel.ITypeDescriptorContext that provides information about the context of a type converter.
+        /// <returns>An
+        /// <see cref="System.Object" /> that represents the converted
+        /// <paramref name="value" />
+        /// </returns>
+        /// <param name="context">A
+        /// <see cref="System.ComponentModel.ITypeDescriptorContext" /> that provides information about the context of a type converter.
         /// </param>
-        /// <param name="culture">
-        /// The locale information for the conversion.
+        /// <param name="culture">The locale information for the conversion.
         /// </param>
-        /// <param name="value">
-        /// The value to convert.
+        /// <param name="value">The value to convert.
         /// </param>
-        /// <param name="destinationType">
-        /// The type to convert the object to.
+        /// <param name="destinationType">The type to convert the object to.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        /// destinationType is null.
+        /// <paramref name="destinationType" /> is null.
         /// </exception>
-        /// <returns>
-        /// An System.Object that represents the converted value.
-        /// </returns>
+        /// <exception cref="System.NotSupportedException">
+        /// <paramref name="value" /> cannot be converted to the
+        /// <paramref name="destinationType" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) { return value; }
     }
 }

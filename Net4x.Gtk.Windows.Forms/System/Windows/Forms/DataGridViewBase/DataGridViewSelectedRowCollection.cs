@@ -9,8 +9,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Represents a collection of selected
-    /// <see cref="System.Windows.Forms.DataGridViewCell" />
-    /// objects in the
+    /// <see cref="System.Windows.Forms.DataGridViewCell" /> objects in the
     /// <see cref="System.Windows.Forms.DataGridView" /> control.
     /// </summary>
     [ListBindable(false)]
@@ -122,8 +121,7 @@ namespace System.Windows.Forms
         /// <paramref name="array" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index" />
-        /// is less than zero.
+        /// <paramref name="index" /> is less than zero.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array" /> is multidimensional.-or-The number of elements in the
@@ -177,8 +175,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Adds a
-        /// <see cref="DataGridViewCell"/>
-        /// to this collection.
+        /// <see cref="DataGridViewCell" /> to this collection.
         /// </summary>
         internal int Add(DataGridViewRow dataGridViewRow) => ((IList)_items).Add(dataGridViewRow);
         /// <summary>
@@ -215,8 +212,7 @@ namespace System.Windows.Forms
         /// <paramref name="array" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index" />
-        /// is less than zero.
+        /// <paramref name="index" /> is less than zero.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array" /> is multidimensional.-or-The number of elements in the

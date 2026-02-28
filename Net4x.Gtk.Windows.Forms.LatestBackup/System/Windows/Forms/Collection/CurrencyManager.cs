@@ -108,11 +108,9 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Gets the number of items in the list.
     /// </summary>
-    /// <returns>
-    /// The number of items in the list.
+    /// <returns>The number of items in the list.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override int Count
     {
@@ -129,12 +127,10 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Gets the current item in the list.
     /// </summary>
-    /// <returns>
-    /// A list item of type
+    /// <returns>A list item of type
     /// <see cref="T:System.Object" />.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override object? Current => this[Position];
 
@@ -170,24 +166,20 @@ public class CurrencyManager : BindingManagerBase
     /// Gets the list for this
     /// <see cref="T:System.Windows.Forms.CurrencyManager" />.
     /// </summary>
-    /// <returns>
-    /// An
+    /// <returns>An
     /// <see cref="T:System.Collections.IList" /> that contains the list.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public IList? List => _list;
 
     /// <summary>
     /// Gets or sets the position you are at within the list.
     /// </summary>
-    /// <returns>
-    /// A number between 0 and
+    /// <returns>A number between 0 and
     /// <see cref="P:System.Windows.Forms.CurrencyManager.Count" /> minus 1.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override int Position
     {
@@ -226,13 +218,11 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Adds a new item to the underlying list.
     /// </summary>
-    /// <exception cref="T:System.NotSupportedException">
-    /// The underlying data source does not implement
+    /// <exception cref="T:System.NotSupportedException">The underlying data source does not implement
     /// <see cref="T:System.ComponentModel.IBindingList" />, or the data source has thrown an exception because the user has attempted to add a row to a read-only or fixed-size
     /// <see cref="T:System.Data.DataView" />.
     /// </exception>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void AddNew()
     {
@@ -250,8 +240,7 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Cancels the current edit operation.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void CancelCurrentEdit()
     {
@@ -315,8 +304,7 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Throws an exception if there is no list, or the list is empty.
     /// </summary>
-    /// <exception cref="T:System.Exception">
-    /// There is no list, or the list is empty.
+    /// <exception cref="T:System.Exception">There is no list, or the list is empty.
     /// </exception>
     protected void CheckEmpty()
     {
@@ -381,8 +369,7 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Ends the current edit operation.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void EndCurrentEdit()
     {
@@ -447,12 +434,10 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Gets the property descriptor collection for the underlying list.
     /// </summary>
-    /// <returns>
-    /// A
+    /// <returns>A
     /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> for the list.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override PropertyDescriptorCollection? GetItemProperties()
     {
@@ -471,13 +456,11 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Gets the name of the list supplying the data for the binding using the specified set of bound properties.
     /// </summary>
-    /// <returns>
-    /// If successful, a
+    /// <returns>If successful, a
     /// <see cref="T:System.String" /> containing name of the list supplying the data for the binding; otherwise, an
     /// <see cref="F:System.String.Empty" /> string.
     /// </returns>
-    /// <param name="listAccessors">
-    /// An
+    /// <param name="listAccessors">An
     /// <see cref="T:System.Collections.ArrayList" /> of properties to be found in the data source.
     /// </param>
     protected internal override string? GetListName(ArrayList? listAccessors)
@@ -661,8 +644,7 @@ public class CurrencyManager : BindingManagerBase
         }
     }
 
-    /// <param name="e">
-    /// The
+    /// <param name="e">The
     /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected internal override void OnCurrentChanged(EventArgs e)
@@ -700,8 +682,7 @@ public class CurrencyManager : BindingManagerBase
         OnCurrentChangedHandler?.Invoke(this, e);
     }
 
-    /// <param name="e">
-    /// The
+    /// <param name="e">The
     /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected internal override void OnCurrentItemChanged(EventArgs e)
@@ -713,8 +694,7 @@ public class CurrencyManager : BindingManagerBase
     /// Raises the
     /// <see cref="E:System.Windows.Forms.CurrencyManager.ItemChanged" /> event.
     /// </summary>
-    /// <param name="e">
-    /// An
+    /// <param name="e">An
     /// <see cref="T:System.Windows.Forms.ItemChangedEventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnItemChanged(ItemChangedEventArgs e)
@@ -747,8 +727,7 @@ public class CurrencyManager : BindingManagerBase
     /// Raises the
     /// <see cref="E:System.Windows.Forms.CurrencyManager.MetaDataChanged" /> event.
     /// </summary>
-    /// <param name="e">
-    /// An
+    /// <param name="e">An
     /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected internal void OnMetaDataChanged(EventArgs e)
@@ -760,8 +739,7 @@ public class CurrencyManager : BindingManagerBase
     /// Raises the
     /// <see cref="E:System.Windows.Forms.BindingManagerBase.PositionChanged" /> event.
     /// </summary>
-    /// <param name="e">
-    /// An
+    /// <param name="e">An
     /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnPositionChanged(EventArgs e)
@@ -779,8 +757,7 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Forces a repopulation of the data-bound list.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public void Refresh()
     {
@@ -804,15 +781,12 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Removes the item at the specified index.
     /// </summary>
-    /// <param name="index">
-    /// The index of the item to remove from the list.
+    /// <param name="index">The index of the item to remove from the list.
     /// </param>
-    /// <exception cref="T:System.IndexOutOfRangeException">
-    /// There is no row at the specified
+    /// <exception cref="T:System.IndexOutOfRangeException">There is no row at the specified
     /// <paramref name="index" />.
     /// </exception>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void RemoveAt(int index)
     {
@@ -822,8 +796,7 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Resumes data binding.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void ResumeBinding()
     {
@@ -903,8 +876,7 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Suspends data binding to prevents changes from updating the bound data source.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void SuspendBinding()
     {
@@ -1015,8 +987,7 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Occurs when the current item has been altered.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public event ItemChangedEventHandler? ItemChanged
     {
@@ -1027,8 +998,7 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Occurs when the list changes or an item in the list changes.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public event ListChangedEventHandler? ListChanged
     {
@@ -1040,8 +1010,7 @@ public class CurrencyManager : BindingManagerBase
     /// Occurs when the metadata of the
     /// <see cref="P:System.Windows.Forms.CurrencyManager.List" /> has changed.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public event EventHandler? MetaDataChanged
     {

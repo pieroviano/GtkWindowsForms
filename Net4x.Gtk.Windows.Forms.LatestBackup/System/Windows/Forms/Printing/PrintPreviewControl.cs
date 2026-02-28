@@ -12,8 +12,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Represents the raw preview part of print previewing from a Windows Forms application, without any dialog boxes or buttons. Most
-    /// <see cref="System.Windows.Forms.PrintPreviewControl" />
-    /// objects are found on
+    /// <see cref="System.Windows.Forms.PrintPreviewControl" /> objects are found on
     /// <see cref="System.Windows.Forms.PrintPreviewDialog" />
     /// objects, but they do not have to be.
     /// </summary>

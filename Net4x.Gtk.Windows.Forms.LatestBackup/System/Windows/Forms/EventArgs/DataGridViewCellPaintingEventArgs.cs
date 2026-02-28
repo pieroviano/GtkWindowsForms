@@ -67,8 +67,7 @@ namespace System.Windows.Forms
         /// <paramref name="cellStyle" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="paintParts" />
-        /// is not a valid bitwise combination of
+        /// <paramref name="paintParts" /> is not a valid bitwise combination of
         /// <see cref="System.Windows.Forms.DataGridViewPaintParts" /> values.
         /// </exception>
         public DataGridViewCellPaintingEventArgs(DataGridView dataGridView,
@@ -83,7 +82,7 @@ namespace System.Windows.Forms
                                                          string errorText,
                                                          DataGridViewCellStyle cellStyle,
                                                          DataGridViewAdvancedBorderStyle advancedBorderStyle,
-                DataGridViewPaintParts paintParts)
+                                                         DataGridViewPaintParts paintParts)
         {
             if ((paintParts & ~DataGridViewPaintParts.All) != 0)
             {

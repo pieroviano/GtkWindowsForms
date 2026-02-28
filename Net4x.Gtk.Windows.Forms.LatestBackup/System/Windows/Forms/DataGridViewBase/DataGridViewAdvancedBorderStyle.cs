@@ -37,7 +37,7 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
                 null,
                 DataGridViewAdvancedCellBorderStyle.NotSet,
                 DataGridViewAdvancedCellBorderStyle.NotSet,
-        DataGridViewAdvancedCellBorderStyle.NotSet)
+                DataGridViewAdvancedCellBorderStyle.NotSet)
     {
     }
 
@@ -58,7 +58,7 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         DataGridView? owner,
         DataGridViewAdvancedCellBorderStyle banned1,
         DataGridViewAdvancedCellBorderStyle banned2,
-    DataGridViewAdvancedCellBorderStyle banned3)
+        DataGridViewAdvancedCellBorderStyle banned3)
     {
         _owner = owner;
         _banned1 = banned1;

@@ -17,8 +17,7 @@ namespace System.Windows.Forms
     /// Represents a single tab page in a
     /// <see cref="System.Windows.Forms.TabControl" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     public class TabPage : ContainerControl
     {

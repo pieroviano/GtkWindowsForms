@@ -6,8 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies how a control will behave when its
-    /// <see cref="System.Windows.Forms.Control.AutoSize" />
-    /// property is enabled.
+    /// <see cref="System.Windows.Forms.Control.AutoSize" /> property is enabled.
     /// </summary>
     public enum AutoSizeMode
     {
@@ -15,7 +14,8 @@ namespace System.Windows.Forms
         /// The same behavior as you get for controls with AutoSize and no AutoSizeMode
         /// property. The control will grow or shrink to encompass the contents (e.g.
         /// text for a Button, child controls for a container). The MinimumSize and
-        /// MaximumSize are followed, but the current value of the Size property is ignored.
+        /// MaximumSize are followed, but the current value of the Size property is
+        /// ignored.
         /// </summary>
         GrowAndShrink,
 

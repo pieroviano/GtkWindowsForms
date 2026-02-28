@@ -191,46 +191,55 @@ namespace System.Drawing
         }
 
         /// <summary>
-        /// Initializes a new System.Drawing.Font using a specified size, style, and unit.
+        /// Initializes a new
+        /// <see cref="System.Drawing.Font" /> using a specified size, style, and unit.
         /// </summary>
-        /// <param name="family">
-        /// The System.Drawing.FontFamily of the new System.Drawing.Font.
+        /// <param name="family">The
+        /// <see cref="System.Drawing.FontFamily" /> of the new
+        /// <see cref="System.Drawing.Font" />
         /// </param>
-        /// <param name="emSize">
-        /// The em-size of the new font in the units specified by the unit parameter.
+        /// <param name="emSize">The em-size of the new font in the units specified by the
+        /// <paramref name="unit" /> parameter.
         /// </param>
-        /// <param name="style">
-        /// The System.Drawing.FontStyle of the new font.
+        /// <param name="style">The
+        /// <see cref="System.Drawing.FontStyle" /> of the new font.
         /// </param>
-        /// <param name="unit">
-        /// The System.Drawing.GraphicsUnit of the new font.
+        /// <param name="unit">The
+        /// <see cref="System.Drawing.GraphicsUnit" /> of the new font.
         /// </param>
         /// <exception cref="System.ArgumentException">
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// <paramref name="emSize" /> is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="family" /> is null.
         /// </exception>
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit) : this(family, emSize, style, unit, 1, false) { }
 
         /// <summary>
-        /// Initializes a new System.Drawing.Font using a specified size, style, unit, and
-        /// character set.
+        /// Initializes a new
+        /// <see cref="System.Drawing.Font" /> using a specified size, style, unit, and character set.
         /// </summary>
-        /// <param name="family">
-        /// The System.Drawing.FontFamily of the new System.Drawing.Font.
+        /// <param name="family">The
+        /// <see cref="System.Drawing.FontFamily" /> of the new
+        /// <see cref="System.Drawing.Font" />
         /// </param>
-        /// <param name="emSize">
-        /// The em-size of the new font in the units specified by the unit parameter.
+        /// <param name="emSize">The em-size of the new font in the units specified by the
+        /// <paramref name="unit" /> parameter.
         /// </param>
-        /// <param name="style">
-        /// The System.Drawing.FontStyle of the new font.
+        /// <param name="style">The
+        /// <see cref="System.Drawing.FontStyle" /> of the new font.
         /// </param>
-        /// <param name="unit">
-        /// The System.Drawing.GraphicsUnit of the new font.
+        /// <param name="unit">The
+        /// <see cref="System.Drawing.GraphicsUnit" /> of the new font.
         /// </param>
-        /// <param name="gdiCharSet">
-        /// A System.Byte that specifies a GDI character set to use for the new font.
+        /// <param name="gdiCharSet">A
+        /// <see cref="System.Byte" /> that specifies a GDI character set to use for the new font.
         /// </param>
         /// <exception cref="System.ArgumentException">
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// <paramref name="emSize" /> is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="family" /> is null.
         /// </exception>
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet) : this(family, emSize, style, unit, gdiCharSet, false) { }
 
@@ -290,29 +299,32 @@ namespace System.Drawing
         public Font(string familyName, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont) : this(new FontFamily(familyName), emSize, style, unit, gdiCharSet, gdiVerticalFont) { }
 
         /// <summary>
-        /// Initializes a new System.Drawing.Font using a specified size, style, unit, and
-        /// character set.
+        /// Initializes a new
+        /// <see cref="System.Drawing.Font" /> using a specified size, style, unit, and character set.
         /// </summary>
-        /// <param name="family">
-        /// The System.Drawing.FontFamily of the new System.Drawing.Font.
+        /// <param name="family">The
+        /// <see cref="System.Drawing.FontFamily" /> of the new
+        /// <see cref="System.Drawing.Font" />
         /// </param>
-        /// <param name="emSize">
-        /// The em-size of the new font in the units specified by the unit parameter.
+        /// <param name="emSize">The em-size of the new font in the units specified by the
+        /// <paramref name="unit" /> parameter.
         /// </param>
-        /// <param name="style">
-        /// The System.Drawing.FontStyle of the new font.
+        /// <param name="style">The
+        /// <see cref="System.Drawing.FontStyle" /> of the new font.
         /// </param>
-        /// <param name="unit">
-        /// The System.Drawing.GraphicsUnit of the new font.
+        /// <param name="unit">The
+        /// <see cref="System.Drawing.GraphicsUnit" /> of the new font.
         /// </param>
-        /// <param name="gdiCharSet">
-        /// A System.Byte that specifies a GDI character set to use for this font.
+        /// <param name="gdiCharSet">A
+        /// <see cref="System.Byte" /> that specifies a GDI character set to use for this font.
         /// </param>
-        /// <param name="gdiVerticalFont">
-        /// A Boolean value indicating whether the new font is derived from a GDI vertical font.
+        /// <param name="gdiVerticalFont">A Boolean value indicating whether the new font is derived from a GDI vertical font.
         /// </param>
         /// <exception cref="System.ArgumentException">
-        /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// <paramref name="emSize" /> is less than or equal to 0, evaluates to infinity, or is not a valid number.
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="family" /> is null
         /// </exception>
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)
         {
@@ -329,9 +341,10 @@ namespace System.Drawing
         /// <summary>
         /// Gets a value that indicates whether this font has the italic style applied.
         /// </summary>
-        /// <returns>
-        /// true to indicate this font has the italic style applied; otherwise, false.
+        /// <returns>true to indicate this font has the italic style applied; otherwise, false.
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Italic { get => Style.HasFlag(FontStyle.Italic); }
 
@@ -373,10 +386,11 @@ namespace System.Drawing
         public int Height { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the font is a member of System.Drawing.SystemFonts.
+        /// Gets a value indicating whether the font is a member of
+        /// <see cref="System.Drawing.SystemFonts" />
         /// </summary>
-        /// <returns>
-        /// true if the font is a member of System.Drawing.SystemFonts; otherwise, false. The default is false.
+        /// <returns>true if the font is a member of
+        /// <see cref="System.Drawing.SystemFonts" />; otherwise, false. The default is false.
         /// </returns>
         [Browsable(false)]
         public bool IsSystemFont { get; }
@@ -400,8 +414,7 @@ namespace System.Drawing
         /// Gets the name of the system font if the System.Drawing.Font.IsSystemFont property
         /// returns true.
         /// </summary>
-        /// <returns>
-        /// The name of the system font, if System.Drawing.Font.IsSystemFont returns true; otherwise, an empty string ("").
+        /// <returns>The name of the system font, if System.Drawing.Font.IsSystemFont returns true; otherwise, an empty string ("").
         /// </returns>
         [Browsable(false)]
         public string SystemFontName { get; }
@@ -476,8 +489,7 @@ namespace System.Drawing
         /// <summary>
         /// Gets the name of the font originally specified.
         /// </summary>
-        /// <returns>
-        /// The string representing the name of the font originally specified.
+        /// <returns>The string representing the name of the font originally specified.
         /// </returns>
         [Browsable(false)]
         public string OriginalFontName { get; }
@@ -508,11 +520,14 @@ namespace System.Drawing
         public GraphicsUnit Unit { get; }
 
         /// <summary>
-        /// Gets a value that indicates whether this System.Drawing.Font is underlined.
+        /// Gets a value that indicates whether this
+        /// <see cref="System.Drawing.Font" /> is underlined.
         /// </summary>
-        /// <returns>
-        /// true if this System.Drawing.Font is underlined; otherwise, false.
+        /// <returns>true if this
+        /// <see cref="System.Drawing.Font" /> is underlined; otherwise, false.
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Underline { get => Style.HasFlag(FontStyle.Underline); }
 
@@ -572,14 +587,19 @@ namespace System.Drawing
         public static Font FromLogFont(object lf, IntPtr hdc) { return new Font("Arial", 12); }
 
         /// <summary>
-        /// Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
+        /// Creates a
+        /// <see cref="System.Drawing.Font" /> from the specified GDI logical font (LOGFONT) structure.
         /// </summary>
-        /// <param name="lf">
-        /// An System.Object that represents the GDI LOGFONT structure from which to create the System.Drawing.Font.
-        /// </param>
-        /// <returns>
-        /// The System.Drawing.Font that this method creates.
+        /// <returns>The
+        /// <see cref="System.Drawing.Font" /> that this method creates.
         /// </returns>
+        /// <param name="lf">
+        /// An
+        /// <see cref="System.Object" /> that represents the GDI LOGFONT structure from which to create the
+        /// <see cref="System.Drawing.Font" />
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
         public static Font FromLogFont(object lf) { return new Font("Arial", 12); }
 
         /// <summary>
@@ -611,14 +631,11 @@ namespace System.Drawing
         /// <summary>
         /// Indicates whether the specified object is a
         /// <see cref="System.Drawing.Font" /> and has the same
-        /// <see cref="System.Drawing.Font.FontFamily" />
-        /// ,
+        /// <see cref="System.Drawing.Font.FontFamily" />,
         /// <see cref="System.Drawing.Font.GdiVerticalFont" />,
-        /// <see cref="System.Drawing.Font.GdiCharSet" />
-        /// ,
+        /// <see cref="System.Drawing.Font.GdiCharSet" />,
         /// <see cref="System.Drawing.Font.Style" />,
-        /// <see cref="System.Drawing.Font.Size" />
-        /// , and
+        /// <see cref="System.Drawing.Font.Size" />, and
         /// <see cref="System.Drawing.Font.Unit" /> property values as this
         /// <see cref="System.Drawing.Font" />
         /// </summary>
@@ -626,17 +643,13 @@ namespace System.Drawing
         /// true if the
         /// <paramref name="obj" /> parameter is a
         /// <see cref="System.Drawing.Font" /> and has the same
-        /// <see cref="System.Drawing.Font.FontFamily" />
-        /// ,
+        /// <see cref="System.Drawing.Font.FontFamily" />,
         /// <see cref="System.Drawing.Font.GdiVerticalFont" />,
-        /// <see cref="System.Drawing.Font.GdiCharSet" />
-        /// ,
+        /// <see cref="System.Drawing.Font.GdiCharSet" />,
         /// <see cref="System.Drawing.Font.Style" />,
-        /// <see cref="System.Drawing.Font.Size" />
-        /// , and
+        /// <see cref="System.Drawing.Font.Size" />, and
         /// <see cref="System.Drawing.Font.Unit" /> property values as this
-        /// <see cref="System.Drawing.Font" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.Font" />; otherwise, false.
         /// </returns>
         /// <param name="obj">The object to test.
         /// </param>
@@ -645,22 +658,23 @@ namespace System.Drawing
         public override bool Equals(object obj) { return Equals(obj as Font); }
 
         /// <summary>
-        /// Gets the hash code for this System.Drawing.Font.
+        /// Gets the hash code for this
+        /// <see cref="System.Drawing.Font" />
         /// </summary>
-        /// <returns>
-        /// The hash code for this System.Drawing.Font.
+        /// <returns>The hash code for this
+        /// <see cref="System.Drawing.Font" />
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public override int GetHashCode() { return base.GetHashCode(); }
 
         /// <summary>
         /// Returns the height, in pixels, of this System.Drawing.Font when drawn to a device
         /// with the specified vertical resolution.
         /// </summary>
-        /// <param name="dpi">
-        /// The vertical resolution, in dots per inch, used to calculate the height of the font.
+        /// <param name="dpi">The vertical resolution, in dots per inch, used to calculate the height of the font.
         /// </param>
-        /// <returns>
-        /// The height, in pixels, of this System.Drawing.Font.
+        /// <returns>The height, in pixels, of this System.Drawing.Font.
         /// </returns>
         public float GetHeight(float dpi) { return Height; }
 
@@ -735,11 +749,14 @@ namespace System.Drawing
         public void ToLogFont(object logFont, Graphics graphics) { }
 
         /// <summary>
-        /// Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.
-        /// <param name="logFont">
-        /// An System.Object to represent the LOGFONT structure that this method creates.
+        /// Creates a GDI logical font (LOGFONT) structure from this
+        /// <see cref="System.Drawing.Font" />
         /// </summary>
+        /// <param name="logFont">An
+        /// <see cref="System.Object" /> that represents the LOGFONT structure that this method creates.
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
         public void ToLogFont(object logFont) { }
 
         /// <summary>

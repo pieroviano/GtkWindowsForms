@@ -8,8 +8,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets the ID of the property.
         /// </summary>
-        /// <returns>
-        /// The integer that represents the ID of the property.
+        /// <returns>The integer that represents the ID of the property.
         /// </returns>
         public int Id { get; set; }
 
@@ -17,8 +16,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the length (in bytes) of the
         /// <see cref="P:System.Drawing.Imaging.PropertyItem.Value" /> property.
         /// </summary>
-        /// <returns>
-        /// An integer that represents the length (in bytes) of the
+        /// <returns>An integer that represents the length (in bytes) of the
         /// <see cref="P:System.Drawing.Imaging.PropertyItem.Value" /> byte array.
         /// </returns>
         public int Len { get; set; }
@@ -27,8 +25,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets an integer that defines the type of data contained in the
         /// <see cref="P:System.Drawing.Imaging.PropertyItem.Value" /> property.
         /// </summary>
-        /// <returns>
-        /// An integer that defines the type of data contained in
+        /// <returns>An integer that defines the type of data contained in
         /// <see cref="P:System.Drawing.Imaging.PropertyItem.Value" />.
         /// </returns>
         public short Type { get; set; }
@@ -36,8 +33,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets the value of the property item.
         /// </summary>
-        /// <returns>
-        /// A byte array that represents the value of the property item.
+        /// <returns>A byte array that represents the value of the property item.
         /// </returns>
         public byte[] Value { get; set; }
 

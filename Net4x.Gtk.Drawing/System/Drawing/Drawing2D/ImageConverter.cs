@@ -22,8 +22,7 @@ namespace System.Drawing
         /// <summary>
         /// Determines whether this
         /// <see cref="System.Drawing.ImageConverter" /> can convert an instance of a specified type to an
-        /// <see cref="System.Drawing.Image" />
-        /// , using the specified context.
+        /// <see cref="System.Drawing.Image" />, using the specified context.
         /// </summary>
         /// <returns>This method returns true if this
         /// <see cref="System.Drawing.ImageConverter" /> can perform the conversion; otherwise, false.
@@ -101,8 +100,7 @@ namespace System.Drawing
         /// <summary>
         /// Converts an
         /// <see cref="System.Drawing.Image" /> (or an object that can be cast to an
-        /// <see cref="System.Drawing.Image" />
-        /// ) to the specified type.
+        /// <see cref="System.Drawing.Image" />) to the specified type.
         /// </summary>
         /// <returns>This method returns the converted object.
         /// </returns>
@@ -117,7 +115,8 @@ namespace System.Drawing
         /// <param name="destinationType">
         /// The
         /// <see cref="System.Type" /> to convert the
-        /// <see cref="System.Drawing.Image" /> to.
+        /// <see cref="System.Drawing.Image" />
+        /// to.
         /// </param>
         /// <exception cref="System.NotSupportedException">The conversion cannot be completed.
         /// </exception>

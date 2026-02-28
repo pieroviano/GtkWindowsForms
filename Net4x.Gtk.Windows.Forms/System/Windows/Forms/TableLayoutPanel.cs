@@ -380,8 +380,7 @@ namespace System.Windows.Forms
         /// <paramref name="control" /> is null.
         /// </exception>
         /// <exception cref="System.NotSupportedException">
-        /// <paramref name="control" />
-        /// is not a type that can be arranged by this
+        /// <paramref name="control" /> is not a type that can be arranged by this
         /// <see cref="System.Windows.Forms.Layout.LayoutEngine" />
         /// </exception>
         /// <filterpriority>1
@@ -459,8 +458,7 @@ namespace System.Windows.Forms
         /// <paramref name="control" /> is null.
         /// </exception>
         /// <exception cref="System.NotSupportedException">
-        /// <paramref name="control" />
-        /// is not a type that can be arranged by this
+        /// <paramref name="control" /> is not a type that can be arranged by this
         /// <see cref="System.Windows.Forms.Layout.LayoutEngine" />
         /// </exception>
         /// <filterpriority>1

@@ -14,13 +14,13 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// The
-        /// <see cref="GridItem"/> corresponds to a property.
+        /// <see cref="GridItem" /> corresponds to a property.
         /// </summary>
         Property,
 
         /// <summary>
         /// The
-        /// <see cref="GridItem"/> is a category name.
+        /// <see cref="GridItem" /> is a category name.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -31,18 +31,18 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// The
-        /// <see cref="GridItem"/> is an element of an array.
+        /// <see cref="GridItem" /> is an element of an array.
         /// </summary>
         ArrayValue,
 
         /// <summary>
         /// The
-        /// <see cref="GridItem"/> is the root in the grid hierarchy.
+        /// <see cref="GridItem" /> is the root in the grid hierarchy.
         /// </summary>
         /// <remarks>
         /// <para>
         /// This item represents the selection in the
-        /// <see cref="PropertyGrid"/>.
+        /// <see cref="PropertyGrid" />.
         /// </para>
         /// </remarks>
         Root

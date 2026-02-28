@@ -7,12 +7,10 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.PropertyGrid.PropertyTabChanged" />
-    /// event of a
+    /// <see cref="System.Windows.Forms.PropertyGrid.PropertyTabChanged" /> event of a
     /// <see cref="System.Windows.Forms.PropertyGrid" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     public class PropertyTabChangedEventArgs : EventArgs
     {

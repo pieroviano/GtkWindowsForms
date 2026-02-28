@@ -4,8 +4,7 @@ namespace System.Windows.Forms
     /// Specifies how items align in the
     /// <see cref="System.Windows.Forms.ListView" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     public enum ListViewAlignment
     {

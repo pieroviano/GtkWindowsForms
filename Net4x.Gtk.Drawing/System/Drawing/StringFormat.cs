@@ -38,14 +38,11 @@ namespace System.Drawing
         /// <returns>
         /// A National Language Support (NLS) language identifier that identifies the language that will be used when local digits are substituted for western digits. You can pass the
         /// <see cref="System.Globalization.CultureInfo.LCID" /> property of a
-        /// <see cref="System.Globalization.CultureInfo" />
-        /// object as the NLS language identifier. For example, suppose you create a
+        /// <see cref="System.Globalization.CultureInfo" /> object as the NLS language identifier. For example, suppose you create a
         /// <see cref="System.Globalization.CultureInfo" /> object by passing the string "ar-EG" to a
-        /// <see cref="System.Globalization.CultureInfo" />
-        /// constructor. If you pass the
+        /// <see cref="System.Globalization.CultureInfo" /> constructor. If you pass the
         /// <see cref="System.Globalization.CultureInfo.LCID" /> property of that
-        /// <see cref="System.Globalization.CultureInfo" />
-        /// object along with.
+        /// <see cref="System.Globalization.CultureInfo" /> object along with.
         /// <see cref="System.Drawing.StringDigitSubstitute.Traditional" /> to the
         /// <see cref="System.Drawing.StringFormat.SetDigitSubstitution(System.Int32,System.Drawing.StringDigitSubstitute)" />
         /// method, then Arabic-Indic digits will be substituted for western digits at display time.
@@ -230,18 +227,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.StringFormat" />
-        /// object from the specified existing
+        /// <see cref="T:System.Drawing.StringFormat" /> object from the specified existing
         /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
-        /// <param name="format"> The
-        /// <see cref="T:System.Drawing.StringFormat" />
-        /// object from which to initialize the new
+        /// <param name="format">The
+        /// <see cref="T:System.Drawing.StringFormat" /> object from which to initialize the new
         /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="format" /> is
-        /// <see langword="null" /> .
+        /// <see langword="null" />.
         /// </exception>
         public StringFormat(StringFormat format)
         {
@@ -249,14 +244,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.StringFormat" />
-        /// object with the specified
-        /// <see cref="T:System.Drawing.StringFormatFlags" />
-        /// enumeration.
+        /// <see cref="T:System.Drawing.StringFormat" /> object with the specified
+        /// <see cref="T:System.Drawing.StringFormatFlags" /> enumeration.
         /// </summary>
-        /// <param name="options"> The
-        /// <see cref="T:System.Drawing.StringFormatFlags" />
-        /// enumeration for the new
+        /// <param name="options">The
+        /// <see cref="T:System.Drawing.StringFormatFlags" /> enumeration for the new
         /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </param>
         public StringFormat(StringFormatFlags options)
@@ -265,18 +257,14 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.StringFormat" />
-        /// object with the specified
-        /// <see cref="T:System.Drawing.StringFormatFlags" />
-        /// enumeration and language.
+        /// <see cref="T:System.Drawing.StringFormat" /> object with the specified
+        /// <see cref="T:System.Drawing.StringFormatFlags" /> enumeration and language.
         /// </summary>
-        /// <param name="options"> The
-        /// <see cref="T:System.Drawing.StringFormatFlags" />
-        /// enumeration for the new
+        /// <param name="options">The
+        /// <see cref="T:System.Drawing.StringFormatFlags" /> enumeration for the new
         /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </param>
-        /// <param name="language">
-        /// A value that indicates the language of the text.
+        /// <param name="language">A value that indicates the language of the text.
         /// </param>
         public StringFormat(StringFormatFlags options, int language)
         {
@@ -323,11 +311,9 @@ namespace System.Drawing
         /// Gets the tab stops for this
         /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
-        /// <param name="firstTabOffset">
-        /// The number of spaces between the beginning of a text line and the first tab stop.
+        /// <param name="firstTabOffset">The number of spaces between the beginning of a text line and the first tab stop.
         /// </param>
-        /// <returns>
-        /// An array of distances (in number of spaces) between tab stops.
+        /// <returns>An array of distances (in number of spaces) between tab stops.
         /// </returns>
         public float[] GetTabStops(out float firstTabOffset)
         {
@@ -337,28 +323,18 @@ namespace System.Drawing
         /// <summary>
         /// Specifies the language and method to be used when local digits are substituted for western digits.
         /// </summary>
-        /// <param name="language">
-        /// A National Language Support (NLS) language identifier that identifies the language that will be used when local digits are substituted for western digits. You can pass the
-        /// <see cref="P:System.Globalization.CultureInfo.LCID" />
-        /// property of a
-        /// <see cref="T:System.Globalization.CultureInfo" />
-        /// object as the NLS language identifier. For example, suppose you create a
-        /// <see cref="T:System.Globalization.CultureInfo" />
-        /// object by passing the string "ar-EG" to a
-        /// <see cref="T:System.Globalization.CultureInfo" />
-        /// constructor. If you pass the
-        /// <see cref="P:System.Globalization.CultureInfo.LCID" />
-        /// property of that
-        /// <see cref="T:System.Globalization.CultureInfo" />
-        /// object along with
+        /// <param name="language">A National Language Support (NLS) language identifier that identifies the language that will be used when local digits are substituted for western digits. You can pass the
+        /// <see cref="P:System.Globalization.CultureInfo.LCID" /> property of a
+        /// <see cref="T:System.Globalization.CultureInfo" /> object as the NLS language identifier. For example, suppose you create a
+        /// <see cref="T:System.Globalization.CultureInfo" /> object by passing the string "ar-EG" to a
+        /// <see cref="T:System.Globalization.CultureInfo" /> constructor. If you pass the
+        /// <see cref="P:System.Globalization.CultureInfo.LCID" /> property of that
+        /// <see cref="T:System.Globalization.CultureInfo" /> object along with
         /// <see cref="F:System.Drawing.StringDigitSubstitute.Traditional" /> to the
-        /// <see cref="M:System.Drawing.StringFormat.SetDigitSubstitution(System.Int32,System.Drawing.StringDigitSubstitute)" />
-        /// method, then Arabic-Indic digits will be substituted for western digits at display time.
+        /// <see cref="M:System.Drawing.StringFormat.SetDigitSubstitution(System.Int32,System.Drawing.StringDigitSubstitute)" /> method, then Arabic-Indic digits will be substituted for western digits at display time.
         /// </param>
-        /// <param name="substitute">
-        /// An element of the
-        /// <see cref="T:System.Drawing.StringDigitSubstitute" />
-        /// enumeration that specifies how digits are displayed.
+        /// <param name="substitute">An element of the
+        /// <see cref="T:System.Drawing.StringDigitSubstitute" /> enumeration that specifies how digits are displayed.
         /// </param>
         public void SetDigitSubstitution(int language, StringDigitSubstitute substitute)
         {
@@ -366,18 +342,14 @@ namespace System.Drawing
 
         /// <summary>
         /// Specifies an array of
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// structures that represent the ranges of characters measured by a call to the
+        /// <see cref="T:System.Drawing.CharacterRange" /> structures that represent the ranges of characters measured by a call to the
         /// <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
         /// </summary>
-        /// <param name="ranges">
-        /// An array of
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// structures that specifies the ranges of characters measured by a call to the
+        /// <param name="ranges">An array of
+        /// <see cref="T:System.Drawing.CharacterRange" /> structures that specifies the ranges of characters measured by a call to the
         /// <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
         /// </param>
-        /// <exception cref="T:System.OverflowException">
-        /// More than 32 character ranges are set.
+        /// <exception cref="T:System.OverflowException">More than 32 character ranges are set.
         /// </exception>
         public void SetMeasurableCharacterRanges(CharacterRange[] ranges)
         {
@@ -387,11 +359,9 @@ namespace System.Drawing
         /// Sets tab stops for this
         /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
-        /// <param name="firstTabOffset">
-        /// The number of spaces between the beginning of a line of text and the first tab stop.
+        /// <param name="firstTabOffset">The number of spaces between the beginning of a line of text and the first tab stop.
         /// </param>
-        /// <param name="tabStops">
-        /// An array of distances between tab stops in the units specified by the
+        /// <param name="tabStops">An array of distances between tab stops in the units specified by the
         /// <see cref="P:System.Drawing.Graphics.PageUnit" /> property.
         /// </param>
         public void SetTabStops(float firstTabOffset, float[] tabStops)

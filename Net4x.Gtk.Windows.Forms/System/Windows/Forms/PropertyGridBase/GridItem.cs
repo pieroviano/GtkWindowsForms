@@ -6,8 +6,7 @@ namespace System.Windows.Forms
     /// Implements one row in a
     /// <see cref="System.Windows.Forms.PropertyGrid" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     public abstract class GridItem
     {

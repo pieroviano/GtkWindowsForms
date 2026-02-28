@@ -29,7 +29,7 @@ internal interface IComPropertyBrowser
 
     /// <summary>
     /// Occurs when the
-    /// <see cref="PropertyGrid"/> control is browsing a COM object and the user renames the object.
+    /// <see cref="PropertyGrid" /> control is browsing a COM object and the user renames the object.
     /// </summary>
     event ComponentRenameEventHandler? ComComponentNameChanged;
 
@@ -53,19 +53,17 @@ internal interface IComPropertyBrowser
 
     /// <summary>
     /// Loads user states from the registry into the
-    /// <see cref="PropertyGrid"/> control.
+    /// <see cref="PropertyGrid" /> control.
     /// </summary>
-    /// <param name="key">
-    /// The registry key that contains the user states.
+    /// <param name="key">The registry key that contains the user states.
     /// </param>
     void LoadState(RegistryKey? key);
 
     /// <summary>
     /// Saves user states from the
-    /// <see cref="PropertyGrid"/> control to the registry.
+    /// <see cref="PropertyGrid" /> control to the registry.
     /// </summary>
-    /// <param name="key">
-    /// The registry key that contains the user states.
+    /// <param name="key">The registry key that contains the user states.
     /// </param>
     void SaveState(RegistryKey? key);
 }

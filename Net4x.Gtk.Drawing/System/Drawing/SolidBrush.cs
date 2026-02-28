@@ -35,12 +35,10 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new
-        /// <see cref="T:System.Drawing.SolidBrush" />
-        /// object of the specified color.
+        /// <see cref="T:System.Drawing.SolidBrush" /> object of the specified color.
         /// </summary>
-        /// <param name="color"> A
-        /// <see cref="T:System.Drawing.Color" />
-        /// structure that represents the color of this brush.
+        /// <param name="color">A
+        /// <see cref="T:System.Drawing.Color" /> structure that represents the color of this brush.
         /// </param>
         public SolidBrush(Color color)
         {

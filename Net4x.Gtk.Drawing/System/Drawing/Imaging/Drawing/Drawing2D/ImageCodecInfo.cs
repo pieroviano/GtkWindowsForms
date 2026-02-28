@@ -33,13 +33,10 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets a
-        /// <see cref="T:System.Guid" />
-        /// structure that contains a GUID that identifies a specific codec.
+        /// <see cref="T:System.Guid" /> structure that contains a GUID that identifies a specific codec.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="T:System.Guid" />
-        /// structure that contains a GUID that identifies a specific codec.
+        /// <returns>A
+        /// <see cref="T:System.Guid" /> structure that contains a GUID that identifies a specific codec.
         /// </returns>
         public Guid Clsid
         {
@@ -55,13 +52,10 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets a
-        /// <see cref="T:System.Guid" />
-        /// structure that contains a GUID that identifies the codec's format.
+        /// <see cref="T:System.Guid" /> structure that contains a GUID that identifies the codec's format.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="T:System.Guid" />
-        /// structure that contains a GUID that identifies the codec's format.
+        /// <returns>A
+        /// <see cref="T:System.Guid" /> structure that contains a GUID that identifies the codec's format.
         /// </returns>
         public Guid FormatID
         {
@@ -78,8 +72,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets a string that contains the name of the codec.
         /// </summary>
-        /// <returns>
-        /// A string that contains the name of the codec.
+        /// <returns>A string that contains the name of the codec.
         /// </returns>
         public string CodecName
         {
@@ -116,8 +109,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets a string that describes the codec's file format.
         /// </summary>
-        /// <returns>
-        /// A string that describes the codec's file format.
+        /// <returns>A string that describes the codec's file format.
         /// </returns>
         public string FormatDescription
         {
@@ -134,8 +126,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets string that contains the file name extension(s) used in the codec. The extensions are separated by semicolons.
         /// </summary>
-        /// <returns>
-        /// A string that contains the file name extension(s) used in the codec.
+        /// <returns>A string that contains the file name extension(s) used in the codec.
         /// </returns>
         public string FilenameExtension
         {
@@ -152,8 +143,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets a string that contains the codec's Multipurpose Internet Mail Extensions (MIME) type.
         /// </summary>
-        /// <returns>
-        /// A string that contains the codec's Multipurpose Internet Mail Extensions (MIME) type.
+        /// <returns>A string that contains the codec's Multipurpose Internet Mail Extensions (MIME) type.
         /// </returns>
         public string MimeType
         {
@@ -169,11 +159,9 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets 32-bit value used to store additional information about the codec. This property returns a combination of flags from the
-        /// <see cref="T:System.Drawing.Imaging.ImageCodecFlags" />
-        /// enumeration.
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecFlags" /> enumeration.
         /// </summary>
-        /// <returns>
-        /// A 32-bit value used to store additional information about the codec.
+        /// <returns>A 32-bit value used to store additional information about the codec.
         /// </returns>
         public ImageCodecFlags Flags
         {
@@ -190,8 +178,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets the version number of the codec.
         /// </summary>
-        /// <returns>
-        /// The version number of the codec.
+        /// <returns>The version number of the codec.
         /// </returns>
         public int Version
         {
@@ -208,8 +195,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets a two dimensional array of bytes that represents the signature of the codec.
         /// </summary>
-        /// <returns>
-        /// A two dimensional array of bytes that represents the signature of the codec.
+        /// <returns>A two dimensional array of bytes that represents the signature of the codec.
         /// </returns>
         [CLSCompliant(false)]
         public byte[][] SignaturePatterns
@@ -227,8 +213,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets a two dimensional array of bytes that can be used as a filter.
         /// </summary>
-        /// <returns>
-        /// A two dimensional array of bytes that can be used as a filter.
+        /// <returns>A two dimensional array of bytes that can be used as a filter.
         /// </returns>
         [CLSCompliant(false)]
         public byte[][] SignatureMasks

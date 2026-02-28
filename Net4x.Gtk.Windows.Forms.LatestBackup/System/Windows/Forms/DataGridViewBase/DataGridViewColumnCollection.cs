@@ -11,8 +11,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Represents a collection of
-    /// <see cref="System.Windows.Forms.DataGridViewColumn" />
-    /// objects in a
+    /// <see cref="System.Windows.Forms.DataGridViewColumn" /> objects in a
     /// <see cref="System.Windows.Forms.DataGridView" /> control.
     /// </summary>
     /// <filterpriority>
@@ -235,8 +234,7 @@ namespace System.Windows.Forms
         /// <paramref name="dataGridViewColumn" /> is not in the collection.
         /// </exception>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="dataGridViewColumn" />
-        /// is null.
+        /// <paramref name="dataGridViewColumn" /> is null.
         /// </exception>
         /// <exception cref="System.InvalidOperationException">The associated
         /// <see cref="System.Windows.Forms.DataGridView" /> control is performing one of the following actions that temporarily prevents new columns from being added:Selecting all cells in the control.Clearing the selection.Updating column

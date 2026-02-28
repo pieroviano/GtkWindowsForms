@@ -12,7 +12,8 @@ using System.Xml;
 namespace System.Resources
 {
     /// <summary>
-    /// ResX resource writer. See the text in "ResourceSchema" for more information.
+    /// ResX resource writer. See the text in "ResourceSchema" for more
+    /// information.
     /// </summary>
     public class ResXResourceWriter : IResourceWriter
     {

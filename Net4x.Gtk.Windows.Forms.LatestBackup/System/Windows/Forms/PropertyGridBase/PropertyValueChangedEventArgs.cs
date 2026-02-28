@@ -12,8 +12,7 @@ namespace System.Windows.Forms
     /// event of a
     /// <see cref="System.Windows.Forms.PropertyGrid" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     [ComVisible(true)]
     public class PropertyValueChangedEventArgs : EventArgs

@@ -11,8 +11,7 @@ namespace System.Windows.Forms
     /// <see cref="!:System.Windows.Forms.TreeView.BeforeCheck" /> ,
     /// <see cref="!:System.Windows.Forms.TreeView.BeforeCollapse" /> ,
     /// <see cref="!:System.Windows.Forms.TreeView.BeforeExpand" /> , and
-    /// <see cref="System.Windows.Forms.TreeView.BeforeSelect" />
-    /// events of a
+    /// <see cref="System.Windows.Forms.TreeView.BeforeSelect" /> events of a
     /// <see cref="System.Windows.Forms.TreeView" /> control.
     /// </summary>
     /// <filterpriority>

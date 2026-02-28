@@ -128,22 +128,35 @@ public class Program
     private static async Task MergeXmlDocumentationAsync()
     {
         ConsoleUtility.WriteInColor("Processing Net4x.Gtk.Windows.Forms.xml", ConsoleColor.DarkMagenta);
+        var fixes = new (string ToReplace, string DestinationValue)[]
+        {
+            ("supplied padding size for all edges.", "supplied padding size for all edges.</summary>"),
+            ("</summary></param>", "</param>"),
+            ("Gets or sets a value indicating whether the dialog should be shown", "<summary>Gets or sets a value indicating whether the dialog should be shown"),
+            ("<devdov>", "&lt;devdov&gt;"),
+            ("</summary></exception>", "</exception>"),
+            ("Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.","Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.</summary>"),
+            ("Returns a handle to this System.Drawing.Font.","Returns a handle to this System.Drawing.Font.</summary>"),
+            ("and optionally releases the managed resources.","and optionally releases the managed resources.</summary>"),
+            ("Initializes a new System.Drawing.FontFamily from the specified generic font family.","Initializes a new System.Drawing.FontFamily from the specified generic font family.</summary>"),
+            ("</returns></summary></summary>", "</returns>")
+        };
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\PrepareProjects\\Resources\\Net4x.Gtk.Windows.Forms.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms");
+            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
         ConsoleUtility.WriteInColor("Processing Net4x.Gtk.Drawing.xml", ConsoleColor.DarkMagenta);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\PrepareProjects\\Resources\\Net4x.Gtk.Drawing.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Drawing");
+            "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
 #if !SKIP_INITIAL
         ConsoleUtility.WriteInColor("Processing System.Windows.Forms.xml", ConsoleColor.DarkMagenta);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\PrepareProjects\\Resources\\System.Windows.Forms.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms");
+            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
         ConsoleUtility.WriteInColor("Processing System.Drawing.xml", ConsoleColor.DarkMagenta);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\PrepareProjects\\Resources\\System.Drawing.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Drawing");
+            "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
 #endif
     }
 

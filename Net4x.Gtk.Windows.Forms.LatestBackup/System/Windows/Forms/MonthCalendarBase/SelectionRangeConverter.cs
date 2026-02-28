@@ -81,8 +81,7 @@ namespace System.Windows.Forms
         /// <see cref="System.String" /> but could not be parsed into two strings representing dates.
         /// </exception>
         /// <exception cref="System.InvalidCastException">
-        /// <paramref name="value" />
-        /// is of type
+        /// <paramref name="value" /> is of type
         /// <see cref="System.String" /> that was parsed into two strings, but the conversion of one or both into the
         /// <see cref="System.DateTime" /> type did not succeed.
         /// </exception>
@@ -152,8 +151,7 @@ namespace System.Windows.Forms
         /// <paramref name="destinationType" /> is null.
         /// </exception>
         /// <exception cref="System.NotSupportedException">
-        /// <paramref name="value" />
-        /// cannot be converted to the
+        /// <paramref name="value" /> cannot be converted to the
         /// <paramref name="destinationType" />
         /// </exception>
         /// <filterpriority>1

@@ -11,7 +11,8 @@ namespace System.Windows.Forms
     {
 
         /// <summary>
-        /// Nothing is returned from the dialog box. This means that the modal dialog continues running.
+        /// Nothing is returned from the dialog box. This means that the modal dialog continues
+        /// running.
         /// </summary>
         None = 0,
 

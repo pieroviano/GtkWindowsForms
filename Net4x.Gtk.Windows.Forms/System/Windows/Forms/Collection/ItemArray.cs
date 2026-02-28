@@ -18,6 +18,24 @@ namespace System.Windows.Forms
     /// collection and several read-only collections based
     /// on masks.  ItemArray supports up to 31 masks.
     /// </summary>
+    /// This is similar to ArrayList except that it also
+    /// maintains a bit-flag based state element for each item in the array.
+    /// The methods to enumerate, count and get data support
+    /// virtualized indexes.  Indexes are virtualized according
+    /// to the state mask passed in.  This allows ItemArray
+    /// to be the backing store for one read-write "master"
+    /// collection and several read-only collections based
+    /// on masks.  ItemArray supports up to 31 masks.
+    /// </summary>
+    /// This is similar to ArrayList except that it also
+    /// maintains a bit-flag based state element for each item in the array.
+    /// The methods to enumerate, count and get data support
+    /// virtualized indexes.  Indexes are virtualized according
+    /// to the state mask passed in.  This allows ItemArray
+    /// to be the backing store for one read-write "master"
+    /// collection and several read-only collections based
+    /// on masks.  ItemArray supports up to 31 masks.
+    /// </summary>
     internal partial class ItemArray : IComparer<Entry>
     {
         private static int s_lastMask = 1;
@@ -41,7 +59,8 @@ namespace System.Windows.Forms
         public int Version { get; private set; }
 
         /// <summary>
-        /// Adds the given item to the array.  The state is initially zero.
+        /// Adds the given item to the array.  The state is initially
+        /// zero.
         /// </summary>
         public object? Add(object item)
         {

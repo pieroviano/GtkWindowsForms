@@ -884,8 +884,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill" />
         /// </exception>
         /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">
-        /// <paramref name="autoSizeColumnMode" />
-        /// is not a valid
+        /// <paramref name="autoSizeColumnMode" /> is not a valid
         /// <see cref="System.Windows.Forms.DataGridViewAutoSizeColumnMode" /> value.
         /// </exception>
         public virtual int GetPreferredWidth(DataGridViewAutoSizeColumnMode autoSizeColumnMode, bool fixedHeight)

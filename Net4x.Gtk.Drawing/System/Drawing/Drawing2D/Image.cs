@@ -10,8 +10,7 @@ namespace System.Drawing
     /// <summary>
     /// An abstract base class that provides functionality for the
     /// <see cref="System.Drawing.Bitmap" /> and
-    /// <see cref="System.Drawing.Imaging.Metafile" />
-    /// descended classes.
+    /// <see cref="System.Drawing.Imaging.Metafile" /> descended classes.
     /// </summary>
     /// <filterpriority>
     /// 1
@@ -856,8 +855,7 @@ namespace System.Drawing
         /// An
         /// <see cref="System.Drawing.Imaging.EncoderParameters" /> that contains an array of
         /// <see cref="System.Drawing.Imaging.EncoderParameter" /> objects. Each
-        /// <see cref="System.Drawing.Imaging.EncoderParameter" />
-        /// contains information about one of the parameters supported by the specified image encoder.
+        /// <see cref="System.Drawing.Imaging.EncoderParameter" /> contains information about one of the parameters supported by the specified image encoder.
         /// </returns>
         /// <param name="encoder">A GUID that specifies the image encoder.
         /// </param>

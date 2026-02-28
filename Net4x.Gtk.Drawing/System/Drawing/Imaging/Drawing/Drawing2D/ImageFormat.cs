@@ -42,8 +42,7 @@ namespace System.Drawing.Imaging
         /// <see cref="T:System.Guid" /> structure that represents this
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object.
         /// </summary>
-        /// <returns>
-        /// A
+        /// <returns>A
         /// <see cref="T:System.Guid" /> structure that represents this
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object.
         /// </returns>
@@ -52,8 +51,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the format of a bitmap in memory.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the format of a bitmap in memory.
         /// </returns>
         public static ImageFormat MemoryBmp => s_memoryBMP;
@@ -61,8 +59,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the bitmap (BMP) image format.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the bitmap image format.
         /// </returns>
         public static ImageFormat Bmp => s_bmp;
@@ -70,8 +67,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the enhanced metafile (EMF) image format.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the enhanced metafile image format.
         /// </returns>
         public static ImageFormat Emf => s_emf;
@@ -79,8 +75,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the Windows metafile (WMF) image format.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the Windows metafile image format.
         /// </returns>
         public static ImageFormat Wmf => s_wmf;
@@ -88,8 +83,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the Graphics Interchange Format (GIF) image format.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the GIF image format.
         /// </returns>
         public static ImageFormat Gif => s_gif;
@@ -97,8 +91,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the Joint Photographic Experts Group (JPEG) image format.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the JPEG image format.
         /// </returns>
         public static ImageFormat Jpeg => s_jpeg;
@@ -106,8 +99,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the W3C Portable Network Graphics (PNG) image format.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the PNG image format.
         /// </returns>
         public static ImageFormat Png => s_png;
@@ -115,8 +107,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the Tagged Image File Format (TIFF) image format.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the TIFF image format.
         /// </returns>
         public static ImageFormat Tiff => s_tiff;
@@ -124,8 +115,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the Exchangeable Image File (Exif) format.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the Exif format.
         /// </returns>
         public static ImageFormat Exif => s_exif;
@@ -133,8 +123,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the Windows icon image format.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the Windows icon image format.
         /// </returns>
         public static ImageFormat Icon => s_icon;
@@ -150,8 +139,7 @@ namespace System.Drawing.Imaging
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> class by using the specified
         /// <see cref="T:System.Guid" /> structure.
         /// </summary>
-        /// <param name="guid">
-        /// The
+        /// <param name="guid">The
         /// <see cref="T:System.Guid" /> structure that specifies a particular image format.
         /// </param>
         public ImageFormat(Guid guid)
@@ -164,8 +152,7 @@ namespace System.Drawing.Imaging
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that is equivalent to this
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object.
         /// </summary>
-        /// <param name="o">
-        /// The object to test.
+        /// <param name="o">The object to test.
         /// </param>
         /// <returns>
         /// <see langword="true" /> if
@@ -187,8 +174,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Returns a hash code value that represents this object.
         /// </summary>
-        /// <returns>
-        /// A hash code that represents this object.
+        /// <returns>A hash code that represents this object.
         /// </returns>
         public override int GetHashCode()
         {
@@ -256,8 +242,7 @@ namespace System.Drawing.Imaging
         /// Converts this
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object to a human-readable string.
         /// </summary>
-        /// <returns>
-        /// A string that represents this
+        /// <returns>A string that represents this
         /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object.
         /// </returns>
         public override string ToString()

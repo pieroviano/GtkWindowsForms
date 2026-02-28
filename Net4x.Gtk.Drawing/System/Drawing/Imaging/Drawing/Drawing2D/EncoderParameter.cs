@@ -26,8 +26,7 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.Encoder.Compression" />) of the parameter stored in this
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </summary>
-        /// <returns>
-        /// An
+        /// <returns>An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the GUID that specifies the category of the parameter stored in this
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </returns>
@@ -47,8 +46,7 @@ namespace System.Drawing.Imaging
         /// Gets the data type of the values stored in this
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </summary>
-        /// <returns>
-        /// A member of the
+        /// <returns>A member of the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameterValueType" /> enumeration that indicates the data type of the values stored in this
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </returns>
@@ -58,8 +56,7 @@ namespace System.Drawing.Imaging
         /// Gets the data type of the values stored in this
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </summary>
-        /// <returns>
-        /// A member of the
+        /// <returns>A member of the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameterValueType" /> enumeration that indicates the data type of the values stored in this
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </returns>
@@ -69,8 +66,7 @@ namespace System.Drawing.Imaging
         /// Gets the number of elements in the array of values stored in this
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </summary>
-        /// <returns>
-        /// An integer that indicates the number of elements in the array of values stored in this
+        /// <returns>An integer that indicates the number of elements in the array of values stored in this
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </returns>
         public int NumberOfValues => _numberOfValues;
@@ -113,12 +109,10 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeByte" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to 1.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="value">
-        /// An 8-bit unsigned integer that specifies the value stored in the
+        /// <param name="value">An 8-bit unsigned integer that specifies the value stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
         public EncoderParameter(Encoder encoder, byte value)
@@ -135,16 +129,13 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeByte" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to 1.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="value">
-        /// A byte that specifies the value stored in the
+        /// <param name="value">A byte that specifies the value stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
-        /// <param name="undefined">
-        /// If
+        /// <param name="undefined">If
         /// <see langword="true" />, the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.ValueType" /> property is set to
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeUndefined" />; otherwise, the
@@ -164,12 +155,10 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeShort" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to 1.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="value">
-        /// A 16-bit integer that specifies the value stored in the
+        /// <param name="value">A 16-bit integer that specifies the value stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. Must be nonnegative.
         /// </param>
         public EncoderParameter(Encoder encoder, short value)
@@ -185,12 +174,10 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeLong" /> (32 bits), and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to 1.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="value">
-        /// A 64-bit integer that specifies the value stored in the
+        /// <param name="value">A 64-bit integer that specifies the value stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. Must be nonnegative. This parameter is converted to a 32-bit integer before it is stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
@@ -207,15 +194,12 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeRational" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to 1.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="numerator">
-        /// A 32-bit integer that represents the numerator of a fraction. Must be nonnegative.
+        /// <param name="numerator">A 32-bit integer that represents the numerator of a fraction. Must be nonnegative.
         /// </param>
-        /// <param name="denominator">
-        /// A 32-bit integer that represents the denominator of a fraction. Must be nonnegative.
+        /// <param name="denominator">A 32-bit integer that represents the denominator of a fraction. Must be nonnegative.
         /// </param>
         public EncoderParameter(Encoder encoder, int numerator, int denominator)
         {
@@ -230,16 +214,13 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeLongRange" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to 1.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="rangebegin">
-        /// A 64-bit integer that represents the smallest number in a range of integers. Must be nonnegative. This parameter is converted to a 32-bit integer before it is stored in the
+        /// <param name="rangebegin">A 64-bit integer that represents the smallest number in a range of integers. Must be nonnegative. This parameter is converted to a 32-bit integer before it is stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
-        /// <param name="rangeend">
-        /// A 64-bit integer that represents the largest number in a range of integers. Must be nonnegative. This parameter is converted to a 32-bit integer before it is stored in the
+        /// <param name="rangeend">A 64-bit integer that represents the largest number in a range of integers. Must be nonnegative. This parameter is converted to a 32-bit integer before it is stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
         public EncoderParameter(Encoder encoder, long rangebegin, long rangeend)
@@ -255,21 +236,16 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeRationalRange" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to 1.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="numerator1">
-        /// A 32-bit integer that represents the numerator of the smallest fraction in the range. Must be nonnegative.
+        /// <param name="numerator1">A 32-bit integer that represents the numerator of the smallest fraction in the range. Must be nonnegative.
         /// </param>
-        /// <param name="demoninator1">
-        /// A 32-bit integer that represents the denominator of the smallest fraction in the range. Must be nonnegative.
+        /// <param name="demoninator1">A 32-bit integer that represents the denominator of the smallest fraction in the range. Must be nonnegative.
         /// </param>
-        /// <param name="numerator2">
-        /// A 32-bit integer that represents the denominator of the smallest fraction in the range. Must be nonnegative.
+        /// <param name="numerator2">A 32-bit integer that represents the denominator of the smallest fraction in the range. Must be nonnegative.
         /// </param>
-        /// <param name="demoninator2">
-        /// A 32-bit integer that represents the numerator of the largest fraction in the range. Must be nonnegative.
+        /// <param name="demoninator2">A 32-bit integer that represents the numerator of the largest fraction in the range. Must be nonnegative.
         /// </param>
         public EncoderParameter(Encoder encoder, int numerator1, int demoninator1, int numerator2, int demoninator2)
         {
@@ -285,12 +261,10 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeAscii" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to the length of the ASCII string including the NULL terminator.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="value">
-        /// A
+        /// <param name="value">A
         /// <see cref="T:System.String" /> that specifies the value stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
@@ -311,12 +285,10 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeByte" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to the number of elements in the array.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="value">
-        /// An array of 8-bit unsigned integers that specifies the values stored in the
+        /// <param name="value">An array of 8-bit unsigned integers that specifies the values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
         public EncoderParameter(Encoder encoder, byte[] value)
@@ -338,16 +310,13 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeByte" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to the number of elements in the array.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="value">
-        /// An array of bytes that specifies the values stored in the
+        /// <param name="value">An array of bytes that specifies the values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
-        /// <param name="undefined">
-        /// If
+        /// <param name="undefined">If
         /// <see langword="true" />, the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.ValueType" /> property is set to
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeUndefined" />; otherwise, the
@@ -372,12 +341,10 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeShort" />, and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to the number of elements in the array.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="value">
-        /// An array of 16-bit integers that specifies the values stored in the
+        /// <param name="value">An array of 16-bit integers that specifies the values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. The integers in the array must be nonnegative.
         /// </param>
         public EncoderParameter(Encoder encoder, short[] value)
@@ -398,12 +365,10 @@ namespace System.Drawing.Imaging
         /// <see cref="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeLong" /> (32-bit), and sets the
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to the number of elements in the array.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="value">
-        /// An array of 64-bit integers that specifies the values stored in the
+        /// <param name="value">An array of 64-bit integers that specifies the values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. The integers in the array must be nonnegative. The 64-bit integers are converted to 32-bit integers before they are stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
@@ -422,15 +387,12 @@ namespace System.Drawing.Imaging
         /// <paramref name="numerator" /> array, which must be the same as the number of elements in the
         /// <paramref name="denominator" /> array.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="numerator">
-        /// An array of 32-bit integers that specifies the numerators of the fractions. The integers in the array must be nonnegative.
+        /// <param name="numerator">An array of 32-bit integers that specifies the numerators of the fractions. The integers in the array must be nonnegative.
         /// </param>
-        /// <param name="denominator">
-        /// An array of 32-bit integers that specifies the denominators of the fractions. The integers in the array must be nonnegative. A denominator of a given index is paired with the numerator of the same index.
+        /// <param name="denominator">An array of 32-bit integers that specifies the denominators of the fractions. The integers in the array must be nonnegative. A denominator of a given index is paired with the numerator of the same index.
         /// </param>
         public EncoderParameter(Encoder encoder, int[] numerator, int[] denominator)
         {
@@ -447,16 +409,13 @@ namespace System.Drawing.Imaging
         /// <paramref name="rangebegin" /> array, which must be the same as the number of elements in the
         /// <paramref name="rangeend" /> array.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="rangebegin">
-        /// An array of 64-bit integers that specifies the minimum values for the integer ranges. The integers in the array must be nonnegative. The 64-bit integers are converted to 32-bit integers before they are stored in the
+        /// <param name="rangebegin">An array of 64-bit integers that specifies the minimum values for the integer ranges. The integers in the array must be nonnegative. The 64-bit integers are converted to 32-bit integers before they are stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </param>
-        /// <param name="rangeend">
-        /// An array of 64-bit integers that specifies the maximum values for the integer ranges. The integers in the array must be nonnegative. The 64-bit integers are converted to 32-bit integers before they are stored in the
+        /// <param name="rangeend">An array of 64-bit integers that specifies the maximum values for the integer ranges. The integers in the array must be nonnegative. The 64-bit integers are converted to 32-bit integers before they are stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameters" /> object. A maximum value of a given index is paired with the minimum value of the same index.
         /// </param>
         public EncoderParameter(Encoder encoder, long[] rangebegin, long[] rangeend)
@@ -473,21 +432,16 @@ namespace System.Drawing.Imaging
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property to the number of elements in the
         /// <paramref name="numerator1" /> array, which must be the same as the number of elements in the other three arrays.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="numerator1">
-        /// An array of 32-bit integers that specifies the numerators of the minimum values for the ranges. The integers in the array must be nonnegative.
+        /// <param name="numerator1">An array of 32-bit integers that specifies the numerators of the minimum values for the ranges. The integers in the array must be nonnegative.
         /// </param>
-        /// <param name="denominator1">
-        /// An array of 32-bit integers that specifies the denominators of the minimum values for the ranges. The integers in the array must be nonnegative.
+        /// <param name="denominator1">An array of 32-bit integers that specifies the denominators of the minimum values for the ranges. The integers in the array must be nonnegative.
         /// </param>
-        /// <param name="numerator2">
-        /// An array of 32-bit integers that specifies the numerators of the maximum values for the ranges. The integers in the array must be nonnegative.
+        /// <param name="numerator2">An array of 32-bit integers that specifies the numerators of the maximum values for the ranges. The integers in the array must be nonnegative.
         /// </param>
-        /// <param name="denominator2">
-        /// An array of 32-bit integers that specifies the denominators of the maximum values for the ranges. The integers in the array must be nonnegative.
+        /// <param name="denominator2">An array of 32-bit integers that specifies the denominators of the maximum values for the ranges. The integers in the array must be nonnegative.
         /// </param>
         public EncoderParameter(Encoder encoder, int[] numerator1, int[] denominator1, int[] numerator2, int[] denominator2)
         {
@@ -500,28 +454,23 @@ namespace System.Drawing.Imaging
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object and three integers that specify the number of values, the data type of the values, and a pointer to the values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="NumberOfValues">
-        /// An integer that specifies the number of values stored in the
+        /// <param name="NumberOfValues">An integer that specifies the number of values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. The
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property is set to this value.
         /// </param>
-        /// <param name="Type">
-        /// A member of the
+        /// <param name="Type">A member of the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameterValueType" /> enumeration that specifies the data type of the values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. The
         /// <see cref="T:System.Type" /> and
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.ValueType" /> properties are set to this value.
         /// </param>
-        /// <param name="Value">
-        /// A pointer to an array of values of the type specified by the
+        /// <param name="Value">A pointer to an array of values of the type specified by the
         /// <paramref name="Type" /> parameter.
         /// </param>
-        /// <exception cref="T:System.InvalidOperationException">
-        /// Type is not a valid
+        /// <exception cref="T:System.InvalidOperationException">Type is not a valid
         /// <see cref="T:System.Drawing.Imaging.EncoderParameterValueType" />.
         /// </exception>
         [Obsolete("This constructor has been deprecated. Use EncoderParameter(Encoder encoder, int numberValues, EncoderParameterValueType type, IntPtr value) instead.")]
@@ -536,24 +485,20 @@ namespace System.Drawing.Imaging
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object, number of values, data type of the values, and a pointer to the values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
         /// </summary>
-        /// <param name="encoder">
-        /// An
+        /// <param name="encoder">An
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the globally unique identifier of the parameter category.
         /// </param>
-        /// <param name="numberValues">
-        /// An integer that specifies the number of values stored in the
+        /// <param name="numberValues">An integer that specifies the number of values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. The
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.NumberOfValues" /> property is set to this value.
         /// </param>
-        /// <param name="type">
-        /// A member of the
+        /// <param name="type">A member of the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameterValueType" /> enumeration that specifies the data type of the values stored in the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. The
         /// <see cref="T:System.Type" /> and
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.ValueType" /> properties are set to this value.
         /// </param>
-        /// <param name="value">
-        /// A pointer to an array of values of the type specified by the
+        /// <param name="value">A pointer to an array of values of the type specified by the
         /// <paramref name="Type" /> parameter.
         /// </param>
         public EncoderParameter(Encoder encoder, int numberValues, EncoderParameterValueType type, IntPtr value)

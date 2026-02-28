@@ -14,8 +14,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets a value that specifies how to interpret the color information in the array of colors.
         /// </summary>
-        /// <returns>
-        /// The following flag values are valid:
+        /// <returns>The following flag values are valid:
         /// 0x00000001
         /// The color values in the array contain alpha information.
         /// 0x00000002
@@ -29,8 +28,7 @@ namespace System.Drawing.Imaging
         /// Gets an array of
         /// <see cref="T:System.Drawing.Color" /> structures.
         /// </summary>
-        /// <returns>
-        /// The array of
+        /// <returns>The array of
         /// <see cref="T:System.Drawing.Color" /> structure that make up this
         /// <see cref="T:System.Drawing.Imaging.ColorPalette" />.
         /// </returns>

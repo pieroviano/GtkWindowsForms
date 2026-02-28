@@ -38,7 +38,7 @@ namespace System.Windows.Forms
                     int rowIndex,
                     int localX,
                     int localY,
-                MouseEventArgs e) : base(e?.Button ?? MouseButtons.None, e?.Clicks ?? 0, localX, localY, e?.Delta ?? 0)
+                    MouseEventArgs e) : base(e?.Button ?? MouseButtons.None, e?.Clicks ?? 0, localX, localY, e?.Delta ?? 0)
         {
             if (columnIndex < -1)
             {

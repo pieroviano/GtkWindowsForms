@@ -19,8 +19,7 @@ namespace System.Windows.Forms
     /// that is properly rendered in a
     /// <see cref="System.Windows.Forms.ToolStrip" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     {

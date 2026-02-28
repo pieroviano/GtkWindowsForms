@@ -260,8 +260,7 @@ namespace System.Windows.Forms.Layout
         /// <paramref name="array" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index" />
-        /// is less than 0.
+        /// <paramref name="index" /> is less than 0.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array" /> is multidimensional.-or-The number of elements in the source collection is greater than the available space from

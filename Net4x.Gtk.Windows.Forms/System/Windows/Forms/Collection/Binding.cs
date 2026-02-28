@@ -66,13 +66,11 @@ public class Binding
     /// Gets the control the
     /// <see cref="T:System.Windows.Forms.Binding" /> is associated with.
     /// </summary>
-    /// <returns>
-    /// The
+    /// <returns>The
     /// <see cref="T:System.Windows.Forms.IBindableComponent" /> the
     /// <see cref="T:System.Windows.Forms.Binding" /> is associated with.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     /// <PermissionSet>
     /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
@@ -90,26 +88,22 @@ public class Binding
     /// <see cref="T:System.Windows.Forms.BindingManagerBase" /> for this
     /// <see cref="T:System.Windows.Forms.Binding" />.
     /// </summary>
-    /// <returns>
-    /// The
+    /// <returns>The
     /// <see cref="T:System.Windows.Forms.BindingManagerBase" /> that manages this
     /// <see cref="T:System.Windows.Forms.Binding" />.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public BindingManagerBase? BindingManagerBase => _bindingManagerBase;
 
     /// <summary>
     /// Gets an object that contains information about this binding based on the dataMember parameter in the Overload:System.Windows.Forms.Binding constructor.
     /// </summary>
-    /// <returns>
-    /// A
+    /// <returns>A
     /// <see cref="T:System.Windows.Forms.BindingMemberInfo" /> that contains information about this
     /// <see cref="T:System.Windows.Forms.Binding" />.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public BindingMemberInfo? BindingMemberInfo => _bindToObject?.BindingMemberInfo;
 
@@ -121,12 +115,10 @@ public class Binding
     /// <summary>
     /// Gets the control that the binding belongs to.
     /// </summary>
-    /// <returns>
-    /// The
+    /// <returns>The
     /// <see cref="T:System.Windows.Forms.Control" /> that the binding belongs to.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     /// <PermissionSet>
     /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
@@ -142,8 +134,7 @@ public class Binding
     /// <summary>
     /// Gets or sets when changes to the data source are propagated to the bound control property.
     /// </summary>
-    /// <returns>
-    /// One of the
+    /// <returns>One of the
     /// <see cref="T:System.Windows.Forms.ControlUpdateMode" /> values. The default is
     /// <see cref="F:System.Windows.Forms.ControlUpdateMode.OnPropertyChanged" />.
     /// </returns>
@@ -167,20 +158,17 @@ public class Binding
     /// <summary>
     /// Gets the data source for this binding.
     /// </summary>
-    /// <returns>
-    /// An
+    /// <returns>An
     /// <see cref="T:System.Object" /> that represents the data source.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public object? DataSource => _bindToObject?.DataSource;
 
     /// <summary>
     /// Gets or sets the value to be stored in the data source if the control value is null or empty.
     /// </summary>
-    /// <returns>
-    /// The
+    /// <returns>The
     /// <see cref="T:System.Object" /> to be stored in the data source when the control property is empty or null. The default is
     /// <see cref="T:System.DBNull" /> for value types and null for non-value types.
     /// </returns>
@@ -213,8 +201,7 @@ public class Binding
     /// <summary>
     /// Gets or sets a value that indicates when changes to the bound control property are propagated to the data source.
     /// </summary>
-    /// <returns>
-    /// A value that indicates when changes are propagated. The default is
+    /// <returns>A value that indicates when changes are propagated. The default is
     /// <see cref="F:System.Windows.Forms.DataSourceUpdateMode.OnValidation" />.
     /// </returns>
     [DefaultValue(DataSourceUpdateMode.OnValidation)]
@@ -228,12 +215,10 @@ public class Binding
     /// Gets or sets the
     /// <see cref="T:System.IFormatProvider" /> that provides custom formatting behavior.
     /// </summary>
-    /// <returns>
-    /// The
+    /// <returns>The
     /// <see cref="T:System.IFormatProvider" /> implementation that provides custom formatting behavior.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     [DefaultValue(null)]
     public IFormatProvider? FormatInfo
@@ -257,11 +242,9 @@ public class Binding
     /// <summary>
     /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
     /// </summary>
-    /// <returns>
-    /// The string of format specifier characters that indicate how a value is to be displayed.
+    /// <returns>The string of format specifier characters that indicate how a value is to be displayed.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public string? FormatString
     {
@@ -286,11 +269,9 @@ public class Binding
     /// <summary>
     /// Gets or sets a value indicating whether type conversion and formatting is applied to the control property data.
     /// </summary>
-    /// <returns>
-    /// true if type conversion and formatting of control property data is enabled; otherwise, false. The default is false.
+    /// <returns>true if type conversion and formatting of control property data is enabled; otherwise, false. The default is false.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public bool FormattingEnabled
     {
@@ -323,11 +304,9 @@ public class Binding
     /// <summary>
     /// Gets a value indicating whether the binding is active.
     /// </summary>
-    /// <returns>
-    /// true if the binding is active; otherwise, false.
+    /// <returns>true if the binding is active; otherwise, false.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public bool IsBinding => _bound;
 
@@ -336,13 +315,11 @@ public class Binding
     /// <see cref="T:System.Object" /> to be set as the control property when the data source contains a
     /// <see cref="T:System.DBNull" /> value.
     /// </summary>
-    /// <returns>
-    /// The
+    /// <returns>The
     /// <see cref="T:System.Object" /> to be set as the control property when the data source contains a
     /// <see cref="T:System.DBNull" /> value. The default is null.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public object? NullValue
     {
@@ -363,11 +340,9 @@ public class Binding
     /// <summary>
     /// Gets or sets the name of the control's data-bound property.
     /// </summary>
-    /// <returns>
-    /// The name of a control property to bind to.
+    /// <returns>The name of a control property to bind to.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     [DefaultValue("")]
     public string PropertyName => _propertyName;
@@ -376,21 +351,17 @@ public class Binding
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Binding" /> class that simple-binds the indicated control property to the specified data member of the data source.
     /// </summary>
-    /// <param name="propertyName">
-    /// The name of the control property to bind.
+    /// <param name="propertyName">The name of the control property to bind.
     /// </param>
-    /// <param name="dataSource">
-    /// An
+    /// <param name="dataSource">An
     /// <see cref="T:System.Object" /> that represents the data source.
     /// </param>
-    /// <param name="dataMember">
-    /// The property or list to bind to.
+    /// <param name="dataMember">The property or list to bind to.
     /// </param>
     /// <exception cref="T:System.Exception">
     /// <paramref name="propertyName" /> is neither a valid property of a control nor an empty string ("").
     /// </exception>
-    /// <exception cref="T:System.ArgumentException">
-    /// The property given by
+    /// <exception cref="T:System.ArgumentException">The property given by
     /// <paramref name="propertyName" /> does not exist on the control.
     /// </exception>
     public Binding(string propertyName, object dataSource, string? dataMember) : this(propertyName, dataSource, dataMember, false, DataSourceUpdateMode.OnValidation, null, string.Empty, null)
@@ -401,25 +372,19 @@ public class Binding
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Binding" /> class that binds the indicated control property to the specified data member of the data source, and optionally enables formatting to be applied.
     /// </summary>
-    /// <param name="propertyName">
-    /// The name of the control property to bind.
+    /// <param name="propertyName">The name of the control property to bind.
     /// </param>
-    /// <param name="dataSource">
-    /// An
+    /// <param name="dataSource">An
     /// <see cref="T:System.Object" /> that represents the data source.
     /// </param>
-    /// <param name="dataMember">
-    /// The property or list to bind to.
+    /// <param name="dataMember">The property or list to bind to.
     /// </param>
-    /// <param name="formattingEnabled">
-    /// true to format the displayed data; otherwise, false.
+    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The property given by
+    /// <exception cref="T:System.ArgumentException">The property given by
     /// <paramref name="propertyName" /> does not exist on the control.-or-The property given is a read-only property.
     /// </exception>
-    /// <exception cref="T:System.Exception">
-    /// Formatting is disabled and
+    /// <exception cref="T:System.Exception">Formatting is disabled and
     /// <paramref name="propertyName" /> is neither a valid property of a control nor an empty string ("").
     /// </exception>
     public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled) : this(propertyName, dataSource, dataMember, formattingEnabled, DataSourceUpdateMode.OnValidation, null, string.Empty, null)
@@ -430,25 +395,19 @@ public class Binding
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Binding" /> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting and propagates values to the data source based on the specified update setting.
     /// </summary>
-    /// <param name="propertyName">
-    /// The name of the control property to bind.
+    /// <param name="propertyName">The name of the control property to bind.
     /// </param>
-    /// <param name="dataSource">
-    /// An
+    /// <param name="dataSource">An
     /// <see cref="T:System.Object" /> representing the data source.
     /// </param>
-    /// <param name="dataMember">
-    /// The property or list to bind to.
+    /// <param name="dataMember">The property or list to bind to.
     /// </param>
-    /// <param name="formattingEnabled">
-    /// true to format the displayed data; otherwise, false.
+    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
     /// </param>
-    /// <param name="dataSourceUpdateMode">
-    /// One of the
+    /// <param name="dataSourceUpdateMode">One of the
     /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode" /> values.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The property given by
+    /// <exception cref="T:System.ArgumentException">The property given by
     /// <paramref name="propertyName" /> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
     /// </exception>
     public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode) : this(propertyName, dataSource, dataMember, formattingEnabled, dataSourceUpdateMode, null, string.Empty, null)
@@ -460,30 +419,23 @@ public class Binding
     /// <see cref="T:System.Windows.Forms.Binding" /> class that binds the indicated control property to the specified data member of the specified data source. Optionally enables formatting, propagates values to the data source based on the specified update setting, and sets the property to the specified value when a
     /// <see cref="T:System.DBNull" /> is returned from the data source.
     /// </summary>
-    /// <param name="propertyName">
-    /// The name of the control property to bind.
+    /// <param name="propertyName">The name of the control property to bind.
     /// </param>
-    /// <param name="dataSource">
-    /// An
+    /// <param name="dataSource">An
     /// <see cref="T:System.Object" /> representing the data source.
     /// </param>
-    /// <param name="dataMember">
-    /// The property or list to bind to.
+    /// <param name="dataMember">The property or list to bind to.
     /// </param>
-    /// <param name="formattingEnabled">
-    /// true to format the displayed data; otherwise, false.
+    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
     /// </param>
-    /// <param name="dataSourceUpdateMode">
-    /// One of the
+    /// <param name="dataSourceUpdateMode">One of the
     /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode" /> values.
     /// </param>
-    /// <param name="nullValue">
-    /// The
+    /// <param name="nullValue">The
     /// <see cref="T:System.Object" /> to be applied to the bound control property if the data source value is
     /// <see cref="T:System.DBNull" />.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The property given by
+    /// <exception cref="T:System.ArgumentException">The property given by
     /// <paramref name="propertyName" /> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
     /// </exception>
     public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, object? nullValue) : this(propertyName, dataSource, dataMember, formattingEnabled, dataSourceUpdateMode, nullValue, string.Empty, null)
@@ -495,33 +447,25 @@ public class Binding
     /// <see cref="T:System.Windows.Forms.Binding" /> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; and sets the property to the specified value when a
     /// <see cref="T:System.DBNull" /> is returned from the data source.
     /// </summary>
-    /// <param name="propertyName">
-    /// The name of the control property to bind.
+    /// <param name="propertyName">The name of the control property to bind.
     /// </param>
-    /// <param name="dataSource">
-    /// An
+    /// <param name="dataSource">An
     /// <see cref="T:System.Object" /> representing the data source.
     /// </param>
-    /// <param name="dataMember">
-    /// The property or list to bind to.
+    /// <param name="dataMember">The property or list to bind to.
     /// </param>
-    /// <param name="formattingEnabled">
-    /// true to format the displayed data; otherwise, false.
+    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
     /// </param>
-    /// <param name="dataSourceUpdateMode">
-    /// One of the
+    /// <param name="dataSourceUpdateMode">One of the
     /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode" /> values.
     /// </param>
-    /// <param name="nullValue">
-    /// The
+    /// <param name="nullValue">The
     /// <see cref="T:System.Object" /> to be applied to the bound control property if the data source value is
     /// <see cref="T:System.DBNull" />.
     /// </param>
-    /// <param name="formatString">
-    /// One or more format specifier characters that indicate how a value is to be displayed.
+    /// <param name="formatString">One or more format specifier characters that indicate how a value is to be displayed.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The property given by
+    /// <exception cref="T:System.ArgumentException">The property given by
     /// <paramref name="propertyName" /> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
     /// </exception>
     public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, object? nullValue, string formatString) : this(propertyName, dataSource, dataMember, formattingEnabled, dataSourceUpdateMode, nullValue, formatString, null)
@@ -533,37 +477,28 @@ public class Binding
     /// <see cref="T:System.Windows.Forms.Binding" /> class with the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; enables formatting with the specified format string; sets the property to the specified value when a
     /// <see cref="T:System.DBNull" /> is returned from the data source; and sets the specified format provider.
     /// </summary>
-    /// <param name="propertyName">
-    /// The name of the control property to bind.
+    /// <param name="propertyName">The name of the control property to bind.
     /// </param>
-    /// <param name="dataSource">
-    /// An
+    /// <param name="dataSource">An
     /// <see cref="T:System.Object" /> representing the data source.
     /// </param>
-    /// <param name="dataMember">
-    /// The property or list to bind to.
+    /// <param name="dataMember">The property or list to bind to.
     /// </param>
-    /// <param name="formattingEnabled">
-    /// true to format the displayed data; otherwise, false.
+    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
     /// </param>
-    /// <param name="dataSourceUpdateMode">
-    /// One of the
+    /// <param name="dataSourceUpdateMode">One of the
     /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode" /> values.
     /// </param>
-    /// <param name="nullValue">
-    /// The
+    /// <param name="nullValue">The
     /// <see cref="T:System.Object" /> to be applied to the bound control property if the data source value is
     /// <see cref="T:System.DBNull" />.
     /// </param>
-    /// <param name="formatString">
-    /// One or more format specifier characters that indicate how a value is to be displayed.
+    /// <param name="formatString">One or more format specifier characters that indicate how a value is to be displayed.
     /// </param>
-    /// <param name="formatInfo">
-    /// An implementation of
+    /// <param name="formatInfo">An implementation of
     /// <see cref="T:System.IFormatProvider" /> to override default formatting behavior.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The property given by
+    /// <exception cref="T:System.ArgumentException">The property given by
     /// <paramref name="propertyName" /> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
     /// </exception>
     public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, object? nullValue, string formatString, IFormatProvider? formatInfo)
@@ -819,8 +754,7 @@ public class Binding
     /// Raises the
     /// <see cref="E:System.Windows.Forms.Binding.BindingComplete" /> event.
     /// </summary>
-    /// <param name="e">
-    /// A
+    /// <param name="e">A
     /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" />  that contains the event data.
     /// </param>
     protected virtual void OnBindingComplete(BindingCompleteEventArgs e)
@@ -854,8 +788,7 @@ public class Binding
     /// Raises the
     /// <see cref="E:System.Windows.Forms.Binding.Format" /> event.
     /// </summary>
-    /// <param name="e">
-    /// A
+    /// <param name="e">A
     /// <see cref="T:System.Windows.Forms.ConvertEventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnFormat(ConvertEventArgs e)
@@ -871,8 +804,7 @@ public class Binding
     /// Raises the
     /// <see cref="E:System.Windows.Forms.Binding.Parse" /> event.
     /// </summary>
-    /// <param name="e">
-    /// A
+    /// <param name="e">A
     /// <see cref="T:System.Windows.Forms.ConvertEventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnParse(ConvertEventArgs e)
@@ -1269,8 +1201,7 @@ public class Binding
     /// <summary>
     /// Occurs when the property of a control is bound to a data value.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public event ConvertEventHandler? Format
     {
@@ -1281,8 +1212,7 @@ public class Binding
     /// <summary>
     /// Occurs when the value of a data-bound control changes.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public event ConvertEventHandler? Parse
     {

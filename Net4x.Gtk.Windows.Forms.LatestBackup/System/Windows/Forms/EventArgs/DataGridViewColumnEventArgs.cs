@@ -10,8 +10,7 @@ namespace System.Windows.Forms
     /// Provides data for column-related events of a
     /// <see cref="System.Windows.Forms.DataGridView" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     public class DataGridViewColumnEventArgs : EventArgs
     {

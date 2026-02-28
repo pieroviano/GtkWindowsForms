@@ -9,8 +9,7 @@ namespace System.Windows.Forms
     /// Represents a Windows progress bar control contained in a
     /// <see cref="System.Windows.Forms.StatusStrip" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     [DefaultProperty("Value")]
     public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>

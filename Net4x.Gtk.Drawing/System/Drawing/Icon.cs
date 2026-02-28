@@ -46,11 +46,10 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets the height of this
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </summary>
-        /// <returns>
-        /// The height of this
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <returns>The height of this
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </returns>
         [Browsable(false)]
         public int Height
@@ -61,13 +60,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets the size of this
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="T:System.Drawing.Size" />
-        /// structure that specifies the width and height of this
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Size" /> structure that specifies the width and height of this
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </returns>
         public Size Size
         {
@@ -77,11 +74,10 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets the width of this
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </summary>
-        /// <returns>
-        /// The width of this
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <returns>The width of this
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </returns>
         [Browsable(false)]
         public int Width
@@ -101,22 +97,18 @@ namespace System.Drawing
         }
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Icon" />
-        /// class and attempts to find a version of the icon that matches the requested size.
+        /// <see cref="T:System.Drawing.Icon" /> class and attempts to find a version of the icon that matches the requested size.
         /// </summary>
-        /// <param name="original"> The
-        /// <see cref="T:System.Drawing.Icon" />
-        /// from which to load the newly sized icon.
+        /// <param name="original">The
+        /// <see cref="T:System.Drawing.Icon" /> from which to load the newly sized icon.
         /// </param>
-        /// <param name="size"> A
-        /// <see cref="T:System.Drawing.Size" />
-        /// structure that specifies the height and width of the new
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <param name="size">A
+        /// <see cref="T:System.Drawing.Size" /> structure that specifies the height and width of the new
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </param>
-        /// <exception cref="T:System.ArgumentException"> The
-        /// <paramref name="original" />
-        /// parameter is
-        /// <see langword="null" /> .
+        /// <exception cref="T:System.ArgumentException">The
+        /// <paramref name="original" /> parameter is
+        /// <see langword="null" />.
         /// </exception>
         public Icon(Icon original, Size size)
         {
@@ -124,22 +116,17 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Icon" />
-        /// class and attempts to find a version of the icon that matches the requested size.
+        /// <see cref="T:System.Drawing.Icon" /> class and attempts to find a version of the icon that matches the requested size.
         /// </summary>
-        /// <param name="original">
-        /// The icon to load the different size from.
+        /// <param name="original">The icon to load the different size from.
         /// </param>
-        /// <param name="width">
-        /// The width of the new icon.
+        /// <param name="width">The width of the new icon.
         /// </param>
-        /// <param name="height">
-        /// The height of the new icon.
+        /// <param name="height">The height of the new icon.
         /// </param>
-        /// <exception cref="T:System.ArgumentException"> The
-        /// <paramref name="original" />
-        /// parameter is
-        /// <see langword="null" /> .
+        /// <exception cref="T:System.ArgumentException">The
+        /// <paramref name="original" /> parameter is
+        /// <see langword="null" />.
         /// </exception>
         public Icon(Icon original, int width, int height)
         {
@@ -147,17 +134,14 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Icon" />
-        /// class from the specified data stream.
+        /// <see cref="T:System.Drawing.Icon" /> class from the specified data stream.
         /// </summary>
-        /// <param name="stream">
-        /// The data stream from which to load the
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <param name="stream">The data stream from which to load the
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </param>
-        /// <exception cref="T:System.ArgumentException"> The
-        /// <paramref name="stream" />
-        /// parameter is
-        /// <see langword="null" /> .
+        /// <exception cref="T:System.ArgumentException">The
+        /// <paramref name="stream" /> parameter is
+        /// <see langword="null" />.
         /// </exception>
         public Icon(Stream stream) : this(stream, 0, 0)
         {
@@ -165,19 +149,15 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Icon" />
-        /// class of the specified size from the specified stream.
+        /// <see cref="T:System.Drawing.Icon" /> class of the specified size from the specified stream.
         /// </summary>
-        /// <param name="stream">
-        /// The stream that contains the icon data.
+        /// <param name="stream">The stream that contains the icon data.
         /// </param>
-        /// <param name="size">
-        /// The desired size of the icon.
+        /// <param name="size">The desired size of the icon.
         /// </param>
-        /// <exception cref="T:System.ArgumentException"> The
+        /// <exception cref="T:System.ArgumentException">The
         /// <paramref name="stream" /> is
-        /// <see langword="null" />
-        /// or does not contain image data.
+        /// <see langword="null" /> or does not contain image data.
         /// </exception>
         public Icon(Stream stream, Size size) : this(stream, size.Width, size.Height)
         {
@@ -185,22 +165,17 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Icon" />
-        /// class from the specified data stream and with the specified width and height.
+        /// <see cref="T:System.Drawing.Icon" /> class from the specified data stream and with the specified width and height.
         /// </summary>
-        /// <param name="stream">
-        /// The data stream from which to load the icon.
+        /// <param name="stream">The data stream from which to load the icon.
         /// </param>
-        /// <param name="width">
-        /// The width, in pixels, of the icon.
+        /// <param name="width">The width, in pixels, of the icon.
         /// </param>
-        /// <param name="height">
-        /// The height, in pixels, of the icon.
+        /// <param name="height">The height, in pixels, of the icon.
         /// </param>
-        /// <exception cref="T:System.ArgumentException"> The
-        /// <paramref name="stream" />
-        /// parameter is
-        /// <see langword="null" /> .
+        /// <exception cref="T:System.ArgumentException">The
+        /// <paramref name="stream" /> parameter is
+        /// <see langword="null" />.
         /// </exception>
         public Icon(Stream stream, int width, int height)
         {
@@ -220,11 +195,9 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Icon" />
-        /// class from the specified file name.
+        /// <see cref="T:System.Drawing.Icon" /> class from the specified file name.
         /// </summary>
-        /// <param name="fileName">
-        /// The file to load the
+        /// <param name="fileName">The file to load the
         /// <see cref="T:System.Drawing.Icon" /> from.
         /// </param>
         public Icon(string fileName) : this(fileName, 0, 0)
@@ -233,19 +206,15 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Icon" />
-        /// class of the specified size from the specified file.
+        /// <see cref="T:System.Drawing.Icon" /> class of the specified size from the specified file.
         /// </summary>
-        /// <param name="fileName">
-        /// The name and path to the file that contains the icon data.
+        /// <param name="fileName">The name and path to the file that contains the icon data.
         /// </param>
-        /// <param name="size">
-        /// The desired size of the icon.
+        /// <param name="size">The desired size of the icon.
         /// </param>
-        /// <exception cref="T:System.ArgumentException"> The
+        /// <exception cref="T:System.ArgumentException">The
         /// <paramref name="string" /> is
-        /// <see langword="null" />
-        /// or does not contain image data.
+        /// <see langword="null" /> or does not contain image data.
         /// </exception>
         public Icon(string fileName, Size size) : this(fileName, size.Width, size.Height)
         {
@@ -253,25 +222,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Icon" />
-        /// class with the specified width and height from the specified file.
+        /// <see cref="T:System.Drawing.Icon" /> class with the specified width and height from the specified file.
         /// </summary>
-        /// <param name="fileName">
-        /// The name and path to the file that contains the
+        /// <param name="fileName">The name and path to the file that contains the
         /// <see cref="T:System.Drawing.Icon" /> data.
         /// </param>
-        /// <param name="width">
-        /// The desired width of the
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <param name="width">The desired width of the
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </param>
-        /// <param name="height">
-        /// The desired height of the
-        /// <see cref="T:System.Drawing.Icon" /> .
+        /// <param name="height">The desired height of the
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </param>
-        /// <exception cref="T:System.ArgumentException"> The
+        /// <exception cref="T:System.ArgumentException">The
         /// <paramref name="string" /> is
-        /// <see langword="null" />
-        /// or does not contain image data.
+        /// <see langword="null" /> or does not contain image data.
         /// </exception>
         public Icon(string fileName, int width, int height)
         {
@@ -302,21 +266,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Icon" />
-        /// class from a resource in the specified assembly.
+        /// <see cref="T:System.Drawing.Icon" /> class from a resource in the specified assembly.
         /// </summary>
-        /// <param name="type"> A
-        /// <see cref="T:System.Type" />
-        /// that specifies the assembly in which to look for the resource.
+        /// <param name="type">A
+        /// <see cref="T:System.Type" /> that specifies the assembly in which to look for the resource.
         /// </param>
-        /// <param name="resource">
-        /// The resource name to load.
+        /// <param name="resource">The resource name to load.
         /// </param>
-        /// <exception cref="T:System.ArgumentException">
-        /// An icon specified by
-        /// <paramref name="resource" />
-        /// cannot be found in the assembly that contains the specified
-        /// <paramref name="type" /> .
+        /// <exception cref="T:System.ArgumentException">An icon specified by
+        /// <paramref name="resource" /> cannot be found in the assembly that contains the specified
+        /// <paramref name="type" />.
         /// </exception>
         public Icon(Type type, string resource)
         {
@@ -342,10 +301,8 @@ namespace System.Drawing
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="System.Drawing.Icon" />
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
         public void Dispose()
         {
             this.PixbufData = null;
@@ -384,17 +341,13 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates a GDI+
-        /// <see cref="T:System.Drawing.Icon" />
-        /// from the specified Windows handle to an icon (
-        /// <see langword="HICON" /> ).
+        /// <see cref="T:System.Drawing.Icon" /> from the specified Windows handle to an icon (
+        /// <see langword="HICON" />).
         /// </summary>
-        /// <param name="handle">
-        /// A Windows handle to an icon.
+        /// <param name="handle">A Windows handle to an icon.
         /// </param>
-        /// <returns>
-        /// The
-        /// <see cref="T:System.Drawing.Icon" />
-        /// this method creates.
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Icon" /> this method creates.
         /// </returns>
         public static Icon FromHandle(IntPtr handle)
         {
@@ -403,13 +356,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Saves this
-        /// <see cref="T:System.Drawing.Icon" />
-        /// to the specified output
-        /// <see cref="T:System.IO.Stream" /> .
+        /// <see cref="T:System.Drawing.Icon" /> to the specified output
+        /// <see cref="T:System.IO.Stream" />.
         /// </summary>
-        /// <param name="outputStream"> The
-        /// <see cref="T:System.IO.Stream" />
-        /// to save to.
+        /// <param name="outputStream">The
+        /// <see cref="T:System.IO.Stream" /> to save to.
         /// </param>
         public void Save(Stream outputStream)
         {
@@ -426,17 +377,13 @@ namespace System.Drawing
 
         /// <summary>
         /// Populates a
-        /// <see cref="T:System.Runtime.Serialization.SerializationInfo" />
-        /// with the data that is required to serialize the target object.
+        /// <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data that is required to serialize the target object.
         /// </summary>
-        /// <param name="info"> The
-        /// <see cref="T:System.Runtime.Serialization.SerializationInfo" />
-        /// object to populate with data.
+        /// <param name="info">The
+        /// <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object to populate with data.
         /// </param>
-        /// <param name="context">
-        /// The destination (see
-        /// <see cref="T:System.Runtime.Serialization.StreamingContext" />
-        /// ) for this serialization.
+        /// <param name="context">The destination (see
+        /// <see cref="T:System.Runtime.Serialization.StreamingContext" />) for this serialization.
         /// </param>
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -450,7 +397,8 @@ namespace System.Drawing
         /// <returns>
         /// A
         /// <see cref="System.Drawing.Bitmap" /> that represents the converted
-        /// <see cref="System.Drawing.Icon" /> .
+        /// <see cref="System.Drawing.Icon" />
+        /// .
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>

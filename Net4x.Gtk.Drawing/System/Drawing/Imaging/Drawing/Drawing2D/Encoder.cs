@@ -77,8 +77,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets a globally unique identifier (GUID) that identifies an image encoder parameter category.
         /// </summary>
-        /// <returns>
-        /// The GUID that identifies an image encoder parameter category.
+        /// <returns>The GUID that identifies an image encoder parameter category.
         /// </returns>
         public Guid Guid => _guid;
 
@@ -86,8 +85,7 @@ namespace System.Drawing.Imaging
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Imaging.Encoder" /> class from the specified globally unique identifier (GUID). The GUID specifies an image encoder parameter category.
         /// </summary>
-        /// <param name="guid">
-        /// A globally unique identifier that identifies an image encoder parameter category.
+        /// <param name="guid">A globally unique identifier that identifies an image encoder parameter category.
         /// </param>
         public Encoder(Guid guid)
         {

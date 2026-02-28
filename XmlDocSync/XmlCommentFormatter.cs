@@ -36,7 +36,7 @@ public static class XmlCommentFormatter
         {
 
         }
-        return $"{formatXmlComment}\n";
+        return Normalize($"{formatXmlComment}\n");
     }
 
     // Split lines like "/// <tag>Inline text" into "/// <tag>" and "/// Inline text"
@@ -267,4 +267,9 @@ public static class XmlCommentFormatter
 
         return outLines;
     }
+
+    private static string Normalize(string s) =>
+        s is null ? null : s.Replace("\r\n", "\n").Replace("\r", "\n");
+
+
 }

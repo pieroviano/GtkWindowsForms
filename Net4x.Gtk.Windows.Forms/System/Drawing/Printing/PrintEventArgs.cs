@@ -14,7 +14,7 @@ namespace System.Drawing.Printing
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref='PrintEventArgs'/> class.
+        /// <see cref="PrintEventArgs" /> class.
         /// </summary>
         public PrintEventArgs()
         {
@@ -22,13 +22,13 @@ namespace System.Drawing.Printing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref='PrintEventArgs'/> class.
+        /// <see cref="PrintEventArgs" /> class.
         /// </summary>
         internal PrintEventArgs(PrintAction action) => PrintAction = action;
 
         /// <summary>
         /// Specifies which
-        /// <see cref='Printing.PrintAction'/> is causing this event.
+        /// <see cref="Printing.PrintAction" /> is causing this event.
         /// </summary>
         public PrintAction PrintAction { get; }
     }

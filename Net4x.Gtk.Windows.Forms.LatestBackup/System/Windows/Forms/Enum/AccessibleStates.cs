@@ -104,8 +104,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// The object has a rapidly or constantly changing appearance. Graphics
         /// that are occasionally animated, but not always, should be defined as
-        /// <see cref='AccessibleRole.Graphic'/> |
-        /// <see cref='Animated'/> .
+        /// <see cref="AccessibleRole.Graphic" />|
+        /// <see cref="Animated" />.
         /// This state should not be used to indicate that the object's location
         /// is changing.
         /// </summary>
@@ -173,18 +173,17 @@ namespace System.Windows.Forms
         /// object is selected, the selection is extended to include this object
         /// and all the objects in between. You can set the selection state by
         /// combining this flag with
-        /// <see cref='AccessibleSelection.AddSelection'/> or
-        /// <see cref='AccessibleSelection.RemoveSelection'/>
-        /// . This flag does
+        /// <see cref="AccessibleSelection.AddSelection" />
+        /// or
+        /// <see cref="AccessibleSelection.RemoveSelection" />. This flag does
         /// not change the focus or the selection anchor unless it is combined with
-        /// <see cref='AccessibleSelection.TakeFocus'/>
-        /// . The behavior of
-        /// <see cref='AccessibleStates.ExtendSelection'/> |
-        /// <see cref='AccessibleSelection.TakeFocus'/>
+        /// <see cref="AccessibleSelection.TakeFocus" />. The behavior of
+        /// <see cref="AccessibleStates.ExtendSelection" />|
+        /// <see cref="AccessibleSelection.TakeFocus" />
         /// is equivalent to adding an item to a selection manually by holding down
         /// the SHIFT key and clicking an unselected object.
         /// This flag may not be combined with
-        /// <see cref='AccessibleSelection.TakeSelection'/> .
+        /// <see cref="AccessibleSelection.TakeSelection" />.
         /// </summary>
         ExtSelectable = 0x2000000,
 
@@ -199,7 +198,8 @@ namespace System.Windows.Forms
         /// to reach a low level, it could generate a medium-level alert. Blind
         /// access utilities could then generate a sound to let the user know that
         /// important information is available, without actually interrupting the
-        /// user's work. The user could then query the alert information at their leisure.
+        /// user's work. The user could then query the alert information at their
+        /// leisure.
         /// </summary>
         AlertMedium = 0x8000000,
 

@@ -81,7 +81,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// If set, windows forms calls OnDoubleClick and raises the DoubleClick
         /// event when the control is double clicked.
-        /// Regardless of whether it is set, the control may call OnDoubleClick directly.
+        /// Regardless of whether it is set, the control may call OnDoubleClick
+        /// directly.
         /// This style is ignored if StandardClick is not set.
         /// </summary>
         StandardDoubleClick = 0x00001000,

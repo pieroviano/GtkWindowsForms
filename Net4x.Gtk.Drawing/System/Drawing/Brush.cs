@@ -19,12 +19,10 @@ namespace System.Drawing
 
         /// <summary>
         /// When overridden in a derived class, creates an exact copy of this
-        /// <see cref="T:System.Drawing.Brush" /> .
+        /// <see cref="T:System.Drawing.Brush" />.
         /// </summary>
-        /// <returns>
-        /// The new
-        /// <see cref="T:System.Drawing.Brush" />
-        /// that this method creates.
+        /// <returns>The new
+        /// <see cref="T:System.Drawing.Brush" /> that this method creates.
         /// </returns>
         public abstract object Clone();
 
@@ -43,14 +41,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Releases the unmanaged resources used by the
-        /// <see cref="T:System.Drawing.Brush" />
-        /// and optionally releases the managed resources.
+        /// <see cref="T:System.Drawing.Brush" /> and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">
-        /// <see langword="true" />
-        /// to release both managed and unmanaged resources;
-        /// <see langword="false" />
-        /// to release only unmanaged resources.
+        /// <see langword="true" /> to release both managed and unmanaged resources;
+        /// <see langword="false" /> to release only unmanaged resources.
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
@@ -66,8 +61,7 @@ namespace System.Drawing
         /// <summary>
         /// In a derived class, sets a reference to a GDI+ brush object.
         /// </summary>
-        /// <param name="brush">
-        /// A pointer to the GDI+ brush object.
+        /// <param name="brush">A pointer to the GDI+ brush object.
         /// </param>
         protected internal void SetNativeBrush(IntPtr brush)
         {

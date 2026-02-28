@@ -14,7 +14,7 @@ namespace System.Drawing.Printing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref='QueryPageSettingsEventArgs'/> class.
+        /// <see cref="QueryPageSettingsEventArgs" /> class.
         /// </summary>
         public QueryPageSettingsEventArgs(PageSettings pageSettings) : base() => _pageSettings = pageSettings;
 

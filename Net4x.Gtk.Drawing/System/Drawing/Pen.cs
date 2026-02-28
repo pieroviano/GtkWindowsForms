@@ -28,8 +28,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.Alignment" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -56,8 +55,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.Brush" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -83,8 +81,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.Color" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -106,8 +103,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.CompoundArray" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -133,8 +129,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.CustomEndCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -160,8 +155,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.CustomStartCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -191,8 +185,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.DashCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -214,8 +207,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.DashOffset" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -237,8 +229,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.DashPattern" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -264,8 +255,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.DashStyle" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -295,8 +285,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.EndCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -322,8 +311,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.LineJoin" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -345,8 +333,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.MiterLimit" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -398,8 +385,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.StartCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -425,8 +411,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// The
         /// <see cref="System.Drawing.Pen.Transform" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <see cref="System.Drawing.Pen" />, such as those returned by the
         /// <see cref="System.Drawing.Pens" /> class.
         /// </exception>
         /// <filterpriority>1
@@ -442,20 +427,15 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the width of this
-        /// <see cref="T:System.Drawing.Pen" />
-        /// , in units of the
-        /// <see cref="T:System.Drawing.Graphics" />
-        /// object used for drawing.
+        /// <see cref="T:System.Drawing.Pen" />, in units of the
+        /// <see cref="T:System.Drawing.Graphics" /> object used for drawing.
         /// </summary>
-        /// <returns>
-        /// The width of this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <returns>The width of this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="T:System.ArgumentException"> The
-        /// <see cref="P:System.Drawing.Pen.Width" />
-        /// property is set on an immutable
-        /// <see cref="T:System.Drawing.Pen" />
-        /// , such as those returned by the
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.Width" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
         /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
         public float Width
@@ -466,18 +446,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Pen" />
-        /// class with the specified
-        /// <see cref="T:System.Drawing.Brush" /> .
+        /// <see cref="T:System.Drawing.Pen" /> class with the specified
+        /// <see cref="T:System.Drawing.Brush" />.
         /// </summary>
-        /// <param name="brush"> A
-        /// <see cref="T:System.Drawing.Brush" />
-        /// that determines the fill properties of this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <param name="brush">A
+        /// <see cref="T:System.Drawing.Brush" /> that determines the fill properties of this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="brush" /> is
-        /// <see langword="null" /> .
+        /// <see langword="null" />.
         /// </exception>
         public Pen(Brush brush)
         {
@@ -488,23 +466,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Pen" />
-        /// class with the specified
+        /// <see cref="T:System.Drawing.Pen" /> class with the specified
         /// <see cref="T:System.Drawing.Brush" /> and
-        /// <see cref="P:System.Drawing.Pen.Width" /> .
+        /// <see cref="P:System.Drawing.Pen.Width" />.
         /// </summary>
-        /// <param name="brush"> A
-        /// <see cref="T:System.Drawing.Brush" />
-        /// that determines the characteristics of this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <param name="brush">A
+        /// <see cref="T:System.Drawing.Brush" /> that determines the characteristics of this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </param>
-        /// <param name="width">
-        /// The width of the new
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <param name="width">The width of the new
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="brush" /> is
-        /// <see langword="null" /> .
+        /// <see langword="null" />.
         /// </exception>
         public Pen(Brush brush, float width) : this(brush)
         {
@@ -513,13 +488,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Pen" />
-        /// class with the specified color.
+        /// <see cref="T:System.Drawing.Pen" /> class with the specified color.
         /// </summary>
-        /// <param name="color"> A
-        /// <see cref="T:System.Drawing.Color" />
-        /// structure that indicates the color of this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <param name="color">A
+        /// <see cref="T:System.Drawing.Color" /> structure that indicates the color of this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </param>
         public Pen(Color color)
         {
@@ -528,20 +501,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Pen" />
-        /// class with the specified
+        /// <see cref="T:System.Drawing.Pen" /> class with the specified
         /// <see cref="T:System.Drawing.Color" /> and
-        /// <see cref="P:System.Drawing.Pen.Width" />
-        /// properties.
+        /// <see cref="P:System.Drawing.Pen.Width" /> properties.
         /// </summary>
-        /// <param name="color"> A
-        /// <see cref="T:System.Drawing.Color" />
-        /// structure that indicates the color of this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <param name="color">A
+        /// <see cref="T:System.Drawing.Color" /> structure that indicates the color of this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </param>
-        /// <param name="width">
-        /// A value indicating the width of this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <param name="width">A value indicating the width of this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </param>
         public Pen(Color color, float width)
         {
@@ -606,17 +575,13 @@ namespace System.Drawing
 
         /// <summary>
         /// Multiplies the transformation matrix for this
-        /// <see cref="T:System.Drawing.Pen" />
-        /// by the specified
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
-        /// in the specified order.
+        /// <see cref="T:System.Drawing.Pen" /> by the specified
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the specified order.
         /// </summary>
-        /// <param name="matrix"> The
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
-        /// by which to multiply the transformation matrix.
+        /// <param name="matrix">The
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which to multiply the transformation matrix.
         /// </param>
-        /// <param name="order">
-        /// The order in which to perform the multiplication operation.
+        /// <param name="order">The order in which to perform the multiplication operation.
         /// </param>
         public void MultiplyTransform(Matrix matrix, MatrixOrder order)
         {
@@ -638,8 +603,7 @@ namespace System.Drawing
         /// <summary>
         /// Rotates the local geometric transformation by the specified angle. This method prepends the rotation to the transformation.
         /// </summary>
-        /// <param name="angle">
-        /// The angle of rotation.
+        /// <param name="angle">The angle of rotation.
         /// </param>
         public void RotateTransform(float angle)
         {
@@ -648,12 +612,10 @@ namespace System.Drawing
         /// <summary>
         /// Rotates the local geometric transformation by the specified angle in the specified order.
         /// </summary>
-        /// <param name="angle">
-        /// The angle of rotation.
+        /// <param name="angle">The angle of rotation.
         /// </param>
-        /// <param name="order"> A
-        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" />
-        /// that specifies whether to append or prepend the rotation matrix.
+        /// <param name="order">A
+        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies whether to append or prepend the rotation matrix.
         /// </param>
         public void RotateTransform(float angle, MatrixOrder order)
         {
@@ -662,11 +624,9 @@ namespace System.Drawing
         /// <summary>
         /// Scales the local geometric transformation by the specified factors. This method prepends the scaling matrix to the transformation.
         /// </summary>
-        /// <param name="sx">
-        /// The factor by which to scale the transformation in the x-axis direction.
+        /// <param name="sx">The factor by which to scale the transformation in the x-axis direction.
         /// </param>
-        /// <param name="sy">
-        /// The factor by which to scale the transformation in the y-axis direction.
+        /// <param name="sy">The factor by which to scale the transformation in the y-axis direction.
         /// </param>
         public void ScaleTransform(float sx, float sy)
         {
@@ -675,15 +635,12 @@ namespace System.Drawing
         /// <summary>
         /// Scales the local geometric transformation by the specified factors in the specified order.
         /// </summary>
-        /// <param name="sx">
-        /// The factor by which to scale the transformation in the x-axis direction.
+        /// <param name="sx">The factor by which to scale the transformation in the x-axis direction.
         /// </param>
-        /// <param name="sy">
-        /// The factor by which to scale the transformation in the y-axis direction.
+        /// <param name="sy">The factor by which to scale the transformation in the y-axis direction.
         /// </param>
-        /// <param name="order"> A
-        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" />
-        /// that specifies whether to append or prepend the scaling matrix.
+        /// <param name="order">A
+        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies whether to append or prepend the scaling matrix.
         /// </param>
         public void ScaleTransform(float sx, float sy, MatrixOrder order)
         {
@@ -691,22 +648,19 @@ namespace System.Drawing
 
         /// <summary>
         /// Sets the values that determine the style of cap used to end lines drawn by this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <param name="startCap"> A
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />
-        /// that represents the cap style to use at the beginning of lines drawn with this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <param name="startCap">A
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> that represents the cap style to use at the beginning of lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </param>
-        /// <param name="endCap"> A
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />
-        /// that represents the cap style to use at the end of lines drawn with this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <param name="endCap">A
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> that represents the cap style to use at the end of lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </param>
-        /// <param name="dashCap"> A
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />
-        /// that represents the cap style to use at the beginning or end of dashed lines drawn with this
-        /// <see cref="T:System.Drawing.Pen" /> .
+        /// <param name="dashCap">A
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> that represents the cap style to use at the beginning or end of dashed lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </param>
         public void SetLineCap(LineCap startCap, LineCap endCap, DashCap dashCap)
         {
@@ -715,11 +669,9 @@ namespace System.Drawing
         /// <summary>
         /// Translates the local geometric transformation by the specified dimensions. This method prepends the translation to the transformation.
         /// </summary>
-        /// <param name="dx">
-        /// The value of the translation in x.
+        /// <param name="dx">The value of the translation in x.
         /// </param>
-        /// <param name="dy">
-        /// The value of the translation in y.
+        /// <param name="dy">The value of the translation in y.
         /// </param>
         public void TranslateTransform(float dx, float dy)
         {
@@ -728,14 +680,11 @@ namespace System.Drawing
         /// <summary>
         /// Translates the local geometric transformation by the specified dimensions in the specified order.
         /// </summary>
-        /// <param name="dx">
-        /// The value of the translation in x.
+        /// <param name="dx">The value of the translation in x.
         /// </param>
-        /// <param name="dy">
-        /// The value of the translation in y.
+        /// <param name="dy">The value of the translation in y.
         /// </param>
-        /// <param name="order">
-        /// The order (prepend or append) in which to apply the translation.
+        /// <param name="order">The order (prepend or append) in which to apply the translation.
         /// </param>
         public void TranslateTransform(float dx, float dy, MatrixOrder order)
         {

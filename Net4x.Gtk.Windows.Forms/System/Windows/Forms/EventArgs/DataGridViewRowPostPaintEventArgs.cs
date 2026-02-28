@@ -67,7 +67,7 @@ namespace System.Windows.Forms
                                                          string errorText,
                                                          DataGridViewCellStyle inheritedRowStyle,
                                                          bool isFirstDisplayedRow,
-                bool isLastVisibleRow)
+                                                         bool isLastVisibleRow)
         {
             _dataGridView = dataGridView ?? throw new ArgumentNullException(nameof(dataGridView));
             Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));

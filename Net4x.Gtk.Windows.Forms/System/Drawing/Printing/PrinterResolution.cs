@@ -15,7 +15,7 @@ namespace System.Drawing.Printing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref='PrinterResolution'/> class with default properties.
+        /// <see cref="PrinterResolution" /> class with default properties.
         /// </summary>
         public PrinterResolution()
         {

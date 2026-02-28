@@ -8,8 +8,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.RowErrorTextNeeded" />
-    /// event of a
+    /// <see cref="System.Windows.Forms.DataGridView.RowErrorTextNeeded" /> event of a
     /// <see cref="System.Windows.Forms.DataGridView" /> control.
     /// </summary>
     public class DataGridViewRowErrorTextNeededEventArgs : EventArgs

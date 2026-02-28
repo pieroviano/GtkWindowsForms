@@ -104,31 +104,23 @@ namespace System.Drawing
 
         /// <summary>
         /// Compares two
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// objects. Gets a value indicating whether the
+        /// <see cref="T:System.Drawing.CharacterRange" /> objects. Gets a value indicating whether the
         /// <see cref="P:System.Drawing.CharacterRange.First" /> and
-        /// <see cref="P:System.Drawing.CharacterRange.Length" />
-        /// values of the two
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// objects are equal.
+        /// <see cref="P:System.Drawing.CharacterRange.Length" /> values of the two
+        /// <see cref="T:System.Drawing.CharacterRange" /> objects are equal.
         /// </summary>
-        /// <param name="cr1"> A
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// to compare for equality.
+        /// <param name="cr1">A
+        /// <see cref="T:System.Drawing.CharacterRange" /> to compare for equality.
         /// </param>
-        /// <param name="cr2"> A
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// to compare for equality.
+        /// <param name="cr2">A
+        /// <see cref="T:System.Drawing.CharacterRange" /> to compare for equality.
         /// </param>
         /// <returns>
-        /// <see langword="true" />
-        /// to indicate the two
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// objects have the same
+        /// <see langword="true" /> to indicate the two
+        /// <see cref="T:System.Drawing.CharacterRange" /> objects have the same
         /// <see cref="P:System.Drawing.CharacterRange.First" /> and
-        /// <see cref="P:System.Drawing.CharacterRange.Length" />
-        /// values; otherwise,
-        /// <see langword="false" /> .
+        /// <see cref="P:System.Drawing.CharacterRange.Length" /> values; otherwise,
+        /// <see langword="false" />.
         /// </returns>
         public static bool operator ==(CharacterRange cr1, CharacterRange cr2)
         {
@@ -137,31 +129,23 @@ namespace System.Drawing
 
         /// <summary>
         /// Compares two
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// objects. Gets a value indicating whether the
+        /// <see cref="T:System.Drawing.CharacterRange" /> objects. Gets a value indicating whether the
         /// <see cref="P:System.Drawing.CharacterRange.First" /> or
-        /// <see cref="P:System.Drawing.CharacterRange.Length" />
-        /// values of the two
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// objects are not equal.
+        /// <see cref="P:System.Drawing.CharacterRange.Length" /> values of the two
+        /// <see cref="T:System.Drawing.CharacterRange" /> objects are not equal.
         /// </summary>
-        /// <param name="cr1"> A
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// to compare for inequality.
+        /// <param name="cr1">A
+        /// <see cref="T:System.Drawing.CharacterRange" /> to compare for inequality.
         /// </param>
-        /// <param name="cr2"> A
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// to compare for inequality.
+        /// <param name="cr2">A
+        /// <see cref="T:System.Drawing.CharacterRange" /> to compare for inequality.
         /// </param>
         /// <returns>
-        /// <see langword="true" />
-        /// to indicate the either the
+        /// <see langword="true" /> to indicate the either the
         /// <see cref="P:System.Drawing.CharacterRange.First" /> or
-        /// <see cref="P:System.Drawing.CharacterRange.Length" />
-        /// values of the two
-        /// <see cref="T:System.Drawing.CharacterRange" />
-        /// objects differ; otherwise,
-        /// <see langword="false" /> .
+        /// <see cref="P:System.Drawing.CharacterRange.Length" /> values of the two
+        /// <see cref="T:System.Drawing.CharacterRange" /> objects differ; otherwise,
+        /// <see langword="false" />.
         /// </returns>
         public static bool operator !=(CharacterRange cr1, CharacterRange cr2)
         {

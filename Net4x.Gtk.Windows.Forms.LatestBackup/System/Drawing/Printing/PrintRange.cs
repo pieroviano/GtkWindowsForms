@@ -16,8 +16,8 @@ namespace System.Drawing.Printing
 
         /// <summary>
         /// The pages between
-        /// <see cref='PrinterSettings.FromPage'/> and
-        /// <see cref='PrinterSettings.ToPage'/> are printed.
+        /// <see cref="PrinterSettings.FromPage" /> and
+        /// <see cref="PrinterSettings.ToPage" /> are printed.
         /// </summary>
         SomePages = 1,
 

@@ -13,8 +13,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides a
-    /// <see cref="System.ComponentModel.TypeConverter" />
-    /// to convert
+    /// <see cref="System.ComponentModel.TypeConverter" /> to convert
     /// <see cref="System.Windows.Forms.Keys" />
     /// objects to and from other representations.
     /// </summary>
@@ -69,7 +68,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Access to a lookup table of name/value pairs for keys.  These are localized names.
+        /// Access to a lookup table of name/value pairs for keys.  These are localized
+        /// names.
         /// </summary>
         private IDictionary KeyNames
         {

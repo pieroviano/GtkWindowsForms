@@ -7,8 +7,7 @@ namespace System.Windows.Forms
     /// Specifies how properties are sorted in the
     /// <see cref="System.Windows.Forms.PropertyGrid" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     [Flags]
     public enum PropertySort

@@ -322,7 +322,7 @@ public class ControlBindingsCollection : BindingsCollection
             DataSourceUpdateMode updateMode,
             object? nullValue,
             string formatString,
-        IFormatProvider? formatInfo)
+            IFormatProvider? formatInfo)
     {
         if (dataSource == null) throw new ArgumentNullException(nameof(dataSource));
 

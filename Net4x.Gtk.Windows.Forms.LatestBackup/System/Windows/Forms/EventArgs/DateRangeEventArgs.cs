@@ -7,8 +7,7 @@ namespace System.Windows.Forms
     /// <summary>
     /// Provides data for the
     /// <see cref="System.Windows.Forms.MonthCalendar.DateChanged" /> or
-    /// <see cref="System.Windows.Forms.MonthCalendar.DateSelected" />
-    /// events of the
+    /// <see cref="System.Windows.Forms.MonthCalendar.DateSelected" /> events of the
     /// <see cref="System.Windows.Forms.MonthCalendar" /> control.
     /// </summary>
     /// <filterpriority>

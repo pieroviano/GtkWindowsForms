@@ -12,7 +12,7 @@ namespace System.Drawing.Printing
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref='PrintPageEventArgs'/> class.
+        /// <see cref="PrintPageEventArgs" /> class.
         /// </summary>
         public PrintPageEventArgs(Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings)
         {
@@ -29,7 +29,7 @@ namespace System.Drawing.Printing
 
         /// <summary>
         /// Gets the
-        /// <see cref='Drawing.Graphics'/> used to paint the item.
+        /// <see cref="Drawing.Graphics" /> used to paint the item.
         /// </summary>
         public Graphics Graphics { get; private set; }
 
@@ -60,7 +60,7 @@ namespace System.Drawing.Printing
 
         /// <summary>
         /// Disposes of the resources (other than memory) used by the
-        /// <see cref='PrintPageEventArgs'/>.
+        /// <see cref="PrintPageEventArgs" />.
         /// </summary>
         internal void Dispose() => Graphics?.Dispose();
 

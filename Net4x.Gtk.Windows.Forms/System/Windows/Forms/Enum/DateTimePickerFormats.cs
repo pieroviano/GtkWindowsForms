@@ -5,8 +5,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies the date and time format the
-    /// <see cref="System.Windows.Forms.DateTimePicker" />
-    /// control displays.
+    /// <see cref="System.Windows.Forms.DateTimePicker" /> control displays.
     /// </summary>
     /// <filterpriority>
     /// 2

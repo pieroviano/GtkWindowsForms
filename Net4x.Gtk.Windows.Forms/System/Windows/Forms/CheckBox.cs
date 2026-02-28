@@ -13,8 +13,7 @@ namespace System.Windows.Forms
     /// Represents a Windows
     /// <see cref="System.Windows.Forms.CheckBox" />
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority> 1
     /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class CheckBox : Control

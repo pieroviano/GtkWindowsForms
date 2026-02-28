@@ -48,13 +48,15 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// The scroll box was moved to the
-        /// <see cref="ScrollBar.Minimum"/> position.
+        /// <see cref="ScrollBar.Minimum" />
+        /// position.
         /// </summary>
         First = 7,
 
         /// <summary>
         /// The scroll box was moved to the
-        /// <see cref="ScrollBar.Maximum"/> position.
+        /// <see cref="ScrollBar.Maximum" />
+        /// position.
         /// </summary>
         Last = 8,
 

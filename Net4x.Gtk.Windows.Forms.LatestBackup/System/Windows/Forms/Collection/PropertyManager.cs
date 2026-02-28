@@ -22,24 +22,20 @@ public class PropertyManager : BindingManagerBase
 
     internal override Type? BindType => _dataSource?.GetType();
 
-    /// <returns>
-    /// The number of rows managed by the
+    /// <returns>The number of rows managed by the
     /// <see cref="T:System.Windows.Forms.BindingManagerBase" />.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override int Count => 1;
 
     /// <summary>
     /// Gets the object to which the data-bound property belongs.
     /// </summary>
-    /// <returns>
-    /// An
+    /// <returns>An
     /// <see cref="T:System.Object" /> that represents the object to which the property belongs.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override object? Current => _dataSource;
 
@@ -47,11 +43,9 @@ public class PropertyManager : BindingManagerBase
 
     internal override bool IsBinding => _dataSource != null;
 
-    /// <returns>
-    /// A zero-based index that specifies a position in the underlying list.
+    /// <returns>A zero-based index that specifies a position in the underlying list.
     /// </returns>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override int Position
     {
@@ -84,16 +78,14 @@ public class PropertyManager : BindingManagerBase
         SetDataSource(source);
     }
 
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void AddNew()
     {
         throw new NotSupportedException("DataBindingAddNewNotSupportedOnPropertyManager");
     }
 
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void CancelCurrentEdit()
     {
@@ -102,8 +94,7 @@ public class PropertyManager : BindingManagerBase
         PushData();
     }
 
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void EndCurrentEdit()
     {
@@ -130,11 +121,9 @@ public class PropertyManager : BindingManagerBase
         return null;
     }
 
-    /// <returns>
-    /// The name of the list supplying the data for the binding.
+    /// <returns>The name of the list supplying the data for the binding.
     /// </returns>
-    /// <param name="listAccessors">
-    /// An
+    /// <param name="listAccessors">An
     /// <see cref="T:System.Collections.ArrayList" /> containing the table's bound properties.
     /// </param>
     protected internal override string? GetListName(ArrayList? listAccessors)
@@ -146,8 +135,7 @@ public class PropertyManager : BindingManagerBase
     /// Raises the
     /// <see cref="E:System.Windows.Forms.BindingManagerBase.CurrentChanged" /> event.
     /// </summary>
-    /// <param name="e">
-    /// The
+    /// <param name="e">The
     /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected internal override void OnCurrentChanged(EventArgs e)
@@ -161,8 +149,7 @@ public class PropertyManager : BindingManagerBase
     /// Raises the
     /// <see cref="E:System.Windows.Forms.BindingManagerBase.CurrentItemChanged" /> event.
     /// </summary>
-    /// <param name="e">
-    /// An
+    /// <param name="e">An
     /// <see cref="T:System.EventArgs" /> containing the event data.
     /// </param>
     protected internal override void OnCurrentItemChanged(EventArgs e)
@@ -177,19 +164,16 @@ public class PropertyManager : BindingManagerBase
         OnCurrentChanged(EventArgs.Empty);
     }
 
-    /// <param name="index">
-    /// The index of the row to delete.
+    /// <param name="index">The index of the row to delete.
     /// </param>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void RemoveAt(int index)
     {
         throw new NotSupportedException("DataBindingRemoveAtNotSupportedOnPropertyManager");
     }
 
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void ResumeBinding()
     {
@@ -232,8 +216,7 @@ public class PropertyManager : BindingManagerBase
     /// <summary>
     /// Suspends the data binding between a data source and a data-bound property.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public override void SuspendBinding()
     {

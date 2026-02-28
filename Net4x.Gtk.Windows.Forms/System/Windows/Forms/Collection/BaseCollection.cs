@@ -6,8 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides the base functionality for creating data-related collections in the
-    /// <see cref="System.Windows.Forms" />
-    /// namespace.
+    /// <see cref="System.Windows.Forms" /> namespace.
     /// </summary>
     /// <filterpriority>
     /// 2

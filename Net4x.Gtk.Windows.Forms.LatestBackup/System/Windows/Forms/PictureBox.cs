@@ -196,15 +196,13 @@ namespace System.Windows.Forms
         /// <paramref name="url" /> is null or an empty string.
         /// </exception>
         /// <exception cref="System.Net.WebException">
-        /// <paramref name="url" />
-        /// refers to an image on the Web that cannot be accessed.
+        /// <paramref name="url" /> refers to an image on the Web that cannot be accessed.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="url" /> refers to a file that is not an image.
         /// </exception>
         /// <exception cref="System.IO.FileNotFoundException">
-        /// <paramref name="url" />
-        /// refers to a file that does not exist.
+        /// <paramref name="url" /> refers to a file that does not exist.
         /// </exception>
         /// <filterpriority>1
         /// </filterpriority>

@@ -2,8 +2,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies which sides of a
-    /// <see cref="System.Windows.Forms.ToolStripStatusLabel" />
-    /// have borders.
+    /// <see cref="System.Windows.Forms.ToolStripStatusLabel" /> have borders.
     /// </summary>
     public enum ToolStripStatusLabelBorderSides
     {

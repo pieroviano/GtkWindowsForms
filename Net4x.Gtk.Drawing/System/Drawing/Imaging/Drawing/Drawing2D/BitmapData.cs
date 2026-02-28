@@ -5,13 +5,11 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Specifies the attributes of a bitmap image. The
-    /// <see cref="System.Drawing.Imaging.BitmapData" />
-    /// class is used by the
+    /// <see cref="System.Drawing.Imaging.BitmapData" /> class is used by the
     /// <see cref="!:Overload:System.Drawing.Bitmap.LockBits" /> and
     /// <see cref="System.Drawing.Bitmap.UnlockBits(System.Drawing.Imaging.BitmapData)" />
     /// methods of the
-    /// <see cref="System.Drawing.Bitmap" />
-    /// class. Not inheritable.
+    /// <see cref="System.Drawing.Bitmap" /> class. Not inheritable.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public sealed class BitmapData
@@ -30,11 +28,9 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets the pixel width of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// object. This can also be thought of as the number of pixels in one scan line.
+        /// <see cref="T:System.Drawing.Bitmap" /> object. This can also be thought of as the number of pixels in one scan line.
         /// </summary>
-        /// <returns>
-        /// The pixel width of the
+        /// <returns>The pixel width of the
         /// <see cref="T:System.Drawing.Bitmap" /> object.
         /// </returns>
         public int Width
@@ -51,11 +47,9 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets the pixel height of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// object. Also sometimes referred to as the number of scan lines.
+        /// <see cref="T:System.Drawing.Bitmap" /> object. Also sometimes referred to as the number of scan lines.
         /// </summary>
-        /// <returns>
-        /// The pixel height of the
+        /// <returns>The pixel height of the
         /// <see cref="T:System.Drawing.Bitmap" /> object.
         /// </returns>
         public int Height
@@ -74,8 +68,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the stride width (also called scan width) of the
         /// <see cref="T:System.Drawing.Bitmap" /> object.
         /// </summary>
-        /// <returns>
-        /// The stride width, in bytes, of the
+        /// <returns>The stride width, in bytes, of the
         /// <see cref="T:System.Drawing.Bitmap" /> object.
         /// </returns>
         public int Stride
@@ -146,8 +139,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets or sets the address of the first pixel data in the bitmap. This can also be thought of as the first scan line in the bitmap.
         /// </summary>
-        /// <returns>
-        /// The address of the first pixel data in the bitmap.
+        /// <returns>The address of the first pixel data in the bitmap.
         /// </returns>
         public IntPtr Scan0
         {
@@ -164,8 +156,7 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Reserved. Do not use.
         /// </summary>
-        /// <returns>
-        /// Reserved. Do not use.
+        /// <returns>Reserved. Do not use.
         /// </returns>
         public int Reserved
         {

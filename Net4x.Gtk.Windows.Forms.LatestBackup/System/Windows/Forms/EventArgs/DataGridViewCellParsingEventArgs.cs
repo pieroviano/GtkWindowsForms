@@ -6,8 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.CellParsing" />
-    /// event of a
+    /// <see cref="System.Windows.Forms.DataGridView.CellParsing" /> event of a
     /// <see cref="System.Windows.Forms.DataGridView" /> control.
     /// </summary>
     /// <filterpriority>
@@ -33,7 +32,7 @@ namespace System.Windows.Forms
                                                  int columnIndex,
                                                  object value,
                                                  Type desiredType,
-                DataGridViewCellStyle inheritedCellStyle) : base(value, desiredType)
+                                                 DataGridViewCellStyle inheritedCellStyle) : base(value, desiredType)
         {
             RowIndex = rowIndex;
             ColumnIndex = columnIndex;

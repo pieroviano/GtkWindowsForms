@@ -4,8 +4,7 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Contains attributes of an associated
-    /// <see cref="System.Drawing.Imaging.Metafile" />
-    /// . Not inheritable.
+    /// <see cref="System.Drawing.Imaging.Metafile" /> . Not inheritable.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public sealed class MetafileHeader

@@ -9,8 +9,7 @@ namespace System.Windows.Forms
     /// <summary>
     /// Provides data for the
     /// <see cref="System.Windows.Forms.DataGridView.CellValueNeeded" /> and
-    /// <see cref="System.Windows.Forms.DataGridView.CellValuePushed" />
-    /// events of the
+    /// <see cref="System.Windows.Forms.DataGridView.CellValuePushed" /> events of the
     /// <see cref="System.Windows.Forms.DataGridView" /> control.
     /// </summary>
     /// <filterpriority>

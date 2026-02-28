@@ -6,8 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.CellErrorTextNeeded" />
-    /// event of a
+    /// <see cref="System.Windows.Forms.DataGridView.CellErrorTextNeeded" /> event of a
     /// <see cref="System.Windows.Forms.DataGridView" /> control.
     /// </summary>
     public class DataGridViewCellErrorTextNeededEventArgs : DataGridViewCellEventArgs

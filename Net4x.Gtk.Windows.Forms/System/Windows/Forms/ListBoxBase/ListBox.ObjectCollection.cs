@@ -36,7 +36,7 @@ namespace System.Windows.Forms
             /// Initializes a new instance of ListBox.ObjectCollection based on another ListBox.ObjectCollection.
             /// </summary>
             public ObjectCollection(ListBox owner, ObjectCollection value)
-            : this(owner)
+                : this(owner)
             {
                 AddRange(value);
             }
@@ -45,7 +45,7 @@ namespace System.Windows.Forms
             /// Initializes a new instance of ListBox.ObjectCollection containing any array of objects.
             /// </summary>
             public ObjectCollection(ListBox owner, object[] value)
-            : this(owner)
+                : this(owner)
             {
                 AddRange(value);
             }

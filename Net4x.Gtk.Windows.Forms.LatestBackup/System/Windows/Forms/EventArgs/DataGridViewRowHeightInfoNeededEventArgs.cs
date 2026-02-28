@@ -8,8 +8,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.RowHeightInfoNeeded" />
-    /// event of a
+    /// <see cref="System.Windows.Forms.DataGridView.RowHeightInfoNeeded" /> event of a
     /// <see cref="System.Windows.Forms.DataGridView" />
     /// </summary>
     public class DataGridViewRowHeightInfoNeededEventArgs : EventArgs

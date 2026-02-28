@@ -7,8 +7,7 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents the abstract base class that manages events and layout for all the elements that a
     /// <see cref="System.Windows.Forms.ToolStrip" /> or
-    /// <see cref="System.Windows.Forms.ToolStripDropDown" />
-    /// can contain.
+    /// <see cref="System.Windows.Forms.ToolStripDropDown" /> can contain.
     /// </summary>
     /// <filterpriority>
     /// 1

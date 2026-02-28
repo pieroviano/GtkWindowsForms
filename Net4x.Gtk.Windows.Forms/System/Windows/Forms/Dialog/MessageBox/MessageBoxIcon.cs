@@ -38,7 +38,8 @@ namespace System.Windows.Forms
         Asterisk = 0x00000040,
 
         /// <summary>
-        /// Specifies that the message box contains a hand icon. This field is constant.
+        /// Specifies that the message box contains a hand icon. This field is
+        /// constant.
         /// </summary>
         Stop = Hand,
 

@@ -56,8 +56,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -72,7 +71,7 @@ public class MessageBox
     /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
     /// </PermissionSet>
     public static DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton)
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -118,8 +117,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -134,7 +132,7 @@ public class MessageBox
     /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
     /// </PermissionSet>
     public static DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -183,8 +181,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -200,7 +197,7 @@ public class MessageBox
     /// </PermissionSet>
     public static DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons,
             MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -248,8 +245,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -264,7 +260,7 @@ public class MessageBox
     /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
     /// </PermissionSet>
     public static DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -315,8 +311,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -332,7 +327,7 @@ public class MessageBox
     /// </PermissionSet>
     public static DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons,
             MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -381,8 +376,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -397,7 +391,7 @@ public class MessageBox
     /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
     /// </PermissionSet>
     public static DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -449,8 +443,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -466,7 +459,7 @@ public class MessageBox
     /// </PermissionSet>
     public static DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons,
             MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -517,8 +510,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -534,7 +526,7 @@ public class MessageBox
     /// </PermissionSet>
     public static DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
             MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator,
-        object param)
+            object param)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -588,8 +580,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -606,7 +597,7 @@ public class MessageBox
     public static DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons,
             MessageBoxIcon icon,
             MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator,
-        object param)
+            object param)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -650,8 +641,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="buttons" /> specified an invalid combination of
@@ -666,7 +656,7 @@ public class MessageBox
     /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
     /// </PermissionSet>
     public static DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -715,7 +705,7 @@ public class MessageBox
     /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
     /// </PermissionSet>
     public static DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton)
+            MessageBoxDefaultButton defaultButton)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -895,8 +885,7 @@ public class MessageBox
     /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" /> property.
     /// </exception>
     /// <exception cref="System.ArgumentException">
-    /// <paramref name="options" />
-    /// specified both
+    /// <paramref name="options" /> specified both
     /// <see cref="System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly" /> and
     /// <see cref="System.Windows.Forms.MessageBoxOptions.ServiceNotification" />-or-
     /// <paramref name="options" /> specified
@@ -917,7 +906,7 @@ public class MessageBox
     /// </PermissionSet>
     public static DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons,
             MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -970,7 +959,7 @@ public class MessageBox
     /// </PermissionSet>
     public static DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons,
             MessageBoxIcon icon,
-        MessageBoxDefaultButton defaultButton)
+            MessageBoxDefaultButton defaultButton)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {
@@ -1017,7 +1006,7 @@ public class MessageBox
     /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
     /// </PermissionSet>
     public static DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons,
-        MessageBoxIcon icon)
+            MessageBoxIcon icon)
     {
         if (Instance is NonStaticMessageBox nonStaticMessageBox)
         {

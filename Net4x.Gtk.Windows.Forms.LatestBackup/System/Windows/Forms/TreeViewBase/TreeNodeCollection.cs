@@ -26,8 +26,7 @@ namespace System.Windows.Forms
         /// <paramref name="nodes" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="nodes" />
-        /// is the child of another
+        /// <paramref name="nodes" /> is the child of another
         /// <see cref="System.Windows.Forms.TreeView" />
         /// </exception>
         /// <filterpriority>1

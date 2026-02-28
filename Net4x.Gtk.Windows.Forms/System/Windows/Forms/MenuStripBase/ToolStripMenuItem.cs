@@ -12,8 +12,7 @@ namespace System.Windows.Forms
     /// <see cref="System.Windows.Forms.ContextMenuStrip" /> Although
     /// <see cref="System.Windows.Forms.ToolStripMenuItem" />
     /// replaces and adds functionality to the
-    /// <see cref="!:System.Windows.Forms.MenuItem" />
-    /// control of previous versions,
+    /// <see cref="!:System.Windows.Forms.MenuItem" /> control of previous versions,
     /// <see cref="!:System.Windows.Forms.MenuItem" />
     /// is retained for both backward compatibility and future use if you choose.
     /// </summary>

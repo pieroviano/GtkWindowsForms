@@ -11,8 +11,7 @@ namespace System.Windows.Forms
     /// Represents a node of a
     /// <see cref="System.Windows.Forms.TreeView" />
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority> 1
     /// </filterpriority>
     public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     {

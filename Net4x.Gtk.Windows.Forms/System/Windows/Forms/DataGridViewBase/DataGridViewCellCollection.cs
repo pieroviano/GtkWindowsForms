@@ -10,8 +10,7 @@ namespace System.Windows.Forms
     /// Represents a collection of cells in a
     /// <see cref="System.Windows.Forms.DataGridViewRow" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     [ListBindable(false)]
     public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IEnumerable
@@ -191,8 +190,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridView" /> control.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="cell" />
-        /// could not be found in the collection.
+        /// <paramref name="cell" /> could not be found in the collection.
         /// </exception>
         void IList.Remove(object value)
         {
@@ -224,8 +222,7 @@ namespace System.Windows.Forms
         /// <paramref name="array" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index" />
-        /// is less than zero.
+        /// <paramref name="index" /> is less than zero.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array" /> is multidimensional.-or-The number of elements in the
@@ -261,7 +258,7 @@ namespace System.Windows.Forms
         /// </exception>
         /// <filterpriority>1
         /// </filterpriority>
-//*****************
+        //*****************
         public virtual int Add(DataGridViewCell dataGridViewCell)
         {
             if (owner.DataGridView != null)

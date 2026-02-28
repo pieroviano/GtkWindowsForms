@@ -9,8 +9,7 @@ namespace System.Windows.Forms
     /// <summary>
     /// Provides data for the
     /// <see cref="!:System.Windows.Forms.TabControl.Selecting" /> and
-    /// <see cref="!:System.Windows.Forms.TabControl.Deselecting" />
-    /// events of a
+    /// <see cref="!:System.Windows.Forms.TabControl.Deselecting" /> events of a
     /// <see cref="System.Windows.Forms.TabControl" /> control.
     /// </summary>
     /// <filterpriority>

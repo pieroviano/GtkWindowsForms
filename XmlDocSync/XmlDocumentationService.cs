@@ -1,13 +1,13 @@
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Prepare.Common.Text;
 
 namespace XmlDocSync;
 
 public static class XmlDocumentationService
 {
-    public static async Task<int> MergeXmlDocumentationAsync(string xmlPath, string sourceDir)
+    public static async Task<int> MergeXmlDocumentationAsync(string xmlPath, string sourceDir, (string ToReplace, string DestinationValue)[] fixes)
     {
         if (!File.Exists(xmlPath))
         {
@@ -33,24 +33,10 @@ public static class XmlDocumentationService
         // Process each file
         foreach (var syntaxTree in syntaxTrees)
         {
-            await ProcessFile(compilation, xmlDocumentation, syntaxTree);
+            await ProcessFile(compilation, xmlDocumentation, syntaxTree, fixes);
         }
+
         return 0;
-    }
-
-    private static async Task<List<SyntaxTree>> ParseAllSyntaxTrees(string[] files)
-    {
-        // Parse all syntax trees first
-        var syntaxTrees = new List<SyntaxTree>();
-
-        foreach (var file in files)
-        {
-            var text = await File.ReadAllTextAsync(file);
-            var tree = CSharpSyntaxTree.ParseText(text, path: file);
-            syntaxTrees.Add(tree);
-        }
-
-        return syntaxTrees;
     }
 
     private static CSharpCompilation GetCSharpCompilation(List<SyntaxTree> syntaxTrees)
@@ -72,8 +58,92 @@ public static class XmlDocumentationService
         return compilation;
     }
 
+    private static async Task<string> GetNormalizedOriginalText(string filePath)
+    {
+        var readAllText = await File.ReadAllTextAsync(filePath);
+        var trimEnd = readAllText.Replace("\r\n", "\n").TrimEnd('\n');
+        return trimEnd;
+    }
+
+    private static Dictionary<string, string> LoadXmlDocumentation(string path)
+    {
+        var doc = XDocument.Load(path);
+
+        return doc.Descendants("member")
+            .Where(m => m.Attribute("name") != null)
+            .ToDictionary(
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                m => m.Attribute("name").Value,
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                m => string.Concat(m.Nodes()) // preserve full XML
+            );
+    }
+
+    private static string NormalizeXmlDocBlockIndentation(string text,
+        (string ToReplace, string DestinationValue)[] fixes)
+    {
+        var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+
+        var relevant = new List<int>();
+        var codeLineTaken = false;
+
+        for (var i = 0; i < lines.Length; i++)
+        {
+            var line = lines[i];
+
+            if (Regex.IsMatch(line, @"^\s*///"))
+            {
+                relevant.Add(i);
+                continue;
+            }
+
+            if (!codeLineTaken &&
+                !string.IsNullOrWhiteSpace(line) &&
+                !Regex.IsMatch(line, @"^\s*//"))
+            {
+                relevant.Add(i);
+                codeLineTaken = true;
+            }
+        }
+
+        if (relevant.Count == 0)
+        {
+            return text;
+        }
+
+        var minIndent = relevant
+            .Select(i => lines[i].TakeWhile(char.IsWhiteSpace).Count())
+            .Min();
+
+        foreach (var i in relevant)
+        {
+            lines[i] = new string(' ', minIndent) + lines[i].TrimStart();
+        }
+
+        var source = string.Join("\n", lines);
+        var removeTextBeforeNonOpenedSummary = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(source);
+        var fixIndentationAndRemoveBlanks =
+            XmlDocIndentFormatter.FixIndentationAndRemoveBlanks(removeTextBeforeNonOpenedSummary);
+        return XmlDocumentationFormatter.Format(fixIndentationAndRemoveBlanks, fixes).TrimEnd('\n', '\r', ' ', '\t');
+    }
+
+    private static async Task<List<SyntaxTree>> ParseAllSyntaxTrees(string[] files)
+    {
+        // Parse all syntax trees first
+        var syntaxTrees = new List<SyntaxTree>();
+
+        foreach (var file in files)
+        {
+            var text = await File.ReadAllTextAsync(file);
+            var tree = CSharpSyntaxTree.ParseText(text, path: file);
+            syntaxTrees.Add(tree);
+        }
+
+        return syntaxTrees;
+    }
+
     private static async Task ProcessFile(CSharpCompilation compilation,
-        Dictionary<string, string> xmlDocumentation, SyntaxTree syntaxTree)
+        Dictionary<string, string> xmlDocumentation, SyntaxTree syntaxTree, (string ToReplace, string DestinationValue)[] valueTuples)
     {
         Console.WriteLine($"Processing {syntaxTree.FilePath}");
 
@@ -97,7 +167,7 @@ public static class XmlDocumentationService
                 .Replace("///              ", "/// ")
                 .Replace("///             ", "/// ")
                 .Replace("\r\n", "\n")
-                .TrimEnd('\n'));
+                .TrimEnd('\n'), valueTuples);
             contents = XmlDocFileFormatter.FormatFile(contents).Replace("\r\n", "\n");
             var normalizedOriginalText = await GetNormalizedOriginalText(syntaxTree.FilePath);
 
@@ -110,72 +180,5 @@ public static class XmlDocumentationService
                 await File.WriteAllTextAsync(syntaxTree.FilePath, contents);
             }
         }
-    }
-
-    private static string NormalizeXmlDocBlockIndentation(string text)
-    {
-        var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-
-        var relevant = new List<int>();
-        bool codeLineTaken = false;
-
-        for (int i = 0; i < lines.Length; i++)
-        {
-            var line = lines[i];
-
-            if (System.Text.RegularExpressions.Regex.IsMatch(line, @"^\s*///"))
-            {
-                relevant.Add(i);
-                continue;
-            }
-
-            if (!codeLineTaken &&
-                !string.IsNullOrWhiteSpace(line) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(line, @"^\s*//"))
-            {
-                relevant.Add(i);
-                codeLineTaken = true;
-            }
-        }
-
-        if (relevant.Count == 0)
-            return text;
-
-        int minIndent = relevant
-            .Select(i => lines[i].TakeWhile(char.IsWhiteSpace).Count())
-            .Min();
-
-        foreach (var i in relevant)
-        {
-            lines[i] = new string(' ', minIndent) + lines[i].TrimStart();
-        }
-
-        var source = string.Join("\n", lines);
-        var removeTextBeforeNonOpenedSummary = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(source);
-        var fixIndentationAndRemoveBlanks = XmlDocIndentFormatter.FixIndentationAndRemoveBlanks(removeTextBeforeNonOpenedSummary);
-        var fixXmlCommentIndentation = CsXmlCommentFormatter.FixXmlCommentIndentation(fixIndentationAndRemoveBlanks);
-        var normalizeXmlDocBlockIndentation = fixXmlCommentIndentation.TrimEnd(['\n', '\r', ' ', '\t']);
-        return XmlCommentTagSplitter.Process(XmlCommentProcessor.Process(XmlDocFormatter.Format(normalizeXmlDocBlockIndentation)));
-    }
-
-    private static async Task<string> GetNormalizedOriginalText(string filePath)
-    {
-        var readAllText = await File.ReadAllTextAsync(filePath);
-        var trimEnd = readAllText.Replace("\r\n", "\n").TrimEnd('\n');
-        return trimEnd;
-    }
-
-    private static Dictionary<string, string> LoadXmlDocumentation(string path)
-    {
-        var doc = XDocument.Load(path);
-
-        return doc.Descendants("member")
-            .Where(m => m.Attribute("name") != null)
-            .ToDictionary(
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                m => m.Attribute("name").Value,
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-                m => string.Concat(m.Nodes()) // preserve full XML
-            );
     }
 }

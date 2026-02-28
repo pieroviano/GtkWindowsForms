@@ -99,16 +99,13 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />
-        /// class with the specified outline and fill.
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> class with the specified outline and fill.
         /// </summary>
-        /// <param name="fillPath"> A
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
-        /// object that defines the fill for the custom cap.
+        /// <param name="fillPath">A
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the fill for the custom cap.
         /// </param>
-        /// <param name="strokePath"> A
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
-        /// object that defines the outline of the custom cap.
+        /// <param name="strokePath">A
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the outline of the custom cap.
         /// </param>
         public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath)
         {
@@ -116,21 +113,16 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />
-        /// class from the specified existing
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />
-        /// enumeration with the specified outline and fill.
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> class from the specified existing
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration with the specified outline and fill.
         /// </summary>
-        /// <param name="fillPath"> A
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
-        /// object that defines the fill for the custom cap.
+        /// <param name="fillPath">A
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the fill for the custom cap.
         /// </param>
-        /// <param name="strokePath"> A
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
-        /// object that defines the outline of the custom cap.
+        /// <param name="strokePath">A
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the outline of the custom cap.
         /// </param>
-        /// <param name="baseCap">
-        /// The line cap from which to create the custom cap.
+        /// <param name="baseCap">The line cap from which to create the custom cap.
         /// </param>
         public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap)
         {
@@ -138,24 +130,18 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />
-        /// class from the specified existing
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />
-        /// enumeration with the specified outline, fill, and inset.
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> class from the specified existing
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration with the specified outline, fill, and inset.
         /// </summary>
-        /// <param name="fillPath"> A
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
-        /// object that defines the fill for the custom cap.
+        /// <param name="fillPath">A
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the fill for the custom cap.
         /// </param>
-        /// <param name="strokePath"> A
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
-        /// object that defines the outline of the custom cap.
+        /// <param name="strokePath">A
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the outline of the custom cap.
         /// </param>
-        /// <param name="baseCap">
-        /// The line cap from which to create the custom cap.
+        /// <param name="baseCap">The line cap from which to create the custom cap.
         /// </param>
-        /// <param name="baseInset">
-        /// The distance between the cap and the line.
+        /// <param name="baseInset">The distance between the cap and the line.
         /// </param>
         public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap, float baseInset)
         {
@@ -189,14 +175,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Releases the unmanaged resources used by the
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />
-        /// and optionally releases the managed resources.
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">
-        /// <see langword="true" />
-        /// to release both managed and unmanaged resources;
-        /// <see langword="false" />
-        /// to release only unmanaged resources.
+        /// <see langword="true" /> to release both managed and unmanaged resources;
+        /// <see langword="false" /> to release only unmanaged resources.
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
@@ -204,10 +187,8 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Allows an
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />
-        /// to attempt to free resources and perform other cleanup operations before the
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />
-        /// is reclaimed by garbage collection.
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> to attempt to free resources and perform other cleanup operations before the
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> is reclaimed by garbage collection.
         /// </summary>
         ~CustomLineCap()
         {
@@ -216,13 +197,11 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Gets the caps used to start and end lines that make up this custom cap.
         /// </summary>
-        /// <param name="startCap"> The
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />
-        /// enumeration used at the beginning of a line within this cap.
+        /// <param name="startCap">The
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the beginning of a line within this cap.
         /// </param>
-        /// <param name="endCap"> The
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />
-        /// enumeration used at the end of a line within this cap.
+        /// <param name="endCap">The
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the end of a line within this cap.
         /// </param>
         public void GetStrokeCaps(out LineCap startCap, out LineCap endCap)
         {
@@ -232,13 +211,11 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Sets the caps used to start and end lines that make up this custom cap.
         /// </summary>
-        /// <param name="startCap"> The
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />
-        /// enumeration used at the beginning of a line within this cap.
+        /// <param name="startCap">The
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the beginning of a line within this cap.
         /// </param>
-        /// <param name="endCap"> The
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />
-        /// enumeration used at the end of a line within this cap.
+        /// <param name="endCap">The
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the end of a line within this cap.
         /// </param>
         public void SetStrokeCaps(LineCap startCap, LineCap endCap)
         {

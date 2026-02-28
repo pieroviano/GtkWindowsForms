@@ -187,7 +187,7 @@ public abstract class BindingManagerBase
             [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type? listType,
             int offset,
             ArrayList dataSources,
-        ArrayList listAccessors)
+            ArrayList listAccessors)
     {
         if (listAccessors.Count < offset)
         {

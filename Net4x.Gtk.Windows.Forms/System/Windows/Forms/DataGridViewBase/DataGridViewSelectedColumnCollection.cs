@@ -13,8 +13,7 @@ namespace System.Windows.Forms
     /// objects that are selected in a
     /// <see cref="System.Windows.Forms.DataGridView" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     [ListBindable(false)]
     public class DataGridViewSelectedColumnCollection : BaseCollection, IList
@@ -139,8 +138,7 @@ namespace System.Windows.Forms
         /// <paramref name="array" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index" />
-        /// is less than zero.
+        /// <paramref name="index" /> is less than zero.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array" /> is multidimensional.-or-The number of elements in the
@@ -194,8 +192,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Adds a
-        /// <see cref="DataGridViewCell"/>
-        /// to this collection.
+        /// <see cref="DataGridViewCell" /> to this collection.
         /// </summary>
         internal int Add(DataGridViewColumn dataGridViewColumn) => ((IList)_items).Add(dataGridViewColumn);
         /// <summary>
@@ -235,8 +232,7 @@ namespace System.Windows.Forms
         /// <paramref name="array" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index" />
-        /// is less than zero.
+        /// <paramref name="index" /> is less than zero.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array" /> is multidimensional.-or-The number of elements in the

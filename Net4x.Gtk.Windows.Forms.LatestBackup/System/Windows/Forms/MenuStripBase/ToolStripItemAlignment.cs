@@ -6,8 +6,7 @@ namespace System.Windows.Forms
     /// <see cref="System.Windows.Forms.ToolStripItem" /> in a
     /// <see cref="System.Windows.Forms.ToolStrip" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     public enum ToolStripItemAlignment
     {

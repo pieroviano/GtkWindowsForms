@@ -17,8 +17,7 @@ namespace System.Windows.Forms
     /// Displays a hierarchical collection of labeled items, each represented by a
     /// <see cref="System.Windows.Forms.TreeNode" />
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority> 1
     /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class TreeView : ScrollableControl

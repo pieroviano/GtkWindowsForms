@@ -13,8 +13,7 @@ namespace System.Windows.Forms
     public enum AccessibleEvents
     {
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_SOUND
+        /// <c>EVENT_SYSTEM_SOUND
         /// </c>
         /// Sent when a sound is played. Currently nothing is generating this, we
         /// are going to be cleaning up the SOUNDSENTRY feature in the control panel
@@ -30,8 +29,7 @@ namespace System.Windows.Forms
         SystemAlert = 0x0002,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_FOREGROUND
+        /// <c>EVENT_SYSTEM_FOREGROUND
         /// </c>
         /// Sent when the foreground (active) window changes, even if it is changing
         /// to another window in the same thread as the previous one.
@@ -44,124 +42,109 @@ namespace System.Windows.Forms
         SystemMenuStart = 0x0004,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_MENUEND
+        /// <c>EVENT_SYSTEM_MENUEND
         /// </c>
         /// Sent when leaving from menu mode (system, app bar, and track popups).
         /// </summary>
-        /// <seealso cref="SystemMenuStart"/> .
+        /// <seealso cref="SystemMenuStart" />.
         SystemMenuEnd = 0x0005,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_MENUPOPUPSTART
+        /// <c>EVENT_SYSTEM_MENUPOPUPSTART
         /// </c>
         /// Sent when a menu popup comes up.
         /// </summary>
         /// <remarks>
         /// Note that for a call to TrackPopupMenu(), a client will see
-        /// <c>
-        /// EVENT_SYSTEM_MENUSTART
+        /// <c>EVENT_SYSTEM_MENUSTART
         /// </c>
         /// followed almost immediately by
-        /// <c>
-        /// EVENT_SYSTEM_MENUPOPUPSTART
+        /// <c>EVENT_SYSTEM_MENUPOPUPSTART
         /// </c> for the popup being shown.
         /// </remarks>
-        /// <seealso cref="SystemMenuPopupEnd"/> .
+        /// <seealso cref="SystemMenuPopupEnd" />.
         SystemMenuPopupStart = 0x0006,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_MENUPOPUPEND
+        /// <c>EVENT_SYSTEM_MENUPOPUPEND
         /// </c>
         /// Sent when a menu popup just before it is taken down.
         /// </summary>
         /// <remarks>
         /// Note that for a call to TrackPopupMenu(), a client will see
-        /// <c>
-        /// EVENT_SYSTEM_MENUSTART
+        /// <c>EVENT_SYSTEM_MENUSTART
         /// </c>
         /// followed almost immediately by
-        /// <c>
-        /// EVENT_SYSTEM_MENUPOPUPSTART
+        /// <c>EVENT_SYSTEM_MENUPOPUPSTART
         /// </c> for the popup being shown.
         /// </remarks>
-        /// <seealso cref="SystemMenuPopupStart"/> .
+        /// <seealso cref="SystemMenuPopupStart" />.
         SystemMenuPopupEnd = 0x0007,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_CAPTURESTART
+        /// <c>EVENT_SYSTEM_CAPTURESTART
         /// </c>
         /// Sent when a window takes the capture.
         /// </summary>
-        /// <seealso cref="SystemCaptureEnd"/> .
+        /// <seealso cref="SystemCaptureEnd" />.
         SystemCaptureStart = 0x0008,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_CAPTUREEND
+        /// <c>EVENT_SYSTEM_CAPTUREEND
         /// </c>
         /// Sent when a window releases the capture.
         /// </summary>
-        /// <seealso cref="SystemCaptureStart"/> .
+        /// <seealso cref="SystemCaptureStart" />.
         SystemCaptureEnd = 0x0009,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_MOVESIZESTART
+        /// <c>EVENT_SYSTEM_MOVESIZESTART
         /// </c>
         /// Sent when a window enters move-size dragging mode.
         /// </summary>
-        /// <seealso cref="SystemMoveSizeEnd"/> .
+        /// <seealso cref="SystemMoveSizeEnd" />.
         SystemMoveSizeStart = 0x000A,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_MOVESIZEEND
+        /// <c>EVENT_SYSTEM_MOVESIZEEND
         /// </c>
         /// Sent when a window leaves move-size dragging mode.
         /// </summary>
-        /// <seealso cref="SystemMoveSizeStart"/> .
+        /// <seealso cref="SystemMoveSizeStart" />.
         SystemMoveSizeEnd = 0x000B,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_CONTEXTHELPSTART
+        /// <c>EVENT_SYSTEM_CONTEXTHELPSTART
         /// </c>
         /// Sent when a window enters context sensitive help mode.
         /// </summary>
-        /// <seealso cref="SystemContextHelpEnd"/> .
+        /// <seealso cref="SystemContextHelpEnd" />.
         SystemContextHelpStart = 0x000C,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_CONTEXTHELPEND
+        /// <c>EVENT_SYSTEM_CONTEXTHELPEND
         /// </c>
         /// Sent when a window leaves context sensitive help mode.
         /// </summary>
-        /// <seealso cref="SystemContextHelpStart"/> .
+        /// <seealso cref="SystemContextHelpStart" />.
         SystemContextHelpEnd = 0x000D,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_DRAGDROPSTART
+        /// <c>EVENT_SYSTEM_DRAGDROPSTART
         /// </c>
         /// Sent when a window enters drag drop mode.
         /// </summary>
-        /// <seealso cref="SystemDragDropEnd"/> .
+        /// <seealso cref="SystemDragDropEnd" />.
         //  Note that it is up to apps and OLE to generate this, since the system doesn't know. 
         //  Like <c>EVENT_SYSTEM_SOUND</c>, it will be a while before this is prevalent.
         SystemDragDropStart = 0x000E,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_DRAGDROPEND
+        /// <c>EVENT_SYSTEM_DRAGDROPEND
         /// </c>
         /// Sent when a window leaves drag drop mode.
         /// </summary>
-        /// <seealso cref="SystemDragDropStart"/> .
+        /// <seealso cref="SystemDragDropStart" />.
         //  Note that it is up to apps and OLE to generate this, since the system doesn't know. 
         //  Like <c>EVENT_SYSTEM_SOUND</c>, it will be a while before this is prevalent.
         SystemDragDropEnd = 0x000F,
@@ -172,30 +155,27 @@ namespace System.Windows.Forms
         SystemDialogStart = 0x0010,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_DIALOGEND
+        /// <c>EVENT_SYSTEM_DIALOGEND
         /// </c>
         /// Sent when a dialog just before it goes away.
         /// </summary>
-        /// <seealso cref="SystemDialogStart"/> .
+        /// <seealso cref="SystemDialogStart" />.
         SystemDialogEnd = 0x0011,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_SCROLLINGSTART
+        /// <c>EVENT_SYSTEM_SCROLLINGSTART
         /// </c>
         /// Sent when beginning the tracking of a scrollbar in a window, and also for scrollbar controls.
         /// </summary>
-        /// <seealso cref="SystemScrollingEnd"/> .
+        /// <seealso cref="SystemScrollingEnd" />.
         SystemScrollingStart = 0x0012,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_SCROLLINGEND
+        /// <c>EVENT_SYSTEM_SCROLLINGEND
         /// </c>
         /// Sent when ending the tracking of a scrollbar in a window, and also for scrollbar controls.
         /// </summary>
-        /// <seealso cref="SystemScrollingStart"/> .
+        /// <seealso cref="SystemScrollingStart" />.
         SystemScrollingEnd = 0x0013,
 
         /// <summary>
@@ -209,21 +189,19 @@ namespace System.Windows.Forms
         SystemSwitchEnd = 0x0015,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_MINIMIZESTART
+        /// <c>EVENT_SYSTEM_MINIMIZESTART
         /// </c>
         /// Sent when a window minimizes and just before it restores.
         /// </summary>
-        /// <seealso cref="SystemMinimizeEnd"/> .
+        /// <seealso cref="SystemMinimizeEnd" />.
         SystemMinimizeStart = 0x0016,
 
         /// <summary>
-        /// <c>
-        /// EVENT_SYSTEM_MINIMIZEEND
+        /// <c>EVENT_SYSTEM_MINIMIZEEND
         /// </c>
         /// Sent when a window minimizes and just before it restores.
         /// </summary>
-        /// <seealso cref="SystemMinimizeStart"/> .
+        /// <seealso cref="SystemMinimizeStart" />.
         SystemMinimizeEnd = 0x0017,
 
         // Object events
@@ -261,8 +239,7 @@ namespace System.Windows.Forms
         Destroy = 0x8001,               // hwnd + ID + idChild is destroyed item
 
         /// <summary>
-        /// <c>
-        /// EVENT_OBJECT_SHOW
+        /// <c>EVENT_OBJECT_SHOW
         /// </c>
         /// Sent when a hidden object is shown.
         /// The system sends this event for the following user interface elements:
@@ -273,8 +250,7 @@ namespace System.Windows.Forms
         Show = 0x8002,                  // hwnd + ID + idChild is shown item
 
         /// <summary>
-        /// <c>
-        /// EVENT_OBJECT_HIDE
+        /// <c>EVENT_OBJECT_HIDE
         /// </c>
         /// Sent when an object is hidden.
         /// The system sends this event for the following user interface elements: caret and cursor.
@@ -285,8 +261,7 @@ namespace System.Windows.Forms
         Hide = 0x8003,                  // hwnd + ID + idChild is hidden item
 
         /// <summary>
-        /// <c>
-        /// EVENT_OBJECT_REORDER
+        /// <c>EVENT_OBJECT_REORDER
         /// </c>
         /// Sent when a container object has added, removed, or reordered its children.
         /// The system sends this event for the following user interface elements:
@@ -351,7 +326,8 @@ namespace System.Windows.Forms
         /// number of changes to reflect removal for some items, addition of
         /// others, just tell somebody who cares that a lot happened. It will
         /// be faster an easier for somebody watching to just turn around and
-        /// query the container control what the new bunch of selected items are.
+        /// query the container control what the new bunch of selected items
+        /// are.
         /// </summary>
         StateChange = 0x800A,           // hwnd + ID + idChild is item w/ state change
         /// <summary>

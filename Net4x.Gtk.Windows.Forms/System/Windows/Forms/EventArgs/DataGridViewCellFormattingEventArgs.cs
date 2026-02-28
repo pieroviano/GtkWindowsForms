@@ -6,12 +6,10 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.CellFormatting" />
-    /// event of a
+    /// <see cref="System.Windows.Forms.DataGridView.CellFormatting" /> event of a
     /// <see cref="System.Windows.Forms.DataGridView" />
     /// </summary>
-    /// <filterpriority>
-    /// 2
+    /// <filterpriority> 2
     /// </filterpriority>
     public class DataGridViewCellFormattingEventArgs : ConvertEventArgs
     {
@@ -38,7 +36,7 @@ namespace System.Windows.Forms
                                                            int rowIndex,
                                                            object value,
                                                            Type desiredType,
-                DataGridViewCellStyle cellStyle) : base(value, desiredType)
+                                                           DataGridViewCellStyle cellStyle) : base(value, desiredType)
         {
             if (columnIndex < -1)
             {

@@ -14,9 +14,8 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Initializes a new instance of
-        /// <see cref='InputLanguageCollection'/>
-        /// containing any array of
-        /// <see cref='InputLanguage'/> objects.
+        /// <see cref="InputLanguageCollection" /> containing any array of
+        /// <see cref="InputLanguage" /> objects.
         /// </summary>
         internal InputLanguageCollection(InputLanguage[] value)
         {
@@ -25,7 +24,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Represents the entry at the specified index of the
-        /// <see cref='InputLanguage'/> .
+        /// <see cref="InputLanguage" />.
         /// </summary>
         public InputLanguage this[int index]
         {
@@ -71,8 +70,7 @@ namespace System.Windows.Forms
         /// <paramref name="array" />
         /// </exception>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="array" />
-        /// is null.
+        /// <paramref name="array" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index" /> is less than the lower bound of

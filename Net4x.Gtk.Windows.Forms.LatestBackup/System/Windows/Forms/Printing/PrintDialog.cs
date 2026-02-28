@@ -132,7 +132,7 @@ namespace System.Windows.Forms
         /// </filterpriority>
         [DefaultValue(true)]
         public bool ShowNetwork { get; set; }                                                                                        /// <summary>
-                                                                                                                                     /// Gets or sets a value indicating whether the dialog should be shown in the Windows XP style for systems running Windows XP Home Edition, Windows XP Professional, Windows Server 2003 or later.
+                                                                                                                                     /// <summary>Gets or sets a value indicating whether the dialog should be shown in the Windows XP style for systems running Windows XP Home Edition, Windows XP Professional, Windows Server 2003 or later.
                                                                                                                                      /// </summary>
                                                                                                                                      /// <returns>true to indicate the dialog should be shown with the Windows XP style, otherwise false. The default is false.
                                                                                                                                      /// </returns>

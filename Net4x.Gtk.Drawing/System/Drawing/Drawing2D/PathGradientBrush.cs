@@ -168,13 +168,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />
-        /// class with the specified path.
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> class with the specified path.
         /// </summary>
-        /// <param name="path"> The
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
-        /// that defines the area filled by this
-        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> .
+        /// <param name="path">The
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> that defines the area filled by this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />.
         /// </param>
         public PathGradientBrush(GraphicsPath path)
         {
@@ -187,13 +185,10 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />
-        /// class with the specified points.
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> class with the specified points.
         /// </summary>
-        /// <param name="points">
-        /// An array of
-        /// <see cref="T:System.Drawing.PointF" />
-        /// structures that represents the points that make up the vertices of the path.
+        /// <param name="points">An array of
+        /// <see cref="T:System.Drawing.PointF" /> structures that represents the points that make up the vertices of the path.
         /// </param>
         public PathGradientBrush(PointF[] points) : this(points, WrapMode.Clamp)
         {
@@ -202,19 +197,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />
-        /// class with the specified points and wrap mode.
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> class with the specified points and wrap mode.
         /// </summary>
-        /// <param name="points">
-        /// An array of
-        /// <see cref="T:System.Drawing.PointF" />
-        /// structures that represents the points that make up the vertices of the path.
+        /// <param name="points">An array of
+        /// <see cref="T:System.Drawing.PointF" /> structures that represents the points that make up the vertices of the path.
         /// </param>
-        /// <param name="wrapMode"> A
-        /// <see cref="T:System.Drawing.Drawing2D.WrapMode" />
-        /// that specifies how fills drawn with this
-        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />
-        /// are tiled.
+        /// <param name="wrapMode">A
+        /// <see cref="T:System.Drawing.Drawing2D.WrapMode" /> that specifies how fills drawn with this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> are tiled.
         /// </param>
         public PathGradientBrush(PointF[] points, WrapMode wrapMode)
         {
@@ -227,13 +217,10 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />
-        /// class with the specified points.
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> class with the specified points.
         /// </summary>
-        /// <param name="points">
-        /// An array of
-        /// <see cref="T:System.Drawing.Point" />
-        /// structures that represents the points that make up the vertices of the path.
+        /// <param name="points">An array of
+        /// <see cref="T:System.Drawing.Point" /> structures that represents the points that make up the vertices of the path.
         /// </param>
         public PathGradientBrush(Point[] points) : this(points, WrapMode.Clamp)
         {
@@ -241,19 +228,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />
-        /// class with the specified points and wrap mode.
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> class with the specified points and wrap mode.
         /// </summary>
-        /// <param name="points">
-        /// An array of
-        /// <see cref="T:System.Drawing.Point" />
-        /// structures that represents the points that make up the vertices of the path.
+        /// <param name="points">An array of
+        /// <see cref="T:System.Drawing.Point" /> structures that represents the points that make up the vertices of the path.
         /// </param>
-        /// <param name="wrapMode"> A
-        /// <see cref="T:System.Drawing.Drawing2D.WrapMode" />
-        /// that specifies how fills drawn with this
-        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />
-        /// are tiled.
+        /// <param name="wrapMode">A
+        /// <see cref="T:System.Drawing.Drawing2D.WrapMode" /> that specifies how fills drawn with this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> are tiled.
         /// </param>
         public PathGradientBrush(Point[] points, WrapMode wrapMode)
         {
@@ -296,13 +278,11 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Updates the brush's transformation matrix with the product of the brush's transformation matrix multiplied by another matrix.
         /// </summary>
-        /// <param name="matrix"> The
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
-        /// that will be multiplied by the brush's current transformation matrix.
+        /// <param name="matrix">The
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that will be multiplied by the brush's current transformation matrix.
         /// </param>
-        /// <param name="order"> A
-        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" />
-        /// that specifies in which order to multiply the two matrices.
+        /// <param name="order">A
+        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies in which order to multiply the two matrices.
         /// </param>
         public void MultiplyTransform(Matrix matrix, MatrixOrder order)
         {
@@ -322,8 +302,7 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Rotates the local geometric transform by the specified amount. This method prepends the rotation to the transform.
         /// </summary>
-        /// <param name="angle">
-        /// The angle (extent) of rotation.
+        /// <param name="angle">The angle (extent) of rotation.
         /// </param>
         public void RotateTransform(float angle)
         {
@@ -332,12 +311,10 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Rotates the local geometric transform by the specified amount in the specified order.
         /// </summary>
-        /// <param name="angle">
-        /// The angle (extent) of rotation.
+        /// <param name="angle">The angle (extent) of rotation.
         /// </param>
-        /// <param name="order"> A
-        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" />
-        /// that specifies whether to append or prepend the rotation matrix.
+        /// <param name="order">A
+        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies whether to append or prepend the rotation matrix.
         /// </param>
         public void RotateTransform(float angle, MatrixOrder order)
         {
@@ -346,11 +323,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Scales the local geometric transform by the specified amounts. This method prepends the scaling matrix to the transform.
         /// </summary>
-        /// <param name="sx">
-        /// The transform scale factor in the x-axis direction.
+        /// <param name="sx">The transform scale factor in the x-axis direction.
         /// </param>
-        /// <param name="sy">
-        /// The transform scale factor in the y-axis direction.
+        /// <param name="sy">The transform scale factor in the y-axis direction.
         /// </param>
         public void ScaleTransform(float sx, float sy)
         {
@@ -359,15 +334,12 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Scales the local geometric transform by the specified amounts in the specified order.
         /// </summary>
-        /// <param name="sx">
-        /// The transform scale factor in the x-axis direction.
+        /// <param name="sx">The transform scale factor in the x-axis direction.
         /// </param>
-        /// <param name="sy">
-        /// The transform scale factor in the y-axis direction.
+        /// <param name="sy">The transform scale factor in the y-axis direction.
         /// </param>
-        /// <param name="order"> A
-        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" />
-        /// that specifies whether to append or prepend the scaling matrix.
+        /// <param name="order">A
+        /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies whether to append or prepend the scaling matrix.
         /// </param>
         public void ScaleTransform(float sx, float sy, MatrixOrder order)
         {
@@ -376,8 +348,7 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Creates a gradient with a center color and a linear falloff to one surrounding color.
         /// </summary>
-        /// <param name="focus">
-        /// A value from 0 through 1 that specifies where, along any radial from the center of the path to the path's boundary, the center color will be at its highest intensity. A value of 1 (the default) places the highest intensity at the center of the path.
+        /// <param name="focus">A value from 0 through 1 that specifies where, along any radial from the center of the path to the path's boundary, the center color will be at its highest intensity. A value of 1 (the default) places the highest intensity at the center of the path.
         /// </param>
         public void SetBlendTriangularShape(float focus)
         {
@@ -386,11 +357,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Creates a gradient with a center color and a linear falloff to each surrounding color.
         /// </summary>
-        /// <param name="focus">
-        /// A value from 0 through 1 that specifies where, along any radial from the center of the path to the path's boundary, the center color will be at its highest intensity. A value of 1 (the default) places the highest intensity at the center of the path.
+        /// <param name="focus">A value from 0 through 1 that specifies where, along any radial from the center of the path to the path's boundary, the center color will be at its highest intensity. A value of 1 (the default) places the highest intensity at the center of the path.
         /// </param>
-        /// <param name="scale">
-        /// A value from 0 through 1 that specifies the maximum intensity of the center color that gets blended with the boundary color. A value of 1 causes the highest possible intensity of the center color, and it is the default value.
+        /// <param name="scale">A value from 0 through 1 that specifies the maximum intensity of the center color that gets blended with the boundary color. A value of 1 causes the highest possible intensity of the center color, and it is the default value.
         /// </param>
         public void SetBlendTriangularShape(float focus, float scale)
         {
@@ -399,8 +368,7 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Creates a gradient brush that changes color starting from the center of the path outward to the path's boundary. The transition from one color to another is based on a bell-shaped curve.
         /// </summary>
-        /// <param name="focus">
-        /// A value from 0 through 1 that specifies where, along any radial from the center of the path to the path's boundary, the center color will be at its highest intensity. A value of 1 (the default) places the highest intensity at the center of the path.
+        /// <param name="focus">A value from 0 through 1 that specifies where, along any radial from the center of the path to the path's boundary, the center color will be at its highest intensity. A value of 1 (the default) places the highest intensity at the center of the path.
         /// </param>
         public void SetSigmaBellShape(float focus)
         {
@@ -409,11 +377,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Creates a gradient brush that changes color starting from the center of the path outward to the path's boundary. The transition from one color to another is based on a bell-shaped curve.
         /// </summary>
-        /// <param name="focus">
-        /// A value from 0 through 1 that specifies where, along any radial from the center of the path to the path's boundary, the center color will be at its highest intensity. A value of 1 (the default) places the highest intensity at the center of the path.
+        /// <param name="focus">A value from 0 through 1 that specifies where, along any radial from the center of the path to the path's boundary, the center color will be at its highest intensity. A value of 1 (the default) places the highest intensity at the center of the path.
         /// </param>
-        /// <param name="scale">
-        /// A value from 0 through 1 that specifies the maximum intensity of the center color that gets blended with the boundary color. A value of 1 causes the highest possible intensity of the center color, and it is the default value.
+        /// <param name="scale">A value from 0 through 1 that specifies the maximum intensity of the center color that gets blended with the boundary color. A value of 1 causes the highest possible intensity of the center color, and it is the default value.
         /// </param>
         public void SetSigmaBellShape(float focus, float scale)
         {
@@ -422,11 +388,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Applies the specified translation to the local geometric transform. This method prepends the translation to the transform.
         /// </summary>
-        /// <param name="dx">
-        /// The value of the translation in x.
+        /// <param name="dx">The value of the translation in x.
         /// </param>
-        /// <param name="dy">
-        /// The value of the translation in y.
+        /// <param name="dy">The value of the translation in y.
         /// </param>
         public void TranslateTransform(float dx, float dy)
         {
@@ -435,14 +399,11 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Applies the specified translation to the local geometric transform in the specified order.
         /// </summary>
-        /// <param name="dx">
-        /// The value of the translation in x.
+        /// <param name="dx">The value of the translation in x.
         /// </param>
-        /// <param name="dy">
-        /// The value of the translation in y.
+        /// <param name="dy">The value of the translation in y.
         /// </param>
-        /// <param name="order">
-        /// The order (prepend or append) in which to apply the translation.
+        /// <param name="order">The order (prepend or append) in which to apply the translation.
         /// </param>
         public void TranslateTransform(float dx, float dy, MatrixOrder order)
         {

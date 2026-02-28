@@ -90,8 +90,7 @@ namespace System.Resources
         /// <paramref name="name" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="name" />
-        /// is a string of zero length.
+        /// <paramref name="name" /> is a string of zero length.
         /// </exception>
         public ResXDataNode(string name, object value) : this(name, value, null)
         {
@@ -115,8 +114,7 @@ namespace System.Resources
         /// <paramref name="name" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="name" />
-        /// is a string of zero length.
+        /// <paramref name="name" /> is a string of zero length.
         /// </exception>
         public ResXDataNode(string name, object value, Func<Type, string> typeNameConverter)
         {
@@ -155,8 +153,7 @@ namespace System.Resources
         /// <paramref name="fileRef" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="name" />
-        /// is a string of zero length.
+        /// <paramref name="name" /> is a string of zero length.
         /// </exception>
         public ResXDataNode(string name, ResXFileRef fileRef) : this(name, fileRef, null)
         {
@@ -178,8 +175,7 @@ namespace System.Resources
         /// <paramref name="fileRef" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="name" />
-        /// is a string of zero length.
+        /// <paramref name="name" /> is a string of zero length.
         /// </exception>
         public ResXDataNode(string name, ResXFileRef fileRef, Func<Type, string> typeNameConverter)
         {

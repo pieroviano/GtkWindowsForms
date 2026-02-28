@@ -290,7 +290,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[Localizable(true)]
+        [Localizable(true)]
         [DefaultValue(0)]
         public int ColumnWidth
         {
@@ -312,7 +312,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[DefaultValue(false)]
+        [DefaultValue(false)]
         [Browsable(false)]
         public bool UseCustomTabOffsets
         {
@@ -364,7 +364,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[DefaultValue(0)]
+        [DefaultValue(0)]
         [Localizable(true)]
         public int HorizontalExtent
         {
@@ -383,7 +383,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[DefaultValue(false)]
+        [DefaultValue(false)]
         [Localizable(true)]
         public bool HorizontalScrollbar
         {
@@ -402,7 +402,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[DefaultValue(true)]
+        [DefaultValue(true)]
         [Localizable(true)]
         public bool IntegralHeight
         {
@@ -425,7 +425,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[Localizable(true)]
+        [Localizable(true)]
         public virtual int ItemHeight
         {
             get; set;
@@ -440,7 +440,7 @@ namespace System.Windows.Forms
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
-		[Localizable(true)]
+        [Localizable(true)]
         public ObjectCollection Items
         {
             get => _items;
@@ -463,7 +463,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[DefaultValue(false)]
+        [DefaultValue(false)]
         public bool MultiColumn
         {
             get; set;
@@ -482,7 +482,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[Browsable(false)]
+        [Browsable(false)]
         public int PreferredHeight
         {
             get;
@@ -500,7 +500,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[DefaultValue(false)]
+        [DefaultValue(false)]
         [Localizable(true)]
         public bool ScrollAlwaysVisible
         {
@@ -516,7 +516,7 @@ namespace System.Windows.Forms
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
-		[Browsable(false)]
+        [Browsable(false)]
         public SelectedIndexCollection SelectedIndices
         {
             get
@@ -563,7 +563,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[DefaultValue(SelectionMode.One)]
+        [DefaultValue(SelectionMode.One)]
         public virtual SelectionMode SelectionMode
         {
             get
@@ -613,7 +613,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[DefaultValue(false)]
+        [DefaultValue(false)]
         public bool Sorted
         {
             get => _sorted; set => _sorted = value;
@@ -632,7 +632,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[Browsable(false)]
+        [Browsable(false)]
         public override string Text
         {
             get
@@ -719,7 +719,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
-		[DefaultValue(true)]
+        [DefaultValue(true)]
         public bool UseTabStops
         {
             get; set;

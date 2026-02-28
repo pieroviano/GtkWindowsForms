@@ -33,8 +33,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewCell.RowIndex" /> is outside the valid range of 0 to the number of rows in the control minus 1.
         /// </exception>
         /// <exception cref="System.InvalidOperationException">
-        /// <see cref="System.Windows.Forms.DataGridViewCell.ColumnIndex" />
-        /// is less than 0, indicating that the cell is a row header cell.
+        /// <see cref="System.Windows.Forms.DataGridViewCell.ColumnIndex" /> is less than 0, indicating that the cell is a row header cell.
         /// </exception>
         /// <filterpriority>1
         /// </filterpriority>

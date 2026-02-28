@@ -33,34 +33,27 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class from the specified file.
+        /// <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
         /// </summary>
-        /// <param name="filename">
-        /// The bitmap file name and path.
+        /// <param name="filename">The bitmap file name and path.
         /// </param>
-        /// <exception cref="T:System.IO.FileNotFoundException">
-        /// The specified file is not found.
+        /// <exception cref="T:System.IO.FileNotFoundException">The specified file is not found.
         /// </exception>
         public Bitmap(string filename)
-        : this(filename, useIcm: false)
+            : this(filename, useIcm: false)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class from the specified file.
+        /// <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
         /// </summary>
-        /// <param name="filename">
-        /// The name of the bitmap file.
+        /// <param name="filename">The name of the bitmap file.
         /// </param>
         /// <param name="useIcm">
-        /// <see langword="true" />
-        /// to use color correction for this
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// ; otherwise,
-        /// <see langword="false" /> .
+        /// <see langword="true" /> to use color correction for this
+        /// <see cref="T:System.Drawing.Bitmap" />; otherwise,
+        /// <see langword="false" />.
         /// </param>
         public Bitmap(string filename, bool useIcm)
         {
@@ -69,45 +62,37 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class from the specified data stream.
+        /// <see cref="T:System.Drawing.Bitmap" /> class from the specified data stream.
         /// </summary>
-        /// <param name="stream">
-        /// The data stream used to load the image.
+        /// <param name="stream">The data stream used to load the image.
         /// </param>
         /// <exception cref="T:System.ArgumentException">
-        /// <paramref name="stream" />
-        /// does not contain image data or is
-        /// <see langword="null" /> . -or-
-        /// <paramref name="stream" />
-        /// contains a PNG image file with a single dimension greater than 65,535 pixels.
+        /// <paramref name="stream" /> does not contain image data or is
+        /// <see langword="null" />.
+        /// -or-
+        /// <paramref name="stream" /> contains a PNG image file with a single dimension greater than 65,535 pixels.
         /// </exception>
         public Bitmap(Stream stream)
-        : this(stream, useIcm: false)
+            : this(stream, useIcm: false)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class from the specified data stream.
+        /// <see cref="T:System.Drawing.Bitmap" /> class from the specified data stream.
         /// </summary>
-        /// <param name="stream">
-        /// The data stream used to load the image.
+        /// <param name="stream">The data stream used to load the image.
         /// </param>
         /// <param name="useIcm">
-        /// <see langword="true" />
-        /// to use color correction for this
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// ; otherwise,
-        /// <see langword="false" /> .
+        /// <see langword="true" /> to use color correction for this
+        /// <see cref="T:System.Drawing.Bitmap" />; otherwise,
+        /// <see langword="false" />.
         /// </param>
         /// <exception cref="T:System.ArgumentException">
-        /// <paramref name="stream" />
-        /// does not contain image data or is
-        /// <see langword="null" /> . -or-
-        /// <paramref name="stream" />
-        /// contains a PNG image file with a single dimension greater than 65,535 pixels.
+        /// <paramref name="stream" /> does not contain image data or is
+        /// <see langword="null" />.
+        /// -or-
+        /// <paramref name="stream" /> contains a PNG image file with a single dimension greater than 65,535 pixels.
         /// </exception>
         public Bitmap(Stream stream, bool useIcm)
         {
@@ -118,17 +103,14 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class from a specified resource.
+        /// <see cref="T:System.Drawing.Bitmap" /> class from a specified resource.
         /// </summary>
-        /// <param name="type">
-        /// The class used to extract the resource.
+        /// <param name="type">The class used to extract the resource.
         /// </param>
-        /// <param name="resource">
-        /// The name of the resource.
+        /// <param name="resource">The name of the resource.
         /// </param>
         public Bitmap(Type type, string resource)
-        : this(GetResourceStream(type, resource))
+            : this(GetResourceStream(type, resource))
         {
         }
 
@@ -142,47 +124,39 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class with the specified size.
+        /// <see cref="T:System.Drawing.Bitmap" /> class with the specified size.
         /// </summary>
-        /// <param name="width">
-        /// The width, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="width">The width, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="height">
-        /// The height, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="height">The height, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <exception cref="T:System.Exception">
-        /// The operation failed.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
         public Bitmap(int width, int height)
-        : this(width, height, PixelFormat.Format32bppArgb)
+            : this(width, height, PixelFormat.Format32bppArgb)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class with the specified size and with the resolution of the specified
+        /// <see cref="T:System.Drawing.Bitmap" /> class with the specified size and with the resolution of the specified
         /// <see cref="T:System.Drawing.Graphics" /> object.
         /// </summary>
-        /// <param name="width">
-        /// The width, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="width">The width, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="height">
-        /// The height, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="height">The height, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="g"> The
-        /// <see cref="T:System.Drawing.Graphics" />
-        /// object that specifies the resolution for the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="g">The
+        /// <see cref="T:System.Drawing.Graphics" /> object that specifies the resolution for the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="g" /> is
-        /// <see langword="null" /> .
+        /// <see langword="null" />.
         /// </exception>
         public Bitmap(int width, int height, Graphics g) : this(width, height, PixelFormat.Format32bppArgb)
         {
@@ -191,37 +165,27 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class with the specified size, pixel format, and pixel data.
+        /// <see cref="T:System.Drawing.Bitmap" /> class with the specified size, pixel format, and pixel data.
         /// </summary>
-        /// <param name="width">
-        /// The width, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="width">The width, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="height">
-        /// The height, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="height">The height, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="stride">
-        /// Integer that specifies the byte offset between the beginning of one scan line and the next. This is usually (but not necessarily) the number of bytes in the pixel format (for example, 2 for 16 bits per pixel) multiplied by the width of the bitmap. The value passed to this parameter must be a multiple of four.
+        /// <param name="stride">Integer that specifies the byte offset between the beginning of one scan line and the next. This is usually (but not necessarily) the number of bytes in the pixel format (for example, 2 for 16 bits per pixel) multiplied by the width of the bitmap. The value passed to this parameter must be a multiple of four.
         /// </param>
-        /// <param name="format">
-        /// The pixel format for the new
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// . This must specify a value that begins with
-        /// <c>
-        /// Format
+        /// <param name="format">The pixel format for the new
+        /// <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with
+        /// <c>Format
         /// </c>.
         /// </param>
-        /// <param name="scan0">
-        /// Pointer to an array of bytes that contains the pixel data.
+        /// <param name="scan0">Pointer to an array of bytes that contains the pixel data.
         /// </param>
-        /// <exception cref="T:System.ArgumentException"> A
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// value is specified whose name does not start with Format. For example, specifying
-        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" />
-        /// will cause an
-        /// <see cref="T:System.ArgumentException" /> , but
+        /// <exception cref="T:System.ArgumentException">A
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying
+        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an
+        /// <see cref="T:System.ArgumentException" />, but
         /// <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.
         /// </exception>
         public Bitmap(int width, int height, int stride, PixelFormat format, IntPtr scan0) : this(width, height, PixelFormat.Format32bppArgb)
@@ -231,31 +195,23 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class with the specified size and format.
+        /// <see cref="T:System.Drawing.Bitmap" /> class with the specified size and format.
         /// </summary>
-        /// <param name="width">
-        /// The width, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="width">The width, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="height">
-        /// The height, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="height">The height, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="format">
-        /// The pixel format for the new
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// . This must specify a value that begins with
-        /// <c>
-        /// Format
+        /// <param name="format">The pixel format for the new
+        /// <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with
+        /// <c>Format
         /// </c>.
         /// </param>
-        /// <exception cref="T:System.ArgumentException"> A
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// value is specified whose name does not start with Format. For example, specifying
-        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" />
-        /// will cause an
-        /// <see cref="T:System.ArgumentException" /> , but
+        /// <exception cref="T:System.ArgumentException">A
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying
+        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an
+        /// <see cref="T:System.ArgumentException" />, but
         /// <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.
         /// </exception>
         public Bitmap(int width, int height, PixelFormat format)
@@ -267,65 +223,54 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class from the specified existing image.
+        /// <see cref="T:System.Drawing.Bitmap" /> class from the specified existing image.
         /// </summary>
-        /// <param name="original"> The
-        /// <see cref="T:System.Drawing.Image" />
-        /// from which to create the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="original">The
+        /// <see cref="T:System.Drawing.Image" /> from which to create the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
         public Bitmap(Image original)
-        : this(original, original.Width, original.Height)
+            : this(original, original.Width, original.Height)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class from the specified existing image, scaled to the specified size.
+        /// <see cref="T:System.Drawing.Bitmap" /> class from the specified existing image, scaled to the specified size.
         /// </summary>
-        /// <param name="original"> The
-        /// <see cref="T:System.Drawing.Image" />
-        /// from which to create the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="original">The
+        /// <see cref="T:System.Drawing.Image" /> from which to create the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="newSize"> The
-        /// <see cref="T:System.Drawing.Size" />
-        /// structure that represent the size of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="newSize">The
+        /// <see cref="T:System.Drawing.Size" /> structure that represent the size of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <exception cref="T:System.Exception">
-        /// The operation failed.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
         public Bitmap(Image original, Size newSize)
-        : this(original, newSize.Width, newSize.Height)
+            : this(original, newSize.Width, newSize.Height)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// class from the specified existing image, scaled to the specified size.
+        /// <see cref="T:System.Drawing.Bitmap" /> class from the specified existing image, scaled to the specified size.
         /// </summary>
-        /// <param name="original"> The
-        /// <see cref="T:System.Drawing.Image" />
-        /// from which to create the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="original">The
+        /// <see cref="T:System.Drawing.Image" /> from which to create the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="width">
-        /// The width, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="width">The width, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="height">
-        /// The height, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="height">The height, in pixels, of the new
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <exception cref="T:System.Exception">
-        /// The operation failed.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
         public Bitmap(Image original, int width, int height)
-        : this(width, height, PixelFormat.Format32bppArgb)
+            : this(width, height, PixelFormat.Format32bppArgb)
         {
             this.PixbufData = original.PixbufData;
         }
@@ -337,16 +282,12 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates a
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// from a Windows handle to an icon.
+        /// <see cref="T:System.Drawing.Bitmap" /> from a Windows handle to an icon.
         /// </summary>
-        /// <param name="hicon">
-        /// A handle to an icon.
+        /// <param name="hicon">A handle to an icon.
         /// </param>
-        /// <returns>
-        /// The
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// that this method creates.
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Bitmap" /> that this method creates.
         /// </returns>
         public static Bitmap FromHicon(IntPtr hicon)
         {
@@ -356,19 +297,14 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates a
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// from the specified Windows resource.
+        /// <see cref="T:System.Drawing.Bitmap" /> from the specified Windows resource.
         /// </summary>
-        /// <param name="hinstance">
-        /// A handle to an instance of the executable file that contains the resource.
+        /// <param name="hinstance">A handle to an instance of the executable file that contains the resource.
         /// </param>
-        /// <param name="bitmapName">
-        /// A string that contains the name of the resource bitmap.
+        /// <param name="bitmapName">A string that contains the name of the resource bitmap.
         /// </param>
-        /// <returns>
-        /// The
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// that this method creates.
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Bitmap" /> that this method creates.
         /// </returns>
         public static Bitmap FromResource(IntPtr hinstance, string bitmapName)
         {
@@ -457,34 +393,31 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates a copy of the section of this
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// defined with a specified
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// enumeration.
+        /// <see cref="System.Drawing.Bitmap" /> defined with a specified
+        /// <see cref="System.Drawing.Imaging.PixelFormat" /> enumeration.
         /// </summary>
-        /// <param name="rect">
-        /// Defines the portion of this
-        /// <see cref="T:System.Drawing.Bitmap" /> to copy.
+        /// <returns>The
+        /// <see cref="System.Drawing.Bitmap" /> that this method creates.
+        /// </returns>
+        /// <param name="rect">Defines the portion of this
+        /// <see cref="System.Drawing.Bitmap" /> to copy.
         /// </param>
         /// <param name="format">
         /// Specifies the
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// enumeration for the destination
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <see cref="System.Drawing.Imaging.PixelFormat" /> enumeration for the destination
+        /// <see cref="System.Drawing.Bitmap" />
         /// </param>
-        /// <returns>
-        /// The
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// that this method creates.
-        /// </returns>
-        /// <exception cref="T:System.OutOfMemoryException">
-        /// <paramref name="rect" />
-        /// is outside of the source bitmap bounds.
+        /// <exception cref="System.OutOfMemoryException">
+        /// <paramref name="rect" /> is outside of the source bitmap bounds.
         /// </exception>
-        /// <exception cref="T:System.ArgumentException">
-        /// The height or width of
+        /// <exception cref="System.ArgumentException">The height or width of
         /// <paramref name="rect" /> is 0.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public Bitmap Clone(RectangleF rect, PixelFormat format)
         {
 
@@ -544,38 +477,30 @@ namespace System.Drawing
 
         /// <summary>
         /// Locks a
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// into system memory.
+        /// <see cref="T:System.Drawing.Bitmap" /> into system memory.
         /// </summary>
-        /// <param name="rect"> A
-        /// <see cref="T:System.Drawing.Rectangle" />
-        /// structure that specifies the portion of the
+        /// <param name="rect">A
+        /// <see cref="T:System.Drawing.Rectangle" /> structure that specifies the portion of the
         /// <see cref="T:System.Drawing.Bitmap" /> to lock.
         /// </param>
-        /// <param name="flags"> An
-        /// <see cref="T:System.Drawing.Imaging.ImageLockMode" />
-        /// enumeration that specifies the access level (read/write) for the
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="flags">An
+        /// <see cref="T:System.Drawing.Imaging.ImageLockMode" /> enumeration that specifies the access level (read/write) for the
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="format"> A
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// enumeration that specifies the data format of this
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="format">A
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration that specifies the data format of this
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <returns>
-        /// A
-        /// <see cref="T:System.Drawing.Imaging.BitmapData" />
-        /// that contains information about this lock operation.
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Imaging.BitmapData" /> that contains information about this lock operation.
         /// </returns>
-        /// <exception cref="T:System.ArgumentException"> The
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// is not a specific bits-per-pixel value. -or-
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> is not a specific bits-per-pixel value.
+        /// -or-
         /// The incorrect
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// is passed in for a bitmap.
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> is passed in for a bitmap.
         /// </exception>
-        /// <exception cref="T:System.Exception">
-        /// The operation failed.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
         public BitmapData LockBits(Rectangle rect, ImageLockMode flags, PixelFormat format)
         {
@@ -584,43 +509,32 @@ namespace System.Drawing
 
         /// <summary>
         /// Locks a
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// into system memory.
+        /// <see cref="T:System.Drawing.Bitmap" /> into system memory.
         /// </summary>
-        /// <param name="rect">
-        /// A rectangle structure that specifies the portion of the
+        /// <param name="rect">A rectangle structure that specifies the portion of the
         /// <see cref="T:System.Drawing.Bitmap" /> to lock.
         /// </param>
-        /// <param name="flags">
-        /// One of the
-        /// <see cref="T:System.Drawing.Imaging.ImageLockMode" />
-        /// values that specifies the access level (read/write) for the
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="flags">One of the
+        /// <see cref="T:System.Drawing.Imaging.ImageLockMode" /> values that specifies the access level (read/write) for the
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="format">
-        /// One of the
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// values that specifies the data format of the
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="format">One of the
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> values that specifies the data format of the
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="bitmapData"> A
-        /// <see cref="T:System.Drawing.Imaging.BitmapData" />
-        /// that contains information about the lock operation.
+        /// <param name="bitmapData">A
+        /// <see cref="T:System.Drawing.Imaging.BitmapData" /> that contains information about the lock operation.
         /// </param>
-        /// <returns>
-        /// A
-        /// <see cref="T:System.Drawing.Imaging.BitmapData" />
-        /// that contains information about the lock operation.
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Imaging.BitmapData" /> that contains information about the lock operation.
         /// </returns>
         /// <exception cref="T:System.ArgumentException">
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// value is not a specific bits-per-pixel value. -or-
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is not a specific bits-per-pixel value.
+        /// -or-
         /// The incorrect
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// is passed in for a bitmap.
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> is passed in for a bitmap.
         /// </exception>
-        /// <exception cref="T:System.Exception">
-        /// The operation failed.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
         public BitmapData LockBits(Rectangle rect, ImageLockMode flags, PixelFormat format, BitmapData bitmapData)
         {
@@ -649,29 +563,23 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets the color of the specified pixel in this
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the pixel to retrieve.
+        /// <param name="x">The x-coordinate of the pixel to retrieve.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the pixel to retrieve.
+        /// <param name="y">The y-coordinate of the pixel to retrieve.
         /// </param>
-        /// <returns>
-        /// A
-        /// <see cref="T:System.Drawing.Color" />
-        /// structure that represents the color of the specified pixel.
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Color" /> structure that represents the color of the specified pixel.
         /// </returns>
         /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// <paramref name="x" />
-        /// is less than 0, or greater than or equal to
-        /// <see cref="P:System.Drawing.Image.Width" /> . -or-
-        /// <paramref name="y" />
-        /// is less than 0, or greater than or equal to
-        /// <see cref="P:System.Drawing.Image.Height" /> .
+        /// <paramref name="x" /> is less than 0, or greater than or equal to
+        /// <see cref="P:System.Drawing.Image.Width" />.
+        /// -or-
+        /// <paramref name="y" /> is less than 0, or greater than or equal to
+        /// <see cref="P:System.Drawing.Image.Height" />.
         /// </exception>
-        /// <exception cref="T:System.Exception">
-        /// The operation failed.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
         public Color GetPixel(int x, int y)
         {
@@ -704,18 +612,15 @@ namespace System.Drawing
 
         /// <summary>
         /// Sets the resolution for this
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </summary>
-        /// <param name="xDpi">
-        /// The horizontal resolution, in dots per inch, of the
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="xDpi">The horizontal resolution, in dots per inch, of the
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="yDpi">
-        /// The vertical resolution, in dots per inch, of the
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="yDpi">The vertical resolution, in dots per inch, of the
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <exception cref="T:System.Exception">
-        /// The operation failed.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
         public void SetResolution(float xDpi, float yDpi)
         {
@@ -724,45 +629,32 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates a copy of the section of this
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// defined by
-        /// <see cref="T:System.Drawing.Rectangle" />
-        /// structure and with a specified
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// enumeration.
+        /// <see cref="T:System.Drawing.Bitmap" /> defined by
+        /// <see cref="T:System.Drawing.Rectangle" /> structure and with a specified
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration.
         /// </summary>
-        /// <param name="rect">
-        /// Defines the portion of this
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// to copy. Coordinates are relative to this
-        /// <see cref="T:System.Drawing.Bitmap" /> .
+        /// <param name="rect">Defines the portion of this
+        /// <see cref="T:System.Drawing.Bitmap" /> to copy. Coordinates are relative to this
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </param>
-        /// <param name="format">
-        /// The pixel format for the new
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// . This must specify a value that begins with
-        /// <c>
-        /// Format
+        /// <param name="format">The pixel format for the new
+        /// <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with
+        /// <c>Format
         /// </c>.
         /// </param>
-        /// <returns>
-        /// The new
-        /// <see cref="T:System.Drawing.Bitmap" />
-        /// that this method creates.
+        /// <returns>The new
+        /// <see cref="T:System.Drawing.Bitmap" /> that this method creates.
         /// </returns>
         /// <exception cref="T:System.OutOfMemoryException">
-        /// <paramref name="rect" />
-        /// is outside of the source bitmap bounds.
+        /// <paramref name="rect" /> is outside of the source bitmap bounds.
         /// </exception>
-        /// <exception cref="T:System.ArgumentException">
-        /// The height or width of
-        /// <paramref name="rect" />
-        /// is 0. -or- A
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" />
-        /// value is specified whose name does not start with Format. For example, specifying
-        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" />
-        /// will cause an
-        /// <see cref="T:System.ArgumentException" /> , but
+        /// <exception cref="T:System.ArgumentException">The height or width of
+        /// <paramref name="rect" /> is 0.
+        /// -or-
+        /// A
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying
+        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an
+        /// <see cref="T:System.ArgumentException" />, but
         /// <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.
         /// </exception>
         public Bitmap Clone(Rectangle rect, PixelFormat format)

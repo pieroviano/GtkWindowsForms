@@ -4,8 +4,7 @@
 namespace System.Windows.Forms;
 /// <summary>
 /// Defines values for specifying the parts of a
-/// <see cref="System.Windows.Forms.DataGridViewCell" />
-/// that are to be painted.
+/// <see cref="System.Windows.Forms.DataGridViewCell" /> that are to be painted.
 /// </summary>
 [Flags]
 public enum DataGridViewPaintParts

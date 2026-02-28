@@ -9,8 +9,7 @@ namespace System.Windows.Forms
     /// <see cref="!:System.Windows.Forms.TreeView.AfterCheck" /> ,
     /// <see cref="System.Windows.Forms.TreeView.AfterCollapse" /> ,
     /// <see cref="System.Windows.Forms.TreeView.AfterExpand" /> , or
-    /// <see cref="System.Windows.Forms.TreeView.AfterSelect" />
-    /// events of a
+    /// <see cref="System.Windows.Forms.TreeView.AfterSelect" /> events of a
     /// <see cref="System.Windows.Forms.TreeView" /> control.
     /// </summary>
     /// <filterpriority>

@@ -12,7 +12,8 @@ namespace System.Windows.Forms
     public enum TabDrawMode
     {
         /// <summary>
-        /// All the items in the control are painted by the system and are of the same size
+        /// All the items in the control are painted by the system and are of the
+        /// same size
         /// </summary>
         Normal = 0,
 

@@ -295,13 +295,11 @@ namespace System.Drawing
         /// <summary>
         /// Displays a multiple-frame image as an animation.
         /// </summary>
-        /// <param name="image"> The
-        /// <see cref="T:System.Drawing.Image" />
-        /// object to animate.
+        /// <param name="image">The
+        /// <see cref="T:System.Drawing.Image" /> object to animate.
         /// </param>
-        /// <param name="onFrameChangedHandler"> An
-        /// <see langword="EventHandler" />
-        /// object that specifies the method that is called when the animation frame changes.
+        /// <param name="onFrameChangedHandler">An
+        /// <see langword="EventHandler" /> object that specifies the method that is called when the animation frame changes.
         /// </param>
         public static void Animate(Image image, EventHandler onFrameChangedHandler)
         {
@@ -403,13 +401,11 @@ namespace System.Drawing
         /// <summary>
         /// Terminates a running animation.
         /// </summary>
-        /// <param name="image"> The
-        /// <see cref="T:System.Drawing.Image" />
-        /// object to stop animating.
+        /// <param name="image">The
+        /// <see cref="T:System.Drawing.Image" /> object to stop animating.
         /// </param>
-        /// <param name="onFrameChangedHandler"> An
-        /// <see langword="EventHandler" />
-        /// object that specifies the method that is called when the animation frame changes.
+        /// <param name="onFrameChangedHandler">An
+        /// <see langword="EventHandler" /> object that specifies the method that is called when the animation frame changes.
         /// </param>
         public static void StopAnimate(Image image, EventHandler onFrameChangedHandler)
         {

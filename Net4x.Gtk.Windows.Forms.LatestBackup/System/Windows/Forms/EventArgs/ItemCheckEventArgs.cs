@@ -8,8 +8,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.CheckedListBox.ItemCheck" />
-    /// event of the
+    /// <see cref="System.Windows.Forms.CheckedListBox.ItemCheck" /> event of the
     /// <see cref="System.Windows.Forms.CheckedListBox" /> and
     /// <see cref="System.Windows.Forms.ListView" /> controls.
     /// </summary>

@@ -8,8 +8,7 @@ namespace System.Windows.Forms
     /// <summary>
     /// Provides a user interface for browsing the properties of an object.
     /// </summary>
-    /// <filterpriority>
-    /// 1
+    /// <filterpriority>1
     /// </filterpriority>
     public partial class PropertyGrid
     {

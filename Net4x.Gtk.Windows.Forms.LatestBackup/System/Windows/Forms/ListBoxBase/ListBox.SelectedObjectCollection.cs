@@ -18,7 +18,7 @@ namespace System.Windows.Forms
         /// Represents the collection of selected items in the
         /// <see cref="System.Windows.Forms.ListBox" />
         /// </summary>
-// Should be "ObjectCollection", except we already have one of those.
+        // Should be "ObjectCollection", except we already have one of those.
         public class SelectedObjectCollection : IList
         {
             // This is the bitmask used within ItemArray to identify selected objects.

@@ -6,8 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Represents a line used to group items of a
-    /// <see cref="System.Windows.Forms.ToolStrip" />
-    /// or the drop-down items of a
+    /// <see cref="System.Windows.Forms.ToolStrip" /> or the drop-down items of a
     /// <see cref="System.Windows.Forms.MenuStrip" /> or
     /// <see cref="System.Windows.Forms.ContextMenuStrip" /> or other
     /// <see cref="System.Windows.Forms.ToolStripDropDown" /> control.

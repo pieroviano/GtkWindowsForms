@@ -118,7 +118,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Disposes of the resources (other than memory) used by the
-        /// <see cref='PaintEventArgs'/> .
+        /// <see cref="PaintEventArgs" />.
         /// </summary>
         public void Dispose()
         {

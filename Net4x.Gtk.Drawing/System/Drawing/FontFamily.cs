@@ -14,9 +14,8 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new System.Drawing.FontFamily from the specified generic font family.
-        /// <param name="genericFamily">
-        /// The System.Drawing.Text.GenericFontFamilies from which to create the new System.Drawing.FontFamily.
         /// </summary>
+        /// <param name="genericFamily">The System.Drawing.Text.GenericFontFamilies from which to create the new System.Drawing.FontFamily.
         /// </param>
         public FontFamily(GenericFontFamilies genericFamily) : this(genericFamily.ToString(), null)
         {
@@ -32,8 +31,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// <paramref name="name" /> is an empty string ("").-or-
         /// <paramref name="name" /> specifies a font that is not installed on the computer running the application.-or-
-        /// <paramref name="name" />
-        /// specifies a font that is not a TrueType font.
+        /// <paramref name="name" /> specifies a font that is not a TrueType font.
         /// </exception>
         public FontFamily(string name) : this(name, null) { }
 
@@ -55,8 +53,7 @@ namespace System.Drawing
         /// <exception cref="System.ArgumentException">
         /// <paramref name="name" /> is an empty string ("").-or-
         /// <paramref name="name" /> specifies a font that is not installed on the computer running the application.-or-
-        /// <paramref name="name" />
-        /// specifies a font that is not a TrueType font.
+        /// <paramref name="name" /> specifies a font that is not a TrueType font.
         /// </exception>
         public FontFamily(string name, FontCollection fontCollection)
         {
@@ -154,7 +151,7 @@ namespace System.Drawing
         /// <see cref="System.Drawing.FontFamily" /> objects.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="graphics " /> isnull.
+        /// <paramref name="graphics " />isnull.
         /// </exception>
         /// <filterpriority>1
         /// </filterpriority>
@@ -184,8 +181,7 @@ namespace System.Drawing
         /// true if
         /// <paramref name="obj" /> is a
         /// <see cref="System.Drawing.FontFamily" /> and is identical to this
-        /// <see cref="System.Drawing.FontFamily" />
-        /// ; otherwise, false.
+        /// <see cref="System.Drawing.FontFamily" />; otherwise, false.
         /// </returns>
         /// <param name="obj">The object to test.
         /// </param>
@@ -277,14 +273,18 @@ namespace System.Drawing
         public int GetLineSpacing(FontStyle style) { return 0; }
 
         /// <summary>
-        /// Returns the name, in the specified language, of this System.Drawing.FontFamily.
+        /// Returns the name, in the specified language, of this
+        /// <see cref="System.Drawing.FontFamily" />
         /// </summary>
-        /// <param name="language">
-        /// The language in which the name is returned.
-        /// </param>
         /// <returns>
-        /// A System.String that represents the name, in the specified language, of this System.Drawing.FontFamily.
+        /// A
+        /// <see cref="System.String" /> that represents the name, in the specified language, of this
+        /// <see cref="System.Drawing.FontFamily" />
         /// </returns>
+        /// <param name="language">The language in which the name is returned.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
         public string GetName(int language) { return Name; }
 
         /// <summary>

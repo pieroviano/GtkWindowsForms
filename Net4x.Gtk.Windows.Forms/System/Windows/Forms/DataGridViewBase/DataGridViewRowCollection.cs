@@ -325,8 +325,7 @@ namespace System.Windows.Forms
         /// <paramref name="dataGridViewRow" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="dataGridViewRow" />
-        /// has more cells than there are columns in the control.
+        /// <paramref name="dataGridViewRow" /> has more cells than there are columns in the control.
         /// </exception>
         /// <filterpriority>1
         /// </filterpriority>
@@ -539,8 +538,7 @@ namespace System.Windows.Forms
         /// <paramref name="dataGridViewRows" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="dataGridViewRows" />
-        /// contains only one row, and the row it contains has more cells than there are columns in the control.
+        /// <paramref name="dataGridViewRows" /> contains only one row, and the row it contains has more cells than there are columns in the control.
         /// </exception>
         /// <exception cref="System.InvalidOperationException">The associated
         /// <see cref="System.Windows.Forms.DataGridView" /> control is performing one of the following actions that temporarily prevents new rows from being added:Selecting all cells in the control.Clearing the selection.-or-This method is being called from a handler for one of the following
@@ -650,8 +648,7 @@ namespace System.Windows.Forms
         /// <paramref name="array" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index" />
-        /// is less than zero.
+        /// <paramref name="index" /> is less than zero.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array" /> is multidimensional.-or- The number of elements in the
@@ -770,8 +767,7 @@ namespace System.Windows.Forms
         /// <paramref name="indexStart" /> is less than -1.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="includeFilter" />
-        /// is not a valid bitwise combination of
+        /// <paramref name="includeFilter" /> is not a valid bitwise combination of
         /// <see cref="System.Windows.Forms.DataGridViewElementStates" /> values.
         /// </exception>
         public int GetNextRow(int indexStart, DataGridViewElementStates includeFilter)
@@ -879,8 +875,7 @@ namespace System.Windows.Forms
         /// <paramref name="indexStart" /> is greater than the number of rows in the collection.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="includeFilter" />
-        /// is not a valid bitwise combination of
+        /// <paramref name="includeFilter" /> is not a valid bitwise combination of
         /// <see cref="System.Windows.Forms.DataGridViewElementStates" /> values.
         /// </exception>
         public int GetPreviousRow(int indexStart, DataGridViewElementStates includeFilter)
@@ -1002,8 +997,7 @@ namespace System.Windows.Forms
         /// <paramref name="rowIndex" /> is less than zero or greater than the number of rows in the collection.
         /// </exception>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="values" />
-        /// is null.
+        /// <paramref name="values" /> is null.
         /// </exception>
         /// <exception cref="System.InvalidOperationException">The associated
         /// <see cref="System.Windows.Forms.DataGridView" /> control is performing one of the following actions that temporarily prevents new rows from being added:Selecting all cells in the control.Clearing the selection.-or-This method is being called from a handler for one of the following
@@ -1069,8 +1063,7 @@ namespace System.Windows.Forms
         /// <paramref name="rowIndex" /> is less than zero or greater than the number of rows in the collection.
         /// </exception>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="dataGridViewRow" />
-        /// is null.
+        /// <paramref name="dataGridViewRow" /> is null.
         /// </exception>
         /// <exception cref="System.InvalidOperationException">The associated
         /// <see cref="System.Windows.Forms.DataGridView" /> control is performing one of the following actions that temporarily prevents new rows from being added:Selecting all cells in the control.Clearing the selection.-or-This method is being called from a handler for one of the following
@@ -1249,8 +1242,7 @@ namespace System.Windows.Forms
         /// <paramref name="dataGridViewRows" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="rowIndex" />
-        /// is less than zero or greater than the number of rows in the collection.
+        /// <paramref name="rowIndex" /> is less than zero or greater than the number of rows in the collection.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="dataGridViewRows" /> contains only one row, and the row it contains has more cells than there are columns in the control.
@@ -1302,8 +1294,7 @@ namespace System.Windows.Forms
         /// <paramref name="dataGridViewRow" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="dataGridViewRow" />
-        /// is not contained in this collection.-or-
+        /// <paramref name="dataGridViewRow" /> is not contained in this collection.-or-
         /// <paramref name="dataGridViewRow" /> is a shared row.
         /// </exception>
         /// <exception cref="System.InvalidOperationException">The associated
@@ -1415,7 +1406,7 @@ namespace System.Windows.Forms
         /// <param name="e">A
         /// <see cref="System.ComponentModel.CollectionChangeEventArgs" /> that contains the event data.
         /// </param>
-//**************************************
+        //**************************************
         protected virtual void OnCollectionChanged(CollectionChangeEventArgs e)
         {
             if (CollectionChanged != null)
@@ -1456,8 +1447,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewRow.Selected" /> property value of true.-or-This operation would add a frozen row after unfrozen rows.
         /// </exception>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="value" />
-        /// is null.
+        /// <paramref name="value" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="value" /> has more cells than there are columns in the control.
@@ -1530,8 +1520,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewRow" />
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index" />
-        /// is less than zero or greater than the number of rows in the collection.
+        /// <paramref name="index" /> is less than zero or greater than the number of rows in the collection.
         /// </exception>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="value" /> is null.
@@ -1559,8 +1548,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewRow.Selected" /> property value of true.-or-This operation would insert a frozen row after unfrozen rows or an unfrozen row before frozen rows.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// <paramref name="value" />
-        /// has more cells than there are columns in the control.
+        /// <paramref name="value" /> has more cells than there are columns in the control.
         /// </exception>
         void IList.Insert(int index, object value)
         {
@@ -1579,8 +1567,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewRow" />
         /// </exception>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="value" />
-        /// is null.
+        /// <paramref name="value" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="value" /> is not contained in this collection.-or-
@@ -1656,8 +1643,7 @@ namespace System.Windows.Forms
         /// <paramref name="array" /> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index" />
-        /// is less than zero.
+        /// <paramref name="index" /> is less than zero.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array" /> is multidimensional.-or- The number of elements in the
