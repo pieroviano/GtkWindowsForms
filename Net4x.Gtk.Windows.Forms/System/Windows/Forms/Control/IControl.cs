@@ -53,7 +53,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if allows drop; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool AllowDrop { get; set; }
@@ -78,7 +79,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if automatic size; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool AutoSize { get; set; }
@@ -131,7 +133,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if this instance can focus; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool CanFocus { get; }
@@ -142,7 +145,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if this instance can select; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool CanSelect { get; }
@@ -154,7 +158,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if capture; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool Capture { get; set; }
@@ -165,7 +170,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if causes validation; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool CausesValidation { get; set; }
@@ -183,7 +189,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if contains focus; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool ContainsFocus { get; }
@@ -209,7 +216,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if created; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool Created { get; }
@@ -249,7 +257,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if disposing; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool Disposing { get; }
@@ -268,7 +277,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if enabled; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool Enabled { get; set; }
@@ -280,7 +290,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if focused; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool Focused { get; }
@@ -305,7 +316,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if this instance has children; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         // IntPtr Handle { get; }
@@ -331,7 +343,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if invoke required; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool InvokeRequired { get; }
@@ -342,7 +355,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if this instance is accessible; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool IsAccessible { get; set; }
@@ -353,7 +367,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if this instance is disposed; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool IsDisposed { get; }
@@ -364,7 +379,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if this instance is handle created; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool IsHandleCreated { get; }
@@ -375,7 +391,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if this instance is mirrored; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool IsMirrored { get; }
@@ -464,7 +481,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if recreating handle; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool RecreatingHandle { get; }
@@ -517,7 +535,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if tab stop; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool TabStop { get; set; }
@@ -556,7 +575,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if use wait cursor; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool UseWaitCursor { get; set; }
@@ -568,7 +588,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if visible; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool Visible { get; set; }
@@ -695,7 +716,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if [ontains the specified control; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         bool Contains(Control ctl);
@@ -777,7 +799,8 @@ namespace System.Windows.Forms
         /// <param name="ctl">The control.
         /// </param>
         /// <param name="forward">if set to
-        /// <c>true
+        /// <c>
+        /// true
         /// </c> [forward].
         /// </param>
         /// <returns>
@@ -800,7 +823,8 @@ namespace System.Windows.Forms
         /// Invalidates the specified invalidate children.
         /// </summary>
         /// <param name="invalidateChildren">if set to
-        /// <c>true
+        /// <c>
+        /// true
         /// </c> [invalidate children].
         /// </param>
         void Invalidate(bool invalidateChildren);
@@ -816,7 +840,8 @@ namespace System.Windows.Forms
         /// <param name="rc">The rc.
         /// </param>
         /// <param name="invalidateChildren">if set to
-        /// <c>true
+        /// <c>
+        /// true
         /// </c> [invalidate children].
         /// </param>
         void Invalidate(Rectangle rc, bool invalidateChildren);
@@ -832,7 +857,8 @@ namespace System.Windows.Forms
         /// <param name="region">The region.
         /// </param>
         /// <param name="invalidateChildren">if set to
-        /// <c>true
+        /// <c>
+        /// true
         /// </c> [invalidate children].
         /// </param>
         void Invalidate(Region region, bool invalidateChildren);
@@ -984,7 +1010,8 @@ namespace System.Windows.Forms
         /// Resumes the layout.
         /// </summary>
         /// <param name="performLayout">if set to
-        /// <c>true
+        /// <c>
+        /// true
         /// </c> [perform layout].
         /// </param>
         void ResumeLayout(bool performLayout);
@@ -1024,19 +1051,23 @@ namespace System.Windows.Forms
         /// <param name="ctl">The control.
         /// </param>
         /// <param name="forward">if set to
-        /// <c>true
+        /// <c>
+        /// true
         /// </c> [forward].
         /// </param>
         /// <param name="tabStopOnly">if set to
-        /// <c>true
+        /// <c>
+        /// true
         /// </c> [tab stop only].
         /// </param>
         /// <param name="nested">if set to
-        /// <c>true
+        /// <c>
+        /// true
         /// </c> [nested].
         /// </param>
         /// <param name="wrap">if set to
-        /// <c>true
+        /// <c>
+        /// true
         /// </c> [wrap].
         /// </param>
         /// <returns>
@@ -1088,7 +1119,8 @@ namespace System.Windows.Forms
         /// <c>
         /// true
         /// </c> if [use visual style back color]; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool UseVisualStyleBackColor { get; set; }

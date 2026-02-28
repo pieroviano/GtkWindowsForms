@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Prepare.Common.Text;
 
 namespace Prepare.Common.Projects;
 
@@ -53,7 +54,7 @@ public static class ProjectCompilation
         if (process.ExitCode != 0)
         {
             var message = $"dotnet {whatToDo} failed:{Environment.NewLine}{output}{Environment.NewLine}{error}";
-            ConsoleUtility.WriteInColor(message, ConsoleColor.Red);
+            ConsoleUtilityEx.WriteInColor(message, ConsoleColor.Red);
             throw new InvalidOperationException(message);
         }
     }

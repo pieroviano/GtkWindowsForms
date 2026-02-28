@@ -12,163 +12,163 @@
         </member>
         <member name="T:GtkSystem.SR">
             <summary>
-            A strongly-typed resource class, for looking up localized strings, etc.
+               A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
         <member name="P:GtkSystem.SR.ResourceManager">
             <summary>
-            Returns the cached ResourceManager instance used by this class.
+               Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
         <member name="P:GtkSystem.SR.Culture">
             <summary>
-            Overrides the current thread's CurrentUICulture property for all
-            resource lookups using this strongly typed resource class.
+               Overrides the current thread's CurrentUICulture property for all
+               resource lookups using this strongly typed resource class.
             </summary>
         </member>
         <member name="P:GtkSystem.SR.Arg_ResourceFileUnsupportedVersion">
             <summary>
-            Looks up a localized string similar to The ResourceReader class does not know how to read this version of .resources files. Expected version: {0}  This file: {1}.
+                Looks up a localized string similar to The ResourceReader class does not know how to read this version of .resources files. Expected version: {0}  This file: {1}.
             </summary>
         </member>
         <member name="P:GtkSystem.SR.Argument_StreamNotReadable">
             <summary>
-            Looks up a localized string similar to Stream was not readable.
+                Looks up a localized string similar to Stream was not readable.
             </summary>
         </member>
         <member name="P:GtkSystem.SR.Argument_StreamNotWritable">
             <summary>
-            Looks up a localized string similar to Stream was not writable..
+                Looks up a localized string similar to Stream was not writable..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.ArgumentOutOfRange_StreamLength">
             <summary>
-            Looks up a localized string similar to Stream length must be non-negative and less than 2^31 - 1 - origin..
+                Looks up a localized string similar to Stream length must be non-negative and less than 2^31 - 1 - origin..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_InvalidType">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file.  The specified type doesn't exist..
+                Looks up a localized string similar to Corrupt .resources file.  The specified type doesn&apos;t exist..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_NegativeStringLength">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file. String length must be non-negative..
+                Looks up a localized string similar to Corrupt .resources file. String length must be non-negative..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_ResourceDataLengthInvalid">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file.  The specified data length '{0}' is not a valid position in the stream..
+                Looks up a localized string similar to Corrupt .resources file.  The specified data length &apos;{0}&apos; is not a valid position in the stream..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_ResourceNameCorrupted">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file. A resource name extends past the end of the stream..
+                Looks up a localized string similar to Corrupt .resources file. A resource name extends past the end of the stream..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_ResourceNameCorrupted_NameIndex">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file. The resource name for name index {0} extends past the end of the stream..
+                Looks up a localized string similar to Corrupt .resources file. The resource name for name index {0} extends past the end of the stream..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_ResourcesDataInvalidOffset">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file. Invalid offset '{0}' into data section..
+                Looks up a localized string similar to Corrupt .resources file. Invalid offset &apos;{0}&apos; into data section..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_ResourcesHeaderCorrupted">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file. Unable to read resources from this file because of invalid header information. Try regenerating the .resources file..
+                Looks up a localized string similar to Corrupt .resources file. Unable to read resources from this file because of invalid header information. Try regenerating the .resources file..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_ResourcesIndexTooLong">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file. String for name index '{0}' extends past the end of the file..
+                Looks up a localized string similar to Corrupt .resources file. String for name index &apos;{0}&apos; extends past the end of the file..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_ResourcesNameInvalidOffset">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file. Invalid offset '{0}' into name section..
+                Looks up a localized string similar to Corrupt .resources file. Invalid offset &apos;{0}&apos; into name section..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_ResourcesNameTooLong">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file. Resource name extends past the end of the file..
+                Looks up a localized string similar to Corrupt .resources file. Resource name extends past the end of the file..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_ResType_SerBlobMismatch">
             <summary>
-            Looks up a localized string similar to The type serialized in the .resources file was not the same type that the .resources file said it contained. Expected '{0}' but read '{1}'..
+                Looks up a localized string similar to The type serialized in the .resources file was not the same type that the .resources file said it contained. Expected &apos;{0}&apos; but read &apos;{1}&apos;..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.BadImageFormat_TypeMismatch">
             <summary>
-            Looks up a localized string similar to Corrupt .resources file.  The specified type doesn't match the available data in the stream..
+                Looks up a localized string similar to Corrupt .resources file.  The specified type doesn&apos;t match the available data in the stream..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.Format_Bad7BitInt32">
             <summary>
-            Looks up a localized string similar to Too many bytes in what should have been a 7 bit encoded Int32..
+                Looks up a localized string similar to Too many bytes in what should have been a 7 bit encoded Int32..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.InvalidOperation_EnumEnded">
             <summary>
-            Looks up a localized string similar to Enumeration already finished..
+                Looks up a localized string similar to Enumeration already finished..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.InvalidOperation_EnumNotStarted">
             <summary>
-            Looks up a localized string similar to Enumeration has not started. Call MoveNext..
+                Looks up a localized string similar to Enumeration has not started. Call MoveNext..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.InvalidOperation_ResourceNotString_Type">
             <summary>
-            Looks up a localized string similar to Resource was of type '{0}' instead of String - call GetObject instead..
+                Looks up a localized string similar to Resource was of type &apos;{0}&apos; instead of String - call GetObject instead..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.InvalidOperation_ResourceWriterSaved">
             <summary>
-            Looks up a localized string similar to The resource writer has already been closed and cannot be edited..
+                Looks up a localized string similar to The resource writer has already been closed and cannot be edited..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.NotSupported_BinarySerializedResources">
             <summary>
-            Looks up a localized string similar to This platform does not support binary serialized resources..
+                Looks up a localized string similar to This platform does not support binary serialized resources..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.NotSupported_ResourceObjectSerialization">
             <summary>
-            Looks up a localized string similar to Cannot read resources that depend on serialization..
+                Looks up a localized string similar to Cannot read resources that depend on serialization..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.NotSupported_UnseekableStream">
             <summary>
-            Looks up a localized string similar to Stream does not support seeking..
+                Looks up a localized string similar to Stream does not support seeking..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.NotSupported_WrongResourceReader_Type">
             <summary>
-            Looks up a localized string similar to This .resources file should not be read with this reader. The resource reader type is "{0}"..
+                Looks up a localized string similar to This .resources file should not be read with this reader. The resource reader type is &quot;{0}&quot;..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.ObjectDisposed_ResourceSet">
             <summary>
-            Looks up a localized string similar to Cannot access a closed resource set..
+                Looks up a localized string similar to Cannot access a closed resource set..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.ResourceReaderIsClosed">
             <summary>
-            Looks up a localized string similar to ResourceReader is closed..
+                Looks up a localized string similar to ResourceReader is closed..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.Resources_StreamNotValid">
             <summary>
-            Looks up a localized string similar to Stream is not a valid resource file..
+                Looks up a localized string similar to Stream is not a valid resource file..
             </summary>
         </member>
         <member name="P:GtkSystem.SR.TypeLoadException_CannotLoadConverter">
             <summary>
-            Looks up a localized string similar to Could not load a converter for type {0}..
+                Looks up a localized string similar to Could not load a converter for type {0}..
             </summary>
         </member>
         <member name="M:GtkSystem.Windows.Forms.Utility.ImageUtility.ScaleImageByPictureBoxSizeMode(System.Byte[],System.Int32,System.Int32,Gdk.Pixbuf@,System.Windows.Forms.PictureBoxSizeMode)">
@@ -3385,7 +3385,23 @@
             <see cref="T:System.Windows.Forms.ControlBindingsCollection" />
             </exception>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.Control" -->
+        <member name="T:System.Windows.Forms.Control">
+            <summary>
+            Defines the base class for controls, which are components with visual representation.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Defines the base class for controls, which are components with visual representation.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Defines the base class for controls, which are components with visual representation.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+        </member>
         <member name="T:System.Windows.Forms.Control.ControlCollection">
             <summary>
             Represents a collection of
@@ -5707,159 +5723,146 @@
             <see cref="T:System.Windows.Forms.CurrencyManager" /> for.
             </param>
         </member>
-        <member name="T:System.Windows.Forms.ItemArray">
-             <summary>
-              This is similar to ArrayList except that it also
-              maintains a bit-flag based state element for each item
-              in the array.
-            
-              The methods to enumerate, count and get data support
-              virtualized indexes.  Indexes are virtualized according
-              to the state mask passed in.  This allows ItemArray
-              to be the backing store for one read-write "master"
-              collection and several read-only collections based
-              on masks.  ItemArray supports up to 31 masks.
-             </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.ItemArray" -->
         <member name="P:System.Windows.Forms.ItemArray.Version">
             <summary>
-             The version of this array.  This number changes with each
-             change to the item list.
+            The version of this array.  This number changes with each
+            change to the item list.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Add(System.Object)">
             <summary>
-             Adds the given item to the array.  The state is initially
-             zero.
+            Adds the given item to the array.  The state is initially
+            zero.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Clear">
             <summary>
-             Clears this array.
+            Clears this array.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.CreateMask">
             <summary>
-             Allocates a new bitmask for use.
+            Allocates a new bitmask for use.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetActualIndex(System.Int32,System.Int32)">
             <summary>
-             Turns a virtual index into an actual index.
+            Turns a virtual index into an actual index.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.ItemArray.Count">
             <summary>
-             Gets the main count
+            Gets the main count
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetCount(System.Int32)">
             <summary>
-             Gets the count of items matching the given mask.
+            Gets the count of items matching the given mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetEnumerator(System.Int32)">
             <summary>
-             Retrieves an enumerator that will enumerate based on
-             the given mask.
+            Retrieves an enumerator that will enumerate based on
+            the given mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetEnumerator(System.Int32,System.Boolean)">
             <summary>
-             Retrieves an enumerator that will enumerate based on
-             the given mask.
+            Retrieves an enumerator that will enumerate based on
+            the given mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetItem(System.Int32,System.Int32)">
             <summary>
-             Gets the item at the given index.  The index is
-             virtualized against the given mask value.
+            Gets the item at the given index.  The index is
+            virtualized against the given mask value.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetEntryObject(System.Int32,System.Int32)">
             <summary>
-             Gets the item at the given index.  The index is
-             virtualized against the given mask value.
+            Gets the item at the given index.  The index is
+            virtualized against the given mask value.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetState(System.Int32,System.Int32)">
             <summary>
-             Returns true if the requested state mask is set.
-             The index is the actual index to the array.
+            Returns true if the requested state mask is set.
+            The index is the actual index to the array.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.IndexOf(System.Object,System.Int32)">
             <summary>
-             Returns the virtual index of the item based on the
-             state mask.
+            Returns the virtual index of the item based on the
+            state mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Insert(System.Int32,System.Object)">
             <summary>
-             Inserts item at the given index.  The index
-             is not virtualized.
+            Inserts item at the given index.  The index
+            is not virtualized.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Remove(System.Object)">
             <summary>
-             Removes the given item from the array.  If
-             the item is not in the array, this does nothing.
+            Removes the given item from the array.  If
+            the item is not in the array, this does nothing.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.RemoveAt(System.Int32)">
             <summary>
-             Removes the item at the given index.
+            Removes the item at the given index.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.SetItem(System.Int32,System.Object)">
             <summary>
-             Sets the item at the given index to a new value.
+            Sets the item at the given index to a new value.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.SetState(System.Int32,System.Int32,System.Boolean)">
             <summary>
-             Sets the state data for the given index.
+            Sets the state data for the given index.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.BinarySearch(System.Windows.Forms.ItemArray.Entry)">
             <summary>
-             Find element in sorted array. If element is not found returns a binary complement of index for inserting
+            Find element in sorted array. If element is not found returns a binary complement of index for inserting
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Sort">
             <summary>
-             Sorts our array.
+            Sorts our array.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ItemArray.Entry">
             <summary>
-             This is a single entry in our item array.
+            This is a single entry in our item array.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ItemArray.EntryEnumerator">
             <summary>
-             EntryEnumerator is an enumerator that will enumerate over
-             a given state mask.
+            EntryEnumerator is an enumerator that will enumerate over
+            a given state mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.EntryEnumerator.#ctor(System.Windows.Forms.ItemArray,System.Int32,System.Boolean)">
             <summary>
-             Creates a new enumerator that will enumerate over the given state.
+            Creates a new enumerator that will enumerate over the given state.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.EntryEnumerator.System#Collections#IEnumerator#MoveNext">
             <summary>
-             Moves to the next element, or returns false if at the end.
+            Moves to the next element, or returns false if at the end.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.EntryEnumerator.System#Collections#IEnumerator#Reset">
             <summary>
-             Resets the enumeration back to the beginning.
+            Resets the enumeration back to the beginning.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.ItemArray.EntryEnumerator.System#Collections#IEnumerator#Current">
             <summary>
-             Retrieves the current value in the enumerator.
+            Retrieves the current value in the enumerator.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ListBindingHelper">
@@ -6076,13 +6079,7 @@
             <see cref="T:System.Windows.Forms.Binding" /> between a data binding and a data-bound property.
             </summary>
         </member>
-        <member name="T:System.Windows.Forms.PropertyStore">
-            <summary>
-            This is a small class that can efficiently store property values.
-            It tries to optimize for size first, "get" access second, and
-            "set" access third.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.PropertyStore" -->
         <member name="M:System.Windows.Forms.PropertyStore.ContainsInteger(System.Int32)">
             <summary>
             Retrieves an integer value from our property list.
@@ -6162,8 +6159,8 @@
             Will be set to null if the key is not present.
             </param>
             <remarks>
-            <para>
-            If a null value is set for a given key it will return true and a null value.
+            <para>If a null value is set for a given key
+            it will return true and a null value.
             </para>
             </remarks>
             <returns>True if an object (including null) is found for the given key; otherwise, false.
@@ -7562,7 +7559,8 @@
             <c>
             true
             </c> if allows drop; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7590,7 +7588,8 @@
             <c>
             true
             </c> if automatic size; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7650,7 +7649,8 @@
             <c>
             true
             </c> if this instance can focus; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7662,7 +7662,8 @@
             <c>
             true
             </c> if this instance can select; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7675,7 +7676,8 @@
             <c>
             true
             </c> if capture; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7687,7 +7689,8 @@
             <c>
             true
             </c> if causes validation; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7707,7 +7710,8 @@
             <c>
             true
             </c> if contains focus; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7736,7 +7740,8 @@
             <c>
             true
             </c> if created; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7781,7 +7786,8 @@
             <c>
             true
             </c> if disposing; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7802,7 +7808,8 @@
             <c>
             true
             </c> if enabled; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7815,7 +7822,8 @@
             <c>
             true
             </c> if focused; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7843,7 +7851,8 @@
             <c>
             true
             </c> if this instance has children; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7871,7 +7880,8 @@
             <c>
             true
             </c> if invoke required; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7883,7 +7893,8 @@
             <c>
             true
             </c> if this instance is accessible; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7895,7 +7906,8 @@
             <c>
             true
             </c> if this instance is disposed; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7907,7 +7919,8 @@
             <c>
             true
             </c> if this instance is handle created; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -7919,7 +7932,8 @@
             <c>
             true
             </c> if this instance is mirrored; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -8019,7 +8033,8 @@
             <c>
             true
             </c> if recreating handle; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -8079,7 +8094,8 @@
             <c>
             true
             </c> if tab stop; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -8123,7 +8139,8 @@
             <c>
             true
             </c> if use wait cursor; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -8136,7 +8153,8 @@
             <c>
             true
             </c> if visible; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -8200,7 +8218,8 @@
             <c>
             true
             </c> if [ontains the specified control; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </returns>
         </member>
@@ -8293,7 +8312,8 @@
             <param name="ctl">The control.
             </param>
             <param name="forward">if set to
-            <c>true
+            <c>
+            true
             </c> [forward].
             </param>
             <returns>
@@ -8318,7 +8338,8 @@
             Invalidates the specified invalidate children.
             </summary>
             <param name="invalidateChildren">if set to
-            <c>true
+            <c>
+            true
             </c> [invalidate children].
             </param>
         </member>
@@ -8336,7 +8357,8 @@
             <param name="rc">The rc.
             </param>
             <param name="invalidateChildren">if set to
-            <c>true
+            <c>
+            true
             </c> [invalidate children].
             </param>
         </member>
@@ -8354,7 +8376,8 @@
             <param name="region">The region.
             </param>
             <param name="invalidateChildren">if set to
-            <c>true
+            <c>
+            true
             </c> [invalidate children].
             </param>
         </member>
@@ -8530,7 +8553,8 @@
             Resumes the layout.
             </summary>
             <param name="performLayout">if set to
-            <c>true
+            <c>
+            true
             </c> [perform layout].
             </param>
         </member>
@@ -8576,19 +8600,23 @@
             <param name="ctl">The control.
             </param>
             <param name="forward">if set to
-            <c>true
+            <c>
+            true
             </c> [forward].
             </param>
             <param name="tabStopOnly">if set to
-            <c>true
+            <c>
+            true
             </c> [tab stop only].
             </param>
             <param name="nested">if set to
-            <c>true
+            <c>
+            true
             </c> [nested].
             </param>
             <param name="wrap">if set to
-            <c>true
+            <c>
+            true
             </c> [wrap].
             </param>
             <returns>
@@ -8645,7 +8673,8 @@
             <c>
             true
             </c> if [use visual style back color]; otherwise,
-            <c>false
+            <c>
+            false
             </c>.
             </value>
         </member>
@@ -16502,14 +16531,7 @@
             Indicates that an element is visible (displayable).
             </summary>
         </member>
-        <member name="T:System.Windows.Forms.DataGridViewTriState">
-            <summary>
-            Defines values for specifying how the width of a column is adjusted.
-            </summary>
-            <summary>
-            Defines values for specifying one of three possible states.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.DataGridViewTriState" -->
         <member name="F:System.Windows.Forms.DataGridViewTriState.NotSet">
             <summary>
             The property is not set and will behave in a default manner.
@@ -18103,18 +18125,19 @@
         </member>
         <member name="T:System.Windows.Forms.LeftRightAlignment">
             <summary>
-            Specifies whether an object or text is aligned to the left or
-            right of a reference point.
+             Specifies whether an object or text is aligned to
+             the left or
+             right of a reference point.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.LeftRightAlignment.Left">
             <summary>
-            The object or text is aligned to the left of the reference point.
+             The object or text is aligned to the left of the reference point.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.LeftRightAlignment.Right">
             <summary>
-            The object or text is aligned to the right of the reference point.
+             The object or text is aligned to the right of the reference point.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.LinkState">
@@ -25138,50 +25161,7 @@
             A 32-bit image.
             </summary>
         </member>
-        <member name="T:System.Windows.Forms.ImageList">
-            <summary>
-            The ImageList is an object that stores a collection of Images, most
-            commonly used by other controls, such as the ListView, TreeView, or
-            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
-            other controls will be able to use the Images as they desire.
-            </summary>
-            <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
-            </summary>
-            <filterpriority>2
-            </filterpriority>
-            <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
-            </summary>
-            <filterpriority>2
-            </filterpriority>
-            <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
-            </summary>
-            <filterpriority>2
-            </filterpriority>
-            <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
-            </summary>
-            <filterpriority>2
-            </filterpriority>
-            <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
-            </summary>
-            <filterpriority>2
-            </filterpriority>
-            <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
-            </summary>
-            <filterpriority>2
-            </filterpriority>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.ImageList" -->
         <member name="M:System.Windows.Forms.ImageList.#ctor">
             <summary>
             Initializes a new instance of the
@@ -33460,7 +33440,28 @@
             <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
             </PermissionSet>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.PropertyGrid" -->
+        <member name="T:System.Windows.Forms.PropertyGrid">
+            <summary>
+            Provides a user interface for browsing the properties of an object.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Provides a user interface for browsing the properties of an object.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Provides a user interface for browsing the properties of an object.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Provides a user interface for browsing the properties of an object.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+        </member>
         <member name="M:System.Windows.Forms.PropertyGrid.#ctor">
             <summary>
             Initializes a new instance of the
@@ -38979,7 +38980,14 @@
             with null.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:System.Resources.ResXResourceReader" -->
+        <member name="T:System.Resources.ResXResourceReader">
+            <summary>
+            Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+            </summary>
+            <summary>
+            Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+            </summary>
+        </member>
         <member name="M:System.Resources.ResXResourceReader.#ctor(System.String)">
             <summary>
             Initializes a new instance of the
@@ -39232,7 +39240,8 @@
         </member>
         <member name="T:System.Resources.ResXResourceWriter">
             <summary>
-            ResX resource writer. See the text in "ResourceSchema" for more information.
+            ResX resource writer. See the text in "ResourceSchema" for more
+            information.
             </summary>
         </member>
         <member name="P:System.Resources.ResXResourceWriter.BasePath">

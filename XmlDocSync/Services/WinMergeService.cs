@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace XmlDocSync;
+namespace XmlDocSync.Services;
 
 public static class WinMergeService
 {

@@ -1,13 +1,21 @@
+using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Prepare.Common.Text;
+using XmlDocSync.Cleaning;
+using XmlDocSync.Formatters;
+using XmlDocSync.Roslyn;
 
-namespace XmlDocSync;
+namespace XmlDocSync.Services;
 
 public static class XmlDocumentationService
 {
-    public static async Task<int> MergeXmlDocumentationAsync(string xmlPath, string sourceDir, (string ToReplace, string DestinationValue)[] fixes)
+    public static async Task<int> MergeXmlDocumentationAsync(
+        string xmlPath,
+        string sourceDir,
+        (string ToReplace, string DestinationValue)[] fixes)
     {
         if (!File.Exists(xmlPath))
         {
@@ -23,18 +31,20 @@ public static class XmlDocumentationService
 
         var xmlDocumentation = LoadXmlDocumentation(xmlPath);
 
-        var files = Directory.GetFiles(sourceDir, "*.cs",
-            SearchOption.AllDirectories).Select(Path.GetFullPath).ToArray();
+        var files = Directory
+            .GetFiles(sourceDir, "*.cs", SearchOption.AllDirectories)
+            .Select(Path.GetFullPath)
+            .ToArray();
 
         var syntaxTrees = await ParseAllSyntaxTrees(files);
 
         var compilation = GetCSharpCompilation(syntaxTrees);
 
-        // Process each file
-        foreach (var syntaxTree in syntaxTrees)
-        {
-            await ProcessFile(compilation, xmlDocumentation, syntaxTree, fixes);
-        }
+        // Process all files in parallel
+        var tasks = syntaxTrees.Select(tree =>
+            ProcessFile(compilation, xmlDocumentation, tree, fixes));
+
+        await Task.WhenAll(tasks);
 
         return 0;
     }
@@ -129,23 +139,22 @@ public static class XmlDocumentationService
 
     private static async Task<List<SyntaxTree>> ParseAllSyntaxTrees(string[] files)
     {
-        // Parse all syntax trees first
-        var syntaxTrees = new List<SyntaxTree>();
+        var trees = new ConcurrentBag<SyntaxTree>();
 
-        foreach (var file in files)
+        await Parallel.ForEachAsync(files, async (file, cancellationToken) =>
         {
-            var text = await File.ReadAllTextAsync(file);
+            var text = await File.ReadAllTextAsync(file, cancellationToken);
             var tree = CSharpSyntaxTree.ParseText(text, path: file);
-            syntaxTrees.Add(tree);
-        }
+            trees.Add(tree);
+        });
 
-        return syntaxTrees;
+        return trees.ToList();
     }
 
     private static async Task ProcessFile(CSharpCompilation compilation,
         Dictionary<string, string> xmlDocumentation, SyntaxTree syntaxTree, (string ToReplace, string DestinationValue)[] valueTuples)
     {
-        Console.WriteLine($"Processing {syntaxTree.FilePath}");
+        ConsoleUtilityEx.WriteInColor($"Processing {syntaxTree.FilePath}", ConsoleColor.DarkGray);
 
         var semanticModel = compilation.GetSemanticModel(syntaxTree);
 
@@ -161,6 +170,15 @@ public static class XmlDocumentationService
 
         var newRoot = rewriter.Visit(root);
 
+#if REWRITE_NEWLINES
+        var otherRewriter = new RemoveBlankLinesBetweenMembersRewriter();
+
+        newRoot = otherRewriter.Visit(newRoot);
+
+        var secondRewriter = new BlankLineBetweenMembersRewriter();
+
+        newRoot = otherRewriter.Visit(newRoot);
+#endif
         if (!newRoot.IsEquivalentTo(root))
         {
             var contents = NormalizeXmlDocBlockIndentation(newRoot.ToFullString()
@@ -176,7 +194,7 @@ public static class XmlDocumentationService
 #if USE_WINDIFF
                 WinMergeService.CompareWithWinMerge(syntaxTree.FilePath, normalizedOriginalText, contents);
 #endif
-                ConsoleUtility.WriteInColor($"Modified {syntaxTree.FilePath}", ConsoleColor.Blue);
+                ConsoleUtilityEx.WriteInColor($"Modified {syntaxTree.FilePath}", ConsoleColor.Blue);
                 await File.WriteAllTextAsync(syntaxTree.FilePath, contents);
             }
         }

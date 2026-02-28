@@ -559,7 +559,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>A
         /// <see cref="System.Drawing.Color" /> that represents the background color of the control. The default is the value of the
-        /// <see cref="System.Windows.Forms.Control.DefaultBackColor" /> property.
+        /// <see cref="!:System.Windows.Forms.Control.DefaultBackColor" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -718,7 +718,7 @@ namespace System.Windows.Forms
         }
         /// <summary>
         /// Gets or sets where this control is scrolled to in
-        /// <see cref="System.Windows.Forms.ScrollableControl.ScrollControlIntoView(System.Windows.Forms.Control)" />
+        /// <see cref="!:System.Windows.Forms.ScrollableControl.ScrollControlIntoView(System.Windows.Forms.Control)" />
         /// </summary>
         /// <returns>A
         /// <see cref="System.Drawing.Point" /> specifying the scroll location. The default is the upper-left corner of the control.
@@ -983,7 +983,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The
         /// <see cref="System.Drawing.Font" /> to apply to the text displayed by the control. The default is the value of the
-        /// <see cref="System.Windows.Forms.Control.DefaultFont" /> property.
+        /// <see cref="!:System.Windows.Forms.Control.DefaultFont" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -1024,7 +1024,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The foreground
         /// <see cref="System.Drawing.Color" /> of the control. The default is the value of the
-        /// <see cref="System.Windows.Forms.Control.DefaultForeColor" /> property.
+        /// <see cref="!:System.Windows.Forms.Control.DefaultForeColor" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -1112,7 +1112,7 @@ namespace System.Windows.Forms
         /// Gets a cached instance of the control's layout engine.
         /// </summary>
         /// <returns>The
-        /// <see cref="System.Windows.Forms.Layout.LayoutEngine" /> for the control's contents.
+        /// <see cref="!:System.Windows.Forms.Layout.LayoutEngine" /> for the control's contents.
         /// </returns>
         /// <filterpriority>2
         /// </filterpriority>
@@ -1566,7 +1566,7 @@ namespace System.Windows.Forms
         /// Gets the length and height, in pixels, that is specified as the default maximum size of a control.
         /// </summary>
         /// <returns>A
-        /// <see cref="System.Drawing.Point.#ctor(System.Drawing.Size)" /> representing the size of the control.
+        /// <see cref="!:System.Drawing.Point.#ctor(System.Drawing.Size)" /> representing the size of the control.
         /// </returns>
         protected virtual Size DefaultMaximumSize { get; }
         /// <summary>
@@ -2415,9 +2415,9 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>One of the
         /// <see cref="System.Windows.Forms.PreProcessControlState" /> values, depending on whether
-        /// <see cref="System.Windows.Forms.Control.PreProcessMessage(System.Windows.Forms.Message)" /> is true or false and whether
-        /// <see cref="System.Windows.Forms.Control.IsInputKey(System.Windows.Forms.Keys)" /> or
-        /// <see cref="System.Windows.Forms.Control.IsInputChar(System.Char)" /> are true or false.
+        /// <see cref="!:System.Windows.Forms.Control.PreProcessMessage(System.Windows.Forms.Message)" /> is true or false and whether
+        /// <see cref="!:System.Windows.Forms.Control.IsInputKey(System.Windows.Forms.Keys)" /> or
+        /// <see cref="!:System.Windows.Forms.Control.IsInputChar(System.Char)" /> are true or false.
         /// </returns>
         /// <param name="msg">A
         /// <see cref="System.Windows.Forms.Message" /> that represents the message to process.
@@ -2984,6 +2984,7 @@ namespace System.Windows.Forms
         /// </param>
         protected virtual void OnParentChanged(EventArgs e)
         {
+            ParentChanged?.Invoke(this, e);
         }
         /// <summary>
         /// Temporarily suspends the layout logic for the control.
@@ -3108,7 +3109,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnLoad(EventArgs e)
         {
-
+            Load?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3120,17 +3121,17 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMove(EventArgs e)
         {
-
+            Move?.Invoke(this, e);
         }
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnValidating(CancelEventArgs e)
         {
-
+            Validating?.Invoke(this, e);
         }
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnValidated(CancelEventArgs e)
         {
-
+            Validated?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3142,7 +3143,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnResize(EventArgs e)
         {
-
+            Resize?.Invoke(this, e);
         }
         public virtual void PerformClick()
         {
@@ -3158,7 +3159,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnClick(EventArgs e)
         {
-
+            Click?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3170,7 +3171,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseDoubleClick(MouseEventArgs e)
         {
-
+            MouseDoubleClick?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3182,7 +3183,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseClick(MouseEventArgs e)
         {
-
+            MouseClick?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3194,7 +3195,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseDown(MouseEventArgs e)
         {
-
+            MouseDown?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3206,7 +3207,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseUp(MouseEventArgs e)
         {
-
+            MouseUp?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3218,7 +3219,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseEnter(EventArgs e)
         {
-
+            MouseEnter?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3230,7 +3231,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseHover(EventArgs e)
         {
-
+            MouseHover?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3242,7 +3243,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseLeave(EventArgs e)
         {
-
+            MouseLeave?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3253,7 +3254,7 @@ namespace System.Windows.Forms
         /// </param>
         protected virtual void OnKeyDown(KeyEventArgs e)
         {
-
+            KeyDown?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3264,7 +3265,7 @@ namespace System.Windows.Forms
         /// </param>
         protected virtual void OnKeyUp(KeyEventArgs e)
         {
-
+            KeyUp?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3275,7 +3276,7 @@ namespace System.Windows.Forms
         /// </param>
         protected virtual void OnVisibleChanged(EventArgs e)
         {
-
+            VisibleChanged?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3286,7 +3287,7 @@ namespace System.Windows.Forms
         /// </param>
         protected virtual void OnSizeChanged(EventArgs e)
         {
-
+            SizeChanged?.Invoke(this, e);
         }
         /// <summary>
         /// Activates a child control. Optionally specifies the direction in the tab order to select the control from.
@@ -3308,7 +3309,7 @@ namespace System.Windows.Forms
         /// </param>
         protected virtual void OnGotFocus(EventArgs e)
         {
-
+            GotFocus?.Invoke(this, e);
         }
         /// <summary>
         /// Processes Windows messages.
@@ -3340,7 +3341,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseMove(MouseEventArgs e)
         {
-
+            MouseMove?.Invoke(this, e);
         }
         /// <summary>
         /// Raises the
@@ -3352,7 +3353,7 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseWheel(MouseEventArgs e)
         {
-
+            MouseWheel?.Invoke(this, e);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
+using Prepare.Common.Text;
 
-namespace XmlDocSync;
+namespace XmlDocSync.Formatters;
 
 public static class XmlDocumentationFormatter
 {
@@ -80,10 +81,10 @@ public static class XmlDocumentationFormatter
                 return FormatBlock(lines, fixes);
             }
 
-            ConsoleUtility.WriteInColor("Badly formatted Xml comment:", ConsoleColor.Red);
-            ConsoleUtility.WriteInColor($"n===========================\n{rawXml}\n===========================",
-                ConsoleColor.White);
-            ConsoleUtility.WriteInColor($"{e}", ConsoleColor.Red);
+            ConsoleUtilityEx.WriteInColor("Badly formatted Xml comment:", ConsoleColor.Red, true);
+            ConsoleUtilityEx.WriteInColor($"n===========================\n{rawXml}\n===========================",
+                ConsoleColor.White, true);
+            ConsoleUtilityEx.WriteInColor($"{e}", ConsoleColor.Red, true);
 
             return lines;
         }

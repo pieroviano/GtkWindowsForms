@@ -11,15 +11,6 @@ namespace System.Windows.Forms
     /// </summary>
     /// <filterpriority>1
     /// </filterpriority>
-    /// Defines the base class for controls, which are components with visual representation.
-    /// This implementation wraps Gtk widgets and adapts them to the WinForms-like API used in this library.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
-    /// Defines the base class for controls, which are components with visual representation.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
     public partial class Control
     {
         private sealed class PrintPaintEventArgs : PaintEventArgs

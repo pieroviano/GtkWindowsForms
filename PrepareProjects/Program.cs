@@ -8,7 +8,8 @@ using PrepareProjects.Preparation.Compilation;
 using PrepareProjects.Preparation.Directories;
 using PrepareProjects.Preparation.Source;
 using PrepareProjects.ProjectHandling;
-using XmlDocSync;
+using XmlDocSync.Roslyn;
+using XmlDocSync.Services;
 
 namespace PrepareProjects;
 
@@ -31,37 +32,41 @@ public class Program
         }
 #endif
         const string net4xGtkWindowsForms = "Net4x.Gtk.Windows.Forms";
-        ConsoleUtility.WriteInColor(@$"Preparing {net4xGtkWindowsForms}", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@$"Preparing {net4xGtkWindowsForms}", ConsoleColor.Green, true);
         var (targetDir, sourceProjectPath, csprojPath) =
             await GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", net4xGtkWindowsForms);
 
         const string net4XSystemResourcesExtensions = "Net4x.System.Resources.Extensions";
-        ConsoleUtility.WriteInColor(@$"Preparing {net4XSystemResourcesExtensions}", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@$"Preparing {net4XSystemResourcesExtensions}",
+            ConsoleColor.Green, true);
         SystemResourcesExtensionsProjectHandler.Prepare($"{net4XSystemResourcesExtensions}.csproj");
         var version = VersionPrepare.PrepareSolutionVersion();
 
-        ConsoleUtility.WriteInColor(@"Preparing PoC projects", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@"Preparing PoC projects", ConsoleColor.Green, true);
         var projectName = await GtkSampleAppProjectsHandler.PrepareAsync("GTKWinFormsApp", "GtkWinFormsApp", version);
         var otherProjectName =
             await GtkSampleAppProjectsHandler.PrepareAsync("GTKSystemWinFormsApp11", "GtkSystemWinFormsApp11", version);
 
-        ConsoleUtility.WriteInColor(@"Regenerating *.Designer.cs from resources for PoC projects", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@"Regenerating *.Designer.cs from resources for PoC projects",
+            ConsoleColor.Green, true);
         ResGenService.RegenerateDesignersFromResources(targetDir, projectName, otherProjectName);
 
-        ConsoleUtility.WriteInColor(@"Appling translations and first post processings", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@"Appling translations and first post processings",
+            ConsoleColor.Green, true);
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
             BackupUtility.PostProcessing);
 
-        ConsoleUtility.WriteInColor(@"Copying code from Resources", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@"Copying code from Resources", ConsoleColor.Green, true);
         ResourcesCopyService.CopyCodeFromResources(targetDir);
 
-        ConsoleUtility.WriteInColor(@"Normalyzing comments", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@"Normalyzing comments", ConsoleColor.Green, true);
         SummaryCommentTransformer.TransformFolder(targetDir);
         MemberSpacingFormatter.TransformFolder(targetDir);
 
         RemoveOldXmlComments(csprojPath);
 
-        ConsoleUtility.WriteInColor(@$"Reorganizing files for {net4xGtkWindowsForms}", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@$"Reorganizing files for {net4xGtkWindowsForms}",
+            ConsoleColor.Green, true);
         FolderFixer.ReorganizeFiles(csprojPath, new[]
         {
             "Properties",
@@ -77,11 +82,12 @@ public class Program
             "GTKControls", "GtkControls", csprojPath);
 
         const string net4xGtkDrawing = "Net4x.Gtk.Drawing";
-        ConsoleUtility.WriteInColor(@$"Separating {net4xGtkDrawing} from {net4xGtkWindowsForms}", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@$"Separating {net4xGtkDrawing} from {net4xGtkWindowsForms}",
+            ConsoleColor.Green, true);
         DrawingService.SeparateDrawing(net4xGtkDrawing);
         OptimizeNet4xGtkDrawingFileSystem(projectDirectory);
 
-        ConsoleUtility.WriteInColor(@"Applying files post processings", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor(@"Applying files post processings", ConsoleColor.Green, true);
 
         var postprocessingXml = GetPostprocessingXml();
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
@@ -95,18 +101,51 @@ public class Program
 
         await MergeXmlDocumentationAsync();
 
-        ConsoleUtility.WriteInColor("Formatting Net4x.Gtk.Windows.Forms.csproj", ConsoleColor.DarkMagenta);
-        await  DotnetFormatter.FormatAsync(csprojPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
-        ConsoleUtility.WriteInColor("Formatting Net4x.Gtk.Drawing.csproj", ConsoleColor.DarkMagenta);
-        await DotnetFormatter.FormatAsync("..\\..\\..\\..\\Net4x.Gtk.Drawing\\Net4x.Gtk.Drawing.csproj", Path.GetFullPath(@"..\..\..\..\.editorconfig"));
+        ConsoleUtilityEx.WriteInColor("Ensuring On....(...EventArgs) are raising event.",
+            ConsoleColor.DarkMagenta, true);
+        EnsureOnEventRaisesEvent();
 
-        ConsoleUtility.WriteInColor(@"Building the solution", ConsoleColor.Green);
+
+        ConsoleUtilityEx.WriteInColor("Formatting Net4x.Gtk.Windows.Forms.csproj",
+            ConsoleColor.DarkMagenta, true);
+        await DotnetFormatter.FormatAsync(csprojPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
+        ConsoleUtilityEx.WriteInColor("Formatting Net4x.Gtk.Drawing.csproj", ConsoleColor.DarkMagenta, true);
+        await DotnetFormatter.FormatAsync("..\\..\\..\\..\\Net4x.Gtk.Drawing\\Net4x.Gtk.Drawing.csproj",
+            Path.GetFullPath(@"..\..\..\..\.editorconfig"));
+
+        ConsoleUtilityEx.WriteInColor(@"Building the solution", ConsoleColor.Green, true);
         var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.LatestBackup);
         var solutionPath = GetSolutionPath(projectDirectory);
         ProjectCompilation.RestoreSolution(solutionPath);
         ProjectCompilation.BuildSolution(solutionPath);
-        ConsoleUtility.WriteInColor("Preparation complete", ConsoleColor.Green);
+        ConsoleUtilityEx.WriteInColor("Preparation complete", ConsoleColor.Green, true);
+    }
+
+    private static void EnsureOnEventRaisesEvent()
+    {
+        var myProjectDir = @"..\\..\\..\\..\\Net4x.Gtk.Windows.Forms\\";
+        var targets = EventMethodDetector.DetectFiles(myProjectDir);
+
+        var exclude = new[]{"ToolStripButton.cs",
+            "UserControl.cs",
+            "ToolStripDropDownButton.cs",
+            "ToolStripDropDownMenu.cs",
+            "ArrangedElement.cs"};
+        foreach (var file in targets.Where(i => exclude.All(e => !i.EndsWith(e))))
+        {
+            ConsoleUtilityEx.WriteInColor($"Processing: {file}", ConsoleColor.DarkGray);
+            EventInvocatorFileRewriter.RewriteEventInvocations(file);
+        }
+
+        myProjectDir = @"..\\..\\..\\..\\Net4x.Gtk.Drawing\\";
+        targets = EventMethodDetector.DetectFiles(myProjectDir);
+
+        foreach (var file in targets)
+        {
+            ConsoleUtilityEx.WriteInColor($"Processing: {file}", ConsoleColor.DarkGray);
+            EventInvocatorFileRewriter.RewriteEventInvocations(file);
+        }
     }
 
     private static string GetPostprocessingXml()
@@ -127,33 +166,38 @@ public class Program
 
     private static async Task MergeXmlDocumentationAsync()
     {
-        ConsoleUtility.WriteInColor("Processing Net4x.Gtk.Windows.Forms.xml", ConsoleColor.DarkMagenta);
         var fixes = new (string ToReplace, string DestinationValue)[]
         {
             ("supplied padding size for all edges.", "supplied padding size for all edges.</summary>"),
             ("</summary></param>", "</param>"),
-            ("Gets or sets a value indicating whether the dialog should be shown", "<summary>Gets or sets a value indicating whether the dialog should be shown"),
+            ("Gets or sets a value indicating whether the dialog should be shown",
+                "<summary>Gets or sets a value indicating whether the dialog should be shown"),
             ("<devdov>", "&lt;devdov&gt;"),
             ("</summary></exception>", "</exception>"),
-            ("Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.","Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.</summary>"),
-            ("Returns a handle to this System.Drawing.Font.","Returns a handle to this System.Drawing.Font.</summary>"),
-            ("and optionally releases the managed resources.","and optionally releases the managed resources.</summary>"),
-            ("Initializes a new System.Drawing.FontFamily from the specified generic font family.","Initializes a new System.Drawing.FontFamily from the specified generic font family.</summary>"),
+            ("Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.",
+                "Creates a GDI logical font (LOGFONT) structure from this System.Drawing.Font.</summary>"),
+            ("Returns a handle to this System.Drawing.Font.",
+                "Returns a handle to this System.Drawing.Font.</summary>"),
+            ("and optionally releases the managed resources.",
+                "and optionally releases the managed resources.</summary>"),
+            ("Initializes a new System.Drawing.FontFamily from the specified generic font family.",
+                "Initializes a new System.Drawing.FontFamily from the specified generic font family.</summary>"),
             ("</returns></summary></summary>", "</returns>")
         };
+        ConsoleUtilityEx.WriteInColor("Processing Net4x.Gtk.Windows.Forms.xml", ConsoleColor.DarkMagenta, true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\PrepareProjects\\Resources\\Net4x.Gtk.Windows.Forms.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
-        ConsoleUtility.WriteInColor("Processing Net4x.Gtk.Drawing.xml", ConsoleColor.DarkMagenta);
+        ConsoleUtilityEx.WriteInColor("Processing Net4x.Gtk.Drawing.xml", ConsoleColor.DarkMagenta, true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\PrepareProjects\\Resources\\Net4x.Gtk.Drawing.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
 #if !SKIP_INITIAL
-        ConsoleUtility.WriteInColor("Processing System.Windows.Forms.xml", ConsoleColor.DarkMagenta);
+        ConsoleUtilityEx.WriteInColor("Processing System.Windows.Forms.xml", ConsoleColor.DarkMagenta, true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\PrepareProjects\\Resources\\System.Windows.Forms.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
-        ConsoleUtility.WriteInColor("Processing System.Drawing.xml", ConsoleColor.DarkMagenta);
+        ConsoleUtilityEx.WriteInColor("Processing System.Drawing.xml", ConsoleColor.DarkMagenta, true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\PrepareProjects\\Resources\\System.Drawing.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
@@ -181,6 +225,7 @@ public class Program
             File.Copy(@"..\..\..\..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.xml",
                 @"..\..\..\Resources\Net4x.Gtk.Windows.Forms.xml");
         }
+
         if (File.Exists(@"..\..\..\..\Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.xml"))
         {
             File.Delete(@"..\..\..\Resources\Net4x.Gtk.Drawing.xml");

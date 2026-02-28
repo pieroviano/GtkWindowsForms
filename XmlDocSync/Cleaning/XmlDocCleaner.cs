@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace XmlDocSync;
+namespace XmlDocSync.Cleaning;
 
 public static class XmlDocCleaner
 {

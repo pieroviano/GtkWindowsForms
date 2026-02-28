@@ -20,6 +20,8 @@ namespace System.Windows.Forms
     /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
     /// other controls will be able to use the Images as they desire.
     /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
     [ToolboxItemFilter("System.Windows.Forms")]
     [DefaultProperty(nameof(Images))]
     [TypeConverter(typeof(ImageListConverter))]
@@ -330,7 +332,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Releases the unmanaged resources used by the
-        /// <see cref="System.Windows.Forms.ImageList" />
+        /// <see cref="ImageList" />
         /// and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">

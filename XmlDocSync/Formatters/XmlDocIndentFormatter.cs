@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace XmlDocSync;
+namespace XmlDocSync.Formatters;
 
 public static partial class XmlDocIndentFormatter
 {

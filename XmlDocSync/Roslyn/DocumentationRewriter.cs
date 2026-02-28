@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using XmlDocSync.Formatters;
+using XmlDocSync.Services;
 
-namespace XmlDocSync;
+namespace XmlDocSync.Roslyn;
 
 public class DocumentationRewriter : CSharpSyntaxRewriter
 {

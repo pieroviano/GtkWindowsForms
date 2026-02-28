@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Prepare.Common.Text;
 using PrepareProjects.Model;
 
 namespace PrepareProjects.Preparation.Source;
@@ -100,7 +101,7 @@ public static class PostProcessing
     {
         if (!File.Exists(filePath))
         {
-            Console.WriteLine($"Skipped (file not found): {replacement.FileName}");
+            ConsoleUtilityEx.WriteInColor($"Skipped (file not found): {replacement.FileName}", ConsoleColor.Yellow);
             return applied;
         }
 
@@ -156,7 +157,7 @@ public static class PostProcessing
         {
             File.WriteAllText(filePath, newText);
             applied++;
-            Console.WriteLine($"Updated: {filePath}");
+            ConsoleUtilityEx.WriteInColor($"Updated: {filePath}", ConsoleColor.White);
         }
 
         return applied;

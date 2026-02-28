@@ -1,5 +1,6 @@
+using XmlDocSync.Formatters;
 using Xunit;
-using XmlDocSync;
+using XmlDocSync.Services;
 
 namespace Prepare.Tests;
 
