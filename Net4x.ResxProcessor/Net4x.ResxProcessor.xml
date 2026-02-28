@@ -36,7 +36,17 @@
             <returns>A <see cref="T:System.Diagnostics.Process"/> object representing a running process with the specified name, or
             <see langword="null"/> if no such process is found.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:Net4x.ResxProcessor.Program" -->
+        <member name="T:Net4x.ResxProcessor.Program">
+            <summary>
+            Provides the entry point for the application that processes .resx resource files in a specified directory tree,
+            adding a &lt;data&gt; element with the relative file path if it does not already exist.
+            </summary>
+            <remarks>The application prompts for a root folder if none is specified via command-line arguments. It
+            validates the existence of the folder before proceeding. For each .resx file found, the application checks for a
+            &lt;data&gt; element named "this_FileName" and adds it if missing, storing the file's relative path. The process is
+            intended to be run in environments where multiple instances may be started; synchronization is handled by the
+            Processes class. The application returns 0 on success and 1 if the specified folder does not exist.</remarks>
+        </member>
         <member name="M:Net4x.ResxProcessor.Program.Main(System.String[])">
             <summary>
             Serves as the entry point for the application, processing resource files in the specified root folder.

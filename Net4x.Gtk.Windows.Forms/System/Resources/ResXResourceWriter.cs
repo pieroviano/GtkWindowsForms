@@ -51,17 +51,39 @@ namespace System.Resources
 
 #pragma warning disable IDE1006 // Naming Styles (Shipped public API)
 
+        /// <summary>
+        /// MIME type used for binary serialized objects stored in resx files (base64).
+        /// </summary>
         public static readonly string BinSerializedObjectMimeType = "application/x-microsoft.net.object.binary.base64";
 
+        /// <summary>
+        /// MIME type used for SOAP-serialized objects stored in resx files (base64).
+        /// </summary>
         public static readonly string SoapSerializedObjectMimeType = "application/x-microsoft.net.object.soap.base64";
 
+        /// <summary>
+        /// Default MIME type used for serialized objects in resx files.
+        /// </summary>
         public static readonly string DefaultSerializedObjectMimeType = BinSerializedObjectMimeType;
 
+        /// <summary>
+        /// MIME type used for byte array serialized objects stored in resx files (base64).
+        /// </summary>
         public static readonly string ByteArraySerializedObjectMimeType = "application/x-microsoft.net.object.bytearray.base64";
 
+        /// <summary>
+        /// The MIME type that identifies resx files.
+        /// </summary>
         public static readonly string ResMimeType = "text/microsoft-resx";
+
+        /// <summary>
+        /// Version string for the resx format produced by this writer.
+        /// </summary>
         public static readonly string Version = "2.0";
 
+        /// <summary>
+        /// XML schema for resources produced by this writer. Used as part of the resx header.
+        /// </summary>
         public static readonly string ResourceSchema = @"
     <xsd:schema id=""root"" xmlns="""" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata"">
         <xsd:import namespace=""http://www.w3.org/XML/1998/namespace""/>

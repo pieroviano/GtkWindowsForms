@@ -10767,6 +10767,11 @@
             <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
             </PermissionSet>
         </member>
+        <member name="M:System.Drawing.Graphics.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:System.Drawing.Graphics"/> class.
+            </summary>
+        </member>
         <member name="M:System.Drawing.Graphics.FromHdc(System.IntPtr)">
             <summary>
             Creates a new

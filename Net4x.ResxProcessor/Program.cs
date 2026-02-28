@@ -7,11 +7,11 @@ namespace Net4x.ResxProcessor;
 
 /// <summary>
 /// Provides the entry point for the application that processes .resx resource files in a specified directory tree,
-/// adding a <data> element with the relative file path if it does not already exist.
+/// adding a &lt;data&gt; element with the relative file path if it does not already exist.
 /// </summary>
 /// <remarks>The application prompts for a root folder if none is specified via command-line arguments. It
 /// validates the existence of the folder before proceeding. For each .resx file found, the application checks for a
-/// <data> element named "this_FileName" and adds it if missing, storing the file's relative path. The process is
+/// &lt;data&gt; element named "this_FileName" and adds it if missing, storing the file's relative path. The process is
 /// intended to be run in environments where multiple instances may be started; synchronization is handled by the
 /// Processes class. The application returns 0 on success and 1 if the specified folder does not exist.</remarks>
 public class Program

@@ -3393,9 +3393,9 @@
             </filterpriority>
             <summary>
             Defines the base class for controls, which are components with visual representation.
+            This implementation wraps Gtk widgets and adapts them to the WinForms-like API used in this library.
             </summary>
-            <filterpriority>1
-            </filterpriority>
+            <filterpriority>1</filterpriority>
             <summary>
             Defines the base class for controls, which are components with visual representation.
             </summary>
@@ -4712,6 +4712,20 @@
             <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
             </PermissionSet>
         </member>
+        <member name="M:System.Windows.Forms.Control.LogicalToDeviceUnits(System.Int32)">
+            <summary>
+            Logicals to device units.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.Control.LogicalToDeviceUnits(System.Drawing.Size)">
+            <summary>
+            Logicals to device units.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
         <member name="M:System.Windows.Forms.Control.PointToClient(System.Drawing.Point)">
             <summary>
             Computes the location of the specified screen point into client coordinates.
@@ -4979,6 +4993,12 @@
             <see cref="T:System.Drawing.SizeF" /> containing the horizontal and vertical scaling factors.
             </param>
         </member>
+        <member name="M:System.Windows.Forms.Control.ScaleBitmapLogicalToDevice(System.Drawing.Bitmap@)">
+            <summary>
+            Scales the bitmap logical to device.
+            </summary>
+            <param name="logicalBitmap">The logical bitmap.</param>
+        </member>
         <member name="M:System.Windows.Forms.Control.Select">
             <summary>
             Activates the control.
@@ -5147,6 +5167,14 @@
             <filterpriority>1
             </filterpriority>
         </member>
+        <member name="P:System.Windows.Forms.Control.BorderStyle">
+            <summary>
+            Gets or sets the border style.
+            </summary>
+            <value>
+            The border style.
+            </value>
+        </member>
         <member name="M:System.Windows.Forms.Control.Hide">
             <summary>
             Conceals the control from the user.
@@ -5230,6 +5258,21 @@
             <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
             </PermissionSet>
         </member>
+        <member name="M:System.Windows.Forms.Control.BeginInit">
+            <summary>
+            Signals the object that initialization is starting.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Control.EndInit">
+            <summary>
+            Signals the object that initialization is complete.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Control.Dispose">
+            <summary>
+            Releases all resources used by the <see cref="T:System.ComponentModel.Component"></see>.
+            </summary>
+        </member>
         <member name="M:System.Windows.Forms.Control.Dispose(System.Boolean)">
             <summary>
             Releases the unmanaged resources used by the
@@ -5246,6 +5289,31 @@
             <see cref="T:System.Windows.Forms.CreateParams" /> that contains the required creation parameters when the handle to the control is created.
             </returns>
         </member>
+        <member name="P:System.Windows.Forms.Control.ParticipatesInLayout">
+            <summary>
+            True if the element is currently visible (some layouts, like
+            flow, need to skip non-visible elements.)
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Control.System#Windows#Forms#Layout#IArrangedElement#Properties">
+            <summary>
+            Internally, layout engines will get properties from the
+            property store on this interface.  In Orcas, this will be
+            replaced with a global PropertyManager for DPs.
+            </summary>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="P:System.Windows.Forms.Control.Children">
+            <summary>
+            Returns the element's children (on a control, this forwards to Controls)
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Control.OnLoad(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:Load" /> event.
+            </summary>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
         <member name="M:System.Windows.Forms.Control.OnMove(System.EventArgs)">
             <summary>
             Raises the
@@ -5255,6 +5323,18 @@
             <see cref="T:System.EventArgs" /> that contains the event data.
             </param>
         </member>
+        <member name="M:System.Windows.Forms.Control.OnValidating(System.ComponentModel.CancelEventArgs)">
+            <summary>
+            Raises the <see cref="E:Validating" /> event.
+            </summary>
+            <param name="e">The <see cref="T:System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:System.Windows.Forms.Control.OnValidated(System.ComponentModel.CancelEventArgs)">
+            <summary>
+            Raises the <see cref="E:Validated" /> event.
+            </summary>
+            <param name="e">The <see cref="T:System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+        </member>
         <member name="M:System.Windows.Forms.Control.OnResize(System.EventArgs)">
             <summary>
             Raises the
@@ -5263,6 +5343,11 @@
             <param name="e">An
             <see cref="T:System.EventArgs" /> that contains the event data.
             </param>
+        </member>
+        <member name="M:System.Windows.Forms.Control.PerformClick">
+            <summary>
+            Performs the click.
+            </summary>
         </member>
         <member name="M:System.Windows.Forms.Control.OnClick(System.EventArgs)">
             <summary>
@@ -5397,6 +5482,16 @@
             <param name="m">The Windows
             <see cref="T:System.Windows.Forms.Message" /> to process.
             </param>
+        </member>
+        <member name="M:System.Windows.Forms.Control.SetBounds(System.Drawing.Rectangle,System.Windows.Forms.BoundsSpecified)">
+            <summary>
+            Sets the bounds for an element. Implementors should call
+            CommonProperties.SetSpecifiedBounds.
+            See Control.SetBoundsCore.
+            </summary>
+            <param name="bounds"></param>
+            <param name="specified"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:System.Windows.Forms.Control.OnMouseMove(System.Windows.Forms.MouseEventArgs)">
             <summary>
@@ -6924,6 +7019,12 @@
             <see cref="F:System.IntPtr.Zero" />
             </exception>
         </member>
+        <member name="M:System.Windows.Forms.Cursor.#ctor(Gdk.CursorType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Windows.Forms.Cursor"/> class.
+            </summary>
+            <param name="cursorType">Type of the cursor.</param>
+        </member>
         <member name="M:System.Windows.Forms.Cursor.#ctor(System.String)">
             <summary>
             Initializes a new instance of the
@@ -7078,6 +7179,11 @@
             <filterpriority>1
             </filterpriority>
         </member>
+        <member name="M:System.Windows.Forms.Cursor.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:System.Windows.Forms.Cursor"/> class.
+            </summary>
+        </member>
         <member name="M:System.Windows.Forms.Cursor.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>
             Serializes the object.
@@ -7114,6 +7220,26 @@
             </returns>
             <filterpriority>1
             </filterpriority>
+        </member>
+        <member name="M:System.Windows.Forms.Cursor.op_Equality(System.Windows.Forms.Cursor,System.Windows.Forms.Cursor)">
+            <summary>
+            Implements the operator ==.
+            </summary>
+            <param name="left">The left.</param>
+            <param name="right">The right.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.Cursor.op_Inequality(System.Windows.Forms.Cursor,System.Windows.Forms.Cursor)">
+            <summary>
+            Implements the operator !=.
+            </summary>
+            <param name="left">The left.</param>
+            <param name="right">The right.</param>
+            <returns>
+            The result of the operator.
+            </returns>
         </member>
         <member name="M:System.Windows.Forms.Cursor.GetHashCode">
             <summary>
@@ -7474,6 +7600,12 @@
             Specifies which child controls to skip.
             </summary>
         </member>
+        <member name="T:System.Windows.Forms.IButtonControl">
+            <summary>
+            
+            </summary>
+            <seealso cref="T:System.Windows.Forms.IControl" />
+        </member>
         <member name="T:System.Windows.Forms.IContainerControl">
             <summary>
             Provides functionality for a control to parent other controls.
@@ -7505,6 +7637,1297 @@
             <filterpriority>
             1
             </filterpriority>
+        </member>
+        <member name="T:System.Windows.Forms.IControl">
+            <summary>
+            IControl interface defines the contract for a control in Windows Forms. It includes properties, methods, and events that are essential for any control to function properly within the Windows Forms framework. This interface is implemented by all controls in Windows Forms, providing a consistent API for developers to interact with and manipulate controls in their applications.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Widget">
+            <summary>
+            widget unregister the contained methods
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.AccessibilityObject">
+            <summary>
+            Gets the accessibility object.
+            </summary>
+            <value>
+            The accessibility object.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.AccessibleDefaultActionDescription">
+            <summary>
+            Gets or sets the accessible default action description.
+            </summary>
+            <value>
+            The accessible default action description.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.AccessibleDescription">
+            <summary>
+            Gets or sets the accessible description.
+            </summary>
+            <value>
+            The accessible description.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.AccessibleName">
+            <summary>
+            Gets or sets the name of the accessible.
+            </summary>
+            <value>
+            The name of the accessible.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.AccessibleRole">
+            <summary>
+            Gets or sets the accessible role.
+            </summary>
+            <value>
+            The accessible role.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.AllowDrop">
+            <summary>
+            Gets or sets a value indicating whether allows drop.
+            </summary>
+            <value>
+              <c>true</c> if allows drop; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Anchor">
+            <summary>
+            Gets or sets the anchor.
+            </summary>
+            <value>
+            The anchor.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.AutoScrollOffset">
+            <summary>
+            Gets or sets the automatic scroll offset.
+            </summary>
+            <value>
+            The automatic scroll offset.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.AutoSize">
+            <summary>
+            Gets or sets a value indicating whether automatic size.
+            </summary>
+            <value>
+              <c>true</c> if automatic size; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.BackColor">
+            <summary>
+            Gets or sets the color of the back.
+            </summary>
+            <value>
+            The color of the back.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.BackgroundImage">
+            <summary>
+            Gets or sets the background image.
+            </summary>
+            <value>
+            The background image.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.BackgroundImageLayout">
+            <summary>
+            Gets or sets the background image layout.
+            </summary>
+            <value>
+            The background image layout.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.BindingContext">
+            <summary>
+            Gets or sets the binding context.
+            </summary>
+            <value>
+            The binding context.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Bottom">
+            <summary>
+            Gets the bottom.
+            </summary>
+            <value>
+            The bottom.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Bounds">
+            <summary>
+            Gets or sets the bounds.
+            </summary>
+            <value>
+            The bounds.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.CanFocus">
+            <summary>
+            Gets a value indicating whether this instance can focus.
+            </summary>
+            <value>
+              <c>true</c> if this instance can focus; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.CanSelect">
+            <summary>
+            Gets a value indicating whether this instance can select.
+            </summary>
+            <value>
+              <c>true</c> if this instance can select; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Capture">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:System.Windows.Forms.IControl"/> is capture.
+            </summary>
+            <value>
+              <c>true</c> if capture; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.CausesValidation">
+            <summary>
+            Gets or sets a value indicating whether causes validation.
+            </summary>
+            <value>
+              <c>true</c> if causes validation; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.CompanyName">
+            <summary>
+            Gets the name of the company.
+            </summary>
+            <value>
+            The name of the company.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.ContainsFocus">
+            <summary>
+            Gets a value indicating whether contains focus.
+            </summary>
+            <value>
+              <c>true</c> if contains focus; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.ContextMenuStrip">
+            <summary>
+            Gets or sets the context menu strip.
+            </summary>
+            <value>
+            The context menu strip.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Controls">
+            <summary>
+            Gets the controls.
+            </summary>
+            <value>
+            The controls.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Created">
+            <summary>
+            Gets a value indicating whether this <see cref="T:System.Windows.Forms.IControl"/> is created.
+            </summary>
+            <value>
+              <c>true</c> if created; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Cursor">
+            <summary>
+            Gets or sets the cursor.
+            </summary>
+            <value>
+            The cursor.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.DataBindings">
+            <summary>
+            Gets the data bindings.
+            </summary>
+            <value>
+            The data bindings.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.DeviceDpi">
+            <summary>
+            Gets the device dpi.
+            </summary>
+            <value>
+            The device dpi.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.DisplayRectangle">
+            <summary>
+            Gets the display rectangle.
+            </summary>
+            <value>
+            The display rectangle.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Disposing">
+            <summary>
+            Gets a value indicating whether this <see cref="T:System.Windows.Forms.IControl"/> is disposing.
+            </summary>
+            <value>
+              <c>true</c> if disposing; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Dock">
+            <summary>
+            Gets or sets the dock.
+            </summary>
+            <value>
+            The dock.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Enabled">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:System.Windows.Forms.IControl"/> is enabled.
+            </summary>
+            <value>
+              <c>true</c> if enabled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Focused">
+            <summary>
+            Gets a value indicating whether this <see cref="T:System.Windows.Forms.IControl"/> is focused.
+            </summary>
+            <value>
+              <c>true</c> if focused; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Font">
+            <summary>
+            Gets or sets the font.
+            </summary>
+            <value>
+            The font.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.ForeColor">
+            <summary>
+            Gets or sets the color of the fore.
+            </summary>
+            <value>
+            The color of the fore.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.HasChildren">
+            <summary>
+            Gets a value indicating whether this instance has children.
+            </summary>
+            <value>
+              <c>true</c> if this instance has children; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Height">
+            <summary>
+            Gets or sets the height.
+            </summary>
+            <value>
+            The height.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.ImeMode">
+            <summary>
+            Gets or sets the IME mode.
+            </summary>
+            <value>
+            The IME mode.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.InvokeRequired">
+            <summary>
+            Gets a value indicating whether invoke required.
+            </summary>
+            <value>
+              <c>true</c> if invoke required; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.IsAccessible">
+            <summary>
+            Gets or sets a value indicating whether this instance is accessible.
+            </summary>
+            <value>
+              <c>true</c> if this instance is accessible; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.IsDisposed">
+            <summary>
+            Gets a value indicating whether this instance is disposed.
+            </summary>
+            <value>
+              <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.IsHandleCreated">
+            <summary>
+            Gets a value indicating whether this instance is handle created.
+            </summary>
+            <value>
+              <c>true</c> if this instance is handle created; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.IsMirrored">
+            <summary>
+            Gets a value indicating whether this instance is mirrored.
+            </summary>
+            <value>
+              <c>true</c> if this instance is mirrored; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.LayoutEngine">
+            <summary>
+            Gets the layout engine.
+            </summary>
+            <value>
+            The layout engine.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Left">
+            <summary>
+            Gets or sets the left.
+            </summary>
+            <value>
+            The left.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Location">
+            <summary>
+            Gets or sets the location.
+            </summary>
+            <value>
+            The location.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Margin">
+            <summary>
+            Gets or sets the margin.
+            </summary>
+            <value>
+            The margin.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.MaximumSize">
+            <summary>
+            Gets or sets the maximum size.
+            </summary>
+            <value>
+            The maximum size.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.MinimumSize">
+            <summary>
+            Gets or sets the minimum size.
+            </summary>
+            <value>
+            The minimum size.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Padding">
+            <summary>
+            Gets or sets the padding.
+            </summary>
+            <value>
+            The padding.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Parent">
+            <summary>
+            Gets or sets the parent.
+            </summary>
+            <value>
+            The parent.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.PreferredSize">
+            <summary>
+            Gets the size of the preferred.
+            </summary>
+            <value>
+            The size of the preferred.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.ProductName">
+            <summary>
+            Gets the name of the product.
+            </summary>
+            <value>
+            The name of the product.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.ProductVersion">
+            <summary>
+            Gets the product version.
+            </summary>
+            <value>
+            The product version.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.RecreatingHandle">
+            <summary>
+            Gets a value indicating whether recreating handle.
+            </summary>
+            <value>
+              <c>true</c> if recreating handle; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Region">
+            <summary>
+            Gets or sets the region.
+            </summary>
+            <value>
+            The region.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Right">
+            <summary>
+            Gets the right.
+            </summary>
+            <value>
+            The right.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.RightToLeft">
+            <summary>
+            Gets or sets the right to left.
+            </summary>
+            <value>
+            The right to left.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Site">
+            <summary>
+            Gets or sets the site.
+            </summary>
+            <value>
+            The site.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Size">
+            <summary>
+            Gets or sets the size.
+            </summary>
+            <value>
+            The size.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.TabIndex">
+            <summary>
+            Gets or sets the index of the tab.
+            </summary>
+            <value>
+            The index of the tab.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.TabStop">
+            <summary>
+            Gets or sets a value indicating whether tab stop.
+            </summary>
+            <value>
+              <c>true</c> if tab stop; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Tag">
+            <summary>
+            Gets or sets the tag.
+            </summary>
+            <value>
+            The tag.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Text">
+            <summary>
+            Gets or sets the text.
+            </summary>
+            <value>
+            The text.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Top">
+            <summary>
+            Gets or sets the top.
+            </summary>
+            <value>
+            The top.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.TopLevelControl">
+            <summary>
+            Gets the top level control.
+            </summary>
+            <value>
+            The top level control.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.UseWaitCursor">
+            <summary>
+            Gets or sets a value indicating whether use wait cursor.
+            </summary>
+            <value>
+              <c>true</c> if use wait cursor; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Visible">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:System.Windows.Forms.IControl"/> is visible.
+            </summary>
+            <value>
+              <c>true</c> if visible; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.Width">
+            <summary>
+            Gets or sets the width.
+            </summary>
+            <value>
+            The width.
+            </value>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.WindowTarget">
+            <summary>
+            Gets or sets the window target.
+            </summary>
+            <value>
+            The window target.
+            </value>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.AutoSizeChanged">
+            <summary>
+            Occurs when automatic size changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.BackColorChanged">
+            <summary>
+            Occurs when back color changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.BackgroundImageChanged">
+            <summary>
+            Occurs when background image changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.BackgroundImageLayoutChanged">
+            <summary>
+            Occurs when background image layout changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.BindingContextChanged">
+            <summary>
+            Occurs when binding context changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.CausesValidationChanged">
+            <summary>
+            Occurs when causes validation changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.ChangeUICues">
+            <summary>
+            Occurs when change UI cues.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Click">
+            <summary>
+            Occurs when click.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.ClientSizeChanged">
+            <summary>
+            Occurs when client size changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.ContextMenuStripChanged">
+            <summary>
+            Occurs when context menu strip changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.ControlAdded">
+            <summary>
+            Occurs when control added.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.ControlRemoved">
+            <summary>
+            Occurs when control removed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.CursorChanged">
+            <summary>
+            Occurs when cursor changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.DockChanged">
+            <summary>
+            Occurs when dock changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.DoubleClick">
+            <summary>
+            Occurs when double click.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.DpiChangedAfterParent">
+            <summary>
+            Occurs when dpi changed after parent.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.DpiChangedBeforeParent">
+            <summary>
+            Occurs when dpi changed before parent.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.DragDrop">
+            <summary>
+            Occurs when drag drop.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.DragEnter">
+            <summary>
+            Occurs when drag enter.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.DragLeave">
+            <summary>
+            Occurs when drag leave.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.DragOver">
+            <summary>
+            Occurs when drag over.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.EnabledChanged">
+            <summary>
+            Occurs when enabled changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Enter">
+            <summary>
+            Occurs when enter.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.FontChanged">
+            <summary>
+            Occurs when font changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.ForeColorChanged">
+            <summary>
+            Occurs when fore color changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.GiveFeedback">
+            <summary>
+            Occurs when give feedback.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.GotFocus">
+            <summary>
+            Occurs when got focus.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.HandleCreated">
+            <summary>
+            Occurs when handle created.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.HandleDestroyed">
+            <summary>
+            Occurs when handle destroyed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.HelpRequested">
+            <summary>
+            Occurs when help requested.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.ImeModeChanged">
+            <summary>
+            Occurs when IME mode changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Invalidated">
+            <summary>
+            Occurs when invalidated.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.KeyDown">
+            <summary>
+            Occurs when key down.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.KeyPress">
+            <summary>
+            Occurs when key press.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.KeyUp">
+            <summary>
+            Occurs when key up.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Layout">
+            <summary>
+            Occurs when layout.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Leave">
+            <summary>
+            Occurs when leave.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.LocationChanged">
+            <summary>
+            Occurs when location changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.LostFocus">
+            <summary>
+            Occurs when lost focus.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MarginChanged">
+            <summary>
+            Occurs when margin changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseCaptureChanged">
+            <summary>
+            Occurs when mouse capture changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseClick">
+            <summary>
+            Occurs when mouse click.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseDoubleClick">
+            <summary>
+            Occurs when mouse double click.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseDown">
+            <summary>
+            Occurs when mouse down.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseEnter">
+            <summary>
+            Occurs when mouse enter.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseHover">
+            <summary>
+            Occurs when mouse hover.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseLeave">
+            <summary>
+            Occurs when mouse leave.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseMove">
+            <summary>
+            Occurs when mouse move.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseUp">
+            <summary>
+            Occurs when mouse up.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.MouseWheel">
+            <summary>
+            Occurs when mouse wheel.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Move">
+            <summary>
+            Occurs when move.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.PaddingChanged">
+            <summary>
+            Occurs when padding changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Paint">
+            <summary>
+            Occurs when paint.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.ParentChanged">
+            <summary>
+            Occurs when parent changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.PreviewKeyDown">
+            <summary>
+            Occurs when preview key down.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.QueryAccessibilityHelp">
+            <summary>
+            Occurs when query accessibility help.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.QueryContinueDrag">
+            <summary>
+            Occurs when query continue drag.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.RegionChanged">
+            <summary>
+            Occurs when region changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Resize">
+            <summary>
+            Occurs when resize.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.RightToLeftChanged">
+            <summary>
+            Occurs when right to left changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.SizeChanged">
+            <summary>
+            Occurs when size changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.StyleChanged">
+            <summary>
+            Occurs when style changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.SystemColorsChanged">
+            <summary>
+            Occurs when system colors changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.TabIndexChanged">
+            <summary>
+            Occurs when tab index changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.TabStopChanged">
+            <summary>
+            Occurs when tab stop changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.TextChanged">
+            <summary>
+            Occurs when text changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Validated">
+            <summary>
+            Occurs when validated.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.Validating">
+            <summary>
+            Occurs when validating.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.IControl.VisibleChanged">
+            <summary>
+            Occurs when visible changed.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.BeginInvoke(System.Delegate)">
+            <summary>
+            Begins the invoke.
+            </summary>
+            <param name="method">The method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.BeginInvoke(System.Delegate,System.Object[])">
+            <summary>
+            Begins the invoke.
+            </summary>
+            <param name="method">The method.</param>
+            <param name="args">The arguments.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.BeginInvoke(System.Action)">
+            <summary>
+            Begins the invoke.
+            </summary>
+            <param name="method">The method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.BringToFront">
+            <summary>
+            Brings to front.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Contains(System.Windows.Forms.Control)">
+            <summary>
+            Determines whether this instance contains the object.
+            </summary>
+            <param name="ctl">The control.</param>
+            <returns>
+              <c>true</c> if [ontains the specified control; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.CreateControl">
+            <summary>
+            Creates the control.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.CreateGraphics">
+            <summary>
+            Creates the graphics.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.DoDragDrop(System.Object,System.Windows.Forms.DragDropEffects)">
+            <summary>
+            Does the drag drop.
+            </summary>
+            <param name="data">The data.</param>
+            <param name="allowedEffects">The allowed effects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.DrawToBitmap(System.Drawing.Bitmap,System.Drawing.Rectangle)">
+            <summary>
+            Draws to bitmap.
+            </summary>
+            <param name="bitmap">The bitmap.</param>
+            <param name="targetBounds">The target bounds.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.EndInvoke(System.IAsyncResult)">
+            <summary>
+            Ends the invoke.
+            </summary>
+            <param name="asyncResult">The asynchronous result.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.FindForm">
+            <summary>
+            Finds the form.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Focus">
+            <summary>
+            Focuses this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.GetChildAtPoint(System.Drawing.Point)">
+            <summary>
+            Gets the child at point.
+            </summary>
+            <param name="pt">The pt.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.GetChildAtPoint(System.Drawing.Point,System.Windows.Forms.GetChildAtPointSkip)">
+            <summary>
+            Gets the child at point.
+            </summary>
+            <param name="pt">The pt.</param>
+            <param name="skipValue">The skip value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.GetContainerControl">
+            <summary>
+            Gets the container control.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.GetNextControl(System.Windows.Forms.Control,System.Boolean)">
+            <summary>
+            Gets the next control.
+            </summary>
+            <param name="ctl">The control.</param>
+            <param name="forward">if set to <c>true</c> [forward].</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.GetPreferredSize(System.Drawing.Size)">
+            <summary>
+            Gets the size of the preferred.
+            </summary>
+            <param name="proposedSize">Size of the proposed.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Invalidate">
+            <summary>
+            Invalidates this instance.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Invalidate(System.Boolean)">
+            <summary>
+            Invalidates the specified invalidate children.
+            </summary>
+            <param name="invalidateChildren">if set to <c>true</c> [invalidate children].</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Invalidate(System.Drawing.Rectangle)">
+            <summary>
+            Invalidates the specified rc.
+            </summary>
+            <param name="rc">The rc.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Invalidate(System.Drawing.Rectangle,System.Boolean)">
+            <summary>
+            Invalidates the specified rc.
+            </summary>
+            <param name="rc">The rc.</param>
+            <param name="invalidateChildren">if set to <c>true</c> [invalidate children].</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Invalidate(System.Drawing.Region)">
+            <summary>
+            Invalidates the specified region.
+            </summary>
+            <param name="region">The region.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Invalidate(System.Drawing.Region,System.Boolean)">
+            <summary>
+            Invalidates the specified region.
+            </summary>
+            <param name="region">The region.</param>
+            <param name="invalidateChildren">if set to <c>true</c> [invalidate children].</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Invoke(System.Delegate)">
+            <summary>
+            Invokes the specified method.
+            </summary>
+            <param name="method">The method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Invoke(System.Delegate,System.Object[])">
+            <summary>
+            Invokes the specified method.
+            </summary>
+            <param name="method">The method.</param>
+            <param name="args">The arguments.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Invoke``1(System.Func{``0})">
+            <summary>
+            Invokes the specified method.
+            </summary>
+            <typeparam name="TEntry">The type of the entry.</typeparam>
+            <param name="method">The method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.LogicalToDeviceUnits(System.Int32)">
+            <summary>
+            Logicals to device units.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.LogicalToDeviceUnits(System.Drawing.Size)">
+            <summary>
+            Logicals to device units.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.PerformLayout">
+            <summary>
+            Performs the layout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.PerformLayout(System.Windows.Forms.Control,System.String)">
+            <summary>
+            Performs the layout.
+            </summary>
+            <param name="affectedControl">The affected control.</param>
+            <param name="affectedProperty">The affected property.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.PointToClient(System.Drawing.Point)">
+            <summary>
+            Points to client.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.PointToScreen(System.Drawing.Point)">
+            <summary>
+            Points to screen.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.PreProcessControlMessage(System.Windows.Forms.Message@)">
+            <summary>
+            Pres the process control message.
+            </summary>
+            <param name="msg">The MSG.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.PreProcessMessage(System.Windows.Forms.Message@)">
+            <summary>
+            Pres the process message.
+            </summary>
+            <param name="msg">The MSG.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.RectangleToClient(System.Drawing.Rectangle)">
+            <summary>
+            Rectangles to client.
+            </summary>
+            <param name="r">The r.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.RectangleToScreen(System.Drawing.Rectangle)">
+            <summary>
+            Rectangles to screen.
+            </summary>
+            <param name="r">The r.</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Refresh">
+            <summary>
+            Refreshes this instance.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResetBackColor">
+            <summary>
+            Resets the color of the back.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResetBindings">
+            <summary>
+            Resets the bindings.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResetCursor">
+            <summary>
+            Resets the cursor.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResetFont">
+            <summary>
+            Resets the font.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResetForeColor">
+            <summary>
+            Resets the color of the fore.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResetImeMode">
+            <summary>
+            Resets the IME mode.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResetRightToLeft">
+            <summary>
+            Resets the right to left.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResetText">
+            <summary>
+            Resets the text.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResumeLayout">
+            <summary>
+            Resumes the layout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ResumeLayout(System.Boolean)">
+            <summary>
+            Resumes the layout.
+            </summary>
+            <param name="performLayout">if set to <c>true</c> [perform layout].</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Scale(System.Single)">
+            <summary>
+            Scales the specified ratio.
+            </summary>
+            <param name="ratio">The ratio.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Scale(System.Single,System.Single)">
+            <summary>
+            Scales the specified dx.
+            </summary>
+            <param name="dx">The dx.</param>
+            <param name="dy">The dy.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Scale(System.Drawing.SizeF)">
+            <summary>
+            Scales the specified factor.
+            </summary>
+            <param name="factor">The factor.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.ScaleBitmapLogicalToDevice(System.Drawing.Bitmap@)">
+            <summary>
+            Scales the bitmap logical to device.
+            </summary>
+            <param name="logicalBitmap">The logical bitmap.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Select">
+            <summary>
+            Selects this instance.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.SelectNextControl(System.Windows.Forms.Control,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Selects the next control.
+            </summary>
+            <param name="ctl">The control.</param>
+            <param name="forward">if set to <c>true</c> [forward].</param>
+            <param name="tabStopOnly">if set to <c>true</c> [tab stop only].</param>
+            <param name="nested">if set to <c>true</c> [nested].</param>
+            <param name="wrap">if set to <c>true</c> [wrap].</param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.SendToBack">
+            <summary>
+            Sends to back.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.SetBounds(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sets the bounds.
+            </summary>
+            <param name="x">The x.</param>
+            <param name="y">The y.</param>
+            <param name="width">The width.</param>
+            <param name="height">The height.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.SetBounds(System.Int32,System.Int32,System.Int32,System.Int32,System.Windows.Forms.BoundsSpecified)">
+            <summary>
+            Sets the bounds.
+            </summary>
+            <param name="x">The x.</param>
+            <param name="y">The y.</param>
+            <param name="width">The width.</param>
+            <param name="height">The height.</param>
+            <param name="specified">The specified.</param>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.SuspendLayout">
+            <summary>
+            Suspends the layout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.IControl.Update">
+            <summary>
+            Updates this instance.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.IControl.UseVisualStyleBackColor">
+            <summary>
+            Gets or sets a value indicating whether [use visual style back color].
+            </summary>
+            <value>
+              <c>true</c> if [use visual style back color]; otherwise, <c>false</c>.
+            </value>
         </member>
         <member name="T:System.Windows.Forms.IDataObject">
             <summary>
@@ -38070,6 +39493,41 @@
             <summary>
             ResX resource writer. See the text in "ResourceSchema" for more
             information.
+            </summary>
+        </member>
+        <member name="F:System.Resources.ResXResourceWriter.BinSerializedObjectMimeType">
+            <summary>
+            MIME type used for binary serialized objects stored in resx files (base64).
+            </summary>
+        </member>
+        <member name="F:System.Resources.ResXResourceWriter.SoapSerializedObjectMimeType">
+            <summary>
+            MIME type used for SOAP-serialized objects stored in resx files (base64).
+            </summary>
+        </member>
+        <member name="F:System.Resources.ResXResourceWriter.DefaultSerializedObjectMimeType">
+            <summary>
+            Default MIME type used for serialized objects in resx files.
+            </summary>
+        </member>
+        <member name="F:System.Resources.ResXResourceWriter.ByteArraySerializedObjectMimeType">
+            <summary>
+            MIME type used for byte array serialized objects stored in resx files (base64).
+            </summary>
+        </member>
+        <member name="F:System.Resources.ResXResourceWriter.ResMimeType">
+            <summary>
+            The MIME type that identifies resx files.
+            </summary>
+        </member>
+        <member name="F:System.Resources.ResXResourceWriter.Version">
+            <summary>
+            Version string for the resx format produced by this writer.
+            </summary>
+        </member>
+        <member name="F:System.Resources.ResXResourceWriter.ResourceSchema">
+            <summary>
+            XML schema for resources produced by this writer. Used as part of the resx header.
             </summary>
         </member>
         <member name="P:System.Resources.ResXResourceWriter.BasePath">

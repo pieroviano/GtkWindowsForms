@@ -61,6 +61,10 @@ namespace System.Windows.Forms
             var cur = new Gdk.Cursor(handle);
             _cursorData = cur.Image.ReadPixelBytes().Data;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cursor"/> class.
+        /// </summary>
+        /// <param name="cursorType">Type of the cursor.</param>
         public Cursor(Gdk.CursorType cursorType)
         {
             _freeHandle = false;
@@ -271,6 +275,9 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="Cursor"/> class.
+        /// </summary>
         ~Cursor()
         {
             Dispose(disposing: false);
@@ -317,11 +324,27 @@ namespace System.Windows.Forms
         /// </filterpriority>
         public override string ToString() => $"[Cursor: {CursorsProperty ?? base.ToString()}]";
 
+        /// <summary>
+        /// Implements the operator ==.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator ==(Cursor? left, Cursor? right)
         {
             return right is null || left is null ? left is null && right is null : left.GetHashCode() == right.GetHashCode();
         }
 
+        /// <summary>
+        /// Implements the operator !=.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator !=(Cursor? left, Cursor? right) => !(left == right);
         /// <summary>
         /// Retrieves the hash code for the current
