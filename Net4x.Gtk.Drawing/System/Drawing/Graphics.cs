@@ -5044,9 +5044,7 @@ namespace System.Drawing
         {
         }
 
-        /// <summary>
-        /// Finalizes an instance of the <see cref="Graphics"/> class.
-        /// </summary>
+
         ~Graphics()
         {
         }

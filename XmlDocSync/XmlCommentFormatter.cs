@@ -32,10 +32,6 @@ public static class XmlCommentFormatter
         var collapsedMid = MergeSelfClosingMidlineContinuations(collapsed);
 
         var formatXmlComment = string.Join(LF, collapsedMid);
-        if (lines.Length > 3 && formatXmlComment.Contains("public "))
-        {
-
-        }
         return Normalize($"{formatXmlComment}\n");
     }
 

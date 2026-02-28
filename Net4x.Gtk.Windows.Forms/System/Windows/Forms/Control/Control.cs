@@ -17,9 +17,9 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Defines the base class for controls, which are components with visual representation.
-    /// This implementation wraps Gtk widgets and adapts them to the WinForms-like API used in this library.
     /// </summary>
-    /// <filterpriority>1</filterpriority>
+    /// <filterpriority>1
+    /// </filterpriority>
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
     [Designer(typeof(ControlDesigner))]
@@ -559,7 +559,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>A
         /// <see cref="System.Drawing.Color" /> that represents the background color of the control. The default is the value of the
-        /// <see cref="!:System.Windows.Forms.Control.DefaultBackColor" /> property.
+        /// <see cref="System.Windows.Forms.Control.DefaultBackColor" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -718,7 +718,7 @@ namespace System.Windows.Forms
         }
         /// <summary>
         /// Gets or sets where this control is scrolled to in
-        /// <see cref="!:System.Windows.Forms.ScrollableControl.ScrollControlIntoView(System.Windows.Forms.Control)" />
+        /// <see cref="System.Windows.Forms.ScrollableControl.ScrollControlIntoView(System.Windows.Forms.Control)" />
         /// </summary>
         /// <returns>A
         /// <see cref="System.Drawing.Point" /> specifying the scroll location. The default is the upper-left corner of the control.
@@ -983,7 +983,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The
         /// <see cref="System.Drawing.Font" /> to apply to the text displayed by the control. The default is the value of the
-        /// <see cref="!:System.Windows.Forms.Control.DefaultFont" /> property.
+        /// <see cref="System.Windows.Forms.Control.DefaultFont" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -1024,7 +1024,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The foreground
         /// <see cref="System.Drawing.Color" /> of the control. The default is the value of the
-        /// <see cref="!:System.Windows.Forms.Control.DefaultForeColor" /> property.
+        /// <see cref="System.Windows.Forms.Control.DefaultForeColor" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -1112,7 +1112,7 @@ namespace System.Windows.Forms
         /// Gets a cached instance of the control's layout engine.
         /// </summary>
         /// <returns>The
-        /// <see cref="!:System.Windows.Forms.Layout.LayoutEngine" /> for the control's contents.
+        /// <see cref="System.Windows.Forms.Layout.LayoutEngine" /> for the control's contents.
         /// </returns>
         /// <filterpriority>2
         /// </filterpriority>
@@ -1566,7 +1566,7 @@ namespace System.Windows.Forms
         /// Gets the length and height, in pixels, that is specified as the default maximum size of a control.
         /// </summary>
         /// <returns>A
-        /// <see cref="!:System.Drawing.Point.#ctor(System.Drawing.Size)" /> representing the size of the control.
+        /// <see cref="System.Drawing.Point.#ctor(System.Drawing.Size)" /> representing the size of the control.
         /// </returns>
         protected virtual Size DefaultMaximumSize { get; }
         /// <summary>
@@ -2343,21 +2343,11 @@ namespace System.Windows.Forms
             });
             return result;
         }
-        /// <summary>
-        /// Logicals to device units.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
         public virtual int LogicalToDeviceUnits(int value)
         {
             return value;
         }
 
-        /// <summary>
-        /// Logicals to device units.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
         public virtual Size LogicalToDeviceUnits(Size value)
         {
             return value;
@@ -2425,9 +2415,9 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>One of the
         /// <see cref="System.Windows.Forms.PreProcessControlState" /> values, depending on whether
-        /// <see cref="!:System.Windows.Forms.Control.PreProcessMessage(System.Windows.Forms.Message)" /> is true or false and whether
-        /// <see cref="!:System.Windows.Forms.Control.IsInputKey(System.Windows.Forms.Keys)" /> or
-        /// <see cref="!:System.Windows.Forms.Control.IsInputChar(System.Char)" /> are true or false.
+        /// <see cref="System.Windows.Forms.Control.PreProcessMessage(System.Windows.Forms.Message)" /> is true or false and whether
+        /// <see cref="System.Windows.Forms.Control.IsInputKey(System.Windows.Forms.Keys)" /> or
+        /// <see cref="System.Windows.Forms.Control.IsInputChar(System.Char)" /> are true or false.
         /// </returns>
         /// <param name="msg">A
         /// <see cref="System.Windows.Forms.Message" /> that represents the message to process.
@@ -2704,10 +2694,6 @@ namespace System.Windows.Forms
 
         }
 
-        /// <summary>
-        /// Scales the bitmap logical to device.
-        /// </summary>
-        /// <param name="logicalBitmap">The logical bitmap.</param>
         public virtual void ScaleBitmapLogicalToDevice(ref Bitmap logicalBitmap)
         {
 
@@ -2916,13 +2902,6 @@ namespace System.Windows.Forms
         public virtual Size MinimumSize { get; set; }
 
         private BorderStyle _BorderStyle;
-
-        /// <summary>
-        /// Gets or sets the border style.
-        /// </summary>
-        /// <value>
-        /// The border style.
-        /// </value>
         public virtual BorderStyle BorderStyle
         {
             get { return _BorderStyle; }
@@ -3058,25 +3037,17 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Signals the object that initialization is starting.
-        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public virtual void BeginInit()
         {
 
         }
-        /// <summary>
-        /// Signals the object that initialization is complete.
-        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public virtual void EndInit()
         {
 
         }
-        /// <summary>
-        /// Releases all resources used by the <see cref="T:System.ComponentModel.Component"></see>.
-        /// </summary>
+
         public new void Dispose()
         {
             Dispose(true);
@@ -3124,18 +3095,8 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// True if the element is currently visible (some layouts, like
-        /// flow, need to skip non-visible elements.)
-        /// </summary>
         public bool ParticipatesInLayout => false;
 
-        /// <summary>
-        /// Internally, layout engines will get properties from the
-        /// property store on this interface.  In Orcas, this will be
-        /// replaced with a global PropertyManager for DPs.
-        /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
         PropertyStore IArrangedElement.Properties => throw new NotImplementedException();
 
         IArrangedElement IArrangedElement.Container => throw new NotImplementedException();
@@ -3143,15 +3104,7 @@ namespace System.Windows.Forms
 
         private ArrangedElementCollection arrangedElementCollection;
 
-        /// <summary>
-        /// Returns the element's children (on a control, this forwards to Controls)
-        /// </summary>
         public ArrangedElementCollection Children => arrangedElementCollection;
-
-        /// <summary>
-        /// Raises the <see cref="E:Load" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnLoad(EventArgs e)
         {
@@ -3169,19 +3122,11 @@ namespace System.Windows.Forms
         {
 
         }
-        /// <summary>
-        /// Raises the <see cref="E:Validating" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="CancelEventArgs"/> instance containing the event data.</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnValidating(CancelEventArgs e)
         {
 
         }
-        /// <summary>
-        /// Raises the <see cref="E:Validated" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="CancelEventArgs"/> instance containing the event data.</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnValidated(CancelEventArgs e)
         {
@@ -3199,10 +3144,6 @@ namespace System.Windows.Forms
         {
 
         }
-
-        /// <summary>
-        /// Performs the click.
-        /// </summary>
         public virtual void PerformClick()
         {
             OnClick(EventArgs.Empty);
@@ -3380,14 +3321,6 @@ namespace System.Windows.Forms
             //Console.WriteLine($"HWnd:{m.HWnd},WParam:{m.WParam},LParam:{m.LParam},Msg:{m.Msg}");
         }
 
-        /// <summary>
-        /// Sets the bounds for an element. Implementors should call
-        /// CommonProperties.SetSpecifiedBounds.
-        /// See Control.SetBoundsCore.
-        /// </summary>
-        /// <param name="bounds"></param>
-        /// <param name="specified"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void SetBounds(Rectangle bounds, BoundsSpecified specified)
         {
             throw new NotImplementedException();
