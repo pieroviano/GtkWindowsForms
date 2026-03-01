@@ -1,3 +1,5 @@
+using Prepare.Common.Logging;
+
 namespace PrepareProjects.Preparation.Compilation;
 
 public static class ResGenService
@@ -28,7 +30,7 @@ public static class ResGenService
     {
         if (string.IsNullOrWhiteSpace(projectName))
         {
-            Console.WriteLine("No project name specified for resgen.");
+            RedConsole.Write("No project name specified for resgen.");
             return;
         }
 

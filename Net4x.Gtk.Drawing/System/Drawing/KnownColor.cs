@@ -707,7 +707,9 @@ internal enum KnownColor
     /// </summary>
     MenuHighlight = 174, // 0x000000AE
     /// <summary>
-    /// A system-defined color representing the ARGB value <c>#663399</c>.
+    /// A system-defined color representing the ARGB value
+    /// <c>#663399
+    /// </c>.
     /// </summary>
     RebeccaPurple = 175, // 0x000000AF
 }

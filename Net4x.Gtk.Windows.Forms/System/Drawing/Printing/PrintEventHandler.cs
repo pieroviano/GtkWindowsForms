@@ -4,9 +4,12 @@
 namespace System.Drawing.Printing
 {
     /// <summary>
-    ///  Represents the method that will handle the <see cref='PrintDocument.BeginPrint'/>,
-    ///  <see cref='PrintDocument.EndPrint'/>, or <see cref='PrintDocument.QueryPageSettings'/>
-    ///  event of a <see cref='PrintDocument'/>.
+    /// Represents the method that will handle the
+    /// <see cref="PrintDocument.BeginPrint" />,
+    /// <see cref="PrintDocument.EndPrint" />, or
+    /// <see cref="PrintDocument.QueryPageSettings" />
+    /// event of a
+    /// <see cref="PrintDocument" />.
     /// </summary>
     public delegate void PrintEventHandler(object sender, PrintEventArgs e);
 }

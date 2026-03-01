@@ -5,7 +5,9 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Represents a method that will handle <see cref="Control.PreviewKeyDown"/> event of a <see cref="Control"/>.
+    /// Represents a method that will handle
+    /// <see cref="Control.PreviewKeyDown" /> event of a
+    /// <see cref="Control" />.
     /// </summary>
     public delegate void PreviewKeyDownEventHandler(object sender, PreviewKeyDownEventArgs e);
 }

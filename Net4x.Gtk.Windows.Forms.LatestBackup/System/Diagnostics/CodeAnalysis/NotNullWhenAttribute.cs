@@ -3,7 +3,8 @@
 namespace System.Diagnostics.CodeAnalysis
 {
     /// <summary>
-    /// Specifies that when a method returns <see cref="ReturnValue"/>, the parameter will not be null even if the corresponding type allows it.
+    /// Specifies that when a method returns
+    /// <see cref="ReturnValue" />, the parameter will not be null even if the corresponding type allows it.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
     internal sealed class NotNullWhenAttribute : Attribute

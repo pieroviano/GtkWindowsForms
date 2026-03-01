@@ -1,6 +1,5 @@
 ﻿using Prepare.Common.IO;
 using UpdatePostProcessing.Extensions;
-using UpdatePostProcessing.Model;
 using UpdatePostProcessing.Services;
 
 namespace UpdatePostProcessing;
@@ -9,7 +8,7 @@ public class ProcessFileUpdatesProcessor
 {
     public static int ProcessFilesUpdates(string csprojPath, string backupName)
     {
-        Console.WriteLine("Processing modified files");
+        ColoredConsole.WriteInColor("Processing modified files", ConsoleColor.White, true);
 
         if (!File.Exists(csprojPath))
         {

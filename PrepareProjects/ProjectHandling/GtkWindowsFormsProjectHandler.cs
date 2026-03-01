@@ -1,9 +1,5 @@
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using Prepare.Common.IO;
 using Prepare.Common.Languages;
-using PrepareProjects.Preparation;
 using PrepareProjects.Preparation.Directories;
 using PrepareProjects.Preparation.Source;
 
@@ -20,7 +16,7 @@ public class GtkWindowsFormsProjectHandler
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetProjectDirectory,
             ProjectPatching.PatchProjectNamespace, "Resources", "translations");
 
-        Console.WriteLine("Preparation completed successfully.");
+        ColoredConsole.WriteInColor("Preparation completed successfully.", ConsoleColor.White, true);
         return (targetProjectDirectory, sourceProjectPath, csprojPath);
     }
 

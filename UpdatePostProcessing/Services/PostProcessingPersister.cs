@@ -8,7 +8,7 @@ namespace UpdatePostProcessing.Services;
 internal class PostProcessingPersister
 {
     private readonly string _postProcessingPath = Path.GetFullPath(
-        Path.Combine(AppContext.BaseDirectory, @$"..\..\..\..\PrepareProjects\{BackupUtility.LatestPostProcessing}"));
+        Path.Combine(AppContext.BaseDirectory, @$"..\..\..\..\Resources{BackupUtility.LatestPostProcessing}"));
 
     public void PersistReplacements(IEnumerable<TextReplacement> replacements, FileItem fileItem)
     {
@@ -58,7 +58,7 @@ internal class PostProcessingPersister
                     replacement.SourceString,
                     replacement.TargetString) && !appSetting.Any(i=>!string.IsNullOrEmpty(i) && replacement.TargetString.Contains(i)))
             {
-                Console.WriteLine($"Differences found for {replacement.SourceFileName}: {itemElement}");
+                ColoredConsole.WriteInColor($"Differences found for {replacement.SourceFileName}: {itemElement}", ConsoleColor.White, true);
                 root.Add(itemElement);
                 modified = true;
             }

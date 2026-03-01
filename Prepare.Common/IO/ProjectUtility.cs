@@ -1,6 +1,6 @@
 using Prepare.Common.Languages;
+using Prepare.Common.Logging;
 using Prepare.Common.Projects;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -14,7 +14,7 @@ public static class ProjectUtility
         foreach (var file in files)
         {
             var destFile = Path.Combine(targetDir, Path.GetFileName(file));
-            File.Copy(file, destFile, true);
+            LogUtility.FileCopyAndLog(file, destFile, true);
         }
 
         var directories = Directory.GetDirectories(sourceDir).Where(d => !d.EndsWith("\\bin") && !d.EndsWith("\\obj"));
@@ -37,7 +37,7 @@ public static class ProjectUtility
                 catch (Exception ex)
                 {
                     // Ignore delete failures (locked, readonly, etc.)
-                    LoggerFactoryContainer.Instance.LoggerFactory.Debug(ex);
+                    YellowConsole.Write($"Unexpected exception: {ex}");
                 }
             }
         }
@@ -61,16 +61,12 @@ public static class ProjectUtility
 
     public static void CopyLocalizationResourcesFiles(string targetDir, params string[] sourceFileNames)
     {
-        var resourcesDir = Path.GetFullPath(
-            @"..\..\..\Resources");
+        var resourcesDir = Path.GetFullPath(@"..\..\..\..\Resources");
         Directory.CreateDirectory(targetDir);
 
         foreach (var sourceFile in sourceFileNames)
         {
-            CopyAndRenameFile(
-                resourcesDir,
-                targetDir,
-                sourceFile);
+            CopyAndRenameFile(resourcesDir, targetDir, sourceFile);
         }
     }
 
@@ -126,10 +122,7 @@ public static class ProjectUtility
         Directory.CreateDirectory(targetDir);
     }
 
-    private static void CopyAndRenameFile(
-        string sourceDir,
-        string targetDir,
-        string sourceFileName)
+    private static void CopyAndRenameFile(string sourceDir, string targetDir, string sourceFileName)
     {
         var sourcePath = Path.Combine(sourceDir, sourceFileName);
 
@@ -163,7 +156,7 @@ public static class ProjectUtility
         }
         else
         {
-            File.Copy(sourcePath, targetPath, true);
+            LogUtility.FileCopyAndLog(sourcePath, targetPath, true);
         }
     }
 

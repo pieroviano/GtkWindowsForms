@@ -5,7 +5,9 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Represents a method that will handle the <see cref="ListControl.Format"/> event of a <see cref="ListControl"/>.
+    /// Represents a method that will handle the
+    /// <see cref="ListControl.Format" /> event of a
+    /// <see cref="ListControl" />.
     /// </summary>
     public delegate void ListControlConvertEventHandler(object sender, ListControlConvertEventArgs e);
 }

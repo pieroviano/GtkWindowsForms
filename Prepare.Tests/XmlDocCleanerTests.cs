@@ -1,5 +1,3 @@
-using Xunit;
-using XmlDocSync;
 using XmlDocSync.Cleaning;
 
 namespace Prepare.Tests

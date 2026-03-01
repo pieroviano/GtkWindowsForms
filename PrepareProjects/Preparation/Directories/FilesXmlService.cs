@@ -5,6 +5,23 @@ namespace PrepareProjects.Preparation.Directories;
 
 public static class FilesXmlService
 {
+    public static void UpdateFilesXmlEntries(string projectDirectory, string oldName, string newName,
+        string csprojPath,
+        string newPath)
+    {
+        var renamedFiles = Directory.GetFiles(newPath, "*.cs", SearchOption.AllDirectories);
+
+        foreach (var file in renamedFiles)
+        {
+            var oldRelative = Path.GetRelativePath(projectDirectory,
+                file.Replace(newName, oldName));
+
+            var newRelative = Path.GetRelativePath(projectDirectory, file);
+
+            UpdateFilesXmlAfterRename(csprojPath, oldRelative, newRelative);
+        }
+    }
+
     private static void UpdateFilesXmlAfterRename(
         string csprojPath,
         string oldRelativePath,
@@ -55,23 +72,5 @@ public static class FilesXmlService
         }
 
         doc.Save(filesXmlPath);
-    }
-
-    public static void UpdateFilesXmlEntries(string projectDirectory, string oldName, string newName,
-        string csprojPath,
-        string newPath)
-    {
-        // 🔽 NEW PART — update Files.xml entries
-        var renamedFiles = Directory.GetFiles(newPath, "*.cs", SearchOption.AllDirectories);
-
-        foreach (var file in renamedFiles)
-        {
-            var oldRelative = Path.GetRelativePath(projectDirectory,
-                file.Replace(newName, oldName));
-
-            var newRelative = Path.GetRelativePath(projectDirectory, file);
-
-            UpdateFilesXmlAfterRename(csprojPath, oldRelative, newRelative);
-        }
     }
 }

@@ -8,7 +8,8 @@ using System.Drawing;
 namespace System.Windows.Forms.Design
 {
     /// <summary>
-    ///  <para>Provides a base implementation of a designer for user controls.</para>
+    /// <para>Provides a base implementation of a designer for user controls.
+    /// </para>
     /// </summary>
     [ToolboxItemFilter("System.Windows.Forms.UserControl", ToolboxItemFilterType.Custom)]
     internal class UserControlDocumentDesigner : DocumentDesigner

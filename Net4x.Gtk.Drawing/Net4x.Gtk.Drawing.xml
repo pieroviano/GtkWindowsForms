@@ -12128,7 +12128,8 @@
             <summary>
             Returns the handle to a Windows device context.
             </summary>
-            <returns>An System.IntPtr representing the handle of a device context. </returns>
+            <returns>An System.IntPtr representing the handle of a device context.
+            </returns>
         </member>
         <member name="M:System.Drawing.IDeviceContext.ReleaseHdc">
             <summary>
@@ -17122,12 +17123,17 @@
         </member>
         <member name="T:System.Drawing.Imaging.PlayRecordCallback">
             <summary>
-            This delegate is not used. For an example of enumerating the records of a metafile, see <see cref="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Graphics.EnumerateMetafileProc)" />.
+            This delegate is not used. For an example of enumerating the records of a metafile, see
+            <see cref="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Graphics.EnumerateMetafileProc)" />.
             </summary>
-            <param name="recordType">Not used.</param>
-            <param name="flags">Not used.</param>
-            <param name="dataSize">Not used.</param>
-            <param name="recordData">Not used.</param>
+            <param name="recordType">Not used.
+            </param>
+            <param name="flags">Not used.
+            </param>
+            <param name="dataSize">Not used.
+            </param>
+            <param name="recordData">Not used.
+            </param>
         </member>
         <member name="T:System.Drawing.Imaging.PropertyItem">
             <summary>
@@ -18119,7 +18125,9 @@
         </member>
         <member name="F:System.Drawing.KnownColor.RebeccaPurple">
             <summary>
-            A system-defined color representing the ARGB value <c>#663399</c>.
+            A system-defined color representing the ARGB value
+            <c>#663399
+            </c>.
             </summary>
         </member>
         <member name="T:System.Drawing.Pen">
@@ -20288,7 +20296,8 @@
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute">
             <summary>
-            Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue"/>, the parameter will not be null even if the corresponding type allows it.
+            Specifies that when a method returns
+            <see cref="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue" />, the parameter will not be null even if the corresponding type allows it.
             </summary>
         </member>
         <member name="M:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.#ctor(System.Boolean)">

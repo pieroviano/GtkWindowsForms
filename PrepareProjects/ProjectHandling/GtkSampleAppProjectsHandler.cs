@@ -2,9 +2,8 @@
 using System.Xml.Linq;
 using Prepare.Common.IO;
 using Prepare.Common.Languages;
-using PrepareProjects.Preparation;
+using Prepare.Common.Logging;
 using PrepareProjects.Preparation.Source;
-using PrepareProjects.Properties;
 
 namespace PrepareProjects.ProjectHandling;
 
@@ -21,7 +20,7 @@ public static class GtkSampleAppProjectsHandler
         ProjectUtility.PrepareEmptyDirectory(targetDir);
         ProjectUtility.CopyDirectory(sourceDir, targetDir);
 
-        ReplaceJson(targetDir);
+        ReplaceTestDataJson(targetDir);
 
         DeleteIfExists(Path.Combine(targetDir, "工程说明.txt"));
         CopyIfExists(Path.Combine(targetDir, "Resources", "010.jpg"), Path.Combine(targetDir, "Resources", "img11.jpg"));
@@ -53,22 +52,22 @@ public static class GtkSampleAppProjectsHandler
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetDir,
             ProjectPatching.PatchProjectNamespace, "GtkWinFormsAppResources", "samplesTranslations");
 
-        Console.WriteLine(Resources.GtkSampleApp_Prepare_Copy_completed_project_updated_and_restored);
+        ColoredConsole.WriteInColor("Copy completed, project updated.", ConsoleColor.White, true);
         return $"{Path.Combine(targetDir, targetProjectName)}.csproj";
     }
 
-    private static void ReplaceJson(string targetDir)
+    private static void ReplaceTestDataJson(string targetDir)
     {
         foreach (var testData in new String[]{"TestData1.json", "TestData1.en.json"})
         {
 #pragma warning disable CS8604 // Possible null reference argument.
-            var sourceFileName = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"..\..\..\Resources", testData));
+            var sourceFileName = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"..\..\..\..\Resources", testData));
             var destFileName = Path.Combine(targetDir, testData);
             if (File.Exists(destFileName))
             {
                 File.Delete(destFileName);
             }
-            File.Copy(sourceFileName, destFileName);
+            LogUtility.FileCopyAndLog(sourceFileName, destFileName);
 #pragma warning restore CS8604 // Possible null reference argument.
         }
     }
@@ -81,7 +80,7 @@ public static class GtkSampleAppProjectsHandler
             Path.GetFileNameWithoutExtension(csprojPath);
 
         var resourcesDir = Path.GetFullPath(
-            @"..\..\..\Resources");
+            @"..\..\..\..\Resources");
 
         var sourcePath = Path.Combine(
             resourcesDir,
@@ -193,7 +192,7 @@ public static class GtkSampleAppProjectsHandler
     {
         if (File.Exists(path))
         {
-            File.Copy(path, target);
+            LogUtility.FileCopyAndLog(path, target);
         }
     }
 
@@ -653,7 +652,7 @@ public static class GtkSampleAppProjectsHandler
 
         if (exists)
         {
-            Console.WriteLine("JSON None items already exist in the project file.");
+            YellowConsole.Write("JSON None items already exist in the project file.");
             return;
         }
 
@@ -674,7 +673,7 @@ public static class GtkSampleAppProjectsHandler
 
         doc.Save(csprojPath);
 
-        Console.WriteLine("JSON None items appended to the project file.");
+        ColoredConsole.WriteInColor("JSON None items appended to the project file.", ConsoleColor.White);
     }
 
 }

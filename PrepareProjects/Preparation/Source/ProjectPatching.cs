@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Prepare.Common.IO;
 using Prepare.Common.Projects;
 
 namespace PrepareProjects.Preparation.Source;
@@ -70,7 +71,7 @@ public static class ProjectPatching
         Directory.CreateDirectory(contentDir);
 
         var resourcesDirectory = Path.GetFullPath(
-            @"..\..\..\Resources");
+            @"..\..\..\..\Resources");
 
         CopyIfExists(
             Path.Combine(resourcesDirectory, "System.ComponentModel.cs"),
@@ -90,13 +91,13 @@ public static class ProjectPatching
                 sourcePath);
         }
 
-        File.Copy(sourcePath, destinationPath, true);
+        LogUtility.FileCopyAndLog(sourcePath, destinationPath, true);
     }
 
     private static void CopyPropsFile(string targetDir)
     {
         var resourcesDir = Path.GetFullPath(
-            @"..\..\..\Resources");
+            @"..\..\..\..\Resources");
 
         var sourceProps = Path.Combine(
             resourcesDir,
@@ -111,16 +112,11 @@ public static class ProjectPatching
 
     private static void CopyXmlDocFile(string targetDir)
     {
-        var resourcesDir = Path.GetFullPath(
-            @"..\..\..\Resources");
+        var resourcesDir = Path.GetFullPath(@"..\..\..\..\Resources");
 
-        var sourceProps = Path.Combine(
-            resourcesDir,
-            "Net4x.Gtk.Windows.Forms.xml");
+        var sourceProps = Path.Combine(resourcesDir, "Net4x.Gtk.Windows.Forms.xml");
 
-        var targetProps = Path.Combine(
-            targetDir,
-            "Net4x.Gtk.Windows.Forms.xml");
+        var targetProps = Path.Combine(targetDir, "Net4x.Gtk.Windows.Forms.xml");
 
         CopyIfExists(sourceProps, targetProps);
     }
@@ -128,7 +124,7 @@ public static class ProjectPatching
     private static void CopyTargetsFile(string targetDir)
     {
         var resourcesDir = Path.GetFullPath(
-            @"..\..\..\Resources");
+            @"..\..\..\..\Resources");
 
         var sourceProps = Path.Combine(
             resourcesDir,

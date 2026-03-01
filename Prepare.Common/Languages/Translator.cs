@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Prepare.Common.Languages;
@@ -9,7 +8,7 @@ public static class Translator
         Func<string, string?, string, string> patchProjectNamespace,
         string? xmlTranslationFileName)
     {
-        var xmlTranslationPath = Path.GetFullPath(@$"..\..\..\{xmlTranslationFileName}.xml");
+        var xmlTranslationPath = Path.GetFullPath(@$"..\..\..\..\Resources\{xmlTranslationFileName}.xml");
         var xmlTranslations = TranslationsHelper.LoadTranslations(xmlTranslationPath);
         TranslateFile(null, null, fileToTranslate, null, 
             patchProjectNamespace, null, xmlTranslations);

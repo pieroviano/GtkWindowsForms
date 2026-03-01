@@ -17,6 +17,14 @@
         <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
     <ItemGroup>
+        <Compile Remove="Resources\**" />
+        <Compile Remove="System.Windows.Forms\**" />
+        <EmbeddedResource Remove="Resources\**" />
+        <EmbeddedResource Remove="System.Windows.Forms\**" />
+        <None Remove="Resources\**" />
+        <None Remove="System.Windows.Forms\**" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
@@ -28,10 +36,6 @@
     <ItemGroup>
         <Content Include="README.md" Link="README.md" Pack="true" PackagePath="\README.md" />
         <Content Include="$(SolutionDir)License.txt" Link="License.txt" Pack="true" PackagePath="\License.txt" Condition="Exists('$(SolutionDir)License.txt')" />
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Resources\" />
-        <Folder Include="System.Windows.Forms\" />
     </ItemGroup>
     <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
 </Project>

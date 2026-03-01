@@ -36,7 +36,7 @@ public static class ChineseDetector
         }
 
         string outputPath = Path.GetFullPath(
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\PrepareProjects", outputFileName)
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\Resources", outputFileName)
         );
 
         // ---- TEXT OUTPUT ----
@@ -46,8 +46,8 @@ public static class ChineseDetector
                 .Distinct()
                 .OrderByDescending(s => s.Length)
                 .ToArray());
-            Console.WriteLine("Chinese text file generated (ordering preserved).");
-            Console.WriteLine(outputPath);
+            ColoredConsole.WriteInColor("Chinese text file generated (ordering preserved).", ConsoleColor.White, true);
+            ColoredConsole.WriteInColor(outputPath, ConsoleColor.White, true);
             return;
         }
 
@@ -96,8 +96,8 @@ public static class ChineseDetector
 
         doc.Save(outputPath);
 
-        Console.WriteLine("Translations file updated safely (existing translations preserved).");
-        Console.WriteLine(outputPath);
+        ColoredConsole.WriteInColor("Translations file updated safely (existing translations preserved).", ConsoleColor.White, true);
+        ColoredConsole.WriteInColor(outputPath, ConsoleColor.White, true);
     }
 
     private static List<string> GetChineseMatches(bool isDirectory, string inputPath)

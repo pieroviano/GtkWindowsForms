@@ -5,7 +5,9 @@ namespace System.Diagnostics.CodeAnalysis
 {
     /// <summary>
     /// Specifies the types of members that are dynamically accessed.
-    ///        This enumeration has a <see cref="T:System.FlagsAttribute" /> attribute that allows a bitwise combination of its member values.</summary>
+    /// This enumeration has a
+    /// <see cref="T:System.FlagsAttribute" /> attribute that allows a bitwise combination of its member values.
+    /// </summary>
     [Flags]
     internal enum DynamicallyAccessedMemberTypes
     {

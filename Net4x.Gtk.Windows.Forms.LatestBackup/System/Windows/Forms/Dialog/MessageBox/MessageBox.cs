@@ -16,7 +16,7 @@ namespace System.Windows.Forms
     public class MessageBoxOld
     {
         /// <summary>
-        ///  Displays a message box with specified text, caption, and style with Help Button.
+        /// Displays a message box with specified text, caption, and style with Help Button.
         /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton)
@@ -25,7 +25,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, style and Help file Path .
+        /// Displays a message box with specified text, caption, style and Help file Path .
         /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
@@ -34,7 +34,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, style and Help file Path for a IWin32Window.
+        /// Displays a message box with specified text, caption, style and Help file Path for a IWin32Window.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
@@ -43,7 +43,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, style, Help file Path and keyword.
+        /// Displays a message box with specified text, caption, style, Help file Path and keyword.
         /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
@@ -52,7 +52,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, style, Help file Path and keyword for a IWin32Window.
+        /// Displays a message box with specified text, caption, style, Help file Path and keyword for a IWin32Window.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
@@ -61,7 +61,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, style, Help file Path and HelpNavigator.
+        /// Displays a message box with specified text, caption, style, Help file Path and HelpNavigator.
         /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
@@ -70,7 +70,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, style, Help file Path and HelpNavigator for IWin32Window.
+        /// Displays a message box with specified text, caption, style, Help file Path and HelpNavigator for IWin32Window.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
@@ -79,7 +79,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object.
+        /// Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object.
         /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
@@ -88,7 +88,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object for a IWin32Window.
+        /// Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object for a IWin32Window.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
@@ -96,12 +96,10 @@ namespace System.Windows.Forms
             return ShowCore(owner, text, caption, buttons, icon, defaultButton, options);
         }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //END ADD                                                                                                      //
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        ///  Displays a message box with specified text, caption, and style.
-        /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
         {
@@ -109,7 +107,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, and style.
+        /// Displays a message box with specified text, caption, and style.
         /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton)
@@ -118,7 +116,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, and style.
+        /// Displays a message box with specified text, caption, and style.
         /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
@@ -126,7 +124,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, and style.
+        /// Displays a message box with specified text, caption, and style.
         /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons)
         {
@@ -134,7 +132,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text and caption.
+        /// Displays a message box with specified text and caption.
         /// </summary>
         public static DialogResult Show(string text, string caption)
         {
@@ -142,7 +140,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text.
+        /// Displays a message box with specified text.
         /// </summary>
         public static DialogResult Show(string text)
         {
@@ -150,7 +148,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, and style.
+        /// Displays a message box with specified text, caption, and style.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
@@ -159,7 +157,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, and style.
+        /// Displays a message box with specified text, caption, and style.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton)
@@ -168,7 +166,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, and style.
+        /// Displays a message box with specified text, caption, and style.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
@@ -176,7 +174,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text, caption, and style.
+        /// Displays a message box with specified text, caption, and style.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons)
         {
@@ -184,7 +182,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text and caption.
+        /// Displays a message box with specified text and caption.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text, string caption)
         {
@@ -192,7 +190,7 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Displays a message box with specified text.
+        /// Displays a message box with specified text.
         /// </summary>
         public static DialogResult Show(IWin32Window owner, string text)
         {

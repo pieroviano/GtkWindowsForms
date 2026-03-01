@@ -2,7 +2,7 @@
 
 public static class DrawingDirectoryMover
 {
-    public static void MoveDrawing2D(string source, string destination, string folderToDelete)
+    public static void MoveDrawingDirectory(string source, string destination, string folderToDelete)
     {
         if (!Directory.Exists(source))
             return;

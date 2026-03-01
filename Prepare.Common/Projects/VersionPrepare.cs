@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
 using System.Xml.Linq;
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
@@ -42,9 +41,9 @@ public static class VersionPrepare
         var firstThree = string.Join(".", parts.Take(3));
         var lastPart = parts.Last();
 
-        Console.WriteLine(@$"Detected Version: {versionText}");
-        Console.WriteLine(@$"First three parts: {firstThree}");
-        Console.WriteLine(@$"Last part: {lastPart}");
+        ColoredConsole.WriteInColor($@"Detected Version: {versionText}", ConsoleColor.White, true);
+        ColoredConsole.WriteInColor($@"First three parts: {firstThree}", ConsoleColor.White, true);
+        ColoredConsole.WriteInColor($@"Last part: {lastPart}", ConsoleColor.White, true);
 
         // --- Update Directory.Build.Props ---
         var destinationValue = GetDestinationValue(lastPart);
@@ -59,7 +58,7 @@ public static class VersionPrepare
             "Net4xGtkWindowsFormsVersion",
             firstThree);
 
-        Console.WriteLine(@"Done.");
+        ColoredConsole.WriteInColor(@"Preparing solution version done.", ConsoleColor.White, true);
         return versionText;
     }
 
@@ -100,6 +99,6 @@ public static class VersionPrepare
         element.Value = value;
 
         doc.Save(propsPath);
-        Console.WriteLine(@$"Updated {elementName} in {Path.GetFileName(propsPath)}");
+        ColoredConsole.WriteInColor($@"Updated {elementName} in {Path.GetFileName(propsPath)}", ConsoleColor.White);
     }
 }

@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Prepare.Common.Text;
+using Prepare.Common.Logging;
 
 namespace Prepare.Common.Projects;
 
@@ -49,12 +49,12 @@ public static class ProjectCompilation
 
         process.WaitForExit();
 
-        Console.WriteLine(output);
+        ColoredConsole.WriteInColor(output, ConsoleColor.White, true);
 
         if (process.ExitCode != 0)
         {
             var message = $"dotnet {whatToDo} failed:{Environment.NewLine}{output}{Environment.NewLine}{error}";
-            ConsoleUtilityEx.WriteInColor(message, ConsoleColor.Red);
+            RedConsole.Write(message);
             throw new InvalidOperationException(message);
         }
     }

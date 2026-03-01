@@ -1,3 +1,5 @@
+using Prepare.Common.Logging;
+
 namespace PrepareProjects.Preparation.Directories;
 
 public static class FolderService
@@ -32,7 +34,7 @@ public static class FolderService
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                RedConsole.Write("Unexpected exception: {e}.");
             }
         }
 
@@ -48,7 +50,7 @@ public static class FolderService
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                RedConsole.Write("Unexpected exception: {e}.");
                 if (string.Compare(oldPath, newPath, StringComparison.InvariantCultureIgnoreCase) != 0)
                 {
                     throw;

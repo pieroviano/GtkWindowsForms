@@ -12,7 +12,7 @@ internal static class FileItemExtensions
         {
             if (index % 100 == 0)
             {
-                Console.WriteLine($"[{index + (index == 0 ? 1 : 0)}/{files.Length}]");
+                ColoredConsole.WriteInColor($"[{index + (index == 0 ? 1 : 0)}/{files.Length}]", ConsoleColor.White, true);
             }
 
             var file = files[index];
@@ -62,7 +62,7 @@ internal static class FileItemExtensions
             return replacements;
         }
 
-        Console.WriteLine($"No differences for {fileName}");
+        ColoredConsole.WriteInColor($"No differences for {fileName}", ConsoleColor.White, true);
         return null;
     }
 

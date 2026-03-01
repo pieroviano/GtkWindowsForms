@@ -1,0 +1,897 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Items>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;/Project&gt;</SourceString>
+    <TargetString>    &lt;PropertyGroup&gt;
+		&lt;NoWarn&gt;$(NoWarn);MSB3243;&lt;/NoWarn&gt;
+    &lt;/PropertyGroup&gt;
+    &lt;ItemGroup&gt;
+	    &lt;Compile Update="Properties\MessageBoxResources.Designer.cs"&gt;
+		    &lt;DesignTime&gt;True&lt;/DesignTime&gt;
+		    &lt;AutoGen&gt;True&lt;/AutoGen&gt;
+		    &lt;DependentUpon&gt;MessageBoxResources.resx&lt;/DependentUpon&gt;
+	    &lt;/Compile&gt;
+        &lt;EmbeddedResource Update="Properties\MessageBoxResources.it.resx"&gt;
+            &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
+            &lt;DependentUpon&gt;MessageBoxResources.resx&lt;/DependentUpon&gt;
+        &lt;/EmbeddedResource&gt;
+        &lt;EmbeddedResource Update="Properties\MessageBoxResources.es.resx"&gt;
+            &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
+            &lt;DependentUpon&gt;MessageBoxResources.resx&lt;/DependentUpon&gt;
+        &lt;/EmbeddedResource&gt;
+        &lt;EmbeddedResource Update="Properties\MessageBoxResources.de.resx"&gt;
+            &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
+            &lt;DependentUpon&gt;MessageBoxResources.resx&lt;/DependentUpon&gt;
+        &lt;/EmbeddedResource&gt;
+        &lt;EmbeddedResource Update="Properties\MessageBoxResources.fr.resx"&gt;
+            &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
+            &lt;DependentUpon&gt;MessageBoxResources.resx&lt;/DependentUpon&gt;
+        &lt;/EmbeddedResource&gt;
+        &lt;EmbeddedResource Update="Properties\MessageBoxResources.resx"&gt;
+            &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
+            &lt;LastGenOutput&gt;MessageBoxResources.Designer.cs&lt;/LastGenOutput&gt;
+            &lt;CustomToolNamespace&gt;System.Windows.Forms.Properties&lt;/CustomToolNamespace&gt;
+        &lt;/EmbeddedResource&gt;
+        &lt;EmbeddedResource Update="Properties\MessageBoxResources.zh-Hans.resx"&gt;
+            &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
+            &lt;DependentUpon&gt;MessageBoxResources.resx&lt;/DependentUpon&gt;
+        &lt;/EmbeddedResource&gt;
+    &lt;/ItemGroup&gt;
+&lt;/Project&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <SourceString>&lt;Folder Include="obj\Debug\" /&gt;</SourceString>
+    <TargetString>&lt;Folder Include="obj\Debug\" /&gt;
+&lt;/ItemGroup&gt;
+&lt;ItemGroup&gt;
+	&lt;ProjectReference Include="..\Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.csproj" /&gt;
+&lt;/ItemGroup&gt;
+&lt;ItemGroup&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>	_typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);</SourceString>
+    <TargetString>{
+                        if (typeName.Contains("System.Drawing"))
+                        {
+                            _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
+                        else
+                        {
+                            _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
+                    }</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\ResourceManager.cs</FileName>
+    <SourceString>$CommentedCode$(string resourceDirctory =)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\ResourceManager.cs</FileName>
+    <SourceString>$CommentedCode$(public  UnmanagedMemoryStream)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Icon.cs</FileName>
+    <SourceString>using GtkSystem.Resources;</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Design\Designer\ToolboxItem.cs</FileName>
+    <SourceString>
+using System.Windows.Forms;</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkWinFormsApp\GTKWinFormsApp.xml</FileName>
+    <SourceString></SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkWinFormsApp\GtkWinFormsApp.csproj</FileName>
+    <SourceString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</SourceString>
+    <TargetString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkSystemWinFormsApp11\GtkSystemWinFormsApp11.csproj</FileName>
+    <SourceString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</SourceString>
+    <TargetString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkSystemWinFormsApp11\Program.cs</FileName>
+    <SourceString>Application.EnableVisualStyles();</SourceString>
+    <TargetString>MessageBox.ReplaceInstance();
+            Application.EnableVisualStyles();</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkWinFormsApp\Program.cs</FileName>
+    <SourceString>Application.EnableVisualStyles();</SourceString>
+    <TargetString>MessageBox.ReplaceInstance();
+            Application.EnableVisualStyles();</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\TreeViewBase\TreeNode.cs</FileName>
+    <SourceString>$CommentedCode$(throw )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Printing\PrintDocument.cs</FileName>
+    <SourceString>$CommentedCode$([Browsable(false)])</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$(            for (int i = 1; i &lt; typeParts.Length; ++i))</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$(            type = _typeResolver.GetType(partialName);)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$(    if (type is null))</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$(    // Binder couldn't handle it, let the default loader take over.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$(        // Break up the assembly name from the rest of the assembly strong name.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$(    typeName = typeName + ", " + assemblyName;)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ToolStrip.cs</FileName>
+    <SourceString>$CommentedCode$(Dock )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\TabControlBase\DrawItemEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$(using )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\TabControlBase\DrawItemEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$( ControlPaint.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\PropertyGridInternal\PropertyGridBase\PropertyGridView.cs</FileName>
+    <SourceString>$CommentedCode$(column3.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Printing\PrintPreviewControl.cs</FileName>
+    <SourceString>$CommentedCode$( InvalidateLayout)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Printing\PrintPreviewControl.cs</FileName>
+    <SourceString>$CommentedCode$(InvalidateLayout)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Printing\PrintDialog.cs</FileName>
+    <SourceString>$CommentedCode$(Console.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListViewBase\ListViewGroupCollection.cs</FileName>
+    <SourceString>$CommentedCode$(Console.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListViewBase\ColumnHeader.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListViewBase\ColumnHeader.cs</FileName>
+    <SourceString>$CommentedCode$(string )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListView.cs</FileName>
+    <SourceString>$CommentedCode$( header.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListView.cs</FileName>
+    <SourceString>$CommentedCode$( __headerheight)</SourceString>
+    <TargetString>            headerView.HeightRequest = 1;</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListView.cs</FileName>
+    <SourceString>$CommentedCode$(Console.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListBoxBase\ListBox.SelectedObjectCollection.cs</FileName>
+    <SourceString>$CommentedCode$(if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListBoxBase\ListBox.SelectedObjectCollection.cs</FileName>
+    <SourceString>$CommentedCode$( we )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListBoxBase\ListBox.ObjectCollection.cs</FileName>
+    <SourceString>$CommentedCode$(Debug.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.cs</FileName>
+    <SourceString>$CommentedCode$(_owner.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\LinkLabel.cs</FileName>
+    <SourceString>$CommentedCode$(Console.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$(int )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$(SpanReader)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$( We )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$(if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageListStreamer.cs</FileName>
+    <SourceString>$CommentedCode$(HandleRef)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.Original.cs</FileName>
+    <SourceString>$CommentedCode$(if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
+    <SourceString>$CommentedCode$(lock )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
+    <SourceString>$CommentedCode$(internal )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.ImageCollection.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentNullException.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentNullException.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
+    <SourceString>$CommentedCode$( string )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentOutOfRangeException.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\EventArgs\DataGridViewSortCompareEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$(Debug.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\EventArgs\DataGridViewRowPrePaintEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$( private )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\EventArgs\DataGridViewRowPostPaintEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\EventArgs\DataGridViewRowHeightInfoNeededEventArgs.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Dialog\MessageBox\MessageBox.cs</FileName>
+    <SourceString>$CommentedCode$(irun )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\DataGridViewBase\DataGridViewColumn.cs</FileName>
+    <SourceString>$CommentedCode$(renderer.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Collection\ItemArray.cs</FileName>
+    <SourceString>$CommentedCode$(Debug.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Collection\BindingsCollection.cs</FileName>
+    <SourceString>$CommentedCode$( ArgumentNullException.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Atrribute\KeysConverter.cs</FileName>
+    <SourceString>$CommentedCode$(AddKey)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$( if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>$CommentedCode$( Encoding )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXResourceWriter.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentNullException)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$(private )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$(ArgumentNullException)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$(_binaryFormatter)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$(IFormatter )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXDataNode.cs</FileName>
+    <SourceString>$CommentedCode$( result =)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\AssemblyNamesTypeResolutionService.cs</FileName>
+    <SourceString>$CommentedCode$([UnconditionalSuppressMessage)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Printing\PrintDocument.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Printing\PrintDocument.cs</FileName>
+    <SourceString>$CommentedCode$(Browsable)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Imaging\Drawing\Drawing2D\PropertyItemInternal.cs</FileName>
+    <SourceString>$CommentedCode$(public )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Imaging\Drawing\Drawing2D\ImageFormat.cs</FileName>
+    <SourceString>$CommentedCode$(DefaultInterpolatedStringHandler )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Imaging\Drawing\Drawing2D\ImageFormat.cs</FileName>
+    <SourceString>	}</SourceString>
+    <TargetString>    }</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Imaging\Drawing\Drawing2D\FrameDimension.cs</FileName>
+    <SourceString>$CommentedCode$(DefaultInterpolatedStringHandler )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Icon.cs</FileName>
+    <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Icon.cs</FileName>
+    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>        private Gtk.Widget widget;</SourceString>
+    <TargetString>        private Gtk.Widget widget;
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>        #region Numerical adjustment delta used for input and output$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>        internal double diff_left { get; set; }</SourceString>
+    <TargetString>        internal double diff_left { get; set; }
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>$CommentedCode$(internal )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>		#endregion$RegEx$([ \t]*[\r]?[\n]?)
+	</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>        }</SourceString>
+    <TargetString>        }
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>        #region Bézier curve$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>$CommentedCode$(this.context.Fill();)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>$CommentedCode$(TranslateTransform)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
+    <SourceString>$CommentedCode$(this.context)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$(plgpts)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$([m11,m12,0])</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$(Matrix m)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$(this.m11 =)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Matrix.cs</FileName>
+    <SourceString>$CommentedCode$(this.m21 = )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <SourceString>$CommentedCode$(if )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <SourceString>$CommentedCode$(Icon icon =)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\ImageConverter.cs</FileName>
+    <SourceString>$CommentedCode$([RequiresUnreferencedCode)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Image.cs</FileName>
+    <SourceString>        #region Image onlybyte[] data $RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Image.cs</FileName>
+    <SourceString>        #endregion$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Image.cs</FileName>
+    <SourceString>
+	    $CommentedCode$(/ &lt;summary&gt;)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Bitmap.cs</FileName>
+    <SourceString>$CommentedCode$(object )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Windows\Forms\Utility\ImageUtility.cs</FileName>
+    <SourceString>$CommentedCode$(destImage )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\GtkLib.cs</FileName>
+    <SourceString>    internal
+class FuncLoader</SourceString>
+    <TargetString>    internal class FuncLoader</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\FormBase.cs</FileName>
+    <SourceString>$CommentedCode$(this.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\SR.cs</FileName>
+    <SourceString></SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\RuntimeResourceSet.cs</FileName>
+    <SourceString>SR.Format</SourceString>
+    <TargetString>SystemResources.Format</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\PreserializedResourceWriter.cs</FileName>
+    <SourceString>SR.Format</SourceString>
+    <TargetString>SystemResources.Format</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>SR.Format</SourceString>
+    <TargetString>SystemResources.Format</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$CommentedCode$(private )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$CommentedCode$( _formatter.Binder)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$CommentedCode$(return null;)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>$CommentedCode$( _formatter.)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\IO\Resources\BinaryReaderExtensions.cs</FileName>
+    <SourceString>using System;
+using System.IO;
+using GtkSystem;$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString> at</SourceString>
+    <TargetString> at </TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString>        private string formName;</SourceString>
+    <TargetString>        private string formName;
+        </TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString>formName = form.Name;
+        }
+</SourceString>
+    <TargetString>formName = form.Name;
+		}</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString>        }</SourceString>
+    <TargetString>        }
+</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\ComponentModel\ComponentResourceManager.cs</FileName>
+    <SourceString>using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
+
+</SourceString>
+    <TargetString>using System.Globalization;
+</TargetString>
+  </Item>
+  <Item>
+    <FileName>GTKSystem.Windows.Forms.xml</FileName>
+    <SourceString></SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkControls\GridCell.cs</FileName>
+    <SourceString>         public int Width { get; set; }</SourceString>
+    <TargetString>         public int Width { get; set; }
+</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkControls\Designer\AssemblyRef.cs</FileName>
+    <SourceString>$CommentedCode$(internal )</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>FxResources\System\Resources\Extensions\SR.cs</FileName>
+    <SourceString></SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Dialog\MessageBox\MessageBox.cs</FileName>
+    <SourceString>public class MessageBox</SourceString>
+    <TargetString>public class MessageBoxOld</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Form.cs</FileName>
+    <SourceString>public void Close()</SourceString>
+    <TargetString>
+		public void Close()
+		{
+		    if (MessageBox.Instance is NonStaticMessageBox nonStaticMessageBox)
+		    {
+		        CloseImmediately();
+		        return;
+		    }
+		    var timer = new System.Windows.Forms.Timer
+	        {
+    	    	Interval = 100
+		    };
+            
+		    timer.Tick += (s, e) =&gt;
+        	{
+        	    timer.Stop();
+        	    CloseImmediately();
+        	};
+
+            timer.Start();
+        }
+        
+        public void CloseImmediately()</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\DateTimePicker.cs</FileName>
+    <SourceString>            base.Mask = Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;</SourceString>
+    <TargetString>            base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\DateTimePicker.cs</FileName>
+    <SourceString>l = Properties.</SourceString>
+    <TargetString>l = System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\DateTimePicker.cs</FileName>
+    <SourceString>,Properties.</SourceString>
+    <TargetString>,System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\DateTimePicker.cs</FileName>
+    <SourceString>(Properties.</SourceString>
+    <TargetString>(System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\DateTimePicker.cs</FileName>
+    <SourceString>= Properties.</SourceString>
+    <TargetString>= System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\DateTimePicker.cs</FileName>
+    <SourceString>                    base.Mask = Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;</SourceString>
+    <TargetString>                    base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\TreeView.cs</FileName>
+    <SourceString>            column.Title = Properties.Resources.Gtk_Tree_directory;</SourceString>
+    <TargetString>            column.Title = System.Properties.Resources.Gtk_Tree_directory;</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Application\Application.cs</FileName>
+    <SourceString> Properties.</SourceString>
+    <TargetString> System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Application\Application.cs</FileName>
+    <SourceString>(Properties.</SourceString>
+    <TargetString>(System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Dialog\MessageBox\MessageBox.cs</FileName>
+    <SourceString>Properties.</SourceString>
+    <TargetString>System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Printing\PrintPreviewDialog.cs</FileName>
+    <SourceString>Properties.</SourceString>
+    <TargetString>System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Dialog\ColorDialog.cs</FileName>
+    <SourceString>(Properties.</SourceString>
+    <TargetString>(System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Dialog\FileDialog.cs</FileName>
+    <SourceString>(Properties.</SourceString>
+    <TargetString>(System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Dialog\FileDialog.cs</FileName>
+    <SourceString>Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
+            fileDialog.AddButton(</SourceString>
+    <TargetString>System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
+            fileDialog.AddButton(System.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Dialog\FontDialog.cs</FileName>
+    <SourceString>(Properties.</SourceString>
+    <TargetString>(System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Printing\PrintDialog.cs</FileName>
+    <SourceString>= Properties.</SourceString>
+    <TargetString>= System.Properties.</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Printing\PrintPreviewDialog.cs</FileName>
+    <SourceString>Properties.Resources.Gtk_Print_preview), false, false, 0);
+            Gtk.Button printbutton = new Gtk.Button(</SourceString>
+    <TargetString>System.Properties.Resources.Gtk_Print_preview), false, false, 0);
+            Gtk.Button printbutton = new Gtk.Button(System.</TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkControls\GridCell.cs</FileName>
+    <SourceString>        public int Width { get; set; }</SourceString>
+    <TargetString>        public int Width { get; set; }
+</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Resources\ResXSerializationBinder.cs</FileName>
+    <SourceString>
+        //    typeName = typeName + ", " + assemblyName;
+
+        //    Type type = _typeResolver.GetType(typeName);
+        //    if (type is null)
+        //    {
+        //        string[] typeParts = typeName.Split(',');
+
+        //        // Break up the assembly name from the rest of the assembly strong name.
+        //        // we try 1) FQN 2) FQN without a version 3) just the short name
+        //        if (typeParts != null &amp;&amp; typeParts.Length &gt; 2)
+        //        {
+        //            string partialName = typeParts[0].Trim();
+
+        //            for (int i = 1; i &lt; typeParts.Length; ++i)
+        //            {
+        //                string typePart = typeParts[i].Trim();
+        //                if (!typePart.StartsWith("Version=") &amp;&amp; !typePart.StartsWith("version="))
+        //                {
+        //                    partialName = partialName + ", " + typePart;
+        //                }
+        //            }
+
+        //            type = _typeResolver.GetType(partialName);
+        //            if (type is null)
+        //            {
+        //                type = _typeResolver.GetType(typeParts[0].Trim());
+        //            }
+        //        }
+        //    }
+
+        //    // Binder couldn't handle it, let the default loader take over.
+        //    return type;
+        //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>GtkSystem\Resources\Extensions\DeserializingResourceReader.cs</FileName>
+    <SourceString>        if (typeName.Contains("System.Drawing"))
+        {
+            _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
+        }
+        else
+        {
+            _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
+        }
+</SourceString>
+    <TargetString>						if (typeName.Contains("System.Drawing"))
+						{
+						    _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
+						}
+						else
+						{
+						    _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
+						}
+                </TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Printing\PaperSize.cs</FileName>
+    <SourceString>        public PaperKind Kind
+=&gt; PaperKind.Custom;</SourceString>
+    <TargetString>        public PaperKind Kind =&gt; PaperKind.Custom;</TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Drawing\Printing\PrintDocument.cs</FileName>
+    <SourceString>        //[Browsable(false)]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        //public PrintController PrintController
+        //{
+        //    get =&gt; _printController ??= new StandardPrintController();
+        //    set =&gt; _printController = value;
+        //}$RegEx$([ \t]*[\r]?[\n]?)</SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>System\Windows\Forms\Collection\Binding.cs</FileName>
+    <SourceString>1 = new ConvertEventArgs(value, propertyType);
+        OnFormat(convertEventArg1);
+        var obj = convertEventArg1</SourceString>
+    <TargetString>s = new ConvertEventArgs(value, propertyType);
+        OnFormat(convertEventArgs);
+        var obj = convertEventArgs</TargetString>
+  </Item>
+</Items>

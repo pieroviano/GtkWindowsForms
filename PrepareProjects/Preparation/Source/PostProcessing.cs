@@ -1,8 +1,8 @@
+using Prepare.Common.Logging;
+using PrepareProjects.Model;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Prepare.Common.Text;
-using PrepareProjects.Model;
 
 namespace PrepareProjects.Preparation.Source;
 
@@ -12,7 +12,7 @@ public static class PostProcessing
     {
         if (!File.Exists(postprocessingXml))
         {
-            Console.WriteLine(@$"{postprocessingXml} not found.");
+            RedConsole.Write($@"{postprocessingXml} not found.");
             return;
         }
 
@@ -29,7 +29,7 @@ public static class PostProcessing
 
         if (replacements == null || replacements.Count == 0)
         {
-            Console.WriteLine("No post-processing items found.");
+            YellowConsole.Write("No post-processing items found.");
             return;
         }
 
@@ -46,7 +46,7 @@ public static class PostProcessing
             }
         }
 
-        Console.WriteLine($"Post-processing applied: {applied} replacement(s).");
+        ColoredConsole.WriteInColor($"Post-processing applied: {applied} replacement(s).", ConsoleColor.White, true);
     }
 
     private static string[] GetFileNames(string targetDir, Replacement replacement, string[] exclude)
@@ -101,7 +101,7 @@ public static class PostProcessing
     {
         if (!File.Exists(filePath))
         {
-            ConsoleUtilityEx.WriteInColor($"Skipped (file not found): {replacement.FileName}", ConsoleColor.Yellow);
+            YellowConsole.Write($"Skipped (file not found): {replacement.FileName}");
             return applied;
         }
 
@@ -157,7 +157,7 @@ public static class PostProcessing
         {
             File.WriteAllText(filePath, newText);
             applied++;
-            ConsoleUtilityEx.WriteInColor($"Updated: {filePath}", ConsoleColor.White);
+            ColoredConsole.WriteInColor($"Updated: {filePath}", ConsoleColor.White);
         }
 
         return applied;

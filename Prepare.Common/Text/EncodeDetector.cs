@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Prepare.Common.IO;
 
 namespace Prepare.Common.Text;
 
@@ -27,7 +28,7 @@ public class EncodeDetector
             {
                 if (file != destFile)
                 {
-                    File.Copy(file, destFile, true);
+                    LogUtility.FileCopyAndLog(file, destFile, true);
                 }
             }
             else
@@ -46,7 +47,7 @@ public class EncodeDetector
                 {
                     if (file != destFile)
                     {
-                        File.Copy(file, destFile, true);
+                        LogUtility.FileCopyAndLog(file, destFile, true);
                     }
                 }
             }
@@ -56,7 +57,7 @@ public class EncodeDetector
             // Fallback: if anything goes wrong, copy the file to avoid blocking the workflow
             if (file != destFile)
             {
-                File.Copy(file, destFile, true);
+                LogUtility.FileCopyAndLog(file, destFile, true);
             }
         }
     }

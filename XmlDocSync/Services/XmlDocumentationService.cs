@@ -1,9 +1,9 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Prepare.Common.Logging;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Prepare.Common.Text;
 using XmlDocSync.Cleaning;
 using XmlDocSync.Formatters;
 using XmlDocSync.Roslyn;
@@ -19,13 +19,13 @@ public static class XmlDocumentationService
     {
         if (!File.Exists(xmlPath))
         {
-            Console.WriteLine("XML documentation file not found.");
+            RedConsole.Write("XML documentation file not found.");
             return 1;
         }
 
         if (!Directory.Exists(sourceDir))
         {
-            Console.WriteLine("Source directory not found.");
+            RedConsole.Write("Source directory not found.");
             return 1;
         }
 
@@ -154,7 +154,7 @@ public static class XmlDocumentationService
     private static async Task ProcessFile(CSharpCompilation compilation,
         Dictionary<string, string> xmlDocumentation, SyntaxTree syntaxTree, (string ToReplace, string DestinationValue)[] valueTuples)
     {
-        ConsoleUtilityEx.WriteInColor($"Processing {syntaxTree.FilePath}", ConsoleColor.DarkGray);
+        ColoredConsole.WriteInColor($"Processing {syntaxTree.FilePath}", ConsoleColor.DarkGray);
 
         var semanticModel = compilation.GetSemanticModel(syntaxTree);
 
@@ -182,6 +182,9 @@ public static class XmlDocumentationService
         if (!newRoot.IsEquivalentTo(root))
         {
             var contents = NormalizeXmlDocBlockIndentation(newRoot.ToFullString()
+                .Replace("GTKSystem", "GtkSystem")
+                .Replace("GTKControls", "GtkControls")
+                .Replace("///              ", "/// ")
                 .Replace("///              ", "/// ")
                 .Replace("///             ", "/// ")
                 .Replace("\r\n", "\n")
@@ -194,7 +197,29 @@ public static class XmlDocumentationService
 #if USE_WINDIFF
                 WinMergeService.CompareWithWinMerge(syntaxTree.FilePath, normalizedOriginalText, contents);
 #endif
-                ConsoleUtilityEx.WriteInColor($"Modified {syntaxTree.FilePath}", ConsoleColor.Blue);
+                ColoredConsole.WriteInColor($"Modified {syntaxTree.FilePath}", ConsoleColor.Blue);
+                await File.WriteAllTextAsync(syntaxTree.FilePath, contents);
+            }
+        }
+        else
+        {
+            var contents = NormalizeXmlDocBlockIndentation(root.ToFullString()
+                .Replace("GTKSystem", "GtkSystem")
+                .Replace("GTKControls", "GtkControls")
+                .Replace("///              ", "/// ")
+                .Replace("///              ", "/// ")
+                .Replace("///             ", "/// ")
+                .Replace("\r\n", "\n")
+                .TrimEnd('\n'), valueTuples);
+            contents = XmlDocFileFormatter.FormatFile(contents).Replace("\r\n", "\n");
+            var normalizedOriginalText = root.ToFullString();
+
+            if (contents != normalizedOriginalText)
+            {
+#if USE_WINDIFF
+                WinMergeService.CompareWithWinMerge(syntaxTree.FilePath, normalizedOriginalText, contents);
+#endif
+                ColoredConsole.WriteInColor($"Modified {syntaxTree.FilePath}", ConsoleColor.Blue);
                 await File.WriteAllTextAsync(syntaxTree.FilePath, contents);
             }
         }

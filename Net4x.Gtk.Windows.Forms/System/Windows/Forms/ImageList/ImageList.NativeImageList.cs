@@ -12,34 +12,6 @@ namespace System.Windows.Forms
     /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
     /// other controls will be able to use the Images as they desire.
     /// </summary>
-    /// Provides methods to manage a collection of
-    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
-    /// </summary>
-    /// <filterpriority>2
-    /// </filterpriority>
-    /// Provides methods to manage a collection of
-    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
-    /// </summary>
-    /// <filterpriority>2
-    /// </filterpriority>
-    /// Provides methods to manage a collection of
-    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
-    /// </summary>
-    /// <filterpriority>2
-    /// </filterpriority>
-    /// Provides methods to manage a collection of
-    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
-    /// </summary>
-    /// <filterpriority>2
-    /// </filterpriority>
-    /// Provides methods to manage a collection of
-    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
-    /// </summary>
-    /// <filterpriority>2
-    /// </filterpriority>
-    /// Provides methods to manage a collection of
-    /// <see cref="System.Drawing.Image" /> objects. This class cannot be inherited.
-    /// </summary>
     /// <filterpriority>2
     /// </filterpriority>
     public sealed partial class ImageList

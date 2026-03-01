@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Prepare.Common.IO;
 
 namespace Prepare.Common.Text;
 
@@ -17,7 +18,7 @@ public static class DotnetFormatter
         if (!string.IsNullOrWhiteSpace(editorConfigPath))
         {
 #pragma warning disable CS8604 // Possible null reference argument.
-            File.Copy(editorConfigPath, Path.Combine(Path.GetDirectoryName(projectPath), ".editorconfig"));
+            LogUtility.FileCopyAndLog(editorConfigPath, Path.Combine(Path.GetDirectoryName(projectPath), ".editorconfig"));
 #pragma warning restore CS8604 // Possible null reference argument.
         }
 

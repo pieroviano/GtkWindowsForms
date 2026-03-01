@@ -1,4 +1,5 @@
-﻿using UpdatePostProcessing.Model;
+﻿using Prepare.Common.Logging;
+using UpdatePostProcessing.Model;
 
 namespace UpdatePostProcessing.Services;
 
@@ -11,7 +12,7 @@ internal class SourcePathService
 
         if (!File.Exists(currentNew))
         {
-            Console.WriteLine($"Skipping (not found): {currentNew}");
+            YellowConsole.Write($"Skipping (not found): {currentNew}");
             return false;
         }
 

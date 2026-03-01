@@ -6,7 +6,7 @@ public static class DrawingService
 {
     public static void SeparateDrawing(string gtkDrawing)
     {
-        string resourcesNet4xGtkDrawingsCsproj = @$"..\..\..\Resources\{gtkDrawing}.csproj";
+        string resourcesNet4xGtkDrawingsCsproj = @$"..\..\..\..\Resources\{gtkDrawing}.csproj";
         string net4xGtkDrawings = @$"..\..\..\..\{gtkDrawing}";
         string net4xGtkDrawingsSystem = @$"..\..\..\..\{gtkDrawing}\System";
         string net4xGtkDrawingsSystemDrawing = @$"{net4xGtkDrawingsSystem}\Drawing";
@@ -26,6 +26,6 @@ public static class DrawingService
             excludedFolderFullPath: @$"{net4xGtkWindowsFormsSystemDrawing}\Printing"
         );
 
-        File.Copy(resourcesNet4xGtkDrawingsCsproj, @$"{net4xGtkDrawings}\{gtkDrawing}.csproj");
+        LogUtility.FileCopyAndLog(resourcesNet4xGtkDrawingsCsproj, @$"{net4xGtkDrawings}\{gtkDrawing}.csproj");
     }
 }

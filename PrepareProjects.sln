@@ -27,6 +27,54 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prepare.Tests", "Prepare.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E2D5C312-3316-4AAC-8CB8-4CF13F6502F0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1411EE5D-F774-46B3-8868-39145F0A3773}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\AutoClosingMessageBox.cs = Resources\AutoClosingMessageBox.cs
+		Resources\ControlExtension.cs = Resources\ControlExtension.cs
+		Resources\DialogEventArgs.cs = Resources\DialogEventArgs.cs
+		Resources\ExtensionsMessageBox.Static.cs = Resources\ExtensionsMessageBox.Static.cs
+		Resources\FormExtension.cs = Resources\FormExtension.cs
+		Resources\GridCell.cs = Resources\GridCell.cs
+		Resources\GtkWinFormsAppResources.Designer.cs = Resources\GtkWinFormsAppResources.Designer.cs
+		Resources\GtkWinFormsAppResources.xml = Resources\GtkWinFormsAppResources.xml
+		Resources\GtkWinFormsAppResources.zh-Hans.xml = Resources\GtkWinFormsAppResources.zh-Hans.xml
+		Resources\IMessageBox.cs = Resources\IMessageBox.cs
+		Resources\IntermediatePostProcessing.xml = Resources\IntermediatePostProcessing.xml
+		Resources\MessageBoxResources.de.xml = Resources\MessageBoxResources.de.xml
+		Resources\LatestPostProcessing.xml = Resources\LatestPostProcessing.xml
+		Resources\MessageBoxResources.Designer.cs = Resources\MessageBoxResources.Designer.cs
+		Resources\MessageBoxResources.es.xml = Resources\MessageBoxResources.es.xml
+		Resources\MessageBoxResources.fr.xml = Resources\MessageBoxResources.fr.xml
+		Resources\MessageBoxResources.it.xml = Resources\MessageBoxResources.it.xml
+		Resources\MessageBoxResources.xml = Resources\MessageBoxResources.xml
+		Resources\MessageBoxResources.zh-Hans.xml = Resources\MessageBoxResources.zh-Hans.xml
+		Resources\Net4x.Gtk.Drawing.csproj = Resources\Net4x.Gtk.Drawing.csproj
+		Resources\Net4x.Gtk.Drawing.xml = Resources\Net4x.Gtk.Drawing.xml
+		Resources\Net4x.Gtk.Windows.Forms.props = Resources\Net4x.Gtk.Windows.Forms.props
+		Resources\Net4x.Gtk.Windows.Forms.targets = Resources\Net4x.Gtk.Windows.Forms.targets
+		Resources\Net4x.Gtk.Windows.Forms.xml = Resources\Net4x.Gtk.Windows.Forms.xml
+		Resources\NonStaticMessageBox.cs = Resources\NonStaticMessageBox.cs
+		Resources\PostProcessing.xml = Resources\PostProcessing.xml
+		Resources\ProjectDescription.txt = Resources\ProjectDescription.txt
+		Resources\README.md = Resources\README.md
+		Resources\Resources.de.xml = Resources\Resources.de.xml
+		Resources\Resources.Designer.cs = Resources\Resources.Designer.cs
+		Resources\Resources.es.xml = Resources\Resources.es.xml
+		Resources\Resources.fr.xml = Resources\Resources.fr.xml
+		Resources\Resources.it.xml = Resources\Resources.it.xml
+		Resources\Resources.xml = Resources\Resources.xml
+		Resources\Resources.zh-Hans.xml = Resources\Resources.zh-Hans.xml
+		Resources\samplesTranslations.xml = Resources\samplesTranslations.xml
+		Resources\System.ComponentModel.cs = Resources\System.ComponentModel.cs
+		Resources\System.Drawing.xml = Resources\System.Drawing.xml
+		Resources\System.Resources.ResourceManager.cs = Resources\System.Resources.ResourceManager.cs
+		Resources\System.Windows.Forms.xml = Resources\System.Windows.Forms.xml
+		Resources\SystemResources.cs = Resources\SystemResources.cs
+		Resources\TestData1.en.json = Resources\TestData1.en.json
+		Resources\TestData1.json = Resources\TestData1.json
+		Resources\Translations.xml = Resources\Translations.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

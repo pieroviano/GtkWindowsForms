@@ -26,10 +26,10 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        ///  Imitates the backwards word selection logic of the native SHAutoComplete Ctrl+Backspace handler.
-        ///  The selection will consist of any run of word characters and any run of non-word characters at the end of that word.
-        ///  If the selection reaches the second character in the input, and the first character is non-word, it is also selected.
-        ///  Here, word characters are equivalent to the "\w" regex class but with UnicodeCategory.ConnectorPunctuation excluded.
+        /// Imitates the backwards word selection logic of the native SHAutoComplete Ctrl+Backspace handler.
+        /// The selection will consist of any run of word characters and any run of non-word characters at the end of that word.
+        /// If the selection reaches the second character in the input, and the first character is non-word, it is also selected.
+        /// Here, word characters are equivalent to the "\w" regex class but with UnicodeCategory.ConnectorPunctuation excluded.
         /// </summary>
         public static int GetWordBoundaryStart(string text, int endIndex)
         {

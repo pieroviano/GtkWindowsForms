@@ -6,56 +6,19 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Resources\AutoClosingMessageBox.cs" />
-		<Compile Remove="Resources\DeserializingResourceReader.cs" />
-		<Compile Remove="Resources\ControlExtension.cs" />
-		<Compile Remove="Resources\DialogEventArgs.cs" />
-		<Compile Remove="Resources\ExtensionsMessageBox.Static.cs" />
-		<Compile Remove="Resources\FormExtension.cs" />
-		<Compile Remove="Resources\GridCell.cs" />
-		<Compile Remove="Resources\GtkWinFormsAppResources.Designer.cs" />
-		<Compile Remove="Resources\IMessageBox.cs" />
-		<Compile Remove="Resources\MessageBoxResources.Designer.cs" />
-		<Compile Remove="Resources\NonStaticMessageBox.cs" />
-		<Compile Remove="Resources\Resources.Designer.cs" />
-		<Compile Remove="Resources\System.ComponentModel.cs" />
-		<Compile Remove="Resources\System.Resources.ResourceManager.cs" />
-		<Compile Remove="Resources\SystemResources.cs" />
-		<Compile Remove="Resources\TreeView.cs" />
+	  <Compile Remove="Resources\**" />
+	  <EmbeddedResource Remove="Resources\**" />
+	  <None Remove="Resources\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Resources\AutoClosingMessageBox.cs" />
 	  <Content Include="Resources\ControlExtension.cs" Condition="Exists('Resources\ControlExtension.cs')" />
 	  <Content Include="Resources\DeserializingResourceReader.cs" Condition="Exists('Resources\DeserializingResourceReader.cs')" />
-	  <Content Include="Resources\DialogEventArgs.cs" />
-	  <Content Include="Resources\ExtensionsMessageBox.Static.cs" />
-	  <Content Include="Resources\FormExtension.cs" />
-	  <Content Include="Resources\GridCell.cs" />
-	  <Content Include="Resources\IMessageBox.cs" />
-	  <Content Include="Resources\MessageBoxResources.Designer.cs" />
-	  <Content Include="Resources\NonStaticMessageBox.cs" />
-	  <Content Include="Resources\Resources.Designer.cs" />
-	  <Content Include="Resources\SystemResources.cs" />
 	  <Content Include="Resources\TreeView.cs" Condition="Exists('Resources\TreeView.cs')" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="Resources\System.ComponentModel.cs" />
-		<EmbeddedResource Include="Resources\System.Resources.ResourceManager.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="Resources\GtkWinFormsAppResources.xml" />
-		<EmbeddedResource Include="Resources\GtkWinFormsAppResources.zh-Hans.xml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Include="Resources\GtkWinFormsAppResources.Designer.cs" />
-	  <None Include="Resources\Net4x.Gtk.Drawing.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -64,24 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="PostProcessing.xml">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+	  <Folder Include="Properties\" />
 	</ItemGroup>
 
 </Project>

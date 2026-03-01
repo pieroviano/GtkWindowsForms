@@ -1,5 +1,4 @@
-﻿using XmlDocSync;
-using XmlDocSync.Formatters;
+﻿using XmlDocSync.Formatters;
 
 namespace Prepare.Tests
 {

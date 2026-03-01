@@ -230,7 +230,7 @@ Based on GTKSystem.Windows.Forms:
         </Compile>
     </ItemGroup>
     <ItemGroup>
-        <None Include="..\PrepareProjects\Resources\README.md">
+        <None Include="..\Resources\README.md">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>

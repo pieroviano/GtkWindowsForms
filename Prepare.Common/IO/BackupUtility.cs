@@ -2,36 +2,38 @@ namespace Prepare.Common.IO;
 
 public static class BackupUtility
 {
-    public const string LatestPostProcessing = "LatestPostProcessing.xml";
-    public const string PostProcessing = "PostProcessing.xml";
-    public const string LatestBackup = "LatestBackup";
-    public const string Backup = "Backup";
-    public const string Files = "Files";
+    public static string LatestPostProcessing => "LatestPostProcessing.xml";
+    public static string IntermediatePostProcessing => "IntermediatePostProcessing.xml";
+    public static string PostProcessing => "PostProcessing.xml";
+    public static string LatestBackup => "LatestBackup";
+    public static string IntermediateBackup => "IntermediateBackup";
+    public static string Backup => "Backup";
+    public static string Files => "Files";
 
-    public static void CleanBackup(string projectDirectory, string backupName)
+    public static void CleanBackup(string directory, string backupName)
     {
-        projectDirectory = GetBackupFullPath(projectDirectory, backupName);
-        if (Directory.Exists(projectDirectory))
+        directory = GetBackupFullPath(directory, backupName);
+        if (Directory.Exists(directory))
         {
-            Directory.Delete(projectDirectory, true);
+            Directory.Delete(directory, true);
         }
     }
 
-    public static void CleanBackupEmptyFolders(string projectDirectory, string backupName)
+    public static void CleanBackupEmptyFolders(string directory, string backupName)
     {
-        projectDirectory = GetBackupFullPath(projectDirectory, backupName);
+        directory = GetBackupFullPath(directory, backupName);
 
-        CleanEmptyFolders(projectDirectory);
+        CleanEmptyFolders(directory);
     }
 
-    public static void CleanEmptyFolders(string projectDirectory)
+    public static void CleanEmptyFolders(string directory)
     {
-        if (!Directory.Exists(projectDirectory))
+        if (!Directory.Exists(directory))
         {
             return;
         }
 
-        var root = new DirectoryInfo(projectDirectory);
+        var root = new DirectoryInfo(directory);
 
         // Get all directories ordered by depth (deepest first)
         var directories = root
@@ -67,7 +69,7 @@ public static class BackupUtility
 #pragma warning disable CS8604 // Possible null reference argument.
         Directory.CreateDirectory(directoryName);
 #pragma warning restore CS8604 // Possible null reference argument.
-        File.Copy(fullPath, newFullPath);
+        LogUtility.FileCopyAndLog(fullPath, newFullPath);
         return newFullPath;
     }
 

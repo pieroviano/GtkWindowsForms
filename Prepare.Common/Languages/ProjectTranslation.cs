@@ -16,7 +16,7 @@ public static class ProjectTranslation
 
     private static List<KeyValuePair<string, string>> LoadRawTranslations(string? rawTranslationsName)
     {
-        var translationsPath = Path.GetFullPath(@$"..\..\..\{rawTranslationsName}.xml");
+        var translationsPath = Path.GetFullPath(@$"..\..\..\..\Resources\{rawTranslationsName}.xml");
         var rawTranslations = TranslationsHelper.LoadTranslations(translationsPath);
         return rawTranslations;
     }

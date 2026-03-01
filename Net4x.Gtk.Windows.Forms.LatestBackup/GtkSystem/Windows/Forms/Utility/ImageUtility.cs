@@ -143,11 +143,16 @@ namespace GtkSystem.Windows.Forms.Utility
         /// <summary>
         /// PictureBox image display mode
         /// </summary>
-        /// <param name="srcImageBytes"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="destImage"></param>
-        /// <param name="sizeMode"></param>
+        /// <param name="srcImageBytes">
+        /// </param>
+        /// <param name="width">
+        /// </param>
+        /// <param name="height">
+        /// </param>
+        /// <param name="destImage">
+        /// </param>
+        /// <param name="sizeMode">
+        /// </param>
         public static void ScaleImageByPictureBoxSizeMode(byte[] srcImageBytes, int width, int height, out Gdk.Pixbuf destImage, PictureBoxSizeMode sizeMode)
         {
             Gdk.Pixbuf srcPixbuf = new Gdk.Pixbuf(srcImageBytes);
@@ -157,11 +162,16 @@ namespace GtkSystem.Windows.Forms.Utility
         /// <summary>
         /// PictureBox image display mode
         /// </summary>
-        /// <param name="srcPixbuf"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="destImage"></param>
-        /// <param name="sizeMode"></param>
+        /// <param name="srcPixbuf">
+        /// </param>
+        /// <param name="width">
+        /// </param>
+        /// <param name="height">
+        /// </param>
+        /// <param name="destImage">
+        /// </param>
+        /// <param name="sizeMode">
+        /// </param>
         public static void ScaleImageByPictureBoxSizeMode(Gdk.Pixbuf srcPixbuf, int width, int height, out Gdk.Pixbuf destImage, PictureBoxSizeMode sizeMode)
         {
             using (var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
@@ -209,11 +219,16 @@ namespace GtkSystem.Windows.Forms.Utility
         /// <summary>
         /// Background image display mode
         /// </summary>
-        /// <param name="srcImageBytes"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="destImage"></param>
-        /// <param name="layoutMode"></param>
+        /// <param name="srcImageBytes">
+        /// </param>
+        /// <param name="width">
+        /// </param>
+        /// <param name="height">
+        /// </param>
+        /// <param name="destImage">
+        /// </param>
+        /// <param name="layoutMode">
+        /// </param>
         public static void ScaleImageByImageLayout(byte[] srcImageBytes, int width, int height, out Gdk.Pixbuf destImage, ImageLayout layoutMode)
         {
             Gdk.Pixbuf srcPixbuf = new Gdk.Pixbuf(srcImageBytes);
@@ -223,11 +238,16 @@ namespace GtkSystem.Windows.Forms.Utility
         /// <summary>
         /// Background image display mode
         /// </summary>
-        /// <param name="srcPixbuf"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="destImage"></param>
-        /// <param name="layoutMode"></param>
+        /// <param name="srcPixbuf">
+        /// </param>
+        /// <param name="width">
+        /// </param>
+        /// <param name="height">
+        /// </param>
+        /// <param name="destImage">
+        /// </param>
+        /// <param name="layoutMode">
+        /// </param>
         public static void ScaleImageByImageLayout(Gdk.Pixbuf srcPixbuf, int width, int height, out Gdk.Pixbuf destImage, ImageLayout layoutMode)
         {
             using (var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))

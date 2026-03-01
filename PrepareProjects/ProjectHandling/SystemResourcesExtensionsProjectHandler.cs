@@ -1,6 +1,5 @@
 using System.Xml.Linq;
 using Prepare.Common.IO;
-using PrepareProjects.Preparation;
 using PrepareProjects.Preparation.Source;
 
 namespace PrepareProjects.ProjectHandling;

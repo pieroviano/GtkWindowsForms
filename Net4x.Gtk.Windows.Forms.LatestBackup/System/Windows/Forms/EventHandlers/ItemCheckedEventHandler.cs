@@ -5,8 +5,12 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    ///  Represents a method that will handle the <c>ItemCheck</c>
-    ///  event of a <see cref='CheckedListBox'/> or <see cref='ListView'/>.
+    /// Represents a method that will handle the
+    /// <c>ItemCheck
+    /// </c>
+    /// event of a
+    /// <see cref="CheckedListBox" /> or
+    /// <see cref="ListView" />.
     /// </summary>
     public delegate void ItemCheckedEventHandler(object sender, ItemCheckedEventArgs e);
 }
