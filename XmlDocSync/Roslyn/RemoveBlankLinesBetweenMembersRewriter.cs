@@ -22,7 +22,7 @@ public class RemoveBlankLinesBetweenMembersRewriter : CSharpSyntaxRewriter
 
         var newMembers = members.ToList();
 
-        for (int i = 1; i < newMembers.Count; i++)
+        for (var i = 1; i < newMembers.Count; i++)
         {
             var member = newMembers[i];
             var leadingTrivia = member.GetLeadingTrivia();
@@ -39,7 +39,7 @@ public class RemoveBlankLinesBetweenMembersRewriter : CSharpSyntaxRewriter
     private static SyntaxTriviaList CollapseLeadingBlankLines(SyntaxTriviaList trivia)
     {
         var newTrivia = new SyntaxTriviaList();
-        bool previousWasEndOfLine = false;
+        var previousWasEndOfLine = false;
 
         foreach (var t in trivia)
         {

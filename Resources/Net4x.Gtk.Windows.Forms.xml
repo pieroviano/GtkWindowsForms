@@ -175,91 +175,111 @@
             <summary>
             PictureBox image display mode
             </summary>
-            <param name="srcImageBytes"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="destImage"></param>
-            <param name="sizeMode"></param>
+            <param name="srcImageBytes">
+            </param>
+            <param name="width">
+            </param>
+            <param name="height">
+            </param>
+            <param name="destImage">
+            </param>
+            <param name="sizeMode">
+            </param>
         </member>
         <member name="M:GtkSystem.Windows.Forms.Utility.ImageUtility.ScaleImageByPictureBoxSizeMode(Gdk.Pixbuf,System.Int32,System.Int32,Gdk.Pixbuf@,System.Windows.Forms.PictureBoxSizeMode)">
             <summary>
             PictureBox image display mode
             </summary>
-            <param name="srcPixbuf"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="destImage"></param>
-            <param name="sizeMode"></param>
+            <param name="srcPixbuf">
+            </param>
+            <param name="width">
+            </param>
+            <param name="height">
+            </param>
+            <param name="destImage">
+            </param>
+            <param name="sizeMode">
+            </param>
         </member>
         <member name="M:GtkSystem.Windows.Forms.Utility.ImageUtility.ScaleImageByImageLayout(System.Byte[],System.Int32,System.Int32,Gdk.Pixbuf@,System.Windows.Forms.ImageLayout)">
             <summary>
             Background image display mode
             </summary>
-            <param name="srcImageBytes"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="destImage"></param>
-            <param name="layoutMode"></param>
+            <param name="srcImageBytes">
+            </param>
+            <param name="width">
+            </param>
+            <param name="height">
+            </param>
+            <param name="destImage">
+            </param>
+            <param name="layoutMode">
+            </param>
         </member>
         <member name="M:GtkSystem.Windows.Forms.Utility.ImageUtility.ScaleImageByImageLayout(Gdk.Pixbuf,System.Int32,System.Int32,Gdk.Pixbuf@,System.Windows.Forms.ImageLayout)">
             <summary>
             Background image display mode
             </summary>
-            <param name="srcPixbuf"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="destImage"></param>
-            <param name="layoutMode"></param>
+            <param name="srcPixbuf">
+            </param>
+            <param name="width">
+            </param>
+            <param name="height">
+            </param>
+            <param name="destImage">
+            </param>
+            <param name="layoutMode">
+            </param>
         </member>
         <member name="T:System.Windows.Forms.Properties.MessageBoxResources">
             <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
+            A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Properties.MessageBoxResources.ResourceManager">
             <summary>
-              Returns the cached ResourceManager instance used by this class.
+            Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Culture">
             <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
+            Overrides the current thread's CurrentUICulture property for all
+            resource lookups using this strongly typed resource class.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel">
             <summary>
-              Looks up a localized string similar to Cancel.
+            Looks up a localized string similar to Cancel.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Close">
             <summary>
-              Looks up a localized string similar to Close.
+            Looks up a localized string similar to Close.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Help">
             <summary>
-              Looks up a localized string similar to Help.
+            Looks up a localized string similar to Help.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_No">
             <summary>
-              Looks up a localized string similar to No.
+            Looks up a localized string similar to No.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_OK">
             <summary>
-              Looks up a localized string similar to OK.
+            Looks up a localized string similar to OK.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Reject">
             <summary>
-              Looks up a localized string similar to Reject.
+            Looks up a localized string similar to Reject.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Yes">
             <summary>
-              Looks up a localized string similar to Yes.
+            Looks up a localized string similar to Yes.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.Application">
@@ -3385,7 +3405,23 @@
             <see cref="T:System.Windows.Forms.ControlBindingsCollection" />
             </exception>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.Control" -->
+        <member name="T:System.Windows.Forms.Control">
+            <summary>
+            Defines the base class for controls, which are components with visual representation.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Defines the base class for controls, which are components with visual representation.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Defines the base class for controls, which are components with visual representation.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+        </member>
         <member name="T:System.Windows.Forms.Control.ControlCollection">
             <summary>
             Represents a collection of
@@ -5708,158 +5744,176 @@
             </param>
         </member>
         <member name="T:System.Windows.Forms.ItemArray">
-             <summary>
-              This is similar to ArrayList except that it also
-              maintains a bit-flag based state element for each item
-              in the array.
-            
-              The methods to enumerate, count and get data support
-              virtualized indexes.  Indexes are virtualized according
-              to the state mask passed in.  This allows ItemArray
-              to be the backing store for one read-write "master"
-              collection and several read-only collections based
-              on masks.  ItemArray supports up to 31 masks.
-             </summary>
+            <summary>
+            This is similar to ArrayList except that it also
+            maintains a bit-flag based state element for each item in the array.
+            The methods to enumerate, count and get data support
+            virtualized indexes.  Indexes are virtualized according
+            to the state mask passed in.  This allows ItemArray
+            to be the backing store for one read-write "master"
+            collection and several read-only collections based
+            on masks.  ItemArray supports up to 31 masks.
+            </summary>
+            <summary>
+            This is similar to ArrayList except that it also
+            maintains a bit-flag based state element for each item in the array.
+            The methods to enumerate, count and get data support
+            virtualized indexes.  Indexes are virtualized according
+            to the state mask passed in.  This allows ItemArray
+            to be the backing store for one read-write "master"
+            collection and several read-only collections based
+            on masks.  ItemArray supports up to 31 masks.
+            </summary>
+            <summary>
+            This is similar to ArrayList except that it also
+            maintains a bit-flag based state element for each item in the array.
+            The methods to enumerate, count and get data support
+            virtualized indexes.  Indexes are virtualized according
+            to the state mask passed in.  This allows ItemArray
+            to be the backing store for one read-write "master"
+            collection and several read-only collections based
+            on masks.  ItemArray supports up to 31 masks.
+            </summary>
         </member>
         <member name="P:System.Windows.Forms.ItemArray.Version">
             <summary>
-             The version of this array.  This number changes with each
-             change to the item list.
+            The version of this array.  This number changes with each
+            change to the item list.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Add(System.Object)">
             <summary>
-             Adds the given item to the array.  The state is initially
-             zero.
+            Adds the given item to the array.  The state is initially
+            zero.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Clear">
             <summary>
-             Clears this array.
+            Clears this array.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.CreateMask">
             <summary>
-             Allocates a new bitmask for use.
+            Allocates a new bitmask for use.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetActualIndex(System.Int32,System.Int32)">
             <summary>
-             Turns a virtual index into an actual index.
+            Turns a virtual index into an actual index.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.ItemArray.Count">
             <summary>
-             Gets the main count
+            Gets the main count
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetCount(System.Int32)">
             <summary>
-             Gets the count of items matching the given mask.
+            Gets the count of items matching the given mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetEnumerator(System.Int32)">
             <summary>
-             Retrieves an enumerator that will enumerate based on
-             the given mask.
+            Retrieves an enumerator that will enumerate based on
+            the given mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetEnumerator(System.Int32,System.Boolean)">
             <summary>
-             Retrieves an enumerator that will enumerate based on
-             the given mask.
+            Retrieves an enumerator that will enumerate based on
+            the given mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetItem(System.Int32,System.Int32)">
             <summary>
-             Gets the item at the given index.  The index is
-             virtualized against the given mask value.
+            Gets the item at the given index.  The index is
+            virtualized against the given mask value.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetEntryObject(System.Int32,System.Int32)">
             <summary>
-             Gets the item at the given index.  The index is
-             virtualized against the given mask value.
+            Gets the item at the given index.  The index is
+            virtualized against the given mask value.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.GetState(System.Int32,System.Int32)">
             <summary>
-             Returns true if the requested state mask is set.
-             The index is the actual index to the array.
+            Returns true if the requested state mask is set.
+            The index is the actual index to the array.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.IndexOf(System.Object,System.Int32)">
             <summary>
-             Returns the virtual index of the item based on the
-             state mask.
+            Returns the virtual index of the item based on the
+            state mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Insert(System.Int32,System.Object)">
             <summary>
-             Inserts item at the given index.  The index
-             is not virtualized.
+            Inserts item at the given index.  The index
+            is not virtualized.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Remove(System.Object)">
             <summary>
-             Removes the given item from the array.  If
-             the item is not in the array, this does nothing.
+            Removes the given item from the array.  If
+            the item is not in the array, this does nothing.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.RemoveAt(System.Int32)">
             <summary>
-             Removes the item at the given index.
+            Removes the item at the given index.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.SetItem(System.Int32,System.Object)">
             <summary>
-             Sets the item at the given index to a new value.
+            Sets the item at the given index to a new value.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.SetState(System.Int32,System.Int32,System.Boolean)">
             <summary>
-             Sets the state data for the given index.
+            Sets the state data for the given index.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.BinarySearch(System.Windows.Forms.ItemArray.Entry)">
             <summary>
-             Find element in sorted array. If element is not found returns a binary complement of index for inserting
+            Find element in sorted array. If element is not found returns a binary complement of index for inserting
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.Sort">
             <summary>
-             Sorts our array.
+            Sorts our array.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ItemArray.Entry">
             <summary>
-             This is a single entry in our item array.
+            This is a single entry in our item array.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ItemArray.EntryEnumerator">
             <summary>
-             EntryEnumerator is an enumerator that will enumerate over
-             a given state mask.
+            EntryEnumerator is an enumerator that will enumerate over
+            a given state mask.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.EntryEnumerator.#ctor(System.Windows.Forms.ItemArray,System.Int32,System.Boolean)">
             <summary>
-             Creates a new enumerator that will enumerate over the given state.
+            Creates a new enumerator that will enumerate over the given state.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.EntryEnumerator.System#Collections#IEnumerator#MoveNext">
             <summary>
-             Moves to the next element, or returns false if at the end.
+            Moves to the next element, or returns false if at the end.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ItemArray.EntryEnumerator.System#Collections#IEnumerator#Reset">
             <summary>
-             Resets the enumeration back to the beginning.
+            Resets the enumeration back to the beginning.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.ItemArray.EntryEnumerator.System#Collections#IEnumerator#Current">
             <summary>
-             Retrieves the current value in the enumerator.
+            Retrieves the current value in the enumerator.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ListBindingHelper">
@@ -6082,6 +6136,26 @@
             It tries to optimize for size first, "get" access second, and
             "set" access third.
             </summary>
+            <summary>
+            This is a small class that can efficiently store property values.
+            It tries to optimize for size first, "get" access second, and
+            "set" access third.
+            </summary>
+            <summary>
+            This is a small class that can efficiently store property values.
+            It tries to optimize for size first, "get" access second, and
+            "set" access third.
+            </summary>
+            <summary>
+            This is a small class that can efficiently store property values.
+            It tries to optimize for size first, "get" access second, and
+            "set" access third.
+            </summary>
+            <summary>
+            This is a small class that can efficiently store property values.
+            It tries to optimize for size first, "get" access second, and
+            "set" access third.
+            </summary>
         </member>
         <member name="M:System.Windows.Forms.PropertyStore.ContainsInteger(System.Int32)">
             <summary>
@@ -6162,8 +6236,8 @@
             Will be set to null if the key is not present.
             </param>
             <remarks>
-            <para>
-            If a null value is set for a given key it will return true and a null value.
+            <para>If a null value is set for a given key
+            it will return true and a null value.
             </para>
             </remarks>
             <returns>True if an object (including null) is found for the given key; otherwise, false.
@@ -14437,31 +14511,31 @@
         </member>
         <member name="P:System.Windows.Forms.Design.IOleDragClient.CanModifyComponents">
             <summary>
-             Checks if the client is read only.  That is, if components can
-             be added or removed from the designer.
+            Checks if the client is read only.  That is, if components can
+            be added or removed from the designer.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.Design.IOleDragClient.AddComponent(System.ComponentModel.IComponent,System.String,System.Boolean)">
             <summary>
-             Retrieves the control view instance for the designer that
-             is hosting the drag.
+            Retrieves the control view instance for the designer that
+            is hosting the drag.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.Design.IOleDragClient.IsDropOk(System.ComponentModel.IComponent)">
             <summary>
-             Checks if it is valid to drop this type of a component on this client.
+            Checks if it is valid to drop this type of a component on this client.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.Design.IOleDragClient.GetDesignerControl">
             <summary>
-             Retrieves the control view instance for the designer that
-             is hosting the drag.
+            Retrieves the control view instance for the designer that
+            is hosting the drag.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.Design.IOleDragClient.GetControlForComponent(System.Object)">
             <summary>
-             Retrieves the control view instance for the given component.
-             For Win32 designer, this will often be the component itself.
+            Retrieves the control view instance for the given component.
+            For Win32 designer, this will often be the component itself.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.Design.ParentControlDesigner">
@@ -14479,7 +14553,8 @@
         </member>
         <member name="T:System.Windows.Forms.Design.UserControlDocumentDesigner">
             <summary>
-             <para>Provides a base implementation of a designer for user controls.</para>
+            <para>Provides a base implementation of a designer for user controls.
+            </para>
             </summary>
         </member>
         <member name="T:System.Windows.Forms.Design.PropertyTab">
@@ -15111,107 +15186,103 @@
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
             <summary>
-             Displays a message box with specified text, caption, and style with Help Button.
+            Displays a message box with specified text, caption, and style with Help Button.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
             <summary>
-             Displays a message box with specified text, caption, style and Help file Path .
+            Displays a message box with specified text, caption, style and Help file Path .
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
             <summary>
-             Displays a message box with specified text, caption, style and Help file Path for a IWin32Window.
+            Displays a message box with specified text, caption, style and Help file Path for a IWin32Window.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
             <summary>
-             Displays a message box with specified text, caption, style, Help file Path and keyword.
+            Displays a message box with specified text, caption, style, Help file Path and keyword.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
             <summary>
-             Displays a message box with specified text, caption, style, Help file Path and keyword for a IWin32Window.
+            Displays a message box with specified text, caption, style, Help file Path and keyword for a IWin32Window.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
             <summary>
-             Displays a message box with specified text, caption, style, Help file Path and HelpNavigator.
+            Displays a message box with specified text, caption, style, Help file Path and HelpNavigator.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
             <summary>
-             Displays a message box with specified text, caption, style, Help file Path and HelpNavigator for IWin32Window.
+            Displays a message box with specified text, caption, style, Help file Path and HelpNavigator for IWin32Window.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
             <summary>
-             Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object.
+            Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
             <summary>
-             Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object for a IWin32Window.
+            Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object for a IWin32Window.
             </summary>
         </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
-            <summary>
-             Displays a message box with specified text, caption, and style.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)" -->
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
             <summary>
-             Displays a message box with specified text, caption, and style.
+            Displays a message box with specified text, caption, and style.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
             <summary>
-             Displays a message box with specified text, caption, and style.
+            Displays a message box with specified text, caption, and style.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
             <summary>
-             Displays a message box with specified text, caption, and style.
+            Displays a message box with specified text, caption, and style.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String)">
             <summary>
-             Displays a message box with specified text and caption.
+            Displays a message box with specified text and caption.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String)">
             <summary>
-             Displays a message box with specified text.
+            Displays a message box with specified text.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
             <summary>
-             Displays a message box with specified text, caption, and style.
+            Displays a message box with specified text, caption, and style.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
             <summary>
-             Displays a message box with specified text, caption, and style.
+            Displays a message box with specified text, caption, and style.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
             <summary>
-             Displays a message box with specified text, caption, and style.
+            Displays a message box with specified text, caption, and style.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
             <summary>
-             Displays a message box with specified text, caption, and style.
+            Displays a message box with specified text, caption, and style.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String)">
             <summary>
-             Displays a message box with specified text and caption.
+            Displays a message box with specified text and caption.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String)">
             <summary>
-             Displays a message box with specified text.
+            Displays a message box with specified text.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.MessageBoxButtons">
@@ -16537,9 +16608,6 @@
         <member name="T:System.Windows.Forms.DataGridViewTriState">
             <summary>
             Defines values for specifying how the width of a column is adjusted.
-            </summary>
-            <summary>
-            Defines values for specifying one of three possible states.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.DataGridViewTriState.NotSet">
@@ -18135,7 +18203,8 @@
         </member>
         <member name="T:System.Windows.Forms.LeftRightAlignment">
             <summary>
-            Specifies whether an object or text is aligned to the left or
+            Specifies whether an object or text is aligned to
+            the left or
             right of a reference point.
             </summary>
         </member>
@@ -18267,7 +18336,7 @@
             2
             </filterpriority>
         </member>
-        <member name="F:System.Windows.Forms.Message.s_allWinMessages">
+        <member name="P:System.Windows.Forms.Message.HWnd">
             <summary>
             Gets or sets the window handle of the message.
             </summary>
@@ -23547,283 +23616,366 @@
         </member>
         <member name="T:System.Windows.Forms.CacheVirtualItemsEventHandler">
             <summary>
-             Represents a method that will handle the <see cref="!:ListView.CacheVirtualItems"/> event of a <see cref="T:System.Windows.Forms.ListView"/>.
+            Represents a method that will handle the
+            <see cref="!:ListView.CacheVirtualItems" /> event of a
+            <see cref="T:System.Windows.Forms.ListView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ContentsResizedEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:RichTextBox.ContentsResized'/>
-             event of a <see cref='T:System.Windows.Forms.RichTextBox'/>.
+            Represents a method that will handle the
+            <see cref="!:RichTextBox.ContentsResized" />
+            event of a
+            <see cref="T:System.Windows.Forms.RichTextBox" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ControlEventHandler">
             <summary>
-             Describes a delegate for an event that has a ControlEventArgs as
-             a parameter.
+            Describes a delegate for an event that has a ControlEventArgs as
+            a parameter.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.DpiChangedEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:Control.DpiChanged'/>,
-            <see cref='!:Control.DpiChanged'/>, or <see cref='!:Control.DpiChanged'/>
-             event of a <see cref='T:System.Windows.Forms.Control'/>.
+            Represents a method that will handle the
+            <see cref="!:Control.DpiChanged" />,
+            <see cref="!:Control.DpiChanged" />, or
+            <see cref="!:Control.DpiChanged" />
+            event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.DragEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='E:System.Windows.Forms.Control.DragDrop'/>,
-            <see cref='E:System.Windows.Forms.Control.DragEnter'/>, or <see cref='E:System.Windows.Forms.Control.DragOver'/>
-             event of a <see cref='T:System.Windows.Forms.Control'/>.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.Control.DragDrop" />,
+            <see cref="E:System.Windows.Forms.Control.DragEnter" />, or
+            <see cref="E:System.Windows.Forms.Control.DragOver" />
+            event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.FormClosedEventHandler">
             <summary>
-             Represents a method that will handle Form closed event.
+            Represents a method that will handle Form closed event.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.FormClosingEventHandler">
             <summary>
-             Represents a method that will handle Form Closing event.
+            Represents a method that will handle Form Closing event.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.GiveFeedbackEventHandler">
             <summary>
-             Represents a method that handles the <see cref='E:System.Windows.Forms.Control.GiveFeedback'/>
-             event of a <see cref='T:System.Windows.Forms.Control'/>.
+            Represents a method that handles the
+            <see cref="E:System.Windows.Forms.Control.GiveFeedback" />
+            event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.HelpEventHandler">
             <summary>
-             Represents a method that will handle the <see cref="E:System.Windows.Forms.Control.HelpRequested"/> event of a <see cref="T:System.Windows.Forms.Control"/>.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.Control.HelpRequested" /> event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.InputLanguageChangedEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:Form.InputLanguageChanged'/>
-             event of a <see cref='T:System.Windows.Forms.Form'/>.
+            Represents a method that will handle the
+            <see cref="!:Form.InputLanguageChanged" />
+            event of a
+            <see cref="T:System.Windows.Forms.Form" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.InputLanguageChangingEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:Form.InputLanguageChanging'/> event of a <see cref='T:System.Windows.Forms.Form'/>.
+            Represents a method that will handle the
+            <see cref="!:Form.InputLanguageChanging" /> event of a
+            <see cref="T:System.Windows.Forms.Form" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.InvalidateEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='M:System.Windows.Forms.Control.Invalidate'/>
-             event of a <see cref='T:System.Windows.Forms.Control'/>.
+            Represents a method that will handle the
+            <see cref="M:System.Windows.Forms.Control.Invalidate" />
+            event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ItemCheckedEventHandler">
             <summary>
-             Represents a method that will handle the <c>ItemCheck</c>
-             event of a <see cref='T:System.Windows.Forms.CheckedListBox'/> or <see cref='T:System.Windows.Forms.ListView'/>.
+            Represents a method that will handle the
+            <c>ItemCheck
+            </c>
+            event of a
+            <see cref="T:System.Windows.Forms.CheckedListBox" /> or
+            <see cref="T:System.Windows.Forms.ListView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ItemCheckEventHandler">
             <summary>
-             Represents a method that will handle the <c>ItemCheck</c>
-             event of a  <see cref='T:System.Windows.Forms.CheckedListBox'/> or <see cref='T:System.Windows.Forms.ListView'/>.
+            Represents a method that will handle the
+            <c>ItemCheck
+            </c>
+            event of a
+            <see cref="T:System.Windows.Forms.CheckedListBox" /> or
+            <see cref="T:System.Windows.Forms.ListView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ItemDragEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:ListView.OnItemDrag'/>
-             event of a  <see cref='T:System.Windows.Forms.ListView'/>.
+            Represents a method that will handle the
+            <see cref="!:ListView.OnItemDrag" />
+            event of a
+            <see cref="T:System.Windows.Forms.ListView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.KeyEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='E:System.Windows.Forms.Control.KeyUp'/>
-             or <see cref='E:System.Windows.Forms.Control.KeyDown'/> event of a
-            <see cref='T:System.Windows.Forms.Control'/>.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.Control.KeyUp" />
+            or
+            <see cref="E:System.Windows.Forms.Control.KeyDown" /> event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.KeyPressEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='E:System.Windows.Forms.Control.KeyPress'/>
-             event of a <see cref='T:System.Windows.Forms.Control'/>.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.Control.KeyPress" />
+            event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.LabelEditEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='P:System.Windows.Forms.ListView.LabelEdit'/>
-             event of a <see cref='T:System.Windows.Forms.ListView'/>.
+            Represents a method that will handle the
+            <see cref="P:System.Windows.Forms.ListView.LabelEdit" />
+            event of a
+            <see cref="T:System.Windows.Forms.ListView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.LinkClickedEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:RichTextBox.LinkClicked'/>
-             event of a <see cref='T:System.Windows.Forms.RichTextBox'/>.
+            Represents a method that will handle the
+            <see cref="!:RichTextBox.LinkClicked" />
+            event of a
+            <see cref="T:System.Windows.Forms.RichTextBox" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.LinkLabelLinkClickedEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='E:System.Windows.Forms.LinkLabel.LinkClicked'/> event of a <see cref='T:System.Windows.Forms.LinkLabel'/>.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.LinkLabel.LinkClicked" /> event of a
+            <see cref="T:System.Windows.Forms.LinkLabel" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ListControlConvertEventHandler">
             <summary>
-             Represents a method that will handle the <see cref="E:System.Windows.Forms.ListControl.Format"/> event of a <see cref="T:System.Windows.Forms.ListControl"/>.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.ListControl.Format" /> event of a
+            <see cref="T:System.Windows.Forms.ListControl" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ListViewItemMouseHoverEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:ListView.ItemMouseHover'/>
-             event of a <see cref='T:System.Windows.Forms.ListView'/>.
+            Represents a method that will handle the
+            <see cref="!:ListView.ItemMouseHover" />
+            event of a
+            <see cref="T:System.Windows.Forms.ListView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ListViewItemSelectionChangedEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='E:System.Windows.Forms.ListView.ItemSelectionChanged'/>
-             event of a <see cref='T:System.Windows.Forms.ListView'/>.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.ListView.ItemSelectionChanged" />
+            event of a
+            <see cref="T:System.Windows.Forms.ListView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ListViewVirtualItemsSelectionRangeChangedEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:ListView.VirtualItemsSelectionRangeChanged'/>
-             event of a <see cref='T:System.Windows.Forms.ListView'/>.
+            Represents a method that will handle the
+            <see cref="!:ListView.VirtualItemsSelectionRangeChanged" />
+            event of a
+            <see cref="T:System.Windows.Forms.ListView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.MaskInputRejectedEventHandler">
             <summary>
-             Describes a delegate for an event that has a MaskInputRejectedEventArgs as
-             a parameter.
+            Describes a delegate for an event that has a MaskInputRejectedEventArgs as
+            a parameter.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.MouseEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='E:System.Windows.Forms.Control.MouseDown'/>,
-             <see cref='E:System.Windows.Forms.Control.MouseUp'/> or <see cref='E:System.Windows.Forms.Control.MouseMove'/> events of a form,
-             control or other component.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.Control.MouseDown" />,
+            <see cref="E:System.Windows.Forms.Control.MouseUp" /> or
+            <see cref="E:System.Windows.Forms.Control.MouseMove" /> events of a form,
+            control or other component.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.PaintEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='E:System.Windows.Forms.Control.Paint'/> event of a <see cref='T:System.Windows.Forms.Control'/> class.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.Control.Paint" /> event of a
+            <see cref="T:System.Windows.Forms.Control" /> class.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.PopupEventHandler">
             <summary>
-             Handler for the Popup event of the ToolTip control.
+            Handler for the Popup event of the ToolTip control.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.PreviewKeyDownEventHandler">
             <summary>
-             Represents a method that will handle <see cref="E:System.Windows.Forms.Control.PreviewKeyDown"/> event of a <see cref="T:System.Windows.Forms.Control"/>.
+            Represents a method that will handle
+            <see cref="E:System.Windows.Forms.Control.PreviewKeyDown" /> event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.PropertyValueChangedEventHandler">
             <summary>
-             The event handler class that is invoked when a property
-             in the grid is modified by the user.
+            The event handler class that is invoked when a property
+            in the grid is modified by the user.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.QueryContinueDragEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='E:System.Windows.Forms.Control.QueryContinueDrag'/>
-             event of a <see cref='T:System.Windows.Forms.Control'/>.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.Control.QueryContinueDrag" />
+            event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.QuestionEventHandler">
             <summary>
-             Describes a delegate for an event that has a QuestionEventArgs as
-             a parameter.
+            Describes a delegate for an event that has a QuestionEventArgs as
+            a parameter.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.RetrieveVirtualItemEventHandler">
             <summary>
-             Represents a method that will handle the <see cref="!:ListView.RetrieveVirtualItem"/> event
-             of a <see cref="T:System.Windows.Forms.ListView"/>.
+            Represents a method that will handle the
+            <see cref="!:ListView.RetrieveVirtualItem" /> event
+            of a
+            <see cref="T:System.Windows.Forms.ListView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ScrollEventHandler">
             <summary>
-             Represents a method that handles the <c>Scroll</c> event of a <see cref="T:System.Windows.Forms.ScrollBar"/>,
-             <see cref="T:System.Windows.Forms.TrackBar"/> or <see cref="T:System.Windows.Forms.DataGridView"/>.
+            Represents a method that handles the
+            <c>Scroll
+            </c> event of a
+            <see cref="T:System.Windows.Forms.ScrollBar" />,
+            <see cref="T:System.Windows.Forms.TrackBar" /> or
+            <see cref="T:System.Windows.Forms.DataGridView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.SplitterCancelEventHandler">
             <summary>
-             Represents a method that will handle splitter events.
+            Represents a method that will handle splitter events.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.SplitterEventHandler">
             <summary>
-             Represents a method that will handle splitter events.
+            Represents a method that will handle splitter events.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.TabControlCancelEventHandler">
             <summary>
-             Represents a method that handles the <see cref='!:TabControl.Deselected'/> and 
-             <see cref='!:TabControl.Deselecting'/> events of a <see cref='T:System.Windows.Forms.TabControl'/>.
+            Represents a method that handles the
+            <see cref="!:TabControl.Deselected" /> and
+            <see cref="!:TabControl.Deselecting" /> events of a
+            <see cref="T:System.Windows.Forms.TabControl" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.TabControlEventHandler">
             <summary>
-             Represents a method that handles the <see cref='!:TabControl.Selected'/> and 
-             <see cref='!:TabControl.Selecting'/> events of a <see cref='T:System.Windows.Forms.TabControl'/>.
+            Represents a method that handles the
+            <see cref="!:TabControl.Selected" /> and
+            <see cref="!:TabControl.Selecting" /> events of a
+            <see cref="T:System.Windows.Forms.TabControl" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.TreeNodeMouseClickEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:TreeView.OnNodeClick'/>,
-            <see cref='!:TreeView.OnNodeClick'/>, <see cref='!:TreeView.OnNodeClick'/>,
-             or <see cref='E:System.Windows.Forms.TreeView.BeforeSelect'/> event of a <see cref='T:System.Windows.Forms.TreeView'/>
+            Represents a method that will handle the
+            <see cref="!:TreeView.OnNodeClick" />,
+            <see cref="!:TreeView.OnNodeClick" />,
+            <see cref="!:TreeView.OnNodeClick" />,
+            or
+            <see cref="E:System.Windows.Forms.TreeView.BeforeSelect" /> event of a
+            <see cref="T:System.Windows.Forms.TreeView" />
             </summary>
         </member>
         <member name="T:System.Windows.Forms.TreeNodeMouseHoverEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:TreeView.NodeMouseHover'/>
-             event of a <see cref='T:System.Windows.Forms.TreeView'/>.
+            Represents a method that will handle the
+            <see cref="!:TreeView.NodeMouseHover" />
+            event of a
+            <see cref="T:System.Windows.Forms.TreeView" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.TreeViewCancelEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:TreeView.OnBeforeCheck'/>,
-            <see cref='!:TreeView.OnBeforeCollapse'/>, <see cref='!:TreeView.BeforeExpand'/>,
-             or <see cref='E:System.Windows.Forms.TreeView.BeforeSelect'/> event of a <see cref='T:System.Windows.Forms.TreeView'/>
+            Represents a method that will handle the
+            <see cref="!:TreeView.OnBeforeCheck" />,
+            <see cref="!:TreeView.OnBeforeCollapse" />,
+            <see cref="!:TreeView.BeforeExpand" />,
+            or
+            <see cref="E:System.Windows.Forms.TreeView.BeforeSelect" /> event of a
+            <see cref="T:System.Windows.Forms.TreeView" />
             </summary>
         </member>
         <member name="T:System.Windows.Forms.TreeViewEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='!:TreeView.OnAfterCheck'/>, <see cref='!:TreeView.OnAfterCollapse'/>, <see cref='!:TreeView.OnAfterExpand'/>, or <see cref='!:TreeView.OnAfterSelect'/>
-             event of a <see cref='T:System.Windows.Forms.TreeView'/>
+            Represents a method that will handle the
+            <see cref="!:TreeView.OnAfterCheck" />,
+            <see cref="!:TreeView.OnAfterCollapse" />,
+            <see cref="!:TreeView.OnAfterExpand" />, or
+            <see cref="!:TreeView.OnAfterSelect" />
+            event of a
+            <see cref="T:System.Windows.Forms.TreeView" />
             </summary>
         </member>
         <member name="T:System.Windows.Forms.TypeValidationEventHandler">
             <summary>
-             Describes a delegate for an event that has a TypeValidationEventArgs as a parameter.
+            Describes a delegate for an event that has a TypeValidationEventArgs as a parameter.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.UICuesEventHandler">
             <summary>
-             Represents a method that will handle the <see cref='E:System.Windows.Forms.Control.ChangeUICues'/> event of a <see cref='T:System.Windows.Forms.Control'/>.
+            Represents a method that will handle the
+            <see cref="E:System.Windows.Forms.Control.ChangeUICues" /> event of a
+            <see cref="T:System.Windows.Forms.Control" />.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.UpDownEventHandler">
             <summary>
-             A delegate for an updown event handler.
+            A delegate for an updown event handler.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.WebBrowserDocumentCompletedEventHandler">
             <summary>
-             Delegate to the WebBrowser DocumentCompleted event.
+            Delegate to the WebBrowser DocumentCompleted event.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.WebBrowserNavigatedEventHandler">
             <summary>
-             Delegate to the WebBrowser Navigated event.
+            Delegate to the WebBrowser Navigated event.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.WebBrowserNavigatingEventHandler">
             <summary>
-             Delegate to the WebBrowser Navigating event.
+            Delegate to the WebBrowser Navigating event.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.WebBrowserProgressChangedEventHandler">
             <summary>
-             Delegate to the WebBrowser ProgressChanged event.
+            Delegate to the WebBrowser ProgressChanged event.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.MessageBox">
@@ -25177,39 +25329,53 @@
             Toolbar. You can add either bitmaps or Icons to the ImageList, and the
             other controls will be able to use the Images as they desire.
             </summary>
+            <filterpriority>2
+            </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
             <filterpriority>2
             </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
             <filterpriority>2
             </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
             <filterpriority>2
             </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
             <filterpriority>2
             </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
             <filterpriority>2
             </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
             <filterpriority>2
             </filterpriority>
@@ -25321,7 +25487,7 @@
             <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
             </PermissionSet>
         </member>
-        <member name="P:System.Windows.Forms.ImageList.IsDisposed">
+        <member name="P:System.Windows.Forms.ImageList.Tag">
             <summary>
             Gets or sets an object that contains additional data about the
             <see cref="T:System.Windows.Forms.ImageList" />
@@ -25556,8 +25722,8 @@
         </member>
         <member name="M:System.Windows.Forms.ImageListConverter.GetPropertiesSupported(System.ComponentModel.ITypeDescriptorContext)">
             <summary>
-             Gets a value indicating whether this object supports properties using the
-             specified context.
+            Gets a value indicating whether this object supports properties using the
+            specified context.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ImageListStreamer">
@@ -25960,58 +26126,58 @@
         </member>
         <member name="P:System.Windows.Forms.Layout.IArrangedElement.Bounds">
             <summary>
-             Bounding rectangle of the element.
+            Bounding rectangle of the element.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.Layout.IArrangedElement.SetBounds(System.Drawing.Rectangle,System.Windows.Forms.BoundsSpecified)">
             <summary>
-             Sets the bounds for an element. Implementors should call
-             CommonProperties.SetSpecifiedBounds.
-             See Control.SetBoundsCore.
+            Sets the bounds for an element. Implementors should call
+            CommonProperties.SetSpecifiedBounds.
+            See Control.SetBoundsCore.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.Layout.IArrangedElement.GetPreferredSize(System.Drawing.Size)">
             <summary>
-             Query element for its preferred size.  There is no guarantee
-             that layout engine will assign the element the returned size.
-             ProposedSize is a hint about constraints.
+            Query element for its preferred size.  There is no guarantee
+            that layout engine will assign the element the returned size.
+            ProposedSize is a hint about constraints.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Layout.IArrangedElement.DisplayRectangle">
             <summary>
-             DisplayRectangle is the client area of a container element.
-             Could possibly disappear if we change control to keep an
-             up-to-date copy of display rectangle in the property store.
+            DisplayRectangle is the client area of a container element.
+            Could possibly disappear if we change control to keep an
+            up-to-date copy of display rectangle in the property store.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Layout.IArrangedElement.ParticipatesInLayout">
             <summary>
-             True if the element is currently visible (some layouts, like
-             flow, need to skip non-visible elements.)
+            True if the element is currently visible (some layouts, like
+            flow, need to skip non-visible elements.)
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Layout.IArrangedElement.Properties">
             <summary>
-             Internally, layout engines will get properties from the
-             property store on this interface.  In Orcas, this will be
-             replaced with a global PropertyManager for DPs.
+            Internally, layout engines will get properties from the
+            property store on this interface.  In Orcas, this will be
+            replaced with a global PropertyManager for DPs.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.Layout.IArrangedElement.PerformLayout(System.Windows.Forms.Layout.IArrangedElement,System.String)">
             <summary>
-             When an extender provided property is changed, we call this
-             method to update the layout on the element. In Orcas, we
-             will sync the DPs changed event.
+            When an extender provided property is changed, we call this
+            method to update the layout on the element. In Orcas, we
+            will sync the DPs changed event.
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Layout.IArrangedElement.Container">
             <summary>
-             Returns the element's parent container (on a control, this forwards to Parent)
+            Returns the element's parent container (on a control, this forwards to Parent)
             </summary>
         </member>
         <member name="P:System.Windows.Forms.Layout.IArrangedElement.Children">
             <summary>
-             Returns the element's children (on a control, this forwards to Controls)
+            Returns the element's children (on a control, this forwards to Controls)
             </summary>
         </member>
         <member name="T:System.Windows.Forms.LinkLabel">
@@ -27788,8 +27954,10 @@
         </member>
         <member name="T:System.Windows.Forms.ColumnClickEventHandler">
             <summary>
-             Represents a method that will handle the the <see cref='!:ListView.OnColumnClick'/>
-             event of a <see cref='T:System.Windows.Forms.ListView'/>
+            Represents a method that will handle the the
+            <see cref="!:ListView.OnColumnClick" />
+            event of a
+            <see cref="T:System.Windows.Forms.ListView" />
             </summary>
         </member>
         <member name="T:System.Windows.Forms.ColumnHeader">
@@ -31929,10 +32097,10 @@
         </member>
         <member name="M:System.Windows.Forms.ClientUtils.GetWordBoundaryStart(System.String,System.Int32)">
             <summary>
-             Imitates the backwards word selection logic of the native SHAutoComplete Ctrl+Backspace handler.
-             The selection will consist of any run of word characters and any run of non-word characters at the end of that word.
-             If the selection reaches the second character in the input, and the first character is non-word, it is also selected.
-             Here, word characters are equivalent to the "\w" regex class but with UnicodeCategory.ConnectorPunctuation excluded.
+            Imitates the backwards word selection logic of the native SHAutoComplete Ctrl+Backspace handler.
+            The selection will consist of any run of word characters and any run of non-word characters at the end of that word.
+            If the selection reaches the second character in the input, and the first character is non-word, it is also selected.
+            Here, word characters are equivalent to the "\w" regex class but with UnicodeCategory.ConnectorPunctuation excluded.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.MonthCalendar">
@@ -33492,7 +33660,28 @@
             <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
             </PermissionSet>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.PropertyGrid" -->
+        <member name="T:System.Windows.Forms.PropertyGrid">
+            <summary>
+            Provides a user interface for browsing the properties of an object.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Provides a user interface for browsing the properties of an object.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Provides a user interface for browsing the properties of an object.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+            <summary>
+            Provides a user interface for browsing the properties of an object.
+            </summary>
+            <filterpriority>1
+            </filterpriority>
+        </member>
         <member name="M:System.Windows.Forms.PropertyGrid.#ctor">
             <summary>
             Initializes a new instance of the
@@ -37233,193 +37422,193 @@
         </member>
         <member name="T:System.Properties.Resources">
             <summary>
-               A strongly-typed resource class, for looking up localized strings, etc.
+            A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.ResourceManager">
             <summary>
-               Returns the cached ResourceManager instance used by this class.
+            Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Culture">
             <summary>
-               Overrides the current thread's CurrentUICulture property for all
-               resource lookups using this strongly typed resource class.
+            Overrides the current thread's CurrentUICulture property for all
+            resource lookups using this strongly typed resource class.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_css_file_path">
             <summary>
-                Looks up a localized string similar to /* css file path */.
+            Looks up a localized string similar to /* css file path */.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Custom_theme_name">
             <summary>
-                Looks up a localized string similar to /* Custom theme name */.
+            Looks up a localized string similar to /* Custom theme name */.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Define_control_style">
             <summary>
-                Looks up a localized string similar to Define control style.
+            Looks up a localized string similar to Define control style.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Directory_does_not_exist">
             <summary>
-                Looks up a localized string similar to =》Directory does not exist.
+            Looks up a localized string similar to =》Directory does not exist.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Freely_defined_style_files">
             <summary>
-                Looks up a localized string similar to /* Freely defined style files */.
+            Looks up a localized string similar to /* Freely defined style files */.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Here_you_can_customize_or_adjust_the_control_style">
             <summary>
-                Looks up a localized string similar to /* Here you can customize or adjust the control style */ .
+            Looks up a localized string similar to /* Here you can customize or adjust the control style */ .
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Specify_the_theme_valid_when_AutoTheme_is_false">
             <summary>
-                Looks up a localized string similar to /*Specify the theme, valid when AutoTheme=false*/.
+            Looks up a localized string similar to /*Specify the theme, valid when AutoTheme=false*/.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_The_folder_where_the_theme_files_are_located">
             <summary>
-                Looks up a localized string similar to /* The folder where the theme files are located */.
+            Looks up a localized string similar to /* The folder where the theme files are located */.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Whether_to_apply_built_in_styles">
             <summary>
-                Looks up a localized string similar to /*Whether to apply built-in styles*/.
+            Looks up a localized string similar to /*Whether to apply built-in styles*/.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Whether_to_follow_the_system_theme_by_default">
             <summary>
-                Looks up a localized string similar to /*Whether to follow the system theme by default*/.
+            Looks up a localized string similar to /*Whether to follow the system theme by default*/.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Whether_to_use_a_custom_theme_corresponding_to_custom_theme">
             <summary>
-                Looks up a localized string similar to /*Whether to use a custom theme, corresponding to [custom theme]*/.
+            Looks up a localized string similar to /*Whether to use a custom theme, corresponding to [custom theme]*/.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Application_Init_Whether_to_use_custom_style_corresponding_to_custom_style">
             <summary>
-                Looks up a localized string similar to /*Whether to use custom style, corresponding to [custom style]*/.
+            Looks up a localized string similar to /*Whether to use custom style, corresponding to [custom style]*/.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color">
             <summary>
-                Looks up a localized string similar to Choose color.
+            Looks up a localized string similar to Choose color.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_DateTimePicker">
             <summary>
-               Looks up a localized resource of type System.Byte[].
+            Looks up a localized resource of type System.Byte[].
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_DateTimePicker_Calendar_DaySelected_Choose">
             <summary>
-                Looks up a localized string similar to The selected date is outside the restricted range \nMaximum time: {0}\nMinimum time: {1}.
+            Looks up a localized string similar to The selected date is outside the restricted range \nMaximum time: {0}\nMinimum time: {1}.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_DateTimePicker_Calendar_DaySelected_Date_restrictions">
             <summary>
-                Looks up a localized string similar to Date restrictions.
+            Looks up a localized string similar to Date restrictions.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Choose_Today">
             <summary>
-                Looks up a localized string similar to Choose Today .
+            Looks up a localized string similar to Choose Today .
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask">
             <summary>
-                Looks up a localized string similar to ____year__month__day.
+            Looks up a localized string similar to ____year__month__day.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd">
             <summary>
-                Looks up a localized string similar to MM month dd day yyyy year.
+            Looks up a localized string similar to MM month dd day yyyy year.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_FileDialog_RunDialog_Cancel">
             <summary>
-                Looks up a localized string similar to Cancel.
+            Looks up a localized string similar to Cancel.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_FileDialog_RunDialog_OK">
             <summary>
-                Looks up a localized string similar to OK.
+            Looks up a localized string similar to OK.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File">
             <summary>
-                Looks up a localized string similar to Select File.
+            Looks up a localized string similar to Select File.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font">
             <summary>
-                Looks up a localized string similar to Select Font.
+            Looks up a localized string similar to Select Font.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_FormBase_FormBase_Close">
             <summary>
-                Looks up a localized string similar to You are closing this window, are you sure you want to close it?.
+            Looks up a localized string similar to You are closing this window, are you sure you want to close it?.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel">
             <summary>
-                Looks up a localized string similar to Cancel.
+            Looks up a localized string similar to Cancel.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_MessageBox_ShowCore_Close">
             <summary>
-                Looks up a localized string similar to Close.
+            Looks up a localized string similar to Close.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_MessageBox_ShowCore_Help">
             <summary>
-                Looks up a localized string similar to Help.
+            Looks up a localized string similar to Help.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_MessageBox_ShowCore_No">
             <summary>
-                Looks up a localized string similar to No.
+            Looks up a localized string similar to No.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_MessageBox_ShowCore_OK">
             <summary>
-                Looks up a localized string similar to OK.
+            Looks up a localized string similar to OK.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_MessageBox_ShowCore_Reject">
             <summary>
-                Looks up a localized string similar to Reject.
+            Looks up a localized string similar to Reject.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_MessageBox_ShowCore_Yes">
             <summary>
-                Looks up a localized string similar to Yes.
+            Looks up a localized string similar to Yes.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Print">
             <summary>
-                Looks up a localized string similar to Print.
+            Looks up a localized string similar to Print.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Print_preview">
             <summary>
-                Looks up a localized string similar to Print preview.
+            Looks up a localized string similar to Print preview.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten">
             <summary>
-                Looks up a localized string similar to File is in use and cannot be overwritten.
+            Looks up a localized string similar to File is in use and cannot be overwritten.
             </summary>
         </member>
         <member name="P:System.Properties.Resources.Gtk_Tree_directory">
             <summary>
-                Looks up a localized string similar to Tree directory.
+            Looks up a localized string similar to Tree directory.
             </summary>
         </member>
         <member name="T:System.ComponentModel.Design.ComponentDesigner">
@@ -37516,21 +37705,27 @@
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute">
              <summary>
-             Indicates that certain members on a specified <see cref="T:System.Type"/> are accessed dynamically,
-             for example through <see cref="N:System.Reflection"/>.
+             Indicates that certain members on a specified
+             <see cref="T:System.Type" /> are accessed dynamically,
+             for example through
+             <see cref="N:System.Reflection" />.
              </summary>
              <remarks>
              This allows tools to understand which members are being accessed during the execution
              of a program.
             
-             This attribute is valid on members whose type is <see cref="T:System.Type"/> or <see cref="T:System.String"/>.
+             This attribute is valid on members whose type is
+             <see cref="T:System.Type" /> or
+             <see cref="T:System.String" />.
             
-             When this attribute is applied to a location of type <see cref="T:System.String"/>, the assumption is
+             When this attribute is applied to a location of type
+             <see cref="T:System.String" />, the assumption is
              that the string represents a fully qualified type name.
             
              When this attribute is applied to a class, interface, or struct, the members specified
-             can be accessed dynamically on <see cref="T:System.Type"/> instances returned from calling
-             <see cref="M:System.Object.GetType"/> on instances of that class, interface, or struct.
+             can be accessed dynamically on
+             <see cref="T:System.Type" /> instances returned from calling
+             <see cref="M:System.Object.GetType" /> on instances of that class, interface, or struct.
             
              If the attribute is applied to a method it's treated as a special case and it implies
              the attribute should be applied to the "this" parameter of the method. As such the attribute
@@ -37540,21 +37735,26 @@
         </member>
         <member name="M:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute.#ctor(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes)">
             <summary>
-            Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute"/> class
+            Initializes a new instance of the
+            <see cref="T:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute" /> class
             with the specified member types.
             </summary>
-            <param name="memberTypes">The types of members dynamically accessed.</param>
+            <param name="memberTypes">The types of members dynamically accessed.
+            </param>
         </member>
         <member name="P:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute.MemberTypes">
             <summary>
-            Gets the <see cref="T:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes"/> which specifies the type
+            Gets the
+            <see cref="T:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes" /> which specifies the type
             of members dynamically accessed.
             </summary>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes">
             <summary>
             Specifies the types of members that are dynamically accessed.
-                   This enumeration has a <see cref="T:System.FlagsAttribute" /> attribute that allows a bitwise combination of its member values.</summary>
+            This enumeration has a
+            <see cref="T:System.FlagsAttribute" /> attribute that allows a bitwise combination of its member values.
+            </summary>
         </member>
         <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.All">
             <summary>
@@ -37638,7 +37838,8 @@
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute">
             <summary>
-            Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue"/>, the parameter will not be null even if the corresponding type allows it.
+            Specifies that when a method returns
+            <see cref="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue" />, the parameter will not be null even if the corresponding type allows it.
             </summary>
         </member>
         <member name="M:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.#ctor(System.Boolean)">
@@ -38592,9 +38793,12 @@
         </member>
         <member name="T:System.Drawing.Printing.PrintEventHandler">
             <summary>
-             Represents the method that will handle the <see cref='E:System.Drawing.Printing.PrintDocument.BeginPrint'/>,
-             <see cref='E:System.Drawing.Printing.PrintDocument.EndPrint'/>, or <see cref='E:System.Drawing.Printing.PrintDocument.QueryPageSettings'/>
-             event of a <see cref='T:System.Drawing.Printing.PrintDocument'/>.
+            Represents the method that will handle the
+            <see cref="E:System.Drawing.Printing.PrintDocument.BeginPrint" />,
+            <see cref="E:System.Drawing.Printing.PrintDocument.EndPrint" />, or
+            <see cref="E:System.Drawing.Printing.PrintDocument.QueryPageSettings" />
+            event of a
+            <see cref="T:System.Drawing.Printing.PrintDocument" />.
             </summary>
         </member>
         <member name="T:System.Drawing.Printing.PrintPageEventArgs">
@@ -38653,7 +38857,9 @@
         </member>
         <member name="T:System.Drawing.Printing.PrintPageEventHandler">
             <summary>
-             Represents the method that will handle the <see cref='E:System.Drawing.Printing.PrintDocument.PrintPage'/> event of a <see cref='T:System.Drawing.Printing.PrintDocument'/>.
+            Represents the method that will handle the
+            <see cref="E:System.Drawing.Printing.PrintDocument.PrintPage" /> event of a
+            <see cref="T:System.Drawing.Printing.PrintDocument" />.
             </summary>
         </member>
         <member name="T:System.Drawing.Printing.PrintRange">
@@ -38711,13 +38917,14 @@
         </member>
         <member name="T:System.Drawing.Printing.QueryPageSettingsEventHandler">
             <summary>
-             Represents the method that will handle the <see cref='E:System.Drawing.Printing.PrintDocument.QueryPageSettings'/> event of a
-             <see cref='T:System.Drawing.Printing.PrintDocument'/>.
+            Represents the method that will handle the
+            <see cref="E:System.Drawing.Printing.PrintDocument.QueryPageSettings" /> event of a
+            <see cref="T:System.Drawing.Printing.PrintDocument" />.
             </summary>
         </member>
         <member name="M:System.Resources.AssemblyNamesTypeResolutionService.IsDotNetAssembly(System.String)">
             <summary>
-             This is matching %windir%\Microsoft.NET\Framework*, so both 32bit and 64bit framework will be covered.
+            This is matching %windir%\Microsoft.NET\Framework*, so both 32bit and 64bit framework will be covered.
             </summary>
         </member>
         <member name="T:System.Resources.MultitargetUtil">
@@ -39011,7 +39218,14 @@
             with null.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:System.Resources.ResXResourceReader" -->
+        <member name="T:System.Resources.ResXResourceReader">
+            <summary>
+            Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+            </summary>
+            <summary>
+            Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+            </summary>
+        </member>
         <member name="M:System.Resources.ResXResourceReader.#ctor(System.String)">
             <summary>
             Initializes a new instance of the
@@ -39264,7 +39478,8 @@
         </member>
         <member name="T:System.Resources.ResXResourceWriter">
             <summary>
-            ResX resource writer. See the text in "ResourceSchema" for more information.
+            ResX resource writer. See the text in "ResourceSchema" for more
+            information.
             </summary>
         </member>
         <member name="P:System.Resources.ResXResourceWriter.BasePath">

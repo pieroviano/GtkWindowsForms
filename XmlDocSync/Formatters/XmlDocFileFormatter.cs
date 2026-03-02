@@ -5,7 +5,7 @@ namespace XmlDocSync.Formatters;
 
 public static class XmlDocFileFormatter
 {
-    public static string FormatFile(string source)
+    public static string? FormatFile(string? source)
     {
         if (string.IsNullOrEmpty(source))
             return source;
@@ -16,7 +16,7 @@ public static class XmlDocFileFormatter
         var result = new StringBuilder();
 
         var block = new StringBuilder();
-        bool insideDoc = false;
+        var insideDoc = false;
 
         foreach (var line in lines)
         {
@@ -54,8 +54,8 @@ public static class XmlDocFileFormatter
         var lines = block.Replace("\r\n", "\n").Split('\n');
         var result = new StringBuilder();
 
-        bool summarySeen = false;
-        bool insideSummary = false;
+        var summarySeen = false;
+        var insideSummary = false;
 
         foreach (var line in lines)
         {
@@ -70,9 +70,9 @@ public static class XmlDocFileFormatter
                 continue;
             }
 
-            int prefixIndex = line.IndexOf("///", StringComparison.Ordinal);
-            string indent = line.Substring(0, prefixIndex);
-            string content = trimmed.Substring(3).TrimStart();
+            var prefixIndex = line.IndexOf("///", StringComparison.Ordinal);
+            var indent = line.Substring(0, prefixIndex);
+            var content = trimmed.Substring(3).TrimStart();
 
             if (content.Length == 0)
             {

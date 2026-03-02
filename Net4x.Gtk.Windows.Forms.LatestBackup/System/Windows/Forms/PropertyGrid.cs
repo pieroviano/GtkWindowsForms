@@ -163,7 +163,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// A
         /// <see cref="System.Drawing.Color" /> that represents the background color of the control. The default is the value of the
-        /// <see cref="!:System.Windows.Forms.Control.DefaultBackColor" /> property.
+        /// <see cref="System.Windows.Forms.Control.DefaultBackColor" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -305,7 +305,7 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets a value that determines whether to use the
         /// <see cref="System.Drawing.Graphics" /> class (GDI+) or the
-        /// <see cref="!:System.Windows.Forms.TextRenderer" /> class (GDI) to render text.
+        /// <see cref="System.Windows.Forms.TextRenderer" /> class (GDI) to render text.
         /// </summary>
         /// <returns>true if the
         /// <see cref="System.Drawing.Graphics" /> class should be used to perform text rendering for compatibility with versions 1.0 and 1.1. of the .NET Framework; otherwise, false. The default is false.

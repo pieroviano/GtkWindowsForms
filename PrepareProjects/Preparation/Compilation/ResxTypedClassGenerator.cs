@@ -18,20 +18,26 @@ public static class ResxTypedClassGenerator
         if (!File.Exists(resxFullPath))
             throw new FileNotFoundException("RESX file not found.", resxFullPath);
 
-        string directory = Path.GetDirectoryName(resxFullPath)!;
-        string baseName = Path.GetFileNameWithoutExtension(resxFullPath);
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+        var directory = Path.GetDirectoryName(resxFullPath);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+        var baseName = Path.GetFileNameWithoutExtension(resxFullPath);
 
-        string outputPath = Path.Combine(
+        var outputPath = Path.Combine(
+#pragma warning disable CS8604 // Possible null reference argument.
             directory,
+#pragma warning restore CS8604 // Possible null reference argument.
             baseName + ".Designer.cs");
 
-        CodeCompileUnit codeUnit = StronglyTypedResourceBuilder.Create(
+#pragma warning disable CA1416
+        var codeUnit = StronglyTypedResourceBuilder.Create(
             resxFullPath,
             baseName,                // class name
             targetNamespace,         // namespace
             new CSharpCodeProvider(),   // default provider
             publicClass,
             out string[] errors);
+#pragma warning restore CA1416
 
         if (errors != null && errors.Length > 0)
         {

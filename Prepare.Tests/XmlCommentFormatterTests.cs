@@ -1,4 +1,6 @@
 using XmlDocSync.Formatters;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 namespace Prepare.Tests;
 
@@ -7,23 +9,23 @@ public class XmlCommentFormatterTests
     [Fact]
     public void FormatXmlComment_NullInput_ReturnsNull()
     {
-        string result = XmlCommentFormatter.FormatXmlComment(null);
+        var result = XmlCommentFormatter.FormatXmlComment(null);
         Assert.Null(result);
     }
 
     [Fact]
     public void FormatXmlComment_SplitsInlineTextAfterOpenTag()
     {
-        string input =
+        var input =
             @"/// <returns>A value
 /// </returns>";
 
-        string expected =
+        var expected =
             @"/// <returns>
 /// A value
 /// </returns>";
 
-        string result = XmlCommentFormatter.FormatXmlComment(input);
+        var result = XmlCommentFormatter.FormatXmlComment(input);
 
         Assert.Equal(Normalize(expected), result.TrimEnd('\n'));
     }
@@ -31,18 +33,18 @@ public class XmlCommentFormatterTests
     [Fact]
     public void FormatXmlComment_MergesConsecutiveLinesUnder80Chars()
     {
-        string input =
+        var input =
             @"/// <summary>
 /// Gets
 /// the value.
 /// </summary>";
 
-        string expected =
+        var expected =
             @"/// <summary>
 /// Gets the value.
 /// </summary>";
 
-        string result = XmlCommentFormatter.FormatXmlComment(input);
+        var result = XmlCommentFormatter.FormatXmlComment(input);
 
         Assert.Equal(Normalize(expected), result.TrimEnd('\n'));
     }
@@ -50,35 +52,37 @@ public class XmlCommentFormatterTests
     [Fact]
     public void FormatXmlComment_DoesNotMergeLinesExceeding80Chars()
     {
-        string longText = new string('a', 75);
-        string input =
+        var longText = new string('a', 75);
+        var input =
             $@"/// <summary>
 /// {longText}
 /// more
 /// </summary>";
 
-        string result = XmlCommentFormatter.FormatXmlComment(input);
+        var result = XmlCommentFormatter.FormatXmlComment(input);
 
         // Should not merge because it would exceed 80 chars
+#pragma warning disable CS8604 // Possible null reference argument.
         Assert.Contains(Normalize($@"/// {longText}"), result.TrimEnd('\n'));
+#pragma warning restore CS8604 // Possible null reference argument.
         Assert.Contains("/// more", result.TrimEnd('\n'));
     }
 
     [Fact]
     public void FormatXmlComment_PreservesSelfClosingTags()
     {
-        string input =
+        var input =
             @"/// <summary>
 /// Hello
 /// <see cref=""T:System.String"" /> world.
 /// </summary>";
 
-        string expected =
+        var expected =
             @"/// <summary>
 /// Hello <see cref=""T:System.String"" /> world.
 /// </summary>";
 
-        string result = XmlCommentFormatter.FormatXmlComment(input);
+        var result = XmlCommentFormatter.FormatXmlComment(input);
 
         Assert.Equal(Normalize(expected), result.TrimEnd('\n'));
     }
@@ -86,20 +90,20 @@ public class XmlCommentFormatterTests
     [Fact]
     public void FormatXmlComment_StopsMergingAtOpenOrCloseTags()
     {
-        string input =
+        var input =
             @"/// <returns>
 /// A
 /// <see cref=""T:System.Drawing.Color"" />
 /// </returns>
 /// More text";
 
-        string expected =
+        var expected =
             @"/// <returns>
 /// A <see cref=""T:System.Drawing.Color"" />
 /// </returns>
 /// More text";
 
-        string result = XmlCommentFormatter.FormatXmlComment(input);
+        var result = XmlCommentFormatter.FormatXmlComment(input);
 
         Assert.Equal(Normalize(expected), result.TrimEnd('\n'));
     }
@@ -107,7 +111,7 @@ public class XmlCommentFormatterTests
     [Fact]
     public void FormatXmlComment_FullExample_ComplexCase()
     {
-        string input =
+        var input =
             @"/// <summary> Gets or sets the color of this
 /// <see cref=""T:System.Drawing.SolidBrush"" /> object.
 /// </summary>
@@ -122,7 +126,7 @@ public class XmlCommentFormatterTests
 /// <see cref=""T:System.Drawing.SolidBrush"" />.
 /// </exception>";
 
-        string expected =
+        var expected =
             @"/// <summary>
 /// Gets or sets the color of this <see cref=""T:System.Drawing.SolidBrush"" /> object.
 /// </summary>
@@ -134,7 +138,7 @@ public class XmlCommentFormatterTests
 /// set on an immutable <see cref=""T:System.Drawing.SolidBrush"" />.
 /// </exception>";
 
-        string result = XmlCommentFormatter.FormatXmlComment(input);
+        var result = XmlCommentFormatter.FormatXmlComment(input);
 
         expected = Normalize(expected);
         result = result.TrimEnd('\n');
@@ -144,16 +148,16 @@ public class XmlCommentFormatterTests
     [Fact]
     public void FormatXmlComment_NormalLinesRemainUnchanged()
     {
-        string input =
+        var input =
             @"/// Just a comment
 /// Another line";
 
-        string result = XmlCommentFormatter.FormatXmlComment(input);
+        var result = XmlCommentFormatter.FormatXmlComment(input);
 
         Assert.Equal(Normalize(input), result.TrimEnd('\n'));
     }
 
-    private static string Normalize(string s) =>
-        s is null ? null : s.Replace("\r\n", "\n").Replace("\r", "\n");
+    private static string? Normalize(string? s) =>
+        s?.Replace("\r\n", "\n").Replace("\r", "\n");
 
 }

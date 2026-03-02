@@ -23,25 +23,25 @@ public static class PathProcessing
         string namespaceName,
         string[] specialRoots, string[] specialRootsIncludingRoot)
     {
-        string fileName = Path.GetFileName(fullPath);
+        var fileName = Path.GetFileName(fullPath);
 
-        string namespacePath = namespaceName.Replace('.', Path.DirectorySeparatorChar);
+        var namespacePath = namespaceName.Replace('.', Path.DirectorySeparatorChar);
 
-        string destinationFolder = Path.Combine(projectDirectory, namespacePath);
+        var destinationFolder = Path.Combine(projectDirectory, namespacePath);
 
-        string normalizedFullPath = fullPath.Replace('/', Path.DirectorySeparatorChar)
+        var normalizedFullPath = fullPath.Replace('/', Path.DirectorySeparatorChar)
                                             .Replace('\\', Path.DirectorySeparatorChar);
 
         var enumerable = specialRoots.ToList();
         enumerable.AddRange(specialRootsIncludingRoot);
         foreach (var root in enumerable)
         {
-            int index = normalizedFullPath.IndexOf(root, StringComparison.OrdinalIgnoreCase);
+            var index = normalizedFullPath.IndexOf(root, StringComparison.OrdinalIgnoreCase);
 
             if (index >= 0)
             {
 
-                bool includeRoot =
+                var includeRoot =
                     specialRootsIncludingRoot.Any(i => root.Equals(i, StringComparison.OrdinalIgnoreCase));
 
                 string relevantPath;
@@ -59,7 +59,7 @@ public static class PathProcessing
                         .TrimStart(Path.DirectorySeparatorChar);
                 }
 
-                string? directoryPart = Path.GetDirectoryName(relevantPath);
+                var directoryPart = Path.GetDirectoryName(relevantPath);
 
                 if (!string.IsNullOrWhiteSpace(directoryPart))
                 {
@@ -67,7 +67,7 @@ public static class PathProcessing
                         .Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries)
                         .Select(CapitalizeFirstLetter);
 
-                    string extraPath = Path.Combine(parts.ToArray());
+                    var extraPath = Path.Combine(parts.ToArray());
 
                     destinationFolder = Path.Combine(destinationFolder, extraPath);
                 }
@@ -81,7 +81,7 @@ public static class PathProcessing
 
         Directory.CreateDirectory(destinationFolder);
 
-        string destinationFullPath = Path.Combine(destinationFolder, fileName);
+        var destinationFullPath = Path.Combine(destinationFolder, fileName);
 
         if (!string.Equals(fullPath, destinationFullPath, StringComparison.OrdinalIgnoreCase))
         {
@@ -111,9 +111,9 @@ public static class PathProcessing
         if (parts.Count < 2)
             return fullPath;
 
-        bool removed = false;
+        var removed = false;
 
-        for (int len = 1; len <= parts.Count / 2; len++)
+        for (var len = 1; len <= parts.Count / 2; len++)
         {
             var lastSegment = parts.Skip(parts.Count - len).Take(len).ToList();
             var previousSegment = parts.Skip(parts.Count - (2 * len)).Take(len).ToList();
@@ -144,7 +144,7 @@ public static class PathProcessing
         if (a.Count != b.Count)
             return false;
 
-        for (int i = 0; i < a.Count; i++)
+        for (var i = 0; i < a.Count; i++)
         {
             if (!a[i].Equals(b[i], StringComparison.OrdinalIgnoreCase))
                 return false;

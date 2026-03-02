@@ -53,7 +53,9 @@ public static class GtkSampleAppProjectsHandler
             ProjectPatching.PatchProjectNamespace, "GtkWinFormsAppResources", "samplesTranslations");
 
         ColoredConsole.WriteInColor("Copy completed, project updated.", ConsoleColor.White, true);
+#pragma warning disable CS8604 // Possible null reference argument.
         return $"{Path.Combine(targetDir, targetProjectName)}.csproj";
+#pragma warning restore CS8604 // Possible null reference argument.
     }
 
     private static void ReplaceTestDataJson(string targetDir)
@@ -644,7 +646,7 @@ public static class GtkSampleAppProjectsHandler
         var ns = doc.Root!.Name.Namespace;
 
         // Check if the ItemGroup already exists (optional)
-        bool exists = doc
+        var exists = doc
             .Descendants(ns + "None")
             .Any(e =>
                 (string?)e.Attribute("Update") == @"Properties\TestData1.en.json" ||

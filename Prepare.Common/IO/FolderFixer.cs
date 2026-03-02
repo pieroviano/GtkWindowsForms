@@ -71,7 +71,9 @@ public static class FolderFixer
                 continue;
             }
 
+#pragma warning disable CS8604 // Possible null reference argument.
             var fullPath = Path.Combine(projectDirectory, key);
+#pragma warning restore CS8604 // Possible null reference argument.
 
             if (!File.Exists(fullPath))
             {

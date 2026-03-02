@@ -21,7 +21,7 @@ public static class SummaryCommentTransformer
         var lines = File.ReadAllLines(filePath).ToList();
         var output = new StringBuilder();
 
-        for (int i = 0; i < lines.Count; i++)
+        for (var i = 0; i < lines.Count; i++)
         {
             var line = lines[i];
 

@@ -29,14 +29,14 @@ public static partial class XmlDocIndentFormatter
             pattern,
             m =>
             {
-                string comment = m.Groups["comment"].Value;
-                string between = m.Groups["between"].Value;
-                string decl = m.Groups["decl"].Value;
-                string bracePart = m.Groups["brace"].Value;
+                var comment = m.Groups["comment"].Value;
+                var between = m.Groups["between"].Value;
+                var decl = m.Groups["decl"].Value;
+                var bracePart = m.Groups["brace"].Value;
 
                 // Detect indentation from declaration line
                 var indentMatch = Regex.Match(decl, @"^[ \t]*");
-                string indent = indentMatch.Value;
+                var indent = indentMatch.Value;
 
                 string FixBlock(string block)
                 {
@@ -47,7 +47,7 @@ public static partial class XmlDocIndentFormatter
                         new[] { "\r\n", "\n" },
                         StringSplitOptions.None);
 
-                    for (int i = 0; i < lines.Length; i++)
+                    for (var i = 0; i < lines.Length; i++)
                     {
                         if (string.IsNullOrWhiteSpace(lines[i]))
                             continue;

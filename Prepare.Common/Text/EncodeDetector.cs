@@ -64,7 +64,7 @@ public class EncodeDetector
 
     public static Encoding DetectEncoding(string path)
     {
-        byte[] bytes = File.ReadAllBytes(path);
+        var bytes = File.ReadAllBytes(path);
 
         // 1. BOM
         if (bytes.Length >= 3 &&
@@ -94,10 +94,10 @@ public class EncodeDetector
             return Encoding.GetEncoding("GB18030");
 
         // 3. Heuristic scoring
-        string gbText = Encoding.GetEncoding("GB18030").GetString(bytes);
+        var gbText = Encoding.GetEncoding("GB18030").GetString(bytes);
 
-        int utf8Score = ScoreChineseText(utf8Text??"");
-        int gbScore = ScoreChineseText(gbText);
+        var utf8Score = ScoreChineseText(utf8Text??"");
+        var gbScore = ScoreChineseText(gbText);
 
         return gbScore > utf8Score
             ? Encoding.GetEncoding("GB18030")
@@ -106,10 +106,10 @@ public class EncodeDetector
 
     static int ScoreChineseText(string text)
     {
-        int score = 0;
+        var score = 0;
 
         // Penalize rare CJK characters
-        foreach (char c in text)
+        foreach (var c in text)
         {
             if (c >= 0x4E00 && c <= 0x9FFF)
             {

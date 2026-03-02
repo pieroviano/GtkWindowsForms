@@ -10,7 +10,7 @@ public sealed class XmlDocCommentFixer
         var lines = csFileContent.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         var output = new StringBuilder(csFileContent.Length);
 
-        for (int i = 0; i < lines.Length; i++)
+        for (var i = 0; i < lines.Length; i++)
         {
             if (IsSummaryStart(lines[i]))
             {
@@ -112,7 +112,7 @@ public sealed class XmlDocCommentFixer
 
     private static string GetIndent(string line)
     {
-        int i = 0;
+        var i = 0;
         while (i < line.Length && char.IsWhiteSpace(line[i])) i++;
         return line.Substring(0, i);
     }
@@ -122,7 +122,7 @@ public sealed class XmlDocCommentFixer
         var content = new DocContent();
         var section = DocSection.Summary;
 
-        int i = 0;
+        var i = 0;
         while (i < block.Count)
         {
             var line = Clean(block[i]);

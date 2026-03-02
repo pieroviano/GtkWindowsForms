@@ -12,9 +12,9 @@ public static class EventInvocatorFileRewriter
         if (!File.Exists(filePath)) return;
 
         // Read the file
-        string sourceCode = File.ReadAllText(filePath);
-        SyntaxTree tree = CSharpSyntaxTree.ParseText(sourceCode);
-        CompilationUnitSyntax root = (CompilationUnitSyntax)tree.GetRoot();
+        var sourceCode = File.ReadAllText(filePath);
+        var tree = CSharpSyntaxTree.ParseText(sourceCode);
+        var root = (CompilationUnitSyntax)tree.GetRoot();
 
         // Rewrite the syntax
         var rewriter = new EventInvocatorRewriter(new[] { "Paint" });

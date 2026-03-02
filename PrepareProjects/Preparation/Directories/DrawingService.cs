@@ -6,10 +6,10 @@ public static class DrawingService
 {
     public static void SeparateDrawing(string gtkDrawing)
     {
-        string resourcesNet4xGtkDrawingsCsproj = @$"..\..\..\..\Resources\{gtkDrawing}.csproj";
-        string net4xGtkDrawings = @$"..\..\..\..\{gtkDrawing}";
-        string net4xGtkDrawingsSystem = @$"..\..\..\..\{gtkDrawing}\System";
-        string net4xGtkDrawingsSystemDrawing = @$"{net4xGtkDrawingsSystem}\Drawing";
+        var resourcesNet4xGtkDrawingsCsproj = @$"..\..\..\..\Resources\{gtkDrawing}.csproj";
+        var net4xGtkDrawings = @$"..\..\..\..\{gtkDrawing}";
+        var net4xGtkDrawingsSystem = @$"..\..\..\..\{gtkDrawing}\System";
+        var net4xGtkDrawingsSystemDrawing = @$"{net4xGtkDrawingsSystem}\Drawing";
         const string net4xGtkWindowsFormsSystemDrawing = @"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Drawing";
 
         if (Directory.Exists(net4xGtkDrawings))

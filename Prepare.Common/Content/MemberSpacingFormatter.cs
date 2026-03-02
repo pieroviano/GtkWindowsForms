@@ -32,14 +32,14 @@ public static class MemberSpacingFormatter
         var output = new StringBuilder(csFileContent.Length);
 
         var currentBlock = new List<string>();
-        bool previousBlockWasMember = false;
+        var previousBlockWasMember = false;
 
-        bool insideXmlComment = false;
+        var insideXmlComment = false;
 
-        for (int i = 0; i < lines.Length; i++)
+        for (var i = 0; i < lines.Length; i++)
         {
-            string line = lines[i];
-            string trimmed = line.Trim();
+            var line = lines[i];
+            var trimmed = line.Trim();
 
             // Track XML comment blocks
             if (trimmed.StartsWith("///"))
@@ -64,9 +64,9 @@ public static class MemberSpacingFormatter
             }
 
             // Check if line is an attribute
-            bool isAttribute = trimmed.StartsWith("[");
+            var isAttribute = trimmed.StartsWith("[");
             // Check if line is a member start
-            bool isMember = MemberStartRegex.IsMatch(trimmed);
+            var isMember = MemberStartRegex.IsMatch(trimmed);
 
             if (isMember)
             {

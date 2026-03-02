@@ -39,8 +39,8 @@ public static class DotnetFormatter
 
         process.Start();
 
-        string output = await process.StandardOutput.ReadToEndAsync();
-        string error = await process.StandardError.ReadToEndAsync();
+        var output = await process.StandardOutput.ReadToEndAsync();
+        var error = await process.StandardError.ReadToEndAsync();
 
         await process.WaitForExitAsync(cancellationToken);
 

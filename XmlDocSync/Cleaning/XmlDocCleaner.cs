@@ -21,8 +21,8 @@ public static class XmlDocCleaner
 
             var blockText = string.Join("\n", block);
 
-            int openCount = Regex.Matches(blockText, @"<summary>").Count;
-            int closeCount = Regex.Matches(blockText, @"</summary>").Count;
+            var openCount = Regex.Matches(blockText, @"<summary>").Count;
+            var closeCount = Regex.Matches(blockText, @"</summary>").Count;
 
             if (openCount > 0 && closeCount > openCount)
             {

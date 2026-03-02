@@ -221,7 +221,7 @@ public static class ProjectUtility
         Dictionary<string, string> projectFiles,
         string projectDirectory, string backupName)
     {
-        XElement root = new XElement("Files");
+        var root = new XElement("Files");
         BackupUtility.CleanBackup(projectDirectory, backupName);
         foreach (var kvp in projectFiles)
         {
@@ -235,10 +235,10 @@ public static class ProjectUtility
             root.Add(itemElement);
         }
 
-        string outputPath = Path.ChangeExtension(csprojPath, $".{backupName.Replace(BackupUtility.Backup, BackupUtility.Files)}.xml");
+        var outputPath = Path.ChangeExtension(csprojPath, $".{backupName.Replace(BackupUtility.Backup, BackupUtility.Files)}.xml");
         outputPath = PathService.ChangeLocationToParentFolder(outputPath);
 
-        XDocument doc = new XDocument(root);
+        var doc = new XDocument(root);
         doc.Save(outputPath);
     }
 

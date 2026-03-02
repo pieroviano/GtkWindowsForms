@@ -559,7 +559,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>A
         /// <see cref="System.Drawing.Color" /> that represents the background color of the control. The default is the value of the
-        /// <see cref="!:System.Windows.Forms.Control.DefaultBackColor" /> property.
+        /// <see cref="System.Windows.Forms.Control.DefaultBackColor" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -718,7 +718,7 @@ namespace System.Windows.Forms
         }
         /// <summary>
         /// Gets or sets where this control is scrolled to in
-        /// <see cref="!:System.Windows.Forms.ScrollableControl.ScrollControlIntoView(System.Windows.Forms.Control)" />
+        /// <see cref="System.Windows.Forms.ScrollableControl.ScrollControlIntoView(System.Windows.Forms.Control)" />
         /// </summary>
         /// <returns>A
         /// <see cref="System.Drawing.Point" /> specifying the scroll location. The default is the upper-left corner of the control.
@@ -983,7 +983,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The
         /// <see cref="System.Drawing.Font" /> to apply to the text displayed by the control. The default is the value of the
-        /// <see cref="!:System.Windows.Forms.Control.DefaultFont" /> property.
+        /// <see cref="System.Windows.Forms.Control.DefaultFont" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -1024,7 +1024,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>The foreground
         /// <see cref="System.Drawing.Color" /> of the control. The default is the value of the
-        /// <see cref="!:System.Windows.Forms.Control.DefaultForeColor" /> property.
+        /// <see cref="System.Windows.Forms.Control.DefaultForeColor" /> property.
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
@@ -1112,7 +1112,7 @@ namespace System.Windows.Forms
         /// Gets a cached instance of the control's layout engine.
         /// </summary>
         /// <returns>The
-        /// <see cref="!:System.Windows.Forms.Layout.LayoutEngine" /> for the control's contents.
+        /// <see cref="System.Windows.Forms.Layout.LayoutEngine" /> for the control's contents.
         /// </returns>
         /// <filterpriority>2
         /// </filterpriority>
@@ -1566,7 +1566,7 @@ namespace System.Windows.Forms
         /// Gets the length and height, in pixels, that is specified as the default maximum size of a control.
         /// </summary>
         /// <returns>A
-        /// <see cref="!:System.Drawing.Point.#ctor(System.Drawing.Size)" /> representing the size of the control.
+        /// <see cref="System.Drawing.Point.#ctor(System.Drawing.Size)" /> representing the size of the control.
         /// </returns>
         protected virtual Size DefaultMaximumSize { get; }
         /// <summary>
@@ -2415,9 +2415,9 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>One of the
         /// <see cref="System.Windows.Forms.PreProcessControlState" /> values, depending on whether
-        /// <see cref="!:System.Windows.Forms.Control.PreProcessMessage(System.Windows.Forms.Message)" /> is true or false and whether
-        /// <see cref="!:System.Windows.Forms.Control.IsInputKey(System.Windows.Forms.Keys)" /> or
-        /// <see cref="!:System.Windows.Forms.Control.IsInputChar(System.Char)" /> are true or false.
+        /// <see cref="System.Windows.Forms.Control.PreProcessMessage(System.Windows.Forms.Message)" /> is true or false and whether
+        /// <see cref="System.Windows.Forms.Control.IsInputKey(System.Windows.Forms.Keys)" /> or
+        /// <see cref="System.Windows.Forms.Control.IsInputChar(System.Char)" /> are true or false.
         /// </returns>
         /// <param name="msg">A
         /// <see cref="System.Windows.Forms.Message" /> that represents the message to process.

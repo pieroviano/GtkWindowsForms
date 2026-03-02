@@ -1,104 +1,103 @@
 ﻿using XmlDocSync.Formatters;
 
-namespace Prepare.Tests
+namespace Prepare.Tests;
+
+public class XmlDocumentationFormatterTests
 {
-    public class XmlDocumentationFormatterTests
+    [Fact]
+    public void Format_ShouldFormatSingleLineBlock()
     {
-        [Fact]
-        public void Format_ShouldFormatSingleLineBlock()
-        {
-            var input = """
-                /// <summary><b>Test</b></summary>
-                public class A {}
-                """;
-
-            var result = XmlDocumentationFormatter.Format(input, new[]
-            {
-                ("</summary></param>", "</param></summary>"),
-                ("<devdov>", "&lt;devdov&gt;"),
-            });
-
-            Assert.Contains("/// <summary>", result);
-            Assert.Contains("///   <b>Test</b>", result);
-            Assert.Contains("/// </summary>", result);
-        }
-
-        [Fact]
-        public void Format_ShouldPreserveIndentation()
-        {
-            var input = """
+        var input = """
                     /// <summary><b>Test</b></summary>
                     public class A {}
-                """;
+                    """;
 
-            var result = XmlDocumentationFormatter.Format(input, new[]
-            {
-                ("</summary></param>", "</param></summary>"),
-                ("<devdov>", "&lt;devdov&gt;"),
-            });
-
-            Assert.Contains("    /// <summary>", result);
-            Assert.Contains("    ///   <b>Test</b>", result);
-        }
-
-        [Fact]
-        public void Format_ShouldHandleMultipleBlocks()
+        var result = XmlDocumentationFormatter.Format(input, new[]
         {
-            var input = """
-                /// <summary>One</summary>
-                public class A {}
+            ("</summary></param>", "</param></summary>"),
+            ("<devdov>", "&lt;devdov&gt;"),
+        });
 
-                /// <summary>Two</summary>
-                public class B {}
-                """;
+        Assert.Contains("/// <summary>", result);
+        Assert.Contains("///   <b>Test</b>", result);
+        Assert.Contains("/// </summary>", result);
+    }
 
-            var result = XmlDocumentationFormatter.Format(input, new[]
-            {
-                ("</summary></param>", "</param></summary>"),
-                ("<devdov>", "&lt;devdov&gt;"),
-            });
+    [Fact]
+    public void Format_ShouldPreserveIndentation()
+    {
+        var input = """
+                        /// <summary><b>Test</b></summary>
+                        public class A {}
+                    """;
 
-            Assert.Contains("/// <summary>", result);
-            Assert.Contains("One", result);
-            Assert.Contains("Two", result);
-        }
-
-        [Fact]
-        public void Format_ShouldLeaveNonXmlDocLinesUntouched()
+        var result = XmlDocumentationFormatter.Format(input, new[]
         {
-            var input = """
-                // normal comment
-                public class A {}
-                """;
+            ("</summary></param>", "</param></summary>"),
+            ("<devdov>", "&lt;devdov&gt;"),
+        });
 
-            var result = XmlDocumentationFormatter.Format(input, new[]
-            {
-                ("</summary></param>", "</param></summary>"),
-                ("<devdov>", "&lt;devdov&gt;"),
-            });
+        Assert.Contains("    /// <summary>", result);
+        Assert.Contains("    ///   <b>Test</b>", result);
+    }
 
-            Assert.Equal(input.Replace("\r\n", "\n"), result.Replace("\r\n", "\n"));
-        }
+    [Fact]
+    public void Format_ShouldHandleMultipleBlocks()
+    {
+        var input = """
+                    /// <summary>One</summary>
+                    public class A {}
 
-        [Fact]
-        public void Format_ShouldHandleMultilineXmlInsideBlock()
+                    /// <summary>Two</summary>
+                    public class B {}
+                    """;
+
+        var result = XmlDocumentationFormatter.Format(input, new[]
         {
-            var input = """
-                /// <summary>
-                /// <b>Test</b>
-                /// </summary>
-                public class A {}
-                """;
+            ("</summary></param>", "</param></summary>"),
+            ("<devdov>", "&lt;devdov&gt;"),
+        });
 
-            var result = XmlDocumentationFormatter.Format(input, new[]
-            {
-                ("</summary></param>", "</param></summary>"),
-                ("<devdov>", "&lt;devdov&gt;"),
-            });
+        Assert.Contains("/// <summary>", result);
+        Assert.Contains("One", result);
+        Assert.Contains("Two", result);
+    }
 
-            Assert.Contains("/// <summary>", result);
-            Assert.Contains("///   <b>Test</b>", result);
-            Assert.Contains("/// </summary>", result);
-        }
+    [Fact]
+    public void Format_ShouldLeaveNonXmlDocLinesUntouched()
+    {
+        var input = """
+                    // normal comment
+                    public class A {}
+                    """;
+
+        var result = XmlDocumentationFormatter.Format(input, new[]
+        {
+            ("</summary></param>", "</param></summary>"),
+            ("<devdov>", "&lt;devdov&gt;"),
+        });
+
+        Assert.Equal(input.Replace("\r\n", "\n"), result?.Replace("\r\n", "\n"));
+    }
+
+    [Fact]
+    public void Format_ShouldHandleMultilineXmlInsideBlock()
+    {
+        var input = """
+                    /// <summary>
+                    /// <b>Test</b>
+                    /// </summary>
+                    public class A {}
+                    """;
+
+        var result = XmlDocumentationFormatter.Format(input, new[]
+        {
+            ("</summary></param>", "</param></summary>"),
+            ("<devdov>", "&lt;devdov&gt;"),
+        });
+
+        Assert.Contains("/// <summary>", result);
+        Assert.Contains("///   <b>Test</b>", result);
+        Assert.Contains("/// </summary>", result);
     }
 }

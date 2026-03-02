@@ -1,143 +1,143 @@
 using XmlDocSync.Cleaning;
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
-namespace Prepare.Tests
+namespace Prepare.Tests;
+
+public class XmlDocCleanerTests
 {
-    public class XmlDocCleanerTests
+    [Fact]
+    public void NullOrWhitespace_ReturnsSame()
     {
-        [Fact]
-        public void NullOrWhitespace_ReturnsSame()
+        Assert.Null(XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(null));
+        Assert.Equal(string.Empty, XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(string.Empty));
+        Assert.Equal("   ", XmlDocCleaner.RemoveTextBeforeNonOpenedSummary("   "));
+        Assert.Equal("\r\n", XmlDocCleaner.RemoveTextBeforeNonOpenedSummary("\r\n"));
+    }
+
+    [Fact]
+    public void NonCommentText_IsPreserved()
+    {
+        var input = "public class C { }\n";
+        var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
+        // method trims trailing whitespace/newline
+        Assert.Equal("public class C { }", output);
+    }
+
+    [Fact]
+    public void KeepsSingleValidSummaryBlock_UnchangedExceptTrim()
+    {
+        var input = string.Join("\n", new[]
         {
-            Assert.Null(XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(null));
-            Assert.Equal(string.Empty, XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(string.Empty));
-            Assert.Equal("   ", XmlDocCleaner.RemoveTextBeforeNonOpenedSummary("   "));
-            Assert.Equal("\r\n", XmlDocCleaner.RemoveTextBeforeNonOpenedSummary("\r\n"));
-        }
+            "/// <summary>",
+            "/// This is a summary.",
+            "/// </summary>"
+        }) + "\n";
+        var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
 
-        [Fact]
-        public void NonCommentText_IsPreserved()
+        var expected = string.Join("\n", new[]
         {
-            var input = "public class C { }\n";
-            var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
-            // method trims trailing whitespace/newline
-            Assert.Equal("public class C { }", output);
-        }
+            "/// <summary>",
+            "/// This is a summary.",
+            "/// </summary>"
+        });
 
-        [Fact]
-        public void KeepsSingleValidSummaryBlock_UnchangedExceptTrim()
+        Assert.Equal(expected, output);
+    }
+
+    [Fact]
+    public void RemovesStrayClosingSummary_AfterFirstValidSummary()
+    {
+        var input = string.Join("\n", new[]
         {
-            var input = string.Join("\n", new[]
-            {
-                "/// <summary>",
-                "/// This is a summary.",
-                "/// </summary>"
-            }) + "\n";
-            var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
+            "/// <summary>",
+            "/// First summary",
+            "/// </summary>",
+            "/// stray comment line",
+            "/// </summary>",
+            "/// <remarks>note</remarks>"
+        });
 
-            var expected = string.Join("\n", new[]
-            {
-                "/// <summary>",
-                "/// This is a summary.",
-                "/// </summary>"
-            });
+        var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
 
-            Assert.Equal(expected, output);
-        }
-
-        [Fact]
-        public void RemovesStrayClosingSummary_AfterFirstValidSummary()
+        var expected = string.Join("\n", new[]
         {
-            var input = string.Join("\n", new[]
-            {
-                "/// <summary>",
-                "/// First summary",
-                "/// </summary>",
-                "/// stray comment line",
-                "/// </summary>",
-                "/// <remarks>note</remarks>"
-            });
+            "/// <summary>",
+            "/// First summary",
+            "/// </summary>",
+            "/// <remarks>note</remarks>"
+        });
 
-            var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
+        Assert.Equal(expected, output);
+    }
 
-            var expected = string.Join("\n", new[]
-            {
-                "/// <summary>",
-                "/// First summary",
-                "/// </summary>",
-                "/// <remarks>note</remarks>"
-            });
-
-            Assert.Equal(expected, output);
-        }
-
-        [Fact]
-        public void CleansEachCommentBlock_AndPreservesInterleavingCodeLines()
+    [Fact]
+    public void CleansEachCommentBlock_AndPreservesInterleavingCodeLines()
+    {
+        var input = string.Join("\n", new[]
         {
-            var input = string.Join("\n", new[]
-            {
-                "// regular code line",
-                "/// <summary>",
-                "/// First summary",
-                "/// </summary>",
-                "/// stray after first",
-                "/// </summary>",
-                "int x = 0;",
-                "/// <summary>",
-                "/// Second summary",
-                "/// </summary>",
-                "/// </summary>", // stray closing for second block
-                "return;"
-            });
-            var expected = string.Join("\n", new[]
-            {
-                "// regular code line",
-                "/// <summary>",
-                "/// First summary",
-                "/// </summary>",
-                "int x = 0;",
-                "/// <summary>",
-                "/// Second summary",
-                "/// </summary>",
-                "return;"
-            });
-
-
-            var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
-
-            Assert.Equal(expected, output);
-        }
-
-        [Fact]
-        public void PreservesIndentedCodeComments_AfterValidSummary()
+            "// regular code line",
+            "/// <summary>",
+            "/// First summary",
+            "/// </summary>",
+            "/// stray after first",
+            "/// </summary>",
+            "int x = 0;",
+            "/// <summary>",
+            "/// Second summary",
+            "/// </summary>",
+            "/// </summary>", // stray closing for second block
+            "return;"
+        });
+        var expected = string.Join("\n", new[]
         {
-            var input = string.Join("\n", new[]
-            {
-                "/// <summary>",
-                "/// A strongly-typed resource class, for looking up localized strings, etc.",
-                "/// </summary>",
-                "    // This class was auto-generated by the StronglyTypedResourceBuilder",
-                "    // class via a tool like ResGen or Visual Studio.",
-                "    // To add or remove a member, edit your .ResX file then rerun ResGen",
-                "    // with the /str option, or rebuild your VS project.",
-                "",
-                "int a;"
-            });
+            "// regular code line",
+            "/// <summary>",
+            "/// First summary",
+            "/// </summary>",
+            "int x = 0;",
+            "/// <summary>",
+            "/// Second summary",
+            "/// </summary>",
+            "return;"
+        });
 
-            var expected = string.Join("\n", new[]
-            {
-                "/// <summary>",
-                "/// A strongly-typed resource class, for looking up localized strings, etc.",
-                "/// </summary>",
-                "    // This class was auto-generated by the StronglyTypedResourceBuilder",
-                "    // class via a tool like ResGen or Visual Studio.",
-                "    // To add or remove a member, edit your .ResX file then rerun ResGen",
-                "    // with the /str option, or rebuild your VS project.",
-                "",
-                "int a;"
-            });
 
-            var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
+        var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
 
-            Assert.Equal(expected, output);
-        }
+        Assert.Equal(expected, output);
+    }
+
+    [Fact]
+    public void PreservesIndentedCodeComments_AfterValidSummary()
+    {
+        var input = string.Join("\n", new[]
+        {
+            "/// <summary>",
+            "/// A strongly-typed resource class, for looking up localized strings, etc.",
+            "/// </summary>",
+            "    // This class was auto-generated by the StronglyTypedResourceBuilder",
+            "    // class via a tool like ResGen or Visual Studio.",
+            "    // To add or remove a member, edit your .ResX file then rerun ResGen",
+            "    // with the /str option, or rebuild your VS project.",
+            "",
+            "int a;"
+        });
+
+        var expected = string.Join("\n", new[]
+        {
+            "/// <summary>",
+            "/// A strongly-typed resource class, for looking up localized strings, etc.",
+            "/// </summary>",
+            "    // This class was auto-generated by the StronglyTypedResourceBuilder",
+            "    // class via a tool like ResGen or Visual Studio.",
+            "    // To add or remove a member, edit your .ResX file then rerun ResGen",
+            "    // with the /str option, or rebuild your VS project.",
+            "",
+            "int a;"
+        });
+
+        var output = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(input);
+
+        Assert.Equal(expected, output);
     }
 }

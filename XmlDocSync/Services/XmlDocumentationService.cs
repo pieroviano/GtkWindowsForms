@@ -89,7 +89,7 @@ public static class XmlDocumentationService
             );
     }
 
-    private static string NormalizeXmlDocBlockIndentation(string text,
+    private static string? NormalizeXmlDocBlockIndentation(string text,
         (string ToReplace, string DestinationValue)[] fixes)
     {
         var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
@@ -134,7 +134,7 @@ public static class XmlDocumentationService
         var removeTextBeforeNonOpenedSummary = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(source);
         var fixIndentationAndRemoveBlanks =
             XmlDocIndentFormatter.FixIndentationAndRemoveBlanks(removeTextBeforeNonOpenedSummary);
-        return XmlDocumentationFormatter.Format(fixIndentationAndRemoveBlanks, fixes).TrimEnd('\n', '\r', ' ', '\t');
+        return XmlDocumentationFormatter.Format(fixIndentationAndRemoveBlanks, fixes)?.TrimEnd('\n', '\r', ' ', '\t');
     }
 
     private static async Task<List<SyntaxTree>> ParseAllSyntaxTrees(string[] files)
@@ -189,7 +189,7 @@ public static class XmlDocumentationService
                 .Replace("///             ", "/// ")
                 .Replace("\r\n", "\n")
                 .TrimEnd('\n'), valueTuples);
-            contents = XmlDocFileFormatter.FormatFile(contents).Replace("\r\n", "\n");
+            contents = XmlDocFileFormatter.FormatFile(contents)?.Replace("\r\n", "\n");
             var normalizedOriginalText = await GetNormalizedOriginalText(syntaxTree.FilePath);
 
             if (contents != normalizedOriginalText)
@@ -211,7 +211,7 @@ public static class XmlDocumentationService
                 .Replace("///             ", "/// ")
                 .Replace("\r\n", "\n")
                 .TrimEnd('\n'), valueTuples);
-            contents = XmlDocFileFormatter.FormatFile(contents).Replace("\r\n", "\n");
+            contents = XmlDocFileFormatter.FormatFile(contents)?.Replace("\r\n", "\n");
             var normalizedOriginalText = root.ToFullString();
 
             if (contents != normalizedOriginalText)

@@ -17,7 +17,7 @@ internal class GitDiffParser
         var oldBuilder = new StringBuilder();
         var newBuilder = new StringBuilder();
 
-        bool insideHunk = false;
+        var insideHunk = false;
         string? lastContextLine = null;
 
         foreach (var line in lines)
@@ -72,8 +72,8 @@ internal class GitDiffParser
         List<TextReplacement> replacements,
         string? lastContextLine)
     {
-        bool hasOld = oldBuilder.Length > 0;
-        bool hasNew = newBuilder.Length > 0;
+        var hasOld = oldBuilder.Length > 0;
+        var hasNew = newBuilder.Length > 0;
 
         if (!hasOld && !hasNew)
             return;

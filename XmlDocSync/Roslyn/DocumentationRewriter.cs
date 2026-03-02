@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using XmlDocSync.Formatters;
+#pragma warning disable CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
 
 namespace XmlDocSync.Roslyn;
 
@@ -91,7 +92,7 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
 
         var replace = XmlCommentFormatter.FormatXmlComment(sb.ToString().Replace("@", ""));
 
-        return SyntaxFactory.ParseLeadingTrivia(replace);
+        return SyntaxFactory.ParseLeadingTrivia(replace??string.Empty);
     }
 
     private static string NormalizeXmlDocBlockIndentation(string text)
@@ -102,9 +103,9 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         //  - XML doc comments (///)
         //  - The first non-comment, non-empty line after them
         var relevantLineIndices = new List<int>();
-        bool codeLineCaptured = false;
+        var codeLineCaptured = false;
 
-        for (int i = 0; i < lines.Length; i++)
+        for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
 
@@ -127,7 +128,7 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
             return text;
 
         // Compute minimal indentation
-        int minIndent = relevantLineIndices
+        var minIndent = relevantLineIndices
             .Select(i => lines[i]
                 .TakeWhile(char.IsWhiteSpace)
                 .Count())
@@ -276,10 +277,11 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
 
     private T RewriteAndVisit<T>(
         T node,
-        Func<T, SyntaxNode> baseVisit)
+        Func<T, SyntaxNode>? baseVisit)
         where T : MemberDeclarationSyntax
     {
         var updated = Process(node);
-        return (T)baseVisit((T)updated);
+        Trace.Assert(baseVisit != null, nameof(baseVisit) + " != null");
+        return (T)baseVisit(updated);
     }
 }

@@ -5,7 +5,7 @@ namespace XmlDocSync.Formatters;
 
 public static class XmlDocumentationFormatter
 {
-    public static string Format(string content, (string ToReplace, string DestinationValue)[] fixes)
+    public static string? Format(string content, (string ToReplace, string DestinationValue)[] fixes)
     {
         var lines = SplitLines(content);
         var result = new List<string>();
@@ -113,9 +113,9 @@ public static class XmlDocumentationFormatter
         return false;
     }
 
-    private static string Normalize(string s)
+    private static string? Normalize(string? s)
     {
-        return s is null ? null : s.Replace("\r\n", "\n").Replace("\r", "\n");
+        return s?.Replace("\r\n", "\n").Replace("\r", "\n");
     }
 
     private static string RemovePrefix(string line)

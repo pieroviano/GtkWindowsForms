@@ -23,22 +23,22 @@ public class BlankLineBetweenMembersRewriter : CSharpSyntaxRewriter
 
         var newMembers = members.ToList();
 
-        for (int i = 1; i < newMembers.Count; i++)
+        for (var i = 1; i < newMembers.Count; i++)
         {
             var member = newMembers[i];
             var leadingTrivia = member.GetLeadingTrivia();
 
-            int leadingNewLines = CountLeadingEndOfLines(leadingTrivia);
+            var leadingNewLines = CountLeadingEndOfLines(leadingTrivia);
 
             // Already has a blank line (2 or more newlines)
             if (leadingNewLines >= 2)
                 continue;
 
-            int neededNewLines = 2 - leadingNewLines;
+            var neededNewLines = 2 - leadingNewLines;
 
             var newTrivia = SyntaxFactory.TriviaList();
 
-            for (int j = 0; j < neededNewLines; j++)
+            for (var j = 0; j < neededNewLines; j++)
             {
                 newTrivia = newTrivia.Add(SyntaxFactory.ElasticCarriageReturnLineFeed);
             }
@@ -53,7 +53,7 @@ public class BlankLineBetweenMembersRewriter : CSharpSyntaxRewriter
 
     private static int CountLeadingEndOfLines(SyntaxTriviaList trivia)
     {
-        int count = 0;
+        var count = 0;
 
         foreach (var t in trivia)
         {

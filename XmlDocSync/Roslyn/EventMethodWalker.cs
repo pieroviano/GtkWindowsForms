@@ -10,7 +10,7 @@ public class EventMethodWalker : CSharpSyntaxWalker
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         // 1. Name starts with "On"
-        string methodName = node.Identifier.Text;
+        var methodName = node.Identifier.Text;
         if (!methodName.StartsWith("On") || methodName.Length <= 2) return;
 
         // 2. Returns void
@@ -20,7 +20,7 @@ public class EventMethodWalker : CSharpSyntaxWalker
         var parameters = node.ParameterList.Parameters;
         if (parameters.Count == 1)
         {
-            string? typeName = parameters[0].Type?.ToString();
+            var typeName = parameters[0].Type?.ToString();
             if (typeName != null && typeName.EndsWith("EventArgs"))
             {
                 FoundMatch = true;

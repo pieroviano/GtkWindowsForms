@@ -9,7 +9,7 @@ public sealed class XmlDocSummaryNormalizer
         var lines = csFileContent.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         var output = new StringBuilder(csFileContent.Length);
 
-        for (int i = 0; i < lines.Length; i++)
+        for (var i = 0; i < lines.Length; i++)
         {
             if (IsDocLine(lines[i]))
             {
@@ -33,25 +33,25 @@ public sealed class XmlDocSummaryNormalizer
 
         foreach (var line in lines)
         {
-            string trimmed = line.TrimStart();
-            int startIndex = line.IndexOf("<summary>", StringComparison.Ordinal);
+            var trimmed = line.TrimStart();
+            var startIndex = line.IndexOf("<summary>", StringComparison.Ordinal);
 
             if (startIndex >= 0)
             {
-                string indent = line.Substring(0, startIndex); // spaces before <summary>
-                int summaryEnd = startIndex + "<summary>".Length;
+                var indent = line.Substring(0, startIndex); // spaces before <summary>
+                var summaryEnd = startIndex + "<summary>".Length;
 
                 // Everything after <summary>
-                string afterSummary = line.Length > summaryEnd
+                var afterSummary = line.Length > summaryEnd
                     ? line.Substring(summaryEnd).Trim()
                     : string.Empty;
 
                 // If afterSummary contains </summary>, split it
                 if (!string.IsNullOrEmpty(afterSummary) && afterSummary.Contains("</summary>"))
                 {
-                    int endIndex = afterSummary.IndexOf("</summary>", StringComparison.Ordinal);
-                    string textBeforeClosing = afterSummary.Substring(0, endIndex).Trim();
-                    string closingTag = "</summary>";
+                    var endIndex = afterSummary.IndexOf("</summary>", StringComparison.Ordinal);
+                    var textBeforeClosing = afterSummary.Substring(0, endIndex).Trim();
+                    var closingTag = "</summary>";
 
                     // Write <summary> line
                     output.AppendLine($"{indent}/// <summary>");
@@ -103,13 +103,13 @@ public sealed class XmlDocSummaryNormalizer
         var indent = GetIndent(block[0]);
         var content = ExtractXmlLines(block);
 
-        bool summaryOpen = false;
-        bool summaryClosed = false;
+        var summaryOpen = false;
+        var summaryClosed = false;
 
         var normalized = new List<string>();
-        int insertSummaryCloseAt = -1;
+        var insertSummaryCloseAt = -1;
 
-        for (int i = 0; i < content.Count; i++)
+        for (var i = 0; i < content.Count; i++)
         {
             var line = content[i];
 
@@ -165,7 +165,7 @@ public sealed class XmlDocSummaryNormalizer
 
         // Find all positions of </summary>
         var positions = new List<int>();
-        int index = 0;
+        var index = 0;
         while ((index = input.IndexOf(closingTag, index, StringComparison.Ordinal)) >= 0)
         {
             positions.Add(index);
@@ -178,8 +178,8 @@ public sealed class XmlDocSummaryNormalizer
 
         // Keep only the last </summary>, remove all previous
         var sb = new StringBuilder();
-        int start = 0;
-        for (int i = 0; i < positions.Count - 1; i++)
+        var start = 0;
+        for (var i = 0; i < positions.Count - 1; i++)
         {
             // Append text up to the duplicate </summary>
             sb.Append(input[start..positions[i]]);
@@ -217,7 +217,7 @@ public sealed class XmlDocSummaryNormalizer
 
     private static string GetIndent(string line)
     {
-        int i = 0;
+        var i = 0;
         while (i < line.Length && char.IsWhiteSpace(line[i])) i++;
         return line.Substring(0, i);
     }

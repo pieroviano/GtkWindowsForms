@@ -18,7 +18,7 @@ public static class ChineseDetector
         bool saveAsText = false
     )
     {
-        List<string> chineseMatches = GetChineseMatches(isDirectory, inputPath);
+        var chineseMatches = GetChineseMatches(isDirectory, inputPath);
 
         // ---- Output path ----
         string outputFileName;
@@ -35,7 +35,7 @@ public static class ChineseDetector
             outputFileName = isJsonFile ? "JsonTranslations.xml" : "Translations.xml";
         }
 
-        string outputPath = Path.GetFullPath(
+        var outputPath = Path.GetFullPath(
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\Resources", outputFileName)
         );
 
@@ -52,7 +52,7 @@ public static class ChineseDetector
         }
 
         // ---- XML OUTPUT (existing behavior) ----
-        List<string> extractedChinese = chineseMatches
+        var extractedChinese = chineseMatches
             .Distinct()
             .OrderByDescending(s => s.Length)
             .ToList();
@@ -61,12 +61,14 @@ public static class ChineseDetector
 
         if (File.Exists(outputPath))
         {
-            XDocument existingDoc = XDocument.Load(outputPath);
+            var existingDoc = XDocument.Load(outputPath);
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             foreach (var entry in existingDoc.Root.Elements("Entry"))
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             {
-                string chinese = entry.Element("Chinese")?.Value;
-                string english = entry.Element("English")?.Value ?? string.Empty;
+                var chinese = entry.Element("Chinese")?.Value;
+                var english = entry.Element("English")?.Value ?? string.Empty;
 
                 if (!string.IsNullOrWhiteSpace(chinese))
                 {
@@ -75,11 +77,11 @@ public static class ChineseDetector
             }
         }
 
-        XElement root = new XElement("Translations");
+        var root = new XElement("Translations");
 
-        foreach (string chineseText in extractedChinese)
+        foreach (var chineseText in extractedChinese)
         {
-            existingTranslations.TryGetValue(chineseText, out string englishText);
+            existingTranslations.TryGetValue(chineseText, out var englishText);
 
             root.Add(
                 new XElement("Entry",
@@ -89,7 +91,7 @@ public static class ChineseDetector
             );
         }
 
-        XDocument doc = new XDocument(
+        var doc = new XDocument(
             new XDeclaration("1.0", "utf-8", "yes"),
             root
         );
@@ -102,14 +104,14 @@ public static class ChineseDetector
 
     private static List<string> GetChineseMatches(bool isDirectory, string inputPath)
     {
-        Regex chineseRegex = new Regex(@"[\u4E00-\u9FFF]+", RegexOptions.Compiled);
+        var chineseRegex = new Regex(@"[\u4E00-\u9FFF]+", RegexOptions.Compiled);
         List<string> allMatches = new();
 
         if (isDirectory)
         {
-            foreach (string file in Directory.EnumerateFiles(inputPath, "*.cs", SearchOption.AllDirectories))
+            foreach (var file in Directory.EnumerateFiles(inputPath, "*.cs", SearchOption.AllDirectories))
             {
-                string content = File.ReadAllText(file);
+                var content = File.ReadAllText(file);
 
                 foreach (Match match in chineseRegex.Matches(content))
                 {
@@ -119,7 +121,7 @@ public static class ChineseDetector
         }
         else
         {
-            string content = File.ReadAllText(inputPath);
+            var content = File.ReadAllText(inputPath);
 
             foreach (Match match in chineseRegex.Matches(content))
             {

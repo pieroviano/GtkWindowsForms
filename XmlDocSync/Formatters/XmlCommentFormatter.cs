@@ -15,7 +15,7 @@ public static class XmlCommentFormatter
     /// - stop merging at non-self-closing opening tags and at closing tags
     /// - collapse certain tag-start and tag-in-middle continuations into previous lines
     /// </summary>
-    public static string FormatXmlComment(string xmlComment)
+    public static string? FormatXmlComment(string xmlComment)
     {
         if (xmlComment is null)
             return null;
@@ -81,7 +81,7 @@ public static class XmlCommentFormatter
     private static List<string> MergeTextLines(List<string> lines)
     {
         var outLines = new List<string>();
-        int i = 0;
+        var i = 0;
 
         // Track open tags stack
         var openTags = new Stack<string>();
@@ -102,13 +102,13 @@ public static class XmlCommentFormatter
 
             // Check for tag-only lines (opening or closing)
             var trimmed = content.Trim();
-            bool isOpeningTagOnly = !string.IsNullOrEmpty(trimmed) &&
-                                    trimmed.StartsWith("<") &&
-                                    trimmed.EndsWith(">") &&
-                                    !trimmed.EndsWith("/>") &&
-                                    !trimmed.StartsWith("</");
+            var isOpeningTagOnly = !string.IsNullOrEmpty(trimmed) &&
+                                   trimmed.StartsWith("<") &&
+                                   trimmed.EndsWith(">") &&
+                                   !trimmed.EndsWith("/>") &&
+                                   !trimmed.StartsWith("</");
 
-            bool isClosingTagOnly = trimmed.StartsWith("</") && trimmed.EndsWith(">");
+            var isClosingTagOnly = trimmed.StartsWith("</") && trimmed.EndsWith(">");
 
             // Update open tag stack
             if (isOpeningTagOnly)
@@ -140,7 +140,7 @@ public static class XmlCommentFormatter
 
             // Merge consecutive text lines inside current open tag block
             var merged = new StringBuilder(content);
-            int j = i + 1;
+            var j = i + 1;
 
             while (j < lines.Count)
             {
@@ -153,13 +153,13 @@ public static class XmlCommentFormatter
                 var nextTrim = nextContent.Trim();
 
                 // Stop if next line contains a closing-tag-only or opening non-self-closing tag-only
-                bool nextIsOpeningTagOnly = !string.IsNullOrEmpty(nextTrim) &&
-                                            nextTrim.StartsWith("<") &&
-                                            nextTrim.EndsWith(">") &&
-                                            !nextTrim.EndsWith("/>") &&
-                                            !nextTrim.StartsWith("</");
+                var nextIsOpeningTagOnly = !string.IsNullOrEmpty(nextTrim) &&
+                                           nextTrim.StartsWith("<") &&
+                                           nextTrim.EndsWith(">") &&
+                                           !nextTrim.EndsWith("/>") &&
+                                           !nextTrim.StartsWith("</");
 
-                bool nextIsClosingTagOnly = nextTrim.StartsWith("</") && nextTrim.EndsWith(">");
+                var nextIsClosingTagOnly = nextTrim.StartsWith("</") && nextTrim.EndsWith(">");
 
                 if (nextIsOpeningTagOnly || nextIsClosingTagOnly)
                     break;
@@ -185,7 +185,7 @@ public static class XmlCommentFormatter
     private static List<string> CollapseSelfClosingTagStarts(List<string> lines)
     {
         var outLines = new List<string>();
-        int i = 0;
+        var i = 0;
         while (i < lines.Count)
         {
             if (i + 1 < lines.Count)
@@ -220,7 +220,7 @@ public static class XmlCommentFormatter
     private static List<string> MergeSelfClosingMidlineContinuations(List<string> lines)
     {
         var outLines = new List<string>();
-        int i = 0;
+        var i = 0;
         while (i < lines.Count)
         {
             if (i + 1 < lines.Count)
@@ -238,9 +238,9 @@ public static class XmlCommentFormatter
                     var nextContent = nextMatch.Groups[2].Value.Trim();
 
                     // current line must contain a self-closing tag anywhere
-                    bool curHasSelfClosing = Regex.IsMatch(curContent, @"<[^>]+/>\s*");
+                    var curHasSelfClosing = Regex.IsMatch(curContent, @"<[^>]+/>\s*");
                     // next line must NOT be tag-only (opening/closing) — allow normal text continuation
-                    bool nextIsTagOnly = nextContent.StartsWith("<") && nextContent.EndsWith(">");
+                    var nextIsTagOnly = nextContent.StartsWith("<") && nextContent.EndsWith(">");
 
                     if (curHasSelfClosing && !nextIsTagOnly)
                     {
@@ -262,8 +262,8 @@ public static class XmlCommentFormatter
         return outLines;
     }
 
-    private static string Normalize(string s) =>
-        s is null ? null : s.Replace("\r\n", "\n").Replace("\r", "\n");
+    private static string? Normalize(string? s) =>
+        s?.Replace("\r\n", "\n").Replace("\r", "\n");
 
 
 }

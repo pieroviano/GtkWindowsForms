@@ -17,7 +17,7 @@ public static class EventMethodDetector
 
         foreach (var file in files)
         {
-            string code = File.ReadAllText(file);
+            var code = File.ReadAllText(file);
             var tree = CSharpSyntaxTree.ParseText(code);
             var root = tree.GetRoot();
 

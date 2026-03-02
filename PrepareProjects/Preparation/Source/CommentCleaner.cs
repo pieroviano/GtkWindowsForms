@@ -8,9 +8,9 @@ public static class CommentCleaner
             .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
             .ToList();
 
-        for (int i = 0; i < lines.Count; i++)
+        for (var i = 0; i < lines.Count; i++)
         {
-            int index = lines[i].IndexOf(comment, StringComparison.Ordinal);
+            var index = lines[i].IndexOf(comment, StringComparison.Ordinal);
             if (index < 0)
                 continue;
 
@@ -22,12 +22,12 @@ public static class CommentCleaner
             }
 
             // CASE 2: Comment block line
-            int start = i;
+            var start = i;
             while (start >= 0 && lines[start].TrimStart().StartsWith("//"))
                 start--;
             start++;
 
-            int end = i;
+            var end = i;
             while (end < lines.Count && lines[end].TrimStart().StartsWith("//"))
                 end++;
             end--;

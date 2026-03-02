@@ -12,7 +12,7 @@ public class EventInvocatorFileRewriterTests : IDisposable
     public void RewriteEventInvocations_ValidOnMethod_RewritesBody()
     {
         // Arrange
-        string originalCode = @"
+        var originalCode = @"
 namespace TestNamespace;
 public class TestClass {
     public event EventHandler<MouseEventArgs> MouseClick;
@@ -27,7 +27,7 @@ public class TestClass {
         EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath);
 
         // Assert
-        string updatedCode = File.ReadAllText(_tempFilePath);
+        var updatedCode = File.ReadAllText(_tempFilePath);
         Assert.Contains("MouseClick?.Invoke(this, e);", updatedCode);
         Assert.Contains("// Old logic", updatedCode);
     }
@@ -36,7 +36,7 @@ public class TestClass {
     public void RewriteEventInvocations_MethodDoesNotMatchPattern_DoesNotChangeFile()
     {
         // Arrange: Method starts with 'On' but parameter doesn't end in 'EventArgs'
-        string originalCode = @"
+        var originalCode = @"
 public class TestClass {
     protected void OnStatusUpdate(string message) { }
 }";
@@ -46,7 +46,7 @@ public class TestClass {
         EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath);
 
         // Assert
-        string updatedCode = File.ReadAllText(_tempFilePath);
+        var updatedCode = File.ReadAllText(_tempFilePath);
         Assert.Equal(originalCode, updatedCode);
     }
 
@@ -63,7 +63,7 @@ public class TestClass {
     public void RewriteEventInvocations_HandlesMultipleMembers()
     {
         // Arrange
-        string originalCode = @"
+        var originalCode = @"
 public class MyControl {
     protected void OnClick(ClickEventArgs e) { }
     protected void OnHover(HoverEventArgs ev) { }
@@ -74,7 +74,7 @@ public class MyControl {
         EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath);
 
         // Assert
-        string updatedCode = File.ReadAllText(_tempFilePath);
+        var updatedCode = File.ReadAllText(_tempFilePath);
         Assert.Contains("Click?.Invoke(this, e);", updatedCode);
         Assert.Contains("Hover?.Invoke(this, ev);", updatedCode);
     }

@@ -34,7 +34,7 @@ public static class FolderService
             }
             catch (Exception e)
             {
-                RedConsole.Write("Unexpected exception: {e}.");
+                RedConsole.Write($"Unexpected exception: {e}.");
             }
         }
 
@@ -50,7 +50,7 @@ public static class FolderService
             }
             catch (Exception e)
             {
-                RedConsole.Write("Unexpected exception: {e}.");
+                RedConsole.Write($"Unexpected exception: {e}.");
                 if (string.Compare(oldPath, newPath, StringComparison.InvariantCultureIgnoreCase) != 0)
                 {
                     throw;

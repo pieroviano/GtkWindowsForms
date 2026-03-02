@@ -36,7 +36,9 @@ public static class ResGenService
 
         // Assume project path is the projectName directory
         var projectDir = Path.GetDirectoryName(Path.GetFullPath(projectName));
+#pragma warning disable CS8604 // Possible null reference argument.
         var resxPath = Path.Combine(projectDir, partToCombine, resourceName);
+#pragma warning restore CS8604 // Possible null reference argument.
 
         ResxTypedClassGenerator.GenerateDesigner(resxPath, targetNamespace);
     }

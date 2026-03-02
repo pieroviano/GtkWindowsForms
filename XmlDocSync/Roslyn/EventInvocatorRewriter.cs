@@ -26,12 +26,12 @@ public class EventInvocatorRewriter : CSharpSyntaxRewriter
     public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         // 1. Check if method name starts with "On" (e.g., OnMouseClick)
-        string methodName = node.Identifier.Text;
+        var methodName = node.Identifier.Text;
         if (!methodName.StartsWith("On") || methodName.Length <= 2)
             return base.VisitMethodDeclaration(node);
 
         // 2. Extract potential event name (e.g., MouseClick)
-        string eventName = methodName.Substring(2);
+        var eventName = methodName.Substring(2);
 
         // If this event name was provided to the constructor, ignore (do not rewrite) it.
         if (_ignoredEventNames.Contains(eventName))
@@ -43,11 +43,11 @@ public class EventInvocatorRewriter : CSharpSyntaxRewriter
             return base.VisitMethodDeclaration(node);
 
         var param = parameters[0];
-        string? typeName = param.Type?.ToString();
+        var typeName = param.Type?.ToString();
         if (typeName == null || !typeName.EndsWith("EventArgs"))
             return base.VisitMethodDeclaration(node);
 
-        string paramName = param.Identifier.Text;
+        var paramName = param.Identifier.Text;
 
         // Only rewrite methods that have a block body and that body is "empty",
         // i.e. contains no real statements (only comments, whitespace or empty statements).

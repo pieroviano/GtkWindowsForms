@@ -33,7 +33,7 @@ public static class PostProcessing
             return;
         }
 
-        int applied = 0;
+        var applied = 0;
 
         string[] fileNames;
         foreach (var replacement in replacements)
@@ -53,7 +53,9 @@ public static class PostProcessing
     {
         string[] fileNames;
         var filePath = Path.Combine(targetDir, replacement.FileName!);
+#pragma warning disable CS8604 // Possible null reference argument.
         var fullPath = Path.GetFullPath(Path.GetDirectoryName(filePath));
+#pragma warning restore CS8604 // Possible null reference argument.
         var searchPattern = Path.GetFileName(filePath);
         if (!searchPattern.Contains("*") && !searchPattern.Contains("*") && !fullPath.Contains("*") &&
             !fullPath.Contains("*"))
@@ -76,7 +78,7 @@ public static class PostProcessing
         var markerRegex = new Regex(@"\$RegEx\$\((.*?)\)");
         var sb = new StringBuilder();
 
-        int lastIndex = 0;
+        var lastIndex = 0;
 
         foreach (Match match in markerRegex.Matches(source))
         {
@@ -116,7 +118,7 @@ public static class PostProcessing
         var text = File.ReadAllText(filePath);
 
 
-        string newText = text;
+        var newText = text;
 
         // Detect embedded $RegEx$(...)
         var markerRegex = new Regex(@"\$RegEx\$\((.*?)\)");

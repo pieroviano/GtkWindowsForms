@@ -9,6 +9,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Net4x.$(AssemblyName)</PackageId>
+        <NoWarn>NU5118</NoWarn>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Net4x.BaseExtensions" Version="$(Net4xBaseTypesVersion).$(VersionBuildSuffix)" />
