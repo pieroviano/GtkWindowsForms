@@ -94,7 +94,6 @@ internal sealed partial class PropertyGridView
         tree.AppendColumn(column3);
         tree.ExpanderColumn = column2;
 
-        
         tree.LevelIndentation = 15;
         tree.Selection.Mode = Gtk.SelectionMode.Single;
         tree.ActivateOnSingleClick = true;

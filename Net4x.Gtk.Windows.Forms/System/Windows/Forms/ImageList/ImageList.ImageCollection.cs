@@ -97,7 +97,6 @@ namespace System.Windows.Forms
 
             bool IList.IsFixedSize => false;
 
-
             public bool IsReadOnly => false;
 
             /// <summary>

@@ -112,14 +112,12 @@ namespace System.Resources
         ";
 #pragma warning restore IDE1006 // Naming Styles
 
-
         private readonly string _fileName;
 
         private Stream _stream;
 
         private TextWriter _textWriter;
         private XmlTextWriter _xmlTextWriter;
-
 
         private bool _hasBeenSaved;
         private bool _initialized;

@@ -5,18 +5,18 @@ namespace Prepare.Common.Projects;
 
 internal static class ReorderingPersister
 {
-    internal static void AddInnerTextFromFileContent(
+    internal static void AddBackupFilePathAsInnerText(
         string projectDirectory,
-        KeyValuePair<string, string> kvp,
-        XElement itemElement, string backupName)
+        KeyValuePair<string, string> keyValuePair,
+        XElement itemElement, string backupName, string projectName)
     {
-        if (kvp.Key.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
+        if (keyValuePair.Key.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
         {
-            var fullPath = Path.Combine(projectDirectory, kvp.Value);
+            var fullPath = Path.Combine(projectDirectory, keyValuePair.Value);
 
             if (File.Exists(fullPath))
             {
-                var destFileName = BackupUtility.GetDestFileName(fullPath, backupName);
+                var destFileName = BackupUtility.GetDestFileName(fullPath, backupName, projectName);
                 itemElement.Value = destFileName;
             }
         }

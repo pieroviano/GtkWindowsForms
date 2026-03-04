@@ -174,7 +174,6 @@ namespace GtkSystem.Resources.Extensions
 
 		private bool _assumeBinaryFormatter;
 
-
         private DataContractSerializer _formatter;
         public DeserializingResourceReader(string fileName)
 		{

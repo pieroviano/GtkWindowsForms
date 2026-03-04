@@ -30,14 +30,12 @@ namespace System.Windows.Forms
         private static readonly Color s_fakeTransparencyColor = Color.FromArgb(0x0d, 0x0b, 0x0c);
         private static readonly Size s_defaultImageSize = new Size(16, 16);
 
-
         private static int s_maxImageWidth;
 
         private static int s_maxImageHeight;
         private static bool s_isScalingInitialized;
 
         private NativeImageList? _nativeImageList;
-
 
         private ColorDepth _colorDepth = ColorDepth.Depth32Bit;
         private Size _imageSize = s_defaultImageSize;
@@ -116,7 +114,6 @@ namespace System.Windows.Forms
         }
 
         private bool ShouldSerializeImageSize() => Images.Count == 0;
-
 
         private ImageListStreamer? _ImageStream;
         public ImageListStreamer? ImageStream
@@ -393,9 +390,6 @@ namespace System.Windows.Forms
 
         private void OnChangeHandle(EventArgs eventargs) => _changeHandler?.Invoke(this, eventargs);
 
-        /// <summary>
-        ///  Returns a string representation for this control.
-        /// </summary>
         public override string ToString()
             => Images is null
                ? base.ToString()

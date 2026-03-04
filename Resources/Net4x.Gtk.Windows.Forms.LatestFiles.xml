@@ -37,8 +37,6 @@
   <Item Source="GtkSystem\Resources\ResourceManager.cs" Destination="GtkSystem\Resources\ResourceManager.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\GtkSystem\Resources\ResourceManager.cs</Item>
   <Item Source="GtkSystem\Resources\ResourceTypeCode.cs" Destination="GtkSystem\Resources\ResourceTypeCode.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\GtkSystem\Resources\ResourceTypeCode.cs</Item>
   <Item Source="Microsoft\Win32\RegistryKey.cs" Destination="Microsoft\Win32\RegistryKey.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.LatestBackup\Microsoft\Win32\RegistryKey.cs</Item>
-  <Item Source="Properties\PublishProfiles\FolderProfile.pubxml" Destination="Properties\PublishProfiles\FolderProfile.pubxml" />
-  <Item Source="Properties\PublishProfiles\FolderProfile.pubxml.user" Destination="Properties\PublishProfiles\FolderProfile.pubxml.user" />
   <Item Source="Resources\Cursors\aero_ew.cur" Destination="Resources\Cursors\aero_ew.cur" />
   <Item Source="Resources\Cursors\aero_helpsel.cur" Destination="Resources\Cursors\aero_helpsel.cur" />
   <Item Source="Resources\Cursors\aero_move.cur" Destination="Resources\Cursors\aero_move.cur" />

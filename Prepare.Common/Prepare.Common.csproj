@@ -5,15 +5,19 @@
         <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Version>$(VersionPrefix).$(VersionSuffix)</Version>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;net8.0-windows</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Net4x.$(AssemblyName)</PackageId>
+        <LangVersion>latest</LangVersion>
         <NoWarn>NU5118</NoWarn>
+        <UseWindowsForms Condition="'$(TargetFramework)'=='net8.0-windows'">true</UseWindowsForms>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Net4x.BaseExtensions" Version="$(Net4xBaseTypesVersion).$(VersionBuildSuffix)" />
         <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.3" />
+        <PackageReference Include="System.Text.Json" Version="$(SystemTextJson10Version).$(VersionBuildSuffix)" />
     </ItemGroup>
     <PropertyGroup>
         <PackageReadmeFile>README.md</PackageReadmeFile>

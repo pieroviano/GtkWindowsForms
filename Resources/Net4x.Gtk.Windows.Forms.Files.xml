@@ -625,8 +625,6 @@
   <Item Source="GtkSystem\Resources\ResXResourceWriter.cs" Destination="System\Resources\ResXResourceWriter.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Resources\ResXResourceWriter.cs</Item>
   <Item Source="GtkSystem\Resources\ResXSerializationBinder.cs" Destination="System\Resources\ResXSerializationBinder.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Resources\ResXSerializationBinder.cs</Item>
   <Item Source="GtkSystem\Resources\SR.cs" Destination="GtkSystem/Resources/SR.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkSystem\Resources\SR.cs</Item>
-  <Item Source="Properties\PublishProfiles\FolderProfile.pubxml" Destination="Properties\PublishProfiles\FolderProfile.pubxml" />
-  <Item Source="Properties\PublishProfiles\FolderProfile.pubxml.user" Destination="Properties\PublishProfiles\FolderProfile.pubxml.user" />
   <Item Source="Resources\Cursors\aero_ew.cur" Destination="Resources\Cursors\aero_ew.cur" />
   <Item Source="Resources\Cursors\aero_helpsel.cur" Destination="Resources\Cursors\aero_helpsel.cur" />
   <Item Source="Resources\Cursors\aero_move.cur" Destination="Resources\Cursors\aero_move.cur" />

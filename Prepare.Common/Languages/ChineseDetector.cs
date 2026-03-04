@@ -46,8 +46,8 @@ public static class ChineseDetector
                 .Distinct()
                 .OrderByDescending(s => s.Length)
                 .ToArray());
-            ColoredConsole.WriteInColor("Chinese text file generated (ordering preserved).", ConsoleColor.White, true);
-            ColoredConsole.WriteInColor(outputPath, ConsoleColor.White, true);
+            ConsoleColor.White.Write("Chinese text file generated (ordering preserved).", true);
+            ConsoleColor.White.Write(outputPath, true);
             return;
         }
 
@@ -64,7 +64,7 @@ public static class ChineseDetector
             var existingDoc = XDocument.Load(outputPath);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            foreach (var entry in existingDoc.Root.Elements("Entry"))
+            foreach (var entry in existingDoc.Root?.Elements("Entry"))
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
             {
                 var chinese = entry.Element("Chinese")?.Value;
@@ -72,7 +72,9 @@ public static class ChineseDetector
 
                 if (!string.IsNullOrWhiteSpace(chinese))
                 {
+#pragma warning disable CS8604 // Possible null reference argument.
                     existingTranslations[chinese] = english;
+#pragma warning restore CS8604 // Possible null reference argument.
                 }
             }
         }
@@ -98,8 +100,8 @@ public static class ChineseDetector
 
         doc.Save(outputPath);
 
-        ColoredConsole.WriteInColor("Translations file updated safely (existing translations preserved).", ConsoleColor.White, true);
-        ColoredConsole.WriteInColor(outputPath, ConsoleColor.White, true);
+        ConsoleColor.White.Write("Translations file updated safely (existing translations preserved).", true);
+        ConsoleColor.White.Write(outputPath, true);
     }
 
     private static List<string> GetChineseMatches(bool isDirectory, string inputPath)

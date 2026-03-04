@@ -99,31 +99,29 @@ namespace System.Drawing.Drawing2D
         public Matrix()
         {
         }
-
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
         /// </summary>
         /// <param name="rect">A
-        /// <see cref="T:System.Drawing.Rectangle" /> structure that represents the rectangle to be transformed.
+        /// <see cref="System.Drawing.Rectangle" /> structure that represents the rectangle to be transformed.
         /// </param>
         /// <param name="plgpts">An array of three
-        /// <see cref="T:System.Drawing.Point" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
+        /// <see cref="System.Drawing.Point" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
         /// </param>
         public Matrix(Rectangle rect, Point[] plgpts)
         {
 
         }
-
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
         /// </summary>
         /// <param name="rect">A
-        /// <see cref="T:System.Drawing.RectangleF" /> structure that represents the rectangle to be transformed.
+        /// <see cref="System.Drawing.RectangleF" /> structure that represents the rectangle to be transformed.
         /// </param>
         /// <param name="plgpts">An array of three
-        /// <see cref="T:System.Drawing.PointF" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
+        /// <see cref="System.Drawing.PointF" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
         /// </param>
         public Matrix(RectangleF rect, PointF[] plgpts)
         {
@@ -176,7 +174,6 @@ namespace System.Drawing.Drawing2D
         public float dy { get; set; } = 0;
         public MatrixOrder order { get; set; } = MatrixOrder.Prepend;
 
-
         public float angle { get; set; }
 
         public PointF rotateAtPoint { get; set; }
@@ -217,26 +214,6 @@ namespace System.Drawing.Drawing2D
         public Matrix Clone()
         {
             return null;
-            //         Matrix m = new Matrix();
-            //m.initMatrix = this.initMatrix;
-            //m.initRectangle = this.initRectangle;
-            //m.initPointF = this.initPointF;
-            //m.vectorTransformPoints = this.vectorTransformPoints;
-            //m.transformVectors = this.transformVectors;
-            //m.transformPoints = this.transformPoints;
-            //m.shearX = this.shearX;
-            //m.shearY = this.shearY;
-            //m.angle = this.angle;
-            //m.scaleX = this.scaleX;
-            //m.scaleY = this.scaleY;
-            //m.rotateAtPoint = this.rotateAtPoint;
-            //m.order = this.order;
-            //m.dx = this.dx;
-            //m.dy = this.dy;
-            //m.m11 = this.m11;
-            //m.m12 = this.m12;
-            //m.m21 = this.m21;
-            //m.m22 = this.m22;
 
             //return m;
         }
@@ -389,7 +366,6 @@ namespace System.Drawing.Drawing2D
         /// </param>
         public void Rotate(float angle)
         {
-
 
             this.angle = angle;
         }
@@ -548,10 +524,6 @@ namespace System.Drawing.Drawing2D
         /// </param>
         public void TransformVectors(PointF[] pts)
         {
-            //�������е�ÿ��ʸ���������ˡ� �þ����ת��Ԫ�أ������У������ԡ�
-            //         this.m11 = this.m11 * pts[0].X + this.m11 * pts[1].X;
-            //this.m12 = this.m12 * pts[0].Y + this.m12 * pts[1].Y;
-
 
             this.transformVectors = pts;
         }
@@ -614,9 +586,6 @@ namespace System.Drawing.Drawing2D
         /// </param>
         public void VectorTransformPoints(Point[] pts)
         {
-            //�������е�ÿ��ʸ���������ˡ� �þ����ת��Ԫ�أ������У������ԡ�
-            //         this.m11 = this.m11 * pts[0].X + this.m11 * pts[1].X;
-            //this.m12 = this.m12 * pts[0].Y + this.m12 * pts[1].Y;
 
             this.vectorTransformPoints = pts;
         }

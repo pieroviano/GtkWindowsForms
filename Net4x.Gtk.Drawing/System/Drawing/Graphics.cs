@@ -491,7 +491,6 @@ namespace System.Drawing
             throw new System.NotImplementedException();
         }
 
-
         internal void SetTranslateWithDifference(double x, double y)
         {
             this.context.Translate(diff_left + x, diff_top + y);
@@ -827,7 +826,6 @@ namespace System.Drawing
             DrawArcCore(pen, x, y, width, height, startAngle, sweepAngle);
         }
 
-
         /// <summary>
         /// Collect the positions of all coordinate points on the Bézier curve
         /// </summary>
@@ -882,11 +880,9 @@ namespace System.Drawing
                 nList.Add(nowP);
             }
 
-
             List<PointF> p = CalculateBezier(nList, time);
             return p;
         }
-
 
         private void DrawBeziersCore(Pen pen, PointF[] points)
         {
@@ -1020,7 +1016,6 @@ namespace System.Drawing
         {
             DrawBeziersCore(pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)));
         }
-
 
         private void DrawCurveCore(bool isClosePath, bool isfill, Pen pen, PointF[] points, int offset, int numberOfSegments, float tension, FillMode fillmode)
         {
@@ -1630,12 +1625,10 @@ namespace System.Drawing
 
                 }
 
-
                 this.context.Paint();
                 this.context.Restore();
                 QueueDraw();
             }
-
 
         }
         /// <summary>
@@ -2889,7 +2882,6 @@ namespace System.Drawing
                         this.context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
                     }
 
-
                 }
 
                 else if (o is GraphicsPath.StringMode str)
@@ -2913,7 +2905,6 @@ namespace System.Drawing
                         }
 
                     }
-
 
                     this.context.SelectFontFace(family, str.style == 2 ? Cairo.FontSlant.Italic : Cairo.FontSlant.Normal, str.style == 1 ? Cairo.FontWeight.Bold : Cairo.FontWeight.Normal);
                     this.context.SetFontSize(textSize);
@@ -2943,7 +2934,6 @@ namespace System.Drawing
             {
                 this.context.Matrix = ConvertToMatrix(path.matrix);
             }
-
 
             this.context.Restore();
         }
@@ -3085,7 +3075,6 @@ namespace System.Drawing
             DrawPieCore(false, pen, x, y, width, height, startAngle, sweepAngle);
         }
 
-
         private void DrawPolygonCore(bool isfill, Pen pen, PointF[] points, FillMode fillmode)
         {
             if (points.Length > 0)
@@ -3151,7 +3140,6 @@ namespace System.Drawing
         {
             DrawPolygonCore(false, pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)), FillMode.Winding);
         }
-
 
         private void DrawRectangleCore(bool isfill, Pen pen, float x, float y, float width, float height)
         {
@@ -5044,7 +5032,6 @@ namespace System.Drawing
         {
         }
 
-
         ~Graphics()
         {
         }
@@ -5136,7 +5123,6 @@ namespace System.Drawing
         {
             throw new System.NotImplementedException();
         }
-
 
         private static Cairo.ImageSurface imagesurface;
 
@@ -5910,7 +5896,6 @@ namespace System.Drawing
         {
             this.context.Restore();
         }
-
 
         private float _angle = 0;
         /// <summary>

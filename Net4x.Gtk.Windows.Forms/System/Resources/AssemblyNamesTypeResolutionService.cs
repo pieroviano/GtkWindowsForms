@@ -20,7 +20,6 @@ namespace System.Resources
         private Hashtable _cachedAssemblies;
         private Hashtable _cachedTypes;
 
-
         private static readonly string s_dotNetPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "dotnet\\shared");
         private static readonly string s_dotNetPathX86 = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles(x86)"), "dotnet\\shared");
 
@@ -34,7 +33,6 @@ namespace System.Resources
             return GetAssembly(name, true);
         }
 
-        // [UnconditionalSuppressMessage("SingleFile", "IL3002", Justification = "Handles single file case")]
         public Assembly GetAssembly(AssemblyName name, bool throwOnError)
         {
             Assembly result = null;

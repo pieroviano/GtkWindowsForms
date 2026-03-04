@@ -83,7 +83,6 @@ namespace System.Windows.Forms
             }
         }
 
-
         public string ToolTipText
         {
             get; set;

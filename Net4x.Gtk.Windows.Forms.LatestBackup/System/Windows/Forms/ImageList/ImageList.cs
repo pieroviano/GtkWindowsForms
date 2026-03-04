@@ -31,14 +31,12 @@ namespace System.Windows.Forms
         private static readonly Color s_fakeTransparencyColor = Color.FromArgb(0x0d, 0x0b, 0x0c);
         private static readonly Size s_defaultImageSize = new Size(16, 16);
 
-
         private static int s_maxImageWidth;
 
         private static int s_maxImageHeight;
         private static bool s_isScalingInitialized;
 
         private NativeImageList? _nativeImageList;
-
 
         private ColorDepth _colorDepth = ColorDepth.Depth32Bit;
         private Size _imageSize = s_defaultImageSize;
@@ -183,7 +181,6 @@ namespace System.Windows.Forms
         }
 
         private bool ShouldSerializeImageSize() => Images.Count == 0;
-
 
         private ImageListStreamer? _ImageStream;
         /// <summary>
@@ -542,7 +539,6 @@ namespace System.Windows.Forms
         private void OnRecreateHandle(EventArgs eventargs) => _recreateHandler?.Invoke(this, eventargs);
 
         private void OnChangeHandle(EventArgs eventargs) => _changeHandler?.Invoke(this, eventargs);
-
         /// <summary>
         /// Returns a string that represents the current
         /// <see cref="System.Windows.Forms.ImageList" />
@@ -556,8 +552,8 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
         public override string ToString()
-            => Images is null
-               ? base.ToString()
-               : $"{base.ToString()} Images.Count: {Images.Count}, ImageSize: {ImageSize}";
+                    => Images is null
+                       ? base.ToString()
+                       : $"{base.ToString()} Images.Count: {Images.Count}, ImageSize: {ImageSize}";
     }
 }

@@ -41,7 +41,6 @@ namespace System.Windows.Forms
 			return group;
 		}
 
-
 		public void AddRange(ListViewGroup[] groups)
 		{
             foreach (ListViewGroup group in groups)

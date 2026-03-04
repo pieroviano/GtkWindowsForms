@@ -19,7 +19,6 @@ namespace System.Windows.Forms
         //private static ReadOnlySpan<byte> HeaderMagic => "MSFt"u8;
         private static readonly object s_syncObject = new object();
 
-
         private readonly ImageList? _imageList;
         private ImageList.NativeImageList? _nativeImageList;
 
@@ -145,7 +144,6 @@ namespace System.Windows.Forms
         private bool WriteImageList(Stream stream)
         {
             return true;
-
 
             //try
             //{

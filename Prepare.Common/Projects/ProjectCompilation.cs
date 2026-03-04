@@ -49,7 +49,7 @@ public static class ProjectCompilation
 
         process.WaitForExit();
 
-        ColoredConsole.WriteInColor(output, ConsoleColor.White, true);
+        ConsoleColor.White.Write(output, true);
 
         if (process.ExitCode != 0)
         {

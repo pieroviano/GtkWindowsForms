@@ -16,7 +16,7 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public sealed partial class ImageList
     {
-        internal class NativeImageList : IDisposable//, IHandle<HIMAGELIST>
+        internal class NativeImageList : IDisposable
         {
 #if DEBUG
             private readonly string _callStack = new StackTrace().ToString();
@@ -26,8 +26,6 @@ namespace System.Windows.Forms
             private const int InitialCapacity = 4;
 
             private static readonly object s_syncLock = new object();
-
-
 
             //private NativeImageList(HIMAGELIST himl)
             //{
@@ -78,7 +76,6 @@ namespace System.Windows.Forms
                 // In those cases the loose instances will be collected by the GC.
                 Dispose(disposing: false);
             }
-
 
             //#if DEBUG
             //            Debug.Fail($"{nameof(NativeImageList)} could not be duplicated. Originating stack:\n{_callStack}");

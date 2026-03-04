@@ -254,6 +254,7 @@
     <SystemSecurityPermissionsVersion>7.0.0</SystemSecurityPermissionsVersion>
     <SystemSecurityPrincipalWindowsVersion>5.0.0</SystemSecurityPrincipalWindowsVersion>
     <SystemTextEncodingVersion>4.3.0</SystemTextEncodingVersion>
+    <SystemTextJson10Version>10.0.3</SystemTextJson10Version>
     <SystemTextJsonVersion>10.0.0</SystemTextJsonVersion>
     <TaskSchedulerLibraryVersion>1.3.0</TaskSchedulerLibraryVersion>
     <TestAppVersion>1.2.0</TestAppVersion>

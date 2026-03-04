@@ -28,7 +28,7 @@ public static class EventInvocatorFileRewriter
             var formatted = (CompilationUnitSyntax)Formatter.Format(newRoot, workspace);
 
             File.WriteAllText(filePath, formatted.ToFullString());
-            ColoredConsole.WriteInColor($"Successfully reformatted: {filePath}", ConsoleColor.White, true);
+            ConsoleColor.White.Write($"Successfully reformatted: {filePath}", true);
         }
     }
 }

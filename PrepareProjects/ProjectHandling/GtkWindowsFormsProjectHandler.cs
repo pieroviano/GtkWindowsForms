@@ -16,8 +16,8 @@ public class GtkWindowsFormsProjectHandler
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetProjectDirectory,
             ProjectPatching.PatchProjectNamespace, "Resources", "translations");
 
-        ColoredConsole.WriteInColor("Preparation completed successfully.", ConsoleColor.White, true);
-        Directory.Delete(Path.Combine(targetProjectDirectory,"Properties\\PublishProfiles\\"), true);
+        ConsoleColor.White.Write("Preparation completed successfully.", true);
+        Directory.Delete(Path.Combine(targetProjectDirectory, "Properties\\PublishProfiles\\"), true);
         return (targetProjectDirectory, sourceProjectPath, csprojPath);
     }
 

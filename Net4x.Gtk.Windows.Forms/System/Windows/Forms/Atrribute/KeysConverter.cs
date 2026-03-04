@@ -28,7 +28,6 @@ namespace System.Windows.Forms
         private List<string> displayOrder;
         private StandardValuesCollection values;
 
-
         private const Keys FirstDigit = System.Windows.Forms.Keys.D0;
 
         private const Keys LastDigit = System.Windows.Forms.Keys.D9;
@@ -50,7 +49,6 @@ namespace System.Windows.Forms
         {
             keyNames = new Hashtable(34);
             displayOrder = new List<string>(34);
-
 
             //new whidbey keys follow here...
             // Add string mappings for these values (numbers 0-9) so that the keyboard shortcuts

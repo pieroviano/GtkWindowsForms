@@ -12,15 +12,15 @@ public static class ProjectPatching
     {
         if (!sourceProjectName.StartsWith("GTKSystem."))
         {
-            fileContent = fileContent.ReplaceIgnoreCase(sourceProjectName, targetProjectName);
+            fileContent = fileContent.ReplaceIgnoreCase(sourceProjectName, targetProjectName)??string.Empty;
         }
         else
         {
             fileContent = fileContent.ReplaceIgnoreCase(sourceProjectName,
-                sourceProjectName.Replace("GTKSystem.", "GtkSystem."));
+                sourceProjectName.Replace("GTKSystem.", "GtkSystem.")) ?? string.Empty;
         }
 
-        return fileContent;
+        return fileContent ?? string.Empty;
     }
 
     public static string PatchProject(string targetProjectDirectory, string csprojPath, Action<string> CopyResources)

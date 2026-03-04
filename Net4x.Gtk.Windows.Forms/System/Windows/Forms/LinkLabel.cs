@@ -62,7 +62,6 @@ namespace System.Windows.Forms
         /// </filterpriority>
         public override string Text { get { return string.IsNullOrEmpty(self.Label) ? self.Uri : self.Label; } set { self.Label = value; self.Uri = value; } }
 
-
         public event LinkLabelLinkClickedEventHandler LinkClicked;
         /// <summary>
         /// Gets or sets a value indicating whether a link should be displayed as though it were visited.

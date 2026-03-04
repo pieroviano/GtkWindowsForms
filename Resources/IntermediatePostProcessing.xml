@@ -284,7 +284,7 @@ using System.Windows.Forms;</SourceString>
   </Item>
   <Item>
     <FileName>System\Windows\Forms\ImageList\ImageList.NativeImageList.cs</FileName>
-    <SourceString>$CommentedCode$(internal )</SourceString>
+    <SourceString>$CommentedCode$(, IHandle)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
@@ -370,11 +370,6 @@ using System.Windows.Forms;</SourceString>
   <Item>
     <FileName>System\Resources\ResXResourceWriter.cs</FileName>
     <SourceString>$CommentedCode$(ArgumentNullException)</SourceString>
-    <TargetString></TargetString>
-  </Item>
-  <Item>
-    <FileName>System\Resources\ResXDataNode.cs</FileName>
-    <SourceString>$CommentedCode$(private )</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
@@ -673,8 +668,8 @@ using System.Globalization;
 </TargetString>
   </Item>
   <Item>
-    <FileName>GtkControls\Designer\AssemblyRef.cs</FileName>
-    <SourceString>$CommentedCode$(internal )</SourceString>
+	<FileName>GtkControls\Designer\AssemblyRef.cs</FileName>
+    <SourceString>$CommentedCode$(internal const string SystemDesign)</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>

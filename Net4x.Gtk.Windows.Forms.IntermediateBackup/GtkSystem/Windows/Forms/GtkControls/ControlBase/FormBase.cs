@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin32Window
@@ -36,7 +35,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 
         public bool VScroll { get; set; } = true;
         public bool HScroll { get; set; } = true;
-
 
         public delegate bool CloseWindowHandler(object sender, EventArgs e);
 

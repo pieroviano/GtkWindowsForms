@@ -52,7 +52,7 @@ public static class GtkSampleAppProjectsHandler
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetDir,
             ProjectPatching.PatchProjectNamespace, "GtkWinFormsAppResources", "samplesTranslations");
 
-        ColoredConsole.WriteInColor("Copy completed, project updated.", ConsoleColor.White, true);
+        ConsoleColor.White.Write("Copy completed, project updated.", true);
 #pragma warning disable CS8604 // Possible null reference argument.
         return $"{Path.Combine(targetDir, targetProjectName)}.csproj";
 #pragma warning restore CS8604 // Possible null reference argument.
@@ -675,7 +675,7 @@ public static class GtkSampleAppProjectsHandler
 
         doc.Save(csprojPath);
 
-        ColoredConsole.WriteInColor("JSON None items appended to the project file.", ConsoleColor.White);
+        ConsoleColor.White.Write("JSON None items appended to the project file.");
     }
 
 }

@@ -4,6 +4,6 @@ public static class YellowConsole
 {
     public static void Write(string? text)
     {
-        ColoredConsole.WriteInColor(text, ConsoleColor.Yellow, true);
+        ConsoleColor.Yellow.Write(text, true);
     }
 }

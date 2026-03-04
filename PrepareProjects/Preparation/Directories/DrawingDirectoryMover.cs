@@ -13,7 +13,7 @@ public static class DrawingDirectoryMover
         // Move all files and subdirectories
         foreach (var file in Directory.GetFiles(source, "*", SearchOption.AllDirectories))
         {
-            var relativePath = Path.GetRelativePath(source, file);
+            var relativePath = RelativePath.Get(Path.GetFullPath(source), Path.GetFullPath(file));
             var destFile = Path.Combine(destination, relativePath);
 
 #pragma warning disable CS8604 // Possible null reference argument.

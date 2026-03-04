@@ -87,7 +87,6 @@ namespace System.Windows.Forms
             headerView.Hadjustment.Value = scrolledWindow.Hadjustment.Value;
         }
 
-
         private bool ControlRealized = false;
         private void Control_Realized(object sender, EventArgs e)
         {
@@ -1331,7 +1330,6 @@ namespace System.Windows.Forms
                 }
             }
 
-
             public virtual void RemoveByKey(string key)
             {
                 ColumnHeader column = base.Find(o => o.Name == key);
@@ -2023,7 +2021,6 @@ namespace System.Windows.Forms
         {
             throw new System.NotImplementedException();
         }
-
 
         public event ColumnClickEventHandler ColumnClick;
 

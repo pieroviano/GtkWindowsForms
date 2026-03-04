@@ -138,25 +138,24 @@ namespace System.Drawing
             : this(width, height, PixelFormat.Format32bppArgb)
         {
         }
-
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Bitmap" /> class with the specified size and with the resolution of the specified
-        /// <see cref="T:System.Drawing.Graphics" /> object.
+        /// <see cref="System.Drawing.Bitmap" /> class with the specified size and with the resolution of the specified
+        /// <see cref="System.Drawing.Graphics" /> object.
         /// </summary>
         /// <param name="width">The width, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" />.
+        /// <see cref="System.Drawing.Bitmap" />
         /// </param>
         /// <param name="height">The height, in pixels, of the new
-        /// <see cref="T:System.Drawing.Bitmap" />.
+        /// <see cref="System.Drawing.Bitmap" />
         /// </param>
-        /// <param name="g">The
-        /// <see cref="T:System.Drawing.Graphics" /> object that specifies the resolution for the new
-        /// <see cref="T:System.Drawing.Bitmap" />.
+        /// <param name="g">
+        /// The
+        /// <see cref="System.Drawing.Graphics" /> object that specifies the resolution for the new
+        /// <see cref="System.Drawing.Bitmap" />
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="g" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="g" /> is null.
         /// </exception>
         public Bitmap(int width, int height, Graphics g) : this(width, height, PixelFormat.Format32bppArgb)
         {
@@ -319,7 +318,6 @@ namespace System.Drawing
                 Marshal.FreeHGlobal(intPtr);
             }
         }
-
         /// <summary>
         /// Creates a GDI bitmap object from this
         /// <see cref="System.Drawing.Bitmap" />
@@ -342,7 +340,6 @@ namespace System.Drawing
         {
             return GetHbitmap(Color.LightGray);
         }
-
         /// <summary>
         /// Creates a GDI bitmap object from this
         /// <see cref="System.Drawing.Bitmap" />

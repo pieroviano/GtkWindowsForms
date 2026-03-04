@@ -78,7 +78,6 @@ namespace System.Windows.Forms
             headerView.Hadjustment.Value = scrolledWindow.Hadjustment.Value;
         }
 
-
         private bool ControlRealized = false;
         private void Control_Realized(object sender, EventArgs e)
         {
@@ -119,7 +118,6 @@ namespace System.Windows.Forms
         public ImageList GroupImageList { get; set; }
         public System.Windows.Forms.ColumnHeaderStyle HeaderStyle { get; set; } = ColumnHeaderStyle.Clickable;
 
-
         public bool HideSelection { get; set; }
 
         public bool HoverSelection { get; set; }
@@ -154,7 +152,6 @@ namespace System.Windows.Forms
             }
         }
 
-
         public bool OwnerDraw { get; set; }
 
         public bool Scrollable { get; set; }
@@ -165,7 +162,6 @@ namespace System.Windows.Forms
         public ImageList SmallImageList { get; set; }
 
         public ImageList StateImageList { get; set; }
-
 
         public bool UseCompatibleStateImageBehavior { get; set; }
 
@@ -1034,7 +1030,6 @@ namespace System.Windows.Forms
                 }
             }
 
-
             public virtual void RemoveByKey(string key)
             {
                 ColumnHeader column = base.Find(o => o.Name == key);
@@ -1499,7 +1494,6 @@ namespace System.Windows.Forms
         {
             throw new System.NotImplementedException();
         }
-
 
         public event ColumnClickEventHandler ColumnClick;
 

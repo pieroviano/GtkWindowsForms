@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Prepare.Common;
+namespace Prepare.Common.Content;
 
 public static class CsContentProcessor
 {

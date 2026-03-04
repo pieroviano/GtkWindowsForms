@@ -182,12 +182,16 @@ public sealed class XmlDocSummaryNormalizer
         for (var i = 0; i < positions.Count - 1; i++)
         {
             // Append text up to the duplicate </summary>
-            sb.Append(input[start..positions[i]]);
+            var length = positions[i] - start;
+            if (length > 0)
+                sb.Append(input.Substring(start, length));
             start = positions[i] + closingTag.Length; // skip this duplicate
         }
 
         // Append the rest including the last </summary>
-        sb.Append(input[start..]);
+        if (start < input.Length)
+            sb.Append(input.Substring(start));
+
         return sb.ToString();
     }
 

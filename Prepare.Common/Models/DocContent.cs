@@ -1,4 +1,4 @@
-﻿using Prepare.Common.Models;
+﻿namespace Prepare.Common.Models;
 
 internal sealed class DocContent
 {

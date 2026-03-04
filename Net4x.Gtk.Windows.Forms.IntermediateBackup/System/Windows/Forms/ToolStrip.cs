@@ -61,7 +61,6 @@ namespace System.Windows.Forms
             }
         }
 
-
         public Size ImageScalingSize { get; set; }
 
         public ToolStripLayoutStyle LayoutStyle { get; set; }

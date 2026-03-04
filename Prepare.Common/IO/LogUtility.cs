@@ -13,7 +13,7 @@ public static class LogUtility
         {
             YellowConsole.Write($"Copying '{source}' to '{Path.GetDirectoryName(destination)}' directory.");
         }
-        ColoredConsole.WriteInColor($"Copying '{source}' to '{destination}' {str}", ConsoleColor.Cyan);
+        ConsoleColor.Cyan.Write($"Copying '{source}' to '{destination}' {str}");
         File.Copy(sourceFileName, destFileName, overwrite);
     }
 }

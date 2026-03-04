@@ -154,7 +154,7 @@ public static class XmlDocumentationService
     private static async Task ProcessFile(CSharpCompilation compilation,
         Dictionary<string, string> xmlDocumentation, SyntaxTree syntaxTree, (string ToReplace, string DestinationValue)[] valueTuples)
     {
-        ColoredConsole.WriteInColor($"Processing {syntaxTree.FilePath}", ConsoleColor.DarkGray);
+        ConsoleColor.DarkGray.Write($"Processing {syntaxTree.FilePath}");
 
         var semanticModel = compilation.GetSemanticModel(syntaxTree);
 
@@ -197,7 +197,7 @@ public static class XmlDocumentationService
 #if USE_WINDIFF
                 WinMergeService.CompareWithWinMerge(syntaxTree.FilePath, normalizedOriginalText, contents);
 #endif
-                ColoredConsole.WriteInColor($"Modified {syntaxTree.FilePath}", ConsoleColor.Blue);
+                ConsoleColor.Blue.Write($"Modified {syntaxTree.FilePath}");
                 await File.WriteAllTextAsync(syntaxTree.FilePath, contents);
             }
         }
@@ -219,7 +219,7 @@ public static class XmlDocumentationService
 #if USE_WINDIFF
                 WinMergeService.CompareWithWinMerge(syntaxTree.FilePath, normalizedOriginalText, contents);
 #endif
-                ColoredConsole.WriteInColor($"Modified {syntaxTree.FilePath}", ConsoleColor.Blue);
+                ConsoleColor.Blue.Write($"Modified {syntaxTree.FilePath}");
                 await File.WriteAllTextAsync(syntaxTree.FilePath, contents);
             }
         }

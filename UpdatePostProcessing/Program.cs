@@ -1,17 +1,23 @@
 ﻿using Prepare.Common.IO;
+using Prepare.Common.Services;
 
 namespace UpdatePostProcessing;
 
 public class Program
 {
+    private static int processFilesUpdates;
+
     public static int Main(string[] args)
     {
-        if (args.Length == 0)
+        foreach (var csprojPath in args)
         {
-            Console.Error.WriteLine("Missing csproj path argument.");
-            return 1;
+            processFilesUpdates = FileUpdatesService.Process(csprojPath, BackupUtility.LatestBackup);
+            if (processFilesUpdates != 0)
+            {
+                return processFilesUpdates;
+            }
         }
-        var csprojPath = args[0];
-        return ProcessFileUpdatesProcessor.ProcessFilesUpdates(csprojPath, BackupUtility.LatestBackup);
+
+        return 0;
     }
 }

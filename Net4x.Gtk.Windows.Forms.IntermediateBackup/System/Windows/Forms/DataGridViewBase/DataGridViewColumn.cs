@@ -371,7 +371,6 @@ namespace System.Windows.Forms
         private string _markup;
         public string Markup { get => _markup; set { _markup = value; _cellRenderer.Markup = value; } }
 
-
         public DataGridViewElementStates State { get { return DataGridViewElementStates.None; } internal set { } }
         [DefaultValue("")]
 
@@ -394,7 +393,6 @@ namespace System.Windows.Forms
         public Type ValueType { get; set; } = typeof(string);
         [DefaultValue("")]
         [Localizable(true)]
-
 
         public string ToolTipText { get; set; }
 
@@ -436,7 +434,6 @@ namespace System.Windows.Forms
         [Localizable(true)]
         [RefreshProperties(RefreshProperties.Repaint)]
 
-
         public int MinimumWidth { get => base.MinWidth; set { base.MinWidth = value; } }
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -450,7 +447,6 @@ namespace System.Windows.Forms
         [EditorBrowsable(EditorBrowsableState.Advanced)]
 
         public DataGridViewAutoSizeColumnMode InheritedAutoSizeMode { get; }
-
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -466,7 +462,6 @@ namespace System.Windows.Forms
 
         public int DividerWidth { get; set; }
 
-
         private DataGridViewCellStyle _DefaultCellStyle;
         [Browsable(true)]
         public DataGridViewCellStyle DefaultCellStyle { 
@@ -480,7 +475,6 @@ namespace System.Windows.Forms
         public string DataPropertyName { get => _DataPropertyName; set => _DataPropertyName = value; }
         [DefaultValue(null)]
 
-
         public ContextMenuStrip ContextMenuStrip { get; set; }
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -493,7 +487,6 @@ namespace System.Windows.Forms
             get => _cellTemplate;
             set => _cellTemplate = value;
         }
-
 
         [DefaultValue(DataGridViewAutoSizeColumnMode.NotSet)]
         [RefreshProperties(RefreshProperties.Repaint)]
@@ -533,6 +526,5 @@ namespace System.Windows.Forms
             }
         }
     }
-
 
 }

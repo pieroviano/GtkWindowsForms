@@ -14,7 +14,6 @@ namespace System.Windows.Forms
 
         internal string _name;
 
-
         internal int _width = 120;
 
         [Localizable(true)]
@@ -32,7 +31,6 @@ namespace System.Windows.Forms
 
         [DefaultValue(-1)]
 
-
         public int ImageIndex { get; set; } = -1;
 
         [Browsable(false)]
@@ -43,7 +41,6 @@ namespace System.Windows.Forms
                 throw new System.NotImplementedException();
             }
         }
-
 
         public string ImageKey { get; set; }
 
@@ -70,7 +67,6 @@ namespace System.Windows.Forms
             set;
         }
 
-
         [Localizable(true)]
         [DefaultValue(HorizontalAlignment.Left)]
         public HorizontalAlignment TextAlign
@@ -78,7 +74,6 @@ namespace System.Windows.Forms
             get;
             set;
         }
-
 
         [Localizable(false)]
         [Bindable(true)]
@@ -119,7 +114,6 @@ namespace System.Windows.Forms
             Text = text;
             Width = width;
         }
-
 
         public object Clone()
         {

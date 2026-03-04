@@ -50,7 +50,6 @@ namespace System.Drawing
 
         private object _userData;
 
-
         private byte[] _rawData;
         /// <summary>
         /// Gets or sets an object that provides additional data about the image.
@@ -465,7 +464,6 @@ namespace System.Drawing
         {
             SetNativeImage(nativeImage);
         }
-
 
         ~Image()
         {
@@ -995,7 +993,6 @@ namespace System.Drawing
             Dispose(true);
         }
     }
-
 
     public class GtkImageConverter : TypeConverter
     {

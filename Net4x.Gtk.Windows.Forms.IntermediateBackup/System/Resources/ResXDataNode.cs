@@ -24,18 +24,15 @@ namespace System.Resources
 
         private DataNodeInfo _nodeInfo;
 
-
         private string _name;
         private string _comment;
 
         private string _typeName; // is only used when we create a resxdatanode manually with an object and contains the FQN
 
-
         private string _fileRefFullPath;
 
         private string _fileRefType;
         private string _fileRefTextEncoding;
-
 
         private object _value;
         private ResXFileRef _fileRef;

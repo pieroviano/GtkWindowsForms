@@ -31,11 +31,9 @@ namespace System.Windows.Forms
         /// </returns>
         public int RowIndex { get; private set; }
 
-
         //        _height = value;
         //    }
         //}
-
 
         //        if (_height < value)
         //        {

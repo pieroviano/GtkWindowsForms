@@ -65,7 +65,7 @@ public static class NuGetPackageVersionProvider
                 }
 
                 // Skip prerelease versions
-                if (versionText.Contains('-', StringComparison.Ordinal))
+                if (versionText.Contains('-'))
                 {
                     continue;
                 }

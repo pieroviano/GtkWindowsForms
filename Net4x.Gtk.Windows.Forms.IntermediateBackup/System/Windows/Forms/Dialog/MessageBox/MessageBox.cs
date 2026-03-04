@@ -275,7 +275,6 @@ namespace System.Windows.Forms
             else if (buttons == MessageBoxButtons.RetryCancel)
                 buttonsType = Gtk.ButtonsType.OkCancel;
 
-
             Gtk.MessageDialog dia = new Gtk.MessageDialog(owner, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, buttonsType, text);
             dia.SetPosition(position);
             dia.StyleContext.AddClass("DefaultThemeStyle");

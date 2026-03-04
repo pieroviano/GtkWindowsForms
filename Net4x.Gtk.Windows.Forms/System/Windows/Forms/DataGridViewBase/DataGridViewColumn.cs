@@ -464,7 +464,6 @@ namespace System.Windows.Forms
         private string _markup;
         public string Markup { get => _markup; set { _markup = value; _cellRenderer.Markup = value; } }
 
-
         public DataGridViewElementStates State { get { return DataGridViewElementStates.None; } internal set { } }
         /// <summary>
         /// Gets or sets the caption text on the column's header cell.
@@ -739,7 +738,6 @@ namespace System.Windows.Forms
         [DefaultValue(0)]
         public int DividerWidth { get; set; }
 
-
         private DataGridViewCellStyle _DefaultCellStyle;
         /// <summary>
         /// Gets or sets the column's default cell style.
@@ -913,6 +911,5 @@ namespace System.Windows.Forms
             }
         }
     }
-
 
 }

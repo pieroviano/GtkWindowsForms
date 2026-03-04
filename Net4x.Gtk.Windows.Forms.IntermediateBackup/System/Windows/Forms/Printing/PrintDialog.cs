@@ -13,30 +13,24 @@ namespace System.Windows.Forms
         private PrinterSettings _printerSettings;
         private PrintDocument _printDocument;
 
-
         public PrintDialog() => Reset();
 
-        
         [DefaultValue(false)]
         
         public bool AllowCurrentPage { get; set; }
 
-                                
         [DefaultValue(false)]
         
         public bool AllowSomePages { get; set; }
 
-                                
         [DefaultValue(true)]
         
         public bool AllowPrintToFile { get; set; }
 
-                                
         [DefaultValue(false)]
         
         public bool AllowSelection { get; set; }
 
-                                        
         [DefaultValue(null)]
         
         public PrintDocument Document
@@ -53,7 +47,6 @@ namespace System.Windows.Forms
             ? PrinterSettings.DefaultPageSettings
             : Document.DefaultPageSettings;
 
-                                
         [DefaultValue(null)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -71,23 +64,19 @@ namespace System.Windows.Forms
             }
         }
 
-                                
         [DefaultValue(false)]
         
         public bool PrintToFile { get; set; }
 
-                                
         [DefaultValue(false)]
         
         public bool ShowHelp { get; set; }
 
-                                
         [DefaultValue(true)]
         
         public bool ShowNetwork { get; set; }                                                                                [DefaultValue(false)]
         
         public bool UseEXDialog { get; set; }
-
 
         public override void Reset()
         {

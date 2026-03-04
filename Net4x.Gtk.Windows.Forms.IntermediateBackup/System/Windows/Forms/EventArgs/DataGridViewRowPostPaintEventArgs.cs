@@ -58,7 +58,6 @@ namespace System.Windows.Forms
 
         public bool IsLastVisibleRow { get; private set; }
 
-
         //    _dataGridView.Rows.SharedRow(RowIndex).DrawFocus(Graphics,
         //                                                     ClipBounds,
         //                                                     bounds,
@@ -67,7 +66,6 @@ namespace System.Windows.Forms
         //                                                     InheritedRowStyle,
         //                                                     cellsPaintSelectionBackground);
         //}
-
 
         //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
         //                                                      clipBounds,
@@ -78,7 +76,6 @@ namespace System.Windows.Forms
         //                                                      IsLastVisibleRow,
         //                                                      paintParts);
         //}
-
 
         //    DataGridViewPaintParts paintParts = DataGridViewPaintParts.Background | DataGridViewPaintParts.Border;
         //    if (cellsPaintSelectionBackground)
@@ -95,7 +92,6 @@ namespace System.Windows.Forms
         //                                                      paintParts);
         //}
 
-
         //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
         //                                                      clipBounds,
         //                                                      RowBounds,
@@ -105,8 +101,6 @@ namespace System.Windows.Forms
         //                                                      IsLastVisibleRow,
         //                                                      DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ErrorIcon);
         //}
-
-
 
         //    _dataGridView.Rows.SharedRow(RowIndex).PaintHeader(Graphics,
         //                                                       ClipBounds,

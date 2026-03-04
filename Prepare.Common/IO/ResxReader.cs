@@ -16,9 +16,9 @@ public static class ResxReader
 
         var doc = XDocument.Load(resxPath);
 
+        var xElement = doc.Root ?? new XElement("");
         var entries =
-            doc
-                .Root!
+            xElement
                 .Elements("data")
                 .Select(data =>
                 {
@@ -31,11 +31,15 @@ public static class ResxReader
                     }
 
                     return (KeyValuePair<string, string>?)new KeyValuePair<string, string>(
+#pragma warning disable CS8604 // Possible null reference argument.
                         name,
+#pragma warning restore CS8604 // Possible null reference argument.
                         value);
                 })
                 .Where(kv => kv != null)
-                .Select(kv => kv!.Value)
+#pragma warning disable CS8629 // Nullable value type may be null.
+                .Select(kv => kv.Value)
+#pragma warning restore CS8629 // Nullable value type may be null.
                 .OrderByDescending(kv => kv.Value.Length)
                 .ToList();
 

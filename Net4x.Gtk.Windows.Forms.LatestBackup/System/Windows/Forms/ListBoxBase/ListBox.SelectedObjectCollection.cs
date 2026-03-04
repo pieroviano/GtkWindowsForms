@@ -18,12 +18,10 @@ namespace System.Windows.Forms
         /// Represents the collection of selected items in the
         /// <see cref="System.Windows.Forms.ListBox" />
         /// </summary>
-        // Should be "ObjectCollection", except we already have one of those.
         public class SelectedObjectCollection : IList
         {
             // This is the bitmask used within ItemArray to identify selected objects.
             internal static int SelectedObjectMask = ItemArray.CreateMask();
-
 
             private readonly ListBox _owner;
 
@@ -71,8 +69,6 @@ namespace System.Windows.Forms
                         return 0;
                     }
 
-                    // If the handle hasn't been created, we must do this the hard way.
-                    // Getting the count when using a mask is expensive, so cache it.
                     if (_lastVersion != InnerArray.Version)
                     {
                         _lastVersion = InnerArray.Version;
@@ -220,17 +216,11 @@ namespace System.Windows.Forms
                 return InnerArray.GetEnumerator(SelectedObjectMask);
             }
 
-            /// <summary>
-            /// This method returns if the actual item index is selected.  The index is the index to the MAIN
-            /// collection, not this one.
-            /// </summary>
             internal bool GetSelected(int index)
             {
                 return InnerArray.GetState(index, SelectedObjectMask);
             }
 
-            // when SelectedObjectsCollection::ItemArray is accessed we push the selection from Native ListBox into our .Net ListBox - see EnsureUpToDate()
-            // when we create the handle we need to be able to do the opposite : push the selection from .Net ListBox into Native ListBox
             internal void PushSelectionIntoNativeListBox(int index)
             {
             }

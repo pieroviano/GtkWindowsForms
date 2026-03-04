@@ -8,6 +8,5 @@ namespace System.Drawing.Imaging
 
         public short type;
 
-
     }
 }

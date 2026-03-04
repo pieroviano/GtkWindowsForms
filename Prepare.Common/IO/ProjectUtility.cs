@@ -222,7 +222,8 @@ public static class ProjectUtility
         string projectDirectory, string backupName)
     {
         var root = new XElement("Files");
-        BackupUtility.CleanBackup(projectDirectory, backupName);
+        var projectName = Path.GetFileNameWithoutExtension(csprojPath);
+        BackupUtility.CleanBackup(projectDirectory, backupName, projectName);
         foreach (var kvp in projectFiles)
         {
             var itemElement = new XElement("Item",
@@ -230,16 +231,22 @@ public static class ProjectUtility
                 new XAttribute("Destination", kvp.Value)
             );
 
-            ReorderingPersister.AddInnerTextFromFileContent(projectDirectory, kvp, itemElement, backupName);
+            ReorderingPersister.AddBackupFilePathAsInnerText(projectDirectory, kvp, itemElement, backupName, projectName);
 
             root.Add(itemElement);
         }
+        var doc = new XDocument(root);
 
+        var outputPath = GetXmlOutputPath(csprojPath, backupName);
+
+        doc.Save(outputPath);
+    }
+
+    private static string GetXmlOutputPath(string csprojPath, string backupName)
+    {
         var outputPath = Path.ChangeExtension(csprojPath, $".{backupName.Replace(BackupUtility.Backup, BackupUtility.Files)}.xml");
         outputPath = PathService.ChangeLocationToParentFolder(outputPath);
-
-        var doc = new XDocument(root);
-        doc.Save(outputPath);
+        return outputPath;
     }
 
     public static string? GetFilesXmlPath(string csprojPath, string backupName)

@@ -2,7 +2,7 @@
   "profiles": {
     "UpdatePostProcessing": {
       "commandName": "Project",
-      "commandLineArgs": "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms\\Net4x.Gtk.Windows.Forms.csproj"
+      "commandLineArgs": "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms\\Net4x.Gtk.Windows.Forms.csproj ..\\..\\..\\..\\Net4x.Gtk.Drawing\\Net4x.Gtk.Drawing.csproj"
     }
   }
 }

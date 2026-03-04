@@ -49,23 +49,7 @@ namespace System.Windows.Forms
         //    _dataGridView = dataGridView;
         //}
 
-        //public Graphics Graphics { get; private set; }
-
         //public Rectangle ClipBounds { get; set; }
-
-        //public Rectangle RowBounds { get; private set; }
-
-        //public int RowIndex { get; private set; }
-
-        //public DataGridViewElementStates State { get; private set; }
-
-        //public string ErrorText { get; private set; }
-
-        //public DataGridViewCellStyle InheritedRowStyle { get; private set; }
-
-        //public bool IsFirstDisplayedRow { get; private set; }
-
-        //public bool IsLastVisibleRow { get; private set; }
 
         //public DataGridViewPaintParts PaintParts
         //{

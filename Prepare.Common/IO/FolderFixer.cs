@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using Prepare.Common.Content;
 
 namespace Prepare.Common.IO;
 
@@ -72,7 +73,7 @@ public static class FolderFixer
             }
 
 #pragma warning disable CS8604 // Possible null reference argument.
-            var fullPath = Path.Combine(projectDirectory, key);
+            var fullPath = Path.Combine(projectDirectory ?? string.Empty, key);
 #pragma warning restore CS8604 // Possible null reference argument.
 
             if (!File.Exists(fullPath))
@@ -90,9 +91,9 @@ public static class FolderFixer
             }
 
             var newRelativePath = PathProcessing.MoveFileToRightFolder(
-                projectDirectory,
+                projectDirectory ?? string.Empty,
                 fullPath,
-                namespaceName,
+                namespaceName ?? string.Empty,
                 specialRoots, specialRootsIncludingRoot);
 
             projectFiles[key] = newRelativePath;

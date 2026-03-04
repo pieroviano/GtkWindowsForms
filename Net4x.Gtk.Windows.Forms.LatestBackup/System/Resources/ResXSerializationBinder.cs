@@ -28,12 +28,6 @@ namespace System.Resources
             _typeNameConverter = typeNameConverter;
         }
 
-
-
-
-
-
-
         public override Type BindToType(string assemblyName, string typeName)
         {
             if (_typeResolver is null)

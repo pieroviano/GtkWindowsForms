@@ -33,7 +33,7 @@ public static class GtkFoldersService
             }
         }
 
-        BackupUtility.CleanBackupEmptyFolders(projectDirectory, BackupUtility.Backup);
+        BackupUtility.CleanBackupEmptyFolders(projectDirectory, BackupUtility.Backup, "Net4x.Gtk.Windows.Forms");
     }
 
     public static void RenameFolder(

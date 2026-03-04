@@ -21,7 +21,6 @@ namespace System.Windows.Forms
 
         internal string _name;
 
-
         internal int _width = 120;
         /// <summary>
         /// Gets or sets the display order of the column relative to the currently displayed columns.

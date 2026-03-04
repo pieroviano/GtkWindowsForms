@@ -1,7 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-
 using Gtk;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -14,7 +13,6 @@ namespace System.Drawing.Printing
     {
         private string _documentName = "document";
 
-
         private PrintEventHandler _beginPrintHandler;
 
         private PrintEventHandler _endPrintHandler;
@@ -22,12 +20,10 @@ namespace System.Drawing.Printing
         private PrintPageEventHandler _printPageHandler;
         private QueryPageSettingsEventHandler _queryHandler;
 
-
         private PrinterSettings _printerSettings = new PrinterSettings();
         private PageSettings _defaultPageSettings;
 
         //private PrintController _printController;
-
 
         private bool _originAtMargins;
         private bool _userSetPageSettings;
@@ -79,7 +75,6 @@ namespace System.Drawing.Printing
             get => _originAtMargins;
             set => _originAtMargins = value;
         }
-
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

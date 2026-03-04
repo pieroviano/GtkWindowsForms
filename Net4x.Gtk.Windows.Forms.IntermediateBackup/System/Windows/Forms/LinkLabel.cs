@@ -43,7 +43,6 @@ namespace System.Windows.Forms
         public override event EventHandler Click;
         public override string Text { get { return string.IsNullOrEmpty(self.Label)? self.Uri : self.Label; } set { self.Label = value; self.Uri = value; } }
          
-
         public event LinkLabelLinkClickedEventHandler LinkClicked;
 
         public bool LinkVisited { get; set; }
@@ -52,22 +51,18 @@ namespace System.Windows.Forms
 
         public Color LinkColor { get; set; }
 
-
         //public LinkBehavior LinkBehavior { get; set; }
 
         //public LinkArea LinkArea { get; set; }
 
         public FlatStyle FlatStyle { get; set; }
 
-
         public Color DisabledLinkColor { get; set; }
 
         public Color ActiveLinkColor { get; set; }
 
-
         public Color VisitedLinkColor { get; set; }
         public bool UseCompatibleTextRendering { get; set; }
-
 
         public class Link
         {

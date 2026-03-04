@@ -35,8 +35,10 @@ public static class Translator
     private static string? MakeRawTranslationOnFile(string file,
         string? fileContent, List<KeyValuePair<string, string>> translations)
     {
-        foreach (var (cn, en) in translations)
+        foreach (var translation in translations)
         {
+            var cn = translation.Key;
+            var en = translation.Value;
             if (string.IsNullOrEmpty(cn))
             {
                 continue;
@@ -53,12 +55,16 @@ public static class Translator
                     if (idx == -1)
                     {
                         // append remainder and finish
-                        sb.Append(fileContent.AsSpan(searchStart));
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                        sb.Append(fileContent.Substring(searchStart));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                         break;
                     }
 
                     // append text before match
-                    sb.Append(fileContent.AsSpan(searchStart, idx - searchStart));
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                    sb.Append(fileContent.Substring(searchStart, idx - searchStart));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
                     // decide replacement form based on previous character
                     var shouldPrefixSpaceAndLower = false;

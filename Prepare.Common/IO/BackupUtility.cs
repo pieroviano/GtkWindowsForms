@@ -10,18 +10,18 @@ public static class BackupUtility
     public static string Backup => "Backup";
     public static string Files => "Files";
 
-    public static void CleanBackup(string directory, string backupName)
+    public static void CleanBackup(string directory, string backupName, string projectName)
     {
-        directory = GetBackupFullPath(directory, backupName);
+        directory = GetBackupFullPath(directory, backupName, projectName);
         if (Directory.Exists(directory))
         {
             Directory.Delete(directory, true);
         }
     }
 
-    public static void CleanBackupEmptyFolders(string directory, string backupName)
+    public static void CleanBackupEmptyFolders(string directory, string backupName, string projectName)
     {
-        directory = GetBackupFullPath(directory, backupName);
+        directory = GetBackupFullPath(directory, backupName, projectName);
 
         CleanEmptyFolders(directory);
     }
@@ -61,9 +61,9 @@ public static class BackupUtility
         }
     }
 
-    public static string GetDestFileName(string fullPath, string backupName)
+    public static string GetDestFileName(string fullPath, string backupName, string projectName)
     {
-        var newFullPath = GetBackupFullPath(fullPath, backupName);
+        var newFullPath = GetBackupFullPath(fullPath, backupName, projectName);
 
         var directoryName = Path.GetDirectoryName(newFullPath);
 #pragma warning disable CS8604 // Possible null reference argument.
@@ -73,15 +73,15 @@ public static class BackupUtility
         return newFullPath;
     }
 
-    private static string GetBackupFullPath(string fullPath, string backupName)
+    private static string GetBackupFullPath(string fullPath, string backupName, string projectName)
     {
-        var lastIndexOf = fullPath.LastIndexOf("Net4x.Gtk.Windows.Forms",
+        var lastIndexOf = fullPath.LastIndexOf(projectName,
             StringComparison.InvariantCultureIgnoreCase);
         var newFullPath = fullPath;
         if (lastIndexOf >= 0)
         {
-            newFullPath = fullPath.Remove(lastIndexOf, "Net4x.Gtk.Windows.Forms".Length)
-                .Insert(lastIndexOf, $"Net4x.Gtk.Windows.Forms.{backupName}");
+            newFullPath = fullPath.Remove(lastIndexOf, projectName.Length)
+                .Insert(lastIndexOf, $"{projectName}.{backupName}");
         }
 
         return newFullPath;

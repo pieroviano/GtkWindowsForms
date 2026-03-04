@@ -5,15 +5,9 @@
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<UseWindowsForms>true</UseWindowsForms>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<NoWarn>CA1416</NoWarn>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Resources\**" />
-	  <EmbeddedResource Remove="Resources\**" />
-	  <None Remove="Resources\**" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <Content Include="Resources\ControlExtension.cs" Condition="Exists('Resources\ControlExtension.cs')" />
