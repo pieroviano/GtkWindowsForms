@@ -3,7 +3,8 @@ using System.Runtime.InteropServices;
 namespace System.Windows.Forms
 {
     /// <summary>
-    /// Specifies whether an object or text is aligned to the left or
+    /// Specifies whether an object or text is aligned to
+    /// the left or
     /// right of a reference point.
     /// </summary>
     [ComVisible(true)]

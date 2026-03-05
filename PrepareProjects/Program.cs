@@ -29,7 +29,7 @@ public class Program
         const string net4XSystemResourcesExtensions = "Net4x.System.Resources.Extensions";
         ConsoleColor.Green.Write(@$"Preparing {net4XSystemResourcesExtensions}", true);
         SystemResourcesExtensionsProjectHandler.Prepare($"{net4XSystemResourcesExtensions}.csproj");
-        var version = VersionPrepare.PrepareSolutionVersion();
+        var (version, updatePropsFiles) = VersionPrepare.PrepareSolutionVersion();
 
         ConsoleColor.Green.Write(@"Preparing PoC projects", true);
         var projectName = await GtkSampleAppProjectsHandler.PrepareAsync("GTKWinFormsApp", "GtkWinFormsApp", version);
@@ -119,6 +119,7 @@ public class Program
         ProjectUtility.PersistProjectFiles(net4xGtkDrawingPath, projectFiles, directoryName, BackupUtility.LatestBackup);
 
         ConsoleColor.Green.Write(@"Building the solution", true);
+        updatePropsFiles.Invoke();
         var solutionPath = PrepareWorker.GetSolutionPath(projectDirectory);
         ProjectCompilation.RestoreSolution(solutionPath);
         ProjectCompilation.BuildSolution(solutionPath);

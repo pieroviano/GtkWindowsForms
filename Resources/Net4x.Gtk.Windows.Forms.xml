@@ -18203,8 +18203,7 @@
         </member>
         <member name="T:System.Windows.Forms.LeftRightAlignment">
             <summary>
-            Specifies whether an object or text is aligned to
-            the left or
+            Specifies whether an object or text is aligned to the left or
             right of a reference point.
             </summary>
         </member>
@@ -27254,12 +27253,6 @@
         <member name="P:System.Windows.Forms.ListBox.SelectedObjectCollection.Item(System.Int32)">
             <summary>
             Retrieves the specified selected item.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.ListBox.SelectedObjectCollection.GetSelected(System.Int32)">
-            <summary>
-            This method returns if the actual item index is selected.  The index is the index to the MAIN
-            collection, not this one.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ListBox.SelectedObjectCollection.SetSelected(System.Int32,System.Boolean)">
@@ -39478,8 +39471,7 @@
         </member>
         <member name="T:System.Resources.ResXResourceWriter">
             <summary>
-            ResX resource writer. See the text in "ResourceSchema" for more
-            information.
+            ResX resource writer. See the text in "ResourceSchema" for more information.
             </summary>
         </member>
         <member name="P:System.Resources.ResXResourceWriter.BasePath">

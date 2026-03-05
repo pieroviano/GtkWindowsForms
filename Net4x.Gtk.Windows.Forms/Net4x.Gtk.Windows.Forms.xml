@@ -18203,7 +18203,8 @@
         </member>
         <member name="T:System.Windows.Forms.LeftRightAlignment">
             <summary>
-            Specifies whether an object or text is aligned to the left or
+            Specifies whether an object or text is aligned to
+            the left or
             right of a reference point.
             </summary>
         </member>
@@ -39471,7 +39472,8 @@
         </member>
         <member name="T:System.Resources.ResXResourceWriter">
             <summary>
-            ResX resource writer. See the text in "ResourceSchema" for more information.
+            ResX resource writer. See the text in "ResourceSchema" for more
+            information.
             </summary>
         </member>
         <member name="P:System.Resources.ResXResourceWriter.BasePath">

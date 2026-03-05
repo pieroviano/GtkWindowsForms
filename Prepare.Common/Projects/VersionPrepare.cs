@@ -5,7 +5,7 @@ namespace Prepare.Common.Projects;
 
 public static class VersionPrepare
 {
-    public static string PrepareSolutionVersion()
+    public static (string VersionText, Action UpdatePropsFiles) PrepareSolutionVersion()
     {
         var csprojPath = Path.GetFullPath(
             @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem.Windows.Forms.csproj");
@@ -45,21 +45,27 @@ public static class VersionPrepare
         ConsoleColor.White.Write($@"First three parts: {firstThree}", true);
         ConsoleColor.White.Write($@"Last part: {lastPart}", true);
 
+        var updatePropsFiles = new Action(() => UpdatePropsFiles(lastPart, directoryBuildPropsPath, directoryNugetPropsPath, firstThree));
+
+        ConsoleColor.White.Write(@"Preparing solution version done.", true);
+        return (versionText, updatePropsFiles);
+    }
+
+    private static void UpdatePropsFiles(string lastPart, string directoryBuildPropsPath, string directoryNugetPropsPath,
+        string firstThree)
+    {
         // --- Update Directory.Build.Props ---
         var destinationValue = GetDestinationValue(lastPart);
         UpdatePropsValue(
-                    directoryBuildPropsPath,
-                    "VersionSuffix",
-                    destinationValue);
+            directoryBuildPropsPath,
+            "VersionSuffix",
+            destinationValue);
 
         // --- Update Directory.Nuget.Props ---
         UpdatePropsValue(
             directoryNugetPropsPath,
             "Net4xGtkWindowsFormsVersion",
             firstThree);
-
-        ConsoleColor.White.Write(@"Preparing solution version done.", true);
-        return versionText;
     }
 
     private static string GetDestinationValue(string lastPart)
