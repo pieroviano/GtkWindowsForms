@@ -19,39 +19,23 @@ namespace System.Windows.Forms
     [ToolboxItemFilter("System.Windows.Forms")]
     public abstract class CommonDialog : Component
     {
-
         private static readonly object s_helpRequestEvent = new object();
+
+        public event EventHandler HelpRequest { add => Events.AddHandler(s_helpRequestEvent, value); remove => Events.RemoveHandler(s_helpRequestEvent, value); }
         public CommonDialog()
         {
-
         }
+
         /// <summary>
         /// Gets or sets an object that contains data about the control.
         /// </summary>
         /// <returns>The object that contains data about the
-        /// <see cref="System.Windows.Forms.CommonDialog" />
+        /// <see cref = "System.Windows.Forms.CommonDialog"/>
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
         public object Tag { get; set; }
 
-        public event EventHandler HelpRequest
-        {
-            add => Events.AddHandler(s_helpRequestEvent, value);
-            remove => Events.RemoveHandler(s_helpRequestEvent, value);
-        }
-        /// <summary>
-        /// Raises the
-        /// <see cref="System.Windows.Forms.CommonDialog.HelpRequest" /> event.
-        /// </summary>
-        /// <param name="e">An
-        /// <see cref="System.Windows.Forms.HelpEventArgs" /> that provides the event data.
-        /// </param>
-        protected virtual void OnHelpRequest(EventArgs e)
-        {
-            EventHandler handler = (EventHandler)Events[s_helpRequestEvent];
-            handler?.Invoke(this, e);
-        }
         /// <summary>
         /// When overridden in a derived class, resets the properties of a common dialog box to their default values.
         /// </summary>
@@ -59,40 +43,40 @@ namespace System.Windows.Forms
         /// </filterpriority>
         public abstract void Reset();
 
-        protected abstract bool RunDialog(IWin32Window owner);
         /// <summary>
         /// Runs a common dialog box with a default owner.
         /// </summary>
         /// <returns>
-        /// <see cref="System.Windows.Forms.DialogResult.OK" /> if the user clicks OK in the dialog box; otherwise,
-        /// <see cref="System.Windows.Forms.DialogResult.Cancel" />
+        /// <see cref = "System.Windows.Forms.DialogResult.OK"/> if the user clicks OK in the dialog box; otherwise,
+        /// <see cref = "System.Windows.Forms.DialogResult.Cancel"/>
         /// </returns>
         /// <filterpriority>1
         /// </filterpriority>
         /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
         /// </PermissionSet>
         public virtual DialogResult ShowDialog() => ShowDialog(owner: null);
+
         /// <summary>
         /// Runs a common dialog box with the specified owner.
         /// </summary>
         /// <returns>
-        /// <see cref="System.Windows.Forms.DialogResult.OK" /> if the user clicks OK in the dialog box; otherwise,
-        /// <see cref="System.Windows.Forms.DialogResult.Cancel" />
+        /// <see cref = "System.Windows.Forms.DialogResult.OK"/> if the user clicks OK in the dialog box; otherwise,
+        /// <see cref = "System.Windows.Forms.DialogResult.Cancel"/>
         /// </returns>
-        /// <param name="owner">Any object that implements
-        /// <see cref="System.Windows.Forms.IWin32Window" /> that represents the top-level window that will own the modal dialog box.
+        /// <param name = "owner">Any object that implements
+        /// <see cref = "System.Windows.Forms.IWin32Window"/> that represents the top-level window that will own the modal dialog box.
         /// </param>
         /// <filterpriority>1
         /// </filterpriority>
         /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
         /// </PermissionSet>
         public virtual DialogResult ShowDialog(IWin32Window owner)
         {
@@ -102,7 +86,23 @@ namespace System.Windows.Forms
             {
                 result = DialogResult.OK;
             }
+
             return result;
         }
+
+        /// <summary>
+        /// Raises the
+        /// <see cref = "System.Windows.Forms.CommonDialog.HelpRequest"/> event.
+        /// </summary>
+        /// <param name = "e">An
+        /// <see cref = "System.Windows.Forms.HelpEventArgs"/> that provides the event data.
+        /// </param>
+        protected virtual void OnHelpRequest(EventArgs e)
+        {
+            EventHandler handler = (EventHandler)Events[s_helpRequestEvent];
+            handler?.Invoke(this, e);
+        }
+
+        protected abstract bool RunDialog(IWin32Window owner);
     }
 }

@@ -4,6 +4,7 @@ using Prepare.Common.Content;
 using Prepare.Common.IO;
 using Prepare.Common.Projects;
 using Prepare.Common.Text;
+using PrepareProjects.Preparation;
 using PrepareProjects.Preparation.Compilation;
 using PrepareProjects.Preparation.Directories;
 using PrepareProjects.Preparation.Source;

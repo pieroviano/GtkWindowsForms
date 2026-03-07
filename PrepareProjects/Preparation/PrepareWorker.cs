@@ -1,10 +1,11 @@
-using System.Reflection;
 using Prepare.Common.IO;
 using PrepareProjects.Preparation.Directories;
+using System.Diagnostics;
+using System.Reflection;
 using XmlDocSync.Roslyn;
 using XmlDocSync.Services;
 
-namespace PrepareProjects;
+namespace PrepareProjects.Preparation;
 
 public static class PrepareWorker
 {
@@ -24,6 +25,8 @@ public static class PrepareWorker
         {
             ConsoleColor.DarkGray.Write($"Processing: {file}");
             EventInvocatorFileRewriter.RewriteEventInvocations(file);
+            EventOnMethod(file);
+            CsFileOrganizer.ProcessFile(file);
         }
 
         myProjectDir = @"..\\..\\..\\..\\Net4x.Gtk.Drawing\\";
@@ -33,6 +36,18 @@ public static class PrepareWorker
         {
             ConsoleColor.DarkGray.Write($"Processing: {file}");
             EventInvocatorFileRewriter.RewriteEventInvocations(file);
+            EventOnMethod(file);
+            CsFileOrganizer.ProcessFile(file);
+        }
+    }
+
+    private static void EventOnMethod(string file)
+    {
+        var source=File.ReadAllText(file);
+        var result = XmlDocSync.Roslyn.EventOnMethodGenerator.Process(source, XmlDocSync.Roslyn.EventOnMethodGenerator.DefaultMap);
+        if (result != source)
+        {
+            File.WriteAllText(file, result);
         }
     }
 

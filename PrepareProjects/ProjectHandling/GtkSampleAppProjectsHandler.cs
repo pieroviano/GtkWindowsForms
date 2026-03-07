@@ -48,9 +48,23 @@ public static class GtkSampleAppProjectsHandler
         EnsureGtkWinFormsResourcesEmbedded(csprojPath);
         EnsureResourcesResxDesigner(csprojPath);
         EnsureJsonNoneItems(csprojPath);
-        
+
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetDir,
             ProjectPatching.PatchProjectNamespace, "GtkWinFormsAppResources", "samplesTranslations");
+        var path = Path.Combine(targetDir, "Form1.cs");
+        if (File.Exists(path))
+        {
+            var text = await File.ReadAllTextAsync(path);
+            text = text.Replace("1、数据集列表数据源", "1. Dataset list data source").Replace("2、datatable数据源", "2. Datatable data source");
+            await File.WriteAllTextAsync(path, text);
+        }
+        path = Path.Combine(targetDir, "Form3.cs");
+        if (File.Exists(path))
+        {
+            var text = await File.ReadAllTextAsync(path);
+            text = text.Replace("打印", " Print");
+            await File.WriteAllTextAsync(path, text);
+        }
 
         ConsoleColor.White.Write("Copy completed, project updated.", true);
 #pragma warning disable CS8604 // Possible null reference argument.
@@ -60,7 +74,7 @@ public static class GtkSampleAppProjectsHandler
 
     private static void ReplaceTestDataJson(string targetDir)
     {
-        foreach (var testData in new String[]{"TestData1.json", "TestData1.en.json"})
+        foreach (var testData in new String[] { "TestData1.json", "TestData1.en.json" })
         {
 #pragma warning disable CS8604 // Possible null reference argument.
             var sourceFileName = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"..\..\..\..\Resources", testData));

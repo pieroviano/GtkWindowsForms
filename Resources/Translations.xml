@@ -939,8 +939,20 @@
 		<English>Enable rotation effect</English>
 	</Entry>
 	<Entry>
+		<Chinese>1、数据集列表数据源</Chinese>
+		<English>1. Dataset list data source</English>
+	</Entry>
+	<Entry>
+		<Chinese>2、datatable数据源</Chinese>
+		<English>2. Datatable data source</English>
+	</Entry>
+	<Entry>
 		<Chinese>閸掓儼瀵栭崶</Chinese>
 		<English>Apply clipping region</English>
+	</Entry>
+	<Entry>
+		<Chinese>打印</Chinese>
+		<English>Print</English>
 	</Entry>
 	<Entry>
 		<Chinese>閿熸埅纭锋嫹</Chinese>

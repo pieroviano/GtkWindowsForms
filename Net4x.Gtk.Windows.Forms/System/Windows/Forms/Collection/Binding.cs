@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 
 namespace System.Windows.Forms;
-
 /// <summary>
 /// Represents the simple binding between the property value of an object and the property value of a control.
 /// </summary>
@@ -13,84 +12,272 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public class Binding
 {
-    private IBindableComponent? _control;
+    private BindingCompleteEventHandler? _bindingComplete;
 
     private BindingManagerBase? _bindingManagerBase;
 
     private readonly BindToObject? _bindToObject;
 
-    private readonly string _propertyName = "";
-
-    private PropertyDescriptor? _propInfo;
-
-    private PropertyDescriptor? _propIsNullInfo;
-
-    private EventDescriptor? _validateInfo;
-
-    private TypeConverter? _propInfoConverter;
-
-    private bool _formattingEnabled = true;
-
     private bool _bound;
 
-    private bool _modified;
-
-    private bool _inSetPropValue;
-
-    private bool _inPushOrPull;
-
-    private bool _inOnBindingComplete;
-
-    private string? _formatString = string.Empty;
-
-    private IFormatProvider? _formatInfo;
-
-    private object? _nullValue;
-
-    private object? _dsNullValue = Formatter.GetDefaultDataSourceNullValue(null);
-
-    private bool _dsNullValueSet;
-
-    private ConvertEventHandler? _parse;
-
-    private ConvertEventHandler? _format;
+    private IBindableComponent? _control;
 
     private ControlUpdateMode _controlUpdateMode;
 
     private DataSourceUpdateMode _dataSourceUpdateMode;
 
+    private object? _dsNullValue = Formatter.GetDefaultDataSourceNullValue(null);
 
-    private BindingCompleteEventHandler? _bindingComplete;
+    private bool _dsNullValueSet;
+
+    private ConvertEventHandler? _format;
+
+    private IFormatProvider? _formatInfo;
+
+    private string? _formatString = string.Empty;
+
+    private bool _formattingEnabled = true;
+
+    private bool _inOnBindingComplete;
+
+    private bool _inPushOrPull;
+
+    private bool _inSetPropValue;
+
+    private bool _modified;
+
+    private object? _nullValue;
+
+    private ConvertEventHandler? _parse;
+
+    private readonly string _propertyName = "";
+
+    private PropertyDescriptor? _propInfo;
+
+    private TypeConverter? _propInfoConverter;
+
+    private PropertyDescriptor? _propIsNullInfo;
+
+    private EventDescriptor? _validateInfo;
 
     /// <summary>
+    /// Occurs when the
+    /// <see cref="P:System.Windows.Forms.Binding.FormattingEnabled"/> property is set to true and a binding operation is complete, such as when data is pushed from the control to the data source or vice versa
+    /// </summary>
+    public event BindingCompleteEventHandler? BindingComplete { add => _bindingComplete += value; remove => _bindingComplete -= value; }
+
+    /// <summary>
+    /// Occurs when the property of a control is bound to a data value.
+    /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
+    public event ConvertEventHandler? Format { add => _format += value; remove => _format -= value; }
+
+    /// <summary>
+    /// Occurs when the value of a data-bound control changes.
+    /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
+    public event ConvertEventHandler? Parse { add => _parse += value; remove => _parse -= value; }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Binding"/> class that simple-binds the indicated control property to the specified data member of the data source.
+    /// </summary>
+    /// <param name = "propertyName">The name of the control property to bind.
+    /// </param>
+    /// <param name = "dataSource">An
+    /// <see cref="T:System.Object"/> that represents the data source.
+    /// </param>
+    /// <param name = "dataMember">The property or list to bind to.
+    /// </param>
+    /// <exception cref="T:System.Exception">
+    /// <paramref name = "propertyName"/> is neither a valid property of a control nor an empty string ("").
+    /// </exception>
+    /// <exception cref="T:System.ArgumentException">The property given by
+    /// <paramref name = "propertyName"/> does not exist on the control.
+    /// </exception>
+    public Binding(string propertyName, object dataSource, string? dataMember) : this(propertyName, dataSource, dataMember, false, DataSourceUpdateMode.OnValidation, null, string.Empty, null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Binding"/> class that binds the indicated control property to the specified data member of the data source, and optionally enables formatting to be applied.
+    /// </summary>
+    /// <param name = "propertyName">The name of the control property to bind.
+    /// </param>
+    /// <param name = "dataSource">An
+    /// <see cref="T:System.Object"/> that represents the data source.
+    /// </param>
+    /// <param name = "dataMember">The property or list to bind to.
+    /// </param>
+    /// <param name = "formattingEnabled">true to format the displayed data; otherwise, false.
+    /// </param>
+    /// <exception cref="T:System.ArgumentException">The property given by
+    /// <paramref name = "propertyName"/> does not exist on the control.-or-The property given is a read-only property.
+    /// </exception>
+    /// <exception cref="T:System.Exception">Formatting is disabled and
+    /// <paramref name = "propertyName"/> is neither a valid property of a control nor an empty string ("").
+    /// </exception>
+    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled) : this(propertyName, dataSource, dataMember, formattingEnabled, DataSourceUpdateMode.OnValidation, null, string.Empty, null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Binding"/> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting and propagates values to the data source based on the specified update setting.
+    /// </summary>
+    /// <param name = "propertyName">The name of the control property to bind.
+    /// </param>
+    /// <param name = "dataSource">An
+    /// <see cref="T:System.Object"/> representing the data source.
+    /// </param>
+    /// <param name = "dataMember">The property or list to bind to.
+    /// </param>
+    /// <param name = "formattingEnabled">true to format the displayed data; otherwise, false.
+    /// </param>
+    /// <param name = "dataSourceUpdateMode">One of the
+    /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode"/> values.
+    /// </param>
+    /// <exception cref="T:System.ArgumentException">The property given by
+    /// <paramref name = "propertyName"/> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
+    /// </exception>
+    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode) : this(propertyName, dataSource, dataMember, formattingEnabled, dataSourceUpdateMode, null, string.Empty, null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Binding"/> class that binds the indicated control property to the specified data member of the specified data source. Optionally enables formatting, propagates values to the data source based on the specified update setting, and sets the property to the specified value when a
+    /// <see cref="T:System.DBNull"/> is returned from the data source.
+    /// </summary>
+    /// <param name = "propertyName">The name of the control property to bind.
+    /// </param>
+    /// <param name = "dataSource">An
+    /// <see cref="T:System.Object"/> representing the data source.
+    /// </param>
+    /// <param name = "dataMember">The property or list to bind to.
+    /// </param>
+    /// <param name = "formattingEnabled">true to format the displayed data; otherwise, false.
+    /// </param>
+    /// <param name = "dataSourceUpdateMode">One of the
+    /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode"/> values.
+    /// </param>
+    /// <param name = "nullValue">The
+    /// <see cref="T:System.Object"/> to be applied to the bound control property if the data source value is
+    /// <see cref="T:System.DBNull"/>.
+    /// </param>
+    /// <exception cref="T:System.ArgumentException">The property given by
+    /// <paramref name = "propertyName"/> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
+    /// </exception>
+    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, object? nullValue) : this(propertyName, dataSource, dataMember, formattingEnabled, dataSourceUpdateMode, nullValue, string.Empty, null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Binding"/> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; and sets the property to the specified value when a
+    /// <see cref="T:System.DBNull"/> is returned from the data source.
+    /// </summary>
+    /// <param name = "propertyName">The name of the control property to bind.
+    /// </param>
+    /// <param name = "dataSource">An
+    /// <see cref="T:System.Object"/> representing the data source.
+    /// </param>
+    /// <param name = "dataMember">The property or list to bind to.
+    /// </param>
+    /// <param name = "formattingEnabled">true to format the displayed data; otherwise, false.
+    /// </param>
+    /// <param name = "dataSourceUpdateMode">One of the
+    /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode"/> values.
+    /// </param>
+    /// <param name = "nullValue">The
+    /// <see cref="T:System.Object"/> to be applied to the bound control property if the data source value is
+    /// <see cref="T:System.DBNull"/>.
+    /// </param>
+    /// <param name = "formatString">One or more format specifier characters that indicate how a value is to be displayed.
+    /// </param>
+    /// <exception cref="T:System.ArgumentException">The property given by
+    /// <paramref name = "propertyName"/> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
+    /// </exception>
+    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, object? nullValue, string formatString) : this(propertyName, dataSource, dataMember, formattingEnabled, dataSourceUpdateMode, nullValue, formatString, null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Binding"/> class with the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; enables formatting with the specified format string; sets the property to the specified value when a
+    /// <see cref="T:System.DBNull"/> is returned from the data source; and sets the specified format provider.
+    /// </summary>
+    /// <param name = "propertyName">The name of the control property to bind.
+    /// </param>
+    /// <param name = "dataSource">An
+    /// <see cref="T:System.Object"/> representing the data source.
+    /// </param>
+    /// <param name = "dataMember">The property or list to bind to.
+    /// </param>
+    /// <param name = "formattingEnabled">true to format the displayed data; otherwise, false.
+    /// </param>
+    /// <param name = "dataSourceUpdateMode">One of the
+    /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode"/> values.
+    /// </param>
+    /// <param name = "nullValue">The
+    /// <see cref="T:System.Object"/> to be applied to the bound control property if the data source value is
+    /// <see cref="T:System.DBNull"/>.
+    /// </param>
+    /// <param name = "formatString">One or more format specifier characters that indicate how a value is to be displayed.
+    /// </param>
+    /// <param name = "formatInfo">An implementation of
+    /// <see cref="T:System.IFormatProvider"/> to override default formatting behavior.
+    /// </param>
+    /// <exception cref="T:System.ArgumentException">The property given by
+    /// <paramref name = "propertyName"/> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
+    /// </exception>
+    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, object? nullValue, string formatString, IFormatProvider? formatInfo)
+    {
+        _bindToObject = new BindToObject(this, dataSource, dataMember);
+        _propertyName = propertyName;
+        _formattingEnabled = formattingEnabled;
+        _formatString = formatString;
+        _nullValue = nullValue;
+        _formatInfo = formatInfo;
+        _formattingEnabled = formattingEnabled;
+        _dataSourceUpdateMode = dataSourceUpdateMode;
+        CheckBinding();
+    }
+
+    private Binding()
+    {
+    }
+    /// <summary>
     /// Gets the control the
-    /// <see cref="T:System.Windows.Forms.Binding" /> is associated with.
+    /// <see cref="T:System.Windows.Forms.Binding"/> is associated with.
     /// </summary>
     /// <returns>The
-    /// <see cref="T:System.Windows.Forms.IBindableComponent" /> the
-    /// <see cref="T:System.Windows.Forms.Binding" /> is associated with.
+    /// <see cref="T:System.Windows.Forms.IBindableComponent"/> the
+    /// <see cref="T:System.Windows.Forms.Binding"/> is associated with.
     /// </returns>
     /// <filterpriority>1
     /// </filterpriority>
     /// <PermissionSet>
-    /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
+    /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode"/>
     /// </PermissionSet>
     [DefaultValue(null)]
     public IBindableComponent? BindableComponent
     {
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        get => _control;
-        internal set => _control = value;
+        get => _control; internal set => _control = value;
     }
 
     /// <summary>
     /// Gets the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase" /> for this
-    /// <see cref="T:System.Windows.Forms.Binding" />.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase"/> for this
+    /// <see cref="T:System.Windows.Forms.Binding"/>.
     /// </summary>
     /// <returns>The
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase" /> that manages this
-    /// <see cref="T:System.Windows.Forms.Binding" />.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase"/> that manages this
+    /// <see cref="T:System.Windows.Forms.Binding"/>.
     /// </returns>
     /// <filterpriority>1
     /// </filterpriority>
@@ -100,43 +287,37 @@ public class Binding
     /// Gets an object that contains information about this binding based on the dataMember parameter in the Overload:System.Windows.Forms.Binding constructor.
     /// </summary>
     /// <returns>A
-    /// <see cref="T:System.Windows.Forms.BindingMemberInfo" /> that contains information about this
-    /// <see cref="T:System.Windows.Forms.Binding" />.
+    /// <see cref="T:System.Windows.Forms.BindingMemberInfo"/> that contains information about this
+    /// <see cref="T:System.Windows.Forms.Binding"/>.
     /// </returns>
     /// <filterpriority>1
     /// </filterpriority>
     public BindingMemberInfo? BindingMemberInfo => _bindToObject?.BindingMemberInfo;
 
-    internal BindToObject? BindToObject => _bindToObject;
-
-
-    internal bool ComponentCreated => IsComponentCreated(_control);
-
     /// <summary>
     /// Gets the control that the binding belongs to.
     /// </summary>
     /// <returns>The
-    /// <see cref="T:System.Windows.Forms.Control" /> that the binding belongs to.
+    /// <see cref="T:System.Windows.Forms.Control"/> that the binding belongs to.
     /// </returns>
     /// <filterpriority>1
     /// </filterpriority>
     /// <PermissionSet>
-    /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
+    /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode"/>
     /// </PermissionSet>
     [DefaultValue(null)]
     public Control? Control
     {
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        get => _control as Control;
-        internal set => _control = value;
+        get => _control as Control; internal set => _control = value;
     }
 
     /// <summary>
     /// Gets or sets when changes to the data source are propagated to the bound control property.
     /// </summary>
     /// <returns>One of the
-    /// <see cref="T:System.Windows.Forms.ControlUpdateMode" /> values. The default is
-    /// <see cref="F:System.Windows.Forms.ControlUpdateMode.OnPropertyChanged" />.
+    /// <see cref="T:System.Windows.Forms.ControlUpdateMode"/> values. The default is
+    /// <see cref="F:System.Windows.Forms.ControlUpdateMode.OnPropertyChanged"/>.
     /// </returns>
     [DefaultValue(ControlUpdateMode.OnPropertyChanged)]
     public ControlUpdateMode ControlUpdateMode
@@ -159,7 +340,7 @@ public class Binding
     /// Gets the data source for this binding.
     /// </summary>
     /// <returns>An
-    /// <see cref="T:System.Object" /> that represents the data source.
+    /// <see cref="T:System.Object"/> that represents the data source.
     /// </returns>
     /// <filterpriority>1
     /// </filterpriority>
@@ -169,8 +350,8 @@ public class Binding
     /// Gets or sets the value to be stored in the data source if the control value is null or empty.
     /// </summary>
     /// <returns>The
-    /// <see cref="T:System.Object" /> to be stored in the data source when the control property is empty or null. The default is
-    /// <see cref="T:System.DBNull" /> for value types and null for non-value types.
+    /// <see cref="T:System.Object"/> to be stored in the data source when the control property is empty or null. The default is
+    /// <see cref="T:System.DBNull"/> for value types and null for non-value types.
     /// </returns>
     public object? DataSourceNullValue
     {
@@ -189,6 +370,7 @@ public class Binding
                     {
                         WriteValue();
                     }
+
                     if (Formatter.IsNullData(obj1, value))
                     {
                         ReadValue();
@@ -202,21 +384,17 @@ public class Binding
     /// Gets or sets a value that indicates when changes to the bound control property are propagated to the data source.
     /// </summary>
     /// <returns>A value that indicates when changes are propagated. The default is
-    /// <see cref="F:System.Windows.Forms.DataSourceUpdateMode.OnValidation" />.
+    /// <see cref="F:System.Windows.Forms.DataSourceUpdateMode.OnValidation"/>.
     /// </returns>
     [DefaultValue(DataSourceUpdateMode.OnValidation)]
-    public DataSourceUpdateMode DataSourceUpdateMode
-    {
-        get => _dataSourceUpdateMode;
-        set => _dataSourceUpdateMode = value;
-    }
+    public DataSourceUpdateMode DataSourceUpdateMode { get => _dataSourceUpdateMode; set => _dataSourceUpdateMode = value; }
 
     /// <summary>
     /// Gets or sets the
-    /// <see cref="T:System.IFormatProvider" /> that provides custom formatting behavior.
+    /// <see cref="T:System.IFormatProvider"/> that provides custom formatting behavior.
     /// </summary>
     /// <returns>The
-    /// <see cref="T:System.IFormatProvider" /> implementation that provides custom formatting behavior.
+    /// <see cref="T:System.IFormatProvider"/> implementation that provides custom formatting behavior.
     /// </returns>
     /// <filterpriority>1
     /// </filterpriority>
@@ -255,6 +433,7 @@ public class Binding
             {
                 value = string.Empty;
             }
+
             if (!value.Equals(_formatString))
             {
                 _formatString = value;
@@ -289,18 +468,6 @@ public class Binding
         }
     }
 
-    internal bool IsBindable
-    {
-        get
-        {
-            if (_control == null || _propertyName.Length <= 0 || _bindToObject?.DataSource == null)
-            {
-                return false;
-            }
-            return _bindingManagerBase != null;
-        }
-    }
-
     /// <summary>
     /// Gets a value indicating whether the binding is active.
     /// </summary>
@@ -312,12 +479,12 @@ public class Binding
 
     /// <summary>
     /// Gets or sets the
-    /// <see cref="T:System.Object" /> to be set as the control property when the data source contains a
-    /// <see cref="T:System.DBNull" /> value.
+    /// <see cref="T:System.Object"/> to be set as the control property when the data source contains a
+    /// <see cref="T:System.DBNull"/> value.
     /// </summary>
     /// <returns>The
-    /// <see cref="T:System.Object" /> to be set as the control property when the data source contains a
-    /// <see cref="T:System.DBNull" /> value. The default is null.
+    /// <see cref="T:System.Object"/> to be set as the control property when the data source contains a
+    /// <see cref="T:System.DBNull"/> value. The default is null.
     /// </returns>
     /// <filterpriority>1
     /// </filterpriority>
@@ -346,176 +513,367 @@ public class Binding
     /// </filterpriority>
     [DefaultValue("")]
     public string PropertyName => _propertyName;
+    internal BindToObject? BindToObject => _bindToObject;
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.Binding" /> class that simple-binds the indicated control property to the specified data member of the data source.
-    /// </summary>
-    /// <param name="propertyName">The name of the control property to bind.
-    /// </param>
-    /// <param name="dataSource">An
-    /// <see cref="T:System.Object" /> that represents the data source.
-    /// </param>
-    /// <param name="dataMember">The property or list to bind to.
-    /// </param>
-    /// <exception cref="T:System.Exception">
-    /// <paramref name="propertyName" /> is neither a valid property of a control nor an empty string ("").
-    /// </exception>
-    /// <exception cref="T:System.ArgumentException">The property given by
-    /// <paramref name="propertyName" /> does not exist on the control.
-    /// </exception>
-    public Binding(string propertyName, object dataSource, string? dataMember) : this(propertyName, dataSource, dataMember, false, DataSourceUpdateMode.OnValidation, null, string.Empty, null)
+    internal bool ComponentCreated => IsComponentCreated(_control);
+
+    internal bool IsBindable
     {
+        get
+        {
+            if (_control == null || _propertyName.Length <= 0 || _bindToObject?.DataSource == null)
+            {
+                return false;
+            }
+
+            return _bindingManagerBase != null;
+        }
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.Binding" /> class that binds the indicated control property to the specified data member of the data source, and optionally enables formatting to be applied.
+    /// Sets the control property to the value read from the data source.
     /// </summary>
-    /// <param name="propertyName">The name of the control property to bind.
-    /// </param>
-    /// <param name="dataSource">An
-    /// <see cref="T:System.Object" /> that represents the data source.
-    /// </param>
-    /// <param name="dataMember">The property or list to bind to.
-    /// </param>
-    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
-    /// </param>
-    /// <exception cref="T:System.ArgumentException">The property given by
-    /// <paramref name="propertyName" /> does not exist on the control.-or-The property given is a read-only property.
-    /// </exception>
-    /// <exception cref="T:System.Exception">Formatting is disabled and
-    /// <paramref name="propertyName" /> is neither a valid property of a control nor an empty string ("").
-    /// </exception>
-    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled) : this(propertyName, dataSource, dataMember, formattingEnabled, DataSourceUpdateMode.OnValidation, null, string.Empty, null)
+    public void ReadValue()
     {
+        PushData(true);
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.Binding" /> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting and propagates values to the data source based on the specified update setting.
+    /// Reads the current value from the control property and writes it to the data source.
     /// </summary>
-    /// <param name="propertyName">The name of the control property to bind.
-    /// </param>
-    /// <param name="dataSource">An
-    /// <see cref="T:System.Object" /> representing the data source.
-    /// </param>
-    /// <param name="dataMember">The property or list to bind to.
-    /// </param>
-    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
-    /// </param>
-    /// <param name="dataSourceUpdateMode">One of the
-    /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode" /> values.
-    /// </param>
-    /// <exception cref="T:System.ArgumentException">The property given by
-    /// <paramref name="propertyName" /> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
-    /// </exception>
-    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode) : this(propertyName, dataSource, dataMember, formattingEnabled, dataSourceUpdateMode, null, string.Empty, null)
+    public void WriteValue()
     {
+        PullData(true, true);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.Binding" /> class that binds the indicated control property to the specified data member of the specified data source. Optionally enables formatting, propagates values to the data source based on the specified update setting, and sets the property to the specified value when a
-    /// <see cref="T:System.DBNull" /> is returned from the data source.
-    /// </summary>
-    /// <param name="propertyName">The name of the control property to bind.
-    /// </param>
-    /// <param name="dataSource">An
-    /// <see cref="T:System.Object" /> representing the data source.
-    /// </param>
-    /// <param name="dataMember">The property or list to bind to.
-    /// </param>
-    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
-    /// </param>
-    /// <param name="dataSourceUpdateMode">One of the
-    /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode" /> values.
-    /// </param>
-    /// <param name="nullValue">The
-    /// <see cref="T:System.Object" /> to be applied to the bound control property if the data source value is
-    /// <see cref="T:System.DBNull" />.
-    /// </param>
-    /// <exception cref="T:System.ArgumentException">The property given by
-    /// <paramref name="propertyName" /> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
-    /// </exception>
-    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, object? nullValue) : this(propertyName, dataSource, dataMember, formattingEnabled, dataSourceUpdateMode, nullValue, string.Empty, null)
+    internal bool ControlAtDesignTime()
     {
+        IComponent? component = _control;
+        var site = component?.Site;
+        if (site == null)
+        {
+            return false;
+        }
+
+        return site.DesignMode;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.Binding" /> class that binds the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; and sets the property to the specified value when a
-    /// <see cref="T:System.DBNull" /> is returned from the data source.
-    /// </summary>
-    /// <param name="propertyName">The name of the control property to bind.
-    /// </param>
-    /// <param name="dataSource">An
-    /// <see cref="T:System.Object" /> representing the data source.
-    /// </param>
-    /// <param name="dataMember">The property or list to bind to.
-    /// </param>
-    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
-    /// </param>
-    /// <param name="dataSourceUpdateMode">One of the
-    /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode" /> values.
-    /// </param>
-    /// <param name="nullValue">The
-    /// <see cref="T:System.Object" /> to be applied to the bound control property if the data source value is
-    /// <see cref="T:System.DBNull" />.
-    /// </param>
-    /// <param name="formatString">One or more format specifier characters that indicate how a value is to be displayed.
-    /// </param>
-    /// <exception cref="T:System.ArgumentException">The property given by
-    /// <paramref name="propertyName" /> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
-    /// </exception>
-    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, object? nullValue, string formatString) : this(propertyName, dataSource, dataMember, formattingEnabled, dataSourceUpdateMode, nullValue, formatString, null)
+    internal static bool IsComponentCreated(IBindableComponent? component)
     {
+        if (component is not Control control)
+        {
+            return true;
+        }
+
+        return control.Created;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.Binding" /> class with the specified control property to the specified data member of the specified data source. Optionally enables formatting with the specified format string; propagates values to the data source based on the specified update setting; enables formatting with the specified format string; sets the property to the specified value when a
-    /// <see cref="T:System.DBNull" /> is returned from the data source; and sets the specified format provider.
-    /// </summary>
-    /// <param name="propertyName">The name of the control property to bind.
-    /// </param>
-    /// <param name="dataSource">An
-    /// <see cref="T:System.Object" /> representing the data source.
-    /// </param>
-    /// <param name="dataMember">The property or list to bind to.
-    /// </param>
-    /// <param name="formattingEnabled">true to format the displayed data; otherwise, false.
-    /// </param>
-    /// <param name="dataSourceUpdateMode">One of the
-    /// <see cref="T:System.Windows.Forms.DataSourceUpdateMode" /> values.
-    /// </param>
-    /// <param name="nullValue">The
-    /// <see cref="T:System.Object" /> to be applied to the bound control property if the data source value is
-    /// <see cref="T:System.DBNull" />.
-    /// </param>
-    /// <param name="formatString">One or more format specifier characters that indicate how a value is to be displayed.
-    /// </param>
-    /// <param name="formatInfo">An implementation of
-    /// <see cref="T:System.IFormatProvider" /> to override default formatting behavior.
-    /// </param>
-    /// <exception cref="T:System.ArgumentException">The property given by
-    /// <paramref name="propertyName" /> does not exist on the control.-or-The data source or data member or control property specified are associated with another binding in the collection.
-    /// </exception>
-    public Binding(string propertyName, object dataSource, string? dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, object? nullValue, string formatString, IFormatProvider? formatInfo)
+    internal bool PullData()
     {
-        _bindToObject = new BindToObject(this, dataSource, dataMember);
-        _propertyName = propertyName;
-        _formattingEnabled = formattingEnabled;
-        _formatString = formatString;
-        _nullValue = nullValue;
-        _formatInfo = formatInfo;
-        _formattingEnabled = formattingEnabled;
-        _dataSourceUpdateMode = dataSourceUpdateMode;
+        return PullData(true, false);
+    }
+
+    internal bool PullData(bool reformat)
+    {
+        return PullData(reformat, false);
+    }
+
+    internal bool PullData(bool reformat, bool force)
+    {
+        if (ControlUpdateMode == ControlUpdateMode.Never)
+        {
+            reformat = false;
+        }
+
+        var flag = false;
+        object? value = null;
+        Exception? exception = null;
+        if (!IsBinding)
+        {
+            return false;
+        }
+
+        if (!force)
+        {
+            if (_propInfo is { SupportsChangeEvents: true } && !_modified)
+            {
+                return false;
+            }
+
+            if (DataSourceUpdateMode == DataSourceUpdateMode.Never)
+            {
+                return false;
+            }
+        }
+
+        if (_inPushOrPull && _formattingEnabled)
+        {
+            return false;
+        }
+
+        _inPushOrPull = true;
+        var propValue = GetPropValue();
+        try
+        {
+            value = ParseObject(propValue);
+        }
+        catch (Exception exception1)
+        {
+            exception = exception1;
+        }
+
+        try
+        {
+            try
+            {
+                if (exception != null || !FormattingEnabled && value == null)
+                {
+                    flag = true;
+                    value = _bindToObject?.GetValue();
+                }
+
+                if (reformat && !FormattingEnabled | !flag)
+                {
+                    var obj = FormatObject(value);
+                    if (force || !FormattingEnabled || !Equals(obj, propValue))
+                    {
+                        SetPropValue(obj);
+                    }
+                }
+
+                if (!flag)
+                {
+                    _bindToObject?.SetValue(value);
+                }
+            }
+            catch (Exception exception2)
+            {
+                exception = exception2;
+                if (!FormattingEnabled)
+                {
+                    throw;
+                }
+            }
+        }
+        finally
+        {
+            _inPushOrPull = false;
+        }
+
+        if (!FormattingEnabled)
+        {
+            _modified = false;
+            return false;
+        }
+
+        var bindingCompleteEventArg = CreateBindingCompleteEventArgs(BindingCompleteContext.DataSourceUpdate, exception);
+        OnBindingComplete(bindingCompleteEventArg);
+        if (bindingCompleteEventArg.BindingCompleteState == BindingCompleteState.Success && !bindingCompleteEventArg.Cancel)
+        {
+            _modified = false;
+        }
+
+        return bindingCompleteEventArg.Cancel;
+    }
+
+    internal bool PushData()
+    {
+        return PushData(false);
+    }
+
+    internal bool PushData(bool force)
+    {
+        Exception? exception = null;
+        if (!force && ControlUpdateMode == ControlUpdateMode.Never)
+        {
+            return false;
+        }
+
+        if (_inPushOrPull && _formattingEnabled)
+        {
+            return false;
+        }
+
+        _inPushOrPull = true;
+        try
+        {
+            try
+            {
+                if (!IsBinding)
+                {
+                    SetPropValue(null);
+                }
+                else
+                {
+                    SetPropValue(FormatObject(_bindToObject?.GetValue()));
+                    _modified = false;
+                }
+            }
+            catch (Exception? exception1)
+            {
+                exception = exception1;
+                if (!FormattingEnabled)
+                {
+                    throw;
+                }
+            }
+        }
+        finally
+        {
+            _inPushOrPull = false;
+        }
+
+        if (!FormattingEnabled)
+        {
+            return false;
+        }
+
+        var bindingCompleteEventArg = CreateBindingCompleteEventArgs(BindingCompleteContext.ControlUpdate, exception);
+        OnBindingComplete(bindingCompleteEventArg);
+
+        return bindingCompleteEventArg.Cancel;
+    }
+
+    internal void SetBindableComponent(IBindableComponent? value)
+    {
+        BindingContext? bindingContext;
+        if (_control != value)
+        {
+            var bindableComponent = _control;
+            BindTarget(false);
+            _control = value;
+            BindTarget(true);
+            try
+            {
+                CheckBinding();
+            }
+            catch
+            {
+                BindTarget(false);
+                _control = bindableComponent;
+                BindTarget(true);
+                throw;
+            }
+
+            if (_control == null || !IsComponentCreated(_control))
+            {
+                bindingContext = null;
+            }
+            else
+            {
+                bindingContext = _control.BindingContext;
+            }
+
+            BindingContext.UpdateBinding(bindingContext, this);
+            if (value is Form form)
+            {
+                form.Load += FormLoaded;
+            }
+        }
+    }
+
+    internal void SetListManager(BindingManagerBase? bindingManager)
+    {
+        if (_bindingManagerBase is CurrencyManager)
+        {
+            ((CurrencyManager)_bindingManagerBase).MetaDataChanged -= binding_MetaDataChanged;
+        }
+
+        _bindingManagerBase = bindingManager;
+        if (_bindingManagerBase is CurrencyManager)
+        {
+            ((CurrencyManager)_bindingManagerBase).MetaDataChanged += binding_MetaDataChanged;
+        }
+
+        BindToObject?.SetBindingManagerBase(bindingManager);
         CheckBinding();
     }
 
-    private Binding()
+    internal void UpdateIsBinding()
     {
+        var flag = IsBindable && ComponentCreated && (_bindingManagerBase?.IsBinding ?? false);
+        if (_bound != flag)
+        {
+            _bound = flag;
+            BindTarget(flag);
+            if (_bound)
+            {
+                if (_controlUpdateMode == ControlUpdateMode.Never)
+                {
+                    PullData(false, true);
+                    return;
+                }
+
+                PushData();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Raises the
+    /// <see cref="E:System.Windows.Forms.Binding.BindingComplete"/> event.
+    /// </summary>
+    /// <param name = "e">A
+    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs"/>  that contains the event data.
+    /// </param>
+    protected virtual void OnBindingComplete(BindingCompleteEventArgs e)
+    {
+        if (!_inOnBindingComplete)
+        {
+            try
+            {
+                try
+                {
+                    _inOnBindingComplete = true;
+                    _bindingComplete?.Invoke(this, e);
+                }
+                catch (Exception exception)
+                {
+                    if (ClientUtils.IsSecurityOrCriticalException(exception))
+                    {
+                        throw;
+                    }
+
+                    e.Cancel = true;
+                }
+            }
+            finally
+            {
+                _inOnBindingComplete = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Raises the
+    /// <see cref="E:System.Windows.Forms.Binding.Format"/> event.
+    /// </summary>
+    /// <param name = "e">A
+    /// <see cref="T:System.Windows.Forms.ConvertEventArgs"/> that contains the event data.
+    /// </param>
+    protected virtual void OnFormat(ConvertEventArgs e)
+    {
+        _format?.Invoke(this, e);
+        if (!_formattingEnabled && !(e.Value is DBNull) && e.DesiredType != null && !e.DesiredType.IsInstanceOfType(e.Value) && e.Value is IConvertible)
+        {
+            e.Value = Convert.ChangeType(e.Value, e.DesiredType, CultureInfo.CurrentCulture);
+        }
+    }
+
+    /// <summary>
+    /// Raises the
+    /// <see cref="E:System.Windows.Forms.Binding.Parse"/> event.
+    /// </summary>
+    /// <param name = "e">A
+    /// <see cref="T:System.Windows.Forms.ConvertEventArgs"/> that contains the event data.
+    /// </param>
+    protected virtual void OnParse(ConvertEventArgs e)
+    {
+        _parse?.Invoke(this, e);
+        if (!_formattingEnabled && !(e.Value is DBNull) && e is { Value: not null, DesiredType: not null } && !e.DesiredType.IsInstanceOfType(e.Value) && e.Value is IConvertible)
+        {
+            e.Value = Convert.ChangeType(e.Value, e.DesiredType, CultureInfo.CurrentCulture);
+        }
     }
 
     private void binding_MetaDataChanged(object? sender, EventArgs e)
@@ -532,6 +890,7 @@ public class Binding
                 EventHandler eventHandler = Target_PropertyChanged;
                 _propInfo.RemoveValueChanged(_control, eventHandler);
             }
+
             if (_validateInfo != null)
             {
                 CancelEventHandler cancelEventHandler = Target_Validate;
@@ -545,6 +904,7 @@ public class Binding
                 EventHandler eventHandler1 = Target_PropertyChanged;
                 _propInfo.AddValueChanged(_control, eventHandler1);
             }
+
             if (_validateInfo != null)
             {
                 _validateInfo.AddEventHandler(_control, (CancelEventHandler)Target_Validate);
@@ -579,6 +939,7 @@ public class Binding
                         break;
                     }
                 }
+
                 if (propertyDescriptor == null && string.Equals(propertyDescriptorCollections[i].Name, str, StringComparison.OrdinalIgnoreCase))
                 {
                     propertyDescriptor = propertyDescriptorCollections[i];
@@ -588,20 +949,24 @@ public class Binding
                     }
                 }
             }
+
             if (item == null)
             {
                 throw new ArgumentException(@"ListBindingBindProperty", nameof(PropertyName));
             }
+
             if (item.IsReadOnly && _controlUpdateMode != ControlUpdateMode.Never)
             {
                 throw new ArgumentException(@"ListBindingBindPropertyReadOnly", nameof(PropertyName));
             }
+
             _propInfo = item;
             _propInfoConverter = _propInfo.Converter;
             if (propertyDescriptor != null && propertyDescriptor.PropertyType == typeof(bool) && !propertyDescriptor.IsReadOnly)
             {
                 _propIsNullInfo = propertyDescriptor;
             }
+
             EventDescriptor? eventDescriptor = null;
             var str1 = "Validating";
             var events = TypeDescriptor.GetEvents(_control);
@@ -618,20 +983,11 @@ public class Binding
                     break;
                 }
             }
+
             _validateInfo = eventDescriptor;
         }
-        UpdateIsBinding();
-    }
 
-    internal bool ControlAtDesignTime()
-    {
-        IComponent? component = _control;
-        var site = component?.Site;
-        if (site == null)
-        {
-            return false;
-        }
-        return site.DesignMode;
+        UpdateIsBinding();
     }
 
     private BindingCompleteEventArgs CreateBindingCompleteEventArgs(BindingCompleteContext context, Exception? ex)
@@ -653,6 +1009,7 @@ public class Binding
             bindingCompleteState = BindingCompleteState.Exception;
             flag = true;
         }
+
         return new BindingCompleteEventArgs(this, bindingCompleteState, context, empty, ex, flag);
     }
 
@@ -662,6 +1019,7 @@ public class Binding
         {
             return value;
         }
+
         var propertyType = _propInfo?.PropertyType ?? typeof(object);
         if (_formattingEnabled)
         {
@@ -671,13 +1029,16 @@ public class Binding
             {
                 return convertEventArg.Value;
             }
+
             TypeConverter? converter = null;
             if (_bindToObject?.FieldInfo != null)
             {
                 converter = _bindToObject.FieldInfo.Converter;
             }
+
             return Formatter.FormatObject(value, propertyType, converter, _propInfoConverter, _formatString ?? string.Empty, _formatInfo, _nullValue, _dsNullValue);
         }
+
         var convertEventArg1 = new ConvertEventArgs(value, propertyType);
         OnFormat(convertEventArg1);
         var obj = convertEventArg1.Value;
@@ -685,10 +1046,12 @@ public class Binding
         {
             return value;
         }
+
         if (obj != null && (obj.GetType().IsSubclassOf(propertyType) || obj.GetType() == propertyType))
         {
             return obj;
         }
+
         var typeConverter = TypeDescriptor.GetConverter(value != null ? value.GetType() : typeof(object));
         if (typeConverter.CanConvertTo(propertyType))
         {
@@ -699,6 +1062,7 @@ public class Binding
 
             return obj;
         }
+
         if (value is IConvertible)
         {
             obj = Convert.ChangeType(value, propertyType, CultureInfo.CurrentCulture);
@@ -707,6 +1071,7 @@ public class Binding
                 return obj;
             }
         }
+
         throw new FormatException("ListBindingFormatFailed");
     }
 
@@ -721,6 +1086,7 @@ public class Binding
         {
             return Formatter.GetDefaultDataSourceNullValue(type);
         }
+
         return _dsNullValue;
     }
 
@@ -741,81 +1107,6 @@ public class Binding
         return obj;
     }
 
-    internal static bool IsComponentCreated(IBindableComponent? component)
-    {
-        if (component is not Control control)
-        {
-            return true;
-        }
-        return control.Created;
-    }
-
-    /// <summary>
-    /// Raises the
-    /// <see cref="E:System.Windows.Forms.Binding.BindingComplete" /> event.
-    /// </summary>
-    /// <param name="e">A
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" />  that contains the event data.
-    /// </param>
-    protected virtual void OnBindingComplete(BindingCompleteEventArgs e)
-    {
-        if (!_inOnBindingComplete)
-        {
-            try
-            {
-                try
-                {
-                    _inOnBindingComplete = true;
-                    _bindingComplete?.Invoke(this, e);
-                }
-                catch (Exception exception)
-                {
-                    if (ClientUtils.IsSecurityOrCriticalException(exception))
-                    {
-                        throw;
-                    }
-                    e.Cancel = true;
-                }
-            }
-            finally
-            {
-                _inOnBindingComplete = false;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Raises the
-    /// <see cref="E:System.Windows.Forms.Binding.Format" /> event.
-    /// </summary>
-    /// <param name="e">A
-    /// <see cref="T:System.Windows.Forms.ConvertEventArgs" /> that contains the event data.
-    /// </param>
-    protected virtual void OnFormat(ConvertEventArgs e)
-    {
-        _format?.Invoke(this, e);
-        if (!_formattingEnabled && !(e.Value is DBNull) && e.DesiredType != null && !e.DesiredType.IsInstanceOfType(e.Value) && e.Value is IConvertible)
-        {
-            e.Value = Convert.ChangeType(e.Value, e.DesiredType, CultureInfo.CurrentCulture);
-        }
-    }
-
-    /// <summary>
-    /// Raises the
-    /// <see cref="E:System.Windows.Forms.Binding.Parse" /> event.
-    /// </summary>
-    /// <param name="e">A
-    /// <see cref="T:System.Windows.Forms.ConvertEventArgs" /> that contains the event data.
-    /// </param>
-    protected virtual void OnParse(ConvertEventArgs e)
-    {
-        _parse?.Invoke(this, e);
-        if (!_formattingEnabled && !(e.Value is DBNull) && e is { Value: not null, DesiredType: not null } && !e.DesiredType.IsInstanceOfType(e.Value) && e.Value is IConvertible)
-        {
-            e.Value = Convert.ChangeType(e.Value, e.DesiredType, CultureInfo.CurrentCulture);
-        }
-    }
-
     private object? ParseObject(object? value)
     {
         var bindToType = _bindToObject?.BindToType;
@@ -828,19 +1119,23 @@ public class Binding
             {
                 return obj;
             }
+
             TypeConverter? converter = null;
             if (_bindToObject?.FieldInfo != null)
             {
                 converter = _bindToObject.FieldInfo.Converter;
             }
+
             return Formatter.ParseObject(value, bindToType, value == null ? _propInfo?.PropertyType : value.GetType(), converter, _propInfoConverter, _formatInfo, _nullValue, GetDataSourceNullValue(bindToType));
         }
+
         var convertEventArg1 = new ConvertEventArgs(value, bindToType);
         OnParse(convertEventArg1);
         if (convertEventArg1.Value != null && bindToType != null && (convertEventArg1.Value.GetType().IsSubclassOf(bindToType) || convertEventArg1.Value.GetType() == bindToType || convertEventArg1.Value is DBNull))
         {
             return convertEventArg1.Value;
         }
+
         var typeConverter = TypeDescriptor.GetConverter(value != null ? value.GetType() : typeof(object));
         if (bindToType != null && typeConverter.CanConvertTo(bindToType))
         {
@@ -851,6 +1146,7 @@ public class Binding
 
             return null;
         }
+
         if (value is IConvertible)
         {
             if (bindToType != null)
@@ -862,216 +1158,8 @@ public class Binding
                 }
             }
         }
+
         return null;
-    }
-
-    internal bool PullData()
-    {
-        return PullData(true, false);
-    }
-
-    internal bool PullData(bool reformat)
-    {
-        return PullData(reformat, false);
-    }
-
-    internal bool PullData(bool reformat, bool force)
-    {
-        if (ControlUpdateMode == ControlUpdateMode.Never)
-        {
-            reformat = false;
-        }
-        var flag = false;
-        object? value = null;
-        Exception? exception = null;
-        if (!IsBinding)
-        {
-            return false;
-        }
-        if (!force)
-        {
-            if (_propInfo is { SupportsChangeEvents: true } && !_modified)
-            {
-                return false;
-            }
-            if (DataSourceUpdateMode == DataSourceUpdateMode.Never)
-            {
-                return false;
-            }
-        }
-        if (_inPushOrPull && _formattingEnabled)
-        {
-            return false;
-        }
-        _inPushOrPull = true;
-        var propValue = GetPropValue();
-        try
-        {
-            value = ParseObject(propValue);
-        }
-        catch (Exception exception1)
-        {
-            exception = exception1;
-        }
-        try
-        {
-            try
-            {
-                if (exception != null || !FormattingEnabled && value == null)
-                {
-                    flag = true;
-                    value = _bindToObject?.GetValue();
-                }
-                if (reformat && !FormattingEnabled | !flag)
-                {
-                    var obj = FormatObject(value);
-                    if (force || !FormattingEnabled || !Equals(obj, propValue))
-                    {
-                        SetPropValue(obj);
-                    }
-                }
-                if (!flag)
-                {
-                    _bindToObject?.SetValue(value);
-                }
-            }
-            catch (Exception exception2)
-            {
-                exception = exception2;
-                if (!FormattingEnabled)
-                {
-                    throw;
-                }
-            }
-        }
-        finally
-        {
-            _inPushOrPull = false;
-        }
-        if (!FormattingEnabled)
-        {
-            _modified = false;
-            return false;
-        }
-        var bindingCompleteEventArg = CreateBindingCompleteEventArgs(BindingCompleteContext.DataSourceUpdate, exception);
-        OnBindingComplete(bindingCompleteEventArg);
-        if (bindingCompleteEventArg.BindingCompleteState == BindingCompleteState.Success && !bindingCompleteEventArg.Cancel)
-        {
-            _modified = false;
-        }
-        return bindingCompleteEventArg.Cancel;
-    }
-
-    internal bool PushData()
-    {
-        return PushData(false);
-    }
-
-    internal bool PushData(bool force)
-    {
-        Exception? exception = null;
-        if (!force && ControlUpdateMode == ControlUpdateMode.Never)
-        {
-            return false;
-        }
-        if (_inPushOrPull && _formattingEnabled)
-        {
-            return false;
-        }
-        _inPushOrPull = true;
-        try
-        {
-            try
-            {
-                if (!IsBinding)
-                {
-                    SetPropValue(null);
-                }
-                else
-                {
-                    SetPropValue(FormatObject(_bindToObject?.GetValue()));
-                    _modified = false;
-                }
-            }
-            catch (Exception? exception1)
-            {
-                exception = exception1;
-                if (!FormattingEnabled)
-                {
-                    throw;
-                }
-            }
-        }
-        finally
-        {
-            _inPushOrPull = false;
-        }
-        if (!FormattingEnabled)
-        {
-            return false;
-        }
-        var bindingCompleteEventArg = CreateBindingCompleteEventArgs(BindingCompleteContext.ControlUpdate, exception);
-        OnBindingComplete(bindingCompleteEventArg);
-        return bindingCompleteEventArg.Cancel;
-    }
-
-    /// <summary>
-    /// Sets the control property to the value read from the data source.
-    /// </summary>
-    public void ReadValue()
-    {
-        PushData(true);
-    }
-
-    internal void SetBindableComponent(IBindableComponent? value)
-    {
-        BindingContext? bindingContext;
-        if (_control != value)
-        {
-            var bindableComponent = _control;
-            BindTarget(false);
-            _control = value;
-            BindTarget(true);
-            try
-            {
-                CheckBinding();
-            }
-            catch
-            {
-                BindTarget(false);
-                _control = bindableComponent;
-                BindTarget(true);
-                throw;
-            }
-            if (_control == null || !IsComponentCreated(_control))
-            {
-                bindingContext = null;
-            }
-            else
-            {
-                bindingContext = _control.BindingContext;
-            }
-            BindingContext.UpdateBinding(bindingContext, this);
-            if (value is Form form)
-            {
-                form.Load += FormLoaded;
-            }
-        }
-    }
-
-    internal void SetListManager(BindingManagerBase? bindingManager)
-    {
-        if (_bindingManagerBase is CurrencyManager)
-        {
-            ((CurrencyManager)_bindingManagerBase).MetaDataChanged -= binding_MetaDataChanged;
-        }
-        _bindingManagerBase = bindingManager;
-        if (_bindingManagerBase is CurrencyManager)
-        {
-            ((CurrencyManager)_bindingManagerBase).MetaDataChanged += binding_MetaDataChanged;
-        }
-        BindToObject?.SetBindingManagerBase(bindingManager);
-        CheckBinding();
     }
 
     private void SetPropValue(object? value)
@@ -1080,6 +1168,7 @@ public class Binding
         {
             return;
         }
+
         _inSetPropValue = true;
         try
         {
@@ -1112,6 +1201,7 @@ public class Binding
         {
             return false;
         }
+
         return _dsNullValue != Formatter.GetDefaultDataSourceNullValue(null);
     }
 
@@ -1121,6 +1211,7 @@ public class Binding
         {
             return false;
         }
+
         return _formatString.Length > 0;
     }
 
@@ -1135,6 +1226,7 @@ public class Binding
         {
             return;
         }
+
         if (IsBinding)
         {
             _modified = true;
@@ -1159,64 +1251,5 @@ public class Binding
         {
             e.Cancel = true;
         }
-    }
-
-    internal void UpdateIsBinding()
-    {
-        var flag = IsBindable && ComponentCreated && (_bindingManagerBase?.IsBinding ?? false);
-        if (_bound != flag)
-        {
-            _bound = flag;
-            BindTarget(flag);
-            if (_bound)
-            {
-                if (_controlUpdateMode == ControlUpdateMode.Never)
-                {
-                    PullData(false, true);
-                    return;
-                }
-                PushData();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Reads the current value from the control property and writes it to the data source.
-    /// </summary>
-    public void WriteValue()
-    {
-        PullData(true, true);
-    }
-
-    /// <summary>
-    /// Occurs when the
-    /// <see cref="P:System.Windows.Forms.Binding.FormattingEnabled" /> property is set to true and a binding operation is complete, such as when data is pushed from the control to the data source or vice versa
-    /// </summary>
-    public event BindingCompleteEventHandler? BindingComplete
-    {
-        add => _bindingComplete += value;
-        remove => _bindingComplete -= value;
-    }
-
-    /// <summary>
-    /// Occurs when the property of a control is bound to a data value.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
-    public event ConvertEventHandler? Format
-    {
-        add => _format += value;
-        remove => _format -= value;
-    }
-
-    /// <summary>
-    /// Occurs when the value of a data-bound control changes.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
-    public event ConvertEventHandler? Parse
-    {
-        add => _parse += value;
-        remove => _parse -= value;
     }
 }

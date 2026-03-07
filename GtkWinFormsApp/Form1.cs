@@ -91,7 +91,7 @@ namespace GtkWinFormsApp
             {
                 return;
             }
-            //1、数据集列表数据源
+            //1. Dataset list data source
             List<TestEntity> data = new List<TestEntity>();
             var createdate = DateTime.Now;
             data.Add(new TestEntity() { ID = 0, Title = " load data point yesLoad data\nPoint yesLoad data point yesLoad data point yesLoad data point yes", Info = "sdfdf", State = true, CreateDate = createdate, Operate = Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_4, PIC1 = "face-smile-big", PIC = Image.FromFile("./Resources/timg6.jpg") });
@@ -111,7 +111,7 @@ namespace GtkWinFormsApp
             this.comboBox1.DataSource = data;
             // dataGridView1.Columns[1].Visible = false;
 
-            ////2、datatable数据源
+            ////2. Datatable data source
             //DataTable dt = new DataTable();
             //dt.Columns.Add("ID", typeof(string));
             //dt.Columns.Add("CreateDate1", typeof(DateTime));
