@@ -25,28 +25,13 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the number of grid items in the collection.
+        /// Retrieves the number of member attributes.
         /// </summary>
-        /// <returns>The number of grid items in the collection.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public int Count => _entries.Length;
-        /// <summary>
-        /// For a description of this member, see
-        /// <see cref="System.Collections.ICollection.SyncRoot" />
-        /// </summary>
-        /// <returns>An object that can be used to synchronize access to the
-        /// <see cref="System.Windows.Forms.GridItemCollection" />
-        /// </returns>
-        object ICollection.SyncRoot => this;
-        /// <summary>
-        /// For a description of this member, see
-        /// <see cref="System.Collections.ICollection.IsSynchronized" />
-        /// </summary>
-        /// <returns>false in all cases.
-        /// </returns>
+
         bool ICollection.IsSynchronized => false;
+
+        object ICollection.SyncRoot => this;
 
         /// <summary>
         /// Retrieves the member attribute with the specified index.
@@ -68,14 +53,12 @@ namespace System.Windows.Forms
                 return null;
             }
         }
+
         /// <summary>
-        /// For a description of this member, see
-        /// <see cref="System.Collections.ICollection.CopyTo(System.Array,System.Int32)" />
+        /// Creates and retrieves a new enumerator for this collection.
         /// </summary>
-        /// <param name="dest">The one-dimensional array that is the destination of the elements copied from the collection. The array must have zero-based indexing.
-        /// </param>
-        /// <param name="index">The zero-based index in the array at which copying begins.
-        /// </param>
+        public IEnumerator GetEnumerator() => _entries.GetEnumerator();
+
         void ICollection.CopyTo(Array dest, int index)
         {
             if (_entries.Length > 0)
@@ -83,16 +66,5 @@ namespace System.Windows.Forms
                 Array.Copy(_entries, 0, dest, index, _entries.Length);
             }
         }
-
-        /// <summary>
-        /// Returns an enumeration of all the grid items in the collection.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="System.Collections.IEnumerator" /> for the
-        /// <see cref="System.Windows.Forms.GridItemCollection" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public IEnumerator GetEnumerator() => _entries.GetEnumerator();
     }
 }

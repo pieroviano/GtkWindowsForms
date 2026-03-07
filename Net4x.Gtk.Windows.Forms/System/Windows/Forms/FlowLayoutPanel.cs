@@ -8,7 +8,6 @@ using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.ComponentModel;
 
-
 namespace System.Windows.Forms
 {
     /// <summary>
@@ -25,13 +24,9 @@ namespace System.Windows.Forms
 
         public readonly FlowLayoutPanelBase self = new FlowLayoutPanelBase();
 
-        public override object GtkControl => self;
-
         private ObjectCollection _controls;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> class.
-        /// </summary>
+
+        private FlowDirection _FlowDirection;
         public FlowLayoutPanel() : base()
         {
             self.Orientation = Gtk.Orientation.Horizontal;
@@ -44,18 +39,8 @@ namespace System.Windows.Forms
             _controls = new ObjectCollection(this);
         }
 
+        public override ControlCollection Controls => _controls;
 
-        private FlowDirection _FlowDirection;
-        /// <summary>
-        /// Gets or sets a value indicating the flow direction of the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.FlowDirection" /> values indicating the direction of consecutive placement of controls in the panel. The default is
-        /// <see cref="System.Windows.Forms.FlowDirection.LeftToRight" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public FlowDirection FlowDirection
         {
             get { return _FlowDirection; }
@@ -65,44 +50,23 @@ namespace System.Windows.Forms
                 else if (value == FlowDirection.TopDown || value == FlowDirection.BottomUp) { self.Orientation = Gtk.Orientation.Vertical; }
             }
         }
-        /// <summary>
-        /// Gets or sets a value indicating whether the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control should wrap its contents or let the contents be clipped.
-        /// </summary>
-        /// <returns>true if the contents should be wrapped; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
+        public override object GtkControl => self;
+
         public bool WrapContents { get; set; }
-        /// <summary>
-        /// Returns a value that represents the flow-break setting of the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control.
-        /// </summary>
-        /// <returns>true if the flow break is set; otherwise, false.
-        /// </returns>
-        /// <param name="control">The child control.
-        /// </param>
+        public bool CanExtend(object extendee)
+        {
+            return true;
+        }
+
         public bool GetFlowBreak(Control control)
         {
             return false;
         }
-        /// <summary>
-        /// Sets the value that represents the flow-break setting of the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control.
-        /// </summary>
-        /// <param name="control">The child control.
-        /// </param>
-        /// <param name="value">The flow-break value to set.
-        /// </param>
+
         public void SetFlowBreak(Control control, bool value)
         {
 
-        }
-
-        public override ControlCollection Controls => _controls;
-        public bool CanExtend(object extendee)
-        {
-            return true;
         }
         public class ObjectCollection : ControlCollection
         {

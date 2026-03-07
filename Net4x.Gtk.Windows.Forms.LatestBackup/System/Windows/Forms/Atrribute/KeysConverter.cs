@@ -23,46 +23,36 @@ namespace System.Windows.Forms
     public class KeysConverter : TypeConverter, IComparer
     {
 
-        private IDictionary keyNames;
-
         private List<string> displayOrder;
-        private StandardValuesCollection values;
-
-        private const Keys FirstDigit = System.Windows.Forms.Keys.D0;
-
-        private const Keys LastDigit = System.Windows.Forms.Keys.D9;
 
         private const Keys FirstAscii = System.Windows.Forms.Keys.A;
 
-        private const Keys LastAscii = System.Windows.Forms.Keys.Z;
+        private const Keys FirstDigit = System.Windows.Forms.Keys.D0;
 
         private const Keys FirstNumpadDigit = System.Windows.Forms.Keys.NumPad0;
+
+        private IDictionary keyNames;
+
+        private const Keys LastAscii = System.Windows.Forms.Keys.Z;
+
+        private const Keys LastDigit = System.Windows.Forms.Keys.D9;
+
         private const Keys LastNumpadDigit = System.Windows.Forms.Keys.NumPad9;
 
-        private void AddKey(string key, Keys value)
-        {
-            keyNames[key] = value;
-            displayOrder.Add(key);
-        }
+        private StandardValuesCollection values;
 
-        private void Initialize()
+        private List<string> DisplayOrder
         {
-            keyNames = new Hashtable(34);
-            displayOrder = new List<string>(34);
+            get
+            {
+                if (displayOrder == null)
+                {
+                    Debug.Assert(keyNames == null);
+                    Initialize();
+                }
 
-            //new whidbey keys follow here...
-            // Add string mappings for these values (numbers 0-9) so that the keyboard shortcuts
-            // will be displayed properly in menus.
-            AddKey("0", Keys.D0);
-            AddKey("1", Keys.D1);
-            AddKey("2", Keys.D2);
-            AddKey("3", Keys.D3);
-            AddKey("4", Keys.D4);
-            AddKey("5", Keys.D5);
-            AddKey("6", Keys.D6);
-            AddKey("7", Keys.D7);
-            AddKey("8", Keys.D8);
-            AddKey("9", Keys.D9);
+                return displayOrder;
+            }
         }
 
         /// <summary>
@@ -78,105 +68,50 @@ namespace System.Windows.Forms
                     Debug.Assert(displayOrder == null);
                     Initialize();
                 }
+
                 return keyNames;
             }
         }
 
-        private List<string> DisplayOrder
-        {
-            get
-            {
-                if (displayOrder == null)
-                {
-                    Debug.Assert(keyNames == null);
-                    Initialize();
-                }
-                return displayOrder;
-            }
-        }
-
         /// <summary>
-        /// Returns a value indicating whether this converter can convert an object in the specified source type to the native type of the converter using the specified context.
+        /// Determines if this converter can convert an object in the given source
+        /// type to the native type of the converter.
         /// </summary>
-        /// <returns>true if the conversion can be performed; otherwise, false.
-        /// </returns>
-        /// <param name="context">An
-        /// <see cref="System.ComponentModel.ITypeDescriptorContext" /> that provides a format context, which can be used to extract additional information about the environment this converter is being invoked from. This parameter or properties of this parameter can be null.
-        /// </param>
-        /// <param name="sourceType">The
-        /// <see cref="System.Type" /> to convert from.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             if (sourceType == typeof(string) || sourceType == typeof(Enum[]))
             {
                 return true;
             }
+
             return base.CanConvertFrom(context, sourceType);
         }
 
         /// <summary>
-        /// Returns a value indicating whether this converter can convert an object in the specified source type to the native type of the converter using the specified context.
+        /// Gets a value indicating whether this converter can
+        /// convert an object to the given destination type using the context.
         /// </summary>
-        /// <returns>true if the conversion can be performed; otherwise, false.
-        /// </returns>
-        /// <param name="context">An
-        /// <see cref="System.ComponentModel.ITypeDescriptorContext" /> that provides a format context, which can be used to extract additional information about the environment this converter is being invoked from. This parameter or properties of this parameter can be null.
-        /// </param>
-        /// <param name="destinationType">The
-        /// <see cref="System.Type" /> to convert to.
-        /// </param>
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
             if (destinationType == typeof(Enum[]))
             {
                 return true;
             }
+
             return base.CanConvertTo(context, destinationType);
         }
 
         /// <summary>
         /// Compares two key values for equivalence.
         /// </summary>
-        /// <returns>An integer indicating the relationship between the two parameters.Value Type Condition A negative integer.
-        /// <paramref name="a" /> is less than
-        /// <paramref name="b" /> zero
-        /// <paramref name="a" /> equals
-        /// <paramref name="b" /> A positive integer.
-        /// <paramref name="a" /> is greater than
-        /// <paramref name="b" />
-        /// </returns>
-        /// <param name="a">An
-        /// <see cref="System.Object" /> that represents the first key to compare.
-        /// </param>
-        /// <param name="b">An
-        /// <see cref="System.Object" /> that represents the second key to compare.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public int Compare(object a, object b)
         {
             return string.Compare(ConvertToString(a), ConvertToString(b), false, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
-        /// Converts the specified object to the converter's native type.
+        /// Converts the given object to the converter's native type.
         /// </summary>
-        /// <returns>An object that represents the converted
-        /// <paramref name="value" />
-        /// </returns>
-        /// <param name="context">An ITypeDescriptorContext that provides a format context, which can be used to extract additional information about the environment this converter is being invoked from. This parameter or properties of this parameter can be null.
-        /// </param>
-        /// <param name="culture">A CultureInfo object to provide locale information.
-        /// </param>
-        /// <param name="value">The object to convert.
-        /// </param>
-        /// <exception cref="System.FormatException">An invalid key combination was supplied.-or- An invalid key name was supplied.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             if (value is string)
@@ -267,29 +202,12 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Converts the specified object to the specified destination type.
+        /// Converts the given object to another type.  The most common types to convert
+        /// are to and from a string object.  The default implementation will make a call
+        /// to ToString on the object if the object is valid and if the destination
+        /// type is string.  If this cannot convert to the desitnation type, this will
+        /// throw a NotSupportedException.
         /// </summary>
-        /// <returns>An
-        /// <see cref="System.Object" /> that represents the converted
-        /// <paramref name="value" />
-        /// </returns>
-        /// <param name="context">An
-        /// <see cref="System.ComponentModel.ITypeDescriptorContext" /> that provides a format context, which can be used to extract additional information about the environment this converter is being invoked from. This parameter or properties of this parameter can be null.
-        /// </param>
-        /// <param name="culture">A
-        /// <see cref="System.Globalization.CultureInfo" /> to provide locale information.
-        /// </param>
-        /// <param name="value">The
-        /// <see cref="System.Object" /> to convert.
-        /// </param>
-        /// <param name="destinationType">The
-        /// <see cref="System.Type" /> to convert the object to.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="destinationType" /> is null.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == null)
@@ -409,16 +327,11 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Returns a collection of standard values for the data type that this type converter is designed for when provided with a format context.
+        /// Retrieves a collection containing a set of standard values
+        /// for the data type this validator is designed for.  This
+        /// will return null if the data type does not support a
+        /// standard set of values.
         /// </summary>
-        /// <returns>A
-        /// <see cref="System.ComponentModel.TypeConverter.StandardValuesCollection" /> that holds a standard set of valid values, which can be empty if the data type does not support a standard set of values.
-        /// </returns>
-        /// <param name="context">An
-        /// <see cref="System.ComponentModel.ITypeDescriptorContext" /> that provides a format context, which can be used to extract additional information about the environment this converter is being invoked from. This parameter or properties of this parameter can be null.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             if (values == null)
@@ -436,38 +349,56 @@ namespace System.Windows.Forms
 
                 values = new StandardValuesCollection(list.ToArray());
             }
+
             return values;
         }
 
         /// <summary>
-        /// Determines if the list of standard values returned from GetStandardValues is an exclusive list using the specified
-        /// <see cref="System.ComponentModel.ITypeDescriptorContext" />
+        /// Determines if the list of standard values returned from
+        /// GetStandardValues is an exclusive list.  If the list
+        /// is exclusive, then no other values are valid, such as
+        /// in an enum data type.  If the list is not exclusive,
+        /// then there are other valid values besides the list of
+        /// standard values GetStandardValues provides.
         /// </summary>
-        /// <returns>true if the collection returned from
-        /// <see cref="!:Overload:System.Windows.Forms.KeysConverter.GetStandardValues" /> is an exhaustive list of possible values; otherwise, false if other values are possible. The default implementation for this method always returns false.
-        /// </returns>
-        /// <param name="context">A formatter context. This object can be used to extract additional information about the environment this converter is being invoked from. This may be null, so you should always check. Also, properties on the context object may also return null.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
         {
             return false;
         }
 
         /// <summary>
-        /// Gets a value indicating whether this object supports a standard set of values that can be picked from a list.
+        /// Determines if this object supports a standard set of values
+        /// that can be picked from a list.
         /// </summary>
-        /// <returns>Always returns true.
-        /// </returns>
-        /// <param name="context">An
-        /// <see cref="System.ComponentModel.ITypeDescriptorContext" /> that provides a format context, which can be used to extract additional information about the environment this converter is being invoked from. This parameter or properties of this parameter can be null.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
         {
             return true;
+        }
+
+        private void AddKey(string key, Keys value)
+        {
+            keyNames[key] = value;
+            displayOrder.Add(key);
+        }
+
+        private void Initialize()
+        {
+            keyNames = new Hashtable(34);
+            displayOrder = new List<string>(34);
+
+            //new whidbey keys follow here...
+            // Add string mappings for these values (numbers 0-9) so that the keyboard shortcuts
+            // will be displayed properly in menus.
+            AddKey("0", Keys.D0);
+            AddKey("1", Keys.D1);
+            AddKey("2", Keys.D2);
+            AddKey("3", Keys.D3);
+            AddKey("4", Keys.D4);
+            AddKey("5", Keys.D5);
+            AddKey("6", Keys.D6);
+            AddKey("7", Keys.D7);
+            AddKey("8", Keys.D8);
+            AddKey("9", Keys.D9);
         }
     }
 }

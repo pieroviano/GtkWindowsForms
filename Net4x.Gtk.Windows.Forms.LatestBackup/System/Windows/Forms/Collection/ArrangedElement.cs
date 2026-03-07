@@ -15,8 +15,9 @@ namespace System.Windows.Forms
 
         private IArrangedElement? _parent;
 
-        private BitVector32 _state;
         private readonly PropertyStore _propertyStore = new();  // Contains all properties that are not always set.
+
+        private BitVector32 _state;
 
         private static readonly int s_stateVisible = BitVector32.CreateMask();
 
@@ -35,34 +36,17 @@ namespace System.Windows.Forms
             }
         }
 
-        ArrangedElementCollection IArrangedElement.Children
-        {
-            get { return GetChildren(); }
-        }
-
-        IArrangedElement? IArrangedElement.Container
-        {
-            get { return GetContainer(); }
-        }
-
-        protected virtual Padding DefaultMargin
-        {
-            get { return Padding.Empty; }
-        }
-
-        protected virtual Padding DefaultPadding
-        {
-            get { return Padding.Empty; }
-        }
-
         public virtual Rectangle DisplayRectangle
         {
             get
             {
                 Rectangle displayRectangle = Bounds;
+
                 return displayRectangle;
             }
         }
+
+        public IntPtr Handle => throw new NotImplementedException();
 
         public abstract LayoutEngine LayoutEngine
         {
@@ -101,12 +85,38 @@ namespace System.Windows.Forms
             }
         }
 
+        public virtual bool Visible
+        {
+            get;
+            set;
+        }
+
+        ArrangedElementCollection IArrangedElement.Children
+        {
+            get { return GetChildren(); }
+        }
+
+        IArrangedElement? IArrangedElement.Container
+        {
+            get { return GetContainer(); }
+        }
+
         PropertyStore IArrangedElement.Properties
         {
             get
             {
                 return Properties;
             }
+        }
+
+        protected virtual Padding DefaultMargin
+        {
+            get { return Padding.Empty; }
+        }
+
+        protected virtual Padding DefaultPadding
+        {
+            get { return Padding.Empty; }
         }
 
         private PropertyStore Properties
@@ -116,18 +126,6 @@ namespace System.Windows.Forms
                 return _propertyStore;
             }
         }
-
-        public virtual bool Visible
-        {
-            get;
-            set;
-        }
-
-        public IntPtr Handle => throw new NotImplementedException();
-
-        protected abstract IArrangedElement? GetContainer();
-
-        protected abstract ArrangedElementCollection GetChildren();
 
         public virtual Size GetPreferredSize(Size constrainingSize)
         {
@@ -139,21 +137,25 @@ namespace System.Windows.Forms
             OnLayout(new LayoutEventArgs(container, propertyName));
         }
 
-        protected virtual void OnLayout(LayoutEventArgs e)
+        public void SetBounds(Rectangle bounds, BoundsSpecified specified)
         {
-
+            // in this case the parent is telling us to refresh our bounds - don't
+            // call PerformLayout
+            SetBoundsCore(bounds, specified);
         }
+
+        protected abstract ArrangedElementCollection GetChildren();
+
+        protected abstract IArrangedElement? GetContainer();
 
         protected virtual void OnBoundsChanged(Rectangle oldBounds, Rectangle newBounds)
         {
 
         }
 
-        public void SetBounds(Rectangle bounds, BoundsSpecified specified)
+        protected virtual void OnLayout(LayoutEventArgs e)
         {
-            // in this case the parent is telling us to refresh our bounds - don't
-            // call PerformLayout
-            SetBoundsCore(bounds, specified);
+
         }
 
         protected virtual void SetBoundsCore(Rectangle bounds, BoundsSpecified specified)

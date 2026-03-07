@@ -2,8 +2,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class LabelBase : Gtk.Label, IControlGtk
     {
-
-        public GtkControlOverride Override { get; set; }
         public LabelBase() : base()
         {
             this.Override = new GtkControlOverride(this);
@@ -29,17 +27,21 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.LineWrap = true;
             this.LineWrapMode = Pango.WrapMode.WordChar;
         }
-        protected override void OnShown()
-        {
-            Override.OnAddClass();
-            base.OnShown();
-        }
+
+        public GtkControlOverride Override { get; set; }
         protected override bool OnDrawn(Cairo.Context cr)
         {
             Gdk.Rectangle rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
             Override.OnDrawnBackground(cr, rec);
             Override.OnPaint(cr, rec);
+
             return base.OnDrawn(cr);
+        }
+
+        protected override void OnShown()
+        {
+            Override.OnAddClass();
+            base.OnShown();
         }
     }
 }

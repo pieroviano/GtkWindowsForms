@@ -14,15 +14,16 @@ namespace System.Windows.Forms
     ]
     public sealed class SelectionRange
     {
-        /// <summary>
-        /// The lower limit of the selection range.
-        /// </summary>
-        private DateTime start = DateTime.MinValue.Date;
 
         /// <summary>
         /// The upper limit of the selection range.
         /// </summary>
         private DateTime end = DateTime.MaxValue.Date;
+
+        /// <summary>
+        /// The lower limit of the selection range.
+        /// </summary>
+        private DateTime start = DateTime.MinValue.Date;
 
         /// <summary>
         /// Create a new SelectionRange object with the range [null, null].
@@ -32,15 +33,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.SelectionRange" /> class with the specified beginning and ending dates.
+        /// Create a new SelectionRange object with the given range.
         /// </summary>
-        /// <param name="lower">The starting date in the
-        /// <see cref="System.Windows.Forms.SelectionRange" />
-        /// </param>
-        /// <param name="upper">The ending date in the
-        /// <see cref="System.Windows.Forms.SelectionRange" />
-        /// </param>
         public SelectionRange(DateTime lower, DateTime upper)
         {
             //NOTE: simcooke: we explicitly DO NOT want to throw an exception here - just silently
@@ -62,12 +56,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.SelectionRange" /> class with the specified selection range.
+        /// Create a new SelectionRange object given an existing SelectionRange object.
         /// </summary>
-        /// <param name="range">The existing
-        /// <see cref="System.Windows.Forms.SelectionRange" />
-        /// </param>
         public SelectionRange(SelectionRange range)
         {
             start = range.start;
@@ -75,13 +65,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets or sets the ending date and time of the selection range.
+        /// Returns the ending time of this range.
         /// </summary>
-        /// <returns>The ending
-        /// <see cref="System.DateTime" /> value of the range.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public DateTime End
         {
             get
@@ -95,13 +80,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets or sets the starting date and time of the selection range.
+        /// Starting time of this range
         /// </summary>
-        /// <returns>The starting
-        /// <see cref="System.DateTime" /> value of the range.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public DateTime Start
         {
             get
@@ -115,14 +95,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Returns a string that represents the
-        /// <see cref="System.Windows.Forms.SelectionRange" />
+        /// Returns a string representation for this control.
         /// </summary>
-        /// <returns>A string that represents the current
-        /// <see cref="System.Windows.Forms.SelectionRange" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public override string ToString()
         {
             return "SelectionRange: Start: " + start.ToString() + ", End: " + end.ToString();

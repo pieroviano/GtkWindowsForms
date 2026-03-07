@@ -9,15 +9,13 @@ namespace GtkSystem.Resources.Extensions
     {
         internal const int Version = 2;
 
-        private Dictionary<string, ResourceLocator> _resCache;
+        private Dictionary<string, ResourceLocator> _caseInsensitiveTable;
 
         private DeserializingResourceReader _defaultReader;
 
-        private Dictionary<string, ResourceLocator> _caseInsensitiveTable;
-
         private bool _haveReadFromReader;
 
-        private IResourceReader Reader => _defaultReader;
+        private Dictionary<string, ResourceLocator> _resCache;
 
         internal RuntimeResourceSet(IResourceReader reader)
         {
@@ -28,6 +26,42 @@ namespace GtkSystem.Resources.Extensions
             _defaultReader = (reader as DeserializingResourceReader) ?? throw new ArgumentException(SystemResources.Format(SR.NotSupported_WrongResourceReader_Type, reader.GetType()), "reader");
             _resCache = new Dictionary<string, ResourceLocator>(FastResourceComparer.Default);
             _defaultReader._resCache = _resCache;
+        }
+
+        private IResourceReader Reader => _defaultReader;
+
+        public override IDictionaryEnumerator GetEnumerator()
+        {
+            return GetEnumeratorHelper();
+        }
+
+        public override object GetObject(string key)
+        {
+            return GetObject(key, ignoreCase: false, isString: false);
+        }
+
+        public override object GetObject(string key, bool ignoreCase)
+        {
+            return GetObject(key, ignoreCase, isString: false);
+        }
+
+        public override string GetString(string key)
+        {
+            object @object = GetObject(key, ignoreCase: false, isString: true);
+
+            return (string)@object;
+        }
+
+        public override string GetString(string key, bool ignoreCase)
+        {
+            object @object = GetObject(key, ignoreCase, isString: true);
+
+            return (string)@object;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumeratorHelper();
         }
 
         protected override void Dispose(bool disposing)
@@ -59,16 +93,6 @@ namespace GtkSystem.Resources.Extensions
             }
         }
 
-        public override IDictionaryEnumerator GetEnumerator()
-        {
-            return GetEnumeratorHelper();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumeratorHelper();
-        }
-
         private IDictionaryEnumerator GetEnumeratorHelper()
         {
             IResourceReader reader = Reader;
@@ -76,29 +100,8 @@ namespace GtkSystem.Resources.Extensions
             {
                 throw new ObjectDisposedException(null, SR.ObjectDisposed_ResourceSet);
             }
+
             return reader.GetEnumerator();
-        }
-
-        public override string GetString(string key)
-        {
-            object @object = GetObject(key, ignoreCase: false, isString: true);
-            return (string)@object;
-        }
-
-        public override string GetString(string key, bool ignoreCase)
-        {
-            object @object = GetObject(key, ignoreCase, isString: true);
-            return (string)@object;
-        }
-
-        public override object GetObject(string key)
-        {
-            return GetObject(key, ignoreCase: false, isString: false);
-        }
-
-        public override object GetObject(string key, bool ignoreCase)
-        {
-            return GetObject(key, ignoreCase, isString: false);
         }
 
         private object GetObject(string key, bool ignoreCase, bool isString)
@@ -226,6 +229,7 @@ namespace GtkSystem.Resources.Extensions
                     copyOfCache[key] = resLocation;
                 }
             }
+
             return obj;
         }
     }

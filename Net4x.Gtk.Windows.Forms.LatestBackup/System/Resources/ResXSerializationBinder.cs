@@ -14,9 +14,9 @@ namespace System.Resources
 
     internal class ResXSerializationBinder : SerializationBinder
     {
+        private readonly Func<Type, string> _typeNameConverter;
 
         private readonly ITypeResolutionService _typeResolver;
-        private readonly Func<Type, string> _typeNameConverter;
 
         internal ResXSerializationBinder(ITypeResolutionService typeResolver)
         {
@@ -26,6 +26,37 @@ namespace System.Resources
         internal ResXSerializationBinder(Func<Type, string> typeNameConverter)
         {
             _typeNameConverter = typeNameConverter;
+        }
+
+        // Get the multitarget-aware string representation for the give type.
+        public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
+        {
+            typeName = null;
+            if (_typeNameConverter is null)
+            {
+
+            }
+            else
+            {
+                string assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
+                if (!string.IsNullOrEmpty(assemblyQualifiedTypeName))
+                {
+                    int pos = assemblyQualifiedTypeName.IndexOf(',');
+                    if (pos > 0 && pos < assemblyQualifiedTypeName.Length - 1)
+                    {
+                        assemblyName = assemblyQualifiedTypeName.Substring(pos + 1).TrimStart();
+                        string newTypeName = assemblyQualifiedTypeName.Substring(0, pos);
+                        if (!string.Equals(newTypeName, serializedType.FullName, StringComparison.InvariantCulture))
+                        {
+                            typeName = newTypeName;
+                        }
+
+                        return;
+                    }
+                }
+            }
+
+            base.BindToName(serializedType, out assemblyName, out typeName);
         }
 
         public override Type BindToType(string assemblyName, string typeName)
@@ -71,37 +102,6 @@ namespace System.Resources
 
             // Binder couldn't handle it, let the default loader take over.
             return type;
-        }
-
-        // Get the multitarget-aware string representation for the give type.
-        public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
-        {
-            typeName = null;
-            if (_typeNameConverter is null)
-            {
-
-            }
-            else
-            {
-                string assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
-                if (!string.IsNullOrEmpty(assemblyQualifiedTypeName))
-                {
-                    int pos = assemblyQualifiedTypeName.IndexOf(',');
-                    if (pos > 0 && pos < assemblyQualifiedTypeName.Length - 1)
-                    {
-                        assemblyName = assemblyQualifiedTypeName.Substring(pos + 1).TrimStart();
-                        string newTypeName = assemblyQualifiedTypeName.Substring(0, pos);
-                        if (!string.Equals(newTypeName, serializedType.FullName, StringComparison.InvariantCulture))
-                        {
-                            typeName = newTypeName;
-                        }
-
-                        return;
-                    }
-                }
-            }
-
-            base.BindToName(serializedType, out assemblyName, out typeName);
         }
     }
 }

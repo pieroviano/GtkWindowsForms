@@ -14,13 +14,10 @@ namespace System.Drawing.Printing
     public partial class Margins : ICloneable
     {
 
-        private int _left;
-
-        private int _right;
-
         private int _bottom;
 
-        private int _top;
+        [OptionalField]
+        private double _doubleBottom;
 
         [OptionalField]
 
@@ -34,8 +31,11 @@ namespace System.Drawing.Printing
 
         private double _doubleTop;
 
-        [OptionalField]
-        private double _doubleBottom;
+        private int _left;
+
+        private int _right;
+
+        private int _top;
 
         /// <summary>
         /// Initializes a new instance of a the
@@ -65,6 +65,20 @@ namespace System.Drawing.Printing
             _doubleRight = right;
             _doubleTop = top;
             _doubleBottom = bottom;
+        }
+
+        /// <summary>
+        /// Gets or sets the bottom margin, in hundredths of an inch.
+        /// </summary>
+        public int Bottom
+        {
+            get => _bottom;
+            set
+            {
+                CheckMargin(value, nameof(value));
+                _bottom = value;
+                _doubleBottom = value;
+            }
         }
 
         /// <summary>
@@ -110,15 +124,14 @@ namespace System.Drawing.Printing
         }
 
         /// <summary>
-        /// Gets or sets the bottom margin, in hundredths of an inch.
+        /// Gets or sets the bottom margin with double value, in hundredths of an inch.
         /// </summary>
-        public int Bottom
+        internal double DoubleBottom
         {
-            get => _bottom;
+            get => _doubleBottom;
             set
             {
-                CheckMargin(value, nameof(value));
-                _bottom = value;
+                Bottom = (int)Math.Round(value);
                 _doubleBottom = value;
             }
         }
@@ -162,29 +175,8 @@ namespace System.Drawing.Printing
             }
         }
 
-        /// <summary>
-        /// Gets or sets the bottom margin with double value, in hundredths of an inch.
-        /// </summary>
-        internal double DoubleBottom
-        {
-            get => _doubleBottom;
-            set
-            {
-                Bottom = (int)Math.Round(value);
-                _doubleBottom = value;
-            }
-        }
-
-        private static void CheckMargin(int margin, string name)
-        {
-            if (margin < 0)
-            {
-                throw new ArgumentOutOfRangeException(name, margin, "InvalidLowBoundArgumentEx");
-            }
-        }
-
-
         public object Clone() => MemberwiseClone();
+
         public override bool Equals(object obj) =>
             obj is Margins margins
                 && margins.Left == Left
@@ -198,33 +190,16 @@ namespace System.Drawing.Printing
         public override int GetHashCode() => HashCode.Combine(Left, Right, Top, Bottom);
 
         /// <summary>
-        /// Tests whether two
-        /// <see cref="Margins" /> objects are identical.
-        /// </summary>
-        public static bool operator ==(Margins m1, Margins m2)
-        {
-            if (m1 is null)
-            {
-                return m2 is null;
-            }
-
-            if (m2 is null)
-            {
-                return false;
-            }
-
-            return m1.Equals(m2);
-        }
-
-        /// <summary>
-        /// Tests whether two
-        /// <see cref="Margins" /> objects are different.
-        /// </summary>
-        public static bool operator !=(Margins m1, Margins m2) => !(m1 == m2);
-
-        /// <summary>
         /// Provides some interesting information for the Margins in String form.
         /// </summary>
         public override string ToString() => $"[Margins Left={Left} Right={Right} Top={Top} Bottom={Bottom}]";
+
+        private static void CheckMargin(int margin, string name)
+        {
+            if (margin < 0)
+            {
+                throw new ArgumentOutOfRangeException(name, margin, "InvalidLowBoundArgumentEx");
+            }
+        }
     }
 }

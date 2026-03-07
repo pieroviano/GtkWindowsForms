@@ -19,32 +19,21 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.HelpEventArgs" /> class.
+        /// <see cref="HelpEventArgs" /> class.
         /// </summary>
-        /// <param name="mousePos">The coordinates of the mouse pointer.
-        /// </param>
         public HelpEventArgs(Point mousePos)
         {
             MousePos = mousePos;
         }
 
         /// <summary>
-        /// Gets the screen coordinates of the mouse pointer.
+        /// Gets or sets a value indicating whether the Help event was handled.
         /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Point" /> representing the screen coordinates of the mouse pointer.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public Point MousePos { get; }
+        public bool Handled { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the help event was handled.
+        /// Gets the screen coordinates of the mouse pointer.
         /// </summary>
-        /// <returns>true if the event is handled; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public bool Handled { get; set; }
+        public Point MousePos { get; }
     }
 }

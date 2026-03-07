@@ -25,15 +25,25 @@ namespace System.Windows.Forms
     {
 
         private ObjectCollection __itemsData;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ToolStripComboBox" /> class.
-        /// </summary>
+
+        public event EventHandler SelectedIndexChanged;
+
+        public event EventHandler SelectedValueChanged;
         public ToolStripComboBox() : base("ToolStripComboBox", null)
         {
             __itemsData = new ObjectCollection(this.comboBox);
             this.comboBox.Changed += ComboBox_Changed;
         }
+
+        public bool FormattingEnabled { get; set; }
+
+        public new ObjectCollection Items { get { return __itemsData; } }
+
+        public int SelectedIndex { get { return base.comboBox.Active; } }
+
+        public object SelectedItem { get { return __itemsData[SelectedIndex]; } }
+
+        public override Size Size { get => base.Size; set { this.comboBox.WidthRequest = value.Width; this.comboBox.HeightRequest = value.Height; base.Size = value; } }
 
         private void ComboBox_Changed(object sender, EventArgs e)
         {
@@ -42,53 +52,6 @@ namespace System.Windows.Forms
             if (SelectedValueChanged != null)
                 SelectedValueChanged(this, e);
         }
-
-        public override Size Size { get => base.Size; set { this.comboBox.WidthRequest = value.Width; this.comboBox.HeightRequest = value.Height; base.Size = value; } }
-
-        public bool FormattingEnabled { get; set; }
-        /// <summary>
-        /// Gets or sets currently selected item in the
-        /// <see cref="System.Windows.Forms.ToolStripComboBox" />
-        /// </summary>
-        /// <returns>The object that is the currently selected item or null if there is no currently selected item.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public object SelectedItem { get { return __itemsData[SelectedIndex]; } }
-        /// <summary>
-        /// Gets or sets the index specifying the currently selected item.
-        /// </summary>
-        /// <returns>A zero-based index of the currently selected item. A value of negative one (-1) is returned if no item is selected.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public int SelectedIndex { get { return base.comboBox.Active; } }
-        /// <summary>
-        /// Gets a collection of the items contained in this
-        /// <see cref="System.Windows.Forms.ToolStripComboBox" />
-        /// </summary>
-        /// <returns>A collection of items.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public new ObjectCollection Items { get { return __itemsData; } }
-
-
-        public event EventHandler SelectedIndexChanged;
-
-        public event EventHandler SelectedValueChanged;
 
         [ListBindable(false)]
         public class ObjectCollection : ArrayList
@@ -101,18 +64,21 @@ namespace System.Windows.Forms
             public override int Add(object value)
             {
                 __owner.AppendText(value?.ToString());
+
                 return base.Add(value);
             }
-            public override void Clear()
-            {
-                __owner.Clear();
-                base.Clear();
-            }
+
             public override void AddRange(ICollection c)
             {
                 foreach (var item in c)
                     __owner.AppendText(item.ToString());
                 base.AddRange(c);
+            }
+
+            public override void Clear()
+            {
+                __owner.Clear();
+                base.Clear();
             }
         }
     }

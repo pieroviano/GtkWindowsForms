@@ -28,27 +28,47 @@ namespace System.Windows.Forms
 
         public readonly ListViewBase self = new ListViewBase();
 
-        public override object GtkControl => self;
-
-        private ListViewItemCollection _items;
-
-        private ListViewGroupCollection _groups;
-
-        private ColumnHeaderCollection _columns;
-
-        internal Gtk.ScrolledWindow scrolledWindow = new Gtk.ScrolledWindow();
-
         internal Gtk.Box flowBoxContainer = new Gtk.Box(Gtk.Orientation.Vertical, 0);
 
         internal Gtk.Box header = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
 
         internal Gtk.Layout headerView;
 
+        internal Gtk.ScrolledWindow scrolledWindow = new Gtk.ScrolledWindow();
+
         private int __headerheight = 30;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ListView" /> class.
-        /// </summary>
+
+        private ColumnHeaderCollection _columns;
+
+        private ListViewGroup _defaultGroup;
+
+        private int _fontSize;
+
+        private ListViewGroupCollection _groups;
+
+        private ListViewItemCollection _items;
+
+        private bool _MultiSelect = true;
+
+        private bool ControlRealized = false;
+
+        private bool IsCacheUpdate;
+
+        private int SortingColumnIndex = -1;
+
+        public event ColumnClickEventHandler ColumnClick;
+
+        public event ColumnReorderedEventHandler ColumnReordered;
+
+        public event EventHandler ItemActivate;
+
+        public event ItemCheckEventHandler ItemCheck;
+
+        public event ItemCheckedEventHandler ItemChecked;
+
+        public event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
+
+        public event EventHandler SelectedIndexChanged;
         public ListView() : base()
         {
             _items = new ListViewItemCollection(this);
@@ -82,203 +102,96 @@ namespace System.Windows.Forms
             self.box.PackStart(scrolledWindow, true, true, 0);
             this.BorderStyle = BorderStyle.Fixed3D;
         }
-        private void Hadjustment_ValueChanged(object sender, EventArgs e)
-        {
-            headerView.Hadjustment.Value = scrolledWindow.Hadjustment.Value;
-        }
 
-        private bool ControlRealized = false;
-        private void Control_Realized(object sender, EventArgs e)
-        {
-            if (this.View == View.Details)
-            {
-                header.NoShowAll = false;
-                header.Visible = true;
-                header.ShowAll();
-                headerView.HeightRequest = __headerheight;
-            }
-            foreach (ColumnHeader header in this.Columns)
-            {
-                NativeHeaderAdd(header);
-            }
-            foreach (ListViewGroup g in Groups)
-            {
-                NativeGroupAdd(g, -1);
-            }
-            foreach (ListViewItem item in Items)
-            {
-                NativeAdd(item, -1);
-            }
+        public ItemActivation Activation { get; set; }
 
-            MultiSelect = MultiSelect == true;
-            self.ShowAll();
-        }
-
-        public bool Sorted { get; set; }
-        /// <summary>
-        /// Gets or sets the sort order for items in the control.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.SortOrder" /> values. The default is
-        /// <see cref="System.Windows.Forms.SortOrder.None" />
-        /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
-        /// <see cref="System.Windows.Forms.SortOrder" /> values.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public System.Windows.Forms.SortOrder Sorting { get; set; }
-        /// <summary>
-        /// Gets or sets the alignment of items in the control.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.ListViewAlignment" /> values. The default is
-        /// <see cref="System.Windows.Forms.ListViewAlignment.Top" />
-        /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
-        /// <see cref="System.Windows.Forms.ListViewAlignment" /> values.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public System.Windows.Forms.ListViewAlignment Alignment { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the user can drag column headers to reorder columns in the control.
-        /// </summary>
-        /// <returns>true if drag-and-drop column reordering is allowed; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
         public bool AllowColumnReorder { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether grid lines appear between the rows and columns containing the items and subitems in the control.
-        /// </summary>
-        /// <returns>true if grid lines are drawn around items and subitems; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
+        public bool CheckBoxes { get; set; }
+
+        public CheckedIndexCollection CheckedIndices
+        {
+            get
+            {
+                CheckedIndexCollection selecteditems = new CheckedIndexCollection(this);
+                foreach (ListViewItem item in CheckedItems)
+                {
+                    selecteditems.Add(item.Index);
+                }
+
+                return selecteditems;
+            }
+        }
+
+        public CheckedListViewItemCollection CheckedItems
+        {
+            get
+            {
+                CheckedListViewItemCollection selecteditems = new CheckedListViewItemCollection(this);
+                foreach (ListViewItem item in this.Items)
+                {
+                    if (item.Checked)
+                    {
+                        selecteditems.Add(item);
+                    }
+                }
+
+                return selecteditems;
+            }
+        }
+
+        public ColumnHeaderCollection Columns
+        {
+            get
+            {
+                return _columns;
+            }
+        }
+
+        public bool FullRowSelect { get; set; }
+
         public bool GridLines { get; set; } = true;
 
         public ImageList GroupImageList { get; set; }
-        /// <summary>
-        /// Gets or sets the column header style.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.ColumnHeaderStyle" /> values. The default is
-        /// <see cref="System.Windows.Forms.ColumnHeaderStyle.Clickable" />
-        /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
-        /// <see cref="System.Windows.Forms.ColumnHeaderStyle" /> values.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
+        public ListViewGroupCollection Groups
+        {
+            get
+            {
+                return _groups;
+            }
+        }
+
+        public override object GtkControl => self;
+
         public System.Windows.Forms.ColumnHeaderStyle HeaderStyle { get; set; } = ColumnHeaderStyle.Clickable;
-        /// <summary>
-        /// Gets or sets a value indicating whether the selected item in the control remains highlighted when the control loses focus.
-        /// </summary>
-        /// <returns>true if the selected item does not appear highlighted when the control loses focus; false if the selected item still appears highlighted when the control loses focus. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
         public bool HideSelection { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether an item is automatically selected when the mouse pointer remains over the item for a few seconds.
-        /// </summary>
-        /// <returns>true if an item is automatically selected when the mouse pointer hovers over it; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
         public bool HoverSelection { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the user can edit the labels of items in the control.
-        /// </summary>
-        /// <returns>true if the user can edit the labels of items at run time; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
+        public ListViewItemCollection Items
+        {
+            get
+            {
+                return _items;
+            }
+        }
+
         public bool LabelEdit { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether item labels wrap when items are displayed in the control as icons.
-        /// </summary>
-        /// <returns>true if item labels wrap when items are displayed as icons; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
         public bool LabelWrap { get; set; }
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref="System.Windows.Forms.ImageList" /> to use when displaying items as large icons in the control.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="System.Windows.Forms.ImageList" /> that contains the icons to use when the
-        /// <see cref="System.Windows.Forms.ListView.View" /> property is set to
-        /// <see cref="System.Windows.Forms.View.LargeIcon" /> The default is null.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
         public ImageList LargeImageList { get; set; }
 
-        private bool _MultiSelect = true;
-        /// <summary>
-        /// Gets or sets a value indicating whether multiple items can be selected.
-        /// </summary>
-        /// <returns>true if multiple items in the control can be selected at one time; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+        public IComparer ListViewItemSorter
+        {
+            get;
+            set;
+        }
+
         public virtual bool MultiSelect
         {
             get
@@ -301,121 +214,70 @@ namespace System.Windows.Forms
                 }
             }
         }
-        /// <summary>
-        /// Gets or sets a value indicating whether the
-        /// <see cref="System.Windows.Forms.ListView" /> control is drawn by the operating system or by code that you provide.
-        /// </summary>
-        /// <returns>true if the
-        /// <see cref="System.Windows.Forms.ListView" /> control is drawn by code that you provide; false if the
-        /// <see cref="System.Windows.Forms.ListView" /> control is drawn by the operating system. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public bool OwnerDraw { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether a scroll bar is added to the control when there is not enough room to display all items.
-        /// </summary>
-        /// <returns>true if scroll bars are added to the control when necessary to allow the user to see all the items; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public bool Scrollable { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether items are displayed in groups.
-        /// </summary>
-        /// <returns>true to display items in groups; otherwise, false. The default value is true.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public bool ShowGroups { get; set; } = true;
-        /// <summary>
-        /// Gets or sets a value indicating whether ToolTips are shown for the
-        /// <see cref="System.Windows.Forms.ListViewItem" /> objects contained in the
-        /// <see cref="System.Windows.Forms.ListView" />
-        /// </summary>
-        /// <returns>true if
-        /// <see cref="System.Windows.Forms.ListViewItem" /> ToolTips should be shown; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public bool ShowItemToolTips { get; set; }
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref="System.Windows.Forms.ImageList" /> to use when displaying items as small icons in the control.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="System.Windows.Forms.ImageList" /> that contains the icons to use when the
-        /// <see cref="System.Windows.Forms.ListView.View" /> property is set to
-        /// <see cref="System.Windows.Forms.View.SmallIcon" /> The default is null.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public ImageList SmallImageList { get; set; }
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref="System.Windows.Forms.ImageList" /> associated with application-defined states in the control.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="System.Windows.Forms.ImageList" /> that contains a set of state images that can be used to indicate an application-defined state of an item. The default is null.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public ImageList StateImageList { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the
-        /// <see cref="System.Windows.Forms.ListView" /> uses state image behavior that is compatible with the .NET Framework 1.1 or the .NET Framework 2.0.
-        /// </summary>
-        /// <returns>true if the state image behavior is compatible with the .NET Framework 1.1; false if the behavior is compatible with the .NET Framework 2.0. The default is true.
-        /// </returns>
-        public bool UseCompatibleStateImageBehavior { get; set; }
-        /// <summary>
-        /// Gets or sets how items are displayed in the control.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.View" /> values. The default is
-        /// <see cref="System.Windows.Forms.View.LargeIcon" />
-        /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
-        /// <see cref="System.Windows.Forms.View" /> values.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public System.Windows.Forms.View View { get; set; }
 
-        private int _fontSize;
+        public bool OwnerDraw { get; set; }
+
+        public bool Scrollable { get; set; }
+
+        public SelectedIndexCollection SelectedIndices
+        {
+            get
+            {
+                SelectedIndexCollection selecteditems = new SelectedIndexCollection();
+                foreach (ListViewItem item in SelectedItems)
+                {
+                    selecteditems.Add(item.Index);
+                }
+
+                return selecteditems;
+            }
+        }
+
+        public SelectedListViewItemCollection SelectedItems
+        {
+            get
+            {
+                SelectedListViewItemCollection selecteditems = new SelectedListViewItemCollection();
+                foreach (ListViewItem item in this.Items)
+                {
+                    if (item.Selected)
+                    {
+                        selecteditems.Add(item);
+                    }
+                }
+
+                return selecteditems;
+            }
+        }
+
+        public bool ShowGroups { get; set; } = true;
+
+        public bool ShowItemToolTips { get; set; }
+
+        public ImageList SmallImageList { get; set; }
+
+        public bool Sorted { get; set; }
+
+        public System.Windows.Forms.SortOrder Sorting { get; set; }
+
+        public ImageList StateImageList { get; set; }
+
+        public bool UseCompatibleStateImageBehavior { get; set; }
+
+        public System.Windows.Forms.View View { get; set; }
+        internal ListViewGroup DefaultGroup
+        {
+            get
+            {
+                if (_defaultGroup == null)
+                {
+                    _defaultGroup = ListViewGroup.CreateDefaultListViewGroup();
+                }
+
+                return _defaultGroup;
+            }
+        }
+
         internal int FontSize
         {
             get
@@ -430,255 +292,96 @@ namespace System.Windows.Forms
                             _fontSize = (int)Font.Size;
                     }
                 }
+
                 return _fontSize;
             }
         }
-        /// <summary>
-        /// Removes all items and columns from the control.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+        public void BeginUpdate()
+        {
+            IsCacheUpdate = true;
+        }
+
         public void Clear()
         {
             Items.Clear();
             Groups.Clear();
         }
-        internal void NativeItemsClear()
+
+        public void EndUpdate()
+        {
+            IsCacheUpdate = false;
+            self.Window.ProcessUpdates(true);
+            self.ShowAll();
+        }
+
+        public ListViewItem FindItemWithText(string text)
+        {
+            return Items.Find(w => w.Text == text);
+        }
+
+        public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
+        {
+            int idx = Items.FindIndex(startIndex, w => w.Text == text);
+
+            return idx == -1 ? null : Items[idx];
+        }
+
+        public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
+        {
+            int idx = Items.FindIndex(startIndex, w => w.Text == text);
+
+            return idx == -1 ? null : Items[idx];
+        }
+
+        public ListViewItem GetItemAt(int x, int y)
+        {
+            foreach (Gtk.Box vbox in flowBoxContainer.Children)
+            {
+                foreach (var flow in vbox.Children)
+                {
+                    if (flow is Gtk.FlowBox _flow)
+                    {
+                        int top = _flow.Allocation.Top + __headerheight - (int)scrolledWindow.Vadjustment.Value;
+                        FlowBoxChild child = _flow.GetChildAtPos(x + (int)scrolledWindow.Hadjustment.Value, y - top);
+                        if (child != null)
+                        {
+                            return this.Items.Find(m => m.Index == Convert.ToInt32(child.Data["ItemId"]));
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public Drawing.Rectangle GetItemRect(int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Sort()
         {
             foreach (var group in GetAllGroups())
             {
-                foreach (Gtk.FlowBoxChild child in group.FlowBox.Children)
-                    group.FlowBox.Remove(child);
+                group.FlowBox.InvalidateSort();
             }
         }
-        internal void NativeGroupsClear()
+        internal void GetSubItemAt(int x, int y, out int iItem, out int iSubItem)
         {
-            foreach (var group in flowBoxContainer.Children)
+            iItem = -1;
+            iSubItem = -1;
+            int position = -(int)headerView.Hadjustment.Value;
+            for (int i = 0; i < Columns.Count; i++)
             {
-                flowBoxContainer.Remove(group);
-                group.Dispose();
-            }
-            _defaultGroup?.FlowBox?.Destroy();
-            _defaultGroup = null;
-        }
-        internal void NativeHeaderClear()
-        {
-            Clear();
-            foreach (var col in header.Children)
-            {
-                header.Remove(col);
-                col.Destroy();
-            }
-            header.Hide();
-        }
-        internal void NativeHeaderRemove(ColumnHeader column)
-        {
-            Clear();
-            if (column.DisplayIndex < header.Children.Length)
-            {
-                var headercol = header.Children[column.DisplayIndex];
-                header.Remove(headercol);
-                headercol.Destroy();
-            }
-        }
-        internal void NativeHeaderAdd(ColumnHeader col)
-        {
-            if (self.IsRealized)
-            {
-                LabelBase label = new LabelBase(col.Text) { Xalign = 0, Xpad = 5, WidthRequest = col.Width, MaxWidthChars = 0, Halign = Gtk.Align.Start, Valign = Gtk.Align.End, Ellipsize = Pango.EllipsizeMode.End, Wrap = false, LineWrap = false };
-                label.TooltipText = col.Text;
-                label.Markup = col.Text;
-                label.Data.Add("ColumnIndex", col.Index);
-                label.Override.DrawnBackground += Override_DrawnBackground;
-                var columbt = new Gtk.Button(label) { MarginStart = 0, WidthRequest = col.Width, HeightRequest = __headerheight, Halign = Gtk.Align.Start, Valign = Gtk.Align.Fill };
-                columbt.Name = col.Name;
-                columbt.ActionTargetValue = new GLib.Variant(col.Index);
-                columbt.Data.Add("ColumnIndex", col.Index);
-                columbt.Clicked += Columbt_Clicked;
-                header.PackStart(columbt, false, false, 0);
-
-                header.ReorderChild(columbt, col.Index);
-
-                if (this.View == View.Details)
+                if (position < x && position + Columns[i].Width > x)
                 {
-                    headerView.HeightRequest = __headerheight;
-                    headerView.ShowAll();
+                    iSubItem = i;
+                    break;
                 }
-                else
-                {
-                    headerView.HeightRequest = 1;
-                }
+                position += Columns[i].Width;
             }
         }
 
-        private int SortingColumnIndex = -1;
-        private void Columbt_Clicked(object sender, EventArgs e)
-        {
-            Gtk.Button btn = (Gtk.Button)sender;
-
-            if (this.HeaderStyle == ColumnHeaderStyle.Clickable)
-            {
-                int actioncolumn = (int)btn.ActionTargetValue;
-                if (this.Sorted == true)
-                {
-                    if (SortingColumnIndex == actioncolumn)
-                    {
-                        if (Sorting == SortOrder.Ascending)
-                            Sorting = SortOrder.Descending;
-                        else if (Sorting == SortOrder.Descending)
-                            Sorting = SortOrder.None;
-                        else
-                            Sorting = SortOrder.Ascending;
-                    }
-                    else
-                    {
-                        Sorting = SortOrder.Ascending;
-                    }
-                    this.Sort();
-
-                    if (ColumnReordered != null)
-                        ColumnReordered(this, new ColumnReorderedEventArgs(SortingColumnIndex, actioncolumn, Columns[actioncolumn]));
-
-                    SortingColumnIndex = actioncolumn;
-                }
-                if (ColumnClick != null)
-                    ColumnClick(this, new ColumnClickEventArgs((int)btn.ActionTargetValue));
-            }
-        }
-        private void Override_DrawnBackground(object o, DrawnArgs args)
-        {
-            Cairo.Rectangle rec = args.Cr.ClipExtents();
-            if (rec.Width > 10 && SortingColumnIndex > -1)
-            {
-                LabelBase ws = (LabelBase)o;
-                if (ws.Data["ColumnIndex"].ToString() == SortingColumnIndex.ToString())
-                {
-                    if (Sorting != SortOrder.None)
-                    {
-                        Cairo.Context ctx = args.Cr;
-                        ctx.Save();
-                        ctx.ResetClip();
-                        ctx.Rectangle(rec.X, rec.Y - 4, rec.Width, rec.Height + 4);
-                        ctx.Clip();
-                        ctx.Translate((int)rec.Width / 2 - 16, rec.Y - 5);
-                        ctx.Rotate(0.5 * Math.PI);
-                        Gdk.RGBA color = ws.StyleContext.GetColor(StateFlags.Normal);
-                        ctx.SetSourceRGBA(color.Red, color.Green, color.Blue, color.Alpha);
-                        //Serif,Impact,Sylfaen,Arial Black,Cambria,Candara,Arial
-                        ctx.SelectFontFace("Serif", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
-                        ctx.SetFontSize(13);
-                        if (Sorting == SortOrder.Descending)
-                            ctx.ShowText("<");
-                        else if (Sorting == SortOrder.Ascending)
-                            ctx.ShowText(">");
-                        ctx.Stroke();
-                        ctx.Restore();
-                    }
-                }
-            }
-        }
-
-        internal void NativeUpdateText(ListViewItem item, string text)
-        {
-            if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
-            {
-                Gtk.Box box = item._flowBoxChild.Child as Gtk.Box;
-                if (this.View == View.Details)
-                {
-                    Gtk.Viewport viewport = box.Children[0] as Gtk.Viewport;
-                    Gtk.Layout layout = viewport.Child as Gtk.Layout;
-                    foreach (var lab in layout.Children)
-                    {
-                        if (lab is Gtk.Label label)
-                        {
-                            label.Text = text;
-                            break;
-                        }
-                    }
-                }
-                else if (this.View == View.SmallIcon)
-                {
-                    foreach (var lab in box.Children)
-                    {
-                        if (lab is Gtk.Label label)
-                        {
-                            label.Text = text;
-                            break;
-                        }
-                    }
-                }
-                else if (this.View == View.LargeIcon)
-                {
-                    Gtk.Box vbox = box.Children[0] as Gtk.Box;
-                    foreach (var lab in vbox.Children)
-                    {
-                        if (lab is Gtk.Label label)
-                        {
-                            label.Text = text;
-                            break;
-                        }
-                    }
-                }
-                else if (this.View == View.List)
-                {
-                    foreach (var lab in box.Children)
-                    {
-                        if (lab is Gtk.Label label)
-                        {
-                            label.Text = text;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        internal void NativeSelectItem(ListViewItem item, bool isselected)
-        {
-            if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
-            {
-                if (isselected == true)
-                    flowBox.SelectChild(item._flowBoxChild);
-                else
-                    flowBox.UnselectChild(item._flowBoxChild);
-            }
-        }
-        internal void NativeCheckItem(ListViewItem item, bool ischecked)
-        {
-            if (item._flowBoxChild != null && item._flowBoxChild.IsRealized && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
-            {
-                Gtk.Box box = item._flowBoxChild.Child as Gtk.Box;
-                if (this.View == View.Details)
-                {
-                    Gtk.Viewport viewport = box.Children[0] as Gtk.Viewport;
-                    Gtk.Layout layout = viewport.Child as Gtk.Layout;
-                    foreach (var chk in layout.Children)
-                    {
-                        if (chk is Gtk.CheckButton chkbutton)
-                        {
-                            chkbutton.Active = ischecked;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var chk in box.Children)
-                    {
-                        if (chk is Gtk.CheckButton chkbutton)
-                        {
-                            chkbutton.Active = ischecked;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
         internal void NativeAdd(ListViewItem item, int position)
         {
             if (self.IsRealized)
@@ -1001,6 +704,38 @@ namespace System.Windows.Forms
             }
         }
 
+        internal void NativeCheckItem(ListViewItem item, bool ischecked)
+        {
+            if (item._flowBoxChild != null && item._flowBoxChild.IsRealized && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
+            {
+                Gtk.Box box = item._flowBoxChild.Child as Gtk.Box;
+                if (this.View == View.Details)
+                {
+                    Gtk.Viewport viewport = box.Children[0] as Gtk.Viewport;
+                    Gtk.Layout layout = viewport.Child as Gtk.Layout;
+                    foreach (var chk in layout.Children)
+                    {
+                        if (chk is Gtk.CheckButton chkbutton)
+                        {
+                            chkbutton.Active = ischecked;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var chk in box.Children)
+                    {
+                        if (chk is Gtk.CheckButton chkbutton)
+                        {
+                            chkbutton.Active = ischecked;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         internal void NativeGroupAdd(ListViewGroup group, int position)
         {
             if (self.IsRealized)
@@ -1132,6 +867,164 @@ namespace System.Windows.Forms
             }
         }
 
+        internal void NativeGroupsClear()
+        {
+            foreach (var group in flowBoxContainer.Children)
+            {
+                flowBoxContainer.Remove(group);
+                group.Dispose();
+            }
+            _defaultGroup?.FlowBox?.Destroy();
+            _defaultGroup = null;
+        }
+
+        internal void NativeHeaderAdd(ColumnHeader col)
+        {
+            if (self.IsRealized)
+            {
+                LabelBase label = new LabelBase(col.Text) { Xalign = 0, Xpad = 5, WidthRequest = col.Width, MaxWidthChars = 0, Halign = Gtk.Align.Start, Valign = Gtk.Align.End, Ellipsize = Pango.EllipsizeMode.End, Wrap = false, LineWrap = false };
+                label.TooltipText = col.Text;
+                label.Markup = col.Text;
+                label.Data.Add("ColumnIndex", col.Index);
+                label.Override.DrawnBackground += Override_DrawnBackground;
+                var columbt = new Gtk.Button(label) { MarginStart = 0, WidthRequest = col.Width, HeightRequest = __headerheight, Halign = Gtk.Align.Start, Valign = Gtk.Align.Fill };
+                columbt.Name = col.Name;
+                columbt.ActionTargetValue = new GLib.Variant(col.Index);
+                columbt.Data.Add("ColumnIndex", col.Index);
+                columbt.Clicked += Columbt_Clicked;
+                header.PackStart(columbt, false, false, 0);
+
+                header.ReorderChild(columbt, col.Index);
+
+                if (this.View == View.Details)
+                {
+                    headerView.HeightRequest = __headerheight;
+                    headerView.ShowAll();
+                }
+                else
+                {
+                    headerView.HeightRequest = 1;
+                }
+            }
+        }
+
+        internal void NativeHeaderClear()
+        {
+            Clear();
+            foreach (var col in header.Children)
+            {
+                header.Remove(col);
+                col.Destroy();
+            }
+            header.Hide();
+        }
+
+        internal void NativeHeaderRemove(ColumnHeader column)
+        {
+            Clear();
+            if (column.DisplayIndex < header.Children.Length)
+            {
+                var headercol = header.Children[column.DisplayIndex];
+                header.Remove(headercol);
+                headercol.Destroy();
+            }
+        }
+
+        internal void NativeItemsClear()
+        {
+            foreach (var group in GetAllGroups())
+            {
+                foreach (Gtk.FlowBoxChild child in group.FlowBox.Children)
+                    group.FlowBox.Remove(child);
+            }
+        }
+
+        internal void NativeSelectItem(ListViewItem item, bool isselected)
+        {
+            if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
+            {
+                if (isselected == true)
+                    flowBox.SelectChild(item._flowBoxChild);
+                else
+                    flowBox.UnselectChild(item._flowBoxChild);
+            }
+        }
+
+        internal void NativeUpdateText(ListViewItem item, string text)
+        {
+            if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
+            {
+                Gtk.Box box = item._flowBoxChild.Child as Gtk.Box;
+                if (this.View == View.Details)
+                {
+                    Gtk.Viewport viewport = box.Children[0] as Gtk.Viewport;
+                    Gtk.Layout layout = viewport.Child as Gtk.Layout;
+                    foreach (var lab in layout.Children)
+                    {
+                        if (lab is Gtk.Label label)
+                        {
+                            label.Text = text;
+                            break;
+                        }
+                    }
+                }
+                else if (this.View == View.SmallIcon)
+                {
+                    foreach (var lab in box.Children)
+                    {
+                        if (lab is Gtk.Label label)
+                        {
+                            label.Text = text;
+                            break;
+                        }
+                    }
+                }
+                else if (this.View == View.LargeIcon)
+                {
+                    Gtk.Box vbox = box.Children[0] as Gtk.Box;
+                    foreach (var lab in vbox.Children)
+                    {
+                        if (lab is Gtk.Label label)
+                        {
+                            label.Text = text;
+                            break;
+                        }
+                    }
+                }
+                else if (this.View == View.List)
+                {
+                    foreach (var lab in box.Children)
+                    {
+                        if (lab is Gtk.Label label)
+                        {
+                            label.Text = text;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        private void _flow_ChildActivated(object o, Gtk.ChildActivatedArgs args)
+        {
+            Gtk.FlowBox widget = (Gtk.FlowBox)o;
+            ListViewItem item = this.Items.Find(m => m.Index == Convert.ToInt32(args.Child.Data["ItemId"]));
+            if (item != null)
+            {
+                item._selected = args.Child.IsSelected;
+                foreach (var group in GetAllGroups())
+                {
+                    if (group.FlowBox.Equals(widget) == false)
+                    {
+                        group.FlowBox.UnselectAll();
+                    }
+                }
+                if (ItemActivate != null)
+                    ItemActivate(this, args);
+                if (ItemSelectionChanged != null)
+                    ItemSelectionChanged(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+            }
+        }
+
         private void _flow_SelectedChildrenChanged(object sender, EventArgs e)
         {
             Gtk.FlowBox widget = (Gtk.FlowBox)sender;
@@ -1175,93 +1068,67 @@ namespace System.Windows.Forms
             if (SelectedIndexChanged != null)
                 SelectedIndexChanged(this, e);
         }
-        private void _flow_ChildActivated(object o, Gtk.ChildActivatedArgs args)
+
+        private void Columbt_Clicked(object sender, EventArgs e)
         {
-            Gtk.FlowBox widget = (Gtk.FlowBox)o;
-            ListViewItem item = this.Items.Find(m => m.Index == Convert.ToInt32(args.Child.Data["ItemId"]));
-            if (item != null)
+            Gtk.Button btn = (Gtk.Button)sender;
+
+            if (this.HeaderStyle == ColumnHeaderStyle.Clickable)
             {
-                item._selected = args.Child.IsSelected;
-                foreach (var group in GetAllGroups())
+                int actioncolumn = (int)btn.ActionTargetValue;
+                if (this.Sorted == true)
                 {
-                    if (group.FlowBox.Equals(widget) == false)
+                    if (SortingColumnIndex == actioncolumn)
                     {
-                        group.FlowBox.UnselectAll();
+                        if (Sorting == SortOrder.Ascending)
+                            Sorting = SortOrder.Descending;
+                        else if (Sorting == SortOrder.Descending)
+                            Sorting = SortOrder.None;
+                        else
+                            Sorting = SortOrder.Ascending;
                     }
+                    else
+                    {
+                        Sorting = SortOrder.Ascending;
+                    }
+                    this.Sort();
+
+                    if (ColumnReordered != null)
+                        ColumnReordered(this, new ColumnReorderedEventArgs(SortingColumnIndex, actioncolumn, Columns[actioncolumn]));
+
+                    SortingColumnIndex = actioncolumn;
                 }
-                if (ItemActivate != null)
-                    ItemActivate(this, args);
-                if (ItemSelectionChanged != null)
-                    ItemSelectionChanged(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
-            }
-        }
-        /// <summary>
-        /// Sorts the items of the list view.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public void Sort()
-        {
-            foreach (var group in GetAllGroups())
-            {
-                group.FlowBox.InvalidateSort();
+                if (ColumnClick != null)
+                    ColumnClick(this, new ColumnClickEventArgs((int)btn.ActionTargetValue));
             }
         }
 
-        private bool IsCacheUpdate;
-        /// <summary>
-        /// Prevents the control from drawing until the
-        /// <see cref="System.Windows.Forms.ListView.EndUpdate" /> method is called.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public void BeginUpdate()
+        private void Control_Realized(object sender, EventArgs e)
         {
-            IsCacheUpdate = true;
-        }
-        /// <summary>
-        /// Resumes drawing of the list view control after drawing is suspended by the
-        /// <see cref="System.Windows.Forms.ListView.BeginUpdate" /> method.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public void EndUpdate()
-        {
-            IsCacheUpdate = false;
-            self.Window.ProcessUpdates(true);
+            if (this.View == View.Details)
+            {
+                header.NoShowAll = false;
+                header.Visible = true;
+                header.ShowAll();
+                headerView.HeightRequest = __headerheight;
+            }
+            foreach (ColumnHeader header in this.Columns)
+            {
+                NativeHeaderAdd(header);
+            }
+            foreach (ListViewGroup g in Groups)
+            {
+                NativeGroupAdd(g, -1);
+            }
+            foreach (ListViewItem item in Items)
+            {
+                NativeAdd(item, -1);
+            }
+
+            MultiSelect = MultiSelect == true;
             self.ShowAll();
         }
 
-        private ListViewGroup _defaultGroup;
-        internal ListViewGroup DefaultGroup
-        {
-            get
-            {
-                if (_defaultGroup == null)
-                {
-                    _defaultGroup = ListViewGroup.CreateDefaultListViewGroup();
-                }
-                return _defaultGroup;
-            }
-        }
         private IEnumerable<ListViewGroup> GetAllGroups()
         {
             if (_defaultGroup == null)
@@ -1269,9 +1136,45 @@ namespace System.Windows.Forms
             else
                 return Groups.Union(new ListViewGroup[] { _defaultGroup });
         }
-        /// <summary>
-        /// Represents the collection containing the indexes to the checked items in a list view control.
-        /// </summary>
+
+        private void Hadjustment_ValueChanged(object sender, EventArgs e)
+        {
+            headerView.Hadjustment.Value = scrolledWindow.Hadjustment.Value;
+        }
+
+        private void Override_DrawnBackground(object o, DrawnArgs args)
+        {
+            Cairo.Rectangle rec = args.Cr.ClipExtents();
+            if (rec.Width > 10 && SortingColumnIndex > -1)
+            {
+                LabelBase ws = (LabelBase)o;
+                if (ws.Data["ColumnIndex"].ToString() == SortingColumnIndex.ToString())
+                {
+                    if (Sorting != SortOrder.None)
+                    {
+                        Cairo.Context ctx = args.Cr;
+                        ctx.Save();
+                        ctx.ResetClip();
+                        ctx.Rectangle(rec.X, rec.Y - 4, rec.Width, rec.Height + 4);
+                        ctx.Clip();
+                        ctx.Translate((int)rec.Width / 2 - 16, rec.Y - 5);
+                        ctx.Rotate(0.5 * Math.PI);
+                        Gdk.RGBA color = ws.StyleContext.GetColor(StateFlags.Normal);
+                        ctx.SetSourceRGBA(color.Red, color.Green, color.Blue, color.Alpha);
+                        //Serif,Impact,Sylfaen,Arial Black,Cambria,Candara,Arial
+                        ctx.SelectFontFace("Serif", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
+                        ctx.SetFontSize(13);
+                        if (Sorting == SortOrder.Descending)
+                            ctx.ShowText("<");
+                        else if (Sorting == SortOrder.Ascending)
+                            ctx.ShowText(">");
+                        ctx.Stroke();
+                        ctx.Restore();
+                    }
+                }
+            }
+        }
+
         public class CheckedIndexCollection : List<int>
         {
 
@@ -1281,12 +1184,15 @@ namespace System.Windows.Forms
             }
 
         }
-        /// <summary>
-        /// Represents the collection of checked items in a list view control.
-        /// </summary>
+
         [ListBindable(false)]
         public class CheckedListViewItemCollection : List<ListViewItem>
         {
+
+            public CheckedListViewItemCollection(ListView owner)
+            {
+
+            }
 
             public virtual ListViewItem this[string key]
             {
@@ -1296,16 +1202,8 @@ namespace System.Windows.Forms
                 }
             }
 
-            public CheckedListViewItemCollection(ListView owner)
-            {
-
-            }
-
         }
-        /// <summary>
-        /// Represents the collection of column headers in a
-        /// <see cref="System.Windows.Forms.ListView" /> control.
-        /// </summary>
+
         [ListBindable(false)]
         public class ColumnHeaderCollection : List<ColumnHeader>
         {
@@ -1313,13 +1211,6 @@ namespace System.Windows.Forms
             public ColumnHeaderCollection(ListView owner)
             {
                 _owner = owner;
-            }
-            public virtual ColumnHeader this[string key]
-            {
-                get
-                {
-                    return base.Find(o => o.Name == key);
-                }
             }
 
             public bool IsReadOnly
@@ -1329,21 +1220,12 @@ namespace System.Windows.Forms
                     return false;
                 }
             }
-
-            public virtual void RemoveByKey(string key)
+            public virtual ColumnHeader this[string key]
             {
-                ColumnHeader column = base.Find(o => o.Name == key);
-                base.Remove(column);
-                _owner.NativeHeaderRemove(column);
-            }
-            public new void Clear()
-            {
-                base.Clear();
-                _owner.NativeHeaderClear();
-            }
-            public virtual int IndexOfKey(string key)
-            {
-                return base.FindIndex(o => o.Name == key);
+                get
+                {
+                    return base.Find(o => o.Name == key);
+                }
             }
             public new virtual int Add(ColumnHeader header)
             {
@@ -1352,8 +1234,10 @@ namespace System.Windows.Forms
                     header.DisplayIndex = header._index;
                 int index = ((IList)this).Add(header);
                 _owner.NativeHeaderAdd(header);
+
                 return index;
             }
+
             public virtual ColumnHeader Add(string text, int width, HorizontalAlignment textAlign)
             {
                 return Add("", text, width, textAlign, "");
@@ -1389,6 +1273,7 @@ namespace System.Windows.Forms
                 header.ImageKey = imageKey;
                 header.ImageIndex = -1;
                 this.Add(header);
+
                 return header;
             }
 
@@ -1401,6 +1286,7 @@ namespace System.Windows.Forms
                 header.TextAlign = textAlign;
                 header.ImageIndex = imageIndex;
                 this.Add(header);
+
                 return header;
             }
 
@@ -1412,9 +1298,20 @@ namespace System.Windows.Forms
                 }
             }
 
+            public new void Clear()
+            {
+                base.Clear();
+                _owner.NativeHeaderClear();
+            }
+
             public virtual bool ContainsKey(string key)
             {
                 return base.Contains(base.Find(o => o.Name == key));
+            }
+
+            public virtual int IndexOfKey(string key)
+            {
+                return base.FindIndex(o => o.Name == key);
             }
 
             public new void Insert(int index, ColumnHeader header)
@@ -1434,6 +1331,7 @@ namespace System.Windows.Forms
                 }
                 _owner.NativeHeaderAdd(header);
             }
+
             public void Insert(int index, string text, int width, HorizontalAlignment textAlign)
             {
                 Insert(index, "", text, width, textAlign, null);
@@ -1485,16 +1383,24 @@ namespace System.Windows.Forms
                 header.ImageIndex = imageIndex;
                 Insert(index, header);
             }
+
+            public virtual void RemoveByKey(string key)
+            {
+                ColumnHeader column = base.Find(o => o.Name == key);
+                base.Remove(column);
+                _owner.NativeHeaderRemove(column);
+            }
         }
-        /// <summary>
-        /// Represents the collection of items in a
-        /// <see cref="System.Windows.Forms.ListView" /> control or assigned to a
-        /// <see cref="System.Windows.Forms.ListViewGroup" />
-        /// </summary>
+
         [ListBindable(false)]
         public class ListViewItemCollection : List<ListViewItem>, IList
         {
             ListView _owner;
+
+            public ListViewItemCollection(ListView owner)
+            {
+                _owner = owner;
+            }
             public virtual ListViewItem this[string key]
             {
                 get
@@ -1503,15 +1409,11 @@ namespace System.Windows.Forms
                 }
             }
 
-            public ListViewItemCollection(ListView owner)
-            {
-                _owner = owner;
-            }
-
             public new void Add(ListViewItem item)
             {
                 AddCore(item, -1);
             }
+
             public virtual ListViewItem Add(string text)
             {
                 return Add("", text, -1);
@@ -1533,6 +1435,7 @@ namespace System.Windows.Forms
                 item.Name = key;
                 item.Text = text;
                 AddCore(item, -1);
+
                 return item;
             }
 
@@ -1541,18 +1444,10 @@ namespace System.Windows.Forms
                 ListViewItem item = new ListViewItem(text, imageIndex);
                 item.Name = key;
                 AddCore(item, -1);
+
                 return item;
             }
-            private void AddCore(ListViewItem item, int position)
-            {
-                item._listView = _owner;
-                item.Index = Count;
-                if (item.Group == null)
-                    item.Group = _owner.DefaultGroup;
 
-                base.Add(item);
-                _owner.NativeAdd(item, position);
-            }
             public void AddRange(ListViewItem[] items)
             {
                 foreach (ListViewItem item in items)
@@ -1565,6 +1460,18 @@ namespace System.Windows.Forms
             {
                 foreach (ListViewItem item in items)
                     AddCore(item, -1);
+            }
+
+            public new void Clear()
+            {
+                if (_owner != null)
+                    _owner.NativeItemsClear();
+
+                foreach (var item in this)
+                {
+                    item.SubItems.Clear();
+                }
+                base.Clear();
             }
 
             public virtual bool ContainsKey(string key)
@@ -1610,6 +1517,7 @@ namespace System.Windows.Forms
                 ListViewItem item = new ListViewItem(text, imageKey);
                 item.Name = key;
                 base.Insert(index, item);
+
                 return item;
             }
 
@@ -1618,6 +1526,7 @@ namespace System.Windows.Forms
                 ListViewItem item = new ListViewItem(text, imageIndex);
                 item.Name = key;
                 base.Insert(index, item);
+
                 return item;
             }
 
@@ -1625,414 +1534,28 @@ namespace System.Windows.Forms
             {
                 base.Remove(base.Find(w => w.Name == key));
             }
-            public new void Clear()
+            private void AddCore(ListViewItem item, int position)
             {
-                if (_owner != null)
-                    _owner.NativeItemsClear();
+                item._listView = _owner;
+                item.Index = Count;
+                if (item.Group == null)
+                    item.Group = _owner.DefaultGroup;
 
-                foreach (var item in this)
-                {
-                    item.SubItems.Clear();
-                }
-                base.Clear();
+                base.Add(item);
+                _owner.NativeAdd(item, position);
             }
         }
-        /// <summary>
-        /// Represents the collection that contains the indexes to the selected items in a
-        /// <see cref="System.Windows.Forms.ListView" /> control.
-        /// </summary>
+
         [ListBindable(false)]
         public class SelectedIndexCollection : List<int>
         {
 
         }
-        /// <summary>
-        /// Represents the collection of selected items in a list view control.
-        /// </summary>
+
         [ListBindable(false)]
         public class SelectedListViewItemCollection : List<ListViewItem>
         {
 
         }
-        /// <summary>
-        /// Gets or sets the type of action the user must take to activate an item.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.ItemActivation" /> values. The default is
-        /// <see cref="System.Windows.Forms.ItemActivation.Standard" />
-        /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
-        /// <see cref="System.Windows.Forms.ItemActivation" /> members.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public ItemActivation Activation { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether a check box appears next to each item in the control.
-        /// </summary>
-        /// <returns>true if a check box appears next to each item in the
-        /// <see cref="System.Windows.Forms.ListView" /> control; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public bool CheckBoxes { get; set; }
-        /// <summary>
-        /// Gets the indexes of the currently checked items in the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.ListView.CheckedIndexCollection" /> that contains the indexes of the currently checked items. If no items are currently checked, an empty
-        /// <see cref="System.Windows.Forms.ListView.CheckedIndexCollection" /> is returned.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public CheckedIndexCollection CheckedIndices
-        {
-            get
-            {
-                CheckedIndexCollection selecteditems = new CheckedIndexCollection(this);
-                foreach (ListViewItem item in CheckedItems)
-                {
-                    selecteditems.Add(item.Index);
-                }
-                return selecteditems;
-            }
-        }
-        /// <summary>
-        /// Gets the currently checked items in the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.ListView.CheckedListViewItemCollection" /> that contains the currently checked items. If no items are currently checked, an empty
-        /// <see cref="System.Windows.Forms.ListView.CheckedListViewItemCollection" /> is returned.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public CheckedListViewItemCollection CheckedItems
-        {
-            get
-            {
-                CheckedListViewItemCollection selecteditems = new CheckedListViewItemCollection(this);
-                foreach (ListViewItem item in this.Items)
-                {
-                    if (item.Checked)
-                    {
-                        selecteditems.Add(item);
-                    }
-                }
-                return selecteditems;
-            }
-        }
-        /// <summary>
-        /// Gets the collection of all column headers that appear in the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.ListView.ColumnHeaderCollection" /> that represents the column headers that appear when the
-        /// <see cref="System.Windows.Forms.ListView.View" /> property is set to
-        /// <see cref="System.Windows.Forms.View.Details" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public ColumnHeaderCollection Columns
-        {
-            get
-            {
-                return _columns;
-            }
-        }
-        /// <summary>
-        /// Gets or sets a value indicating whether clicking an item selects all its subitems.
-        /// </summary>
-        /// <returns>true if clicking an item selects the item and all its subitems; false if clicking an item selects only the item itself. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public bool FullRowSelect { get; set; }
-        /// <summary>
-        /// Gets the collection of
-        /// <see cref="System.Windows.Forms.ListViewGroup" /> objects assigned to the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.ListViewGroupCollection" /> that contains all the groups in the
-        /// <see cref="System.Windows.Forms.ListView" /> control.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        public ListViewGroupCollection Groups
-        {
-            get
-            {
-                return _groups;
-            }
-        }
-        /// <summary>
-        /// Gets a collection containing all items in the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.ListView.ListViewItemCollection" /> that contains all the items in the
-        /// <see cref="System.Windows.Forms.ListView" /> control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public ListViewItemCollection Items
-        {
-            get
-            {
-                return _items;
-            }
-        }
-        /// <summary>
-        /// Gets or sets the sorting comparer for the control.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="System.Collections.IComparer" /> that represents the sorting comparer for the control.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public IComparer ListViewItemSorter
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Gets the indexes of the selected items in the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.ListView.SelectedIndexCollection" /> that contains the indexes of the selected items. If no items are currently selected, an empty
-        /// <see cref="System.Windows.Forms.ListView.SelectedIndexCollection" /> is returned.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public SelectedIndexCollection SelectedIndices
-        {
-            get
-            {
-                SelectedIndexCollection selecteditems = new SelectedIndexCollection();
-                foreach (ListViewItem item in SelectedItems)
-                {
-                    selecteditems.Add(item.Index);
-                }
-
-                return selecteditems;
-            }
-        }
-        /// <summary>
-        /// Gets the items that are selected in the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.ListView.SelectedListViewItemCollection" /> that contains the items that are selected in the control. If no items are currently selected, an empty
-        /// <see cref="System.Windows.Forms.ListView.SelectedListViewItemCollection" /> is returned.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public SelectedListViewItemCollection SelectedItems
-        {
-            get
-            {
-                SelectedListViewItemCollection selecteditems = new SelectedListViewItemCollection();
-                foreach (ListViewItem item in this.Items)
-                {
-                    if (item.Selected)
-                    {
-                        selecteditems.Add(item);
-                    }
-                }
-                return selecteditems;
-            }
-        }
-        /// <summary>
-        /// Finds the first
-        /// <see cref="System.Windows.Forms.ListViewItem" /> that begins with the specified text value.
-        /// </summary>
-        /// <returns>The first
-        /// <see cref="System.Windows.Forms.ListViewItem" /> that begins with the specified text value.
-        /// </returns>
-        /// <param name="text">The text to search for.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public ListViewItem FindItemWithText(string text)
-        {
-            return Items.Find(w => w.Text == text);
-        }
-        /// <summary>
-        /// Finds the first
-        /// <see cref="System.Windows.Forms.ListViewItem" /> or
-        /// <see cref="System.Windows.Forms.ListViewItem.ListViewSubItem" />, if indicated, that begins with the specified text value. The search starts at the specified index.
-        /// </summary>
-        /// <returns>The first
-        /// <see cref="System.Windows.Forms.ListViewItem" /> that begins with the specified text value.
-        /// </returns>
-        /// <param name="text">The text to search for.
-        /// </param>
-        /// <param name="includeSubItemsInSearch">true to include subitems in the search; otherwise, false.
-        /// </param>
-        /// <param name="startIndex">The index of the item at which to start the search.
-        /// </param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="startIndex" /> is less 0 or more than the number items in the
-        /// <see cref="System.Windows.Forms.ListView" />
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
-        {
-            int idx = Items.FindIndex(startIndex, w => w.Text == text);
-            return idx == -1 ? null : Items[idx];
-        }
-        /// <summary>
-        /// Finds the first
-        /// <see cref="System.Windows.Forms.ListViewItem" /> or
-        /// <see cref="System.Windows.Forms.ListViewItem.ListViewSubItem" />, if indicated, that begins with the specified text value. The search starts at the specified index.
-        /// </summary>
-        /// <returns>The first
-        /// <see cref="System.Windows.Forms.ListViewItem" /> that begins with the specified text value.
-        /// </returns>
-        /// <param name="text">The text to search for.
-        /// </param>
-        /// <param name="includeSubItemsInSearch">true to include subitems in the search; otherwise, false.
-        /// </param>
-        /// <param name="startIndex">The index of the item at which to start the search.
-        /// </param>
-        /// <param name="isPrefixSearch">true to allow partial matches; otherwise, false.
-        /// </param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="startIndex" /> is less than 0 or more than the number of items in the
-        /// <see cref="System.Windows.Forms.ListView" />
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
-        {
-            int idx = Items.FindIndex(startIndex, w => w.Text == text);
-            return idx == -1 ? null : Items[idx];
-        }
-        /// <summary>
-        /// Retrieves the item at the specified location.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.ListViewItem" /> that represents the item at the specified position. If there is no item at the specified location, the method returns null.
-        /// </returns>
-        /// <param name="x">The x-coordinate of the location to search for an item (expressed in client coordinates).
-        /// </param>
-        /// <param name="y">The y-coordinate of the location to search for an item (expressed in client coordinates).
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public ListViewItem GetItemAt(int x, int y)
-        {
-            foreach (Gtk.Box vbox in flowBoxContainer.Children)
-            {
-                foreach (var flow in vbox.Children)
-                {
-                    if (flow is Gtk.FlowBox _flow)
-                    {
-                        int top = _flow.Allocation.Top + __headerheight - (int)scrolledWindow.Vadjustment.Value;
-                        FlowBoxChild child = _flow.GetChildAtPos(x + (int)scrolledWindow.Hadjustment.Value, y - top);
-                        if (child != null)
-                        {
-                            return this.Items.Find(m => m.Index == Convert.ToInt32(child.Data["ItemId"]));
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-        internal void GetSubItemAt(int x, int y, out int iItem, out int iSubItem)
-        {
-            iItem = -1;
-            iSubItem = -1;
-            int position = -(int)headerView.Hadjustment.Value;
-            for (int i = 0; i < Columns.Count; i++)
-            {
-                if (position < x && position + Columns[i].Width > x)
-                {
-                    iSubItem = i;
-                    break;
-                }
-                position += Columns[i].Width;
-            }
-        }
-        /// <summary>
-        /// Retrieves the bounding rectangle for a specific item within the list view control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Rectangle" /> that represents the bounding rectangle of the specified
-        /// <see cref="System.Windows.Forms.ListViewItem" />
-        /// </returns>
-        /// <param name="index">The zero-based index of the item within the
-        /// <see cref="System.Windows.Forms.ListView.ListViewItemCollection" /> whose bounding rectangle you want to return.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public Drawing.Rectangle GetItemRect(int index)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public event ColumnClickEventHandler ColumnClick;
-
-        public event ColumnReorderedEventHandler ColumnReordered;
-
-        public event ItemCheckEventHandler ItemCheck;
-
-        public event ItemCheckedEventHandler ItemChecked;
-
-        public event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
-
-        public event EventHandler SelectedIndexChanged;
-        public event EventHandler ItemActivate;
     }
 }

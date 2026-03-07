@@ -9,16 +9,17 @@ namespace System.Resources
     internal class DataNodeInfo
     {
 
-        public string Name;
-
         public string Comment;
-
-        public string TypeName;
 
         public string MimeType;
 
-        public string ValueData;
+        public string Name;
+
         public Point ReaderPosition; //only used to track position in the reader
+
+        public string TypeName;
+
+        public string ValueData;
 
         internal DataNodeInfo Clone()
         {

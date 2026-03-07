@@ -60,8 +60,6 @@ namespace System.Drawing.Printing
             }
         }
 
-        private static TypeConverter GetIntConverter() => TypeDescriptor.GetConverter(typeof(int));
-
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (value is Margins margins)
@@ -97,8 +95,6 @@ namespace System.Drawing.Printing
             return base.ConvertTo(context, culture, value, destinationType);
         }
 
-        public override bool GetCreateInstanceSupported(ITypeDescriptorContext context) => true;
-
         public override object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
         {
             object left = propertyValues["Left"];
@@ -108,5 +104,9 @@ namespace System.Drawing.Printing
 
             return left is int && right is int && bottom is int && top is int ? (object)new Margins((int)left, (int)right, (int)top, (int)bottom) : throw new ArgumentException("PropertyValueInvalidEntry");
         }
+
+        public override bool GetCreateInstanceSupported(ITypeDescriptorContext context) => true;
+
+        private static TypeConverter GetIntConverter() => TypeDescriptor.GetConverter(typeof(int));
     }
 }

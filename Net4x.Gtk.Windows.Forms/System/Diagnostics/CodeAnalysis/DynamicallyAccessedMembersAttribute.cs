@@ -42,7 +42,6 @@ namespace System.Diagnostics.CodeAnalysis
     internal
 #endif
 
-
     sealed class DynamicallyAccessedMembersAttribute : Attribute
     {
         /// <summary>

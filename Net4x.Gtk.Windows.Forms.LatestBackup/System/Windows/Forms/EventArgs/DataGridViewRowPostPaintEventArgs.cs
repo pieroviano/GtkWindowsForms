@@ -17,57 +17,17 @@ namespace System.Windows.Forms
     public class DataGridViewRowPostPaintEventArgs : EventArgs
     {
         private readonly DataGridView _dataGridView;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.DataGridViewRowPostPaintEventArgs" /> class.
-        /// </summary>
-        /// <param name="dataGridView">The
-        /// <see cref="System.Windows.Forms.DataGridView" /> that owns the row that is being painted.
-        /// </param>
-        /// <param name="graphics">The
-        /// <see cref="System.Drawing.Graphics" /> used to paint the
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </param>
-        /// <param name="clipBounds">A
-        /// <see cref="System.Drawing.Rectangle" /> that represents the area of the
-        /// <see cref="System.Windows.Forms.DataGridView" /> that needs to be painted.
-        /// </param>
-        /// <param name="rowBounds">A
-        /// <see cref="System.Drawing.Rectangle" /> that contains the bounds of the
-        /// <see cref="System.Windows.Forms.DataGridViewRow" /> that is being painted.
-        /// </param>
-        /// <param name="rowIndex">The row index of the cell that is being painted.
-        /// </param>
-        /// <param name="rowState">A bitwise combination of
-        /// <see cref="System.Windows.Forms.DataGridViewElementStates" /> values that specifies the state of the row.
-        /// </param>
-        /// <param name="errorText">An error message that is associated with the row.
-        /// </param>
-        /// <param name="inheritedRowStyle">A
-        /// <see cref="System.Windows.Forms.DataGridViewCellStyle" /> that contains formatting and style information about the row.
-        /// </param>
-        /// <param name="isFirstDisplayedRow">true to indicate whether the current row is the first row currently displayed in the
-        /// <see cref="System.Windows.Forms.DataGridView" />; otherwise, false.
-        /// </param>
-        /// <param name="isLastVisibleRow">true to indicate whether the current row is the last row in the
-        /// <see cref="System.Windows.Forms.DataGridView" /> that has the
-        /// <see cref="System.Windows.Forms.DataGridViewRow.Visible" /> property set to true; otherwise, false.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="dataGridView" /> is null.-or-
-        /// <paramref name="graphics" /> is null.-or-
-        /// <paramref name="inheritedRowStyle" /> is null.
-        /// </exception>
+
         public DataGridViewRowPostPaintEventArgs(DataGridView dataGridView,
-                                                         Graphics graphics,
-                                                         Rectangle clipBounds,
-                                                         Rectangle rowBounds,
-                                                         int rowIndex,
-                                                         DataGridViewElementStates rowState,
-                                                         string errorText,
-                                                         DataGridViewCellStyle inheritedRowStyle,
-                                                         bool isFirstDisplayedRow,
-                                                         bool isLastVisibleRow)
+                                                 Graphics graphics,
+                                                 Rectangle clipBounds,
+                                                 Rectangle rowBounds,
+                                                 int rowIndex,
+                                                 DataGridViewElementStates rowState,
+                                                 string errorText,
+                                                 DataGridViewCellStyle inheritedRowStyle,
+                                                 bool isFirstDisplayedRow,
+                                                 bool isLastVisibleRow)
         {
             _dataGridView = dataGridView ?? throw new ArgumentNullException(nameof(dataGridView));
             Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
@@ -86,100 +46,24 @@ namespace System.Windows.Forms
             Debug.Assert(dataGridView != null);
             _dataGridView = dataGridView;
         }
-        /// <summary>
-        /// Gets the
-        /// <see cref="System.Drawing.Graphics" /> used to paint the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Drawing.Graphics" /> used to paint the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public Graphics Graphics { get; private set; }
-        /// <summary>
-        /// Gets or sets the area of the
-        /// <see cref="System.Windows.Forms.DataGridView" /> that needs to be repainted.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Rectangle" /> that represents the area of the
-        /// <see cref="System.Windows.Forms.DataGridView" /> that needs to be repainted.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public Rectangle ClipBounds { get; set; }
-        /// <summary>
-        /// Get the bounds of the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Rectangle" /> that represents the bounds of the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public Rectangle RowBounds { get; private set; }
-        /// <summary>
-        /// Gets the index of the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </summary>
-        /// <returns>The index of the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public int RowIndex { get; private set; }
-        /// <summary>
-        /// Gets the state of the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </summary>
-        /// <returns>A bitwise combination of
-        /// <see cref="System.Windows.Forms.DataGridViewElementStates" /> values that specifies the state of the row.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public DataGridViewElementStates State { get; private set; }
-        /// <summary>
-        /// Gets a string that represents an error message for the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </summary>
-        /// <returns>A string that represents an error message for the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public string ErrorText { get; private set; }
-        /// <summary>
-        /// Gets the cell style applied to the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.DataGridViewCellStyle" /> that contains the cell style applied to the current
-        /// <see cref="System.Windows.Forms.DataGridViewRow" />
-        /// </returns>
+
+        public Graphics Graphics { get; private set; }
+
         public DataGridViewCellStyle InheritedRowStyle { get; private set; }
-        /// <summary>
-        /// Gets a value indicating whether the current row is the first row displayed in the
-        /// <see cref="System.Windows.Forms.DataGridView" />
-        /// </summary>
-        /// <returns>true if the row being painted is currently the first row displayed in the
-        /// <see cref="System.Windows.Forms.DataGridView" />; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public bool IsFirstDisplayedRow { get; private set; }
-        /// <summary>
-        /// Gets a value indicating whether the current row is the last visible row displayed in the
-        /// <see cref="System.Windows.Forms.DataGridView" />
-        /// </summary>
-        /// <returns>true if the current row is the last row in the
-        /// <see cref="System.Windows.Forms.DataGridView" /> that has the
-        /// <see cref="System.Windows.Forms.DataGridViewRow.Visible" /> property set to true; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public bool IsLastVisibleRow { get; private set; }
+
+        public Rectangle RowBounds { get; private set; }
+
+        public int RowIndex { get; private set; }
+
+        public DataGridViewElementStates State { get; private set; }
 
         //    _dataGridView.Rows.SharedRow(RowIndex).DrawFocus(Graphics,
         //                                                     ClipBounds,

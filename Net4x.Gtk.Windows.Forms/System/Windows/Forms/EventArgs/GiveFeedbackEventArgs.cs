@@ -19,13 +19,8 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.GiveFeedbackEventArgs" /> class.
+        /// <see cref="GiveFeedbackEventArgs" /> class.
         /// </summary>
-        /// <param name="effect">The type of drag-and-drop operation. Possible values are obtained by applying the bitwise OR (|) operation to the constants defined in the
-        /// <see cref="System.Windows.Forms.DragDropEffects" />
-        /// </param>
-        /// <param name="useDefaultCursors">true if default pointers are used; otherwise, false.
-        /// </param>
         public GiveFeedbackEventArgs(DragDropEffects effect, bool useDefaultCursors)
         {
             Effect = effect;
@@ -33,22 +28,13 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the drag-and-drop operation feedback that is displayed.
+        /// Gets the type of drag-and-drop operation.
         /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.DragDropEffects" /> values.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public DragDropEffects Effect { get; }
 
         /// <summary>
-        /// Gets or sets whether drag operation should use the default cursors that are associated with drag-drop effects.
+        /// Gets or sets a value indicating whether a default pointer is used.
         /// </summary>
-        /// <returns>true if the default pointers are used; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public bool UseDefaultCursors { get; set; }
     }
 }

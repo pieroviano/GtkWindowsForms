@@ -21,16 +21,18 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             base.Valign = Align.Fill;
             base.Add(Content);
         }
-        protected override void OnShown()
-        {
-            Override.OnAddClass();
-            base.OnShown();
-        }
         protected override bool OnDrawn(Cairo.Context cr)
         {
             Gdk.Rectangle rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
             Override.OnPaint(cr, rec);
+
             return base.OnDrawn(cr);
+        }
+
+        protected override void OnShown()
+        {
+            Override.OnAddClass();
+            base.OnShown();
         }
     }
 }

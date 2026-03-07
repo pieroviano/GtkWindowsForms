@@ -21,17 +21,11 @@ namespace System.Windows.Forms
     public partial class Panel : ScrollableControl
     {
 
-        public readonly PanelBase self = new PanelBase();
-
-        public override object GtkControl => self;
-
         public Gtk.Overlay contaner = new Gtk.Overlay();
 
+        public readonly PanelBase self = new PanelBase();
+
         private ControlCollection _controls;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.Panel" /> class.
-        /// </summary>
         public Panel() : base()
         {
             _controls = new ControlCollection(this, contaner);
@@ -46,6 +40,9 @@ namespace System.Windows.Forms
         }
 
         public override ControlCollection Controls => _controls;
+
+        public override object GtkControl => self;
+
         public override Padding Padding
         {
             get => base.Padding;

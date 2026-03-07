@@ -5,92 +5,6 @@ namespace System.Drawing.Drawing2D
     /// </summary>
     public sealed class Matrix : MarshalByRefObject, IDisposable
     {
-        /// <summary>
-        /// Gets an array of floating-point values that represents the elements of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
-        /// </summary>
-        /// <returns>
-        /// An array of floating-point values that represents the elements of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public float[] Elements
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is the identity matrix.
-        /// </summary>
-        /// <returns>This property is true if this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is identity; otherwise, false.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public bool IsIdentity
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is invertible.
-        /// </summary>
-        /// <returns>This property is true if this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is invertible; otherwise, false.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public bool IsInvertible
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Gets the x translation value (the dx value, or the element in the third row and first column) of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
-        /// </summary>
-        /// <returns>The x translation value of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public float OffsetX
-        {
-            get;
-            internal set;
-        }
-
-        /// <summary>
-        /// Gets the y translation value (the dy value, or the element in the third row and second column) of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
-        /// </summary>
-        /// <returns>The y translation value of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public float OffsetY
-        {
-            get;
-            internal set;
-        }
 
         /// <summary>
         /// Initializes a new instance of the
@@ -99,30 +13,12 @@ namespace System.Drawing.Drawing2D
         public Matrix()
         {
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
-        /// </summary>
-        /// <param name="rect">A
-        /// <see cref="System.Drawing.Rectangle" /> structure that represents the rectangle to be transformed.
-        /// </param>
-        /// <param name="plgpts">An array of three
-        /// <see cref="System.Drawing.Point" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
-        /// </param>
+
         public Matrix(Rectangle rect, Point[] plgpts)
         {
 
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
-        /// </summary>
-        /// <param name="rect">A
-        /// <see cref="System.Drawing.RectangleF" /> structure that represents the rectangle to be transformed.
-        /// </param>
-        /// <param name="plgpts">An array of three
-        /// <see cref="System.Drawing.PointF" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
-        /// </param>
+
         public Matrix(RectangleF rect, PointF[] plgpts)
         {
 
@@ -161,6 +57,69 @@ namespace System.Drawing.Drawing2D
             this.dy = dy;
         }
 
+        public float angle { get; set; }
+
+        public float dx { get; set; } = 0;
+
+        public float dy { get; set; } = 0;
+
+        /// <summary>
+        /// Gets an array of floating-point values that represents the elements of this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+        /// </summary>
+        /// <returns>An array of floating-point values that represents the elements of this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+        /// </returns>
+        public float[] Elements
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        public Matrix initMatrix { get; set; }
+
+        public PointF[] initPointF { get; set; }
+
+        public RectangleF initRectangle { get; set; }
+
+        public bool invert { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is the identity matrix.
+        /// </summary>
+        /// <returns>This property is
+        /// <see langword="true" /> if this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is identity; otherwise,
+        /// <see langword="false" />.
+        /// </returns>
+        public bool IsIdentity
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is invertible.
+        /// </summary>
+        /// <returns>This property is
+        /// <see langword="true" /> if this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is invertible; otherwise,
+        /// <see langword="false" />.
+        /// </returns>
+        public bool IsInvertible
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
         public float m11 { get; set; } = 1;
 
         public float m12 { get; set; } = 0;
@@ -169,12 +128,35 @@ namespace System.Drawing.Drawing2D
 
         public float m22 { get; set; } = 1;
 
-        public float dx { get; set; } = 0;
+        public Matrix multiply { get; set; }
 
-        public float dy { get; set; } = 0;
+        /// <summary>
+        /// Gets the x translation value (the dx value, or the element in the third row and first column) of this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+        /// </summary>
+        /// <returns>The x translation value of this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+        /// </returns>
+        public float OffsetX
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
+        /// Gets the y translation value (the dy value, or the element in the third row and second column) of this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+        /// </summary>
+        /// <returns>The y translation value of this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+        /// </returns>
+        public float OffsetY
+        {
+            get;
+            internal set;
+        }
+
         public MatrixOrder order { get; set; } = MatrixOrder.Prepend;
-
-        public float angle { get; set; }
 
         public PointF rotateAtPoint { get; set; }
 
@@ -192,25 +174,13 @@ namespace System.Drawing.Drawing2D
 
         public Point[] vectorTransformPoints { get; set; }
 
-        public RectangleF initRectangle { get; set; }
-
-        public PointF[] initPointF { get; set; }
-
-        public Matrix initMatrix { get; set; }
-
-        public bool invert { get; set; }
-        public Matrix multiply { get; set; }
-
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </summary>
         /// <returns>The
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that this method creates.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that this method creates.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public Matrix Clone()
         {
             return null;
@@ -220,11 +190,8 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
-        /// </PermissionSet>
         public void Dispose()
         {
             this.initMatrix = null;
@@ -267,23 +234,16 @@ namespace System.Drawing.Drawing2D
         {
             return this.GetHashCode() == obj.GetHashCode();
         }
-        /// <summary>
-        /// Returns a hash code.
-        /// </summary>
-        /// <returns>The hash code for this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
-        /// </returns>
+
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
+
         /// <summary>
         /// Inverts this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />, if it is invertible.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />, if it is invertible.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Invert()
         {
             this.invert = true;
@@ -291,18 +251,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Multiplies this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> by the matrix specified in the
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by the matrix specified in the
         /// <paramref name="matrix" /> parameter, by prepending the specified
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </summary>
-        /// <param name="matrix">
-        /// The
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> by which this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is to be multiplied.
+        /// <param name="matrix">The
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is to be multiplied.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Multiply(Matrix matrix)
         {
             this.initMatrix = matrix;
@@ -329,11 +285,8 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Resets this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> to have the elements of the identity matrix.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> to have the elements of the identity matrix.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Reset()
         {
             this.initMatrix = null;

@@ -7,9 +7,30 @@ namespace System.Drawing.Imaging
     /// </summary>
     public sealed class ColorPalette
     {
-        private int _flags;
 
         private Color[] _entries;
+
+        private int _flags;
+
+        internal ColorPalette(int count)
+        {
+            _entries = new Color[count];
+        }
+
+        internal ColorPalette()
+        {
+            _entries = new Color[1];
+        }
+
+        /// <summary>
+        /// Gets an array of
+        /// <see cref="T:System.Drawing.Color" /> structures.
+        /// </summary>
+        /// <returns>The array of
+        /// <see cref="T:System.Drawing.Color" /> structure that make up this
+        /// <see cref="T:System.Drawing.Imaging.ColorPalette" />.
+        /// </returns>
+        public Color[] Entries => _entries;
 
         /// <summary>
         /// Gets a value that specifies how to interpret the color information in the array of colors.
@@ -23,26 +44,6 @@ namespace System.Drawing.Imaging
         /// The colors in the array are halftone values.
         /// </returns>
         public int Flags => _flags;
-
-        /// <summary>
-        /// Gets an array of
-        /// <see cref="T:System.Drawing.Color" /> structures.
-        /// </summary>
-        /// <returns>The array of
-        /// <see cref="T:System.Drawing.Color" /> structure that make up this
-        /// <see cref="T:System.Drawing.Imaging.ColorPalette" />.
-        /// </returns>
-        public Color[] Entries => _entries;
-
-        internal ColorPalette(int count)
-        {
-            _entries = new Color[count];
-        }
-
-        internal ColorPalette()
-        {
-            _entries = new Color[1];
-        }
 
         internal void ConvertFromMemory(IntPtr memory)
         {
@@ -70,6 +71,7 @@ namespace System.Drawing.Imaging
             {
                 Marshal.WriteInt32((IntPtr)((long)intPtr + 4 * (i + 2)), 0, _entries[i].ToArgb());
             }
+
             return intPtr;
         }
     }

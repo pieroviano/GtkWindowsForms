@@ -10,30 +10,14 @@ namespace System.Windows.Forms
     /// </summary>
     public class DataGridViewRowsAddedEventArgs : EventArgs
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.DataGridViewRowsAddedEventArgs" /> class.
-        /// </summary>
-        /// <param name="rowIndex">The index of the first added row.
-        /// </param>
-        /// <param name="rowCount">The number of rows that have been added.
-        /// </param>
         public DataGridViewRowsAddedEventArgs(int rowIndex, int rowCount)
         {
             RowIndex = rowIndex;
             RowCount = rowCount;
         }
-        /// <summary>
-        /// Gets the index of the first added row.
-        /// </summary>
-        /// <returns>The index of the first added row.
-        /// </returns>
-        public int RowIndex { get; }
-        /// <summary>
-        /// Gets the number of rows that have been added.
-        /// </summary>
-        /// <returns>The number of rows that have been added.
-        /// </returns>
+
         public int RowCount { get; }
+
+        public int RowIndex { get; }
     }
 }

@@ -2,6 +2,11 @@ namespace System.Windows.Forms
 {
     internal class ListViewItemImageIndexer : ImageList.Indexer
     {
+
+        public ListViewItemImageIndexer(ListViewItem item)
+        {
+            throw new System.NotImplementedException();
+        }
         public override ImageList ImageList
         {
             get
@@ -12,11 +17,6 @@ namespace System.Windows.Forms
             {
                 throw new System.NotImplementedException();
             }
-        }
-
-        public ListViewItemImageIndexer(ListViewItem item)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

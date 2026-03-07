@@ -11,24 +11,9 @@ namespace System.Windows.Forms
     {
 
         private Control _ActiveControl;
-        /// <summary>
-        /// Gets or sets the active control on the container control.
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Windows.Forms.Control" /> that is currently active on the
-        /// <see cref="System.Windows.Forms.ContainerControl" />
-        /// </returns>
-        /// <exception cref="System.ArgumentException">The
-        /// <see cref="System.Windows.Forms.Control" /> assigned could not be activated.
-        /// </exception>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+        public ContainerControl() : base()
+        {
+        }
         public Control ActiveControl
         {
             get
@@ -41,17 +26,13 @@ namespace System.Windows.Forms
                             return con;
                     }
                 }
+
                 return _ActiveControl;
             }
             set { ActivateControl(value); }
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ContainerControl" /> class.
-        /// </summary>
-        public ContainerControl() : base()
-        {
-        }
+
+        public virtual StatusStrip StatusStrip { get; set; }
         public bool ActivateControl(Control active)
         {
             _ActiveControl = active;
@@ -62,8 +43,8 @@ namespace System.Windows.Forms
                     return widget.Activate();
                 }
             }
+
             return false;
         }
-        public virtual StatusStrip StatusStrip { get; set; }
     }
 }

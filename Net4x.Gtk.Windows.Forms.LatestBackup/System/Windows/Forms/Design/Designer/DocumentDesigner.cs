@@ -8,7 +8,6 @@ using System.ComponentModel.Design.Serialization;
 using System.Drawing;
 using System.Drawing.Design;
 
-
 namespace System.Windows.Forms.Design
 {
     /// <summary>
@@ -19,39 +18,39 @@ namespace System.Windows.Forms.Design
     public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner, IToolboxUser, IOleDragClient
     {
 
+        internal static IDesignerSerializationManager manager;
+
+        private const string AxClipFormat = "CLSID";
+
+        // ActiveX support
+        //
+        private static readonly Guid htmlDesignTime = new Guid("73CEF3DD-AE85-11CF-A406-00AA00C00940");
+
         private bool initializing;   // is the designer initializing?
 
         // used to keep the state of the tab order view
         //
 
         private bool queriedTabOrder;
+
         private MenuCommand tabOrderCommand;
 
-        internal static IDesignerSerializationManager manager;
-
-
+        private bool trayAutoArrange;
 
         private int trayHeight = 80;
 
         private bool trayLargeIcon;
 
-        private bool trayAutoArrange;
         private bool trayLayoutSuspended;
-
-        // ActiveX support
-        //
-        private static readonly Guid htmlDesignTime = new Guid("73CEF3DD-AE85-11CF-A406-00AA00C00940");
-
-        private const string AxClipFormat = "CLSID";
 
         public ViewTechnology[] SupportedTechnologies => throw new NotImplementedException();
 
-        public object GetView(ViewTechnology technology)
+        public bool GetToolSupported(ToolboxItem tool)
         {
             throw new NotImplementedException();
         }
 
-        public bool GetToolSupported(ToolboxItem tool)
+        public object GetView(ViewTechnology technology)
         {
             throw new NotImplementedException();
         }

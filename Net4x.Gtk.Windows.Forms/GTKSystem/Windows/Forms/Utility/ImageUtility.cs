@@ -10,6 +10,62 @@ namespace GtkSystem.Windows.Forms.Utility
 {
     public class ImageUtility
     {
+
+        public static void DrawBackgroundImage(Cairo.Context ctx, Gdk.Pixbuf img, Gdk.Rectangle rec)
+        {
+            ctx.Save();
+            ctx.ResetClip();
+            ctx.Rectangle(rec.X, rec.Y, rec.Width, rec.Height);
+            ctx.Clip();
+            ctx.Translate(rec.Left, rec.Top);
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, 0, 0);
+            using (var p = ctx.GetSource())
+            {
+                if (p is Cairo.SurfacePattern pattern)
+                {
+                    pattern.Filter = Cairo.Filter.Fast;
+                }
+            }
+            ctx.Paint();
+            ctx.Restore();
+        }
+
+        public static void DrawImage(Cairo.Context ctx, Gdk.Pixbuf img, Gdk.Rectangle rec, ContentAlignment ImageAlign)
+        {
+            ctx.Save();
+            if (ImageAlign == ContentAlignment.TopLeft)
+                ctx.Translate(rec.X, rec.Y);
+            else if (ImageAlign == ContentAlignment.TopCenter)
+                ctx.Translate((img.Width - rec.Width) / 2 + rec.X, rec.Y);
+            else if (ImageAlign == ContentAlignment.TopRight)
+                ctx.Translate((img.Width - rec.Width) + rec.X, rec.Y);
+            else if (ImageAlign == ContentAlignment.MiddleLeft)
+                ctx.Translate(rec.X, (img.Height - rec.Height) / 2 + rec.Y);
+            else if (ImageAlign == ContentAlignment.MiddleCenter)
+                ctx.Translate((img.Width - rec.Width) / 2 + rec.X, (img.Height - rec.Height) / 2 + rec.Y);
+            else if (ImageAlign == ContentAlignment.MiddleRight)
+                ctx.Translate((img.Width - rec.Width) + rec.X, (img.Height - rec.Height) / 2 + rec.Y);
+            else if (ImageAlign == ContentAlignment.BottomLeft)
+                ctx.Translate(rec.X, (img.Height - rec.Height) + rec.Y);
+            else if (ImageAlign == ContentAlignment.BottomCenter)
+                ctx.Translate((img.Width - rec.Width) / 2 + rec.X, (img.Height - rec.Height) + rec.Y);
+            else if (ImageAlign == ContentAlignment.BottomRight)
+                ctx.Translate((img.Width - rec.Width) + rec.X, (img.Height - rec.Height) + rec.Y);
+            else
+                ctx.Translate(rec.X, rec.Y);
+
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, 0, 0);
+            using (var p = ctx.GetSource())
+            {
+                if (p is Cairo.SurfacePattern pattern)
+                {
+                    pattern.Filter = Cairo.Filter.Fast;
+                }
+            }
+            ctx.Paint();
+            ctx.Restore();
+        }
+
         public static void ScaleImage(int width, int height, ref Gdk.Pixbuf imagePixbuf, byte[] imagebytes, PictureBoxSizeMode sizeMode, ImageLayout backgroundMode)
         {
             if (imagebytes != null)
@@ -87,135 +143,6 @@ namespace GtkSystem.Windows.Forms.Utility
             }
         }
 
-        public static void DrawBackgroundImage(Cairo.Context ctx, Gdk.Pixbuf img, Gdk.Rectangle rec)
-        {
-            ctx.Save();
-            ctx.ResetClip();
-            ctx.Rectangle(rec.X, rec.Y, rec.Width, rec.Height);
-            ctx.Clip();
-            ctx.Translate(rec.Left, rec.Top);
-            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, 0, 0);
-            using (var p = ctx.GetSource())
-            {
-                if (p is Cairo.SurfacePattern pattern)
-                {
-                    pattern.Filter = Cairo.Filter.Fast;
-                }
-            }
-            ctx.Paint();
-            ctx.Restore();
-        }
-        public static void DrawImage(Cairo.Context ctx, Gdk.Pixbuf img, Gdk.Rectangle rec, ContentAlignment ImageAlign)
-        {
-            ctx.Save();
-            if (ImageAlign == ContentAlignment.TopLeft)
-                ctx.Translate(rec.X, rec.Y);
-            else if (ImageAlign == ContentAlignment.TopCenter)
-                ctx.Translate((img.Width - rec.Width) / 2 + rec.X, rec.Y);
-            else if (ImageAlign == ContentAlignment.TopRight)
-                ctx.Translate((img.Width - rec.Width) + rec.X, rec.Y);
-            else if (ImageAlign == ContentAlignment.MiddleLeft)
-                ctx.Translate(rec.X, (img.Height - rec.Height) / 2 + rec.Y);
-            else if (ImageAlign == ContentAlignment.MiddleCenter)
-                ctx.Translate((img.Width - rec.Width) / 2 + rec.X, (img.Height - rec.Height) / 2 + rec.Y);
-            else if (ImageAlign == ContentAlignment.MiddleRight)
-                ctx.Translate((img.Width - rec.Width) + rec.X, (img.Height - rec.Height) / 2 + rec.Y);
-            else if (ImageAlign == ContentAlignment.BottomLeft)
-                ctx.Translate(rec.X, (img.Height - rec.Height) + rec.Y);
-            else if (ImageAlign == ContentAlignment.BottomCenter)
-                ctx.Translate((img.Width - rec.Width) / 2 + rec.X, (img.Height - rec.Height) + rec.Y);
-            else if (ImageAlign == ContentAlignment.BottomRight)
-                ctx.Translate((img.Width - rec.Width) + rec.X, (img.Height - rec.Height) + rec.Y);
-            else
-                ctx.Translate(rec.X, rec.Y);
-
-            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, 0, 0);
-            using (var p = ctx.GetSource())
-            {
-                if (p is Cairo.SurfacePattern pattern)
-                {
-                    pattern.Filter = Cairo.Filter.Fast;
-                }
-            }
-            ctx.Paint();
-            ctx.Restore();
-        }
-        /// <summary>
-        /// PictureBox image display mode
-        /// </summary>
-        /// <param name="srcImageBytes">
-        /// </param>
-        /// <param name="width">
-        /// </param>
-        /// <param name="height">
-        /// </param>
-        /// <param name="destImage">
-        /// </param>
-        /// <param name="sizeMode">
-        /// </param>
-        public static void ScaleImageByPictureBoxSizeMode(byte[] srcImageBytes, int width, int height, out Gdk.Pixbuf destImage, PictureBoxSizeMode sizeMode)
-        {
-            Gdk.Pixbuf srcPixbuf = new Gdk.Pixbuf(srcImageBytes);
-            ScaleImageByPictureBoxSizeMode(srcPixbuf, width, height, out destImage, sizeMode);
-
-        }
-        /// <summary>
-        /// PictureBox image display mode
-        /// </summary>
-        /// <param name="srcPixbuf">
-        /// </param>
-        /// <param name="width">
-        /// </param>
-        /// <param name="height">
-        /// </param>
-        /// <param name="destImage">
-        /// </param>
-        /// <param name="sizeMode">
-        /// </param>
-        public static void ScaleImageByPictureBoxSizeMode(Gdk.Pixbuf srcPixbuf, int width, int height, out Gdk.Pixbuf destImage, PictureBoxSizeMode sizeMode)
-        {
-            using (var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
-            {
-                destImage = new Gdk.Pixbuf(surface, 0, 0, width, height);
-
-                if (sizeMode == PictureBoxSizeMode.Normal)
-                {
-                    // tile the original image starting from the top-left corner， crop excess
-                    srcPixbuf.Scale(destImage, 0, 0, Math.Min(srcPixbuf.Width, destImage.Width), Math.Min(srcPixbuf.Height, destImage.Height), 0, 0, 1, 1, Gdk.InterpType.Tiles);
-                }
-                else if (sizeMode == PictureBoxSizeMode.StretchImage)
-                { // freely scale to fill the entire image
-                    destImage = srcPixbuf.ScaleSimple(width, height, Gdk.InterpType.Tiles);
-                }
-                else if (sizeMode == PictureBoxSizeMode.CenterImage)
-                {
-                    // take the center of the original image
-                    int offsetx = (destImage.Width - srcPixbuf.Width) / 2;
-                    int offsety = (destImage.Height - srcPixbuf.Height) / 2;
-                    srcPixbuf.Scale(destImage, 0, 0, destImage.Width, destImage.Height, offsetx, offsety, 1, 1, Gdk.InterpType.Tiles);
-                }
-                else if (sizeMode == PictureBoxSizeMode.Zoom)
-                {
-                    // scale original image proportionally， display full image
-                    double scaleX = destImage.Width * 1f / srcPixbuf.Width;
-                    double scaleY = destImage.Height * 1f / srcPixbuf.Height;
-                    double scaleR = Math.Min(scaleX, scaleY);
-                    // scale by minimum ratio
-                    double srcWidth = scaleX > scaleY ? srcPixbuf.Width * scaleY : srcPixbuf.Width * scaleX;
-                    double srcHeight = scaleX > scaleY ? srcPixbuf.Height * scaleY : srcPixbuf.Height * scaleX;
-
-                    int offsetx = (destImage.Width - (int)srcWidth) / 2;
-                    int offsety = (destImage.Height - (int)srcHeight) / 2;
-
-                    srcPixbuf.Scale(destImage, offsetx > 0 ? offsetx : 0, offsety > 0 ? offsety : 0, (int)Math.Min(destImage.Width, srcWidth), Math.Min(destImage.Height, (int)srcHeight), offsetx > 0 ? offsetx : 0, offsety > 0 ? offsety : 0, scaleR, scaleR, Gdk.InterpType.Tiles);
-                }
-                else if (sizeMode == PictureBoxSizeMode.AutoSize)
-                {
-                    srcPixbuf.Scale(destImage, 0, 0, Math.Min(srcPixbuf.Width, destImage.Width), Math.Min(srcPixbuf.Height, destImage.Height), 0, 0, 1, 1, Gdk.InterpType.Tiles);
-                }
-            }
-
-        }
         /// <summary>
         /// Background image display mode
         /// </summary>
@@ -310,6 +237,84 @@ namespace GtkSystem.Windows.Forms.Utility
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// PictureBox image display mode
+        /// </summary>
+        /// <param name="srcImageBytes">
+        /// </param>
+        /// <param name="width">
+        /// </param>
+        /// <param name="height">
+        /// </param>
+        /// <param name="destImage">
+        /// </param>
+        /// <param name="sizeMode">
+        /// </param>
+        public static void ScaleImageByPictureBoxSizeMode(byte[] srcImageBytes, int width, int height, out Gdk.Pixbuf destImage, PictureBoxSizeMode sizeMode)
+        {
+            Gdk.Pixbuf srcPixbuf = new Gdk.Pixbuf(srcImageBytes);
+            ScaleImageByPictureBoxSizeMode(srcPixbuf, width, height, out destImage, sizeMode);
+
+        }
+
+        /// <summary>
+        /// PictureBox image display mode
+        /// </summary>
+        /// <param name="srcPixbuf">
+        /// </param>
+        /// <param name="width">
+        /// </param>
+        /// <param name="height">
+        /// </param>
+        /// <param name="destImage">
+        /// </param>
+        /// <param name="sizeMode">
+        /// </param>
+        public static void ScaleImageByPictureBoxSizeMode(Gdk.Pixbuf srcPixbuf, int width, int height, out Gdk.Pixbuf destImage, PictureBoxSizeMode sizeMode)
+        {
+            using (var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
+            {
+                destImage = new Gdk.Pixbuf(surface, 0, 0, width, height);
+
+                if (sizeMode == PictureBoxSizeMode.Normal)
+                {
+                    // tile the original image starting from the top-left corner， crop excess
+                    srcPixbuf.Scale(destImage, 0, 0, Math.Min(srcPixbuf.Width, destImage.Width), Math.Min(srcPixbuf.Height, destImage.Height), 0, 0, 1, 1, Gdk.InterpType.Tiles);
+                }
+                else if (sizeMode == PictureBoxSizeMode.StretchImage)
+                { // freely scale to fill the entire image
+                    destImage = srcPixbuf.ScaleSimple(width, height, Gdk.InterpType.Tiles);
+                }
+                else if (sizeMode == PictureBoxSizeMode.CenterImage)
+                {
+                    // take the center of the original image
+                    int offsetx = (destImage.Width - srcPixbuf.Width) / 2;
+                    int offsety = (destImage.Height - srcPixbuf.Height) / 2;
+                    srcPixbuf.Scale(destImage, 0, 0, destImage.Width, destImage.Height, offsetx, offsety, 1, 1, Gdk.InterpType.Tiles);
+                }
+                else if (sizeMode == PictureBoxSizeMode.Zoom)
+                {
+                    // scale original image proportionally， display full image
+                    double scaleX = destImage.Width * 1f / srcPixbuf.Width;
+                    double scaleY = destImage.Height * 1f / srcPixbuf.Height;
+                    double scaleR = Math.Min(scaleX, scaleY);
+                    // scale by minimum ratio
+                    double srcWidth = scaleX > scaleY ? srcPixbuf.Width * scaleY : srcPixbuf.Width * scaleX;
+                    double srcHeight = scaleX > scaleY ? srcPixbuf.Height * scaleY : srcPixbuf.Height * scaleX;
+
+                    int offsetx = (destImage.Width - (int)srcWidth) / 2;
+                    int offsety = (destImage.Height - (int)srcHeight) / 2;
+
+                    srcPixbuf.Scale(destImage, offsetx > 0 ? offsetx : 0, offsety > 0 ? offsety : 0, (int)Math.Min(destImage.Width, srcWidth), Math.Min(destImage.Height, (int)srcHeight), offsetx > 0 ? offsetx : 0, offsety > 0 ? offsety : 0, scaleR, scaleR, Gdk.InterpType.Tiles);
+                }
+                else if (sizeMode == PictureBoxSizeMode.AutoSize)
+                {
+                    srcPixbuf.Scale(destImage, 0, 0, Math.Min(srcPixbuf.Width, destImage.Width), Math.Min(srcPixbuf.Height, destImage.Height), 0, 0, 1, 1, Gdk.InterpType.Tiles);
+                }
+            }
+
         }
     }
 }

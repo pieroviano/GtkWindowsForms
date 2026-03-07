@@ -6,6 +6,14 @@ namespace System.Drawing.Drawing2D
     /// </summary>
     public sealed class PathData
     {
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Drawing.Drawing2D.PathData" /> class.
+        /// </summary>
+        public PathData()
+        {
+        }
         /// <summary>
         /// Gets or sets an array of
         /// <see cref="T:System.Drawing.PointF" /> structures that represents the points through which the path is constructed.
@@ -28,14 +36,6 @@ namespace System.Drawing.Drawing2D
         {
             get;
             set;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.PathData" /> class.
-        /// </summary>
-        public PathData()
-        {
         }
     }
 }

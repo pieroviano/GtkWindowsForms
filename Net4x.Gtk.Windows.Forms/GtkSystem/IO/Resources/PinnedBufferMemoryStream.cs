@@ -20,11 +20,6 @@ namespace GtkSystem.IO
             }
         }
 
-        ~PinnedBufferMemoryStream()
-        {
-            Dispose(disposing: false);
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (_pinningHandle.IsAllocated)

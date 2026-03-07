@@ -9,36 +9,7 @@ namespace GtkSystem.Resources.Extensions
     {
         private static readonly char[] s_whiteSpaceChars = new char[4] { ' ', '\n', '\r', '\t' };
 
-
         public static TypeNameComparer Instance { get; } = new TypeNameComparer();
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ReadOnlySpan<char> ReadTypeName(ReadOnlySpan<char> assemblyQualifiedTypeName)
-        {
-            int num = assemblyQualifiedTypeName.IndexOf(',');
-            if (num != -1)
-            {
-                return assemblyQualifiedTypeName.Slice(0, num);
-            }
-            return assemblyQualifiedTypeName;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ReadOnlySpan<char> ReadAssemblySimpleName(ReadOnlySpan<char> assemblyName)
-        {
-            int num = assemblyName.IndexOf(',');
-            if (num != -1)
-            {
-                return assemblyName.Slice(0, num).TrimEnd(s_whiteSpaceChars);
-            }
-            return assemblyName;
-        }
-
-        private static bool IsMscorlib(ReadOnlySpan<char> assemblyName)
-        {
-            return MemoryExtensions.Equals(assemblyName, "mscorlib".AsSpan(), StringComparison.OrdinalIgnoreCase);
-        }
 
         public bool Equals(string assemblyQualifiedTypeName1, string assemblyQualifiedTypeName2)
         {
@@ -98,6 +69,7 @@ namespace GtkSystem.Resources.Extensions
             }
             byte[] publicKeyToken = assemblyName.GetPublicKeyToken();
             byte[] publicKeyToken2 = assemblyName2.GetPublicKeyToken();
+
             return publicKeyToken.AsSpan().SequenceEqual(publicKeyToken2);
         }
 
@@ -112,7 +84,37 @@ namespace GtkSystem.Resources.Extensions
                 char c = readOnlySpan[i];
                 num = GtkSystem.Numerics.Hashing.HashHelpers.Combine(h, c.GetHashCode());
             }
+
             return num;
+        }
+
+        private static bool IsMscorlib(ReadOnlySpan<char> assemblyName)
+        {
+            return MemoryExtensions.Equals(assemblyName, "mscorlib".AsSpan(), StringComparison.OrdinalIgnoreCase);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlySpan<char> ReadAssemblySimpleName(ReadOnlySpan<char> assemblyName)
+        {
+            int num = assemblyName.IndexOf(',');
+            if (num != -1)
+            {
+                return assemblyName.Slice(0, num).TrimEnd(s_whiteSpaceChars);
+            }
+
+            return assemblyName;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlySpan<char> ReadTypeName(ReadOnlySpan<char> assemblyQualifiedTypeName)
+        {
+            int num = assemblyQualifiedTypeName.IndexOf(',');
+            if (num != -1)
+            {
+                return assemblyQualifiedTypeName.Slice(0, num);
+            }
+
+            return assemblyQualifiedTypeName;
         }
     }
 }

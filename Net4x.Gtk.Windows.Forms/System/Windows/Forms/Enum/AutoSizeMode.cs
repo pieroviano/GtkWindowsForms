@@ -20,8 +20,9 @@ namespace System.Windows.Forms
         GrowAndShrink,
 
         /// <summary>
-        /// The control grows as much as necessary to fit its contents but does not shrink smaller than the value of its
-        /// <see cref="System.Windows.Forms.Control.Size" />   property. The form can be resized, but cannot be made so small that any of its contained controls are hidden.
+        /// The control will grow as much as it needs to encompass its contents (e.g.
+        /// text for a button, child controls for a container), but will not shrink
+        /// smaller than its Size, whichever is larger.
         /// </summary>
         GrowOnly
     }

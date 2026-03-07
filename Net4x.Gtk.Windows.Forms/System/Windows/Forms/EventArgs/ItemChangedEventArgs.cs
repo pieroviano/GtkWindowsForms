@@ -17,13 +17,7 @@ namespace System.Windows.Forms
         {
             Index = index;
         }
-        /// <summary>
-        /// Indicates the position of the item being changed within the list.
-        /// </summary>
-        /// <returns>The zero-based index to the item being changed.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public int Index { get; }
     }
 }

@@ -10,7 +10,7 @@
 namespace System.Properties
 {
     using System;
-    
+
     
     /// <summary>
     /// A strongly-typed resource class, for looking up localized strings, etc.
@@ -24,34 +24,16 @@ namespace System.Properties
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources
     {
-        
-        private static global::System.Resources.ResourceManager resourceMan;
-        
 
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
+        private static global::System.Resources.ResourceManager resourceMan;
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources()
         {
         }
-        
-        /// <summary>
-        /// Returns the cached ResourceManager instance used by this class.
-        /// </summary>
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);
-                    resourceMan = temp;
-                }
-                return resourceMan;
-            }
-        }
-        
+
         /// <summary>
         /// Overrides the current thread's CurrentUICulture property for all
         /// resource lookups using this strongly typed resource class.
@@ -68,7 +50,7 @@ namespace System.Properties
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /* css file path */.
         /// </summary>
@@ -79,7 +61,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_css_file_path", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /* Custom theme name */.
         /// </summary>
@@ -90,7 +72,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Custom_theme_name", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Define control style.
         /// </summary>
@@ -101,7 +83,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Define_control_style", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to =》Directory does not exist.
         /// </summary>
@@ -112,7 +94,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Directory_does_not_exist", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /* Freely defined style files */.
         /// </summary>
@@ -123,7 +105,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Freely_defined_style_files", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /* Here you can customize or adjust the control style */ .
         /// </summary>
@@ -134,7 +116,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Here_you_can_customize_or_adjust_the_control_style", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /*Specify the theme, valid when AutoTheme=false*/.
         /// </summary>
@@ -145,7 +127,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Specify_the_theme_valid_when_AutoTheme_is_false", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /* The folder where the theme files are located */.
         /// </summary>
@@ -156,7 +138,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_The_folder_where_the_theme_files_are_located", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /*Whether to apply built-in styles*/.
         /// </summary>
@@ -167,7 +149,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Whether_to_apply_built_in_styles", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /*Whether to follow the system theme by default*/.
         /// </summary>
@@ -178,7 +160,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Whether_to_follow_the_system_theme_by_default", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /*Whether to use a custom theme, corresponding to [custom theme]*/.
         /// </summary>
@@ -189,7 +171,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Whether_to_use_a_custom_theme_corresponding_to_custom_theme", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to /*Whether to use custom style, corresponding to [custom style]*/.
         /// </summary>
@@ -200,7 +182,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Application_Init_Whether_to_use_custom_style_corresponding_to_custom_style", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Choose color.
         /// </summary>
@@ -211,7 +193,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_ColorDialog_RunDialog_Choose_color", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized resource of type System.Byte[].
         /// </summary>
@@ -220,10 +202,11 @@ namespace System.Properties
             get
             {
                 object obj = ResourceManager.GetObject("Gtk_DateTimePicker", resourceCulture);
+
                 return ((byte[])(obj));
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to The selected date is outside the restricted range \nMaximum time: {0}\nMinimum time: {1}.
         /// </summary>
@@ -234,7 +217,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_DateTimePicker_Calendar_DaySelected_Choose", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Date restrictions.
         /// </summary>
@@ -245,7 +228,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_DateTimePicker_Calendar_DaySelected_Date_restrictions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Choose Today .
         /// </summary>
@@ -256,7 +239,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_DateTimePicker_DateTimePicker_Choose_Today", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to ____year__month__day.
         /// </summary>
@@ -267,7 +250,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_DateTimePicker_DateTimePicker_Mask", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to MM month dd day yyyy year.
         /// </summary>
@@ -278,7 +261,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_DateTimePicker_Value_yyyy_MM_dd", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Cancel.
         /// </summary>
@@ -289,7 +272,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_FileDialog_RunDialog_Cancel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to OK.
         /// </summary>
@@ -300,7 +283,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_FileDialog_RunDialog_OK", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Select File.
         /// </summary>
@@ -311,7 +294,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_FileDialog_RunDialog_Select_File", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Select Font.
         /// </summary>
@@ -322,7 +305,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_FontDialog_RunDialog_Select_Font", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to You are closing this window, are you sure you want to close it?.
         /// </summary>
@@ -333,7 +316,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_FormBase_FormBase_Close", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Cancel.
         /// </summary>
@@ -344,7 +327,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Cancel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Close.
         /// </summary>
@@ -355,7 +338,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Close", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Help.
         /// </summary>
@@ -366,7 +349,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Help", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to No.
         /// </summary>
@@ -377,7 +360,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_No", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to OK.
         /// </summary>
@@ -388,7 +371,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_OK", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Reject.
         /// </summary>
@@ -399,7 +382,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Reject", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Yes.
         /// </summary>
@@ -410,7 +393,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Yes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Print.
         /// </summary>
@@ -421,7 +404,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Print", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Print preview.
         /// </summary>
@@ -432,7 +415,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_Print_preview", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to File is in use and cannot be overwritten.
         /// </summary>
@@ -443,7 +426,7 @@ namespace System.Properties
                 return ResourceManager.GetString("Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Tree directory.
         /// </summary>
@@ -452,6 +435,24 @@ namespace System.Properties
             get
             {
                 return ResourceManager.GetString("Gtk_Tree_directory", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+
+                return resourceMan;
             }
         }
     }

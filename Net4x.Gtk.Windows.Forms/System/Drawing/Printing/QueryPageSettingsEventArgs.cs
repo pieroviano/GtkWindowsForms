@@ -26,6 +26,7 @@ namespace System.Drawing.Printing
             get
             {
                 PageSettingsChanged = true;
+
                 return _pageSettings;
             }
             set

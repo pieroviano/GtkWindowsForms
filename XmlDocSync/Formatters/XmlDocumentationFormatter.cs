@@ -64,21 +64,31 @@ public static class XmlDocumentationFormatter
         catch (Exception e)
         {
             var fixedLine = false;
-            foreach (var fix in fixes)
+            if (fixes != null)
             {
-                for (var index = 0; index < lines.Count; index++)
+                foreach (var fix in fixes)
                 {
-                    if (lines[index].Contains(fix.ToReplace))
+                    for (var index = 0; index < lines.Count; index++)
                     {
-                        fixedLine = true;
-                        lines[index] = lines[index].Replace(fix.ToReplace, fix.DestinationValue);
+                        if (lines[index].Contains(fix.ToReplace))
+                        {
+                            fixedLine = true;
+                            lines[index] = lines[index].Replace(fix.ToReplace, fix.DestinationValue);
+                        }
                     }
                 }
-            }
 
-            if (fixedLine)
+                if (fixedLine)
+                {
+                    return FormatBlock(lines, fixes);
+                }
+            }
+            else
             {
-                return FormatBlock(lines, fixes);
+                RedConsole.Write("Badly formatted Xml comment:");
+                RedConsole.Write($"n===========================\n{rawXml}\n===========================");
+                RedConsole.Write($"{e}");
+                return lines;
             }
 
             RedConsole.Write("Badly formatted Xml comment:");

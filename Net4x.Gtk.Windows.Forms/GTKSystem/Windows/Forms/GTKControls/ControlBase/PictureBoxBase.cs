@@ -4,8 +4,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class PictureBoxBase : Gtk.Image, IControlGtk
     {
-
-        public GtkControlOverride Override { get; set; }
         public PictureBoxBase() : base()
         {
             this.Override = new GtkControlOverride(this);
@@ -16,11 +14,8 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             base.Xalign = 0;
             base.Yalign = 0;
         }
-        protected override void OnShown()
-        {
-            Override.OnAddClass();
-            base.OnShown();
-        }
+
+        public GtkControlOverride Override { get; set; }
         protected override bool OnDrawn(Cairo.Context cr)
         {
             if (this.Pixbuf != null)
@@ -31,7 +26,14 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             Override.OnDrawnBackground(cr, rec);
             Override.OnPaint(cr, rec);
             base.OnDrawn(cr);
+
             return true;
+        }
+
+        protected override void OnShown()
+        {
+            Override.OnAddClass();
+            base.OnShown();
         }
     }
 }

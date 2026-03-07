@@ -20,14 +20,14 @@ namespace System.Windows.Forms
     {
 
         public ScrollbarBase<Gtk.HScrollbar> self = new ScrollbarBase<Gtk.HScrollbar>(Gtk.Orientation.Horizontal);
-
-        public override object GtkControl => self;
-
-        public override Gtk.Adjustment Adjustment { get => self.Adjustment; }
         public HScrollBar() : base()
         {
 
         }
+
+        public override Gtk.Adjustment Adjustment { get => self.Adjustment; }
+
+        public override object GtkControl => self;
 
     }
 }

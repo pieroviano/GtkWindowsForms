@@ -11,6 +11,48 @@ namespace System.Windows.Forms
     /// </summary>
     /// <filterpriority>2
     /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
     public sealed partial class ImageList
     {
         /// <summary>
@@ -20,44 +62,20 @@ namespace System.Windows.Forms
         /// </summary>
         internal class Indexer
         {
-            // Used by TreeViewImageIndexConverter to show "(none)"
-            internal const int NoneIndex = -2;
+            internal const int DefaultIndex = -1;
 
             // Used by generally across the board to indicate unset image
 
             internal const string DefaultKey = "";
-            internal const int DefaultIndex = -1;
 
+            // Used by TreeViewImageIndexConverter to show "(none)"
+            internal const int NoneIndex = -2;
+
+            private int _index = DefaultIndex;
 
             private string _key = DefaultKey;
 
-            private int _index = DefaultIndex;
             private bool _useIntegerIndex = true;
-
-            public virtual ImageList? ImageList { get; set; }
-
-
-            public virtual string Key
-            {
-                get => _key;
-                set
-                {
-                    _index = DefaultIndex;
-                    _key = value ?? DefaultKey;
-                    _useIntegerIndex = false;
-                }
-            }
-
-            public virtual int Index
-            {
-                get => _index;
-                set
-                {
-                    _key = DefaultKey;
-                    _index = value;
-                    _useIntegerIndex = true;
-                }
-            }
 
             public virtual int ActualIndex
             {
@@ -77,6 +95,30 @@ namespace System.Windows.Forms
                     }
 
                     return DefaultIndex;
+                }
+            }
+
+            public virtual ImageList? ImageList { get; set; }
+
+            public virtual int Index
+            {
+                get => _index;
+                set
+                {
+                    _key = DefaultKey;
+                    _index = value;
+                    _useIntegerIndex = true;
+                }
+            }
+
+            public virtual string Key
+            {
+                get => _key;
+                set
+                {
+                    _index = DefaultIndex;
+                    _key = value ?? DefaultKey;
+                    _useIntegerIndex = false;
                 }
             }
         }

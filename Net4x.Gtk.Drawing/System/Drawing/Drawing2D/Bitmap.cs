@@ -22,15 +22,6 @@ namespace System.Drawing
     {
         private static readonly Color s_defaultTransparentColor = Color.LightGray;
 
-        internal Bitmap(byte[] pixbuf) : base(pixbuf)
-        {
-
-        }
-        internal Bitmap(IntPtr ptr)
-        {
-            SetNativeImage(ptr);
-        }
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
@@ -114,14 +105,6 @@ namespace System.Drawing
         {
         }
 
-        private static Stream GetResourceStream(Type type, string resource)
-        {
-
-            Stream manifestResourceStream = type.Module.Assembly.GetManifestResourceStream(type, resource);
-
-            return manifestResourceStream;
-        }
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Bitmap" /> class with the specified size.
@@ -138,25 +121,7 @@ namespace System.Drawing
             : this(width, height, PixelFormat.Format32bppArgb)
         {
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Drawing.Bitmap" /> class with the specified size and with the resolution of the specified
-        /// <see cref="System.Drawing.Graphics" /> object.
-        /// </summary>
-        /// <param name="width">The width, in pixels, of the new
-        /// <see cref="System.Drawing.Bitmap" />
-        /// </param>
-        /// <param name="height">The height, in pixels, of the new
-        /// <see cref="System.Drawing.Bitmap" />
-        /// </param>
-        /// <param name="g">
-        /// The
-        /// <see cref="System.Drawing.Graphics" /> object that specifies the resolution for the new
-        /// <see cref="System.Drawing.Bitmap" />
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="g" /> is null.
-        /// </exception>
+
         public Bitmap(int width, int height, Graphics g) : this(width, height, PixelFormat.Format32bppArgb)
         {
 
@@ -274,9 +239,82 @@ namespace System.Drawing
             this.PixbufData = original.PixbufData;
         }
 
+        internal Bitmap(byte[] pixbuf) : base(pixbuf)
+        {
+
+        }
+
+        internal Bitmap(IntPtr ptr)
+        {
+            SetNativeImage(ptr);
+        }
+
         private Bitmap(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+        }
+
+        /// <summary>
+        /// Creates a copy of the section of this
+        /// <see cref="T:System.Drawing.Bitmap" /> defined with a specified
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration.
+        /// </summary>
+        /// <param name="rect">Defines the portion of this
+        /// <see cref="T:System.Drawing.Bitmap" /> to copy.
+        /// </param>
+        /// <param name="format">Specifies the
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration for the destination
+        /// <see cref="T:System.Drawing.Bitmap" />.
+        /// </param>
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Bitmap" /> that this method creates.
+        /// </returns>
+        /// <exception cref="T:System.OutOfMemoryException">
+        /// <paramref name="rect" /> is outside of the source bitmap bounds.
+        /// </exception>
+        /// <exception cref="T:System.ArgumentException">The height or width of
+        /// <paramref name="rect" /> is 0.
+        /// </exception>
+        public Bitmap Clone(RectangleF rect, PixelFormat format)
+        {
+
+            return new Bitmap((int)rect.Width, (int)rect.Height, format);
+        }
+
+        /// <summary>
+        /// Creates a copy of the section of this
+        /// <see cref="T:System.Drawing.Bitmap" /> defined by
+        /// <see cref="T:System.Drawing.Rectangle" /> structure and with a specified
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration.
+        /// </summary>
+        /// <param name="rect">Defines the portion of this
+        /// <see cref="T:System.Drawing.Bitmap" /> to copy. Coordinates are relative to this
+        /// <see cref="T:System.Drawing.Bitmap" />.
+        /// </param>
+        /// <param name="format">The pixel format for the new
+        /// <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with
+        /// <c>Format
+        /// </c>.
+        /// </param>
+        /// <returns>The new
+        /// <see cref="T:System.Drawing.Bitmap" /> that this method creates.
+        /// </returns>
+        /// <exception cref="T:System.OutOfMemoryException">
+        /// <paramref name="rect" /> is outside of the source bitmap bounds.
+        /// </exception>
+        /// <exception cref="T:System.ArgumentException">The height or width of
+        /// <paramref name="rect" /> is 0.
+        /// -or-
+        /// A
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying
+        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an
+        /// <see cref="T:System.ArgumentException" />, but
+        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.
+        /// </exception>
+        public Bitmap Clone(Rectangle rect, PixelFormat format)
+        {
+
+            return new Bitmap(rect.Width, rect.Height, format) { PixbufData = (byte[])this.PixbufData.Clone() };
         }
 
         /// <summary>
@@ -318,48 +356,13 @@ namespace System.Drawing
                 Marshal.FreeHGlobal(intPtr);
             }
         }
-        /// <summary>
-        /// Creates a GDI bitmap object from this
-        /// <see cref="System.Drawing.Bitmap" />
-        /// </summary>
-        /// <returns>A handle to the GDI bitmap object that this method creates.
-        /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The height or width of the bitmap is greater than
-        /// <see cref="System.Int16.MaxValue" />
-        /// </exception>
-        /// <exception cref="System.Exception">The operation failed.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
-        /// </PermissionSet>
+
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public IntPtr GetHbitmap()
         {
             return GetHbitmap(Color.LightGray);
         }
-        /// <summary>
-        /// Creates a GDI bitmap object from this
-        /// <see cref="System.Drawing.Bitmap" />
-        /// </summary>
-        /// <returns>A handle to the GDI bitmap object that this method creates.
-        /// </returns>
-        /// <param name="background">A
-        /// <see cref="System.Drawing.Color" /> structure that specifies the background color. This parameter is ignored if the bitmap is totally opaque.
-        /// </param>
-        /// <exception cref="System.ArgumentException">
-        /// The height or width of the bitmap is greater than
-        /// <see cref="System.Int16.MaxValue" />
-        /// </exception>
-        /// <exception cref="System.Exception">The operation failed.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
-        /// </PermissionSet>
+
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public IntPtr GetHbitmap(Color background)
         {
@@ -371,15 +374,10 @@ namespace System.Drawing
         /// Returns the handle to an icon.
         /// </summary>
         /// <returns>A Windows handle to an icon with the same image as the
-        /// <see cref="System.Drawing.Bitmap" />
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </returns>
-        /// <exception cref="System.Exception">The operation failed.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
-        /// </PermissionSet>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public IntPtr GetHicon()
         {
@@ -389,87 +387,29 @@ namespace System.Drawing
         }
 
         /// <summary>
-        /// Creates a copy of the section of this
-        /// <see cref="System.Drawing.Bitmap" /> defined with a specified
-        /// <see cref="System.Drawing.Imaging.PixelFormat" /> enumeration.
+        /// Gets the color of the specified pixel in this
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Drawing.Bitmap" /> that this method creates.
+        /// <param name="x">The x-coordinate of the pixel to retrieve.
+        /// </param>
+        /// <param name="y">The y-coordinate of the pixel to retrieve.
+        /// </param>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Color" /> structure that represents the color of the specified pixel.
         /// </returns>
-        /// <param name="rect">Defines the portion of this
-        /// <see cref="System.Drawing.Bitmap" /> to copy.
-        /// </param>
-        /// <param name="format">
-        /// Specifies the
-        /// <see cref="System.Drawing.Imaging.PixelFormat" /> enumeration for the destination
-        /// <see cref="System.Drawing.Bitmap" />
-        /// </param>
-        /// <exception cref="System.OutOfMemoryException">
-        /// <paramref name="rect" /> is outside of the source bitmap bounds.
+        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        /// <paramref name="x" /> is less than 0, or greater than or equal to
+        /// <see cref="P:System.Drawing.Image.Width" />.
+        /// -or-
+        /// <paramref name="y" /> is less than 0, or greater than or equal to
+        /// <see cref="P:System.Drawing.Image.Height" />.
         /// </exception>
-        /// <exception cref="System.ArgumentException">The height or width of
-        /// <paramref name="rect" /> is 0.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public Bitmap Clone(RectangleF rect, PixelFormat format)
+        public Color GetPixel(int x, int y)
         {
 
-            return new Bitmap((int)rect.Width, (int)rect.Height, format);
-        }
-
-        /// <summary>
-        /// Makes the default transparent color transparent for this
-        /// <see cref="System.Drawing.Bitmap" />
-        /// </summary>
-        /// <exception cref="System.InvalidOperationException">
-        /// The image format of the
-        /// <see cref="System.Drawing.Bitmap" /> is an icon format.
-        /// </exception>
-        /// <exception cref="System.Exception">The operation failed.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public void MakeTransparent()
-        {
-            Color pixel = s_defaultTransparentColor;
-            if (base.Height > 0 && base.Width > 0)
-            {
-                pixel = GetPixel(0, base.Size.Height - 1);
-            }
-            if (pixel.A >= byte.MaxValue)
-            {
-                MakeTransparent(pixel);
-            }
-        }
-
-        /// <summary>
-        /// Makes the specified color transparent for this
-        /// <see cref="System.Drawing.Bitmap" />
-        /// </summary>
-        /// <param name="transparentColor">The
-        /// <see cref="System.Drawing.Color" /> structure that represents the color to make transparent.
-        /// </param>
-        /// <exception cref="System.InvalidOperationException">
-        /// The image format of the
-        /// <see cref="System.Drawing.Bitmap" /> is an icon format.
-        /// </exception>
-        /// <exception cref="System.Exception">The operation failed.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public void MakeTransparent(Color transparentColor)
-        {
-
+            return Color.FromArgb(x * y);
         }
 
         /// <summary>
@@ -540,68 +480,57 @@ namespace System.Drawing
         }
 
         /// <summary>
-        /// Unlocks this
-        /// <see cref="System.Drawing.Bitmap" /> from system memory.
-        /// </summary>
-        /// <param name="bitmapdata">A
-        /// <see cref="System.Drawing.Imaging.BitmapData" /> that specifies information about the lock operation.
-        /// </param>
-        /// <exception cref="System.Exception">The operation failed.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public void UnlockBits(BitmapData bitmapdata)
-        {
-
-        }
-
-        /// <summary>
-        /// Gets the color of the specified pixel in this
+        /// Makes the default transparent color transparent for this
         /// <see cref="T:System.Drawing.Bitmap" />.
         /// </summary>
-        /// <param name="x">The x-coordinate of the pixel to retrieve.
-        /// </param>
-        /// <param name="y">The y-coordinate of the pixel to retrieve.
-        /// </param>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.Color" /> structure that represents the color of the specified pixel.
-        /// </returns>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// <paramref name="x" /> is less than 0, or greater than or equal to
-        /// <see cref="P:System.Drawing.Image.Width" />.
-        /// -or-
-        /// <paramref name="y" /> is less than 0, or greater than or equal to
-        /// <see cref="P:System.Drawing.Image.Height" />.
+        /// <exception cref="T:System.InvalidOperationException">The image format of the
+        /// <see cref="T:System.Drawing.Bitmap" /> is an icon format.
         /// </exception>
         /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
-        public Color GetPixel(int x, int y)
+        public void MakeTransparent()
+        {
+            Color pixel = s_defaultTransparentColor;
+            if (base.Height > 0 && base.Width > 0)
+            {
+                pixel = GetPixel(0, base.Size.Height - 1);
+            }
+            if (pixel.A >= byte.MaxValue)
+            {
+                MakeTransparent(pixel);
+            }
+        }
+
+        /// <summary>
+        /// Makes the specified color transparent for this
+        /// <see cref="T:System.Drawing.Bitmap" />.
+        /// </summary>
+        /// <param name="transparentColor">The
+        /// <see cref="T:System.Drawing.Color" /> structure that represents the color to make transparent.
+        /// </param>
+        /// <exception cref="T:System.InvalidOperationException">The image format of the
+        /// <see cref="T:System.Drawing.Bitmap" /> is an icon format.
+        /// </exception>
+        /// <exception cref="T:System.Exception">The operation failed.
+        /// </exception>
+        public void MakeTransparent(Color transparentColor)
         {
 
-            return Color.FromArgb(x * y);
         }
 
         /// <summary>
         /// Sets the color of the specified pixel in this
-        /// <see cref="System.Drawing.Bitmap" />
+        /// <see cref="T:System.Drawing.Bitmap" />.
         /// </summary>
         /// <param name="x">The x-coordinate of the pixel to set.
         /// </param>
         /// <param name="y">The y-coordinate of the pixel to set.
         /// </param>
         /// <param name="color">A
-        /// <see cref="System.Drawing.Color" /> structure that represents the color to assign to the specified pixel.
+        /// <see cref="T:System.Drawing.Color" /> structure that represents the color to assign to the specified pixel.
         /// </param>
-        /// <exception cref="System.Exception">The operation failed.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public void SetPixel(int x, int y, Color color)
         {
 
@@ -625,39 +554,25 @@ namespace System.Drawing
         }
 
         /// <summary>
-        /// Creates a copy of the section of this
-        /// <see cref="T:System.Drawing.Bitmap" /> defined by
-        /// <see cref="T:System.Drawing.Rectangle" /> structure and with a specified
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> enumeration.
+        /// Unlocks this
+        /// <see cref="T:System.Drawing.Bitmap" /> from system memory.
         /// </summary>
-        /// <param name="rect">Defines the portion of this
-        /// <see cref="T:System.Drawing.Bitmap" /> to copy. Coordinates are relative to this
-        /// <see cref="T:System.Drawing.Bitmap" />.
+        /// <param name="bitmapdata">A
+        /// <see cref="T:System.Drawing.Imaging.BitmapData" /> that specifies information about the lock operation.
         /// </param>
-        /// <param name="format">The pixel format for the new
-        /// <see cref="T:System.Drawing.Bitmap" />. This must specify a value that begins with
-        /// <c>Format
-        /// </c>.
-        /// </param>
-        /// <returns>The new
-        /// <see cref="T:System.Drawing.Bitmap" /> that this method creates.
-        /// </returns>
-        /// <exception cref="T:System.OutOfMemoryException">
-        /// <paramref name="rect" /> is outside of the source bitmap bounds.
+        /// <exception cref="T:System.Exception">The operation failed.
         /// </exception>
-        /// <exception cref="T:System.ArgumentException">The height or width of
-        /// <paramref name="rect" /> is 0.
-        /// -or-
-        /// A
-        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> value is specified whose name does not start with Format. For example, specifying
-        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Gdi" /> will cause an
-        /// <see cref="T:System.ArgumentException" />, but
-        /// <see cref="F:System.Drawing.Imaging.PixelFormat.Format48bppRgb" /> will not.
-        /// </exception>
-        public Bitmap Clone(Rectangle rect, PixelFormat format)
+        public void UnlockBits(BitmapData bitmapdata)
         {
 
-            return new Bitmap(rect.Width, rect.Height, format) { PixbufData = (byte[])this.PixbufData.Clone() };
+        }
+
+        private static Stream GetResourceStream(Type type, string resource)
+        {
+
+            Stream manifestResourceStream = type.Module.Assembly.GetManifestResourceStream(type, resource);
+
+            return manifestResourceStream;
         }
     }
 }

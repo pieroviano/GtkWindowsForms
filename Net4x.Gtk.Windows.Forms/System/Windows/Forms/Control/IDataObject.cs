@@ -62,66 +62,6 @@ namespace System.Windows.Forms
         object GetData(Type format);
 
         /// <summary>
-        /// Stores the specified data and its associated format in this instance, using a Boolean value to specify whether the data can be converted to another format.
-        /// </summary>
-        /// <param name="format">
-        /// The format associated with the data. See
-        /// <see cref="!:System.Windows.Forms.DataFormats" /> for predefined formats.
-        /// </param>
-        /// <param name="autoConvert">
-        /// true to allow the data to be converted to another format; otherwise, false.
-        /// </param>
-        /// <param name="data">
-        /// The data to store.
-        /// </param>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        void SetData(string format, bool autoConvert, object data);
-
-        /// <summary>
-        /// Stores the specified data and its associated format in this instance.
-        /// </summary>
-        /// <param name="format">
-        /// The format associated with the data. See
-        /// <see cref="!:System.Windows.Forms.DataFormats" /> for predefined formats.
-        /// </param>
-        /// <param name="data">
-        /// The data to store.
-        /// </param>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        void SetData(string format, object data);
-
-        /// <summary>
-        /// Stores the specified data and its associated class type in this instance.
-        /// </summary>
-        /// <param name="format">
-        /// A
-        /// <see cref="System.Type" /> representing the format associated with the data. See
-        /// <see cref="!:System.Windows.Forms.DataFormats" /> for predefined formats.
-        /// </param>
-        /// <param name="data">
-        /// The data to store.
-        /// </param>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        void SetData(Type format, object data);
-
-        /// <summary>
-        /// Stores the specified data in this instance, using the class of the data for the format.
-        /// </summary>
-        /// <param name="data">
-        /// The data to store.
-        /// </param>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        void SetData(object data);
-
-        /// <summary>
         /// Determines whether data stored in this instance is associated with the specified format, using a Boolean value to determine whether to convert the data to the format.
         /// </summary>
         /// <returns>
@@ -194,5 +134,65 @@ namespace System.Windows.Forms
         /// 1
         /// </filterpriority>
         string[] GetFormats();
+
+        /// <summary>
+        /// Stores the specified data and its associated format in this instance, using a Boolean value to specify whether the data can be converted to another format.
+        /// </summary>
+        /// <param name="format">
+        /// The format associated with the data. See
+        /// <see cref="!:System.Windows.Forms.DataFormats" /> for predefined formats.
+        /// </param>
+        /// <param name="autoConvert">
+        /// true to allow the data to be converted to another format; otherwise, false.
+        /// </param>
+        /// <param name="data">
+        /// The data to store.
+        /// </param>
+        /// <filterpriority>
+        /// 1
+        /// </filterpriority>
+        void SetData(string format, bool autoConvert, object data);
+
+        /// <summary>
+        /// Stores the specified data and its associated format in this instance.
+        /// </summary>
+        /// <param name="format">
+        /// The format associated with the data. See
+        /// <see cref="!:System.Windows.Forms.DataFormats" /> for predefined formats.
+        /// </param>
+        /// <param name="data">
+        /// The data to store.
+        /// </param>
+        /// <filterpriority>
+        /// 1
+        /// </filterpriority>
+        void SetData(string format, object data);
+
+        /// <summary>
+        /// Stores the specified data and its associated class type in this instance.
+        /// </summary>
+        /// <param name="format">
+        /// A
+        /// <see cref="System.Type" /> representing the format associated with the data. See
+        /// <see cref="!:System.Windows.Forms.DataFormats" /> for predefined formats.
+        /// </param>
+        /// <param name="data">
+        /// The data to store.
+        /// </param>
+        /// <filterpriority>
+        /// 1
+        /// </filterpriority>
+        void SetData(Type format, object data);
+
+        /// <summary>
+        /// Stores the specified data in this instance, using the class of the data for the format.
+        /// </summary>
+        /// <param name="data">
+        /// The data to store.
+        /// </param>
+        /// <filterpriority>
+        /// 1
+        /// </filterpriority>
+        void SetData(object data);
     }
 }

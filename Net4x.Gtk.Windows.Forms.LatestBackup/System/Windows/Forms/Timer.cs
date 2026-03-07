@@ -22,132 +22,56 @@ namespace System.Windows.Forms
     {
 
         readonly System.Timers.Timer TimersTimer = new Timers.Timer();
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.Timer" /> class.
-        /// </summary>
+
+        public event EventHandler Tick;
         public Timer()
         {
             TimersTimer.Elapsed += TimersTimer_Elapsed;
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.Timer" /> class together with the specified container.
-        /// </summary>
-        /// <param name="container">An
-        /// <see cref="System.ComponentModel.IContainer" /> that represents the container for the timer.
-        /// </param>
+
         public Timer(IContainer container) : this()
         {
         }
-        private void TimersTimer_Elapsed(object sender, Timers.ElapsedEventArgs e)
-        {
-            if (Tick != null)
-                Gtk.Application.Invoke(Tick);
-        }
-        /// <summary>
-        /// Gets or sets an arbitrary string representing some type of user state.
-        /// </summary>
-        /// <returns>An arbitrary string representing some type of user state.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
+        [DefaultValue(false)]
+
+        public virtual bool Enabled { get => TimersTimer.Enabled; set => TimersTimer.Enabled = value; }
+
+        [DefaultValue(100)]
+        public int Interval { get => (int)TimersTimer.Interval; set => TimersTimer.Interval = value; }
+
         [Bindable(true)]
         [DefaultValue(null)]
         [Localizable(false)]
         [TypeConverter(typeof(StringConverter))]
+
         public object Tag { get; set; }
-        /// <summary>
-        /// Gets or sets whether the timer is running.
-        /// </summary>
-        /// <returns>true if the timer is currently enabled; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        [DefaultValue(false)]
-        public virtual bool Enabled { get => TimersTimer.Enabled; set => TimersTimer.Enabled = value; }
-        /// <summary>
-        /// Gets or sets the time, in milliseconds, before the
-        /// <see cref="System.Windows.Forms.Timer.Tick" /> event is raised relative to the last occurrence of the
-        /// <see cref="System.Windows.Forms.Timer.Tick" /> event.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="System.Int32" /> specifying the number of milliseconds before the
-        /// <see cref="System.Windows.Forms.Timer.Tick" /> event is raised relative to the last occurrence of the
-        /// <see cref="System.Windows.Forms.Timer.Tick" /> event. The value cannot be less than one.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        [DefaultValue(100)]
-        public int Interval { get => (int)TimersTimer.Interval; set => TimersTimer.Interval = value; }
-
-
-        public event EventHandler Tick;
-        /// <summary>
-        /// Starts the timer.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public void Start()
         {
             TimersTimer.Start();
         }
-        /// <summary>
-        /// Stops the timer.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
         public void Stop()
         {
             TimersTimer.Stop();
         }
-        /// <summary>
-        /// Returns a string that represents the
-        /// <see cref="System.Windows.Forms.Timer" />
-        /// </summary>
-        /// <returns>A string that represents the current
-        /// <see cref="System.Windows.Forms.Timer" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public override string ToString() { return "System.Windows.Forms.Timer"; }
-        /// <summary>
-        /// Disposes of the resources, other than memory, used by the timer.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources. false to release only the unmanaged resources.
-        /// </param>
+
         protected override void Dispose(bool disposing)
         {
             TimersTimer.Dispose();
             base.Dispose();
         }
+
         protected new void Dispose()
         {
             Dispose(true);
+        }
+        private void TimersTimer_Elapsed(object sender, Timers.ElapsedEventArgs e)
+        {
+            if (Tick != null)
+                Gtk.Application.Invoke(Tick);
         }
     }
 }

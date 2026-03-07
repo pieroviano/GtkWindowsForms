@@ -12,12 +12,23 @@ namespace System.Windows.Forms
     /// <filterpriority>
     /// 1
     /// </filterpriority>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ComboBox
     {
-        /// <summary>
-        /// Represents the collection of items in a
-        /// <see cref="System.Windows.Forms.ComboBox" />
-        /// </summary>
         public partial class ObjectCollection
         {
             /// <summary>
@@ -26,9 +37,9 @@ namespace System.Windows.Forms
             /// </summary>
             private class EntryEnumerator : IEnumerator
             {
+                private int _current;
 
                 private readonly List<Entry> _entries;
-                private int _current;
 
                 /// <summary>
                 /// Creates a new enumerator that will enumerate over the given state.
@@ -37,6 +48,22 @@ namespace System.Windows.Forms
                 {
                     _entries = entries;
                     _current = -1;
+                }
+
+                /// <summary>
+                /// Retrieves the current value in the enumerator.
+                /// </summary>
+                object IEnumerator.Current
+                {
+                    get
+                    {
+                        if (_current == -1 || _current == _entries.Count)
+                        {
+                            throw new InvalidOperationException("SR.ListEnumCurrentOutOfRange");
+                        }
+
+                        return _entries[_current].Item;
+                    }
                 }
 
                 /// <summary>
@@ -62,22 +89,6 @@ namespace System.Windows.Forms
                 void IEnumerator.Reset()
                 {
                     _current = -1;
-                }
-
-                /// <summary>
-                /// Retrieves the current value in the enumerator.
-                /// </summary>
-                object IEnumerator.Current
-                {
-                    get
-                    {
-                        if (_current == -1 || _current == _entries.Count)
-                        {
-                            throw new InvalidOperationException("SR.ListEnumCurrentOutOfRange");
-                        }
-
-                        return _entries[_current].Item;
-                    }
                 }
             }
         }

@@ -10,212 +10,6 @@ namespace System.Drawing
     /// </filterpriority>
     public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     {
-        /// <summary>
-        /// Gets or sets horizontal alignment of the string..
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.StringAlignment" /> enumeration that specifies the horizontal  alignment of the string.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public StringAlignment Alignment
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Gets the language that is used when local digits are substituted for western digits.
-        /// </summary>
-        /// <returns>
-        /// A National Language Support (NLS) language identifier that identifies the language that will be used when local digits are substituted for western digits. You can pass the
-        /// <see cref="System.Globalization.CultureInfo.LCID" /> property of a
-        /// <see cref="System.Globalization.CultureInfo" /> object as the NLS language identifier. For example, suppose you create a
-        /// <see cref="System.Globalization.CultureInfo" /> object by passing the string "ar-EG" to a
-        /// <see cref="System.Globalization.CultureInfo" /> constructor. If you pass the
-        /// <see cref="System.Globalization.CultureInfo.LCID" /> property of that
-        /// <see cref="System.Globalization.CultureInfo" /> object along with.
-        /// <see cref="System.Drawing.StringDigitSubstitute.Traditional" /> to the
-        /// <see cref="System.Drawing.StringFormat.SetDigitSubstitution(System.Int32,System.Drawing.StringDigitSubstitute)" />
-        /// method, then Arabic-Indic digits will be substituted for western digits at display time.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public int DigitSubstitutionLanguage
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Gets the method to be used for digit substitution.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.StringDigitSubstitute" /> enumeration value that specifies how to substitute characters in a string that cannot be displayed because they are not supported by the current font.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public StringDigitSubstitute DigitSubstitutionMethod
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a
-        /// <see cref="System.Drawing.StringFormatFlags" /> enumeration that contains formatting information.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.StringFormatFlags" /> enumeration that contains formatting information.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public StringFormatFlags FormatFlags
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Gets a generic default
-        /// <see cref="System.Drawing.StringFormat" /> object.
-        /// </summary>
-        /// <returns>The generic default
-        /// <see cref="System.Drawing.StringFormat" /> object.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public static StringFormat GenericDefault
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Gets a generic typographic
-        /// <see cref="System.Drawing.StringFormat" /> object.
-        /// </summary>
-        /// <returns>A generic typographic
-        /// <see cref="System.Drawing.StringFormat" /> object.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public static StringFormat GenericTypographic
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref="System.Drawing.Text.HotkeyPrefix" /> object for this
-        /// <see cref="System.Drawing.StringFormat" /> object.
-        /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Drawing.Text.HotkeyPrefix" /> object for this
-        /// <see cref="System.Drawing.StringFormat" /> object, the default is
-        /// <see cref="System.Drawing.Text.HotkeyPrefix.None" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public HotkeyPrefix HotkeyPrefix
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the vertical alignment of the string.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.StringAlignment" /> enumeration that represents the vertical line alignment.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public StringAlignment LineAlignment
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref="System.Drawing.StringTrimming" /> enumeration for this
-        /// <see cref="System.Drawing.StringFormat" /> object.
-        /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.StringTrimming" /> enumeration that indicates how text drawn with this
-        /// <see cref="System.Drawing.StringFormat" /> object is trimmed when it exceeds the edges of the layout rectangle.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public StringTrimming Trimming
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
 
         /// <summary>
         /// Initializes a new
@@ -269,19 +63,171 @@ namespace System.Drawing
         public StringFormat(StringFormatFlags options, int language)
         {
         }
+        /// <summary>
+        /// Gets or sets horizontal alignment of the string.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.StringAlignment" /> enumeration that specifies the horizontal  alignment of the string.
+        /// </returns>
+        public StringAlignment Alignment
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// Gets the language that is used when local digits are substituted for western digits.
+        /// </summary>
+        /// <returns>A National Language Support (NLS) language identifier that identifies the language that will be used when local digits are substituted for western digits. You can pass the
+        /// <see cref="P:System.Globalization.CultureInfo.LCID" /> property of a
+        /// <see cref="T:System.Globalization.CultureInfo" /> object as the NLS language identifier. For example, suppose you create a
+        /// <see cref="T:System.Globalization.CultureInfo" /> object by passing the string "ar-EG" to a
+        /// <see cref="T:System.Globalization.CultureInfo" /> constructor. If you pass the
+        /// <see cref="P:System.Globalization.CultureInfo.LCID" /> property of that
+        /// <see cref="T:System.Globalization.CultureInfo" /> object along with
+        /// <see cref="F:System.Drawing.StringDigitSubstitute.Traditional" /> to the
+        /// <see cref="M:System.Drawing.StringFormat.SetDigitSubstitution(System.Int32,System.Drawing.StringDigitSubstitute)" /> method, then Arabic-Indic digits will be substituted for western digits at display time.
+        /// </returns>
+        public int DigitSubstitutionLanguage
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets the method to be used for digit substitution.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.StringDigitSubstitute" /> enumeration value that specifies how to substitute characters in a string that cannot be displayed because they are not supported by the current font.
+        /// </returns>
+        public StringDigitSubstitute DigitSubstitutionMethod
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a
+        /// <see cref="T:System.Drawing.StringFormatFlags" /> enumeration that contains formatting information.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.StringFormatFlags" /> enumeration that contains formatting information.
+        /// </returns>
+        public StringFormatFlags FormatFlags
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// Gets a generic default
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
+        /// </summary>
+        /// <returns>The generic default
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
+        /// </returns>
+        public static StringFormat GenericDefault
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets a generic typographic
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
+        /// </summary>
+        /// <returns>A generic typographic
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
+        /// </returns>
+        public static StringFormat GenericTypographic
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the
+        /// <see cref="T:System.Drawing.Text.HotkeyPrefix" /> object for this
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Text.HotkeyPrefix" /> object for this
+        /// <see cref="T:System.Drawing.StringFormat" /> object, the default is
+        /// <see cref="F:System.Drawing.Text.HotkeyPrefix.None" />.
+        /// </returns>
+        public HotkeyPrefix HotkeyPrefix
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the vertical alignment of the string.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.StringAlignment" /> enumeration that represents the vertical line alignment.
+        /// </returns>
+        public StringAlignment LineAlignment
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the
+        /// <see cref="T:System.Drawing.StringTrimming" /> enumeration for this
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.StringTrimming" /> enumeration that indicates how text drawn with this
+        /// <see cref="T:System.Drawing.StringFormat" /> object is trimmed when it exceeds the edges of the layout rectangle.
+        /// </returns>
+        public StringTrimming Trimming
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
         /// <returns>The
-        /// <see cref="System.Drawing.StringFormat" /> object this method creates.
+        /// <see cref="T:System.Drawing.StringFormat" /> object this method creates.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public object Clone()
         {
             throw new System.NotImplementedException();
@@ -289,21 +235,9 @@ namespace System.Drawing
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Dispose()
-        {
-        }
-
-        /// <summary>
-        /// Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.
-        /// </summary>
-        ~StringFormat()
         {
         }
 
@@ -370,16 +304,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Converts this
-        /// <see cref="System.Drawing.StringFormat" /> object to a human-readable string.
+        /// <see cref="T:System.Drawing.StringFormat" /> object to a human-readable string.
         /// </summary>
         /// <returns>A string representation of this
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public override string ToString()
         {
             throw new System.NotImplementedException();

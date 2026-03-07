@@ -10,20 +10,6 @@ namespace System.Windows.Forms
 {
     static internal class ClientUtils
     {
-        public static bool IsCriticalException(Exception ex)
-            => ex is NullReferenceException
-                || ex is StackOverflowException
-                || ex is OutOfMemoryException
-                || ex is ThreadAbortException
-                || ex is IndexOutOfRangeException
-                || ex is AccessViolationException;
-
-        private enum CharType
-        {
-            None,
-            Word,
-            NonWord
-        }
 
         /// <summary>
         /// Imitates the backwards word selection logic of the native SHAutoComplete Ctrl+Backspace handler.
@@ -58,13 +44,30 @@ namespace System.Windows.Forms
 
             return index + 1;
         }
+
+        public static bool IsCriticalException(Exception ex)
+            => ex is NullReferenceException
+                || ex is StackOverflowException
+                || ex is OutOfMemoryException
+                || ex is ThreadAbortException
+                || ex is IndexOutOfRangeException
+                || ex is AccessViolationException;
+
         public static bool IsSecurityOrCriticalException(Exception ex)
         {
             if (ex is SecurityException)
             {
                 return true;
             }
+
             return IsCriticalException(ex);
+        }
+
+        private enum CharType
+        {
+            None,
+            Word,
+            NonWord
         }
     }
 }

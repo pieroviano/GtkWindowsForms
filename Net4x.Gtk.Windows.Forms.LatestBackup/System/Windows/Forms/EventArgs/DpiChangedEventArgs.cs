@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-
 namespace System.Windows.Forms
 {
     /// <summary>
@@ -22,9 +21,9 @@ namespace System.Windows.Forms
 
         }
 
-        public int DeviceDpiOld { get; }
-
         public int DeviceDpiNew { get; }
+
+        public int DeviceDpiOld { get; }
 
         public Rectangle SuggestedRectangle { get; }
 

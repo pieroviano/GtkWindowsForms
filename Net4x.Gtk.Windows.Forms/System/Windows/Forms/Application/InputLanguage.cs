@@ -30,25 +30,13 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the culture of the current input language.
+        /// Returns the culture of the current input language.
         /// </summary>
-        /// <returns>A
-        /// <see cref="System.Globalization.CultureInfo" /> that represents the culture of the current input language.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public CultureInfo Culture => new CultureInfo((int)handle & 0xFFFF);
 
         /// <summary>
         /// Gets or sets the input language for the current thread.
         /// </summary>
-        /// <returns>An
-        /// <see cref="System.Windows.Forms.InputLanguage" /> that represents the input language for the current thread.
-        /// </returns>
-        /// <exception cref="System.ArgumentException">The input language is not recognized by the system.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
         public static InputLanguage CurrentInputLanguage
         {
             get
@@ -66,13 +54,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the default input language for the system.
+        /// Returns the default input language for the system.
         /// </summary>
-        /// <returns>An
-        /// <see cref="System.Windows.Forms.InputLanguage" /> representing the default input language for the system.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public static InputLanguage DefaultInputLanguage
         {
             get
@@ -82,23 +65,13 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the handle for the input language.
+        /// Returns the handle for the input language.
         /// </summary>
-        /// <returns>An
-        /// <see cref="System.IntPtr" /> that represents the handle of this input language.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public IntPtr Handle => handle;
 
         /// <summary>
-        /// Gets a list of all installed input languages.
+        /// Returns a list of all installed input languages.
         /// </summary>
-        /// <returns>An array of
-        /// <see cref="System.Windows.Forms.InputLanguage" /> objects that represent the input languages installed on the computer.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public static InputLanguageCollection InstalledInputLanguages
         {
             get
@@ -116,16 +89,9 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the name of the current keyboard layout as it appears in the regional settings of the operating system on the computer.
+        /// Returns the name of the current keyboard layout as it appears in the Windows
+        /// Regional Settings on the computer.
         /// </summary>
-        /// <returns>The name of the layout.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
-        /// </PermissionSet>
         public string LayoutName
         {
             get
@@ -138,12 +104,6 @@ namespace System.Windows.Forms
         /// <summary>
         /// Specifies whether two input languages are equal.
         /// </summary>
-        /// <returns>true if the two languages are equal; otherwise, false.
-        /// </returns>
-        /// <param name="value">The language to test for equality.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public override bool Equals(object value)
         {
             return (value is InputLanguage other) && (handle == other.handle);
@@ -152,14 +112,6 @@ namespace System.Windows.Forms
         /// <summary>
         /// Returns the input language associated with the specified culture.
         /// </summary>
-        /// <returns>An
-        /// <see cref="System.Windows.Forms.InputLanguage" /> that represents the previously selected input language.
-        /// </returns>
-        /// <param name="culture">The
-        /// <see cref="System.Globalization.CultureInfo" /> that specifies the culture to convert from.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public static InputLanguage FromCulture(CultureInfo culture)
         {
             if (culture == null)
@@ -177,16 +129,13 @@ namespace System.Windows.Forms
                     return lang;
                 }
             }
+
             return DefaultInputLanguage;
         }
 
         /// <summary>
-        /// Returns the hash code for this input language.
+        /// Hash code for this input language.
         /// </summary>
-        /// <returns>The hash code for this input language.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public override int GetHashCode() => unchecked((int)(long)handle);
 
         private static string PadWithZeroes(string input, int length)

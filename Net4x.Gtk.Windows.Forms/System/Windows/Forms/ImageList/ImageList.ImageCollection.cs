@@ -20,26 +20,85 @@ namespace System.Windows.Forms
     /// </summary>
     /// <filterpriority>2
     /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
     public sealed partial class ImageList
     {
-        /// <summary>
-        /// Encapsulates the collection of
-        /// <see cref="System.Drawing.Image" /> objects in an
-        /// <see cref="System.Windows.Forms.ImageList" />
-        /// </summary>
+
         public sealed partial class ImageCollection : IList
         {
-
-            private readonly ImageList _owner;
             private readonly List<ImageInfo> _imageInfoCollection = new List<ImageInfo>();
+
+            // Indicates whether images are added in a batch.
+            private bool _isBatchAdd;
 
             /// A caching mechanism for key accessor
             /// We use an index here rather than control so that we don't have lifetime
             /// issues by holding on to extra references.
             private int _lastAccessedIndex = -1;
 
-            // Indicates whether images are added in a batch.
-            private bool _isBatchAdd;
+            private readonly ImageList _owner;
+
+            internal ImageCollection(ImageList owner)
+            {
+                _owner = owner;
+            }
+
+            [Browsable(false)]
+            public int Count
+            {
+                get
+                {
+                    return _imageInfoCollection.Count;
+                }
+            }
+
+            /// <summary>
+            /// Determines if the ImageList has any images, without forcing a handle creation.
+            /// </summary>
+            public bool Empty => Count == 0;
+
+            public bool IsReadOnly => false;
 
             /// <summary>
             /// Returns the keys in the image list - images without keys return String.Empty.
@@ -67,42 +126,11 @@ namespace System.Windows.Forms
                 }
             }
 
-            internal ImageCollection(ImageList owner)
-            {
-                _owner = owner;
-            }
-
-            internal void ResetKeys()
-            {
-                _imageInfoCollection.Clear();
-
-                for (int i = 0; i < Count; i++)
-                {
-                    _imageInfoCollection.Add(new ImageInfo());
-                }
-            }
-
-            [Browsable(false)]
-            public int Count
-            {
-                get
-                {
-                    return _imageInfoCollection.Count;
-                }
-            }
-
-            object ICollection.SyncRoot => this;
+            bool IList.IsFixedSize => false;
 
             bool ICollection.IsSynchronized => false;
 
-            bool IList.IsFixedSize => false;
-
-            public bool IsReadOnly => false;
-
-            /// <summary>
-            /// Determines if the ImageList has any images, without forcing a handle creation.
-            /// </summary>
-            public bool Empty => Count == 0;
+            object ICollection.SyncRoot => this;
 
             [Browsable(false)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -119,15 +147,6 @@ namespace System.Windows.Forms
                         Bitmap bitmap = value as Bitmap;
                         _owner._originals[index] = new Original(bitmap.Clone(), OriginalOptions.OwnsImage);
                     }
-                }
-            }
-
-            object? IList.this[int index]
-            {
-                get => this[index];
-                set
-                {
-
                 }
             }
 
@@ -149,6 +168,15 @@ namespace System.Windows.Forms
                     }
 
                     return this[index];
+                }
+            }
+
+            object? IList.this[int index]
+            {
+                get => this[index];
+                set
+                {
+
                 }
             }
 
@@ -183,12 +211,6 @@ namespace System.Windows.Forms
                 Add(original, imageInfo);
             }
 
-            int IList.Add(object? value)
-            {
-                Add((Image)value);
-                return Count - 1;
-            }
-
             public void Add(Icon value)
             {
                 // Don't clone it now is a breaking change, so we have to keep track of this specific icon and dispose that
@@ -214,15 +236,8 @@ namespace System.Windows.Forms
             {
 
                 Original original = new Original(value, OriginalOptions.CustomTransparentColor, transparentColor);
-                return Add(original, null);
-            }
 
-            private int Add(Original original, ImageInfo? imageInfo)
-            {
-                _imageInfoCollection.Add(imageInfo ?? new ImageInfo());
-                _owner._originals.Add(original);
-                _owner.OnChangeHandle(EventArgs.Empty);
-                return _imageInfoCollection.Count - 1;
+                return Add(original, null);
             }
 
             public void AddRange(params Image[] images)
@@ -259,64 +274,10 @@ namespace System.Windows.Forms
             [EditorBrowsable(EditorBrowsableState.Never)]
             public bool Contains(Image image) => throw new NotSupportedException();
 
-            bool IList.Contains(object? value)
-            {
-                if (value is Image image)
-                {
-                    return Contains(image);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
             /// <summary>
             /// Returns true if the collection contains an item with the specified key, false otherwise.
             /// </summary>
             public bool ContainsKey(string key) => IsValidIndex(IndexOfKey(key));
-
-            [EditorBrowsable(EditorBrowsableState.Never)]
-            public int IndexOf(Image image) => throw new NotSupportedException();
-
-            int IList.IndexOf(object? value)
-            {
-                if (value is Image image)
-                {
-                    return IndexOf(image);
-
-                }
-                return -1;
-            }
-
-            /// <summary>
-            /// The zero-based index of the first occurrence of value within the entire CollectionBase,
-            /// if found; otherwise, -1.
-            /// </summary>
-            public int IndexOfKey(string key)
-            {
-                if (string.IsNullOrEmpty(key))
-                {
-                    // We don't support empty or null keys.
-                    return -1;
-                }
-                return _imageInfoCollection.FindIndex(o => o.Name == key);
-            }
-
-            void IList.Insert(int index, object? value) => throw new NotSupportedException();
-
-            /// <summary>
-            /// Determines if the index is valid for the collection.
-            /// </summary>
-            private bool IsValidIndex(int index) => index >= 0 && index < Count;
-
-            void ICollection.CopyTo(Array dest, int index)
-            {
-                for (int i = 0; i < Count; ++i)
-                {
-                    dest.SetValue(_owner.GetBitmap(i), index++);
-                }
-            }
 
             public IEnumerator GetEnumerator()
             {
@@ -330,17 +291,25 @@ namespace System.Windows.Forms
             }
 
             [EditorBrowsable(EditorBrowsableState.Never)]
-            public void Remove(Image image) => throw new NotSupportedException();
+            public int IndexOf(Image image) => throw new NotSupportedException();
 
-            void IList.Remove(object? value)
+            /// <summary>
+            /// The zero-based index of the first occurrence of value within the entire CollectionBase,
+            /// if found; otherwise, -1.
+            /// </summary>
+            public int IndexOfKey(string key)
             {
-                if (value is Image image)
+                if (string.IsNullOrEmpty(key))
                 {
-                    Remove(image);
-
-                    _owner.OnChangeHandle(EventArgs.Empty);
+                    // We don't support empty or null keys.
+                    return -1;
                 }
+
+                return _imageInfoCollection.FindIndex(o => o.Name == key);
             }
+
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public void Remove(Image image) => throw new NotSupportedException();
 
             public void RemoveAt(int index)
             {
@@ -385,6 +354,80 @@ namespace System.Windows.Forms
                     }
                 }
             }
+
+            internal void ResetKeys()
+            {
+                _imageInfoCollection.Clear();
+
+                for (int i = 0; i < Count; i++)
+                {
+                    _imageInfoCollection.Add(new ImageInfo());
+                }
+            }
+
+            int IList.Add(object? value)
+            {
+                Add((Image)value);
+
+                return Count - 1;
+            }
+
+            bool IList.Contains(object? value)
+            {
+                if (value is Image image)
+                {
+                    return Contains(image);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            void ICollection.CopyTo(Array dest, int index)
+            {
+                for (int i = 0; i < Count; ++i)
+                {
+                    dest.SetValue(_owner.GetBitmap(i), index++);
+                }
+            }
+
+            int IList.IndexOf(object? value)
+            {
+                if (value is Image image)
+                {
+                    return IndexOf(image);
+
+                }
+
+                return -1;
+            }
+
+            void IList.Insert(int index, object? value) => throw new NotSupportedException();
+
+            void IList.Remove(object? value)
+            {
+                if (value is Image image)
+                {
+                    Remove(image);
+
+                    _owner.OnChangeHandle(EventArgs.Empty);
+                }
+            }
+
+            private int Add(Original original, ImageInfo? imageInfo)
+            {
+                _imageInfoCollection.Add(imageInfo ?? new ImageInfo());
+                _owner._originals.Add(original);
+                _owner.OnChangeHandle(EventArgs.Empty);
+
+                return _imageInfoCollection.Count - 1;
+            }
+
+            /// <summary>
+            /// Determines if the index is valid for the collection.
+            /// </summary>
+            private bool IsValidIndex(int index) => index >= 0 && index < Count;
         }
     }
 }

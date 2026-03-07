@@ -946,52 +946,44 @@ namespace System.Drawing.Imaging
 
         }
 
-        private Metafile(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-
         internal Metafile(IntPtr ptr)
         {
             SetNativeImage(ptr);
         }
 
+        private Metafile(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+
         /// <summary>
-        /// Plays an individual metafile record.
+        /// Returns a Windows handle to an enhanced
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
         /// </summary>
-        /// <param name="recordType">Element of the
-        /// <see cref="T:System.Drawing.Imaging.EmfPlusRecordType" /> that specifies the type of metafile record being played.
-        /// </param>
-        /// <param name="flags">A set of flags that specify attributes of the record.
-        /// </param>
-        /// <param name="dataSize">The number of bytes in the record data.
-        /// </param>
-        /// <param name="data">An array of bytes that contains the record data.
-        /// </param>
-        public void PlayRecord(EmfPlusRecordType recordType, int flags, int dataSize, byte[] data)
+        /// <returns>A Windows handle to this enhanced
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
+        /// </returns>
+        public IntPtr GetHenhmetafile()
         {
 
+            return IntPtr.Zero;
         }
 
         /// <summary>
         /// Returns the
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with the specified
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with the specified
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
         /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with the specified
-        /// <see cref="System.Drawing.Imaging.Metafile" />
-        /// </returns>
         /// <param name="hmetafile">The handle to the
-        /// <see cref="System.Drawing.Imaging.Metafile" /> for which to return a header.
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> for which to return a header.
         /// </param>
         /// <param name="wmfHeader">A
-        /// <see cref="System.Drawing.Imaging.WmfPlaceableFileHeader" />
+        /// <see cref="T:System.Drawing.Imaging.WmfPlaceableFileHeader" />.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with the specified
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
+        /// </returns>
         public static MetafileHeader GetMetafileHeader(IntPtr hmetafile, WmfPlaceableFileHeader wmfHeader)
         {
             MetafileHeader metafileHeader = new MetafileHeader
@@ -1004,20 +996,16 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns the
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with the specified
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with the specified
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
         /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with the specified
-        /// <see cref="System.Drawing.Imaging.Metafile" />
-        /// </returns>
         /// <param name="henhmetafile">The handle to the enhanced
-        /// <see cref="System.Drawing.Imaging.Metafile" /> for which a header is returned.
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> for which a header is returned.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with the specified
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
+        /// </returns>
         public static MetafileHeader GetMetafileHeader(IntPtr henhmetafile)
         {
             MetafileHeader metafileHeader = new MetafileHeader
@@ -1030,22 +1018,17 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns the
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with the specified
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with the specified
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
         /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with the specified
-        /// <see cref="System.Drawing.Imaging.Metafile" />
-        /// </returns>
-        /// <param name="fileName">
-        /// A
-        /// <see cref="System.String" /> containing the name of the
-        /// <see cref="System.Drawing.Imaging.Metafile" /> for which a header is retrieved.
+        /// <param name="fileName">A
+        /// <see cref="T:System.String" /> containing the name of the
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> for which a header is retrieved.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with the specified
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
+        /// </returns>
         public static MetafileHeader GetMetafileHeader(string fileName)
         {
             System.IO.Path.GetFullPath(fileName);
@@ -1075,22 +1058,17 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns the
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with the specified
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with the specified
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
         /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with the specified
-        /// <see cref="System.Drawing.Imaging.Metafile" />
-        /// </returns>
-        /// <param name="stream">
-        /// A
-        /// <see cref="System.IO.Stream" /> containing the
-        /// <see cref="System.Drawing.Imaging.Metafile" /> for which a header is retrieved.
+        /// <param name="stream">A
+        /// <see cref="T:System.IO.Stream" /> containing the
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> for which a header is retrieved.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with the specified
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
+        /// </returns>
         public static MetafileHeader GetMetafileHeader(Stream stream)
         {
             IntPtr intPtr = Marshal.AllocHGlobal(Marshal.SizeOf<MetafileHeaderEmf>());
@@ -1127,17 +1105,13 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns the
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with this
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with this
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
         /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Drawing.Imaging.MetafileHeader" /> associated with this
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Imaging.MetafileHeader" /> associated with this
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public MetafileHeader GetMetafileHeader()
         {
             IntPtr intPtr = Marshal.AllocHGlobal(Marshal.SizeOf<MetafileHeaderEmf>());
@@ -1165,19 +1139,20 @@ namespace System.Drawing.Imaging
         }
 
         /// <summary>
-        /// Returns a Windows handle to an enhanced
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// Plays an individual metafile record.
         /// </summary>
-        /// <returns>A Windows handle to this enhanced
-        /// <see cref="System.Drawing.Imaging.Metafile" />
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public IntPtr GetHenhmetafile()
+        /// <param name="recordType">Element of the
+        /// <see cref="T:System.Drawing.Imaging.EmfPlusRecordType" /> that specifies the type of metafile record being played.
+        /// </param>
+        /// <param name="flags">A set of flags that specify attributes of the record.
+        /// </param>
+        /// <param name="dataSize">The number of bytes in the record data.
+        /// </param>
+        /// <param name="data">An array of bytes that contains the record data.
+        /// </param>
+        public void PlayRecord(EmfPlusRecordType recordType, int flags, int dataSize, byte[] data)
         {
 
-            return IntPtr.Zero;
         }
     }
 }

@@ -5,11 +5,14 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ScrollbarBase<T> : Gtk.Scrollbar, IControlGtk
     {
+        internal ScrollbarBase(Orientation orientation) : base(orientation, new Gtk.Adjustment(0, 0, 100, 1, 10, 0))
+        {
+            this.Override = new GtkControlOverride(this);
+        }
         public new static GType GType
         {
             get
@@ -18,11 +21,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             }
         }
 
-
         public GtkControlOverride Override { get; set; }
-        internal ScrollbarBase(Orientation orientation) : base(orientation, new Gtk.Adjustment(0, 0, 100, 1, 10, 0))
-        {
-            this.Override = new GtkControlOverride(this);
-        }
     }
 }

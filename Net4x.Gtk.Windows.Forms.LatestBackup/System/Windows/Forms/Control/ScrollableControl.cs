@@ -17,80 +17,27 @@ namespace System.Windows.Forms
 
         protected const int ScrollStateAutoScrolling = 1;
 
-        protected const int ScrollStateHScrollVisible = 2;
+        protected const int ScrollStateFullDrag = 16;
 
-        protected const int ScrollStateVScrollVisible = 4;
+        protected const int ScrollStateHScrollVisible = 2;
 
         protected const int ScrollStateUserHasScrolled = 8;
 
-        protected const int ScrollStateFullDrag = 16;
+        protected const int ScrollStateVScrollVisible = 4;
 
+        private bool _AutoScroll;
 
         private IScrollableBoxBase scrollbase;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ScrollableControl" /> class.
-        /// </summary>
+
+        public virtual event ScrollEventHandler Scroll
+        {
+            add { if (scrollbase != null) { scrollbase.Scroll += value; } }
+            remove { if (scrollbase != null) { scrollbase.Scroll -= value; } }
+        }
         public ScrollableControl() : base()
         {
             scrollbase = GtkControl as IScrollableBoxBase;
         }
-        public void SetScrolledWindow(IScrollableBoxBase scrolledwindow)
-        {
-            scrollbase = scrolledwindow;
-        }
-        /// <summary>
-        /// Gets the rectangle that represents the virtual display area of the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Rectangle" /> that represents the display area of the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public override Rectangle DisplayRectangle { get; }
-        /// <summary>
-        /// Gets or sets the minimum size of the auto-scroll.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Size" /> that determines the minimum size of the virtual area through which the user can scroll.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public Size AutoScrollMinSize { get; set; }
-        /// <summary>
-        /// Gets or sets the location of the auto-scroll position.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Point" /> that represents the auto-scroll position in pixels.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public Point AutoScrollPosition { get; set; }
-        /// <summary>
-        /// Gets or sets the size of the auto-scroll margin.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Size" /> that represents the height and width of the auto-scroll margin in pixels.
-        /// </returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">The
-        /// <see cref="System.Drawing.Size.Height" /> or
-        /// <see cref="System.Drawing.Size.Width" /> value assigned is less than 0.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public Size AutoScrollMargin { get; set; }
-
-        private bool _AutoScroll;
-        /// <summary>
-        /// Gets or sets a value indicating whether the container enables the user to scroll to any controls placed outside of its visible boundaries.
-        /// </summary>
-        /// <returns>true if the container enables auto-scrolling; otherwise, false. The default value is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool AutoScroll
         {
             get => _AutoScroll;
@@ -101,6 +48,13 @@ namespace System.Windows.Forms
                     if (scrollbase != null) { scrollbase.AutoScroll = value; }
             }
         }
+
+        public Size AutoScrollMargin { get; set; }
+
+        public Size AutoScrollMinSize { get; set; }
+
+        public Point AutoScrollPosition { get; set; }
+
         public override bool AutoSize
         {
             get => base.AutoSize;
@@ -117,26 +71,18 @@ namespace System.Windows.Forms
                 }
             }
         }
-        /// <summary>
-        /// Gets or sets a value indicating whether the vertical scroll bar is visible.
-        /// </summary>
-        /// <returns>true if the vertical scroll bar is visible; otherwise, false.
-        /// </returns>
+
+        public override Rectangle DisplayRectangle { get; }
+        protected bool HScroll { get => scrollbase.HScroll; set => scrollbase.HScroll = value; }
+
         //public VScrollProperties VerticalScroll { get; }
         //public DockPaddingEdges DockPadding { get; }
         //public HScrollProperties HorizontalScroll { get; }
-        protected bool VScroll { get => scrollbase.VScroll; set => scrollbase.VScroll = value; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the horizontal scroll bar is visible.
-        /// </summary>
-        /// <returns>true if the horizontal scroll bar is visible; otherwise, false.
-        /// </returns>
-        protected bool HScroll { get => scrollbase.HScroll; set => scrollbase.HScroll = value; }
 
-        public virtual event ScrollEventHandler Scroll
+        protected bool VScroll { get => scrollbase.VScroll; set => scrollbase.VScroll = value; }
+        public void SetScrolledWindow(IScrollableBoxBase scrolledwindow)
         {
-            add { if (scrollbase != null) { scrollbase.Scroll += value; } }
-            remove { if (scrollbase != null) { scrollbase.Scroll -= value; } }
+            scrollbase = scrolledwindow;
         }
     }
 }

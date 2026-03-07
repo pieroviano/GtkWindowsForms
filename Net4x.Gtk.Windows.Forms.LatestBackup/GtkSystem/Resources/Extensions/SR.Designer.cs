@@ -10,7 +10,7 @@
 namespace GtkSystem
 {
     using System;
-    
+
     
     /// <summary>
     /// A strongly-typed resource class, for looking up localized strings, etc.
@@ -24,33 +24,192 @@ namespace GtkSystem
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class SR
     {
-        
-        private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
+        private static global::System.Resources.ResourceManager resourceMan;
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal SR()
         {
         }
-        
+
         /// <summary>
-        /// Returns the cached ResourceManager instance used by this class.
+        /// Looks up a localized string similar to The ResourceReader class does not know how to read this version of .resources files. Expected version: {0}  This file: {1}.
         /// </summary>
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
+        internal static string Arg_ResourceFileUnsupportedVersion
         {
             get
             {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GtkSystem.SR", typeof(SR).Assembly);
-                    resourceMan = temp;
-                }
-                return resourceMan;
+                return ResourceManager.GetString("Arg_ResourceFileUnsupportedVersion", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        /// Looks up a localized string similar to Stream was not readable.
+        /// </summary>
+        internal static string Argument_StreamNotReadable
+        {
+            get
+            {
+                return ResourceManager.GetString("Argument_StreamNotReadable", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Stream was not writable..
+        /// </summary>
+        internal static string Argument_StreamNotWritable
+        {
+            get
+            {
+                return ResourceManager.GetString("Argument_StreamNotWritable", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Stream length must be non-negative and less than 2^31 - 1 - origin..
+        /// </summary>
+        internal static string ArgumentOutOfRange_StreamLength
+        {
+            get
+            {
+                return ResourceManager.GetString("ArgumentOutOfRange_StreamLength", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file.  The specified type doesn't exist..
+        /// </summary>
+        internal static string BadImageFormat_InvalidType
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_InvalidType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file. String length must be non-negative..
+        /// </summary>
+        internal static string BadImageFormat_NegativeStringLength
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_NegativeStringLength", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file.  The specified data length '{0}' is not a valid position in the stream..
+        /// </summary>
+        internal static string BadImageFormat_ResourceDataLengthInvalid
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_ResourceDataLengthInvalid", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file. A resource name extends past the end of the stream..
+        /// </summary>
+        internal static string BadImageFormat_ResourceNameCorrupted
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_ResourceNameCorrupted", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file. The resource name for name index {0} extends past the end of the stream..
+        /// </summary>
+        internal static string BadImageFormat_ResourceNameCorrupted_NameIndex
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_ResourceNameCorrupted_NameIndex", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file. Invalid offset '{0}' into data section..
+        /// </summary>
+        internal static string BadImageFormat_ResourcesDataInvalidOffset
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_ResourcesDataInvalidOffset", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file. Unable to read resources from this file because of invalid header information. Try regenerating the .resources file..
+        /// </summary>
+        internal static string BadImageFormat_ResourcesHeaderCorrupted
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_ResourcesHeaderCorrupted", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file. String for name index '{0}' extends past the end of the file..
+        /// </summary>
+        internal static string BadImageFormat_ResourcesIndexTooLong
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_ResourcesIndexTooLong", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file. Invalid offset '{0}' into name section..
+        /// </summary>
+        internal static string BadImageFormat_ResourcesNameInvalidOffset
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_ResourcesNameInvalidOffset", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file. Resource name extends past the end of the file..
+        /// </summary>
+        internal static string BadImageFormat_ResourcesNameTooLong
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_ResourcesNameTooLong", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to The type serialized in the .resources file was not the same type that the .resources file said it contained. Expected '{0}' but read '{1}'..
+        /// </summary>
+        internal static string BadImageFormat_ResType_SerBlobMismatch
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_ResType_SerBlobMismatch", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Corrupt .resources file.  The specified type doesn't match the available data in the stream..
+        /// </summary>
+        internal static string BadImageFormat_TypeMismatch
+        {
+            get
+            {
+                return ResourceManager.GetString("BadImageFormat_TypeMismatch", resourceCulture);
+            }
+        }
+
         /// <summary>
         /// Overrides the current thread's CurrentUICulture property for all
         /// resource lookups using this strongly typed resource class.
@@ -67,183 +226,7 @@ namespace GtkSystem
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        /// Looks up a localized string similar to The ResourceReader class does not know how to read this version of .resources files. Expected version: {0}  This file: {1}.
-        /// </summary>
-        internal static string Arg_ResourceFileUnsupportedVersion
-        {
-            get
-            {
-                return ResourceManager.GetString("Arg_ResourceFileUnsupportedVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Stream was not readable.
-        /// </summary>
-        internal static string Argument_StreamNotReadable
-        {
-            get
-            {
-                return ResourceManager.GetString("Argument_StreamNotReadable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Stream was not writable..
-        /// </summary>
-        internal static string Argument_StreamNotWritable
-        {
-            get
-            {
-                return ResourceManager.GetString("Argument_StreamNotWritable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Stream length must be non-negative and less than 2^31 - 1 - origin..
-        /// </summary>
-        internal static string ArgumentOutOfRange_StreamLength
-        {
-            get
-            {
-                return ResourceManager.GetString("ArgumentOutOfRange_StreamLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file.  The specified type doesn't exist..
-        /// </summary>
-        internal static string BadImageFormat_InvalidType
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_InvalidType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file. String length must be non-negative..
-        /// </summary>
-        internal static string BadImageFormat_NegativeStringLength
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_NegativeStringLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file.  The specified data length '{0}' is not a valid position in the stream..
-        /// </summary>
-        internal static string BadImageFormat_ResourceDataLengthInvalid
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_ResourceDataLengthInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file. A resource name extends past the end of the stream..
-        /// </summary>
-        internal static string BadImageFormat_ResourceNameCorrupted
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_ResourceNameCorrupted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file. The resource name for name index {0} extends past the end of the stream..
-        /// </summary>
-        internal static string BadImageFormat_ResourceNameCorrupted_NameIndex
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_ResourceNameCorrupted_NameIndex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file. Invalid offset '{0}' into data section..
-        /// </summary>
-        internal static string BadImageFormat_ResourcesDataInvalidOffset
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_ResourcesDataInvalidOffset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file. Unable to read resources from this file because of invalid header information. Try regenerating the .resources file..
-        /// </summary>
-        internal static string BadImageFormat_ResourcesHeaderCorrupted
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_ResourcesHeaderCorrupted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file. String for name index '{0}' extends past the end of the file..
-        /// </summary>
-        internal static string BadImageFormat_ResourcesIndexTooLong
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_ResourcesIndexTooLong", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file. Invalid offset '{0}' into name section..
-        /// </summary>
-        internal static string BadImageFormat_ResourcesNameInvalidOffset
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_ResourcesNameInvalidOffset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file. Resource name extends past the end of the file..
-        /// </summary>
-        internal static string BadImageFormat_ResourcesNameTooLong
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_ResourcesNameTooLong", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to The type serialized in the .resources file was not the same type that the .resources file said it contained. Expected '{0}' but read '{1}'..
-        /// </summary>
-        internal static string BadImageFormat_ResType_SerBlobMismatch
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_ResType_SerBlobMismatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Looks up a localized string similar to Corrupt .resources file.  The specified type doesn't match the available data in the stream..
-        /// </summary>
-        internal static string BadImageFormat_TypeMismatch
-        {
-            get
-            {
-                return ResourceManager.GetString("BadImageFormat_TypeMismatch", resourceCulture);
-            }
-        }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Too many bytes in what should have been a 7 bit encoded Int32..
         /// </summary>
@@ -254,7 +237,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("Format_Bad7BitInt32", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Enumeration already finished..
         /// </summary>
@@ -265,7 +248,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("InvalidOperation_EnumEnded", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Enumeration has not started. Call MoveNext..
         /// </summary>
@@ -276,7 +259,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("InvalidOperation_EnumNotStarted", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Resource was of type '{0}' instead of String - call GetObject instead..
         /// </summary>
@@ -287,7 +270,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("InvalidOperation_ResourceNotString_Type", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to The resource writer has already been closed and cannot be edited..
         /// </summary>
@@ -298,7 +281,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("InvalidOperation_ResourceWriterSaved", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to This platform does not support binary serialized resources..
         /// </summary>
@@ -309,7 +292,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("NotSupported_BinarySerializedResources", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Cannot read resources that depend on serialization..
         /// </summary>
@@ -320,7 +303,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("NotSupported_ResourceObjectSerialization", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Stream does not support seeking..
         /// </summary>
@@ -331,7 +314,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("NotSupported_UnseekableStream", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to This .resources file should not be read with this reader. The resource reader type is "{0}"..
         /// </summary>
@@ -342,7 +325,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("NotSupported_WrongResourceReader_Type", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Cannot access a closed resource set..
         /// </summary>
@@ -353,7 +336,25 @@ namespace GtkSystem
                 return ResourceManager.GetString("ObjectDisposed_ResourceSet", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        /// Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GtkSystem.SR", typeof(SR).Assembly);
+                    resourceMan = temp;
+                }
+
+                return resourceMan;
+            }
+        }
+
         /// <summary>
         /// Looks up a localized string similar to ResourceReader is closed..
         /// </summary>
@@ -364,7 +365,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("ResourceReaderIsClosed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Stream is not a valid resource file..
         /// </summary>
@@ -375,7 +376,7 @@ namespace GtkSystem
                 return ResourceManager.GetString("Resources_StreamNotValid", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Could not load a converter for type {0}..
         /// </summary>

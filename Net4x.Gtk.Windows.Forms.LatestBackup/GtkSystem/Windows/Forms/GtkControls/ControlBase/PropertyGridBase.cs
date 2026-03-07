@@ -10,13 +10,12 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
     {
-
-        public GtkControlOverride Override { get; set; }
+        public Gtk.ScrolledWindow child1 = new Gtk.ScrolledWindow();
 
         public Gtk.Box child2 = new Gtk.Box(Gtk.Orientation.Vertical, 2);
-        public Gtk.ScrolledWindow child1 = new Gtk.ScrolledWindow();
-        Gtk.Label titleLabel = new Gtk.Label("name") { Xalign = 0, Yalign = 0 };
         Gtk.Label descriptionLabel = new Gtk.Label("description") { Xalign = 0, Yalign = 0 };
+
+        Gtk.Label titleLabel = new Gtk.Label("name") { Xalign = 0, Yalign = 0 };
         public PropertyGridBase() : base(Gtk.Orientation.Vertical)
         {
             this.Override = new GtkControlOverride(this);
@@ -34,6 +33,8 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.Pack1(child1, true, true);
             this.Pack2(child2, false, true);
         }
+
+        public GtkControlOverride Override { get; set; }
 
         public void ShowDescription(string title, string description)
         {

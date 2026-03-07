@@ -15,6 +15,7 @@ namespace System.Windows.Forms
     {
 
         private int _height;
+
         private int _minimumHeight;
 
         internal DataGridViewRowHeightInfoNeededEventArgs()
@@ -23,12 +24,7 @@ namespace System.Windows.Forms
             _height = -1;
             _minimumHeight = -1;
         }
-        /// <summary>
-        /// Gets the index of the row associated with this
-        /// <see cref="System.Windows.Forms.DataGridViewRowHeightInfoNeededEventArgs" />
-        /// </summary>
-        /// <returns>The zero-based index of the row the event occurred for.
-        /// </returns>
+
         public int RowIndex { get; private set; }
 
         //        _height = value;

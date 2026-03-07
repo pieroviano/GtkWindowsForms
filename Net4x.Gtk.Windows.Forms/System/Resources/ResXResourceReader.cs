@@ -18,39 +18,119 @@ namespace System.Resources
     /// <summary>
     /// Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
     /// </summary>
+    /// Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+    /// </summary>
     public partial class ResXResourceReader : IResourceReader
     {
-
-        private readonly string _fileName;
-
-        private TextReader _reader;
-
-        private Stream _stream;
-
-        private string _fileContents;
+        private readonly IAliasResolver _aliasResolver;
 
         private readonly AssemblyName[] _assemblyNames;
 
         private string _basePath;
 
+        private string _fileContents;
+
+        private readonly string _fileName;
+
         private bool _isReaderDirty;
 
-        private readonly ITypeResolutionService _typeResolver;
-        private readonly IAliasResolver _aliasResolver;
-
+        private TextReader _reader;
 
         private ListDictionary _resData;
-
-        private ListDictionary _resMetadata;
-
-        private string _resHeaderVersion;
 
         private string _resHeaderMimeType;
 
         private string _resHeaderReaderType;
 
+        private string _resHeaderVersion;
+
         private string _resHeaderWriterType;
+
+        private ListDictionary _resMetadata;
+
+        private Stream _stream;
+
+        private readonly ITypeResolutionService _typeResolver;
+
         private bool _useResXDataNodes;
+
+        public ResXResourceReader(string fileName) : this(fileName, (ITypeResolutionService)null, null)
+        {
+        }
+
+        public ResXResourceReader(string fileName, ITypeResolutionService typeResolver) : this(fileName, typeResolver, null)
+        {
+        }
+
+        public ResXResourceReader(TextReader reader) : this(reader, (ITypeResolutionService)null, null)
+        {
+        }
+
+        public ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver) : this(reader, typeResolver, (IAliasResolver)null)
+        {
+        }
+
+        public ResXResourceReader(Stream stream) : this(stream, (ITypeResolutionService)null, (IAliasResolver)null)
+        {
+        }
+
+        public ResXResourceReader(Stream stream, ITypeResolutionService typeResolver) : this(stream, typeResolver, (IAliasResolver)null)
+        {
+        }
+
+        public ResXResourceReader(Stream stream, AssemblyName[] assemblyNames) : this(stream, assemblyNames, (IAliasResolver)null)
+        {
+        }
+
+        public ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames) : this(reader, assemblyNames, (IAliasResolver)null)
+        {
+        }
+
+        public ResXResourceReader(string fileName, AssemblyName[] assemblyNames) : this(fileName, assemblyNames, (IAliasResolver)null)
+        {
+        }
+
+        internal ResXResourceReader(string fileName, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
+        {
+            _fileName = fileName;
+            _typeResolver = typeResolver;
+            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
+        }
+
+        internal ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
+        {
+            _reader = reader;
+            _typeResolver = typeResolver;
+            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
+        }
+
+        internal ResXResourceReader(Stream stream, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
+        {
+            _stream = stream;
+            _typeResolver = typeResolver;
+            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
+        }
+
+        internal ResXResourceReader(Stream stream, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
+        {
+            _stream = stream;
+            _assemblyNames = assemblyNames;
+            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
+        }
+
+        internal ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
+        {
+            _reader = reader;
+            _assemblyNames = assemblyNames;
+            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
+        }
+
+        internal ResXResourceReader(string fileName, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
+        {
+            _fileName = fileName;
+            _assemblyNames = assemblyNames;
+            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
+        }
 
         private ResXResourceReader(ITypeResolutionService typeResolver)
         {
@@ -63,161 +143,10 @@ namespace System.Resources
             _assemblyNames = assemblyNames;
             _aliasResolver = new ReaderAliasResolver();
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" /> class for the specified resource file.
-        /// </summary>
-        /// <param name="fileName">The path of the resource file to read.
-        /// </param>
-        public ResXResourceReader(string fileName) : this(fileName, (ITypeResolutionService)null, null)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" /> class using a file name and a type resolution service.
-        /// </summary>
-        /// <param name="fileName">The name of an XML resource file that contains resources.
-        /// </param>
-        /// <param name="typeResolver">An object that resolves type names specified in a resource.
-        /// </param>
-        public ResXResourceReader(string fileName, ITypeResolutionService typeResolver) : this(fileName, typeResolver, null)
-        {
-        }
-
-        internal ResXResourceReader(string fileName, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
-        {
-            _fileName = fileName;
-            _typeResolver = typeResolver;
-            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
-        }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" /> class for the specified
-        /// <see cref="System.IO.TextReader" />
-        /// </summary>
-        /// <param name="reader">A text input stream that contains resources.
-        /// </param>
-        public ResXResourceReader(TextReader reader) : this(reader, (ITypeResolutionService)null, null)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" /> class using a text stream reader and a type resolution service.
-        /// </summary>
-        /// <param name="reader">A text stream reader that contains resources.
-        /// </param>
-        /// <param name="typeResolver">An object that resolves type names specified in a resource.
-        /// </param>
-        public ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver) : this(reader, typeResolver, (IAliasResolver)null)
-        {
-        }
-
-        internal ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
-        {
-            _reader = reader;
-            _typeResolver = typeResolver;
-            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
-        }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" /> class for the specified stream.
-        /// </summary>
-        /// <param name="stream">An input stream that contains resources.
-        /// </param>
-        public ResXResourceReader(Stream stream) : this(stream, (ITypeResolutionService)null, (IAliasResolver)null)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" /> class using an input stream and a type resolution service.
-        /// </summary>
-        /// <param name="stream">An input stream that contains resources.
-        /// </param>
-        /// <param name="typeResolver">An object that resolves type names specified in a resource.
-        /// </param>
-        public ResXResourceReader(Stream stream, ITypeResolutionService typeResolver) : this(stream, typeResolver, (IAliasResolver)null)
-        {
-        }
-
-        internal ResXResourceReader(Stream stream, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
-        {
-            _stream = stream;
-            _typeResolver = typeResolver;
-            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
-        }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" /> class using a stream and an array of assembly names.
-        /// </summary>
-        /// <param name="stream">An input stream that contains resources.
-        /// </param>
-        /// <param name="assemblyNames">An array of
-        /// <see cref="System.Reflection.AssemblyName" /> objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
-        /// </param>
-        public ResXResourceReader(Stream stream, AssemblyName[] assemblyNames) : this(stream, assemblyNames, (IAliasResolver)null)
-        {
-        }
-
-        internal ResXResourceReader(Stream stream, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
-        {
-            _stream = stream;
-            _assemblyNames = assemblyNames;
-            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
-        }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" /> class using a
-        /// <see cref="System.IO.TextReader" /> object and an array of assembly names.
-        /// </summary>
-        /// <param name="reader">An object used to read resources from a stream of text.
-        /// </param>
-        /// <param name="assemblyNames">An array of
-        /// <see cref="System.Reflection.AssemblyName" /> objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
-        /// </param>
-        public ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames) : this(reader, assemblyNames, (IAliasResolver)null)
-        {
-        }
-
-        internal ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
-        {
-            _reader = reader;
-            _assemblyNames = assemblyNames;
-            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
-        }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceReader" /> class using an XML resource file name and an array of assembly names.
-        /// </summary>
-        /// <param name="fileName">The name of an XML resource file that contains resources.
-        /// </param>
-        /// <param name="assemblyNames">An array of
-        /// <see cref="System.Reflection.AssemblyName" /> objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
-        /// </param>
-        public ResXResourceReader(string fileName, AssemblyName[] assemblyNames) : this(fileName, assemblyNames, (IAliasResolver)null)
-        {
-        }
-
-        internal ResXResourceReader(string fileName, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
-        {
-            _fileName = fileName;
-            _assemblyNames = assemblyNames;
-            _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
-        }
-
-        ~ResXResourceReader()
-        {
-            Dispose(false);
-        }
 
         /// <summary>
-        /// Gets or sets the base path for the relative file path specified in a
-        /// <see cref="System.Resources.ResXFileRef" /> object.
+        /// BasePath for relatives filepaths with ResXFileRefs.
         /// </summary>
-        /// <returns>A path that, if prepended to the relative file path specified in a
-        /// <see cref="System.Resources.ResXFileRef" /> object, yields an absolute path to a resource file.
-        /// </returns>
-        /// <exception cref="System.InvalidOperationException">In a set operation, a value cannot be specified because the XML resource file has already been accessed and is in use.
-        /// </exception>
         public string BasePath
         {
             get
@@ -236,13 +165,11 @@ namespace System.Resources
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether
-        /// <see cref="System.Resources.ResXDataNode" /> objects are returned when reading the current XML resource file or stream.
+        /// ResXFileRef's TypeConverter automatically unwraps it, creates the referenced
+        /// object and returns it. This property gives the user control over whether this unwrapping should
+        /// happen, or a ResXFileRef object should be returned. Default is true for backward compat and common case
+        /// scenario.
         /// </summary>
-        /// <returns>true if resource data nodes are retrieved; false if resource data nodes are ignored.
-        /// </returns>
-        /// <exception cref="System.InvalidOperationException">In a set operation, the enumerator for the resource file or stream is already open.
-        /// </exception>
         public bool UseResXDataNodes
         {
             get
@@ -267,22 +194,66 @@ namespace System.Resources
         {
             ((IDisposable)this).Dispose();
         }
+
         /// <summary>
-        /// Releases the unmanaged resources used by the
-        /// <see cref="System.Resources.ResXResourceReader" /> and optionally releases the managed resources. For a description of this member, see
-        /// <see cref="System.IDisposable.Dispose" />
+        /// Creates a reader with the specified file contents.
         /// </summary>
+        public static ResXResourceReader FromFileContents(string fileContents)
+        {
+            return FromFileContents(fileContents, (ITypeResolutionService)null);
+        }
+
+        /// <summary>
+        /// Creates a reader with the specified file contents.
+        /// </summary>
+        public static ResXResourceReader FromFileContents(string fileContents, ITypeResolutionService typeResolver)
+        {
+            return new ResXResourceReader(typeResolver)
+            {
+                _fileContents = fileContents
+            };
+        }
+
+        /// <summary>
+        /// Creates a reader with the specified file contents.
+        /// </summary>
+        public static ResXResourceReader FromFileContents(string fileContents, AssemblyName[] assemblyNames)
+        {
+            return new ResXResourceReader(assemblyNames)
+            {
+                _fileContents = fileContents
+            };
+        }
+
+        public IDictionaryEnumerator GetEnumerator()
+        {
+            _isReaderDirty = true;
+            EnsureResData();
+
+            return _resData.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns a dictionary enumerator that can be used to enumerate the &lt;metadata&gt; elements in the .resx file.
+        /// </summary>
+        public IDictionaryEnumerator GetMetadataEnumerator()
+        {
+            EnsureResData();
+
+            return _resMetadata.GetEnumerator();
+        }
+
         void IDisposable.Dispose()
         {
             GC.SuppressFinalize(this);
             Dispose(true);
         }
-        /// <summary>
-        /// Releases the unmanaged resources used by the
-        /// <see cref="System.Resources.ResXResourceReader" /> and optionally releases the managed resources.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
-        /// </param>
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -299,25 +270,6 @@ namespace System.Resources
                     _reader = null;
                 }
             }
-        }
-
-        private static void SetupNameTable(XmlReader reader)
-        {
-            reader.NameTable.Add(ResXResourceWriter.TypeStr);
-            reader.NameTable.Add(ResXResourceWriter.NameStr);
-            reader.NameTable.Add(ResXResourceWriter.DataStr);
-            reader.NameTable.Add(ResXResourceWriter.MetadataStr);
-            reader.NameTable.Add(ResXResourceWriter.MimeTypeStr);
-            reader.NameTable.Add(ResXResourceWriter.ValueStr);
-            reader.NameTable.Add(ResXResourceWriter.ResHeaderStr);
-            reader.NameTable.Add(ResXResourceWriter.VersionStr);
-            reader.NameTable.Add(ResXResourceWriter.ResMimeTypeStr);
-            reader.NameTable.Add(ResXResourceWriter.ReaderStr);
-            reader.NameTable.Add(ResXResourceWriter.WriterStr);
-            reader.NameTable.Add(ResXResourceWriter.BinSerializedObjectMimeType);
-            reader.NameTable.Add(ResXResourceWriter.SoapSerializedObjectMimeType);
-            reader.NameTable.Add(ResXResourceWriter.AssemblyStr);
-            reader.NameTable.Add(ResXResourceWriter.AliasStr);
         }
 
         /// <summary>
@@ -368,95 +320,11 @@ namespace System.Resources
             }
         }
 
-        /// <summary>
-        /// Creates a new
-        /// <see cref="System.Resources.ResXResourceReader" /> object and initializes it to read a string whose contents are in the form of an XML resource file.
-        /// </summary>
-        /// <returns>An object that reads resources from the
-        /// <paramref name="fileContents" /> string.
-        /// </returns>
-        /// <param name="fileContents">A string containing XML resource-formatted information.
-        /// </param>
-        public static ResXResourceReader FromFileContents(string fileContents)
+        private static string GetAliasFromTypeName(string typeName)
         {
-            return FromFileContents(fileContents, (ITypeResolutionService)null);
-        }
+            int indexStart = typeName.IndexOf(',');
 
-        /// <summary>
-        /// Creates a new
-        /// <see cref="System.Resources.ResXResourceReader" /> object and initializes it to read a string whose contents are in the form of an XML resource file, and to use an
-        /// <see cref="System.ComponentModel.Design.ITypeResolutionService" /> object to resolve type names specified in a resource.
-        /// </summary>
-        /// <returns>An object that reads resources from the
-        /// <paramref name="fileContents" /> string.
-        /// </returns>
-        /// <param name="fileContents">A string containing XML resource-formatted information.
-        /// </param>
-        /// <param name="typeResolver">An object that resolves type names specified in a resource.
-        /// </param>
-        public static ResXResourceReader FromFileContents(string fileContents, ITypeResolutionService typeResolver)
-        {
-            return new ResXResourceReader(typeResolver)
-            {
-                _fileContents = fileContents
-            };
-        }
-
-        /// <summary>
-        /// Creates a new
-        /// <see cref="System.Resources.ResXResourceReader" /> object and initializes it to read a string whose contents are in the form of an XML resource file, and to use an array of
-        /// <see cref="System.Reflection.AssemblyName" /> objects to resolve type names specified in a resource.
-        /// </summary>
-        /// <returns>An object that reads resources from the
-        /// <paramref name="fileContents" /> string.
-        /// </returns>
-        /// <param name="fileContents">A string whose contents are in the form of an XML resource file.
-        /// </param>
-        /// <param name="assemblyNames">An array of
-        /// <see cref="System.Reflection.AssemblyName" /> objects that specifies one or more assemblies. The assemblies are used to resolve a type name in the resource to an actual type.
-        /// </param>
-        public static ResXResourceReader FromFileContents(string fileContents, AssemblyName[] assemblyNames)
-        {
-            return new ResXResourceReader(assemblyNames)
-            {
-                _fileContents = fileContents
-            };
-        }
-        /// <summary>
-        /// Returns an enumerator for the current
-        /// <see cref="System.Resources.ResXResourceReader" /> object. For a description of this member, see
-        /// <see cref="System.Collections.IEnumerable.GetEnumerator" />
-        /// </summary>
-        /// <returns>An enumerator that can iterate through the name/value pairs in the XML resource (.resx) stream or string associated with the current
-        /// <see cref="System.Resources.ResXResourceReader" /> object.
-        /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-        /// <summary>
-        /// Returns an enumerator for the current
-        /// <see cref="System.Resources.ResXResourceReader" /> object.
-        /// </summary>
-        /// <returns>An enumerator for the current
-        /// <see cref="System.Resources.ResourceReader" /> object.
-        /// </returns>
-        public IDictionaryEnumerator GetEnumerator()
-        {
-            _isReaderDirty = true;
-            EnsureResData();
-            return _resData.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Provides a dictionary enumerator that can retrieve the design-time properties from the current XML resource file or stream.
-        /// </summary>
-        /// <returns>An enumerator for the metadata in a resource.
-        /// </returns>
-        public IDictionaryEnumerator GetMetadataEnumerator()
-        {
-            EnsureResData();
-            return _resMetadata.GetEnumerator();
+            return typeName.Substring(indexStart + 2);
         }
 
         /// <summary>
@@ -475,228 +343,11 @@ namespace System.Resources
             return pt;
         }
 
-        private void ParseXml(XmlTextReader reader)
+        private static string GetTypeFromTypeName(string typeName)
         {
-            bool success = false;
-            try
-            {
-                try
-                {
-                    while (reader.Read())
-                    {
-                        if (reader.NodeType == XmlNodeType.Element)
-                        {
-                            string s = reader.LocalName;
+            int indexStart = typeName.IndexOf(',');
 
-                            if (reader.LocalName.Equals(ResXResourceWriter.AssemblyStr))
-                            {
-                                ParseAssemblyNode(reader);
-                            }
-                            else if (reader.LocalName.Equals(ResXResourceWriter.DataStr))
-                            {
-                                ParseDataNode(reader, false);
-                            }
-                            else if (reader.LocalName.Equals(ResXResourceWriter.ResHeaderStr))
-                            {
-                                ParseResHeaderNode(reader);
-                            }
-                            else if (reader.LocalName.Equals(ResXResourceWriter.MetadataStr))
-                            {
-                                ParseDataNode(reader, true);
-                            }
-                        }
-                    }
-
-                    success = true;
-                }
-                catch (SerializationException se)
-                {
-                    Point pt = GetPosition(reader);
-                    string newMessage = string.Format("SR.SerializationException,{0},{1},{2},{3}", reader[ResXResourceWriter.TypeStr], pt.Y, pt.X, se.Message);
-                    XmlException xml = new XmlException(newMessage, se, pt.Y, pt.X);
-                    SerializationException newSe = new SerializationException(newMessage, xml);
-
-                    throw newSe;
-                }
-                catch (TargetInvocationException tie)
-                {
-                    Point pt = GetPosition(reader);
-                    string newMessage = string.Format("SR.InvocationException,{0},{1},{2},{3}", reader[ResXResourceWriter.TypeStr], pt.Y, pt.X, tie.InnerException.Message);
-                    XmlException xml = new XmlException(newMessage, tie.InnerException, pt.Y, pt.X);
-                    TargetInvocationException newTie = new TargetInvocationException(newMessage, xml);
-
-                    throw newTie;
-                }
-                catch (XmlException e)
-                {
-                    throw new ArgumentException(string.Format("SR.InvalidResXFile,{0}", e.Message), e);
-                }
-                catch (Exception e)
-                {
-                    if (ClientUtils.IsCriticalException(e))
-                    {
-                        throw;
-                    }
-                    else
-                    {
-                        Point pt = GetPosition(reader);
-                        XmlException xmlEx = new XmlException(e.Message, e, pt.Y, pt.X);
-                        throw new ArgumentException(string.Format("SR.InvalidResXFile,{0}", xmlEx.Message), xmlEx);
-                    }
-                }
-            }
-            finally
-            {
-                if (!success)
-                {
-                    _resData = null;
-                    _resMetadata = null;
-                }
-            }
-
-            bool validFile = false;
-
-            if (_resHeaderMimeType == ResXResourceWriter.ResMimeType)
-            {
-                Type readerType = typeof(ResXResourceReader);
-                Type writerType = typeof(ResXResourceWriter);
-
-                string readerTypeName = _resHeaderReaderType;
-                string writerTypeName = _resHeaderWriterType;
-                if (readerTypeName != null && readerTypeName.IndexOf(',') != -1)
-                {
-                    readerTypeName = readerTypeName.Split(',')[0].Trim();
-                }
-
-                if (writerTypeName != null && writerTypeName.IndexOf(',') != -1)
-                {
-                    writerTypeName = writerTypeName.Split(',')[0].Trim();
-                }
-
-                if (readerTypeName != null &&
-                    writerTypeName != null &&
-                    readerTypeName.Equals(readerType.FullName) &&
-                    writerTypeName.Equals(writerType.FullName))
-                {
-                    validFile = true;
-                }
-            }
-
-            if (!validFile)
-            {
-                _resData = null;
-                _resMetadata = null;
-                throw new ArgumentException("SR.InvalidResXFileReaderWriterTypes");
-            }
-        }
-
-        private void ParseResHeaderNode(XmlReader reader)
-        {
-            string name = reader[ResXResourceWriter.NameStr];
-            if (name != null)
-            {
-                reader.ReadStartElement();
-
-                // The "1.1" schema requires the correct casing of the strings
-                // in the resheader, however the "1.0" schema had a different
-                // casing. By checking the Equals first, we should
-                // see significant performance improvements.
-
-                if (name == ResXResourceWriter.VersionStr)
-                {
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        _resHeaderVersion = reader.ReadElementString();
-                    }
-                    else
-                    {
-                        _resHeaderVersion = reader.Value.Trim();
-                    }
-                }
-                else if (name == ResXResourceWriter.ResMimeTypeStr)
-                {
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        _resHeaderMimeType = reader.ReadElementString();
-                    }
-                    else
-                    {
-                        _resHeaderMimeType = reader.Value.Trim();
-                    }
-                }
-                else if (name == ResXResourceWriter.ReaderStr)
-                {
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        _resHeaderReaderType = reader.ReadElementString();
-                    }
-                    else
-                    {
-                        _resHeaderReaderType = reader.Value.Trim();
-                    }
-                }
-                else if (name == ResXResourceWriter.WriterStr)
-                {
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        _resHeaderWriterType = reader.ReadElementString();
-                    }
-                    else
-                    {
-                        _resHeaderWriterType = reader.Value.Trim();
-                    }
-                }
-                else
-                {
-                    switch (name.ToLower(CultureInfo.InvariantCulture))
-                    {
-                        case ResXResourceWriter.VersionStr:
-                            if (reader.NodeType == XmlNodeType.Element)
-                            {
-                                _resHeaderVersion = reader.ReadElementString();
-                            }
-                            else
-                            {
-                                _resHeaderVersion = reader.Value.Trim();
-                            }
-
-                            break;
-                        case ResXResourceWriter.ResMimeTypeStr:
-                            if (reader.NodeType == XmlNodeType.Element)
-                            {
-                                _resHeaderMimeType = reader.ReadElementString();
-                            }
-                            else
-                            {
-                                _resHeaderMimeType = reader.Value.Trim();
-                            }
-
-                            break;
-                        case ResXResourceWriter.ReaderStr:
-                            if (reader.NodeType == XmlNodeType.Element)
-                            {
-                                _resHeaderReaderType = reader.ReadElementString();
-                            }
-                            else
-                            {
-                                _resHeaderReaderType = reader.Value.Trim();
-                            }
-
-                            break;
-                        case ResXResourceWriter.WriterStr:
-                            if (reader.NodeType == XmlNodeType.Element)
-                            {
-                                _resHeaderWriterType = reader.ReadElementString();
-                            }
-                            else
-                            {
-                                _resHeaderWriterType = reader.Value.Trim();
-                            }
-
-                            break;
-                    }
-                }
-            }
+            return typeName.Substring(0, indexStart);
         }
 
         private void ParseAssemblyNode(XmlReader reader)
@@ -821,16 +472,247 @@ namespace System.Resources
             }
         }
 
-        private static string GetAliasFromTypeName(string typeName)
+        private void ParseResHeaderNode(XmlReader reader)
         {
-            int indexStart = typeName.IndexOf(',');
-            return typeName.Substring(indexStart + 2);
+            string name = reader[ResXResourceWriter.NameStr];
+            if (name != null)
+            {
+                reader.ReadStartElement();
+
+                // The "1.1" schema requires the correct casing of the strings
+                // in the resheader, however the "1.0" schema had a different
+                // casing. By checking the Equals first, we should
+                // see significant performance improvements.
+
+                if (name == ResXResourceWriter.VersionStr)
+                {
+                    if (reader.NodeType == XmlNodeType.Element)
+                    {
+                        _resHeaderVersion = reader.ReadElementString();
+                    }
+                    else
+                    {
+                        _resHeaderVersion = reader.Value.Trim();
+                    }
+                }
+                else if (name == ResXResourceWriter.ResMimeTypeStr)
+                {
+                    if (reader.NodeType == XmlNodeType.Element)
+                    {
+                        _resHeaderMimeType = reader.ReadElementString();
+                    }
+                    else
+                    {
+                        _resHeaderMimeType = reader.Value.Trim();
+                    }
+                }
+                else if (name == ResXResourceWriter.ReaderStr)
+                {
+                    if (reader.NodeType == XmlNodeType.Element)
+                    {
+                        _resHeaderReaderType = reader.ReadElementString();
+                    }
+                    else
+                    {
+                        _resHeaderReaderType = reader.Value.Trim();
+                    }
+                }
+                else if (name == ResXResourceWriter.WriterStr)
+                {
+                    if (reader.NodeType == XmlNodeType.Element)
+                    {
+                        _resHeaderWriterType = reader.ReadElementString();
+                    }
+                    else
+                    {
+                        _resHeaderWriterType = reader.Value.Trim();
+                    }
+                }
+                else
+                {
+                    switch (name.ToLower(CultureInfo.InvariantCulture))
+                    {
+                        case ResXResourceWriter.VersionStr:
+                            if (reader.NodeType == XmlNodeType.Element)
+                            {
+                                _resHeaderVersion = reader.ReadElementString();
+                            }
+                            else
+                            {
+                                _resHeaderVersion = reader.Value.Trim();
+                            }
+
+                            break;
+                        case ResXResourceWriter.ResMimeTypeStr:
+                            if (reader.NodeType == XmlNodeType.Element)
+                            {
+                                _resHeaderMimeType = reader.ReadElementString();
+                            }
+                            else
+                            {
+                                _resHeaderMimeType = reader.Value.Trim();
+                            }
+
+                            break;
+                        case ResXResourceWriter.ReaderStr:
+                            if (reader.NodeType == XmlNodeType.Element)
+                            {
+                                _resHeaderReaderType = reader.ReadElementString();
+                            }
+                            else
+                            {
+                                _resHeaderReaderType = reader.Value.Trim();
+                            }
+
+                            break;
+                        case ResXResourceWriter.WriterStr:
+                            if (reader.NodeType == XmlNodeType.Element)
+                            {
+                                _resHeaderWriterType = reader.ReadElementString();
+                            }
+                            else
+                            {
+                                _resHeaderWriterType = reader.Value.Trim();
+                            }
+
+                            break;
+                    }
+                }
+            }
         }
 
-        private static string GetTypeFromTypeName(string typeName)
+        private void ParseXml(XmlTextReader reader)
         {
-            int indexStart = typeName.IndexOf(',');
-            return typeName.Substring(0, indexStart);
+            bool success = false;
+            try
+            {
+                try
+                {
+                    while (reader.Read())
+                    {
+                        if (reader.NodeType == XmlNodeType.Element)
+                        {
+                            string s = reader.LocalName;
+
+                            if (reader.LocalName.Equals(ResXResourceWriter.AssemblyStr))
+                            {
+                                ParseAssemblyNode(reader);
+                            }
+                            else if (reader.LocalName.Equals(ResXResourceWriter.DataStr))
+                            {
+                                ParseDataNode(reader, false);
+                            }
+                            else if (reader.LocalName.Equals(ResXResourceWriter.ResHeaderStr))
+                            {
+                                ParseResHeaderNode(reader);
+                            }
+                            else if (reader.LocalName.Equals(ResXResourceWriter.MetadataStr))
+                            {
+                                ParseDataNode(reader, true);
+                            }
+                        }
+                    }
+
+                    success = true;
+                }
+                catch (SerializationException se)
+                {
+                    Point pt = GetPosition(reader);
+                    string newMessage = string.Format("SR.SerializationException,{0},{1},{2},{3}", reader[ResXResourceWriter.TypeStr], pt.Y, pt.X, se.Message);
+                    XmlException xml = new XmlException(newMessage, se, pt.Y, pt.X);
+                    SerializationException newSe = new SerializationException(newMessage, xml);
+
+                    throw newSe;
+                }
+                catch (TargetInvocationException tie)
+                {
+                    Point pt = GetPosition(reader);
+                    string newMessage = string.Format("SR.InvocationException,{0},{1},{2},{3}", reader[ResXResourceWriter.TypeStr], pt.Y, pt.X, tie.InnerException.Message);
+                    XmlException xml = new XmlException(newMessage, tie.InnerException, pt.Y, pt.X);
+                    TargetInvocationException newTie = new TargetInvocationException(newMessage, xml);
+
+                    throw newTie;
+                }
+                catch (XmlException e)
+                {
+                    throw new ArgumentException(string.Format("SR.InvalidResXFile,{0}", e.Message), e);
+                }
+                catch (Exception e)
+                {
+                    if (ClientUtils.IsCriticalException(e))
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        Point pt = GetPosition(reader);
+                        XmlException xmlEx = new XmlException(e.Message, e, pt.Y, pt.X);
+                        throw new ArgumentException(string.Format("SR.InvalidResXFile,{0}", xmlEx.Message), xmlEx);
+                    }
+                }
+            }
+            finally
+            {
+                if (!success)
+                {
+                    _resData = null;
+                    _resMetadata = null;
+                }
+            }
+
+            bool validFile = false;
+
+            if (_resHeaderMimeType == ResXResourceWriter.ResMimeType)
+            {
+                Type readerType = typeof(ResXResourceReader);
+                Type writerType = typeof(ResXResourceWriter);
+
+                string readerTypeName = _resHeaderReaderType;
+                string writerTypeName = _resHeaderWriterType;
+                if (readerTypeName != null && readerTypeName.IndexOf(',') != -1)
+                {
+                    readerTypeName = readerTypeName.Split(',')[0].Trim();
+                }
+
+                if (writerTypeName != null && writerTypeName.IndexOf(',') != -1)
+                {
+                    writerTypeName = writerTypeName.Split(',')[0].Trim();
+                }
+
+                if (readerTypeName != null &&
+                    writerTypeName != null &&
+                    readerTypeName.Equals(readerType.FullName) &&
+                    writerTypeName.Equals(writerType.FullName))
+                {
+                    validFile = true;
+                }
+            }
+
+            if (!validFile)
+            {
+                _resData = null;
+                _resMetadata = null;
+                throw new ArgumentException("SR.InvalidResXFileReaderWriterTypes");
+            }
+        }
+
+        private static void SetupNameTable(XmlReader reader)
+        {
+            reader.NameTable.Add(ResXResourceWriter.TypeStr);
+            reader.NameTable.Add(ResXResourceWriter.NameStr);
+            reader.NameTable.Add(ResXResourceWriter.DataStr);
+            reader.NameTable.Add(ResXResourceWriter.MetadataStr);
+            reader.NameTable.Add(ResXResourceWriter.MimeTypeStr);
+            reader.NameTable.Add(ResXResourceWriter.ValueStr);
+            reader.NameTable.Add(ResXResourceWriter.ResHeaderStr);
+            reader.NameTable.Add(ResXResourceWriter.VersionStr);
+            reader.NameTable.Add(ResXResourceWriter.ResMimeTypeStr);
+            reader.NameTable.Add(ResXResourceWriter.ReaderStr);
+            reader.NameTable.Add(ResXResourceWriter.WriterStr);
+            reader.NameTable.Add(ResXResourceWriter.BinSerializedObjectMimeType);
+            reader.NameTable.Add(ResXResourceWriter.SoapSerializedObjectMimeType);
+            reader.NameTable.Add(ResXResourceWriter.AssemblyStr);
+            reader.NameTable.Add(ResXResourceWriter.AliasStr);
         }
     }
 }

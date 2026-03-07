@@ -4,6 +4,11 @@ namespace System.Windows.Forms
 {
     public class ListViewGroupEventArgs : EventArgs
     {
+
+        public ListViewGroupEventArgs(int groupIndex)
+        {
+            throw new System.NotImplementedException();
+        }
         public int GroupIndex
         {
             [CompilerGenerated]
@@ -11,11 +16,6 @@ namespace System.Windows.Forms
             {
                 throw new System.NotImplementedException();
             }
-        }
-
-        public ListViewGroupEventArgs(int groupIndex)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -10,12 +10,20 @@ namespace System.Windows.Forms
     /// </summary>
     /// <filterpriority>1
     /// </filterpriority>
+    /// Provides a user interface for browsing the properties of an object.
+    /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
+    /// Provides a user interface for browsing the properties of an object.
+    /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
+    /// Provides a user interface for browsing the properties of an object.
+    /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
     public partial class PropertyGrid
     {
-        /// <summary>
-        /// Contains a collection of
-        /// <see cref="System.Windows.Forms.Design.PropertyTab" /> objects.
-        /// </summary>
         public class PropertyTabCollection : ICollection
         {
             private readonly PropertyGrid _ownerPropertyGrid;
@@ -38,9 +46,9 @@ namespace System.Windows.Forms
                 }
             }
 
-            object ICollection.SyncRoot => this;
-
             bool ICollection.IsSynchronized => false;
+
+            object ICollection.SyncRoot => this;
 
             public PropertyTab this[int index]
             {
@@ -65,6 +73,21 @@ namespace System.Windows.Forms
 
             }
 
+            public IEnumerator GetEnumerator()
+            {
+                if (_ownerPropertyGrid is null)
+                {
+                    return Array.Empty<PropertyTab>().GetEnumerator();
+                }
+
+                return _ownerPropertyGrid._tabs.Select(i => i.Tab).GetEnumerator();
+            }
+
+            public void RemoveTabType(Type propertyTabType)
+            {
+
+            }
+
             void ICollection.CopyTo(Array dest, int index)
             {
                 if (_ownerPropertyGrid is null)
@@ -81,21 +104,6 @@ namespace System.Windows.Forms
                         index,
                         _ownerPropertyGrid._tabs.Count);
                 }
-            }
-
-            public IEnumerator GetEnumerator()
-            {
-                if (_ownerPropertyGrid is null)
-                {
-                    return Array.Empty<PropertyTab>().GetEnumerator();
-                }
-
-                return _ownerPropertyGrid._tabs.Select(i => i.Tab).GetEnumerator();
-            }
-
-            public void RemoveTabType(Type propertyTabType)
-            {
-
             }
         }
     }

@@ -8,44 +8,14 @@ namespace System.Drawing.Imaging
     /// </summary>
     public sealed class FrameDimension
     {
-        private static readonly FrameDimension s_time = new FrameDimension(new Guid("{6aedbd6d-3fb5-418a-83a6-7f45229dc872}"));
-
-        private static readonly FrameDimension s_resolution = new FrameDimension(new Guid("{84236f7b-3bd3-428f-8dab-4ea1439ca315}"));
-
-        private static readonly FrameDimension s_page = new FrameDimension(new Guid("{7462dc86-6180-4c7e-8e3f-ee7333a7a483}"));
 
         private Guid _guid;
 
-        /// <summary>
-        /// Gets a globally unique identifier (GUID) that represents this
-        /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
-        /// </summary>
-        /// <returns>A
-        /// <see langword="Guid" /> structure that contains a GUID that represents this
-        /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
-        /// </returns>
-        public Guid Guid => _guid;
+        private static readonly FrameDimension s_page = new FrameDimension(new Guid("{7462dc86-6180-4c7e-8e3f-ee7333a7a483}"));
 
-        /// <summary>
-        /// Gets the time dimension.
-        /// </summary>
-        /// <returns>The time dimension.
-        /// </returns>
-        public static FrameDimension Time => s_time;
+        private static readonly FrameDimension s_resolution = new FrameDimension(new Guid("{84236f7b-3bd3-428f-8dab-4ea1439ca315}"));
 
-        /// <summary>
-        /// Gets the resolution dimension.
-        /// </summary>
-        /// <returns>The resolution dimension.
-        /// </returns>
-        public static FrameDimension Resolution => s_resolution;
-
-        /// <summary>
-        /// Gets the page dimension.
-        /// </summary>
-        /// <returns>The page dimension.
-        /// </returns>
-        public static FrameDimension Page => s_page;
+        private static readonly FrameDimension s_time = new FrameDimension(new Guid("{6aedbd6d-3fb5-418a-83a6-7f45229dc872}"));
 
         /// <summary>
         /// Initializes a new instance of the
@@ -60,6 +30,37 @@ namespace System.Drawing.Imaging
         {
             _guid = guid;
         }
+
+        /// <summary>
+        /// Gets a globally unique identifier (GUID) that represents this
+        /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
+        /// </summary>
+        /// <returns>A
+        /// <see langword="Guid" /> structure that contains a GUID that represents this
+        /// <see cref="T:System.Drawing.Imaging.FrameDimension" /> object.
+        /// </returns>
+        public Guid Guid => _guid;
+
+        /// <summary>
+        /// Gets the page dimension.
+        /// </summary>
+        /// <returns>The page dimension.
+        /// </returns>
+        public static FrameDimension Page => s_page;
+
+        /// <summary>
+        /// Gets the resolution dimension.
+        /// </summary>
+        /// <returns>The resolution dimension.
+        /// </returns>
+        public static FrameDimension Resolution => s_resolution;
+
+        /// <summary>
+        /// Gets the time dimension.
+        /// </summary>
+        /// <returns>The time dimension.
+        /// </returns>
+        public static FrameDimension Time => s_time;
 
         /// <summary>
         /// Returns a value that indicates whether the specified object is a
@@ -82,6 +83,7 @@ namespace System.Drawing.Imaging
             {
                 return false;
             }
+
             return _guid == frameDimension._guid;
         }
 
@@ -118,6 +120,7 @@ namespace System.Drawing.Imaging
             {
                 return "Page";
             }
+
             return $"[FrameDimension: {_guid}]";
         }
     }

@@ -8,98 +8,14 @@ namespace System.Drawing.Imaging
     [StructLayout(LayoutKind.Sequential)]
     public sealed class EncoderParameter : IDisposable
     {
-        private Guid _parameterGuid;
 
         private readonly int _numberOfValues;
 
-        private readonly EncoderParameterValueType _parameterValueType;
+        private Guid _parameterGuid;
 
         private IntPtr _parameterValue;
 
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref="T:System.Drawing.Imaging.Encoder" /> object associated with this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. The
-        /// <see cref="T:System.Drawing.Imaging.Encoder" /> object encapsulates the globally unique identifier (GUID) that specifies the category (for example
-        /// <see cref="F:System.Drawing.Imaging.Encoder.Quality" />,
-        /// <see cref="F:System.Drawing.Imaging.Encoder.ColorDepth" />, or
-        /// <see cref="F:System.Drawing.Imaging.Encoder.Compression" />) of the parameter stored in this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the GUID that specifies the category of the parameter stored in this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-        /// </returns>
-        public Encoder Encoder
-        {
-            get
-            {
-                return new Encoder(_parameterGuid);
-            }
-            set
-            {
-                _parameterGuid = value.Guid;
-            }
-        }
-
-        /// <summary>
-        /// Gets the data type of the values stored in this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-        /// </summary>
-        /// <returns>A member of the
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameterValueType" /> enumeration that indicates the data type of the values stored in this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-        /// </returns>
-        public EncoderParameterValueType Type => _parameterValueType;
-
-        /// <summary>
-        /// Gets the data type of the values stored in this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-        /// </summary>
-        /// <returns>A member of the
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameterValueType" /> enumeration that indicates the data type of the values stored in this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-        /// </returns>
-        public EncoderParameterValueType ValueType => _parameterValueType;
-
-        /// <summary>
-        /// Gets the number of elements in the array of values stored in this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-        /// </summary>
-        /// <returns>An integer that indicates the number of elements in the array of values stored in this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-        /// </returns>
-        public int NumberOfValues => _numberOfValues;
-
-        /// <summary>
-        /// Allows an
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object to attempt to free resources and perform other cleanup operations before the
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object is reclaimed by garbage collection.
-        /// </summary>
-        ~EncoderParameter()
-        {
-            Dispose(disposing: false);
-        }
-
-        /// <summary>
-        /// Releases all resources used by this
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.KeepAlive(this);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_parameterValue != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(_parameterValue);
-            }
-            _parameterValue = IntPtr.Zero;
-        }
+        private readonly EncoderParameterValueType _parameterValueType;
 
         /// <summary>
         /// Initializes a new instance of the
@@ -504,6 +420,81 @@ namespace System.Drawing.Imaging
         public EncoderParameter(Encoder encoder, int numberValues, EncoderParameterValueType type, IntPtr value)
         {
 
+        }
+
+        /// <summary>
+        /// Gets or sets the
+        /// <see cref="T:System.Drawing.Imaging.Encoder" /> object associated with this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object. The
+        /// <see cref="T:System.Drawing.Imaging.Encoder" /> object encapsulates the globally unique identifier (GUID) that specifies the category (for example
+        /// <see cref="F:System.Drawing.Imaging.Encoder.Quality" />,
+        /// <see cref="F:System.Drawing.Imaging.Encoder.ColorDepth" />, or
+        /// <see cref="F:System.Drawing.Imaging.Encoder.Compression" />) of the parameter stored in this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="T:System.Drawing.Imaging.Encoder" /> object that encapsulates the GUID that specifies the category of the parameter stored in this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
+        /// </returns>
+        public Encoder Encoder
+        {
+            get
+            {
+                return new Encoder(_parameterGuid);
+            }
+            set
+            {
+                _parameterGuid = value.Guid;
+            }
+        }
+
+        /// <summary>
+        /// Gets the number of elements in the array of values stored in this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
+        /// </summary>
+        /// <returns>An integer that indicates the number of elements in the array of values stored in this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
+        /// </returns>
+        public int NumberOfValues => _numberOfValues;
+
+        /// <summary>
+        /// Gets the data type of the values stored in this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
+        /// </summary>
+        /// <returns>A member of the
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameterValueType" /> enumeration that indicates the data type of the values stored in this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
+        /// </returns>
+        public EncoderParameterValueType Type => _parameterValueType;
+
+        /// <summary>
+        /// Gets the data type of the values stored in this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
+        /// </summary>
+        /// <returns>A member of the
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameterValueType" /> enumeration that indicates the data type of the values stored in this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
+        /// </returns>
+        public EncoderParameterValueType ValueType => _parameterValueType;
+
+        /// <summary>
+        /// Releases all resources used by this
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.KeepAlive(this);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_parameterValue != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(_parameterValue);
+            }
+            _parameterValue = IntPtr.Zero;
         }
     }
 }

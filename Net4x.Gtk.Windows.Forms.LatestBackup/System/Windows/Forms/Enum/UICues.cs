@@ -22,9 +22,7 @@ namespace System.Windows.Forms
         /// Keyboard cues are underlined after the change.
         /// </summary>
         ShowKeyboard = 0x02,
-        /// <summary>
-        /// Focus rectangles are displayed and keyboard cues are underlined after the change.
-        /// </summary>
+
         Shown = ShowFocus | ShowKeyboard,
 
         /// <summary>
@@ -36,13 +34,9 @@ namespace System.Windows.Forms
         /// The state of the keyboard cues has changed.
         /// </summary>
         ChangeKeyboard = 0x08,
-        /// <summary>
-        /// The state of the focus cues and keyboard cues has changed.
-        /// </summary>
+
         Changed = ChangeFocus | ChangeKeyboard,
-        /// <summary>
-        /// No change was made.
-        /// </summary>
+
         None = 0x00,
     }
 }

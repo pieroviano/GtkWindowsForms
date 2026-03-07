@@ -2,8 +2,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ToolStripBase : Gtk.MenuBar, IControlGtk
     {
-
-        public GtkControlOverride Override { get; set; }
         public ToolStripBase() : base()
         {
             this.Override = new GtkControlOverride(this);
@@ -14,6 +12,8 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.Halign = Gtk.Align.Fill;
             this.HeightRequest = 20;
         }
+
+        public GtkControlOverride Override { get; set; }
         public void AddClass(string cssClass)
         {
             this.Override.AddClass(cssClass);

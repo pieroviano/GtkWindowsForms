@@ -15,60 +15,30 @@ namespace System.Windows.Forms
     [DefaultProperty(nameof(Document))]
     public sealed class PrintDialog : CommonDialog
     {
+        private PrintDocument _printDocument;
 
         private PrinterSettings _printerSettings;
-        private PrintDocument _printDocument;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.PrintDialog" /> class.
-        /// </summary>
+
         public PrintDialog() => Reset();
-        /// <summary>
-        /// Gets or sets a value indicating whether the Current Page option button is displayed.
-        /// </summary>
-        /// <returns>true if the Current Page option button is displayed; otherwise, false. The default is false.
-        /// </returns>
+
         [DefaultValue(false)]
+
         public bool AllowCurrentPage { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the Pages option button is enabled.
-        /// </summary>
-        /// <returns>true if the Pages option button is enabled; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        [DefaultValue(false)]
-        public bool AllowSomePages { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the Print to file check box is enabled.
-        /// </summary>
-        /// <returns>true if the Print to file check box is enabled; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         [DefaultValue(true)]
+
         public bool AllowPrintToFile { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the Selection option button is enabled.
-        /// </summary>
-        /// <returns>true if the Selection option button is enabled; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         [DefaultValue(false)]
+
         public bool AllowSelection { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating the
-        /// <see cref="System.Drawing.Printing.PrintDocument" /> used to obtain
-        /// <see cref="System.Drawing.Printing.PrinterSettings" />
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Drawing.Printing.PrintDocument" /> used to obtain
-        /// <see cref="System.Drawing.Printing.PrinterSettings" /> The default is null.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
+        [DefaultValue(false)]
+
+        public bool AllowSomePages { get; set; }
+
         [DefaultValue(null)]
+
         public PrintDocument Document
         {
             get => _printDocument;
@@ -79,20 +49,10 @@ namespace System.Windows.Forms
             }
         }
 
-        private PageSettings PageSettings => Document is null
-            ? PrinterSettings.DefaultPageSettings
-            : Document.DefaultPageSettings;
-        /// <summary>
-        /// Gets or sets the printer settings the dialog box modifies.
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Drawing.Printing.PrinterSettings" /> the dialog box modifies.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         [DefaultValue(null)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public PrinterSettings PrinterSettings
         {
             get => _printerSettings ??= new PrinterSettings();
@@ -105,44 +65,27 @@ namespace System.Windows.Forms
                 }
             }
         }
-        /// <summary>
-        /// Gets or sets a value indicating whether the Print to file check box is selected.
-        /// </summary>
-        /// <returns>true if the Print to file check box is selected; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         [DefaultValue(false)]
+
         public bool PrintToFile { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the Help button is displayed.
-        /// </summary>
-        /// <returns>true if the Help button is displayed; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         [DefaultValue(false)]
+
         public bool ShowHelp { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the Network button is displayed.
-        /// </summary>
-        /// <returns>true if the Network button is displayed; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         [DefaultValue(true)]
-        public bool ShowNetwork { get; set; }                                                                                        /// <summary>
-                                                                                                                                     /// <summary>Gets or sets a value indicating whether the dialog should be shown in the Windows XP style for systems running Windows XP Home Edition, Windows XP Professional, Windows Server 2003 or later.
-                                                                                                                                     /// </summary>
-                                                                                                                                     /// <returns>true to indicate the dialog should be shown with the Windows XP style, otherwise false. The default is false.
-                                                                                                                                     /// </returns>
+
+        public bool ShowNetwork { get; set; }
+
         [DefaultValue(false)]
+
         public bool UseEXDialog { get; set; }
-        /// <summary>
-        /// Resets all options, the last selected printer, and the page settings to their default values.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
+
+        private PageSettings PageSettings => Document is null
+            ? PrinterSettings.DefaultPageSettings
+            : Document.DefaultPageSettings;
+
         public override void Reset()
         {
             AllowCurrentPage = false;
@@ -156,10 +99,6 @@ namespace System.Windows.Forms
             ShowNetwork = true;
         }
 
-        protected override bool RunDialog(IWin32Window owner)
-        {
-            return RunPrint(owner, true);
-        }
         public bool RunPrint(IWin32Window owner, bool showDialog)
         {
             try
@@ -207,25 +146,15 @@ namespace System.Windows.Forms
             }
         }
 
-        private void PrintOperation_Preview(object o, PreviewArgs args)
+        protected override bool RunDialog(IWin32Window owner)
         {
-            args.Preview.RenderPage(0);
+            return RunPrint(owner, true);
         }
 
         private void MessageDialog_Response(object o, ResponseArgs args)
         {
             Gtk.MessageDialog messageDialog = (Gtk.MessageDialog)o;
             messageDialog.Destroy();
-        }
-
-        private void PrintOperation_RequestPageSetup(object o, RequestPageSetupArgs args)
-        {
-            _printDocument?.OnQueryPageSettings(new QueryPageSettingsEventArgs(PageSettings));
-        }
-
-        private void PrintOperation_EndPrint(object o, EndPrintArgs args)
-        {
-            _printDocument?.OnEndPrint(new PrintEventArgs());
         }
 
         private void PrintOperation_BeginPrint(object o, BeginPrintArgs args)
@@ -254,6 +183,21 @@ namespace System.Windows.Forms
                 cr.Translate(0, 0);
                 _printDocument?.OnPrintPage(new PrintPageEventArgs(new Drawing.Graphics(cr, new Gdk.Rectangle(0, 0, width, height)), new Drawing.Rectangle(left, top, width - left - right, height - top - bottom), new Drawing.Rectangle(0, 0, width, height), PageSettings));
             }
+        }
+
+        private void PrintOperation_EndPrint(object o, EndPrintArgs args)
+        {
+            _printDocument?.OnEndPrint(new PrintEventArgs());
+        }
+
+        private void PrintOperation_Preview(object o, PreviewArgs args)
+        {
+            args.Preview.RenderPage(0);
+        }
+
+        private void PrintOperation_RequestPageSetup(object o, RequestPageSetupArgs args)
+        {
+            _printDocument?.OnQueryPageSettings(new QueryPageSettingsEventArgs(PageSettings));
         }
     }
 }

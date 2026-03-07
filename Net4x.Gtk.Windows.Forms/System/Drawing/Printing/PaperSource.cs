@@ -5,9 +5,9 @@ namespace System.Drawing.Printing
 {
     public partial class PaperSource
     {
+        private PaperSourceKind _kind;
 
         private string _name;
-        private PaperSourceKind _kind;
 
         public PaperSource()
         {

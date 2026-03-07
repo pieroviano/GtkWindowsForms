@@ -7,27 +7,17 @@ namespace System.Drawing.Imaging
     /// </summary>
     public sealed class ColorMap
     {
-        private Color _oldColor;
 
         private Color _newColor;
 
+        private Color _oldColor;
+
         /// <summary>
-        /// Gets or sets the existing
-        /// <see cref="T:System.Drawing.Color" /> structure to be converted.
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Drawing.Imaging.ColorMap" /> class.
         /// </summary>
-        /// <returns>The existing
-        /// <see cref="T:System.Drawing.Color" /> structure to be converted.
-        /// </returns>
-        public Color OldColor
+        public ColorMap()
         {
-            get
-            {
-                return _oldColor;
-            }
-            set
-            {
-                _oldColor = value;
-            }
         }
 
         /// <summary>
@@ -50,11 +40,22 @@ namespace System.Drawing.Imaging
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Imaging.ColorMap" /> class.
+        /// Gets or sets the existing
+        /// <see cref="T:System.Drawing.Color" /> structure to be converted.
         /// </summary>
-        public ColorMap()
+        /// <returns>The existing
+        /// <see cref="T:System.Drawing.Color" /> structure to be converted.
+        /// </returns>
+        public Color OldColor
         {
+            get
+            {
+                return _oldColor;
+            }
+            set
+            {
+                _oldColor = value;
+            }
         }
     }
 }

@@ -11,31 +11,31 @@ namespace System.Drawing.Printing
 {
     public partial class PrinterSettings : ICloneable
     {
-
-        private string _printerName; // default printer.
-
-        private string _driverName = "";
-
-        private ushort _extraBytes;
-        private byte[] _extraInfo;
-
+        private byte[] _cachedDevmode;
 
         private short _copies = -1;
 
         private readonly PageSettings _defaultPageSettings;
 
-        private int _fromPage;
+        private ushort _devmodeBytes;
 
-        private int _toPage;
+        private string _driverName = "";
+
+        private ushort _extraBytes;
+
+        private byte[] _extraInfo;
+
+        private int _fromPage;
 
         private int _maxPage = 9999;
 
         private int _minPage;
+
+        private string _printerName; // default printer.
+
         private PrintRange _printRange;
 
-
-        private ushort _devmodeBytes;
-        private byte[] _cachedDevmode;
+        private int _toPage;
 
         public PrinterSettings()
         {
@@ -48,23 +48,19 @@ namespace System.Drawing.Printing
             set;
         }
 
-        public short Copies
-        {
-            get;
-            set;
-        }
-
         public bool Collate
         {
             get;
             set;
         }
 
-        public PageSettings DefaultPageSettings => _defaultPageSettings;
+        public short Copies
+        {
+            get;
+            set;
+        }
 
-        // As far as I can tell, Windows no longer pays attention to driver names and output ports.
-        // But I'm leaving this code in place in case I'm wrong.
-        internal string DriverName => _driverName;
+        public PageSettings DefaultPageSettings => _defaultPageSettings;
 
         public Duplex Duplex
         {
@@ -115,6 +111,12 @@ namespace System.Drawing.Printing
             }
         }
 
+        public string PrinterName
+        {
+            get;
+            set;
+        }
+
         public string PrintFileName
         {
             get;
@@ -132,10 +134,24 @@ namespace System.Drawing.Printing
 
         public bool PrintToFile { get; set; }
 
-        public string PrinterName
+        public int ToPage
         {
-            get;
-            set;
+            get => _toPage;
+            set
+            {
+                _toPage = value;
+            }
+        }
+
+        // As far as I can tell, Windows no longer pays attention to driver names and output ports.
+        // But I'm leaving this code in place in case I'm wrong.
+        internal string DriverName => _driverName;
+
+        public object Clone()
+        {
+            PrinterSettings clone = (PrinterSettings)MemberwiseClone();
+
+            return clone;
         }
 
         public bool IsDirectPrintingSupported(Image image)
@@ -148,22 +164,6 @@ namespace System.Drawing.Printing
             }
 
             return false;
-        }
-
-        public int ToPage
-        {
-            get => _toPage;
-            set
-            {
-                _toPage = value;
-            }
-        }
-
-        public object Clone()
-        {
-            PrinterSettings clone = (PrinterSettings)MemberwiseClone();
-
-            return clone;
         }
 
         public void SetHdevmode(IntPtr hdevmode)

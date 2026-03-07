@@ -18,27 +18,27 @@ namespace System.Windows.Forms
         private Form _mainForm;
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ApplicationContext" /> class with no context.
+        /// Is raised when the thread's message loop should be terminated.
+        /// This is raised by calling ExitThread.
+        /// </summary>
+        public event EventHandler ThreadExit;
+
+        /// <summary>
+        /// Creates a new ApplicationContext with no mainForm.
         /// </summary>
         public ApplicationContext() : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ApplicationContext" /> class with the specified
-        /// <see cref="System.Windows.Forms.Form" />
+        /// Creates a new ApplicationContext with the specified mainForm.
+        /// If OnMainFormClosed is not overriden, the thread's message
+        /// loop will be terminated when mainForm is closed.
         /// </summary>
-        /// <param name="mainForm">The main
-        /// <see cref="System.Windows.Forms.Form" /> of the application to use for context.
-        /// </param>
         public ApplicationContext(Form mainForm)
         {
             MainForm = mainForm;
         }
-
-        ~ApplicationContext() => Dispose(false);
 
         /// <summary>
         /// Determines the mainForm for this context. This may be changed
@@ -65,25 +65,12 @@ namespace System.Windows.Forms
                 }
             }
         }
-        /// <summary>
-        /// Gets or sets an object that contains data about the control.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="System.Object" /> that contains data about the control. The default is null.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
+
         [Localizable(false)]
         [Bindable(true)]
         [DefaultValue(null)]
         [TypeConverter(typeof(StringConverter))]
         public object Tag { get; set; }
-
-        /// <summary>
-        /// Is raised when the thread's message loop should be terminated.
-        /// This is raised by calling ExitThread.
-        /// </summary>
-        public event EventHandler ThreadExit;
 
         /// <summary>
         /// Disposes the context. This should dispose the mainForm. This is
@@ -95,12 +82,12 @@ namespace System.Windows.Forms
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         /// <summary>
-        /// Releases the unmanaged resources used by the
-        /// <see cref="System.Windows.Forms.ApplicationContext" /> and optionally releases the managed resources.
+        /// Causes the thread's message loop to be terminated. This will call ExitThreadCore.
         /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
-        /// </param>
+        public void ExitThread() => ExitThreadCore();
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -118,25 +105,14 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Causes the thread's message loop to be terminated. This will call ExitThreadCore.
-        /// </summary>
-        public void ExitThread() => ExitThreadCore();
-
-        /// <summary>
         /// Causes the thread's message loop to be terminated.
         /// </summary>
         protected virtual void ExitThreadCore() => ThreadExit?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
-        /// Calls
-        /// <see cref="System.Windows.Forms.ApplicationContext.ExitThreadCore" />, which raises the
-        /// <see cref="System.Windows.Forms.ApplicationContext.ThreadExit" /> event.
+        /// Called when the mainForm is closed. The default implementation
+        /// of this will call ExitThreadCore.
         /// </summary>
-        /// <param name="sender">The object that raised the event.
-        /// </param>
-        /// <param name="e">The
-        /// <see cref="System.EventArgs" /> that contains the event data.
-        /// </param>
         protected virtual void OnMainFormClosed(object sender, EventArgs e) => ExitThreadCore();
 
         /// <summary>

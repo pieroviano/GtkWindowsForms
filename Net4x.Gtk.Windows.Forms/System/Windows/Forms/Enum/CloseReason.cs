@@ -28,7 +28,8 @@ namespace System.Windows.Forms
         MdiFormClosing = 2,
 
         /// <summary>
-        /// The user is closing the form through the user interface (UI), for example by clicking the Close button on the form window, selecting Close from the window's control menu, or pressing ALT+F4.
+        /// The user has clicked the close button on the form window, selected
+        /// Close from the window's control menu or hit Alt + F4.
         /// </summary>
         UserClosing = 3,
 
@@ -43,9 +44,7 @@ namespace System.Windows.Forms
         FormOwnerClosing = 5,
 
         /// <summary>
-        /// The
-        /// <see cref="System.Windows.Forms.Application.Exit" /> method of the
-        /// <see cref="System.Windows.Forms.Application" /> class was invoked.
+        /// A form is closing because Application.Exit() was called.
         /// </summary>
         ApplicationExitCall = 6
     }

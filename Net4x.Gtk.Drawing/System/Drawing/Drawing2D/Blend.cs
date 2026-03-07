@@ -6,6 +6,26 @@ namespace System.Drawing.Drawing2D
     /// </summary>
     public sealed class Blend
     {
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Drawing.Drawing2D.Blend" /> class.
+        /// </summary>
+        public Blend()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Drawing.Drawing2D.Blend" /> class with the specified number of factors and positions.
+        /// </summary>
+        /// <param name="count">The number of elements in the
+        /// <see cref="P:System.Drawing.Drawing2D.Blend.Factors" /> and
+        /// <see cref="P:System.Drawing.Drawing2D.Blend.Positions" /> arrays.
+        /// </param>
+        public Blend(int count)
+        {
+        }
         /// <summary>
         /// Gets or sets an array of blend factors for the gradient.
         /// </summary>
@@ -36,26 +56,6 @@ namespace System.Drawing.Drawing2D
             set
             {
             }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.Blend" /> class.
-        /// </summary>
-        public Blend()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.Blend" /> class with the specified number of factors and positions.
-        /// </summary>
-        /// <param name="count">The number of elements in the
-        /// <see cref="P:System.Drawing.Drawing2D.Blend.Factors" /> and
-        /// <see cref="P:System.Drawing.Drawing2D.Blend.Positions" /> arrays.
-        /// </param>
-        public Blend(int count)
-        {
         }
     }
 }

@@ -21,22 +21,36 @@ public static class PrepareWorker
             "ToolStripDropDownButton.cs",
             "ToolStripDropDownMenu.cs",
             "ArrangedElement.cs"};
+        ConsoleColor.Green.Write($"Processing files from: {Path.GetFullPath(myProjectDir)}", true);
         foreach (var file in targets.Where(i => exclude.All(e => !i.EndsWith(e))))
         {
             ConsoleColor.DarkGray.Write($"Processing: {file}");
             EventInvocatorFileRewriter.RewriteEventInvocations(file);
             EventOnMethod(file);
+        }
+
+        ConsoleColor.Green.Write($"Applying code style for: {Path.GetFullPath(myProjectDir)}", true);
+        foreach (var file in Directory.GetFiles(myProjectDir, "*.cs", SearchOption.AllDirectories))
+        {
+            ConsoleColor.DarkGray.Write($"Applying code style: {Path.GetFullPath(file)}");
             CsFileOrganizer.ProcessFile(file);
         }
 
         myProjectDir = @"..\\..\\..\\..\\Net4x.Gtk.Drawing\\";
         targets = EventMethodDetector.DetectFiles(myProjectDir);
 
+        ConsoleColor.Green.Write($"Processing files from: {Path.GetFullPath(myProjectDir)}", true);
         foreach (var file in targets)
         {
             ConsoleColor.DarkGray.Write($"Processing: {file}");
             EventInvocatorFileRewriter.RewriteEventInvocations(file);
             EventOnMethod(file);
+        }
+
+        ConsoleColor.Green.Write($"Applying code style for: {Path.GetFullPath(myProjectDir)}", true);
+        foreach (var file in Directory.GetFiles(myProjectDir, "*.cs", SearchOption.AllDirectories))
+        {
+            ConsoleColor.DarkGray.Write($"Applying code style: {Path.GetFullPath(file)}");
             CsFileOrganizer.ProcessFile(file);
         }
     }
@@ -89,20 +103,20 @@ public static class PrepareWorker
                 "Initializes a new System.Drawing.FontFamily from the specified generic font family.</summary>"),
             ("</returns></summary></summary>", "</returns>")
         };
-        ConsoleColor.DarkMagenta.Write("Processing Net4x.Gtk.Windows.Forms.xml", true);
+        ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Windows.Forms.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\Resources\\Net4x.Gtk.Windows.Forms.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
-        ConsoleColor.DarkMagenta.Write("Processing Net4x.Gtk.Drawing.xml", true);
+        ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Drawing.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\Resources\\Net4x.Gtk.Drawing.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
-#if !SKIP_INITIAL
-        ConsoleColor.DarkMagenta.Write("Processing System.Windows.Forms.xml", true);
+#if DONT_SKIP_INITIAL
+        ConsoleColor.DarkMagenta.Write("Processing XML comments from System.Windows.Forms.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\Resources\\System.Windows.Forms.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
-        ConsoleColor.DarkMagenta.Write("Processing System.Drawing.xml", true);
+        ConsoleColor.DarkMagenta.Write("Processing XML comments from System.Drawing.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\Resources\\System.Drawing.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);

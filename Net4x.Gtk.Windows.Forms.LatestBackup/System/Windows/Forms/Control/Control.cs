@@ -19,6 +19,14 @@ namespace System.Windows.Forms
     /// </summary>
     /// <filterpriority>1
     /// </filterpriority>
+    /// Defines the base class for controls, which are components with visual representation.
+    /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
+    /// Defines the base class for controls, which are components with visual representation.
+    /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
     [Designer(typeof(ControlDesigner))]
@@ -218,10 +226,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref = "System.Windows.Forms.Control"/> class with default settings.
-        /// </summary>
         public Control()
         {
             this.unique_key = Guid.NewGuid().ToString().ToLower();
@@ -259,88 +263,19 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the
-        /// <see cref = "System.Windows.Forms.AccessibleObject"/> assigned to the control.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Windows.Forms.AccessibleObject"/> assigned to the control.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
-
         #endregion
         public virtual AccessibleObject AccessibilityObject { get; }
 
-        /// <summary>
-        /// Gets or sets the default action description of the control for use by accessibility client applications.
-        /// </summary>
-        /// <returns>The default action description of the control for use by accessibility client applications.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual string AccessibleDefaultActionDescription { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description of the control used by accessibility client applications.
-        /// </summary>
-        /// <returns>The description of the control used by accessibility client applications. The default is null.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual string AccessibleDescription { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the control used by accessibility client applications.
-        /// </summary>
-        /// <returns>The name of the control used by accessibility client applications. The default is null.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual string AccessibleName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the accessible role of the control
-        /// </summary>
-        /// <returns>One of the values of
-        /// <see cref = "System.Windows.Forms.AccessibleRole"/> The default is Default.
-        /// </returns>
-        /// <exception cref = "System.ComponentModel.InvalidEnumArgumentException">The value assigned is not one of the
-        /// <see cref = "System.Windows.Forms.AccessibleRole"/> values.
-        /// </exception>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual AccessibleRole AccessibleRole { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the control can accept data that the user drags onto it.
-        /// </summary>
-        /// <returns>true if drag-and-drop operations are allowed in the control; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual bool AllowDrop { get; set; }
 
-        /// <summary>
-        /// Gets or sets the edges of the container to which a control is bound and determines how a control is resized with its parent.
-        /// </summary>
-        /// <returns>A bitwise combination of the
-        /// <see cref = "System.Windows.Forms.AnchorStyles"/> values. The default is Top and Left.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual AnchorStyles Anchor
         {
             get => _anchor;
@@ -353,22 +288,8 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets where this control is scrolled to in
-        /// <see cref = "System.Windows.Forms.ScrollableControl.ScrollControlIntoView(System.Windows.Forms.Control)"/>
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Point"/> specifying the scroll location. The default is the upper-left corner of the control.
-        /// </returns>
         public virtual Point AutoScrollOffset { get; set; }
 
-        /// <summary>
-        /// This property is not relevant for this class.
-        /// </summary>
-        /// <returns>true if enabled; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool AutoSize
         {
             get => _autoSize;
@@ -387,18 +308,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the background color for the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Color"/> that represents the background color of the control. The default is the value of the
-        /// <see cref = "System.Windows.Forms.Control.DefaultBackColor"/> property.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Color BackColor
         {
             get
@@ -422,17 +331,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the background image displayed in the control.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.Drawing.Image"/> that represents the image to display in the background of the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Drawing.Image BackgroundImage
         {
             get => ISelf == null ? null : ISelf.Override.BackgroundImage;
@@ -446,26 +344,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the background image layout as defined in the
-        /// <see cref = "System.Windows.Forms.ImageLayout"/> enumeration.
-        /// </summary>
-        /// <returns>One of the values of
-        /// <see cref = "System.Windows.Forms.ImageLayout"/> (
-        /// <see cref = "System.Windows.Forms.ImageLayout.Center"/> ,
-        /// <see cref = "System.Windows.Forms.ImageLayout.None"/>,
-        /// <see cref = "System.Windows.Forms.ImageLayout.Stretch"/>,
-        /// <see cref = "System.Windows.Forms.ImageLayout.Tile"/>, or
-        /// <see cref = "System.Windows.Forms.ImageLayout.Zoom"/>).
-        /// <see cref = "System.Windows.Forms.ImageLayout.Tile"/> is the default value.
-        /// </returns>
-        /// <exception cref = "System.ComponentModel.InvalidEnumArgumentException">The specified enumeration value does not exist.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual ImageLayout BackgroundImageLayout
         {
             get => ISelf == null ? ImageLayout.None : ISelf.Override.BackgroundImageLayout;
@@ -478,18 +356,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref = "System.Windows.Forms.BindingContext"/> for the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.BindingContext"/> for the control.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual BindingContext BindingContext { get; set; }
 
         public virtual BorderStyle BorderStyle
@@ -523,30 +389,8 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the distance, in pixels, between the bottom edge of the control and the top edge of its container's client area.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.Int32"/> representing the distance, in pixels, between the bottom edge of the control and the top edge of its container's client area.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual int Bottom { get => this.Widget.MarginBottom; }
 
-        /// <summary>
-        /// Gets or sets the size and location of the control including its nonclient elements, in pixels, relative to the parent control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Rectangle"/> in pixels relative to the parent control that represents the size and location of the control including its nonclient elements.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Rectangle Bounds
         {
             get => new Rectangle(Widget.Clip.X, this.Widget.Clip.Y, this.Widget.Clip.Width, this.Widget.Clip.Height);
@@ -556,13 +400,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the control can receive focus.
-        /// </summary>
-        /// <returns>true if the control can receive focus; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool CanFocus
         {
             get
@@ -571,49 +408,14 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the control can be selected.
-        /// </summary>
-        /// <returns>true if the control can be selected; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool CanSelect { get; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the control has captured the mouse.
-        /// </summary>
-        /// <returns>true if the control has captured the mouse; otherwise, false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual bool Capture { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the control causes validation to be performed on any controls that require validation when it receives focus.
-        /// </summary>
-        /// <returns>true if the control causes validation to be performed on any controls requiring validation when it receives focus; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual bool CausesValidation { get; set; }
 
         public ArrangedElementCollection Children => arrangedElementCollection;
 
-        /// <summary>
-        /// Gets the rectangle that represents the client area of the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Rectangle"/> that represents the client area of the control.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual Rectangle ClientRectangle
         {
             get
@@ -624,20 +426,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the height and width of the client area of the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Size"/> that represents the dimensions of the client area of the control.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Size ClientSize
         {
             get
@@ -651,115 +439,26 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the name of the company or creator of the application containing the control.
-        /// </summary>
-        /// <returns>The company name or creator of the application containing the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual string CompanyName { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether the control, or one of its child controls, currently has the input focus.
-        /// </summary>
-        /// <returns>true if the control or one of its child controls currently has the input focus; otherwise, false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual bool ContainsFocus { get; }
 
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref = "System.Windows.Forms.ContextMenuStrip"/> associated with this control.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Windows.Forms.ContextMenuStrip"/> for this control, or null if there is no
-        /// <see cref = "System.Windows.Forms.ContextMenuStrip"/> The default is null.
-        /// </returns>
         public virtual ContextMenuStrip ContextMenuStrip { get; set; }
 
-        /// <summary>
-        /// Gets the collection of controls contained within the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.Control.ControlCollection"/> representing the collection of controls contained within the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual ControlCollection Controls { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether the control has been created.
-        /// </summary>
-        /// <returns>true if the control has been created; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool Created => _Created;
 
-        /// <summary>
-        /// Gets or sets the cursor that is displayed when the mouse pointer is over the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.Cursor"/> that represents the cursor to display when the mouse pointer is over the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Cursor Cursor { get; set; }
 
-        /// <summary>
-        /// Gets the data bindings for the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.ControlBindingsCollection"/> that contains the
-        /// <see cref = "System.Windows.Forms.Binding"/> objects for the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual ControlBindingsCollection DataBindings { get; }
 
         public virtual int DeviceDpi { get; }
 
-        /// <summary>
-        /// Gets the rectangle that represents the display area of the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Rectangle"/> that represents the display area of the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual Rectangle DisplayRectangle { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether the base
-        /// <see cref = "System.Windows.Forms.Control"/> class is in the process of disposing.
-        /// </summary>
-        /// <returns>true if the base
-        /// <see cref = "System.Windows.Forms.Control"/> class is in the process of disposing; otherwise, false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual bool Disposing { get; }
 
-        /// <summary>
-        /// Gets or sets which control borders are docked to its parent control and determines how a control is resized with its parent.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref = "System.Windows.Forms.DockStyle"/> values. The default is
-        /// <see cref = "System.Windows.Forms.DockStyle.None"/>
-        /// </returns>
-        /// <exception cref = "System.ComponentModel.InvalidEnumArgumentException">The value assigned is not one of the
-        /// <see cref = "System.Windows.Forms.DockStyle"/> values.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual DockStyle Dock
         {
             get
@@ -806,19 +505,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the control can respond to user interaction.
-        /// </summary>
-        /// <returns>true if the control can respond to user interaction; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual bool Enabled
         {
             get
@@ -832,13 +518,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the control has input focus.
-        /// </summary>
-        /// <returns>true if the control has focus; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool Focused
         {
             get
@@ -847,21 +526,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the font of the text displayed by the control.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Drawing.Font"/> to apply to the text displayed by the control. The default is the value of the
-        /// <see cref = "System.Windows.Forms.Control.DefaultFont"/> property.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Font Font
         {
             get
@@ -889,18 +553,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the foreground color of the control.
-        /// </summary>
-        /// <returns>The foreground
-        /// <see cref = "System.Drawing.Color"/> of the control. The default is the value of the
-        /// <see cref = "System.Windows.Forms.Control.DefaultForeColor"/> property.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Color ForeColor
         {
             get
@@ -919,44 +571,10 @@ namespace System.Windows.Forms
 
         public virtual object GtkControl { get; set; }
 
-        /// <summary>
-        /// Gets the window handle that the control is bound to.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.IntPtr"/> that contains the window handle (HWND) of the control.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual IntPtr Handle { get => this.Widget == null ? IntPtr.Zero : this.Widget.Handle; }
 
-        /// <summary>
-        /// Gets a value indicating whether the control contains one or more child controls.
-        /// </summary>
-        /// <returns>true if the control contains one or more child controls; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool HasChildren { get; }
 
-        /// <summary>
-        /// Gets or sets the height of the control.
-        /// </summary>
-        /// <returns>The height of the control in pixels.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual int Height
         {
             get
@@ -984,102 +602,22 @@ namespace System.Windows.Forms
 
         public virtual System.Drawing.ContentAlignment ImageAlign { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Input Method Editor (IME) mode of the control.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref = "System.Windows.Forms.ImeMode"/> values. The default is
-        /// <see cref = "System.Windows.Forms.ImeMode.Inherit"/>
-        /// </returns>
-        /// <exception cref = "System.ComponentModel.InvalidEnumArgumentException">The assigned value is not one of the
-        /// <see cref = "System.Windows.Forms.ImeMode"/> enumeration values.
-        /// </exception>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual ImeMode ImeMode { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether the caller must call an invoke method when making method calls to the control because the caller is on a different thread than the one the control was created on.
-        /// </summary>
-        /// <returns>true if the control's
-        /// <see cref = "System.Windows.Forms.Control.Handle"/> was created on a different thread than the calling thread (indicating that you must make calls to the control through an invoke method); otherwise, false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual bool InvokeRequired { get; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the control is visible to accessibility applications.
-        /// </summary>
-        /// <returns>true if the control is visible to accessibility applications; otherwise, false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual bool IsAccessible { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether the control has been disposed of.
-        /// </summary>
-        /// <returns>true if the control has been disposed of; otherwise, false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual bool IsDisposed { get; }
 
         public virtual IControlGtk ISelf { get => GtkControl as IControlGtk; }
 
-        /// <summary>
-        /// Gets a value indicating whether the control has a handle associated with it.
-        /// </summary>
-        /// <returns>true if a handle has been assigned to the control; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool IsHandleCreated { get => this.Widget.IsRealized; }
 
-        /// <summary>
-        /// Gets a value indicating whether the control is mirrored.
-        /// </summary>
-        /// <returns>true if the control is mirrored; otherwise, false.
-        /// </returns>
         public virtual bool IsMirrored { get; }
 
-        /// <summary>
-        /// Gets a cached instance of the control's layout engine.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Windows.Forms.Layout.LayoutEngine"/> for the control's contents.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual LayoutEngine LayoutEngine { get; }
 
-        /// <summary>
-        /// Gets or sets the distance, in pixels, between the left edge of the control and the left edge of its container's client area.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.Int32"/> representing the distance, in pixels, between the left edge of the control and the left edge of its container's client area.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual int Left
         {
             get => this.Widget.MarginStart;
@@ -1093,20 +631,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the coordinates of the upper-left corner of the control relative to the upper-left corner of its container.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Drawing.Point"/> that represents the upper-left corner of the control relative to the upper-left corner of its container.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Point Location
         {
             get
@@ -1124,45 +648,12 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the space between controls.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.Padding"/> representing the space between controls.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual Padding Margin { get; set; }
 
-        /// <summary>
-        /// Gets or sets the size that is the upper limit that
-        /// <see cref = "System.Windows.Forms.Control.GetPreferredSize(System.Drawing.Size)"/> can specify.
-        /// </summary>
-        /// <returns>An ordered pair of type
-        /// <see cref = "System.Drawing.Size"/> representing the width and height of a rectangle.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual Size MaximumSize { get; set; }
 
-        /// <summary>
-        /// Gets or sets the size that is the lower limit that
-        /// <see cref = "System.Windows.Forms.Control.GetPreferredSize(System.Drawing.Size)"/> can specify.
-        /// </summary>
-        /// <returns>An ordered pair of type
-        /// <see cref = "System.Drawing.Size"/> representing the width and height of a rectangle.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual Size MinimumSize { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the control.
-        /// </summary>
-        /// <returns>The name of the control. The default is an empty string ("").
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual string Name
         {
             get
@@ -1176,140 +667,26 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets padding within the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.Padding"/> representing the control's internal spacing characteristics.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Padding Padding { get; set; }
 
-        /// <summary>
-        /// Gets or sets the parent container of the control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.Control"/> that represents the parent or container control of the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Control Parent { get; set; }
 
         public bool ParticipatesInLayout => false;
 
-        /// <summary>
-        /// Gets the size of a rectangular area into which the control can fit.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Size"/> containing the height and width, in pixels.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual Size PreferredSize { get; }
 
-        /// <summary>
-        /// Gets the product name of the assembly containing the control.
-        /// </summary>
-        /// <returns>The product name of the assembly containing the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual string ProductName { get; }
 
-        /// <summary>
-        /// Gets the version of the assembly containing the control.
-        /// </summary>
-        /// <returns>The file version of the assembly containing the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual string ProductVersion { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether the control is currently re-creating its handle.
-        /// </summary>
-        /// <returns>true if the control is currently re-creating its handle; otherwise, false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual bool RecreatingHandle { get; }
 
-        /// <summary>
-        /// Gets or sets the window region associated with the control.
-        /// </summary>
-        /// <returns>The window
-        /// <see cref = "System.Drawing.Region"/> associated with the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Drawing.Region Region { get; set; }
 
-        /// <summary>
-        /// Gets the distance, in pixels, between the right edge of the control and the left edge of its container's client area.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.Int32"/> representing the distance, in pixels, between the right edge of the control and the left edge of its container's client area.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual int Right { get => this.Widget.MarginEnd; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether control's elements are aligned to support locales using right-to-left fonts.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref = "System.Windows.Forms.RightToLeft"/> values. The default is
-        /// <see cref = "System.Windows.Forms.RightToLeft.Inherit"/>
-        /// </returns>
-        /// <exception cref = "System.ComponentModel.InvalidEnumArgumentException">The assigned value is not one of the
-        /// <see cref = "System.Windows.Forms.RightToLeft"/> values.
-        /// </exception>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual RightToLeft RightToLeft { get; set; }
 
-        /// <summary>
-        /// Gets or sets the height and width of the control.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Drawing.Size"/> that represents the height and width of the control in pixels.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Size Size
         {
             get
@@ -1336,64 +713,14 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the tab order of the control within its container.
-        /// </summary>
-        /// <returns>The index value of the control within the set of controls within its container. The controls in the container are included in the tab order.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual int TabIndex { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the user can give the focus to this control using the TAB key.
-        /// </summary>
-        /// <returns>true if the user can give the focus to the control using the TAB key; otherwise, false. The default is true.NoteThis property will always return true for an instance of the
-        /// <see cref = "System.Windows.Forms.Form"/> class.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual bool TabStop { get; set; }
 
-        /// <summary>
-        /// Gets or sets the object that contains data about the control.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.Object"/> that contains data about the control. The default is null.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual object Tag { get; set; }
 
-        /// <summary>
-        /// Gets or sets the text associated with this control.
-        /// </summary>
-        /// <returns>The text associated with this control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual string Text { get; set; }
 
-        /// <summary>
-        /// Gets or sets the distance, in pixels, between the top edge of the control and the top edge of its container's client area.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.Int32"/> representing the distance, in pixels, between the bottom edge of the control and the top edge of its container's client area.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual int Top
         {
             get => this.Widget.MarginTop;
@@ -1407,43 +734,14 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the parent control that is not parented by another Windows Forms control. Typically, this is the outermost
-        /// <see cref = "System.Windows.Forms.Form"/> that the control is contained in.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Windows.Forms.Control"/> that represents the top-level control that contains the current control.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual Control TopLevelControl { get; }
 
         public string unique_key { get; protected set; }
 
         public virtual bool UseVisualStyleBackColor { get; set; } = true;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether to use the wait cursor for the current control and all child controls.
-        /// </summary>
-        /// <returns>true to use the wait cursor for the current control and all child controls; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual bool UseWaitCursor { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the control and all its child controls are displayed.
-        /// </summary>
-        /// <returns>true if the control and all its child controls are displayed; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual bool Visible
         {
             get
@@ -1462,19 +760,6 @@ namespace System.Windows.Forms
 
         public virtual Gtk.Widget Widget { get => GtkControl as Gtk.Widget; }
 
-        /// <summary>
-        /// Gets or sets the width of the control.
-        /// </summary>
-        /// <returns>The width of the control in pixels.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual int Width
         {
             get
@@ -1497,34 +782,13 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// This property is not relevant for this class.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.Windows.Forms.IWindowTarget"/>
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode"/>
-        /// </PermissionSet>
         public virtual IWindowTarget WindowTarget { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether the control should display focus rectangles.
-        /// </summary>
-        /// <returns>true if the control should display focus rectangles; otherwise, false.
-        /// </returns>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected internal virtual bool ShowFocusCues { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether the user interface is in the appropriate state to show or hide keyboard accelerators.
-        /// </summary>
-        /// <returns>true if the keyboard accelerators are visible; otherwise, false.
-        /// </returns>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1533,27 +797,10 @@ namespace System.Windows.Forms
         IArrangedElement IArrangedElement.Container => throw new NotImplementedException();
 
         PropertyStore IArrangedElement.Properties => throw new NotImplementedException();
-        /// <summary>
-        /// Gets a value indicating whether the
-        /// <see cref = "System.Windows.Forms.Control.ImeMode"/> property can be set to an active value, to enable IME support.
-        /// </summary>
-        /// <returns>true in all cases.
-        /// </returns>
         protected virtual bool CanEnableIme { get; }
 
-        /// <summary>
-        /// Determines if events can be raised on the control.
-        /// </summary>
-        /// <returns>true if the control is hosted as an ActiveX control whose events are not frozen; otherwise, false.
-        /// </returns>
         protected override bool CanRaiseEvents { get; }
 
-        /// <summary>
-        /// Gets the required creation parameters when the control handle is created.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.CreateParams"/> that contains the required creation parameters when the handle to the control is created.
-        /// </returns>
         protected virtual CreateParams CreateParams
         {
             get
@@ -1565,97 +812,28 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets the default cursor for the control.
-        /// </summary>
-        /// <returns>An object of type
-        /// <see cref = "System.Windows.Forms.Cursor"/> representing the current default cursor.
-        /// </returns>
         protected virtual Cursor DefaultCursor { get; }
 
-        /// <summary>
-        /// Gets the default Input Method Editor (IME) mode supported by the control.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref = "System.Windows.Forms.ImeMode"/> values.
-        /// </returns>
         protected virtual ImeMode DefaultImeMode { get; }
 
-        /// <summary>
-        /// Gets the space, in pixels, that is specified by default between controls.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.Padding"/> that represents the default space between controls.
-        /// </returns>
         protected virtual Padding DefaultMargin { get; }
 
-        /// <summary>
-        /// Gets the length and height, in pixels, that is specified as the default maximum size of a control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Point. # ctor ( System . Drawing . Size )"/> representing the size of the control.
-        /// </returns>
         protected virtual Size DefaultMaximumSize { get; }
 
-        /// <summary>
-        /// Gets the length and height, in pixels, that is specified as the default minimum size of a control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Size"/> representing the size of the control.
-        /// </returns>
         protected virtual Size DefaultMinimumSize { get; }
 
-        /// <summary>
-        /// Gets the internal spacing, in pixels, of the contents of a control.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.Padding"/> that represents the internal spacing of the contents of a control.
-        /// </returns>
         protected virtual Padding DefaultPadding { get; }
 
-        /// <summary>
-        /// Gets the default size of the control.
-        /// </summary>
-        /// <returns>The default
-        /// <see cref = "System.Drawing.Size"/> of the control.
-        /// </returns>
         protected virtual Size DefaultSize { get; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this control should redraw its surface using a secondary buffer to reduce or prevent flicker.
-        /// </summary>
-        /// <returns>true if the surface of the control should be drawn using double buffering; otherwise, false.
-        /// </returns>
         protected virtual bool DoubleBuffered { get; set; }
 
-        /// <summary>
-        /// Gets or sets the height of the font of the control.
-        /// </summary>
-        /// <returns>The height of the
-        /// <see cref = "System.Drawing.Font"/> of the control in pixels.
-        /// </returns>
         protected int FontHeight { get; set; }
 
-        /// <summary>
-        /// Gets or sets the IME mode of a control.
-        /// </summary>
-        /// <returns>The IME mode of the control.
-        /// </returns>
         protected virtual ImeMode ImeModeBase { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the control redraws itself when resized.
-        /// </summary>
-        /// <returns>true if the control redraws itself when resized; otherwise, false.
-        /// </returns>
         protected bool ResizeRedraw { get; set; }
 
-        /// <summary>
-        /// Gets a value that determines the scaling of child controls.
-        /// </summary>
-        /// <returns>true if child controls will be scaled when the
-        /// <see cref = "System.Windows.Forms.Control.Scale(System.Single)"/> method on this control is called; otherwise, false. The default is true.
-        /// </returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual bool ScaleChildren { get; }
 
@@ -1664,28 +842,6 @@ namespace System.Windows.Forms
         {
         }
 
-        /// <summary>
-        /// Executes the specified delegate asynchronously with the specified arguments, on the thread that the control's underlying handle was created on.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.IAsyncResult"/> that represents the result of the
-        /// <see cref = "System.Windows.Forms.Control.BeginInvoke(System.Delegate)"/> operation.
-        /// </returns>
-        /// <param name = "method">A delegate to a method that takes parameters of the same number and type that are contained in the
-        /// <paramref name = "args"/> parameter.
-        /// </param>
-        /// <param name = "args">An array of objects to pass as arguments to the given method. This can be null if no arguments are needed.
-        /// </param>
-        /// <exception cref = "System.InvalidOperationException">No appropriate window handle can be found.
-        /// </exception>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual IAsyncResult BeginInvoke(Delegate method, params object[] args)
         {
             System.Threading.Tasks.Task task = System.Threading.Tasks.Task.Factory.StartNew(state =>
@@ -1696,25 +852,6 @@ namespace System.Windows.Forms
             return task;
         }
 
-        /// <summary>
-        /// Executes the specified delegate asynchronously on the thread that the control's underlying handle was created on.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.IAsyncResult"/> that represents the result of the
-        /// <see cref = "System.Windows.Forms.Control.BeginInvoke(System.Delegate)"/> operation.
-        /// </returns>
-        /// <param name = "method">A delegate to a method that takes no parameters.
-        /// </param>
-        /// <exception cref = "System.InvalidOperationException">No appropriate window handle can be found.
-        /// </exception>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual IAsyncResult BeginInvoke(Delegate method)
         {
             return BeginInvoke(method, null);
@@ -1727,66 +864,19 @@ namespace System.Windows.Forms
             return task;
         }
 
-        /// <summary>
-        /// Brings the control to the front of the z-order.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void BringToFront()
         {
         }
 
-        /// <summary>
-        /// Retrieves a value indicating whether the specified control is a child of the control.
-        /// </summary>
-        /// <returns>true if the specified control is a child of the control; otherwise, false.
-        /// </returns>
-        /// <param name = "ctl">The
-        /// <see cref = "System.Windows.Forms.Control"/> to evaluate.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool Contains(Control ctl)
         {
             return false;
         }
 
-        /// <summary>
-        /// Forces the creation of the visible control, including the creation of the handle and any visible child controls.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void CreateControl()
         {
         }
 
-        /// <summary>
-        /// Creates the
-        /// <see cref = "System.Drawing.Graphics"/> for the control.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Drawing.Graphics"/> for the control.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Drawing.Graphics CreateGraphics()
         {
             try
@@ -1831,31 +921,11 @@ namespace System.Windows.Forms
             base.Dispose();
         }
 
-        /// <summary>
-        /// Begins a drag-and-drop operation.
-        /// </summary>
-        /// <returns>A value from the
-        /// <see cref = "System.Windows.Forms.DragDropEffects"/> enumeration that represents the final effect that was performed during the drag-and-drop operation.
-        /// </returns>
-        /// <param name = "data">The data to drag.
-        /// </param>
-        /// <param name = "allowedEffects">One of the
-        /// <see cref = "System.Windows.Forms.DragDropEffects"/> values.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual DragDropEffects DoDragDrop(object data, DragDropEffects allowedEffects)
         {
             return DragDropEffects.None;
         }
 
-        /// <summary>
-        /// Supports rendering to the specified bitmap.
-        /// </summary>
-        /// <param name = "bitmap">The bitmap to be drawn to.
-        /// </param>
-        /// <param name = "targetBounds">The bounds within which the control is rendered.
-        /// </param>
         public virtual void DrawToBitmap(Bitmap bitmap, Rectangle targetBounds)
         {
         }
@@ -1865,32 +935,6 @@ namespace System.Windows.Forms
         {
         }
 
-        /// <summary>
-        /// Retrieves the return value of the asynchronous operation represented by the
-        /// <see cref = "System.IAsyncResult"/> passed.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Object"/> generated by the asynchronous operation.
-        /// </returns>
-        /// <param name = "asyncResult">The
-        /// <see cref = "System.IAsyncResult"/> that represents a specific invoke asynchronous operation, returned when calling
-        /// <see cref = "System.Windows.Forms.Control.BeginInvoke(System.Delegate)"/>
-        /// </param>
-        /// <exception cref = "System.ArgumentNullException">The
-        /// <paramref name = "asyncResult"/> parameter value is null.
-        /// </exception>
-        /// <exception cref = "System.ArgumentException">The
-        /// <paramref name = "asyncResult"/> object was not created by a preceding call of the
-        /// <see cref = "System.Windows.Forms.Control.BeginInvoke(System.Delegate)"/> method from the same control.
-        /// </exception>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual object EndInvoke(IAsyncResult asyncResult)
         {
             if (asyncResult is System.Threading.Tasks.Task task)
@@ -1902,17 +946,6 @@ namespace System.Windows.Forms
             return asyncResult.AsyncState;
         }
 
-        /// <summary>
-        /// Retrieves the form that the control is on.
-        /// </summary>
-        /// <returns>The
-        /// <see cref = "System.Windows.Forms.Form"/> that the control is on.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.UIPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Window="AllWindows"/>
-        /// </PermissionSet>
         public virtual Form FindForm()
         {
             if (this.Widget.Toplevel.Data.ContainsKey("Control"))
@@ -1934,19 +967,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Sets input focus to the control.
-        /// </summary>
-        /// <returns>true if the input focus request was successful; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual bool Focus()
         {
             if (this.Widget != null)
@@ -1960,73 +980,21 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Retrieves the child control that is located at the specified coordinates.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Windows.Forms.Control"/> that represents the control that is located at the specified point.
-        /// </returns>
-        /// <param name = "pt">A
-        /// <see cref = "System.Drawing.Point"/> that contains the coordinates where you want to look for a control. Coordinates are expressed relative to the upper-left corner of the control's client area.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Control GetChildAtPoint(Point pt)
         {
             return null;
         }
 
-        /// <summary>
-        /// Retrieves the child control that is located at the specified coordinates, specifying whether to ignore child controls of a certain type.
-        /// </summary>
-        /// <returns>The child
-        /// <see cref = "System.Windows.Forms.Control"/> at the specified coordinates.
-        /// </returns>
-        /// <param name = "pt">A
-        /// <see cref = "System.Drawing.Point"/> that contains the coordinates where you want to look for a control. Coordinates are expressed relative to the upper-left corner of the control's client area.
-        /// </param>
-        /// <param name = "skipValue">One of the values of
-        /// <see cref = "System.Windows.Forms.GetChildAtPointSkip"/>, determining whether to ignore child controls of a certain type.
-        /// </param>
         public virtual Control GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue)
         {
             return null;
         }
 
-        /// <summary>
-        /// Returns the next
-        /// <see cref = "System.Windows.Forms.ContainerControl"/> up the control's chain of parent controls.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.Windows.Forms.IContainerControl"/>, that represents the parent of the
-        /// <see cref = "System.Windows.Forms.Control"/>
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual IContainerControl GetContainerControl()
         {
             return this as IContainerControl;
         }
 
-        /// <summary>
-        /// Retrieves the next control forward or back in the tab order of child controls.
-        /// </summary>
-        /// <returns>The next
-        /// <see cref = "System.Windows.Forms.Control"/> in the tab order.
-        /// </returns>
-        /// <param name = "ctl">The
-        /// <see cref = "System.Windows.Forms.Control"/> to start the search with.
-        /// </param>
-        /// <param name = "forward">true to search forward in the tab order; false to search backward.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual Control GetNextControl(Control ctl, bool forward)
         {
             Control prev = null;
@@ -2062,32 +1030,11 @@ namespace System.Windows.Forms
             return null;
         }
 
-        /// <summary>
-        /// Retrieves the size of a rectangular area into which a control can be fitted.
-        /// </summary>
-        /// <returns>An ordered pair of type
-        /// <see cref = "System.Drawing.Size"/> representing the width and height of a rectangle.
-        /// </returns>
-        /// <param name = "proposedSize">The custom-sized area for a control.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual Size GetPreferredSize(Size proposedSize)
         {
             return proposedSize;
         }
 
-        /// <summary>
-        /// Conceals the control from the user.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Hide()
         {
             if (this.GtkControl is Misc con)
@@ -2096,63 +1043,21 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Invalidates the entire surface of the control and causes the control to be redrawn.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Invalidate()
         {
             Invalidate(true);
         }
 
-        /// <summary>
-        /// Invalidates a specific region of the control and causes a paint message to be sent to the control. Optionally, invalidates the child controls assigned to the control.
-        /// </summary>
-        /// <param name = "invalidateChildren">true to invalidate the control's child controls; otherwise, false.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Invalidate(bool invalidateChildren)
         {
             Invalidate(new Rectangle(Widget.Allocation.X, Widget.Allocation.Y, Widget.Allocation.Width, Widget.Allocation.Height), invalidateChildren);
         }
 
-        /// <summary>
-        /// Invalidates the specified region of the control (adds it to the control's update region, which is the area that will be repainted at the next paint operation), and causes a paint message to be sent to the control.
-        /// </summary>
-        /// <param name = "rc">A
-        /// <see cref = "System.Drawing.Rectangle"/> that represents the region to invalidate.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Invalidate(Rectangle rc)
         {
             Invalidate(rc, true);
         }
 
-        /// <summary>
-        /// Invalidates the specified region of the control (adds it to the control's update region, which is the area that will be repainted at the next paint operation), and causes a paint message to be sent to the control. Optionally, invalidates the child controls assigned to the control.
-        /// </summary>
-        /// <param name = "rc">A
-        /// <see cref = "System.Drawing.Rectangle"/> that represents the region to invalidate.
-        /// </param>
-        /// <param name = "invalidateChildren">true to invalidate the control's child controls; otherwise, false.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Invalidate(Rectangle rc, bool invalidateChildren)
         {
             if (this.Widget != null)
@@ -2170,35 +1075,11 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Invalidates the specified region of the control (adds it to the control's update region, which is the area that will be repainted at the next paint operation), and causes a paint message to be sent to the control.
-        /// </summary>
-        /// <param name = "region">The
-        /// <see cref = "System.Drawing.Region"/> to invalidate.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Invalidate(Drawing.Region region)
         {
             Invalidate(region, true);
         }
 
-        /// <summary>
-        /// Invalidates the specified region of the control (adds it to the control's update region, which is the area that will be repainted at the next paint operation), and causes a paint message to be sent to the control. Optionally, invalidates the child controls assigned to the control.
-        /// </summary>
-        /// <param name = "region">The
-        /// <see cref = "System.Drawing.Region"/> to invalidate.
-        /// </param>
-        /// <param name = "invalidateChildren">true to invalidate the control's child controls; otherwise, false.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Invalidate(Drawing.Region region, bool invalidateChildren)
         {
             if (this.Widget != null)
@@ -2209,45 +1090,11 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Executes the specified delegate on the thread that owns the control's underlying window handle.
-        /// </summary>
-        /// <returns>The return value from the delegate being invoked, or null if the delegate has no return value.
-        /// </returns>
-        /// <param name = "method">A delegate that contains a method to be called in the control's thread context.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual object Invoke(Delegate method)
         {
             return Invoke(method, null);
         }
 
-        /// <summary>
-        /// Executes the specified delegate, on the thread that owns the control's underlying window handle, with the specified list of arguments.
-        /// </summary>
-        /// <returns>An
-        /// <see cref = "System.Object"/> that contains the return value from the delegate being invoked, or null if the delegate has no return value.
-        /// </returns>
-        /// <param name = "method">A delegate to a method that takes parameters of the same number and type that are contained in the
-        /// <paramref name = "args"/> parameter.
-        /// </param>
-        /// <param name = "args">An array of objects to pass as arguments to the specified method. This parameter can be null if the method takes no arguments.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual object Invoke(Delegate method, params object[] args)
         {
             object result = null;
@@ -2296,50 +1143,16 @@ namespace System.Windows.Forms
             OnClick(EventArgs.Empty);
         }
 
-        /// <summary>
-        /// Forces the control to apply layout logic to all its child controls.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual void PerformLayout()
         {
             _Created = true;
         }
 
-        /// <summary>
-        /// Forces the control to apply layout logic to all its child controls.
-        /// </summary>
-        /// <param name = "affectedControl">A
-        /// <see cref = "System.Windows.Forms.Control"/> that represents the most recently changed control.
-        /// </param>
-        /// <param name = "affectedProperty">The name of the most recently changed property on the control.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual void PerformLayout(Control affectedControl, string affectedProperty)
         {
             _Created = true;
         }
 
-        /// <summary>
-        /// Computes the location of the specified screen point into client coordinates.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Point"/> that represents the converted
-        /// <see cref = "System.Drawing.Point"/>,
-        /// <paramref name = "p"/>, in client coordinates.
-        /// </returns>
-        /// <param name = "p">The screen coordinate
-        /// <see cref = "System.Drawing.Point"/> to convert.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Point PointToClient(Point p)
         {
             if (Widget != null)
@@ -2352,25 +1165,6 @@ namespace System.Windows.Forms
             return new Point(p.X, p.Y);
         }
 
-        /// <summary>
-        /// Computes the location of the specified client point into screen coordinates.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Point"/> that represents the converted
-        /// <see cref = "System.Drawing.Point"/>,
-        /// <paramref name = "p"/>, in screen coordinates.
-        /// </returns>
-        /// <param name = "p">The client coordinate
-        /// <see cref = "System.Drawing.Point"/> to convert.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual Point PointToScreen(Point p)
         {
             if (Widget != null)
@@ -2383,57 +1177,16 @@ namespace System.Windows.Forms
             return new Point(p.X, p.Y);
         }
 
-        /// <summary>
-        /// Preprocesses keyboard or input messages within the message loop before they are dispatched.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref = "System.Windows.Forms.PreProcessControlState"/> values, depending on whether
-        /// <see cref = "System.Windows.Forms.Control.PreProcessMessage(System.Windows.Forms.Message)"/> is true or false and whether
-        /// <see cref = "System.Windows.Forms.Control.IsInputKey(System.Windows.Forms.Keys)"/> or
-        /// <see cref = "System.Windows.Forms.Control.IsInputChar(System.Char)"/> are true or false.
-        /// </returns>
-        /// <param name = "msg">A
-        /// <see cref = "System.Windows.Forms.Message"/> that represents the message to process.
-        /// </param>
         public virtual PreProcessControlState PreProcessControlMessage(ref Message msg)
         {
             return PreProcessControlState.MessageNotNeeded;
         }
 
-        /// <summary>
-        /// Preprocesses keyboard or input messages within the message loop before they are dispatched.
-        /// </summary>
-        /// <returns>true if the message was processed by the control; otherwise, false.
-        /// </returns>
-        /// <param name = "msg">A
-        /// <see cref = "System.Windows.Forms.Message"/>, passed by reference, that represents the message to process. The possible values are WM_KEYDOWN, WM_SYSKEYDOWN, WM_CHAR, and WM_SYSCHAR.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual bool PreProcessMessage(ref Message msg)
         {
             return false;
         }
 
-        /// <summary>
-        /// Computes the size and location of the specified screen rectangle in client coordinates.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Rectangle"/> that represents the converted
-        /// <see cref = "System.Drawing.Rectangle"/>,
-        /// <paramref name = "r"/>, in client coordinates.
-        /// </returns>
-        /// <param name = "r">The screen coordinate
-        /// <see cref = "System.Drawing.Rectangle"/> to convert.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual Rectangle RectangleToClient(Rectangle r)
         {
             if (Widget != null)
@@ -2446,19 +1199,6 @@ namespace System.Windows.Forms
             return new Rectangle(r.X, r.Y, r.Width, r.Height);
         }
 
-        /// <summary>
-        /// Computes the size and location of the specified client rectangle in screen coordinates.
-        /// </summary>
-        /// <returns>A
-        /// <see cref = "System.Drawing.Rectangle"/> that represents the converted
-        /// <see cref = "System.Drawing.Rectangle"/>,
-        /// <paramref name = "p"/>, in screen coordinates.
-        /// </returns>
-        /// <param name = "r">The client coordinate
-        /// <see cref = "System.Drawing.Rectangle"/> to convert.
-        /// </param>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual Rectangle RectangleToScreen(Rectangle r)
         {
             if (Widget != null)
@@ -2471,17 +1211,6 @@ namespace System.Windows.Forms
             return new Rectangle(r.X, r.Y, r.Width, r.Height);
         }
 
-        /// <summary>
-        /// Forces the control to invalidate its client area and immediately redraw itself and any child controls.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Refresh()
         {
             if (this.Widget != null && this.Widget.IsVisible)
@@ -2497,180 +1226,56 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Resets the
-        /// <see cref = "System.Windows.Forms.Control.BackColor"/> property to its default value.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void ResetBackColor()
         {
         }
 
-        /// <summary>
-        /// Causes a control bound to the
-        /// <see cref = "System.Windows.Forms.BindingSource"/> to reread all the items in the list and refresh their displayed values.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual void ResetBindings()
         {
         }
 
-        /// <summary>
-        /// Resets the
-        /// <see cref = "System.Windows.Forms.Control.Cursor"/> property to its default value.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void ResetCursor()
         {
         }
 
-        /// <summary>
-        /// Resets the
-        /// <see cref = "System.Windows.Forms.Control.Font"/> property to its default value.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void ResetFont()
         {
         }
 
-        /// <summary>
-        /// Resets the
-        /// <see cref = "System.Windows.Forms.Control.ForeColor"/> property to its default value.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void ResetForeColor()
         {
         }
 
-        /// <summary>
-        /// Resets the
-        /// <see cref = "System.Windows.Forms.Control.ImeMode"/> property to its default value.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void ResetImeMode()
         {
         }
 
-        /// <summary>
-        /// Resets the
-        /// <see cref = "System.Windows.Forms.Control.RightToLeft"/> property to its default value.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void ResetRightToLeft()
         {
         }
 
-        /// <summary>
-        /// Resets the
-        /// <see cref = "System.Windows.Forms.Control.Text"/> property to its default value.
-        /// </summary>
-        /// <filterpriority>2
-        /// </filterpriority>
         public virtual void ResetText()
         {
         }
 
-        /// <summary>
-        /// Resumes usual layout logic.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual void ResumeLayout()
         {
             ResumeLayout(false);
         }
 
-        /// <summary>
-        /// Resumes usual layout logic, optionally forcing an immediate layout of pending layout requests.
-        /// </summary>
-        /// <param name = "performLayout">true to execute pending layout requests; otherwise, false.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual void ResumeLayout(bool performLayout)
         {
             _Created = true;
         }
 
-        /// <summary>
-        /// Scales the control and any child controls.
-        /// </summary>
-        /// <param name = "ratio">The ratio to use for scaling.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Scale(float ratio)
         {
         }
 
-        /// <summary>
-        /// Scales the entire control and any child controls.
-        /// </summary>
-        /// <param name = "dx">The horizontal scaling factor.
-        /// </param>
-        /// <param name = "dy">The vertical scaling factor.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Scale(float dx, float dy)
         {
         }
 
-        /// <summary>
-        /// Scales the control and all child controls by the specified scaling factor.
-        /// </summary>
-        /// <param name = "factor">A
-        /// <see cref = "System.Drawing.SizeF"/> containing the horizontal and vertical scaling factors.
-        /// </param>
         public virtual void Scale(SizeF factor)
         {
         }
@@ -2679,110 +1284,26 @@ namespace System.Windows.Forms
         {
         }
 
-        /// <summary>
-        /// Activates the control.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual void Select()
         {
             if (this.Widget != null)
                 this.Widget.SetStateFlags(StateFlags.Selected, true);
         }
 
-        /// <summary>
-        /// Activates the next control.
-        /// </summary>
-        /// <returns>true if a control was activated; otherwise, false.
-        /// </returns>
-        /// <param name = "ctl">The
-        /// <see cref = "System.Windows.Forms.Control"/> at which to start the search.
-        /// </param>
-        /// <param name = "forward">true to move forward in the tab order; false to move backward in the tab order.
-        /// </param>
-        /// <param name = "tabStopOnly">true to ignore the controls with the
-        /// <see cref = "System.Windows.Forms.Control.TabStop"/> property set to false; otherwise, false.
-        /// </param>
-        /// <param name = "nested">true to include nested (children of child controls) child controls; otherwise, false.
-        /// </param>
-        /// <param name = "wrap">true to continue searching from the first control in the tab order after the last control has been reached; otherwise, false.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual bool SelectNextControl(Control ctl, bool forward, bool tabStopOnly, bool nested, bool wrap)
         {
             return false;
         }
 
-        /// <summary>
-        /// Sends the control to the back of the z-order.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void SendToBack()
         {
         }
 
-        /// <summary>
-        /// Sets the bounds of the control to the specified location and size.
-        /// </summary>
-        /// <param name = "x">The new
-        /// <see cref = "System.Windows.Forms.Control.Left"/> property value of the control.
-        /// </param>
-        /// <param name = "y">The new
-        /// <see cref = "System.Windows.Forms.Control.Top"/> property value of the control.
-        /// </param>
-        /// <param name = "width">The new
-        /// <see cref = "System.Windows.Forms.Control.Width"/> property value of the control.
-        /// </param>
-        /// <param name = "height">The new
-        /// <see cref = "System.Windows.Forms.Control.Height"/> property value of the control.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void SetBounds(int x, int y, int width, int height)
         {
             SetBounds(x, y, width, height, BoundsSpecified.All);
         }
 
-        /// <summary>
-        /// Sets the specified bounds of the control to the specified location and size.
-        /// </summary>
-        /// <param name = "x">The new
-        /// <see cref = "System.Windows.Forms.Control.Left"/> property value of the control.
-        /// </param>
-        /// <param name = "y">The new
-        /// <see cref = "System.Windows.Forms.Control.Top"/> property value of the control.
-        /// </param>
-        /// <param name = "width">The new
-        /// <see cref = "System.Windows.Forms.Control.Width"/> property value of the control.
-        /// </param>
-        /// <param name = "height">The new
-        /// <see cref = "System.Windows.Forms.Control.Height"/> property value of the control.
-        /// </param>
-        /// <param name = "specified">A bitwise combination of the
-        /// <see cref = "System.Windows.Forms.BoundsSpecified"/> values. For any parameter not specified, the current value will be used.
-        /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void SetBounds(int x, int y, int width, int height, BoundsSpecified specified)
         {
             if (this.Widget != null)
@@ -2823,17 +1344,6 @@ namespace System.Windows.Forms
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Displays the control to the user.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Show()
         {
             if (this.Widget != null)
@@ -2842,27 +1352,11 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Temporarily suspends the layout logic for the control.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
         public virtual void SuspendLayout()
         {
             _Created = false;
         }
 
-        /// <summary>
-        /// Causes the control to redraw the invalidated regions within its client area.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public virtual void Update()
         {
             if (this.Widget != null)
@@ -2877,12 +1371,6 @@ namespace System.Windows.Forms
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Releases the unmanaged resources used by the
-        /// <see cref = "System.Windows.Forms.Control"/> and its child controls and optionally releases the managed resources.
-        /// </summary>
-        /// <param name = "disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
-        /// </param>
         protected override void Dispose(bool disposing)
         {
             try
@@ -2913,220 +1401,294 @@ namespace System.Windows.Forms
             SetStyle(widget);
         }
 
+        /// <summary>
+        /// Raises the AnchorChanged event.
+        /// </summary>
         protected virtual void OnAnchorChanged(System.EventArgs e)
         {
             AnchorChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the AutoSizeChanged event.
+        /// </summary>
         protected virtual void OnAutoSizeChanged(System.EventArgs e)
         {
             AutoSizeChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the BackColorChanged event.
+        /// </summary>
         protected virtual void OnBackColorChanged(System.EventArgs e)
         {
             BackColorChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the BackgroundImageChanged event.
+        /// </summary>
         protected virtual void OnBackgroundImageChanged(System.EventArgs e)
         {
             BackgroundImageChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the BackgroundImageLayoutChanged event.
+        /// </summary>
         protected virtual void OnBackgroundImageLayoutChanged(System.EventArgs e)
         {
             BackgroundImageLayoutChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the BindingContextChanged event.
+        /// </summary>
         protected virtual void OnBindingContextChanged(System.EventArgs e)
         {
             BindingContextChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the CausesValidationChanged event.
+        /// </summary>
         protected virtual void OnCausesValidationChanged(System.EventArgs e)
         {
             CausesValidationChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the ChangeUICues event.
+        /// </summary>
         protected virtual void OnChangeUICues(System.Windows.Forms.UICuesEventArgs e)
         {
             ChangeUICues?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.Click"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnClick(EventArgs e)
         {
             Click?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the ClientSizeChanged event.
+        /// </summary>
         protected virtual void OnClientSizeChanged(System.EventArgs e)
         {
             ClientSizeChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the ContextMenuStripChanged event.
+        /// </summary>
         protected virtual void OnContextMenuStripChanged(System.EventArgs e)
         {
             ContextMenuStripChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the ControlAdded event.
+        /// </summary>
         protected virtual void OnControlAdded(System.Windows.Forms.ControlEventArgs e)
         {
             ControlAdded?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the ControlRemoved event.
+        /// </summary>
         protected virtual void OnControlRemoved(System.Windows.Forms.ControlEventArgs e)
         {
             ControlRemoved?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the CursorChanged event.
+        /// </summary>
         protected virtual void OnCursorChanged(System.EventArgs e)
         {
             CursorChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the DockChanged event.
+        /// </summary>
         protected virtual void OnDockChanged(System.EventArgs e)
         {
             DockChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the DoubleClick event.
+        /// </summary>
         protected virtual void OnDoubleClick(System.EventArgs e)
         {
             DoubleClick?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the DpiChangedAfterParent event.
+        /// </summary>
         protected virtual void OnDpiChangedAfterParent(System.EventArgs e)
         {
             DpiChangedAfterParent?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the DpiChangedBeforeParent event.
+        /// </summary>
         protected virtual void OnDpiChangedBeforeParent(System.EventArgs e)
         {
             DpiChangedBeforeParent?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the DragDrop event.
+        /// </summary>
         protected virtual void OnDragDrop(System.Windows.Forms.DragEventArgs e)
         {
             DragDrop?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the DragEnter event.
+        /// </summary>
         protected virtual void OnDragEnter(System.Windows.Forms.DragEventArgs e)
         {
             DragEnter?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the DragLeave event.
+        /// </summary>
         protected virtual void OnDragLeave(System.EventArgs e)
         {
             DragLeave?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the DragOver event.
+        /// </summary>
         protected virtual void OnDragOver(System.Windows.Forms.DragEventArgs e)
         {
             DragOver?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the EnabledChanged event.
+        /// </summary>
         protected virtual void OnEnabledChanged(System.EventArgs e)
         {
             EnabledChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the Enter event.
+        /// </summary>
         protected virtual void OnEnter(System.EventArgs e)
         {
             Enter?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the FontChanged event.
+        /// </summary>
         protected virtual void OnFontChanged(System.EventArgs e)
         {
             FontChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the ForeColorChanged event.
+        /// </summary>
         protected virtual void OnForeColorChanged(System.EventArgs e)
         {
             ForeColorChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the GiveFeedback event.
+        /// </summary>
         protected virtual void OnGiveFeedback(System.Windows.Forms.GiveFeedbackEventArgs e)
         {
             GiveFeedback?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.GotFocus"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         protected virtual void OnGotFocus(EventArgs e)
         {
             GotFocus?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the HandleCreated event.
+        /// </summary>
         protected virtual void OnHandleCreated(System.EventArgs e)
         {
             HandleCreated?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the HandleDestroyed event.
+        /// </summary>
         protected virtual void OnHandleDestroyed(System.EventArgs e)
         {
             HandleDestroyed?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the HelpRequested event.
+        /// </summary>
         protected virtual void OnHelpRequested(System.Windows.Forms.HelpEventArgs e)
         {
             HelpRequested?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the ImeModeChanged event.
+        /// </summary>
         protected virtual void OnImeModeChanged(System.EventArgs e)
         {
             ImeModeChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the Invalidated event.
+        /// </summary>
         protected virtual void OnInvalidated(System.Windows.Forms.InvalidateEventArgs e)
         {
             Invalidated?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.KeyDown"/> event.
-        /// </summary>
-        /// <param name = "e">A
-        /// <see cref = "System.Windows.Forms.KeyEventArgs"/> that contains the event data.
-        /// </param>
         protected virtual void OnKeyDown(KeyEventArgs e)
         {
             KeyDown?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the KeyPress event.
+        /// </summary>
         protected virtual void OnKeyPress(System.Windows.Forms.KeyPressEventArgs e)
         {
             KeyPress?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.KeyUp"/> event.
-        /// </summary>
-        /// <param name = "e">A
-        /// <see cref = "System.Windows.Forms.KeyEventArgs"/> that contains the event data.
-        /// </param>
         protected virtual void OnKeyUp(KeyEventArgs e)
         {
             KeyUp?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the Layout event.
+        /// </summary>
         protected virtual void OnLayout(System.Windows.Forms.LayoutEventArgs e)
         {
             Layout?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the Leave event.
+        /// </summary>
         protected virtual void OnLeave(System.EventArgs e)
         {
             Leave?.Invoke(this, e);
@@ -3138,254 +1700,201 @@ namespace System.Windows.Forms
             Load?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the LocationChanged event.
+        /// </summary>
         protected virtual void OnLocationChanged(System.EventArgs e)
         {
             LocationChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the LostFocus event.
+        /// </summary>
         protected virtual void OnLostFocus(System.EventArgs e)
         {
             LostFocus?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the MarginChanged event.
+        /// </summary>
         protected virtual void OnMarginChanged(System.EventArgs e)
         {
             MarginChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the MouseCaptureChanged event.
+        /// </summary>
         protected virtual void OnMouseCaptureChanged(System.EventArgs e)
         {
             MouseCaptureChanged?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.MouseClick"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.Windows.Forms.MouseEventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseClick(MouseEventArgs e)
         {
             MouseClick?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.MouseDoubleClick"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.Windows.Forms.MouseEventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseDoubleClick(MouseEventArgs e)
         {
             MouseDoubleClick?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.MouseDown"/> event.
-        /// </summary>
-        /// <param name = "e">A
-        /// <see cref = "System.Windows.Forms.MouseEventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseDown(MouseEventArgs e)
         {
             MouseDown?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.MouseEnter"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseEnter(EventArgs e)
         {
             MouseEnter?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.MouseHover"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseHover(EventArgs e)
         {
             MouseHover?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.MouseLeave"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseLeave(EventArgs e)
         {
             MouseLeave?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.MouseMove"/> event.
-        /// </summary>
-        /// <param name = "e">A
-        /// <see cref = "System.Windows.Forms.MouseEventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseMove(MouseEventArgs e)
         {
             MouseMove?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.MouseUp"/> event.
-        /// </summary>
-        /// <param name = "e">A
-        /// <see cref = "System.Windows.Forms.MouseEventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseUp(MouseEventArgs e)
         {
             MouseUp?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.MouseWheel"/> event.
-        /// </summary>
-        /// <param name = "e">A
-        /// <see cref = "System.Windows.Forms.MouseEventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMouseWheel(MouseEventArgs e)
         {
             MouseWheel?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.Move"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnMove(EventArgs e)
         {
             Move?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the PaddingChanged event.
+        /// </summary>
         protected virtual void OnPaddingChanged(System.EventArgs e)
         {
             PaddingChanged?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.Paint"/> event.
-        /// </summary>
-        /// <param name = "e">A
-        /// <see cref = "System.Windows.Forms.PaintEventArgs"/> that contains the event data.
-        /// </param>
         protected virtual void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.ParentChanged"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         protected virtual void OnParentChanged(EventArgs e)
         {
             ParentChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the PreviewKeyDown event.
+        /// </summary>
         protected virtual void OnPreviewKeyDown(System.Windows.Forms.PreviewKeyDownEventArgs e)
         {
             PreviewKeyDown?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the QueryAccessibilityHelp event.
+        /// </summary>
         protected virtual void OnQueryAccessibilityHelp(System.Windows.Forms.QueryAccessibilityHelpEventArgs e)
         {
             QueryAccessibilityHelp?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the QueryContinueDrag event.
+        /// </summary>
         protected virtual void OnQueryContinueDrag(System.Windows.Forms.QueryContinueDragEventArgs e)
         {
             QueryContinueDrag?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the RegionChanged event.
+        /// </summary>
         protected virtual void OnRegionChanged(System.EventArgs e)
         {
             RegionChanged?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.Resize"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnResize(EventArgs e)
         {
             Resize?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the RightToLeftChanged event.
+        /// </summary>
         protected virtual void OnRightToLeftChanged(System.EventArgs e)
         {
             RightToLeftChanged?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.SizeChanged"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         protected virtual void OnSizeChanged(EventArgs e)
         {
             SizeChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the StyleChanged event.
+        /// </summary>
         protected virtual void OnStyleChanged(System.EventArgs e)
         {
             StyleChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the SystemColorsChanged event.
+        /// </summary>
         protected virtual void OnSystemColorsChanged(System.EventArgs e)
         {
             SystemColorsChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the TabIndexChanged event.
+        /// </summary>
         protected virtual void OnTabIndexChanged(System.EventArgs e)
         {
             TabIndexChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the TabStopChanged event.
+        /// </summary>
         protected virtual void OnTabStopChanged(System.EventArgs e)
         {
             TabStopChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raises the TextChanged event.
+        /// </summary>
         protected virtual void OnTextChanged(System.EventArgs e)
         {
             TextChanged?.Invoke(this, e);
@@ -3403,25 +1912,11 @@ namespace System.Windows.Forms
             Validating?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Raises the
-        /// <see cref = "System.Windows.Forms.Control.VisibleChanged"/> event.
-        /// </summary>
-        /// <param name = "e">An
-        /// <see cref = "System.EventArgs"/> that contains the event data.
-        /// </param>
         protected virtual void OnVisibleChanged(EventArgs e)
         {
             VisibleChanged?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Activates a child control. Optionally specifies the direction in the tab order to select the control from.
-        /// </summary>
-        /// <param name = "directed">true to specify the direction of the control to select; otherwise, false.
-        /// </param>
-        /// <param name = "forward">true to move forward in the tab order; false to move backward in the tab order.
-        /// </param>
         protected virtual void Select(bool directed, bool forward)
         {
         }
@@ -3636,15 +2131,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Sets a specified
-        /// <see cref = "System.Windows.Forms.ControlStyles"/> flag to either true or false.
-        /// </summary>
-        /// <param name = "flag">The
-        /// <see cref = "System.Windows.Forms.ControlStyles"/> bit to set.
-        /// </param>
-        /// <param name = "value">true to apply the specified style to the control; otherwise, false.
-        /// </param>
         protected virtual void SetStyle(ControlStyles styles, bool value)
         {
         }
@@ -3661,12 +2147,6 @@ namespace System.Windows.Forms
                 SetStyle(this.Widget);
         }
 
-        /// <summary>
-        /// Processes Windows messages.
-        /// </summary>
-        /// <param name = "m">The Windows
-        /// <see cref = "System.Windows.Forms.Message"/> to process.
-        /// </param>
         protected virtual void WndProc(ref Message m)
         {
             //Console.WriteLine($"HWnd:{m.HWnd},WParam:{m.WParam},LParam:{m.LParam},Msg:{m.Msg}");

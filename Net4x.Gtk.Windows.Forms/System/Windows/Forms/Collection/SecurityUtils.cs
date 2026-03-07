@@ -5,19 +5,6 @@ namespace System.Windows.Forms;
 
 internal static class SecurityUtils
 {
-    private static bool HasReflectionPermission(Type? _)
-    {
-        bool flag;
-        try
-        {
-            flag = true;
-        }
-        catch (SecurityException)
-        {
-            return false;
-        }
-        return flag;
-    }
 
     internal static object? SecureCreateInstance(Type? type)
     {
@@ -42,6 +29,21 @@ internal static class SecurityUtils
         {
             bindingFlag |= BindingFlags.NonPublic;
         }
+
         return Activator.CreateInstance(type, bindingFlag, null, args, null);
+    }
+    private static bool HasReflectionPermission(Type? _)
+    {
+        bool flag;
+        try
+        {
+            flag = true;
+        }
+        catch (SecurityException)
+        {
+            return false;
+        }
+
+        return flag;
     }
 }

@@ -10,13 +10,11 @@ internal static class ColorTable
 {
     private static readonly Lazy<Dictionary<string, Color>> s_colorConstants = new(GetColors);
 
-    private static Dictionary<string, Color> GetColors()
-    {
-        var colors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
-        FillWithProperties(colors, typeof(Color));
-        FillWithProperties(colors, typeof(SystemColors));
-        return colors;
-    }
+    internal static Dictionary<string, Color> Colors => s_colorConstants.Value;
+
+    internal static bool IsKnownNamedColor(string name) => Colors.TryGetValue(name, out _);
+
+    internal static bool TryGetNamedColor(string name, out Color result) => Colors.TryGetValue(name, out result);
 
     private static void FillWithProperties(
         Dictionary<string, Color> dictionary,
@@ -29,9 +27,12 @@ internal static class ColorTable
         }
     }
 
-    internal static Dictionary<string, Color> Colors => s_colorConstants.Value;
+    private static Dictionary<string, Color> GetColors()
+    {
+        var colors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
+        FillWithProperties(colors, typeof(Color));
+        FillWithProperties(colors, typeof(SystemColors));
 
-    internal static bool TryGetNamedColor(string name, out Color result) => Colors.TryGetValue(name, out result);
-
-    internal static bool IsKnownNamedColor(string name) => Colors.TryGetValue(name, out _);
+        return colors;
+    }
 }

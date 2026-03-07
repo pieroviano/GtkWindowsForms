@@ -16,6 +16,13 @@ namespace System.Windows.Forms
     /// </summary>
     public class PaintEventArgs : EventArgs, IDisposable
     {
+
+        /// <summary>
+        /// DC (Display context) for obtaining the graphics object. Used to delay
+        /// getting the graphics object until absolutely necessary (for perf reasons)
+        /// </summary>
+        private readonly IntPtr _dc = IntPtr.Zero;
+
         /// <summary>
         /// Graphics object with which painting should be done.
         /// </summary>
@@ -25,12 +32,6 @@ namespace System.Windows.Forms
         /// See ResetGraphics()
         /// </summary>
         private GraphicsState _savedGraphicsState;
-
-        /// <summary>
-        /// DC (Display context) for obtaining the graphics object. Used to delay
-        /// getting the graphics object until absolutely necessary (for perf reasons)
-        /// </summary>
-        private readonly IntPtr _dc = IntPtr.Zero;
 
         private IntPtr oldPal = IntPtr.Zero;
 
@@ -53,14 +54,9 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.PaintEventArgs" /> class with the specified graphics and clipping rectangle.
+        /// <see cref="PaintEventArgs" />
+        /// class with the specified graphics and clipping rectangle.
         /// </summary>
-        /// <param name="graphics">The
-        /// <see cref="System.Drawing.Graphics" /> used to paint the item.
-        /// </param>
-        /// <param name="clipRect">The
-        /// <see cref="System.Drawing.Rectangle" /> that represents the rectangle in which to paint.
-        /// </param>
         public PaintEventArgs(Graphics graphics, Rectangle clipRect)
         {
             _graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
@@ -79,34 +75,15 @@ namespace System.Windows.Forms
             ClipRectangle = clipRect;
         }
 
-        ~PaintEventArgs() => Dispose(false);
-
         /// <summary>
         /// Gets the rectangle in which to paint.
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Drawing.Rectangle" /> in which to paint.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public Rectangle ClipRectangle { get; }
 
         /// <summary>
-        /// Gets the HDC this paint event is connected to.  If there is no associated
-        /// HDC, or the GDI+ Graphics object has been created (meaning GDI+ now owns the
-        /// HDC), 0 is returned.
+        /// Gets the
+        /// <see cref="Drawing.Graphics" /> object used to paint.
         /// </summary>
-        internal IntPtr HDC => _graphics == null ? _dc : IntPtr.Zero;
-
-        /// <summary>
-        /// Gets the graphics used to paint.
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Drawing.Graphics" /> object used to paint. The
-        /// <see cref="System.Drawing.Graphics" /> object provides methods for drawing objects on the display device.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public Graphics Graphics
         {
             get
@@ -117,6 +94,13 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
+        /// Gets the HDC this paint event is connected to.  If there is no associated
+        /// HDC, or the GDI+ Graphics object has been created (meaning GDI+ now owns the
+        /// HDC), 0 is returned.
+        /// </summary>
+        internal IntPtr HDC => _graphics == null ? _dc : IntPtr.Zero;
+
+        /// <summary>
         /// Disposes of the resources (other than memory) used by the
         /// <see cref="PaintEventArgs" />.
         /// </summary>
@@ -124,21 +108,6 @@ namespace System.Windows.Forms
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-        /// <summary>
-        /// Releases the unmanaged resources used by the
-        /// <see cref="System.Windows.Forms.PaintEventArgs" /> and optionally releases the managed resources.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
-        /// </param>
-        protected virtual void Dispose(bool disposing)
-        {
-
-            if (oldPal != IntPtr.Zero && _dc != IntPtr.Zero)
-            {
-                //SafeNativeMethods.SelectPalette(new HandleRef(this, _dc), new HandleRef(this, oldPal), 0);
-                oldPal = IntPtr.Zero;
-            }
         }
 
         /// <summary>
@@ -151,6 +120,16 @@ namespace System.Windows.Forms
         internal void ResetGraphics()
         {
 
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+
+            if (oldPal != IntPtr.Zero && _dc != IntPtr.Zero)
+            {
+                //SafeNativeMethods.SelectPalette(new HandleRef(this, _dc), new HandleRef(this, oldPal), 0);
+                oldPal = IntPtr.Zero;
+            }
         }
     }
 }

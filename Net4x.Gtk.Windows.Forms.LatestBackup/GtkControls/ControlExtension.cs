@@ -29,6 +29,7 @@ internal static class ControlExtension
         {
             return null;
         }
+
         return cell;
     }
 

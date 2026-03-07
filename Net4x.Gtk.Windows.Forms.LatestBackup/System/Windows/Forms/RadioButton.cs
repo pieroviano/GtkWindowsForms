@@ -21,16 +21,18 @@ namespace System.Windows.Forms
     {
 
         public readonly RadioButtonBase self = new RadioButtonBase();
-
-        public override object GtkControl => self;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.RadioButton" /> class.
-        /// </summary>
+        private bool _Checked;
+        public event EventHandler CheckedChanged;
         public RadioButton() : base()
         {
             self.ParentSet += Self_ParentSet;
         }
+
+        public bool Checked { get { return self.Active; } set { _Checked = true; self.Active = true; } }
+
+        public override object GtkControl => self;
+
+        public override string Text { get { return self.Label; } set { self.Label = value; } }
 
         private void Self_ParentSet(object o, Gtk.ParentSetArgs args)
         {
@@ -54,24 +56,5 @@ namespace System.Windows.Forms
             if (CheckedChanged != null && self.IsVisible)
                 CheckedChanged(this, e);
         }
-        public event EventHandler CheckedChanged;
-
-
-        public override string Text { get { return self.Label; } set { self.Label = value; } }
-        /// <summary>
-        /// Gets or sets a value indicating whether the control is checked.
-        /// </summary>
-        /// <returns>true if the check box is checked; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public bool Checked { get { return self.Active; } set { _Checked = true; self.Active = true; } }
-        private bool _Checked;
     }
 }

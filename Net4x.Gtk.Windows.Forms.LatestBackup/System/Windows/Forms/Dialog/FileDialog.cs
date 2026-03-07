@@ -19,272 +19,16 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public abstract class FileDialog : CommonDialog
     {
+
+        private string _filter;
+
+        static Dictionary<string, string> MimeMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        public event CancelEventHandler FileOk;
         public FileDialog()
         {
 
         }
-        /// <summary>
-        /// Gets or sets a value indicating whether the dialog box accepts only valid Win32 file names.
-        /// </summary>
-        /// <returns>true if the dialog box accepts only valid Win32 file names; otherwise, false. The default value is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public bool ValidateNames { get; set; }
-        /// <summary>
-        /// Gets or sets the file dialog box title.
-        /// </summary>
-        /// <returns>The file dialog box title. The default value is an empty string ("").
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public string Title { get; set; }
-        /// <summary>
-        /// Gets or sets whether the dialog box supports displaying and saving files that have multiple file name extensions.
-        /// </summary>
-        /// <returns>true if the dialog box supports multiple file name extensions; otherwise, false. The default is false.
-        /// </returns>
-        public bool SupportMultiDottedExtensions { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the Help button is displayed in the file dialog box.
-        /// </summary>
-        /// <returns>true if the dialog box includes a help button; otherwise, false. The default value is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public bool ShowHelp { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the dialog box restores the current directory before closing.
-        /// </summary>
-        /// <returns>true if the dialog box restores the current directory to its original value if the user changed the directory while searching for files; otherwise, false. The default value is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public bool RestoreDirectory { get; set; }
-        /// <summary>
-        /// Gets or sets the initial directory displayed by the file dialog box.
-        /// </summary>
-        /// <returns>The initial directory displayed by the file dialog box. The default is an empty string ("").
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public string InitialDirectory { get; set; }
-
-        public string Description { get; set; }
-
-        internal bool Multiselect { get; set; }
-        /// <summary>
-        /// Gets or sets the index of the filter currently selected in the file dialog box.
-        /// </summary>
-        /// <returns>A value containing the index of the filter currently selected in the file dialog box. The default value is 1.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public int FilterIndex { get; set; }
-
-
-        private string _filter;
-        /// <summary>
-        /// Gets or sets the current file name filter string, which determines the choices that appear in the "Save as file type" or "Files of type" box in the dialog box.
-        /// </summary>
-        /// <returns>The file filtering options available in the dialog box.
-        /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// <paramref name="Filter" /> format is invalid.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public string Filter
-        {
-            get
-            {
-                return _filter ?? string.Empty;
-            }
-            set
-            {
-                if (value == _filter)
-                {
-                    return;
-                }
-                if (!string.IsNullOrEmpty(value))
-                {
-                    string[] filters = value.Split('|');
-                    int pipeCount = filters.Length;
-                    if (pipeCount == 1 || pipeCount % 2 == 1)
-                    {
-                        throw new ArgumentException("FileDialog Invalid Filter", value);
-                    }
-                    for (int i = 1; i < pipeCount; i += 2)
-                    {
-                        if (filters[i].Split('.').Length == 1)
-                        {
-                            throw new ArgumentException("FileDialog Invalid Filter", value);
-                        }
-                    }
-                }
-                else
-                {
-                    value = null!;
-                }
-
-                _filter = value;
-            }
-        }
-        /// <summary>
-        /// Gets or sets a value indicating whether this
-        /// <see cref="System.Windows.Forms.FileDialog" /> instance should automatically upgrade appearance and behavior when running on Windows Vista.
-        /// </summary>
-        /// <returns>true if this
-        /// <see cref="System.Windows.Forms.FileDialog" /> instance should automatically upgrade appearance and behavior when running on Windows Vista; otherwise, false. The default is true.
-        /// </returns>
-        public bool AutoUpgradeEnabled { get; set; }
-
-        internal string SelectedDirectory { get; set; }
-        /// <summary>
-        /// Gets or sets a string containing the file name selected in the file dialog box.
-        /// </summary>
-        /// <returns>The file name selected in the file dialog box. The default value is an empty string ("").
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public string FileName { get; set; }
-        /// <summary>
-        /// Gets the file names of all selected files in the dialog box.
-        /// </summary>
-        /// <returns>An array of type
-        /// <see cref="System.String" />, containing the file names of all selected files in the dialog box.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public string[] FileNames { get; internal set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the dialog box returns the location of the file referenced by the shortcut or whether it returns the location of the shortcut (.lnk).
-        /// </summary>
-        /// <returns>true if the dialog box returns the location of the file referenced by the shortcut; otherwise, false. The default value is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public bool DereferenceLinks { get; set; }
-        /// <summary>
-        /// Gets or sets the default file name extension.
-        /// </summary>
-        /// <returns>The default file name extension. The returned string does not include the period. The default value is an empty string ("").
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public string DefaultExt { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the dialog box displays a warning if the user specifies a path that does not exist.
-        /// </summary>
-        /// <returns>true if the dialog box displays a warning when the user specifies a path that does not exist; otherwise, false. The default value is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public bool CheckPathExists { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the dialog box displays a warning if the user specifies a file name that does not exist.
-        /// </summary>
-        /// <returns>true if the dialog box displays a warning if the user specifies a file name that does not exist; otherwise, false. The default value is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public virtual bool CheckFileExists { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the dialog box automatically adds an extension to a file name if the user omits the extension.
-        /// </summary>
-        /// <returns>true if the dialog box adds an extension to a file name if the user omits the extension; otherwise, false. The default value is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public bool AddExtension { get; set; }
-
-
-        public event CancelEventHandler FileOk;
-
-        internal Gtk.FileChooserAction ActionType { get; set; }
-        /// <summary>
-        /// Resets all properties to their default values.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public override void Reset()
-        {
-            AddExtension = true;
-            Title = null;
-            InitialDirectory = null;
-            FileName = null;
-            FileNames = null;
-            _filter = null;
-            FilterIndex = 1;
-            SupportMultiDottedExtensions = false;
-        }
-        protected override bool RunDialog(IWin32Window owner)
-        {
-            Gtk.FileChooserDialog fileDialog = null;
-            if (owner != null && owner is Form ownerform)
-            {
-                fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, ownerform.self, ActionType);
-                fileDialog.WindowPosition = Gtk.WindowPosition.CenterOnParent;
-            }
-            else
-            {
-                fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, null, ActionType);
-                fileDialog.WindowPosition = Gtk.WindowPosition.Center;
-            }
-            fileDialog.IconName = "document-open";
-            fileDialog.AddButton(System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
-            fileDialog.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
-            fileDialog.SelectMultiple = this.Multiselect;
-            fileDialog.Title = this.Title ?? string.Empty;
-            fileDialog.TooltipText = this.Description ?? string.Empty;
-
-            fileDialog.KeepAbove = true;
-            if (!string.IsNullOrWhiteSpace(this.SelectedDirectory))
-                fileDialog.SetCurrentFolder(this.SelectedDirectory);
-            else if (!string.IsNullOrWhiteSpace(this.InitialDirectory))
-                fileDialog.SetCurrentFolder(this.InitialDirectory);
-
-
-            if (_filter != null)
-            {
-                string[] filters = _filter.Split('|');
-                for (int i = 1; i < filters.Length; i += 2)
-                {
-                    string[] patterns = filters[i].Split(';');
-                    foreach (string pattern in patterns)
-                    {
-                        Gtk.FileFilter ffilter = new Gtk.FileFilter();
-                        string extand = pattern.TrimStart(new char[] { '*', ' ' });
-                        if (MimeMapping.ContainsKey(extand))
-                        {
-                            ffilter.AddMimeType(MimeMapping[extand]);
-                        }
-                        ffilter.AddPattern(pattern);
-                        ffilter.Name = $"{filters[i - 1]}（{pattern}）";
-                        fileDialog.AddFilter(ffilter);
-                        if (pattern == DefaultExt)
-                        {
-                            fileDialog.Filter = ffilter;
-                        }
-                    }
-                }
-            }
-            int response = fileDialog.Run();
-            this.FileName = fileDialog.Filename;
-            this.FileNames = fileDialog.Filenames.Clone() as string[];
-            this.SelectedDirectory = fileDialog.Filename;
-            fileDialog.Dispose();
-            fileDialog.Destroy();
-            return response == -5;
-        }
-
-        static Dictionary<string, string> MimeMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         static FileDialog()
         {
             MimeMapping.Clear();
@@ -631,6 +375,151 @@ namespace System.Windows.Forms
             MimeMapping.Add(".xwd", "image/x-xwindowdump");
             MimeMapping.Add(".z", "application/x-compress");
             MimeMapping.Add(".zip", "application/x-zip-compressed");
+        }
+
+        public bool AddExtension { get; set; }
+
+        public bool AutoUpgradeEnabled { get; set; }
+
+        public virtual bool CheckFileExists { get; set; }
+
+        public bool CheckPathExists { get; set; }
+
+        public string DefaultExt { get; set; }
+
+        public bool DereferenceLinks { get; set; }
+
+        public string Description { get; set; }
+
+        public string FileName { get; set; }
+
+        public string[] FileNames { get; internal set; }
+
+        public string Filter
+        {
+            get
+            {
+                return _filter ?? string.Empty;
+            }
+            set
+            {
+                if (value == _filter)
+                {
+                    return;
+                }
+                if (!string.IsNullOrEmpty(value))
+                {
+                    string[] filters = value.Split('|');
+                    int pipeCount = filters.Length;
+                    if (pipeCount == 1 || pipeCount % 2 == 1)
+                    {
+                        throw new ArgumentException("FileDialog Invalid Filter", value);
+                    }
+                    for (int i = 1; i < pipeCount; i += 2)
+                    {
+                        if (filters[i].Split('.').Length == 1)
+                        {
+                            throw new ArgumentException("FileDialog Invalid Filter", value);
+                        }
+                    }
+                }
+                else
+                {
+                    value = null!;
+                }
+
+                _filter = value;
+            }
+        }
+
+        public int FilterIndex { get; set; }
+
+        public string InitialDirectory { get; set; }
+
+        public bool RestoreDirectory { get; set; }
+
+        public bool ShowHelp { get; set; }
+
+        public bool SupportMultiDottedExtensions { get; set; }
+
+        public string Title { get; set; }
+
+        public bool ValidateNames { get; set; }
+
+        internal Gtk.FileChooserAction ActionType { get; set; }
+
+        internal bool Multiselect { get; set; }
+
+        internal string SelectedDirectory { get; set; }
+        public override void Reset()
+        {
+            AddExtension = true;
+            Title = null;
+            InitialDirectory = null;
+            FileName = null;
+            FileNames = null;
+            _filter = null;
+            FilterIndex = 1;
+            SupportMultiDottedExtensions = false;
+        }
+        protected override bool RunDialog(IWin32Window owner)
+        {
+            Gtk.FileChooserDialog fileDialog = null;
+            if (owner != null && owner is Form ownerform)
+            {
+                fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, ownerform.self, ActionType);
+                fileDialog.WindowPosition = Gtk.WindowPosition.CenterOnParent;
+            }
+            else
+            {
+                fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, null, ActionType);
+                fileDialog.WindowPosition = Gtk.WindowPosition.Center;
+            }
+            fileDialog.IconName = "document-open";
+            fileDialog.AddButton(System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
+            fileDialog.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
+            fileDialog.SelectMultiple = this.Multiselect;
+            fileDialog.Title = this.Title ?? string.Empty;
+            fileDialog.TooltipText = this.Description ?? string.Empty;
+
+            fileDialog.KeepAbove = true;
+            if (!string.IsNullOrWhiteSpace(this.SelectedDirectory))
+                fileDialog.SetCurrentFolder(this.SelectedDirectory);
+            else if (!string.IsNullOrWhiteSpace(this.InitialDirectory))
+                fileDialog.SetCurrentFolder(this.InitialDirectory);
+
+            if (_filter != null)
+            {
+                string[] filters = _filter.Split('|');
+                for (int i = 1; i < filters.Length; i += 2)
+                {
+                    string[] patterns = filters[i].Split(';');
+                    foreach (string pattern in patterns)
+                    {
+                        Gtk.FileFilter ffilter = new Gtk.FileFilter();
+                        string extand = pattern.TrimStart(new char[] { '*', ' ' });
+                        if (MimeMapping.ContainsKey(extand))
+                        {
+                            ffilter.AddMimeType(MimeMapping[extand]);
+                        }
+                        ffilter.AddPattern(pattern);
+                        ffilter.Name = $"{filters[i - 1]}（{pattern}）";
+                        fileDialog.AddFilter(ffilter);
+                        if (pattern == DefaultExt)
+                        {
+                            fileDialog.Filter = ffilter;
+                        }
+                    }
+                }
+            }
+            int response = fileDialog.Run();
+            this.FileName = fileDialog.Filename;
+            this.FileNames = fileDialog.Filenames.Clone() as string[];
+            this.SelectedDirectory = fileDialog.Filename;
+            fileDialog.Dispose();
+            fileDialog.Destroy();
+
+            return response == -5;
         }
     }
 }

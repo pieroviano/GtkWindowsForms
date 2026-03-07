@@ -7,47 +7,6 @@ namespace System.Drawing.Drawing2D
     /// </summary>
     public sealed class HatchBrush : Brush
     {
-        /// <summary>
-        /// Gets the color of spaces between the hatch lines drawn by this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.Color" /> structure that represents the background color for this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
-        /// </returns>
-        public Color BackgroundColor
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the color of hatch lines drawn by this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.Color" /> structure that represents the foreground color for this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
-        /// </returns>
-        public Color ForegroundColor
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the hatch style of this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="T:System.Drawing.Drawing2D.HatchStyle" /> values that represents the pattern of this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
-        /// </returns>
-        public HatchStyle HatchStyle
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         /// Initializes a new instance of the
@@ -88,6 +47,47 @@ namespace System.Drawing.Drawing2D
             this.HatchStyle = hatchstyle;
             this.ForegroundColor = foreColor;
             this.BackgroundColor = backColor;
+        }
+        /// <summary>
+        /// Gets the color of spaces between the hatch lines drawn by this
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Color" /> structure that represents the background color for this
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
+        /// </returns>
+        public Color BackgroundColor
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the color of hatch lines drawn by this
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Color" /> structure that represents the foreground color for this
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
+        /// </returns>
+        public Color ForegroundColor
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the hatch style of this
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="T:System.Drawing.Drawing2D.HatchStyle" /> values that represents the pattern of this
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
+        /// </returns>
+        public HatchStyle HatchStyle
+        {
+            get;
+            private set;
         }
 
         /// <summary>

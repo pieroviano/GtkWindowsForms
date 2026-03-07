@@ -8,55 +8,47 @@ namespace System.Drawing.Imaging
     [StructLayout(LayoutKind.Sequential)]
     public sealed class WmfPlaceableFileHeader
     {
-        private int _key = -1698247209;
-
-        private short _hmf;
-
-        private short _bboxLeft;
-
-        private short _bboxTop;
-
-        private short _bboxRight;
 
         private short _bboxBottom;
 
-        private short _inch;
+        private short _bboxLeft;
 
-        private int _reserved;
+        private short _bboxRight;
+
+        private short _bboxTop;
 
         private short _checksum;
 
+        private short _hmf;
+
+        private short _inch;
+
+        private int _key = -1698247209;
+
+        private int _reserved;
+
         /// <summary>
-        /// Gets or sets a value indicating the presence of a placeable metafile header.
+        /// Initializes a new instance of the
+        /// <see langword="WmfPlaceableFileHeader" /> class.
         /// </summary>
-        /// <returns>A value indicating presence of a placeable metafile header.
-        /// </returns>
-        public int Key
+        public WmfPlaceableFileHeader()
         {
-            get
-            {
-                return _key;
-            }
-            set
-            {
-                _key = value;
-            }
         }
 
         /// <summary>
-        /// Gets or sets the handle of the metafile in memory.
+        /// Gets or sets the y-coordinate of the lower-right corner of the bounding rectangle of the metafile image on the output device.
         /// </summary>
-        /// <returns>The handle of the metafile in memory.
+        /// <returns>The y-coordinate of the lower-right corner of the bounding rectangle of the metafile image on the output device.
         /// </returns>
-        public short Hmf
+        public short BboxBottom
         {
             get
             {
-                return _hmf;
+                return _bboxBottom;
             }
             set
             {
-                _hmf = value;
+                _bboxBottom = value;
             }
         }
 
@@ -78,23 +70,6 @@ namespace System.Drawing.Imaging
         }
 
         /// <summary>
-        /// Gets or sets the y-coordinate of the upper-left corner of the bounding rectangle of the metafile image on the output device.
-        /// </summary>
-        /// <returns>The y-coordinate of the upper-left corner of the bounding rectangle of the metafile image on the output device.
-        /// </returns>
-        public short BboxTop
-        {
-            get
-            {
-                return _bboxTop;
-            }
-            set
-            {
-                _bboxTop = value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the x-coordinate of the lower-right corner of the bounding rectangle of the metafile image on the output device.
         /// </summary>
         /// <returns>The x-coordinate of the lower-right corner of the bounding rectangle of the metafile image on the output device.
@@ -112,53 +87,19 @@ namespace System.Drawing.Imaging
         }
 
         /// <summary>
-        /// Gets or sets the y-coordinate of the lower-right corner of the bounding rectangle of the metafile image on the output device.
+        /// Gets or sets the y-coordinate of the upper-left corner of the bounding rectangle of the metafile image on the output device.
         /// </summary>
-        /// <returns>The y-coordinate of the lower-right corner of the bounding rectangle of the metafile image on the output device.
+        /// <returns>The y-coordinate of the upper-left corner of the bounding rectangle of the metafile image on the output device.
         /// </returns>
-        public short BboxBottom
+        public short BboxTop
         {
             get
             {
-                return _bboxBottom;
+                return _bboxTop;
             }
             set
             {
-                _bboxBottom = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of twips per inch.
-        /// </summary>
-        /// <returns>The number of twips per inch.
-        /// </returns>
-        public short Inch
-        {
-            get
-            {
-                return _inch;
-            }
-            set
-            {
-                _inch = value;
-            }
-        }
-
-        /// <summary>
-        /// Reserved. Do not use.
-        /// </summary>
-        /// <returns>Reserved. Do not use.
-        /// </returns>
-        public int Reserved
-        {
-            get
-            {
-                return _reserved;
-            }
-            set
-            {
-                _reserved = value;
+                _bboxTop = value;
             }
         }
 
@@ -181,17 +122,77 @@ namespace System.Drawing.Imaging
             }
         }
 
-        internal ref int GetPinnableReference()
+        /// <summary>
+        /// Gets or sets the handle of the metafile in memory.
+        /// </summary>
+        /// <returns>The handle of the metafile in memory.
+        /// </returns>
+        public short Hmf
         {
-            return ref _key;
+            get
+            {
+                return _hmf;
+            }
+            set
+            {
+                _hmf = value;
+            }
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see langword="WmfPlaceableFileHeader" /> class.
+        /// Gets or sets the number of twips per inch.
         /// </summary>
-        public WmfPlaceableFileHeader()
+        /// <returns>The number of twips per inch.
+        /// </returns>
+        public short Inch
         {
+            get
+            {
+                return _inch;
+            }
+            set
+            {
+                _inch = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the presence of a placeable metafile header.
+        /// </summary>
+        /// <returns>A value indicating presence of a placeable metafile header.
+        /// </returns>
+        public int Key
+        {
+            get
+            {
+                return _key;
+            }
+            set
+            {
+                _key = value;
+            }
+        }
+
+        /// <summary>
+        /// Reserved. Do not use.
+        /// </summary>
+        /// <returns>Reserved. Do not use.
+        /// </returns>
+        public int Reserved
+        {
+            get
+            {
+                return _reserved;
+            }
+            set
+            {
+                _reserved = value;
+            }
+        }
+
+        internal ref int GetPinnableReference()
+        {
+            return ref _key;
         }
     }
 }

@@ -5,6 +5,11 @@ namespace System.Windows.Forms
 {
     internal class ListViewGroupConverter : TypeConverter
     {
+
+        public ListViewGroupConverter()
+        {
+            throw new System.NotImplementedException();
+        }
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             throw new System.NotImplementedException();
@@ -36,11 +41,6 @@ namespace System.Windows.Forms
         }
 
         public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ListViewGroupConverter()
         {
             throw new System.NotImplementedException();
         }

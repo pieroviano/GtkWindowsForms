@@ -22,6 +22,7 @@ namespace GtkSystem.IO
                 num2 += 7;
             }
             while ((b & 0x80u) != 0);
+
             return num;
         }
     }

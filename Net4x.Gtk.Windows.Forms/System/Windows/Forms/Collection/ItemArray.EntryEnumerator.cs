@@ -15,6 +15,24 @@ namespace System.Windows.Forms
     /// collection and several read-only collections based
     /// on masks.  ItemArray supports up to 31 masks.
     /// </summary>
+    /// This is similar to ArrayList except that it also
+    /// maintains a bit-flag based state element for each item in the array.
+    /// The methods to enumerate, count and get data support
+    /// virtualized indexes.  Indexes are virtualized according
+    /// to the state mask passed in.  This allows ItemArray
+    /// to be the backing store for one read-write "master"
+    /// collection and several read-only collections based
+    /// on masks.  ItemArray supports up to 31 masks.
+    /// </summary>
+    /// This is similar to ArrayList except that it also
+    /// maintains a bit-flag based state element for each item in the array.
+    /// The methods to enumerate, count and get data support
+    /// virtualized indexes.  Indexes are virtualized according
+    /// to the state mask passed in.  This allows ItemArray
+    /// to be the backing store for one read-write "master"
+    /// collection and several read-only collections based
+    /// on masks.  ItemArray supports up to 31 masks.
+    /// </summary>
     internal partial class ItemArray
     {
         /// <summary>
@@ -24,13 +42,14 @@ namespace System.Windows.Forms
         private class EntryEnumerator : IEnumerator
         {
 
-            private readonly ItemArray _items;
-
             private readonly bool _anyBit;
+
+            private int _current;
+
+            private readonly ItemArray _items;
 
             private readonly int _state;
 
-            private int _current;
             private readonly int _version;
 
             /// <summary>
@@ -43,6 +62,22 @@ namespace System.Windows.Forms
                 _anyBit = anyBit;
                 _version = items.Version;
                 _current = -1;
+            }
+
+            /// <summary>
+            /// Retrieves the current value in the enumerator.
+            /// </summary>
+            object IEnumerator.Current
+            {
+                get
+                {
+                    if (_current == -1 || _current == _items.Count)
+                    {
+                        throw new InvalidOperationException("SR.ListEnumCurrentOutOfRange");
+                    }
+
+                    return _items._entries[_current].Item;
+                }
             }
 
             /// <summary>
@@ -97,22 +132,6 @@ namespace System.Windows.Forms
                 }
 
                 _current = -1;
-            }
-
-            /// <summary>
-            /// Retrieves the current value in the enumerator.
-            /// </summary>
-            object IEnumerator.Current
-            {
-                get
-                {
-                    if (_current == -1 || _current == _items.Count)
-                    {
-                        throw new InvalidOperationException("SR.ListEnumCurrentOutOfRange");
-                    }
-
-                    return _items._entries[_current].Item;
-                }
             }
         }
     }

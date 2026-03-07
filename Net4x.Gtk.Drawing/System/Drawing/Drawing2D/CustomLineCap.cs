@@ -8,94 +8,6 @@ namespace System.Drawing.Drawing2D
     /// </summary>
     public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     {
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref="System.Drawing.Drawing2D.LineCap" /> enumeration on which this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> is based.
-        /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Drawing.Drawing2D.LineCap" /> enumeration on which this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> is based.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public LineCap BaseCap
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the distance between the cap and the line.
-        /// </summary>
-        /// <returns>The distance between the beginning of the cap and the end of the line.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public float BaseInset
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref="System.Drawing.Drawing2D.LineJoin" /> enumeration that determines how lines that compose this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> object are joined.
-        /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Drawing.Drawing2D.LineJoin" /> enumeration this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> object uses to join lines.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public LineJoin StrokeJoin
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the amount by which to scale this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" />
-        /// Class object with respect to the width of the
-        /// <see cref="System.Drawing.Pen" /> object.
-        /// </summary>
-        /// <returns>The amount by which to scale the cap.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public float WidthScale
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the
@@ -146,17 +58,87 @@ namespace System.Drawing.Drawing2D
         public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap, float baseInset)
         {
         }
+        /// <summary>
+        /// Gets or sets the
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration on which this
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> is based.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration on which this
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> is based.
+        /// </returns>
+        public LineCap BaseCap
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the distance between the cap and the line.
+        /// </summary>
+        /// <returns>The distance between the beginning of the cap and the end of the line.
+        /// </returns>
+        public float BaseInset
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the
+        /// <see cref="T:System.Drawing.Drawing2D.LineJoin" /> enumeration that determines how lines that compose this
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> object are joined.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Drawing2D.LineJoin" /> enumeration this
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> object uses to join lines.
+        /// </returns>
+        public LineJoin StrokeJoin
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the amount by which to scale this
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> Class object with respect to the width of the
+        /// <see cref="T:System.Drawing.Pen" /> object.
+        /// </summary>
+        /// <returns>The amount by which to scale the cap.
+        /// </returns>
+        public float WidthScale
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" />
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />.
         /// </summary>
         /// <returns>The
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> this method creates, cast as an object.
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> this method creates, cast as an object.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public object Clone()
         {
             return null;
@@ -164,33 +146,9 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> object.
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> object.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Dispose()
-        {
-        }
-
-        /// <summary>
-        /// Releases the unmanaged resources used by the
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> and optionally releases the managed resources.
-        /// </summary>
-        /// <param name="disposing">
-        /// <see langword="true" /> to release both managed and unmanaged resources;
-        /// <see langword="false" /> to release only unmanaged resources.
-        /// </param>
-        protected virtual void Dispose(bool disposing)
-        {
-        }
-
-        /// <summary>
-        /// Allows an
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> to attempt to free resources and perform other cleanup operations before the
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> is reclaimed by garbage collection.
-        /// </summary>
-        ~CustomLineCap()
         {
         }
 
@@ -218,6 +176,18 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the end of a line within this cap.
         /// </param>
         public void SetStrokeCaps(LineCap startCap, LineCap endCap)
+        {
+        }
+
+        /// <summary>
+        /// Releases the unmanaged resources used by the
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">
+        /// <see langword="true" /> to release both managed and unmanaged resources;
+        /// <see langword="false" /> to release only unmanaged resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
         {
         }
     }

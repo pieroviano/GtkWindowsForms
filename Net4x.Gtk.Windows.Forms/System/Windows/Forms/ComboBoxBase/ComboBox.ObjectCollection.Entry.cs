@@ -9,12 +9,23 @@ namespace System.Windows.Forms
     /// <filterpriority>
     /// 1
     /// </filterpriority>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ComboBox
     {
-        /// <summary>
-        /// Represents the collection of items in a
-        /// <see cref="System.Windows.Forms.ComboBox" />
-        /// </summary>
         public partial class ObjectCollection
         {
             /// <summary>

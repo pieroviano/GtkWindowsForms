@@ -2,9 +2,16 @@ namespace GtkSystem.Resources.Extensions
 {
     internal struct ResourceLocator
     {
-        internal object _value;
 
         internal int _dataPos;
+
+        internal object _value;
+
+        internal ResourceLocator(int dataPos, object value)
+        {
+            _dataPos = dataPos;
+            _value = value;
+        }
 
         internal int DataPosition => _dataPos;
 
@@ -18,12 +25,6 @@ namespace GtkSystem.Resources.Extensions
             {
                 _value = value;
             }
-        }
-
-        internal ResourceLocator(int dataPos, object value)
-        {
-            _dataPos = dataPos;
-            _value = value;
         }
 
         internal static bool CanCache(ResourceTypeCode value)

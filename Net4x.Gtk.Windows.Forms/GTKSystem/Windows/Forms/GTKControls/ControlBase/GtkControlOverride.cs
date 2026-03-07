@@ -12,52 +12,44 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     public sealed class GtkControlOverride : IControlOverride
     {
 
+        private System.Drawing.Image _BackgroundImage;
+
+        private Gdk.Pixbuf backgroundPixbuf;
+
         private Widget container;
-        public GtkControlOverride(Widget container)
-        {
-            this.container = container;
-        }
+
+        private List<string> cssList = new List<string>();
+
+        private Gdk.Pixbuf imagePixbuf;
 
         public event DrawnHandler DrawnBackground;
 
         public event PaintEventHandler Paint;
 
-        public System.Drawing.Color? BackColor { get; set; }
+        public event PaintGraphicsEventHandler PaintGraphics;
+        public GtkControlOverride(Widget container)
+        {
+            this.container = container;
+        }
 
-        private System.Drawing.Image _BackgroundImage;
+        public System.Drawing.Color? BackColor { get; set; }
 
         public System.Drawing.Image BackgroundImage { get { return _BackgroundImage; } set { _BackgroundImage = value; backgroundPixbuf = null; } }
 
         public ImageLayout BackgroundImageLayout { get; set; }
 
         public System.Drawing.Image Image { get; set; }
+
         public System.Drawing.ContentAlignment ImageAlign { get; set; }
-
-
-        private List<string> cssList = new List<string>();
         public void AddClass(string cssClass)
         {
             cssList.Add(cssClass);
         }
-        public void RemoveClass(string cssClass)
-        {
-            cssList.Remove(cssClass);
-        }
-        public void OnAddClass()
-        {
-            foreach (string cssClass in cssList)
-            {
-                if (container.StyleContext.HasClass(cssClass))
-                    container.StyleContext.RemoveClass(cssClass);
-                container.StyleContext.AddClass(cssClass);
-            }
-            ClearNativeBackground();
-        }
+
         public void ClearNativeBackground()
         {
         }
 
-        private Gdk.Pixbuf backgroundPixbuf;
         public void DrawnBackColor(Cairo.Context cr, Gdk.Rectangle area)
         {
             if (BackColor.HasValue)
@@ -68,6 +60,18 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
                 cr.Restore();
             }
         }
+
+        public void OnAddClass()
+        {
+            foreach (string cssClass in cssList)
+            {
+                if (container.StyleContext.HasClass(cssClass))
+                    container.StyleContext.RemoveClass(cssClass);
+                container.StyleContext.AddClass(cssClass);
+            }
+            ClearNativeBackground();
+        }
+
         public void OnDrawnBackground(Cairo.Context cr, Gdk.Rectangle area)
         {
             if (BackColor.HasValue)
@@ -93,7 +97,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             }
         }
 
-        private Gdk.Pixbuf imagePixbuf;
         public void OnDrawnImage(Cairo.Context cr, Gdk.Rectangle area)
         {
             if (Image != null && Image.PixbufData != null)
@@ -107,8 +110,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             }
         }
 
-
-        public event PaintGraphicsEventHandler PaintGraphics;
         public void OnPaint(Cairo.Context cr, Gdk.Rectangle area)
         {
             if (PaintGraphics != null)
@@ -117,6 +118,11 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             }
             if (Paint != null)
                 Paint(this.container, new PaintEventArgs(new Graphics(container, cr, area), new Rectangle(area.X, area.Y, area.Width, area.Height)));
+        }
+
+        public void RemoveClass(string cssClass)
+        {
+            cssList.Remove(cssClass);
         }
     }
 }

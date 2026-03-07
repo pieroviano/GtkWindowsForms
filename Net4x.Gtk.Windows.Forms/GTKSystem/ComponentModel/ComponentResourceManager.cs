@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 
-
 namespace GtkSystem.ComponentModel
 {
     /// <summary>
@@ -13,16 +12,15 @@ namespace GtkSystem.ComponentModel
     public class ComponentResourceManager : System.ComponentModel.ComponentResourceManager
     {
 
-        private Type formtype;
-
         private string formName;
+
+        private Type formtype;
 
         public ComponentResourceManager(Type form) : base(form)
         {
             formtype = form;
             formName = form.Name;
         }
-
 
         public override object GetObject(string name, CultureInfo culture)
         {
@@ -32,12 +30,14 @@ namespace GtkSystem.ComponentModel
         public override object GetObject(string name)
         {
             GtkSystem.Resources.ResourceManager temp = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
+
             return temp.GetObject(name);
         }
 
         public override string GetString(string name)
         {
             GtkSystem.Resources.ResourceManager temp = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
+
             return temp.GetString(name);
         }
 

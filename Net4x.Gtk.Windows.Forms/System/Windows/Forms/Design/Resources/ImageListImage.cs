@@ -25,19 +25,19 @@ namespace System.Windows.Forms.Design
             Name = name;
         }
 
+        // Add properties to make this object "look" like Image in the Collection editor
+        public float HorizontalResolution => Image.HorizontalResolution;
+
+        [Browsable(false)]
+        public Image Image { get; set; }
+
         public string Name
         {
             get => _name ?? string.Empty;
             set => _name = value;
         }
 
-        [Browsable(false)]
-        public Image Image { get; set; }
-
-        // Add properties to make this object "look" like Image in the Collection editor
-        public float HorizontalResolution => Image.HorizontalResolution;
-
-        public float VerticalResolution => Image.VerticalResolution;
+        public SizeF PhysicalDimension => Image.Size;
 
         public PixelFormat PixelFormat => Image.PixelFormat;
 
@@ -45,7 +45,7 @@ namespace System.Windows.Forms.Design
 
         public Size Size => Image.Size;
 
-        public SizeF PhysicalDimension => Image.Size;
+        public float VerticalResolution => Image.VerticalResolution;
 
         public static ImageListImage ImageListImageFromStream(Stream stream, bool imageIsIcon)
         {

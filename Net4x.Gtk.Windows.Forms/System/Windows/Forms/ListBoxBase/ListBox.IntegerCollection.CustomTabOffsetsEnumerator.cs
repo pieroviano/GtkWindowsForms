@@ -11,12 +11,38 @@ namespace System.Windows.Forms
     /// <filterpriority>
     /// 1
     /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ListBox
     {
-        /// <summary>
-        /// Represents a collection of integers in a
-        /// <see cref="System.Windows.Forms.ListBox" />
-        /// </summary>
         public partial class IntegerCollection : IList
         {
             /// <summary>
@@ -25,9 +51,9 @@ namespace System.Windows.Forms
             /// </summary>
             private class CustomTabOffsetsEnumerator : IEnumerator
             {
+                private int _current;
 
                 private readonly IntegerCollection _items;
-                private int _current;
 
                 /// <summary>
                 /// Creates a new enumerator that will enumerate over the given state.
@@ -36,6 +62,22 @@ namespace System.Windows.Forms
                 {
                     _items = items;
                     _current = -1;
+                }
+
+                /// <summary>
+                /// Retrieves the current value in the enumerator.
+                /// </summary>
+                object IEnumerator.Current
+                {
+                    get
+                    {
+                        if (_current == -1 || _current == _items.Count)
+                        {
+                            throw new InvalidOperationException("SR.ListEnumCurrentOutOfRange");
+                        }
+
+                        return _items[_current];
+                    }
                 }
 
                 /// <summary>
@@ -61,22 +103,6 @@ namespace System.Windows.Forms
                 void IEnumerator.Reset()
                 {
                     _current = -1;
-                }
-
-                /// <summary>
-                /// Retrieves the current value in the enumerator.
-                /// </summary>
-                object IEnumerator.Current
-                {
-                    get
-                    {
-                        if (_current == -1 || _current == _items.Count)
-                        {
-                            throw new InvalidOperationException("SR.ListEnumCurrentOutOfRange");
-                        }
-
-                        return _items[_current];
-                    }
                 }
             }
         }

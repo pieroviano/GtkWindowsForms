@@ -19,18 +19,9 @@ namespace System.Windows.Forms
             RowIndex = rowIndex;
             ErrorText = errorText;
         }
-        /// <summary>
-        /// Gets the row that raised the
-        /// <see cref="System.Windows.Forms.DataGridView.RowErrorTextNeeded" /> event.
-        /// </summary>
-        /// <returns>The zero based row index for the row.
-        /// </returns>
-        public int RowIndex { get; }
-        /// <summary>
-        /// Gets or sets the error text for the row.
-        /// </summary>
-        /// <returns>A string that represents the error text for the row.
-        /// </returns>
+
         public string ErrorText { get; set; }
+
+        public int RowIndex { get; }
     }
 }

@@ -23,15 +23,9 @@ namespace System.Windows.Forms
 
         public readonly GroupBoxBase self = new GroupBoxBase();
 
-        public override object GtkControl => self;
+        private ControlCollection _controls = null;
 
         private Gtk.Overlay contaner = new Gtk.Overlay();
-
-        private ControlCollection _controls = null;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.GroupBox" /> class.
-        /// </summary>
         public GroupBox() : base()
         {
             _controls = new ControlCollection(this, contaner);
@@ -43,20 +37,11 @@ namespace System.Windows.Forms
             contaner.Add(new Gtk.Fixed() { Halign = Align.Fill, Valign = Align.Fill });
             self.Child = contaner;
         }
-        /// <returns>
-        /// The text associated with this control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public override string Text { get { return self.Label; } set { self.Label = value; } }
 
         public override ControlCollection Controls => _controls;
+
+        public override object GtkControl => self;
+
         public override Padding Padding
         {
             get => base.Padding;
@@ -69,18 +54,22 @@ namespace System.Windows.Forms
                 contaner.MarginBottom = value.Bottom;
             }
         }
-        public override void SuspendLayout()
+
+        public override string Text { get { return self.Label; } set { self.Label = value; } }
+
+        public override void PerformLayout()
         {
-            _Created = false;
+            _Created = true;
         }
+
         public override void ResumeLayout(bool resume)
         {
             _Created = resume == false;
         }
 
-        public override void PerformLayout()
+        public override void SuspendLayout()
         {
-            _Created = true;
+            _Created = false;
         }
 
     }

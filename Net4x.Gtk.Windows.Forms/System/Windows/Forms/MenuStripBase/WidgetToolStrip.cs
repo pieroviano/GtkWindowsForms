@@ -13,33 +13,43 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms.Layout;
 
-
 namespace System.Windows.Forms
 {
     public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
     {
 
-        public override string unique_key { get; protected set; }
+        internal Gtk.Button button = new Gtk.Button();
 
-        public override Gtk.MenuItem MenuItem { get => base.MenuItem; set { base.MenuItem = value; } }
+        internal Gtk.ComboBoxText comboBox = new Gtk.ComboBoxText() { HasFrame = false };
 
-        public override Gtk.Widget Widget => MenuItem;
+        internal Gtk.Entry entry = new Gtk.Entry();
+
+        internal Gtk.Viewport flagBox = new Gtk.Viewport();
+
+        internal Gtk.RadioButton groupradio = new Gtk.RadioButton("");
 
         internal Gtk.Box itemBox = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
 
         internal Gtk.Label label = new Gtk.Label();
 
-        internal Gtk.Button button = new Gtk.Button();
-
-        internal Gtk.Entry entry = new Gtk.Entry();
-        internal Gtk.ComboBoxText comboBox = new Gtk.ComboBoxText() { HasFrame = false };
         // internal Gtk.ProgressBar progressBar = new Gtk.ProgressBar();
 
         internal Gtk.LevelBar progressBar = new Gtk.LevelBar();
-        internal Gtk.Viewport flagBox = new Gtk.Viewport();
         Gtk.CssProvider provider = new Gtk.CssProvider();
 
-        public string StripType { get; set; }
+        private Color _BackColor;
+
+        private Font _Font;
+
+        private Color _ForeColor;
+
+        public override event EventHandler CheckedChanged;
+
+        public override event EventHandler CheckStateChanged;
+
+        public override event EventHandler Click;
+
+        public override event ToolStripItemClickedEventHandler DropDownItemClicked;
         public WidgetToolStrip() : this(null, "", null, null, "", null)
         {
         }
@@ -48,9 +58,11 @@ namespace System.Windows.Forms
         {
 
         }
+
         public WidgetToolStrip(string text, System.Drawing.Image image, EventHandler onClick) : this(null, text, image, onClick, "")
         {
         }
+
         public WidgetToolStrip(string text, System.Drawing.Image image, EventHandler onClick, string name) : this(null, text, image, onClick, "")
         {
         }
@@ -127,39 +139,48 @@ namespace System.Windows.Forms
 
         }
 
-        private void MenuItem_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
-        {
-            if (DropDownItemClicked != null)
-                DropDownItemClicked(this, new ToolStripItemClickedEventArgs(this));
+        public ToolStripItemAlignment Alignment { get => MenuItem.Halign == Gtk.Align.End ? ToolStripItemAlignment.Right : ToolStripItemAlignment.Left; set { MenuItem.Hexpand = true; MenuItem.Halign = Gtk.Align.End; MenuItem.RightJustified = value == ToolStripItemAlignment.Right; } }
 
-            if (Click != null)
-                Click(this, args);
+        public override bool AutoSize { get; set; }
 
-        }
+        public override bool AutoToolTip { get; set; }
 
-        private void MenuItem_Activated(object sender, EventArgs e)
-        {
-            if (this.CheckState != CheckState.Unchecked)
-            {
-                if (flagBox.Child is Gtk.CheckButton checkbutton)
-                {
-                    checkbutton.Active = !checkbutton.Active;
-                }
-            }
+        public override Color BackColor { get => _BackColor; set { _BackColor = value; UpdateStyle(); } }
 
-            if (((Gtk.MenuItem)sender).Child is Gtk.ComboBoxText combo)
-            {
-                combo.Popup();
-            }
-            else if (((Gtk.MenuItem)sender).Child is Gtk.Entry ey)
-            {
-                ey.IsFocus = true;
-            }
-        }
+        public override System.Drawing.Image BackgroundImage { get; set; }
+
+        public override ImageLayout BackgroundImageLayout { get; set; }
 
         public override bool Checked { get; set; }
 
         public override CheckState CheckState { get; set; } = CheckState.Unchecked;
+
+        public override ToolStripItemDisplayStyle DisplayStyle { get; set; }
+
+        public override bool Enabled { get { return this.Widget.Sensitive; } set { this.Widget.Sensitive = value; } }
+
+        public override Font Font
+        {
+            get
+            {
+                if (_Font == null)
+                {
+                    var fontdes = Widget.PangoContext.FontDescription;
+                    int size = Convert.ToInt32(fontdes.Size / Pango.Scale.PangoScale);
+                    return new Drawing.Font(new Drawing.FontFamily(fontdes.Family), size);
+                }
+                else
+                    return _Font;
+            }
+            set { _Font = value; UpdateStyle(); }
+        }
+
+        public override Color ForeColor { get => _ForeColor; set { _ForeColor = value; UpdateStyle(); } }
+
+        public override bool HasChildren { get; }
+
+        public override int Height { get { return this.Widget.HeightRequest; } set { this.Widget.HeightRequest = value; } }
+
         public override System.Drawing.Image Image
         {
             get => base.Image;
@@ -169,88 +190,119 @@ namespace System.Windows.Forms
             }
         }
 
-        public ToolStripItemAlignment Alignment { get => MenuItem.Halign == Gtk.Align.End ? ToolStripItemAlignment.Right : ToolStripItemAlignment.Left; set { MenuItem.Hexpand = true; MenuItem.Halign = Gtk.Align.End; MenuItem.RightJustified = value == ToolStripItemAlignment.Right; } }
+        public override ContentAlignment ImageAlign { get; set; }
 
-        internal Gtk.RadioButton groupradio = new Gtk.RadioButton("");
-        private void ToolStripItem_Realized(object sender, EventArgs e)
+        public override int ImageIndex { get; set; }
+
+        public override string ImageKey { get; set; }
+
+        public override ToolStripItemImageScaling ImageScaling { get; set; }
+
+        public override Color ImageTransparentColor { get; set; }
+
+        public override ImeMode ImeMode { get; set; }
+
+        public override int Left
         {
-            SetStyle((Gtk.MenuItem)sender);
-            Gtk.MenuItem menuItem = (Gtk.MenuItem)sender;
-            if (menuItem.Parent is Gtk.Menu)
+            get;
+            set;
+        }
+
+        public override Gtk.MenuItem MenuItem { get => base.MenuItem; set { base.MenuItem = value; } }
+
+        public override MergeAction MergeAction { get; set; }
+
+        public override int MergeIndex { get; set; }
+
+        public override ToolStripItemOverflow Overflow { get; set; }
+
+        public override ToolStrip Owner { get; set; }
+
+        public override ToolStripItem OwnerItem { get; }
+
+        //public override Padding Margin { get; set; }
+        //public override Size MaximumSize { get; set; }
+        //public override Size MinimumSize { get; set; }
+
+        public override Padding Padding { get; set; }
+
+        public override ToolStripItem Parent { get; set; }
+
+        public override ToolStripItemPlacement Placement { get; }
+
+        public override bool Pressed { get; }
+
+        public override System.Drawing.Region Region { get; set; }
+
+        public override int Right { get; }
+
+        public override RightToLeft RightToLeft { get; set; }
+
+        public override bool RightToLeftAutoMirrorImage { get; set; }
+
+        public override ISite Site { get; set; }
+
+        public override Size Size
+        {
+            get
             {
-                flagBox.Vexpand = true;
-                flagBox.Hexpand = true;
-                flagBox.WidthRequest = 30;
-                menuItem.StyleContext.AddClass("MenuItem");
+                return new Size(this.Widget.WidthRequest, this.Widget.HeightRequest);
             }
-            if (this.CheckState == CheckState.Checked)
+            set
             {
-                Gtk.CheckButton checkbutton = new Gtk.CheckButton();
-                checkbutton.StyleContext.AddClass("MenuCheck");
-                checkbutton.BorderWidth = 0;
-                checkbutton.Margin = 0;
-                checkbutton.Halign = Gtk.Align.Center;
-                checkbutton.Valign = Gtk.Align.Center;
-                checkbutton.Active = this.Checked;
-                checkbutton.Toggled += Checkbutton_Toggled;
-                flagBox.Child = checkbutton;
+                this.Widget.SetSizeRequest(value.Width, value.Height);
             }
-            else if (this.CheckState == CheckState.Indeterminate)
+        }
+
+        public string StripType { get; set; }
+
+        public override object Tag { get; set; }
+
+        public override string Text
+        {
+            get
             {
-                Gtk.RadioButton checkbutton = new Gtk.RadioButton(((WidgetToolStrip<Gtk.MenuItem>)this.Parent).groupradio);
-                checkbutton.StyleContext.AddClass("MenuCheck");
-                checkbutton.BorderWidth = 0;
-                checkbutton.Margin = 0;
-                checkbutton.Halign = Gtk.Align.Center;
-                checkbutton.Valign = Gtk.Align.Center;
-                checkbutton.Active = this.Checked;
-                checkbutton.Toggled += Checkbutton_Toggled;
-                flagBox.Child = checkbutton;
-            }
-            else
-            {
-                try
+                if (this.StripType == "ToolStripTextBox")
                 {
-                    if (DisplayStyle == ToolStripItemDisplayStyle.Text)
-                    {
-                        label.NoShowAll = false;
-                        label.Visible = true;
-                    }
-                    else if (DisplayStyle == ToolStripItemDisplayStyle.Image)
-                    {
-                        label.Visible = false;
-                        label.NoShowAll = true;
-                        if (Image != null && Image.PixbufData != null)
-                        {
-                            Gtk.Image ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles));
-                            ico1.Halign = Gtk.Align.Center;
-                            ico1.Valign = Gtk.Align.Center;
-                            flagBox.Child = ico1;
-                        }
-                    }
-                    else
-                    {
-
-                        if (Image != null && Image.PixbufData != null)
-                        {
-                            Gtk.Image ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles));
-                            ico1.Halign = Gtk.Align.Center;
-                            ico1.Valign = Gtk.Align.Center;
-                            flagBox.Child = ico1;
-                        }
-                    }
+                    return this.entry.Text;
                 }
-                catch { }
+                else if (this.StripType == "ToolStripDropDownItem")
+                {
+                    return this.button.Label;
+                }
+                else if (this.StripType == "ToolStripComboBox")
+                {
+                    return this.comboBox.ActiveText;
+                }
+
+                return this.label.Text;
             }
-            menuItem.ShowAll();
-
+            set { this.label.Text = value; this.button.Label = value; }
         }
 
-        private void Checkbutton_Toggled(object sender, EventArgs e)
+        public override ContentAlignment TextAlign { get; set; }
+
+        public override ToolStripTextDirection TextDirection { get; set; }
+
+        public override TextImageRelation TextImageRelation { get; set; }
+
+        public override string ToolTipText { get { return this.Widget.TooltipText; } set { this.Widget.TooltipText = value; } }
+
+        public override int Top
         {
-            if (CheckedChanged != null)
-                CheckedChanged(this, e);
+            get;
+            set;
         }
+
+        public override string unique_key { get; protected set; }
+
+        public override bool UseWaitCursor { get; set; }
+
+        public virtual bool Visible { get { return this.Widget.Visible; } set { this.Widget.Visible = value; this.Widget.NoShowAll = value == false; } }
+
+        public override Gtk.Widget Widget => MenuItem;
+
+        public override int Width { get { return this.Widget.WidthRequest; } set { this.Widget.WidthRequest = value; } }
 
         internal void UpdateStyle()
         {
@@ -329,156 +381,114 @@ namespace System.Windows.Forms
             }
         }
 
-        public override string Text
+        private void Checkbutton_Toggled(object sender, EventArgs e)
         {
-            get
-            {
-                if (this.StripType == "ToolStripTextBox")
-                {
-                    return this.entry.Text;
-                }
-                else if (this.StripType == "ToolStripDropDownItem")
-                {
-                    return this.button.Label;
-                }
-                else if (this.StripType == "ToolStripComboBox")
-                {
-                    return this.comboBox.ActiveText;
-                }
-                return this.label.Text;
-            }
-            set { this.label.Text = value; this.button.Label = value; }
+            if (CheckedChanged != null)
+                CheckedChanged(this, e);
         }
 
-        public override Color ImageTransparentColor { get; set; }
-
-        public override ToolStripItemDisplayStyle DisplayStyle { get; set; }
-
-        public override bool AutoToolTip { get; set; }
-
-        public override System.Drawing.Image BackgroundImage { get; set; }
-
-        public override ImageLayout BackgroundImageLayout { get; set; }
-
-        public override string ToolTipText { get { return this.Widget.TooltipText; } set { this.Widget.TooltipText = value; } }
-
-        public override ContentAlignment ImageAlign { get; set; }
-
-        public override int ImageIndex { get; set; }
-
-        public override string ImageKey { get; set; }
-
-        public override ToolStripItemImageScaling ImageScaling { get; set; }
-
-        public override TextImageRelation TextImageRelation { get; set; }
-
-        public override ToolStripTextDirection TextDirection { get; set; }
-
-        public override ContentAlignment TextAlign { get; set; }
-
-        public override bool RightToLeftAutoMirrorImage { get; set; }
-
-        public override bool Pressed { get; }
-
-        public override ToolStripItemPlacement Placement { get; }
-
-        public override ToolStripItemOverflow Overflow { get; set; }
-
-        public override ToolStripItem OwnerItem { get; }
-
-        public override ToolStrip Owner { get; set; }
-
-        public override int MergeIndex { get; set; }
-
-        public override MergeAction MergeAction { get; set; }
-
-        public override bool Enabled { get { return this.Widget.Sensitive; } set { this.Widget.Sensitive = value; } }
-
-        private Font _Font;
-        public override Font Font
+        private void MenuItem_Activated(object sender, EventArgs e)
         {
-            get
+            if (this.CheckState != CheckState.Unchecked)
             {
-                if (_Font == null)
+                if (flagBox.Child is Gtk.CheckButton checkbutton)
                 {
-                    var fontdes = Widget.PangoContext.FontDescription;
-                    int size = Convert.ToInt32(fontdes.Size / Pango.Scale.PangoScale);
-                    return new Drawing.Font(new Drawing.FontFamily(fontdes.Family), size);
+                    checkbutton.Active = !checkbutton.Active;
                 }
-                else
-                    return _Font;
             }
-            set { _Font = value; UpdateStyle(); }
-        }
 
-        private Color _ForeColor;
-
-        public override Color ForeColor { get => _ForeColor; set { _ForeColor = value; UpdateStyle(); } }
-
-        private Color _BackColor;
-
-        public override Color BackColor { get => _BackColor; set { _BackColor = value; UpdateStyle(); } }
-
-        public override bool HasChildren { get; }
-
-        public override bool AutoSize { get; set; }
-
-        public override int Height { get { return this.Widget.HeightRequest; } set { this.Widget.HeightRequest = value; } }
-        public override ImeMode ImeMode { get; set; }
-
-        public override int Left
-        {
-            get;
-            set;
-        }
-
-        //public override Padding Margin { get; set; }
-        //public override Size MaximumSize { get; set; }
-        //public override Size MinimumSize { get; set; }
-
-        public override Padding Padding { get; set; }
-
-        public override ToolStripItem Parent { get; set; }
-
-        public override System.Drawing.Region Region { get; set; }
-        public override int Right { get; }
-
-
-        public override RightToLeft RightToLeft { get; set; }
-
-        public override ISite Site { get; set; }
-        public override Size Size
-        {
-            get
+            if (((Gtk.MenuItem)sender).Child is Gtk.ComboBoxText combo)
             {
-                return new Size(this.Widget.WidthRequest, this.Widget.HeightRequest);
+                combo.Popup();
             }
-            set
+            else if (((Gtk.MenuItem)sender).Child is Gtk.Entry ey)
             {
-                this.Widget.SetSizeRequest(value.Width, value.Height);
+                ey.IsFocus = true;
             }
         }
 
-
-        public override object Tag { get; set; }
-        public override int Top
+        private void MenuItem_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
         {
-            get;
-            set;
+            if (DropDownItemClicked != null)
+                DropDownItemClicked(this, new ToolStripItemClickedEventArgs(this));
+
+            if (Click != null)
+                Click(this, args);
+
         }
 
+        private void ToolStripItem_Realized(object sender, EventArgs e)
+        {
+            SetStyle((Gtk.MenuItem)sender);
+            Gtk.MenuItem menuItem = (Gtk.MenuItem)sender;
+            if (menuItem.Parent is Gtk.Menu)
+            {
+                flagBox.Vexpand = true;
+                flagBox.Hexpand = true;
+                flagBox.WidthRequest = 30;
+                menuItem.StyleContext.AddClass("MenuItem");
+            }
+            if (this.CheckState == CheckState.Checked)
+            {
+                Gtk.CheckButton checkbutton = new Gtk.CheckButton();
+                checkbutton.StyleContext.AddClass("MenuCheck");
+                checkbutton.BorderWidth = 0;
+                checkbutton.Margin = 0;
+                checkbutton.Halign = Gtk.Align.Center;
+                checkbutton.Valign = Gtk.Align.Center;
+                checkbutton.Active = this.Checked;
+                checkbutton.Toggled += Checkbutton_Toggled;
+                flagBox.Child = checkbutton;
+            }
+            else if (this.CheckState == CheckState.Indeterminate)
+            {
+                Gtk.RadioButton checkbutton = new Gtk.RadioButton(((WidgetToolStrip<Gtk.MenuItem>)this.Parent).groupradio);
+                checkbutton.StyleContext.AddClass("MenuCheck");
+                checkbutton.BorderWidth = 0;
+                checkbutton.Margin = 0;
+                checkbutton.Halign = Gtk.Align.Center;
+                checkbutton.Valign = Gtk.Align.Center;
+                checkbutton.Active = this.Checked;
+                checkbutton.Toggled += Checkbutton_Toggled;
+                flagBox.Child = checkbutton;
+            }
+            else
+            {
+                try
+                {
+                    if (DisplayStyle == ToolStripItemDisplayStyle.Text)
+                    {
+                        label.NoShowAll = false;
+                        label.Visible = true;
+                    }
+                    else if (DisplayStyle == ToolStripItemDisplayStyle.Image)
+                    {
+                        label.Visible = false;
+                        label.NoShowAll = true;
+                        if (Image != null && Image.PixbufData != null)
+                        {
+                            Gtk.Image ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles));
+                            ico1.Halign = Gtk.Align.Center;
+                            ico1.Valign = Gtk.Align.Center;
+                            flagBox.Child = ico1;
+                        }
+                    }
+                    else
+                    {
 
-        public override bool UseWaitCursor { get; set; }
+                        if (Image != null && Image.PixbufData != null)
+                        {
+                            Gtk.Image ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles));
+                            ico1.Halign = Gtk.Align.Center;
+                            ico1.Valign = Gtk.Align.Center;
+                            flagBox.Child = ico1;
+                        }
+                    }
+                }
+                catch { }
+            }
+            menuItem.ShowAll();
 
-        public override int Width { get { return this.Widget.WidthRequest; } set { this.Widget.WidthRequest = value; } }
-        public virtual bool Visible { get { return this.Widget.Visible; } set { this.Widget.Visible = value; this.Widget.NoShowAll = value == false; } }
-
-
-        public override event EventHandler Click;
-
-        public override event EventHandler CheckedChanged;
-
-        public override event EventHandler CheckStateChanged;
-        public override event ToolStripItemClickedEventHandler DropDownItemClicked;
+        }
     }
 }

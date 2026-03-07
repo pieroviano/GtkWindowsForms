@@ -6,15 +6,16 @@ namespace System.Windows.Forms;
 
 internal class Formatter
 {
-    internal static readonly Type? StringType;
 
     internal static readonly Type BooleanType;
 
     internal static readonly Type CheckStateType;
 
+    internal static readonly object? DefaultDataSourceNullValue;
+
     internal static readonly object? ParseMethodNotFound;
 
-    internal static readonly object? DefaultDataSourceNullValue;
+    internal static readonly Type? StringType;
 
     static Formatter()
     {
@@ -23,38 +24,6 @@ internal class Formatter
         CheckStateType = typeof(CheckState);
         ParseMethodNotFound = new object();
         DefaultDataSourceNullValue = DBNull.Value;
-    }
-
-    private static object? ChangeType(object? value, Type? type, IFormatProvider? formatInfo)
-    {
-        object? obj;
-        try
-        {
-            if (formatInfo == null)
-            {
-                formatInfo = CultureInfo.CurrentCulture;
-            }
-            obj = Convert.ChangeType(value, type ?? typeof(object), formatInfo);
-        }
-        catch (InvalidCastException invalidCastException1)
-        {
-            var invalidCastException = invalidCastException1;
-            throw new FormatException(invalidCastException.Message, invalidCastException);
-        }
-        return obj;
-    }
-
-    private static bool EqualsFormattedNullValue(object? value, object? formattedNullValue, IFormatProvider? formatInfo)
-    {
-        if (formattedNullValue is not string str || value is not string str1)
-        {
-            return Equals(value, formattedNullValue);
-        }
-        if (str.Length != str1.Length)
-        {
-            return false;
-        }
-        return string.Compare(str1, str, true, GetFormatterCulture(formatInfo)) == 0;
     }
 
     public static object? FormatObject(object? value, Type? targetType, TypeConverter? sourceConverter, TypeConverter? targetConverter, string formatString, IFormatProvider? formatInfo, object? formattedNullValue, object? dataSourceNullValue)
@@ -73,7 +42,128 @@ internal class Formatter
         {
             throw new FormatException(GetCantConvertMessage(value, targetType));
         }
+
         return obj;
+    }
+
+    public static object? GetDefaultDataSourceNullValue(Type? type)
+    {
+        if (type is { IsValueType: false })
+        {
+            return null;
+        }
+
+        return DefaultDataSourceNullValue;
+    }
+
+    public static object? InvokeStringParseMethod(object? value, Type? targetType, IFormatProvider? formatInfo)
+    {
+        object? obj;
+        try
+        {
+            var method = targetType?.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, null, [StringType, typeof(NumberStyles), typeof(IFormatProvider)
+            ], null);
+            if (method == null)
+            {
+                method = targetType?.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, null, [StringType, typeof(IFormatProvider)
+                ], null);
+                if (method == null)
+                {
+                    method = targetType?.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, null, [StringType
+                    ], null);
+                    obj = method == null ? ParseMethodNotFound : method.Invoke(null, [(string?)value]);
+                }
+                else
+                {
+                    obj = method.Invoke(null, [(string?)value, formatInfo]);
+                }
+            }
+            else
+            {
+                obj = method.Invoke(null, [(string?)value, NumberStyles.Any, formatInfo]);
+            }
+        }
+        catch (TargetInvocationException targetInvocationException1)
+        {
+            var targetInvocationException = targetInvocationException1;
+            throw new FormatException(targetInvocationException.InnerException?.Message, targetInvocationException.InnerException);
+        }
+
+        return obj;
+    }
+
+    public static bool IsNullData(object? value, object? dataSourceNullValue)
+    {
+        if (value == null || value == DBNull.Value)
+        {
+            return true;
+        }
+
+        return Equals(value, NullData(value.GetType(), dataSourceNullValue));
+    }
+
+    public static object? NullData(Type? type, object? dataSourceNullValue)
+    {
+        if (!(type?.IsGenericType ?? false) || !(type.GetGenericTypeDefinition() == typeof(Nullable<>)))
+        {
+            return dataSourceNullValue;
+        }
+        if (dataSourceNullValue != null && dataSourceNullValue != DBNull.Value)
+        {
+            return dataSourceNullValue;
+        }
+
+        return null;
+    }
+
+    public static object? ParseObject(object? value, Type? targetType, Type? sourceType, TypeConverter? targetConverter, TypeConverter? sourceConverter, IFormatProvider? formatInfo, object? formattedNullValue, object? dataSourceNullValue)
+    {
+        var type = targetType;
+        sourceType = NullableUnwrap(sourceType);
+        targetType = NullableUnwrap(targetType);
+        sourceConverter = NullableUnwrap(sourceConverter);
+        targetConverter = NullableUnwrap(targetConverter);
+        var obj = ParseObjectInternal(value, targetType, sourceType, targetConverter, sourceConverter, formatInfo, formattedNullValue);
+        if (obj != DBNull.Value)
+        {
+            return obj;
+        }
+
+        return NullData(type, dataSourceNullValue);
+    }
+
+    private static object? ChangeType(object? value, Type? type, IFormatProvider? formatInfo)
+    {
+        object? obj;
+        try
+        {
+            if (formatInfo == null)
+            {
+                formatInfo = CultureInfo.CurrentCulture;
+            }
+            obj = Convert.ChangeType(value, type ?? typeof(object), formatInfo);
+        }
+        catch (InvalidCastException invalidCastException1)
+        {
+            var invalidCastException = invalidCastException1;
+            throw new FormatException(invalidCastException.Message, invalidCastException);
+        }
+
+        return obj;
+    }
+
+    private static bool EqualsFormattedNullValue(object? value, object? formattedNullValue, IFormatProvider? formatInfo)
+    {
+        if (formattedNullValue is not string str || value is not string str1)
+        {
+            return Equals(value, formattedNullValue);
+        }
+        if (str.Length != str1.Length)
+        {
+            return false;
+        }
+
+        return string.Compare(str1, str, true, GetFormatterCulture(formatInfo)) == 0;
     }
 
     private static object? FormatObjectInternal(object? value, Type? targetType, TypeConverter? sourceConverter, TypeConverter? targetConverter, string formatString, IFormatProvider? formatInfo, object? formattedNullValue)
@@ -149,22 +239,15 @@ internal class Formatter
         {
             throw new FormatException(GetCantConvertMessage(value, targetType));
         }
+
         return ChangeType(value, targetType, formatInfo);
     }
 
     private static string GetCantConvertMessage(object? value, Type? targetType)
     {
         var str = value == null ? "Formatter_CantConvertNull" : "Formatter_CantConvert";
-        return string.Format(CultureInfo.CurrentCulture, str, [value, targetType?.Name]);
-    }
 
-    public static object? GetDefaultDataSourceNullValue(Type? type)
-    {
-        if (type is { IsValueType: false })
-        {
-            return null;
-        }
-        return DefaultDataSourceNullValue;
+        return string.Format(CultureInfo.CurrentCulture, str, [value, targetType?.Name]);
     }
 
     private static CultureInfo GetFormatterCulture(IFormatProvider? formatInfo)
@@ -173,51 +256,8 @@ internal class Formatter
         {
             return CultureInfo.CurrentCulture;
         }
+
         return formatInfo as CultureInfo ?? CultureInfo.InvariantCulture;
-    }
-
-    public static object? InvokeStringParseMethod(object? value, Type? targetType, IFormatProvider? formatInfo)
-    {
-        object? obj;
-        try
-        {
-            var method = targetType?.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, null, [StringType, typeof(NumberStyles), typeof(IFormatProvider)
-            ], null);
-            if (method == null)
-            {
-                method = targetType?.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, null, [StringType, typeof(IFormatProvider)
-                ], null);
-                if (method == null)
-                {
-                    method = targetType?.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, null, [StringType
-                    ], null);
-                    obj = method == null ? ParseMethodNotFound : method.Invoke(null, [(string?)value]);
-                }
-                else
-                {
-                    obj = method.Invoke(null, [(string?)value, formatInfo]);
-                }
-            }
-            else
-            {
-                obj = method.Invoke(null, [(string?)value, NumberStyles.Any, formatInfo]);
-            }
-        }
-        catch (TargetInvocationException targetInvocationException1)
-        {
-            var targetInvocationException = targetInvocationException1;
-            throw new FormatException(targetInvocationException.InnerException?.Message, targetInvocationException.InnerException);
-        }
-        return obj;
-    }
-
-    public static bool IsNullData(object? value, object? dataSourceNullValue)
-    {
-        if (value == null || value == DBNull.Value)
-        {
-            return true;
-        }
-        return Equals(value, NullData(value.GetType(), dataSourceNullValue));
     }
 
     private static Type? NullableUnwrap(Type? type)
@@ -226,6 +266,7 @@ internal class Formatter
         {
             return StringType;
         }
+
         return Nullable.GetUnderlyingType(type ?? typeof(object)) ?? type;
     }
 
@@ -235,35 +276,8 @@ internal class Formatter
         {
             return typeConverter;
         }
+
         return nullableConverter.UnderlyingTypeConverter;
-    }
-
-    public static object? NullData(Type? type, object? dataSourceNullValue)
-    {
-        if (!(type?.IsGenericType ?? false) || !(type.GetGenericTypeDefinition() == typeof(Nullable<>)))
-        {
-            return dataSourceNullValue;
-        }
-        if (dataSourceNullValue != null && dataSourceNullValue != DBNull.Value)
-        {
-            return dataSourceNullValue;
-        }
-        return null;
-    }
-
-    public static object? ParseObject(object? value, Type? targetType, Type? sourceType, TypeConverter? targetConverter, TypeConverter? sourceConverter, IFormatProvider? formatInfo, object? formattedNullValue, object? dataSourceNullValue)
-    {
-        var type = targetType;
-        sourceType = NullableUnwrap(sourceType);
-        targetType = NullableUnwrap(targetType);
-        sourceConverter = NullableUnwrap(sourceConverter);
-        targetConverter = NullableUnwrap(targetConverter);
-        var obj = ParseObjectInternal(value, targetType, sourceType, targetConverter, sourceConverter, formatInfo, formattedNullValue);
-        if (obj != DBNull.Value)
-        {
-            return obj;
-        }
-        return NullData(type, dataSourceNullValue);
     }
 
     private static object? ParseObjectInternal(object? value, Type? targetType, Type? sourceType, TypeConverter? targetConverter, TypeConverter? sourceConverter, IFormatProvider? formatInfo, object? formattedNullValue)
@@ -338,6 +352,7 @@ internal class Formatter
         {
             throw new FormatException(GetCantConvertMessage(value, targetType));
         }
+
         return ChangeType(value, targetType, formatInfo);
     }
 }

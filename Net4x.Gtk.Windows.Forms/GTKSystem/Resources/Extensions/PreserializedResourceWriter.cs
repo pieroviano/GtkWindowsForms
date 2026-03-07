@@ -10,73 +10,30 @@ namespace GtkSystem.Resources.Extensions
 {
     public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
-        private class PrecannedResource
-        {
-            internal readonly string TypeName;
 
-            internal readonly object Data;
-
-            internal PrecannedResource(string typeName, object data)
-            {
-                TypeName = typeName;
-                Data = data;
-            }
-        }
-
-        private class StreamWrapper
-        {
-            internal readonly Stream Stream;
-
-            internal readonly bool CloseAfterWrite;
-
-            internal StreamWrapper(Stream s, bool closeAfterWrite)
-            {
-                Stream = s;
-                CloseAfterWrite = closeAfterWrite;
-            }
-        }
-
-        private class ResourceDataRecord
-        {
-            internal readonly SerializationFormat Format;
-
-            internal readonly object Data;
-
-            internal readonly bool CloseAfterWrite;
-
-            internal ResourceDataRecord(SerializationFormat format, object data, bool closeAfterWrite = false)
-            {
-                Format = format;
-                Data = data;
-                CloseAfterWrite = closeAfterWrite;
-            }
-        }
-
-        private const int AverageNameSize = 40;
-
-        private const int AverageValueSize = 40;
+        internal const string DeserializingResourceReaderFullyQualifiedName = "System.Resources.Extensions.DeserializingResourceReader, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51";
 
         internal const string ResourceReaderFullyQualifiedName = "System.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
 
-        private const string ResSetTypeName = "System.Resources.RuntimeResourceSet";
-
-        private const int ResSetVersion = 2;
-
-        private SortedDictionary<string, object> _resourceList;
-
-        private Stream _output;
+        internal const string RuntimeResourceSetFullyQualifiedName = "System.Resources.Extensions.RuntimeResourceSet, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51";
 
         private Dictionary<string, object> _caseInsensitiveDups;
+
+        private Stream _output;
 
         private Dictionary<string, PrecannedResource> _preserializedData;
 
         private bool _requiresDeserializingResourceReader;
 
-        internal const string DeserializingResourceReaderFullyQualifiedName = "System.Resources.Extensions.DeserializingResourceReader, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51";
+        private SortedDictionary<string, object> _resourceList;
 
-        internal const string RuntimeResourceSetFullyQualifiedName = "System.Resources.Extensions.RuntimeResourceSet, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51";
+        private const int AverageNameSize = 40;
 
-        private static readonly string UnknownObjectTypeName = typeof(UnknownType).FullName;
+        private const int AverageValueSize = 40;
+
+        private const string ResSetTypeName = "System.Resources.RuntimeResourceSet";
+
+        private const int ResSetVersion = 2;
 
         private static readonly IReadOnlyDictionary<string, Type> s_primitiveTypes = new Dictionary<string, Type>(16, TypeNameComparer.Instance)
         {
@@ -146,29 +103,7 @@ namespace GtkSystem.Resources.Extensions
             }
         };
 
-        private string ResourceReaderTypeName
-        {
-            get
-            {
-                if (!_requiresDeserializingResourceReader)
-                {
-                    return "System.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
-                }
-                return "System.Resources.Extensions.DeserializingResourceReader, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51";
-            }
-        }
-
-        private string ResourceSetTypeName
-        {
-            get
-            {
-                if (!_requiresDeserializingResourceReader)
-                {
-                    return "System.Resources.RuntimeResourceSet";
-                }
-                return "System.Resources.Extensions.RuntimeResourceSet, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51";
-            }
-        }
+        private static readonly string UnknownObjectTypeName = typeof(UnknownType).FullName;
 
         public PreserializedResourceWriter(string fileName)
         {
@@ -194,6 +129,72 @@ namespace GtkSystem.Resources.Extensions
             _output = stream;
             _resourceList = new SortedDictionary<string, object>(FastResourceComparer.Default);
             _caseInsensitiveDups = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        private string ResourceReaderTypeName
+        {
+            get
+            {
+                if (!_requiresDeserializingResourceReader)
+                {
+                    return "System.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
+                }
+
+                return "System.Resources.Extensions.DeserializingResourceReader, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51";
+            }
+        }
+
+        private string ResourceSetTypeName
+        {
+            get
+            {
+                if (!_requiresDeserializingResourceReader)
+                {
+                    return "System.Resources.RuntimeResourceSet";
+                }
+
+                return "System.Resources.Extensions.RuntimeResourceSet, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51";
+            }
+        }
+
+        public void AddActivatorResource(string name, Stream value, string typeName, bool closeAfterWrite = false)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException("name");
+            }
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+            if (typeName == null)
+            {
+                throw new ArgumentNullException("typeName");
+            }
+            if (!value.CanSeek)
+            {
+                throw new ArgumentException(SR.NotSupported_UnseekableStream);
+            }
+            AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.ActivatorStream, value, closeAfterWrite));
+            _requiresDeserializingResourceReader = true;
+        }
+
+        public void AddBinaryFormattedResource(string name, byte[] value, string typeName = null)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException("name");
+            }
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+            if (typeName == null)
+            {
+                typeName = UnknownObjectTypeName;
+                _requiresDeserializingResourceReader = true;
+            }
+            AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.BinaryFormatter, value));
         }
 
         public void AddResource(string name, string value)
@@ -242,22 +243,6 @@ namespace GtkSystem.Resources.Extensions
             AddResourceInternal(name, value, closeAfterWrite);
         }
 
-        private void AddResourceInternal(string name, Stream value, bool closeAfterWrite)
-        {
-            if (value == null)
-            {
-                _caseInsensitiveDups.Add(name, null);
-                _resourceList.Add(name, value);
-                return;
-            }
-            if (!value.CanSeek)
-            {
-                throw new ArgumentException(SR.NotSupported_UnseekableStream);
-            }
-            _caseInsensitiveDups.Add(name, null);
-            _resourceList.Add(name, new StreamWrapper(value, closeAfterWrite));
-        }
-
         public void AddResource(string name, byte[] value)
         {
             if (name == null)
@@ -272,40 +257,63 @@ namespace GtkSystem.Resources.Extensions
             _resourceList.Add(name, value);
         }
 
-        private void AddResourceData(string name, string typeName, object data)
+        public void AddResource(string name, string value, string typeName)
         {
-            if (_resourceList == null)
+            if (name == null)
             {
-                throw new InvalidOperationException(SR.InvalidOperation_ResourceWriterSaved);
+                throw new ArgumentNullException("name");
             }
-            _caseInsensitiveDups.Add(name, null);
-            if (_preserializedData == null)
+            if (value == null)
             {
-                _preserializedData = new Dictionary<string, PrecannedResource>(FastResourceComparer.Default);
+                throw new ArgumentNullException("value");
             }
-            _preserializedData.Add(name, new PrecannedResource(typeName, data));
+            if (typeName == null)
+            {
+                throw new ArgumentNullException("typeName");
+            }
+            if (s_primitiveTypes.TryGetValue(typeName, out var value2))
+            {
+                if (value2 == typeof(string))
+                {
+                    AddResource(name, value);
+                    return;
+                }
+                TypeConverter converter = TypeDescriptor.GetConverter(value2);
+                if (converter == null)
+                {
+                    throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, value2));
+                }
+                object value3 = converter.ConvertFromInvariantString(value);
+                AddResource(name, value3);
+            }
+            else
+            {
+                AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.TypeConverterString, value));
+                _requiresDeserializingResourceReader = true;
+            }
+        }
+
+        public void AddTypeConverterResource(string name, byte[] value, string typeName)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException("name");
+            }
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+            if (typeName == null)
+            {
+                throw new ArgumentNullException("typeName");
+            }
+            AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.TypeConverterByteArray, value));
+            _requiresDeserializingResourceReader = true;
         }
 
         public void Close()
         {
             Dispose(disposing: true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_resourceList != null)
-                {
-                    Generate();
-                }
-                if (_output != null)
-                {
-                    _output.Dispose();
-                }
-            }
-            _output = null;
-            _caseInsensitiveDups = null;
         }
 
         public void Dispose()
@@ -418,14 +426,51 @@ namespace GtkSystem.Resources.Extensions
             _resourceList = null;
         }
 
-        private static void Write7BitEncodedInt(BinaryWriter store, int value)
+        private void AddResourceData(string name, string typeName, object data)
         {
-            uint num;
-            for (num = (uint)value; num >= 128; num >>= 7)
+            if (_resourceList == null)
             {
-                store.Write((byte)(num | 0x80u));
+                throw new InvalidOperationException(SR.InvalidOperation_ResourceWriterSaved);
             }
-            store.Write((byte)num);
+            _caseInsensitiveDups.Add(name, null);
+            if (_preserializedData == null)
+            {
+                _preserializedData = new Dictionary<string, PrecannedResource>(FastResourceComparer.Default);
+            }
+            _preserializedData.Add(name, new PrecannedResource(typeName, data));
+        }
+
+        private void AddResourceInternal(string name, Stream value, bool closeAfterWrite)
+        {
+            if (value == null)
+            {
+                _caseInsensitiveDups.Add(name, null);
+                _resourceList.Add(name, value);
+                return;
+            }
+            if (!value.CanSeek)
+            {
+                throw new ArgumentException(SR.NotSupported_UnseekableStream);
+            }
+            _caseInsensitiveDups.Add(name, null);
+            _resourceList.Add(name, new StreamWrapper(value, closeAfterWrite));
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_resourceList != null)
+                {
+                    Generate();
+                }
+                if (_output != null)
+                {
+                    _output.Dispose();
+                }
+            }
+            _output = null;
+            _caseInsensitiveDups = null;
         }
 
         private ResourceTypeCode FindTypeCode(object value, List<string> types)
@@ -524,6 +569,76 @@ namespace GtkSystem.Resources.Extensions
                 return (ResourceTypeCode)(num + 64);
             }
             throw new PlatformNotSupportedException(SR.NotSupported_BinarySerializedResources);
+        }
+
+        private static void Write7BitEncodedInt(BinaryWriter store, int value)
+        {
+            uint num;
+            for (num = (uint)value; num >= 128; num >>= 7)
+            {
+                store.Write((byte)(num | 0x80u));
+            }
+            store.Write((byte)num);
+        }
+
+        private void WriteData(BinaryWriter writer, object dataContext)
+        {
+            ResourceDataRecord resourceDataRecord = dataContext as ResourceDataRecord;
+            if (_requiresDeserializingResourceReader)
+            {
+                Write7BitEncodedInt(writer, (int)resourceDataRecord.Format);
+            }
+            try
+            {
+                switch (resourceDataRecord.Format)
+                {
+                    case SerializationFormat.BinaryFormatter:
+                        {
+                            byte[] array2 = (byte[])resourceDataRecord.Data;
+                            if (_requiresDeserializingResourceReader)
+                            {
+                                Write7BitEncodedInt(writer, array2.Length);
+                            }
+                            writer.Write(array2);
+                            break;
+                        }
+                    case SerializationFormat.ActivatorStream:
+                        {
+                            Stream stream = (Stream)resourceDataRecord.Data;
+                            if (stream.Length > int.MaxValue)
+                            {
+                                throw new ArgumentException(SR.ArgumentOutOfRange_StreamLength);
+                            }
+                            stream.Position = 0L;
+                            Write7BitEncodedInt(writer, (int)stream.Length);
+                            stream.CopyTo(writer.BaseStream);
+                            break;
+                        }
+                    case SerializationFormat.TypeConverterByteArray:
+                        {
+                            byte[] array = (byte[])resourceDataRecord.Data;
+                            Write7BitEncodedInt(writer, array.Length);
+                            writer.Write(array);
+                            break;
+                        }
+                    case SerializationFormat.TypeConverterString:
+                        {
+                            string value = (string)resourceDataRecord.Data;
+                            writer.Write(value);
+                            break;
+                        }
+                    default:
+                        throw new ArgumentException("Format");
+                }
+            }
+            finally
+            {
+                IDisposable disposable = resourceDataRecord.Data as IDisposable;
+                if (disposable != null && resourceDataRecord.CloseAfterWrite)
+                {
+                    disposable.Dispose();
+                }
+            }
         }
 
         private void WriteValue(ResourceTypeCode typeCode, object value, BinaryWriter writer)
@@ -628,158 +743,48 @@ namespace GtkSystem.Resources.Extensions
                     break;
             }
         }
-
-        public void AddResource(string name, string value, string typeName)
+        private class PrecannedResource
         {
-            if (name == null)
+
+            internal readonly object Data;
+
+            internal readonly string TypeName;
+
+            internal PrecannedResource(string typeName, object data)
             {
-                throw new ArgumentNullException("name");
-            }
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-            if (typeName == null)
-            {
-                throw new ArgumentNullException("typeName");
-            }
-            if (s_primitiveTypes.TryGetValue(typeName, out var value2))
-            {
-                if (value2 == typeof(string))
-                {
-                    AddResource(name, value);
-                    return;
-                }
-                TypeConverter converter = TypeDescriptor.GetConverter(value2);
-                if (converter == null)
-                {
-                    throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, value2));
-                }
-                object value3 = converter.ConvertFromInvariantString(value);
-                AddResource(name, value3);
-            }
-            else
-            {
-                AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.TypeConverterString, value));
-                _requiresDeserializingResourceReader = true;
+                TypeName = typeName;
+                Data = data;
             }
         }
 
-        public void AddTypeConverterResource(string name, byte[] value, string typeName)
+        private class ResourceDataRecord
         {
-            if (name == null)
+
+            internal readonly bool CloseAfterWrite;
+
+            internal readonly object Data;
+
+            internal readonly SerializationFormat Format;
+
+            internal ResourceDataRecord(SerializationFormat format, object data, bool closeAfterWrite = false)
             {
-                throw new ArgumentNullException("name");
+                Format = format;
+                Data = data;
+                CloseAfterWrite = closeAfterWrite;
             }
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-            if (typeName == null)
-            {
-                throw new ArgumentNullException("typeName");
-            }
-            AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.TypeConverterByteArray, value));
-            _requiresDeserializingResourceReader = true;
         }
 
-        public void AddBinaryFormattedResource(string name, byte[] value, string typeName = null)
+        private class StreamWrapper
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException("name");
-            }
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-            if (typeName == null)
-            {
-                typeName = UnknownObjectTypeName;
-                _requiresDeserializingResourceReader = true;
-            }
-            AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.BinaryFormatter, value));
-        }
 
-        public void AddActivatorResource(string name, Stream value, string typeName, bool closeAfterWrite = false)
-        {
-            if (name == null)
-            {
-                throw new ArgumentNullException("name");
-            }
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-            if (typeName == null)
-            {
-                throw new ArgumentNullException("typeName");
-            }
-            if (!value.CanSeek)
-            {
-                throw new ArgumentException(SR.NotSupported_UnseekableStream);
-            }
-            AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.ActivatorStream, value, closeAfterWrite));
-            _requiresDeserializingResourceReader = true;
-        }
+            internal readonly bool CloseAfterWrite;
 
-        private void WriteData(BinaryWriter writer, object dataContext)
-        {
-            ResourceDataRecord resourceDataRecord = dataContext as ResourceDataRecord;
-            if (_requiresDeserializingResourceReader)
+            internal readonly Stream Stream;
+
+            internal StreamWrapper(Stream s, bool closeAfterWrite)
             {
-                Write7BitEncodedInt(writer, (int)resourceDataRecord.Format);
-            }
-            try
-            {
-                switch (resourceDataRecord.Format)
-                {
-                    case SerializationFormat.BinaryFormatter:
-                        {
-                            byte[] array2 = (byte[])resourceDataRecord.Data;
-                            if (_requiresDeserializingResourceReader)
-                            {
-                                Write7BitEncodedInt(writer, array2.Length);
-                            }
-                            writer.Write(array2);
-                            break;
-                        }
-                    case SerializationFormat.ActivatorStream:
-                        {
-                            Stream stream = (Stream)resourceDataRecord.Data;
-                            if (stream.Length > int.MaxValue)
-                            {
-                                throw new ArgumentException(SR.ArgumentOutOfRange_StreamLength);
-                            }
-                            stream.Position = 0L;
-                            Write7BitEncodedInt(writer, (int)stream.Length);
-                            stream.CopyTo(writer.BaseStream);
-                            break;
-                        }
-                    case SerializationFormat.TypeConverterByteArray:
-                        {
-                            byte[] array = (byte[])resourceDataRecord.Data;
-                            Write7BitEncodedInt(writer, array.Length);
-                            writer.Write(array);
-                            break;
-                        }
-                    case SerializationFormat.TypeConverterString:
-                        {
-                            string value = (string)resourceDataRecord.Data;
-                            writer.Write(value);
-                            break;
-                        }
-                    default:
-                        throw new ArgumentException("Format");
-                }
-            }
-            finally
-            {
-                IDisposable disposable = resourceDataRecord.Data as IDisposable;
-                if (disposable != null && resourceDataRecord.CloseAfterWrite)
-                {
-                    disposable.Dispose();
-                }
+                Stream = s;
+                CloseAfterWrite = closeAfterWrite;
             }
         }
     }

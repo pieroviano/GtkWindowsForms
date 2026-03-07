@@ -15,12 +15,14 @@ namespace System.Resources
     internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
     {
 
-        private AssemblyName[] _names;
-
         private Hashtable _cachedAssemblies;
+
         private Hashtable _cachedTypes;
 
+        private AssemblyName[] _names;
+
         private static readonly string s_dotNetPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "dotnet\\shared");
+
         private static readonly string s_dotNetPathX86 = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles(x86)"), "dotnet\\shared");
 
         internal AssemblyNamesTypeResolutionService(AssemblyName[] names)
@@ -199,17 +201,17 @@ namespace System.Resources
             return result;
         }
 
+        public void ReferenceAssembly(AssemblyName name)
+        {
+            throw new NotSupportedException();
+        }
+
         /// <summary>
         /// This is matching %windir%\Microsoft.NET\Framework*, so both 32bit and 64bit framework will be covered.
         /// </summary>
         private static bool IsDotNetAssembly(string assemblyPath)
         {
             return assemblyPath != null && (assemblyPath.StartsWith(s_dotNetPath, StringComparison.OrdinalIgnoreCase) || assemblyPath.StartsWith(s_dotNetPathX86, StringComparison.OrdinalIgnoreCase));
-        }
-
-        public void ReferenceAssembly(AssemblyName name)
-        {
-            throw new NotSupportedException();
         }
     }
 }

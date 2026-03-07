@@ -15,12 +15,12 @@ namespace System.Windows.Forms
         None,
 
         /// <summary>
-        /// Controls scale relative to the dimensions of the font the classes are using, which is typically the system font.
+        /// Controls scale according to the dimensions of the font they are using.
         /// </summary>
         Font,
 
         /// <summary>
-        /// Controls scale relative to the display resolution. Common resolutions are 96 and 120 DPI.
+        /// Controls scale according to the display Dpi.
         /// </summary>
         Dpi,
 

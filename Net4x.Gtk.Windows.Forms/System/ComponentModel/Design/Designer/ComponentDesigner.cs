@@ -12,23 +12,28 @@ namespace System.ComponentModel.Design
     /// </summary>
     public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, IComponentInitializer
     {
+
+        private protected const string SettingsKeyName = "SettingsKey";
+        private IComponent? _component;
+
         private InheritanceAttribute? _inheritanceAttribute;
 
+        private bool _settingsKeyExplicitlySet;
 
         private DesignerVerbCollection? _verbs;
 
-        private bool _settingsKeyExplicitlySet;
-        private IComponent? _component;
-
-        private protected const string SettingsKeyName = "SettingsKey";
-
         public ICollection Children => throw new NotImplementedException();
-
-        public IDesigner Parent => throw new NotImplementedException();
 
         public IComponent Component => throw new NotImplementedException();
 
+        public IDesigner Parent => throw new NotImplementedException();
+
         public DesignerVerbCollection Verbs => throw new NotImplementedException();
+
+        public void Dispose()
+        {
+
+        }
 
         public void DoDefaultAction()
         {
@@ -40,7 +45,12 @@ namespace System.ComponentModel.Design
 
         }
 
-        public void Dispose()
+        public void InitializeExistingComponent(IDictionary defaultValues)
+        {
+
+        }
+
+        public void InitializeNewComponent(IDictionary defaultValues)
         {
 
         }
@@ -71,16 +81,6 @@ namespace System.ComponentModel.Design
         }
 
         public void PreFilterProperties(IDictionary properties)
-        {
-
-        }
-
-        public void InitializeExistingComponent(IDictionary defaultValues)
-        {
-
-        }
-
-        public void InitializeNewComponent(IDictionary defaultValues)
         {
 
         }

@@ -5,6 +5,25 @@ namespace System.Drawing.Drawing2D
     /// </summary>
     public sealed class ColorBlend
     {
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> class.
+        /// </summary>
+        public ColorBlend()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> class with the specified number of colors and positions.
+        /// </summary>
+        /// <param name="count">The number of colors and positions in this
+        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" />.
+        /// </param>
+        public ColorBlend(int count)
+        {
+        }
         /// <summary>
         /// Gets or sets an array of colors that represents the colors to use at corresponding positions along a gradient.
         /// </summary>
@@ -36,25 +55,6 @@ namespace System.Drawing.Drawing2D
             set
             {
             }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> class.
-        /// </summary>
-        public ColorBlend()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> class with the specified number of colors and positions.
-        /// </summary>
-        /// <param name="count">The number of colors and positions in this
-        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" />.
-        /// </param>
-        public ColorBlend(int count)
-        {
         }
     }
 }

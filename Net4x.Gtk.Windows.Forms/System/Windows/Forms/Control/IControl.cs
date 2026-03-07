@@ -6,11 +6,144 @@ namespace System.Windows.Forms
 {
     public interface IControl
     {
-        /// <summary>
-        /// widget unregister the contained methods
-        /// </summary>
-        //widget unregister the contained methods
-        Gtk.Widget Widget { get; }
+
+        event EventHandler AutoSizeChanged;
+
+        event EventHandler BackColorChanged;
+
+        event EventHandler BackgroundImageChanged;
+
+        event EventHandler BackgroundImageLayoutChanged;
+
+        event EventHandler BindingContextChanged;
+
+        event EventHandler CausesValidationChanged;
+
+        event UICuesEventHandler ChangeUICues;
+
+        event EventHandler Click;
+
+        event EventHandler ClientSizeChanged;
+
+        event EventHandler ContextMenuStripChanged;
+
+        event ControlEventHandler ControlAdded;
+
+        event ControlEventHandler ControlRemoved;
+
+        event EventHandler CursorChanged;
+
+        event EventHandler DockChanged;
+
+        event EventHandler DoubleClick;
+
+        event EventHandler DpiChangedAfterParent;
+
+        event EventHandler DpiChangedBeforeParent;
+
+        event DragEventHandler DragDrop;
+
+        event DragEventHandler DragEnter;
+
+        event EventHandler DragLeave;
+
+        event DragEventHandler DragOver;
+
+        event EventHandler EnabledChanged;
+
+        event EventHandler Enter;
+
+        event EventHandler FontChanged;
+
+        event EventHandler ForeColorChanged;
+
+        event GiveFeedbackEventHandler GiveFeedback;
+
+        event EventHandler GotFocus;
+
+        event EventHandler HandleCreated;
+
+        event EventHandler HandleDestroyed;
+
+        event HelpEventHandler HelpRequested;
+
+        event EventHandler ImeModeChanged;
+
+        event InvalidateEventHandler Invalidated;
+
+        event KeyEventHandler KeyDown;
+
+        event KeyPressEventHandler KeyPress;
+
+        event KeyEventHandler KeyUp;
+
+        event LayoutEventHandler Layout;
+
+        event EventHandler Leave;
+
+        event EventHandler LocationChanged;
+
+        event EventHandler LostFocus;
+
+        event EventHandler MarginChanged;
+
+        event EventHandler MouseCaptureChanged;
+
+        event MouseEventHandler MouseClick;
+
+        event MouseEventHandler MouseDoubleClick;
+
+        event MouseEventHandler MouseDown;
+
+        event EventHandler MouseEnter;
+
+        event EventHandler MouseHover;
+
+        event EventHandler MouseLeave;
+
+        event MouseEventHandler MouseMove;
+
+        event MouseEventHandler MouseUp;
+
+        event MouseEventHandler MouseWheel;
+
+        event EventHandler Move;
+
+        event EventHandler PaddingChanged;
+
+        event PaintEventHandler Paint;
+
+        event EventHandler ParentChanged;
+
+        event PreviewKeyDownEventHandler PreviewKeyDown;
+
+        event QueryAccessibilityHelpEventHandler QueryAccessibilityHelp;
+
+        event QueryContinueDragEventHandler QueryContinueDrag;
+
+        event EventHandler RegionChanged;
+
+        event EventHandler Resize;
+
+        event EventHandler RightToLeftChanged;
+
+        event EventHandler SizeChanged;
+
+        event EventHandler StyleChanged;
+
+        event EventHandler SystemColorsChanged;
+
+        event EventHandler TabIndexChanged;
+
+        event EventHandler TabStopChanged;
+
+        event EventHandler TextChanged;
+
+        event EventHandler Validated;
+
+        event CancelEventHandler Validating;
+
+        event EventHandler VisibleChanged;
         /// <summary>
         /// Gets the accessibility object.
         /// </summary>
@@ -18,6 +151,7 @@ namespace System.Windows.Forms
         /// The accessibility object.
         /// </value>
         AccessibleObject AccessibilityObject { get; }
+
         /// <summary>
         /// Gets or sets the accessible default action description.
         /// </summary>
@@ -25,6 +159,7 @@ namespace System.Windows.Forms
         /// The accessible default action description.
         /// </value>
         string AccessibleDefaultActionDescription { get; set; }
+
         /// <summary>
         /// Gets or sets the accessible description.
         /// </summary>
@@ -32,6 +167,7 @@ namespace System.Windows.Forms
         /// The accessible description.
         /// </value>
         string AccessibleDescription { get; set; }
+
         /// <summary>
         /// Gets or sets the name of the accessible.
         /// </summary>
@@ -39,6 +175,7 @@ namespace System.Windows.Forms
         /// The name of the accessible.
         /// </value>
         string AccessibleName { get; set; }
+
         /// <summary>
         /// Gets or sets the accessible role.
         /// </summary>
@@ -46,6 +183,7 @@ namespace System.Windows.Forms
         /// The accessible role.
         /// </value>
         AccessibleRole AccessibleRole { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether allows drop.
         /// </summary>
@@ -58,6 +196,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool AllowDrop { get; set; }
+
         /// <summary>
         /// Gets or sets the anchor.
         /// </summary>
@@ -65,6 +204,7 @@ namespace System.Windows.Forms
         /// The anchor.
         /// </value>
         AnchorStyles Anchor { get; set; }
+
         /// <summary>
         /// Gets or sets the automatic scroll offset.
         /// </summary>
@@ -72,6 +212,7 @@ namespace System.Windows.Forms
         /// The automatic scroll offset.
         /// </value>
         Point AutoScrollOffset { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether automatic size.
         /// </summary>
@@ -84,6 +225,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool AutoSize { get; set; }
+
         /// <summary>
         /// Gets or sets the color of the back.
         /// </summary>
@@ -91,6 +233,7 @@ namespace System.Windows.Forms
         /// The color of the back.
         /// </value>
         Color BackColor { get; set; }
+
         /// <summary>
         /// Gets or sets the background image.
         /// </summary>
@@ -98,6 +241,7 @@ namespace System.Windows.Forms
         /// The background image.
         /// </value>
         Image BackgroundImage { get; set; }
+
         /// <summary>
         /// Gets or sets the background image layout.
         /// </summary>
@@ -105,6 +249,7 @@ namespace System.Windows.Forms
         /// The background image layout.
         /// </value>
         ImageLayout BackgroundImageLayout { get; set; }
+
         /// <summary>
         /// Gets or sets the binding context.
         /// </summary>
@@ -112,6 +257,7 @@ namespace System.Windows.Forms
         /// The binding context.
         /// </value>
         BindingContext BindingContext { get; set; }
+
         /// <summary>
         /// Gets the bottom.
         /// </summary>
@@ -119,6 +265,7 @@ namespace System.Windows.Forms
         /// The bottom.
         /// </value>
         int Bottom { get; }
+
         /// <summary>
         /// Gets or sets the bounds.
         /// </summary>
@@ -126,6 +273,7 @@ namespace System.Windows.Forms
         /// The bounds.
         /// </value>
         Rectangle Bounds { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether this instance can focus.
         /// </summary>
@@ -138,6 +286,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool CanFocus { get; }
+
         /// <summary>
         /// Gets a value indicating whether this instance can select.
         /// </summary>
@@ -150,6 +299,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool CanSelect { get; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this
         /// <see cref="System.Windows.Forms.IControl" /> is capture.
@@ -163,6 +313,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool Capture { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether causes validation.
         /// </summary>
@@ -175,6 +326,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool CausesValidation { get; set; }
+
         /// <summary>
         /// Gets the name of the company.
         /// </summary>
@@ -182,6 +334,7 @@ namespace System.Windows.Forms
         /// The name of the company.
         /// </value>
         string CompanyName { get; }
+
         /// <summary>
         /// Gets a value indicating whether contains focus.
         /// </summary>
@@ -194,6 +347,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool ContainsFocus { get; }
+
         /// <summary>
         /// Gets or sets the context menu strip.
         /// </summary>
@@ -201,6 +355,7 @@ namespace System.Windows.Forms
         /// The context menu strip.
         /// </value>
         ContextMenuStrip ContextMenuStrip { get; set; }
+
         /// <summary>
         /// Gets the controls.
         /// </summary>
@@ -208,6 +363,7 @@ namespace System.Windows.Forms
         /// The controls.
         /// </value>
         Control.ControlCollection Controls { get; }
+
         /// <summary>
         /// Gets a value indicating whether this
         /// <see cref="System.Windows.Forms.IControl" /> is created.
@@ -221,6 +377,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool Created { get; }
+
         /// <summary>
         /// Gets or sets the cursor.
         /// </summary>
@@ -228,6 +385,7 @@ namespace System.Windows.Forms
         /// The cursor.
         /// </value>
         Cursor Cursor { get; set; }
+
         /// <summary>
         /// Gets the data bindings.
         /// </summary>
@@ -235,6 +393,7 @@ namespace System.Windows.Forms
         /// The data bindings.
         /// </value>
         ControlBindingsCollection DataBindings { get; }
+
         /// <summary>
         /// Gets the device dpi.
         /// </summary>
@@ -242,6 +401,7 @@ namespace System.Windows.Forms
         /// The device dpi.
         /// </value>
         int DeviceDpi { get; }
+
         /// <summary>
         /// Gets the display rectangle.
         /// </summary>
@@ -249,6 +409,7 @@ namespace System.Windows.Forms
         /// The display rectangle.
         /// </value>
         Rectangle DisplayRectangle { get; }
+
         /// <summary>
         /// Gets a value indicating whether this
         /// <see cref="System.Windows.Forms.IControl" /> is disposing.
@@ -262,6 +423,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool Disposing { get; }
+
         /// <summary>
         /// Gets or sets the dock.
         /// </summary>
@@ -269,6 +431,7 @@ namespace System.Windows.Forms
         /// The dock.
         /// </value>
         DockStyle Dock { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this
         /// <see cref="System.Windows.Forms.IControl" /> is enabled.
@@ -282,6 +445,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool Enabled { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether this
         /// <see cref="System.Windows.Forms.IControl" /> is focused.
@@ -295,6 +459,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool Focused { get; }
+
         /// <summary>
         /// Gets or sets the font.
         /// </summary>
@@ -302,6 +467,7 @@ namespace System.Windows.Forms
         /// The font.
         /// </value>
         Font Font { get; set; }
+
         /// <summary>
         /// Gets or sets the color of the fore.
         /// </summary>
@@ -309,6 +475,7 @@ namespace System.Windows.Forms
         /// The color of the fore.
         /// </value>
         Color ForeColor { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether this instance has children.
         /// </summary>
@@ -322,6 +489,7 @@ namespace System.Windows.Forms
         /// </value>
         // IntPtr Handle { get; }
         bool HasChildren { get; }
+
         /// <summary>
         /// Gets or sets the height.
         /// </summary>
@@ -329,6 +497,7 @@ namespace System.Windows.Forms
         /// The height.
         /// </value>
         int Height { get; set; }
+
         /// <summary>
         /// Gets or sets the IME mode.
         /// </summary>
@@ -336,6 +505,7 @@ namespace System.Windows.Forms
         /// The IME mode.
         /// </value>
         ImeMode ImeMode { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether invoke required.
         /// </summary>
@@ -348,6 +518,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool InvokeRequired { get; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this instance is accessible.
         /// </summary>
@@ -360,6 +531,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool IsAccessible { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
@@ -372,6 +544,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool IsDisposed { get; }
+
         /// <summary>
         /// Gets a value indicating whether this instance is handle created.
         /// </summary>
@@ -384,6 +557,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool IsHandleCreated { get; }
+
         /// <summary>
         /// Gets a value indicating whether this instance is mirrored.
         /// </summary>
@@ -396,6 +570,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool IsMirrored { get; }
+
         /// <summary>
         /// Gets the layout engine.
         /// </summary>
@@ -403,6 +578,7 @@ namespace System.Windows.Forms
         /// The layout engine.
         /// </value>
         LayoutEngine LayoutEngine { get; }
+
         /// <summary>
         /// Gets or sets the left.
         /// </summary>
@@ -410,6 +586,7 @@ namespace System.Windows.Forms
         /// The left.
         /// </value>
         int Left { get; set; }
+
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
@@ -417,6 +594,7 @@ namespace System.Windows.Forms
         /// The location.
         /// </value>
         Point Location { get; set; }
+
         /// <summary>
         /// Gets or sets the margin.
         /// </summary>
@@ -424,6 +602,7 @@ namespace System.Windows.Forms
         /// The margin.
         /// </value>
         Padding Margin { get; set; }
+
         /// <summary>
         /// Gets or sets the maximum size.
         /// </summary>
@@ -431,6 +610,7 @@ namespace System.Windows.Forms
         /// The maximum size.
         /// </value>
         Size MaximumSize { get; set; }
+
         /// <summary>
         /// Gets or sets the minimum size.
         /// </summary>
@@ -438,6 +618,7 @@ namespace System.Windows.Forms
         /// The minimum size.
         /// </value>
         Size MinimumSize { get; set; }
+
         /// <summary>
         /// Gets or sets the padding.
         /// </summary>
@@ -446,6 +627,7 @@ namespace System.Windows.Forms
         /// </value>
         //string Name { get; set; }
         Padding Padding { get; set; }
+
         /// <summary>
         /// Gets or sets the parent.
         /// </summary>
@@ -453,6 +635,7 @@ namespace System.Windows.Forms
         /// The parent.
         /// </value>
         Control Parent { get; set; }
+
         /// <summary>
         /// Gets the size of the preferred.
         /// </summary>
@@ -460,6 +643,7 @@ namespace System.Windows.Forms
         /// The size of the preferred.
         /// </value>
         Size PreferredSize { get; }
+
         /// <summary>
         /// Gets the name of the product.
         /// </summary>
@@ -467,6 +651,7 @@ namespace System.Windows.Forms
         /// The name of the product.
         /// </value>
         string ProductName { get; }
+
         /// <summary>
         /// Gets the product version.
         /// </summary>
@@ -474,6 +659,7 @@ namespace System.Windows.Forms
         /// The product version.
         /// </value>
         string ProductVersion { get; }
+
         /// <summary>
         /// Gets a value indicating whether recreating handle.
         /// </summary>
@@ -486,6 +672,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool RecreatingHandle { get; }
+
         /// <summary>
         /// Gets or sets the region.
         /// </summary>
@@ -493,6 +680,7 @@ namespace System.Windows.Forms
         /// The region.
         /// </value>
         Region Region { get; set; }
+
         /// <summary>
         /// Gets the right.
         /// </summary>
@@ -500,6 +688,7 @@ namespace System.Windows.Forms
         /// The right.
         /// </value>
         int Right { get; }
+
         /// <summary>
         /// Gets or sets the right to left.
         /// </summary>
@@ -507,6 +696,7 @@ namespace System.Windows.Forms
         /// The right to left.
         /// </value>
         RightToLeft RightToLeft { get; set; }
+
         /// <summary>
         /// Gets or sets the site.
         /// </summary>
@@ -514,6 +704,7 @@ namespace System.Windows.Forms
         /// The site.
         /// </value>
         ISite Site { get; set; }
+
         /// <summary>
         /// Gets or sets the size.
         /// </summary>
@@ -521,6 +712,7 @@ namespace System.Windows.Forms
         /// The size.
         /// </value>
         Size Size { get; set; }
+
         /// <summary>
         /// Gets or sets the index of the tab.
         /// </summary>
@@ -528,6 +720,7 @@ namespace System.Windows.Forms
         /// The index of the tab.
         /// </value>
         int TabIndex { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether tab stop.
         /// </summary>
@@ -540,6 +733,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool TabStop { get; set; }
+
         /// <summary>
         /// Gets or sets the tag.
         /// </summary>
@@ -547,6 +741,7 @@ namespace System.Windows.Forms
         /// The tag.
         /// </value>
         object Tag { get; set; }
+
         /// <summary>
         /// Gets or sets the text.
         /// </summary>
@@ -554,6 +749,7 @@ namespace System.Windows.Forms
         /// The text.
         /// </value>
         string Text { get; set; }
+
         /// <summary>
         /// Gets or sets the top.
         /// </summary>
@@ -561,6 +757,7 @@ namespace System.Windows.Forms
         /// The top.
         /// </value>
         int Top { get; set; }
+
         /// <summary>
         /// Gets the top level control.
         /// </summary>
@@ -568,6 +765,20 @@ namespace System.Windows.Forms
         /// The top level control.
         /// </value>
         Control TopLevelControl { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [use visual style back color].
+        /// </summary>
+        /// <value>
+        /// <c>
+        /// true
+        /// </c> if [use visual style back color]; otherwise,
+        /// <c>
+        /// false
+        /// </c>.
+        /// </value>
+        bool UseVisualStyleBackColor { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether use wait cursor.
         /// </summary>
@@ -580,6 +791,7 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool UseWaitCursor { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this
         /// <see cref="System.Windows.Forms.IControl" /> is visible.
@@ -593,6 +805,13 @@ namespace System.Windows.Forms
         /// </c>.
         /// </value>
         bool Visible { get; set; }
+
+        /// <summary>
+        /// widget unregister the contained methods
+        /// </summary>
+        //widget unregister the contained methods
+        Gtk.Widget Widget { get; }
+
         /// <summary>
         /// Gets or sets the width.
         /// </summary>
@@ -600,6 +819,7 @@ namespace System.Windows.Forms
         /// The width.
         /// </value>
         int Width { get; set; }
+
         /// <summary>
         /// Gets or sets the window target.
         /// </summary>
@@ -607,76 +827,6 @@ namespace System.Windows.Forms
         /// The window target.
         /// </value>
         IWindowTarget WindowTarget { get; set; }
-
-        event EventHandler AutoSizeChanged;
-        event EventHandler BackColorChanged;
-        event EventHandler BackgroundImageChanged;
-        event EventHandler BackgroundImageLayoutChanged;
-        event EventHandler BindingContextChanged;
-        event EventHandler CausesValidationChanged;
-        event UICuesEventHandler ChangeUICues;
-        event EventHandler Click;
-        event EventHandler ClientSizeChanged;
-        event EventHandler ContextMenuStripChanged;
-        event ControlEventHandler ControlAdded;
-        event ControlEventHandler ControlRemoved;
-        event EventHandler CursorChanged;
-        event EventHandler DockChanged;
-        event EventHandler DoubleClick;
-        event EventHandler DpiChangedAfterParent;
-        event EventHandler DpiChangedBeforeParent;
-        event DragEventHandler DragDrop;
-        event DragEventHandler DragEnter;
-        event EventHandler DragLeave;
-        event DragEventHandler DragOver;
-        event EventHandler EnabledChanged;
-        event EventHandler Enter;
-        event EventHandler FontChanged;
-        event EventHandler ForeColorChanged;
-        event GiveFeedbackEventHandler GiveFeedback;
-        event EventHandler GotFocus;
-        event EventHandler HandleCreated;
-        event EventHandler HandleDestroyed;
-        event HelpEventHandler HelpRequested;
-        event EventHandler ImeModeChanged;
-        event InvalidateEventHandler Invalidated;
-        event KeyEventHandler KeyDown;
-        event KeyPressEventHandler KeyPress;
-        event KeyEventHandler KeyUp;
-        event LayoutEventHandler Layout;
-        event EventHandler Leave;
-        event EventHandler LocationChanged;
-        event EventHandler LostFocus;
-        event EventHandler MarginChanged;
-        event EventHandler MouseCaptureChanged;
-        event MouseEventHandler MouseClick;
-        event MouseEventHandler MouseDoubleClick;
-        event MouseEventHandler MouseDown;
-        event EventHandler MouseEnter;
-        event EventHandler MouseHover;
-        event EventHandler MouseLeave;
-        event MouseEventHandler MouseMove;
-        event MouseEventHandler MouseUp;
-        event MouseEventHandler MouseWheel;
-        event EventHandler Move;
-        event EventHandler PaddingChanged;
-        event PaintEventHandler Paint;
-        event EventHandler ParentChanged;
-        event PreviewKeyDownEventHandler PreviewKeyDown;
-        event QueryAccessibilityHelpEventHandler QueryAccessibilityHelp;
-        event QueryContinueDragEventHandler QueryContinueDrag;
-        event EventHandler RegionChanged;
-        event EventHandler Resize;
-        event EventHandler RightToLeftChanged;
-        event EventHandler SizeChanged;
-        event EventHandler StyleChanged;
-        event EventHandler SystemColorsChanged;
-        event EventHandler TabIndexChanged;
-        event EventHandler TabStopChanged;
-        event EventHandler TextChanged;
-        event EventHandler Validated;
-        event CancelEventHandler Validating;
-        event EventHandler VisibleChanged;
         /// <summary>
         /// Begins the invoke.
         /// </summary>
@@ -685,6 +835,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         IAsyncResult BeginInvoke(Delegate method);
+
         /// <summary>
         /// Begins the invoke.
         /// </summary>
@@ -695,6 +846,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         IAsyncResult BeginInvoke(Delegate method, params object[] args);
+
         /// <summary>
         /// Begins the invoke.
         /// </summary>
@@ -703,10 +855,12 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         IAsyncResult BeginInvoke(Action method);
+
         /// <summary>
         /// Brings to front.
         /// </summary>
         void BringToFront();
+
         /// <summary>
         /// Determines whether this instance contains the object.
         /// </summary>
@@ -721,16 +875,19 @@ namespace System.Windows.Forms
         /// </c>.
         /// </returns>
         bool Contains(Control ctl);
+
         /// <summary>
         /// Creates the control.
         /// </summary>
         void CreateControl();
+
         /// <summary>
         /// Creates the graphics.
         /// </summary>
         /// <returns>
         /// </returns>
         Graphics CreateGraphics();
+
         /// <summary>
         /// Does the drag drop.
         /// </summary>
@@ -741,6 +898,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         DragDropEffects DoDragDrop(object data, DragDropEffects allowedEffects);
+
         /// <summary>
         /// Draws to bitmap.
         /// </summary>
@@ -749,6 +907,7 @@ namespace System.Windows.Forms
         /// <param name="targetBounds">The target bounds.
         /// </param>
         void DrawToBitmap(Bitmap bitmap, Rectangle targetBounds);
+
         /// <summary>
         /// Ends the invoke.
         /// </summary>
@@ -757,18 +916,21 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         object EndInvoke(IAsyncResult asyncResult);
+
         /// <summary>
         /// Finds the form.
         /// </summary>
         /// <returns>
         /// </returns>
         Form FindForm();
+
         /// <summary>
         /// Focuses this instance.
         /// </summary>
         /// <returns>
         /// </returns>
         bool Focus();
+
         /// <summary>
         /// Gets the child at point.
         /// </summary>
@@ -777,6 +939,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         Control GetChildAtPoint(Point pt);
+
         /// <summary>
         /// Gets the child at point.
         /// </summary>
@@ -787,12 +950,14 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         Control GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue);
+
         /// <summary>
         /// Gets the container control.
         /// </summary>
         /// <returns>
         /// </returns>
         IContainerControl GetContainerControl();
+
         /// <summary>
         /// Gets the next control.
         /// </summary>
@@ -806,6 +971,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         Control GetNextControl(Control ctl, bool forward);
+
         /// <summary>
         /// Gets the size of the preferred.
         /// </summary>
@@ -814,11 +980,13 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         Size GetPreferredSize(Size proposedSize);
+
         /// <summary>
         /// Invalidates this instance.
         /// </summary>
         // void Hide();
         void Invalidate();
+
         /// <summary>
         /// Invalidates the specified invalidate children.
         /// </summary>
@@ -828,12 +996,14 @@ namespace System.Windows.Forms
         /// </c> [invalidate children].
         /// </param>
         void Invalidate(bool invalidateChildren);
+
         /// <summary>
         /// Invalidates the specified rc.
         /// </summary>
         /// <param name="rc">The rc.
         /// </param>
         void Invalidate(Rectangle rc);
+
         /// <summary>
         /// Invalidates the specified rc.
         /// </summary>
@@ -845,12 +1015,14 @@ namespace System.Windows.Forms
         /// </c> [invalidate children].
         /// </param>
         void Invalidate(Rectangle rc, bool invalidateChildren);
+
         /// <summary>
         /// Invalidates the specified region.
         /// </summary>
         /// <param name="region">The region.
         /// </param>
         void Invalidate(Region region);
+
         /// <summary>
         /// Invalidates the specified region.
         /// </summary>
@@ -862,6 +1034,7 @@ namespace System.Windows.Forms
         /// </c> [invalidate children].
         /// </param>
         void Invalidate(Region region, bool invalidateChildren);
+
         /// <summary>
         /// Invokes the specified method.
         /// </summary>
@@ -870,6 +1043,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         object Invoke(Delegate method);
+
         /// <summary>
         /// Invokes the specified method.
         /// </summary>
@@ -880,6 +1054,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         object Invoke(Delegate method, params object[] args);
+
         /// <summary>
         /// Invokes the specified method.
         /// </summary>
@@ -890,6 +1065,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         TEntry Invoke<TEntry>(Func<TEntry> method);
+
         /// <summary>
         /// Logicals to device units.
         /// </summary>
@@ -898,6 +1074,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         int LogicalToDeviceUnits(int value);
+
         /// <summary>
         /// Logicals to device units.
         /// </summary>
@@ -906,10 +1083,12 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         Size LogicalToDeviceUnits(Size value);
+
         /// <summary>
         /// Performs the layout.
         /// </summary>
         void PerformLayout();
+
         /// <summary>
         /// Performs the layout.
         /// </summary>
@@ -918,6 +1097,7 @@ namespace System.Windows.Forms
         /// <param name="affectedProperty">The affected property.
         /// </param>
         void PerformLayout(Control affectedControl, string affectedProperty);
+
         /// <summary>
         /// Points to client.
         /// </summary>
@@ -926,6 +1106,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         Point PointToClient(Point p);
+
         /// <summary>
         /// Points to screen.
         /// </summary>
@@ -934,6 +1115,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         Point PointToScreen(Point p);
+
         /// <summary>
         /// Pres the process control message.
         /// </summary>
@@ -942,6 +1124,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         PreProcessControlState PreProcessControlMessage(ref Message msg);
+
         /// <summary>
         /// Pres the process message.
         /// </summary>
@@ -950,6 +1133,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         bool PreProcessMessage(ref Message msg);
+
         /// <summary>
         /// Rectangles to client.
         /// </summary>
@@ -958,6 +1142,7 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         Rectangle RectangleToClient(Rectangle r);
+
         /// <summary>
         /// Rectangles to screen.
         /// </summary>
@@ -966,46 +1151,57 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         Rectangle RectangleToScreen(Rectangle r);
+
         /// <summary>
         /// Refreshes this instance.
         /// </summary>
         void Refresh();
+
         /// <summary>
         /// Resets the color of the back.
         /// </summary>
         void ResetBackColor();
+
         /// <summary>
         /// Resets the bindings.
         /// </summary>
         void ResetBindings();
+
         /// <summary>
         /// Resets the cursor.
         /// </summary>
         void ResetCursor();
+
         /// <summary>
         /// Resets the font.
         /// </summary>
         void ResetFont();
+
         /// <summary>
         /// Resets the color of the fore.
         /// </summary>
         void ResetForeColor();
+
         /// <summary>
         /// Resets the IME mode.
         /// </summary>
         void ResetImeMode();
+
         /// <summary>
         /// Resets the right to left.
         /// </summary>
         void ResetRightToLeft();
+
         /// <summary>
         /// Resets the text.
         /// </summary>
         void ResetText();
+
         /// <summary>
         /// Resumes the layout.
         /// </summary>
         void ResumeLayout();
+
         /// <summary>
         /// Resumes the layout.
         /// </summary>
@@ -1015,12 +1211,14 @@ namespace System.Windows.Forms
         /// </c> [perform layout].
         /// </param>
         void ResumeLayout(bool performLayout);
+
         /// <summary>
         /// Scales the specified ratio.
         /// </summary>
         /// <param name="ratio">The ratio.
         /// </param>
         void Scale(float ratio);
+
         /// <summary>
         /// Scales the specified dx.
         /// </summary>
@@ -1029,22 +1227,26 @@ namespace System.Windows.Forms
         /// <param name="dy">The dy.
         /// </param>
         void Scale(float dx, float dy);
+
         /// <summary>
         /// Scales the specified factor.
         /// </summary>
         /// <param name="factor">The factor.
         /// </param>
         void Scale(SizeF factor);
+
         /// <summary>
         /// Scales the bitmap logical to device.
         /// </summary>
         /// <param name="logicalBitmap">The logical bitmap.
         /// </param>
         void ScaleBitmapLogicalToDevice(ref Bitmap logicalBitmap);
+
         /// <summary>
         /// Selects this instance.
         /// </summary>
         void Select();
+
         /// <summary>
         /// Selects the next control.
         /// </summary>
@@ -1073,10 +1275,12 @@ namespace System.Windows.Forms
         /// <returns>
         /// </returns>
         bool SelectNextControl(Control ctl, bool forward, bool tabStopOnly, bool nested, bool wrap);
+
         /// <summary>
         /// Sends to back.
         /// </summary>
         void SendToBack();
+
         /// <summary>
         /// Sets the bounds.
         /// </summary>
@@ -1089,6 +1293,7 @@ namespace System.Windows.Forms
         /// <param name="height">The height.
         /// </param>
         void SetBounds(int x, int y, int width, int height);
+
         /// <summary>
         /// Sets the bounds.
         /// </summary>
@@ -1103,26 +1308,16 @@ namespace System.Windows.Forms
         /// <param name="specified">The specified.
         /// </param>
         void SetBounds(int x, int y, int width, int height, BoundsSpecified specified);
+
         /// <summary>
         /// Suspends the layout.
         /// </summary>
         // void Show();
         void SuspendLayout();
+
         /// <summary>
         /// Updates this instance.
         /// </summary>
         void Update();
-        /// <summary>
-        /// Gets or sets a value indicating whether [use visual style back color].
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if [use visual style back color]; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
-        bool UseVisualStyleBackColor { get; set; }
     }
 }

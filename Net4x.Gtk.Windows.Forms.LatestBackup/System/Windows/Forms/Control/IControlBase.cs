@@ -10,38 +10,62 @@ namespace System.Windows.Forms
     public interface IControlBase
     {
         string AccessibleDefaultActionDescription { get; set; }
+
         string AccessibleDescription { get; set; }
+
         string AccessibleName { get; set; }
+
         AccessibleRole AccessibleRole { get; set; }
+
         bool AllowDrop { get; set; }
+
         AnchorStyles Anchor { get; set; }
+
         Point AutoScrollOffset { get; set; }
+
         bool AutoSize { get; set; }
+
         Color BackColor { get; set; }
+
         Image BackgroundImage { get; set; }
+
         ImageLayout BackgroundImageLayout { get; set; }
+
         BindingContext BindingContext { get; set; }
+
         int Bottom { get; }
+
         bool CausesValidation { get; set; }
+
         DockStyle Dock { get; set; }
+
+        bool Enabled { get; set; }
 
         Color ForeColor { get; set; }
 
+        int Height { get; set; }
+
         Point Location { get; set; }
+
         Padding Margin { get; set; }
-        Size Size { get; set; }
+
         string Name { get; set; }
-        string Text { get; set; }
+
         Padding Padding { get; set; }
 
+        Size Size { get; set; }
+
         int TabIndex { get; set; }
+
         bool TabStop { get; set; }
+
         object Tag { get; set; }
 
-        bool Enabled { get; set; }
+        string Text { get; set; }
+
         bool Visible { get; set; }
+
         int Width { get; set; }
-        int Height { get; set; }
 
         //void SuspendLayout();
         //void ResumeLayout(bool resume);

@@ -17,20 +17,13 @@ namespace System.Windows.Forms
         public SaveFileDialog()
         {
         }
-
-        private new string Description => base.Description;
         public bool CheckWriteAccess
         {
             get => true;
             set { }
         }
-        /// <summary>
-        /// Opens the file with read/write permission selected by the user.
-        /// </summary>
-        /// <returns>The read/write file selected by the user.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
+        private new string Description => base.Description;
         public Stream OpenFile()
         {
             string filename = FileName;
@@ -38,11 +31,14 @@ namespace System.Windows.Forms
             {
                 throw new ArgumentNullException("filename");
             }
+
             return new FileStream(filename, FileMode.Create, FileAccess.ReadWrite);
         }
+
         public override DialogResult ShowDialog(IWin32Window owner)
         {
             ActionType = Gtk.FileChooserAction.Save;
+
             return base.ShowDialog(owner);
         }
     }

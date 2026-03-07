@@ -12,32 +12,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 
         public readonly Gtk.ScrolledWindow ScrollView = new Gtk.ScrolledWindow();
 
-        public GtkControlOverride Override { get; set; }
-        public bool AutoScroll
-        {
-            get => ScrollView.VscrollbarPolicy == Gtk.PolicyType.Automatic;
-            set
-            {
-                if (value == true)
-                {
-                    if (VScroll)
-                        ScrollView.VscrollbarPolicy = Gtk.PolicyType.Automatic;
-                    if (HScroll)
-                        ScrollView.HscrollbarPolicy = Gtk.PolicyType.Automatic;
-                }
-                else
-                {
-                    ScrollView.VscrollbarPolicy = Gtk.PolicyType.External;
-                    ScrollView.HscrollbarPolicy = Gtk.PolicyType.External;
-                }
-            }
-        }
-
-        public bool VScroll { get; set; } = true;
-        public bool HScroll { get; set; } = true;
-
-        public delegate bool CloseWindowHandler(object sender, EventArgs e);
-
         public event CloseWindowHandler CloseWindowEvent;
 
         public event System.Windows.Forms.ScrollEventHandler Scroll;
@@ -71,6 +45,45 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.Drawn += FormBase_Drawn;
             this.Close += FormBase_Close;
         }
+        public bool AutoScroll
+        {
+            get => ScrollView.VscrollbarPolicy == Gtk.PolicyType.Automatic;
+            set
+            {
+                if (value == true)
+                {
+                    if (VScroll)
+                        ScrollView.VscrollbarPolicy = Gtk.PolicyType.Automatic;
+                    if (HScroll)
+                        ScrollView.HscrollbarPolicy = Gtk.PolicyType.Automatic;
+                }
+                else
+                {
+                    ScrollView.VscrollbarPolicy = Gtk.PolicyType.External;
+                    ScrollView.HscrollbarPolicy = Gtk.PolicyType.External;
+                }
+            }
+        }
+
+        public bool HScroll { get; set; } = true;
+
+        public GtkControlOverride Override { get; set; }
+
+        public bool VScroll { get; set; } = true;
+        public new void Add(Gtk.Widget child)
+        {
+            ScrollView.Child = child;
+        }
+
+        public void AddClass(string cssClass)
+        {
+            this.Override.AddClass(cssClass);
+        }
+
+        public void CloseWindow()
+        {
+            this.Respond(ResponseType.DeleteEvent);
+        }
 
         private void FormBase_Close(object sender, EventArgs e)
         {
@@ -101,14 +114,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
                     this.Run();
             }
         }
-        private void Vadjustment_ValueChanged(object sender, EventArgs e)
-        {
-            if (Scroll != null)
-            {
-                Gtk.Adjustment adj = (Gtk.Adjustment)sender;
-                Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
-            }
-        }
 
         private void Hadjustment_ValueChanged(object sender, EventArgs e)
         {
@@ -118,18 +123,16 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
                 Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
             }
         }
-        public void CloseWindow()
+
+        private void Vadjustment_ValueChanged(object sender, EventArgs e)
         {
-            this.Respond(ResponseType.DeleteEvent);
+            if (Scroll != null)
+            {
+                Gtk.Adjustment adj = (Gtk.Adjustment)sender;
+                Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
+            }
         }
 
-        public void AddClass(string cssClass)
-        {
-            this.Override.AddClass(cssClass);
-        }
-        public new void Add(Gtk.Widget child)
-        {
-            ScrollView.Child = child;
-        }
+        public delegate bool CloseWindowHandler(object sender, EventArgs e);
     }
 }

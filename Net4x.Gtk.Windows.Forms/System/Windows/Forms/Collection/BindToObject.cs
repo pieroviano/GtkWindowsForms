@@ -4,21 +4,30 @@ namespace System.Windows.Forms;
 
 internal class BindToObject
 {
-    private PropertyDescriptor? _fieldInfo;
+
+    private BindingManagerBase? _bindingManager;
 
     private readonly BindingMemberInfo _dataMember;
 
     private readonly object _dataSource;
 
-    private BindingManagerBase? _bindingManager;
-
-    private readonly Binding? _owner;
+    private bool _dataSourceInitialized;
 
     private string _errorText = string.Empty;
 
-    private bool _dataSourceInitialized;
+    private PropertyDescriptor? _fieldInfo;
+
+    private readonly Binding? _owner;
 
     private bool _waitingOnDataSource;
+
+    internal BindToObject(Binding owner, object dataSource, string? dataMember)
+    {
+        _owner = owner;
+        _dataSource = dataSource;
+        _dataMember = new BindingMemberInfo(dataMember);
+        CheckBinding();
+    }
 
     internal BindingManagerBase? BindingManagerBase => _bindingManager;
 
@@ -37,6 +46,7 @@ internal class BindToObject
             {
                 bindType = bindType?.GetElementType();
             }
+
             return bindType;
         }
     }
@@ -67,16 +77,9 @@ internal class BindToObject
             }
             supportInitializeNotification.Initialized += DataSource_Initialized;
             _waitingOnDataSource = true;
+
             return false;
         }
-    }
-
-    internal BindToObject(Binding owner, object dataSource, string? dataMember)
-    {
-        _owner = owner;
-        _dataSource = dataSource;
-        _dataMember = new BindingMemberInfo(dataMember);
-        CheckBinding();
     }
 
     internal void CheckBinding()
@@ -116,28 +119,6 @@ internal class BindToObject
         }
     }
 
-    private void DataSource_Initialized(object? sender, EventArgs e)
-    {
-        if (_dataSource is ISupportInitializeNotification supportInitializeNotification)
-        {
-            supportInitializeNotification.Initialized -= DataSource_Initialized;
-        }
-        _waitingOnDataSource = false;
-        _dataSourceInitialized = true;
-        CheckBinding();
-    }
-
-    private string GetErrorText(object? value)
-    {
-        var dataErrorInfo = value as IDataErrorInfo;
-        var empty = string.Empty;
-        if (dataErrorInfo != null)
-        {
-            empty = _fieldInfo != null ? dataErrorInfo[_fieldInfo.Name] : dataErrorInfo.Error;
-        }
-        return empty ?? string.Empty;
-    }
-
     internal object? GetValue()
     {
         var current = _bindingManager?.Current;
@@ -149,12 +130,8 @@ internal class BindToObject
                 current = _fieldInfo.GetValue(current);
             }
         }
-        return current;
-    }
 
-    private void PropValueChanged(object? sender, EventArgs e)
-    {
-        _bindingManager?.OnCurrentChanged(EventArgs.Empty);
+        return current;
     }
 
     internal void SetBindingManagerBase(BindingManagerBase? lManager)
@@ -200,5 +177,33 @@ internal class BindToObject
             }
         }
         _errorText = GetErrorText(current);
+    }
+
+    private void DataSource_Initialized(object? sender, EventArgs e)
+    {
+        if (_dataSource is ISupportInitializeNotification supportInitializeNotification)
+        {
+            supportInitializeNotification.Initialized -= DataSource_Initialized;
+        }
+        _waitingOnDataSource = false;
+        _dataSourceInitialized = true;
+        CheckBinding();
+    }
+
+    private string GetErrorText(object? value)
+    {
+        var dataErrorInfo = value as IDataErrorInfo;
+        var empty = string.Empty;
+        if (dataErrorInfo != null)
+        {
+            empty = _fieldInfo != null ? dataErrorInfo[_fieldInfo.Name] : dataErrorInfo.Error;
+        }
+
+        return empty ?? string.Empty;
+    }
+
+    private void PropValueChanged(object? sender, EventArgs e)
+    {
+        _bindingManager?.OnCurrentChanged(EventArgs.Empty);
     }
 }

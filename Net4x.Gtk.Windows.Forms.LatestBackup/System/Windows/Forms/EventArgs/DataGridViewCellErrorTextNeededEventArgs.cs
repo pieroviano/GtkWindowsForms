@@ -15,11 +15,7 @@ namespace System.Windows.Forms
         {
             ErrorText = errorText;
         }
-        /// <summary>
-        /// Gets or sets the message that is displayed when the cell is selected.
-        /// </summary>
-        /// <returns>The error message.
-        /// </returns>
+
         public string ErrorText { get; set; }
     }
 }

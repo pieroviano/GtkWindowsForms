@@ -17,22 +17,6 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class TabControlCancelEventArgs : CancelEventArgs
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.TabControlCancelEventArgs" /> class.
-        /// </summary>
-        /// <param name="tabPage">The
-        /// <see cref="System.Windows.Forms.TabPage" /> the event is occurring for.
-        /// </param>
-        /// <param name="tabPageIndex">The zero-based index of
-        /// <paramref name="tabPage" /> in the
-        /// <see cref="System.Windows.Forms.TabControl.TabPages" /> collection.
-        /// </param>
-        /// <param name="cancel">true to cancel the tab change by default; otherwise, false.
-        /// </param>
-        /// <param name="action">One of the
-        /// <see cref="System.Windows.Forms.TabControlAction" /> values.
-        /// </param>
         public TabControlCancelEventArgs(TabPage tabPage, int tabPageIndex, bool cancel, TabControlAction action) : base(cancel)
         {
             TabPage = tabPage;
@@ -41,37 +25,18 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the
-        /// <see cref="System.Windows.Forms.TabPage" /> the event is occurring for.
+        /// Stores the TabControl action which instigated the TabControl event.
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Windows.Forms.TabPage" /> the event is occurring for.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+        public TabControlAction Action { get; }
+
+        /// <summary>
+        /// Stores the referemce to the tabpage that is undergoing the TabControl event.
+        /// </summary>
         public TabPage TabPage { get; }
 
         /// <summary>
-        /// Gets the zero-based index of the
-        /// <see cref="System.Windows.Forms.TabControlCancelEventArgs.TabPage" /> in the
-        /// <see cref="System.Windows.Forms.TabControl.TabPages" /> collection.
+        /// Stores the index to the tabpage that is undergoing the TabControl event.
         /// </summary>
-        /// <returns>The zero-based index of the
-        /// <see cref="System.Windows.Forms.TabControlCancelEventArgs.TabPage" /> in the
-        /// <see cref="System.Windows.Forms.TabControl.TabPages" /> collection.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public int TabPageIndex { get; }
-
-        /// <summary>
-        /// Gets a value indicating which event is occurring.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.TabControlAction" /> values.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public TabControlAction Action { get; }
     }
 }

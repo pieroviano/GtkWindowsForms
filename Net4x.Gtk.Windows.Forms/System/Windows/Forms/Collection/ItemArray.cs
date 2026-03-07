@@ -18,12 +18,31 @@ namespace System.Windows.Forms
     /// collection and several read-only collections based
     /// on masks.  ItemArray supports up to 31 masks.
     /// </summary>
+    /// This is similar to ArrayList except that it also
+    /// maintains a bit-flag based state element for each item in the array.
+    /// The methods to enumerate, count and get data support
+    /// virtualized indexes.  Indexes are virtualized according
+    /// to the state mask passed in.  This allows ItemArray
+    /// to be the backing store for one read-write "master"
+    /// collection and several read-only collections based
+    /// on masks.  ItemArray supports up to 31 masks.
+    /// </summary>
+    /// This is similar to ArrayList except that it also
+    /// maintains a bit-flag based state element for each item in the array.
+    /// The methods to enumerate, count and get data support
+    /// virtualized indexes.  Indexes are virtualized according
+    /// to the state mask passed in.  This allows ItemArray
+    /// to be the backing store for one read-write "master"
+    /// collection and several read-only collections based
+    /// on masks.  ItemArray supports up to 31 masks.
+    /// </summary>
     internal partial class ItemArray : IComparer<Entry>
     {
-        private static int s_lastMask = 1;
+        private List<Entry> _entries;
 
         private readonly ListControl _listControl;
-        private List<Entry> _entries;
+
+        private static int s_lastMask = 1;
 
         public ItemArray(ListControl listControl)
         {
@@ -31,13 +50,18 @@ namespace System.Windows.Forms
             _entries = new List<Entry>();
         }
 
-        internal IReadOnlyList<Entry?> Entries => _entries;
+        /// <summary>
+        /// Gets the main count
+        /// </summary>
+        public int Count => _entries.Count;
 
         /// <summary>
         /// The version of this array.  This number changes with each
         /// change to the item list.
         /// </summary>
         public int Version { get; private set; }
+
+        internal IReadOnlyList<Entry?> Entries => _entries;
 
         /// <summary>
         /// Adds the given item to the array.  The state is initially
@@ -48,7 +72,16 @@ namespace System.Windows.Forms
             Entry entry = new Entry(item);
             _entries.Add(entry);
             Version++;
+
             return entry;
+        }
+
+        /// <summary>
+        /// Find element in sorted array. If element is not found returns a binary complement of index for inserting
+        /// </summary>
+        public int BinarySearch(Entry element)
+        {
+            return _entries.BinarySearch(index: 0, Count, element, this);
         }
 
         /// <summary>
@@ -67,6 +100,7 @@ namespace System.Windows.Forms
         {
             int mask = s_lastMask;
             s_lastMask <<= 1;
+
             return mask;
         }
 
@@ -99,11 +133,6 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the main count
-        /// </summary>
-        public int Count => _entries.Count;
-
-        /// <summary>
         /// Gets the count of items matching the given mask.
         /// </summary>
         public int GetCount(int stateMask = 0)
@@ -127,6 +156,11 @@ namespace System.Windows.Forms
             }
 
             return filteredCount;
+        }
+
+        public static Entry GetEntry(object element)
+        {
+            return element is Entry entryElement ? entryElement : new Entry(element);
         }
 
         /// <summary>
@@ -160,21 +194,6 @@ namespace System.Windows.Forms
             }
 
             return _entries[actualIndex].Item;
-        }
-
-        /// <summary>
-        /// Gets the item at the given index.  The index is
-        /// virtualized against the given mask value.
-        /// </summary>
-        internal Entry GetEntryObject(int virtualIndex, int stateMask = 0)
-        {
-            int actualIndex = GetActualIndex(virtualIndex, stateMask);
-            if (actualIndex == -1)
-            {
-                throw new IndexOutOfRangeException();
-            }
-
-            return _entries[actualIndex];
         }
 
         /// <summary>
@@ -271,25 +290,27 @@ namespace System.Windows.Forms
             Version++;
         }
 
-        public static Entry GetEntry(object element)
-        {
-            return element is Entry entryElement ? entryElement : new Entry(element);
-        }
-
-        /// <summary>
-        /// Find element in sorted array. If element is not found returns a binary complement of index for inserting
-        /// </summary>
-        public int BinarySearch(Entry element)
-        {
-            return _entries.BinarySearch(index: 0, Count, element, this);
-        }
-
         /// <summary>
         /// Sorts our array.
         /// </summary>
         public void Sort()
         {
             _entries.Sort(this);
+        }
+
+        /// <summary>
+        /// Gets the item at the given index.  The index is
+        /// virtualized against the given mask value.
+        /// </summary>
+        internal Entry GetEntryObject(int virtualIndex, int stateMask = 0)
+        {
+            int actualIndex = GetActualIndex(virtualIndex, stateMask);
+            if (actualIndex == -1)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return _entries[actualIndex];
         }
 
         int IComparer<Entry>.Compare(Entry? entry1, Entry? entry2)
@@ -303,6 +324,7 @@ namespace System.Windows.Forms
             string? itemName2 = _listControl.GetItemText(entry2.Item);
 
             CompareInfo compInfo = Application.CurrentCulture.CompareInfo;
+
             return compInfo.Compare(itemName1, itemName2, CompareOptions.StringSort);
         }
     }

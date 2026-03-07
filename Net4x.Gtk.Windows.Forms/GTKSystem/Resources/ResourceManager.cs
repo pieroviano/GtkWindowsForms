@@ -19,23 +19,25 @@ namespace GtkSystem.Resources
     public class ResourceManager : System.Resources.ResourceManager
     {
 
-        internal const string ResFileExtension = ".resources";
+        public ResourceInfo GetResourceInfo = new ResourceInfo();
 
-        private System.Type _resourceSource;
+        internal const string ResFileExtension = ".resources";
 
         private Assembly _assembly;
 
         private string _baseName;
 
-        public ResourceInfo GetResourceInfo = new ResourceInfo();
+        private System.Type _resourceSource;
         public ResourceManager([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : this(null, null, usingResourceSet)
         {
 
         }
+
         public ResourceManager(string baseName, Assembly assembly) : this(baseName, assembly, null)
         {
 
         }
+
         public ResourceManager(string baseName, Assembly assembly, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : base(baseName, assembly, usingResourceSet)
         {
             this._baseName = baseName;
@@ -48,111 +50,6 @@ namespace GtkSystem.Resources
         protected ResourceManager()
         {
 
-        }
-
-        private byte[] ReadResourceFile(string name)
-        {
-            byte[] result = null;
-            try
-            {
-                string filepath = $"./{ReadResourceData("this_FileName")}"; //linux the path must use/
-                if (System.IO.File.Exists(filepath))
-                {
-                    try
-                    {
-                        XmlDocument doc = new XmlDocument();
-                        XmlReaderSettings xmlReaderSettings = new XmlReaderSettings { CheckCharacters = false };
-                        doc.Load(filepath);
-                        var docElem = doc.DocumentElement;
-                        XmlNodeList nodes = docElem.SelectNodes("data");
-                        //<data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
-                        //<value> </value>
-                        //</data>
-
-                        foreach (XmlNode xn in nodes)
-                        {
-                            if (xn.Attributes["name"].Value == name)
-                            {
-                                string data = xn.SelectSingleNode("value").InnerText;
-                                result = System.Convert.FromBase64String(data);
-                                break;
-                            }
-                        }
-                    }
-                    catch { }
-                }
-            }
-            catch (System.Exception ex)
-            {
-
-            }
-            return result;
-        }
-        private object ReadResourceData(string name)
-        {
-            if (_assembly == null)
-                throw new FileNotFoundException();
-            else
-            {
-                try
-                {
-                    Stream stream = _assembly.GetManifestResourceStream(_baseName + ResFileExtension);
-                    GtkSystem.Resources.Extensions.DeserializingResourceReader reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
-                    IDictionaryEnumerator dict = reader.GetEnumerator();
-                    while (dict.MoveNext())
-                    {
-                        if (dict.Key.ToString() == name)
-                        {
-                            try
-                            {
-                                if (dict.Value is ImageListStreamer streamer)
-                                {
-                                    streamer.ResourceInfo = GetResourceInfo;
-                                    return streamer;
-                                }
-                                else
-                                    return dict.Value;
-                            }
-                            catch
-                            {
-                                // image format content cannot be extracted
-                                return null;
-                            }
-                        }
-                    }
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-            return null;
-        }
-        private string ReadResourceText(string name)
-        {
-            if (_assembly == null)
-                throw new FileNotFoundException();
-            else
-            {
-                Stream stream = _assembly.GetManifestResourceStream(_baseName + ".resources");
-                GtkSystem.Resources.Extensions.DeserializingResourceReader reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
-                IDictionaryEnumerator dict = reader.GetEnumerator();
-                while (dict.MoveNext())
-                {
-                    if (dict.Key.ToString() == name)
-                    {
-                        try
-                        {
-                            return dict.Value.ToString();
-                        }
-                        catch
-                        {
-                            return null;
-                        }
-                    }
-                }
-            }
-            return null;
         }
         public override object GetObject(string name, CultureInfo culture)
         {
@@ -169,6 +66,7 @@ namespace GtkSystem.Resources
             }
 
         }
+
         public override object GetObject(string name)
         {
             GetResourceInfo.ResourceName = name;
@@ -226,20 +124,131 @@ namespace GtkSystem.Resources
         {
             return GetString(name, null);
         }
+
         public override string GetString(string name, CultureInfo culture)
         {
             return ReadResourceText(name);
         }
+        private object ReadResourceData(string name)
+        {
+            if (_assembly == null)
+                throw new FileNotFoundException();
+            else
+            {
+                try
+                {
+                    Stream stream = _assembly.GetManifestResourceStream(_baseName + ResFileExtension);
+                    GtkSystem.Resources.Extensions.DeserializingResourceReader reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
+                    IDictionaryEnumerator dict = reader.GetEnumerator();
+                    while (dict.MoveNext())
+                    {
+                        if (dict.Key.ToString() == name)
+                        {
+                            try
+                            {
+                                if (dict.Value is ImageListStreamer streamer)
+                                {
+                                    streamer.ResourceInfo = GetResourceInfo;
+                                    return streamer;
+                                }
+                                else
+                                    return dict.Value;
+                            }
+                            catch
+                            {
+                                // image format content cannot be extracted
+                                return null;
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        private byte[] ReadResourceFile(string name)
+        {
+            byte[] result = null;
+            try
+            {
+                string filepath = $"./{ReadResourceData("this_FileName")}"; //linux the path must use/
+                if (System.IO.File.Exists(filepath))
+                {
+                    try
+                    {
+                        XmlDocument doc = new XmlDocument();
+                        XmlReaderSettings xmlReaderSettings = new XmlReaderSettings { CheckCharacters = false };
+                        doc.Load(filepath);
+                        var docElem = doc.DocumentElement;
+                        XmlNodeList nodes = docElem.SelectNodes("data");
+                        //<data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+                        //<value> </value>
+                        //</data>
+
+                        foreach (XmlNode xn in nodes)
+                        {
+                            if (xn.Attributes["name"].Value == name)
+                            {
+                                string data = xn.SelectSingleNode("value").InnerText;
+                                result = System.Convert.FromBase64String(data);
+                                break;
+                            }
+                        }
+                    }
+                    catch { }
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+            }
+
+            return result;
+        }
+
+        private string ReadResourceText(string name)
+        {
+            if (_assembly == null)
+                throw new FileNotFoundException();
+            else
+            {
+                Stream stream = _assembly.GetManifestResourceStream(_baseName + ".resources");
+                GtkSystem.Resources.Extensions.DeserializingResourceReader reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
+                IDictionaryEnumerator dict = reader.GetEnumerator();
+                while (dict.MoveNext())
+                {
+                    if (dict.Key.ToString() == name)
+                    {
+                        try
+                        {
+                            return dict.Value.ToString();
+                        }
+                        catch
+                        {
+                            return null;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
         public class ResourceInfo
         {
 
-            public string ResourceName { get; set; }
-
-            public byte[] ImageBytes { get; set; }
+            public Assembly Assembly { get; set; }
 
             public string BaseName { get; set; }
 
-            public Assembly Assembly { get; set; }
+            public byte[] ImageBytes { get; set; }
+
+            public string ResourceName { get; set; }
+
             public System.Type SourceType { get; set; }
         }
     }

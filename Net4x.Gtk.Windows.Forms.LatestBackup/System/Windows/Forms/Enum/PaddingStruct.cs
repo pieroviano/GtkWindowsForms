@@ -21,7 +21,6 @@ namespace System.Windows.Forms
         /// </summary>
         public static readonly Padding Empty;
 
-
         /// <summary>
         /// Initializes a new instance of the System.Windows.Forms.Padding class using the
         /// supplied padding size for all edges.
@@ -59,93 +58,69 @@ namespace System.Windows.Forms
             Size = new Size(right - left, bottom - top);
         }
 
-
         /// <summary>
-        /// Gets the combined padding for the right and left edges.
+        /// Gets or sets the padding value for all the edges.
         /// </summary>
-        /// <returns>Gets the sum, in pixels, of the
-        /// <see cref="System.Windows.Forms.Padding.Left" /> and
-        /// <see cref="System.Windows.Forms.Padding.Right" /> padding values.
+        /// <returns>The padding, in pixels, for all edges if the same; otherwise, -1.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        [Browsable(false)]
-        public int Horizontal { get { return Right - Left; } }
-
-        /// <summary>
-        /// Gets or sets the padding value for the top edge.
-        /// </summary>
-        /// <returns>The padding, in pixels, for the top edge.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         [RefreshProperties(RefreshProperties.All)]
-        public int Top { get; set; }
-
-        /// <summary>
-        /// Gets or sets the padding value for the right edge.
-        /// </summary>
-        /// <returns>The padding, in pixels, for the right edge.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        [RefreshProperties(RefreshProperties.All)]
-        public int Right { get; set; }
-
-        /// <summary>
-        /// Gets or sets the padding value for the left edge.
-        /// </summary>
-        /// <returns>The padding, in pixels, for the left edge.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        [RefreshProperties(RefreshProperties.All)]
-        public int Left { get; set; }
+        public int All { get; set; }
 
         /// <summary>
         /// Gets or sets the padding value for the bottom edge.
         /// </summary>
         /// <returns>The padding, in pixels, for the bottom edge.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         [RefreshProperties(RefreshProperties.All)]
         public int Bottom { get; set; }
 
         /// <summary>
-        /// Gets or sets the padding value for all the edges.
+        /// Gets the combined padding for the right and left edges.
         /// </summary>
-        /// <returns>The padding, in pixels, for all edges if the same; otherwise, -1.
+        /// <returns>Gets the sum, in pixels, of the System.Windows.Forms.Padding.Left and System.Windows.Forms.Padding.Right padding values.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        [RefreshProperties(RefreshProperties.All)]
-        public int All { get; set; }
+        [Browsable(false)]
+        public int Horizontal { get { return Right - Left; } }
 
         /// <summary>
-        /// Gets the padding information in the form of a
-        /// <see cref="System.Drawing.Size" />
+        /// Gets or sets the padding value for the left edge.
         /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Size" /> containing the padding information.
+        /// <returns>The padding, in pixels, for the left edge.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+        [RefreshProperties(RefreshProperties.All)]
+        public int Left { get; set; }
+
+        /// <summary>
+        /// Gets or sets the padding value for the right edge.
+        /// </summary>
+        /// <returns>The padding, in pixels, for the right edge.
+        /// </returns>
+        [RefreshProperties(RefreshProperties.All)]
+        public int Right { get; set; }
+
+        /// <summary>
+        /// Gets the padding information in the form of a System.Drawing.Size.
+        /// </summary>
+        /// <returns>A System.Drawing.Size containing the padding information.
+        /// </returns>
         [Browsable(false)]
         public Size Size { get; }
 
         /// <summary>
+        /// Gets or sets the padding value for the top edge.
+        /// </summary>
+        /// <returns>The padding, in pixels, for the top edge.
+        /// </returns>
+        [RefreshProperties(RefreshProperties.All)]
+        public int Top { get; set; }
+
+        /// <summary>
         /// Gets the combined padding for the top and bottom edges.
         /// </summary>
-        /// <returns>Gets the sum, in pixels, of the
-        /// <see cref="System.Windows.Forms.Padding.Top" /> and
-        /// <see cref="System.Windows.Forms.Padding.Bottom" /> padding values.
+        /// <returns>Gets the sum, in pixels, of the System.Windows.Forms.Padding.Top and System.Windows.Forms.Padding.Bottom padding values.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         [Browsable(false)]
         public int Vertical { get { return Bottom - Top; } }
-
 
         /// <summary>
         /// Computes the sum of the two specified System.Windows.Forms.Padding values.
@@ -159,20 +134,6 @@ namespace System.Windows.Forms
         public static Padding Add(Padding p1, Padding p2)
         {
             return new Padding(p1.Left + p2.Left, p1.Top + p2.Top, p1.Right + p2.Right, p1.Bottom + p2.Bottom);
-        }
-
-        /// <summary>
-        /// Subtracts one specified System.Windows.Forms.Padding value from another.
-        /// </summary>
-        /// <param name="p1">A System.Windows.Forms.Padding.
-        /// </param>
-        /// <param name="p2">A System.Windows.Forms.Padding.
-        /// </param>
-        /// <returns>A System.Windows.Forms.Padding that contains the result of the subtraction of one specified System.Windows.Forms.Padding value from another.
-        /// </returns>
-        public static Padding Subtract(Padding p1, Padding p2)
-        {
-            return new Padding(p1.Left - p2.Left, p1.Top - p2.Top, p1.Right - p2.Right, p1.Bottom - p2.Bottom);
         }
 
         /// <summary>
@@ -199,74 +160,27 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Returns a string that represents the current
-        /// <see cref="System.Windows.Forms.Padding" />
+        /// Subtracts one specified System.Windows.Forms.Padding value from another.
         /// </summary>
-        /// <returns>A
-        /// <see cref="System.String" /> that represents the current
-        /// <see cref="System.Windows.Forms.Padding" />
+        /// <param name="p1">A System.Windows.Forms.Padding.
+        /// </param>
+        /// <param name="p2">A System.Windows.Forms.Padding.
+        /// </param>
+        /// <returns>A System.Windows.Forms.Padding that contains the result of the subtraction of one specified System.Windows.Forms.Padding value from another.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public override string ToString()
-        {
-            return this.GetType().Name;
-        }
-
-
-        /// <summary>
-        /// Performs vector addition on the two specified System.Windows.Forms.Padding objects,
-        /// resulting in a new System.Windows.Forms.Padding.
-        /// </summary>
-        /// <param name="p1">The first System.Windows.Forms.Padding to add.
-        /// </param>
-        /// <param name="p2">The second System.Windows.Forms.Padding to add.
-        /// </param>
-        /// <returns>A new System.Windows.Forms.Padding that results from adding p1 and p2.
-        /// </returns>
-        public static Padding operator +(Padding p1, Padding p2)
-        {
-            return new Padding(p1.Left + p2.Left, p1.Top + p2.Top, p1.Right + p2.Right, p1.Bottom + p2.Bottom);
-        }
-
-        /// <summary>
-        /// Performs vector subtraction on the two specified System.Windows.Forms.Padding
-        /// objects, resulting in a new System.Windows.Forms.Padding.
-        /// </summary>
-        /// <param name="p1">The System.Windows.Forms.Padding to subtract from (the minuend).
-        /// </param>
-        /// <param name="p2">The System.Windows.Forms.Padding to subtract from (the subtrahend).
-        /// </param>
-        /// <returns>The System.Windows.Forms.Padding result of subtracting p2 from p1.
-        /// </returns>
-        public static Padding operator -(Padding p1, Padding p2)
+        public static Padding Subtract(Padding p1, Padding p2)
         {
             return new Padding(p1.Left - p2.Left, p1.Top - p2.Top, p1.Right - p2.Right, p1.Bottom - p2.Bottom);
         }
 
         /// <summary>
-        /// Tests whether two specified System.Windows.Forms.Padding objects are equivalent.
+        /// Returns a string that represents the current System.Windows.Forms.Padding.
         /// </summary>
-        /// <param name="p1">A System.Windows.Forms.Padding to test.
-        /// </param>
-        /// <param name="p2">A System.Windows.Forms.Padding to test.
-        /// </param>
-        /// <returns>true if the two System.Windows.Forms.Padding objects are equal; otherwise, false.
+        /// <returns>A System.String that represents the current System.Windows.Forms.Padding.
         /// </returns>
-        public static bool operator ==(Padding p1, Padding p2) { return p1.Left == p2.Left && p1.Top == p2.Top && p1.Right == p2.Right && p1.Bottom == p2.Bottom; }
-
-        /// <summary>
-        /// Tests whether two specified System.Windows.Forms.Padding objects are not equivalent.
-        /// </summary>
-        /// <param name="p1">A System.Windows.Forms.Padding to test.
-        /// </param>
-        /// <param name="p2">A System.Windows.Forms.Padding to test.
-        /// </param>
-        /// <returns>true if the two System.Windows.Forms.Padding objects are different; otherwise, false.
-        /// </returns>
-        public static bool operator !=(Padding p1, Padding p2)
+        public override string ToString()
         {
-            return p1.Left != p2.Left || p1.Top != p2.Top || p1.Right != p2.Right || p1.Bottom != p2.Bottom;
+            return this.GetType().Name;
         }
     }
 }

@@ -13,30 +13,33 @@ namespace System.Windows.Forms
     /// <filterpriority>
     /// 1
     /// </filterpriority>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows combo box control.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ComboBox
     {
-        /// <summary>
-        /// Represents the collection of items in a
-        /// <see cref="System.Windows.Forms.ComboBox" />
-        /// </summary>
         [ListBindable(false)]
         public partial class ObjectCollection : IList, IComparer<ComboBox.ObjectCollection.Entry>
         {
+            private List<Entry> _innerList = new List<Entry>();
 
             private readonly ComboBox _owner;
-            private List<Entry> _innerList = new List<Entry>();
 
             public ObjectCollection(ComboBox owner)
             {
                 _owner = owner;
-            }
-
-            internal List<Entry> InnerList
-            {
-                get
-                {
-                    return _innerList;
-                }
             }
 
             /// <summary>
@@ -44,19 +47,19 @@ namespace System.Windows.Forms
             /// </summary>
             public int Count => InnerList.Count;
 
-            object ICollection.SyncRoot
-            {
-                get
-                {
-                    return this;
-                }
-            }
-
-            bool ICollection.IsSynchronized
+            public bool IsReadOnly
             {
                 get
                 {
                     return false;
+                }
+            }
+
+            internal List<Entry> InnerList
+            {
+                get
+                {
+                    return _innerList;
                 }
             }
 
@@ -68,7 +71,7 @@ namespace System.Windows.Forms
                 }
             }
 
-            public bool IsReadOnly
+            bool ICollection.IsSynchronized
             {
                 get
                 {
@@ -76,75 +79,11 @@ namespace System.Windows.Forms
                 }
             }
 
-            /// <summary>
-            /// Adds an item to the combo box. For an unsorted combo box, the item is
-            /// added to the end of the existing list of items. For a sorted combo box,
-            /// the item is inserted into the list according to its sorted position.
-            /// The item's toString() method is called to obtain the string that is
-            /// displayed in the combo box.
-            /// A SystemException occurs if there is insufficient space available to
-            /// store the new item.
-            /// </summary>
-            public int Add(object item)
+            object ICollection.SyncRoot
             {
-                int index = AddInternal(item);
-                NativeAdd(-1, item.ToString(), item.ToString());
-                return index;
-            }
-            internal int Add(string value, string text, object item)
-            {
-                int index = AddInternal(item);
-                NativeAdd(-1, value, text);
-                return index;
-            }
-            private void NativeAdd(int index, string value, string text)
-            {
-                try
+                get
                 {
-                    _owner.NativeAdd(index, value, text);
-                }
-                catch
-                {
-                    InnerList.RemoveAt(index);
-                    throw;
-                }
-            }
-            private int AddInternal(object item)
-            {
-                item ??= "";
-                int index = -1;
-                if (!_owner._sorted)
-                {
-                    InnerList.Add(new Entry(item));
-                    index = InnerList.Count - 1;
-                }
-                else
-                {
-                    Entry entry = item is Entry entryItem ? entryItem : new Entry(item);
-                    index = InnerList.BinarySearch(index: 0, Count, entry, this);
-                    if (index < 0)
-                    {
-                        index = ~index; // getting the index of the first element that is larger than the search value
-                    }
-                    InnerList.Insert(index, entry);
-                }
-                return index;
-            }
-
-            int IList.Add(object? item)
-            {
-                return Add(item!);
-            }
-
-            public void AddRange(params object[] items)
-            {
-                foreach (object item in items)
-                {
-                    AddInternal(item);
-                    if (item is Entry entryItem)
-                        NativeAdd(-1, entryItem.Item?.ToString(), entryItem.Item?.ToString());
-                    else
-                        NativeAdd(-1, item?.ToString(), item?.ToString());
+                    return this;
                 }
             }
             /// <summary>
@@ -165,18 +104,40 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
+            /// Adds an item to the combo box. For an unsorted combo box, the item is
+            /// added to the end of the existing list of items. For a sorted combo box,
+            /// the item is inserted into the list according to its sorted position.
+            /// The item's toString() method is called to obtain the string that is
+            /// displayed in the combo box.
+            /// A SystemException occurs if there is insufficient space available to
+            /// store the new item.
+            /// </summary>
+            public int Add(object item)
+            {
+                int index = AddInternal(item);
+                NativeAdd(-1, item.ToString(), item.ToString());
+
+                return index;
+            }
+
+            public void AddRange(params object[] items)
+            {
+                foreach (object item in items)
+                {
+                    AddInternal(item);
+                    if (item is Entry entryItem)
+                        NativeAdd(-1, entryItem.Item?.ToString(), entryItem.Item?.ToString());
+                    else
+                        NativeAdd(-1, item?.ToString(), item?.ToString());
+                }
+            }
+
+            /// <summary>
             /// Removes all items from the ComboBox.
             /// </summary>
             public void Clear()
             {
                 ClearInternal();
-            }
-
-            internal void ClearInternal()
-            {
-                _owner.self.RemoveAll();
-                InnerList.Clear();
-                _owner.SelectedIndex = -1;
             }
 
             public bool Contains(object? value)
@@ -197,21 +158,26 @@ namespace System.Windows.Forms
                 }
             }
 
-            void ICollection.CopyTo(Array destination, int index)
-            {
-
-                int count = InnerList.Count;
-
-                for (int i = 0; i < count; i++)
-                {
-                    destination.SetValue(InnerList[i], i + index);
-                }
-            }
-
             /// <summary>
             /// Returns an enumerator for the ComboBox Items collection.
             /// </summary>
             public IEnumerator GetEnumerator() => new EntryEnumerator(InnerList);
+
+            public int IndexOf(object? value)
+            {
+                int virtualIndex = -1;
+
+                foreach (Entry entry in InnerList)
+                {
+                    virtualIndex++;
+                    if ((value is Entry itemEntry && entry == itemEntry) || entry.Item.Equals(value))
+                    {
+                        return virtualIndex;
+                    }
+                }
+
+                return -1;
+            }
 
             /// <summary>
             /// Adds an item to the combo box. For an unsorted combo box, the item is
@@ -237,6 +203,20 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
+            /// Removes the given item from the ComboBox, provided that it is
+            /// actually in the list.
+            /// </summary>
+            public void Remove(object? value)
+            {
+                int index = IndexOf(value);
+
+                if (index != -1)
+                {
+                    RemoveAt(index);
+                }
+            }
+
+            /// <summary>
             /// Removes an item from the ComboBox at the given index.
             /// </summary>
             public void RemoveAt(int index)
@@ -256,19 +236,19 @@ namespace System.Windows.Forms
                     }
                 }
             }
-
-            /// <summary>
-            /// Removes the given item from the ComboBox, provided that it is
-            /// actually in the list.
-            /// </summary>
-            public void Remove(object? value)
+            internal int Add(string value, string text, object item)
             {
-                int index = IndexOf(value);
+                int index = AddInternal(item);
+                NativeAdd(-1, value, text);
 
-                if (index != -1)
-                {
-                    RemoveAt(index);
-                }
+                return index;
+            }
+
+            internal void ClearInternal()
+            {
+                _owner.self.RemoveAll();
+                InnerList.Clear();
+                _owner.SelectedIndex = -1;
             }
 
             internal void SetItemInternal(int index, object value)
@@ -304,20 +284,9 @@ namespace System.Windows.Forms
                 }
             }
 
-            public int IndexOf(object? value)
+            int IList.Add(object? item)
             {
-                int virtualIndex = -1;
-
-                foreach (Entry entry in InnerList)
-                {
-                    virtualIndex++;
-                    if ((value is Entry itemEntry && entry == itemEntry) || entry.Item.Equals(value))
-                    {
-                        return virtualIndex;
-                    }
-                }
-
-                return -1;
+                return Add(item!);
             }
 
             int IComparer<Entry>.Compare(Entry? entry1, Entry? entry2)
@@ -326,7 +295,54 @@ namespace System.Windows.Forms
                 string? itemName2 = _owner.GetItemText(entry2.Item);
 
                 CompareInfo compInfo = Application.CurrentCulture.CompareInfo;
+
                 return compInfo.Compare(itemName1, itemName2, CompareOptions.StringSort);
+            }
+
+            void ICollection.CopyTo(Array destination, int index)
+            {
+
+                int count = InnerList.Count;
+
+                for (int i = 0; i < count; i++)
+                {
+                    destination.SetValue(InnerList[i], i + index);
+                }
+            }
+            private int AddInternal(object item)
+            {
+                item ??= "";
+                int index = -1;
+                if (!_owner._sorted)
+                {
+                    InnerList.Add(new Entry(item));
+                    index = InnerList.Count - 1;
+                }
+                else
+                {
+                    Entry entry = item is Entry entryItem ? entryItem : new Entry(item);
+                    index = InnerList.BinarySearch(index: 0, Count, entry, this);
+                    if (index < 0)
+                    {
+                        index = ~index; // getting the index of the first element that is larger than the search value
+                    }
+                    InnerList.Insert(index, entry);
+                }
+
+                return index;
+            }
+
+            private void NativeAdd(int index, string value, string text)
+            {
+                try
+                {
+                    _owner.NativeAdd(index, value, text);
+                }
+                catch
+                {
+                    InnerList.RemoveAt(index);
+                    throw;
+                }
             }
         }
     }

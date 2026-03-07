@@ -11,12 +11,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     {
 
-        public GtkControlOverride Override { get; set; }
-
-        public bool AutoScroll { get; set; }
-
-        public bool HScroll { get; set; } = false;
-        public bool VScroll { get; set; } = false;
+        public event System.Windows.Forms.ScrollEventHandler Scroll;
 
         public GroupBoxBase() : base()
         {
@@ -27,19 +22,13 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             base.Halign = Gtk.Align.Start;
         }
 
-        public event System.Windows.Forms.ScrollEventHandler Scroll;
+        public bool AutoScroll { get; set; }
 
-        protected override void OnShown()
-        {
-            Override.OnAddClass();
-            base.OnShown();
-        }
-        protected override bool OnDrawn(Cairo.Context cr)
-        {
-            Gdk.Rectangle rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-            Override.OnPaint(cr, rec);
-            return base.OnDrawn(cr);
-        }
+        public bool HScroll { get; set; } = false;
+
+        public GtkControlOverride Override { get; set; }
+
+        public bool VScroll { get; set; } = false;
 
         public void AddClass(string cssClass)
         {
@@ -52,6 +41,19 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             child.Halign = align;
             child.Expand = expand;
             base.Add(child);
+        }
+        protected override bool OnDrawn(Cairo.Context cr)
+        {
+            Gdk.Rectangle rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
+            Override.OnPaint(cr, rec);
+
+            return base.OnDrawn(cr);
+        }
+
+        protected override void OnShown()
+        {
+            Override.OnAddClass();
+            base.OnShown();
         }
     }
 }

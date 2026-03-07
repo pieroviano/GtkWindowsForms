@@ -16,59 +16,20 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public sealed class LayoutEventArgs : EventArgs
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.LayoutEventArgs" /> class with the specified component and property affected.
-        /// </summary>
-        /// <param name="affectedComponent">The
-        /// <see cref="System.ComponentModel.Component" /> affected by the layout change.
-        /// </param>
-        /// <param name="affectedProperty">The property affected by the layout change.
-        /// </param>
         public LayoutEventArgs(IComponent affectedComponent, string affectedProperty)
         {
             AffectedComponent = affectedComponent;
             AffectedProperty = affectedProperty;
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.LayoutEventArgs" /> class with the specified control and property affected.
-        /// </summary>
-        /// <param name="affectedControl">The
-        /// <see cref="System.Windows.Forms.Control" /> affected by the layout change.
-        /// </param>
-        /// <param name="affectedProperty">The property affected by the layout change.
-        /// </param>
+
         public LayoutEventArgs(Control affectedControl, string affectedProperty) : this((IComponent)affectedControl, affectedProperty)
         {
         }
-        /// <summary>
-        /// Gets the
-        /// <see cref="System.ComponentModel.Component" /> affected by the layout change.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="System.ComponentModel.IComponent" /> representing the
-        /// <see cref="System.ComponentModel.Component" /> affected by the layout change.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public IComponent AffectedComponent { get; }
-        /// <summary>
-        /// Gets the child control affected by the change.
-        /// </summary>
-        /// <returns>The child
-        /// <see cref="System.Windows.Forms.Control" /> affected by the change.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public Control AffectedControl => AffectedComponent as Control;
-        /// <summary>
-        /// Gets the property affected by the change.
-        /// </summary>
-        /// <returns>The property affected by the change.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public string AffectedProperty { get; }
     }
 }

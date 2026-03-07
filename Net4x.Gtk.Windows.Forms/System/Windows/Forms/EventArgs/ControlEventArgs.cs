@@ -15,25 +15,16 @@ namespace System.Windows.Forms
     public class ControlEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ControlEventArgs" /> class for the specified control.
+        /// Creates a new ControlEventArgs.
         /// </summary>
-        /// <param name="control">The
-        /// <see cref="System.Windows.Forms.Control" /> to store in this event.
-        /// </param>
         public ControlEventArgs(Control control)
         {
             Control = control;
         }
 
         /// <summary>
-        /// Gets the control object used by this event.
+        /// Retrieves the control object stored in this event.
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Windows.Forms.Control" /> used by this event.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public Control Control { get; }
     }
 }

@@ -60,6 +60,33 @@ namespace System.Drawing.Imaging
         private float _matrix44;
 
         /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> class.
+        /// </summary>
+        public ColorMatrix()
+        {
+            _matrix00 = 1f;
+            _matrix11 = 1f;
+            _matrix22 = 1f;
+            _matrix33 = 1f;
+            _matrix44 = 1f;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> class using the elements in the specified matrix
+        /// <paramref name="newColorMatrix" />.
+        /// </summary>
+        /// <param name="newColorMatrix">The values of the elements for the new
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
+        /// </param>
+        [CLSCompliant(false)]
+        public ColorMatrix(float[][] newColorMatrix)
+        {
+            SetMatrix(newColorMatrix);
+        }
+
+        /// <summary>
         /// Gets or sets the element at the 0 (zero) row and 0 column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
@@ -558,62 +585,6 @@ namespace System.Drawing.Imaging
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> class.
-        /// </summary>
-        public ColorMatrix()
-        {
-            _matrix00 = 1f;
-            _matrix11 = 1f;
-            _matrix22 = 1f;
-            _matrix33 = 1f;
-            _matrix44 = 1f;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> class using the elements in the specified matrix
-        /// <paramref name="newColorMatrix" />.
-        /// </summary>
-        /// <param name="newColorMatrix">The values of the elements for the new
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
-        /// </param>
-        [CLSCompliant(false)]
-        public ColorMatrix(float[][] newColorMatrix)
-        {
-            SetMatrix(newColorMatrix);
-        }
-
-        internal void SetMatrix(float[][] newColorMatrix)
-        {
-            _matrix00 = newColorMatrix[0][0];
-            _matrix01 = newColorMatrix[0][1];
-            _matrix02 = newColorMatrix[0][2];
-            _matrix03 = newColorMatrix[0][3];
-            _matrix04 = newColorMatrix[0][4];
-            _matrix10 = newColorMatrix[1][0];
-            _matrix11 = newColorMatrix[1][1];
-            _matrix12 = newColorMatrix[1][2];
-            _matrix13 = newColorMatrix[1][3];
-            _matrix14 = newColorMatrix[1][4];
-            _matrix20 = newColorMatrix[2][0];
-            _matrix21 = newColorMatrix[2][1];
-            _matrix22 = newColorMatrix[2][2];
-            _matrix23 = newColorMatrix[2][3];
-            _matrix24 = newColorMatrix[2][4];
-            _matrix30 = newColorMatrix[3][0];
-            _matrix31 = newColorMatrix[3][1];
-            _matrix32 = newColorMatrix[3][2];
-            _matrix33 = newColorMatrix[3][3];
-            _matrix34 = newColorMatrix[3][4];
-            _matrix40 = newColorMatrix[4][0];
-            _matrix41 = newColorMatrix[4][1];
-            _matrix42 = newColorMatrix[4][2];
-            _matrix43 = newColorMatrix[4][3];
-            _matrix44 = newColorMatrix[4][4];
-        }
-
         internal float[][] GetMatrix()
         {
             float[][] array = new float[5][];
@@ -646,12 +617,42 @@ namespace System.Drawing.Imaging
             array[4][2] = _matrix42;
             array[4][3] = _matrix43;
             array[4][4] = _matrix44;
+
             return array;
         }
 
         internal ref float GetPinnableReference()
         {
             return ref _matrix00;
+        }
+
+        internal void SetMatrix(float[][] newColorMatrix)
+        {
+            _matrix00 = newColorMatrix[0][0];
+            _matrix01 = newColorMatrix[0][1];
+            _matrix02 = newColorMatrix[0][2];
+            _matrix03 = newColorMatrix[0][3];
+            _matrix04 = newColorMatrix[0][4];
+            _matrix10 = newColorMatrix[1][0];
+            _matrix11 = newColorMatrix[1][1];
+            _matrix12 = newColorMatrix[1][2];
+            _matrix13 = newColorMatrix[1][3];
+            _matrix14 = newColorMatrix[1][4];
+            _matrix20 = newColorMatrix[2][0];
+            _matrix21 = newColorMatrix[2][1];
+            _matrix22 = newColorMatrix[2][2];
+            _matrix23 = newColorMatrix[2][3];
+            _matrix24 = newColorMatrix[2][4];
+            _matrix30 = newColorMatrix[3][0];
+            _matrix31 = newColorMatrix[3][1];
+            _matrix32 = newColorMatrix[3][2];
+            _matrix33 = newColorMatrix[3][3];
+            _matrix34 = newColorMatrix[3][4];
+            _matrix40 = newColorMatrix[4][0];
+            _matrix41 = newColorMatrix[4][1];
+            _matrix42 = newColorMatrix[4][2];
+            _matrix43 = newColorMatrix[4][3];
+            _matrix44 = newColorMatrix[4][4];
         }
     }
 }

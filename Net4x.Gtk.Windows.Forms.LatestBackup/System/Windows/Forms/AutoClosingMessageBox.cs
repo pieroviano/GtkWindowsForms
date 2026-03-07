@@ -9,20 +9,14 @@ public class AutoClosingMessageBox : IMessageBox
 {
     internal static IMessageBox? MessageBox;
 
-    public static void Init(int interval = 5000)
-    {
-        Instance.Initialize(interval);
-    }
+    private Dialog? _dialog;
 
     [ThreadStatic]
     private static AutoClosingMessageBox? instance;
 
-    static AutoClosingMessageBox()
-    {
-        Application.SetHighDpiMode(HighDpiMode.SystemAware);
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
-    }
+    // IMessageBox implementation ------------------------------------------------
+
+    public event EventHandler<DialogEventArgs>? DialogAvailable;
 
     private AutoClosingMessageBox()
     {
@@ -32,41 +26,11 @@ public class AutoClosingMessageBox : IMessageBox
         MessageBox.DialogAvailable += FormsMessageBox_DialogAvailable;
     }
 
-    private void Initialize(int interval = 5000)
+    static AutoClosingMessageBox()
     {
-        MessageBoxTimeout = interval;
-    }
-
-    private Dialog? _dialog;
-
-    private void AutoDisposeAfterTimeout()
-    {
-        _ = Task.Run(async () =>
-        {
-            await Task.Delay(System.TimeSpan.FromMilliseconds(MessageBoxTimeout));
-            if (_dialog != null)
-            {
-                try
-                {
-                    _dialog.PangoContext?.Dispose();
-                }
-                catch { }
-                try
-                {
-                    _dialog.Dispose();
-                }
-                catch { }
-                GC.SuppressFinalize(_dialog);
-                _dialog = null;
-            }
-        });
-    }
-
-    public int MessageBoxTimeout { get; set; }
-
-    private void FormsMessageBox_DialogAvailable(object? sender, DialogEventArgs e)
-    {
-        _dialog = e.Dialog;
+        Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
     }
 
     public static AutoClosingMessageBox Instance
@@ -74,14 +38,11 @@ public class AutoClosingMessageBox : IMessageBox
         get { return instance ??= new AutoClosingMessageBox(); }
     }
 
-    // IMessageBox implementation ------------------------------------------------
+    public int MessageBoxTimeout { get; set; }
 
-    public event EventHandler<DialogEventArgs>? DialogAvailable;
-
-    private DialogResult InvokeAndAutoClose(Func<DialogResult> invoke)
+    public static void Init(int interval = 5000)
     {
-        AutoDisposeAfterTimeout();
-        return invoke();
+        Instance.Initialize(interval);
     }
 
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
@@ -203,5 +164,45 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(IWin32Window? owner, string? text)
     {
         return InvokeAndAutoClose(() => MessageBox!.Show(owner, text));
+    }
+
+    private void AutoDisposeAfterTimeout()
+    {
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(System.TimeSpan.FromMilliseconds(MessageBoxTimeout));
+            if (_dialog != null)
+            {
+                try
+                {
+                    _dialog.PangoContext?.Dispose();
+                }
+                catch { }
+                try
+                {
+                    _dialog.Dispose();
+                }
+                catch { }
+                GC.SuppressFinalize(_dialog);
+                _dialog = null;
+            }
+        });
+    }
+
+    private void FormsMessageBox_DialogAvailable(object? sender, DialogEventArgs e)
+    {
+        _dialog = e.Dialog;
+    }
+
+    private void Initialize(int interval = 5000)
+    {
+        MessageBoxTimeout = interval;
+    }
+
+    private DialogResult InvokeAndAutoClose(Func<DialogResult> invoke)
+    {
+        AutoDisposeAfterTimeout();
+
+        return invoke();
     }
 }

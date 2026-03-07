@@ -12,159 +12,6 @@ namespace System.Drawing.Drawing2D
     /// </summary>
     public sealed class PathGradientBrush : Brush
     {
-        /// <summary>
-        /// Gets or sets a
-        /// <see cref="System.Drawing.Drawing2D.Blend" /> that specifies positions and factors that define a custom falloff for the gradient.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Drawing2D.Blend" /> that represents a custom falloff for the gradient.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public Blend Blend
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the color at the center of the path gradient.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Color" /> that represents the color at the center of the path gradient.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public Color CenterColor
-        {
-            get;
-            set;
-        } = Color.Black;
-
-        /// <summary>
-        /// Gets or sets the center point of the path gradient.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.PointF" /> that represents the center point of the path gradient.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public PointF CenterPoint
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the focus point for the gradient falloff.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.PointF" /> that represents the focus point for the gradient falloff.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public PointF FocusScales
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets a
-        /// <see cref="System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public ColorBlend InterpolationColors
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets a bounding rectangle for this
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" />
-        /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.RectangleF" /> that represents a rectangular region that bounds the path this
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" /> fills.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public RectangleF Rectangle
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets or sets an array of colors that correspond to the points in the path this
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" /> fills.
-        /// </summary>
-        /// <returns>
-        /// An array of
-        /// <see cref="System.Drawing.Color" /> structures that represents the colors associated with each point in the path this
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" /> fills.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public Color[] SurroundColors
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets a copy of the
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that defines a local geometric transform for this
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" />
-        /// </summary>
-        /// <returns>
-        /// A copy of the
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that defines a geometric transform that applies only to fills drawn with this
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" />
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public Matrix Transform
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets a
-        /// <see cref="System.Drawing.Drawing2D.WrapMode" /> that indicates the wrap mode for this
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" />
-        /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Drawing2D.WrapMode" /> that specifies how fills drawn with this
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" /> are tiled.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public WrapMode WrapMode
-        {
-            get;
-            set;
-        }
 
         /// <summary>
         /// Initializes a new instance of the
@@ -245,17 +92,133 @@ namespace System.Drawing.Drawing2D
             float bottom = points.Select(o => o.Y).Max();
             this.Rectangle = new RectangleF(left, top, right - left, bottom - top);
         }
+        /// <summary>
+        /// Gets or sets a
+        /// <see cref="T:System.Drawing.Drawing2D.Blend" /> that specifies positions and factors that define a custom falloff for the gradient.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Drawing2D.Blend" /> that represents a custom falloff for the gradient.
+        /// </returns>
+        public Blend Blend
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the color at the center of the path gradient.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Color" /> that represents the color at the center of the path gradient.
+        /// </returns>
+        public Color CenterColor
+        {
+            get;
+            set;
+        } = Color.Black;
+
+        /// <summary>
+        /// Gets or sets the center point of the path gradient.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.PointF" /> that represents the center point of the path gradient.
+        /// </returns>
+        public PointF CenterPoint
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the focus point for the gradient falloff.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.PointF" /> that represents the focus point for the gradient falloff.
+        /// </returns>
+        public PointF FocusScales
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets a
+        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
+        /// </returns>
+        public ColorBlend InterpolationColors
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets a bounding rectangle for this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.RectangleF" /> that represents a rectangular region that bounds the path this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> fills.
+        /// </returns>
+        public RectangleF Rectangle
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets or sets an array of colors that correspond to the points in the path this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> fills.
+        /// </summary>
+        /// <returns>An array of
+        /// <see cref="T:System.Drawing.Color" /> structures that represents the colors associated with each point in the path this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> fills.
+        /// </returns>
+        public Color[] SurroundColors
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets a copy of the
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that defines a local geometric transform for this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />.
+        /// </summary>
+        /// <returns>A copy of the
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that defines a geometric transform that applies only to fills drawn with this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />.
+        /// </returns>
+        public Matrix Transform
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets a
+        /// <see cref="T:System.Drawing.Drawing2D.WrapMode" /> that indicates the wrap mode for this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Drawing2D.WrapMode" /> that specifies how fills drawn with this
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> are tiled.
+        /// </returns>
+        public WrapMode WrapMode
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" />
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />.
         /// </summary>
         /// <returns>The
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush" /> this method creates, cast as an object.
+        /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> this method creates, cast as an object.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public override object Clone()
         {
             return null;
@@ -266,11 +229,8 @@ namespace System.Drawing.Drawing2D
         /// Updates the brush's transformation matrix with the product of brush's transformation matrix multiplied by another matrix.
         /// </summary>
         /// <param name="matrix">The
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that will be multiplied by the brush's current transformation matrix.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that will be multiplied by the brush's current transformation matrix.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void MultiplyTransform(Matrix matrix)
         {
         }
@@ -290,11 +250,8 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Resets the
-        /// <see cref="System.Drawing.Drawing2D.PathGradientBrush.Transform" /> property to identity.
+        /// <see cref="P:System.Drawing.Drawing2D.PathGradientBrush.Transform" /> property to identity.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void ResetTransform()
         {
         }

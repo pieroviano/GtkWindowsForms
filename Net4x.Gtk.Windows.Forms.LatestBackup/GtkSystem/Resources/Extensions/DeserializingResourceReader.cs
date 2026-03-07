@@ -18,141 +18,14 @@ namespace GtkSystem.Resources.Extensions
 {
     public sealed class DeserializingResourceReader : System.Resources.IResourceReader, IEnumerable, IDisposable
     {
-        internal sealed class ResourceEnumerator : IDictionaryEnumerator, IEnumerator
-        {
-            private const int ENUM_DONE = int.MinValue;
-
-            private const int ENUM_NOT_STARTED = -1;
-
-            private DeserializingResourceReader _reader;
-
-            private bool _currentIsValid;
-
-            private int _currentName;
-
-            private int _dataPosition;
-
-            public object Key
-            {
-                get
-                {
-                    if (_currentName == int.MinValue)
-                    {
-                        throw new InvalidOperationException(SR.InvalidOperation_EnumEnded);
-                    }
-                    if (!_currentIsValid)
-                    {
-                        throw new InvalidOperationException(SR.InvalidOperation_EnumNotStarted);
-                    }
-                    if (_reader._resCache == null)
-                    {
-                        throw new InvalidOperationException(SR.ResourceReaderIsClosed);
-                    }
-                    return _reader.AllocateStringForNameIndex(_currentName, out _dataPosition);
-                }
-            }
-
-            public object Current => Entry;
-
-            internal int DataPosition => _dataPosition;
-
-            public DictionaryEntry Entry
-            {
-                get
-                {
-                    if (_currentName == int.MinValue)
-                    {
-                        throw new InvalidOperationException(SR.InvalidOperation_EnumEnded);
-                    }
-                    if (!_currentIsValid)
-                    {
-                        throw new InvalidOperationException(SR.InvalidOperation_EnumNotStarted);
-                    }
-                    if (_reader._resCache == null)
-                    {
-                        throw new InvalidOperationException(SR.ResourceReaderIsClosed);
-                    }
-                    object obj = null;
-                    string key;
-                    lock (_reader)
-                    {
-                        lock (_reader._resCache)
-                        {
-                            key = _reader.AllocateStringForNameIndex(_currentName, out _dataPosition);
-                            if (_reader._resCache.TryGetValue(key, out var value))
-                            {
-                                obj = value.Value;
-                            }
-                            if (obj == null)
-                            {
-                                obj = ((_dataPosition != -1) ? _reader.LoadObject(_dataPosition) : _reader.GetValueForNameIndex(_currentName));
-                            }
-                        }
-                    }
-                    return new DictionaryEntry(key, obj);
-                }
-            }
-
-            public object Value
-            {
-                get
-                {
-                    if (_currentName == int.MinValue)
-                    {
-                        throw new InvalidOperationException(SR.InvalidOperation_EnumEnded);
-                    }
-                    if (!_currentIsValid)
-                    {
-                        throw new InvalidOperationException(SR.InvalidOperation_EnumNotStarted);
-                    }
-                    if (_reader._resCache == null)
-                    {
-                        throw new InvalidOperationException(SR.ResourceReaderIsClosed);
-                    }
-                    return _reader.GetValueForNameIndex(_currentName);
-                }
-            }
-
-            internal ResourceEnumerator(DeserializingResourceReader reader)
-            {
-                _currentName = -1;
-                _reader = reader;
-                _dataPosition = -2;
-            }
-
-            public bool MoveNext()
-            {
-                if (_currentName == _reader._numResources - 1 || _currentName == int.MinValue)
-                {
-                    _currentIsValid = false;
-                    _currentName = int.MinValue;
-                    return false;
-                }
-                _currentIsValid = true;
-                _currentName++;
-                return true;
-            }
-
-            public void Reset()
-            {
-                if (_reader._resCache == null)
-                {
-                    throw new InvalidOperationException(SR.ResourceReaderIsClosed);
-                }
-                _currentIsValid = false;
-                _currentName = -1;
-            }
-        }
-
-        private const int DefaultFileStreamBufferSize = 4096;
-
-        private BinaryReader _store;
 
         internal Dictionary<string, ResourceLocator> _resCache;
 
-        private long _nameSectionOffset;
+        private bool _assumeBinaryFormatter;
 
         private long _dataSectionOffset;
+
+        private DataContractSerializer _formatter;
 
         private int[] _nameHashes;
 
@@ -162,19 +35,21 @@ namespace GtkSystem.Resources.Extensions
 
         private unsafe int* _namePositionsPtr;
 
-        private Type[] _typeTable;
+        private long _nameSectionOffset;
+
+        private int _numResources;
+
+        private BinaryReader _store;
 
         private int[] _typeNamePositions;
 
-        private int _numResources;
+        private Type[] _typeTable;
 
         private UnmanagedMemoryStream _ums;
 
         private int _version;
 
-        private bool _assumeBinaryFormatter;
-
-        private DataContractSerializer _formatter;
+        private const int DefaultFileStreamBufferSize = 4096;
         public DeserializingResourceReader(string fileName)
         {
             _resCache = new Dictionary<string, ResourceLocator>(FastResourceComparer.Default);
@@ -216,76 +91,13 @@ namespace GtkSystem.Resources.Extensions
             Close();
         }
 
-        private unsafe void Dispose(bool disposing)
-        {
-            if (_store != null)
-            {
-                _resCache = null;
-                if (disposing)
-                {
-                    BinaryReader store = _store;
-                    _store = null;
-                    store?.Close();
-                }
-                _store = null;
-                _namePositions = null;
-                _nameHashes = null;
-                _ums = null;
-                _namePositionsPtr = null;
-                _nameHashesPtr = null;
-            }
-        }
-
-        internal static unsafe int ReadUnalignedI4(int* p)
-        {
-            return *(byte*)p | (((byte*)p)[1] << 8) | (((byte*)p)[2] << 16) | (((byte*)p)[3] << 24);
-        }
-
-        private void SkipString()
-        {
-            int num = _store.Read7BitEncodedInt();
-            if (num < 0)
-            {
-                throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
-            }
-            _store.BaseStream.Seek(num, SeekOrigin.Current);
-        }
-
-        private unsafe int GetNameHash(int index)
-        {
-            if (_ums == null)
-            {
-                return _nameHashes[index];
-            }
-            return ReadUnalignedI4(_nameHashesPtr + index);
-        }
-
-        private unsafe int GetNamePosition(int index)
-        {
-            int num = ((_ums != null) ? ReadUnalignedI4(_namePositionsPtr + index) : _namePositions[index]);
-            if (num < 0 || num > _dataSectionOffset - _nameSectionOffset)
-            {
-                throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesNameInvalidOffset, num));
-            }
-            return num;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
         public IDictionaryEnumerator GetEnumerator()
         {
             if (_resCache == null)
             {
                 throw new InvalidOperationException(SR.ResourceReaderIsClosed);
             }
-            return new ResourceEnumerator(this);
-        }
 
-        internal ResourceEnumerator GetEnumeratorInternal()
-        {
             return new ResourceEnumerator(this);
         }
 
@@ -349,108 +161,67 @@ namespace GtkSystem.Resources.Extensions
                     }
                 }
             }
+
             return -1;
         }
 
-        private unsafe bool CompareStringEqualsName(string name)
+        internal ResourceEnumerator GetEnumeratorInternal()
         {
-            int num = _store.Read7BitEncodedInt();
-            if (num < 0)
-            {
-                throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
-            }
-            if (_ums != null)
-            {
-                byte* positionPointer = _ums.PositionPointer;
-                _ums.Seek(num, SeekOrigin.Current);
-                if (_ums.Position > _ums.Length)
-                {
-                    throw new BadImageFormatException(SR.BadImageFormat_ResourcesNameTooLong);
-                }
-                return FastResourceComparer.CompareOrdinal(positionPointer, num, name) == 0;
-            }
-            byte[] array = new byte[num];
-            int num2 = num;
-            while (num2 > 0)
-            {
-                int num3 = _store.Read(array, num - num2, num2);
-                if (num3 == 0)
-                {
-                    throw new BadImageFormatException(SR.BadImageFormat_ResourceNameCorrupted);
-                }
-                num2 -= num3;
-            }
-            return FastResourceComparer.CompareOrdinal(array, num / 2, name) == 0;
+            return new ResourceEnumerator(this);
         }
 
-        private unsafe string AllocateStringForNameIndex(int index, out int dataOffset)
+        internal object LoadObject(int pos)
         {
-            long num = GetNamePosition(index);
-            int num2;
-            byte[] array;
-            lock (this)
+            if (_version == 1)
             {
-                _store.BaseStream.Seek(num + _nameSectionOffset, SeekOrigin.Begin);
-                num2 = _store.Read7BitEncodedInt();
-                if (num2 < 0)
-                {
-                    throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
-                }
-                if (_ums != null)
-                {
-                    if (_ums.Position > _ums.Length - num2)
-                    {
-                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourcesIndexTooLong, index));
-                    }
-                    string text = null;
-                    char* positionPointer = (char*)_ums.PositionPointer;
-                    text = new string(positionPointer, 0, num2 / 2);
-                    _ums.Position += num2;
-                    dataOffset = _store.ReadInt32();
-                    if (dataOffset < 0 || dataOffset >= _store.BaseStream.Length - _dataSectionOffset)
-                    {
-                        throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
-                    }
-                    return text;
-                }
-                array = new byte[num2];
-                int num3 = num2;
-                while (num3 > 0)
-                {
-                    int num4 = _store.Read(array, num2 - num3, num3);
-                    if (num4 == 0)
-                    {
-                        throw new EndOfStreamException(SystemResources.Format(SR.BadImageFormat_ResourceNameCorrupted_NameIndex, index));
-                    }
-                    num3 -= num4;
-                }
-                dataOffset = _store.ReadInt32();
-                if (dataOffset < 0 || dataOffset >= _store.BaseStream.Length - _dataSectionOffset)
-                {
-                    throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
-                }
+                return LoadObjectV1(pos);
             }
-            return Encoding.Unicode.GetString(array, 0, num2);
+            ResourceTypeCode typeCode;
+
+            return LoadObjectV2(pos, out typeCode);
         }
 
-        private object GetValueForNameIndex(int index)
+        internal object LoadObject(int pos, out ResourceTypeCode typeCode)
         {
-            long num = GetNamePosition(index);
-            lock (this)
+            if (_version == 1)
             {
-                _store.BaseStream.Seek(num + _nameSectionOffset, SeekOrigin.Begin);
-                SkipString();
-                int num2 = _store.ReadInt32();
-                if (num2 < 0 || num2 >= _store.BaseStream.Length - _dataSectionOffset)
-                {
-                    throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, num2));
-                }
-                if (_version == 1)
-                {
-                    return LoadObjectV1(num2);
-                }
-                ResourceTypeCode typeCode;
-                return LoadObjectV2(num2, out typeCode);
+                object obj = LoadObjectV1(pos);
+                typeCode = ((obj is string) ? ResourceTypeCode.String : ResourceTypeCode.StartOfUserTypes);
+                return obj;
+            }
+
+            return LoadObjectV2(pos, out typeCode);
+        }
+
+        internal object LoadObjectV1(int pos)
+        {
+            try
+            {
+                return _LoadObjectV1(pos);
+            }
+            catch (EndOfStreamException inner)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch, inner);
+            }
+            catch (ArgumentOutOfRangeException inner2)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch, inner2);
+            }
+        }
+
+        internal object LoadObjectV2(int pos, out ResourceTypeCode typeCode)
+        {
+            try
+            {
+                return _LoadObjectV2(pos, out typeCode);
+            }
+            catch (EndOfStreamException inner)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch, inner);
+            }
+            catch (ArgumentOutOfRangeException inner2)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch, inner2);
             }
         }
 
@@ -483,44 +254,18 @@ namespace GtkSystem.Resources.Extensions
                     result = _store.ReadString();
                 }
             }
+
             return result;
         }
 
-        internal object LoadObject(int pos)
+        internal static unsafe int ReadUnalignedI4(int* p)
         {
-            if (_version == 1)
-            {
-                return LoadObjectV1(pos);
-            }
-            ResourceTypeCode typeCode;
-            return LoadObjectV2(pos, out typeCode);
+            return *(byte*)p | (((byte*)p)[1] << 8) | (((byte*)p)[2] << 16) | (((byte*)p)[3] << 24);
         }
 
-        internal object LoadObject(int pos, out ResourceTypeCode typeCode)
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            if (_version == 1)
-            {
-                object obj = LoadObjectV1(pos);
-                typeCode = ((obj is string) ? ResourceTypeCode.String : ResourceTypeCode.StartOfUserTypes);
-                return obj;
-            }
-            return LoadObjectV2(pos, out typeCode);
-        }
-
-        internal object LoadObjectV1(int pos)
-        {
-            try
-            {
-                return _LoadObjectV1(pos);
-            }
-            catch (EndOfStreamException inner)
-            {
-                throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch, inner);
-            }
-            catch (ArgumentOutOfRangeException inner2)
-            {
-                throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch, inner2);
-            }
+            return GetEnumerator();
         }
 
         private object _LoadObjectV1(int pos)
@@ -593,23 +338,8 @@ namespace GtkSystem.Resources.Extensions
                 }
                 return new decimal(array);
             }
-            return DeserializeObject(num);
-        }
 
-        internal object LoadObjectV2(int pos, out ResourceTypeCode typeCode)
-        {
-            try
-            {
-                return _LoadObjectV2(pos, out typeCode);
-            }
-            catch (EndOfStreamException inner)
-            {
-                throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch, inner);
-            }
-            catch (ArgumentOutOfRangeException inner2)
-            {
-                throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch, inner2);
-            }
+            return DeserializeObject(num);
         }
 
         private unsafe object _LoadObjectV2(int pos, out ResourceTypeCode typeCode)
@@ -708,22 +438,6 @@ namespace GtkSystem.Resources.Extensions
                         int typeIndex = (int)(typeCode - 64);
                         return DeserializeObject(typeIndex);
                     }
-            }
-        }
-
-        private void ReadResources()
-        {
-            try
-            {
-                _ReadResources();
-            }
-            catch (EndOfStreamException inner)
-            {
-                throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted, inner);
-            }
-            catch (IndexOutOfRangeException inner2)
-            {
-                throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted, inner2);
             }
         }
 
@@ -840,86 +554,87 @@ namespace GtkSystem.Resources.Extensions
             }
         }
 
-        private Type FindType(int typeIndex)
+        private unsafe string AllocateStringForNameIndex(int index, out int dataOffset)
         {
-            if (typeIndex < 0 || typeIndex >= _typeTable.Length)
+            long num = GetNamePosition(index);
+            int num2;
+            byte[] array;
+            lock (this)
             {
-                throw new BadImageFormatException(SR.BadImageFormat_InvalidType);
-            }
-            if (_typeTable[typeIndex] == null)
-            {
-                long position = _store.BaseStream.Position;
-                try
+                _store.BaseStream.Seek(num + _nameSectionOffset, SeekOrigin.Begin);
+                num2 = _store.Read7BitEncodedInt();
+                if (num2 < 0)
                 {
-                    _store.BaseStream.Position = _typeNamePositions[typeIndex];
-                    string typeName = _store.ReadString();
-                    if (typeName == "System.Resources.Extensions.UnknownType")
-                        _typeTable[typeIndex] = typeof(System.Windows.Forms.ImageListStreamer);
-                    else
+                    throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
+                }
+                if (_ums != null)
+                {
+                    if (_ums.Position > _ums.Length - num2)
                     {
-                        if (typeName.Contains("System.Drawing"))
-                        {
-                            _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
-                        }
-                        else
-                        {
-                            _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
-                        }
+                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourcesIndexTooLong, index));
                     }
+                    string text = null;
+                    char* positionPointer = (char*)_ums.PositionPointer;
+                    text = new string(positionPointer, 0, num2 / 2);
+                    _ums.Position += num2;
+                    dataOffset = _store.ReadInt32();
+                    if (dataOffset < 0 || dataOffset >= _store.BaseStream.Length - _dataSectionOffset)
+                    {
+                        throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
+                    }
+                    return text;
                 }
-                catch (FileNotFoundException)
+                array = new byte[num2];
+                int num3 = num2;
+                while (num3 > 0)
                 {
-                    throw new NotSupportedException(SR.NotSupported_ResourceObjectSerialization);
+                    int num4 = _store.Read(array, num2 - num3, num3);
+                    if (num4 == 0)
+                    {
+                        throw new EndOfStreamException(SystemResources.Format(SR.BadImageFormat_ResourceNameCorrupted_NameIndex, index));
+                    }
+                    num3 -= num4;
                 }
-                finally
+                dataOffset = _store.ReadInt32();
+                if (dataOffset < 0 || dataOffset >= _store.BaseStream.Length - _dataSectionOffset)
                 {
-                    _store.BaseStream.Position = position;
+                    throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
                 }
             }
-            return _typeTable[typeIndex];
+
+            return Encoding.Unicode.GetString(array, 0, num2);
         }
 
-        private string TypeNameFromTypeCode(ResourceTypeCode typeCode)
+        private unsafe bool CompareStringEqualsName(string name)
         {
-            if (typeCode < ResourceTypeCode.StartOfUserTypes)
+            int num = _store.Read7BitEncodedInt();
+            if (num < 0)
             {
-                return "ResourceTypeCode." + typeCode;
+                throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
             }
-            int num = (int)(typeCode - 64);
-            long position = _store.BaseStream.Position;
-            try
+            if (_ums != null)
             {
-                _store.BaseStream.Position = _typeNamePositions[num];
-                return _store.ReadString();
+                byte* positionPointer = _ums.PositionPointer;
+                _ums.Seek(num, SeekOrigin.Current);
+                if (_ums.Position > _ums.Length)
+                {
+                    throw new BadImageFormatException(SR.BadImageFormat_ResourcesNameTooLong);
+                }
+                return FastResourceComparer.CompareOrdinal(positionPointer, num, name) == 0;
             }
-            finally
+            byte[] array = new byte[num];
+            int num2 = num;
+            while (num2 > 0)
             {
-                _store.BaseStream.Position = position;
+                int num3 = _store.Read(array, num - num2, num2);
+                if (num3 == 0)
+                {
+                    throw new BadImageFormatException(SR.BadImageFormat_ResourceNameCorrupted);
+                }
+                num2 -= num3;
             }
-        }
 
-        private bool ValidateReaderType(string readerType)
-        {
-            if (TypeNameComparer.Instance.Equals(readerType, "System.Resources.Extensions.DeserializingResourceReader, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"))
-            {
-                return true;
-            }
-            if (TypeNameComparer.Instance.Equals(readerType, "System.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"))
-            {
-                _assumeBinaryFormatter = true;
-                return true;
-            }
-            return false;
-        }
-
-        private object? ReadBinaryFormattedObject()
-        {
-            if (_formatter == null)
-            {
-                _formatter = new DataContractSerializer(typeof(Bitmap));
-
-            }
-            return _formatter.ReadObject(_store.BaseStream);
+            return FastResourceComparer.CompareOrdinal(array, num / 2, name) == 0;
         }
 
         private unsafe object DeserializeObject(int typeIndex)
@@ -1028,13 +743,318 @@ namespace GtkSystem.Resources.Extensions
             {
                 throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResType_SerBlobMismatch, type.FullName, obj.GetType().FullName));
             }
+
             return obj;
+        }
+
+        private unsafe void Dispose(bool disposing)
+        {
+            if (_store != null)
+            {
+                _resCache = null;
+                if (disposing)
+                {
+                    BinaryReader store = _store;
+                    _store = null;
+                    store?.Close();
+                }
+                _store = null;
+                _namePositions = null;
+                _nameHashes = null;
+                _ums = null;
+                _namePositionsPtr = null;
+                _nameHashesPtr = null;
+            }
+        }
+
+        private Type FindType(int typeIndex)
+        {
+            if (typeIndex < 0 || typeIndex >= _typeTable.Length)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_InvalidType);
+            }
+            if (_typeTable[typeIndex] == null)
+            {
+                long position = _store.BaseStream.Position;
+                try
+                {
+                    _store.BaseStream.Position = _typeNamePositions[typeIndex];
+                    string typeName = _store.ReadString();
+                    if (typeName == "System.Resources.Extensions.UnknownType")
+                        _typeTable[typeIndex] = typeof(System.Windows.Forms.ImageListStreamer);
+                    else
+                    {
+                        if (typeName.Contains("System.Drawing"))
+                        {
+                            _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
+                        else
+                        {
+                            _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
+                    }
+                }
+                catch (FileNotFoundException)
+                {
+                    throw new NotSupportedException(SR.NotSupported_ResourceObjectSerialization);
+                }
+                finally
+                {
+                    _store.BaseStream.Position = position;
+                }
+            }
+
+            return _typeTable[typeIndex];
+        }
+
+        private unsafe int GetNameHash(int index)
+        {
+            if (_ums == null)
+            {
+                return _nameHashes[index];
+            }
+
+            return ReadUnalignedI4(_nameHashesPtr + index);
+        }
+
+        private unsafe int GetNamePosition(int index)
+        {
+            int num = ((_ums != null) ? ReadUnalignedI4(_namePositionsPtr + index) : _namePositions[index]);
+            if (num < 0 || num > _dataSectionOffset - _nameSectionOffset)
+            {
+                throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesNameInvalidOffset, num));
+            }
+
+            return num;
+        }
+
+        private object GetValueForNameIndex(int index)
+        {
+            long num = GetNamePosition(index);
+            lock (this)
+            {
+                _store.BaseStream.Seek(num + _nameSectionOffset, SeekOrigin.Begin);
+                SkipString();
+                int num2 = _store.ReadInt32();
+                if (num2 < 0 || num2 >= _store.BaseStream.Length - _dataSectionOffset)
+                {
+                    throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, num2));
+                }
+                if (_version == 1)
+                {
+                    return LoadObjectV1(num2);
+                }
+                ResourceTypeCode typeCode;
+                return LoadObjectV2(num2, out typeCode);
+            }
+        }
+
+        private object? ReadBinaryFormattedObject()
+        {
+            if (_formatter == null)
+            {
+                _formatter = new DataContractSerializer(typeof(Bitmap));
+
+            }
+
+            return _formatter.ReadObject(_store.BaseStream);
+        }
+
+        private void ReadResources()
+        {
+            try
+            {
+                _ReadResources();
+            }
+            catch (EndOfStreamException inner)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted, inner);
+            }
+            catch (IndexOutOfRangeException inner2)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted, inner2);
+            }
+        }
+
+        private void SkipString()
+        {
+            int num = _store.Read7BitEncodedInt();
+            if (num < 0)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
+            }
+            _store.BaseStream.Seek(num, SeekOrigin.Current);
+        }
+
+        private string TypeNameFromTypeCode(ResourceTypeCode typeCode)
+        {
+            if (typeCode < ResourceTypeCode.StartOfUserTypes)
+            {
+                return "ResourceTypeCode." + typeCode;
+            }
+            int num = (int)(typeCode - 64);
+            long position = _store.BaseStream.Position;
+            try
+            {
+                _store.BaseStream.Position = _typeNamePositions[num];
+                return _store.ReadString();
+            }
+            finally
+            {
+                _store.BaseStream.Position = position;
+            }
+        }
+
+        private bool ValidateReaderType(string readerType)
+        {
+            if (TypeNameComparer.Instance.Equals(readerType, "System.Resources.Extensions.DeserializingResourceReader, System.Resources.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"))
+            {
+                return true;
+            }
+            if (TypeNameComparer.Instance.Equals(readerType, "System.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"))
+            {
+                _assumeBinaryFormatter = true;
+                return true;
+            }
+
+            return false;
         }
         internal class ImageListSerializationBinder : SerializationBinder
         {
             public override Type BindToType(string assemblyName, string typeName)
             {
                 return Type.GetType(typeName);
+            }
+        }
+
+        internal sealed class ResourceEnumerator : IDictionaryEnumerator, IEnumerator
+        {
+
+            private bool _currentIsValid;
+
+            private int _currentName;
+
+            private int _dataPosition;
+
+            private DeserializingResourceReader _reader;
+
+            private const int ENUM_DONE = int.MinValue;
+
+            private const int ENUM_NOT_STARTED = -1;
+
+            internal ResourceEnumerator(DeserializingResourceReader reader)
+            {
+                _currentName = -1;
+                _reader = reader;
+                _dataPosition = -2;
+            }
+
+            public object Current => Entry;
+
+            public DictionaryEntry Entry
+            {
+                get
+                {
+                    if (_currentName == int.MinValue)
+                    {
+                        throw new InvalidOperationException(SR.InvalidOperation_EnumEnded);
+                    }
+                    if (!_currentIsValid)
+                    {
+                        throw new InvalidOperationException(SR.InvalidOperation_EnumNotStarted);
+                    }
+                    if (_reader._resCache == null)
+                    {
+                        throw new InvalidOperationException(SR.ResourceReaderIsClosed);
+                    }
+                    object obj = null;
+                    string key;
+                    lock (_reader)
+                    {
+                        lock (_reader._resCache)
+                        {
+                            key = _reader.AllocateStringForNameIndex(_currentName, out _dataPosition);
+                            if (_reader._resCache.TryGetValue(key, out var value))
+                            {
+                                obj = value.Value;
+                            }
+                            if (obj == null)
+                            {
+                                obj = ((_dataPosition != -1) ? _reader.LoadObject(_dataPosition) : _reader.GetValueForNameIndex(_currentName));
+                            }
+                        }
+                    }
+
+                    return new DictionaryEntry(key, obj);
+                }
+            }
+
+            public object Key
+            {
+                get
+                {
+                    if (_currentName == int.MinValue)
+                    {
+                        throw new InvalidOperationException(SR.InvalidOperation_EnumEnded);
+                    }
+                    if (!_currentIsValid)
+                    {
+                        throw new InvalidOperationException(SR.InvalidOperation_EnumNotStarted);
+                    }
+                    if (_reader._resCache == null)
+                    {
+                        throw new InvalidOperationException(SR.ResourceReaderIsClosed);
+                    }
+
+                    return _reader.AllocateStringForNameIndex(_currentName, out _dataPosition);
+                }
+            }
+
+            public object Value
+            {
+                get
+                {
+                    if (_currentName == int.MinValue)
+                    {
+                        throw new InvalidOperationException(SR.InvalidOperation_EnumEnded);
+                    }
+                    if (!_currentIsValid)
+                    {
+                        throw new InvalidOperationException(SR.InvalidOperation_EnumNotStarted);
+                    }
+                    if (_reader._resCache == null)
+                    {
+                        throw new InvalidOperationException(SR.ResourceReaderIsClosed);
+                    }
+
+                    return _reader.GetValueForNameIndex(_currentName);
+                }
+            }
+
+            internal int DataPosition => _dataPosition;
+
+            public bool MoveNext()
+            {
+                if (_currentName == _reader._numResources - 1 || _currentName == int.MinValue)
+                {
+                    _currentIsValid = false;
+                    _currentName = int.MinValue;
+                    return false;
+                }
+                _currentIsValid = true;
+                _currentName++;
+
+                return true;
+            }
+
+            public void Reset()
+            {
+                if (_reader._resCache == null)
+                {
+                    throw new InvalidOperationException(SR.ResourceReaderIsClosed);
+                }
+                _currentIsValid = false;
+                _currentName = -1;
             }
         }
     }

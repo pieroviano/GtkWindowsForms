@@ -14,19 +14,11 @@ namespace System.Windows.Forms
     {
 
         public readonly SwitchBoxBase self = new SwitchBoxBase();
-
-        public override object GtkControl => self;
+        public event EventHandler CheckedChanged;
         public SwitchBox()
         {
             self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
         }
-        private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
-        {
-            if (CheckedChanged != null && self.IsVisible)
-                CheckedChanged(this, EventArgs.Empty);
-        }
-
-        public override string Text { get { return self.TooltipText; } set { self.TooltipText = value; } }
         public bool Checked
         {
             get { return self.Active; }
@@ -37,6 +29,14 @@ namespace System.Windows.Forms
                     CheckedChanged(this, EventArgs.Empty);
             }
         }
-        public event EventHandler CheckedChanged;
+
+        public override object GtkControl => self;
+
+        public override string Text { get { return self.TooltipText; } set { self.TooltipText = value; } }
+        private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
+        {
+            if (CheckedChanged != null && self.IsVisible)
+                CheckedChanged(this, EventArgs.Empty);
+        }
     }
 }

@@ -14,6 +14,48 @@ namespace System.Windows.Forms
     /// </summary>
     /// <filterpriority>2
     /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
+    /// The ImageList is an object that stores a collection of Images, most
+    /// commonly used by other controls, such as the ListView, TreeView, or
+    /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+    /// other controls will be able to use the Images as they desire.
+    /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
     public sealed partial class ImageList
     {
         /// <summary>
@@ -21,13 +63,13 @@ namespace System.Windows.Forms
         /// </summary>
         private class Original
         {
+            internal Color _customTransparentColor = Color.Transparent;
 
             internal object _image;
 
-            internal OriginalOptions _options;
-            internal Color _customTransparentColor = Color.Transparent;
-
             internal int _nImages = 1;
+
+            internal OriginalOptions _options;
 
             internal Original(object image, OriginalOptions options) : this(image, options, Color.Transparent)
             {

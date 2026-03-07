@@ -17,67 +17,14 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public class BindingContext : ContextBoundObject
 {
-    internal class HashKey
+
+    private readonly Hashtable listManagers = new();
+
+    public bool Contains(object? dataSource, string? dataMember)
     {
-        private readonly WeakReference wRef;
-
-        private readonly int dataSourceHashCode;
-
-        private readonly string dataMember;
-
-        internal HashKey(object? dataSource, string? dataMember)
-        {
-            if (dataSource == null)
-            {
-                throw new ArgumentNullException("dataSource");
-            }
-
-            if (dataMember == null)
-            {
-                dataMember = "";
-            }
-
-            wRef = new WeakReference(dataSource, false);
-            dataSourceHashCode = dataSource.GetHashCode();
-            this.dataMember = dataMember.ToLower(CultureInfo.InvariantCulture);
-        }
-
-        public override bool Equals(object? target)
-        {
-            if (!(target is HashKey))
-            {
-                return false;
-            }
-
-            var hashKey = (HashKey)target;
-            if (wRef.Target != hashKey.wRef.Target)
-            {
-                return false;
-            }
-
-            return dataMember == hashKey.dataMember;
-        }
-
-        public override int GetHashCode()
-        {
-            return dataSourceHashCode * dataMember.GetHashCode();
-        }
+        return listManagers.ContainsKey(GetKey(dataSource, dataMember));
     }
-    /// <summary>
-    /// Associates a
-    /// <see cref="System.Windows.Forms.Binding" /> with a new
-    /// <see cref="System.Windows.Forms.BindingContext" />
-    /// </summary>
-    /// <param name="newBindingContext">The new
-    /// <see cref="System.Windows.Forms.BindingContext" /> to associate with the
-    /// <see cref="System.Windows.Forms.Binding" />
-    /// </param>
-    /// <param name="binding">The
-    /// <see cref="System.Windows.Forms.Binding" /> to associate with the new
-    /// <see cref="System.Windows.Forms.BindingContext" />
-    /// </param>
-    /// <filterpriority>1
-    /// </filterpriority>
+
     public static void UpdateBinding(BindingContext? newBindingContext, Binding binding)
     {
         var bindingManagerBase = binding.BindingManagerBase;
@@ -172,7 +119,42 @@ public class BindingContext : ContextBoundObject
         }
 
         ScrubWeakRefs();
+
         return relatedCurrencyManager;
+    }
+
+    internal HashKey GetKey(object? dataSource, string? dataMember)
+    {
+        return new HashKey(dataSource, dataMember);
+    }
+
+    private static void CheckPropertyBindingCycles(BindingContext? newBindingContext, Binding propBinding)
+    {
+        if (newBindingContext == null || propBinding == null)
+        {
+            return;
+        }
+
+        if (newBindingContext.Contains(propBinding.BindableComponent, ""))
+        {
+            var bindingManagerBase = newBindingContext.EnsureListManager(propBinding.BindableComponent, "");
+            for (var i = 0; i < bindingManagerBase.Bindings.Count; i++)
+            {
+                var item = bindingManagerBase.Bindings[i];
+                if (item.DataSource == propBinding.BindableComponent)
+                {
+                    if (propBinding.BindToObject?.BindingMemberInfo.BindingMember.Equals(item.PropertyName) ??
+                        false)
+                    {
+                        throw new ArgumentException(@"DataBindingCycle", "propBinding");
+                    }
+                }
+                else if (propBinding.BindToObject?.BindingManagerBase is PropertyManager)
+                {
+                    CheckPropertyBindingCycles(newBindingContext, item);
+                }
+            }
+        }
     }
 
     private void ScrubWeakRefs()
@@ -201,62 +183,51 @@ public class BindingContext : ContextBoundObject
             }
         }
     }
-
-    private readonly Hashtable listManagers = new();
-    /// <summary>
-    /// Gets a value indicating whether the
-    /// <see cref="System.Windows.Forms.BindingContext" /> contains the
-    /// <see cref="System.Windows.Forms.BindingManagerBase" /> associated with the specified data source and data member.
-    /// </summary>
-    /// <returns>true if the
-    /// <see cref="System.Windows.Forms.BindingContext" /> contains the specified
-    /// <see cref="System.Windows.Forms.BindingManagerBase" />; otherwise, false.
-    /// </returns>
-    /// <param name="dataSource">An
-    /// <see cref="System.Object" /> that represents the data source.
-    /// </param>
-    /// <param name="dataMember">The information needed to resolve to a specific
-    /// <see cref="System.Windows.Forms.BindingManagerBase" />
-    /// </param>
-    /// <filterpriority>1
-    /// </filterpriority>
-    public bool Contains(object? dataSource, string? dataMember)
+    internal class HashKey
     {
-        return listManagers.ContainsKey(GetKey(dataSource, dataMember));
-    }
 
-    internal HashKey GetKey(object? dataSource, string? dataMember)
-    {
-        return new HashKey(dataSource, dataMember);
-    }
+        private readonly string dataMember;
 
+        private readonly int dataSourceHashCode;
 
-    private static void CheckPropertyBindingCycles(BindingContext? newBindingContext, Binding propBinding)
-    {
-        if (newBindingContext == null || propBinding == null)
+        private readonly WeakReference wRef;
+
+        internal HashKey(object? dataSource, string? dataMember)
         {
-            return;
+            if (dataSource == null)
+            {
+                throw new ArgumentNullException("dataSource");
+            }
+
+            if (dataMember == null)
+            {
+                dataMember = "";
+            }
+
+            wRef = new WeakReference(dataSource, false);
+            dataSourceHashCode = dataSource.GetHashCode();
+            this.dataMember = dataMember.ToLower(CultureInfo.InvariantCulture);
         }
 
-        if (newBindingContext.Contains(propBinding.BindableComponent, ""))
+        public override bool Equals(object? target)
         {
-            var bindingManagerBase = newBindingContext.EnsureListManager(propBinding.BindableComponent, "");
-            for (var i = 0; i < bindingManagerBase.Bindings.Count; i++)
+            if (!(target is HashKey))
             {
-                var item = bindingManagerBase.Bindings[i];
-                if (item.DataSource == propBinding.BindableComponent)
-                {
-                    if (propBinding.BindToObject?.BindingMemberInfo.BindingMember.Equals(item.PropertyName) ??
-                        false)
-                    {
-                        throw new ArgumentException(@"DataBindingCycle", "propBinding");
-                    }
-                }
-                else if (propBinding.BindToObject?.BindingManagerBase is PropertyManager)
-                {
-                    CheckPropertyBindingCycles(newBindingContext, item);
-                }
+                return false;
             }
+
+            var hashKey = (HashKey)target;
+            if (wRef.Target != hashKey.wRef.Target)
+            {
+                return false;
+            }
+
+            return dataMember == hashKey.dataMember;
+        }
+
+        public override int GetHashCode()
+        {
+            return dataSourceHashCode * dataMember.GetHashCode();
         }
     }
 }

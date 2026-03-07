@@ -12,19 +12,45 @@ namespace System.Windows.Forms
     /// <filterpriority>
     /// 1
     /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ListBox
     {
-        /// <summary>
-        /// Represents a collection of integers in a
-        /// <see cref="System.Windows.Forms.ListBox" />
-        /// </summary>
         public partial class IntegerCollection : IList
         {
-
-            private readonly ListBox _owner;
+            private int _count;
 
             private int[]? _innerArray;
-            private int _count;
+
+            private readonly ListBox _owner;
 
             public IntegerCollection(ListBox owner)
             {
@@ -40,22 +66,6 @@ namespace System.Windows.Forms
                 get
                 {
                     return _count;
-                }
-            }
-
-            object ICollection.SyncRoot
-            {
-                get
-                {
-                    return this;
-                }
-            }
-
-            bool ICollection.IsSynchronized
-            {
-                get
-                {
-                    return true;
                 }
             }
 
@@ -75,25 +85,97 @@ namespace System.Windows.Forms
                 }
             }
 
-            public bool Contains(int item)
+            bool ICollection.IsSynchronized
             {
-                return IndexOf(item) != -1;
+                get
+                {
+                    return true;
+                }
             }
 
-            bool IList.Contains(object? item)
+            object ICollection.SyncRoot
             {
-                if (item is int itemAsInt)
+                get
                 {
-                    return Contains(itemAsInt);
+                    return this;
+                }
+            }
+
+            /// <summary>
+            /// Retrieves the specified selected item.
+            /// </summary>
+            public int this[int index]
+            {
+                get
+                {
+                    return _innerArray![index];
                 }
 
-                return false;
+                set
+                {
+                    _innerArray![index] = value;
+                }
+            }
+
+            object? IList.this[int index]
+            {
+                get
+                {
+                    return this[index];
+                }
+                set
+                {
+                    if (!(value is int))
+                    {
+                        throw new ArgumentException(nameof(value));
+                    }
+                    else
+                    {
+                        this[index] = (int)value;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Adds a unique integer to the collection in sorted order.
+            /// A SystemException occurs if there is insufficient space available to
+            /// store the new item.
+            /// </summary>
+            public int Add(int item)
+            {
+                int index = AddInternal(item);
+
+                return index;
+            }
+
+            public void AddRange(params int[] items)
+            {
+                AddRangeInternal(items);
+            }
+
+            public void AddRange(IntegerCollection value)
+            {
+                AddRangeInternal(value);
             }
 
             public void Clear()
             {
                 _count = 0;
                 _innerArray = null;
+            }
+
+            public bool Contains(int item)
+            {
+                return IndexOf(item) != -1;
+            }
+
+            public void CopyTo(Array destination, int index)
+            {
+                int cnt = Count;
+                for (int i = 0; i < cnt; i++)
+                {
+                    destination.SetValue(this[i], i + index);
+                }
             }
 
             public int IndexOf(int item)
@@ -117,6 +199,62 @@ namespace System.Windows.Forms
                 return index;
             }
 
+            /// <summary>
+            /// Removes the given item from the array.  If
+            /// the item is not in the array, this does nothing.
+            /// </summary>
+            public void Remove(int item)
+            {
+                int index = IndexOf(item);
+
+                if (index != -1)
+                {
+                    RemoveAt(index);
+                }
+            }
+
+            /// <summary>
+            /// Removes the item at the given index.
+            /// </summary>
+            public void RemoveAt(int index)
+            {
+                _count--;
+                for (int i = index; i < _count; i++)
+                {
+                    _innerArray![i] = _innerArray[i + 1];
+                }
+            }
+
+            int IList.Add(object? item)
+            {
+                if (!(item is int))
+                {
+                    throw new ArgumentException(nameof(item));
+                }
+
+                return Add((int)item);
+            }
+
+            void IList.Clear()
+            {
+                Clear();
+            }
+
+            bool IList.Contains(object? item)
+            {
+                if (item is int itemAsInt)
+                {
+                    return Contains(itemAsInt);
+                }
+
+                return false;
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return new CustomTabOffsetsEnumerator(this);
+            }
+
             int IList.IndexOf(object? item)
             {
                 if (item is int itemAsInt)
@@ -125,6 +263,26 @@ namespace System.Windows.Forms
                 }
 
                 return -1;
+            }
+
+            void IList.Insert(int index, object? value)
+            {
+                throw new NotSupportedException("SR.ListBoxCantInsertIntoIntegerCollection");
+            }
+
+            void IList.Remove(object? value)
+            {
+                if (!(value is int))
+                {
+                    throw new ArgumentException(nameof(value));
+                }
+
+                Remove((int)value);
+            }
+
+            void IList.RemoveAt(int index)
+            {
+                RemoveAt(index);
             }
 
             /// <summary>
@@ -145,38 +303,6 @@ namespace System.Windows.Forms
                 }
 
                 return index;
-            }
-
-            /// <summary>
-            /// Adds a unique integer to the collection in sorted order.
-            /// A SystemException occurs if there is insufficient space available to
-            /// store the new item.
-            /// </summary>
-            public int Add(int item)
-            {
-                int index = AddInternal(item);
-
-                return index;
-            }
-
-            int IList.Add(object? item)
-            {
-                if (!(item is int))
-                {
-                    throw new ArgumentException(nameof(item));
-                }
-
-                return Add((int)item);
-            }
-
-            public void AddRange(params int[] items)
-            {
-                AddRangeInternal(items);
-            }
-
-            public void AddRange(IntegerCollection value)
-            {
-                AddRangeInternal(value);
             }
 
             /// <summary>
@@ -224,106 +350,6 @@ namespace System.Windows.Forms
                     _innerArray.CopyTo(newEntries, 0);
                     _innerArray = newEntries;
                 }
-            }
-
-            void IList.Clear()
-            {
-                Clear();
-            }
-
-            void IList.Insert(int index, object? value)
-            {
-                throw new NotSupportedException("SR.ListBoxCantInsertIntoIntegerCollection");
-            }
-
-            void IList.Remove(object? value)
-            {
-                if (!(value is int))
-                {
-                    throw new ArgumentException(nameof(value));
-                }
-
-                Remove((int)value);
-            }
-
-            void IList.RemoveAt(int index)
-            {
-                RemoveAt(index);
-            }
-
-            /// <summary>
-            /// Removes the given item from the array.  If
-            /// the item is not in the array, this does nothing.
-            /// </summary>
-            public void Remove(int item)
-            {
-                int index = IndexOf(item);
-
-                if (index != -1)
-                {
-                    RemoveAt(index);
-                }
-            }
-
-            /// <summary>
-            /// Removes the item at the given index.
-            /// </summary>
-            public void RemoveAt(int index)
-            {
-                _count--;
-                for (int i = index; i < _count; i++)
-                {
-                    _innerArray![i] = _innerArray[i + 1];
-                }
-            }
-
-            /// <summary>
-            /// Retrieves the specified selected item.
-            /// </summary>
-            public int this[int index]
-            {
-                get
-                {
-                    return _innerArray![index];
-                }
-
-                set
-                {
-                    _innerArray![index] = value;
-                }
-            }
-
-            object? IList.this[int index]
-            {
-                get
-                {
-                    return this[index];
-                }
-                set
-                {
-                    if (!(value is int))
-                    {
-                        throw new ArgumentException(nameof(value));
-                    }
-                    else
-                    {
-                        this[index] = (int)value;
-                    }
-                }
-            }
-
-            public void CopyTo(Array destination, int index)
-            {
-                int cnt = Count;
-                for (int i = 0; i < cnt; i++)
-                {
-                    destination.SetValue(this[i], i + index);
-                }
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return new CustomTabOffsetsEnumerator(this);
             }
         }
     }

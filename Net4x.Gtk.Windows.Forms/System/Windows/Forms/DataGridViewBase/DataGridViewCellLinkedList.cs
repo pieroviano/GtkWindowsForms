@@ -18,7 +18,9 @@ namespace System.Windows.Forms
 
         }
 
-        public DataGridViewCell this[int index]
+        public int Count => _count;
+
+        public DataGridViewCell HeadCell
         {
             get
             {
@@ -26,9 +28,7 @@ namespace System.Windows.Forms
             }
         }
 
-        public int Count => _count;
-
-        public DataGridViewCell HeadCell
+        public DataGridViewCell this[int index]
         {
             get
             {

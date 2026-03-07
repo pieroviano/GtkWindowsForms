@@ -18,25 +18,18 @@ namespace System.Windows.Forms
     public sealed class ImageListStreamer : ISerializable, IDisposable
     {
 
+        private readonly ImageList? _imageList;
+
+        private ImageList.NativeImageList? _nativeImageList;
+
         private static readonly byte[] HEADER_MAGIC = new byte[] { 0x4D, 0x53, 0x46, 0X74 };
-        public ResourceInfo ResourceInfo { get; set; }
+
         // Compressed magic header. If we see this, the image stream is compressed.
         //private static ReadOnlySpan<byte> HeaderMagic => "MSFt"u8;
         private static readonly object s_syncObject = new object();
 
-        private readonly ImageList? _imageList;
-        private ImageList.NativeImageList? _nativeImageList;
-
         internal ImageListStreamer(ImageList imageList) => _imageList = imageList;
 
-        // Used by binary serialization
-        private ImageListStreamer(SerializationInfo info, StreamingContext context)
-        {
-            if (info.GetValue("Data", typeof(byte[])) is byte[] data)
-            {
-                Deserialize(data);
-            }
-        }
         internal ImageListStreamer(Stream stream)
         {
             if (stream is MemoryStream ms
@@ -53,7 +46,42 @@ namespace System.Windows.Forms
                 Deserialize(copyStream.GetBuffer());
             }
         }
+
         internal ImageListStreamer(byte[] data) => Deserialize(data);
+
+        // Used by binary serialization
+        private ImageListStreamer(SerializationInfo info, StreamingContext context)
+        {
+            if (info.GetValue("Data", typeof(byte[])) is byte[] data)
+            {
+                Deserialize(data);
+            }
+        }
+        public ResourceInfo ResourceInfo { get; set; }
+
+        public void Dispose()
+        {
+            _nativeImageList?.Dispose();
+            _nativeImageList = null;
+        }
+
+        public void GetObjectData(SerializationInfo si, StreamingContext context) =>
+            si.AddValue("Data", Serialize());
+
+        internal ImageList.NativeImageList? GetNativeImageList() => _nativeImageList;
+
+        internal void GetObjectData(Stream stream)
+        {
+        }
+
+        internal byte[] Serialize()
+        {
+            using MemoryStream stream = new MemoryStream();
+
+            ReadOnlySpan<byte> buffer = stream.GetBuffer().AsSpan(0, (int)stream.Length);
+
+            return Compress(buffer);
+        }
 
         /// <summary>
         /// Compresses the given input, returning a new array that represents the compressed data.
@@ -63,14 +91,6 @@ namespace System.Windows.Forms
             return input.ToArray();
         }
 
-        /// <summary>
-        /// Decompresses the given input, returning a new array that represents the uncompressed data.
-        /// </summary>
-        private static byte[] Decompress1(byte[] input)
-        {
-            return input;
-
-        }
         private static byte[] Decompress(byte[] input)
         {
             int finalLength = 0;
@@ -124,45 +144,19 @@ namespace System.Windows.Forms
             return output;
         }
 
+        /// <summary>
+        /// Decompresses the given input, returning a new array that represents the uncompressed data.
+        /// </summary>
+        private static byte[] Decompress1(byte[] input)
+        {
+            return input;
+
+        }
+
         private void Deserialize(byte[] data)
         {
 
         }
-        /// <summary>
-        /// Populates a
-        /// <see cref="System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the target object.
-        /// </summary>
-        /// <param name="si">The
-        /// <see cref="System.Runtime.Serialization.SerializationInfo" /> to populate with data.
-        /// </param>
-        /// <param name="context">The
-        /// <see cref="System.Runtime.Serialization.StreamingContext" /> that is the destination for this serialization.
-        /// </param>
-        /// <exception cref="System.InvalidOperationException">The
-        /// <see cref="System.Runtime.Serialization.SerializationInfo" /> cannot be populated with data because no data exists, or it is not in the correct format.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="SerializationFormatter" />
-        /// </PermissionSet>
-        public void GetObjectData(SerializationInfo si, StreamingContext context) =>
-                    si.AddValue("Data", Serialize());
-
-        internal byte[] Serialize()
-        {
-            using MemoryStream stream = new MemoryStream();
-
-            ReadOnlySpan<byte> buffer = stream.GetBuffer().AsSpan(0, (int)stream.Length);
-            return Compress(buffer);
-        }
-
-        internal void GetObjectData(Stream stream)
-        {
-        }
-
-        internal ImageList.NativeImageList? GetNativeImageList() => _nativeImageList;
 
         private bool WriteImageList(Stream stream)
         {
@@ -181,15 +175,6 @@ namespace System.Windows.Forms
             //}
 
             //return PInvoke.ImageList.Write(handle, stream);
-        }
-        /// <summary>
-        /// Releases all resources used by the current instance of the
-        /// <see cref="System.Windows.Forms.ImageListStreamer" /> class.
-        /// </summary>
-        public void Dispose()
-        {
-            _nativeImageList?.Dispose();
-            _nativeImageList = null;
         }
     }
 }

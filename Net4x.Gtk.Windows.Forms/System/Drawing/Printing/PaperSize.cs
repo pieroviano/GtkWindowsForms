@@ -8,16 +8,17 @@ namespace System.Drawing.Printing
 
     public partial class PaperSize
     {
+        private readonly bool _createdByDefaultConstructor;
+
+        private int _height;
 
         private PaperKind _kind;
+
         private string _name;
 
         // Standard hundredths of an inch units
 
         private int _width;
-
-        private int _height;
-        private readonly bool _createdByDefaultConstructor;
 
         public PaperSize()
         {
@@ -26,17 +27,17 @@ namespace System.Drawing.Printing
             _createdByDefaultConstructor = true;
         }
 
-        internal PaperSize(PaperKind kind, string name, int width, int height)
+        public PaperSize(string name, int width, int height)
         {
-            _kind = kind;
+            _kind = PaperKind.Custom;
             _name = name;
             _width = width;
             _height = height;
         }
 
-        public PaperSize(string name, int width, int height)
+        internal PaperSize(PaperKind kind, string name, int width, int height)
         {
-            _kind = PaperKind.Custom;
+            _kind = kind;
             _name = name;
             _width = width;
             _height = height;

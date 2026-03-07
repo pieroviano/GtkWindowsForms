@@ -8,15 +8,15 @@ namespace System.Drawing.Printing
 
     public unsafe class PageSettings : ICloneable
     {
-
-        private PrinterSettings _printerSettings;
+        private Margins _margins = new Margins();
 
         private PaperSize _paperSize;
 
         private PaperSource _paperSource;
 
         private PrinterResolution _printerResolution;
-        private Margins _margins = new Margins();
+
+        private PrinterSettings _printerSettings;
 
         public PageSettings() : this(new PrinterSettings())
         {
@@ -97,6 +97,7 @@ namespace System.Drawing.Printing
         {
             PageSettings result = (PageSettings)MemberwiseClone();
             result._margins = (Margins)_margins.Clone();
+
             return result;
         }
 

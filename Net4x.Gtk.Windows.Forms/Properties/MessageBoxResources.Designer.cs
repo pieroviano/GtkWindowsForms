@@ -10,7 +10,7 @@
 
 namespace System.Windows.Forms.Properties {
     using System;
-    
+
     
     /// <summary>
     /// A strongly-typed resource class, for looking up localized strings, etc.
@@ -23,30 +23,15 @@ namespace System.Windows.Forms.Properties {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class MessageBoxResources {
-        
-        private static global::System.Resources.ResourceManager resourceMan;
-        
 
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
+        private static global::System.Resources.ResourceManager resourceMan;
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal MessageBoxResources() {
         }
-        
-        /// <summary>
-        /// Returns the cached ResourceManager instance used by this class.
-        /// </summary>
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.MessageBoxResources", typeof(MessageBoxResources).Assembly);
-                    resourceMan = temp;
-                }
-                return resourceMan;
-            }
-        }
-        
+
         /// <summary>
         /// Overrides the current thread's CurrentUICulture property for all
         /// resource lookups using this strongly typed resource class.
@@ -60,7 +45,7 @@ namespace System.Windows.Forms.Properties {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Cancel.
         /// </summary>
@@ -69,7 +54,7 @@ namespace System.Windows.Forms.Properties {
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Cancel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Close.
         /// </summary>
@@ -78,7 +63,7 @@ namespace System.Windows.Forms.Properties {
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Close", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Help.
         /// </summary>
@@ -87,7 +72,7 @@ namespace System.Windows.Forms.Properties {
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Help", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to No.
         /// </summary>
@@ -96,7 +81,7 @@ namespace System.Windows.Forms.Properties {
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_No", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to OK.
         /// </summary>
@@ -105,7 +90,7 @@ namespace System.Windows.Forms.Properties {
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_OK", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Reject.
         /// </summary>
@@ -114,13 +99,28 @@ namespace System.Windows.Forms.Properties {
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Reject", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// Looks up a localized string similar to Yes.
         /// </summary>
         internal static string Gtk_MessageBox_ShowCore_Yes {
             get {
                 return ResourceManager.GetString("Gtk_MessageBox_ShowCore_Yes", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.MessageBoxResources", typeof(MessageBoxResources).Assembly);
+                    resourceMan = temp;
+                }
+
+                return resourceMan;
             }
         }
     }

@@ -12,23 +12,49 @@ namespace System.Windows.Forms
     /// <filterpriority>
     /// 1
     /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ListBox
     {
-        /// <summary>
-        /// Represents the collection of selected items in the
-        /// <see cref="System.Windows.Forms.ListBox" />
-        /// </summary>
         public class SelectedObjectCollection : IList
         {
             // This is the bitmask used within ItemArray to identify selected objects.
             internal static int SelectedObjectMask = ItemArray.CreateMask();
+            private int _count;
+
+            private int _lastVersion;
 
             private readonly ListBox _owner;
 
             private bool _stateDirty;
-
-            private int _lastVersion;
-            private int _count;
 
             public SelectedObjectCollection(ListBox owner)
             {
@@ -79,11 +105,19 @@ namespace System.Windows.Forms
                 }
             }
 
-            object ICollection.SyncRoot
+            public bool IsReadOnly
             {
                 get
                 {
-                    return this;
+                    return true;
+                }
+            }
+
+            bool IList.IsFixedSize
+            {
+                get
+                {
+                    return true;
                 }
             }
 
@@ -95,11 +129,103 @@ namespace System.Windows.Forms
                 }
             }
 
-            bool IList.IsFixedSize
+            object ICollection.SyncRoot
             {
                 get
                 {
-                    return true;
+                    return this;
+                }
+            }
+
+            /// <summary>
+            /// This is the item array that stores our data.  We share this backing store
+            /// with the main object collection.
+            /// </summary>
+            private ItemArray InnerArray
+            {
+                get
+                {
+                    EnsureUpToDate();
+
+                    return _owner.Items.InnerArray;
+                }
+            }
+
+            /// <summary>
+            /// Retrieves the specified selected item.
+            /// </summary>
+            [Browsable(false)]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+            public object? this[int index]
+            {
+                get
+                {
+                    return InnerArray.GetItem(index, SelectedObjectMask);
+                }
+                set
+                {
+                    throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
+                }
+            }
+
+            public void Add(object value)
+            {
+                if (_owner != null)
+                {
+                    ObjectCollection items = _owner.Items;
+                    if (items != null && value != null)
+                    {
+                        int index = items.IndexOf(value);
+                        if (index != -1 && !GetSelected(index))
+                        {
+                            _owner.SelectedIndex = index;
+                        }
+                    }
+                }
+            }
+
+            public void Clear()
+            {
+                _owner?.ClearSelected();
+            }
+
+            public bool Contains(object? selectedObject)
+            {
+                return IndexOf(selectedObject) != -1;
+            }
+
+            public void CopyTo(Array destination, int index)
+            {
+                int cnt = InnerArray.GetCount(SelectedObjectMask);
+                for (int i = 0; i < cnt; i++)
+                {
+                    destination.SetValue(InnerArray.GetItem(i, SelectedObjectMask), i + index);
+                }
+            }
+
+            public IEnumerator GetEnumerator()
+            {
+                return InnerArray.GetEnumerator(SelectedObjectMask);
+            }
+
+            public int IndexOf(object? selectedObject)
+            {
+                return selectedObject is null ? -1 : InnerArray.IndexOf(selectedObject, SelectedObjectMask);
+            }
+
+            public void Remove(object value)
+            {
+                if (_owner != null)
+                {
+                    ObjectCollection items = _owner.Items;
+                    if (items != null && value != null)
+                    {
+                        int index = items.IndexOf(value);
+                        if (index != -1 && GetSelected(index))
+                        {
+                            _owner.SetSelected(index, false);
+                        }
+                    }
                 }
             }
 
@@ -112,19 +238,6 @@ namespace System.Windows.Forms
             }
 
             /// <summary>
-            /// This is the item array that stores our data.  We share this backing store
-            /// with the main object collection.
-            /// </summary>
-            private ItemArray InnerArray
-            {
-                get
-                {
-                    EnsureUpToDate();
-                    return _owner.Items.InnerArray;
-                }
-            }
-
-            /// <summary>
             /// This is the function that Ensures that the selections are uptodate with
             /// current listbox handle selections.
             /// </summary>
@@ -132,22 +245,35 @@ namespace System.Windows.Forms
             {
             }
 
-            public bool IsReadOnly
+            // A new internal method used in SelectedIndex getter...
+            // For a Multi select ListBox there can be two items with the same name ...
+            // and hence a object comparison is required...
+            // This method returns the "object" at the passed index rather than the "item" ...
+            // this "object" is then compared in the IndexOf( ) method of the itemsCollection.
+            internal object GetObjectAt(int index)
             {
-                get
+                return InnerArray.GetEntryObject(index, SelectedObjectMask);
+            }
+
+            internal bool GetSelected(int index)
+            {
+                return InnerArray.GetState(index, SelectedObjectMask);
+            }
+
+            internal void PushSelectionIntoNativeListBox(int index)
+            {
+            }
+
+            /// <summary>
+            /// Same thing for GetSelected.
+            /// </summary>
+            internal void SetSelected(int index, bool value)
+            {
+                if (index > -1 && index < InnerArray.Count)
                 {
-                    return true;
+                    InnerArray.SetState(index, SelectedObjectMask, value);
+                    _owner.SetSelected(index, value);
                 }
-            }
-
-            public bool Contains(object? selectedObject)
-            {
-                return IndexOf(selectedObject) != -1;
-            }
-
-            public int IndexOf(object? selectedObject)
-            {
-                return selectedObject is null ? -1 : InnerArray.IndexOf(selectedObject, SelectedObjectMask);
             }
 
             int IList.Add(object? value)
@@ -173,105 +299,6 @@ namespace System.Windows.Forms
             void IList.RemoveAt(int index)
             {
                 throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
-            }
-
-            // A new internal method used in SelectedIndex getter...
-            // For a Multi select ListBox there can be two items with the same name ...
-            // and hence a object comparison is required...
-            // This method returns the "object" at the passed index rather than the "item" ...
-            // this "object" is then compared in the IndexOf( ) method of the itemsCollection.
-            internal object GetObjectAt(int index)
-            {
-                return InnerArray.GetEntryObject(index, SelectedObjectMask);
-            }
-
-            /// <summary>
-            /// Retrieves the specified selected item.
-            /// </summary>
-            [Browsable(false)]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-            public object? this[int index]
-            {
-                get
-                {
-                    return InnerArray.GetItem(index, SelectedObjectMask);
-                }
-                set
-                {
-                    throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
-                }
-            }
-
-            public void CopyTo(Array destination, int index)
-            {
-                int cnt = InnerArray.GetCount(SelectedObjectMask);
-                for (int i = 0; i < cnt; i++)
-                {
-                    destination.SetValue(InnerArray.GetItem(i, SelectedObjectMask), i + index);
-                }
-            }
-
-            public IEnumerator GetEnumerator()
-            {
-                return InnerArray.GetEnumerator(SelectedObjectMask);
-            }
-
-            internal bool GetSelected(int index)
-            {
-                return InnerArray.GetState(index, SelectedObjectMask);
-            }
-
-            internal void PushSelectionIntoNativeListBox(int index)
-            {
-            }
-
-            /// <summary>
-            /// Same thing for GetSelected.
-            /// </summary>
-            internal void SetSelected(int index, bool value)
-            {
-                if (index > -1 && index < InnerArray.Count)
-                {
-                    InnerArray.SetState(index, SelectedObjectMask, value);
-                    _owner.SetSelected(index, value);
-                }
-            }
-
-            public void Clear()
-            {
-                _owner?.ClearSelected();
-            }
-
-            public void Add(object value)
-            {
-                if (_owner != null)
-                {
-                    ObjectCollection items = _owner.Items;
-                    if (items != null && value != null)
-                    {
-                        int index = items.IndexOf(value);
-                        if (index != -1 && !GetSelected(index))
-                        {
-                            _owner.SelectedIndex = index;
-                        }
-                    }
-                }
-            }
-
-            public void Remove(object value)
-            {
-                if (_owner != null)
-                {
-                    ObjectCollection items = _owner.Items;
-                    if (items != null && value != null)
-                    {
-                        int index = items.IndexOf(value);
-                        if (index != -1 && GetSelected(index))
-                        {
-                            _owner.SetSelected(index, false);
-                        }
-                    }
-                }
             }
         }
     }

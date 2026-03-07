@@ -13,29 +13,11 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class DataGridViewRowEventArgs : EventArgs
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.DataGridViewRowEventArgs" /> class.
-        /// </summary>
-        /// <param name="dataGridViewRow">The
-        /// <see cref="System.Windows.Forms.DataGridViewRow" /> that the event occurred for.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="dataGridViewRow" /> is null.
-        /// </exception>
         public DataGridViewRowEventArgs(DataGridViewRow dataGridViewRow)
         {
             Row = dataGridViewRow ?? throw new ArgumentNullException(nameof(dataGridViewRow));
         }
-        /// <summary>
-        /// Gets the
-        /// <see cref="System.Windows.Forms.DataGridViewRow" /> associated with the event.
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Windows.Forms.DataGridViewRow" /> associated with the event.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public DataGridViewRow Row { get; }
     }
 }

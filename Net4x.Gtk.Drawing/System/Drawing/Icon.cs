@@ -15,76 +15,9 @@ namespace System.Drawing
     public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISerializable
     {
 
-        private byte[] _PixbufData;
-        public byte[] PixbufData
-        {
-            get { if (_PixbufData == null && _Pixbuf != null) { _PixbufData = _Pixbuf.SaveToBuffer("bmp"); } return _PixbufData; }
-            set { _PixbufData = value; _Pixbuf = new Gdk.Pixbuf((byte[])value.Clone()); }
-        }
-
         private Gdk.Pixbuf _Pixbuf;
-        public Gdk.Pixbuf Pixbuf
-        {
-            get { if (_Pixbuf == null && _PixbufData != null) { _Pixbuf = new Gdk.Pixbuf((byte[])_PixbufData.Clone()); } return _Pixbuf; }
-            set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
-        }
-        public string FileName { get; set; }
-        /// <summary>
-        /// Gets the Windows handle for this
-        /// <see cref="System.Drawing.Icon" /> This is not a copy of the handle; do not free it.
-        /// </summary>
-        /// <returns>The Windows handle for the icon.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        [Browsable(false)]
-        public IntPtr Handle
-        {
-            get;
-            private set;
-        }
 
-        /// <summary>
-        /// Gets the height of this
-        /// <see cref="T:System.Drawing.Icon" />.
-        /// </summary>
-        /// <returns>The height of this
-        /// <see cref="T:System.Drawing.Icon" />.
-        /// </returns>
-        [Browsable(false)]
-        public int Height
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the size of this
-        /// <see cref="T:System.Drawing.Icon" />.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.Size" /> structure that specifies the width and height of this
-        /// <see cref="T:System.Drawing.Icon" />.
-        /// </returns>
-        public Size Size
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the width of this
-        /// <see cref="T:System.Drawing.Icon" />.
-        /// </summary>
-        /// <returns>The width of this
-        /// <see cref="T:System.Drawing.Icon" />.
-        /// </returns>
-        [Browsable(false)]
-        public int Width
-        {
-            get;
-            private set;
-        }
+        private byte[] _PixbufData;
         public Icon(byte[] bytes)
         {
             if (bytes != null)
@@ -95,6 +28,7 @@ namespace System.Drawing
                 this.Height = this.Pixbuf.Height;
             }
         }
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Icon" /> class and attempts to find a version of the icon that matches the requested size.
@@ -281,19 +215,86 @@ namespace System.Drawing
         {
 
         }
+        public string FileName { get; set; }
+
+        [Browsable(false)]
+        public IntPtr Handle
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the height of this
+        /// <see cref="T:System.Drawing.Icon" />.
+        /// </summary>
+        /// <returns>The height of this
+        /// <see cref="T:System.Drawing.Icon" />.
+        /// </returns>
+        [Browsable(false)]
+        public int Height
+        {
+            get;
+            private set;
+        }
+
+        public Gdk.Pixbuf Pixbuf
+        {
+            get
+            {
+                if (_Pixbuf == null && _PixbufData != null) { _Pixbuf = new Gdk.Pixbuf((byte[])_PixbufData.Clone()); }
+
+                return _Pixbuf;
+            }
+            set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
+        }
+
+        public byte[] PixbufData
+        {
+            get
+            {
+                if (_PixbufData == null && _Pixbuf != null) { _PixbufData = _Pixbuf.SaveToBuffer("bmp"); }
+
+                return _PixbufData;
+            }
+            set { _PixbufData = value; _Pixbuf = new Gdk.Pixbuf((byte[])value.Clone()); }
+        }
+
+        /// <summary>
+        /// Gets the size of this
+        /// <see cref="T:System.Drawing.Icon" />.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Size" /> structure that specifies the width and height of this
+        /// <see cref="T:System.Drawing.Icon" />.
+        /// </returns>
+        public Size Size
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the width of this
+        /// <see cref="T:System.Drawing.Icon" />.
+        /// </summary>
+        /// <returns>The width of this
+        /// <see cref="T:System.Drawing.Icon" />.
+        /// </returns>
+        [Browsable(false)]
+        public int Width
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Clones the
-        /// <see cref="System.Drawing.Icon" />, creating a duplicate image.
+        /// <see cref="T:System.Drawing.Icon" />, creating a duplicate image.
         /// </summary>
         /// <returns>An object that can be cast to an
-        /// <see cref="System.Drawing.Icon" />
+        /// <see cref="T:System.Drawing.Icon" />.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public object Clone()
         {
             return new Icon(this.FileName, this.Width, this.Height) { Pixbuf = this.Pixbuf, PixbufData = (byte[])this.PixbufData.Clone() };
@@ -312,31 +313,20 @@ namespace System.Drawing
         /// <summary>
         /// Returns an icon representation of an image that is contained in the specified file.
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Drawing.Icon" /> representation of the image that is contained in the specified file.
-        /// </returns>
         /// <param name="filePath">The path to the file that contains an image.
         /// </param>
-        /// <exception cref="System.ArgumentException">
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Icon" /> representation of the image that is contained in the specified file.
+        /// </returns>
+        /// <exception cref="T:System.ArgumentException">The
+        /// <paramref name="filePath" /> does not indicate a valid file.
+        /// -or-
         /// The
-        /// <paramref name="filePath" /> does not indicate a valid file.-or-The
         /// <paramref name="filePath" /> indicates a Universal Naming Convention (UNC) path.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public static Icon ExtractAssociatedIcon(string filePath)
         {
             return new Icon(filePath);
-        }
-
-        /// <summary>
-        /// Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.
-        /// </summary>
-        ~Icon()
-        {
         }
 
         /// <summary>
@@ -376,6 +366,32 @@ namespace System.Drawing
         }
 
         /// <summary>
+        /// Converts this
+        /// <see cref="T:System.Drawing.Icon" /> to a GDI+
+        /// <see cref="T:System.Drawing.Bitmap" />.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Bitmap" /> that represents the converted
+        /// <see cref="T:System.Drawing.Icon" />.
+        /// </returns>
+        public Bitmap ToBitmap()
+        {
+            return new Bitmap(this.Width, this.Height) { PixbufData = this.PixbufData, Pixbuf = this.Pixbuf, FileName = this.FileName };
+        }
+
+        /// <summary>
+        /// Gets a human-readable string that describes the
+        /// <see cref="T:System.Drawing.Icon" />.
+        /// </summary>
+        /// <returns>A string that describes the
+        /// <see cref="T:System.Drawing.Icon" />.
+        /// </returns>
+        public override string ToString()
+        {
+            return "Icon";
+        }
+
+        /// <summary>
         /// Populates a
         /// <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data that is required to serialize the target object.
         /// </summary>
@@ -387,44 +403,6 @@ namespace System.Drawing
         /// </param>
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-        }
-
-        /// <summary>
-        /// Converts this
-        /// <see cref="System.Drawing.Icon" /> to a GDI+
-        /// <see cref="System.Drawing.Bitmap" />
-        /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Bitmap" /> that represents the converted
-        /// <see cref="System.Drawing.Icon" />
-        /// .
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public Bitmap ToBitmap()
-        {
-            return new Bitmap(this.Width, this.Height) { PixbufData = this.PixbufData, Pixbuf = this.Pixbuf, FileName = this.FileName };
-        }
-
-        /// <summary>
-        /// Gets a human-readable string that describes the
-        /// <see cref="System.Drawing.Icon" />
-        /// </summary>
-        /// <returns>A string that describes the
-        /// <see cref="System.Drawing.Icon" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
-        public override string ToString()
-        {
-            return "Icon";
         }
     }
 }

@@ -105,6 +105,12 @@ public static class EventOnMethodGenerator
 
         private MethodDeclarationSyntax CreateOnMethod(string eventName, string methodName, string eventArgsType)
         {
+            var xmlComment = SyntaxFactory.ParseLeadingTrivia(
+                $@"/// <summary>
+/// Raises the {eventName} event.
+/// </summary>
+");
+
             return SyntaxFactory.MethodDeclaration(
                     SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)),
                     methodName)
@@ -118,7 +124,8 @@ public static class EventOnMethodGenerator
                     SyntaxFactory.Block(
                         SyntaxFactory.ParseStatement(
                             $"{eventName}?.Invoke(this, e);"
-                        )));
+                        )))
+                .WithLeadingTrivia(xmlComment);
         }
     }
 }

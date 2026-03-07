@@ -15,6 +15,8 @@ namespace System.Windows.Forms
 {
     public class MessageBoxOld
     {
+
+        private static Gtk.Window ActiveWindow = null; // has caching significance
         /// <summary>
         /// Displays a message box with specified text, caption, and style with Help Button.
         /// </summary>
@@ -100,6 +102,7 @@ namespace System.Windows.Forms
         //END ADD                                                                                                      //
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
+        /// Displays a message box with specified text, caption, and style.
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
         {
@@ -196,6 +199,13 @@ namespace System.Windows.Forms
         {
             return ShowCore(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, false);
         }
+        private static void Dia_Response(object o, Gtk.ResponseArgs args)
+        {
+            Gtk.Dialog dia = o as Gtk.Dialog;
+            dia.PangoContext.Dispose();
+            dia.Dispose();
+            dia.Destroy();
+        }
 
         private static DialogResult ShowCore(IWin32Window owner, string text, string caption,
                                      MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,
@@ -211,10 +221,10 @@ namespace System.Windows.Forms
             {
 
             }
+
             return result;
         }
 
-        private static Gtk.Window ActiveWindow = null; // has caching significance
         private static DialogResult ShowCore(IWin32Window owner, string text, string caption,
                                              MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,
                                              MessageBoxOptions options, bool showHelp)
@@ -255,34 +265,6 @@ namespace System.Windows.Forms
                 return DialogResult.None;
             else
                 return DialogResult.None;
-        }
-
-        private static int ShowMessageDialogCore(Gtk.Window owner, Gtk.WindowPosition position, string text, string caption, MessageBoxButtons buttons, params object[] icon)
-        {
-            Gtk.ButtonsType buttonsType = Gtk.ButtonsType.Close;
-            if (buttons == MessageBoxButtons.OK)
-                buttonsType = Gtk.ButtonsType.Ok;
-            else if (buttons == MessageBoxButtons.OKCancel)
-                buttonsType = Gtk.ButtonsType.OkCancel;
-            else if (buttons == MessageBoxButtons.YesNo)
-                buttonsType = Gtk.ButtonsType.YesNo;
-            else if (buttons == MessageBoxButtons.YesNoCancel)
-                buttonsType = Gtk.ButtonsType.YesNo;
-            else if (buttons == MessageBoxButtons.AbortRetryIgnore)
-                buttonsType = Gtk.ButtonsType.OkCancel;
-            else if (buttons == MessageBoxButtons.RetryCancel)
-                buttonsType = Gtk.ButtonsType.OkCancel;
-
-            Gtk.MessageDialog dia = new Gtk.MessageDialog(owner, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, buttonsType, text);
-            dia.SetPosition(position);
-            dia.StyleContext.AddClass("DefaultThemeStyle");
-            dia.StyleContext.AddClass("MessageBox");
-            dia.BorderWidth = 10;
-            dia.KeepAbove = true;
-            dia.KeepBelow = false;
-            dia.Title = caption;
-            dia.Response += Dia_Response;
-            return dia.Run();
         }
 
         private static int ShowCore(Gtk.Window owner, Gtk.WindowPosition position, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
@@ -371,14 +353,37 @@ namespace System.Windows.Forms
                 dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
             }
             dia.ShowAll();
+
             return dia.Run();
         }
-        private static void Dia_Response(object o, Gtk.ResponseArgs args)
+
+        private static int ShowMessageDialogCore(Gtk.Window owner, Gtk.WindowPosition position, string text, string caption, MessageBoxButtons buttons, params object[] icon)
         {
-            Gtk.Dialog dia = o as Gtk.Dialog;
-            dia.PangoContext.Dispose();
-            dia.Dispose();
-            dia.Destroy();
+            Gtk.ButtonsType buttonsType = Gtk.ButtonsType.Close;
+            if (buttons == MessageBoxButtons.OK)
+                buttonsType = Gtk.ButtonsType.Ok;
+            else if (buttons == MessageBoxButtons.OKCancel)
+                buttonsType = Gtk.ButtonsType.OkCancel;
+            else if (buttons == MessageBoxButtons.YesNo)
+                buttonsType = Gtk.ButtonsType.YesNo;
+            else if (buttons == MessageBoxButtons.YesNoCancel)
+                buttonsType = Gtk.ButtonsType.YesNo;
+            else if (buttons == MessageBoxButtons.AbortRetryIgnore)
+                buttonsType = Gtk.ButtonsType.OkCancel;
+            else if (buttons == MessageBoxButtons.RetryCancel)
+                buttonsType = Gtk.ButtonsType.OkCancel;
+
+            Gtk.MessageDialog dia = new Gtk.MessageDialog(owner, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, buttonsType, text);
+            dia.SetPosition(position);
+            dia.StyleContext.AddClass("DefaultThemeStyle");
+            dia.StyleContext.AddClass("MessageBox");
+            dia.BorderWidth = 10;
+            dia.KeepAbove = true;
+            dia.KeepBelow = false;
+            dia.Title = caption;
+            dia.Response += Dia_Response;
+
+            return dia.Run();
         }
     }
 }

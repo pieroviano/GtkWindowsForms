@@ -17,13 +17,17 @@ namespace System.Windows.Forms.PropertyGridInternal;
 internal sealed partial class PropertyGridView
 {
 
-    public Gtk.TreeView tree = new Gtk.TreeView();
-
     public Gtk.TreeStore store = new Gtk.TreeStore(typeof(GridEntry));
 
-    public PropertyGrid OwnerGrid { get; private set; }
+    public Gtk.TreeView tree = new Gtk.TreeView();
 
     private object _selectedObject;
+
+    private GridEntry oldSelectedPropertyItem;
+
+    public event PropertyValueChangedEventHandler PropertyValueChanged;
+
+    public event SelectedGridItemChangedEventHandler SelectedGridItemChanged;
     public PropertyGridView(PropertyGrid propertyGrid)
     {
         OwnerGrid = propertyGrid;
@@ -110,28 +114,7 @@ internal sealed partial class PropertyGridView
         tree.Model = store;
     }
 
-    private GridEntry oldSelectedPropertyItem;
-    private void Selection_Changed(object sender, EventArgs e)
-    {
-        if (tree.Selection.GetSelected(out ITreeModel model, out Gtk.TreeIter oiter))
-        {
-            GridEntry propertyItem = store.GetValue(oiter, 0) as GridEntry;
-            if (SelectedGridItemChanged != null)
-                SelectedGridItemChanged(sender, new SelectedGridItemChangedEventArgs(oldSelectedPropertyItem, propertyItem));
-            oldSelectedPropertyItem = propertyItem;
-        }
-    }
-    private void Tree_RowActivated(object o, RowActivatedArgs args)
-    {
-        Console.WriteLine(args.Path);
-        if (store.GetIter(out TreeIter iter, args.Path))
-        {
-            if (store.GetValue(iter, 0) is GridEntry ov)
-            {
-                OwnerGrid.self.ShowDescription(ov.Label, ov.Description);
-            }
-        }
-    }
+    public PropertyGrid OwnerGrid { get; private set; }
     public void LoadPropertyInfo(object entryobj)
     {
         _selectedObject = entryobj;
@@ -188,15 +171,6 @@ internal sealed partial class PropertyGridView
         }
         tree.ExpandAll();
     }
-    private void GetPropertyInfos(Gtk.TreeIter? parent, GridEntry parentitem, object obj)
-    {
-        Type type = obj.GetType();
-        PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty);
-        foreach (PropertyInfo property in properties)
-        {
-            GetPropertyInfo(parent, parentitem, property, obj);
-        }
-    }
     private bool GetPropertyInfo(Gtk.TreeIter? parent, GridEntry parentitem, PropertyInfo property, object obj)
     {
         if (property.CanRead == true)
@@ -252,6 +226,28 @@ internal sealed partial class PropertyGridView
             return false;
         }
     }
+
+    private void GetPropertyInfos(Gtk.TreeIter? parent, GridEntry parentitem, object obj)
+    {
+        Type type = obj.GetType();
+        PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty);
+        foreach (PropertyInfo property in properties)
+        {
+            GetPropertyInfo(parent, parentitem, property, obj);
+        }
+    }
+
+    private void Selection_Changed(object sender, EventArgs e)
+    {
+        if (tree.Selection.GetSelected(out ITreeModel model, out Gtk.TreeIter oiter))
+        {
+            GridEntry propertyItem = store.GetValue(oiter, 0) as GridEntry;
+            if (SelectedGridItemChanged != null)
+                SelectedGridItemChanged(sender, new SelectedGridItemChangedEventArgs(oldSelectedPropertyItem, propertyItem));
+            oldSelectedPropertyItem = propertyItem;
+        }
+    }
+
     private Gtk.TreeIter StoreValue(Gtk.TreeIter? parent, object value)
     {
         if (parent == null)
@@ -260,13 +256,22 @@ internal sealed partial class PropertyGridView
             return store.AppendValues(parent.Value, value);
     }
 
-    public event PropertyValueChangedEventHandler PropertyValueChanged;
-
-    public event SelectedGridItemChangedEventHandler SelectedGridItemChanged;
+    private void Tree_RowActivated(object o, RowActivatedArgs args)
+    {
+        Console.WriteLine(args.Path);
+        if (store.GetIter(out TreeIter iter, args.Path))
+        {
+            if (store.GetValue(iter, 0) is GridEntry ov)
+            {
+                OwnerGrid.self.ShowDescription(ov.Label, ov.Description);
+            }
+        }
+    }
     public class CellRendererExpander : Gtk.CellRendererToggle
     {
-        Pixbuf gonextpixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-next-symbolic.png");
         Pixbuf godownixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-down-symbolic.png");
+
+        Pixbuf gonextpixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-next-symbolic.png");
         public CellRendererExpander(PropertyGridView owner)
         {
 
@@ -291,6 +296,7 @@ internal sealed partial class PropertyGridView
 
             return re;
         }
+
         protected override void OnRender(Context cr, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
         {
             if (this.IsExpander)
@@ -305,10 +311,14 @@ internal sealed partial class PropertyGridView
             }
         }
     }
+
     public class CellRendererProperty : Gtk.CellRendererCombo
     {
-        PropertyGridView owner;
         Gtk.ListStore model = new Gtk.ListStore(typeof(string));
+
+        PropertyGridView owner;
+
+        private GridEntry _value;
         public CellRendererProperty(PropertyGridView owner)
         {
             this.owner = owner;
@@ -319,26 +329,54 @@ internal sealed partial class PropertyGridView
             this.EditingStarted += CellRendererText_EditingStarted;
             this.Edited += CellRendererText_Edited;
         }
-
-        private void CellRendererText_EditingStarted(object o, EditingStartedArgs args)
+        [Property("otext")]
+        public GridEntry OText
         {
-            model.Clear();
-            if (_value.ValueType != null)
+            set
             {
-                if (_value.ValueType.IsEnum)
+                _value = value;
+                if (_value != null)
                 {
-                    string[] keys = Enum.GetNames(_value.ValueType);
-                    foreach (string key in keys)
-                    {
-                        model.AppendValues(key);
-                    }
+                    base.Text = value.Label;
+                    base.Editable = false;
+                    base.Weight = value.Level == 0 ? 900 : 200;
                 }
-                else if (_value.ValueType.Equals(typeof(bool)))
+
+            }
+            get { return _value; }
+        }
+
+        [Property("ovalue")]
+        public GridEntry OValue
+        {
+            set
+            {
+                _value = value;
+                if (_value != null)
                 {
-                    model.AppendValues("False");
-                    model.AppendValues("True");
+                    base.Text = value.Value?.ToString();
+                    base.Editable = value.Editable;
+                    base.Weight = value.Level == 0 ? 900 : 200;
                 }
             }
+            get { return _value; }
+        }
+        protected override void OnRender(Context cr, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
+        {
+            if (this.IsExpander)
+            {
+                if (_value.Level == 0)
+                {
+                    cell_area.X = 30;
+                    background_area.X = 30;
+
+                    cr.Save();
+                    cr.SetSourceColor(new Cairo.Color() { A = 0.5, R = 0.9, G = 0.9, B = 0.9 });
+                    cr.Paint();
+                    cr.Restore();
+                }
+            }
+            base.OnRender(cr, widget, background_area, cell_area, flags);
         }
 
         private void CellRendererText_Edited(object o, EditedArgs args)
@@ -424,54 +462,25 @@ internal sealed partial class PropertyGridView
             }
         }
 
-        private GridEntry _value;
-        [Property("otext")]
-        public GridEntry OText
+        private void CellRendererText_EditingStarted(object o, EditingStartedArgs args)
         {
-            set
+            model.Clear();
+            if (_value.ValueType != null)
             {
-                _value = value;
-                if (_value != null)
+                if (_value.ValueType.IsEnum)
                 {
-                    base.Text = value.Label;
-                    base.Editable = false;
-                    base.Weight = value.Level == 0 ? 900 : 200;
+                    string[] keys = Enum.GetNames(_value.ValueType);
+                    foreach (string key in keys)
+                    {
+                        model.AppendValues(key);
+                    }
                 }
-
-            }
-            get { return _value; }
-        }
-        [Property("ovalue")]
-        public GridEntry OValue
-        {
-            set
-            {
-                _value = value;
-                if (_value != null)
+                else if (_value.ValueType.Equals(typeof(bool)))
                 {
-                    base.Text = value.Value?.ToString();
-                    base.Editable = value.Editable;
-                    base.Weight = value.Level == 0 ? 900 : 200;
+                    model.AppendValues("False");
+                    model.AppendValues("True");
                 }
             }
-            get { return _value; }
-        }
-        protected override void OnRender(Context cr, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
-        {
-            if (this.IsExpander)
-            {
-                if (_value.Level == 0)
-                {
-                    cell_area.X = 30;
-                    background_area.X = 30;
-
-                    cr.Save();
-                    cr.SetSourceColor(new Cairo.Color() { A = 0.5, R = 0.9, G = 0.9, B = 0.9 });
-                    cr.Paint();
-                    cr.Restore();
-                }
-            }
-            base.OnRender(cr, widget, background_area, cell_area, flags);
         }
     }
 }

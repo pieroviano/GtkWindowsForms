@@ -5,22 +5,28 @@ namespace System.Windows.Forms;
 
 internal class RelatedCurrencyManager : CurrencyManager
 {
-    private BindingManagerBase? _parentManager;
 
     private string? _dataField;
 
     private PropertyDescriptor? _fieldInfo;
 
+    private BindingManagerBase? _parentManager;
+
     private static readonly List<BindingManagerBase?> s_ignoreItemChangedTable;
+
+    internal RelatedCurrencyManager(BindingManagerBase? parentManager, string? dataField) : base(null)
+    {
+        Bind(parentManager, dataField);
+    }
 
     static RelatedCurrencyManager()
     {
         s_ignoreItemChangedTable = [];
     }
 
-    internal RelatedCurrencyManager(BindingManagerBase? parentManager, string? dataField) : base(null)
+    public override PropertyDescriptorCollection? GetItemProperties()
     {
-        Bind(parentManager, dataField);
+        return GetItemProperties(null);
     }
 
     internal void Bind(BindingManagerBase? manager, string? dataFieldName)
@@ -51,12 +57,8 @@ internal class RelatedCurrencyManager : CurrencyManager
             listAccessors.CopyTo(propertyDescriptorArray, 1);
         }
         propertyDescriptorArray[0] = _fieldInfo;
-        return _parentManager?.GetItemProperties(propertyDescriptorArray);
-    }
 
-    public override PropertyDescriptorCollection? GetItemProperties()
-    {
-        return GetItemProperties(null);
+        return _parentManager?.GetItemProperties(propertyDescriptorArray);
     }
 
     internal override string? GetListName()
@@ -66,12 +68,14 @@ internal class RelatedCurrencyManager : CurrencyManager
         {
             return listName;
         }
+
         return base.GetListName();
     }
 
     protected internal override string? GetListName(ArrayList? listAccessors)
     {
         listAccessors?.Insert(0, _fieldInfo);
+
         return _parentManager?.GetListName(listAccessors);
     }
 

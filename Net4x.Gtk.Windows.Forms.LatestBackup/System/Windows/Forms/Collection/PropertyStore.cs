@@ -11,13 +11,30 @@ namespace System.Windows.Forms;
 /// It tries to optimize for size first, "get" access second, and
 /// "set" access third.
 /// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
 internal partial class PropertyStore
 {
-    private static int s_currentKey;
-
 
     private IntegerEntry[]? _intEntries;
+
     private ObjectEntry[]? _objEntries;
+
+    private static int s_currentKey;
 
     /// <summary>
     /// Retrieves an integer value from our property list.
@@ -27,6 +44,7 @@ internal partial class PropertyStore
     public bool ContainsInteger(int key)
     {
         GetInteger(key, out bool found);
+
         return found;
     }
 
@@ -38,7 +56,15 @@ internal partial class PropertyStore
     public bool ContainsObject(int key)
     {
         GetObject(key, out bool found);
+
         return found;
+    }
+
+    public bool ContainsObjectThatIsNotNull(int key)
+    {
+        object? entry = GetObject(key, out bool found);
+
+        return found && entry is not null;
     }
 
     /// <summary>
@@ -70,67 +96,8 @@ internal partial class PropertyStore
         }
 
         found = false;
+
         return Color.Empty;
-    }
-
-    /// <summary>
-    /// A wrapper around GetObject designed to reduce the boxing hit.
-    /// </summary>
-    public Padding GetPadding(int key, out bool found)
-    {
-        object? storedObject = GetObject(key, out found);
-        if (found)
-        {
-            if (storedObject is PaddingWrapper wrapper)
-            {
-                return wrapper.Padding;
-            }
-
-            Debug.Assert(storedObject is null, $"Have non-null object that isn't a padding wrapper stored in a padding entry!{Environment.NewLine}Did someone SetObject instead of SetPadding?");
-        }
-
-        found = false;
-        return Padding.Empty;
-    }
-
-    /// <summary>
-    /// A wrapper around GetObject designed to reduce the boxing hit.
-    /// </summary>
-    public Size GetSize(int key, out bool found)
-    {
-        object? storedObject = GetObject(key, out found);
-        if (found)
-        {
-            if (storedObject is SizeWrapper wrapper)
-            {
-                return wrapper.Size;
-            }
-
-            Debug.Assert(storedObject is null, $"Have non-null object that isn't a padding wrapper stored in a padding entry!{Environment.NewLine}Did someone SetObject instead of SetPadding?");
-        }
-
-        found = false;
-        return Size.Empty;
-    }
-
-    /// <summary>
-    /// A wrapper around GetObject designed to reduce the boxing hit.
-    /// </summary>
-    public Rectangle GetRectangle(int key, out bool found)
-    {
-        object? storedObject = GetObject(key, out found);
-        if (found)
-        {
-            if (storedObject is RectangleWrapper wrapper)
-            {
-                return wrapper.Rectangle;
-            }
-
-            Debug.Assert(storedObject is null, $"Have non-null object that isn't a Rectangle wrapper stored in a Rectangle entry!{Environment.NewLine}Did someone SetObject instead of SetRectangle?");
-        }
-
-        found = false;
-        return Rectangle.Empty;
     }
 
     /// <summary>
@@ -191,45 +158,6 @@ internal partial class PropertyStore
     /// This will set value to null and return false if the
     /// list does not contain the given key.
     /// </summary>
-    /// <typeparam name="T">The type of object to retrieve.
-    /// </typeparam>
-    /// <param name="key">The key corresponding to the object in the property list.
-    /// </param>
-    /// <param name="value">Output parameter where the object will be set if found.
-    /// Will be set to null if the key is not present.
-    /// </param>
-    /// <remarks>
-    /// <para>If a null value is set for a given key
-    /// it will return true and a null value.
-    /// </para>
-    /// </remarks>
-    /// <returns>True if an object (including null) is found for the given key; otherwise, false.
-    /// </returns>
-    public bool TryGetObject<T>(int key, out T? value)
-    {
-        object? entry = GetObject(key, out bool found);
-        Debug.Assert(!found || entry is null || entry is T, $"Entry is not of type {typeof(T)}, but of type {entry?.GetType()}");
-        if (typeof(T).IsValueType || typeof(T).IsEnum || typeof(T).IsPrimitive)
-        {
-            value = found && entry is not null ? (T?)entry : default;
-            return found;
-        }
-
-        value = found ? (T?)entry : default;
-        return found;
-    }
-
-    public bool ContainsObjectThatIsNotNull(int key)
-    {
-        object? entry = GetObject(key, out bool found);
-        return found && entry is not null;
-    }
-
-    /// <summary>
-    /// Retrieves an object value from our property list.
-    /// This will set value to null and return false if the
-    /// list does not contain the given key.
-    /// </summary>
     public object? GetObject(int key, out bool found)
     {
         short keyIndex = SplitKey(key, out short element);
@@ -265,35 +193,66 @@ internal partial class PropertyStore
     }
 
     /// <summary>
-    /// Locates the requested entry in our array if entries. This does
-    /// not do the mask check to see if the entry is currently being used,
-    /// but it does locate the entry. If the entry is found, this returns
-    /// true and fills in index and element. If the entry is not found,
-    /// this returns false. If the entry is not found, index will contain
-    /// the insert point at which one would add a new element.
+    /// A wrapper around GetObject designed to reduce the boxing hit.
     /// </summary>
-    private bool LocateIntegerEntry(short entryKey, out int index)
+    public Padding GetPadding(int key, out bool found)
     {
+        object? storedObject = GetObject(key, out found);
+        if (found)
+        {
+            if (storedObject is PaddingWrapper wrapper)
+            {
+                return wrapper.Padding;
+            }
 
-        index = 0;
-        return false;
+            Debug.Assert(storedObject is null, $"Have non-null object that isn't a padding wrapper stored in a padding entry!{Environment.NewLine}Did someone SetObject instead of SetPadding?");
+        }
 
+        found = false;
+
+        return Padding.Empty;
     }
 
     /// <summary>
-    /// Locates the requested entry in our array if entries. This does
-    /// not do the mask check to see if the entry is currently being used,
-    /// but it does locate the entry. If the entry is found, this returns
-    /// true and fills in index and element. If the entry is not found,
-    /// this returns false. If the entry is not found, index will contain
-    /// the insert point at which one would add a new element.
+    /// A wrapper around GetObject designed to reduce the boxing hit.
     /// </summary>
-    private bool LocateObjectEntry(short entryKey, out int index)
+    public Rectangle GetRectangle(int key, out bool found)
     {
+        object? storedObject = GetObject(key, out found);
+        if (found)
+        {
+            if (storedObject is RectangleWrapper wrapper)
+            {
+                return wrapper.Rectangle;
+            }
 
-        index = 0;
-        return false;
+            Debug.Assert(storedObject is null, $"Have non-null object that isn't a Rectangle wrapper stored in a Rectangle entry!{Environment.NewLine}Did someone SetObject instead of SetRectangle?");
+        }
 
+        found = false;
+
+        return Rectangle.Empty;
+    }
+
+    /// <summary>
+    /// A wrapper around GetObject designed to reduce the boxing hit.
+    /// </summary>
+    public Size GetSize(int key, out bool found)
+    {
+        object? storedObject = GetObject(key, out found);
+        if (found)
+        {
+            if (storedObject is SizeWrapper wrapper)
+            {
+                return wrapper.Size;
+            }
+
+            Debug.Assert(storedObject is null, $"Have non-null object that isn't a padding wrapper stored in a padding entry!{Environment.NewLine}Did someone SetObject instead of SetPadding?");
+        }
+
+        found = false;
+
+        return Size.Empty;
     }
 
     /// <summary>
@@ -396,72 +355,6 @@ internal partial class PropertyStore
             {
                 Debug.Assert(storedObject is null, "object should either be null or ColorWrapper"); // could someone have SetObject to this key behind our backs?
                 SetObject(key, new ColorWrapper(value));
-            }
-        }
-    }
-
-    public void SetPadding(int key, Padding value)
-    {
-        object? storedObject = GetObject(key, out bool found);
-        if (!found)
-        {
-            SetObject(key, new PaddingWrapper(value));
-        }
-        else
-        {
-            if (storedObject is PaddingWrapper wrapper)
-            {
-                // re-using the wrapper reduces the boxing hit.
-                wrapper.Padding = value;
-            }
-            else
-            {
-                Debug.Assert(storedObject is null, "object should either be null or PaddingWrapper"); // could someone have SetObject to this key behind our backs?
-                SetObject(key, new PaddingWrapper(value));
-            }
-        }
-    }
-
-    public void SetRectangle(int key, Rectangle value)
-    {
-        object? storedObject = GetObject(key, out bool found);
-        if (!found)
-        {
-            SetObject(key, new RectangleWrapper(value));
-        }
-        else
-        {
-            if (storedObject is RectangleWrapper wrapper)
-            {
-                // re-using the wrapper reduces the boxing hit.
-                wrapper.Rectangle = value;
-            }
-            else
-            {
-                Debug.Assert(storedObject is null, "object should either be null or RectangleWrapper"); // could someone have SetObject to this key behind our backs?
-                SetObject(key, new RectangleWrapper(value));
-            }
-        }
-    }
-
-    public void SetSize(int key, Size value)
-    {
-        object? storedObject = GetObject(key, out bool found);
-        if (!found)
-        {
-            SetObject(key, new SizeWrapper(value));
-        }
-        else
-        {
-            if (storedObject is SizeWrapper wrapper)
-            {
-                // re-using the wrapper reduces the boxing hit.
-                wrapper.Size = value;
-            }
-            else
-            {
-                Debug.Assert(storedObject is null, "object should either be null or SizeWrapper"); // could someone have SetObject to this key behind our backs?
-                SetObject(key, new SizeWrapper(value));
             }
         }
     }
@@ -588,12 +481,147 @@ internal partial class PropertyStore
         _objEntries[index].Mask = (short)((ushort)(_objEntries[index].Mask) | (1 << element));
     }
 
+    public void SetPadding(int key, Padding value)
+    {
+        object? storedObject = GetObject(key, out bool found);
+        if (!found)
+        {
+            SetObject(key, new PaddingWrapper(value));
+        }
+        else
+        {
+            if (storedObject is PaddingWrapper wrapper)
+            {
+                // re-using the wrapper reduces the boxing hit.
+                wrapper.Padding = value;
+            }
+            else
+            {
+                Debug.Assert(storedObject is null, "object should either be null or PaddingWrapper"); // could someone have SetObject to this key behind our backs?
+                SetObject(key, new PaddingWrapper(value));
+            }
+        }
+    }
+
+    public void SetRectangle(int key, Rectangle value)
+    {
+        object? storedObject = GetObject(key, out bool found);
+        if (!found)
+        {
+            SetObject(key, new RectangleWrapper(value));
+        }
+        else
+        {
+            if (storedObject is RectangleWrapper wrapper)
+            {
+                // re-using the wrapper reduces the boxing hit.
+                wrapper.Rectangle = value;
+            }
+            else
+            {
+                Debug.Assert(storedObject is null, "object should either be null or RectangleWrapper"); // could someone have SetObject to this key behind our backs?
+                SetObject(key, new RectangleWrapper(value));
+            }
+        }
+    }
+
+    public void SetSize(int key, Size value)
+    {
+        object? storedObject = GetObject(key, out bool found);
+        if (!found)
+        {
+            SetObject(key, new SizeWrapper(value));
+        }
+        else
+        {
+            if (storedObject is SizeWrapper wrapper)
+            {
+                // re-using the wrapper reduces the boxing hit.
+                wrapper.Size = value;
+            }
+            else
+            {
+                Debug.Assert(storedObject is null, "object should either be null or SizeWrapper"); // could someone have SetObject to this key behind our backs?
+                SetObject(key, new SizeWrapper(value));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Retrieves an object value from our property list.
+    /// This will set value to null and return false if the
+    /// list does not contain the given key.
+    /// </summary>
+    /// <typeparam name="T">The type of object to retrieve.
+    /// </typeparam>
+    /// <param name="key">The key corresponding to the object in the property list.
+    /// </param>
+    /// <param name="value">Output parameter where the object will be set if found.
+    /// Will be set to null if the key is not present.
+    /// </param>
+    /// <remarks>
+    /// <para>If a null value is set for a given key
+    /// it will return true and a null value.
+    /// </para>
+    /// </remarks>
+    /// <returns>True if an object (including null) is found for the given key; otherwise, false.
+    /// </returns>
+    public bool TryGetObject<T>(int key, out T? value)
+    {
+        object? entry = GetObject(key, out bool found);
+        Debug.Assert(!found || entry is null || entry is T, $"Entry is not of type {typeof(T)}, but of type {entry?.GetType()}");
+        if (typeof(T).IsValueType || typeof(T).IsEnum || typeof(T).IsPrimitive)
+        {
+            value = found && entry is not null ? (T?)entry : default;
+            return found;
+        }
+
+        value = found ? (T?)entry : default;
+
+        return found;
+    }
+
+    /// <summary>
+    /// Locates the requested entry in our array if entries. This does
+    /// not do the mask check to see if the entry is currently being used,
+    /// but it does locate the entry. If the entry is found, this returns
+    /// true and fills in index and element. If the entry is not found,
+    /// this returns false. If the entry is not found, index will contain
+    /// the insert point at which one would add a new element.
+    /// </summary>
+    private bool LocateIntegerEntry(short entryKey, out int index)
+    {
+
+        index = 0;
+
+        return false;
+
+    }
+
+    /// <summary>
+    /// Locates the requested entry in our array if entries. This does
+    /// not do the mask check to see if the entry is currently being used,
+    /// but it does locate the entry. If the entry is found, this returns
+    /// true and fills in index and element. If the entry is not found,
+    /// this returns false. If the entry is not found, index will contain
+    /// the insert point at which one would add a new element.
+    /// </summary>
+    private bool LocateObjectEntry(short entryKey, out int index)
+    {
+
+        index = 0;
+
+        return false;
+
+    }
+
     /// <summary>
     /// Takes the given key and splits it into an index and an element.
     /// </summary>
     private static short SplitKey(int key, out short element)
     {
         element = (short)(key & 0x00000003);
+
         return (short)(key & 0xFFFFFFFC);
     }
 
@@ -616,6 +644,7 @@ internal partial class PropertyStore
         public int Value2;
 
         public int Value3;
+
         public int Value4;
     }
 
@@ -638,6 +667,7 @@ internal partial class PropertyStore
         public object? Value2;
 
         public object? Value3;
+
         public object? Value4;
     }
 }

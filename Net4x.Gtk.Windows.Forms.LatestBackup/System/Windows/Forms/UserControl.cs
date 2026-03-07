@@ -10,7 +10,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Linq;
 
-
 namespace System.Windows.Forms
 {
     /// <summary>
@@ -25,15 +24,12 @@ namespace System.Windows.Forms
     {
 
         public readonly UserControlBase self = new UserControlBase();
-
-        public override object GtkControl => self;
+        private ControlCollection _controls;
 
         private Gtk.Overlay contaner;
-        private ControlCollection _controls;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.UserControl" /> class.
-        /// </summary>
+
+        public override event EventHandler Load;
+
         public UserControl() : base()
         {
             contaner = new Gtk.Overlay();
@@ -50,6 +46,15 @@ namespace System.Windows.Forms
             self.Override.Paint += Override_Paint;
             self.ParentSet += Self_ParentSet;
         }
+
+        public System.Drawing.SizeF AutoScaleDimensions { get; set; }
+
+        public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
+
+        public override ControlCollection Controls => _controls;
+
+        public override object GtkControl => self;
+
         public override Padding Padding
         {
             get => base.Padding;
@@ -62,9 +67,26 @@ namespace System.Windows.Forms
                 contaner.MarginBottom = value.Bottom;
             }
         }
-        private void Self_ParentSet(object o, ParentSetArgs args)
+        public override void ResumeLayout(bool performLayout)
         {
-            OnParentChanged(EventArgs.Empty);
+
+        }
+
+        public override void SuspendLayout()
+        {
+
+        }
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
+
+        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        {
+        }
+
+        protected override void OnParentChanged(EventArgs e)
+        {
         }
 
         private void Override_Paint(object sender, PaintEventArgs e)
@@ -72,31 +94,9 @@ namespace System.Windows.Forms
             OnPaint(e);
         }
 
-
-        public override event EventHandler Load;
-
-        public System.Drawing.SizeF AutoScaleDimensions { get; set; }
-
-        public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
-        public override ControlCollection Controls => _controls;
-
-        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        private void Self_ParentSet(object o, ParentSetArgs args)
         {
-        }
-        protected override void OnParentChanged(EventArgs e)
-        {
-        }
-        public override void SuspendLayout()
-        {
-
-        }
-        public override void ResumeLayout(bool performLayout)
-        {
-
-        }
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
+            OnParentChanged(EventArgs.Empty);
         }
     }
 }

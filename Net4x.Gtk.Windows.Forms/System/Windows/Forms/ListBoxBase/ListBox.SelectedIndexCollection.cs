@@ -12,12 +12,38 @@ namespace System.Windows.Forms
     /// <filterpriority>
     /// 1
     /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
+    /// Represents a Windows control to display a list of items.
+    /// </summary>
+    /// <filterpriority>
+    /// 1
+    /// </filterpriority>
     public partial class ListBox
     {
-        /// <summary>
-        /// Represents the collection containing the indexes to the selected items in a
-        /// <see cref="System.Windows.Forms.ListBox" />
-        /// </summary>
         public partial class SelectedIndexCollection : IList
         {
             private readonly ListBox _owner;
@@ -39,15 +65,7 @@ namespace System.Windows.Forms
                 }
             }
 
-            object ICollection.SyncRoot
-            {
-                get
-                {
-                    return this;
-                }
-            }
-
-            bool ICollection.IsSynchronized
+            public bool IsReadOnly
             {
                 get
                 {
@@ -63,7 +81,7 @@ namespace System.Windows.Forms
                 }
             }
 
-            public bool IsReadOnly
+            bool ICollection.IsSynchronized
             {
                 get
                 {
@@ -71,21 +89,90 @@ namespace System.Windows.Forms
                 }
             }
 
+            object ICollection.SyncRoot
+            {
+                get
+                {
+                    return this;
+                }
+            }
+
+            /// <summary>
+            /// This is the item array that stores our data.  We share this backing store
+            /// with the main object collection.
+            /// </summary>
+            private ItemArray InnerArray
+            {
+                get
+                {
+                    _owner.SelectedItems.EnsureUpToDate();
+
+                    return ((ObjectCollection)_owner.Items).InnerArray;
+                }
+            }
+
+            /// <summary>
+            /// Retrieves the specified selected item.
+            /// </summary>
+            public int this[int index]
+            {
+                get
+                {
+                    object identifier = InnerArray.GetEntryObject(index, SelectedObjectCollection.SelectedObjectMask);
+
+                    return InnerArray.IndexOf(identifier);
+                }
+            }
+
+            object? IList.this[int index]
+            {
+                get
+                {
+                    return this[index];
+                }
+                set
+                {
+                    throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
+                }
+            }
+
+            public void Add(int index)
+            {
+                if (_owner != null)
+                {
+                    ObjectCollection items = _owner.Items;
+                    if (items != null)
+                    {
+                        if (index != -1 && !Contains(index))
+                        {
+                            _owner.SetSelected(index, true);
+                        }
+                    }
+                }
+            }
+
+            public void Clear()
+            {
+                _owner?.ClearSelected();
+            }
+
             public bool Contains(int selectedIndex)
             {
                 return IndexOf(selectedIndex) != -1;
             }
 
-            bool IList.Contains(object? selectedIndex)
+            public void CopyTo(Array destination, int index)
             {
-                if (selectedIndex is int selectedIndexAsInt)
+                int cnt = Count;
+                for (int i = 0; i < cnt; i++)
                 {
-                    return Contains(selectedIndexAsInt);
+                    destination.SetValue(this[i], i + index);
                 }
-                else
-                {
-                    return false;
-                }
+            }
+
+            public IEnumerator GetEnumerator()
+            {
+                return new SelectedIndexEnumerator(this);
             }
 
             public int IndexOf(int selectedIndex)
@@ -104,109 +191,6 @@ namespace System.Windows.Forms
                 return -1;
             }
 
-            int IList.IndexOf(object? selectedIndex)
-            {
-                if (selectedIndex is int selectedIndexAsInt)
-                {
-                    return IndexOf(selectedIndexAsInt);
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-
-            int IList.Add(object? value)
-            {
-                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
-            }
-
-            void IList.Clear()
-            {
-                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
-            }
-
-            void IList.Insert(int index, object? value)
-            {
-                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
-            }
-
-            void IList.Remove(object? value)
-            {
-                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
-            }
-
-            void IList.RemoveAt(int index)
-            {
-                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
-            }
-
-            /// <summary>
-            /// Retrieves the specified selected item.
-            /// </summary>
-            public int this[int index]
-            {
-                get
-                {
-                    object identifier = InnerArray.GetEntryObject(index, SelectedObjectCollection.SelectedObjectMask);
-                    return InnerArray.IndexOf(identifier);
-                }
-            }
-
-            object? IList.this[int index]
-            {
-                get
-                {
-                    return this[index];
-                }
-                set
-                {
-                    throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
-                }
-            }
-
-            /// <summary>
-            /// This is the item array that stores our data.  We share this backing store
-            /// with the main object collection.
-            /// </summary>
-            private ItemArray InnerArray
-            {
-                get
-                {
-                    _owner.SelectedItems.EnsureUpToDate();
-                    return ((ObjectCollection)_owner.Items).InnerArray;
-                }
-            }
-
-            public void CopyTo(Array destination, int index)
-            {
-                int cnt = Count;
-                for (int i = 0; i < cnt; i++)
-                {
-                    destination.SetValue(this[i], i + index);
-                }
-            }
-
-            public void Clear()
-            {
-                _owner?.ClearSelected();
-            }
-
-            public void Add(int index)
-            {
-                if (_owner != null)
-                {
-                    ObjectCollection items = _owner.Items;
-                    if (items != null)
-                    {
-                        if (index != -1 && !Contains(index))
-                        {
-                            _owner.SetSelected(index, true);
-                        }
-                    }
-                }
-            }
-
             public void Remove(int index)
             {
                 if (_owner != null)
@@ -222,9 +206,53 @@ namespace System.Windows.Forms
                 }
             }
 
-            public IEnumerator GetEnumerator()
+            int IList.Add(object? value)
             {
-                return new SelectedIndexEnumerator(this);
+                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
+            }
+
+            void IList.Clear()
+            {
+                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
+            }
+
+            bool IList.Contains(object? selectedIndex)
+            {
+                if (selectedIndex is int selectedIndexAsInt)
+                {
+                    return Contains(selectedIndexAsInt);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            int IList.IndexOf(object? selectedIndex)
+            {
+                if (selectedIndex is int selectedIndexAsInt)
+                {
+                    return IndexOf(selectedIndexAsInt);
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            void IList.Insert(int index, object? value)
+            {
+                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
+            }
+
+            void IList.Remove(object? value)
+            {
+                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
+            }
+
+            void IList.RemoveAt(int index)
+            {
+                throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
             }
         }
     }

@@ -11,25 +11,29 @@ namespace System.Drawing.Imaging
     {
         private Guid _clsid;
 
-        private Guid _formatID;
-
         private string _codecName;
 
         private string _dllName;
 
-        private string _formatDescription;
-
         private string _filenameExtension;
-
-        private string _mimeType;
 
         private ImageCodecFlags _flags;
 
-        private int _version;
+        private string _formatDescription;
+
+        private Guid _formatID;
+
+        private string _mimeType;
+
+        private byte[][] _signatureMasks;
 
         private byte[][] _signaturePatterns;
 
-        private byte[][] _signatureMasks;
+        private int _version;
+
+        internal ImageCodecInfo()
+        {
+        }
 
         /// <summary>
         /// Gets or sets a
@@ -47,6 +51,93 @@ namespace System.Drawing.Imaging
             set
             {
                 _clsid = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a string that contains the name of the codec.
+        /// </summary>
+        /// <returns>A string that contains the name of the codec.
+        /// </returns>
+        public string CodecName
+        {
+            get
+            {
+                return _codecName;
+            }
+            set
+            {
+                _codecName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets string that contains the path name of the DLL that holds the codec. If the codec is not in a DLL, this pointer is
+        /// <see langword="null" />.
+        /// </summary>
+        /// <returns>A string that contains the path name of the DLL that holds the codec.
+        /// </returns>
+        public string DllName
+        {
+            get
+            {
+                return _dllName;
+            }
+            set
+            {
+                _dllName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets string that contains the file name extension(s) used in the codec. The extensions are separated by semicolons.
+        /// </summary>
+        /// <returns>A string that contains the file name extension(s) used in the codec.
+        /// </returns>
+        public string FilenameExtension
+        {
+            get
+            {
+                return _filenameExtension;
+            }
+            set
+            {
+                _filenameExtension = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets 32-bit value used to store additional information about the codec. This property returns a combination of flags from the
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecFlags" /> enumeration.
+        /// </summary>
+        /// <returns>A 32-bit value used to store additional information about the codec.
+        /// </returns>
+        public ImageCodecFlags Flags
+        {
+            get
+            {
+                return _flags;
+            }
+            set
+            {
+                _flags = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a string that describes the codec's file format.
+        /// </summary>
+        /// <returns>A string that describes the codec's file format.
+        /// </returns>
+        public string FormatDescription
+        {
+            get
+            {
+                return _formatDescription;
+            }
+            set
+            {
+                _formatDescription = value;
             }
         }
 
@@ -70,77 +161,6 @@ namespace System.Drawing.Imaging
         }
 
         /// <summary>
-        /// Gets or sets a string that contains the name of the codec.
-        /// </summary>
-        /// <returns>A string that contains the name of the codec.
-        /// </returns>
-        public string CodecName
-        {
-            get
-            {
-                return _codecName;
-            }
-            set
-            {
-                _codecName = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets string that contains the path name of the DLL that holds the codec. If the codec is not in a DLL, this pointer is null.
-        /// </summary>
-        /// <returns>A string that contains the path name of the DLL that holds the codec.
-        /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public string DllName
-        {
-            get
-            {
-                return _dllName;
-            }
-            set
-            {
-                _dllName = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a string that describes the codec's file format.
-        /// </summary>
-        /// <returns>A string that describes the codec's file format.
-        /// </returns>
-        public string FormatDescription
-        {
-            get
-            {
-                return _formatDescription;
-            }
-            set
-            {
-                _formatDescription = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets string that contains the file name extension(s) used in the codec. The extensions are separated by semicolons.
-        /// </summary>
-        /// <returns>A string that contains the file name extension(s) used in the codec.
-        /// </returns>
-        public string FilenameExtension
-        {
-            get
-            {
-                return _filenameExtension;
-            }
-            set
-            {
-                _filenameExtension = value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets a string that contains the codec's Multipurpose Internet Mail Extensions (MIME) type.
         /// </summary>
         /// <returns>A string that contains the codec's Multipurpose Internet Mail Extensions (MIME) type.
@@ -158,37 +178,20 @@ namespace System.Drawing.Imaging
         }
 
         /// <summary>
-        /// Gets or sets 32-bit value used to store additional information about the codec. This property returns a combination of flags from the
-        /// <see cref="T:System.Drawing.Imaging.ImageCodecFlags" /> enumeration.
+        /// Gets or sets a two dimensional array of bytes that can be used as a filter.
         /// </summary>
-        /// <returns>A 32-bit value used to store additional information about the codec.
+        /// <returns>A two dimensional array of bytes that can be used as a filter.
         /// </returns>
-        public ImageCodecFlags Flags
+        [CLSCompliant(false)]
+        public byte[][] SignatureMasks
         {
             get
             {
-                return _flags;
+                return _signatureMasks;
             }
             set
             {
-                _flags = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the version number of the codec.
-        /// </summary>
-        /// <returns>The version number of the codec.
-        /// </returns>
-        public int Version
-        {
-            get
-            {
-                return _version;
-            }
-            set
-            {
-                _version = value;
+                _signatureMasks = value;
             }
         }
 
@@ -211,39 +214,30 @@ namespace System.Drawing.Imaging
         }
 
         /// <summary>
-        /// Gets or sets a two dimensional array of bytes that can be used as a filter.
+        /// Gets or sets the version number of the codec.
         /// </summary>
-        /// <returns>A two dimensional array of bytes that can be used as a filter.
+        /// <returns>The version number of the codec.
         /// </returns>
-        [CLSCompliant(false)]
-        public byte[][] SignatureMasks
+        public int Version
         {
             get
             {
-                return _signatureMasks;
+                return _version;
             }
             set
             {
-                _signatureMasks = value;
+                _version = value;
             }
-        }
-
-        internal ImageCodecInfo()
-        {
         }
 
         /// <summary>
         /// Returns an array of
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> objects that contain information about the image decoders built into GDI+.
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> objects that contain information about the image decoders built into GDI+.
         /// </summary>
-        /// <returns>
-        /// An array of
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> objects. Each
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> object in the array contains information about one of the built-in image decoders.
+        /// <returns>An array of
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> objects. Each
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> object in the array contains information about one of the built-in image decoders.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public static ImageCodecInfo[] GetImageDecoders()
         {
 
@@ -253,16 +247,12 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns an array of
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> objects that contain information about the image encoders built into GDI+.
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> objects that contain information about the image encoders built into GDI+.
         /// </summary>
-        /// <returns>
-        /// An array of
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> objects. Each
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> object in the array contains information about one of the built-in image encoders.
+        /// <returns>An array of
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> objects. Each
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> object in the array contains information about one of the built-in image encoders.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public static ImageCodecInfo[] GetImageEncoders()
         {
 
@@ -273,6 +263,7 @@ namespace System.Drawing.Imaging
         private static ImageCodecInfo[] ConvertFromMemory(IntPtr memoryStart, int numCodecs)
         {
             ImageCodecInfo[] array = new ImageCodecInfo[numCodecs];
+
             return array;
         }
     }

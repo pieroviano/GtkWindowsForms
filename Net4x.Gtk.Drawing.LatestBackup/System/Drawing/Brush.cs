@@ -28,14 +28,18 @@ namespace System.Drawing
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="System.Drawing.Brush" /> object.
+        /// <see cref="T:System.Drawing.Brush" /> object.
         /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
-        /// </PermissionSet>
         public void Dispose()
+        {
+        }
+
+        /// <summary>
+        /// In a derived class, sets a reference to a GDI+ brush object.
+        /// </summary>
+        /// <param name="brush">A pointer to the GDI+ brush object.
+        /// </param>
+        protected internal void SetNativeBrush(IntPtr brush)
         {
         }
 
@@ -48,22 +52,6 @@ namespace System.Drawing
         /// <see langword="false" /> to release only unmanaged resources.
         /// </param>
         protected virtual void Dispose(bool disposing)
-        {
-        }
-
-        /// <summary>
-        /// Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.
-        /// </summary>
-        ~Brush()
-        {
-        }
-
-        /// <summary>
-        /// In a derived class, sets a reference to a GDI+ brush object.
-        /// </summary>
-        /// <param name="brush">A pointer to the GDI+ brush object.
-        /// </param>
-        protected internal void SetNativeBrush(IntPtr brush)
         {
         }
     }

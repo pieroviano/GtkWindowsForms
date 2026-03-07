@@ -17,64 +17,37 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class TreeViewEventArgs : EventArgs
     {
+        readonly TreeViewAction action = TreeViewAction.Unknown;
 
         readonly TreeNode node;
-        readonly TreeViewAction action = TreeViewAction.Unknown;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.TreeViewEventArgs" /> class for the specified tree node.
-        /// </summary>
-        /// <param name="node">The
-        /// <see cref="System.Windows.Forms.TreeNode" /> that the event is responding to.
-        /// </param>
+
         public TreeViewEventArgs(TreeNode node)
         {
             this.node = node;
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.TreeViewEventArgs" /> class for the specified tree node and with the specified type of action that raised the event.
-        /// </summary>
-        /// <param name="node">The
-        /// <see cref="System.Windows.Forms.TreeNode" /> that the event is responding to.
-        /// </param>
-        /// <param name="action">The type of
-        /// <see cref="System.Windows.Forms.TreeViewAction" /> that raised the event.
-        /// </param>
+
         public TreeViewEventArgs(TreeNode node, TreeViewAction action)
         {
             this.node = node;
             this.action = action;
         }
-        /// <summary>
-        /// Gets the tree node that has been checked, expanded, collapsed, or selected.
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Windows.Forms.TreeNode" /> that has been checked, expanded, collapsed, or selected.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public TreeNode Node
-        {
-            get
-            {
-                return node;
-            }
-        }
 
         /// <summary>
-        /// Gets the type of action that raised the event.
+        /// An event specific action-flag.
         /// </summary>
-        /// <returns>The type of
-        /// <see cref="System.Windows.Forms.TreeViewAction" /> that raised the event.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public TreeViewAction Action
         {
             get
             {
                 return action;
+            }
+        }
+
+        public TreeNode Node
+        {
+            get
+            {
+                return node;
             }
         }
     }

@@ -7,28 +7,28 @@ namespace System.Drawing.Imaging
     {
         public Guid Clsid;
 
-        public Guid FormatID;
-
         public IntPtr CodecName;
 
         public IntPtr DllName;
 
-        public IntPtr FormatDescription;
-
         public IntPtr FilenameExtension;
-
-        public IntPtr MimeType;
 
         public int Flags;
 
-        public int Version;
+        public IntPtr FormatDescription;
+
+        public Guid FormatID;
+
+        public IntPtr MimeType;
 
         public int SigCount;
 
-        public int SigSize;
+        public IntPtr SigMask;
 
         public IntPtr SigPattern;
 
-        public IntPtr SigMask;
+        public int SigSize;
+
+        public int Version;
     }
 }

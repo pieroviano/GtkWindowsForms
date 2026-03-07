@@ -22,6 +22,7 @@ namespace System.Drawing.Printing
         {
             double fromUnitsPerDisplay = UnitsPerDisplay(fromUnit);
             double toUnitsPerDisplay = UnitsPerDisplay(toUnit);
+
             return value * toUnitsPerDisplay / fromUnitsPerDisplay;
         }
 

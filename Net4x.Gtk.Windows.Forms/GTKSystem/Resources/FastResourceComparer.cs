@@ -8,27 +8,6 @@ namespace GtkSystem.Resources
     {
         internal static readonly FastResourceComparer Default = new FastResourceComparer();
 
-        public int GetHashCode(object key)
-        {
-            string key2 = (string)key;
-            return HashFunction(key2);
-        }
-
-        public int GetHashCode([DisallowNull] string key)
-        {
-            return HashFunction(key);
-        }
-
-        internal static int HashFunction(string key)
-        {
-            uint num = 5381u;
-            for (int i = 0; i < key.Length; i++)
-            {
-                num = ((num << 5) + num) ^ key[i];
-            }
-            return (int)num;
-        }
-
         public int Compare(object a, object b)
         {
             if (a == b)
@@ -37,28 +16,13 @@ namespace GtkSystem.Resources
             }
             string strA = (string)a;
             string strB = (string)b;
+
             return string.CompareOrdinal(strA, strB);
         }
 
         public int Compare(string a, string b)
         {
             return string.CompareOrdinal(a, b);
-        }
-
-        public bool Equals(string a, string b)
-        {
-            return string.Equals(a, b);
-        }
-
-        public new bool Equals(object a, object b)
-        {
-            if (a == b)
-            {
-                return true;
-            }
-            string a2 = (string)a;
-            string b2 = (string)b;
-            return string.Equals(a2, b2);
         }
 
         public unsafe static int CompareOrdinal(string a, byte[] bytes, int bCharLength)
@@ -92,12 +56,42 @@ namespace GtkSystem.Resources
             {
                 return num2;
             }
+
             return a.Length - bCharLength;
         }
 
         public static int CompareOrdinal(byte[] bytes, int aCharLength, string b)
         {
             return -CompareOrdinal(b, bytes, aCharLength);
+        }
+
+        public bool Equals(string a, string b)
+        {
+            return string.Equals(a, b);
+        }
+
+        public new bool Equals(object a, object b)
+        {
+            if (a == b)
+            {
+                return true;
+            }
+            string a2 = (string)a;
+            string b2 = (string)b;
+
+            return string.Equals(a2, b2);
+        }
+
+        public int GetHashCode(object key)
+        {
+            string key2 = (string)key;
+
+            return HashFunction(key2);
+        }
+
+        public int GetHashCode([DisallowNull] string key)
+        {
+            return HashFunction(key);
         }
 
         internal static unsafe int CompareOrdinal(byte* a, int byteLen, string b)
@@ -118,7 +112,19 @@ namespace GtkSystem.Resources
             {
                 return num;
             }
+
             return byteLen - b.Length * 2;
+        }
+
+        internal static int HashFunction(string key)
+        {
+            uint num = 5381u;
+            for (int i = 0; i < key.Length; i++)
+            {
+                num = ((num << 5) + num) ^ key[i];
+            }
+
+            return (int)num;
         }
     }
 }

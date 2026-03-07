@@ -14,38 +14,14 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class PropertyTabChangedEventArgs : EventArgs
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.PropertyTabChangedEventArgs" /> class.
-        /// </summary>
-        /// <param name="oldTab">The Previously selected property tab.
-        /// </param>
-        /// <param name="newTab">The newly selected property tab.
-        /// </param>
         public PropertyTabChangedEventArgs(PropertyTab? oldTab, PropertyTab? newTab)
         {
             OldTab = oldTab;
             NewTab = newTab;
         }
-        /// <summary>
-        /// Gets the old
-        /// <see cref="System.Windows.Forms.Design.PropertyTab" /> selected.
-        /// </summary>
-        /// <returns>The old
-        /// <see cref="System.Windows.Forms.Design.PropertyTab" /> that was selected.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public PropertyTab? OldTab { get; }
-        /// <summary>
-        /// Gets the new
-        /// <see cref="System.Windows.Forms.Design.PropertyTab" /> selected.
-        /// </summary>
-        /// <returns>The newly selected
-        /// <see cref="System.Windows.Forms.Design.PropertyTab" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public PropertyTab? NewTab { get; }
+
+        public PropertyTab? OldTab { get; }
     }
 }

@@ -10,6 +10,8 @@ namespace System.Resources
     /// <summary>
     /// Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
     /// </summary>
+    /// Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+    /// </summary>
     public partial class ResXResourceReader
     {
         private sealed class ReaderAliasResolver : IAliasResolver
@@ -21,6 +23,14 @@ namespace System.Resources
                 _cachedAliases = new Hashtable();
             }
 
+            public void PushAlias(string alias, AssemblyName name)
+            {
+                if (_cachedAliases != null && !string.IsNullOrEmpty(alias))
+                {
+                    _cachedAliases[alias] = name;
+                }
+            }
+
             public AssemblyName ResolveAlias(string alias)
             {
                 AssemblyName result = null;
@@ -30,14 +40,6 @@ namespace System.Resources
                 }
 
                 return result;
-            }
-
-            public void PushAlias(string alias, AssemblyName name)
-            {
-                if (_cachedAliases != null && !string.IsNullOrEmpty(alias))
-                {
-                    _cachedAliases[alias] = name;
-                }
             }
         }
     }

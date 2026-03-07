@@ -15,196 +15,60 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     {
-        // format， union of indexes at all levels：0,1,2,3....
-
-        private string index = "";
-        /// <summary>
-        /// Gets the position of the tree node in the tree node collection.
-        /// </summary>
-        /// <returns>A zero-based index value that represents the position of the tree node in the
-        /// <see cref="System.Windows.Forms.TreeNode.Nodes" /> collection.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public string Index { get { return index; } internal set { index = value ?? ""; } }
 
         internal Gtk.TreeIter TreeIter = Gtk.TreeIter.Zero;
 
-        private TreeNode parent;
         internal TreeView treeView;
-        /// <summary>
-        /// Gets the parent tree view that the tree node is assigned to.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.TreeView" /> that represents the parent tree view that the tree node is assigned to, or null if the node has not been assigned to a tree view.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        internal TreeView TreeView
-        {
-            get
-            {
-                if (treeView == null)
-                { treeView = this.parent?.TreeView; }
-                return treeView;
-            }
-        }
+
+        private int _imageIndex;
+
+        private string _imageKey;
+
+        private bool _IsChecked;
+
+        private bool _IsSelected;
+
+        private string _text;
+
+        // format， union of indexes at all levels：0,1,2,3....
+
+        private string index = "";
 
         private TreeNodeCollection nodes;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.TreeNode" /> class.
-        /// </summary>
+
+        private TreeNode parent;
         public TreeNode()
         {
             nodes = new TreeNodeCollection(this);
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.TreeNode" /> class with the specified label text.
-        /// </summary>
-        /// <param name="text">The label
-        /// <see cref="System.Windows.Forms.TreeNode.Text" /> of the new tree node.
-        /// </param>
+
         public TreeNode(string text) : this()
         {
             Text = text;
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.TreeNode" /> class with the specified label text and child tree nodes.
-        /// </summary>
-        /// <param name="text">The label
-        /// <see cref="System.Windows.Forms.TreeNode.Text" /> of the new tree node.
-        /// </param>
-        /// <param name="children">An array of child
-        /// <see cref="System.Windows.Forms.TreeNode" /> objects.
-        /// </param>
+
         public TreeNode(string text, TreeNode[] children) : this()
         {
             Text = text;
             Nodes.AddRange(children);
         }
+
         public TreeNode(TreeView view) : this()
         {
             this.treeView = view;
         }
+
         public TreeNode(TreeNode node) : this()
         {
             this.parent = node;
             this.treeView = node.TreeView;
         }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.TreeNode" /> class with the specified label text and images to display when the tree node is in a selected and unselected state.
-        /// </summary>
-        /// <param name="text">The label
-        /// <see cref="System.Windows.Forms.TreeNode.Text" /> of the new tree node.
-        /// </param>
-        /// <param name="imageIndex">The index value of
-        /// <see cref="System.Drawing.Image" /> to display when the tree node is unselected.
-        /// </param>
-        /// <param name="selectedImageIndex">The index value of
-        /// <see cref="System.Drawing.Image" /> to display when the tree node is selected.
-        /// </param>
+
         public TreeNode(string text, int pImageIndex, int pSelectedImageIndex) : this(text)
         {
             ImageIndex = pImageIndex;
             SelectedImageIndex = pSelectedImageIndex;
         }
-        /// <summary>
-        /// Gets the collection of
-        /// <see cref="System.Windows.Forms.TreeNode" /> objects assigned to the current tree node.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.TreeNodeCollection" /> that represents the tree nodes assigned to the current tree node.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public TreeNodeCollection Nodes
-        {
-            get
-            {
-                return nodes;
-            }
-        }
-        /// <summary>
-        /// Gets the parent tree node of the current tree node.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.Windows.Forms.TreeNode" /> that represents the parent of the current tree node.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public TreeNode Parent
-        {
-            get { return parent; }
-            internal set { parent = value; }
-        }
-
-        private string _text;
-        /// <summary>
-        /// Gets or sets the text displayed in the label of the tree node.
-        /// </summary>
-        /// <returns>The text displayed in the label of the tree node.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public string Text
-        {
-            get => _text;
-            set
-            {
-                _text = value;
-                TreeView?.NativeNodeText(this, value);
-            }
-        }
-        /// <summary>
-        /// Gets or sets the text that appears when the mouse pointer hovers over a
-        /// <see cref="System.Windows.Forms.TreeNode" />
-        /// </summary>
-        /// <returns>Gets the text that appears when the mouse pointer hovers over a
-        /// <see cref="System.Windows.Forms.TreeNode" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public string ToolTipText
-        {
-            get; set;
-        }
-        /// <summary>
-        /// Gets or sets the name of the tree node.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.String" /> that represents the name of the tree node.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public string Name
-        {
-            get; set;
-        }
-
-        private bool _IsChecked;
-        /// <summary>
-        /// Gets or sets a value indicating whether the tree node is in a checked state.
-        /// </summary>
-        /// <returns>true if the tree node is in a checked state; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public bool Checked
         {
             get
@@ -218,49 +82,41 @@ namespace System.Windows.Forms
             }
             set { _IsChecked = value; TreeView?.NativeNodeChecked(this, value); }
         }
-        /// <summary>
-        /// Gets the path from the root tree node to the current tree node.
-        /// </summary>
-        /// <returns>The path from the root tree node to the current tree node.
-        /// </returns>
-        /// <exception cref="System.InvalidOperationException">The node is not contained in a
-        /// <see cref="System.Windows.Forms.TreeView" />
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public string FullPath
         {
             get
             {
                 List<string> paths = new List<string>();
                 GetFullPath(this, paths);
+
                 return string.Join("/", paths);
             }
             set { }
         }
-        protected void GetFullPath(TreeNode node, List<string> paths)
+
+        public int ImageIndex
         {
-            paths.Add(node.Text);
-            if (node.Parent != null && node.Parent.index != "-1")
+            get => _imageIndex;
+            set { _imageIndex = value; TreeView?.NativeNodeImage(this, value); }
+        }
+
+        public string ImageKey
+        {
+            get => _imageKey;
+            set { _imageKey = value; TreeView?.NativeNodeImage(this, value); }
+        }
+
+        public string Index { get { return index; } internal set { index = value ?? ""; } }
+
+        public bool IsExpanded
+        {
+            get
             {
-                GetFullPath(node.Parent, paths);
+                return TreeView?.GetNodeExpanded(this) == true;
             }
         }
 
-        private bool _IsSelected;
-        /// <summary>
-        /// Gets a value indicating whether the tree node is in the selected state.
-        /// </summary>
-        /// <returns>true if the tree node is in the selected state; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public bool IsSelected
         {
             get
@@ -278,35 +134,7 @@ namespace System.Windows.Forms
                 TreeView?.NativeNodeSelected(this, value);
             }
         }
-        /// <summary>
-        /// Gets a value indicating whether the tree node is in the expanded state.
-        /// </summary>
-        /// <returns>true if the tree node is in the expanded state; otherwise, false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public bool IsExpanded
-        {
-            get
-            {
-                return TreeView?.GetNodeExpanded(this) == true;
-            }
-        }
-        /// <summary>
-        /// Gets the zero-based depth of the tree node in the
-        /// <see cref="System.Windows.Forms.TreeView" /> control.
-        /// </summary>
-        /// <returns>The zero-based depth of the tree node in the
-        /// <see cref="System.Windows.Forms.TreeView" /> control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public int Level
         {
             get
@@ -320,209 +148,100 @@ namespace System.Windows.Forms
             }
         }
 
-        private int _imageIndex;
-        /// <summary>
-        /// Gets or sets the image list index value of the image displayed when the tree node is in the unselected state.
-        /// </summary>
-        /// <returns>A zero-based index value that represents the image position in the assigned
-        /// <see cref="System.Windows.Forms.ImageList" />
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public int ImageIndex
+        public string Name
         {
-            get => _imageIndex;
-            set { _imageIndex = value; TreeView?.NativeNodeImage(this, value); }
+            get; set;
         }
 
-        private string _imageKey;
-        /// <summary>
-        /// Gets or sets the key for the image associated with this tree node when the node is in an unselected state.
-        /// </summary>
-        /// <returns>The key for the image associated with this tree node when the node is in an unselected state.
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public string ImageKey
+        public TreeNodeCollection Nodes
         {
-            get => _imageKey;
-            set { _imageKey = value; TreeView?.NativeNodeImage(this, value); }
+            get
+            {
+                return nodes;
+            }
         }
-        /// <summary>
-        /// Gets or sets the image list index value of the image that is displayed when the tree node is in the selected state.
-        /// </summary>
-        /// <returns>A zero-based index value that represents the image position in an
-        /// <see cref="System.Windows.Forms.ImageList" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
+        public TreeNode Parent
+        {
+            get { return parent; }
+            internal set { parent = value; }
+        }
+
         public int SelectedImageIndex { get; set; }
-        /// <summary>
-        /// Gets or sets the key of the image displayed in the tree node when it is in a selected state.
-        /// </summary>
-        /// <returns>The key of the image displayed when the tree node is in a selected state.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
         public string SelectedImageKey { get; set; }
-        /// <summary>
-        /// Gets or sets the index of the image that is used to indicate the state of the
-        /// <see cref="System.Windows.Forms.TreeNode" /> when the parent
-        /// <see cref="System.Windows.Forms.TreeView" /> has its
-        /// <see cref="System.Windows.Forms.TreeView.CheckBoxes" /> property set to false.
-        /// </summary>
-        /// <returns>The index of the image that is used to indicate the state of the
-        /// <see cref="System.Windows.Forms.TreeNode" />
-        /// </returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">The specified index is less than -1 or greater than 14.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
         public int StateImageIndex { get; set; }
-        /// <summary>
-        /// Gets or sets the key of the image that is used to indicate the state of the
-        /// <see cref="System.Windows.Forms.TreeNode" /> when the parent
-        /// <see cref="System.Windows.Forms.TreeView" /> has its
-        /// <see cref="System.Windows.Forms.TreeView.CheckBoxes" /> property set to false.
-        /// </summary>
-        /// <returns>The key of the image that is used to indicate the state of the
-        /// <see cref="System.Windows.Forms.TreeNode" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
         public string StateImageKey { get; set; }
-        /// <summary>
-        /// Gets or sets the object that contains data about the tree node.
-        /// </summary>
-        /// <returns>An
-        /// <see cref="System.Object" /> that contains data about the tree node. The default is null.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
+
         public object Tag { get; set; }
-        /// <summary>
-        /// Expands the tree node.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public void Expand()
+
+        public string Text
         {
-            TreeView?.SetExpandNode(this, false);
+            get => _text;
+            set
+            {
+                _text = value;
+                TreeView?.NativeNodeText(this, value);
+            }
         }
-        /// <summary>
-        /// Expands all the child tree nodes.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public void ExpandAll()
+
+        public string ToolTipText
         {
-            TreeView?.SetExpandNode(this, true);
+            get; set;
         }
-        /// <summary>
-        /// Collapses the tree node.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+
+        internal TreeView TreeView
+        {
+            get
+            {
+                if (treeView == null)
+                { treeView = this.parent?.TreeView; }
+
+                return treeView;
+            }
+        }
+        public object Clone()
+        {
+            return null;
+        }
+
         public void Collapse()
         {
             TreeView?.SetCollapseNode(this);
         }
-        /// <summary>
-        /// Removes the current tree node from the tree view control.
-        /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public void Remove()
+
+        public bool Equals([AllowNull] TreeNode other)
         {
-            TreeView?.RemoveNode(this);
+            return other != null && other.Index == this.Index && other.Name == this.Name && other.Text == this.Text && other.Level == this.Level;
         }
-        /// <summary>
-        /// Copies the tree node and the entire subtree rooted at this tree node.
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Object" /> that represents the cloned
-        /// <see cref="System.Windows.Forms.TreeNode" />
-        /// </returns>
-        /// <filterpriority>2
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
-        public object Clone()
+
+        public void Expand()
         {
-            return null;
+            TreeView?.SetExpandNode(this, false);
+        }
+
+        public void ExpandAll()
+        {
+            TreeView?.SetExpandNode(this, true);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
         }
 
-        public bool Equals([AllowNull] TreeNode other)
+        public void Remove()
         {
-            return other != null && other.Index == this.Index && other.Name == this.Name && other.Text == this.Text && other.Level == this.Level;
+            TreeView?.RemoveNode(this);
+        }
+        protected void GetFullPath(TreeNode node, List<string> paths)
+        {
+            paths.Add(node.Text);
+            if (node.Parent != null && node.Parent.index != "-1")
+            {
+                GetFullPath(node.Parent, paths);
+            }
         }
     }
 }

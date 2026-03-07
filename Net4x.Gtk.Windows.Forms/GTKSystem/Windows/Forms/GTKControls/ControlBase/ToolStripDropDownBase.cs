@@ -2,14 +2,14 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
     public sealed class ToolStripDropDownBase : Gtk.Menu, IControlGtk
     {
-
-        public GtkControlOverride Override { get; set; }
         public ToolStripDropDownBase() : base()
         {
             this.Override = new GtkControlOverride(this);
             base.Halign = Gtk.Align.Start;
             base.Valign = Gtk.Align.Start;
         }
+
+        public GtkControlOverride Override { get; set; }
         public void AddClass(string cssClass)
         {
             this.Override.AddClass(cssClass);

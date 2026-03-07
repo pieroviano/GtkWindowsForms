@@ -10,17 +10,8 @@ namespace System.Windows.Forms
     public class ListViewItemSelectionChangedEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ListViewItemSelectionChangedEventArgs" /> class.
+        /// Constructs a ListViewItemSelectionChangedEventArgs object.
         /// </summary>
-        /// <param name="item">The
-        /// <see cref="System.Windows.Forms.ListViewItem" /> whose selection state has changed.
-        /// </param>
-        /// <param name="itemIndex">The index of the
-        /// <see cref="System.Windows.Forms.ListViewItem" /> whose selection state has changed.
-        /// </param>
-        /// <param name="isSelected">true to indicate the item's state has changed to selected; false to indicate the item's state has changed to deselected.
-        /// </param>
         public ListViewItemSelectionChangedEventArgs(ListViewItem item, int itemIndex, bool isSelected)
         {
             Item = item;
@@ -29,26 +20,18 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the item whose selection state has changed.
+        /// Return true if the item is selected
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Windows.Forms.ListViewItem" /> whose selection state has changed.
-        /// </returns>
+        public bool IsSelected { get; }
+
+        /// <summary>
+        /// The list view item whose selection changed
+        /// </summary>
         public ListViewItem Item { get; }
 
         /// <summary>
-        /// Gets the index of the item whose selection state has changed.
+        /// The list view item's index
         /// </summary>
-        /// <returns>The index of the
-        /// <see cref="System.Windows.Forms.ListViewItem" /> whose selection state has changed.
-        /// </returns>
         public int ItemIndex { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the item's state has changed to selected.
-        /// </summary>
-        /// <returns>true if the item's state has changed to selected; false if the item's state has changed to deselected.
-        /// </returns>
-        public bool IsSelected { get; }
     }
 }

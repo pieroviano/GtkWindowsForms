@@ -5,13 +5,17 @@ namespace System.Windows.Forms;
 
 internal class RelatedPropertyManager : PropertyManager
 {
-    private BindingManagerBase? _parentManager;
 
     private string? _dataField;
 
     private PropertyDescriptor? _fieldInfo;
 
-    internal override Type? BindType => _fieldInfo?.PropertyType;
+    private BindingManagerBase? _parentManager;
+
+    internal RelatedPropertyManager(BindingManagerBase? parentManager, string? dataField) : base(GetCurrentOrNull(parentManager), dataField)
+    {
+        Bind(parentManager, dataField);
+    }
 
     public override object? Current
     {
@@ -21,13 +25,46 @@ internal class RelatedPropertyManager : PropertyManager
             {
                 return null;
             }
+
             return _fieldInfo?.GetValue(DataSource);
         }
     }
 
-    internal RelatedPropertyManager(BindingManagerBase? parentManager, string? dataField) : base(GetCurrentOrNull(parentManager), dataField)
+    internal override Type? BindType => _fieldInfo?.PropertyType;
+
+    internal override PropertyDescriptorCollection? GetItemProperties(PropertyDescriptor?[]? listAccessors)
     {
-        Bind(parentManager, dataField);
+        PropertyDescriptor?[]? propertyDescriptorArray;
+        if (listAccessors == null || listAccessors.Length == 0)
+        {
+            propertyDescriptorArray = new PropertyDescriptor[1];
+        }
+        else
+        {
+            propertyDescriptorArray = new PropertyDescriptor[listAccessors.Length + 1];
+            listAccessors.CopyTo(propertyDescriptorArray, 1);
+        }
+        propertyDescriptorArray[0] = _fieldInfo;
+
+        return _parentManager?.GetItemProperties(propertyDescriptorArray);
+    }
+
+    internal override string? GetListName()
+    {
+        var listName = GetListName(new ArrayList());
+        if (listName?.Length > 0)
+        {
+            return listName;
+        }
+
+        return base.GetListName();
+    }
+
+    protected internal override string? GetListName(ArrayList? listAccessors)
+    {
+        listAccessors?.Insert(0, _fieldInfo);
+
+        return _parentManager?.GetListName(listAccessors);
     }
 
     private void Bind(BindingManagerBase? manager, string? field)
@@ -58,39 +95,8 @@ internal class RelatedPropertyManager : PropertyManager
         {
             return null;
         }
+
         return parentManager?.Current;
-    }
-
-    internal override PropertyDescriptorCollection? GetItemProperties(PropertyDescriptor?[]? listAccessors)
-    {
-        PropertyDescriptor?[]? propertyDescriptorArray;
-        if (listAccessors == null || listAccessors.Length == 0)
-        {
-            propertyDescriptorArray = new PropertyDescriptor[1];
-        }
-        else
-        {
-            propertyDescriptorArray = new PropertyDescriptor[listAccessors.Length + 1];
-            listAccessors.CopyTo(propertyDescriptorArray, 1);
-        }
-        propertyDescriptorArray[0] = _fieldInfo;
-        return _parentManager?.GetItemProperties(propertyDescriptorArray);
-    }
-
-    internal override string? GetListName()
-    {
-        var listName = GetListName(new ArrayList());
-        if (listName?.Length > 0)
-        {
-            return listName;
-        }
-        return base.GetListName();
-    }
-
-    protected internal override string? GetListName(ArrayList? listAccessors)
-    {
-        listAccessors?.Insert(0, _fieldInfo);
-        return _parentManager?.GetListName(listAccessors);
     }
 
     private void ParentManager_CurrentItemChanged(object? sender, EventArgs e)

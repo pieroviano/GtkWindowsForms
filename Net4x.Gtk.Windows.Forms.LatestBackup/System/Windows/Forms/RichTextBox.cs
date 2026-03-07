@@ -24,45 +24,14 @@ namespace System.Windows.Forms
 
         public readonly RichTextBoxBase self = new RichTextBoxBase();
 
-        public override object GtkControl => self;
-        protected override void SetStyle(Widget widget)
-        {
-            self.TextView.Name = this.Name;
-            base.SetStyle(self.TextView);
-        }
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.RichTextBox" /> class.
-        /// </summary>
+        public override event EventHandler TextChanged;
         public RichTextBox() : base()
         {
             self.TextView.Buffer.Changed += Buffer_Changed;
             this.BorderStyle = BorderStyle.Fixed3D;
         }
-        private void Buffer_Changed(object sender, EventArgs e)
-        {
-            if (TextChanged != null && self.IsVisible)
-            {
-                TextChanged(this, e);
-            }
-        }
-        /// <summary>
-        /// Gets or sets the current text in the rich text box.
-        /// </summary>
-        /// <returns>The text displayed in the control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        public override string Text { get => self.TextView.Buffer.Text; set => self.TextView.Buffer.Text = value; }
-        public virtual bool ReadOnly { get { return self.TextView.CanFocus; } set { self.TextView.CanFocus = value; } }
 
-
-        public override event EventHandler TextChanged;
-        public void AppendText(string text)
-        {
-            var enditer = self.TextView.Buffer.EndIter;
-            self.TextView.Buffer.Insert(ref enditer, text);
-        }
+        public override object GtkControl => self;
 
         public string[] Lines
         {
@@ -83,43 +52,64 @@ namespace System.Windows.Forms
             }
         }
 
-        public int SelectionStart
-        {
-            get { self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end); return start.Offset; }
-            set { Select(value, SelectionLength); }
-        }
-        /// <summary>
-        /// Gets or sets the number of characters selected in control.
-        /// </summary>
-        /// <returns>The number of characters selected in the text box.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
+        public virtual bool ReadOnly { get { return self.TextView.CanFocus; } set { self.TextView.CanFocus = value; } }
+
         [System.ComponentModel.Browsable(false)]
         public virtual int SelectionLength
         {
-            get { self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end); return end.Offset - start.Offset; }
+            get
+            {
+                self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end);
+
+                return end.Offset - start.Offset;
+            }
             set
             {
                 Select(SelectionStart, value);
             }
         }
+
+        public int SelectionStart
+        {
+            get
+            {
+                self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end);
+
+                return start.Offset;
+            }
+            set { Select(value, SelectionLength); }
+        }
+
+        public override string Text { get => self.TextView.Buffer.Text; set => self.TextView.Buffer.Text = value; }
+        public void AppendText(string text)
+        {
+            var enditer = self.TextView.Buffer.EndIter;
+            self.TextView.Buffer.Insert(ref enditer, text);
+        }
+
+        public void InsertTextAtCursor(string text)
+        {
+            if (text == null) return;
+            self.TextView.Buffer.InsertAtCursor(text);
+        }
+
         public void Select(int start, int length)
         {
             TextIter startiter = self.TextView.Buffer.GetIterAtOffset(start);
             TextIter enditer = self.TextView.Buffer.GetIterAtOffset(start + length);
             self.TextView.Buffer.SelectRange(startiter, enditer);
         }
-        public void InsertTextAtCursor(string text)
+        protected override void SetStyle(Widget widget)
         {
-            if (text == null) return;
-            self.TextView.Buffer.InsertAtCursor(text);
+            self.TextView.Name = this.Name;
+            base.SetStyle(self.TextView);
+        }
+        private void Buffer_Changed(object sender, EventArgs e)
+        {
+            if (TextChanged != null && self.IsVisible)
+            {
+                TextChanged(this, e);
+            }
         }
     }
 }

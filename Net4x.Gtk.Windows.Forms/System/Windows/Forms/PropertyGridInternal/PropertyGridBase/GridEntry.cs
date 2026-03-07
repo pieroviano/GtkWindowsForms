@@ -8,14 +8,9 @@ namespace System.Windows.Forms.PropertyGridInternal;
 internal partial class GridEntry : GridItem, ITypeDescriptorContext
 {
 
-    public PropertyGrid OwnerGrid { get; set; }
-
     public GridEntry _parent;
-    protected GridEntry(PropertyGrid ownerGrid, GridEntry parent)
-    {
-        _parent = parent;
-        OwnerGrid = ownerGrid;
-    }
+
+    internal object value;
     public GridEntry(GridEntry parent, GridItemType itemtype, int level, string label, object value, string description)
     {
         _parent = parent;
@@ -26,36 +21,43 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
         this.value = value;
         this.Description = description;
     }
+    protected GridEntry(PropertyGrid ownerGrid, GridEntry parent)
+    {
+        _parent = parent;
+        OwnerGrid = ownerGrid;
+    }
+
+    public IContainer Container => throw new NotImplementedException();
+
+    public string Description { get; set; }
+
+    public bool Editable { get; set; }
+
     public override GridItemCollection GridItems { get; }
 
     public override GridItemType GridItemType { get; }
 
+    public object Instance => throw new NotImplementedException();
+
     public override string Label { get; }
-
-    public override GridItem Parent { get; }
-
-
-    public override PropertyDescriptor PropertyDescriptor { get; }
-
-    internal object value;
-    public override object Value { get => value; }
-
-    public override bool Select()
-    {
-        return false;
-    }
-
-
-    public Type ValueType { get; set; }
 
     public int Level { get; set; }
 
-    public bool Editable { get; set; }
+    public PropertyGrid OwnerGrid { get; set; }
 
-    public string Description { get; set; }
+    public override GridItem Parent { get; }
+
+    public override PropertyDescriptor PropertyDescriptor { get; }
+
+    public override object Value { get => value; }
+
+    public Type ValueType { get; set; }
     internal System.Reflection.PropertyInfo PropertyInfo { get; set; }
 
-
+    public object GetService(Type serviceType)
+    {
+        throw new NotImplementedException();
+    }
 
     public void OnComponentChanged()
     {
@@ -67,12 +69,8 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
         throw new NotImplementedException();
     }
 
-    public object GetService(Type serviceType)
+    public override bool Select()
     {
-        throw new NotImplementedException();
+        return false;
     }
-
-    public IContainer Container => throw new NotImplementedException();
-
-    public object Instance => throw new NotImplementedException();
 }

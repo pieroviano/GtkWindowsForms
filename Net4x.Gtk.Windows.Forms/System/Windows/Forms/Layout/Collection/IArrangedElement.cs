@@ -14,18 +14,14 @@ namespace System.Windows.Forms.Layout
         Rectangle Bounds { get; }
 
         /// <summary>
-        /// Sets the bounds for an element. Implementors should call
-        /// CommonProperties.SetSpecifiedBounds.
-        /// See Control.SetBoundsCore.
+        /// Returns the element's children (on a control, this forwards to Controls)
         /// </summary>
-        void SetBounds(Rectangle bounds, BoundsSpecified specified);
+        ArrangedElementCollection Children { get; }
 
         /// <summary>
-        /// Query element for its preferred size.  There is no guarantee
-        /// that layout engine will assign the element the returned size.
-        /// ProposedSize is a hint about constraints.
+        /// Returns the element's parent container (on a control, this forwards to Parent)
         /// </summary>
-        Size GetPreferredSize(Size proposedSize);
+        IArrangedElement? Container { get; }
 
         /// <summary>
         /// DisplayRectangle is the client area of a container element.
@@ -48,6 +44,13 @@ namespace System.Windows.Forms.Layout
         PropertyStore Properties { get; }
 
         /// <summary>
+        /// Query element for its preferred size.  There is no guarantee
+        /// that layout engine will assign the element the returned size.
+        /// ProposedSize is a hint about constraints.
+        /// </summary>
+        Size GetPreferredSize(Size proposedSize);
+
+        /// <summary>
         /// When an extender provided property is changed, we call this
         /// method to update the layout on the element. In Orcas, we
         /// will sync the DPs changed event.
@@ -55,13 +58,10 @@ namespace System.Windows.Forms.Layout
         void PerformLayout(IArrangedElement affectedElement, string? propertyName);
 
         /// <summary>
-        /// Returns the element's parent container (on a control, this forwards to Parent)
+        /// Sets the bounds for an element. Implementors should call
+        /// CommonProperties.SetSpecifiedBounds.
+        /// See Control.SetBoundsCore.
         /// </summary>
-        IArrangedElement? Container { get; }
-
-        /// <summary>
-        /// Returns the element's children (on a control, this forwards to Controls)
-        /// </summary>
-        ArrangedElementCollection Children { get; }
+        void SetBounds(Rectangle bounds, BoundsSpecified specified);
     }
 }

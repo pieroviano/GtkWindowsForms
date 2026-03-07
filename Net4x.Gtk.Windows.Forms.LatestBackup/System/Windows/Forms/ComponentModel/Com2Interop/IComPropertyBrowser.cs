@@ -11,11 +11,12 @@ namespace System.Windows.Forms.ComponentModel.Com2Interop;
 /// </summary>
 internal interface IComPropertyBrowser
 {
+
     /// <summary>
-    /// Closes andy open drop-down controls on the
-    /// <see cref="System.Windows.Forms.PropertyGrid" /> control.
+    /// Occurs when the
+    /// <see cref="PropertyGrid" /> control is browsing a COM object and the user renames the object.
     /// </summary>
-    void DropDownDone();
+    event ComponentRenameEventHandler? ComComponentNameChanged;
 
     /// <summary>
     /// Gets a value indicating whether the
@@ -26,12 +27,11 @@ internal interface IComPropertyBrowser
     /// <see cref="System.Windows.Forms.PropertyGrid" /> control is currently setting one of the properties of its selected object; otherwise, false.
     /// </returns>
     bool InPropertySet { get; }
-
     /// <summary>
-    /// Occurs when the
-    /// <see cref="PropertyGrid" /> control is browsing a COM object and the user renames the object.
+    /// Closes andy open drop-down controls on the
+    /// <see cref="System.Windows.Forms.PropertyGrid" /> control.
     /// </summary>
-    event ComponentRenameEventHandler? ComComponentNameChanged;
+    void DropDownDone();
 
     /// <summary>
     /// Commits all pending changes to the

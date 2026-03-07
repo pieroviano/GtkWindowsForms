@@ -11,25 +11,6 @@ namespace System.Drawing.Imaging
         private EncoderParameter[] _param;
 
         /// <summary>
-        /// Gets or sets an array of
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects.
-        /// </summary>
-        /// <returns>The array of
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects.
-        /// </returns>
-        public EncoderParameter[] Param
-        {
-            get
-            {
-                return _param;
-            }
-            set
-            {
-                _param = value;
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameters" /> class that can contain the specified number of
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects.
@@ -53,18 +34,23 @@ namespace System.Drawing.Imaging
             _param = new EncoderParameter[1];
         }
 
-        internal IntPtr ConvertToMemory()
+        /// <summary>
+        /// Gets or sets an array of
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects.
+        /// </summary>
+        /// <returns>The array of
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects.
+        /// </returns>
+        public EncoderParameter[] Param
         {
-
-            return IntPtr.Zero;
-        }
-
-        internal static EncoderParameters ConvertFromMemory(IntPtr memory)
-        {
-
-            EncoderParameters encoderParameters = new EncoderParameters(1);
-
-            return encoderParameters;
+            get
+            {
+                return _param;
+            }
+            set
+            {
+                _param = value;
+            }
         }
 
         /// <summary>
@@ -79,6 +65,20 @@ namespace System.Drawing.Imaging
                 param[i]?.Dispose();
             }
             _param = null;
+        }
+
+        internal static EncoderParameters ConvertFromMemory(IntPtr memory)
+        {
+
+            EncoderParameters encoderParameters = new EncoderParameters(1);
+
+            return encoderParameters;
+        }
+
+        internal IntPtr ConvertToMemory()
+        {
+
+            return IntPtr.Zero;
         }
     }
 }

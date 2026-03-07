@@ -16,10 +16,6 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class ToolStripSeparator : WidgetToolStrip<Gtk.SeparatorMenuItem>
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ToolStripSeparator" /> class.
-        /// </summary>
         public ToolStripSeparator() : base("ToolStripSeparator")
         {
             this.MenuItem.Hexpand = false;
@@ -39,6 +35,7 @@ namespace System.Windows.Forms
                     base.Size = new Size(2, value.Height);
             }
         }
+
         public override int Width { get; set; }
     }
 }

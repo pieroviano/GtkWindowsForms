@@ -21,27 +21,20 @@ namespace System.Windows.Forms
     {
 
         public readonly ButtonBase self = new ButtonBase();
+        private System.Drawing.ContentAlignment textAlign;
 
-        public override object GtkControl => self;
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.Button" /> class.
-        /// </summary>
+        public override event EventHandler Click;
         public Button() : base()
         {
             self.Clicked += Self_Clicked;
         }
-        private void Self_Clicked(object sender, EventArgs e)
-        {
-            if (Click != null && self.IsVisible) { Click(this, EventArgs.Empty); }
-        }
+
+        public override object GtkControl => self;
+
+        public override RightToLeft RightToLeft { get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; } set { self.Direction = value == RightToLeft.Yes ? Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; } }
 
         public override string Text { get => ((Gtk.Label)self.Child).Text; set => ((Gtk.Label)self.Child).Text = value; }
 
-
-        public override event EventHandler Click;
-
-        public override RightToLeft RightToLeft { get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; } set { self.Direction = value == RightToLeft.Yes ? Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; } }
         public System.Drawing.ContentAlignment TextAlign
         {
             get { return textAlign; }
@@ -96,6 +89,9 @@ namespace System.Windows.Forms
 
             }
         }
-        private System.Drawing.ContentAlignment textAlign;
+        private void Self_Clicked(object sender, EventArgs e)
+        {
+            if (Click != null && self.IsVisible) { Click(this, EventArgs.Empty); }
+        }
     }
 }
