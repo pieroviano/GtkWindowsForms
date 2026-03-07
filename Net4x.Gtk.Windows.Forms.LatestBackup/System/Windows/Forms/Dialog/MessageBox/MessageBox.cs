@@ -102,7 +102,6 @@ namespace System.Windows.Forms
         //END ADD                                                                                                      //
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// Displays a message box with specified text, caption, and style.
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
         {

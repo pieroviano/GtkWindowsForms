@@ -36,6 +36,10 @@ namespace System.Windows.Forms
         public event EventHandler SelectedItemChanged;
 
         public event EventHandler SelectedValueChanged;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.CheckedListBox" /> class.
+        /// </summary>
         public CheckedListBox() : base()
         {
             _items = new ObjectCollection(this);
@@ -50,7 +54,16 @@ namespace System.Windows.Forms
 
             this.BorderStyle = BorderStyle.Fixed3D;
         }
-
+        /// <summary>
+        /// Collection of checked indexes in this
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.CheckedListBox.CheckedIndexCollection" /> collection for the
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public CheckedIndexCollection CheckedIndices
         {
             get
@@ -66,6 +79,16 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Collection of checked items in this
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.CheckedListBox.CheckedItemCollection" /> collection for the
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public CheckedItemCollection CheckedItems
         {
             get
@@ -81,6 +104,13 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the check box should be toggled when an item is selected.
+        /// </summary>
+        /// <returns>true if the check mark is applied immediately; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public bool CheckOnClick { get; set; }
 
         public int ColumnWidth { get; set; }
@@ -91,8 +121,25 @@ namespace System.Windows.Forms
 
         public bool HorizontalScrollbar { get; set; }
 
+        /// <summary>
+        /// Gets the height of the item area.
+        /// </summary>
+        /// <returns>The height, in pixels, of the item area.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int ItemHeight { get; set; }
 
+        /// <summary>
+        /// Gets the collection of items in this
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.CheckedListBox.ObjectCollection" /> collection representing the items in the
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public ObjectCollection Items
         {
             get
@@ -118,6 +165,26 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value specifying the selection mode.
+        /// </summary>
+        /// <returns>Either the One or None value of
+        /// <see cref="System.Windows.Forms.SelectionMode" />
+        /// </returns>
+        /// <exception cref="System.ArgumentException">An attempt was made to assign a value that is not a
+        /// <see cref="System.Windows.Forms.SelectionMode" /> value of One or None.
+        /// </exception>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">An attempt was made to assign the MultiExtended value of
+        /// <see cref="System.Windows.Forms.SelectionMode" /> to the control.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public SelectionMode SelectionMode { get; set; }
         public void ClearSelected()
         {
@@ -133,6 +200,24 @@ namespace System.Windows.Forms
             _flow.UnselectAll();
         }
 
+        /// <summary>
+        /// Sets
+        /// <see cref="System.Windows.Forms.CheckState" /> for the item at the specified index to Checked.
+        /// </summary>
+        /// <param name="index">The index of the item to set the check state for.
+        /// </param>
+        /// <param name="value">true to set the item as checked; otherwise, false.
+        /// </param>
+        /// <exception cref="System.ArgumentException">The index specified is less than zero.-or- The index is greater than the count of items in the list.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void SetItemChecked(int index, bool value)
         {
             CheckBox item = _items.GetCheckedListBoxItem(index);
@@ -142,6 +227,30 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Sets the check state of the item at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the item to set the state for.
+        /// </param>
+        /// <param name="value">One of the
+        /// <see cref="System.Windows.Forms.CheckState" /> values.
+        /// </param>
+        /// <exception cref="System.ArgumentOutOfRangeException">The
+        /// <paramref name="index" /> specified is less than zero.-or- The
+        /// <paramref name="index" /> is greater than or equal to the count of items in the list.
+        /// </exception>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The
+        /// <paramref name="value" /> is not one of the
+        /// <see cref="System.Windows.Forms.CheckState" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void SetItemCheckState(int index, System.Windows.Forms.CheckState value)
         {
             CheckBox item = _items.GetCheckedListBoxItem(index);
@@ -206,16 +315,27 @@ namespace System.Windows.Forms
             if (SelectedItemChanged != null)
                 SelectedItemChanged(this, args);
         }
-
+        /// <summary>
+        /// Encapsulates the collection of indexes of checked items (including items in an indeterminate state) in a
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
         public class CheckedIndexCollection : List<int>
         {
         }
 
+        /// <summary>
+        /// Encapsulates the collection of checked items, including items in an indeterminate state, in a
+        /// <see cref="System.Windows.Forms.CheckedListBox" /> control.
+        /// </summary>
         public class CheckedItemCollection : List<object>
         {
 
         }
 
+        /// <summary>
+        /// Represents the collection of items in a
+        /// <see cref="System.Windows.Forms.CheckedListBox" />
+        /// </summary>
         public class ObjectCollection : ArrayList
         {
 

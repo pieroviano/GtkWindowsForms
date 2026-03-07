@@ -8,10 +8,16 @@ namespace System.Drawing.Text
     {
 
         /// <summary>
-        /// Gets the array of System.Drawing.FontFamily objects associated with this System.Drawing.Text.FontCollection.
+        /// Gets the array of
+        /// <see cref="System.Drawing.FontFamily" /> objects associated with this
+        /// <see cref="System.Drawing.Text.FontCollection" />
         /// </summary>
-        /// <returns>An array of System.Drawing.FontFamily objects.
+        /// <returns>An array of
+        /// <see cref="System.Drawing.FontFamily" /> objects.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public FontFamily[] Families { get; }
 
         /// <summary>

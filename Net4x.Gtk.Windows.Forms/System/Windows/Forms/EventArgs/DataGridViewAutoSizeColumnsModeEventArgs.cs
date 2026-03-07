@@ -10,11 +10,26 @@ namespace System.Windows.Forms
     /// </summary>
     public class DataGridViewAutoSizeColumnsModeEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.DataGridViewAutoSizeColumnsModeEventArgs" /> class.
+        /// </summary>
+        /// <param name="previousModes">An array of
+        /// <see cref="System.Windows.Forms.DataGridViewAutoSizeColumnMode" /> values representing the previous
+        /// <see cref="System.Windows.Forms.DataGridViewColumn.AutoSizeMode" /> property values of each column.
+        /// </param>
         public DataGridViewAutoSizeColumnsModeEventArgs(DataGridViewAutoSizeColumnMode[] previousModes)
         {
             PreviousModes = previousModes;
         }
-
+        /// <summary>
+        /// Gets an array of the previous values of the column
+        /// <see cref="System.Windows.Forms.DataGridViewColumn.AutoSizeMode" /> properties.
+        /// </summary>
+        /// <returns>An array of
+        /// <see cref="System.Windows.Forms.DataGridViewAutoSizeColumnMode" /> values representing the previous values of the column
+        /// <see cref="System.Windows.Forms.DataGridViewColumn.AutoSizeMode" /> properties.
+        /// </returns>
         public DataGridViewAutoSizeColumnMode[] PreviousModes { get; }
     }
 }

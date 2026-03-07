@@ -16,8 +16,13 @@ namespace System.Windows.Forms
     public class SelectedGridItemChangedEventArgs : EventArgs
     {
         /// <summary>
-        /// Constructs a SelectedGridItemChangedEventArgs object.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.SelectedGridItemChangedEventArgs" /> class.
         /// </summary>
+        /// <param name="oldSel">The previously selected grid item.
+        /// </param>
+        /// <param name="newSel">The newly selected grid item.
+        /// </param>
         public SelectedGridItemChangedEventArgs(GridItem oldSel, GridItem newSel)
         {
             OldSelection = oldSel;
@@ -25,13 +30,25 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// The newly selected GridItem object
+        /// Gets the newly selected
+        /// <see cref="System.Windows.Forms.GridItem" />
         /// </summary>
+        /// <returns>The new
+        /// <see cref="System.Windows.Forms.GridItem" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public GridItem NewSelection { get; }
 
         /// <summary>
-        /// The previously selected GridItem object. This can be null.
+        /// Gets the previously selected
+        /// <see cref="System.Windows.Forms.GridItem" />
         /// </summary>
+        /// <returns>The old
+        /// <see cref="System.Windows.Forms.GridItem" /> This can be null.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public GridItem OldSelection { get; }
     }
 }

@@ -17,6 +17,10 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class MenuStrip : ToolStrip
     {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.MenuStrip" /> class.
+        /// </summary>
         public MenuStrip() : base("MenuStrip")
         {
             this.self.StyleContext.AddClass("MenuStrip");

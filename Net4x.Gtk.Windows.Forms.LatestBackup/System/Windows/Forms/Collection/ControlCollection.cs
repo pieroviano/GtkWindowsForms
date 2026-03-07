@@ -19,14 +19,6 @@ namespace System.Windows.Forms
     /// </summary>
     /// <filterpriority>1
     /// </filterpriority>
-    /// Defines the base class for controls, which are components with visual representation.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
-    /// Defines the base class for controls, which are components with visual representation.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
     public partial class Control
     {
         public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable

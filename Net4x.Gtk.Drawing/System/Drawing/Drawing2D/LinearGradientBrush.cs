@@ -210,11 +210,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets a
-        /// <see cref="T:System.Drawing.Drawing2D.Blend" /> that specifies positions and factors that define a custom falloff for the gradient.
+        /// <see cref="System.Drawing.Drawing2D.Blend" /> that specifies positions and factors that define a custom falloff for the gradient.
         /// </summary>
         /// <returns>A
-        /// <see cref="T:System.Drawing.Drawing2D.Blend" /> that represents a custom falloff for the gradient.
+        /// <see cref="System.Drawing.Drawing2D.Blend" /> that represents a custom falloff for the gradient.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public Blend Blend
         {
             get;
@@ -223,13 +226,15 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets a value indicating whether gamma correction is enabled for this
-        /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" />.
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" />
         /// </summary>
-        /// <returns>The value is
-        /// <see langword="true" /> if gamma correction is enabled for this
-        /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" />; otherwise,
-        /// <see langword="false" />.
+        /// <returns>
+        /// The value is true if gamma correction is enabled for this
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" />; otherwise, false.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool GammaCorrection
         {
             get;
@@ -238,11 +243,15 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets a
-        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
+        /// <see cref="System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
         /// </summary>
         /// <returns>A
-        /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
+        /// <see cref="System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public ColorBlend InterpolationColors
         {
             get;
@@ -253,8 +262,12 @@ namespace System.Drawing.Drawing2D
         /// Gets or sets the starting and ending colors of the gradient.
         /// </summary>
         /// <returns>An array of two
-        /// <see cref="T:System.Drawing.Color" /> structures that represents the starting and ending colors of the gradient.
+        /// <see cref="System.Drawing.Color" /> structures that represents the starting and ending colors of the gradient.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public Color[] LinearColors
         {
             get;
@@ -271,8 +284,11 @@ namespace System.Drawing.Drawing2D
         /// Gets a rectangular region that defines the starting and ending points of the gradient.
         /// </summary>
         /// <returns>A
-        /// <see cref="T:System.Drawing.RectangleF" /> structure that specifies the starting and ending points of the gradient.
+        /// <see cref="System.Drawing.RectangleF" /> structure that specifies the starting and ending points of the gradient.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public RectangleF Rectangle
         {
             get;
@@ -281,13 +297,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets a copy
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that defines a local geometric transform for this
-        /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" />.
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that defines a local geometric transform for this
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" />
         /// </summary>
-        /// <returns>A copy of the
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that defines a geometric transform that applies only to fills drawn with this
-        /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" />.
+        /// <returns>
+        /// A copy of the
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that defines a geometric transform that applies only to fills drawn with this
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" />
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public Matrix Transform
         {
             get;
@@ -296,13 +316,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets a
-        /// <see cref="T:System.Drawing.Drawing2D.WrapMode" /> enumeration that indicates the wrap mode for this
-        /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" />.
+        /// <see cref="System.Drawing.Drawing2D.WrapMode" /> enumeration that indicates the wrap mode for this
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" />
         /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.Drawing2D.WrapMode" /> that specifies how fills drawn with this
-        /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" /> are tiled.
+        /// <returns>
+        /// A
+        /// <see cref="System.Drawing.Drawing2D.WrapMode" /> that specifies how fills drawn with this
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" /> are tiled.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public WrapMode WrapMode
         {
             get;
@@ -311,11 +335,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" />.
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" />
         /// </summary>
         /// <returns>The
-        /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" /> this method creates, cast as an object.
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" /> this method creates, cast as an object.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public override object Clone()
         {
             return null;
@@ -323,14 +350,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Multiplies the
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that represents the local geometric transform of this
-        /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" /> by the specified
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by prepending the specified
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that represents the local geometric transform of this
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" /> by the specified
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> by prepending the specified
+        /// <see cref="System.Drawing.Drawing2D.Matrix" />
         /// </summary>
         /// <param name="matrix">The
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which to multiply the geometric transform.
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> by which to multiply the geometric transform.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void MultiplyTransform(Matrix matrix)
         {
         }
@@ -353,8 +383,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Resets the
-        /// <see cref="P:System.Drawing.Drawing2D.LinearGradientBrush.Transform" /> property to identity.
+        /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush.Transform" /> property to identity.
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void ResetTransform()
         {
         }

@@ -35,16 +35,55 @@ namespace System.Windows.Forms
         private Graphics graphics;
 
         /// <summary>
-        /// Creates a new DrawItemEventArgs with the given parameters.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.DrawItemEventArgs" /> class for the specified control with the specified font, state, surface to draw on, and the bounds to draw within.
         /// </summary>
+        /// <param name="graphics">The
+        /// <see cref="System.Drawing.Graphics" /> surface on which to draw.
+        /// </param>
+        /// <param name="font">The
+        /// <see cref="System.Drawing.Font" /> to use, usually the parent control's
+        /// <see cref="System.Drawing.Font" /> property.
+        /// </param>
+        /// <param name="rect">The
+        /// <see cref="System.Drawing.Rectangle" /> bounds to draw within.
+        /// </param>
+        /// <param name="index">The
+        /// <see cref="System.Windows.Forms.Control.ControlCollection" /> index value of the item that is being drawn.
+        /// </param>
+        /// <param name="state">The control's
+        /// <see cref="System.Windows.Forms.DrawItemState" /> information.
+        /// </param>
         public DrawItemEventArgs(Graphics graphics, Font? font, Rectangle rect, int index, DrawItemState state)
             : this(graphics, font, rect, index, state, SystemColors.WindowText, SystemColors.Window)
         { }
 
         /// <summary>
-        /// Creates a new DrawItemEventArgs with the given parameters, including the foreColor and backColor
-        /// of the control.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.DrawItemEventArgs" /> class for the specified control with the specified font, state, foreground color, background color, surface to draw on, and the bounds to draw within.
         /// </summary>
+        /// <param name="graphics">The
+        /// <see cref="System.Drawing.Graphics" /> surface on which to draw.
+        /// </param>
+        /// <param name="font">The
+        /// <see cref="System.Drawing.Font" /> to use, usually the parent control's
+        /// <see cref="System.Drawing.Font" /> property.
+        /// </param>
+        /// <param name="rect">The
+        /// <see cref="System.Drawing.Rectangle" /> bounds to draw within.
+        /// </param>
+        /// <param name="index">The
+        /// <see cref="System.Windows.Forms.Control.ControlCollection" /> index value of the item that is being drawn.
+        /// </param>
+        /// <param name="state">The control's
+        /// <see cref="System.Windows.Forms.DrawItemState" /> information.
+        /// </param>
+        /// <param name="foreColor">The foreground
+        /// <see cref="System.Drawing.Color" /> to draw the control with.
+        /// </param>
+        /// <param name="backColor">The background
+        /// <see cref="System.Drawing.Color" /> to draw the control with.
+        /// </param>
         public DrawItemEventArgs(
             Graphics graphics,
             Font? font,
@@ -62,31 +101,56 @@ namespace System.Windows.Forms
             _foreColor = foreColor;
             _backColor = backColor;
         }
-
+        /// <summary>
+        /// Gets the background color of the item that is being drawn.
+        /// </summary>
+        /// <returns>The background
+        /// <see cref="System.Drawing.Color" /> of the item that is being drawn.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public Color BackColor
-            => (State & DrawItemState.Selected) == DrawItemState.Selected ? SystemColors.Highlight : _backColor;
+                    => (State & DrawItemState.Selected) == DrawItemState.Selected ? SystemColors.Highlight : _backColor;
 
         /// <summary>
-        /// The rectangle outlining the area in which the painting should be  done.
+        /// Gets the rectangle that represents the bounds of the item that is being drawn.
         /// </summary>
+        /// <returns>The
+        /// <see cref="System.Drawing.Rectangle" /> that represents the bounds of the item that is being drawn.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public Rectangle Bounds { get; }
 
         /// <summary>
-        /// A suggested font, usually the parent control's Font property.
+        /// Gets the font that is assigned to the item being drawn.
         /// </summary>
+        /// <returns>The
+        /// <see cref="System.Drawing.Font" /> that is assigned to the item being drawn.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public Font? Font { get; }
 
         /// <summary>
-        /// A suggested color drawing: either SystemColors.WindowText or SystemColors.HighlightText,
-        /// depending on whether this item is selected.
+        /// Gets the foreground color of the of the item being drawn.
         /// </summary>
+        /// <returns>The foreground
+        /// <see cref="System.Drawing.Color" /> of the item being drawn.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public Color ForeColor
             => (State & DrawItemState.Selected) == DrawItemState.Selected ? SystemColors.HighlightText : _foreColor;
 
         /// <summary>
-        /// Gets the
-        /// <see cref="Drawing.Graphics" /> object used to paint.
+        /// Gets the graphics surface to draw the item on.
         /// </summary>
+        /// <returns>The
+        /// <see cref="System.Drawing.Graphics" /> surface to draw the item on.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public Graphics Graphics
         {
             get
@@ -96,8 +160,13 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// The index of the item that should be painted.
+        /// Gets the index value of the item that is being drawn.
         /// </summary>
+        /// <returns>The numeric value that represents the
+        /// <see cref="System.Windows.Forms.Control.ControlCollection.Item(System.Int32)" /> value of the item being drawn.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int Index { get; }
 
         /// <summary>
@@ -114,17 +183,27 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Fills the
-        /// <see cref="Bounds" /> with the
-        /// <see cref="BackColor" />.
+        /// Draws the background within the bounds specified in the
+        /// <see cref="!:Overload:System.Windows.Forms.DrawItemEventArgs.#ctor" /> constructor and with the appropriate color.
         /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public virtual void DrawBackground()
         {
         }
 
         /// <summary>
-        /// Draws a handy focus rect in the given rectangle.
+        /// Draws a focus rectangle within the bounds specified in the
+        /// <see cref="!:Overload:System.Windows.Forms.DrawItemEventArgs.#ctor" /> constructor.
         /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public virtual void DrawFocusRectangle()
         {
             if ((State & DrawItemState.Focus) == DrawItemState.Focus

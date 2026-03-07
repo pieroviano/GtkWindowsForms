@@ -40,8 +40,7 @@ namespace System.Windows.Forms
         AssociateIndex = unchecked((int)0x80000005),
 
         /// <summary>
-        /// Displays the topic referenced by the topic referenced by the specified
-        /// Url. This field is constant.
+        /// The Help file opens to the topic with the specified index entry, if one exists; otherwise, the index entry closest to the specified keyword is displayed.
         /// </summary>
         KeywordIndex = unchecked((int)0x80000006),
 

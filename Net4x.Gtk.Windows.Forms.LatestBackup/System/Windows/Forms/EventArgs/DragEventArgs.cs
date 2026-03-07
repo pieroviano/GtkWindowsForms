@@ -17,8 +17,22 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="DragEventArgs" /> class.
+        /// <see cref="System.Windows.Forms.DragEventArgs" /> class.
         /// </summary>
+        /// <param name="data">The data associated with this event.
+        /// </param>
+        /// <param name="keyState">The current state of the SHIFT, CTRL, and ALT keys.
+        /// </param>
+        /// <param name="x">The x-coordinate of the mouse cursor in pixels.
+        /// </param>
+        /// <param name="y">The y-coordinate of the mouse cursor in pixels.
+        /// </param>
+        /// <param name="allowedEffect">One of the
+        /// <see cref="System.Windows.Forms.DragDropEffects" /> values.
+        /// </param>
+        /// <param name="effect">One of the
+        /// <see cref="System.Windows.Forms.DragDropEffects" /> values.
+        /// </param>
         public DragEventArgs(IDataObject data, int keyState, int x, int y, DragDropEffects allowedEffect, DragDropEffects effect)
         {
             Data = data;
@@ -30,36 +44,60 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets which drag-and-drop operations are allowed by the originator (or source)
-        /// of the drag event.
+        /// Gets which drag-and-drop operations are allowed by the originator (or source) of the drag event.
         /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.DragDropEffects" /> values.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public DragDropEffects AllowedEffect { get; }
 
         /// <summary>
-        /// The
-        /// <see cref="IDataObject" /> that contains the data associated
-        /// with this event.
+        /// Gets the
+        /// <see cref="System.Windows.Forms.IDataObject" /> that contains the data associated with this event.
         /// </summary>
+        /// <returns>The data associated with this event.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public IDataObject Data { get; }
 
         /// <summary>
-        /// Gets or sets which drag-and-drop operations are allowed by the target of the drag event.
+        /// Gets or sets the target drop effect in a drag-and-drop operation.
         /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.DragDropEffects" /> values.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public DragDropEffects Effect { get; set; }
 
         /// <summary>
-        /// Gets the current state of the SHIFT, CTRL, and ALT keys.
+        /// Gets the current state of the SHIFT, CTRL, and ALT keys, as well as the state of the mouse buttons.
         /// </summary>
+        /// <returns>The current state of the SHIFT, CTRL, and ALT keys and of the mouse buttons.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int KeyState { get; }
 
         /// <summary>
-        /// Gets the x-coordinate of the mouse pointer.
+        /// Gets the x-coordinate of the mouse pointer, in screen coordinates.
         /// </summary>
+        /// <returns>The x-coordinate of the mouse pointer in pixels.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int X { get; }
 
         /// <summary>
-        /// Gets the y-coordinate of the mouse pointer.
+        /// Gets the y-coordinate of the mouse pointer, in screen coordinates.
         /// </summary>
+        /// <returns>The y-coordinate of the mouse pointer in pixels.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int Y { get; }
     }
 }

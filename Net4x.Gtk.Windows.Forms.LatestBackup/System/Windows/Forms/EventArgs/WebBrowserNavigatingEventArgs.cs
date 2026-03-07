@@ -20,9 +20,15 @@ namespace System.Windows.Forms
         private readonly Uri _url;
 
         /// <summary>
-        /// Creates an instance of the
-        /// <see cref="WebBrowserNavigatingEventArgs" /> class.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.WebBrowserNavigatingEventArgs" /> class.
         /// </summary>
+        /// <param name="url">A
+        /// <see cref="System.Uri" /> representing the location of the document to which the
+        /// <see cref="System.Windows.Forms.WebBrowser" /> control is navigating.
+        /// </param>
+        /// <param name="targetFrameName">The name of the Web page frame in which the new document will be loaded.
+        /// </param>
         public WebBrowserNavigatingEventArgs(Uri url, string targetFrameName)
         {
             _url = url;
@@ -30,8 +36,15 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// In case an individual frame is about to be navigated, this contains the frame name.
+        /// Gets the name of the Web page frame in which the new document will be loaded.
         /// </summary>
+        /// <returns>The name of the frame in which the new document will be loaded.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Net.WebPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public string TargetFrameName
         {
             get
@@ -41,8 +54,18 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Url the browser is navigating to.
+        /// Gets the location of the document to which the
+        /// <see cref="System.Windows.Forms.WebBrowser" /> control is navigating.
         /// </summary>
+        /// <returns>A
+        /// <see cref="System.Uri" /> representing the location of the document to which the
+        /// <see cref="System.Windows.Forms.WebBrowser" /> control is navigating.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Net.WebPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Uri Url
         {
             get

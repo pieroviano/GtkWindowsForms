@@ -24,6 +24,10 @@ namespace System.Windows.Forms
         private System.Drawing.ContentAlignment textAlign;
 
         public override event EventHandler Click;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.Button" /> class.
+        /// </summary>
         public Button() : base()
         {
             self.Clicked += Self_Clicked;

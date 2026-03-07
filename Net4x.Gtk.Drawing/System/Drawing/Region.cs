@@ -91,11 +91,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
         /// <returns>The
-        /// <see cref="T:System.Drawing.Region" /> that this method creates.
+        /// <see cref="System.Drawing.Region" /> that this method creates.
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public Region Clone()
         {
             return new Region(new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height));
@@ -103,18 +108,23 @@ namespace System.Drawing
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to contain the portion of the specified
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> that does not intersect with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" /> to contain the portion of the specified
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> that does not intersect with this
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="path">The
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> to complement this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="path">
+        /// The
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> to complement this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="path" /> isnull.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Complement(GraphicsPath path)
         {
             graphicsPath = path;
@@ -123,14 +133,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to contain the portion of the specified
-        /// <see cref="T:System.Drawing.Rectangle" /> structure that does not intersect with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" /> to contain the portion of the specified
+        /// <see cref="System.Drawing.Rectangle" /> structure that does not intersect with this
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.Rectangle" /> structure to complement this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.Rectangle" /> structure to complement this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Complement(Rectangle rect)
         {
             rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
@@ -138,14 +154,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to contain the portion of the specified
-        /// <see cref="T:System.Drawing.RectangleF" /> structure that does not intersect with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" /> to contain the portion of the specified
+        /// <see cref="System.Drawing.RectangleF" /> structure that does not intersect with this
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.RectangleF" /> structure to complement this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.RectangleF" /> structure to complement this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Complement(RectangleF rect)
         {
             rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
@@ -153,18 +175,23 @@ namespace System.Drawing
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to contain the portion of the specified
-        /// <see cref="T:System.Drawing.Region" /> that does not intersect with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" /> to contain the portion of the specified
+        /// <see cref="System.Drawing.Region" /> that does not intersect with this
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="region">The
-        /// <see cref="T:System.Drawing.Region" /> object to complement this
-        /// <see cref="T:System.Drawing.Region" /> object.
+        /// <param name="region">
+        /// The
+        /// <see cref="System.Drawing.Region" /> object to complement this
+        /// <see cref="System.Drawing.Region" /> object.
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="region" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="region" /> isnull.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Complement(Region region)
         {
             rectangle = region.rectangle;
@@ -174,8 +201,13 @@ namespace System.Drawing
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Dispose()
         {
             rectangle = new RectangleF();
@@ -185,25 +217,28 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether the specified
-        /// <see cref="T:System.Drawing.Region" /> is identical to this
-        /// <see cref="T:System.Drawing.Region" /> on the specified drawing surface.
+        /// <see cref="System.Drawing.Region" /> is identical to this
+        /// <see cref="System.Drawing.Region" /> on the specified drawing surface.
         /// </summary>
+        /// <returns>
+        /// true if the interior of region is identical to the interior of this region when the transformation associated with the
+        /// <paramref name="g" /> parameter is applied; otherwise, false.
+        /// </returns>
         /// <param name="region">The
-        /// <see cref="T:System.Drawing.Region" /> to test.
+        /// <see cref="System.Drawing.Region" /> to test.
         /// </param>
         /// <param name="g">A
-        /// <see cref="T:System.Drawing.Graphics" /> that represents a drawing surface.
+        /// <see cref="System.Drawing.Graphics" /> that represents a drawing surface.
         /// </param>
-        /// <returns>
-        /// <see langword="true" /> if the interior of region is identical to the interior of this region when the transformation associated with the
-        /// <paramref name="g" /> parameter is applied; otherwise,
-        /// <see langword="false" />.
-        /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="System.ArgumentNullException">
         /// <paramref name="g" /> or
-        /// <paramref name="region" /> is
-        /// <see langword="null" />.
+        /// <paramref name="region" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool Equals(Region region, Graphics g)
         {
             return rectangle.Equals(region.rectangle) && graphicsPath.Equals(region.graphicsPath) && regionData.Equals(region.regionData);
@@ -211,60 +246,82 @@ namespace System.Drawing
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to contain only the portion of its interior that does not intersect with the specified
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Region" /> to contain only the portion of its interior that does not intersect with the specified
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
-        /// <param name="path">The
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> to exclude from this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="path">
+        /// The
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> to exclude from this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="path" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Exclude(GraphicsPath path)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to contain only the portion of its interior that does not intersect with the specified
-        /// <see cref="T:System.Drawing.Rectangle" /> structure.
+        /// <see cref="System.Drawing.Region" /> to contain only the portion of its interior that does not intersect with the specified
+        /// <see cref="System.Drawing.Rectangle" /> structure.
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.Rectangle" /> structure to exclude from this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.Rectangle" /> structure to exclude from this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Exclude(Rectangle rect)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to contain only the portion of its interior that does not intersect with the specified
-        /// <see cref="T:System.Drawing.RectangleF" /> structure.
+        /// <see cref="System.Drawing.Region" /> to contain only the portion of its interior that does not intersect with the specified
+        /// <see cref="System.Drawing.RectangleF" /> structure.
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.RectangleF" /> structure to exclude from this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.RectangleF" /> structure to exclude from this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Exclude(RectangleF rect)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to contain only the portion of its interior that does not intersect with the specified
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" /> to contain only the portion of its interior that does not intersect with the specified
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="region">The
-        /// <see cref="T:System.Drawing.Region" /> to exclude from this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="region">
+        /// The
+        /// <see cref="System.Drawing.Region" /> to exclude from this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="region" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="region" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Exclude(Region region)
         {
         }
@@ -286,22 +343,27 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets a
-        /// <see cref="T:System.Drawing.RectangleF" /> structure that represents a rectangle that bounds this
-        /// <see cref="T:System.Drawing.Region" /> on the drawing surface of a
-        /// <see cref="T:System.Drawing.Graphics" /> object.
+        /// <see cref="System.Drawing.RectangleF" /> structure that represents a rectangle that bounds this
+        /// <see cref="System.Drawing.Region" /> on the drawing surface of a
+        /// <see cref="System.Drawing.Graphics" /> object.
         /// </summary>
-        /// <param name="g">The
-        /// <see cref="T:System.Drawing.Graphics" /> on which this
-        /// <see cref="T:System.Drawing.Region" /> is drawn.
-        /// </param>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.RectangleF" /> structure that represents the bounding rectangle for this
-        /// <see cref="T:System.Drawing.Region" /> on the specified drawing surface.
+        /// <returns>
+        /// A
+        /// <see cref="System.Drawing.RectangleF" /> structure that represents the bounding rectangle for this
+        /// <see cref="System.Drawing.Region" /> on the specified drawing surface.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="g" /> is
-        /// <see langword="null" />.
+        /// <param name="g">The
+        /// <see cref="System.Drawing.Graphics" /> on which this
+        /// <see cref="System.Drawing.Region" /> is drawn.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="g" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public RectangleF GetBounds(Graphics g)
         {
             return g.ClipBounds;
@@ -309,19 +371,23 @@ namespace System.Drawing
 
         /// <summary>
         /// Returns a Windows handle to this
-        /// <see cref="T:System.Drawing.Region" /> in the specified graphics context.
+        /// <see cref="System.Drawing.Region" /> in the specified graphics context.
         /// </summary>
-        /// <param name="g">The
-        /// <see cref="T:System.Drawing.Graphics" /> on which this
-        /// <see cref="T:System.Drawing.Region" /> is drawn.
-        /// </param>
         /// <returns>A Windows handle to this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" />
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="g" /> is
-        /// <see langword="null" />.
+        /// <param name="g">The
+        /// <see cref="System.Drawing.Graphics" /> on which this
+        /// <see cref="System.Drawing.Region" /> is drawn.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="g" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public IntPtr GetHrgn(Graphics g)
         {
             throw new System.NotImplementedException();
@@ -329,13 +395,19 @@ namespace System.Drawing
 
         /// <summary>
         /// Returns a
-        /// <see cref="T:System.Drawing.Drawing2D.RegionData" /> that represents the information that describes this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Drawing2D.RegionData" /> that represents the information that describes this
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.Drawing2D.RegionData" /> that represents the information that describes this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <returns>
+        /// A
+        /// <see cref="System.Drawing.Drawing2D.RegionData" /> that represents the information that describes this
+        /// <see cref="System.Drawing.Region" />
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public RegionData GetRegionData()
         {
             return regionData;
@@ -343,20 +415,25 @@ namespace System.Drawing
 
         /// <summary>
         /// Returns an array of
-        /// <see cref="T:System.Drawing.RectangleF" /> structures that approximate this
-        /// <see cref="T:System.Drawing.Region" /> after the specified matrix transformation is applied.
+        /// <see cref="System.Drawing.RectangleF" /> structures that approximate this
+        /// <see cref="System.Drawing.Region" /> after the specified matrix transformation is applied.
         /// </summary>
-        /// <param name="matrix">A
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that represents a geometric transformation to apply to the region.
-        /// </param>
-        /// <returns>An array of
-        /// <see cref="T:System.Drawing.RectangleF" /> structures that approximate this
-        /// <see cref="T:System.Drawing.Region" /> after the specified matrix transformation is applied.
+        /// <returns>
+        /// An array of
+        /// <see cref="System.Drawing.RectangleF" /> structures that approximate this
+        /// <see cref="System.Drawing.Region" /> after the specified matrix transformation is applied.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="matrix" /> is
-        /// <see langword="null" />.
+        /// <param name="matrix">A
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that represents a geometric transformation to apply to the region.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="matrix" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public RectangleF[] GetRegionScans(Matrix matrix)
         {
             throw new System.NotImplementedException();
@@ -364,73 +441,100 @@ namespace System.Drawing
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the intersection of itself with the specified
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Region" /> to the intersection of itself with the specified
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
-        /// <param name="path">The
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> to intersect with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="path">
+        /// The
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> to intersect with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Intersect(GraphicsPath path)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the intersection of itself with the specified
-        /// <see cref="T:System.Drawing.Rectangle" /> structure.
+        /// <see cref="System.Drawing.Region" /> to the intersection of itself with the specified
+        /// <see cref="System.Drawing.Rectangle" /> structure.
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.Rectangle" /> structure to intersect with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.Rectangle" /> structure to intersect with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Intersect(Rectangle rect)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the intersection of itself with the specified
-        /// <see cref="T:System.Drawing.RectangleF" /> structure.
+        /// <see cref="System.Drawing.Region" /> to the intersection of itself with the specified
+        /// <see cref="System.Drawing.RectangleF" /> structure.
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.RectangleF" /> structure to intersect with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.RectangleF" /> structure to intersect with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Intersect(RectangleF rect)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the intersection of itself with the specified
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" /> to the intersection of itself with the specified
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="region">The
-        /// <see cref="T:System.Drawing.Region" /> to intersect with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="region">
+        /// The
+        /// <see cref="System.Drawing.Region" /> to intersect with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Intersect(Region region)
         {
         }
 
         /// <summary>
         /// Tests whether this
-        /// <see cref="T:System.Drawing.Region" /> has an empty interior on the specified drawing surface.
+        /// <see cref="System.Drawing.Region" /> has an empty interior on the specified drawing surface.
         /// </summary>
-        /// <param name="g">A
-        /// <see cref="T:System.Drawing.Graphics" /> that represents a drawing surface.
-        /// </param>
         /// <returns>
-        /// <see langword="true" /> if the interior of this
-        /// <see cref="T:System.Drawing.Region" /> is empty when the transformation associated with
-        /// <paramref name="g" /> is applied; otherwise,
-        /// <see langword="false" />.
+        /// true if the interior of this
+        /// <see cref="System.Drawing.Region" /> is empty when the transformation associated with
+        /// <paramref name="g" /> is applied; otherwise, false.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="g" /> is
-        /// <see langword="null" />.
+        /// <param name="g">A
+        /// <see cref="System.Drawing.Graphics" /> that represents a drawing surface.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="g" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsEmpty(Graphics g)
         {
             throw new System.NotImplementedException();
@@ -438,21 +542,24 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether this
-        /// <see cref="T:System.Drawing.Region" /> has an infinite interior on the specified drawing surface.
+        /// <see cref="System.Drawing.Region" /> has an infinite interior on the specified drawing surface.
         /// </summary>
-        /// <param name="g">A
-        /// <see cref="T:System.Drawing.Graphics" /> that represents a drawing surface.
-        /// </param>
         /// <returns>
-        /// <see langword="true" /> if the interior of this
-        /// <see cref="T:System.Drawing.Region" /> is infinite when the transformation associated with
-        /// <paramref name="g" /> is applied; otherwise,
-        /// <see langword="false" />.
+        /// true if the interior of this
+        /// <see cref="System.Drawing.Region" /> is infinite when the transformation associated with
+        /// <paramref name="g" /> is applied; otherwise, false.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="g" /> is
-        /// <see langword="null" />.
+        /// <param name="g">A
+        /// <see cref="System.Drawing.Graphics" /> that represents a drawing surface.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="g" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsInfinite(Graphics g)
         {
             throw new System.NotImplementedException();
@@ -460,18 +567,21 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether the specified
-        /// <see cref="T:System.Drawing.Point" /> structure is contained within this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Point" /> structure is contained within this
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="point">The
-        /// <see cref="T:System.Drawing.Point" /> structure to test.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> when
+        /// <returns>true when
         /// <paramref name="point" /> is contained within this
-        /// <see cref="T:System.Drawing.Region" />; otherwise,
-        /// <see langword="false" />.
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
         /// </returns>
+        /// <param name="point">The
+        /// <see cref="System.Drawing.Point" /> structure to test.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(Point point)
         {
             throw new System.NotImplementedException();
@@ -479,22 +589,25 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether the specified
-        /// <see cref="T:System.Drawing.Point" /> structure is contained within this
-        /// <see cref="T:System.Drawing.Region" /> when drawn using the specified
-        /// <see cref="T:System.Drawing.Graphics" />.
+        /// <see cref="System.Drawing.Point" /> structure is contained within this
+        /// <see cref="System.Drawing.Region" /> when drawn using the specified
+        /// <see cref="System.Drawing.Graphics" />
         /// </summary>
+        /// <returns>true when
+        /// <paramref name="point" /> is contained within this
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
+        /// </returns>
         /// <param name="point">The
-        /// <see cref="T:System.Drawing.Point" /> structure to test.
+        /// <see cref="System.Drawing.Point" /> structure to test.
         /// </param>
         /// <param name="g">A
-        /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
+        /// <see cref="System.Drawing.Graphics" /> that represents a graphics context.
         /// </param>
-        /// <returns>
-        /// <see langword="true" /> when
-        /// <paramref name="point" /> is contained within this
-        /// <see cref="T:System.Drawing.Region" />; otherwise,
-        /// <see langword="false" />.
-        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(Point point, Graphics g)
         {
             throw new System.NotImplementedException();
@@ -502,18 +615,21 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether the specified
-        /// <see cref="T:System.Drawing.PointF" /> structure is contained within this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.PointF" /> structure is contained within this
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="point">The
-        /// <see cref="T:System.Drawing.PointF" /> structure to test.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> when
+        /// <returns>true when
         /// <paramref name="point" /> is contained within this
-        /// <see cref="T:System.Drawing.Region" />; otherwise,
-        /// <see langword="false" />.
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
         /// </returns>
+        /// <param name="point">The
+        /// <see cref="System.Drawing.PointF" /> structure to test.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(PointF point)
         {
             throw new System.NotImplementedException();
@@ -521,22 +637,25 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether the specified
-        /// <see cref="T:System.Drawing.PointF" /> structure is contained within this
-        /// <see cref="T:System.Drawing.Region" /> when drawn using the specified
-        /// <see cref="T:System.Drawing.Graphics" />.
+        /// <see cref="System.Drawing.PointF" /> structure is contained within this
+        /// <see cref="System.Drawing.Region" /> when drawn using the specified
+        /// <see cref="System.Drawing.Graphics" />
         /// </summary>
+        /// <returns>true when
+        /// <paramref name="point" /> is contained within this
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
+        /// </returns>
         /// <param name="point">The
-        /// <see cref="T:System.Drawing.PointF" /> structure to test.
+        /// <see cref="System.Drawing.PointF" /> structure to test.
         /// </param>
         /// <param name="g">A
-        /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
+        /// <see cref="System.Drawing.Graphics" /> that represents a graphics context.
         /// </param>
-        /// <returns>
-        /// <see langword="true" /> when
-        /// <paramref name="point" /> is contained within this
-        /// <see cref="T:System.Drawing.Region" />; otherwise,
-        /// <see langword="false" />.
-        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(PointF point, Graphics g)
         {
             throw new System.NotImplementedException();
@@ -544,18 +663,22 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether any portion of the specified
-        /// <see cref="T:System.Drawing.Rectangle" /> structure is contained within this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Rectangle" /> structure is contained within this
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.Rectangle" /> structure to test.
-        /// </param>
-        /// <returns>This method returns
-        /// <see langword="true" /> when any portion of
+        /// <returns>
+        /// This method returns true when any portion of
         /// <paramref name="rect" /> is contained within this
-        /// <see cref="T:System.Drawing.Region" />; otherwise,
-        /// <see langword="false" />.
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
         /// </returns>
+        /// <param name="rect">The
+        /// <see cref="System.Drawing.Rectangle" /> structure to test.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(Rectangle rect)
         {
             throw new System.NotImplementedException();
@@ -563,22 +686,26 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether any portion of the specified
-        /// <see cref="T:System.Drawing.Rectangle" /> structure is contained within this
-        /// <see cref="T:System.Drawing.Region" /> when drawn using the specified
-        /// <see cref="T:System.Drawing.Graphics" />.
+        /// <see cref="System.Drawing.Rectangle" /> structure is contained within this
+        /// <see cref="System.Drawing.Region" /> when drawn using the specified
+        /// <see cref="System.Drawing.Graphics" />
         /// </summary>
+        /// <returns>
+        /// true when any portion of the
+        /// <paramref name="rect" /> is contained within this
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
+        /// </returns>
         /// <param name="rect">The
-        /// <see cref="T:System.Drawing.Rectangle" /> structure to test.
+        /// <see cref="System.Drawing.Rectangle" /> structure to test.
         /// </param>
         /// <param name="g">A
-        /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
+        /// <see cref="System.Drawing.Graphics" /> that represents a graphics context.
         /// </param>
-        /// <returns>
-        /// <see langword="true" /> when any portion of the
-        /// <paramref name="rect" /> is contained within this
-        /// <see cref="T:System.Drawing.Region" />; otherwise,
-        /// <see langword="false" />.
-        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(Rectangle rect, Graphics g)
         {
             throw new System.NotImplementedException();
@@ -586,18 +713,22 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether any portion of the specified
-        /// <see cref="T:System.Drawing.RectangleF" /> structure is contained within this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.RectangleF" /> structure is contained within this
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.RectangleF" /> structure to test.
-        /// </param>
         /// <returns>
-        /// <see langword="true" /> when any portion of
+        /// true when any portion of
         /// <paramref name="rect" /> is contained within this
-        /// <see cref="T:System.Drawing.Region" />; otherwise,
-        /// <see langword="false" />.
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
         /// </returns>
+        /// <param name="rect">The
+        /// <see cref="System.Drawing.RectangleF" /> structure to test.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(RectangleF rect)
         {
             throw new System.NotImplementedException();
@@ -605,22 +736,25 @@ namespace System.Drawing
 
         /// <summary>
         /// Tests whether any portion of the specified
-        /// <see cref="T:System.Drawing.RectangleF" /> structure is contained within this
-        /// <see cref="T:System.Drawing.Region" /> when drawn using the specified
-        /// <see cref="T:System.Drawing.Graphics" />.
+        /// <see cref="System.Drawing.RectangleF" /> structure is contained within this
+        /// <see cref="System.Drawing.Region" /> when drawn using the specified
+        /// <see cref="System.Drawing.Graphics" />
         /// </summary>
+        /// <returns>true when
+        /// <paramref name="rect" /> is contained within this
+        /// <see cref="System.Drawing.Region" />; otherwise, false.
+        /// </returns>
         /// <param name="rect">The
-        /// <see cref="T:System.Drawing.RectangleF" /> structure to test.
+        /// <see cref="System.Drawing.RectangleF" /> structure to test.
         /// </param>
         /// <param name="g">A
-        /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
+        /// <see cref="System.Drawing.Graphics" /> that represents a graphics context.
         /// </param>
-        /// <returns>
-        /// <see langword="true" /> when
-        /// <paramref name="rect" /> is contained within this
-        /// <see cref="T:System.Drawing.Region" />; otherwise,
-        /// <see langword="false" />.
-        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(RectangleF rect, Graphics g)
         {
             throw new System.NotImplementedException();
@@ -786,16 +920,26 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes this
-        /// <see cref="T:System.Drawing.Region" /> to an empty interior.
+        /// <see cref="System.Drawing.Region" /> to an empty interior.
         /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void MakeEmpty()
         {
         }
 
         /// <summary>
         /// Initializes this
-        /// <see cref="T:System.Drawing.Region" /> object to an infinite interior.
+        /// <see cref="System.Drawing.Region" /> object to an infinite interior.
         /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void MakeInfinite()
         {
         }
@@ -817,17 +961,22 @@ namespace System.Drawing
 
         /// <summary>
         /// Transforms this
-        /// <see cref="T:System.Drawing.Region" /> by the specified
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+        /// <see cref="System.Drawing.Region" /> by the specified
+        /// <see cref="System.Drawing.Drawing2D.Matrix" />
         /// </summary>
-        /// <param name="matrix">The
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which to transform this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="matrix">
+        /// The
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> by which to transform this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="matrix" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="matrix" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Transform(Matrix matrix)
         {
         }
@@ -862,124 +1011,168 @@ namespace System.Drawing
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the union of itself and the specified
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Region" /> to the union of itself and the specified
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
-        /// <param name="path">The
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> to unite with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="path">
+        /// The
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> to unite with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="path" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Union(GraphicsPath path)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the union of itself and the specified
-        /// <see cref="T:System.Drawing.Rectangle" /> structure.
+        /// <see cref="System.Drawing.Region" /> to the union of itself and the specified
+        /// <see cref="System.Drawing.Rectangle" /> structure.
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.Rectangle" /> structure to unite with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.Rectangle" /> structure to unite with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Union(Rectangle rect)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the union of itself and the specified
-        /// <see cref="T:System.Drawing.RectangleF" /> structure.
+        /// <see cref="System.Drawing.Region" /> to the union of itself and the specified
+        /// <see cref="System.Drawing.RectangleF" /> structure.
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.RectangleF" /> structure to unite with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.RectangleF" /> structure to unite with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Union(RectangleF rect)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the union of itself and the specified
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" /> to the union of itself and the specified
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="region">The
-        /// <see cref="T:System.Drawing.Region" /> to unite with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="region">
+        /// The
+        /// <see cref="System.Drawing.Region" /> to unite with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="region" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="region" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Union(Region region)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the union minus the intersection of itself with the specified
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Region" /> to the union minus the intersection of itself with the specified
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
-        /// <param name="path">The
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> to
-        /// <see cref="Overload:System.Drawing.Region.Xor" /> with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="path">
+        /// The
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> to
+        /// <see cref="!:Overload:System.Drawing.Region.Xor" /> with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="path" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Xor(GraphicsPath path)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the union minus the intersection of itself with the specified
-        /// <see cref="T:System.Drawing.Rectangle" /> structure.
+        /// <see cref="System.Drawing.Region" /> to the union minus the intersection of itself with the specified
+        /// <see cref="System.Drawing.Rectangle" /> structure.
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.Rectangle" /> structure to
-        /// <see cref="Overload:System.Drawing.Region.Xor" /> with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.Rectangle" /> structure to
+        /// <see cref="!:Overload:System.Drawing.Region.Xor" /> with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Xor(Rectangle rect)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the union minus the intersection of itself with the specified
-        /// <see cref="T:System.Drawing.RectangleF" /> structure.
+        /// <see cref="System.Drawing.Region" /> to the union minus the intersection of itself with the specified
+        /// <see cref="System.Drawing.RectangleF" /> structure.
         /// </summary>
-        /// <param name="rect">The
-        /// <see cref="T:System.Drawing.RectangleF" /> structure to
-        /// <see cref="M:System.Drawing.Region.Xor(System.Drawing.Drawing2D.GraphicsPath)" /> with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="rect">
+        /// The
+        /// <see cref="System.Drawing.RectangleF" /> structure to
+        /// <see cref="System.Drawing.Region.Xor(System.Drawing.Drawing2D.GraphicsPath)" /> with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Xor(RectangleF rect)
         {
         }
 
         /// <summary>
         /// Updates this
-        /// <see cref="T:System.Drawing.Region" /> to the union minus the intersection of itself with the specified
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <see cref="System.Drawing.Region" /> to the union minus the intersection of itself with the specified
+        /// <see cref="System.Drawing.Region" />
         /// </summary>
-        /// <param name="region">The
-        /// <see cref="T:System.Drawing.Region" /> to
-        /// <see cref="Overload:System.Drawing.Region.Xor" /> with this
-        /// <see cref="T:System.Drawing.Region" />.
+        /// <param name="region">
+        /// The
+        /// <see cref="System.Drawing.Region" /> to
+        /// <see cref="!:Overload:System.Drawing.Region.Xor" /> with this
+        /// <see cref="System.Drawing.Region" />
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="region" /> is
-        /// <see langword="null" />.
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="region" /> is null.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Xor(Region region)
         {
         }

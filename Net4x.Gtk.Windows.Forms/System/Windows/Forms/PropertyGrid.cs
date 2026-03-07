@@ -20,18 +20,6 @@ namespace System.Windows.Forms
     /// </summary>
     /// <filterpriority>1
     /// </filterpriority>
-    /// Provides a user interface for browsing the properties of an object.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
-    /// Provides a user interface for browsing the properties of an object.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
-    /// Provides a user interface for browsing the properties of an object.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
     [Designer($"System.Windows.Forms.Design.PropertyGridDesigner, {AssemblyRef.SystemDesign}")]
     public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     {

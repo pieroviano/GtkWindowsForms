@@ -25,6 +25,10 @@ namespace System.Windows.Forms
         public readonly RichTextBoxBase self = new RichTextBoxBase();
 
         public override event EventHandler TextChanged;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.RichTextBox" /> class.
+        /// </summary>
         public RichTextBox() : base()
         {
             self.TextView.Buffer.Changed += Buffer_Changed;
@@ -54,6 +58,19 @@ namespace System.Windows.Forms
 
         public virtual bool ReadOnly { get { return self.TextView.CanFocus; } set { self.TextView.CanFocus = value; } }
 
+        /// <summary>
+        /// Gets or sets the number of characters selected in control.
+        /// </summary>
+        /// <returns>The number of characters selected in the text box.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         [System.ComponentModel.Browsable(false)]
         public virtual int SelectionLength
         {
@@ -80,6 +97,13 @@ namespace System.Windows.Forms
             set { Select(value, SelectionLength); }
         }
 
+        /// <summary>
+        /// Gets or sets the current text in the rich text box.
+        /// </summary>
+        /// <returns>The text displayed in the control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public override string Text { get => self.TextView.Buffer.Text; set => self.TextView.Buffer.Text = value; }
         public void AppendText(string text)
         {

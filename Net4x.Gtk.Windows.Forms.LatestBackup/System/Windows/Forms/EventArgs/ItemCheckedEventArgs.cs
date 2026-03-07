@@ -15,14 +15,27 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class ItemCheckedEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ItemCheckedEventArgs" /> class.
+        /// </summary>
+        /// <param name="item">The
+        /// <see cref="System.Windows.Forms.ListViewItem" /> that is being checked or unchecked.
+        /// </param>
         public ItemCheckedEventArgs(ListViewItem item)
         {
             Item = item;
         }
 
         /// <summary>
-        /// The index of the item that is about to change.
+        /// Gets the
+        /// <see cref="System.Windows.Forms.ListViewItem" /> whose checked state is changing.
         /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.ListViewItem" /> whose checked state is changing.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public ListViewItem Item { get; }
     }
 }

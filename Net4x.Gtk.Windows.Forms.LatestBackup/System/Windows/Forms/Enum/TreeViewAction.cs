@@ -29,12 +29,14 @@ namespace System.Windows.Forms
         ByMouse = 2,
 
         /// <summary>
-        /// The tree node is collapsing.
+        /// The event was caused by the
+        /// <see cref="System.Windows.Forms.TreeNode" /> collapsing.
         /// </summary>
         Collapse = 3,
 
         /// <summary>
-        /// The tree node is expanding.
+        /// The event was caused by the
+        /// <see cref="System.Windows.Forms.TreeNode" /> expanding.
         /// </summary>
         Expand = 4,
     }

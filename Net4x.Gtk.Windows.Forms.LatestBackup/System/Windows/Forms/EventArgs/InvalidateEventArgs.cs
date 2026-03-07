@@ -17,19 +17,24 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="InvalidateEventArgs" />
-        /// class.
+        /// <see cref="System.Windows.Forms.InvalidateEventArgs" /> class.
         /// </summary>
+        /// <param name="invalidRect">The
+        /// <see cref="System.Drawing.Rectangle" /> that contains the invalidated window area.
+        /// </param>
         public InvalidateEventArgs(Rectangle invalidRect)
         {
             InvalidRect = invalidRect;
         }
 
         /// <summary>
-        /// Gets a value indicating the
-        /// <see cref="Rectangle" /> that contains the
-        /// invalidated window area.
+        /// Gets the
+        /// <see cref="System.Drawing.Rectangle" /> that contains the invalidated window area.
         /// </summary>
+        /// <returns>The invalidated window area.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public Rectangle InvalidRect { get; }
     }
 }

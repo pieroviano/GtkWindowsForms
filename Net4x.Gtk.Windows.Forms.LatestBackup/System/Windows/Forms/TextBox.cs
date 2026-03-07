@@ -61,8 +61,38 @@ namespace System.Windows.Forms
 
         public int MaxLength { get => self.MaxLength; set => self.MaxLength = value; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this is a multiline
+        /// <see cref="System.Windows.Forms.TextBox" /> control.
+        /// </summary>
+        /// <returns>true if the control is a multiline
+        /// <see cref="System.Windows.Forms.TextBox" /> control; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool Multiline { get; set; }
 
+        /// <summary>
+        /// Gets or sets the character used to mask characters of a password in a single-line
+        /// <see cref="System.Windows.Forms.TextBox" /> control.
+        /// </summary>
+        /// <returns>The character used to mask characters entered in a single-line
+        /// <see cref="System.Windows.Forms.TextBox" /> control. Set the value of this property to 0 (character value) if you do not want the control to mask characters as they are typed. Equals 0 (character value) by default.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public virtual char PasswordChar { get => self.InvisibleChar; set { self.InvisibleChar = value; self.Visibility = false; } }
 
         public string PlaceholderText { get { return self.PlaceholderText; } set { self.PlaceholderText = value ?? ""; } }
@@ -95,6 +125,14 @@ namespace System.Windows.Forms
             set { Select(value, SelectionLength); }
         }
 
+        /// <summary>
+        /// Gets or sets the current text in the
+        /// <see cref="System.Windows.Forms.TextBox" />
+        /// </summary>
+        /// <returns>The text displayed in the control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public override string Text { get { return self.Text; } set { self.Text = value ?? ""; } }
 
         public void InsertTextAtCursor(string text)

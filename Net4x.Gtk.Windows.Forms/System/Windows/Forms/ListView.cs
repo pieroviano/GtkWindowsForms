@@ -69,6 +69,10 @@ namespace System.Windows.Forms
         public event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
 
         public event EventHandler SelectedIndexChanged;
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ListView" /> class.
+        /// </summary>
         public ListView() : base()
         {
             _items = new ListViewItemCollection(this);
@@ -102,15 +106,86 @@ namespace System.Windows.Forms
             self.box.PackStart(scrolledWindow, true, true, 0);
             this.BorderStyle = BorderStyle.Fixed3D;
         }
-
+        /// <summary>
+        /// Gets or sets the type of action the user must take to activate an item.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.ItemActivation" /> values. The default is
+        /// <see cref="System.Windows.Forms.ItemActivation.Standard" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
+        /// <see cref="System.Windows.Forms.ItemActivation" /> members.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public ItemActivation Activation { get; set; }
 
+        /// <summary>
+        /// Gets or sets the alignment of items in the control.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.ListViewAlignment" /> values. The default is
+        /// <see cref="System.Windows.Forms.ListViewAlignment.Top" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
+        /// <see cref="System.Windows.Forms.ListViewAlignment" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public System.Windows.Forms.ListViewAlignment Alignment { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the user can drag column headers to reorder columns in the control.
+        /// </summary>
+        /// <returns>true if drag-and-drop column reordering is allowed; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool AllowColumnReorder { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether a check box appears next to each item in the control.
+        /// </summary>
+        /// <returns>true if a check box appears next to each item in the
+        /// <see cref="System.Windows.Forms.ListView" /> control; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool CheckBoxes { get; set; }
 
+        /// <summary>
+        /// Gets the indexes of the currently checked items in the control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.ListView.CheckedIndexCollection" /> that contains the indexes of the currently checked items. If no items are currently checked, an empty
+        /// <see cref="System.Windows.Forms.ListView.CheckedIndexCollection" /> is returned.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public CheckedIndexCollection CheckedIndices
         {
             get
@@ -125,6 +200,15 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the currently checked items in the control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.ListView.CheckedListViewItemCollection" /> that contains the currently checked items. If no items are currently checked, an empty
+        /// <see cref="System.Windows.Forms.ListView.CheckedListViewItemCollection" /> is returned.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public CheckedListViewItemCollection CheckedItems
         {
             get
@@ -142,6 +226,16 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the collection of all column headers that appear in the control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.ListView.ColumnHeaderCollection" /> that represents the column headers that appear when the
+        /// <see cref="System.Windows.Forms.ListView.View" /> property is set to
+        /// <see cref="System.Windows.Forms.View.Details" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public ColumnHeaderCollection Columns
         {
             get
@@ -150,12 +244,48 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether clicking an item selects all its subitems.
+        /// </summary>
+        /// <returns>true if clicking an item selects the item and all its subitems; false if clicking an item selects only the item itself. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool FullRowSelect { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether grid lines appear between the rows and columns containing the items and subitems in the control.
+        /// </summary>
+        /// <returns>true if grid lines are drawn around items and subitems; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool GridLines { get; set; } = true;
 
         public ImageList GroupImageList { get; set; }
 
+        /// <summary>
+        /// Gets the collection of
+        /// <see cref="System.Windows.Forms.ListViewGroup" /> objects assigned to the control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.ListViewGroupCollection" /> that contains all the groups in the
+        /// <see cref="System.Windows.Forms.ListView" /> control.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
         public ListViewGroupCollection Groups
         {
             get
@@ -166,12 +296,62 @@ namespace System.Windows.Forms
 
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the column header style.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.ColumnHeaderStyle" /> values. The default is
+        /// <see cref="System.Windows.Forms.ColumnHeaderStyle.Clickable" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
+        /// <see cref="System.Windows.Forms.ColumnHeaderStyle" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public System.Windows.Forms.ColumnHeaderStyle HeaderStyle { get; set; } = ColumnHeaderStyle.Clickable;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the selected item in the control remains highlighted when the control loses focus.
+        /// </summary>
+        /// <returns>true if the selected item does not appear highlighted when the control loses focus; false if the selected item still appears highlighted when the control loses focus. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool HideSelection { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether an item is automatically selected when the mouse pointer remains over the item for a few seconds.
+        /// </summary>
+        /// <returns>true if an item is automatically selected when the mouse pointer hovers over it; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool HoverSelection { get; set; }
 
+        /// <summary>
+        /// Gets a collection containing all items in the control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.ListView.ListViewItemCollection" /> that contains all the items in the
+        /// <see cref="System.Windows.Forms.ListView" /> control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public ListViewItemCollection Items
         {
             get
@@ -180,18 +360,79 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the user can edit the labels of items in the control.
+        /// </summary>
+        /// <returns>true if the user can edit the labels of items at run time; otherwise, false. The default is false.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool LabelEdit { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether item labels wrap when items are displayed in the control as icons.
+        /// </summary>
+        /// <returns>true if item labels wrap when items are displayed as icons; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool LabelWrap { get; set; }
 
+        /// <summary>
+        /// Gets or sets the
+        /// <see cref="System.Windows.Forms.ImageList" /> to use when displaying items as large icons in the control.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="System.Windows.Forms.ImageList" /> that contains the icons to use when the
+        /// <see cref="System.Windows.Forms.ListView.View" /> property is set to
+        /// <see cref="System.Windows.Forms.View.LargeIcon" /> The default is null.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public ImageList LargeImageList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sorting comparer for the control.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="System.Collections.IComparer" /> that represents the sorting comparer for the control.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public IComparer ListViewItemSorter
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether multiple items can be selected.
+        /// </summary>
+        /// <returns>true if multiple items in the control can be selected at one time; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public virtual bool MultiSelect
         {
             get
@@ -215,10 +456,45 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the
+        /// <see cref="System.Windows.Forms.ListView" /> control is drawn by the operating system or by code that you provide.
+        /// </summary>
+        /// <returns>true if the
+        /// <see cref="System.Windows.Forms.ListView" /> control is drawn by code that you provide; false if the
+        /// <see cref="System.Windows.Forms.ListView" /> control is drawn by the operating system. The default is false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool OwnerDraw { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether a scroll bar is added to the control when there is not enough room to display all items.
+        /// </summary>
+        /// <returns>true if scroll bars are added to the control when necessary to allow the user to see all the items; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool Scrollable { get; set; }
 
+        /// <summary>
+        /// Gets the indexes of the selected items in the control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.ListView.SelectedIndexCollection" /> that contains the indexes of the selected items. If no items are currently selected, an empty
+        /// <see cref="System.Windows.Forms.ListView.SelectedIndexCollection" /> is returned.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public SelectedIndexCollection SelectedIndices
         {
             get
@@ -233,6 +509,15 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the items that are selected in the control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.ListView.SelectedListViewItemCollection" /> that contains the items that are selected in the control. If no items are currently selected, an empty
+        /// <see cref="System.Windows.Forms.ListView.SelectedListViewItemCollection" /> is returned.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public SelectedListViewItemCollection SelectedItems
         {
             get
@@ -250,20 +535,117 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether items are displayed in groups.
+        /// </summary>
+        /// <returns>true to display items in groups; otherwise, false. The default value is true.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool ShowGroups { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether ToolTips are shown for the
+        /// <see cref="System.Windows.Forms.ListViewItem" /> objects contained in the
+        /// <see cref="System.Windows.Forms.ListView" />
+        /// </summary>
+        /// <returns>true if
+        /// <see cref="System.Windows.Forms.ListViewItem" /> ToolTips should be shown; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool ShowItemToolTips { get; set; }
 
+        /// <summary>
+        /// Gets or sets the
+        /// <see cref="System.Windows.Forms.ImageList" /> to use when displaying items as small icons in the control.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="System.Windows.Forms.ImageList" /> that contains the icons to use when the
+        /// <see cref="System.Windows.Forms.ListView.View" /> property is set to
+        /// <see cref="System.Windows.Forms.View.SmallIcon" /> The default is null.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public ImageList SmallImageList { get; set; }
 
         public bool Sorted { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sort order for items in the control.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.SortOrder" /> values. The default is
+        /// <see cref="System.Windows.Forms.SortOrder.None" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
+        /// <see cref="System.Windows.Forms.SortOrder" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public System.Windows.Forms.SortOrder Sorting { get; set; }
 
+        /// <summary>
+        /// Gets or sets the
+        /// <see cref="System.Windows.Forms.ImageList" /> associated with application-defined states in the control.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="System.Windows.Forms.ImageList" /> that contains a set of state images that can be used to indicate an application-defined state of an item. The default is null.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public ImageList StateImageList { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the
+        /// <see cref="System.Windows.Forms.ListView" /> uses state image behavior that is compatible with the .NET Framework 1.1 or the .NET Framework 2.0.
+        /// </summary>
+        /// <returns>true if the state image behavior is compatible with the .NET Framework 1.1; false if the behavior is compatible with the .NET Framework 2.0. The default is true.
+        /// </returns>
         public bool UseCompatibleStateImageBehavior { get; set; }
 
+        /// <summary>
+        /// Gets or sets how items are displayed in the control.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.View" /> values. The default is
+        /// <see cref="System.Windows.Forms.View.LargeIcon" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the
+        /// <see cref="System.Windows.Forms.View" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
         public System.Windows.Forms.View View { get; set; }
         internal ListViewGroup DefaultGroup
         {
@@ -296,17 +678,52 @@ namespace System.Windows.Forms
                 return _fontSize;
             }
         }
+        /// <summary>
+        /// Prevents the control from drawing until the
+        /// <see cref="System.Windows.Forms.ListView.EndUpdate" /> method is called.
+        /// </summary>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void BeginUpdate()
         {
             IsCacheUpdate = true;
         }
 
+        /// <summary>
+        /// Removes all items and columns from the control.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void Clear()
         {
             Items.Clear();
             Groups.Clear();
         }
 
+        /// <summary>
+        /// Resumes drawing of the list view control after drawing is suspended by the
+        /// <see cref="System.Windows.Forms.ListView.BeginUpdate" /> method.
+        /// </summary>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void EndUpdate()
         {
             IsCacheUpdate = false;
@@ -314,11 +731,54 @@ namespace System.Windows.Forms
             self.ShowAll();
         }
 
+        /// <summary>
+        /// Finds the first
+        /// <see cref="System.Windows.Forms.ListViewItem" /> that begins with the specified text value.
+        /// </summary>
+        /// <returns>The first
+        /// <see cref="System.Windows.Forms.ListViewItem" /> that begins with the specified text value.
+        /// </returns>
+        /// <param name="text">The text to search for.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public ListViewItem FindItemWithText(string text)
         {
             return Items.Find(w => w.Text == text);
         }
 
+        /// <summary>
+        /// Finds the first
+        /// <see cref="System.Windows.Forms.ListViewItem" /> or
+        /// <see cref="System.Windows.Forms.ListViewItem.ListViewSubItem" />, if indicated, that begins with the specified text value. The search starts at the specified index.
+        /// </summary>
+        /// <returns>The first
+        /// <see cref="System.Windows.Forms.ListViewItem" /> that begins with the specified text value.
+        /// </returns>
+        /// <param name="text">The text to search for.
+        /// </param>
+        /// <param name="includeSubItemsInSearch">true to include subitems in the search; otherwise, false.
+        /// </param>
+        /// <param name="startIndex">The index of the item at which to start the search.
+        /// </param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <paramref name="startIndex" /> is less 0 or more than the number items in the
+        /// <see cref="System.Windows.Forms.ListView" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
         {
             int idx = Items.FindIndex(startIndex, w => w.Text == text);
@@ -326,6 +786,34 @@ namespace System.Windows.Forms
             return idx == -1 ? null : Items[idx];
         }
 
+        /// <summary>
+        /// Finds the first
+        /// <see cref="System.Windows.Forms.ListViewItem" /> or
+        /// <see cref="System.Windows.Forms.ListViewItem.ListViewSubItem" />, if indicated, that begins with the specified text value. The search starts at the specified index.
+        /// </summary>
+        /// <returns>The first
+        /// <see cref="System.Windows.Forms.ListViewItem" /> that begins with the specified text value.
+        /// </returns>
+        /// <param name="text">The text to search for.
+        /// </param>
+        /// <param name="includeSubItemsInSearch">true to include subitems in the search; otherwise, false.
+        /// </param>
+        /// <param name="startIndex">The index of the item at which to start the search.
+        /// </param>
+        /// <param name="isPrefixSearch">true to allow partial matches; otherwise, false.
+        /// </param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <paramref name="startIndex" /> is less than 0 or more than the number of items in the
+        /// <see cref="System.Windows.Forms.ListView" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
         {
             int idx = Items.FindIndex(startIndex, w => w.Text == text);
@@ -333,6 +821,24 @@ namespace System.Windows.Forms
             return idx == -1 ? null : Items[idx];
         }
 
+        /// <summary>
+        /// Retrieves the item at the specified location.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.ListViewItem" /> that represents the item at the specified position. If there is no item at the specified location, the method returns null.
+        /// </returns>
+        /// <param name="x">The x-coordinate of the location to search for an item (expressed in client coordinates).
+        /// </param>
+        /// <param name="y">The y-coordinate of the location to search for an item (expressed in client coordinates).
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public ListViewItem GetItemAt(int x, int y)
         {
             foreach (Gtk.Box vbox in flowBoxContainer.Children)
@@ -354,11 +860,40 @@ namespace System.Windows.Forms
             return null;
         }
 
+        /// <summary>
+        /// Retrieves the bounding rectangle for a specific item within the list view control.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Rectangle" /> that represents the bounding rectangle of the specified
+        /// <see cref="System.Windows.Forms.ListViewItem" />
+        /// </returns>
+        /// <param name="index">The zero-based index of the item within the
+        /// <see cref="System.Windows.Forms.ListView.ListViewItemCollection" /> whose bounding rectangle you want to return.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Drawing.Rectangle GetItemRect(int index)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Sorts the items of the list view.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void Sort()
         {
             foreach (var group in GetAllGroups())
@@ -1174,7 +1709,9 @@ namespace System.Windows.Forms
                 }
             }
         }
-
+        /// <summary>
+        /// Represents the collection containing the indexes to the checked items in a list view control.
+        /// </summary>
         public class CheckedIndexCollection : List<int>
         {
 
@@ -1185,6 +1722,9 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Represents the collection of checked items in a list view control.
+        /// </summary>
         [ListBindable(false)]
         public class CheckedListViewItemCollection : List<ListViewItem>
         {
@@ -1204,6 +1744,10 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Represents the collection of column headers in a
+        /// <see cref="System.Windows.Forms.ListView" /> control.
+        /// </summary>
         [ListBindable(false)]
         public class ColumnHeaderCollection : List<ColumnHeader>
         {
@@ -1392,6 +1936,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Represents the collection of items in a
+        /// <see cref="System.Windows.Forms.ListView" /> control or assigned to a
+        /// <see cref="System.Windows.Forms.ListViewGroup" />
+        /// </summary>
         [ListBindable(false)]
         public class ListViewItemCollection : List<ListViewItem>, IList
         {
@@ -1546,12 +2095,19 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Represents the collection that contains the indexes to the selected items in a
+        /// <see cref="System.Windows.Forms.ListView" /> control.
+        /// </summary>
         [ListBindable(false)]
         public class SelectedIndexCollection : List<int>
         {
 
         }
 
+        /// <summary>
+        /// Represents the collection of selected items in a list view control.
+        /// </summary>
         [ListBindable(false)]
         public class SelectedListViewItemCollection : List<ListViewItem>
         {

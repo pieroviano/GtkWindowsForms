@@ -107,13 +107,16 @@ namespace System.Drawing
         /// <summary>
         /// Returns a Boolean value indicating whether the specified image contains time-based frames.
         /// </summary>
-        /// <param name = "image">The
-        /// <see cref="T:System.Drawing.Image"/> object to test.
-        /// </param>
-        /// <returns>This method returns
-        /// <see langword="true"/> if the specified image contains time-based frames; otherwise,
-        /// <see langword="false"/>.
+        /// <returns>This method returns true if the specified image contains time-based frames; otherwise, false.
         /// </returns>
+        /// <param name = "image">The
+        /// <see cref = "System.Drawing.Image"/> object to test.
+        /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
+        /// </PermissionSet>
         public static bool CanAnimate([NotNullWhen(true)] Image image)
         {
             if (image == null)
@@ -206,8 +209,13 @@ namespace System.Drawing
         /// Advances the frame in the specified image. The new frame is drawn the next time the image is rendered. This method applies only to images with time-based frames.
         /// </summary>
         /// <param name = "image">The
-        /// <see cref="T:System.Drawing.Image"/> object for which to update frames.
+        /// <see cref = "System.Drawing.Image"/> object for which to update frames.
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
+        /// </PermissionSet>
         public static void UpdateFrames(Image image)
         {
             if (image == null || s_imageInfoList == null || t_threadWriterLockWaitCount > 0)
@@ -256,6 +264,11 @@ namespace System.Drawing
         /// <summary>
         /// Advances the frame in all images currently being animated. The new frame is drawn the next time the image is rendered.
         /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
+        /// </PermissionSet>
         public static void UpdateFrames()
         {
             if (!s_anyFrameDirty || s_imageInfoList == null || t_threadWriterLockWaitCount > 0)

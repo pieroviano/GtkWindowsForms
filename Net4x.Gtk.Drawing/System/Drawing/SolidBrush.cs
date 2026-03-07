@@ -24,15 +24,21 @@ namespace System.Drawing
         }
         /// <summary>
         /// Gets or sets the color of this
-        /// <see cref="T:System.Drawing.SolidBrush" /> object.
+        /// <see cref="System.Drawing.SolidBrush" /> object.
         /// </summary>
         /// <returns>A
-        /// <see cref="T:System.Drawing.Color" /> structure that represents the color of this brush.
+        /// <see cref="System.Drawing.Color" /> structure that represents the color of this brush.
         /// </returns>
-        /// <exception cref="T:System.ArgumentException">The
-        /// <see cref="P:System.Drawing.SolidBrush.Color" /> property is set on an immutable
-        /// <see cref="T:System.Drawing.SolidBrush" />.
+        /// <exception cref="System.ArgumentException">
+        /// The
+        /// <see cref="System.Drawing.SolidBrush.Color" /> property is set on an immutable
+        /// <see cref="System.Drawing.SolidBrush" />
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Color Color
         {
             get;
@@ -41,11 +47,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="T:System.Drawing.SolidBrush" /> object.
+        /// <see cref="System.Drawing.SolidBrush" /> object.
         /// </summary>
         /// <returns>The
-        /// <see cref="T:System.Drawing.SolidBrush" /> object that this method creates.
+        /// <see cref="System.Drawing.SolidBrush" /> object that this method creates.
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public override object Clone()
         {
             return null;

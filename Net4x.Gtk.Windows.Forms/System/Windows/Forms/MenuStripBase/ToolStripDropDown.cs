@@ -22,6 +22,10 @@ namespace System.Windows.Forms
         //public readonly ToolStripDropDownBase self = new ToolStripDropDownBase();
 
         public readonly Gtk.Menu self = new Gtk.Menu();
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ToolStripDropDown" /> class.
+        /// </summary>
         public ToolStripDropDown() : base()
         {
 

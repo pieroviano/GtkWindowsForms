@@ -30,8 +30,7 @@ namespace System.Windows.Forms
         Categorized = 2,
 
         /// <summary>
-        /// Properties are under category groups, which are defined by the
-        /// properties themselves, and are alphabetical within those groups.
+        /// Properties are displayed according to their category in a group. The properties are further sorted alphabetically within the group. The categories are defined by the properties themselves.
         /// </summary>
         CategorizedAlphabetical = Alphabetical | Categorized,
     }

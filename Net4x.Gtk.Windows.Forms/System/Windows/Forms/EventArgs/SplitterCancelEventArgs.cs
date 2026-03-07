@@ -15,11 +15,20 @@ namespace System.Windows.Forms
     public class SplitterCancelEventArgs : CancelEventArgs
     {
         /// <summary>
-        /// Initializes an instance of the
-        /// <see cref="SplitterCancelEventArgs" /> class with the specified coordinates
-        /// of the mouse pointer and the upper-left corner of the
-        /// <see cref="SplitContainer" />.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.SplitterCancelEventArgs" /> class with the specified coordinates of the mouse pointer and the upper left corner of the
+        /// <see cref="System.Windows.Forms.SplitContainer" />
         /// </summary>
+        /// <param name="mouseCursorX">The X coordinate of the mouse pointer in client coordinates.
+        /// </param>
+        /// <param name="mouseCursorY">The Y coordinate of the mouse pointer in client coordinates.
+        /// </param>
+        /// <param name="splitX">The X coordinate of the upper left corner of the
+        /// <see cref="System.Windows.Forms.SplitContainer" /> in client coordinates.
+        /// </param>
+        /// <param name="splitY">The Y coordinate of the upper left corner of the
+        /// <see cref="System.Windows.Forms.SplitContainer" /> in client coordinates.
+        /// </param>
         public SplitterCancelEventArgs(int mouseCursorX, int mouseCursorY, int splitX, int splitY) : base(false)
         {
             MouseCursorX = mouseCursorX;
@@ -29,25 +38,43 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the x-coordinate of the mouse pointer (in client coordinates).
+        /// Gets the X coordinate of the mouse pointer in client coordinates.
         /// </summary>
+        /// <returns>An integer representing the X coordinate of the mouse pointer in client coordinates.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int MouseCursorX { get; }
 
         /// <summary>
-        /// Gets the y-coordinate of the mouse pointer (in client coordinates).
+        /// Gets the Y coordinate of the mouse pointer in client coordinates.
         /// </summary>
+        /// <returns>An integer representing the Y coordinate of the mouse pointer in client coordinates.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int MouseCursorY { get; }
 
         /// <summary>
-        /// Gets the x-coordinate of the upper-left corner of the
-        /// <see cref="SplitContainer" /> (in client coordinates).
+        /// Gets or sets the X coordinate of the upper left corner of the
+        /// <see cref="System.Windows.Forms.SplitContainer" /> in client coordinates.
         /// </summary>
+        /// <returns>An integer representing the X coordinate of the upper left corner of the
+        /// <see cref="System.Windows.Forms.SplitContainer" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int SplitX { get; set; }
 
         /// <summary>
-        /// Gets the y-coordinate of the upper-left corner of the
-        /// <see cref="SplitContainer" /> (in client coordinates).
+        /// Gets or sets the Y coordinate of the upper left corner of the
+        /// <see cref="System.Windows.Forms.SplitContainer" /> in client coordinates.
         /// </summary>
+        /// <returns>An integer representing the Y coordinate of the upper left corner of the
+        /// <see cref="System.Windows.Forms.SplitContainer" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int SplitY { get; set; }
     }
 }

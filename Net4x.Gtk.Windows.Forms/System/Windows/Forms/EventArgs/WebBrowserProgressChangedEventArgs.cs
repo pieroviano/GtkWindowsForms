@@ -14,9 +14,13 @@ namespace System.Windows.Forms
     public class WebBrowserProgressChangedEventArgs : EventArgs
     {
         /// <summary>
-        /// Creates an instance of the
-        /// <see cref="WebBrowserProgressChangedEventArgs" /> class.
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.WebBrowserProgressChangedEventArgs" /> class.
         /// </summary>
+        /// <param name="currentProgress">The number of bytes that are loaded already.
+        /// </param>
+        /// <param name="maximumProgress">The total number of bytes to be loaded.
+        /// </param>
         public WebBrowserProgressChangedEventArgs(long currentProgress, long maximumProgress)
         {
             CurrentProgress = currentProgress;
@@ -24,8 +28,12 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Specifies current number of bytes donwloaded. CurrentProgress/MaximumProgress*100 = progress percentage.
+        /// Gets the number of bytes that have been downloaded.
         /// </summary>
+        /// <returns>The number of bytes that have been loaded or -1 to indicate that the download has completed.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public long CurrentProgress { get; }
 
         /// <summary>

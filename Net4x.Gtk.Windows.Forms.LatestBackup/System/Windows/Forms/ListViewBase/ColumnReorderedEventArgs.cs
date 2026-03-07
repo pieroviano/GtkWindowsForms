@@ -12,17 +12,50 @@ namespace System.Windows.Forms
     /// </summary>
     public class ColumnReorderedEventArgs : CancelEventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ColumnReorderedEventArgs" /> class.
+        /// </summary>
+        /// <param name="oldDisplayIndex">The previous display position of the
+        /// <see cref="System.Windows.Forms.ColumnHeader" />
+        /// </param>
+        /// <param name="newDisplayIndex">The new display position for the
+        /// <see cref="System.Windows.Forms.ColumnHeader" />
+        /// </param>
+        /// <param name="header">The
+        /// <see cref="System.Windows.Forms.ColumnHeader" /> that is being reordered.
+        /// </param>
         public ColumnReorderedEventArgs(int oldDisplayIndex, int newDisplayIndex, ColumnHeader header) : base()
         {
             OldDisplayIndex = oldDisplayIndex;
             NewDisplayIndex = newDisplayIndex;
             Header = header;
         }
-
+        /// <summary>
+        /// Gets the
+        /// <see cref="System.Windows.Forms.ColumnHeader" /> that is being reordered.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Windows.Forms.ColumnHeader" /> that is being reordered.
+        /// </returns>
         public ColumnHeader Header { get; }
 
+        /// <summary>
+        /// Gets the new display position of the
+        /// <see cref="System.Windows.Forms.ColumnHeader" />
+        /// </summary>
+        /// <returns>The new display position of the
+        /// <see cref="System.Windows.Forms.ColumnHeader" />
+        /// </returns>
         public int NewDisplayIndex { get; }
 
+        /// <summary>
+        /// Gets the previous display position of the
+        /// <see cref="System.Windows.Forms.ColumnHeader" />
+        /// </summary>
+        /// <returns>The previous display position of the
+        /// <see cref="System.Windows.Forms.ColumnHeader" />
+        /// </returns>
         public int OldDisplayIndex { get; }
     }
 }

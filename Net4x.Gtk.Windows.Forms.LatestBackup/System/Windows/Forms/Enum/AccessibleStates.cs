@@ -223,7 +223,9 @@ namespace System.Windows.Forms
         /// Object displays a pop-up menu or window when invoked.
         /// </summary>
         HasPopup = 0x40000000,
-
+        /// <summary>
+        /// A valid object. This property is deprecated in .NET Framework 2.0.
+        /// </summary>
         [Obsolete("This enumeration value has been deprecated. There is no replacement. http://go.microsoft.com/fwlink/?linkid=14202")]
         Valid = 0x3fffffff,
     }

@@ -15,7 +15,9 @@ namespace System.Windows.Forms
     public enum AutoCompleteMode
     {
         /// <summary>
-        /// Disables the AutoComplete Feature for ComboBox and TextBox.
+        /// Disables the automatic completion feature for the
+        /// <see cref="System.Windows.Forms.ComboBox" /> and
+        /// <see cref="System.Windows.Forms.TextBox" /> controls.
         /// </summary>
         None = 0,
 

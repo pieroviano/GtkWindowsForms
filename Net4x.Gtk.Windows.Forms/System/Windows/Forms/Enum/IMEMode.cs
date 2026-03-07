@@ -72,7 +72,7 @@ namespace System.Windows.Forms
         AlphaFull = 7,
 
         /// <summary>
-        /// Alphanumeric SBC. This setting is valid for Japanese IME only.
+        /// Alphanumeric single-byte characters(SBC). This setting is valid for Korean and Japanese IME only.
         /// </summary>
         Alpha = 8,
 

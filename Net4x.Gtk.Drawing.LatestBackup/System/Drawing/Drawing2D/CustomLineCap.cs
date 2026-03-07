@@ -60,13 +60,17 @@ namespace System.Drawing.Drawing2D
         }
         /// <summary>
         /// Gets or sets the
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration on which this
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> is based.
+        /// <see cref="System.Drawing.Drawing2D.LineCap" /> enumeration on which this
+        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> is based.
         /// </summary>
-        /// <returns>The
-        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration on which this
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> is based.
+        /// <returns>
+        /// The
+        /// <see cref="System.Drawing.Drawing2D.LineCap" /> enumeration on which this
+        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> is based.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public LineCap BaseCap
         {
             get
@@ -83,6 +87,9 @@ namespace System.Drawing.Drawing2D
         /// </summary>
         /// <returns>The distance between the beginning of the cap and the end of the line.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public float BaseInset
         {
             get
@@ -96,13 +103,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets the
-        /// <see cref="T:System.Drawing.Drawing2D.LineJoin" /> enumeration that determines how lines that compose this
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> object are joined.
+        /// <see cref="System.Drawing.Drawing2D.LineJoin" /> enumeration that determines how lines that compose this
+        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> object are joined.
         /// </summary>
-        /// <returns>The
-        /// <see cref="T:System.Drawing.Drawing2D.LineJoin" /> enumeration this
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> object uses to join lines.
+        /// <returns>
+        /// The
+        /// <see cref="System.Drawing.Drawing2D.LineJoin" /> enumeration this
+        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> object uses to join lines.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public LineJoin StrokeJoin
         {
             get
@@ -116,11 +127,15 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets the amount by which to scale this
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> Class object with respect to the width of the
-        /// <see cref="T:System.Drawing.Pen" /> object.
+        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" />
+        /// Class object with respect to the width of the
+        /// <see cref="System.Drawing.Pen" /> object.
         /// </summary>
         /// <returns>The amount by which to scale the cap.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public float WidthScale
         {
             get
@@ -134,11 +149,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />.
+        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" />
         /// </summary>
         /// <returns>The
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> this method creates, cast as an object.
+        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> this method creates, cast as an object.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public object Clone()
         {
             return null;
@@ -146,8 +164,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> object.
+        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> object.
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Dispose()
         {
         }

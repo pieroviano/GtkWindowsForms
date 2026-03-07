@@ -29,18 +29,65 @@ namespace System.Windows.Forms
         private string _ImageLocation;
 
         private readonly PictureBoxBase self = new PictureBoxBase();
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.PictureBox" /> class.
+        /// </summary>
         public PictureBox()
         {
             self.Shown += Self_Shown;
         }
-
+        /// <summary>
+        /// Indicates the border style for the control.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.BorderStyle" /> enumeration values. The default is
+        /// <see cref="System.Windows.Forms.BorderStyle.None" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value assigned is not one of the
+        /// <see cref="System.Windows.Forms.BorderStyle" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         [DefaultValue(BorderStyle.None)]
         public override BorderStyle BorderStyle { get; set; }
 
+        /// <summary>
+        /// Gets or sets the image to display when an error occurs during the image-loading process or if the image load is canceled.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="System.Drawing.Image" /> to display if an error occurs during the image-loading process or if the image load is canceled.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public System.Drawing.Image ErrorImage { get; set; }
 
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the image that is displayed by
+        /// <see cref="System.Windows.Forms.PictureBox" />
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Drawing.Image" /> to display.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public override System.Drawing.Image Image
         {
             get { return _image; }
@@ -54,12 +101,61 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the path or URL for the image to display in the
+        /// <see cref="System.Windows.Forms.PictureBox" />
+        /// </summary>
+        /// <returns>The path or URL for the image to display in the
+        /// <see cref="System.Windows.Forms.PictureBox" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public string ImageLocation { get { return _ImageLocation; } set { _ImageLocation = value; Load(value); } }
 
+        /// <summary>
+        /// Gets or sets the image displayed in the
+        /// <see cref="System.Windows.Forms.PictureBox" /> control when the main image is loading.
+        /// </summary>
+        /// <returns>The
+        /// <see cref="System.Drawing.Image" /> displayed in the picture box control when the main image is loading.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public System.Drawing.Image InitialImage { get; set; }
 
+        /// <summary>
+        /// Indicates how the image is displayed.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.PictureBoxSizeMode" /> values. The default is
+        /// <see cref="System.Windows.Forms.PictureBoxSizeMode.Normal" />
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value assigned is not one of the
+        /// <see cref="System.Windows.Forms.PictureBoxSizeMode" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public PictureBoxSizeMode SizeMode { get; set; }
-
+        /// <summary>
+        /// Cancels an asynchronous image load.
+        /// </summary>
+        /// <filterpriority>2
+        /// </filterpriority>
         public void CancelAsync() { }
 
         public override void EndInit()
@@ -67,6 +163,33 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Sets the
+        /// <see cref="System.Windows.Forms.PictureBox.ImageLocation" /> to the specified URL and displays the image indicated.
+        /// </summary>
+        /// <param name="url">The path for the image to display in the
+        /// <see cref="System.Windows.Forms.PictureBox" />
+        /// </param>
+        /// <exception cref="System.InvalidOperationException">
+        /// <paramref name="url" /> is null or an empty string.
+        /// </exception>
+        /// <exception cref="System.Net.WebException">
+        /// <paramref name="url" /> refers to an image on the Web that cannot be accessed.
+        /// </exception>
+        /// <exception cref="System.ArgumentException">
+        /// <paramref name="url" /> refers to a file that is not an image.
+        /// </exception>
+        /// <exception cref="System.IO.FileNotFoundException">
+        /// <paramref name="url" /> refers to a file that does not exist.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public new void Load(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -91,6 +214,22 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Displays the image specified by the
+        /// <see cref="System.Windows.Forms.PictureBox.ImageLocation" /> property of the
+        /// <see cref="System.Windows.Forms.PictureBox" />
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException">
+        /// <see cref="System.Windows.Forms.PictureBox.ImageLocation" /> is null or an empty string.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public new void Load()
         {
             try
@@ -103,6 +242,16 @@ namespace System.Windows.Forms
             catch { }
         }
 
+        /// <summary>
+        /// Loads the image asynchronously.
+        /// </summary>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void LoadAsync()
         {
             if (System.IO.File.Exists(ImageLocation))
@@ -111,6 +260,14 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Loads the image at the specified location, asynchronously.
+        /// </summary>
+        /// <param name="url">The path for the image to display in the
+        /// <see cref="System.Windows.Forms.PictureBox" />
+        /// </param>
+        /// <filterpriority>2
+        /// </filterpriority>
         public void LoadAsync(string url)
         {
             Threading.Tasks.Task.Run(() => Gtk.Application.Invoke(new EventHandler((o, e) =>

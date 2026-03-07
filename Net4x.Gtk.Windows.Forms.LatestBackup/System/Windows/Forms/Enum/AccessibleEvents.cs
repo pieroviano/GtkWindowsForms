@@ -24,10 +24,7 @@ namespace System.Windows.Forms
         SystemSound = 0x0001,
 
         /// <summary>
-        /// <c>EVENT_SYSTEM_ALERT
-        /// </c>
-        /// Sent when an alert needs to be given to the user. MessageBoxes generate
-        /// alerts for example.
+        /// An alert was generated. Server applications send this event whenever an important user interface change has occurred that a user might need to know about. The system does not send the event consistently for dialog box objects.
         /// </summary>
         SystemAlert = 0x0002,
 
@@ -40,11 +37,8 @@ namespace System.Windows.Forms
         SystemForeground = 0x0003,
 
         /// <summary>
-        /// <c>EVENT_SYSTEM_MENUSTART
-        /// </c>
-        /// Sent when entering into menu mode (system, app bar, and track popups).
+        /// A menu item on the menu bar was selected. The system sends this event for standard menus. Servers send this event for custom menus. The system might raise more than one MenuStart event that might or might not have a corresponding MenuEnd event.
         /// </summary>
-        /// <seealso cref="SystemMenuEnd" />.
         SystemMenuStart = 0x0004,
 
         /// <summary>
@@ -156,11 +150,8 @@ namespace System.Windows.Forms
         SystemDragDropEnd = 0x000F,
 
         /// <summary>
-        /// <c>EVENT_SYSTEM_DIALOGSTART
-        /// </c>
-        /// Sent when a dialog comes up.
+        /// A dialog box was displayed. The system sends the event for standard dialog boxes. Servers send this event for custom dialog boxes. The system does not send the event consistently.
         /// </summary>
-        /// <seealso cref="SystemDialogEnd" />.
         SystemDialogStart = 0x0010,
 
         /// <summary>
@@ -188,19 +179,13 @@ namespace System.Windows.Forms
         SystemScrollingEnd = 0x0013,
 
         /// <summary>
-        /// <c>EVENT_SYSTEM_SWITCHSTART
-        /// </c>
-        /// Sent when beginning alt-tab mode with the switch window.
+        /// The user pressed ALT+TAB, which activates the switch window. If only one application is running when the user presses ALT+TAB, the system raises the SwitchEnd event without a corresponding SwitchStart event.
         /// </summary>
-        /// <seealso cref="SystemSwitchEnd" />.
         SystemSwitchStart = 0x0014,
 
         /// <summary>
-        /// <c>EVENT_SYSTEM_SWITCHEND
-        /// </c>
-        /// Sent when ending alt-tab mode with the switch window.
+        /// The user released ALT+TAB. The system sends the SwitchEnd event; servers never send this event. If only one application is running when the user presses ALT+TAB, the system sends the SwitchEnd event without a corresponding SwitchStart event.
         /// </summary>
-        /// <seealso cref="SystemSwitchStart" />.
         SystemSwitchEnd = 0x0015,
 
         /// <summary>
@@ -244,22 +229,12 @@ namespace System.Windows.Forms
         //          Like a button on a titlebar which is 'small' and has no children.
 
         /// <summary>
-        /// <c>EVENT_OBJECT_CREATE
-        /// </c>
-        /// Sent when an object has been created.
-        /// The system sends this event for the following user interface elements:
-        /// caret, header control, list-view control, tab control, toolbar control, tree view control,
-        /// and window object. Server applications send this event for their accessible objects.
+        /// An object was created. The operating system sends the event for the following user interface elements: caret, header control, list view control, tab control, toolbar control, tree view control, and window object. Server applications send this event for their accessible objects. Servers must send this event for all an object's child objects before sending the event for the parent object. Servers must ensure that all child objects are fully created and ready to accept calls from clients when the parent object sends the event.
         /// </summary>
         Create = 0x8000,                // hwnd + ID + idChild is created item
 
         /// <summary>
-        /// <c>EVENT_OBJECT_DESTROY
-        /// </c>
-        /// Sent when an object has been destroyed.
-        /// The system sends this event for the following user interface elements:
-        /// caret, header control, list-view control, tab control, toolbar control, tree view control,
-        /// and window object. Server applications send this event for their accessible objects.
+        /// An object was destroyed. The system sends this event for the following user interface elements: caret, header control, list view control, tab control, toolbar control, tree view control, and window object. Server applications send this event for their accessible objects. This event may or may not be sent for child objects. However, clients can conclude that all the children of an object have been destroyed when the parent object sends this event.
         /// </summary>
         Destroy = 0x8001,               // hwnd + ID + idChild is destroyed item
 
@@ -303,10 +278,21 @@ namespace System.Windows.Forms
         /// children also. One implies all. The same goes for SHOW.
         /// </summary>
         Focus = 0x8005,                 // hwnd + ID + idChild is focused item
-
+        /// <summary>
+        /// An accessible object within a container object has been selected. This event signals a single selection. Either a child has been selected in a container that previously did not contain any selected children, or the selection has changed from one child to another.
+        /// </summary>
         Selection = 0x8006,             // hwnd + ID + idChild is selected item (if only one), or idChild is OBJID_WINDOW if complex
+        /// <summary>
+        /// An item within a container object was added to the selection. The system sends this event for the following user interface elements: list box, list view control, and tree view control. Server applications send this event for their accessible objects. This event signals that a child has been added to an existing selection.
+        /// </summary>
         SelectionAdd = 0x8007,          // hwnd + ID + idChild is item added
+        /// <summary>
+        /// An item within a container object was removed from the selection. The system sends this event for the following user interface elements: list box, list view control, and tree view control. Server applications send this event for their accessible objects. This event signals that a child has been removed from an existing selection.
+        /// </summary>
         SelectionRemove = 0x8008,       // hwnd + ID + idChild is item removed
+        /// <summary>
+        /// Numerous selection changes occurred within a container object. The system sends this event for list boxes. Server applications send this event for their accessible objects. This event can be sent when the selected items within a control have changed substantially. This event informs the client that many selection changes have occurred. This is preferable to sending several SelectionAdd or SelectionRemove events.
+        /// </summary>
         SelectionWithin = 0x8009,       // hwnd + ID + idChild is parent of changed selected items
 
         /// <summary>
@@ -344,13 +330,47 @@ namespace System.Windows.Forms
         /// are.
         /// </summary>
         StateChange = 0x800A,           // hwnd + ID + idChild is item w/ state change
+        /// <summary>
+        /// An object has changed location, shape, or size. The system sends this event for the following user interface elements: caret and window object. Server applications send this event for their accessible objects. This event is generated in response to the top-level object within the object hierarchy that has changed, not for any children it might contain. For example, if the user resizes a window, the system sends this notification for the window, but not for the menu bar, title bar, scroll bars, or other objects that have also changed. The system does not send this event for every non-floating child window when the parent moves. However, if an application explicitly resizes child windows as a result of being resized, the system sends multiple events for the resized children. If an object's
+        /// <see cref="System.Windows.Forms.AccessibleObject.State" /> property is set to
+        /// <see cref="System.Windows.Forms.AccessibleStates.Floating" />, servers should send a location change event whenever the object changes location. If an object does not have this state, servers should raise this event when the object moves relative to its parent.
+        /// </summary>
         LocationChange = 0x800B,        // hwnd + ID + idChild is moved/sized item
+        /// <summary>
+        /// An object's
+        /// <see cref="System.Windows.Forms.AccessibleObject.Name" /> property changed. The system sends this event for the following user interface elements: check box, cursor, list view control, push button, radio button, status bar control, tree view control, and window object. Server applications send this event for their accessible objects.
+        /// </summary>
         NameChange = 0x800C,            // hwnd + ID + idChild is item w/ name change
+        /// <summary>
+        /// An object's
+        /// <see cref="System.Windows.Forms.AccessibleObject.Description" /> property changed. Server applications send this event for their accessible objects.
+        /// </summary>
         DescriptionChange = 0x800D,     // hwnd + ID + idChild is item w/ desc change
+        /// <summary>
+        /// An object's
+        /// <see cref="System.Windows.Forms.AccessibleObject.Value" /> property changed. The system raises the ValueChange event for the following user interface elements: edit control, header control, hot key control, progress bar control, scroll bar, slider control, and up-down control. Server applications send this event for their accessible objects.
+        /// </summary>
         ValueChange = 0x800E,           // hwnd + ID + idChild is item w/ value change
+        /// <summary>
+        /// An object has a new parent object. Server applications send this event for their accessible objects.
+        /// </summary>
         ParentChange = 0x800F,          // hwnd + ID + idChild is item w/ new parent
+        /// <summary>
+        /// An object's
+        /// <see cref="System.Windows.Forms.AccessibleObject.Help" /> property changed. Server applications send this event for their accessible objects.
+        /// </summary>
         HelpChange = 0x8010,            // hwnd + ID + idChild is item w/ help change
+        /// <summary>
+        /// An object's
+        /// <see cref="System.Windows.Forms.AccessibleObject.DefaultAction" /> property changed. The system sends this event for dialog boxes. Server applications send this event for their accessible objects. Therefore, server applications do not need to send this event for the child objects. Hidden objects have a state of
+        /// <see cref="System.Windows.Forms.AccessibleStates.Invisible" />, and shown objects do not. Events of type AccessibleEvents.Hide indicate that a state of
+        /// <see cref="System.Windows.Forms.AccessibleStates.Invisible" /> has been set. Therefore, servers do not need to send the AccessibleEvents.StateChange event in this case.
+        /// </summary>
         DefaultActionChange = 0x8011,   // hwnd + ID + idChild is item w/ def action change
+        /// <summary>
+        /// An object's
+        /// <see cref="System.Windows.Forms.AccessibleObject.KeyboardShortcut" /> property changed. Server applications send the event for their accessible objects.
+        /// </summary>
         AcceleratorChange = 0x8012,     // hwnd + ID + idChild is item w/ keybd accel change
     }
 }

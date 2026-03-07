@@ -55,6 +55,10 @@ namespace System.Windows.Forms
             add { self.Scroll += value; }
             remove { self.Scroll += value; }
         }
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.Form" /> class.
+        /// </summary>
         public Form() : base()
         {
             Init();
@@ -69,6 +73,20 @@ namespace System.Windows.Forms
 
         public AutoScaleMode AutoScaleMode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the size of the client area of the form.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Drawing.Size" /> that represents the size of the form's client area.
+        /// </returns>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public override Size ClientSize
         {
             get
@@ -85,8 +103,34 @@ namespace System.Windows.Forms
 
         public new ObjectCollection Controls { get { return _ObjectCollection; } }
 
+        /// <summary>
+        /// Gets or sets the dialog result for the form.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.DialogResult" /> that represents the result of the form when used as a dialog box.
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is outside the range of valid values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
         public DialogResult DialogResult { get; set; }
 
+        /// <summary>
+        /// Gets or sets the border style of the form.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.FormBorderStyle" /> that represents the style of border to display for the form. The default is FormBorderStyle.Sizable.
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is outside the range of valid values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public FormBorderStyle FormBorderStyle
         {
             get { return formBorderStyle; }
@@ -120,14 +164,73 @@ namespace System.Windows.Forms
 
         public override IntPtr Handle => self.Handle;
 
+        /// <summary>
+        /// Gets or sets the icon for the form.
+        /// </summary>
+        /// <returns>An
+        /// <see cref="System.Drawing.Icon" /> that represents the icon for the form.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public System.Drawing.Icon Icon { get; set; }
 
+        /// <summary>
+        /// Gets or sets the primary menu container for the form.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.MenuStrip" /> that represents the container for the menu structure of the form. The default is null.
+        /// </returns>
         public MenuStrip MainMenuStrip { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the Maximize button is displayed in the caption bar of the form.
+        /// </summary>
+        /// <returns>true to display a Maximize button for the form; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool MaximizeBox { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the Minimize button is displayed in the caption bar of the form.
+        /// </summary>
+        /// <returns>true to display a Minimize button for the form; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool MinimizeBox { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets the opacity level of the form.
+        /// </summary>
+        /// <returns>The level of opacity for the form. The default is 1.00.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public double Opacity { get { return self.Opacity; } set { self.Opacity = value; } }
 
         public override Padding Padding
@@ -143,14 +246,61 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether an icon is displayed in the caption bar of the form.
+        /// </summary>
+        /// <returns>true if the form displays an icon in the caption bar; otherwise, false. The default is true.
+        /// </returns>
         public bool ShowIcon { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the form is displayed in the Windows taskbar.
+        /// </summary>
+        /// <returns>true to display the form in the Windows taskbar at run time; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool ShowInTaskbar { get { return self.SkipTaskbarHint == false; } set { self.SkipTaskbarHint = value == false; } }
 
+        /// <summary>
+        /// Gets or sets the starting position of the form at run time.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.FormStartPosition" /> that represents the starting position of the form.
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is outside the range of valid values.
+        /// </exception>
+        /// <filterpriority>2
+        /// </filterpriority>
         public FormStartPosition StartPosition { get; set; }
 
+        /// <returns>
+        /// The text associated with this control.
+        /// </returns>
         public override string Text { get { return self.Title; } set { self.Title = value; } }
 
+        /// <summary>
+        /// Gets or sets a value that indicates whether form is minimized, maximized, or normal.
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.FormWindowState" /> that represents whether form is minimized, maximized, or normal. The default is FormWindowState.Normal.
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value specified is outside the range of valid values.
+        /// </exception>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public FormWindowState WindowState
         {
             get
@@ -173,11 +323,40 @@ namespace System.Windows.Forms
                 }
             }
         }
+        /// <summary>
+        /// Activates the form and gives it focus.
+        /// </summary>
+        /// <filterpriority>2
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool Activate()
         {
             return self.Activate();
         }
 
+        /// <summary>
+        /// Closes the form.
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException">The form was closed while a handle was being created.
+        /// </exception>
+        /// <exception cref="System.ObjectDisposedException">You cannot call this method from the
+        /// <see cref="System.Windows.Forms.Form.Activated" /> event when
+        /// <see cref="System.Windows.Forms.Form.WindowState" /> is set to
+        /// <see cref="System.Windows.Forms.FormWindowState.Maximized" />
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void Close()
         {
             if (MessageBox.Instance is NonStaticMessageBox nonStaticMessageBox)
@@ -230,6 +409,24 @@ namespace System.Windows.Forms
             this.Show(null);
         }
 
+        /// <summary>
+        /// Shows the form with the specified owner to the user.
+        /// </summary>
+        /// <param name="owner">Any object that implements
+        /// <see cref="System.Windows.Forms.IWin32Window" /> and represents the top-level window that will own this form.
+        /// </param>
+        /// <exception cref="System.InvalidOperationException">The form being shown is already visible.-or- The form specified in the
+        /// <paramref name="owner" /> parameter is the same as the form being shown.-or- The form being shown is disabled.-or- The form being shown is not a top-level window.-or- The form being shown as a dialog box is already a modal form.-or-The current process is not running in user interactive mode (for more information, see
+        /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" />).
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public void Show(IWin32Window owner)
         {
             if (owner == this)
@@ -309,11 +506,53 @@ namespace System.Windows.Forms
             self.ShowAll();
         }
 
+        /// <summary>
+        /// Shows the form as a modal dialog box.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.DialogResult" /> values.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException">The form being shown is already visible.-or- The form being shown is disabled.-or- The form being shown is not a top-level window.-or- The form being shown as a dialog box is already a modal form.-or-The current process is not running in user interactive mode (for more information, see
+        /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" />).
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Security.Permissions.UIPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DialogResult ShowDialog()
         {
             return ShowDialog(null);
         }
 
+        /// <summary>
+        /// Shows the form as a modal dialog box with the specified owner.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.DialogResult" /> values.
+        /// </returns>
+        /// <param name="owner">Any object that implements
+        /// <see cref="System.Windows.Forms.IWin32Window" /> that represents the top-level window that will own the modal dialog box.
+        /// </param>
+        /// <exception cref="System.ArgumentException">The form specified in the
+        /// <paramref name="owner" /> parameter is the same as the form being shown.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">The form being shown is already visible.-or- The form being shown is disabled.-or- The form being shown is not a top-level window.-or- The form being shown as a dialog box is already a modal form.-or-The current process is not running in user interactive mode (for more information, see
+        /// <see cref="System.Windows.Forms.SystemInformation.UserInteractive" />).
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Security.Permissions.UIPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public DialogResult ShowDialog(IWin32Window owner)
         {
             if (owner == this)

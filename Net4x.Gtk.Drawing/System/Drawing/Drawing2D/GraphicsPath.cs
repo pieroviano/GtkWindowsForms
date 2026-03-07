@@ -124,13 +124,17 @@ namespace System.Drawing.Drawing2D
         }
         /// <summary>
         /// Gets or sets a
-        /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> enumeration that determines how the interiors of shapes in this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> are filled.
+        /// <see cref="System.Drawing.Drawing2D.FillMode" /> enumeration that determines how the interiors of shapes in this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> are filled.
         /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> enumeration that specifies how the interiors of shapes in this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> are filled.
+        /// <returns>
+        /// A
+        /// <see cref="System.Drawing.Drawing2D.FillMode" /> enumeration that specifies how the interiors of shapes in this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> are filled.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public FillMode FillMode
         {
             get;
@@ -139,15 +143,19 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets a
-        /// <see cref="T:System.Drawing.Drawing2D.PathData" /> that encapsulates arrays of points (
+        /// <see cref="System.Drawing.Drawing2D.PathData" /> that encapsulates arrays of points (
         /// <paramref name="points" />) and types (
         /// <paramref name="types" />) for this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.Drawing2D.PathData" /> that encapsulates arrays for both the points and types for this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <returns>
+        /// A
+        /// <see cref="System.Drawing.Drawing2D.PathData" /> that encapsulates arrays for both the points and types for this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public PathData PathData
         {
             get;
@@ -158,8 +166,11 @@ namespace System.Drawing.Drawing2D
         /// Gets the points in the path.
         /// </summary>
         /// <returns>An array of
-        /// <see cref="T:System.Drawing.PointF" /> objects that represent the path.
+        /// <see cref="System.Drawing.PointF" /> objects that represent the path.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public PointF[] PathPoints
         {
             get;
@@ -168,10 +179,13 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets the types of the corresponding points in the
-        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array.
         /// </summary>
         /// <returns>An array of bytes that specifies the types of the corresponding points in the path.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public byte[] PathTypes
         {
             get;
@@ -180,13 +194,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets the number of elements in the
-        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> or the
-        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> array.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> or the
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> array.
         /// </summary>
-        /// <returns>An integer that specifies the number of elements in the
-        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> or the
-        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> array.
+        /// <returns>
+        /// An integer that specifies the number of elements in the
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> or the
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> array.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public int PointCount
         {
             get;
@@ -549,8 +567,11 @@ namespace System.Drawing.Drawing2D
         /// Adds an ellipse to the current path.
         /// </summary>
         /// <param name="rect">A
-        /// <see cref="T:System.Drawing.Rectangle" /> that represents the bounding rectangle that defines the ellipse.
+        /// <see cref="System.Drawing.Rectangle" /> that represents the bounding rectangle that defines the ellipse.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void AddEllipse(Rectangle rect)
         {
             AddPathPoints(new PointF(rect.X, rect.Y), new PointF(rect.Right, rect.Bottom));
@@ -561,8 +582,11 @@ namespace System.Drawing.Drawing2D
         /// Adds an ellipse to the current path.
         /// </summary>
         /// <param name="rect">A
-        /// <see cref="T:System.Drawing.RectangleF" /> that represents the bounding rectangle that defines the ellipse.
+        /// <see cref="System.Drawing.RectangleF" /> that represents the bounding rectangle that defines the ellipse.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void AddEllipse(RectangleF rect)
         {
             AddPathPoints(new PointF(rect.X, rect.Y), new PointF(rect.Right, rect.Bottom));
@@ -605,14 +629,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Appends a line segment to this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
         /// <param name="pt1">A
-        /// <see cref="T:System.Drawing.Point" /> that represents the starting point of the line.
+        /// <see cref="System.Drawing.Point" /> that represents the starting point of the line.
         /// </param>
         /// <param name="pt2">A
-        /// <see cref="T:System.Drawing.Point" /> that represents the endpoint of the line.
+        /// <see cref="System.Drawing.Point" /> that represents the endpoint of the line.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void AddLine(Point pt1, Point pt2)
         {
             AddPathPoints(new PointF(pt1.X, pt1.Y), new PointF(pt2.X, pt2.Y));
@@ -621,14 +648,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Appends a line segment to this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
         /// <param name="pt1">A
-        /// <see cref="T:System.Drawing.PointF" /> that represents the starting point of the line.
+        /// <see cref="System.Drawing.PointF" /> that represents the starting point of the line.
         /// </param>
         /// <param name="pt2">A
-        /// <see cref="T:System.Drawing.PointF" /> that represents the endpoint of the line.
+        /// <see cref="System.Drawing.PointF" /> that represents the endpoint of the line.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void AddLine(PointF pt1, PointF pt2)
         {
             AddPathPoints(new PointF(pt1.X, pt1.Y), new PointF(pt2.X, pt2.Y));
@@ -804,8 +834,11 @@ namespace System.Drawing.Drawing2D
         /// Adds a rectangle to this path.
         /// </summary>
         /// <param name="rect">A
-        /// <see cref="T:System.Drawing.Rectangle" /> that represents the rectangle to add.
+        /// <see cref="System.Drawing.Rectangle" /> that represents the rectangle to add.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void AddRectangle(Rectangle rect)
         {
             AddPathPoints(new PointF(rect.Left, rect.Top), new PointF(rect.Right, rect.Bottom));
@@ -816,8 +849,11 @@ namespace System.Drawing.Drawing2D
         /// Adds a rectangle to this path.
         /// </summary>
         /// <param name="rect">A
-        /// <see cref="T:System.Drawing.RectangleF" /> that represents the rectangle to add.
+        /// <see cref="System.Drawing.RectangleF" /> that represents the rectangle to add.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void AddRectangle(RectangleF rect)
         {
             AddPathPoints(new PointF(rect.Left, rect.Top), new PointF(rect.Right, rect.Bottom));
@@ -958,6 +994,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Clears all markers from this path.
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void ClearMarkers()
         {
         }
@@ -966,8 +1005,11 @@ namespace System.Drawing.Drawing2D
         /// Creates an exact copy of this path.
         /// </summary>
         /// <returns>The
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> this method creates, cast as an object.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> this method creates, cast as an object.
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public object Clone()
         {
             return null;
@@ -976,6 +1018,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Closes all open figures in this path and starts a new figure. It closes each open figure by connecting a line from its endpoint to its starting point.
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void CloseAllFigures()
         {
             IsCloseAllFigures = true;
@@ -984,6 +1029,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Closes the current figure and starts a new figure. If the current figure contains a sequence of connected lines and curves, the method closes the loop by connecting a line from the endpoint to the starting point.
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void CloseFigure()
         {
             list.Add(new FigureMode() { start = false, close = true });
@@ -991,8 +1039,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Dispose()
         {
         }
@@ -1000,18 +1051,25 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Converts each curve in this path into a sequence of connected line segments.
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Flatten()
         {
         }
 
         /// <summary>
         /// Applies the specified transform and then converts each curve in this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> into a sequence of connected line segments.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> into a sequence of connected line segments.
         /// </summary>
-        /// <param name="matrix">A
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which to transform this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> before flattening.
+        /// <param name="matrix">
+        /// A
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> by which to transform this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> before flattening.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Flatten(Matrix matrix)
         {
         }
@@ -1032,12 +1090,16 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Returns a rectangle that bounds this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.RectangleF" /> that represents a rectangle that bounds this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <returns>
+        /// A
+        /// <see cref="System.Drawing.RectangleF" /> that represents a rectangle that bounds this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public RectangleF GetBounds()
         {
             throw new System.NotImplementedException();
@@ -1045,16 +1107,20 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Returns a rectangle that bounds this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when this path is transformed by the specified
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> when this path is transformed by the specified
+        /// <see cref="System.Drawing.Drawing2D.Matrix" />
         /// </summary>
-        /// <param name="matrix">The
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that specifies a transformation to be applied to this path before the bounding rectangle is calculated. This path is not permanently transformed; the transformation is used only during the process of calculating the bounding rectangle.
-        /// </param>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.RectangleF" /> that represents a rectangle that bounds this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <returns>
+        /// A
+        /// <see cref="System.Drawing.RectangleF" /> that represents a rectangle that bounds this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </returns>
+        /// <param name="matrix">The
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that specifies a transformation to be applied to this path before the bounding rectangle is calculated. This path is not permanently transformed; the transformation is used only during the process of calculating the bounding rectangle.
+        /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public RectangleF GetBounds(Matrix matrix)
         {
             throw new System.NotImplementedException();
@@ -1084,13 +1150,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets the last point in the
-        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array of this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.PointF" /> that represents the last point in this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <returns>
+        /// A
+        /// <see cref="System.Drawing.PointF" /> that represents the last point in this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public PointF GetLastPoint()
         {
             throw new System.NotImplementedException();
@@ -1098,21 +1168,23 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within (under) the outline of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-        /// <see cref="T:System.Drawing.Pen" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
+        /// <see cref="System.Drawing.Pen" />
         /// </summary>
+        /// <returns>
+        /// This method returns true if the specified point is contained within the outline of this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
+        /// <see cref="System.Drawing.Pen" />; otherwise, false.
+        /// </returns>
         /// <param name="point">A
-        /// <see cref="T:System.Drawing.Point" /> that specifies the location to test.
+        /// <see cref="System.Drawing.Point" /> that specifies the location to test.
         /// </param>
         /// <param name="pen">The
-        /// <see cref="T:System.Drawing.Pen" /> to test.
+        /// <see cref="System.Drawing.Pen" /> to test.
         /// </param>
-        /// <returns>This method returns
-        /// <see langword="true" /> if the specified point is contained within the outline of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-        /// <see cref="T:System.Drawing.Pen" />; otherwise,
-        /// <see langword="false" />.
-        /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsOutlineVisible(Point point, Pen pen)
         {
             throw new System.NotImplementedException();
@@ -1146,21 +1218,23 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within (under) the outline of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-        /// <see cref="T:System.Drawing.Pen" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
+        /// <see cref="System.Drawing.Pen" />
         /// </summary>
+        /// <returns>
+        /// This method returns true if the specified point is contained within the outline of this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
+        /// <see cref="System.Drawing.Pen" />; otherwise, false.
+        /// </returns>
         /// <param name="point">A
-        /// <see cref="T:System.Drawing.PointF" /> that specifies the location to test.
+        /// <see cref="System.Drawing.PointF" /> that specifies the location to test.
         /// </param>
         /// <param name="pen">The
-        /// <see cref="T:System.Drawing.Pen" /> to test.
+        /// <see cref="System.Drawing.Pen" /> to test.
         /// </param>
-        /// <returns>This method returns
-        /// <see langword="true" /> if the specified point is contained within the outline of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-        /// <see cref="T:System.Drawing.Pen" />; otherwise,
-        /// <see langword="false" />.
-        /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsOutlineVisible(PointF point, Pen pen)
         {
             throw new System.NotImplementedException();
@@ -1294,16 +1368,18 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
-        /// <param name="point">A
-        /// <see cref="T:System.Drawing.Point" /> that represents the point to test.
-        /// </param>
-        /// <returns>This method returns
-        /// <see langword="true" /> if the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-        /// <see langword="false" />.
+        /// <returns>
+        /// This method returns true if the specified point is contained within this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />; otherwise, false.
         /// </returns>
+        /// <param name="point">A
+        /// <see cref="System.Drawing.Point" /> that represents the point to test.
+        /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(Point point)
         {
             throw new System.NotImplementedException();
@@ -1311,19 +1387,21 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
+        /// <returns>
+        /// This method returns true if the specified point is contained within this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />; otherwise, false.
+        /// </returns>
         /// <param name="pt">A
-        /// <see cref="T:System.Drawing.Point" /> that represents the point to test.
+        /// <see cref="System.Drawing.Point" /> that represents the point to test.
         /// </param>
         /// <param name="graphics">The
-        /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
+        /// <see cref="System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <returns>This method returns
-        /// <see langword="true" /> if the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-        /// <see langword="false" />.
-        /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(Point pt, Graphics graphics)
         {
             throw new System.NotImplementedException();
@@ -1331,16 +1409,18 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
-        /// <param name="point">A
-        /// <see cref="T:System.Drawing.PointF" /> that represents the point to test.
-        /// </param>
-        /// <returns>This method returns
-        /// <see langword="true" /> if the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-        /// <see langword="false" />.
+        /// <returns>
+        /// This method returns true if the specified point is contained within this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />; otherwise, false.
         /// </returns>
+        /// <param name="point">A
+        /// <see cref="System.Drawing.PointF" /> that represents the point to test.
+        /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(PointF point)
         {
             throw new System.NotImplementedException();
@@ -1348,18 +1428,19 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
+        /// <returns>This method returns true if the specified point is contained within this; otherwise, false.
+        /// </returns>
         /// <param name="pt">A
-        /// <see cref="T:System.Drawing.PointF" /> that represents the point to test.
+        /// <see cref="System.Drawing.PointF" /> that represents the point to test.
         /// </param>
         /// <param name="graphics">The
-        /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
+        /// <see cref="System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <returns>This method returns
-        /// <see langword="true" /> if the specified point is contained within this; otherwise,
-        /// <see langword="false" />.
-        /// </returns>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public bool IsVisible(PointF pt, Graphics graphics)
         {
             throw new System.NotImplementedException();
@@ -1447,11 +1528,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Empties the
-        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> and
-        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> arrays and sets the
-        /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> to
-        /// <see cref="F:System.Drawing.Drawing2D.FillMode.Alternate" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> and
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> arrays and sets the
+        /// <see cref="System.Drawing.Drawing2D.FillMode" /> to
+        /// <see cref="System.Drawing.Drawing2D.FillMode.Alternate" />
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Reset()
         {
             this.PathPoints = null;
@@ -1461,17 +1545,23 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Reverses the order of points in the
-        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array of this
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Reverse()
         {
         }
 
         /// <summary>
         /// Sets a marker on this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void SetMarkers()
         {
         }
@@ -1479,6 +1569,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Starts a new figure without closing the current figure. All subsequent points added to the path are added to this new figure.
         /// </summary>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void StartFigure()
         {
             list.Add(new FigureMode() { start = true, close = false });
@@ -1486,11 +1579,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Applies a transform matrix to this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
         /// <param name="matrix">A
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that represents the transformation to apply.
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that represents the transformation to apply.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Transform(Matrix matrix)
         {
             this.matrix = matrix;
@@ -1596,8 +1692,11 @@ namespace System.Drawing.Drawing2D
         /// Adds an additional outline to the path.
         /// </summary>
         /// <param name="pen">A
-        /// <see cref="T:System.Drawing.Pen" /> that specifies the width between the original outline of the path and the new outline this method creates.
+        /// <see cref="System.Drawing.Pen" /> that specifies the width between the original outline of the path and the new outline this method creates.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Widen(Pen pen)
         {
             this.pen = pen;
@@ -1605,14 +1704,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Adds an additional outline to the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// <see cref="System.Drawing.Drawing2D.GraphicsPath" />
         /// </summary>
         /// <param name="pen">A
-        /// <see cref="T:System.Drawing.Pen" /> that specifies the width between the original outline of the path and the new outline this method creates.
+        /// <see cref="System.Drawing.Pen" /> that specifies the width between the original outline of the path and the new outline this method creates.
         /// </param>
         /// <param name="matrix">A
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that specifies a transform to apply to the path before widening.
+        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that specifies a transform to apply to the path before widening.
         /// </param>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public void Widen(Pen pen, Matrix matrix)
         {
             this.pen = pen;

@@ -28,8 +28,13 @@ namespace System.Drawing
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="T:System.Drawing.Brush" /> object.
+        /// <see cref="System.Drawing.Brush" /> object.
         /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
+        /// </PermissionSet>
         public void Dispose()
         {
         }

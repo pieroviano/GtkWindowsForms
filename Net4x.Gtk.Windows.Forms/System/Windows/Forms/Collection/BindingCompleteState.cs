@@ -8,8 +8,17 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public enum BindingCompleteState
     {
+        /// <summary>
+        /// An indication that the binding operation completed successfully.
+        /// </summary>
         Success,
+        /// <summary>
+        /// An indication that the binding operation failed with a data error.
+        /// </summary>
         DataError,
+        /// <summary>
+        /// An indication that the binding operation failed with an exception.
+        /// </summary>
         Exception
     }
 }

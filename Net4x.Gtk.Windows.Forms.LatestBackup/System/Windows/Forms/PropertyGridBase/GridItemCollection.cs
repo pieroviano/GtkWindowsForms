@@ -25,12 +25,28 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Retrieves the number of member attributes.
+        /// Gets the number of grid items in the collection.
         /// </summary>
+        /// <returns>The number of grid items in the collection.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public int Count => _entries.Length;
-
+        /// <summary>
+        /// For a description of this member, see
+        /// <see cref="System.Collections.ICollection.IsSynchronized" />
+        /// </summary>
+        /// <returns>false in all cases.
+        /// </returns>
         bool ICollection.IsSynchronized => false;
 
+        /// <summary>
+        /// For a description of this member, see
+        /// <see cref="System.Collections.ICollection.SyncRoot" />
+        /// </summary>
+        /// <returns>An object that can be used to synchronize access to the
+        /// <see cref="System.Windows.Forms.GridItemCollection" />
+        /// </returns>
         object ICollection.SyncRoot => this;
 
         /// <summary>
@@ -55,10 +71,23 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Creates and retrieves a new enumerator for this collection.
+        /// Returns an enumeration of all the grid items in the collection.
         /// </summary>
+        /// <returns>An
+        /// <see cref="System.Collections.IEnumerator" /> for the
+        /// <see cref="System.Windows.Forms.GridItemCollection" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public IEnumerator GetEnumerator() => _entries.GetEnumerator();
-
+        /// <summary>
+        /// For a description of this member, see
+        /// <see cref="System.Collections.ICollection.CopyTo(System.Array,System.Int32)" />
+        /// </summary>
+        /// <param name="dest">The one-dimensional array that is the destination of the elements copied from the collection. The array must have zero-based indexing.
+        /// </param>
+        /// <param name="index">The zero-based index in the array at which copying begins.
+        /// </param>
         void ICollection.CopyTo(Array dest, int index)
         {
             if (_entries.Length > 0)

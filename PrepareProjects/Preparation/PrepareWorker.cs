@@ -111,7 +111,7 @@ public static class PrepareWorker
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\Resources\\Net4x.Gtk.Drawing.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
-#if DONT_SKIP_INITIAL
+#if !SKIP_INITIAL
         ConsoleColor.DarkMagenta.Write("Processing XML comments from System.Windows.Forms.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\Resources\\System.Windows.Forms.xml",

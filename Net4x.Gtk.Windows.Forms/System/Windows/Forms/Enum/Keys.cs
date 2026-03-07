@@ -80,7 +80,9 @@ namespace System.Windows.Forms
         /// </summary>
         LineFeed = 0x0A,
 
+        /// <summary>
         /// The CLEAR key.
+        /// </summary>
         Clear = 0x0C,
 
         /// <summary>
@@ -129,7 +131,7 @@ namespace System.Windows.Forms
         KanaMode = 0x15,
 
         /// <summary>
-        /// The IME Hanguel mode key.
+        /// The IME Hanguel mode key. (maintained for compatibility; use HangulMode)
         /// </summary>
         HanguelMode = 0x15,
 
@@ -174,12 +176,14 @@ namespace System.Windows.Forms
         IMENonconvert = 0x1D,
 
         /// <summary>
-        /// The IME Accept key.
+        /// The IME accept key, replaces
+        /// <see cref="System.Windows.Forms.Keys.IMEAceept" />
         /// </summary>
         IMEAccept = 0x1E,
 
         /// <summary>
-        /// The IME Accept key.
+        /// The IME accept key. Obsolete, use
+        /// <see cref="System.Windows.Forms.Keys.IMEAccept" /> instead.
         /// </summary>
         IMEAceept = IMEAccept,
 
@@ -814,7 +818,7 @@ namespace System.Windows.Forms
         LaunchApplication2 = 0xB7,
 
         /// <summary>
-        /// The Oem Semicolon key.
+        /// The OEM Semicolon key on a US standard keyboard (Windows 2000 or later).
         /// </summary>
         OemSemicolon = 0xBA,
 
@@ -824,27 +828,27 @@ namespace System.Windows.Forms
         Oem1 = OemSemicolon,
 
         /// <summary>
-        /// The Oem plus key.
+        /// The OEM plus key on any country/region keyboard (Windows 2000 or later).
         /// </summary>
         Oemplus = 0xBB,
 
         /// <summary>
-        /// The Oem comma key.
+        /// The OEM comma key on any country/region keyboard (Windows 2000 or later).
         /// </summary>
         Oemcomma = 0xBC,
 
         /// <summary>
-        /// The Oem Minus key.
+        /// The OEM minus key on any country/region keyboard (Windows 2000 or later).
         /// </summary>
         OemMinus = 0xBD,
 
         /// <summary>
-        /// The Oem Period key.
+        /// The OEM period key on any country/region keyboard (Windows 2000 or later).
         /// </summary>
         OemPeriod = 0xBE,
 
         /// <summary>
-        /// The Oem Question key.
+        /// The OEM question mark key on a US standard keyboard (Windows 2000 or later).
         /// </summary>
         OemQuestion = 0xBF,
 
@@ -854,7 +858,7 @@ namespace System.Windows.Forms
         Oem2 = OemQuestion,
 
         /// <summary>
-        /// The Oem tilde key.
+        /// The OEM tilde key on a US standard keyboard (Windows 2000 or later).
         /// </summary>
         Oemtilde = 0xC0,
 
@@ -864,7 +868,7 @@ namespace System.Windows.Forms
         Oem3 = Oemtilde,
 
         /// <summary>
-        /// The Oem Open Brackets key.
+        /// The OEM open bracket key on a US standard keyboard (Windows 2000 or later).
         /// </summary>
         OemOpenBrackets = 0xDB,
 
@@ -874,7 +878,7 @@ namespace System.Windows.Forms
         Oem4 = OemOpenBrackets,
 
         /// <summary>
-        /// The Oem Pipe key.
+        /// The OEM pipe key on a US standard keyboard (Windows 2000 or later).
         /// </summary>
         OemPipe = 0xDC,
 
@@ -884,7 +888,7 @@ namespace System.Windows.Forms
         Oem5 = OemPipe,
 
         /// <summary>
-        /// The Oem Close Brackets key.
+        /// The OEM close bracket key on a US standard keyboard (Windows 2000 or later).
         /// </summary>
         OemCloseBrackets = 0xDD,
 
@@ -894,7 +898,7 @@ namespace System.Windows.Forms
         Oem6 = OemCloseBrackets,
 
         /// <summary>
-        /// The Oem Quotes key.
+        /// The OEM singled/double quote key on a US standard keyboard (Windows 2000 or later).
         /// </summary>
         OemQuotes = 0xDE,
 
@@ -909,7 +913,7 @@ namespace System.Windows.Forms
         Oem8 = 0xDF,
 
         /// <summary>
-        /// The Oem Backslash key.
+        /// The OEM angle bracket or backslash key on the RT 102 key keyboard (Windows 2000 or later).
         /// </summary>
         OemBackslash = 0xE2,
 
@@ -924,7 +928,7 @@ namespace System.Windows.Forms
         ProcessKey = 0xE5,
 
         /// <summary>
-        /// The Packet KEY key.
+        /// Used to pass Unicode characters as if they were keystrokes. The Packet key value is the low word of a 32-bit virtual-key value used for non-keyboard input methods.
         /// </summary>
         Packet = 0xE7,
 

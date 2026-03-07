@@ -217,6 +217,14 @@ namespace System.Drawing
         }
         public string FileName { get; set; }
 
+        /// <summary>
+        /// Gets the Windows handle for this
+        /// <see cref="System.Drawing.Icon" /> This is not a copy of the handle; do not free it.
+        /// </summary>
+        /// <returns>The Windows handle for the icon.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [Browsable(false)]
         public IntPtr Handle
         {
@@ -290,11 +298,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Clones the
-        /// <see cref="T:System.Drawing.Icon" />, creating a duplicate image.
+        /// <see cref="System.Drawing.Icon" />, creating a duplicate image.
         /// </summary>
         /// <returns>An object that can be cast to an
-        /// <see cref="T:System.Drawing.Icon" />.
+        /// <see cref="System.Drawing.Icon" />
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public object Clone()
         {
             return new Icon(this.FileName, this.Width, this.Height) { Pixbuf = this.Pixbuf, PixbufData = (byte[])this.PixbufData.Clone() };
@@ -313,17 +326,21 @@ namespace System.Drawing
         /// <summary>
         /// Returns an icon representation of an image that is contained in the specified file.
         /// </summary>
+        /// <returns>The
+        /// <see cref="System.Drawing.Icon" /> representation of the image that is contained in the specified file.
+        /// </returns>
         /// <param name="filePath">The path to the file that contains an image.
         /// </param>
-        /// <returns>The
-        /// <see cref="T:System.Drawing.Icon" /> representation of the image that is contained in the specified file.
-        /// </returns>
-        /// <exception cref="T:System.ArgumentException">The
-        /// <paramref name="filePath" /> does not indicate a valid file.
-        /// -or-
+        /// <exception cref="System.ArgumentException">
         /// The
+        /// <paramref name="filePath" /> does not indicate a valid file.-or-The
         /// <paramref name="filePath" /> indicates a Universal Naming Convention (UNC) path.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public static Icon ExtractAssociatedIcon(string filePath)
         {
             return new Icon(filePath);
@@ -367,13 +384,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Converts this
-        /// <see cref="T:System.Drawing.Icon" /> to a GDI+
-        /// <see cref="T:System.Drawing.Bitmap" />.
+        /// <see cref="System.Drawing.Icon" /> to a GDI+
+        /// <see cref="System.Drawing.Bitmap" />
         /// </summary>
-        /// <returns>A
-        /// <see cref="T:System.Drawing.Bitmap" /> that represents the converted
-        /// <see cref="T:System.Drawing.Icon" />.
+        /// <returns>
+        /// A
+        /// <see cref="System.Drawing.Bitmap" /> that represents the converted
+        /// <see cref="System.Drawing.Icon" />
+        /// .
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public Bitmap ToBitmap()
         {
             return new Bitmap(this.Width, this.Height) { PixbufData = this.PixbufData, Pixbuf = this.Pixbuf, FileName = this.FileName };
@@ -381,11 +405,16 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets a human-readable string that describes the
-        /// <see cref="T:System.Drawing.Icon" />.
+        /// <see cref="System.Drawing.Icon" />
         /// </summary>
         /// <returns>A string that describes the
-        /// <see cref="T:System.Drawing.Icon" />.
+        /// <see cref="System.Drawing.Icon" />
         /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
         public override string ToString()
         {
             return "Icon";

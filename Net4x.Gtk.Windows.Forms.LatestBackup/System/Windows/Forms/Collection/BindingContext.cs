@@ -19,12 +19,43 @@ public class BindingContext : ContextBoundObject
 {
 
     private readonly Hashtable listManagers = new();
-
+    /// <summary>
+    /// Gets a value indicating whether the
+    /// <see cref="System.Windows.Forms.BindingContext" /> contains the
+    /// <see cref="System.Windows.Forms.BindingManagerBase" /> associated with the specified data source and data member.
+    /// </summary>
+    /// <returns>true if the
+    /// <see cref="System.Windows.Forms.BindingContext" /> contains the specified
+    /// <see cref="System.Windows.Forms.BindingManagerBase" />; otherwise, false.
+    /// </returns>
+    /// <param name="dataSource">An
+    /// <see cref="System.Object" /> that represents the data source.
+    /// </param>
+    /// <param name="dataMember">The information needed to resolve to a specific
+    /// <see cref="System.Windows.Forms.BindingManagerBase" />
+    /// </param>
+    /// <filterpriority>1
+    /// </filterpriority>
     public bool Contains(object? dataSource, string? dataMember)
     {
         return listManagers.ContainsKey(GetKey(dataSource, dataMember));
     }
 
+    /// <summary>
+    /// Associates a
+    /// <see cref="System.Windows.Forms.Binding" /> with a new
+    /// <see cref="System.Windows.Forms.BindingContext" />
+    /// </summary>
+    /// <param name="newBindingContext">The new
+    /// <see cref="System.Windows.Forms.BindingContext" /> to associate with the
+    /// <see cref="System.Windows.Forms.Binding" />
+    /// </param>
+    /// <param name="binding">The
+    /// <see cref="System.Windows.Forms.Binding" /> to associate with the new
+    /// <see cref="System.Windows.Forms.BindingContext" />
+    /// </param>
+    /// <filterpriority>1
+    /// </filterpriority>
     public static void UpdateBinding(BindingContext? newBindingContext, Binding binding)
     {
         var bindingManagerBase = binding.BindingManagerBase;

@@ -29,7 +29,10 @@ namespace System.Windows.Forms
         private Gtk.Overlay contaner;
 
         public override event EventHandler Load;
-
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.UserControl" /> class.
+        /// </summary>
         public UserControl() : base()
         {
             contaner = new Gtk.Overlay();

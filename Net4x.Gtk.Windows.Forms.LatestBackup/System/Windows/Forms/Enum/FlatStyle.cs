@@ -29,7 +29,7 @@ namespace System.Windows.Forms
         Standard,
 
         /// <summary>
-        /// The control appears three-dimensional.
+        /// The appearance of the control is determined by the user's operating system.
         /// </summary>
         System,
     }

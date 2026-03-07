@@ -54,6 +54,10 @@ namespace System.Windows.Forms
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new event EventHandler TextChanged { add => base.TextChanged += value; remove => base.TextChanged -= value; }
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref = "System.Windows.Forms.PrintPreviewControl"/> class.
+        /// </summary>
         public PrintPreviewControl()
         {
             Size = new Size(600, 500);
@@ -71,6 +75,18 @@ namespace System.Windows.Forms
             ResetForeColor();
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether resizing the control or changing the number of pages shown automatically adjusts the
+        /// <see cref = "System.Windows.Forms.PrintPreviewControl.Zoom"/> property.
+        /// </summary>
+        /// <returns>true if the changing the control size or number of pages adjusts the
+        /// <see cref = "System.Windows.Forms.PrintPreviewControl.Zoom"/> property; otherwise, false. The default is true.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         [DefaultValue(true)]
         public bool AutoZoom
         {
@@ -84,6 +100,18 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of pages displayed horizontally across the screen.
+        /// </summary>
+        /// <returns>The number of pages displayed horizontally across the screen. The default is 1.
+        /// </returns>
+        /// <exception cref = "System.ArgumentOutOfRangeException">The set value is less than 1.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         [DefaultValue(1)]
         public int Columns
         {
@@ -94,6 +122,17 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the document to preview.
+        /// </summary>
+        /// <returns>The
+        /// <see cref = "System.Drawing.Printing.PrintDocument"/> representing the document to preview.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         [DefaultValue(null)]
         public PrintDocument Document
         {
@@ -111,6 +150,19 @@ namespace System.Windows.Forms
 
         public override object GtkControl => self;
 
+        /// <returns>
+        /// One of the
+        /// <see cref = "System.Windows.Forms.RightToLeft"/> values. The default is
+        /// <see cref = "System.Windows.Forms.RightToLeft.Inherit"/>
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         [Localizable(true)]
         [AmbientValue(RightToLeft.Inherit)]
         public override RightToLeft RightToLeft
@@ -123,6 +175,18 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of pages displayed vertically down the screen.
+        /// </summary>
+        /// <returns>The number of pages displayed vertically down the screen. The default is 0.
+        /// </returns>
+        /// <exception cref = "System.ArgumentOutOfRangeException">The set value is less than 1.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         [DefaultValue(1)]
         public int Rows
         {
@@ -133,6 +197,18 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the page number of the upper left page.
+        /// </summary>
+        /// <returns>The page number of the upper left page. The default is 0.
+        /// </returns>
+        /// <exception cref = "System.ArgumentOutOfRangeException">The set value is less than 0.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         [DefaultValue(0)]
         public int StartPage
         {
@@ -158,14 +234,40 @@ namespace System.Windows.Forms
         [DefaultValue(false)]
         public new bool TabStop { get => base.TabStop; set => base.TabStop = value; }
 
+        /// <summary>
+        /// Gets or sets the text associated with this control.
+        /// </summary>
+        /// <returns>The text associated with this control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Bindable(false)]
         public override string Text { get => base.Text; set => base.Text = value; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether printing uses the anti-aliasing features of the operating system.
+        /// </summary>
+        /// <returns>true if anti-aliasing is used; otherwise, false.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         [DefaultValue(false)]
         public bool UseAntiAlias { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating how large the pages will appear.
+        /// </summary>
+        /// <returns>A value indicating how large the pages will appear. A value of 1.0 indicates full size.
+        /// </returns>
+        /// <exception cref = "System.ArgumentException">The value is less than or equal to 0.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         [DefaultValue(DefaultZoom)]
         public double Zoom
         {
@@ -176,17 +278,52 @@ namespace System.Windows.Forms
                 _zoom = value;
             }
         }
+        /// <summary>
+        /// Refreshes the preview of the document.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         public void InvalidatePreview()
         {
             paper.QueueDraw();
         }
 
+        /// <summary>
+        /// Resets the
+        /// <see cref = "System.Windows.Forms.Control.BackColor"/> property to
+        /// <see cref = "System.Drawing.SystemColors.AppWorkspace"/>, which is the default color.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void ResetBackColor() => BackColor = SystemColors.AppWorkspace;
 
+        /// <summary>
+        /// Resets the foreground color of the
+        /// <see cref = "System.Windows.Forms.PrintPreviewControl"/> to
+        /// <see cref = "System.Drawing.Color.White"/>, which is the default color.
+        /// </summary>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        /// </PermissionSet>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void ResetForeColor() => ForeColor = Color.White;
 
+        /// <summary>
+        /// Raises the
+        /// <see cref = "System.Windows.Forms.PrintPreviewControl.StartPageChanged"/> event.
+        /// </summary>
+        /// <param name = "e">An
+        /// <see cref = "System.EventArgs"/> that contains the event data.
+        /// </param>
         protected virtual void OnStartPageChanged(EventArgs e)
         {
             ((EventHandler)Events[s_startPageChangedEvent])?.Invoke(this, e);
