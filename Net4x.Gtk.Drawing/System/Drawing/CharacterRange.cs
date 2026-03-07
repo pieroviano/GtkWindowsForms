@@ -18,7 +18,7 @@ namespace System.Drawing
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Drawing.CharacterRange" /> structure, specifying a range of character positions within a string.
+        /// <see cref="System.Drawing.CharacterRange" /> structure, specifying a range of character positions within a string.
         /// </summary>
         /// <param name="First">The position of the first character in the range. For example, if
         /// <paramref name="First" /> is set to 0, the first position of the range is position 0 in the string.
@@ -32,10 +32,10 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the position in the string of the first character of this
-        /// <see cref="T:System.Drawing.CharacterRange" />.
+        /// <see cref="System.Drawing.CharacterRange" />.
         /// </summary>
         /// <returns>The first position of this
-        /// <see cref="T:System.Drawing.CharacterRange" />.
+        /// <see cref="System.Drawing.CharacterRange" />.
         /// </returns>
         public int First
         {
@@ -50,10 +50,10 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the number of positions in this
-        /// <see cref="T:System.Drawing.CharacterRange" />.
+        /// <see cref="System.Drawing.CharacterRange" />.
         /// </summary>
         /// <returns>The number of positions in this
-        /// <see cref="T:System.Drawing.CharacterRange" />.
+        /// <see cref="System.Drawing.CharacterRange" />.
         /// </returns>
         public int Length
         {
@@ -73,8 +73,8 @@ namespace System.Drawing
         /// </param>
         /// <returns>
         /// <see langword="true" /> to indicate the specified object is an instance with the same
-        /// <see cref="P:System.Drawing.CharacterRange.First" /> and
-        /// <see cref="P:System.Drawing.CharacterRange.Length" /> value as this instance; otherwise,
+        /// <see cref="System.Drawing.CharacterRange.First" /> and
+        /// <see cref="System.Drawing.CharacterRange.Length" /> value as this instance; otherwise,
         /// <see langword="false" />.
         /// </returns>
         public override bool Equals(object obj)
@@ -91,5 +91,6 @@ namespace System.Drawing
         {
             throw new System.NotImplementedException();
         }
+
     }
 }

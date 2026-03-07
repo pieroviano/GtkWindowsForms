@@ -16,6 +16,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <returns>
         /// true if the cell is on-screen or partially on-screen; otherwise, false.
         /// </returns>
@@ -136,6 +137,7 @@ namespace System.Windows.Forms
             get;
             set;
         }
+
         /// <summary>
         /// Gets the buttonlike visual state of the header cell.
         /// </summary>
@@ -147,5 +149,6 @@ namespace System.Windows.Forms
         {
             get;
         }
+
     }
 }

@@ -26,6 +26,7 @@ namespace System.Windows.Forms
         public override event EventHandler Click;
 
         public event LinkLabelLinkClickedEventHandler LinkClicked;
+
         /// <summary>
         /// Initializes a new default instance of the
         /// <see cref="System.Windows.Forms.LinkLabel" /> class.
@@ -35,6 +36,7 @@ namespace System.Windows.Forms
             self.Clicked += LinkLabel_Click;
             self.ActivateLink += LinkLabel_ActivateLink;
         }
+
         /// <summary>
         /// Gets or sets the color used to display an active link.
         /// </summary>
@@ -183,6 +185,7 @@ namespace System.Windows.Forms
                 Click(this, e);
             }
         }
+
         /// <summary>
         /// Represents a link within a
         /// <see cref="System.Windows.Forms.LinkLabel" /> control.
@@ -207,6 +210,7 @@ namespace System.Windows.Forms
 
             [DefaultValue(null)]
             public object LinkData { get; set; }
+
         }
 
         /// <summary>
@@ -291,6 +295,7 @@ namespace System.Windows.Forms
             {
                 throw new NotImplementedException();
             }
+
         }
     }
 }

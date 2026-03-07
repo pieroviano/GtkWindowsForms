@@ -17,6 +17,7 @@ namespace System.Windows.Forms
     public class DataGridViewRowPostPaintEventArgs : EventArgs
     {
         private readonly DataGridView _dataGridView;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewRowPostPaintEventArgs" /> class.
@@ -86,6 +87,7 @@ namespace System.Windows.Forms
             Debug.Assert(dataGridView != null);
             _dataGridView = dataGridView;
         }
+
         /// <summary>
         /// Gets or sets the area of the
         /// <see cref="System.Windows.Forms.DataGridView" /> that needs to be repainted.
@@ -265,5 +267,6 @@ namespace System.Windows.Forms
             IsFirstDisplayedRow = isFirstDisplayedRow;
             IsLastVisibleRow = isLastVisibleRow;
         }
+
     }
 }

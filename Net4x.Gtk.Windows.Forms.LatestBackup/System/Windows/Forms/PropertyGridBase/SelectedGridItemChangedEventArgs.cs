@@ -50,5 +50,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public GridItem OldSelection { get; }
+
     }
 }

@@ -14,6 +14,7 @@ namespace System.Windows.Forms.Design
     {
 
         private string _name;
+
         public ImageListImage(Image image)
         {
             Image = image;
@@ -56,5 +57,6 @@ namespace System.Windows.Forms.Design
 
             return new ImageListImage((Bitmap)Image.FromStream(stream));
         }
+
     }
 }

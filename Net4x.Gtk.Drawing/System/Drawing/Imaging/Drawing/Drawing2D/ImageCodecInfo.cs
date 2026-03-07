@@ -276,5 +276,6 @@ namespace System.Drawing.Imaging
 
             return array;
         }
+
     }
 }

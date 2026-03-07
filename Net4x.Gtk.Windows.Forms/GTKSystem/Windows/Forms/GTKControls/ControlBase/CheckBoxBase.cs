@@ -11,10 +11,12 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         }
 
         public GtkControlOverride Override { get; set; }
+
         protected override void OnShown()
         {
             Override.OnAddClass();
             base.OnShown();
         }
+
     }
 }

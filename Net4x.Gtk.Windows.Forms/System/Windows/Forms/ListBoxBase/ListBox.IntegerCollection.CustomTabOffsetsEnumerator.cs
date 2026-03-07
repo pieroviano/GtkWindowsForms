@@ -12,6 +12,10 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public partial class ListBox
     {
+        /// <summary>
+        /// Represents a collection of integers in a
+        /// <see cref="System.Windows.Forms.ListBox" />
+        /// </summary>
         public partial class IntegerCollection : IList
         {
             /// <summary>
@@ -73,6 +77,7 @@ namespace System.Windows.Forms
                 {
                     _current = -1;
                 }
+
             }
         }
     }

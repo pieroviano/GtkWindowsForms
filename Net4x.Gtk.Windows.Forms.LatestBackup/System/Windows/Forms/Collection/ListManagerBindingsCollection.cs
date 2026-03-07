@@ -49,4 +49,5 @@ internal class ListManagerBindingsCollection : BindingsCollection
         dataBinding.SetListManager(null);
         base.RemoveCore(dataBinding);
     }
+
 }

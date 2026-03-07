@@ -41,5 +41,6 @@ namespace System.Windows.Forms
         /// CurrentProgress/MaximumProgress*100 = progress percentage.
         /// </summary>
         public long MaximumProgress { get; }
+
     }
 }

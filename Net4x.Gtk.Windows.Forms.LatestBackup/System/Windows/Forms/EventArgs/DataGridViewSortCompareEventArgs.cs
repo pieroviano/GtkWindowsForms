@@ -23,6 +23,7 @@ namespace System.Windows.Forms
         private readonly int rowIndex2;
 
         private int sortResult;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewSortCompareEventArgs" /> class.
@@ -50,6 +51,7 @@ namespace System.Windows.Forms
             this.rowIndex1 = rowIndex1;
             this.rowIndex2 = rowIndex2;
         }
+
         /// <summary>
         /// Gets the value of the first cell to compare.
         /// </summary>
@@ -132,5 +134,6 @@ namespace System.Windows.Forms
                 sortResult = value;
             }
         }
+
     }
 }

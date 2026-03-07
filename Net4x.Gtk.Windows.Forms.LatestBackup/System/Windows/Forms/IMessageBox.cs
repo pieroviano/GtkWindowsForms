@@ -121,4 +121,5 @@ public interface IMessageBox
     /// Displays a message box with specified text.
     /// </summary>
     DialogResult Show(IWin32Window? owner, string? text);
+
 }

@@ -108,5 +108,6 @@ namespace System.Drawing.Printing
         public override bool GetCreateInstanceSupported(ITypeDescriptorContext context) => true;
 
         private static TypeConverter GetIntConverter() => TypeDescriptor.GetConverter(typeof(int));
+
     }
 }

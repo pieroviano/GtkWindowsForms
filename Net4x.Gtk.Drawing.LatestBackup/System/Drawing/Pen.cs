@@ -86,6 +86,7 @@ namespace System.Drawing
             this.Color = color;
             this.Width = width;
         }
+
         /// <summary>
         /// Gets or sets the alignment for this
         /// <see cref="System.Drawing.Pen" />
@@ -682,5 +683,6 @@ namespace System.Drawing
         public void TranslateTransform(float dx, float dy, MatrixOrder order)
         {
         }
+
     }
 }

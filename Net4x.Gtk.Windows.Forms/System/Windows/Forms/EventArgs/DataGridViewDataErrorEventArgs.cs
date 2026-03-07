@@ -14,6 +14,7 @@ namespace System.Windows.Forms
     public class DataGridViewDataErrorEventArgs : DataGridViewCellCancelEventArgs
     {
         private bool _throwException;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewDataErrorEventArgs" /> class.
@@ -34,6 +35,7 @@ namespace System.Windows.Forms
             Exception = exception;
             Context = context;
         }
+
         /// <summary>
         /// Gets details about the state of the
         /// <see cref="System.Windows.Forms.DataGridView" /> when the error occurred.
@@ -79,5 +81,6 @@ namespace System.Windows.Forms
                 _throwException = value;
             }
         }
+
     }
 }

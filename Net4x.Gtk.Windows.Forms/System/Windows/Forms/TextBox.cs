@@ -27,6 +27,7 @@ namespace System.Windows.Forms
         public override event KeyEventHandler KeyDown;
 
         public override event EventHandler TextChanged;
+
         public TextBox() : base()
         {
             self.MaxWidthChars = 1;
@@ -179,5 +180,6 @@ namespace System.Windows.Forms
                     KeyDown(this, new KeyEventArgs(key));
             }
         }
+
     }
 }

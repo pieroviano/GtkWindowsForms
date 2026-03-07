@@ -27,6 +27,7 @@ namespace System.Windows.Forms
         private ObjectCollection _controls;
 
         private FlowDirection _FlowDirection;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> class.
@@ -76,6 +77,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public bool WrapContents { get; set; }
+
         public bool CanExtend(object extendee)
         {
             return true;
@@ -106,14 +108,17 @@ namespace System.Windows.Forms
         {
 
         }
+
         public class ObjectCollection : ControlCollection
         {
 
             private FlowLayoutPanel _owner;
+
             public ObjectCollection(FlowLayoutPanel owner) : base(owner)
             {
                 _owner = owner;
             }
+
             public override void Add(Control control)
             {
                 Gtk.FlowBoxChild box = new FlowBoxChild();
@@ -131,6 +136,7 @@ namespace System.Windows.Forms
                 _owner.self.Add(box);
                 base.AddWidget(box, control);
             }
+
         }
     }
 }

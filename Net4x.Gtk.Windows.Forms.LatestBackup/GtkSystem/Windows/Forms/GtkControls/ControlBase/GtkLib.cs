@@ -12,6 +12,7 @@ class FuncLoader
     {
 
         public static bool IsWindows, IsOSX, IsLinux;
+
         private const int RTLD_GLOBAL = 0x0100;
 
         private const int RTLD_LAZY = 0x0001;
@@ -95,6 +96,7 @@ class FuncLoader
 
             [DllImport("libdl.so.2")]
             public static extern IntPtr dlsym(IntPtr handle, string symbol);
+
         }
 
         private class OSX
@@ -105,6 +107,7 @@ class FuncLoader
 
             [DllImport("/usr/lib/libSystem.dylib")]
             public static extern IntPtr dlsym(IntPtr handle, string symbol);
+
         }
 
         private class Unix
@@ -115,6 +118,7 @@ class FuncLoader
 
             [DllImport("libc")]
             public static extern IntPtr dlsym(IntPtr handle, string symbol);
+
         }
 
         private class Windows
@@ -125,6 +129,7 @@ class FuncLoader
 
             [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
             public static extern IntPtr LoadLibraryW(string lpszLib);
+
         }
     }
 
@@ -210,6 +215,7 @@ class FuncLoader
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool SetDllDirectory(string lpPathName);
+
     }
 
     internal enum Library

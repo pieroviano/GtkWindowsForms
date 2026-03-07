@@ -22,6 +22,7 @@ namespace System.Windows.Forms
         public readonly NumericUpDownBase self = new NumericUpDownBase();
 
         public event EventHandler ValueChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.NumericUpDown" /> class.
@@ -30,6 +31,7 @@ namespace System.Windows.Forms
         {
             self.ValueChanged += Self_ValueChanged;
         }
+
         /// <summary>
         /// Gets or sets the number of decimal places to display in the spin box (also known as an up-down control).
         /// </summary>
@@ -108,5 +110,6 @@ namespace System.Windows.Forms
             if (ValueChanged != null && self.IsVisible)
                 ValueChanged(this, e);
         }
+
     }
 }

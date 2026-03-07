@@ -45,6 +45,7 @@ namespace System.Windows.Forms
         private List<int> _selectedBandIndexes = new List<int>();
 
         private DataGridViewSelectionMode _SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+
         [Obsolete(" this event is not implemented， develop independently")]
 
         public event EventHandler AllowUserToAddRowsChanged;
@@ -517,6 +518,7 @@ namespace System.Windows.Forms
         [Obsolete(" this event is not implemented， develop independently")]
 
         public event DataGridViewRowCancelEventHandler UserDeletingRow;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridView" /> class.
@@ -539,6 +541,7 @@ namespace System.Windows.Forms
             GridView.RowActivated += GridView_RowActivated;
             GridView.Selection.Changed += Selection_Changed;
         }
+
         /// <summary>
         /// Gets or sets the default cell style applied to odd-numbered rows of the
         /// <see cref="System.Windows.Forms.DataGridView" />
@@ -1134,6 +1137,7 @@ namespace System.Windows.Forms
         {
             GridView.ExpandRow(Store.GetPath(row.TreeIter), all);
         }
+
         internal void CellValueChanagedHandler(int column, int row)
         {
             if (CellValueChanged != null)
@@ -1278,5 +1282,6 @@ namespace System.Windows.Forms
             if (SelectionChanged != null && Created)
                 SelectionChanged(this, e);
         }
+
     }
 }

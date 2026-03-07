@@ -28,6 +28,7 @@ namespace GtkSystem.Resources
         private string _baseName;
 
         private System.Type _resourceSource;
+
         public ResourceManager([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : this(null, null, usingResourceSet)
         {
 
@@ -47,10 +48,12 @@ namespace GtkSystem.Resources
             GetResourceInfo.BaseName = baseName;
             GetResourceInfo.SourceType = usingResourceSet;
         }
+
         protected ResourceManager()
         {
 
         }
+
         public override object GetObject(string name, CultureInfo culture)
         {
             object result = GetObject(name);
@@ -129,6 +132,7 @@ namespace GtkSystem.Resources
         {
             return ReadResourceText(name);
         }
+
         private object ReadResourceData(string name)
         {
             if (_assembly == null)
@@ -238,6 +242,7 @@ namespace GtkSystem.Resources
 
             return null;
         }
+
         public class ResourceInfo
         {
 
@@ -250,6 +255,7 @@ namespace GtkSystem.Resources
             public string ResourceName { get; set; }
 
             public System.Type SourceType { get; set; }
+
         }
     }
 }

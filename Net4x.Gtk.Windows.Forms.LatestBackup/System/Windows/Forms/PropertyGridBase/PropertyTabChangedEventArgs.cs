@@ -27,6 +27,7 @@ namespace System.Windows.Forms
             OldTab = oldTab;
             NewTab = newTab;
         }
+
         /// <summary>
         /// Gets the new
         /// <see cref="System.Windows.Forms.Design.PropertyTab" /> selected.
@@ -48,5 +49,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public PropertyTab? OldTab { get; }
+
     }
 }

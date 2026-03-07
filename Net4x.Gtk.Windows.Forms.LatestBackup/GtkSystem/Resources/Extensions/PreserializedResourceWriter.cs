@@ -743,6 +743,7 @@ namespace GtkSystem.Resources.Extensions
                     break;
             }
         }
+
         private class PrecannedResource
         {
 
@@ -755,6 +756,7 @@ namespace GtkSystem.Resources.Extensions
                 TypeName = typeName;
                 Data = data;
             }
+
         }
 
         private class ResourceDataRecord
@@ -772,6 +774,7 @@ namespace GtkSystem.Resources.Extensions
                 Data = data;
                 CloseAfterWrite = closeAfterWrite;
             }
+
         }
 
         private class StreamWrapper
@@ -786,6 +789,7 @@ namespace GtkSystem.Resources.Extensions
                 Stream = s;
                 CloseAfterWrite = closeAfterWrite;
             }
+
         }
     }
 }

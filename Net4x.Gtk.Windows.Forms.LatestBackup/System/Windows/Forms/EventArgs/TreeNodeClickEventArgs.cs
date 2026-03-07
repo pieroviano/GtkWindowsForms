@@ -33,6 +33,7 @@ namespace System.Windows.Forms
         {
             Node = node;
         }
+
         /// <summary>
         /// Gets the node that was clicked.
         /// </summary>
@@ -42,5 +43,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public TreeNode Node { get; }
+
     }
 }

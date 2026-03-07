@@ -97,6 +97,7 @@ namespace System.Windows.Forms
         {
             throw new System.NotImplementedException();
         }
+
         /// <summary>
         /// Gets the binding associated with this occurrence of a
         /// <see cref="System.Windows.Forms.Binding.BindingComplete" /> event.
@@ -176,5 +177,6 @@ namespace System.Windows.Forms
                 throw new System.NotImplementedException();
             }
         }
+
     }
 }

@@ -35,4 +35,5 @@ internal static class ColorTable
 
         return colors;
     }
+
 }

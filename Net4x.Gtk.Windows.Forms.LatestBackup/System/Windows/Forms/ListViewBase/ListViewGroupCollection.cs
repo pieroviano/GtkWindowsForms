@@ -22,6 +22,7 @@ namespace System.Windows.Forms
             _listView = listView;
 
         }
+
         public ListViewGroup this[string key]
         {
             get
@@ -36,6 +37,7 @@ namespace System.Windows.Forms
                 }
             }
         }
+
         /// <summary>
         /// Adds the specified
         /// <see cref="System.Windows.Forms.ListViewGroup" /> to the collection.
@@ -167,6 +169,7 @@ namespace System.Windows.Forms
         {
             return base.FindIndex(w => w.Name == name) > -1;
         }
+
         private void AddCore(ListViewGroup group)
         {
             if (this.Exists(m => m.Name == group.Name))
@@ -178,5 +181,6 @@ namespace System.Windows.Forms
 
             _listView.NativeGroupAdd(group, -1);
         }
+
     }
 }

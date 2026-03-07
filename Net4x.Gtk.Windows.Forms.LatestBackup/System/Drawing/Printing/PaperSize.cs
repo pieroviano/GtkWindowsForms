@@ -95,5 +95,6 @@ namespace System.Drawing.Printing
         }
 
         public override string ToString() => $"[PaperSize {PaperName} Kind={Kind} Height={Height.ToString(CultureInfo.InvariantCulture)} Width={Width.ToString(CultureInfo.InvariantCulture)}]";
+
     }
 }

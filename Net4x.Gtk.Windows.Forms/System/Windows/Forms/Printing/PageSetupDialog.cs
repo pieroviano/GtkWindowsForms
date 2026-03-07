@@ -27,11 +27,13 @@ namespace System.Windows.Forms
         private PrintDocument _printDocument;
 
         private PrinterSettings _printerSettings;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.PageSetupDialog" /> class.
         /// </summary>
         public PageSetupDialog() => Reset();
+
         /// <summary>
         /// Gets or sets a value indicating whether the margins section of the dialog box is enabled.
         /// </summary>
@@ -180,6 +182,7 @@ namespace System.Windows.Forms
         /// </filterpriority>
         [DefaultValue(true)]
         public bool ShowNetwork { get; set; }
+
         /// <summary>
         /// Resets all options to their default values.
         /// </summary>
@@ -214,5 +217,6 @@ namespace System.Windows.Forms
                 return false;
             }
         }
+
     }
 }

@@ -102,6 +102,7 @@ namespace System.Windows.Forms
         public ToolStripStatusLabel(string text, Image image, EventHandler onClick, string name) : base(text, image, onClick, name)
         {
         }
+
         /// <summary>
         /// Gets or sets a value that indicates which sides of the
         /// <see cref="System.Windows.Forms.ToolStripStatusLabel" /> show borders.
@@ -139,5 +140,6 @@ namespace System.Windows.Forms
         /// </returns>
         [DefaultValue(false)]
         public bool Spring { get; set; }
+
     }
 }

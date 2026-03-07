@@ -18,6 +18,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether the dialog box allows multiple files to be selected.
         /// </summary>
@@ -78,6 +79,7 @@ namespace System.Windows.Forms
         public bool ShowReadOnly { get; set; }
 
         private new string Description => base.Description;
+
         /// <summary>
         /// Opens the file selected by the user, with read-only permission. The file is specified by the
         /// <see cref="System.Windows.Forms.FileDialog.FileName" /> property.
@@ -104,5 +106,6 @@ namespace System.Windows.Forms
 
             return base.ShowDialog(owner);
         }
+
     }
 }

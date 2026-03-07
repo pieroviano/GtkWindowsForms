@@ -16,6 +16,7 @@ namespace System.Windows.Forms
         private Font? _font;
 
         private static Gtk.Window ActiveWindow = null;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.FontDialog" /> class.
@@ -61,6 +62,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.FontDialog" />
         /// </returns>
         protected virtual int Options { get; }
+
         /// <summary>
         /// Resets all dialog box options to their default values.
         /// </summary>
@@ -79,6 +81,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public override string ToString() => $"{_font.Name} {_font.Size}";
+
         protected override bool RunDialog(IWin32Window owner)
         {
             Gtk.FontChooserDialog fontChooserDialog = null;
@@ -122,5 +125,6 @@ namespace System.Windows.Forms
 
             return res == -5;
         }
+
     }
 }

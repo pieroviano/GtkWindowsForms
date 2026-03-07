@@ -24,6 +24,7 @@ namespace System.Windows.Forms
     {
 
         public DateTimePickerFormat _Format;
+
         Gtk.Calendar calendar = new Gtk.Calendar();
 
         Gtk.Popover popver;
@@ -31,6 +32,7 @@ namespace System.Windows.Forms
         private string _CustomFormat = System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd;
 
         public event EventHandler ValueChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DateTimePicker" /> class.
@@ -66,6 +68,7 @@ namespace System.Windows.Forms
             popver.Add(popbody);
             self.Changed += Self_Changed;
         }
+
         /// <summary>
         /// Gets or sets the font style applied to the calendar.
         /// </summary>
@@ -424,5 +427,6 @@ namespace System.Windows.Forms
             this.Value = DateTime.Now;
             popver.Hide();
         }
+
     }
 }

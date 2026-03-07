@@ -19,6 +19,7 @@ namespace System.Windows.Forms
         private ArrayList items = new ArrayList();
 
         private DataGridViewRow owner;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewCellCollection" /> class.
@@ -30,6 +31,7 @@ namespace System.Windows.Forms
         {
             owner = dataGridViewRow;
         }
+
         public override int Count
         {
             get { return items.Count; }
@@ -38,6 +40,7 @@ namespace System.Windows.Forms
         public bool IsFixedSize => false;
 
         public DataGridViewRow Row { set => owner = value; get => owner; }
+
         /// <summary>
         /// Gets an
         /// <see cref="System.Collections.ArrayList" /> containing
@@ -99,6 +102,7 @@ namespace System.Windows.Forms
         }
 
         object IList.this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         /// <summary>
         /// Adds a cell to the collection.
         /// </summary>
@@ -366,6 +370,7 @@ namespace System.Windows.Forms
             dataGridViewCell.OwningRowInternal = null;
             items.RemoveAt(index);
         }
+
         internal List<TOutput> ConvertAll<TOutput>(Converter<DataGridViewCell, TOutput> converter)
         {
             List<TOutput> data = new List<TOutput>();
@@ -374,6 +379,7 @@ namespace System.Windows.Forms
 
             return data;
         }
+
         /// <summary>
         /// Adds an item to the collection.
         /// </summary>
@@ -526,5 +532,6 @@ namespace System.Windows.Forms
         {
             RemoveAt(index);
         }
+
     }
 }

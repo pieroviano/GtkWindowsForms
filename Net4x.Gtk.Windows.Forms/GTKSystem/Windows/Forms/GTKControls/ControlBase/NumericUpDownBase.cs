@@ -13,6 +13,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         }
 
         public GtkControlOverride Override { get; set; }
+
         public void AddClass(string cssClass)
         {
             this.Override.AddClass(cssClass);
@@ -31,5 +32,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             Override.OnAddClass();
             base.OnShown();
         }
+
     }
 }

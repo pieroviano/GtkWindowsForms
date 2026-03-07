@@ -4,6 +4,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     {
 
         internal Gtk.TreeView GridView = new Gtk.TreeView();
+
         public DataGridViewBase() : base()
         {
             this.Override = new GtkControlOverride(this);
@@ -19,5 +20,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.AutoScroll = true;
             this.Add(GridView);
         }
+
     }
 }

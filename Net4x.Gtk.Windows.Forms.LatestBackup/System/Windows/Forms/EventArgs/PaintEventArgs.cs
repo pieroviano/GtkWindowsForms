@@ -136,6 +136,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Releases the unmanaged resources used by the
         /// <see cref="System.Windows.Forms.PaintEventArgs" /> and optionally releases the managed resources.
@@ -151,5 +152,6 @@ namespace System.Windows.Forms
                 oldPal = IntPtr.Zero;
             }
         }
+
     }
 }

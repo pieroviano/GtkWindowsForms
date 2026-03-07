@@ -56,6 +56,7 @@ namespace System.Windows.Forms
             ColumnIndex = columnIndex;
             RowIndex = rowIndex;
         }
+
         /// <summary>
         /// Gets the zero-based column index of the cell.
         /// </summary>
@@ -73,5 +74,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int RowIndex { get; }
+
     }
 }

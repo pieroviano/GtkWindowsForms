@@ -17,6 +17,7 @@ namespace System.Windows.Forms
         public SaveFileDialog()
         {
         }
+
         public bool CheckWriteAccess
         {
             get => true;
@@ -24,6 +25,7 @@ namespace System.Windows.Forms
         }
 
         private new string Description => base.Description;
+
         /// <summary>
         /// Opens the file with read/write permission selected by the user.
         /// </summary>
@@ -48,5 +50,6 @@ namespace System.Windows.Forms
 
             return base.ShowDialog(owner);
         }
+
     }
 }

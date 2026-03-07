@@ -13,6 +13,10 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public partial class ListBox
     {
+        /// <summary>
+        /// Represents a collection of integers in a
+        /// <see cref="System.Windows.Forms.ListBox" />
+        /// </summary>
         public partial class IntegerCollection : IList
         {
             private int _count;
@@ -320,6 +324,7 @@ namespace System.Windows.Forms
                     _innerArray = newEntries;
                 }
             }
+
         }
     }
 }

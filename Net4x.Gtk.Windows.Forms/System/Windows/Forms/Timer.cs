@@ -24,6 +24,7 @@ namespace System.Windows.Forms
         readonly System.Timers.Timer TimersTimer = new Timers.Timer();
 
         public event EventHandler Tick;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.Timer" /> class.
@@ -43,6 +44,7 @@ namespace System.Windows.Forms
         public Timer(IContainer container) : this()
         {
         }
+
         /// <summary>
         /// Gets or sets whether the timer is running.
         /// </summary>
@@ -92,6 +94,7 @@ namespace System.Windows.Forms
         [Localizable(false)]
         [TypeConverter(typeof(StringConverter))]
         public object Tag { get; set; }
+
         /// <summary>
         /// Starts the timer.
         /// </summary>
@@ -134,6 +137,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public override string ToString() { return "System.Windows.Forms.Timer"; }
+
         /// <summary>
         /// Disposes of the resources, other than memory, used by the timer.
         /// </summary>
@@ -149,10 +153,12 @@ namespace System.Windows.Forms
         {
             Dispose(true);
         }
+
         private void TimersTimer_Elapsed(object sender, Timers.ElapsedEventArgs e)
         {
             if (Tick != null)
                 Gtk.Application.Invoke(Tick);
         }
+
     }
 }

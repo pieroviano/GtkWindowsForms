@@ -20,11 +20,13 @@ namespace System.Windows.Forms
         {
             ColumnIndex = columnIndex;
         }
+
         /// <summary>
         /// Gets the column index for the column whose width is being changed.
         /// </summary>
         /// <returns>The index of the column whose width is being changed.
         /// </returns>
         public int ColumnIndex { get; }
+
     }
 }

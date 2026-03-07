@@ -43,6 +43,7 @@ namespace System.Windows.Forms
         private int _RowCount;
 
         private TableLayoutRowStyleCollection _rowStyles;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.TableLayoutPanel" /> class.
@@ -53,6 +54,7 @@ namespace System.Windows.Forms
             _columnStyles = new TableLayoutColumnStyleCollection();
             _rowStyles = new TableLayoutRowStyleCollection();
         }
+
         /// <summary>
         /// Gets or sets the border style for the panel.
         /// </summary>
@@ -238,6 +240,7 @@ namespace System.Windows.Forms
                 SetRowsStyles();
             }
         }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Windows.Forms.TableLayoutPanelCellPosition" /> that represents the row and the column of the cell.
@@ -529,6 +532,7 @@ namespace System.Windows.Forms
             control.Widget.MarginTop = value;
             control.Widget.MarginBottom = value;
         }
+
         /// <summary>
         /// For a description of this member, see
         /// <see cref="System.ComponentModel.IExtenderProvider.CanExtend(System.Object)" />
@@ -542,6 +546,7 @@ namespace System.Windows.Forms
         {
             throw new System.NotImplementedException();
         }
+
         private void SetColumnsStyles()
         {
             Size size = this.Size;
@@ -591,5 +596,6 @@ namespace System.Windows.Forms
                 }
             }
         }
+
     }
 }

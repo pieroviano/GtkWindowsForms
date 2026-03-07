@@ -144,6 +144,7 @@ namespace System.Windows.Forms
         event CancelEventHandler Validating;
 
         event EventHandler VisibleChanged;
+
         /// <summary>
         /// Gets the accessibility object.
         /// </summary>
@@ -827,6 +828,7 @@ namespace System.Windows.Forms
         /// The window target.
         /// </value>
         IWindowTarget WindowTarget { get; set; }
+
         /// <summary>
         /// Begins the invoke.
         /// </summary>
@@ -1319,5 +1321,6 @@ namespace System.Windows.Forms
         /// Updates this instance.
         /// </summary>
         void Update();
+
     }
 }

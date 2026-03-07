@@ -17,7 +17,9 @@ namespace System.Windows.Forms
         public readonly string SerialGuid = Guid.NewGuid().ToString();
 
         internal readonly Gtk.FlowBox FlowBox = new Gtk.FlowBox() { Orientation = Gtk.Orientation.Horizontal, Name = Guid.NewGuid().ToString() };
+
         ListView.ListViewItemCollection _items;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ListViewGroup" /> class using the default header text of "ListViewGroup" and the default left header alignment.
@@ -220,6 +222,7 @@ namespace System.Windows.Forms
         }
 
         internal Gtk.Box _groupbox { get; set; }
+
         public static ListViewGroup CreateDefaultListViewGroup()
         {
             ListViewGroup _defaultGroup = new ListViewGroup("default", HorizontalAlignment.Left);
@@ -229,6 +232,7 @@ namespace System.Windows.Forms
 
             return _defaultGroup;
         }
+
         /// <summary>
         /// Populates a
         /// <see cref="System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the target object.
@@ -243,5 +247,6 @@ namespace System.Windows.Forms
         {
 
         }
+
     }
 }

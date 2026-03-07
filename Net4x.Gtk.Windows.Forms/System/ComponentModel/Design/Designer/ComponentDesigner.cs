@@ -14,6 +14,7 @@ namespace System.ComponentModel.Design
     {
 
         private protected const string SettingsKeyName = "SettingsKey";
+
         private IComponent? _component;
 
         private InheritanceAttribute? _inheritanceAttribute;
@@ -84,5 +85,6 @@ namespace System.ComponentModel.Design
         {
 
         }
+
     }
 }

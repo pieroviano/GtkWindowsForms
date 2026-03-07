@@ -42,9 +42,11 @@ namespace System.Windows.Forms
             ColumnIndex = columnIndex;
             RowIndex = rowIndex;
         }
+
         internal DataGridViewCellCancelEventArgs(DataGridViewCell dataGridViewCell) : this(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex)
         {
         }
+
         /// <summary>
         /// Gets the column index of the cell that the event occurs for.
         /// </summary>
@@ -64,5 +66,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int RowIndex { get; }
+
     }
 }

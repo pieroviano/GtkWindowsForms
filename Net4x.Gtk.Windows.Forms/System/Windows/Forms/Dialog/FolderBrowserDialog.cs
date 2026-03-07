@@ -23,6 +23,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets the root folder where the browsing starts from.
         /// </summary>
@@ -68,6 +69,7 @@ namespace System.Windows.Forms
         private new bool Multiselect => base.Multiselect;
 
         private new string Title => base.Title;
+
         /// <summary>
         /// Resets properties to their default values.
         /// </summary>
@@ -89,5 +91,6 @@ namespace System.Windows.Forms
 
             return base.ShowDialog(owner);
         }
+
     }
 }

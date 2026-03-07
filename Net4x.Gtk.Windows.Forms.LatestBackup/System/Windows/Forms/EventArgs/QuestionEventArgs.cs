@@ -33,6 +33,7 @@ namespace System.Windows.Forms
         {
             Response = response;
         }
+
         /// <summary>
         /// Gets or sets a value indicating the response to a question represented by the event.
         /// </summary>
@@ -41,5 +42,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public bool Response { get; set; }
+
     }
 }

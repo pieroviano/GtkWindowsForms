@@ -24,6 +24,7 @@ namespace System.Drawing.Drawing2D
         public ColorBlend(int count)
         {
         }
+
         /// <summary>
         /// Gets or sets an array of colors that represents the colors to use at corresponding positions along a gradient.
         /// </summary>
@@ -56,5 +57,6 @@ namespace System.Drawing.Drawing2D
             {
             }
         }
+
     }
 }

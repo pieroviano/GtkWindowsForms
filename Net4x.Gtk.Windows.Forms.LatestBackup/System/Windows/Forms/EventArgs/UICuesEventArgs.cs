@@ -14,6 +14,7 @@ namespace System.Windows.Forms
     public class UICuesEventArgs : EventArgs
     {
         private readonly UICues _uicues;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.UICuesEventArgs" /> class with the specified
@@ -26,6 +27,7 @@ namespace System.Windows.Forms
         {
             _uicues = uicues;
         }
+
         /// <summary>
         /// Gets the bitwise combination of the
         /// <see cref="System.Windows.Forms.UICues" /> values.
@@ -73,5 +75,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public bool ShowKeyboard => (_uicues & UICues.ShowKeyboard) != 0;
+
     }
 }

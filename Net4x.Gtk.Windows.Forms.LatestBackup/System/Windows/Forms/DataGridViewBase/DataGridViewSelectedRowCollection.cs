@@ -20,6 +20,7 @@ namespace System.Windows.Forms
         internal DataGridViewSelectedRowCollection()
         {
         }
+
         /// <summary>
         /// Gets the number of elements in the collection.
         /// </summary>
@@ -55,6 +56,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewSelectedRowCollection" />
         /// </returns>
         object ICollection.SyncRoot => this;
+
         /// <returns>
         /// An
         /// <see cref="System.Collections.ArrayList" /> containing the elements of the collection. This property returns null unless overridden in a derived class.
@@ -68,6 +70,7 @@ namespace System.Windows.Forms
             get { return _items[index]; }
             set { throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection"); }
         }
+
         /// <summary>
         /// Clears the collection.
         /// </summary>
@@ -141,6 +144,7 @@ namespace System.Windows.Forms
         /// <see cref="DataGridViewCell" /> to this collection.
         /// </summary>
         internal int Add(DataGridViewRow dataGridViewRow) => ((IList)_items).Add(dataGridViewRow);
+
         /// <summary>
         /// Implements the
         /// <see cref="System.Collections.IList.Add(System.Object)" /> method. Always throws
@@ -256,5 +260,6 @@ namespace System.Windows.Forms
         /// <exception cref="System.NotSupportedException">Always thrown.
         /// </exception>
         void IList.RemoveAt(int index) => throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
+
     }
 }

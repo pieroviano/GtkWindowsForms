@@ -44,5 +44,6 @@ namespace System.Drawing.Printing
         /// but we'll take a perf hit in this case assuming this event is not used often.
         /// </summary>
         internal bool PageSettingsChanged { get; set; }
+
     }
 }

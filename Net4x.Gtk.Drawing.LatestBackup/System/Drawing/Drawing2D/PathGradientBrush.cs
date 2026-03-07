@@ -92,6 +92,7 @@ namespace System.Drawing.Drawing2D
             float bottom = points.Select(o => o.Y).Max();
             this.Rectangle = new RectangleF(left, top, right - left, bottom - top);
         }
+
         /// <summary>
         /// Gets or sets a
         /// <see cref="System.Drawing.Drawing2D.Blend" /> that specifies positions and factors that define a custom falloff for the gradient.
@@ -408,5 +409,6 @@ namespace System.Drawing.Drawing2D
         public void TranslateTransform(float dx, float dy, MatrixOrder order)
         {
         }
+
     }
 }

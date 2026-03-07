@@ -250,6 +250,7 @@ public class Binding
     private Binding()
     {
     }
+
     /// <summary>
     /// Gets the control the
     /// <see cref="T:System.Windows.Forms.Binding"/> is associated with.
@@ -513,6 +514,7 @@ public class Binding
     /// </filterpriority>
     [DefaultValue("")]
     public string PropertyName => _propertyName;
+
     internal BindToObject? BindToObject => _bindToObject;
 
     internal bool ComponentCreated => IsComponentCreated(_control);
@@ -1252,4 +1254,5 @@ public class Binding
             e.Cancel = true;
         }
     }
+
 }

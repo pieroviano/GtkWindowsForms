@@ -13,6 +13,7 @@ namespace System.Windows.Forms
             Owner = owner;
 
         }
+
         internal IArrangedElement Owner
         {
             get;
@@ -30,6 +31,7 @@ namespace System.Windows.Forms
                 base[index] = value;
             }
         }
+
         /// <summary>
         /// Adds a new
         /// <see cref="System.Windows.Forms.TableLayoutStyle" /> to the end of the current collection.
@@ -52,5 +54,6 @@ namespace System.Windows.Forms
         {
             Owner = owner;
         }
+
     }
 }

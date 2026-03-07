@@ -15,6 +15,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         public event CloseWindowHandler CloseWindowEvent;
 
         public event System.Windows.Forms.ScrollEventHandler Scroll;
+
         public FormBase(Gtk.Window parent = null) : base("title", Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive), DialogFlags.UseHeaderBar)
         {
             this.Override = new GtkControlOverride(this);
@@ -45,6 +46,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.Drawn += FormBase_Drawn;
             this.Close += FormBase_Close;
         }
+
         public bool AutoScroll
         {
             get => ScrollView.VscrollbarPolicy == Gtk.PolicyType.Automatic;
@@ -70,6 +72,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         public GtkControlOverride Override { get; set; }
 
         public bool VScroll { get; set; } = true;
+
         public new void Add(Gtk.Widget child)
         {
             ScrollView.Child = child;
@@ -134,5 +137,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         }
 
         public delegate bool CloseWindowHandler(object sender, EventArgs e);
+
     }
 }

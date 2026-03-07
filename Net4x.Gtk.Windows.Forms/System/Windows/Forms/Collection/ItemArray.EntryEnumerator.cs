@@ -115,6 +115,7 @@ namespace System.Windows.Forms
 
                 _current = -1;
             }
+
         }
     }
 }

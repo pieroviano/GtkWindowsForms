@@ -30,6 +30,7 @@ namespace System.Windows.Forms
         {
             ListItem = listItem;
         }
+
         /// <summary>
         /// Gets a data source item.
         /// </summary>
@@ -39,5 +40,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public object ListItem { get; }
+
     }
 }

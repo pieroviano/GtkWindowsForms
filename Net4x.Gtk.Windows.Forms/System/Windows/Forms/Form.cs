@@ -55,6 +55,7 @@ namespace System.Windows.Forms
             add { self.Scroll += value; }
             remove { self.Scroll += value; }
         }
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.Form" /> class.
@@ -323,6 +324,7 @@ namespace System.Windows.Forms
                 }
             }
         }
+
         /// <summary>
         /// Activates the form and gives it focus.
         /// </summary>
@@ -700,6 +702,7 @@ namespace System.Windows.Forms
         public class ObjectCollection : ControlCollection
         {
             Gtk.Container __owner;
+
             public ObjectCollection(Control control, Gtk.Container owner) : base(control, owner)
             {
                 __owner = owner;

@@ -11,6 +11,7 @@ namespace System.Drawing.Drawing2D
     {
 
         public List<PointF> SizePoints = new List<PointF>();
+
         internal ArrayList list = new ArrayList();
 
         /// <summary>
@@ -122,6 +123,7 @@ namespace System.Drawing.Drawing2D
         public GraphicsPath(Point[] pts, byte[] types, FillMode fillMode) : this(Array.ConvertAll<Point, PointF>(pts, o => new PointF(o.X, o.Y)), types, fillMode)
         {
         }
+
         /// <summary>
         /// Gets or sets a
         /// <see cref="System.Drawing.Drawing2D.FillMode" /> enumeration that determines how the interiors of shapes in this
@@ -1739,11 +1741,13 @@ namespace System.Drawing.Drawing2D
             this.matrix = matrix;
             this.flatness = flatness;
         }
+
         private void AddPathPoints(params PointF[] points)
         {
             foreach (var p in points)
                 SizePoints.Add(p);
         }
+
         public class ArcMode
         {
 
@@ -1752,6 +1756,7 @@ namespace System.Drawing.Drawing2D
             public float startAngle { get; set; }
 
             public float sweepAngle { get; set; }
+
         }
 
         public class BezierMode
@@ -1764,11 +1769,13 @@ namespace System.Drawing.Drawing2D
             public PointF pt3 { get; set; }
 
             public PointF pt4 { get; set; }
+
         }
 
         public class BeziersMode
         {
             public PointF[] points { get; set; }
+
         }
 
         public class ClosedCurveMode
@@ -1778,6 +1785,7 @@ namespace System.Drawing.Drawing2D
             public PointF[] points { get; set; }
 
             public float tension { get; set; }
+
         }
 
         public class CurveMode
@@ -1790,11 +1798,13 @@ namespace System.Drawing.Drawing2D
             public PointF[] points { get; set; }
 
             public float tension { get; set; }
+
         }
 
         public class EllipseMode
         {
             public RectangleF rect { get; set; }
+
         }
 
         public class FigureMode
@@ -1802,6 +1812,7 @@ namespace System.Drawing.Drawing2D
             public bool close { get; set; }
 
             public bool start { get; set; }
+
         }
 
         public class LineMode
@@ -1810,11 +1821,13 @@ namespace System.Drawing.Drawing2D
             public PointF pt1 { get; set; }
 
             public PointF pt2 { get; set; }
+
         }
 
         public class LinesMode
         {
             public PointF[] points { get; set; }
+
         }
 
         public class PathMode
@@ -1822,6 +1835,7 @@ namespace System.Drawing.Drawing2D
             public bool connect { get; set; }
 
             public GraphicsPath path { get; set; }
+
         }
 
         public class PieMode
@@ -1832,21 +1846,25 @@ namespace System.Drawing.Drawing2D
             public float startAngle { get; set; }
 
             public float sweepAngle { get; set; }
+
         }
 
         public class PolygonMode
         {
             public PointF[] points { get; set; }
+
         }
 
         public class RectangleMode
         {
             public RectangleF rect { get; set; }
+
         }
 
         public class RectanglesMode
         {
             public RectangleF[] rects { get; set; }
+
         }
 
         public class StringMode
@@ -1863,6 +1881,7 @@ namespace System.Drawing.Drawing2D
             public int style { get; set; }
 
             public string text { get; set; }
+
         }
     }
 }

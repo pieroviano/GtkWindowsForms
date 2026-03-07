@@ -14,6 +14,7 @@ namespace System.Drawing.Drawing2D
         public PathData()
         {
         }
+
         /// <summary>
         /// Gets or sets an array of
         /// <see cref="T:System.Drawing.PointF" /> structures that represents the points through which the path is constructed.
@@ -37,5 +38,6 @@ namespace System.Drawing.Drawing2D
             get;
             set;
         }
+
     }
 }

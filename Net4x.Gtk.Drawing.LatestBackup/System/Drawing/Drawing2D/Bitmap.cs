@@ -663,5 +663,6 @@ namespace System.Drawing
 
             return manifestResourceStream;
         }
+
     }
 }

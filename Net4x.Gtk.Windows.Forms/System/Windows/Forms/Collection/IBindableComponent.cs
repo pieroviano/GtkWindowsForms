@@ -32,5 +32,6 @@ namespace System.Windows.Forms
         /// 1
         /// </filterpriority>
         ControlBindingsCollection DataBindings { get; }
+
     }
 }

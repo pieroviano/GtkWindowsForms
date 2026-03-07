@@ -7,7 +7,9 @@ internal class NonStaticMessageBox : IMessageBox
 {
 
     private Window? activeWindow; // Caching significance
+
     public event EventHandler<DialogEventArgs>? DialogAvailable;
+
     /// <summary>
     /// Displays a message box with specified text, caption, and style with Help Button.
     /// </summary>
@@ -176,6 +178,7 @@ internal class NonStaticMessageBox : IMessageBox
     {
         return ShowCore(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None);
     }
+
     internal DialogResult ShowCore(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
     {
         int irun;
@@ -354,4 +357,5 @@ internal class NonStaticMessageBox : IMessageBox
 
         return dia.Run();
     }
+
 }

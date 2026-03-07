@@ -28,6 +28,7 @@ namespace System.Windows.Forms
         private IntPtr _handle;
 
         private static Size s_cursorSize = Size.Empty;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.Cursor" /> class from the specified Windows handle.
@@ -91,6 +92,7 @@ namespace System.Windows.Forms
             CursorType = Gdk.CursorType.CursorIsPixmap;
             CursorPixbuf = new Gdk.Pixbuf(stream).ScaleSimple(48, 48, Gdk.InterpType.Tiles);
         }
+
         internal Cursor(string resource, string cursorsProperty)
             : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
         {
@@ -104,6 +106,7 @@ namespace System.Windows.Forms
             CursorsXY = new Point(x, y);
             _freeHandle = false;
         }
+
         /// <summary>
         /// Gets or sets the bounds that represent the clipping rectangle for the cursor.
         /// </summary>
@@ -218,6 +221,7 @@ namespace System.Windows.Forms
         internal Point CursorsXY { get; }
 
         internal Gdk.CursorType CursorType { get; set; }
+
         /// <summary>
         /// Copies the handle of this
         /// <see cref="System.Windows.Forms.Cursor" />
@@ -347,6 +351,7 @@ namespace System.Windows.Forms
         {
             return (byte[])_cursorData.Clone();
         }
+
         /// <summary>
         /// Serializes the object.
         /// </summary>
@@ -365,5 +370,6 @@ namespace System.Windows.Forms
         {
 
         }
+
     }
 }

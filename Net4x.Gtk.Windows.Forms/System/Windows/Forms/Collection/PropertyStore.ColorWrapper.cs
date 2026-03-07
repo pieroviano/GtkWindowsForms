@@ -19,5 +19,6 @@ internal partial class PropertyStore
         {
             Color = color;
         }
+
     }
 }

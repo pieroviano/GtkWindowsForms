@@ -30,6 +30,7 @@ namespace System.Windows.Forms
 
             // This field is used by a CheckList to store data that an item is checked or indeterminate
             public int State { get; set; }
+
         }
     }
 }

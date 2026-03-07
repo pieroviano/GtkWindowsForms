@@ -54,6 +54,7 @@ namespace System.Windows.Forms
             add { Events.AddHandler("SelectedValueChanged", value); }
             remove { Events.RemoveHandler("SelectedValueChanged", value); }
         }
+
         /// <summary>
         /// Gets or sets the data source for this
         /// <see cref="System.Windows.Forms.ListControl" />
@@ -188,6 +189,7 @@ namespace System.Windows.Forms
         {
             get; set;
         }
+
         /// <summary>
         /// Returns the text representation of the specified item.
         /// </summary>

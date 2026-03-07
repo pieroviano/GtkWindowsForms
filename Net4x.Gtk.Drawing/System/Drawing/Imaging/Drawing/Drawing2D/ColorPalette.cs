@@ -74,5 +74,6 @@ namespace System.Drawing.Imaging
 
             return intPtr;
         }
+
     }
 }

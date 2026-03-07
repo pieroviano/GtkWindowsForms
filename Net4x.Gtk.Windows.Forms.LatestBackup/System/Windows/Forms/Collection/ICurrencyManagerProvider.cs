@@ -16,6 +16,7 @@ namespace System.Windows.Forms
         /// 1
         /// </filterpriority>
         CurrencyManager CurrencyManager { get; }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Windows.Forms.CurrencyManager" /> for this
@@ -32,5 +33,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.CurrencyManager" /> for.
         /// </param>
         CurrencyManager GetRelatedCurrencyManager(string dataMember);
+
     }
 }

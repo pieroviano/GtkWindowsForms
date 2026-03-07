@@ -15,6 +15,7 @@ namespace System.Drawing
     {
 
         internal const int AnimationDelayMS = 40;
+
         private static Thread s_animationThread;
 
         private static bool s_anyFrameDirty;
@@ -25,6 +26,7 @@ namespace System.Drawing
 
         [ThreadStatic]
         private static int t_threadWriterLockWaitCount;
+
         private ImageAnimator()
         {
         }
@@ -325,6 +327,7 @@ namespace System.Drawing
                 }
             }
         }
+
         private sealed class ImageInfo
         {
             private readonly bool _animated;
@@ -409,6 +412,7 @@ namespace System.Drawing
                     _frameCount = 1;
                 }
             }
+
             public bool Animated => _animated;
 
             public EventHandler FrameChangedHandler
@@ -508,6 +512,7 @@ namespace System.Drawing
             {
                 _onFrameChangedHandler?.Invoke(_image, e);
             }
+
         }
     }
 }

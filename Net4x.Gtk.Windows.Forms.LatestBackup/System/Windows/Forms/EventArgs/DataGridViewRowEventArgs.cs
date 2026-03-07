@@ -27,6 +27,7 @@ namespace System.Windows.Forms
         {
             Row = dataGridViewRow ?? throw new ArgumentNullException(nameof(dataGridViewRow));
         }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Windows.Forms.DataGridViewRow" /> associated with the event.
@@ -37,5 +38,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public DataGridViewRow Row { get; }
+
     }
 }

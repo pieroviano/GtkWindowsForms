@@ -21,6 +21,7 @@ namespace System.Windows.Forms
             Height = height;
             MinimumHeight = minimumHeight;
         }
+
         /// <summary>
         /// Gets the height of the row the event occurred for.
         /// </summary>
@@ -41,5 +42,6 @@ namespace System.Windows.Forms
         /// <returns>The zero-based index of the row.
         /// </returns>
         public int RowIndex { get; }
+
     }
 }

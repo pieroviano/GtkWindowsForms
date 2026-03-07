@@ -654,5 +654,6 @@ namespace System.Drawing.Imaging
             _matrix43 = newColorMatrix[4][3];
             _matrix44 = newColorMatrix[4][4];
         }
+
     }
 }

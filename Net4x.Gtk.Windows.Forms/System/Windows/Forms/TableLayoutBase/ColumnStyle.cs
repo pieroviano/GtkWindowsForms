@@ -49,6 +49,7 @@ namespace System.Windows.Forms
             this.SizeType = sizeType;
             this.Width = width;
         }
+
         /// <summary>
         /// Gets or sets the width value for a column.
         /// </summary>
@@ -67,5 +68,6 @@ namespace System.Windows.Forms
             get;
             set;
         }
+
     }
 }

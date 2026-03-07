@@ -58,6 +58,7 @@ namespace System.Drawing.Drawing2D
         public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap, float baseInset)
         {
         }
+
         /// <summary>
         /// Gets or sets the
         /// <see cref="System.Drawing.Drawing2D.LineCap" /> enumeration on which this
@@ -211,5 +212,6 @@ namespace System.Drawing.Drawing2D
         protected virtual void Dispose(bool disposing)
         {
         }
+
     }
 }

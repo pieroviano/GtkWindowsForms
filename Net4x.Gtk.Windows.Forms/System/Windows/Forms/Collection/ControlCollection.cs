@@ -21,10 +21,15 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public partial class Control
     {
+        /// <summary>
+        /// Represents a collection of
+        /// <see cref="System.Windows.Forms.Control" /> objects.
+        /// </summary>
         public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable
         {
 
             internal Drawing.Point Offset = new Drawing.Point(0, 0);
+
             Type __itemType;
 
             Control __owner;
@@ -32,6 +37,7 @@ namespace System.Windows.Forms
             Gtk.Container __ownerControl;
 
             private bool is__ownerControl_Mapped = false;
+
             public ControlCollection(Control owner)
             {
                 __ownerControl = owner.GtkControl as Gtk.Container;
@@ -80,6 +86,7 @@ namespace System.Windows.Forms
                     }
                 }
             }
+
             public virtual void Add(Gtk.Widget value)
             {
                 NativeAdd(value);
@@ -279,6 +286,7 @@ namespace System.Windows.Forms
                         InnerList.RemoveAt(index);
                 }
             }
+
             private void __ownerControl_Mapped(object sender, EventArgs e)
             {
                 if (is__ownerControl_Mapped == false)
@@ -534,6 +542,7 @@ namespace System.Windows.Forms
                     }
                 }
             }
+
         }
 
         internal class ArrangedElementWidget : IArrangedElement
@@ -541,10 +550,12 @@ namespace System.Windows.Forms
             Gtk.Widget _widget;
 
             public event EventHandler Disposed;
+
             internal ArrangedElementWidget(Gtk.Widget widget)
             {
                 _widget = widget;
             }
+
             public Rectangle Bounds => throw new NotImplementedException();
 
             public ArrangedElementCollection Children => throw new NotImplementedException();
@@ -584,6 +595,7 @@ namespace System.Windows.Forms
             {
                 throw new NotImplementedException();
             }
+
         }
     }
 }

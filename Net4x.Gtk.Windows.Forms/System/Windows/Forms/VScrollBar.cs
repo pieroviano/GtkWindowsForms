@@ -20,6 +20,7 @@ namespace System.Windows.Forms
     {
 
         public ScrollbarBase<Gtk.VScrollbar> self = new ScrollbarBase<Gtk.VScrollbar>(Gtk.Orientation.Vertical);
+
         public VScrollBar() : base()
         {
 
@@ -28,5 +29,6 @@ namespace System.Windows.Forms
         public override Gtk.Adjustment Adjustment { get => self.Adjustment; }
 
         public override object GtkControl => self;
+
     }
 }

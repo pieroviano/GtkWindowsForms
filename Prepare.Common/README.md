@@ -1,1 +1,1 @@
-Prepare.Common
+Prepare.Common library

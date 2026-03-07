@@ -324,6 +324,7 @@ internal class ListBindingHelper
 
         return listNameFromType;
     }
+
     private static object? CreateInstanceOfType(Type? type)
     {
         object? obj = null;
@@ -609,4 +610,5 @@ internal class ListBindingHelper
 
         return false;
     }
+
 }

@@ -14,4 +14,5 @@ internal static class ColorExtension
         // otherwise treat it as a named color
         return FromName(name);
     }
+
 }

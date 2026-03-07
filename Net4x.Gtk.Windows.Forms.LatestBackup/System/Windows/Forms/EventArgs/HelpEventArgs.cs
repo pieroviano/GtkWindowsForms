@@ -46,5 +46,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public Point MousePos { get; }
+
     }
 }

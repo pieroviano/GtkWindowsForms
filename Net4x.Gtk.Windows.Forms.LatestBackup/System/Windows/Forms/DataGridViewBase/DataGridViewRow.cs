@@ -16,6 +16,7 @@ namespace System.Windows.Forms
         private DataGridViewCellCollection _cell;
 
         private DataGridViewRowCollection _children;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewRow" /> class without using a template.
@@ -24,6 +25,7 @@ namespace System.Windows.Forms
         {
             _cell = new DataGridViewCellCollection(this);
         }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Windows.Forms.DataGridViewRow.DataGridViewRowAccessibleObject" /> assigned to the
@@ -290,5 +292,6 @@ namespace System.Windows.Forms
         {
             return Height;
         }
+
     }
 }

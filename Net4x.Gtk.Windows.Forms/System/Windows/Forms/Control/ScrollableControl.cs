@@ -34,6 +34,7 @@ namespace System.Windows.Forms
             add { if (scrollbase != null) { scrollbase.Scroll += value; } }
             remove { if (scrollbase != null) { scrollbase.Scroll -= value; } }
         }
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ScrollableControl" /> class.
@@ -42,6 +43,7 @@ namespace System.Windows.Forms
         {
             scrollbase = GtkControl as IScrollableBoxBase;
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether the container enables the user to scroll to any controls placed outside of its visible boundaries.
         /// </summary>
@@ -123,6 +125,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public override Rectangle DisplayRectangle { get; }
+
         /// <summary>
         /// Gets or sets a value indicating whether the horizontal scroll bar is visible.
         /// </summary>
@@ -139,9 +142,11 @@ namespace System.Windows.Forms
         //public DockPaddingEdges DockPadding { get; }
         //public HScrollProperties HorizontalScroll { get; }
         protected bool VScroll { get => scrollbase.VScroll; set => scrollbase.VScroll = value; }
+
         public void SetScrolledWindow(IScrollableBoxBase scrolledwindow)
         {
             scrollbase = scrolledwindow;
         }
+
     }
 }

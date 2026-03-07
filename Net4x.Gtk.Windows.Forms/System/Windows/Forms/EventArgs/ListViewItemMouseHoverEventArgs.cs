@@ -27,6 +27,7 @@ namespace System.Windows.Forms
         {
             Item = item;
         }
+
         /// <summary>
         /// Gets the item the mouse pointer is currently hovering over.
         /// </summary>
@@ -36,5 +37,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public ListViewItem Item { get; }
+
     }
 }

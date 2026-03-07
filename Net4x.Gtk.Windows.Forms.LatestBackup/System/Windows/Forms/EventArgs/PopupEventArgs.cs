@@ -81,5 +81,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public Size ToolTipSize { get; set; }
+
     }
 }

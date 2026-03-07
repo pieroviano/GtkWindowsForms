@@ -15,5 +15,6 @@ namespace GtkControls
         public int TopAttach { get; set; }
 
         public int Width { get; set; }
+
     }
 }

@@ -21,5 +21,6 @@ namespace System.Windows.Forms
         /// 1
         /// </filterpriority>
         IntPtr Handle { get; }
+
     }
 }

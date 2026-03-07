@@ -28,6 +28,7 @@ namespace System.Windows.Forms
             Row = dataGridViewRow;
             StateChanged = stateChanged;
         }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Windows.Forms.DataGridViewRow" /> that has a changed state.
@@ -46,5 +47,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewElementStates" /> values indicating the state that has changed on the row.
         /// </returns>
         public DataGridViewElementStates StateChanged { get; }
+
     }
 }

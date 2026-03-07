@@ -12,6 +12,10 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public partial class PropertyGrid
     {
+        /// <summary>
+        /// Contains a collection of
+        /// <see cref="System.Windows.Forms.Design.PropertyTab" /> objects.
+        /// </summary>
         public class PropertyTabCollection : ICollection
         {
             private readonly PropertyGrid _ownerPropertyGrid;
@@ -93,6 +97,7 @@ namespace System.Windows.Forms
                         _ownerPropertyGrid._tabs.Count);
                 }
             }
+
         }
     }
 }

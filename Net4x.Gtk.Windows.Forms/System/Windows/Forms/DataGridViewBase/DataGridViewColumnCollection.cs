@@ -22,7 +22,9 @@ namespace System.Windows.Forms
         private DataGridView __owner;
 
         private Gtk.TreeView GridView;
+
         public event CollectionChangeEventHandler CollectionChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref = "System.Windows.Forms.DataGridViewColumnCollection"/> class for the given
@@ -516,5 +518,6 @@ namespace System.Windows.Forms
             if (CollectionChanged != null)
                 CollectionChanged(__owner, e);
         }
+
     }
 }

@@ -14,6 +14,10 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public partial class ComboBox
     {
+        /// <summary>
+        /// Represents the collection of items in a
+        /// <see cref="System.Windows.Forms.ComboBox" />
+        /// </summary>
         [ListBindable(false)]
         public partial class ObjectCollection : IList, IComparer<ComboBox.ObjectCollection.Entry>
         {
@@ -70,6 +74,7 @@ namespace System.Windows.Forms
                     return this;
                 }
             }
+
             /// <summary>
             /// Retrieves the item with the specified index.
             /// </summary>
@@ -220,6 +225,7 @@ namespace System.Windows.Forms
                     }
                 }
             }
+
             internal int Add(string value, string text, object item)
             {
                 int index = AddInternal(item);
@@ -293,6 +299,7 @@ namespace System.Windows.Forms
                     destination.SetValue(InnerList[i], i + index);
                 }
             }
+
             private int AddInternal(object item)
             {
                 item ??= "";
@@ -328,6 +335,7 @@ namespace System.Windows.Forms
                     throw;
                 }
             }
+
         }
     }
 }

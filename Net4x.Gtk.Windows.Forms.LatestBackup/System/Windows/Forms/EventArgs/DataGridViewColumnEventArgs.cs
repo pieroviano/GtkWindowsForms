@@ -33,6 +33,7 @@ namespace System.Windows.Forms
             Debug.Assert(dataGridViewColumn.Index >= -1);
             Column = dataGridViewColumn;
         }
+
         /// <summary>
         /// Gets the column that the event occurs for.
         /// </summary>
@@ -42,5 +43,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public DataGridViewColumn Column { get; }
+
     }
 }

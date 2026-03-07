@@ -16,6 +16,7 @@ namespace System.Windows.Forms
     {
 
         private int _step;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ToolStripProgressBar" /> class.
@@ -36,6 +37,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets a value representing the delay between each
         /// <see cref="System.Windows.Forms.ProgressBarStyle.Marquee" /> display update, in milliseconds.
@@ -148,6 +150,7 @@ namespace System.Windows.Forms
                 progressBar.Value = value;
             }
         }
+
         /// <summary>
         /// Advances the current position of the progress bar by the specified amount.
         /// </summary>

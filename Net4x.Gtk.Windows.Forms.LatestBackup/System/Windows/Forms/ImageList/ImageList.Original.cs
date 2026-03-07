@@ -47,6 +47,7 @@ namespace System.Windows.Forms
                     Debug.Assert(customTransparentColor.Equals(Color.Transparent), "Specified a custom transparent color then told us to ignore it");
                 }
             }
+
         }
     }
 }

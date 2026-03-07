@@ -21,6 +21,7 @@ namespace System.Windows.Forms
     {
 
         private ProgressBarBase self = new ProgressBarBase();
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ProgressBar" /> class.
@@ -144,6 +145,7 @@ namespace System.Windows.Forms
         /// </PermissionSet>
         [DefaultValue(0)]
         public int Value { get => (int)self.Value; set => self.Value = value; }
+
         /// <summary>
         /// Advances the current position of the progress bar by the specified amount.
         /// </summary>
@@ -193,5 +195,6 @@ namespace System.Windows.Forms
             self.MinValue = Minimum;
             self.Value = Value;
         }
+
     }
 }

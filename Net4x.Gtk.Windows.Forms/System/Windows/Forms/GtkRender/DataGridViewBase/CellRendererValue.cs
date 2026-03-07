@@ -95,6 +95,7 @@ namespace System.Windows.Forms.GtkRender
                     cell.WrapMode = cellstyle.WrapMode == DataGridViewTriState.True ? Pango.WrapMode.WordChar : Pango.WrapMode.Word;
             }
         }
+
     }
 
     public class CellRendererButtonValue : CellRendererText, ICellRenderer
@@ -102,6 +103,7 @@ namespace System.Windows.Forms.GtkRender
         DataGridViewColumn Column;
 
         private CellReandererUtility utility;
+
         public CellRendererButtonValue(DataGridViewColumn view)
         {
             Column = view;
@@ -109,6 +111,7 @@ namespace System.Windows.Forms.GtkRender
             this.SetAlignment(0.5f, 0.5f);
             this.Ellipsize = Pango.EllipsizeMode.End;
         }
+
         public bool Activatable { get; set; }
 
         [Property("cellvalue")]
@@ -130,7 +133,9 @@ namespace System.Windows.Forms.GtkRender
         }
 
         public DataGridViewCellStyle ColumnStyle { get; set; }
+
         string ICellRenderer.Markup { get; set; }
+
         protected override void OnRender(Cairo.Context cr, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
         {
             widget.StyleContext.AddClass("GridViewCell-Button");
@@ -147,6 +152,7 @@ namespace System.Windows.Forms.GtkRender
             widget.StyleContext.Restore();
             base.OnRender(cr, widget, new Gdk.Rectangle(background_area.X, background_area.Y, background_area.Width, background_area.Height), new Gdk.Rectangle(cell_area.X, cell_area.Y, cell_area.Width, cell_area.Height), flags);
         }
+
     }
 
     public class CellRendererComboValue : CellRendererCombo, ICellRenderer
@@ -154,11 +160,13 @@ namespace System.Windows.Forms.GtkRender
         DataGridViewColumn Column;
 
         private CellReandererUtility utility;
+
         public CellRendererComboValue(DataGridViewColumn view)
         {
             Column = view;
             utility = new CellReandererUtility();
         }
+
         public bool Activatable { get; set; }
 
         [Property("cellvalue")]
@@ -179,7 +187,9 @@ namespace System.Windows.Forms.GtkRender
         }
 
         public DataGridViewCellStyle ColumnStyle { get; set; }
+
         string ICellRenderer.Markup { get; set; }
+
     }
 
     public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
@@ -187,11 +197,13 @@ namespace System.Windows.Forms.GtkRender
         DataGridViewColumn Column;
 
         private CellReandererUtility utility;
+
         public CellRendererPixbufValue(DataGridViewColumn view)
         {
             Column = view;
             utility = new CellReandererUtility();
         }
+
         public bool Activatable { get; set; }
 
         [Property("cellvalue")]
@@ -241,6 +253,7 @@ namespace System.Windows.Forms.GtkRender
         public Pango.WrapMode WrapMode { get; set; }
 
         public int WrapWidth { get; set; }
+
     }
 
     public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
@@ -248,11 +261,13 @@ namespace System.Windows.Forms.GtkRender
         DataGridViewColumn Column;
 
         private CellReandererUtility utility;
+
         public CellRendererToggleValue(DataGridViewColumn view)
         {
             Column = view;
             utility = new CellReandererUtility();
         }
+
         [Property("cellvalue")]
         public DataGridViewCell CellValue
         {
@@ -282,6 +297,7 @@ namespace System.Windows.Forms.GtkRender
         public Pango.WrapMode WrapMode { get; set; }
 
         public int WrapWidth { get; set; }
+
     }
 
     public class CellRendererValue : CellRendererText, ICellRenderer
@@ -290,11 +306,13 @@ namespace System.Windows.Forms.GtkRender
         private DataGridViewColumn Column;
 
         private CellReandererUtility utility;
+
         public CellRendererValue(DataGridViewColumn view)
         {
             Column = view;
             utility = new CellReandererUtility();
         }
+
         public bool Activatable { get; set; }
 
         [Property("cellvalue")]
@@ -316,7 +334,9 @@ namespace System.Windows.Forms.GtkRender
         }
 
         public DataGridViewCellStyle ColumnStyle { get; set; }
+
         string ICellRenderer.Markup { get; set; }
+
     }
 
     public interface ICellRenderer
@@ -340,5 +360,6 @@ namespace System.Windows.Forms.GtkRender
         Pango.WrapMode WrapMode { get; set; }
 
         int WrapWidth { get; set; }
+
     }
 }

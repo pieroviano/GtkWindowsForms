@@ -20,6 +20,7 @@ namespace System.Windows.Forms
         readonly TreeViewAction action = TreeViewAction.Unknown;
 
         readonly TreeNode node;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.TreeViewEventArgs" /> class for the specified tree node.
@@ -79,5 +80,6 @@ namespace System.Windows.Forms
                 return node;
             }
         }
+
     }
 }

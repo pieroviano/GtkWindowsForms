@@ -28,6 +28,7 @@ namespace System.Windows.Forms
         {
             Container = container;
         }
+
         /// <summary>
         /// Gets the parent
         /// <see cref="System.Windows.Forms.TableLayoutPanel" /> that contains the controls in the collection.
@@ -38,6 +39,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public TableLayoutPanel Container { get; }
+
         /// <summary>
         /// Adds the specified control to the collection and positions it at the specified cell.
         /// </summary>
@@ -87,5 +89,6 @@ namespace System.Windows.Forms
             Container.SetColumn(control, column);
             Container.SetRow(control, row);
         }
+
     }
 }

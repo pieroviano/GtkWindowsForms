@@ -1135,4 +1135,5 @@ public class MessageBox
 
         return Instance.Show(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None);
     }
+
 }

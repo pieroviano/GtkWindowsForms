@@ -44,6 +44,7 @@ namespace System.Windows.Forms
             Button = button;
             Item = item;
         }
+
         /// <summary>
         /// Gets a value that indicates which mouse buttons were pressed during the drag operation.
         /// </summary>
@@ -62,5 +63,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public object Item { get; }
+
     }
 }

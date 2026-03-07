@@ -40,6 +40,7 @@ namespace System.Windows.Forms
             HelpString = helpString;
             HelpKeyword = helpKeyword;
         }
+
         /// <summary>
         /// Gets or sets the Help keyword for the specified control.
         /// </summary>
@@ -68,5 +69,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public string HelpString { get; set; }
+
     }
 }

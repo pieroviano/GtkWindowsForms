@@ -27,6 +27,7 @@ namespace System.Windows.Forms.Layout
         {
             InnerList = new List<IArrangedElement>(size);
         }
+
         /// <summary>
         /// Gets the number of elements in the collection.
         /// </summary>
@@ -40,6 +41,7 @@ namespace System.Windows.Forms.Layout
         /// <returns>true if the collection is read-only; otherwise, false. The default is false.
         /// </returns>
         public virtual bool IsReadOnly => ((IList)InnerList).IsReadOnly;
+
         /// <summary>
         /// For a description of this member, see the
         /// <see cref="System.Collections.IList.IsFixedSize" /> property.
@@ -76,6 +78,7 @@ namespace System.Windows.Forms.Layout
             get => InnerList[index];
             set => throw new NotSupportedException();
         }
+
         /// <summary>
         /// Copies the entire contents of this collection to a compatible one-dimensional
         /// <see cref="System.Array" />, starting at the specified index of the target array.
@@ -156,6 +159,7 @@ namespace System.Windows.Forms.Layout
 
             return hash.ToHashCode();
         }
+
         /// <summary>
         /// For a description of this member, see the
         /// <see cref="System.Collections.IList.Add(System.Object)" /> method.
@@ -298,5 +302,6 @@ namespace System.Windows.Forms.Layout
                 }
             }
         }
+
     }
 }

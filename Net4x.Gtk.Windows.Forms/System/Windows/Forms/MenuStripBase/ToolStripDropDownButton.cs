@@ -106,6 +106,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether an arrow is displayed on the
         /// <see cref="System.Windows.Forms.ToolStripDropDownButton" />, which indicates that further options are available in a drop-down list.
@@ -125,6 +126,7 @@ namespace System.Windows.Forms
         //public bool AutoToolTip { get; set; }
         [DefaultValue(true)]
         public bool ShowDropDownArrow { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether to display the
         /// <see cref="System.Windows.Forms.ToolTip" /> that is defined as the default.
@@ -132,6 +134,7 @@ namespace System.Windows.Forms
         /// <returns>true in all cases.
         /// </returns>
         protected bool DefaultAutoToolTip { get; }
+
         /// <summary>
         /// Raises the
         /// <see cref="System.Windows.Forms.ToolStripItem.MouseDown" /> event.

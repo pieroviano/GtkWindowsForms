@@ -50,6 +50,7 @@ namespace System.Windows.Forms
             this.SizeType = sizeType;
             this.Height = height;
         }
+
         /// <summary>
         /// Gets or sets the height of a row.
         /// </summary>
@@ -69,5 +70,6 @@ namespace System.Windows.Forms
             get;
             set;
         }
+
     }
 }

@@ -28,6 +28,7 @@ namespace System.Windows.Forms
         {
             DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether the
         /// <see cref="System.Windows.Forms.ToolStripMenuItem" /> is checked.
@@ -93,5 +94,6 @@ namespace System.Windows.Forms
                 base.CheckState = value;
             }
         }
+
     }
 }

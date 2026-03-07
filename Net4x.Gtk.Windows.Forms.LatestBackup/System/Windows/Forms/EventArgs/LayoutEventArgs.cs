@@ -43,6 +43,7 @@ namespace System.Windows.Forms
         public LayoutEventArgs(Control affectedControl, string affectedProperty) : this((IComponent)affectedControl, affectedProperty)
         {
         }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.ComponentModel.Component" /> affected by the layout change.
@@ -73,5 +74,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public string AffectedProperty { get; }
+
     }
 }

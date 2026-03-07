@@ -45,5 +45,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public char KeyChar { get; set; }
+
     }
 }

@@ -51,6 +51,7 @@ namespace System.Windows.Forms
             RowIndex = rowIndex;
             CellStyle = cellStyle;
         }
+
         /// <summary>
         /// Gets or sets the style of the cell that is being formatted.
         /// </summary>
@@ -88,5 +89,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int RowIndex { get; }
+
     }
 }

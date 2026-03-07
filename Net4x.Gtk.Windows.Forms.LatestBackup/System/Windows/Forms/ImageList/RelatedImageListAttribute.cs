@@ -11,6 +11,7 @@ namespace System.Windows.Forms
     public sealed class RelatedImageListAttribute : Attribute
     {
         private readonly string? _relatedImageList;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.RelatedImageListAttribute" /> class.
@@ -22,6 +23,7 @@ namespace System.Windows.Forms
         {
             _relatedImageList = relatedImageList;
         }
+
         /// <summary>
         /// Gets the name of the related
         /// <see cref="System.Windows.Forms.ImageList" />
@@ -36,5 +38,6 @@ namespace System.Windows.Forms
                 return _relatedImageList;
             }
         }
+
     }
 }

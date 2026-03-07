@@ -65,5 +65,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public CheckState NewValue { get; set; }
+
     }
 }

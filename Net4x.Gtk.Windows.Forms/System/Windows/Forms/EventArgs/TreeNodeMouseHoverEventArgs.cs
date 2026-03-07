@@ -27,6 +27,7 @@ namespace System.Windows.Forms
         {
             Node = node;
         }
+
         /// <summary>
         /// Gets the node the mouse pointer is currently resting on.
         /// </summary>
@@ -36,5 +37,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public TreeNode Node { get; }
+
     }
 }

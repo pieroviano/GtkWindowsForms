@@ -17,6 +17,7 @@ namespace System.Windows.Forms;
 public class ControlBindingsCollection : BindingsCollection
 {
     private readonly IBindableComponent? _control;
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="System.Windows.Forms.ControlBindingsCollection" /> class with the specified bindable control.
@@ -28,6 +29,7 @@ public class ControlBindingsCollection : BindingsCollection
     {
         _control = control;
     }
+
     /// <summary>
     /// Gets the
     /// <see cref="System.Windows.Forms.IBindableComponent" /> the binding collection belongs to.
@@ -468,4 +470,5 @@ public class ControlBindingsCollection : BindingsCollection
         dataBinding.SetBindableComponent(value: null);
         base.RemoveCore(dataBinding);
     }
+
 }

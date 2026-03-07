@@ -14,15 +14,19 @@ public static class CsFileOrganizer
         var tree = CSharpSyntaxTree.ParseText(code);
         var root = (CompilationUnitSyntax)tree.GetRoot();
 
+        // Remove #region / #endregion
+        var regionRemover = new RegionRemover();
+        root = (CompilationUnitSyntax)regionRemover.Visit(root);
+
         var newRoot = ProcessCompilationUnit(root);
 
-        // Preserve original formatting and comments
         var contents = newRoot.ToFullString().Replace("\r\n", "\n");
         contents = Regex.Replace(contents, "\n[ \t]+\n", "\n\n");
         while (contents.Contains("\n\n\n"))
         {
             contents = contents.Replace("\n\n\n", "\n\n");
         }
+
         File.WriteAllText(path, contents.Trim('\n'));
     }
 
@@ -95,6 +99,7 @@ public static class CsFileOrganizer
             yield return AddBlankLineAfter(sortedTypes[i], isLast);
         }
     }
+
     private static BaseTypeDeclarationSyntax ProcessType(BaseTypeDeclarationSyntax type)
     {
         if (type is EnumDeclarationSyntax)
@@ -170,8 +175,7 @@ public static class CsFileOrganizer
 
             for (int i = 0; i < sortedGroup.Count; i++)
             {
-                bool isLast = i == sortedGroup.Count - 1;
-                yield return AddBlankLineAfter(sortedGroup[i], isLast);
+                yield return AddBlankLineAfter(sortedGroup[i], isLast: false);
             }
         }
     }
@@ -205,30 +209,11 @@ public static class CsFileOrganizer
             _ => ""
         };
     }
-    private static MemberDeclarationSyntax AddBlankLineAfter(MemberDeclarationSyntax member)
-    {
-        return member.WithTrailingTrivia(
-            member.GetTrailingTrivia()
-                .Add(SyntaxFactory.CarriageReturnLineFeed)
-        );
-    }
-
-    private static T AddBlankLineAfter<T>(T member) where T : MemberDeclarationSyntax
-    {
-        var trailingTrivia = member.GetTrailingTrivia();
-
-        // Ensure exactly one blank line after the member
-        trailingTrivia = trailingTrivia
-            .Add(SyntaxFactory.CarriageReturnLineFeed)   // end current line
-            .Add(SyntaxFactory.CarriageReturnLineFeed);  // blank line
-
-        return member.WithTrailingTrivia(trailingTrivia);
-    }
 
     private static T AddBlankLineAfter<T>(T member, bool isLast) where T : MemberDeclarationSyntax
     {
         if (isLast)
-            return member; // do not add blank line after the last member
+            return member; // do not add blank line after the last member by contract
 
         var trailingTrivia = member.GetTrailingTrivia();
 

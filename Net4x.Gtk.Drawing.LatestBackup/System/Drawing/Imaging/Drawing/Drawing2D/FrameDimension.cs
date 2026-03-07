@@ -123,5 +123,6 @@ namespace System.Drawing.Imaging
 
             return $"[FrameDimension: {_guid}]";
         }
+
     }
 }

@@ -41,6 +41,7 @@ namespace System.Windows.Forms
             base.Sizing = TreeViewColumnSizing.GrowOnly;
             _cellRenderer = renderer;
         }
+
         internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
         {
             DataGridViewButtonCell newcell = new DataGridViewButtonCell();
@@ -50,6 +51,7 @@ namespace System.Windows.Forms
 
             return newcell;
         }
+
         private void TreeView_RowActivated(object o, RowActivatedArgs args)
         {
             if (args.Column.Handle == this.Handle)
@@ -61,6 +63,7 @@ namespace System.Windows.Forms
                 }
             }
         }
+
     }
 
     /// <summary>
@@ -94,6 +97,7 @@ namespace System.Windows.Forms
             base.Sizing = TreeViewColumnSizing.GrowOnly;
             _cellRenderer = renderer;
         }
+
         internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
         {
             DataGridViewCheckBoxCell newcell = new DataGridViewCheckBoxCell();
@@ -117,6 +121,7 @@ namespace System.Windows.Forms
                 _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
             }
         }
+
     }
 
     /// <summary>
@@ -158,6 +163,7 @@ namespace System.Windows.Forms
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler Disposed;
+
         public DataGridViewColumn(DataGridView ownerGridView) : this(ownerGridView, new DataGridViewTextBoxCell())
         {
         }
@@ -194,6 +200,7 @@ namespace System.Windows.Forms
             base.Sizing = TreeViewColumnSizing.GrowOnly;
             _cellRenderer = renderer as ICellRenderer;
         }
+
         protected DataGridViewColumn(int column, DataGridView ownerGridView, DataGridViewCell cellTemplate) : base()
         {
             if (ownerGridView != null)
@@ -203,6 +210,7 @@ namespace System.Windows.Forms
             }
             _cellTemplate = cellTemplate;
         }
+
         /// <summary>
         /// Gets or sets the mode by which the column automatically adjusts its width.
         /// </summary>
@@ -622,6 +630,7 @@ namespace System.Windows.Forms
         [Localizable(true)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public new int Width { get { return base.FixedWidth; } set { base.FixedWidth = value; } }
+
         private int DefaultHeight
         {
             get
@@ -635,6 +644,7 @@ namespace System.Windows.Forms
                 return 28;
             }
         }
+
         /// <returns>
         /// An
         /// <see cref="System.Object" /> that represents the cloned
@@ -711,6 +721,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public override string ToString() { return this.GetType().Name; }
+
         internal void AtrributesClone(DataGridViewCell newcell)
         {
             newcell.Style = _cellTemplate.Style?.Clone();
@@ -726,6 +737,7 @@ namespace System.Windows.Forms
 
             return newcell;
         }
+
         private void Renderer_Edited(object o, EditedArgs args)
         {
             TreePath path = new TreePath(args.Path);
@@ -738,6 +750,7 @@ namespace System.Windows.Forms
                 _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
             }
         }
+
     }
 
     /// <summary>
@@ -751,7 +764,9 @@ namespace System.Windows.Forms
     {
 
         internal Gtk.ListStore model = new Gtk.ListStore(typeof(string));
+
         ObjectCollection _items;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewTextBoxColumn" /> class to the default state.
@@ -774,6 +789,7 @@ namespace System.Windows.Forms
             base.Sizing = TreeViewColumnSizing.GrowOnly;
             _cellRenderer = renderer;
         }
+
         /// <summary>
         /// Gets the collection of objects used as selections in the combo boxes.
         /// </summary>
@@ -786,6 +802,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public ObjectCollection Items => _items;
+
         internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
         {
             DataGridViewComboBoxCell newcell = new DataGridViewComboBoxCell();
@@ -808,14 +825,17 @@ namespace System.Windows.Forms
                 _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
             }
         }
+
         public class ObjectCollection : ArrayList
         {
 
             private DataGridViewComboBoxColumn _owner;
+
             public ObjectCollection(DataGridViewComboBoxColumn owner)
             {
                 _owner = owner;
             }
+
             public override int Add(object value)
             {
                 _owner.model.AppendValues(value);
@@ -828,6 +848,7 @@ namespace System.Windows.Forms
                 foreach (object item in items)
                     Add(item);
             }
+
         }
     }
 
@@ -859,6 +880,7 @@ namespace System.Windows.Forms
             base.Sizing = TreeViewColumnSizing.GrowOnly;
             _cellRenderer = renderer;
         }
+
         internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
         {
             DataGridViewImageCell newcell = new DataGridViewImageCell();
@@ -868,6 +890,7 @@ namespace System.Windows.Forms
 
             return newcell;
         }
+
     }
 
     /// <summary>
@@ -891,6 +914,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
         {
             DataGridViewLinkCell newcell = new DataGridViewLinkCell();
@@ -900,6 +924,7 @@ namespace System.Windows.Forms
 
             return newcell;
         }
+
     }
 
     public class DataGridViewRadioColumn : DataGridViewColumn
@@ -922,6 +947,7 @@ namespace System.Windows.Forms
             base.Sizing = TreeViewColumnSizing.GrowOnly;
             _cellRenderer = renderer;
         }
+
         internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
         {
             DataGridViewRadioCell newcell = new DataGridViewRadioCell();
@@ -945,6 +971,7 @@ namespace System.Windows.Forms
                 _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
             }
         }
+
     }
 
     /// <summary>
@@ -967,6 +994,7 @@ namespace System.Windows.Forms
         public DataGridViewTextBoxColumn(DataGridView ownerGridView) : base(ownerGridView, new DataGridViewTextBoxCell())
         {
         }
+
     }
 
 }

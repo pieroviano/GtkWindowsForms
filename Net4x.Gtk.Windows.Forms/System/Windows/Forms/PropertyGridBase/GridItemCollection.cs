@@ -32,6 +32,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int Count => _entries.Length;
+
         /// <summary>
         /// For a description of this member, see
         /// <see cref="System.Collections.ICollection.IsSynchronized" />
@@ -80,6 +81,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public IEnumerator GetEnumerator() => _entries.GetEnumerator();
+
         /// <summary>
         /// For a description of this member, see
         /// <see cref="System.Collections.ICollection.CopyTo(System.Array,System.Int32)" />
@@ -95,5 +97,6 @@ namespace System.Windows.Forms
                 Array.Copy(_entries, 0, dest, index, _entries.Length);
             }
         }
+
     }
 }

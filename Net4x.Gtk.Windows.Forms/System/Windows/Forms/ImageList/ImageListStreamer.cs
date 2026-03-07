@@ -57,7 +57,9 @@ namespace System.Windows.Forms
                 Deserialize(data);
             }
         }
+
         public ResourceInfo ResourceInfo { get; set; }
+
         /// <summary>
         /// Releases all resources used by the current instance of the
         /// <see cref="System.Windows.Forms.ImageListStreamer" /> class.
@@ -198,5 +200,6 @@ namespace System.Windows.Forms
 
             //return PInvoke.ImageList.Write(handle, stream);
         }
+
     }
 }

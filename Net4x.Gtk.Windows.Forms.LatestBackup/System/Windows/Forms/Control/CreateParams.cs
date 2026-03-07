@@ -109,6 +109,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int Y { get; set; }
+
         /// <returns>
         /// A string that represents the current object.
         /// </returns>
@@ -118,5 +119,6 @@ namespace System.Windows.Forms
         {
             return $"CreateParams {{'{ClassName}', '{Caption}', 0x{Style:x}, 0x{ExStyle:x}, {{{X}, {Y}, {Width}, {Height}}}}}";
         }
+
     }
 }

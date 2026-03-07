@@ -77,5 +77,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public bool SysCharSet { get; }
+
     }
 }

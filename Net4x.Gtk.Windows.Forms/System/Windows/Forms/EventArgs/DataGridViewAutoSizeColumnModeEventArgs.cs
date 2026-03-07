@@ -26,6 +26,7 @@ namespace System.Windows.Forms
             Column = dataGridViewColumn;
             PreviousMode = previousMode;
         }
+
         /// <summary>
         /// Gets the column with the
         /// <see cref="System.Windows.Forms.DataGridViewColumn.AutoSizeMode" /> property that changed.
@@ -46,5 +47,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewAutoSizeColumnModeEventArgs.Column" />
         /// </returns>
         public DataGridViewAutoSizeColumnMode PreviousMode { get; }
+
     }
 }

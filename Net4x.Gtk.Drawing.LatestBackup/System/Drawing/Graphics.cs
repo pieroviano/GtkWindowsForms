@@ -32,6 +32,7 @@ namespace System.Drawing
         private static Cairo.Surface simisurface;
 
         private Gtk.Widget widget;
+
         internal Graphics(Gtk.Widget widget, Cairo.Context context, Gdk.Rectangle rectangle)
         {
             Graphics.Context = context;
@@ -48,6 +49,7 @@ namespace System.Drawing
             this.rectangle = rectangle;
             this.Clip = new Region(new Rectangle(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height));
         }
+
         /// <summary>
         /// Gets or sets a
         /// <see cref="System.Drawing.Region" /> that limits the drawing region of this
@@ -430,6 +432,7 @@ namespace System.Drawing
         internal double diff_left { get; set; }
 
         internal double diff_top { get; set; }
+
         /// <summary>
         /// Adds a comment to the current
         /// <see cref="System.Drawing.Imaging.Metafile" />

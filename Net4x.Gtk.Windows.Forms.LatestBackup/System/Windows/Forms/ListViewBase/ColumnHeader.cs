@@ -22,6 +22,7 @@ namespace System.Windows.Forms
         internal string _text;
 
         internal int _width = 120;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ColumnHeader" /> class.
@@ -60,6 +61,7 @@ namespace System.Windows.Forms
             Text = text;
             Width = width;
         }
+
         /// <summary>
         /// Gets or sets the display order of the column relative to the currently displayed columns.
         /// </summary>
@@ -262,6 +264,7 @@ namespace System.Windows.Forms
             get;
             set;
         } = 100;
+
         /// <summary>
         /// Creates an identical copy of the current
         /// <see cref="System.Windows.Forms.ColumnHeader" /> that is not attached to any list view control.
@@ -281,6 +284,7 @@ namespace System.Windows.Forms
         {
             return null;
         }
+
         /// <summary>
         /// Disposes of the resources (other than memory) used by the
         /// <see cref="System.Windows.Forms.ColumnHeader" />
@@ -291,5 +295,6 @@ namespace System.Windows.Forms
         {
 
         }
+
     }
 }

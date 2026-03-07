@@ -19,6 +19,7 @@ public class BindingContext : ContextBoundObject
 {
 
     private readonly Hashtable listManagers = new();
+
     /// <summary>
     /// Gets a value indicating whether the
     /// <see cref="System.Windows.Forms.BindingContext" /> contains the
@@ -214,6 +215,7 @@ public class BindingContext : ContextBoundObject
             }
         }
     }
+
     internal class HashKey
     {
 
@@ -260,5 +262,6 @@ public class BindingContext : ContextBoundObject
         {
             return dataSourceHashCode * dataMember.GetHashCode();
         }
+
     }
 }

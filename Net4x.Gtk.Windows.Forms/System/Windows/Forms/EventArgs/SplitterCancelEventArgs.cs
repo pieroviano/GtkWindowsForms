@@ -76,5 +76,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int SplitY { get; set; }
+
     }
 }

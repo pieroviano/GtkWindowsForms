@@ -16,6 +16,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         }
 
         public GtkControlOverride Override { get; set; }
+
         protected override bool OnDrawn(Cairo.Context cr)
         {
             if (this.Pixbuf != null)
@@ -35,5 +36,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             Override.OnAddClass();
             base.OnShown();
         }
+
     }
 }

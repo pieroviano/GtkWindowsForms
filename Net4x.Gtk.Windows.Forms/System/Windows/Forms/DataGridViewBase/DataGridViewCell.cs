@@ -30,11 +30,13 @@ namespace System.Windows.Forms
         private bool _Selected;
 
         private Type _valueType;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewCell" /> class.
         /// </summary>
         protected DataGridViewCell() { }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Windows.Forms.DataGridViewCell.DataGridViewCellAccessibleObject" /> assigned to the

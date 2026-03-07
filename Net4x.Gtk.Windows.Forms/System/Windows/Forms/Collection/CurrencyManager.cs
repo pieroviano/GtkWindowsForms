@@ -21,6 +21,7 @@ public class CurrencyManager : BindingManagerBase
     /// <see cref="T:System.Windows.Forms.CurrencyManager"/> in the list.
     /// </summary>
     protected int ListPosition = -1;
+
     private bool _bound;
 
     private object? _dataSource;
@@ -145,6 +146,7 @@ public class CurrencyManager : BindingManagerBase
             ChangeRecordState(value, ListPosition != value, true, true, false);
         }
     }
+
     internal bool AllowAdd
     {
         get
@@ -1078,4 +1080,5 @@ public class CurrencyManager : BindingManagerBase
                 }
         }
     }
+
 }

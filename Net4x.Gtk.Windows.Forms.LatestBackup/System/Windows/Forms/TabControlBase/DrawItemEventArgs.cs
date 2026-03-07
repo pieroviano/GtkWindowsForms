@@ -101,6 +101,7 @@ namespace System.Windows.Forms
             _foreColor = foreColor;
             _backColor = backColor;
         }
+
         /// <summary>
         /// Gets the background color of the item that is being drawn.
         /// </summary>
@@ -221,5 +222,6 @@ namespace System.Windows.Forms
         {
 
         }
+
     }
 }

@@ -496,5 +496,6 @@ namespace System.Drawing.Imaging
             }
             _parameterValue = IntPtr.Zero;
         }
+
     }
 }

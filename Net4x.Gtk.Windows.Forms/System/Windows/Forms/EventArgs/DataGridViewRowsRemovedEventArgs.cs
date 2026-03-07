@@ -38,6 +38,7 @@ namespace System.Windows.Forms
             RowIndex = rowIndex;
             RowCount = rowCount;
         }
+
         /// <summary>
         /// Gets the number of rows that were deleted.
         /// </summary>
@@ -51,5 +52,6 @@ namespace System.Windows.Forms
         /// <returns>The zero-based index of the row that was deleted, or the first deleted row if multiple rows were deleted.
         /// </returns>
         public int RowIndex { get; }
+
     }
 }

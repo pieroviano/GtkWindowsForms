@@ -183,5 +183,6 @@ namespace System.Drawing.Imaging
         {
             return ref _width;
         }
+
     }
 }

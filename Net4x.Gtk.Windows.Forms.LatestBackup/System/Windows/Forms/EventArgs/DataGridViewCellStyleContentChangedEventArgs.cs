@@ -18,6 +18,7 @@ namespace System.Windows.Forms
             CellStyle = dataGridViewCellStyle;
             ChangeAffectsPreferredSize = changeAffectsPreferredSize;
         }
+
         /// <summary>
         /// Gets the changed
         /// <see cref="System.Windows.Forms.DataGridViewCellStyle" />
@@ -41,5 +42,6 @@ namespace System.Windows.Forms
         public DataGridViewCellStyleScopes CellStyleScope => CellStyle.Scope;
 
         internal bool ChangeAffectsPreferredSize { get; }
+
     }
 }

@@ -24,6 +24,7 @@ namespace System.Windows.Forms
         {
             ButtonID = buttonPushed;
         }
+
         /// <summary>
         /// Gets a value that represents which button the user clicked.
         /// </summary>
@@ -32,5 +33,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int ButtonID { get; }
+
     }
 }

@@ -25,10 +25,12 @@ namespace System.Windows.Forms
         static Dictionary<string, string> MimeMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         public event CancelEventHandler FileOk;
+
         public FileDialog()
         {
 
         }
+
         static FileDialog()
         {
             MimeMapping.Clear();
@@ -376,6 +378,7 @@ namespace System.Windows.Forms
             MimeMapping.Add(".z", "application/x-compress");
             MimeMapping.Add(".zip", "application/x-zip-compressed");
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether the dialog box automatically adds an extension to a file name if the user omits the extension.
         /// </summary>
@@ -570,6 +573,7 @@ namespace System.Windows.Forms
         internal bool Multiselect { get; set; }
 
         internal string SelectedDirectory { get; set; }
+
         /// <summary>
         /// Resets all properties to their default values.
         /// </summary>
@@ -586,6 +590,7 @@ namespace System.Windows.Forms
             FilterIndex = 1;
             SupportMultiDottedExtensions = false;
         }
+
         protected override bool RunDialog(IWin32Window owner)
         {
             Gtk.FileChooserDialog fileDialog = null;
@@ -645,5 +650,6 @@ namespace System.Windows.Forms
 
             return response == -5;
         }
+
     }
 }

@@ -21,6 +21,7 @@ namespace System.Windows.Forms
     {
 
         private static readonly object internalSyncObject = new object();
+
         static Application()
         {
             Init();
@@ -207,6 +208,7 @@ namespace System.Windows.Forms
                 return Path.Combine(_namespace, assembly.Name, assembly.Version.ToString());
             }
         }
+
         /// <summary>
         /// Processes all Windows messages currently in the message queue.
         /// </summary>
@@ -565,6 +567,7 @@ namespace System.Windows.Forms
         {
             return true;
         }
+
         private static void App_Shutdown(object sender, EventArgs e)
         {
             Console.WriteLine("App_Shutdown");
@@ -580,16 +583,19 @@ namespace System.Windows.Forms
         {
             Gtk.Application.Quit();
         }
+
     }
 
     public static class InitAppliction
     {
 
         private static Gtk.Application app = Application.Init();
+
         static InitAppliction()
         {
 
         }
+
     }
 }
 public sealed class ApplicationConfiguration
@@ -600,4 +606,5 @@ public sealed class ApplicationConfiguration
         global::System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
         global::System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
     }
+
 }

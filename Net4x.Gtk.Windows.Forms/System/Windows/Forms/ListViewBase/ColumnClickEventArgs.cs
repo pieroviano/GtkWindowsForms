@@ -23,6 +23,7 @@ namespace System.Windows.Forms
         {
             Column = column;
         }
+
         /// <summary>
         /// Gets the zero-based index of the column that is clicked.
         /// </summary>
@@ -32,5 +33,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int Column { get; }
+
     }
 }

@@ -66,6 +66,7 @@ namespace System.Windows.Forms
         private static Cursor? s_vSplit;
 
         private static Cursor? s_wait;
+
         /// <summary>
         /// Gets the cursor that appears when an application starts.
         /// </summary>
@@ -345,5 +346,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public static Cursor WaitCursor => s_wait ??= new Cursor(Gdk.CursorType.Watch);
+
     }
 }

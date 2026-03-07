@@ -21,7 +21,9 @@ namespace System.Windows.Forms
     {
 
         public readonly LabelBase self = new LabelBase();
+
         private System.Drawing.ContentAlignment textAlign;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.Label" /> class.
@@ -114,5 +116,6 @@ namespace System.Windows.Forms
 
             }
         }
+
     }
 }

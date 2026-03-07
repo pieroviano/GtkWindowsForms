@@ -27,6 +27,7 @@ internal interface IComPropertyBrowser
     /// <see cref="System.Windows.Forms.PropertyGrid" /> control is currently setting one of the properties of its selected object; otherwise, false.
     /// </returns>
     bool InPropertySet { get; }
+
     /// <summary>
     /// Closes andy open drop-down controls on the
     /// <see cref="System.Windows.Forms.PropertyGrid" /> control.
@@ -66,4 +67,5 @@ internal interface IComPropertyBrowser
     /// <param name="key">The registry key that contains the user states.
     /// </param>
     void SaveState(RegistryKey? key);
+
 }

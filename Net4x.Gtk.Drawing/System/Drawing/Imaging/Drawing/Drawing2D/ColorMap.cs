@@ -57,5 +57,6 @@ namespace System.Drawing.Imaging
                 _oldColor = value;
             }
         }
+
     }
 }

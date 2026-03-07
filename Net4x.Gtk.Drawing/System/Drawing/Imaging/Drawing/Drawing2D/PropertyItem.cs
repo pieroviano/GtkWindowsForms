@@ -9,6 +9,7 @@ namespace System.Drawing.Imaging
         internal PropertyItem()
         {
         }
+
         /// <summary>
         /// Gets or sets the ID of the property.
         /// </summary>
@@ -40,5 +41,6 @@ namespace System.Drawing.Imaging
         /// <returns>A byte array that represents the value of the property item.
         /// </returns>
         public byte[] Value { get; set; }
+
     }
 }

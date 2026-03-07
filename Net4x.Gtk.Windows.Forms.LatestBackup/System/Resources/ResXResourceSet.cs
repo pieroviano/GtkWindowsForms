@@ -53,5 +53,6 @@ namespace System.Resources
         /// <see cref="System.Resources.ResXResourceSet" />
         /// </returns>
         public override Type GetDefaultWriter() => typeof(ResXResourceWriter);
+
     }
 }

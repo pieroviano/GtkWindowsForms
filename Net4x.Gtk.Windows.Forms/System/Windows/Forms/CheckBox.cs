@@ -24,6 +24,7 @@ namespace System.Windows.Forms
         public event EventHandler CheckedChanged;
 
         public virtual event EventHandler CheckStateChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.CheckBox" /> class.
@@ -33,6 +34,7 @@ namespace System.Windows.Forms
             self.Toggled += Self_Toggled;
             self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
         }
+
         /// <summary>
         /// Gets or set a value indicating whether the
         /// <see cref="System.Windows.Forms.CheckBox" /> is in the checked state.
@@ -92,5 +94,6 @@ namespace System.Windows.Forms
             if (CheckStateChanged != null && self.IsVisible)
                 CheckStateChanged(this, EventArgs.Empty);
         }
+
     }
 }

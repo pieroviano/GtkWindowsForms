@@ -18,6 +18,7 @@ namespace System.Drawing
         private Gdk.Pixbuf _Pixbuf;
 
         private byte[] _PixbufData;
+
         public Icon(byte[] bytes)
         {
             if (bytes != null)
@@ -215,6 +216,7 @@ namespace System.Drawing
         {
 
         }
+
         public string FileName { get; set; }
 
         /// <summary>
@@ -433,5 +435,6 @@ namespace System.Drawing
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
         }
+
     }
 }

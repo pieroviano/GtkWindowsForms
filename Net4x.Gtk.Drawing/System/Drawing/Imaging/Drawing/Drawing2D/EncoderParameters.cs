@@ -80,5 +80,6 @@ namespace System.Drawing.Imaging
 
             return IntPtr.Zero;
         }
+
     }
 }

@@ -596,5 +596,6 @@ namespace System.Drawing.Drawing2D
 
             this.vectorTransformPoints = pts;
         }
+
     }
 }

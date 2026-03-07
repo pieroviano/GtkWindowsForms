@@ -28,5 +28,6 @@ namespace System.Windows.Forms
         public Rectangle SuggestedRectangle { get; }
 
         public override string ToString() => $"was: {DeviceDpiOld}, now: {DeviceDpiNew}";
+
     }
 }

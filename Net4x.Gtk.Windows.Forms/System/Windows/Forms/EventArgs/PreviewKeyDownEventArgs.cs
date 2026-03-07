@@ -21,6 +21,7 @@ namespace System.Windows.Forms
         {
             KeyData = keyData;
         }
+
         /// <summary>
         /// Gets a value indicating whether the ALT key was pressed.
         /// </summary>
@@ -99,5 +100,6 @@ namespace System.Windows.Forms
         /// <returns>true if the SHIFT key was pressed; otherwise, false.
         /// </returns>
         public bool Shift => (KeyData & Keys.Shift) == Keys.Shift;
+
     }
 }

@@ -24,11 +24,13 @@ namespace System.Windows.Forms
     {
 
         public readonly UserControlBase self = new UserControlBase();
+
         private ControlCollection _controls;
 
         private Gtk.Overlay contaner;
 
         public override event EventHandler Load;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.UserControl" /> class.
@@ -70,6 +72,7 @@ namespace System.Windows.Forms
                 contaner.MarginBottom = value.Bottom;
             }
         }
+
         public override void ResumeLayout(bool performLayout)
         {
 
@@ -79,6 +82,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -101,5 +105,6 @@ namespace System.Windows.Forms
         {
             OnParentChanged(EventArgs.Empty);
         }
+
     }
 }

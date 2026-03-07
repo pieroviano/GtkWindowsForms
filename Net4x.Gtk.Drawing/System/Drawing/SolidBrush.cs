@@ -22,6 +22,7 @@ namespace System.Drawing
         {
             this.Color = color;
         }
+
         /// <summary>
         /// Gets or sets the color of this
         /// <see cref="System.Drawing.SolidBrush" /> object.
@@ -66,5 +67,6 @@ namespace System.Drawing
         {
 
         }
+
     }
 }

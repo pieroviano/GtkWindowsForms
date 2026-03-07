@@ -37,11 +37,13 @@ namespace System.Windows.Forms
 
             RowIndex = rowIndex;
         }
+
         /// <summary>
         /// The index of the row above the row divider that was double-clicked.
         /// </summary>
         /// <returns>The index of the row above the divider.
         /// </returns>
         public int RowIndex { get; }
+
     }
 }

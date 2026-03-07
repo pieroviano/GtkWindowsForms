@@ -11,6 +11,7 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
     public GridEntry _parent;
 
     internal object value;
+
     public GridEntry(GridEntry parent, GridItemType itemtype, int level, string label, object value, string description)
     {
         _parent = parent;
@@ -21,6 +22,7 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
         this.value = value;
         this.Description = description;
     }
+
     protected GridEntry(PropertyGrid ownerGrid, GridEntry parent)
     {
         _parent = parent;
@@ -52,6 +54,7 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
     public override object Value { get => value; }
 
     public Type ValueType { get; set; }
+
     internal System.Reflection.PropertyInfo PropertyInfo { get; set; }
 
     public object GetService(Type serviceType)
@@ -73,4 +76,5 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
     {
         return false;
     }
+
 }

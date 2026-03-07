@@ -26,6 +26,7 @@ namespace System.Drawing.Drawing2D
         public Blend(int count)
         {
         }
+
         /// <summary>
         /// Gets or sets an array of blend factors for the gradient.
         /// </summary>
@@ -57,5 +58,6 @@ namespace System.Drawing.Drawing2D
             {
             }
         }
+
     }
 }

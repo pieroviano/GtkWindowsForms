@@ -31,6 +31,7 @@ namespace System.Windows.Forms
             NewDisplayIndex = newDisplayIndex;
             Header = header;
         }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Windows.Forms.ColumnHeader" /> that is being reordered.
@@ -57,5 +58,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.ColumnHeader" />
         /// </returns>
         public int OldDisplayIndex { get; }
+
     }
 }

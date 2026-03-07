@@ -84,5 +84,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public Type ValidatingType { get; }
+
     }
 }

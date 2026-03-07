@@ -26,6 +26,7 @@ namespace System.Windows.Forms
         {
             ContextMenuStrip = contextMenuStrip;
         }
+
         /// <summary>
         /// Gets or sets the shortcut menu for the cell that raised the
         /// <see cref="System.Windows.Forms.DataGridView.CellContextMenuStripNeeded" /> event.
@@ -34,5 +35,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.ContextMenuStrip" /> for the cell.
         /// </returns>
         public ContextMenuStrip ContextMenuStrip { get; set; }
+
     }
 }

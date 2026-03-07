@@ -62,6 +62,7 @@ namespace System.Windows.Forms
         public ToolStripLabel(string text, Image image, EventHandler onClick, string name) : base(null, text, image, onClick, name)
         {
         }
+
     }
 
 }

@@ -768,5 +768,6 @@ namespace System.Drawing
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// </PermissionSet>
         public override string ToString() { return "Font"; }
+
     }
 }

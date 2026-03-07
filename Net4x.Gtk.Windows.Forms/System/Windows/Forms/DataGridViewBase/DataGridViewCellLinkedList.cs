@@ -13,6 +13,7 @@ namespace System.Windows.Forms
     {
 
         private int _count;
+
         public DataGridViewCellLinkedList()
         {
 
@@ -69,5 +70,6 @@ namespace System.Windows.Forms
 
             return removedCount;
         }
+
     }
 }

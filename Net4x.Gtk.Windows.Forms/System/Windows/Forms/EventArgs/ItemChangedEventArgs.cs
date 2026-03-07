@@ -17,6 +17,7 @@ namespace System.Windows.Forms
         {
             Index = index;
         }
+
         /// <summary>
         /// Indicates the position of the item being changed within the list.
         /// </summary>
@@ -25,5 +26,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int Index { get; }
+
     }
 }

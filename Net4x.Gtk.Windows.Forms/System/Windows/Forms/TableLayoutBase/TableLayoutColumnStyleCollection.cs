@@ -31,6 +31,7 @@ namespace System.Windows.Forms
 
             }
         }
+
         /// <summary>
         /// Adds an item to the
         /// <see cref="System.Windows.Forms.TableLayoutColumnStyleCollection" />
@@ -110,5 +111,6 @@ namespace System.Windows.Forms
         {
             base.Remove(columnStyle);
         }
+
     }
 }

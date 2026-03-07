@@ -50,6 +50,7 @@ namespace System.Resources
         {
             TextFileEncoding = textFileEncoding;
         }
+
         /// <summary>
         /// Gets the file name specified in the current
         /// <see cref="!:Overload:System.Resources.ResXFileRef.#ctor" /> constructor.
@@ -73,6 +74,7 @@ namespace System.Resources
         /// <returns>The type name of the resource that is referenced.
         /// </returns>
         public string TypeName { get; }
+
         /// <summary>
         /// Gets the text representation of the current
         /// <see cref="System.Resources.ResXFileRef" /> object.
@@ -163,5 +165,6 @@ namespace System.Resources
 
             return string.Concat(relPath.ToString(), path2.Substring(si + 1));
         }
+
     }
 }

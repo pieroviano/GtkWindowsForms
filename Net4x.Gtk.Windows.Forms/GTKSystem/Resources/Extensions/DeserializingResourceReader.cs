@@ -50,6 +50,7 @@ namespace GtkSystem.Resources.Extensions
         private int _version;
 
         private const int DefaultFileStreamBufferSize = 4096;
+
         public DeserializingResourceReader(string fileName)
         {
             _resCache = new Dictionary<string, ResourceLocator>(FastResourceComparer.Default);
@@ -919,12 +920,14 @@ namespace GtkSystem.Resources.Extensions
 
             return false;
         }
+
         internal class ImageListSerializationBinder : SerializationBinder
         {
             public override Type BindToType(string assemblyName, string typeName)
             {
                 return Type.GetType(typeName);
             }
+
         }
 
         internal sealed class ResourceEnumerator : IDictionaryEnumerator, IEnumerator
@@ -1056,6 +1059,7 @@ namespace GtkSystem.Resources.Extensions
                 _currentIsValid = false;
                 _currentName = -1;
             }
+
         }
     }
 

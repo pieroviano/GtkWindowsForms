@@ -9,6 +9,7 @@ namespace System.Windows.Forms
         {
             throw new System.NotImplementedException();
         }
+
         public int GroupIndex
         {
             [CompilerGenerated]
@@ -17,5 +18,6 @@ namespace System.Windows.Forms
                 throw new System.NotImplementedException();
             }
         }
+
     }
 }

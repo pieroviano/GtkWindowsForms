@@ -178,5 +178,6 @@ namespace System.Drawing.Printing
 
         public override string ToString() =>
             $"[PrinterSettings {PrinterName} Copies={Copies} Collate={Collate} Duplex={Duplex} FromPage={FromPage} LandscapeAngle={LandscapeAngle} MaximumCopies={MaximumCopies} ToPage={ToPage}]";
+
     }
 }

@@ -13,6 +13,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets a flag indicating how a row or column should be sized relative to its containing table.
         /// </summary>
@@ -43,5 +44,6 @@ namespace System.Windows.Forms
         {
             this.Size = size;
         }
+
     }
 }

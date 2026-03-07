@@ -32,6 +32,7 @@ namespace System.Windows.Forms
         {
             PreviousModeAutoSized = previousModeAutoSized;
         }
+
         /// <summary>
         /// Gets a value specifying whether the
         /// <see cref="System.Windows.Forms.DataGridView" /> was previously set to automatically resize.
@@ -48,5 +49,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public bool PreviousModeAutoSized { get; }
+
     }
 }

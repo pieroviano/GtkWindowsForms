@@ -20,9 +20,11 @@ namespace System.Windows.Forms
     {
 
         public readonly MonthCalendarBase self = new MonthCalendarBase();
+
         public event DateRangeEventHandler DateChanged;
 
         public event DateRangeEventHandler DateSelected;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.MonthCalendar" /> class.
@@ -31,6 +33,7 @@ namespace System.Windows.Forms
         {
             self.DaySelected += MonthCalendar_DaySelected;
         }
+
         /// <summary>
         /// Gets or sets the first day of the week as displayed in the month calendar.
         /// </summary>

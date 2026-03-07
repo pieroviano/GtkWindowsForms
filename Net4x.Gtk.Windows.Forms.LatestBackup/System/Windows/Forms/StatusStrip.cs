@@ -60,5 +60,6 @@ namespace System.Windows.Forms
         /// </returns>
         [DefaultValue(true)]
         public bool Stretch { get; set; }
+
     }
 }

@@ -109,6 +109,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets the size and location of the standard button portion of a
         /// <see cref="System.Windows.Forms.ToolStripSplitButton" />
@@ -261,6 +262,7 @@ namespace System.Windows.Forms
         /// </filterpriority>
         [Browsable(false)]
         public Rectangle SplitterBounds { get; }
+
         /// <summary>
         /// Gets a value indicating whether items on a
         /// <see cref="System.Windows.Forms.ToolStripSplitButton" /> are hidden after they are clicked.
@@ -268,6 +270,7 @@ namespace System.Windows.Forms
         /// <returns>true if the items are hidden after they are clicked; otherwise, false.
         /// </returns>
         protected internal bool DismissWhenClicked { get; }
+
         /// <summary>
         /// Gets a value indicating whether to display the
         /// <see cref="System.Windows.Forms.ToolTip" /> that is defined as the default.

@@ -27,6 +27,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         public event PaintEventHandler Paint;
 
         public event PaintGraphicsEventHandler PaintGraphics;
+
         public GtkControlOverride(Widget container)
         {
             this.container = container;
@@ -41,6 +42,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         public System.Drawing.Image Image { get; set; }
 
         public System.Drawing.ContentAlignment ImageAlign { get; set; }
+
         public void AddClass(string cssClass)
         {
             cssList.Add(cssClass);
@@ -124,5 +126,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         {
             cssList.Remove(cssClass);
         }
+
     }
 }

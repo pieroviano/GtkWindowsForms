@@ -18,11 +18,13 @@ namespace System.Windows.Forms
         private PrintDocument _printDocument;
 
         private PrinterSettings _printerSettings;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.PrintDialog" /> class.
         /// </summary>
         public PrintDialog() => Reset();
+
         /// <summary>
         /// Gets or sets a value indicating whether the Current Page option button is displayed.
         /// </summary>
@@ -148,6 +150,7 @@ namespace System.Windows.Forms
         private PageSettings PageSettings => Document is null
             ? PrinterSettings.DefaultPageSettings
             : Document.DefaultPageSettings;
+
         /// <summary>
         /// Resets all options, the last selected printer, and the page settings to their default values.
         /// </summary>
@@ -266,5 +269,6 @@ namespace System.Windows.Forms
         {
             _printDocument?.OnQueryPageSettings(new QueryPageSettingsEventArgs(PageSettings));
         }
+
     }
 }

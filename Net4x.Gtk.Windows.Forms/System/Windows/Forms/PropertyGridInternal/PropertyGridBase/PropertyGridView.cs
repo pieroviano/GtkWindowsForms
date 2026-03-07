@@ -28,6 +28,7 @@ internal sealed partial class PropertyGridView
     public event PropertyValueChangedEventHandler PropertyValueChanged;
 
     public event SelectedGridItemChangedEventHandler SelectedGridItemChanged;
+
     public PropertyGridView(PropertyGrid propertyGrid)
     {
         OwnerGrid = propertyGrid;
@@ -115,6 +116,7 @@ internal sealed partial class PropertyGridView
     }
 
     public PropertyGrid OwnerGrid { get; private set; }
+
     public void LoadPropertyInfo(object entryobj)
     {
         _selectedObject = entryobj;
@@ -171,6 +173,7 @@ internal sealed partial class PropertyGridView
         }
         tree.ExpandAll();
     }
+
     private bool GetPropertyInfo(Gtk.TreeIter? parent, GridEntry parentitem, PropertyInfo property, object obj)
     {
         if (property.CanRead == true)
@@ -267,11 +270,13 @@ internal sealed partial class PropertyGridView
             }
         }
     }
+
     public class CellRendererExpander : Gtk.CellRendererToggle
     {
         Pixbuf godownixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-down-symbolic.png");
 
         Pixbuf gonextpixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-next-symbolic.png");
+
         public CellRendererExpander(PropertyGridView owner)
         {
 
@@ -285,6 +290,7 @@ internal sealed partial class PropertyGridView
 
             }
         }
+
         protected override bool OnActivate(Event evnt, Widget widget, string path, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
         {
             bool re = base.OnActivate(evnt, widget, path, background_area, cell_area, flags);
@@ -310,6 +316,7 @@ internal sealed partial class PropertyGridView
                 cr.Restore();
             }
         }
+
     }
 
     public class CellRendererProperty : Gtk.CellRendererCombo
@@ -319,6 +326,7 @@ internal sealed partial class PropertyGridView
         PropertyGridView owner;
 
         private GridEntry _value;
+
         public CellRendererProperty(PropertyGridView owner)
         {
             this.owner = owner;
@@ -329,6 +337,7 @@ internal sealed partial class PropertyGridView
             this.EditingStarted += CellRendererText_EditingStarted;
             this.Edited += CellRendererText_Edited;
         }
+
         [Property("otext")]
         public GridEntry OText
         {
@@ -361,6 +370,7 @@ internal sealed partial class PropertyGridView
             }
             get { return _value; }
         }
+
         protected override void OnRender(Context cr, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
         {
             if (this.IsExpander)
@@ -482,5 +492,6 @@ internal sealed partial class PropertyGridView
                 }
             }
         }
+
     }
 }

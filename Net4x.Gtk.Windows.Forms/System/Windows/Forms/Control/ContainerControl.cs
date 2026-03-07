@@ -11,6 +11,7 @@ namespace System.Windows.Forms
     {
 
         private Control _ActiveControl;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ContainerControl" /> class.
@@ -18,6 +19,7 @@ namespace System.Windows.Forms
         public ContainerControl() : base()
         {
         }
+
         /// <summary>
         /// Gets or sets the active control on the container control.
         /// </summary>
@@ -55,6 +57,7 @@ namespace System.Windows.Forms
         }
 
         public virtual StatusStrip StatusStrip { get; set; }
+
         public bool ActivateControl(Control active)
         {
             _ActiveControl = active;
@@ -68,5 +71,6 @@ namespace System.Windows.Forms
 
             return false;
         }
+
     }
 }

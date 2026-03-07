@@ -75,6 +75,7 @@ namespace System.Windows.Forms
             isToolStrip = false;
             AddRange(value);
         }
+
         internal ToolStripItemCollection(ToolStripItem owner, bool itemsCollection)
             : this(owner, itemsCollection, isReadOnly: false)
         {
@@ -86,12 +87,14 @@ namespace System.Windows.Forms
             isToolStrip = false;
 
         }
+
         //-------------------
         public new ToolStripItem this[int index]
         {
             get { return base[index]; }
             set { menu.Insert(value.Widget, index); base[index] = value; }
         }
+
         /// <summary>
         /// Adds a
         /// <see cref="System.Windows.Forms.ToolStripItem" /> that displays the specified text to the collection.
@@ -260,5 +263,6 @@ namespace System.Windows.Forms
                 AddMemu(toolStripItems[i]);
             }
         }
+
     }
 }

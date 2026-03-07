@@ -31,6 +31,7 @@ namespace System.Windows.Forms
             Cell = dataGridViewCell ?? throw new ArgumentNullException(nameof(dataGridViewCell));
             StateChanged = stateChanged;
         }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Windows.Forms.DataGridViewCell" /> that has a changed state.
@@ -49,5 +50,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewElementStates" /> values indicating the state that has changed on the cell.
         /// </returns>
         public DataGridViewElementStates StateChanged { get; }
+
     }
 }

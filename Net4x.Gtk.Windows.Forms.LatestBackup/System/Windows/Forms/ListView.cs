@@ -69,6 +69,7 @@ namespace System.Windows.Forms
         public event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
 
         public event EventHandler SelectedIndexChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ListView" /> class.
@@ -106,6 +107,7 @@ namespace System.Windows.Forms
             self.box.PackStart(scrolledWindow, true, true, 0);
             this.BorderStyle = BorderStyle.Fixed3D;
         }
+
         /// <summary>
         /// Gets or sets the type of action the user must take to activate an item.
         /// </summary>
@@ -647,6 +649,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public System.Windows.Forms.View View { get; set; }
+
         internal ListViewGroup DefaultGroup
         {
             get
@@ -678,6 +681,7 @@ namespace System.Windows.Forms
                 return _fontSize;
             }
         }
+
         /// <summary>
         /// Prevents the control from drawing until the
         /// <see cref="System.Windows.Forms.ListView.EndUpdate" /> method is called.
@@ -901,6 +905,7 @@ namespace System.Windows.Forms
                 group.FlowBox.InvalidateSort();
             }
         }
+
         internal void GetSubItemAt(int x, int y, out int iItem, out int iSubItem)
         {
             iItem = -1;
@@ -1539,6 +1544,7 @@ namespace System.Windows.Forms
                 }
             }
         }
+
         private void _flow_ChildActivated(object o, Gtk.ChildActivatedArgs args)
         {
             Gtk.FlowBox widget = (Gtk.FlowBox)o;
@@ -1709,6 +1715,7 @@ namespace System.Windows.Forms
                 }
             }
         }
+
         /// <summary>
         /// Represents the collection containing the indexes to the checked items in a list view control.
         /// </summary>
@@ -1752,6 +1759,7 @@ namespace System.Windows.Forms
         public class ColumnHeaderCollection : List<ColumnHeader>
         {
             ListView _owner;
+
             public ColumnHeaderCollection(ListView owner)
             {
                 _owner = owner;
@@ -1764,6 +1772,7 @@ namespace System.Windows.Forms
                     return false;
                 }
             }
+
             public virtual ColumnHeader this[string key]
             {
                 get
@@ -1771,6 +1780,7 @@ namespace System.Windows.Forms
                     return base.Find(o => o.Name == key);
                 }
             }
+
             public new virtual int Add(ColumnHeader header)
             {
                 header._index = Count;
@@ -1934,6 +1944,7 @@ namespace System.Windows.Forms
                 base.Remove(column);
                 _owner.NativeHeaderRemove(column);
             }
+
         }
 
         /// <summary>
@@ -1950,6 +1961,7 @@ namespace System.Windows.Forms
             {
                 _owner = owner;
             }
+
             public virtual ListViewItem this[string key]
             {
                 get
@@ -2083,6 +2095,7 @@ namespace System.Windows.Forms
             {
                 base.Remove(base.Find(w => w.Name == key));
             }
+
             private void AddCore(ListViewItem item, int position)
             {
                 item._listView = _owner;
@@ -2093,6 +2106,7 @@ namespace System.Windows.Forms
                 base.Add(item);
                 _owner.NativeAdd(item, position);
             }
+
         }
 
         /// <summary>

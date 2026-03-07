@@ -16,5 +16,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.Hexpand = false;
             this.Vexpand = false;
         }
+
     }
 }

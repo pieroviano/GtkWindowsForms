@@ -15,6 +15,7 @@ namespace System.Drawing
         private RectangleF rectangle = new RectangleF(0, 0, 0, 0);
 
         private RegionData regionData = new RegionData();
+
         /// <summary>
         /// Initializes a new
         /// <see cref="T:System.Drawing.Region" />.
@@ -1176,5 +1177,6 @@ namespace System.Drawing
         public void Xor(Region region)
         {
         }
+
     }
 }

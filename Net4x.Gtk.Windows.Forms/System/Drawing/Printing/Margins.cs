@@ -201,5 +201,6 @@ namespace System.Drawing.Printing
                 throw new ArgumentOutOfRangeException(name, margin, "InvalidLowBoundArgumentEx");
             }
         }
+
     }
 }

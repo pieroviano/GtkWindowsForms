@@ -27,6 +27,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets a value indicating how the items of
         /// <see cref="System.Windows.Forms.ContextMenuStrip" /> are displayed.
@@ -60,6 +61,7 @@ namespace System.Windows.Forms
         /// </filterpriority>
         [DefaultValue(true)]
         public bool ShowImageMargin { get; set; } = true;
+
         /// <summary>
         /// Gets the maximum height and width, in pixels, of the
         /// <see cref="System.Windows.Forms.ContextMenuStrip" />
@@ -67,12 +69,14 @@ namespace System.Windows.Forms
         /// <returns>A Size object representing the height and width of the control, in pixels.
         /// </returns>
         protected internal Size MaxItemSize { get; }
+
         /// <summary>
         /// Gets the internal spacing, in pixels, of the control.
         /// </summary>
         /// <returns>A Padding object representing the spacing.
         /// </returns>
         protected Padding DefaultPadding { get; }
+
         /// <summary>
         /// Creates a default
         /// <see cref="System.Windows.Forms.ToolStripMenuItem" /> with the specified text, image, and event handler on a new
@@ -97,6 +101,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.ToolStripMenuItem" /> is clicked.
         /// </param>
         protected internal ToolStripItem CreateDefaultItem(string text, Image image, EventHandler onClick) { return null; }
+
         /// <summary>
         /// Raises the
         /// <see cref="System.Windows.Forms.ToolStripDropDown.FontChanged" /> event.
@@ -127,5 +132,6 @@ namespace System.Windows.Forms
         /// Resets the collection of displayed and overflow items after a layout is done.
         /// </summary>
         protected void SetDisplayedItems() { }
+
     }
 }

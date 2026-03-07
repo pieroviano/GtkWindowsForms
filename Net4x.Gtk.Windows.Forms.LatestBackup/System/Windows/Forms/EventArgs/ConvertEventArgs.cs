@@ -29,6 +29,7 @@ namespace System.Windows.Forms
             Value = value;
             DesiredType = desiredType;
         }
+
         /// <summary>
         /// Gets the data type of the desired value.
         /// </summary>
@@ -49,5 +50,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public object Value { get; set; }
+
     }
 }

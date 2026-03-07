@@ -16,6 +16,7 @@ namespace System.Drawing
         internal const int SM_REMOTESESSION = 4096;
 
         internal static HandleRef NullHandleRef => new HandleRef(null, IntPtr.Zero);
+
         internal struct BITMAPINFOHEADER
         {
 
@@ -40,6 +41,7 @@ namespace System.Drawing
             public int biXPelsPerMeter;
 
             public int biYPelsPerMeter;
+
         }
 
         internal struct PALETTEENTRY
@@ -52,6 +54,7 @@ namespace System.Drawing
             public byte peGreen;
 
             public byte peRed;
+
         }
 
         internal struct RGBQUAD
@@ -63,6 +66,7 @@ namespace System.Drawing
             public byte rgbRed;
 
             public byte rgbReserved;
+
         }
     }
 }

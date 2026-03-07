@@ -36,6 +36,11 @@ namespace System.Windows.Forms
         private bool _sorted;
 
         public event EventHandler DropDown;
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="System.Windows.Forms.ComboBox" /> class.
+        /// </summary>
         public ComboBox() : base()
         {
             self.Entry.HasFrame = false;
@@ -45,6 +50,16 @@ namespace System.Windows.Forms
             self.Realized += Self_Realized;
             self.Changed += Self_Changed;
         }
+
+        /// <summary>
+        /// Gets or sets the data source for this
+        /// <see cref="System.Windows.Forms.ComboBox" />
+        /// </summary>
+        /// <returns>An object that implements the
+        /// <see cref="System.Collections.IList" /> interface, such as a
+        /// <see cref="System.Data.DataSet" /> or an
+        /// <see cref="System.Array" /> The default is null.
+        /// </returns>
         public override object DataSource
         {
             get => _DataSource;
@@ -58,6 +73,23 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value specifying the style of the combo box.
+        /// </summary>
+        /// <returns>One of the
+        /// <see cref="System.Windows.Forms.ComboBoxStyle" /> values. The default is DropDown.
+        /// </returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The assigned value is not one of the
+        /// <see cref="System.Windows.Forms.ComboBoxStyle" /> values.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public ComboBoxStyle DropDownStyle
         {
             get => _DropDownStyle;
@@ -79,10 +111,49 @@ namespace System.Windows.Forms
 
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets an object representing the collection of the items contained in this
+        /// <see cref="System.Windows.Forms.ComboBox" />
+        /// </summary>
+        /// <returns>A
+        /// <see cref="System.Windows.Forms.ComboBox.ObjectCollection" /> representing the items in the
+        /// <see cref="System.Windows.Forms.ComboBox" />
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
         public ObjectCollection Items { get { return __itemsData; } }
 
+        /// <summary>
+        /// Gets or sets the index specifying the currently selected item.
+        /// </summary>
+        /// <returns>A zero-based index of the currently selected item. A value of negative one (-1) is returned if no item is selected.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">The specified index is less than or equal to -2.-or- The specified index is greater than or equal to the number of items in the combo box.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public override int SelectedIndex { get { return self.Active; } set { self.Active = value; _selectedIndex = value; if (value == -1) { Text = ""; } } }
 
+        /// <summary>
+        /// Gets or sets currently selected item in the
+        /// <see cref="System.Windows.Forms.ComboBox" />
+        /// </summary>
+        /// <returns>The object that is the currently selected item or null if there is no currently selected item.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public object SelectedItem
         {
             get { return SelectedIndex == -1 ? null : __itemsData[SelectedIndex]; }
@@ -91,9 +162,39 @@ namespace System.Windows.Forms
 
         public override object SelectedValue { get { return self.ActiveId; } set => self.ActiveId = value?.ToString(); }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the items in the combo box are sorted.
+        /// </summary>
+        /// <returns>true if the combo box is sorted; otherwise, false. The default is false.
+        /// </returns>
+        /// <exception cref="System.ArgumentException">An attempt was made to sort a
+        /// <see cref="System.Windows.Forms.ComboBox" /> that is attached to a data source.
+        /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public bool Sorted { get => _sorted; set => _sorted = value; }
 
+        /// <summary>
+        /// Gets or sets the text associated with this control.
+        /// </summary>
+        /// <returns>The text associated with this control.
+        /// </returns>
+        /// <filterpriority>1
+        /// </filterpriority>
+        /// <PermissionSet>
+        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
         public override string Text { get => self.Entry.Text; set { self.Entry.Text = value; } }
+
         public override string GetItemText(object item)
         {
             if (item is ObjectCollection.Entry entry)
@@ -130,6 +231,7 @@ namespace System.Windows.Forms
 
             return val?.ToString();
         }
+
         private void LoadDataTableSource(DataTable dtable)
         {
             __itemsData.Clear();
@@ -255,6 +357,7 @@ namespace System.Windows.Forms
                 DropDown(this, e);
             }
         }
+
     }
 
 }

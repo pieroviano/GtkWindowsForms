@@ -31,5 +31,6 @@ namespace GtkSystem.Resources.Extensions
         {
             return value <= ResourceTypeCode.TimeSpan;
         }
+
     }
 }

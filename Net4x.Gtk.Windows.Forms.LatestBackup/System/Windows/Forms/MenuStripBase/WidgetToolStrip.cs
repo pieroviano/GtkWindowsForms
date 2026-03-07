@@ -35,6 +35,7 @@ namespace System.Windows.Forms
         // internal Gtk.ProgressBar progressBar = new Gtk.ProgressBar();
 
         internal Gtk.LevelBar progressBar = new Gtk.LevelBar();
+
         Gtk.CssProvider provider = new Gtk.CssProvider();
 
         private Color _BackColor;
@@ -50,6 +51,7 @@ namespace System.Windows.Forms
         public override event EventHandler Click;
 
         public override event ToolStripItemClickedEventHandler DropDownItemClicked;
+
         public WidgetToolStrip() : this(null, "", null, null, "", null)
         {
         }
@@ -309,6 +311,7 @@ namespace System.Windows.Forms
             if (this.Widget.IsMapped)
                 SetStyle(this.Widget);
         }
+
         protected virtual void SetStyle(Gtk.Widget widget)
         {
 
@@ -490,5 +493,6 @@ namespace System.Windows.Forms
             menuItem.ShowAll();
 
         }
+
     }
 }

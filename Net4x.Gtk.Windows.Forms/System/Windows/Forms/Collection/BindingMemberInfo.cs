@@ -14,6 +14,7 @@ namespace System.Windows.Forms
         private readonly string _dataField;
 
         private readonly string _dataList;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.BindingMemberInfo" /> class.
@@ -35,6 +36,7 @@ namespace System.Windows.Forms
                 _dataField = dataMember;
             }
         }
+
         /// <summary>
         /// Gets the property name of the data-bound object.
         /// </summary>
@@ -63,6 +65,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public string BindingPath => _dataList ?? string.Empty;
+
         /// <summary>
         /// Determines whether the specified object is equal to this
         /// <see cref="System.Windows.Forms.BindingMemberInfo" />
@@ -100,5 +103,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public override int GetHashCode() => base.GetHashCode();
+
     }
 }

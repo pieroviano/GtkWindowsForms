@@ -22,6 +22,7 @@ namespace System.Windows.Forms
         private static readonly object s_helpRequestEvent = new object();
 
         public event EventHandler HelpRequest { add => Events.AddHandler(s_helpRequestEvent, value); remove => Events.RemoveHandler(s_helpRequestEvent, value); }
+
         public CommonDialog()
         {
         }
@@ -104,5 +105,6 @@ namespace System.Windows.Forms
         }
 
         protected abstract bool RunDialog(IWin32Window owner);
+
     }
 }

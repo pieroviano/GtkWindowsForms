@@ -22,6 +22,7 @@ namespace System.Windows.Forms
             this.Column = column;
             this.Row = row;
         }
+
         /// <summary>
         /// Gets or sets the column number of the current
         /// <see cref="System.Windows.Forms.TableLayoutPanelCellPosition" />
@@ -51,6 +52,7 @@ namespace System.Windows.Forms
             [CompilerGenerated]
             set;
         }
+
         /// <summary>
         /// Specifies whether this
         /// <see cref="System.Windows.Forms.TableLayoutPanelCellPosition" /> contains the same row and column as the specified
@@ -102,5 +104,6 @@ namespace System.Windows.Forms
         {
             return $"[{this.Column},{this.Row}]";
         }
+
     }
 }

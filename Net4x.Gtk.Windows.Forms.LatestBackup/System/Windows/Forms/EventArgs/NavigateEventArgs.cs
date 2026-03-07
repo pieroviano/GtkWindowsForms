@@ -26,6 +26,7 @@ namespace System.Windows.Forms
         {
             Forward = isForward;
         }
+
         /// <summary>
         /// Gets a value indicating whether to navigate in a forward direction.
         /// </summary>
@@ -34,5 +35,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public bool Forward { get; }
+
     }
 }

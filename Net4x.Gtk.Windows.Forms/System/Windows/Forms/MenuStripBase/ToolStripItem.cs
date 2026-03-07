@@ -16,6 +16,7 @@ namespace System.Windows.Forms
     {
 
         internal Gtk.Image DefaultImage = new Gtk.Image("image-missing", Gtk.IconSize.Menu);
+
         private ToolStripItemCollection dropDownItems;
 
         public virtual event EventHandler CheckedChanged;
@@ -25,6 +26,7 @@ namespace System.Windows.Forms
         public virtual event EventHandler Click;
 
         public virtual event ToolStripItemClickedEventHandler DropDownItemClicked;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ToolStripItem" /> class.
@@ -33,6 +35,7 @@ namespace System.Windows.Forms
         {
             dropDownItems = new ToolStripItemCollection(this);
         }
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ToolStripItem" /> class with the specified name, image, and event handler.
@@ -79,6 +82,7 @@ namespace System.Windows.Forms
             if (onClick != null)
                 Click += onClick;
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether the item is automatically sized.
         /// </summary>
@@ -737,6 +741,7 @@ namespace System.Windows.Forms
         {
             throw new NotImplementedException();
         }
+
     }
 
 }

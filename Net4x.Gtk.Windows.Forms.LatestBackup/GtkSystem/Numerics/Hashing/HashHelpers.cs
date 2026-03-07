@@ -12,5 +12,6 @@ namespace GtkSystem.Numerics.Hashing
 
             return ((int)num + h1) ^ h2;
         }
+
     }
 }

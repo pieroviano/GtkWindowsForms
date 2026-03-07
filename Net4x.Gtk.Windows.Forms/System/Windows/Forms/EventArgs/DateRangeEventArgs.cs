@@ -28,6 +28,7 @@ namespace System.Windows.Forms
             Start = start;
             End = end;
         }
+
         /// <summary>
         /// Gets the last date/time value in the range that the user has selected.
         /// </summary>
@@ -47,5 +48,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public DateTime Start { get; }
+
     }
 }

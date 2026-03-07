@@ -8,6 +8,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     {
 
         public event ScrollEventHandler Scroll;
+
         public ScrollableBoxBase() : base()
         {
             this.Override = new GtkControlOverride(this);
@@ -24,6 +25,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             base.Hadjustment.ValueChanged += Hadjustment_ValueChanged;
             base.Vadjustment.ValueChanged += Vadjustment_ValueChanged;
         }
+
         public virtual bool AutoScroll
         {
             get => base.VscrollbarPolicy == Gtk.PolicyType.Automatic;
@@ -54,6 +56,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         {
             this.Override.AddClass(cssClass);
         }
+
         protected virtual Gdk.Rectangle GetDrawRectangle()
         {
             return new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
@@ -90,5 +93,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
                 Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
             }
         }
+
     }
 }

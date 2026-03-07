@@ -249,6 +249,7 @@ namespace System.Drawing.Imaging
         {
             return new ImageCodecInfo() { FormatID = this._guid, MimeType = GetMimeType() };
         }
+
         private string GetMimeType()
         {
 
@@ -303,5 +304,6 @@ namespace System.Drawing.Imaging
 
             return ".bmp";
         }
+
     }
 }

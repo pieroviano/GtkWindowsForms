@@ -30,6 +30,7 @@ namespace System.Windows.Forms
             ChangedItem = changedItem;
             OldValue = oldValue;
         }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Windows.Forms.GridItem" /> that was changed.
@@ -50,5 +51,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public object OldValue { get; }
+
     }
 }

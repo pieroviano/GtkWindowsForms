@@ -20,6 +20,7 @@ namespace System.Windows.Forms
     {
 
         public ScrollbarBase<Gtk.HScrollbar> self = new ScrollbarBase<Gtk.HScrollbar>(Gtk.Orientation.Horizontal);
+
         public HScrollBar() : base()
         {
 

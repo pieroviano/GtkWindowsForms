@@ -14,11 +14,13 @@ namespace System.Windows.Forms
         {
             ToolTipText = toolTipText;
         }
+
         /// <summary>
         /// Gets or sets the ToolTip text.
         /// </summary>
         /// <returns>The current ToolTip text.
         /// </returns>
         public string ToolTipText { get; set; }
+
     }
 }

@@ -21,6 +21,7 @@ namespace System.Windows.Forms
             internal class ImageInfo
             {
                 public string? Name { get; set; }
+
             }
         }
     }

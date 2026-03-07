@@ -35,6 +35,7 @@ namespace System.Windows.Forms
         public event EventHandler MaximumSizeChanged;
 
         public event EventHandler MinimumSizeChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.PrintPreviewDialog" /> class.
@@ -43,6 +44,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets the button on the form that is clicked when the user presses the ENTER key.
         /// </summary>
@@ -294,6 +296,7 @@ namespace System.Windows.Forms
         {
             return ShowDialog(null);
         }
+
         private void Init()
         {
             previewForm = new Form();

@@ -7,6 +7,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     {
 
         public Gtk.Overlay Content = new Gtk.Overlay();
+
         public TabPageBase() : base()
         {
             this.Override = new GtkControlOverride(this);
@@ -21,6 +22,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             base.Valign = Align.Fill;
             base.Add(Content);
         }
+
         protected override bool OnDrawn(Cairo.Context cr)
         {
             Gdk.Rectangle rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
@@ -34,5 +36,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             Override.OnAddClass();
             base.OnShown();
         }
+
     }
 }

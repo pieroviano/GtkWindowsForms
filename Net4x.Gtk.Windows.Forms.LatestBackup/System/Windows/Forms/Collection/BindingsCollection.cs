@@ -25,6 +25,7 @@ namespace System.Windows.Forms
         public event CollectionChangeEventHandler? CollectionChanged { add => _onCollectionChanged += value; remove => _onCollectionChanged -= value; }
 
         public event CollectionChangeEventHandler? CollectionChanging { add => _onCollectionChanging += value; remove => _onCollectionChanging -= value; }
+
         internal BindingsCollection()
         {
         }
@@ -37,6 +38,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public override int Count => _list.Count;
+
         /// <summary>
         /// Gets the bindings in the collection as an object.
         /// </summary>
@@ -46,6 +48,7 @@ namespace System.Windows.Forms
         protected override ArrayList List => ArrayList.Adapter(_list);
 
         public Binding this[int index] => _list[index]!;
+
         /// <summary>
         /// Adds the specified binding to the collection.
         /// </summary>
@@ -151,5 +154,6 @@ namespace System.Windows.Forms
         /// <see cref = "System.Windows.Forms.Binding"/> to remove.
         /// </param>
         protected virtual void RemoveCore(Binding dataBinding) => _list.Remove(dataBinding);
+
     }
 }

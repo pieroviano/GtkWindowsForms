@@ -29,6 +29,7 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
     private DataGridViewAdvancedCellBorderStyle _right = DataGridViewAdvancedCellBorderStyle.None;
 
     private DataGridViewAdvancedCellBorderStyle _top = DataGridViewAdvancedCellBorderStyle.None;
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="System.Windows.Forms.DataGridViewAdvancedBorderStyle" /> class.
@@ -66,6 +67,7 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         _banned2 = banned2;
         _banned3 = banned3;
     }
+
     /// <summary>
     /// Gets or sets the border style for all of the borders of a cell.
     /// </summary>
@@ -263,6 +265,7 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
 
         }
     }
+
     /// <summary>
     /// Determines whether the specified object is equal to the current
     /// <see cref="System.Windows.Forms.DataGridViewAdvancedBorderStyle" />
@@ -313,6 +316,7 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
     {
         return $"DataGridViewAdvancedBorderStyle {{ All={All}, Left={Left}, Right={Right}, Top={Top}, Bottom={Bottom} }}";
     }
+
     /// <summary>
     /// Creates a new object that is a copy of the current instance.
     /// </summary>
@@ -331,4 +335,5 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
 
         return dgvabs;
     }
+
 }

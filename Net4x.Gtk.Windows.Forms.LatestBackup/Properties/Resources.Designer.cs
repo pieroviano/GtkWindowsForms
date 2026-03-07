@@ -455,5 +455,6 @@ namespace System.Properties
                 return resourceMan;
             }
         }
+
     }
 }

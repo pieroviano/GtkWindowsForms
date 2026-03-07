@@ -476,5 +476,6 @@ namespace System.Windows.Forms
             AddKey("8", Keys.D8);
             AddKey("9", Keys.D9);
         }
+
     }
 }

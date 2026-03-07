@@ -63,5 +63,6 @@ namespace System.Windows.Forms.Layout
         /// See Control.SetBoundsCore.
         /// </summary>
         void SetBounds(Rectangle bounds, BoundsSpecified specified);
+
     }
 }

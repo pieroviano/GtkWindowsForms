@@ -18,11 +18,13 @@ namespace System.Windows.Forms
     {
 
         internal bool IsMasking = true;
+
         string correctText;
 
         bool isBackspace = false;
 
         private char _PasswordChar;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.MaskedTextBox" /> class using defaults.
@@ -34,6 +36,7 @@ namespace System.Windows.Forms
             self.TextInserted += Control_TextInserted;
             self.Shown += Control_Shown;
         }
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.MaskedTextBox" /> class using the specified input mask.
@@ -52,6 +55,7 @@ namespace System.Windows.Forms
             self.TextInserted += Control_TextInserted;
             self.Shown += Control_Shown;
         }
+
         /// <summary>
         /// Gets or sets the input mask to use at run time.
         /// </summary>
@@ -119,10 +123,12 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public Type ValidatingType { get; set; }
+
         private bool IsMaskPassword
         {
             get { return !string.IsNullOrWhiteSpace(Mask) && IsMasking; }
         }
+
         private void Control_Backspace(object sender, EventArgs e)
         {
             if (IsMaskPassword == true)
@@ -223,5 +229,6 @@ namespace System.Windows.Forms
 
             return true;
         }
+
     }
 }

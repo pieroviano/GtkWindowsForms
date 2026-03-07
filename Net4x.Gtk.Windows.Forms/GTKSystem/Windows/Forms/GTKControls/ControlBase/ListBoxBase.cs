@@ -6,6 +6,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     {
 
         public Gtk.ListBox ListBox = new Gtk.ListBox();
+
         public ListBoxBase() : base()
         {
             this.Override.AddClass("ListBox");
@@ -16,5 +17,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             base.AutoScroll = true;
             base.Add(ListBox);
         }
+
     }
 }

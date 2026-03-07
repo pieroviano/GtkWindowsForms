@@ -17,6 +17,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets the total number of elements in the collection.
         /// </summary>
@@ -63,6 +64,7 @@ namespace System.Windows.Forms
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public object SyncRoot => this;
+
         /// <summary>
         /// Gets the list of elements contained in the
         /// <see cref="System.Windows.Forms.BaseCollection" /> instance.
@@ -73,6 +75,7 @@ namespace System.Windows.Forms
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual ArrayList? List => null;
+
         /// <summary>
         /// Copies all the elements of the current one-dimensional
         /// <see cref="System.Array" /> to the specified one-dimensional
@@ -100,5 +103,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public virtual IEnumerator GetEnumerator() => List!.GetEnumerator();
+
     }
 }

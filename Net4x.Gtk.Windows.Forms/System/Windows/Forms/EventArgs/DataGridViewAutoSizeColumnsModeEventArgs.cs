@@ -22,6 +22,7 @@ namespace System.Windows.Forms
         {
             PreviousModes = previousModes;
         }
+
         /// <summary>
         /// Gets an array of the previous values of the column
         /// <see cref="System.Windows.Forms.DataGridViewColumn.AutoSizeMode" /> properties.
@@ -31,5 +32,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewColumn.AutoSizeMode" /> properties.
         /// </returns>
         public DataGridViewAutoSizeColumnMode[] PreviousModes { get; }
+
     }
 }

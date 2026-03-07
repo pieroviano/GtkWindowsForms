@@ -25,6 +25,7 @@ namespace System.Windows.Forms
         public event EventHandler DropDownOpened;
 
         public event EventHandler DropDownOpening;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ToolStripDropDownItem" /> class.
@@ -85,6 +86,7 @@ namespace System.Windows.Forms
         {
             DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
         }
+
         /// <summary>
         /// Gets or sets the
         /// <see cref="System.Windows.Forms.ToolStripDropDown" /> that will be displayed when this
@@ -132,6 +134,7 @@ namespace System.Windows.Forms
         public virtual bool HasDropDownItems { get; }
 
         public override string Text { get => base.Text; set => base.Text = value; } //+ " ▼"
+
         /// <summary>
         /// Gets the screen coordinates, in pixels, of the upper-left corner of the
         /// <see cref="System.Windows.Forms.ToolStripDropDownItem" />
@@ -139,6 +142,7 @@ namespace System.Windows.Forms
         /// <returns>A Point representing the x and y screen coordinates, in pixels.
         /// </returns>
         protected internal virtual Point DropDownLocation { get; }
+
         /// <summary>
         /// Makes a visible
         /// <see cref="System.Windows.Forms.ToolStripDropDown" /> hidden.

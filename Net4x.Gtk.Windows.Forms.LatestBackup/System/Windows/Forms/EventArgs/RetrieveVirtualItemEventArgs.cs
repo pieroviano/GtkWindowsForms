@@ -23,6 +23,7 @@ namespace System.Windows.Forms
         {
             ItemIndex = itemIndex;
         }
+
         /// <summary>
         /// Gets or sets the item retrieved from the cache.
         /// </summary>
@@ -41,5 +42,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int ItemIndex { get; }
+
     }
 }

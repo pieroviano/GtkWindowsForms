@@ -37,6 +37,7 @@ namespace System.Windows.Forms
         private TreeNodeCollection nodes;
 
         private TreeNode parent;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.TreeNode" /> class.
@@ -103,6 +104,7 @@ namespace System.Windows.Forms
             ImageIndex = pImageIndex;
             SelectedImageIndex = pSelectedImageIndex;
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether the tree node is in a checked state.
         /// </summary>
@@ -436,6 +438,7 @@ namespace System.Windows.Forms
         {
             get; set;
         }
+
         /// <summary>
         /// Gets the parent tree view that the tree node is assigned to.
         /// </summary>
@@ -454,6 +457,7 @@ namespace System.Windows.Forms
                 return treeView;
             }
         }
+
         /// <summary>
         /// Copies the tree node and the entire subtree rooted at this tree node.
         /// </summary>
@@ -546,6 +550,7 @@ namespace System.Windows.Forms
         {
             TreeView?.RemoveNode(this);
         }
+
         protected void GetFullPath(TreeNode node, List<string> paths)
         {
             paths.Add(node.Text);
@@ -554,5 +559,6 @@ namespace System.Windows.Forms
                 GetFullPath(node.Parent, paths);
             }
         }
+
     }
 }

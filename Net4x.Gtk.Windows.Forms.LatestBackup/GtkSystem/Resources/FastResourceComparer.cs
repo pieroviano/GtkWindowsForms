@@ -126,5 +126,6 @@ namespace GtkSystem.Resources
 
             return (int)num;
         }
+
     }
 }

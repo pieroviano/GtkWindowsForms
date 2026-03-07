@@ -113,5 +113,6 @@ namespace System.Drawing.Printing
 
         public override string ToString() =>
             $"[{nameof(PageSettings)}: Color={Color}, Landscape={Landscape}, Margins={Margins}, PaperSize={PaperSize}, PaperSource={PaperSource}, PrinterResolution={PrinterResolution}]";
+
     }
 }

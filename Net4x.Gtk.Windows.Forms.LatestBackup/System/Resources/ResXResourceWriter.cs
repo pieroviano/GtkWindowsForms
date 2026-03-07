@@ -80,6 +80,7 @@ namespace System.Resources
         public static readonly string SoapSerializedObjectMimeType = "application/x-microsoft.net.object.soap.base64";
 
         public static readonly string Version = "2.0";
+
         internal const string AliasStr = "alias";
 
         internal const string AssemblyStr = "assembly";
@@ -383,6 +384,7 @@ namespace System.Resources
 
             Debug.WriteLineIf(s_resValueProviderSwitch.TraceVerbose, "done");
         }
+
         /// <summary>
         /// Releases the unmanaged resources used by the
         /// <see cref="System.Resources.ResXResourceWriter" /> and optionally releases the managed resources.
@@ -753,5 +755,6 @@ namespace System.Resources
 
             return raw;
         }
+
     }
 }

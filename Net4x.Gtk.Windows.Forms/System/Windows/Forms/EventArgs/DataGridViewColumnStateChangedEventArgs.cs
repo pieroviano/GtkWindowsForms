@@ -28,6 +28,7 @@ namespace System.Windows.Forms
             Column = dataGridViewColumn;
             StateChanged = stateChanged;
         }
+
         /// <summary>
         /// Gets the column whose state changed.
         /// </summary>
@@ -45,5 +46,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewElementStates" /> values.
         /// </returns>
         public DataGridViewElementStates StateChanged { get; }
+
     }
 }

@@ -17,5 +17,6 @@ namespace System.Runtime.Remoting.Messaging
         public bool CompletedSynchronously { get; set; }
 
         public bool IsCompleted { get; set; }
+
     }
 }

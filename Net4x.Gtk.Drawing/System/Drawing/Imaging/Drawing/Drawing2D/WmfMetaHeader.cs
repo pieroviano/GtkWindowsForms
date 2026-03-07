@@ -19,5 +19,6 @@ namespace System.Drawing.Imaging
         internal short _type;
 
         internal short _version;
+
     }
 }

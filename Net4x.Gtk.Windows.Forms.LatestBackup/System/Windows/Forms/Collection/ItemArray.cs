@@ -309,5 +309,6 @@ namespace System.Windows.Forms
 
             return compInfo.Compare(itemName1, itemName2, CompareOptions.StringSort);
         }
+
     }
 }

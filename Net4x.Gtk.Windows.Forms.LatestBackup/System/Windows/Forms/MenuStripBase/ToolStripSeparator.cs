@@ -28,6 +28,7 @@ namespace System.Windows.Forms
             this.MenuItem.Valign = Gtk.Align.Center;
             this.MenuItem.StyleContext.AddClass("ToolStripSeparator");
         }
+
         public override Size Size
         {
             get => base.Size;
@@ -41,5 +42,6 @@ namespace System.Windows.Forms
         }
 
         public override int Width { get; set; }
+
     }
 }

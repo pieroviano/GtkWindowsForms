@@ -12,6 +12,7 @@ namespace System.Windows.Forms.Design
         private Bitmap? _bitmap;
 
         private bool _checkedBitmap;
+
         /// <summary>
         /// Gets the bitmap that is displayed for the
         /// <see cref="System.Windows.Forms.Design.PropertyTab" />
@@ -57,6 +58,7 @@ namespace System.Windows.Forms.Design
         /// <returns>The name for the property tab.
         /// </returns>
         public abstract string? TabName { get; }
+
         /// <summary>
         /// Gets a value indicating whether this
         /// <see cref="System.Windows.Forms.Design.PropertyTab" /> can display properties for the specified component.
@@ -130,6 +132,7 @@ namespace System.Windows.Forms.Design
                     ITypeDescriptorContext? context,
                     object component,
                     Attribute[]? attributes) => GetProperties(component, attributes);
+
         /// <summary>
         /// Releases the unmanaged resources used by the
         /// <see cref="System.Windows.Forms.Design.PropertyTab" /> and optionally releases the managed resources.
@@ -144,5 +147,6 @@ namespace System.Windows.Forms.Design
                 _bitmap = null;
             }
         }
+
     }
 }

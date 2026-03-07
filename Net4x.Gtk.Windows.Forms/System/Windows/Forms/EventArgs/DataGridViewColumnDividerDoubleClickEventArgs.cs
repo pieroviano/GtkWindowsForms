@@ -37,11 +37,13 @@ namespace System.Windows.Forms
 
             ColumnIndex = columnIndex;
         }
+
         /// <summary>
         /// The index of the column next to the column divider that was double-clicked.
         /// </summary>
         /// <returns>The index of the column next to the divider.
         /// </returns>
         public int ColumnIndex { get; }
+
     }
 }

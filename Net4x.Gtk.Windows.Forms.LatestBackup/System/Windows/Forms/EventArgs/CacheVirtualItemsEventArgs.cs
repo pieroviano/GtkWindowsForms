@@ -30,6 +30,7 @@ namespace System.Windows.Forms
             StartIndex = startIndex;
             EndIndex = endIndex;
         }
+
         /// <summary>
         /// Gets the ending index for the range of values needed by a
         /// <see cref="System.Windows.Forms.ListView" /> control in virtual mode.
@@ -51,5 +52,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int StartIndex { get; }
+
     }
 }

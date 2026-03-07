@@ -45,6 +45,7 @@ namespace System.Drawing
         {
             return true;
         }
+
     }
 
     /// <summary>
@@ -76,6 +77,7 @@ namespace System.Drawing
         private object _userData;
 
         private int _width;
+
         internal Image(byte[] pixbuf)
         {
             PixbufData = pixbuf;
@@ -116,6 +118,7 @@ namespace System.Drawing
             {
             }
         }
+
         public string FileName { get => _fileName; set { _fileName = value; Pixbuf = new Gdk.Pixbuf(value); } }
 
         /// <summary>
@@ -421,6 +424,7 @@ namespace System.Drawing
             get => Pixbuf == null ? _width : Pixbuf.Width;
             internal set { _width = value; }
         }
+
         /// <summary>
         /// Creates an exact copy of this
         /// <see cref="System.Drawing.Image" />
@@ -980,6 +984,7 @@ namespace System.Drawing
         {
 
         }
+
         /// <summary>
         /// Populates a
         /// <see cref="System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the target object.
@@ -996,6 +1001,7 @@ namespace System.Drawing
             Save(memoryStream);
             si.AddValue("Data", memoryStream.ToArray(), typeof(byte[]));
         }
+
         /// <summary>
         /// Releases the unmanaged resources used by the
         /// <see cref="System.Drawing.Image" /> and optionally releases the managed resources.
@@ -1010,6 +1016,7 @@ namespace System.Drawing
                 _PixbufData = null;
             base.Dispose(disposing);
         }
+
         private ImageFormat GetImageFormat(string extension)
         {
             if (extension == ".memorybmp")
@@ -1082,5 +1089,6 @@ namespace System.Drawing
         }
 
         public delegate bool GetThumbnailImageAbort();
+
     }
 }

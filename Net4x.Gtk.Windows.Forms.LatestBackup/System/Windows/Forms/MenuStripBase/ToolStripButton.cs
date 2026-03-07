@@ -99,6 +99,7 @@ namespace System.Windows.Forms
         {
             DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether the
         /// <see cref="System.Windows.Forms.ToolStripButton" /> should automatically appear pressed in and not pressed in when clicked.
@@ -109,12 +110,14 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public bool CheckOnClick { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether to display the ToolTip that is defined as the default.
         /// </summary>
         /// <returns>true in all cases.
         /// </returns>
         protected bool DefaultAutoToolTip { get; }
+
         /// <summary>
         /// Creates a new accessibility object for the
         /// <see cref="System.Windows.Forms.ToolStripButton" />

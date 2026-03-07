@@ -23,6 +23,7 @@ namespace System.Windows.Forms
         {
             this.ClickedItem = clickedItem;
         }
+
         /// <summary>
         /// Gets the item that was clicked on the
         /// <see cref="System.Windows.Forms.ToolStrip" />
@@ -33,5 +34,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public ToolStripItem ClickedItem { get; }
+
     }
 }

@@ -36,5 +36,6 @@ namespace System.Drawing.Printing
         }
 
         public override string ToString() => $"[PaperSource {SourceName} Kind={Kind}]";
+
     }
 }

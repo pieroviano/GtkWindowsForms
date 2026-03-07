@@ -38,6 +38,7 @@ namespace System.Windows.Forms
             ColumnIndex = columnIndex;
             InheritedCellStyle = inheritedCellStyle;
         }
+
         /// <summary>
         /// Gets the column index of the cell data that requires parsing.
         /// </summary>
@@ -73,5 +74,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public int RowIndex { get; }
+
     }
 }

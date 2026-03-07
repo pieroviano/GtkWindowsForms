@@ -13,6 +13,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         {
             this.Override = new GtkControlOverride(this);
         }
+
         public new static GType GType
         {
             get
@@ -22,5 +23,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         }
 
         public GtkControlOverride Override { get; set; }
+
     }
 }

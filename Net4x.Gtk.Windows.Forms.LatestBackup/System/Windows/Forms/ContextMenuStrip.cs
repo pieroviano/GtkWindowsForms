@@ -34,10 +34,12 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <param name="visible">
         /// true to make the control visible; otherwise, false.
         /// </param>
         protected void SetVisibleCore(bool visible) { }
+
     }
 
 }

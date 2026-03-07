@@ -10,6 +10,7 @@ namespace System.Drawing.Drawing2D
         internal RegionData()
         {
         }
+
         /// <summary>
         /// Gets or sets an array of bytes that specify the
         /// <see cref="T:System.Drawing.Region" /> object.
@@ -18,5 +19,6 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Region" /> object.
         /// </returns>
         public byte[] Data { get; set; }
+
     }
 }

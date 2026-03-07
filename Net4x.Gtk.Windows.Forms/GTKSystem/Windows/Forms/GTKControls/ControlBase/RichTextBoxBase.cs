@@ -6,6 +6,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     {
 
         internal Gtk.TextView TextView = new Gtk.TextView();
+
         public RichTextBoxBase() : base()
         {
             this.Override.AddClass("RichTextBox");
@@ -19,5 +20,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.AutoScroll = true;
             this.Add(TextView);
         }
+
     }
 }

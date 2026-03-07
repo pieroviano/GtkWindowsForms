@@ -10,4 +10,5 @@ public class DialogEventArgs : EventArgs
     }
 
     public Dialog Dialog { get; }
+
 }

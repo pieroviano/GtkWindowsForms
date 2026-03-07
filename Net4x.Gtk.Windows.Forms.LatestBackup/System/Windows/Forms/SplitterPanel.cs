@@ -23,6 +23,7 @@ namespace System.Windows.Forms
     {
 
         internal SplitContainer Owner;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.SplitterPanel" /> class with its specified
@@ -44,6 +45,7 @@ namespace System.Windows.Forms
             self.Hexpand = false;
             self.Vexpand = false;
         }
+
         /// <summary>
         /// Gets or sets which edge of the
         /// <see cref="System.Windows.Forms.SplitContainer" /> that the
@@ -93,5 +95,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.SplitterPanel" /> in pixels.
         /// </returns>
         public override int Width { get; set; }
+
     }
 }

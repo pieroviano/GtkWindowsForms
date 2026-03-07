@@ -23,6 +23,7 @@ public abstract class BindingManagerBase
     private protected EventHandler? OnCurrentItemChangedValueHandler;
 
     protected EventHandler? OnPositionChangedHandler; // Don't rename (breaking change)
+
     // Hook BindingComplete events on all owned Binding objects, and propagate those events through our own BindingComplete event
     private BindingCompleteEventHandler? _bindingCompleteEventHandler;
 
@@ -42,6 +43,7 @@ public abstract class BindingManagerBase
     public event BindingManagerDataErrorEventHandler? DataError { add => _dataError += value; remove => _dataError -= value; }
 
     public event EventHandler? PositionChanged { add => OnPositionChangedHandler += value; remove => OnPositionChangedHandler -= value; }
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref = "System.Windows.Forms.BindingManagerBase"/> class.
@@ -51,6 +53,7 @@ public abstract class BindingManagerBase
     }
 
     internal BindingManagerBase(object? dataSource) => Init(dataSource);
+
     /// <summary>
     /// Gets the collection of bindings being managed.
     /// </summary>
@@ -119,6 +122,7 @@ public abstract class BindingManagerBase
     internal abstract object? DataSource { get; }
 
     internal abstract bool IsBinding { get; }
+
     /// <summary>
     /// When overridden in a derived class, adds a new item to the underlying list.
     /// </summary>
@@ -492,4 +496,5 @@ public abstract class BindingManagerBase
             bi.BindingComplete -= Binding_BindingComplete;
         }
     }
+
 }

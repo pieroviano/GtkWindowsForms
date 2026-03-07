@@ -30,5 +30,6 @@ namespace System.Drawing.Imaging
         public int SigSize;
 
         public int Version;
+
     }
 }

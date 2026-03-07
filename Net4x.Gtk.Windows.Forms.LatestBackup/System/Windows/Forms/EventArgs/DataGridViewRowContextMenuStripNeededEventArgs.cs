@@ -33,6 +33,7 @@ namespace System.Windows.Forms
         {
             ContextMenuStrip = contextMenuStrip;
         }
+
         /// <summary>
         /// Gets or sets the shortcut menu for the row that raised the
         /// <see cref="System.Windows.Forms.DataGridView.RowContextMenuStripNeeded" /> event.
@@ -48,5 +49,6 @@ namespace System.Windows.Forms
         /// <returns>The zero-based index of the row that is requesting a shortcut menu.
         /// </returns>
         public int RowIndex { get; }
+
     }
 }

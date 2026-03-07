@@ -33,6 +33,7 @@ namespace System.Windows.Forms
         public event DrawItemEventHandler DrawItem;
 
         public event EventHandler SelectedIndexChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.TabControl" /> class.
@@ -43,6 +44,7 @@ namespace System.Windows.Forms
             _tabPageControls = new TabPageCollection(this);
             self.SwitchPage += Self_SwitchPage;
         }
+
         /// <summary>
         /// Gets or sets the area of the control (for example, along the top) where the tabs are aligned.
         /// </summary>
@@ -243,6 +245,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public TabPageCollection TabPages { get { return _tabPageControls; } }
+
         /// <summary>
         /// Returns the bounding rectangle for a specified tab in this tab control.
         /// </summary>
@@ -274,11 +277,13 @@ namespace System.Windows.Forms
 
             return new Rectangle(0, 0, rect.Width, rect.Height);
         }
+
         private void Self_SwitchPage(object o, SwitchPageArgs args)
         {
             if (SelectedIndexChanged != null && self.IsMapped)
                 SelectedIndexChanged(this, new EventArgs());
         }
+
         /// <summary>
         /// Contains a collection of
         /// <see cref="System.Windows.Forms.Control" /> objects.
@@ -286,6 +291,7 @@ namespace System.Windows.Forms
         public new class ControlCollection : List<TabPage>
         {
             TabControl _owner;
+
             public ControlCollection(TabControl owner)
             {
                 _owner = owner;
@@ -355,6 +361,7 @@ namespace System.Windows.Forms
                     _owner.self.SetMenuLabelText(item.self, _owner.self.GetTabLabelText(item.self));
                 }
             }
+
         }
 
         /// <summary>
@@ -365,6 +372,7 @@ namespace System.Windows.Forms
         {
 
             private TabControl _owner;
+
             public TabPageCollection(TabControl owner)
             {
                 _owner = owner;
@@ -527,6 +535,7 @@ namespace System.Windows.Forms
             {
                 throw new NotImplementedException();
             }
+
         }
     }
 }

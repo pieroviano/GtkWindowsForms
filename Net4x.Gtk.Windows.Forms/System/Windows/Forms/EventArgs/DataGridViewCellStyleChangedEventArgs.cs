@@ -11,5 +11,6 @@ namespace System.Windows.Forms
         }
 
         public bool ChangeAffectsPreferredSize { get; set; }
+
     }
 }

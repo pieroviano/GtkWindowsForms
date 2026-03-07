@@ -21,8 +21,11 @@ namespace System.Windows.Forms
     {
 
         public readonly RadioButtonBase self = new RadioButtonBase();
+
         private bool _Checked;
+
         public event EventHandler CheckedChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.RadioButton" /> class.
@@ -31,6 +34,7 @@ namespace System.Windows.Forms
         {
             self.ParentSet += Self_ParentSet;
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether the control is checked.
         /// </summary>
@@ -72,5 +76,6 @@ namespace System.Windows.Forms
             if (CheckedChanged != null && self.IsVisible)
                 CheckedChanged(this, e);
         }
+
     }
 }

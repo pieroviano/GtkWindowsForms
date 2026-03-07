@@ -63,6 +63,7 @@ namespace System.Drawing
         public StringFormat(StringFormatFlags options, int language)
         {
         }
+
         /// <summary>
         /// Gets or sets horizontal alignment of the string..
         /// </summary>
@@ -377,5 +378,6 @@ namespace System.Drawing
         {
             throw new System.NotImplementedException();
         }
+
     }
 }

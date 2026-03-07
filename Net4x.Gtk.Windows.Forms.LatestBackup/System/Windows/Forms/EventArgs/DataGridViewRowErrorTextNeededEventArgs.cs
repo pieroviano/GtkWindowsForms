@@ -19,6 +19,7 @@ namespace System.Windows.Forms
             RowIndex = rowIndex;
             ErrorText = errorText;
         }
+
         /// <summary>
         /// Gets or sets the error text for the row.
         /// </summary>
@@ -33,5 +34,6 @@ namespace System.Windows.Forms
         /// <returns>The zero based row index for the row.
         /// </returns>
         public int RowIndex { get; }
+
     }
 }

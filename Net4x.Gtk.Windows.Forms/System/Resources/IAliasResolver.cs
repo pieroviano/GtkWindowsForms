@@ -11,5 +11,6 @@ namespace System.Resources
         void PushAlias(string alias, AssemblyName name);
 
         AssemblyName ResolveAlias(string alias);
+
     }
 }

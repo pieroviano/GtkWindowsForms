@@ -92,5 +92,6 @@ namespace System.Drawing.Imaging
         /// <returns>The GUID that identifies an image encoder parameter category.
         /// </returns>
         public Guid Guid => _guid;
+
     }
 }

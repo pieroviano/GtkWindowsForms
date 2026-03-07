@@ -26,6 +26,7 @@ namespace System.Windows.Forms
         {
             ListChangedType = listChangedType;
         }
+
         /// <summary>
         /// Gets a value specifying how the list changed.
         /// </summary>
@@ -35,5 +36,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public ListChangedType ListChangedType { get; }
+
     }
 }

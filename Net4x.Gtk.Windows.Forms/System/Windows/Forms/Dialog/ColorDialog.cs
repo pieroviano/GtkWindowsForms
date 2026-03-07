@@ -26,6 +26,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether the user can use the dialog box to define custom colors.
         /// </summary>
@@ -95,6 +96,7 @@ namespace System.Windows.Forms
         /// </filterpriority>
         [DefaultValue(false)]
         public virtual bool SolidColorOnly { get; set; }
+
         /// <summary>
         /// Gets the underlying window instance handle (HINSTANCE).
         /// </summary>
@@ -111,6 +113,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.ColorDialog" />
         /// </returns>
         protected virtual int Options { get; }
+
         /// <summary>
         /// Resets all options to their default values, the last selected color to black, and the custom colors to their default values.
         /// </summary>
@@ -135,6 +138,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
         public override string ToString() { return this.Color.Name; }
+
         protected override bool RunDialog(IWin32Window owner)
         {
             Gtk.ColorChooserDialog colorChooserDialog = null;
@@ -162,5 +166,6 @@ namespace System.Windows.Forms
 
             return res == -5;
         }
+
     }
 }

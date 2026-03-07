@@ -45,6 +45,7 @@ namespace System.Windows.Forms
         public event TreeViewEventHandler AfterSelect;
 
         public event TreeViewCancelEventHandler BeforeSelect;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.TreeView" /> class.
@@ -86,6 +87,7 @@ namespace System.Windows.Forms
             column.AddAttribute(renderertext, "text", 0);
             self.TreeView.AppendColumn(column);
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether check boxes are displayed next to the tree nodes in the tree view control.
         /// </summary>
@@ -412,6 +414,7 @@ namespace System.Windows.Forms
         {
             self.TreeView.ExpandAll();
         }
+
         internal bool GetNodeChecked(TreeNode node)
         {
             var val = Store.GetValue(node.TreeIter, 1);
@@ -519,11 +522,13 @@ namespace System.Windows.Forms
         {
             self.TreeView.ExpandRow(_store.GetPath(node.TreeIter), all);
         }
+
         protected override void SetStyle(Widget widget)
         {
             self.TreeView.Name = this.Name;
             base.SetStyle(self.TreeView);
         }
+
         private void CellName_Toggled(object o, ToggledArgs args)
         {
             TreePath path = new TreePath(args.Path);
@@ -613,14 +618,17 @@ namespace System.Windows.Forms
                 AfterExpand(this, new TreeViewEventArgs(result, TreeViewAction.Expand));
             }
         }
+
         private class CellRendererIcon : Gtk.CellRendererPixbuf
         {
 
             public TreeView _treeView;
+
             public CellRendererIcon(TreeView treeView)
             {
                 _treeView = treeView;
             }
+
             [Property("pixbufindex")]
             public int PixbufIndex
             {
@@ -641,6 +649,7 @@ namespace System.Windows.Forms
                         this.Pixbuf = _treeView.ImageList.Images[value].Pixbuf;
                 }
             }
+
         }
     }
 }

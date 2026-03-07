@@ -76,5 +76,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public string Label { get; }
+
     }
 }

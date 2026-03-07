@@ -194,5 +194,6 @@ namespace System.Windows.Forms
         /// 1
         /// </filterpriority>
         void SetData(object data);
+
     }
 }

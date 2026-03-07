@@ -19,6 +19,7 @@ namespace System.Windows.Forms
         public event ScrollEventHandler Scroll;
 
         public event EventHandler ValueChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ScrollBar" /> class.
@@ -116,6 +117,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
         public int Value { get => (int)Adjustment.Value; set { Adjustment.Value = value; } }
+
         private void Control_ValueChanged(object sender, EventArgs e)
         {
             double newValue = Adjustment.Value;
@@ -124,5 +126,6 @@ namespace System.Windows.Forms
             Scroll?.Invoke(this, args);
             _oldValue = newValue;
         }
+
     }
 }

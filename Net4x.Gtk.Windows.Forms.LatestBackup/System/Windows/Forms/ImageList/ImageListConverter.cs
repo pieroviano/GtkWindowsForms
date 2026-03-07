@@ -16,5 +16,6 @@ namespace System.Windows.Forms
         /// specified context.
         /// </summary>
         public override bool GetPropertiesSupported(ITypeDescriptorContext? context) => true;
+
     }
 }

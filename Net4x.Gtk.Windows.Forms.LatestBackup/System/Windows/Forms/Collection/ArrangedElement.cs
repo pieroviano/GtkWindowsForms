@@ -168,5 +168,6 @@ namespace System.Windows.Forms
                 OnBoundsChanged(oldBounds, bounds);
             }
         }
+
     }
 }

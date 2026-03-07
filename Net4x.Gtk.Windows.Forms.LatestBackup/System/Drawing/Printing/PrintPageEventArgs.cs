@@ -68,5 +68,6 @@ namespace System.Drawing.Printing
         {
             Graphics = value;
         }
+
     }
 }

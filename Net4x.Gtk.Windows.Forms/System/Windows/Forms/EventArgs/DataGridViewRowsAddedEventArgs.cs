@@ -23,6 +23,7 @@ namespace System.Windows.Forms
             RowIndex = rowIndex;
             RowCount = rowCount;
         }
+
         /// <summary>
         /// Gets the number of rows that have been added.
         /// </summary>
@@ -36,5 +37,6 @@ namespace System.Windows.Forms
         /// <returns>The index of the first added row.
         /// </returns>
         public int RowIndex { get; }
+
     }
 }

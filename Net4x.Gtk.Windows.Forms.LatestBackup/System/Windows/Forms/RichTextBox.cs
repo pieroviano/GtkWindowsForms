@@ -25,6 +25,7 @@ namespace System.Windows.Forms
         public readonly RichTextBoxBase self = new RichTextBoxBase();
 
         public override event EventHandler TextChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.RichTextBox" /> class.
@@ -105,6 +106,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public override string Text { get => self.TextView.Buffer.Text; set => self.TextView.Buffer.Text = value; }
+
         public void AppendText(string text)
         {
             var enditer = self.TextView.Buffer.EndIter;
@@ -123,11 +125,13 @@ namespace System.Windows.Forms
             TextIter enditer = self.TextView.Buffer.GetIterAtOffset(start + length);
             self.TextView.Buffer.SelectRange(startiter, enditer);
         }
+
         protected override void SetStyle(Widget widget)
         {
             self.TextView.Name = this.Name;
             base.SetStyle(self.TextView);
         }
+
         private void Buffer_Changed(object sender, EventArgs e)
         {
             if (TextChanged != null && self.IsVisible)
@@ -135,5 +139,6 @@ namespace System.Windows.Forms
                 TextChanged(this, e);
             }
         }
+
     }
 }

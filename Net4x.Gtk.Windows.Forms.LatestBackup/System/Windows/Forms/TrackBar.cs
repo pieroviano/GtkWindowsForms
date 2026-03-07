@@ -20,10 +20,13 @@ namespace System.Windows.Forms
     {
 
         public readonly TrackBarBase self = new TrackBarBase();
+
         Gtk.Adjustment adjustment = new Gtk.Adjustment(10, 0, 100, 1, 1, 0);
 
         Gtk.Scale scale;
+
         public event EventHandler Scroll;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.TrackBar" /> class.
@@ -32,6 +35,7 @@ namespace System.Windows.Forms
         {
             self.Realized += Control_Realized;
         }
+
         public override object GtkControl => self;
 
         /// <summary>
@@ -182,5 +186,6 @@ namespace System.Windows.Forms
             if (Scroll != null)
                 Scroll(this, e);
         }
+
     }
 }

@@ -22,6 +22,7 @@ namespace System.Windows.Forms
     public partial class PrintPreviewControl : Control
     {
         public readonly ViewportBase self = new ViewportBase();
+
         private bool _autoZoom = true;
 
         private int _columns = 1;
@@ -54,6 +55,7 @@ namespace System.Windows.Forms
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new event EventHandler TextChanged { add => base.TextChanged += value; remove => base.TextChanged -= value; }
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref = "System.Windows.Forms.PrintPreviewControl"/> class.
@@ -278,6 +280,7 @@ namespace System.Windows.Forms
                 _zoom = value;
             }
         }
+
         /// <summary>
         /// Refreshes the preview of the document.
         /// </summary>
@@ -368,5 +371,6 @@ namespace System.Windows.Forms
                 paper.HeightRequest = (int)Math.Round(_document.PageSetup.GetPaperHeight(Unit.Points) * _zoom / 0.75, 0);
             }
         }
+
     }
 }

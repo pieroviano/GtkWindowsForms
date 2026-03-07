@@ -51,5 +51,6 @@ namespace System.Windows.Forms
         /// Returns the new width for the column header who is changing
         /// </summary>
         public int NewWidth { get; set; }
+
     }
 }

@@ -35,6 +35,7 @@ public class PropertyManager : BindingManagerBase
     {
         Init(dataSource, propName);
     }
+
     /// <returns>The number of rows managed by the
     /// <see cref="T:System.Windows.Forms.BindingManagerBase"/>.
     /// </returns>
@@ -63,6 +64,7 @@ public class PropertyManager : BindingManagerBase
         {
         }
     }
+
     internal override Type? BindType => _dataSource?.GetType();
 
     internal override object? DataSource => _dataSource;
@@ -248,4 +250,5 @@ public class PropertyManager : BindingManagerBase
         EndCurrentEdit();
         OnCurrentChanged(EventArgs.Empty);
     }
+
 }

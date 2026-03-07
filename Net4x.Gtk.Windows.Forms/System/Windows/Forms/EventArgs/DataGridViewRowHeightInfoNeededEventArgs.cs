@@ -24,6 +24,7 @@ namespace System.Windows.Forms
             _height = -1;
             _minimumHeight = -1;
         }
+
         /// <summary>
         /// Gets the index of the row associated with this
         /// <see cref="System.Windows.Forms.DataGridViewRowHeightInfoNeededEventArgs" />

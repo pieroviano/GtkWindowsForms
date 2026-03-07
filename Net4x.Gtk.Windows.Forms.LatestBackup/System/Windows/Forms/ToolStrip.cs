@@ -30,6 +30,7 @@ namespace System.Windows.Forms
         public override event EventHandler Click;
 
         public event ToolStripItemClickedEventHandler DropDownItemClicked;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ToolStrip" /> class.
@@ -100,6 +101,7 @@ namespace System.Windows.Forms
         public ToolStripLayoutStyle LayoutStyle { get; set; }
 
         public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, 30); }
+
         private void ToolStripItem_Activated(object sender, ActivateCurrentArgs e)
         {
             if (DropDownItemClicked != null)
@@ -119,5 +121,6 @@ namespace System.Windows.Forms
                 CheckStateChanged(this, e);
             }
         }
+
     }
 }

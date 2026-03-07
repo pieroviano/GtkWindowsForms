@@ -66,5 +66,6 @@ namespace System.Drawing.Imaging
         public int X;
 
         public int Y;
+
     }
 }

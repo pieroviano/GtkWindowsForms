@@ -202,6 +202,7 @@ namespace System.Drawing.Drawing2D
             this.Angle = angle;
             this.WrapMode = WrapMode.Clamp;
         }
+
         public float Angle
         {
             get;
@@ -503,5 +504,6 @@ namespace System.Drawing.Drawing2D
         public void TranslateTransform(float dx, float dy, MatrixOrder order)
         {
         }
+
     }
 }

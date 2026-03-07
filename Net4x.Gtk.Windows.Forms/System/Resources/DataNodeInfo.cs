@@ -33,5 +33,6 @@ namespace System.Resources
                 ReaderPosition = new Point(ReaderPosition.X, ReaderPosition.Y)
             };
         }
+
     }
 }

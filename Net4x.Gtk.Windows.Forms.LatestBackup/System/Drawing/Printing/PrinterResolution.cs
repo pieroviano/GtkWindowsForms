@@ -54,5 +54,6 @@ namespace System.Drawing.Printing
         public override string ToString() => _kind != PrinterResolutionKind.Custom
             ? $"[PrinterResolution {Kind}]"
             : FormattableString.Invariant($"[PrinterResolution X={X} Y={Y}]");
+
     }
 }

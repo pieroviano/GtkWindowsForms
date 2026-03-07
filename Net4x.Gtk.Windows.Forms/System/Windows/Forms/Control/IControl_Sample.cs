@@ -123,6 +123,7 @@ namespace System.Windows.Forms
         event CancelEventHandler Validating;
 
         event EventHandler VisibleChanged;
+
         string AccessibleDescription { get; set; }
 
         string AccessibleName { get; set; }
@@ -270,5 +271,6 @@ namespace System.Windows.Forms
         void SuspendLayout();
 
         void Update();
+
     }
 }

@@ -20,6 +20,7 @@ namespace System.Windows.Forms
         {
             throw new System.NotImplementedException();
         }
+
         /// <summary>
         /// Gets the
         /// <see cref="System.Exception" /> caught in the binding process that caused the
@@ -37,5 +38,6 @@ namespace System.Windows.Forms
                 throw new System.NotImplementedException();
             }
         }
+
     }
 }

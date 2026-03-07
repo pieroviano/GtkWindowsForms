@@ -20,6 +20,7 @@ namespace System.Windows.Forms
         private static d_gtk_image_menu_item_set_always_show_image gtk_image_menu_item_set_always_show_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_set_always_show_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_set_always_show_image"));
 
         private static d_gtk_image_menu_item_set_image gtk_image_menu_item_set_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_set_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_set_image"));
+
         public GtkMenuItem()
         {
         }
@@ -61,6 +62,7 @@ namespace System.Windows.Forms
                 gtk_image_menu_item_set_image(base.Handle, value?.Handle ?? IntPtr.Zero);
             }
         }
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 
         private delegate bool d_gtk_image_menu_item_get_always_show_image(IntPtr raw);
@@ -79,6 +81,7 @@ namespace System.Windows.Forms
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 
         private delegate void d_gtk_image_menu_item_set_image(IntPtr raw, IntPtr image);
+
     }
 
 }

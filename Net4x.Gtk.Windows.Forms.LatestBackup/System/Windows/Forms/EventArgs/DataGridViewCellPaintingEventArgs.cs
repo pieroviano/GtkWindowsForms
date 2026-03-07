@@ -18,6 +18,7 @@ namespace System.Windows.Forms
     public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     {
         private readonly DataGridView _dataGridView;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewCellPaintingEventArgs" /> class.
@@ -109,6 +110,7 @@ namespace System.Windows.Forms
             Debug.Assert(dataGridView != null);
             _dataGridView = dataGridView;
         }
+
         /// <summary>
         /// Gets the border style of the current
         /// <see cref="System.Windows.Forms.DataGridViewCell" />
@@ -243,6 +245,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public object Value { get; private set; }
+
         /// <summary>
         /// Paints the specified parts of the cell for the area in the specified bounds.
         /// </summary>
@@ -397,5 +400,6 @@ namespace System.Windows.Forms
             PaintParts = paintParts;
             Handled = false;
         }
+
     }
 }

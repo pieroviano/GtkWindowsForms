@@ -123,5 +123,6 @@ namespace System.Windows.Forms.Properties {
                 return resourceMan;
             }
         }
+
     }
 }

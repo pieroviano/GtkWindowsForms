@@ -124,6 +124,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public abstract object Value { get; }
+
         /// <summary>
         /// When overridden in a derived class, selects this
         /// <see cref="System.Windows.Forms.GridItem" /> in the
@@ -134,5 +135,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public abstract bool Select();
+
     }
 }

@@ -103,5 +103,6 @@ namespace System.Resources
             // Binder couldn't handle it, let the default loader take over.
             return type;
         }
+
     }
 }

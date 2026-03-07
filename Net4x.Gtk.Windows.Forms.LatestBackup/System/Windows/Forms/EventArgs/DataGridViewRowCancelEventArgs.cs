@@ -25,6 +25,7 @@ namespace System.Windows.Forms
         {
             Row = dataGridViewRow;
         }
+
         /// <summary>
         /// Gets the row that the user is deleting.
         /// </summary>
@@ -33,5 +34,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public DataGridViewRow Row { get; set; }
+
     }
 }

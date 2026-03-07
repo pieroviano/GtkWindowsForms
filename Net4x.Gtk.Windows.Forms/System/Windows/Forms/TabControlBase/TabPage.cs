@@ -29,6 +29,7 @@ namespace System.Windows.Forms
         private ControlCollection _controls;
 
         private Size _size;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.TabPage" /> class.
@@ -165,5 +166,6 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
         public override string Text { get { return _tabLabel.Text; } set { _tabLabel.Text = value; } }
+
     }
 }

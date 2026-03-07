@@ -30,6 +30,7 @@ namespace System.Windows.Forms
         internal int ID;
 
         private ListViewSubItemCollection _subitems;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ListViewItem" /> class with default values.
@@ -414,6 +415,7 @@ namespace System.Windows.Forms
         {
             InitListViewItem(subItems, -1, imageKey, null, null, null, group);
         }
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ListViewItem" /> class with the specified serialization information and streaming context.
@@ -429,6 +431,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets the background color of the item's text.
         /// </summary>
@@ -850,6 +853,7 @@ namespace System.Windows.Forms
             get;
             set;
         }
+
         internal virtual AccessibleObject AccessibilityObject
         {
             get;
@@ -876,6 +880,7 @@ namespace System.Windows.Forms
             get;
             set;
         }
+
         /// <summary>
         /// Places the item text into edit mode.
         /// </summary>
@@ -1016,6 +1021,7 @@ namespace System.Windows.Forms
             foreach (ListViewSubItem item in subItems)
                 _subitems.Add(item);
         }
+
         /// <summary>
         /// Represents a subitem of a
         /// <see cref="System.Windows.Forms.ListViewItem" />
@@ -1026,6 +1032,7 @@ namespace System.Windows.Forms
             internal Gtk.Label _label;
 
             internal string _text = string.Empty;
+
             public ListViewSubItem()
             {
 
@@ -1045,6 +1052,7 @@ namespace System.Windows.Forms
                 this.BackColor = backColor;
                 this.Font = font;
             }
+
             public Color? BackColor
             {
                 get;
@@ -1119,6 +1127,7 @@ namespace System.Windows.Forms
             {
                 _owner = owner;
             }
+
             public virtual ListViewSubItem this[string key]
             {
                 get
@@ -1177,6 +1186,7 @@ namespace System.Windows.Forms
             {
                 RemoveAt(base.FindIndex(w => w.Name == key));
             }
+
         }
     }
 }

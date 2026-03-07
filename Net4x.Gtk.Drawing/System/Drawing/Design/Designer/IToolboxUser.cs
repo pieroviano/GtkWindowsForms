@@ -28,5 +28,6 @@ namespace System.Drawing.Design
         /// <see cref="System.Drawing.Design.ToolboxItem" /> to select.
         /// </param>
         void ToolPicked(ToolboxItem tool);
+
     }
 }

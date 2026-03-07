@@ -57,6 +57,7 @@ namespace System.Windows.Forms
         public event EventHandler? RecreateHandle { add => _recreateHandler += value; remove => _recreateHandler -= value; }
 
         internal event EventHandler? ChangeHandle { add => _changeHandler += value; remove => _changeHandler -= value; }
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref = "System.Windows.Forms.ImageList"/> class with default values for
@@ -238,6 +239,7 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public Color TransparentColor { get; set; } = Color.Transparent;
+
         private bool UseTransparentColor => TransparentColor.A > 0;
 
         /// <summary>
@@ -558,5 +560,6 @@ namespace System.Windows.Forms
         private bool ShouldSerializeColorDepth() => Images.Count == 0;
 
         private bool ShouldSerializeImageSize() => Images.Count == 0;
+
     }
 }

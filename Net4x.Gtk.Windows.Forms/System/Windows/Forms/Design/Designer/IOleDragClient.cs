@@ -38,5 +38,6 @@ namespace System.Windows.Forms.Design
         /// Checks if it is valid to drop this type of a component on this client.
         /// </summary>
         bool IsDropOk(IComponent component);
+
     }
 }

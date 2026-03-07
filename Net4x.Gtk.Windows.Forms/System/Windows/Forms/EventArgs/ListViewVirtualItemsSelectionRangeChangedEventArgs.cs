@@ -55,5 +55,6 @@ namespace System.Windows.Forms
         /// <returns>The index of the first item in the range of items whose selection state has changed.
         /// </returns>
         public int StartIndex { get; }
+
     }
 }

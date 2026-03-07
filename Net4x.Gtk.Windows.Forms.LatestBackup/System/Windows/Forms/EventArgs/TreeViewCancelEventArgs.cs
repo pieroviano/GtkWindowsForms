@@ -22,6 +22,7 @@ namespace System.Windows.Forms
         private readonly TreeViewAction action;
 
         private readonly TreeNode node;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.TreeViewCancelEventArgs" /> class with the specified tree node, a value specifying whether the event is to be canceled, and the type of tree view action that raised the event.
@@ -40,6 +41,7 @@ namespace System.Windows.Forms
             this.node = node;
             this.action = action;
         }
+
         /// <summary>
         /// Gets the type of
         /// <see cref="System.Windows.Forms.TreeView" /> action that raised the event.
@@ -72,5 +74,6 @@ namespace System.Windows.Forms
                 return node;
             }
         }
+
     }
 }

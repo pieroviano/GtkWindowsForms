@@ -373,5 +373,6 @@ namespace System.Drawing.Imaging
 
             return false;
         }
+
     }
 }

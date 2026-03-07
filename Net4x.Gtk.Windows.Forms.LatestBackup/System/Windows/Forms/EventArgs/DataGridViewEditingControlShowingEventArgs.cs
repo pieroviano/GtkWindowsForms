@@ -14,6 +14,7 @@ namespace System.Windows.Forms
     public class DataGridViewEditingControlShowingEventArgs : EventArgs
     {
         private DataGridViewCellStyle _cellStyle;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewEditingControlShowingEventArgs" /> class.
@@ -29,6 +30,7 @@ namespace System.Windows.Forms
             Control = control;
             _cellStyle = cellStyle;
         }
+
         /// <summary>
         /// Gets or sets the cell style of the edited cell.
         /// </summary>
@@ -52,5 +54,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public Control Control { get; }
+
     }
 }

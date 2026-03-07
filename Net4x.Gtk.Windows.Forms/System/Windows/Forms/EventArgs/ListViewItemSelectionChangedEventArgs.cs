@@ -50,5 +50,6 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.ListViewItem" /> whose selection state has changed.
         /// </returns>
         public int ItemIndex { get; }
+
     }
 }

@@ -39,6 +39,7 @@ namespace System.Drawing.Imaging
         {
             return ref Unsafe.As<MetafileType, byte>(ref type);
         }
+
     }
 
     internal static class SafeNativeMethods
@@ -97,6 +98,7 @@ namespace System.Drawing.Imaging
             public int szlMillimeters_cx;
 
             public int szlMillimeters_cy;
+
         }
     }
 }

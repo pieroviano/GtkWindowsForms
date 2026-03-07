@@ -48,6 +48,7 @@ namespace System.Drawing.Drawing2D
             this.ForegroundColor = foreColor;
             this.BackgroundColor = backColor;
         }
+
         /// <summary>
         /// Gets the color of spaces between the hatch lines drawn by this
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
@@ -101,5 +102,6 @@ namespace System.Drawing.Drawing2D
         {
             return null;
         }
+
     }
 }

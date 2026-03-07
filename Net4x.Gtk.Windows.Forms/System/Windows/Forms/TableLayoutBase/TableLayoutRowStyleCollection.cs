@@ -24,6 +24,7 @@ namespace System.Windows.Forms
             get { return (RowStyle)base[index]; }
             set { base[index] = value; }
         }
+
         /// <summary>
         /// Adds a new
         /// <see cref="System.Windows.Forms.RowStyle" /> to the
@@ -103,5 +104,6 @@ namespace System.Windows.Forms
         {
             base.Remove(rowStyle);
         }
+
     }
 }

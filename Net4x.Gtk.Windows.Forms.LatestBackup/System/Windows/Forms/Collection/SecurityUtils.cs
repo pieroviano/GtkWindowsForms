@@ -32,6 +32,7 @@ internal static class SecurityUtils
 
         return Activator.CreateInstance(type, bindingFlag, null, args, null);
     }
+
     private static bool HasReflectionPermission(Type? _)
     {
         bool flag;
@@ -46,4 +47,5 @@ internal static class SecurityUtils
 
         return flag;
     }
+
 }

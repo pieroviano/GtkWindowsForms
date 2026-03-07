@@ -29,6 +29,7 @@ namespace System.Windows.Forms
         public event EventHandler SelectedIndexChanged;
 
         public event EventHandler SelectedValueChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.ToolStripComboBox" /> class.
@@ -96,10 +97,12 @@ namespace System.Windows.Forms
         public class ObjectCollection : ArrayList
         {
             Gtk.ComboBoxText __owner;
+
             public ObjectCollection(Gtk.ComboBoxText owner)
             {
                 __owner = owner;
             }
+
             public override int Add(object value)
             {
                 __owner.AppendText(value?.ToString());
@@ -119,6 +122,7 @@ namespace System.Windows.Forms
                 __owner.Clear();
                 base.Clear();
             }
+
         }
     }
 

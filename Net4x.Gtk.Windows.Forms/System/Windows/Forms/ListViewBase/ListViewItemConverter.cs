@@ -18,6 +18,7 @@ namespace System.Windows.Forms
         {
             throw new System.NotImplementedException();
         }
+
         /// <summary>
         /// Gets a value indicating whether this converter can convert an object to the given destination type using the context.
         /// </summary>
@@ -58,5 +59,6 @@ namespace System.Windows.Forms
         {
             throw new System.NotImplementedException();
         }
+
     }
 }

@@ -116,5 +116,6 @@ namespace GtkSystem.Resources.Extensions
 
             return assemblyQualifiedTypeName;
         }
+
     }
 }

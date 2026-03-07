@@ -27,6 +27,7 @@ namespace System.Windows.Forms
         private DataGridViewRow parentRow;
 
         public event CollectionChangeEventHandler CollectionChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref = "System.Windows.Forms.DataGridViewRowCollection"/> class.
@@ -129,6 +130,7 @@ namespace System.Windows.Forms
         }
 
         object IList.this[int index] { get => items[index]; set => throw new NotSupportedException(); }
+
         /// <summary>
         /// Adds a new row to the collection.
         /// </summary>
@@ -1749,5 +1751,6 @@ namespace System.Windows.Forms
                 ((DataGridViewRow)items[i]).Index = idx;
             }
         }
+
     }
 }

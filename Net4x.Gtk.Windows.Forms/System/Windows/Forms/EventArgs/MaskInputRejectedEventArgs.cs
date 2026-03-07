@@ -48,5 +48,6 @@ namespace System.Windows.Forms
         /// <see cref="System.ComponentModel.MaskedTextResultHint" /> that generally describes why the character was rejected.
         /// </returns>
         public MaskedTextResultHint RejectionHint { get; }
+
     }
 }

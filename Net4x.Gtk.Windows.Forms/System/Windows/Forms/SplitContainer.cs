@@ -32,6 +32,7 @@ namespace System.Windows.Forms
         private SplitterPanel _panel2;
 
         private int _SplitterWidth;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.SplitContainer" /> class.
@@ -45,6 +46,7 @@ namespace System.Windows.Forms
             self.Pack1(_panel1.Widget, false, true);
             self.Pack2(_panel2.Widget, true, true);
         }
+
         /// <summary>
         /// Gets or sets which
         /// <see cref="System.Windows.Forms.SplitContainer" /> panel remains the same size when the container is resized.
@@ -211,6 +213,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
         public int SplitterWidth { get { return _SplitterWidth; } set { _SplitterWidth = value; self.WideHandle = value > 2; } }
+
     }
 
 }

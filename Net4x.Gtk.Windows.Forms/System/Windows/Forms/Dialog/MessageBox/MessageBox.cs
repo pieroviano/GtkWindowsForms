@@ -17,6 +17,7 @@ namespace System.Windows.Forms
     {
 
         private static Gtk.Window ActiveWindow = null; // has caching significance
+
         /// <summary>
         /// Displays a message box with specified text, caption, and style with Help Button.
         /// </summary>
@@ -198,6 +199,7 @@ namespace System.Windows.Forms
         {
             return ShowCore(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, false);
         }
+
         private static void Dia_Response(object o, Gtk.ResponseArgs args)
         {
             Gtk.Dialog dia = o as Gtk.Dialog;
@@ -384,5 +386,6 @@ namespace System.Windows.Forms
 
             return dia.Run();
         }
+
     }
 }

@@ -28,6 +28,7 @@ namespace System.Windows.Forms
         {
 
         }
+
         /// <summary>
         /// Gets or sets the maximum number of characters the user can type or paste into the text box control.
         /// </summary>
@@ -46,6 +47,7 @@ namespace System.Windows.Forms
         public override Size Size { get => base.Size; set { this.entry.WidthRequest = value.Width; this.entry.HeightRequest = value.Height; base.Size = value; } }
 
         public override string Text { get => this.entry.Text; set => this.entry.Text = value; }
+
     }
 
 }

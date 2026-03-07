@@ -35,6 +35,7 @@ namespace System.Windows.Forms
             Column = column;
             Row = row;
         }
+
         /// <summary>
         /// Gets the size and location of the cell.
         /// </summary>
@@ -56,5 +57,6 @@ namespace System.Windows.Forms
         /// <returns>The row position of the cell.
         /// </returns>
         public int Row { get; }
+
     }
 }

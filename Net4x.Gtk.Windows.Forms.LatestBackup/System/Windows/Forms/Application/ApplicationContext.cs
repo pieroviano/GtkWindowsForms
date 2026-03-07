@@ -99,6 +99,7 @@ namespace System.Windows.Forms
         /// Causes the thread's message loop to be terminated. This will call ExitThreadCore.
         /// </summary>
         public void ExitThread() => ExitThreadCore();
+
         /// <summary>
         /// Releases the unmanaged resources used by the
         /// <see cref="System.Windows.Forms.ApplicationContext" /> and optionally releases the managed resources.
@@ -151,5 +152,6 @@ namespace System.Windows.Forms
                 OnMainFormClosed(sender, e);
             }
         }
+
     }
 }

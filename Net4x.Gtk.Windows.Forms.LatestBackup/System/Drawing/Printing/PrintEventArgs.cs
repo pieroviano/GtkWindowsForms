@@ -31,5 +31,6 @@ namespace System.Drawing.Printing
         /// <see cref="Printing.PrintAction" /> is causing this event.
         /// </summary>
         public PrintAction PrintAction { get; }
+
     }
 }

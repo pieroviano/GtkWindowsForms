@@ -21,6 +21,7 @@ namespace System.Windows.Forms
         internal DataGridViewSelectedCellCollection()
         {
         }
+
         /// <summary>
         /// Gets the number of elements in the collection.
         /// </summary>
@@ -56,6 +57,7 @@ namespace System.Windows.Forms
         /// <see cref="System.Windows.Forms.DataGridViewCellCollection" />
         /// </returns>
         object ICollection.SyncRoot => this;
+
         /// <summary>
         /// Gets a list of elements in the collection.
         /// </summary>
@@ -83,6 +85,7 @@ namespace System.Windows.Forms
             get { return _items[index]; }
             set { throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection"); }
         }
+
         /// <summary>
         /// Clears the collection.
         /// </summary>
@@ -180,6 +183,7 @@ namespace System.Windows.Forms
                 _items.Add(dataGridViewCell);
             }
         }
+
         /// <summary>
         /// Implements the
         /// <see cref="System.Collections.IList.Add(System.Object)" /> method. Always throws
@@ -311,5 +315,6 @@ namespace System.Windows.Forms
         {
             throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
         }
+
     }
 }

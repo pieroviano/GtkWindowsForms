@@ -10,5 +10,6 @@ namespace System.Drawing.Imaging
         public IntPtr ParameterValue;
 
         public EncoderParameterValueType ParameterValueType;
+
     }
 }

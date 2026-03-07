@@ -630,6 +630,7 @@ internal partial class PropertyStore
         public int Value3;
 
         public int Value4;
+
     }
 
     /// <summary>
@@ -653,5 +654,6 @@ internal partial class PropertyStore
         public object? Value3;
 
         public object? Value4;
+
     }
 }

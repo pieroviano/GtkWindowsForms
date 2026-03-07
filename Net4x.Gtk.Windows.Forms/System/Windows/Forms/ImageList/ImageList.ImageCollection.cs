@@ -388,6 +388,7 @@ namespace System.Windows.Forms
             /// Determines if the index is valid for the collection.
             /// </summary>
             private bool IsValidIndex(int index) => index >= 0 && index < Count;
+
         }
     }
 }

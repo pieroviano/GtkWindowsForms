@@ -20,6 +20,7 @@ namespace System.Windows.Forms
     {
 
         private DataGridViewCellStyleScopes scope;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.DataGridViewCellStyle" /> class using default property values.
@@ -38,6 +39,7 @@ namespace System.Windows.Forms
         /// <paramref name="dataGridViewCellStyle" /> is null.
         /// </exception>
         public DataGridViewCellStyle(DataGridViewCellStyle dataGridViewCellStyle) { }
+
         /// <summary>
         /// Gets or sets a value indicating the position of the cell content within a
         /// <see cref="System.Windows.Forms.DataGridView" /> cell.
@@ -253,6 +255,7 @@ namespace System.Windows.Forms
                 scope = value;
             }
         }
+
         /// <summary>
         /// Applies the specified
         /// <see cref="System.Windows.Forms.DataGridViewCellStyle" /> to the current
@@ -334,6 +337,7 @@ namespace System.Windows.Forms
         {
             return "DataGridViewCellStyle";
         }
+
         /// <summary>
         /// Creates an exact copy of this
         /// <see cref="System.Windows.Forms.DataGridViewCellStyle" />
@@ -345,5 +349,6 @@ namespace System.Windows.Forms
         {
             throw new NotImplementedException();
         }
+
     }
 }

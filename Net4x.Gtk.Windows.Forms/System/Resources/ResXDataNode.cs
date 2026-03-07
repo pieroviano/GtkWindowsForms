@@ -54,6 +54,7 @@ namespace System.Resources
         private static readonly ITypeResolutionService s_internalTypeResolver = new AssemblyNamesTypeResolutionService(new AssemblyName[] { new AssemblyName("System.Windows.Forms") });
 
         private static readonly char[] s_specialChars = new char[] { ' ', '\r', '\n' };
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Resources.ResXDataNode" /> class.
@@ -175,6 +176,7 @@ namespace System.Resources
         private ResXDataNode()
         {
         }
+
         /// <summary>
         /// Gets or sets an arbitrary comment regarding this resource.
         /// </summary>
@@ -875,5 +877,6 @@ namespace System.Resources
 
             return raw;
         }
+
     }
 }

@@ -77,6 +77,7 @@ namespace System.Windows.Forms
                     _useIntegerIndex = false;
                 }
             }
+
         }
     }
 }

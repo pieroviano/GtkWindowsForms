@@ -36,6 +36,7 @@ namespace System.Windows.Forms
         public event EventHandler SelectedItemChanged;
 
         public event EventHandler SelectedValueChanged;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.CheckedListBox" /> class.
@@ -54,6 +55,7 @@ namespace System.Windows.Forms
 
             this.BorderStyle = BorderStyle.Fixed3D;
         }
+
         /// <summary>
         /// Collection of checked indexes in this
         /// <see cref="System.Windows.Forms.CheckedListBox" />
@@ -186,6 +188,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
         public SelectionMode SelectionMode { get; set; }
+
         public void ClearSelected()
         {
             foreach (Gtk.FlowBoxChild wi in _flow.Children)
@@ -259,6 +262,7 @@ namespace System.Windows.Forms
                 item.Checked = value == System.Windows.Forms.CheckState.Checked;
             }
         }
+
         internal void NativeAdd(CheckBox checkbox, bool isChecked, int position)
         {
             checkbox.self.Toggled += (object sender, EventArgs e) =>
@@ -302,6 +306,7 @@ namespace System.Windows.Forms
             if (_flow.Children.Length > index)
                 _flow.Remove(_flow.Children[index]);
         }
+
         private void Control_ChildActivated(object o, Gtk.ChildActivatedArgs args)
         {
             int rowIndex = args.Child.Index;
@@ -315,6 +320,7 @@ namespace System.Windows.Forms
             if (SelectedItemChanged != null)
                 SelectedItemChanged(this, args);
         }
+
         /// <summary>
         /// Encapsulates the collection of indexes of checked items (including items in an indeterminate state) in a
         /// <see cref="System.Windows.Forms.CheckedListBox" />
@@ -340,10 +346,12 @@ namespace System.Windows.Forms
         {
 
             private CheckedListBox _owner;
+
             public ObjectCollection(CheckedListBox owner)
             {
                 _owner = owner;
             }
+
             public override object this[int index]
             {
                 get => ((CheckBox)base[index]).Text;
@@ -411,6 +419,7 @@ namespace System.Windows.Forms
                 _owner.NativeRemove(index);
                 base.RemoveAt(index);
             }
+
         }
 
         public class SelectedItemCollection : List<object>

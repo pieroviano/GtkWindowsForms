@@ -21,9 +21,11 @@ namespace System.Windows.Forms
     {
 
         public readonly ButtonBase self = new ButtonBase();
+
         private System.Drawing.ContentAlignment textAlign;
 
         public override event EventHandler Click;
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.Button" /> class.
@@ -93,9 +95,11 @@ namespace System.Windows.Forms
 
             }
         }
+
         private void Self_Clicked(object sender, EventArgs e)
         {
             if (Click != null && self.IsVisible) { Click(this, EventArgs.Empty); }
         }
+
     }
 }

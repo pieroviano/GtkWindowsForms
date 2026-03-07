@@ -19,6 +19,7 @@ namespace System.Windows.Forms
             RowIndex = rowIndex;
             FormattedValue = formattedValue;
         }
+
         /// <summary>
         /// Gets the column index of the cell that needs to be validated.
         /// </summary>
@@ -39,5 +40,6 @@ namespace System.Windows.Forms
         /// <returns>A zero-based integer that specifies the row index of the cell that needs to be validated.
         /// </returns>
         public int RowIndex { get; }
+
     }
 }

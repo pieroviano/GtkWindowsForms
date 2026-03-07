@@ -34,6 +34,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     internal static readonly object EventListChanged;
 
     internal static readonly object EventPositionChanged;
+
     private int _addNewPos = -1;
 
     private bool _allowNewIsSet;
@@ -227,6 +228,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         EventPositionChanged = new object();
         EventInitialized = new object();
     }
+
     /// <summary>
     /// Gets a value indicating whether items in the underlying list can be edited.
     /// </summary>
@@ -2331,4 +2333,5 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
         return lists;
     }
+
 }

@@ -37,6 +37,7 @@ namespace System.Drawing.Printing
         public event PrintPageEventHandler PrintPage { add => _printPageHandler += value; remove => _printPageHandler -= value; }
 
         public event QueryPageSettingsEventHandler QueryPageSettings { add => _queryHandler += value; remove => _queryHandler -= value; }
+
         public PrintDocument()
         {
             _defaultPageSettings = new PageSettings(_printerSettings);
@@ -96,6 +97,7 @@ namespace System.Drawing.Printing
                 }
             }
         }
+
         public void Print()
         {
             PrintDialog printDialog = new PrintDialog();
@@ -115,5 +117,6 @@ namespace System.Drawing.Printing
         protected internal virtual void OnPrintPage(PrintPageEventArgs e) => _printPageHandler?.Invoke(this, e);
 
         protected internal virtual void OnQueryPageSettings(QueryPageSettingsEventArgs e) => _queryHandler?.Invoke(this, e);
+
     }
 }

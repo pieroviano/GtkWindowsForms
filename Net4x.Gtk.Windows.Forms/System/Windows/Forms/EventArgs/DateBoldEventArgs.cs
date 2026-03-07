@@ -15,6 +15,7 @@ namespace System.Windows.Forms
             StartDate = start;
             Size = size;
         }
+
         /// <summary>
         /// Gets or sets dates that are bold.
         /// </summary>
@@ -41,5 +42,6 @@ namespace System.Windows.Forms
         /// <filterpriority>1
         /// </filterpriority>
         public DateTime StartDate { get; }
+
     }
 }

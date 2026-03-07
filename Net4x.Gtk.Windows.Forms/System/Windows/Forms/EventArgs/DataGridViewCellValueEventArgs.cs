@@ -43,11 +43,13 @@ namespace System.Windows.Forms
             ColumnIndex = columnIndex;
             RowIndex = rowIndex;
         }
+
         internal DataGridViewCellValueEventArgs()
         {
             ColumnIndex = -1;
             RowIndex = -1;
         }
+
         /// <summary>
         /// Gets a value indicating the column index of the cell that the event occurs for.
         /// </summary>
@@ -84,5 +86,6 @@ namespace System.Windows.Forms
             RowIndex = rowIndex;
             Value = value;
         }
+
     }
 }

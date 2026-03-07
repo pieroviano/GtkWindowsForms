@@ -19,5 +19,6 @@ namespace System.Drawing
         /// Releases the handle of a Windows device context.
         /// </summary>
         void ReleaseHdc();
+
     }
 }

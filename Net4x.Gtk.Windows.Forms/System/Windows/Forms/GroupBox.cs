@@ -26,6 +26,7 @@ namespace System.Windows.Forms
         private ControlCollection _controls = null;
 
         private Gtk.Overlay contaner = new Gtk.Overlay();
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.GroupBox" /> class.

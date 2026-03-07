@@ -57,5 +57,6 @@ namespace System.Resources
                     || ex is AccessViolationException
                     || ex is Security.SecurityException;
         }
+
     }
 }

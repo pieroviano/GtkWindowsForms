@@ -29,6 +29,7 @@ namespace System.Windows.Forms
         private string _ImageLocation;
 
         private readonly PictureBoxBase self = new PictureBoxBase();
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="System.Windows.Forms.PictureBox" /> class.
@@ -37,6 +38,7 @@ namespace System.Windows.Forms
         {
             self.Shown += Self_Shown;
         }
+
         /// <summary>
         /// Indicates the border style for the control.
         /// </summary>
@@ -151,6 +153,7 @@ namespace System.Windows.Forms
         /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         /// </PermissionSet>
         public PictureBoxSizeMode SizeMode { get; set; }
+
         /// <summary>
         /// Cancels an asynchronous image load.
         /// </summary>
@@ -307,5 +310,6 @@ namespace System.Windows.Forms
                 self.Pixbuf = newImagePixbuf;
             }
         }
+
     }
 }
