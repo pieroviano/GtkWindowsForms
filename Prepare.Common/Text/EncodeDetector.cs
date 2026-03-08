@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Prepare.Common.Content;
 using Prepare.Common.IO;
 
 namespace Prepare.Common.Text;
@@ -41,7 +42,7 @@ public class EncodeDetector
                     // Decode using detected encoding and write as UTF8
                     var text = encoding.GetString(bytes);
                     Directory.CreateDirectory(targetDir);
-                    File.WriteAllText(destFile, text, Encoding.UTF8);
+                    CsFile.WriteAllText(destFile, text, Encoding.UTF8);
                 }
                 else
                 {

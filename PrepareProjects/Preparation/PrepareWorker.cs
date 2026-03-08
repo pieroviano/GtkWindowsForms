@@ -2,6 +2,7 @@ using Prepare.Common.IO;
 using PrepareProjects.Preparation.Directories;
 using System.Diagnostics;
 using System.Reflection;
+using Prepare.Common.Content;
 using XmlDocSync.Roslyn;
 using XmlDocSync.Services;
 
@@ -61,7 +62,7 @@ public static class PrepareWorker
         var result = XmlDocSync.Roslyn.EventOnMethodGenerator.Process(source, XmlDocSync.Roslyn.EventOnMethodGenerator.DefaultMap);
         if (result != source)
         {
-            File.WriteAllText(file, result);
+            CsFile.WriteAllText(file, result);
         }
     }
 
@@ -183,5 +184,12 @@ public static class PrepareWorker
                 @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem1");
             Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem1", newPath);
         }
+    }
+
+    public static async Task PatchFile(string path)
+    {
+        var text=await File.ReadAllTextAsync(path);
+        text = text.Replace("System.", "System.");
+        await CsFile.WriteAllTextAsync(path,text);
     }
 }

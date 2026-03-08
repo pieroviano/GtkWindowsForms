@@ -1,4 +1,5 @@
 using System.Text;
+using Prepare.Common.Content;
 
 namespace Prepare.Common.Languages;
 
@@ -10,7 +11,7 @@ public static class Translator
     {
         var xmlTranslationPath = Path.GetFullPath(@$"..\..\..\..\Resources\{xmlTranslationFileName}.xml");
         var xmlTranslations = TranslationsHelper.LoadTranslations(xmlTranslationPath);
-        TranslateFile(null, null, fileToTranslate, null, 
+        TranslateFile(null, null, fileToTranslate, null,
             patchProjectNamespace, null, xmlTranslations);
     }
 
@@ -28,8 +29,21 @@ public static class Translator
         foreach (var file in Directory.EnumerateFiles(targetDirectory, "*.cs", SearchOption.AllDirectories))
         {
             sourceProjectName = TranslateFile(sourceProjectName,
-                targetProjectName, file, localizationResourceName, patchProjectNamespace, localizableItemsOrderedByValueLengthDecending, rawTranslations);
+                targetProjectName, file, localizationResourceName, patchProjectNamespace,
+                localizableItemsOrderedByValueLengthDecending, rawTranslations);
         }
+    }
+
+    private static (string? originalText, string? updatedText) GetOriginalUpdatedText(string file)
+    {
+        if (!File.Exists(file))
+        {
+            return (null, null);
+        }
+
+        var originalText = File.ReadAllText(file);
+
+        return (originalText, originalText);
     }
 
     private static string? MakeRawTranslationOnFile(string file,
@@ -146,18 +160,6 @@ public static class Translator
         return fileContent;
     }
 
-    private static (string? originalText, string? updatedText) GetOriginalUpdatedText(string file)
-    {
-        if (!File.Exists(file))
-        {
-            return (null, null);
-        }
-        var originalText = File.ReadAllText(file);
-
-        return (originalText, originalText);
-    }
-
-
     private static string? TranslateFile(string? sourceProjectName, string? targetProjectName, string fileToTranslate,
         string? localizationResourceName, Func<string, string?, string, string> patchProjectNamespace,
         IReadOnlyList<KeyValuePair<string, string>>? localizableItemsOrderedByValueLengthDecending,
@@ -172,7 +174,8 @@ public static class Translator
         if (localizableItemsOrderedByValueLengthDecending != null)
         {
             updatedText = ProcessResourceTranslation(ref sourceProjectName, targetProjectName,
-                localizationResourceName, updatedText ?? "", patchProjectNamespace, localizableItemsOrderedByValueLengthDecending);
+                localizationResourceName, updatedText ?? "", patchProjectNamespace,
+                localizableItemsOrderedByValueLengthDecending);
         }
 
         updatedText = MakeRawTranslationOnFile(fileToTranslate, updatedText, rawTranslations);
@@ -180,7 +183,7 @@ public static class Translator
         if (!ReferenceEquals(originalText, updatedText) &&
             originalText != updatedText)
         {
-            File.WriteAllText(fileToTranslate, updatedText);
+            CsFile.WriteAllText(fileToTranslate, updatedText ?? string.Empty);
         }
 
         return sourceProjectName;

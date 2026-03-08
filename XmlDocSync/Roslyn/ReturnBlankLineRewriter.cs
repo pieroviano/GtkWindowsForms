@@ -6,7 +6,7 @@ namespace XmlDocSync.Roslyn;
 
 public class ReturnBlankLineRewriter : CSharpSyntaxRewriter
 {
-    public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax node)
+    public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (node.Body != null)
             node = node.WithBody((BlockSyntax)VisitBlock(node.Body));
@@ -14,7 +14,7 @@ public class ReturnBlankLineRewriter : CSharpSyntaxRewriter
         return base.VisitMethodDeclaration(node);
     }
 
-    public override SyntaxNode VisitAccessorDeclaration(AccessorDeclarationSyntax node)
+    public override SyntaxNode? VisitAccessorDeclaration(AccessorDeclarationSyntax node)
     {
         if (node.Body != null)
             node = node.WithBody((BlockSyntax)VisitBlock(node.Body));

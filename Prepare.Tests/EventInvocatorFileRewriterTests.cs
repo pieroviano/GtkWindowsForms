@@ -1,4 +1,5 @@
-﻿using XmlDocSync.Roslyn;
+﻿using Prepare.Common.Content;
+using XmlDocSync.Roslyn;
 
 namespace Prepare.Tests;
 
@@ -21,7 +22,7 @@ public class TestClass {
         // Old logic
     }
 }";
-        File.WriteAllText(_tempFilePath, originalCode);
+        CsFile.WriteAllText(_tempFilePath, originalCode);
 
         // Act
         EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath);
@@ -40,14 +41,14 @@ public class TestClass {
 public class TestClass {
     protected void OnStatusUpdate(string message) { }
 }";
-        File.WriteAllText(_tempFilePath, originalCode);
+        CsFile.WriteAllText(_tempFilePath, originalCode);
 
         // Act
         EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath);
 
         // Assert
         var updatedCode = File.ReadAllText(_tempFilePath);
-        Assert.Equal(originalCode, updatedCode);
+        Assert.Equal(originalCode.Replace("\r\n", "\n"), updatedCode);
     }
 
     [Fact]
@@ -68,7 +69,7 @@ public class MyControl {
     protected void OnClick(ClickEventArgs e) { }
     protected void OnHover(HoverEventArgs ev) { }
 }";
-        File.WriteAllText(_tempFilePath, originalCode);
+        CsFile.WriteAllText(_tempFilePath, originalCode);
 
         // Act
         EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath);

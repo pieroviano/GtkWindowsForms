@@ -6,9 +6,10 @@ namespace System.Drawing
 {
 
     /// <summary>
-    /// Defines a particular format for text, including font face, size, and style attributes.
-    /// This class cannot be inherited.
+    /// Defines a particular format for text, including font face, size, and style attributes. This class cannot be inherited.
     /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
     [TypeConverter("System.Drawing.FontConverter, System.Windows.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51")]
     public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISerializable
     {
@@ -496,10 +497,11 @@ namespace System.Drawing
         public FontStyle Style { get; }
 
         /// <summary>
-        /// Gets the name of the system font if the System.Drawing.Font.IsSystemFont property
-        /// returns true.
+        /// Gets the name of the system font if the
+        /// <see cref="System.Drawing.Font.IsSystemFont" /> property returns true.
         /// </summary>
-        /// <returns>The name of the system font, if System.Drawing.Font.IsSystemFont returns true; otherwise, an empty string ("").
+        /// <returns>The name of the system font, if
+        /// <see cref="System.Drawing.Font.IsSystemFont" /> returns true; otherwise, an empty string ("").
         /// </returns>
         [Browsable(false)]
         public string SystemFontName { get; }

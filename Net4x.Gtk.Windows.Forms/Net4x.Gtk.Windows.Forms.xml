@@ -15910,11 +15910,8 @@
         </member>
         <member name="F:System.Windows.Forms.AccessibleEvents.SystemDialogEnd">
             <summary>
-            <c>EVENT_SYSTEM_DIALOGEND
-            </c>
-            Sent when a dialog just before it goes away.
+            A dialog box was closed. The system does not send the event for standard dialog boxes. Servers send this event for custom dialog boxes. The system does not send the event consistently.
             </summary>
-            <seealso cref="F:System.Windows.Forms.AccessibleEvents.SystemDialogStart" />.
         </member>
         <member name="F:System.Windows.Forms.AccessibleEvents.SystemScrollingStart">
             <summary>
@@ -16408,7 +16405,7 @@
         </member>
         <member name="T:System.Windows.Forms.AutoScaleMode">
             <summary>
-            Specifies the auto scaling mode used by a container control.
+            Specifies the different types of automatic scaling modes supported by Windows Forms.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.AutoScaleMode.None">
@@ -16512,9 +16509,10 @@
         </member>
         <member name="T:System.Windows.Forms.BoundsSpecified">
             <summary>
-            Specifies the bounds of the control to use when defining a control's size
-            and position.
+            Specifies the bounds of the control to use when defining a control's size and position.
             </summary>
+            <filterpriority>2
+            </filterpriority>
         </member>
         <member name="F:System.Windows.Forms.BoundsSpecified.X">
             <summary>
@@ -16606,9 +16604,10 @@
         </member>
         <member name="T:System.Windows.Forms.CheckState">
             <summary>
-            Specifies the state of a control,  such as a check box, that can be
-            checked, unchecked, or set to an indeterminate state.
+            Specifies the state of a control, such as a check box, that can be checked, unchecked, or set to an indeterminate state.
             </summary>
+            <filterpriority>2
+            </filterpriority>
         </member>
         <member name="F:System.Windows.Forms.CheckState.Unchecked">
             <summary>
@@ -16636,7 +16635,7 @@
         </member>
         <member name="F:System.Windows.Forms.CloseReason.None">
             <summary>
-            No reason for closure of the Form.
+            The cause of the closure was not defined or could not be determined.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.CloseReason.WindowsShutDown">
@@ -17320,9 +17319,10 @@
         </member>
         <member name="T:System.Windows.Forms.HorizontalAlignment">
             <summary>
-            Specifies how an object or text in a control is horizontally aligned
-            relative to an element of the control.
+            Specifies how an object or text in a control is horizontally aligned relative to an element of the control.
             </summary>
+            <filterpriority>2
+            </filterpriority>
         </member>
         <member name="F:System.Windows.Forms.HorizontalAlignment.Left">
             <summary>
@@ -17374,9 +17374,10 @@
         </member>
         <member name="T:System.Windows.Forms.ImeMode">
             <summary>
-            Specifies a value that determines the IME (Input Method Editor) status
-            of the object when that object is selected.
+            Specifies a value that determines the Input Method Editor (IME) status of an object when the object is selected.
             </summary>
+            <filterpriority>2
+            </filterpriority>
         </member>
         <member name="F:System.Windows.Forms.ImeMode.Inherit">
             <summary>
@@ -18444,10 +18445,10 @@
         </member>
         <member name="T:System.Windows.Forms.LeftRightAlignment">
             <summary>
-            Specifies whether an object or text is aligned to
-            the left or
-            right of a reference point.
+            Specifies whether an object or text is aligned to the left or right of a reference point.
             </summary>
+            <filterpriority>2
+            </filterpriority>
         </member>
         <member name="F:System.Windows.Forms.LeftRightAlignment.Left">
             <summary>
@@ -22148,7 +22149,8 @@
         </member>
         <member name="T:System.Windows.Forms.ListViewVirtualItemsSelectionRangeChangedEventArgs">
             <summary>
-            The event class that is created when the selection state of a ListViewItem is changed.
+            Provides data for the
+            <see cref="!:System.Windows.Forms.ListView.VirtualItemsSelectionRangeChanged" /> event.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ListViewVirtualItemsSelectionRangeChangedEventArgs.#ctor(System.Int32,System.Int32,System.Boolean)">
@@ -39494,7 +39496,8 @@
         </member>
         <member name="M:System.Resources.ResXResourceReader.Close">
             <summary>
-            Closes and files or streams being used by the reader.
+            Releases all resources used by the
+            <see cref="T:System.Resources.ResXResourceReader" />
             </summary>
         </member>
         <member name="M:System.Resources.ResXResourceReader.FromFileContents(System.String)">

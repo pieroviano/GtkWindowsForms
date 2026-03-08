@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Prepare.Common.Content;
 using Prepare.Common.Logging;
 using Prepare.Common.Models;
 using Prepare.Common.Text;
@@ -158,7 +159,7 @@ public static class PostProcessing
 
         if (!string.Equals(text, newText, StringComparison.Ordinal))
         {
-            File.WriteAllText(filePath, newText);
+            CsFile.WriteAllText(filePath, newText);
             applied++;
             ConsoleColor.White.Write($"Updated: {filePath}");
         }

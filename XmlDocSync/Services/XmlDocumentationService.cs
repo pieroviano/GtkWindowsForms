@@ -4,6 +4,7 @@ using Prepare.Common.Logging;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Prepare.Common.Content;
 using XmlDocSync.Cleaning;
 using XmlDocSync.Formatters;
 using XmlDocSync.Roslyn;
@@ -198,7 +199,7 @@ public static class XmlDocumentationService
                 WinMergeService.CompareWithWinMerge(syntaxTree.FilePath, normalizedOriginalText, contents);
 #endif
                 ConsoleColor.Blue.Write($"Modified {syntaxTree.FilePath}");
-                await File.WriteAllTextAsync(syntaxTree.FilePath, contents);
+                await CsFile.WriteAllTextAsync(syntaxTree.FilePath, contents);
             }
         }
         else
@@ -220,7 +221,7 @@ public static class XmlDocumentationService
                 WinMergeService.CompareWithWinMerge(syntaxTree.FilePath, normalizedOriginalText, contents);
 #endif
                 ConsoleColor.Blue.Write($"Modified {syntaxTree.FilePath}");
-                await File.WriteAllTextAsync(syntaxTree.FilePath, contents);
+                await CsFile.WriteAllTextAsync(syntaxTree.FilePath, contents);
             }
         }
     }

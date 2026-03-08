@@ -1,4 +1,5 @@
-﻿using Prepare.Tests.Properties;
+﻿using Prepare.Common.Content;
+using Prepare.Tests.Properties;
 using XmlDocSync.Roslyn;
 
 namespace Prepare.Tests;
@@ -275,7 +276,7 @@ public class A {}
     {
         var path = Path.GetTempFileName();
 
-        File.WriteAllText(path, code);
+        CsFile.WriteAllText(path, code);
 
         return path;
     }

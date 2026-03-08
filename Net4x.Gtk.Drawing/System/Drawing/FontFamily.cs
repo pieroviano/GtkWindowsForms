@@ -6,9 +6,10 @@ namespace System.Drawing
 {
 
     /// <summary>
-    /// Defines a group of type faces having a similar basic design and certain variations
-    /// in styles. This class cannot be inherited.
+    /// Defines a group of type faces having a similar basic design and certain variations in styles. This class cannot be inherited.
     /// </summary>
+    /// <filterpriority>1
+    /// </filterpriority>
     public sealed class FontFamily : MarshalByRefObject, IDisposable
     {
 

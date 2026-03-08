@@ -3,10 +3,10 @@ using System.Runtime.InteropServices;
 namespace System.Windows.Forms
 {
     /// <summary>
-    /// Specifies whether an object or text is aligned to
-    /// the left or
-    /// right of a reference point.
+    /// Specifies whether an object or text is aligned to the left or right of a reference point.
     /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
     [ComVisible(true)]
     public enum LeftRightAlignment
     {

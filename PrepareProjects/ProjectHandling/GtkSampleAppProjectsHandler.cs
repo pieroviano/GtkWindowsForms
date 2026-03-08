@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Xml.Linq;
+using Prepare.Common.Content;
 using Prepare.Common.IO;
 using Prepare.Common.Languages;
 using Prepare.Common.Logging;
@@ -56,14 +57,14 @@ public static class GtkSampleAppProjectsHandler
         {
             var text = await File.ReadAllTextAsync(path);
             text = text.Replace("1、数据集列表数据源", "1. Dataset list data source").Replace("2、datatable数据源", "2. Datatable data source");
-            await File.WriteAllTextAsync(path, text);
+            await CsFile.WriteAllTextAsync(path, text);
         }
         path = Path.Combine(targetDir, "Form3.cs");
         if (File.Exists(path))
         {
             var text = await File.ReadAllTextAsync(path);
             text = text.Replace("打印", " Print");
-            await File.WriteAllTextAsync(path, text);
+            await CsFile.WriteAllTextAsync(path, text);
         }
 
         ConsoleColor.White.Write("Copy completed, project updated.", true);
@@ -123,7 +124,7 @@ public static class GtkSampleAppProjectsHandler
         var formattedContent =
             string.Format(template, projectName);
 
-        File.WriteAllText(targetPath, formattedContent);
+        CsFile.WriteAllText(targetPath, formattedContent);
     }
 
     private static void EnsureResourcesResxDesigner(string csprojPath)

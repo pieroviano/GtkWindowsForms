@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
+using Prepare.Common.Content;
 
 namespace XmlDocSync.Roslyn;
 
@@ -27,7 +28,7 @@ public static class EventInvocatorFileRewriter
             var workspace = new AdhocWorkspace();
             var formatted = (CompilationUnitSyntax)Formatter.Format(newRoot, workspace);
 
-            File.WriteAllText(filePath, formatted.ToFullString());
+            CsFile.WriteAllText(filePath, formatted.ToFullString());
             ConsoleColor.White.Write($"Successfully reformatted: {filePath}", true);
         }
     }

@@ -13,7 +13,7 @@ namespace System.Windows.Forms
     public enum CloseReason
     {
         /// <summary>
-        /// No reason for closure of the Form.
+        /// The cause of the closure was not defined or could not be determined.
         /// </summary>
         None = 0,
 

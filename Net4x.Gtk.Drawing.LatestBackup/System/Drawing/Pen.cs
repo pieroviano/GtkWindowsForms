@@ -599,6 +599,8 @@ namespace System.Drawing
         /// </summary>
         /// <param name="angle">The angle of rotation.
         /// </param>
+        /// <filterpriority>1
+        /// </filterpriority>
         public void RotateTransform(float angle)
         {
         }

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Prepare.Common.Content;
 using Prepare.Common.IO;
 using Prepare.Common.Projects;
 
@@ -308,7 +309,7 @@ public static class ProjectPatching
 
         if (!ReferenceEquals(text, newText) && text != newText)
         {
-            File.WriteAllText(filePath, newText);
+            CsFile.WriteAllText(filePath, newText);
         }
     }
 

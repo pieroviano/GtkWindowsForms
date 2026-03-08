@@ -1,8 +1,4 @@
-using System;
-using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
-
 
 namespace GtkSystem.ComponentModel
 {
@@ -21,9 +17,7 @@ namespace GtkSystem.ComponentModel
         {
             formtype = form;
             formName = form.Name;
-        }
-
-
+		}
         public override object GetObject(string name, CultureInfo culture)
         {
             return GetObject(name);

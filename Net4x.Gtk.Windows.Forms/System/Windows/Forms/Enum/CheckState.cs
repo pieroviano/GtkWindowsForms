@@ -5,9 +5,10 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    /// Specifies the state of a control,  such as a check box, that can be
-    /// checked, unchecked, or set to an indeterminate state.
+    /// Specifies the state of a control, such as a check box, that can be checked, unchecked, or set to an indeterminate state.
     /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
     public enum CheckState
     {
         /// <summary>

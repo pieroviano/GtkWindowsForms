@@ -18,7 +18,7 @@ public static class MemberSpacingFormatter
         {
             var content = File.ReadAllText(file);
             var transformed = EnsureBlankLineBetweenMembers(content);
-            File.WriteAllText(file, transformed);
+            CsFile.WriteAllText(file, transformed);
         }
     }
 

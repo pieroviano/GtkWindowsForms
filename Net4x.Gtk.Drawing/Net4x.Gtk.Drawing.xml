@@ -5594,9 +5594,10 @@
         </member>
         <member name="T:System.Drawing.Font">
             <summary>
-            Defines a particular format for text, including font face, size, and style attributes.
-            This class cannot be inherited.
+            Defines a particular format for text, including font face, size, and style attributes. This class cannot be inherited.
             </summary>
+            <filterpriority>1
+            </filterpriority>
         </member>
         <member name="M:System.Drawing.Font.#ctor(System.Drawing.Font,System.Drawing.FontStyle)">
             <summary>
@@ -6042,10 +6043,11 @@
         </member>
         <member name="P:System.Drawing.Font.SystemFontName">
             <summary>
-            Gets the name of the system font if the System.Drawing.Font.IsSystemFont property
-            returns true.
+            Gets the name of the system font if the
+            <see cref="P:System.Drawing.Font.IsSystemFont" /> property returns true.
             </summary>
-            <returns>The name of the system font, if System.Drawing.Font.IsSystemFont returns true; otherwise, an empty string ("").
+            <returns>The name of the system font, if
+            <see cref="P:System.Drawing.Font.IsSystemFont" /> returns true; otherwise, an empty string ("").
             </returns>
         </member>
         <member name="P:System.Drawing.Font.Underline">
@@ -6309,9 +6311,10 @@
         </member>
         <member name="T:System.Drawing.FontFamily">
             <summary>
-            Defines a group of type faces having a similar basic design and certain variations
-            in styles. This class cannot be inherited.
+            Defines a group of type faces having a similar basic design and certain variations in styles. This class cannot be inherited.
             </summary>
+            <filterpriority>1
+            </filterpriority>
         </member>
         <member name="M:System.Drawing.FontFamily.#ctor(System.Drawing.GenericFontFamilies)">
             <summary>
@@ -18541,6 +18544,8 @@
             </summary>
             <param name="angle">The angle of rotation.
             </param>
+            <filterpriority>1
+            </filterpriority>
         </member>
         <member name="M:System.Drawing.Pen.RotateTransform(System.Single,System.Drawing.Drawing2D.MatrixOrder)">
             <summary>
@@ -19978,14 +19983,19 @@
             <summary>
             Specifies an array of
             <see cref="T:System.Drawing.CharacterRange" /> structures that represent the ranges of characters measured by a call to the
-            <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
+            <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" />
+            method.
             </summary>
-            <param name="ranges">An array of
+            <param name="ranges">
+            An array of
             <see cref="T:System.Drawing.CharacterRange" /> structures that specifies the ranges of characters measured by a call to the
-            <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
+            <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" />
+            method.
             </param>
             <exception cref="T:System.OverflowException">More than 32 character ranges are set.
             </exception>
+            <filterpriority>1
+            </filterpriority>
         </member>
         <member name="M:System.Drawing.StringFormat.SetTabStops(System.Single,System.Single[])">
             <summary>

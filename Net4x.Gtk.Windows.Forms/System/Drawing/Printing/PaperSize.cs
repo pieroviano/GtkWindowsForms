@@ -57,8 +57,7 @@ namespace System.Drawing.Printing
             }
         }
 
-        public PaperKind Kind
-=> PaperKind.Custom;
+        public PaperKind Kind => PaperKind.Custom;
 
         public string PaperName
         {

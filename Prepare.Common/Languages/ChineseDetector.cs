@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Prepare.Common.Content;
 
 namespace Prepare.Common.Languages;
 
@@ -42,7 +43,7 @@ public static class ChineseDetector
         // ---- TEXT OUTPUT ----
         if (saveAsText)
         {
-            File.WriteAllLines(outputPath, chineseMatches
+            CsFile.WriteAllLines(outputPath, chineseMatches
                 .Distinct()
                 .OrderByDescending(s => s.Length)
                 .ToArray());

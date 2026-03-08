@@ -112,6 +112,9 @@ public class Program
             postprocessingXml);
         BackupUtility.CleanBackup(projectDirectory, BackupUtility.LatestBackup, "Net4x.Gtk.Windows.Forms");
 
+        await PrepareWorker.PatchFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Dialog\FileDialog.cs");
+        await PrepareWorker.PatchFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintPreviewDialog.cs");
+
         ConsoleColor.Green.Write(@"Persisting latest project files", true);
         projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.LatestBackup);

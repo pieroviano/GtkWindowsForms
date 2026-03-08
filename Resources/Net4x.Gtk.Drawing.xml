@@ -4815,6 +4815,79 @@
             <filterpriority>1
             </filterpriority>
         </member>
+        <member name="M:System.Drawing.Image.FromStream(System.IO.Stream)">
+            <summary>
+            Creates an
+            <see cref="T:System.Drawing.Image" /> from the specified data stream.
+            </summary>
+            <returns>The
+            <see cref="T:System.Drawing.Image" /> this method creates.
+            </returns>
+            <param name="stream">
+            A
+            <see cref="T:System.IO.Stream" /> that contains the data for this
+            <see cref="T:System.Drawing.Image" />
+            </param>
+            <exception cref="T:System.ArgumentException">
+            The stream does not have a valid image format-or-
+            <paramref name="stream" /> is null.
+            </exception>
+            <filterpriority>1
+            </filterpriority>
+            <PermissionSet>
+            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+            </PermissionSet>
+        </member>
+        <member name="M:System.Drawing.Image.FromStream(System.IO.Stream,System.Boolean)">
+            <summary>
+            Creates an
+            <see cref="T:System.Drawing.Image" /> from the specified data stream, optionally using embedded color management information in that stream.
+            </summary>
+            <returns>The
+            <see cref="T:System.Drawing.Image" /> this method creates.
+            </returns>
+            <param name="stream">
+            A
+            <see cref="T:System.IO.Stream" /> that contains the data for this
+            <see cref="T:System.Drawing.Image" />
+            </param>
+            <param name="useEmbeddedColorManagement">true to use color management information embedded in the data stream; otherwise, false.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            The stream does not have a valid image format -or-
+            <paramref name="stream" /> is null.
+            </exception>
+            <filterpriority>1
+            </filterpriority>
+            <PermissionSet>
+            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+            </PermissionSet>
+        </member>
+        <member name="M:System.Drawing.Image.FromStream(System.IO.Stream,System.Boolean,System.Boolean)">
+            <summary>
+            Creates an
+            <see cref="T:System.Drawing.Image" /> from the specified data stream, optionally using embedded color management information and validating the image data.
+            </summary>
+            <returns>The
+            <see cref="T:System.Drawing.Image" /> this method creates.
+            </returns>
+            <param name="stream">
+            A
+            <see cref="T:System.IO.Stream" /> that contains the data for this
+            <see cref="T:System.Drawing.Image" />
+            </param>
+            <param name="useEmbeddedColorManagement">true to use color management information embedded in the data stream; otherwise, false.
+            </param>
+            <param name="validateImageData">true to validate the image data; otherwise, false.
+            </param>
+            <exception cref="T:System.ArgumentException">The stream does not have a valid image format.
+            </exception>
+            <filterpriority>1
+            </filterpriority>
+            <PermissionSet>
+            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+            </PermissionSet>
+        </member>
         <member name="M:System.Drawing.Image.GetBounds(System.Drawing.GraphicsUnit@)">
             <summary>
             Gets the bounds of the image in the specified unit.
@@ -5045,6 +5118,54 @@
             <paramref name="encoder" /> is null.
             </exception>
             <exception cref="T:System.Runtime.InteropServices.ExternalException">The image was saved with the wrong image format.-or- The image was saved to the same file it was created from.
+            </exception>
+            <filterpriority>1
+            </filterpriority>
+            <PermissionSet>
+            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+            </PermissionSet>
+        </member>
+        <member name="M:System.Drawing.Image.Save(System.IO.Stream,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Saves this image to the specified stream in the specified format.
+            </summary>
+            <param name="stream">The
+            <see cref="T:System.IO.Stream" /> where the image will be saved.
+            </param>
+            <param name="format">An
+            <see cref="T:System.Drawing.Imaging.ImageFormat" /> that specifies the format of the saved image.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="stream" /> or
+            <paramref name="format" /> is null.
+            </exception>
+            <exception cref="T:System.Runtime.InteropServices.ExternalException">The image was saved with the wrong image format
+            </exception>
+            <filterpriority>1
+            </filterpriority>
+            <PermissionSet>
+            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+            </PermissionSet>
+        </member>
+        <member name="M:System.Drawing.Image.Save(System.IO.Stream,System.Drawing.Imaging.ImageCodecInfo,System.Drawing.Imaging.EncoderParameters)">
+            <summary>
+            Saves this image to the specified stream, with the specified encoder and image encoder parameters.
+            </summary>
+            <param name="stream">The
+            <see cref="T:System.IO.Stream" /> where the image will be saved.
+            </param>
+            <param name="encoder">
+            The
+            <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> for this
+            <see cref="T:System.Drawing.Image" />
+            </param>
+            <param name="encoderParams">An
+            <see cref="T:System.Drawing.Imaging.EncoderParameters" /> that specifies parameters used by the image encoder.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="stream" /> is null.
+            </exception>
+            <exception cref="T:System.Runtime.InteropServices.ExternalException">The image was saved with the wrong image format.
             </exception>
             <filterpriority>1
             </filterpriority>
@@ -5594,9 +5715,10 @@
         </member>
         <member name="T:System.Drawing.Font">
             <summary>
-            Defines a particular format for text, including font face, size, and style attributes.
-            This class cannot be inherited.
+            Defines a particular format for text, including font face, size, and style attributes. This class cannot be inherited.
             </summary>
+            <filterpriority>1
+            </filterpriority>
         </member>
         <member name="M:System.Drawing.Font.#ctor(System.Drawing.Font,System.Drawing.FontStyle)">
             <summary>
@@ -6042,10 +6164,11 @@
         </member>
         <member name="P:System.Drawing.Font.SystemFontName">
             <summary>
-            Gets the name of the system font if the System.Drawing.Font.IsSystemFont property
-            returns true.
+            Gets the name of the system font if the
+            <see cref="P:System.Drawing.Font.IsSystemFont" /> property returns true.
             </summary>
-            <returns>The name of the system font, if System.Drawing.Font.IsSystemFont returns true; otherwise, an empty string ("").
+            <returns>The name of the system font, if
+            <see cref="P:System.Drawing.Font.IsSystemFont" /> returns true; otherwise, an empty string ("").
             </returns>
         </member>
         <member name="P:System.Drawing.Font.Underline">
@@ -6309,9 +6432,10 @@
         </member>
         <member name="T:System.Drawing.FontFamily">
             <summary>
-            Defines a group of type faces having a similar basic design and certain variations
-            in styles. This class cannot be inherited.
+            Defines a group of type faces having a similar basic design and certain variations in styles. This class cannot be inherited.
             </summary>
+            <filterpriority>1
+            </filterpriority>
         </member>
         <member name="M:System.Drawing.FontFamily.#ctor(System.Drawing.GenericFontFamilies)">
             <summary>
@@ -18541,6 +18665,8 @@
             </summary>
             <param name="angle">The angle of rotation.
             </param>
+            <filterpriority>1
+            </filterpriority>
         </member>
         <member name="M:System.Drawing.Pen.RotateTransform(System.Single,System.Drawing.Drawing2D.MatrixOrder)">
             <summary>
@@ -19978,14 +20104,19 @@
             <summary>
             Specifies an array of
             <see cref="T:System.Drawing.CharacterRange" /> structures that represent the ranges of characters measured by a call to the
-            <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
+            <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" />
+            method.
             </summary>
-            <param name="ranges">An array of
+            <param name="ranges">
+            An array of
             <see cref="T:System.Drawing.CharacterRange" /> structures that specifies the ranges of characters measured by a call to the
-            <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
+            <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" />
+            method.
             </param>
             <exception cref="T:System.OverflowException">More than 32 character ranges are set.
             </exception>
+            <filterpriority>1
+            </filterpriority>
         </member>
         <member name="M:System.Drawing.StringFormat.SetTabStops(System.Single,System.Single[])">
             <summary>

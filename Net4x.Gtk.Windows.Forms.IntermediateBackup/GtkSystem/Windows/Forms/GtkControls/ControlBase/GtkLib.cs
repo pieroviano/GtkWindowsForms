@@ -7,8 +7,7 @@ using GLib;
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
 
-    internal
-class FuncLoader
+    internal class FuncLoader
     {
         private class Windows
         {

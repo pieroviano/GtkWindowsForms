@@ -121,8 +121,8 @@ namespace System.Windows.Forms
                 fileDialog.WindowPosition = Gtk.WindowPosition.Center;
             }
             fileDialog.IconName = "document-open";
-            fileDialog.AddButton(System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
-            fileDialog.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
+            fileDialog.AddButton(System.System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
+            fileDialog.AddButton(System.System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
             fileDialog.SelectMultiple = this.Multiselect;
             fileDialog.Title = this.Title ?? string.Empty;
             fileDialog.TooltipText = this.Description ?? string.Empty;

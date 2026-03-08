@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Prepare.Common.Content;
 
 namespace XmlDocSync.Services;
 
@@ -8,8 +9,8 @@ public static class WinMergeService
     {
         var file1= Path.Combine(Path.GetTempPath(), Path.ChangeExtension(Path.GetFileName(file),".old.cs"));
         var file2= Path.Combine(Path.GetTempPath(), Path.ChangeExtension(Path.GetFileName(file), ".new.cs"));
-        File.WriteAllText(file1, oldFile);
-        File.WriteAllText(file2, newFile);
+        CsFile.WriteAllText(file1, oldFile);
+        CsFile.WriteAllText(file2, newFile);
         var winMergePath = @"C:\Program Files\WinMerge\WinMergeU.exe";
 
         var psi = new ProcessStartInfo

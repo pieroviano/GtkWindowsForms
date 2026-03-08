@@ -3,9 +3,10 @@ using System.Runtime.InteropServices;
 namespace System.Windows.Forms
 {
     /// <summary>
-    /// Specifies how an object or text in a control is horizontally aligned
-    /// relative to an element of the control.
+    /// Specifies how an object or text in a control is horizontally aligned relative to an element of the control.
     /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
     [ComVisible(true)]
     public enum HorizontalAlignment
     {

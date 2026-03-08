@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Diagnostics;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -38,7 +39,7 @@ public static class EventOnMethodGenerator
 
         var newRoot = rewriter.Visit(root);
 
-        return newRoot.NormalizeWhitespace().ToFullString().Replace("\r\n", "\n").TrimEnd("\n");
+        return newRoot.NormalizeWhitespace().ToFullString().Replace("\r\n", "\n").TrimEnd('\n');
     }
 
     private class EventRewriter : CSharpSyntaxRewriter
@@ -65,7 +66,7 @@ public static class EventOnMethodGenerator
             {
                 var handlerType = ev.Declaration.Type.ToString();
 
-                var handlerFull = ResolveHandler(handlerType.TrimEnd("?"));
+                var handlerFull = ResolveHandler(handlerType.TrimEnd('?'));
 
                 if (!_handlerToArgs.TryGetValue(handlerFull, out var eventArgsType))
                 {
@@ -89,6 +90,7 @@ public static class EventOnMethodGenerator
             if (methodsToAdd.Count == 0)
                 return node;
 
+            Trace.Assert(methodsToAdd != null, nameof(methodsToAdd) + " != null");
             return node.AddMembers(methodsToAdd.ToArray());
         }
 

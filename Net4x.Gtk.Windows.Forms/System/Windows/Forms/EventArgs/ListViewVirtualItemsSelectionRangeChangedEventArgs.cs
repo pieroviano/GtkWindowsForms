@@ -5,7 +5,8 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    /// The event class that is created when the selection state of a ListViewItem is changed.
+    /// Provides data for the
+    /// <see cref="!:System.Windows.Forms.ListView.VirtualItemsSelectionRangeChanged" /> event.
     /// </summary>
     public class ListViewVirtualItemsSelectionRangeChangedEventArgs : EventArgs
     {

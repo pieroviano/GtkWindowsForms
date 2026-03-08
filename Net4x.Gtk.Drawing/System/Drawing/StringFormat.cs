@@ -336,15 +336,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Specifies an array of
-        /// <see cref="T:System.Drawing.CharacterRange" /> structures that represent the ranges of characters measured by a call to the
-        /// <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
+        /// <see cref="System.Drawing.CharacterRange" /> structures that represent the ranges of characters measured by a call to the
+        /// <see cref="System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" />
+        /// method.
         /// </summary>
-        /// <param name="ranges">An array of
-        /// <see cref="T:System.Drawing.CharacterRange" /> structures that specifies the ranges of characters measured by a call to the
-        /// <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
+        /// <param name="ranges">
+        /// An array of
+        /// <see cref="System.Drawing.CharacterRange" /> structures that specifies the ranges of characters measured by a call to the
+        /// <see cref="System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" />
+        /// method.
         /// </param>
-        /// <exception cref="T:System.OverflowException">More than 32 character ranges are set.
+        /// <exception cref="System.OverflowException">More than 32 character ranges are set.
         /// </exception>
+        /// <filterpriority>1
+        /// </filterpriority>
         public void SetMeasurableCharacterRanges(CharacterRange[] ranges)
         {
         }

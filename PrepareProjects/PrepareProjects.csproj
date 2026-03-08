@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<NoWarn>CA1416</NoWarn>
+		<NoWarn>CA1416;IDE0055</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -55,8 +55,8 @@ namespace System.Windows.Forms
             previewForm.ClientSize = new Size(formwidth, formheight);
             box = new Gtk.Box(Gtk.Orientation.Vertical, 15);
             Gtk.Box header = new Gtk.Box(Gtk.Orientation.Horizontal, 20);
-            header.PackStart(new Gtk.Label(System.Properties.Resources.Gtk_Print_preview), false, false, 0);
-            Gtk.Button printbutton = new Gtk.Button(System.Properties.Resources.Gtk_Print) { WidthRequest = 200 };
+            header.PackStart(new Gtk.Label(System.System.Properties.Resources.Gtk_Print_preview), false, false, 0);
+            Gtk.Button printbutton = new Gtk.Button(System.System.Properties.Resources.Gtk_Print) { WidthRequest = 200 };
             printbutton.ButtonReleaseEvent += Printbutton_ButtonReleaseEvent;
             header.PackEnd(printbutton, false, false, 0);
             box.PackStart(header, false, true, 0);

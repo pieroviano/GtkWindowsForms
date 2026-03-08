@@ -155,11 +155,8 @@ namespace System.Windows.Forms
         SystemDialogStart = 0x0010,
 
         /// <summary>
-        /// <c>EVENT_SYSTEM_DIALOGEND
-        /// </c>
-        /// Sent when a dialog just before it goes away.
+        /// A dialog box was closed. The system does not send the event for standard dialog boxes. Servers send this event for custom dialog boxes. The system does not send the event consistently.
         /// </summary>
-        /// <seealso cref="SystemDialogStart" />.
         SystemDialogEnd = 0x0011,
 
         /// <summary>

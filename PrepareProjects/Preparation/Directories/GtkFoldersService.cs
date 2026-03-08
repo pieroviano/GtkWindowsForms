@@ -1,3 +1,4 @@
+using Prepare.Common.Content;
 using Prepare.Common.IO;
 
 namespace PrepareProjects.Preparation.Directories;
@@ -28,7 +29,7 @@ public static class GtkFoldersService
                 if (content.Contains("GTKControls"))
                 {
                     content = content.Replace("GTKControls", "GtkControls");
-                    File.WriteAllText(file, content);
+                    CsFile.WriteAllText(file, content);
                 }
             }
         }

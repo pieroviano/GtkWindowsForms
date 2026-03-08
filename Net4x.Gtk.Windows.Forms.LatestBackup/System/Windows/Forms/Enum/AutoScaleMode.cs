@@ -5,7 +5,7 @@
 namespace System.Windows.Forms
 {
     /// <summary>
-    /// Specifies the auto scaling mode used by a container control.
+    /// Specifies the different types of automatic scaling modes supported by Windows Forms.
     /// </summary>
     public enum AutoScaleMode
     {

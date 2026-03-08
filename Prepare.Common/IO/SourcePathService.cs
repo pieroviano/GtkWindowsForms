@@ -1,4 +1,5 @@
-﻿using Prepare.Common.Logging;
+﻿using Prepare.Common.Content;
+using Prepare.Common.Logging;
 using Prepare.Common.Models;
 
 namespace Prepare.Common.IO;
@@ -30,7 +31,7 @@ internal class SourcePathService
             File.Delete(currentOld);
         }
 
-        File.WriteAllText(currentOld, contents);
+        CsFile.WriteAllText(currentOld, contents);
         return currentOld;
     }
 }

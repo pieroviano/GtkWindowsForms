@@ -10,7 +10,7 @@
         <Nullable>enable</Nullable>
         <PackageId>Net4x.$(AssemblyName)</PackageId>
         <LangVersion>latest</LangVersion>
-        <NoWarn>NU5118</NoWarn>
+        <NoWarn>NU5118;IDE0055</NoWarn>
         <UseWindowsForms Condition="'$(TargetFramework)'=='net8.0-windows'">true</UseWindowsForms>
     </PropertyGroup>
     <ItemGroup>

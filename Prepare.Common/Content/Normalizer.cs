@@ -26,7 +26,7 @@ public static class Normalizer
 
             if (!ReferenceEquals(text, newText))
             {
-                File.WriteAllText(file, newText);
+                CsFile.WriteAllText(file, newText);
             }
         }
     }

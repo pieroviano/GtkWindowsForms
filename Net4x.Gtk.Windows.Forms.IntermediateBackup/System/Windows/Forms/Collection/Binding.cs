@@ -555,9 +555,9 @@ public class Binding
             }
             return Formatter.FormatObject(value, propertyType, converter, _propInfoConverter, _formatString ?? string.Empty, _formatInfo, _nullValue, _dsNullValue);
         }
-        var convertEventArg1 = new ConvertEventArgs(value, propertyType);
-        OnFormat(convertEventArg1);
-        var obj = convertEventArg1.Value;
+        var convertEventArgs = new ConvertEventArgs(value, propertyType);
+        OnFormat(convertEventArgs);
+        var obj = convertEventArgs.Value;
         if (propertyType == typeof(object))
         {
             return value;

@@ -7,9 +7,10 @@ using System.Runtime.InteropServices;
 namespace System.Windows.Forms
 {
     /// <summary>
-    /// Specifies a value that determines the IME (Input Method Editor) status
-    /// of the object when that object is selected.
+    /// Specifies a value that determines the Input Method Editor (IME) status of an object when the object is selected.
     /// </summary>
+    /// <filterpriority>2
+    /// </filterpriority>
     [ComVisible(true)]
     public enum ImeMode
     {

@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Prepare.Common.Content;
 
 namespace XmlDocSync.Roslyn;
 
@@ -27,7 +28,7 @@ public static class CsFileOrganizer
             contents = contents.Replace("\n\n\n", "\n\n");
         }
 
-        File.WriteAllText(path, contents.Trim('\n'));
+        CsFile.WriteAllText(path, contents.Trim('\n'));
     }
 
     private static CompilationUnitSyntax ProcessCompilationUnit(CompilationUnitSyntax root)

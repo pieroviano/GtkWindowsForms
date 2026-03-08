@@ -1,4 +1,6 @@
-﻿namespace PrepareProjects.Preparation.Source;
+﻿using Prepare.Common.Content;
+
+namespace PrepareProjects.Preparation.Source;
 
 public static class FixService
 {
@@ -40,7 +42,7 @@ public static class FixService
 
         content = content.Replace("GTKControls", "GtkControls");
 
-        File.WriteAllText(fullPath, content);
+        CsFile.WriteAllText(fullPath, content);
     }
 
     private static void FixTableLayoutPanelReference(string csprojPath)
@@ -68,7 +70,7 @@ public static class FixService
 
         if (modified)
         {
-            File.WriteAllText(fullPath, content);
+            CsFile.WriteAllText(fullPath, content);
         }
     }
 }

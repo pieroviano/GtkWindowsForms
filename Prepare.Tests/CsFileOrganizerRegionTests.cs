@@ -1,4 +1,6 @@
-﻿namespace Prepare.Tests;
+﻿using Prepare.Common.Content;
+
+namespace Prepare.Tests;
 
 public class CsFileOrganizerRegionTests
 {
@@ -32,7 +34,7 @@ public class CsFileOrganizerRegionTests
     private static string WriteTempFile(string contents)
     {
         var path = Path.GetTempFileName() + ".cs";
-        File.WriteAllText(path, contents);
+        CsFile.WriteAllText(path, contents);
         return path;
     }
 }

@@ -265,7 +265,8 @@ namespace System.Resources
         }
 
         /// <summary>
-        /// Closes and files or streams being used by the reader.
+        /// Releases all resources used by the
+        /// <see cref="System.Resources.ResXResourceReader" />
         /// </summary>
         public void Close()
         {
