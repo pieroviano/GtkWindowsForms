@@ -19,7 +19,9 @@ public class Program
     {
         PrepareWorker.RenameDirectoriesInSourceRepository();
 
+#if RELEASE
         PrepareWorker.RefreshXmlCommentFiles();
+#endif
 
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -93,8 +95,10 @@ public class Program
         var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.IntermediateBackup);
 
+#if RELEASE
         ConsoleColor.Green.Write(@"Merging Xml documentation", true);
         await PrepareWorker.MergeXmlDocumentationAsync();
+#endif
 
         ConsoleColor.DarkMagenta.Write("Ensuring On....(...EventArgs) are raising event.", true);
         PrepareWorker.EnsureOnEventRaisesEvent();
