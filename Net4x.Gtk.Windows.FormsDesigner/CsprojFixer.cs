@@ -6,8 +6,16 @@ using StringSplitOptions = System.StringSplitOptions;
 
 namespace Gtk.Windows.FormsDesigner;
 
+/// <summary>
+/// CsprojFixer is a utility class designed to modify .csproj files to ensure compatibility with the Windows Forms Designer in a GTK environment. It performs the following fixes:
+/// </summary>
 public static class CsprojFixer
 {
+    /// <summary>
+    /// Fixes the project.
+    /// </summary>
+    /// <param name="projectFullPath">The project full path.</param>
+    /// <exception cref="FileNotFoundException">Project file not found.</exception>
     public static void FixProject(string projectFullPath)
     {
         if (!File.Exists(projectFullPath))

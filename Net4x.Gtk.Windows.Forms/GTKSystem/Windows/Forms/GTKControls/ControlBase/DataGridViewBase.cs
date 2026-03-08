@@ -1,5 +1,9 @@
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// DataGridViewBase is a base class for GTK data grid view controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of data grid view controls.
+    /// </summary>
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.ScrollableBoxBase" />
     public sealed class DataGridViewBase : ScrollableBoxBase
     {
 

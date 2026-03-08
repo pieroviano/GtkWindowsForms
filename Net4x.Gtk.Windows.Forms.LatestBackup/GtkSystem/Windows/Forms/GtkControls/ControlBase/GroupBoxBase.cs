@@ -8,6 +8,12 @@ using System.Windows.Forms;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// GroupBoxBase is a base class for GTK group box controls, providing common functionality and properties for derived classes. It implements the IControlGtk and IScrollableBoxBase interfaces, allowing it to integrate with the GTK system and provide consistent behavior across different types of group box controls. The GroupBoxBase class includes features such as auto-scrolling, event handling for scrolling, and custom drawing capabilities.
+    /// </summary>
+    /// <seealso cref="Gtk.Frame" />
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase" />
     public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     {
 

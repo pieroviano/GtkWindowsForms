@@ -10,6 +10,51 @@
             Usage method： at form create new under the projectSystem.ComponentModel.ComponentResourceManager and inheritGtkSystem.ComponentModel.ComponentResourceManager that is enough
             </summary>
         </member>
+        <member name="M:GtkSystem.Resources.Extensions.DeserializingResourceReader.#ctor(System.IO.Stream)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:GtkSystem.Resources.Extensions.DeserializingResourceReader" /> class.
+            </summary>
+            <param name="stream">The stream.
+            </param>
+            <exception cref="T:System.ArgumentNullException">stream
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            </exception>
+        </member>
+        <member name="M:GtkSystem.Resources.Extensions.DeserializingResourceReader.Close">
+            <summary>
+            Closes the resource reader after releasing any resources associated with it.
+            </summary>
+        </member>
+        <member name="M:GtkSystem.Resources.Extensions.DeserializingResourceReader.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:GtkSystem.Resources.Extensions.DeserializingResourceReader.GetEnumerator">
+            <summary>
+            Returns a dictionary enumerator of the resources for this reader.
+            </summary>
+            <returns>
+            A dictionary enumerator for the resources for this reader.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+            </exception>
+        </member>
+        <member name="T:GtkSystem.Resources.Extensions.PreserializedResourceWriter">
+            <summary>
+            PreserializedResourceWriter is a class that implements the IResourceWriter interface and is used to write resources to a stream or file in a pre-serialized format. It allows for adding resources of various types, including strings, byte arrays, and streams, and handles the serialization of these resources in a way that can be read by a corresponding resource reader. The class also manages the underlying stream and ensures that all resources are properly written and the stream is closed when done.
+            </summary>
+            <seealso cref="T:System.Resources.IResourceWriter" />
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="T:GtkSystem.Resources.ResourceManager">
+            <summary>
+            ResourceManager is a class that provides convenient access to culture-specific resources at runtime. It enables you to retrieve resources based on the current culture or a specified culture. This class is typically used in applications that support multiple languages and cultures, allowing you to manage and access localized resources such as strings, images, and other data.
+            </summary>
+            <seealso cref="T:System.Resources.ResourceManager" />
+        </member>
         <member name="T:GtkSystem.SR">
             <summary>
             A strongly-typed resource class, for looking up localized strings, etc.
@@ -170,6 +215,277 @@
             <summary>
             Looks up a localized string similar to Could not load a converter for type {0}..
             </summary>
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.BoxBase">
+            <summary>
+            BoxBase is a base class for GTK box controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of box controls.
+            </summary>
+            <seealso cref="T:Gtk.Box" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase">
+            <summary>
+            ButtonBase is a base class for GTK button controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of button controls.
+            </summary>
+            <seealso cref="T:Gtk.Button" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.CheckBoxBase">
+            <summary>
+            CheckBoxBase is a base class for GTK check button controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of check button controls.
+            </summary>
+            <seealso cref="T:Gtk.CheckButton" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.CheckedListBoxBase">
+            <summary>
+            CheckedListBoxBase is a base class for GTK checked list box controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of checked list box controls.
+            </summary>
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.ScrollableBoxBase" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.ComboBoxBase">
+            <summary>
+            ComboBoxBase is a base class for GTK combo box controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of combo box controls.
+            </summary>
+            <seealso cref="T:Gtk.ComboBoxText" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.DataGridViewBase">
+            <summary>
+            DataGridViewBase is a base class for GTK data grid view controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of data grid view controls.
+            </summary>
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.ScrollableBoxBase" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.FlowLayoutPanelBase">
+            <summary>
+            FlowLayoutPanelBase is a base class for GTK flow layout panel controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of flow layout panel controls.
+            </summary>
+            <seealso cref="T:Gtk.FlowBox" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.FormBase">
+            <summary>
+            FormBase is a base class for GTK form controls, providing common functionality and properties for derived classes. It implements the IControlGtk, IScrollableBoxBase, and IWin32Window interfaces, allowing it to integrate with the GTK system and provide consistent behavior across different types of form controls. The FormBase class includes features such as auto-scrolling, event handling for closing the window, and custom drawing capabilities.
+            </summary>
+            <seealso cref="T:Gtk.Dialog" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase" />
+            <seealso cref="T:System.Windows.Forms.IWin32Window" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.GroupBoxBase">
+            <summary>
+            GroupBoxBase is a base class for GTK group box controls, providing common functionality and properties for derived classes. It implements the IControlGtk and IScrollableBoxBase interfaces, allowing it to integrate with the GTK system and provide consistent behavior across different types of group box controls. The GroupBoxBase class includes features such as auto-scrolling, event handling for scrolling, and custom drawing capabilities.
+            </summary>
+            <seealso cref="T:Gtk.Frame" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride">
+            <summary>
+            GtkControlOverride is a class that provides an implementation of the IControlOverride interface for GTK controls. It allows developers to customize the appearance and behavior of GTK controls by providing properties for background color, background image, image layout, and image alignment. The class also includes methods for adding and removing CSS classes, clearing native backgrounds, and handling drawing events for the control's background and images. By using GtkControlOverride, developers can easily enhance the visual aspects of their GTK controls while maintaining compatibility with the underlying GTK framework.
+            </summary>
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlOverride" />
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk.Override">
+            <summary>
+            Gets or sets the override.
+            </summary>
+            <value>
+            The override.
+            </value>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlOverride.BackColor">
+            <summary>
+            Gets or sets the color of the back.
+            </summary>
+            <value>
+            The color of the back.
+            </value>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlOverride.BackgroundImage">
+            <summary>
+            Gets or sets the background image.
+            </summary>
+            <value>
+            The background image.
+            </value>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlOverride.BackgroundImageLayout">
+            <summary>
+            Gets or sets the background image layout.
+            </summary>
+            <value>
+            The background image layout.
+            </value>
+        </member>
+        <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlOverride.AddClass(System.String)">
+            <summary>
+            Adds the class.
+            </summary>
+            <param name="cssClass">The CSS class.
+            </param>
+        </member>
+        <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlOverride.OnAddClass">
+            <summary>
+            Called when add class.
+            </summary>
+        </member>
+        <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlOverride.OnDrawnBackground(Cairo.Context,Gdk.Rectangle)">
+            <summary>
+            Called when drawn background.
+            </summary>
+            <param name="cr">The Cairo context.
+            </param>
+            <param name="area">The area.
+            </param>
+        </member>
+        <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlOverride.OnPaint(Cairo.Context,Gdk.Rectangle)">
+            <summary>
+            Called when paint.
+            </summary>
+            <param name="cr">The Cairo context.
+            </param>
+            <param name="area">The area.
+            </param>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase.AutoScroll">
+            <summary>
+            Gets or sets a value indicating whether automatic scroll.
+            </summary>
+            <value>
+            <c>
+            true
+            </c> if automatic scroll; otherwise,
+            <c>
+            false
+            </c>.
+            </value>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase.Child">
+            <summary>
+            Gets the child.
+            </summary>
+            <value>
+            The child.
+            </value>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase.HeightRequest">
+            <summary>
+            Gets or sets the height request.
+            </summary>
+            <value>
+            The height request.
+            </value>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase.HScroll">
+            <summary>
+            Gets or sets a value indicating whether h scroll.
+            </summary>
+            <value>
+            <c>
+            true
+            </c> if h scroll; otherwise,
+            <c>
+            false
+            </c>.
+            </value>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase.Override">
+            <summary>
+            Gets or sets the override.
+            </summary>
+            <value>
+            The override.
+            </value>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase.VScroll">
+            <summary>
+            Gets or sets a value indicating whether v scroll.
+            </summary>
+            <value>
+            <c>
+            true
+            </c> if v scroll; otherwise,
+            <c>
+            false
+            </c>.
+            </value>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase.WidthRequest">
+            <summary>
+            Gets or sets the width request.
+            </summary>
+            <value>
+            The width request.
+            </value>
+        </member>
+        <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase.AddClass(System.String)">
+            <summary>
+            Adds the class.
+            </summary>
+            <param name="cssClass">The CSS class.
+            </param>
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.LabelBase">
+            <summary>
+            LabelBase is a base class for GTK label controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of label controls. The LabelBase class includes features such as text alignment, word wrapping, and custom drawing capabilities.
+            </summary>
+            <seealso cref="T:Gtk.Label" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.LayoutBase">
+            <summary>
+            LayoutBase is a base class for GTK layout controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of layout controls.
+            </summary>
+            <seealso cref="T:Gtk.Layout" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.LinkLabelBase">
+            <summary>
+            LinkLabelBase is a base class for GTK link label controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of link label controls.
+            </summary>
+            <seealso cref="T:Gtk.LinkButton" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.ListBoxBase">
+            <summary>
+            ListBoxBase is a base class for ListBox controls in the GtkSystem.Windows.Forms library. It provides a scrollable container for a Gtk.ListBox, allowing for easy integration of list-based UI elements within the framework. The ListBoxBase class inherits from ScrollableBoxBase, which provides common functionality for scrollable containers, and it initializes a Gtk.ListBox with appropriate properties to ensure it expands and fills the available space within the container. This class serves as a foundation for creating more specific list box controls that can be used in applications built with the GtkSystem.Windows.Forms library.
+            </summary>
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.ScrollableBoxBase" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.ListViewBase">
+            <summary>
+            ListViewBase is a base class for ListView controls in the GtkSystem.Windows.Forms library. It provides a scrollable container for list-based UI elements, allowing for easy integration of list views within the framework. The ListViewBase class inherits from Gtk.Viewport, which provides a scrollable area, and it initializes a Gtk.Box with vertical orientation to hold the list view items. This class serves as a foundation for creating more specific list view controls that can be used in applications built with the GtkSystem.Windows.Forms library.
+            </summary>
+            <seealso cref="T:Gtk.Viewport" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.MonthCalendarBase">
+            <summary>
+            MonthCalendarBase is a base class for MonthCalendar controls in the GtkSystem.Windows.Forms library. It provides a foundation for creating calendar-based UI elements within the framework. The MonthCalendarBase class inherits from Gtk.Calendar, which is a widget that displays a calendar and allows users to select dates. This class also implements the IControlGtk interface, which provides additional functionality for integrating with the GtkSystem.Windows.Forms framework. The MonthCalendarBase class can be extended to create more specific calendar controls that can be used in applications built with the GtkSystem.Windows.Forms library.
+            </summary>
+            <seealso cref="T:Gtk.Calendar" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.NumericUpDownBase">
+            <summary>
+            NumericUpDownBase is a base class for NumericUpDown controls in the GtkSystem.Windows.Forms library. It provides a foundation for creating numeric input controls that allow users to select a value from a range by clicking up and down buttons. The NumericUpDownBase class inherits from Gtk.SpinButton, which is a widget that provides this functionality, and it implements the IControlGtk interface for integration with the GtkSystem.Windows.Forms framework. This class can be extended to create more specific numeric up-down controls that can be used in applications built with the GtkSystem.Windows.Forms library.
+            </summary>
+            <seealso cref="T:Gtk.SpinButton" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.PanelBase">
+            <summary>
+            PanelBase class
+            </summary>
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.ScrollableBoxBase" />
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.PictureBoxBase">
+            <summary>
+            PictureBoxBase class.
+            </summary>
+            <seealso cref="T:Gtk.Image" />
+            <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
         </member>
         <member name="M:GtkSystem.Windows.Forms.Utility.ImageUtility.ScaleImageByImageLayout(System.Byte[],System.Int32,System.Int32,Gdk.Pixbuf@,System.Windows.Forms.ImageLayout)">
             <summary>
@@ -18578,7 +18894,7 @@
             2
             </filterpriority>
         </member>
-        <member name="P:System.Windows.Forms.Message.HWnd">
+        <member name="F:System.Windows.Forms.Message.s_allWinMessages">
             <summary>
             Gets or sets the window handle of the message.
             </summary>
@@ -25670,7 +25986,7 @@
             <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
             </PermissionSet>
         </member>
-        <member name="P:System.Windows.Forms.ImageList.Tag">
+        <member name="P:System.Windows.Forms.ImageList.IsDisposed">
             <summary>
             Gets or sets an object that contains additional data about the
             <see cref = "T:System.Windows.Forms.ImageList"/>
@@ -39637,8 +39953,7 @@
         </member>
         <member name="T:System.Resources.ResXResourceWriter">
             <summary>
-            ResX resource writer. See the text in "ResourceSchema" for more
-            information.
+            ResX resource writer. See the text in "ResourceSchema" for more information.
             </summary>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.#ctor(System.String)">

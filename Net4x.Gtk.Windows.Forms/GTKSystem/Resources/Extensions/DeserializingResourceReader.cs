@@ -66,6 +66,16 @@ namespace GtkSystem.Resources.Extensions
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="GtkSystem.Resources.Extensions.DeserializingResourceReader" /> class.
+        /// </summary>
+        /// <param name="stream">The stream.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">stream
+        /// </exception>
+        /// <exception cref="System.ArgumentException">
+        /// </exception>
         public DeserializingResourceReader(Stream stream)
         {
             if (stream == null)
@@ -82,16 +92,30 @@ namespace GtkSystem.Resources.Extensions
             ReadResources();
         }
 
+        /// <summary>
+        /// Closes the resource reader after releasing any resources associated with it.
+        /// </summary>
         public void Close()
         {
             Dispose(disposing: true);
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             Close();
         }
 
+        /// <summary>
+        /// Returns a dictionary enumerator of the resources for this reader.
+        /// </summary>
+        /// <returns>
+        /// A dictionary enumerator for the resources for this reader.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException">
+        /// </exception>
         public IDictionaryEnumerator GetEnumerator()
         {
             if (_resCache == null)

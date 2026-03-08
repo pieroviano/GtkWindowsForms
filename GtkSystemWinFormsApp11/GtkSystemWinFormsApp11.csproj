@@ -7,10 +7,11 @@
     <UseWindowsForms>false</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
+    <NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0436</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" />

@@ -1,5 +1,10 @@
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// MonthCalendarBase is a base class for MonthCalendar controls in the GtkSystem.Windows.Forms library. It provides a foundation for creating calendar-based UI elements within the framework. The MonthCalendarBase class inherits from Gtk.Calendar, which is a widget that displays a calendar and allows users to select dates. This class also implements the IControlGtk interface, which provides additional functionality for integrating with the GtkSystem.Windows.Forms framework. The MonthCalendarBase class can be extended to create more specific calendar controls that can be used in applications built with the GtkSystem.Windows.Forms library.
+    /// </summary>
+    /// <seealso cref="Gtk.Calendar" />
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
     public sealed class MonthCalendarBase : Gtk.Calendar, IControlGtk
     {
         public MonthCalendarBase() : base()

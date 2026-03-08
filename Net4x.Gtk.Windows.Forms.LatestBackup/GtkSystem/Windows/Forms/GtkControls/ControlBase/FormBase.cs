@@ -7,6 +7,13 @@ using System.Windows.Forms;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// FormBase is a base class for GTK form controls, providing common functionality and properties for derived classes. It implements the IControlGtk, IScrollableBoxBase, and IWin32Window interfaces, allowing it to integrate with the GTK system and provide consistent behavior across different types of form controls. The FormBase class includes features such as auto-scrolling, event handling for closing the window, and custom drawing capabilities.
+    /// </summary>
+    /// <seealso cref="Gtk.Dialog" />
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase" />
+    /// <seealso cref="System.Windows.Forms.IWin32Window" />
     public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin32Window
     {
 

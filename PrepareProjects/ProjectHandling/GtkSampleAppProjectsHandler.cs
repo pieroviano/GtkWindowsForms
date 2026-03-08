@@ -1,10 +1,11 @@
-﻿using System.Reflection;
-using System.Xml.Linq;
-using Prepare.Common.Content;
+﻿using Prepare.Common.Content;
 using Prepare.Common.IO;
 using Prepare.Common.Languages;
 using Prepare.Common.Logging;
+using Prepare.Common.Projects;
 using PrepareProjects.Preparation.Source;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace PrepareProjects.ProjectHandling;
 
@@ -69,8 +70,11 @@ public static class GtkSampleAppProjectsHandler
 
         ConsoleColor.White.Write("Copy completed, project updated.", true);
 #pragma warning disable CS8604 // Possible null reference argument.
-        return $"{Path.Combine(targetDir, targetProjectName)}.csproj";
+        var projPath = $"{Path.Combine(targetDir, targetProjectName)}.csproj";
 #pragma warning restore CS8604 // Possible null reference argument.
+        CsprojUpdater.EnsureNoWarn(projPath);
+        
+        return projPath;
     }
 
     private static void ReplaceTestDataJson(string targetDir)

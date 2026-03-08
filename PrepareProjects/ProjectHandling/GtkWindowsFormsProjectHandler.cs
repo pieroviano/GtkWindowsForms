@@ -1,5 +1,6 @@
 using Prepare.Common.IO;
 using Prepare.Common.Languages;
+using Prepare.Common.Projects;
 using PrepareProjects.Preparation.Directories;
 using PrepareProjects.Preparation.Source;
 
@@ -15,6 +16,8 @@ public class GtkWindowsFormsProjectHandler
 
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetProjectDirectory,
             ProjectPatching.PatchProjectNamespace, "Resources", "translations");
+
+        CsprojUpdater.EnsureNoWarn(csprojPath);
 
         ConsoleColor.White.Write("Preparation completed successfully.", true);
         Directory.Delete(Path.Combine(targetProjectDirectory, "Properties\\PublishProfiles\\"), true);

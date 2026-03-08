@@ -37,6 +37,12 @@ public class GtkWindowsForms : Task
     [Required]
     public string FileName { get; set; }
 
+    /// <summary>
+    /// Gets or sets the project full path.
+    /// </summary>
+    /// <value>
+    /// The project full path.
+    /// </value>
     [Required]
     public string ProjectFullPath { get; set; }
 

@@ -15,6 +15,10 @@ using System.Xml.Linq;
 
 namespace GtkSystem.Resources
 {
+    /// <summary>
+    /// ResourceManager is a class that provides convenient access to culture-specific resources at runtime. It enables you to retrieve resources based on the current culture or a specified culture. This class is typically used in applications that support multiple languages and cultures, allowing you to manage and access localized resources such as strings, images, and other data.
+    /// </summary>
+    /// <seealso cref="System.Resources.ResourceManager" />
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class ResourceManager : System.Resources.ResourceManager
     {

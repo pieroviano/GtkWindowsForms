@@ -1,5 +1,10 @@
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// ComboBoxBase is a base class for GTK combo box controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of combo box controls.
+    /// </summary>
+    /// <seealso cref="Gtk.ComboBoxText" />
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
     public sealed class ComboBoxBase : Gtk.ComboBoxText, IControlGtk
     {
         public ComboBoxBase() : base(true)

@@ -7,7 +7,10 @@ using System.Runtime.Serialization;
 
 namespace System.Drawing
 {
-
+    /// <summary>
+    /// GtkImageConverter is a class that provides a type converter to convert Gtk images to and from various other representations, such as byte arrays and strings. It inherits from the System.ComponentModel.TypeConverter class and overrides methods to specify the types it can convert from and to, as well as the actual conversion logic. This allows Gtk images to be easily converted for use in different contexts, such as serialization or display in user interfaces.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.TypeConverter" />
     public class GtkImageConverter : TypeConverter
     {
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)

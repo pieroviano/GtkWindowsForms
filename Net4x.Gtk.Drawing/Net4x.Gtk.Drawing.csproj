@@ -38,6 +38,7 @@
         <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
+        <NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0436</NoWarn>
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="..\Net4x.Gtk.Windows.Forms\System\Diagnostics\CodeAnalysis\NotNullWhenAttribute.cs" Link="System\Diagnostics\CodeAnalysis\NotNullWhenAttribute.cs" />

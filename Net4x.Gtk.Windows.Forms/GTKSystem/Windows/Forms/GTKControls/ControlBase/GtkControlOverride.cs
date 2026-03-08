@@ -9,6 +9,10 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
 
     public delegate void PaintGraphicsEventHandler(Cairo.Context cr, Rectangle rec);
+    /// <summary>
+    /// GtkControlOverride is a class that provides an implementation of the IControlOverride interface for GTK controls. It allows developers to customize the appearance and behavior of GTK controls by providing properties for background color, background image, image layout, and image alignment. The class also includes methods for adding and removing CSS classes, clearing native backgrounds, and handling drawing events for the control's background and images. By using GtkControlOverride, developers can easily enhance the visual aspects of their GTK controls while maintaining compatibility with the underlying GTK framework.
+    /// </summary>
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlOverride" />
     public sealed class GtkControlOverride : IControlOverride
     {
 

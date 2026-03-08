@@ -2,6 +2,11 @@ using System;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// PictureBoxBase class.
+    /// </summary>
+    /// <seealso cref="Gtk.Image" />
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
     public sealed class PictureBoxBase : Gtk.Image, IControlGtk
     {
         public PictureBoxBase() : base()

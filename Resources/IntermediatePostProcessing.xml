@@ -93,12 +93,27 @@ using System.Windows.Forms;</SourceString>
   <Item>
     <FileName>..\GtkWinFormsApp\GtkWinFormsApp.csproj</FileName>
     <SourceString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</SourceString>
-    <TargetString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</TargetString>
+    <TargetString>&lt;GenerateDocumentationFile&gt;false&lt;/GenerateDocumentationFile&gt;</TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkSystemWinFormsApp11\GTKSystemWinFormsApp11.xml</FileName>
+    <SourceString></SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\GtkWinFormsApp\GtkWinFormsApp.csproj</FileName>
+    <SourceString>&lt;DocumentationFile&gt;$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml&lt;/DocumentationFile&gt;</SourceString>
+    <TargetString></TargetString>
   </Item>
   <Item>
     <FileName>..\GtkSystemWinFormsApp11\GtkSystemWinFormsApp11.csproj</FileName>
     <SourceString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</SourceString>
-    <TargetString>&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;</TargetString>
+    <TargetString>&lt;GenerateDocumentationFile&gt;false&lt;/GenerateDocumentationFile&gt;</TargetString>
+  </Item>
+  <Item>
+  	<FileName>..\GtkSystemWinFormsApp11\GtkSystemWinFormsApp11.csproj</FileName>
+  	<SourceString>&lt;DocumentationFile&gt;$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml&lt;/DocumentationFile&gt;</SourceString>
+  	<TargetString></TargetString>
   </Item>
   <Item>
     <FileName>..\GtkSystemWinFormsApp11\Program.cs</FileName>

@@ -152,11 +152,13 @@ public class Program
             }
         }
 
-        var exe = Environment.ExpandEnvironmentVariables(
-            "%USERPROFILE%\\.nuget\\packages\\net4x.publishnuget\\1.0.0\\tools\\PublishNuget.exe");
-        var process = Process.Start(exe);
-        await process.WaitForExitAsync();
-
+        if (Environment.GetEnvironmentVariable("SkipPush") == "")
+        {
+            var exe = Environment.ExpandEnvironmentVariables(
+                "%USERPROFILE%\\.nuget\\packages\\net4x.publishnuget\\1.0.0\\tools\\PublishNuget.exe");
+            var process = Process.Start(exe);
+            await process.WaitForExitAsync();
+        }
 #endif
         ConsoleColor.Green.Write("Preparation complete", true);
     }

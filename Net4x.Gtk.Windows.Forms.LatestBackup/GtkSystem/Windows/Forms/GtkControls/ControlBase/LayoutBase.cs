@@ -2,6 +2,11 @@ using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// LayoutBase is a base class for GTK layout controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of layout controls.
+    /// </summary>
+    /// <seealso cref="Gtk.Layout" />
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
     public sealed class LayoutBase : Gtk.Layout, IControlGtk
     {
         public LayoutBase(Adjustment hadjustment, Adjustment vadjustment) : base(hadjustment, vadjustment)

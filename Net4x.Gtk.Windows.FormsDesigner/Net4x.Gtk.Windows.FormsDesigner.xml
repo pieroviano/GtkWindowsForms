@@ -26,6 +26,18 @@
             Gets or sets a value indicating whether application paths are configured for .NET Core host policy resolution.
             </summary>
         </member>
+        <member name="T:Gtk.Windows.FormsDesigner.CsprojFixer">
+            <summary>
+            CsprojFixer is a utility class designed to modify .csproj files to ensure compatibility with the Windows Forms Designer in a GTK environment. It performs the following fixes:
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.FormsDesigner.CsprojFixer.FixProject(System.String)">
+            <summary>
+            Fixes the project.
+            </summary>
+            <param name="projectFullPath">The project full path.</param>
+            <exception cref="T:System.IO.FileNotFoundException">Project file not found.</exception>
+        </member>
         <member name="T:Gtk.Windows.FormsDesigner.designer">
             <summary>
             Represents a designer configuration that includes runtime options for customization.
@@ -76,6 +88,14 @@
             <summary>
                 Gets or sets the name of the file associated with this instance.
             </summary>
+        </member>
+        <member name="P:Gtk.Windows.FormsDesigner.GtkWindowsForms.ProjectFullPath">
+            <summary>
+            Gets or sets the project full path.
+            </summary>
+            <value>
+            The project full path.
+            </value>
         </member>
         <member name="P:Gtk.Windows.FormsDesigner.GtkWindowsForms.TargetFramework">
             <summary>

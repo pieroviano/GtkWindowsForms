@@ -6,6 +6,7 @@
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>false</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0436</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Net4x.Gtk.Windows.Extensions\Net4x.Gtk.Windows.Extensions.csproj" />
