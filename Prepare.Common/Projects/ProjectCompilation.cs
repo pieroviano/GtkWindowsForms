@@ -42,14 +42,7 @@ public static class ProjectCompilation
             }
         };
 
-        process.Start();
-
-        var output = process.StandardOutput.ReadToEnd();
-        var error = process.StandardError.ReadToEnd();
-
-        process.WaitForExit();
-
-        ConsoleColor.White.Write(output, true);
+        var (output, error) = process.StartAndWaitForExit(true);
 
         if (process.ExitCode != 0)
         {

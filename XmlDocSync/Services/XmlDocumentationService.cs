@@ -37,15 +37,24 @@ public static class XmlDocumentationService
             .Select(Path.GetFullPath)
             .ToArray();
 
+        // Parse syntax trees in parallel
         var syntaxTrees = await ParseAllSyntaxTrees(files);
 
         var compilation = GetCSharpCompilation(syntaxTrees);
 
-        // Process all files in parallel
-        var tasks = syntaxTrees.Select(tree =>
-            ProcessFile(compilation, xmlDocumentation, tree, fixes));
+        var options = new ParallelOptions
+        {
+            MaxDegreeOfParallelism = Environment.ProcessorCount
+        };
 
-        await Task.WhenAll(tasks);
+        await Parallel.ForEachAsync(syntaxTrees, options, async (tree, ct) =>
+        {
+            await ProcessFile(
+                compilation,
+                xmlDocumentation,
+                tree,
+                fixes);
+        });
 
         return 0;
     }
@@ -140,18 +149,24 @@ public static class XmlDocumentationService
 
     private static async Task<List<SyntaxTree>> ParseAllSyntaxTrees(string[] files)
     {
-        var trees = new ConcurrentBag<SyntaxTree>();
+        var trees = new SyntaxTree[files.Length];
 
-        await Parallel.ForEachAsync(files, async (file, cancellationToken) =>
+        var options = new ParallelOptions
         {
-            var text = await File.ReadAllTextAsync(file, cancellationToken);
-            var tree = CSharpSyntaxTree.ParseText(text, path: file);
-            trees.Add(tree);
-        });
+            MaxDegreeOfParallelism = Environment.ProcessorCount
+        };
+
+        await Parallel.ForEachAsync(
+            Enumerable.Range(0, files.Length),
+            options,
+            async (i, ct) =>
+            {
+                var text = await File.ReadAllTextAsync(files[i], ct);
+                trees[i] = CSharpSyntaxTree.ParseText(text, path: files[i]);
+            });
 
         return trees.ToList();
     }
-
     private static async Task ProcessFile(CSharpCompilation compilation,
         Dictionary<string, string> xmlDocumentation, SyntaxTree syntaxTree, (string ToReplace, string DestinationValue)[] valueTuples)
     {

@@ -18578,7 +18578,7 @@
             2
             </filterpriority>
         </member>
-        <member name="F:System.Windows.Forms.Message.s_allWinMessages">
+        <member name="P:System.Windows.Forms.Message.HWnd">
             <summary>
             Gets or sets the window handle of the message.
             </summary>
@@ -25670,7 +25670,7 @@
             <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
             </PermissionSet>
         </member>
-        <member name="P:System.Windows.Forms.ImageList.IsDisposed">
+        <member name="P:System.Windows.Forms.ImageList.Tag">
             <summary>
             Gets or sets an object that contains additional data about the
             <see cref = "T:System.Windows.Forms.ImageList"/>

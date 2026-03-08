@@ -16415,12 +16415,12 @@
         </member>
         <member name="F:System.Windows.Forms.AutoScaleMode.Font">
             <summary>
-            Controls scale according to the dimensions of the font they are using.
+            Controls scale relative to the dimensions of the font the classes are using, which is typically the system font.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.AutoScaleMode.Dpi">
             <summary>
-            Controls scale according to the display Dpi.
+            Controls scale relative to the display resolution. Common resolutions are 96 and 120 DPI.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.AutoScaleMode.Inherit">
@@ -17439,7 +17439,7 @@
         </member>
         <member name="F:System.Windows.Forms.ImeMode.Alpha">
             <summary>
-            Alphanumeric SBC. This setting is valid for Japanese IME only.
+            Alphanumeric single-byte characters(SBC). This setting is valid for Korean and Japanese IME only.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.ImeMode.HangulFull">
@@ -18578,7 +18578,7 @@
             2
             </filterpriority>
         </member>
-        <member name="F:System.Windows.Forms.Message.s_allWinMessages">
+        <member name="P:System.Windows.Forms.Message.HWnd">
             <summary>
             Gets or sets the window handle of the message.
             </summary>
@@ -22155,23 +22155,40 @@
         </member>
         <member name="M:System.Windows.Forms.ListViewVirtualItemsSelectionRangeChangedEventArgs.#ctor(System.Int32,System.Int32,System.Boolean)">
             <summary>
-            Constructs a ListViewVirtualItemsSelectionRangeChangedEventArgs object.
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.ListViewVirtualItemsSelectionRangeChangedEventArgs" /> class.
             </summary>
+            <param name="startIndex">The index of the first item in the range that has changed.
+            </param>
+            <param name="endIndex">The index of the last item in the range that has changed.
+            </param>
+            <param name="isSelected">true to indicate the items are selected; false to indicate the items are deselected.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="startIndex" /> is larger than
+            <paramref name="endIndex...." />
+            </exception>
         </member>
         <member name="P:System.Windows.Forms.ListViewVirtualItemsSelectionRangeChangedEventArgs.EndIndex">
             <summary>
-            Returns the end of the range where the selection changed
+            Gets the index for the last item in the range of items whose selection state has changed
             </summary>
+            <returns>The index of the last item in the range of items whose selection state has changed.
+            </returns>
         </member>
         <member name="P:System.Windows.Forms.ListViewVirtualItemsSelectionRangeChangedEventArgs.IsSelected">
             <summary>
-            Return true if the items are selected
+            Gets a value indicating whether the range of items is selected.
             </summary>
+            <returns>true if the range of items is selected; false if the range of items is deselected.
+            </returns>
         </member>
         <member name="P:System.Windows.Forms.ListViewVirtualItemsSelectionRangeChangedEventArgs.StartIndex">
             <summary>
-            Returns the begining of the range where the selection changed
+            Gets the index for the first item in the range of items whose selection state has changed.
             </summary>
+            <returns>The index of the first item in the range of items whose selection state has changed.
+            </returns>
         </member>
         <member name="T:System.Windows.Forms.MaskInputRejectedEventArgs">
             <summary>
@@ -25653,7 +25670,7 @@
             <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
             </PermissionSet>
         </member>
-        <member name="P:System.Windows.Forms.ImageList.IsDisposed">
+        <member name="P:System.Windows.Forms.ImageList.Tag">
             <summary>
             Gets or sets an object that contains additional data about the
             <see cref = "T:System.Windows.Forms.ImageList"/>

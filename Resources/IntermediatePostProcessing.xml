@@ -438,11 +438,6 @@ using System.Windows.Forms;</SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>..\*.cs</FileName>
-    <SourceString>System.System.</SourceString>
-    <TargetString>System.</TargetString>
-  </Item>
-  <Item>
     <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Graphics.cs</FileName>
     <SourceString>        private Gtk.Widget widget;</SourceString>
     <TargetString>        private Gtk.Widget widget;

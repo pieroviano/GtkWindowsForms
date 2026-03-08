@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 using Prepare.Common.Content;
 using Prepare.Common.IO;
@@ -100,10 +101,10 @@ public class Program
 
 
         ConsoleColor.DarkMagenta.Write("Formatting Net4x.Gtk.Windows.Forms.csproj", true);
-        await DotnetFormatter.FormatAsync(csprojPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
+        DotnetFormatter.Format(csprojPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
         ConsoleColor.DarkMagenta.Write("Formatting Net4x.Gtk.Drawing.csproj", true);
         var net4xGtkDrawingPath = "..\\..\\..\\..\\Net4x.Gtk.Drawing\\Net4x.Gtk.Drawing.csproj";
-        await DotnetFormatter.FormatAsync(net4xGtkDrawingPath,
+        DotnetFormatter.Format(net4xGtkDrawingPath,
             Path.GetFullPath(@"..\..\..\..\.editorconfig"));
 
         ConsoleColor.Green.Write(@"Applying files latest post processings", true);
@@ -127,6 +128,32 @@ public class Program
         var solutionPath = PrepareWorker.GetSolutionPath(projectDirectory);
         ProjectCompilation.RestoreSolution(solutionPath);
         ProjectCompilation.BuildSolution(solutionPath);
+#if RELEASE
+        ProjectCompilation.BuildSolution(Path.GetFullPath("..\\..\\..\\..\\Prepare.Common\\Prepare.Common.csproj"));
+        var folder = Path.GetFullPath(@"..\..\..\..\Packages");
+
+        var files = Directory
+            .EnumerateFiles(folder, $"*-a{DateTime.Today.Year}*", SearchOption.TopDirectoryOnly);
+
+        foreach (var file in files)
+        {
+            try
+            {
+                File.Delete(file);
+            }
+            catch (Exception ex)
+            {
+                ConsoleColor.Red.Write($"Error deleting file {file}: {ex}", true);
+                throw;
+            }
+        }
+
+        var exe = Environment.ExpandEnvironmentVariables(
+            "%USERPROFILE%\\.nuget\\packages\\net4x.publishnuget\\1.0.0\\tools\\PublishNuget.exe");
+        var process = Process.Start(exe);
+        await process.WaitForExitAsync();
+
+#endif
         ConsoleColor.Green.Write("Preparation complete", true);
     }
 }

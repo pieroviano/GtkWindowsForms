@@ -189,7 +189,7 @@ public static class PrepareWorker
     public static async Task PatchFile(string path)
     {
         var text=await File.ReadAllTextAsync(path);
-        text = text.Replace("System.", "System.");
+        text = text.Replace("System.System.", "System.");
         await CsFile.WriteAllTextAsync(path,text);
     }
 }

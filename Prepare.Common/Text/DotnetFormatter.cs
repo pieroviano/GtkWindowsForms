@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using Prepare.Common.IO;
+using Prepare.Common.Projects;
 
 namespace Prepare.Common.Text;
 
 public static class DotnetFormatter
 {
-    public static async Task<int> FormatAsync(
+    public static int Format(
         string projectPath,
         string? editorConfigPath = null,
         CancellationToken cancellationToken = default)
@@ -37,12 +38,7 @@ public static class DotnetFormatter
             StartInfo = processStartInfo
         };
 
-        process.Start();
-
-        var output = await process.StandardOutput.ReadToEndAsync();
-        var error = await process.StandardError.ReadToEndAsync();
-
-        await process.WaitForExitAsync(cancellationToken);
+        var (_, error) = process.StartAndWaitForExit(true);
 
         if (process.ExitCode != 0)
         {

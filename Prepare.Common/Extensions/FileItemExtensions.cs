@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Prepare.Common.IO;
 using Prepare.Common.Models;
+using Prepare.Common.Projects;
 using Prepare.Common.Services;
 using Prepare.Common.Text;
 
@@ -71,29 +72,20 @@ internal static class FileItemExtensions
     private static bool RunGitDiff(string currentNew, string currentOld, out string? output, out string? error)
     {
         // Run git diff
-        var processStartInfo = new ProcessStartInfo
+        var process = new Process
         {
-            FileName = "git",
-            Arguments = $"diff --no-index \"{currentNew}\" \"{currentOld}\"",
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "git",
+                Arguments = $"diff --no-index \"{currentNew}\" \"{currentOld}\"",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            }
         };
 
-        using var process = Process.Start(processStartInfo);
-
-        if (process == null)
-        {
-            output = null;
-            error = null;
-            return true;
-        }
-
-        output = process.StandardOutput.ReadToEnd();
-        error = process.StandardError.ReadToEnd();
-
-        process.WaitForExit();
+        (output, error) = process.StartAndWaitForExit(false);
         return false;
     }
 }

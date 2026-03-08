@@ -4815,79 +4815,6 @@
             <filterpriority>1
             </filterpriority>
         </member>
-        <member name="M:System.Drawing.Image.FromStream(System.IO.Stream)">
-            <summary>
-            Creates an
-            <see cref="T:System.Drawing.Image" /> from the specified data stream.
-            </summary>
-            <returns>The
-            <see cref="T:System.Drawing.Image" /> this method creates.
-            </returns>
-            <param name="stream">
-            A
-            <see cref="T:System.IO.Stream" /> that contains the data for this
-            <see cref="T:System.Drawing.Image" />
-            </param>
-            <exception cref="T:System.ArgumentException">
-            The stream does not have a valid image format-or-
-            <paramref name="stream" /> is null.
-            </exception>
-            <filterpriority>1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-            </PermissionSet>
-        </member>
-        <member name="M:System.Drawing.Image.FromStream(System.IO.Stream,System.Boolean)">
-            <summary>
-            Creates an
-            <see cref="T:System.Drawing.Image" /> from the specified data stream, optionally using embedded color management information in that stream.
-            </summary>
-            <returns>The
-            <see cref="T:System.Drawing.Image" /> this method creates.
-            </returns>
-            <param name="stream">
-            A
-            <see cref="T:System.IO.Stream" /> that contains the data for this
-            <see cref="T:System.Drawing.Image" />
-            </param>
-            <param name="useEmbeddedColorManagement">true to use color management information embedded in the data stream; otherwise, false.
-            </param>
-            <exception cref="T:System.ArgumentException">
-            The stream does not have a valid image format -or-
-            <paramref name="stream" /> is null.
-            </exception>
-            <filterpriority>1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-            </PermissionSet>
-        </member>
-        <member name="M:System.Drawing.Image.FromStream(System.IO.Stream,System.Boolean,System.Boolean)">
-            <summary>
-            Creates an
-            <see cref="T:System.Drawing.Image" /> from the specified data stream, optionally using embedded color management information and validating the image data.
-            </summary>
-            <returns>The
-            <see cref="T:System.Drawing.Image" /> this method creates.
-            </returns>
-            <param name="stream">
-            A
-            <see cref="T:System.IO.Stream" /> that contains the data for this
-            <see cref="T:System.Drawing.Image" />
-            </param>
-            <param name="useEmbeddedColorManagement">true to use color management information embedded in the data stream; otherwise, false.
-            </param>
-            <param name="validateImageData">true to validate the image data; otherwise, false.
-            </param>
-            <exception cref="T:System.ArgumentException">The stream does not have a valid image format.
-            </exception>
-            <filterpriority>1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-            </PermissionSet>
-        </member>
         <member name="M:System.Drawing.Image.GetBounds(System.Drawing.GraphicsUnit@)">
             <summary>
             Gets the bounds of the image in the specified unit.
@@ -5118,54 +5045,6 @@
             <paramref name="encoder" /> is null.
             </exception>
             <exception cref="T:System.Runtime.InteropServices.ExternalException">The image was saved with the wrong image format.-or- The image was saved to the same file it was created from.
-            </exception>
-            <filterpriority>1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-            </PermissionSet>
-        </member>
-        <member name="M:System.Drawing.Image.Save(System.IO.Stream,System.Drawing.Imaging.ImageFormat)">
-            <summary>
-            Saves this image to the specified stream in the specified format.
-            </summary>
-            <param name="stream">The
-            <see cref="T:System.IO.Stream" /> where the image will be saved.
-            </param>
-            <param name="format">An
-            <see cref="T:System.Drawing.Imaging.ImageFormat" /> that specifies the format of the saved image.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream" /> or
-            <paramref name="format" /> is null.
-            </exception>
-            <exception cref="T:System.Runtime.InteropServices.ExternalException">The image was saved with the wrong image format
-            </exception>
-            <filterpriority>1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-            </PermissionSet>
-        </member>
-        <member name="M:System.Drawing.Image.Save(System.IO.Stream,System.Drawing.Imaging.ImageCodecInfo,System.Drawing.Imaging.EncoderParameters)">
-            <summary>
-            Saves this image to the specified stream, with the specified encoder and image encoder parameters.
-            </summary>
-            <param name="stream">The
-            <see cref="T:System.IO.Stream" /> where the image will be saved.
-            </param>
-            <param name="encoder">
-            The
-            <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> for this
-            <see cref="T:System.Drawing.Image" />
-            </param>
-            <param name="encoderParams">An
-            <see cref="T:System.Drawing.Imaging.EncoderParameters" /> that specifies parameters used by the image encoder.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream" /> is null.
-            </exception>
-            <exception cref="T:System.Runtime.InteropServices.ExternalException">The image was saved with the wrong image format.
             </exception>
             <filterpriority>1
             </filterpriority>
