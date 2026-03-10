@@ -8,13 +8,19 @@ namespace System.Windows.Forms
     /// <see cref="T:System.Windows.Forms.SplitContainer.Panel2" />
     /// , or neither panel is fixed.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public enum FixedPanel
     {
+        /// <summary>
+        /// The none
+        /// </summary>
         None = 0,
+        /// <summary>
+        /// The panel1
+        /// </summary>
         Panel1 = 1,
+        /// <summary>
+        /// The panel2
+        /// </summary>
         Panel2 = 2
     }
 }

@@ -14,25 +14,43 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a control consisting of a movable bar that divides a container's display area into two resizable panels.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class SplitContainer : ContainerControl
     {
 
+        /// <summary>
+        /// The splitter distance
+        /// </summary>
         public int _SplitterDistance;
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly SplitContainerBase self = new SplitContainerBase();
 
+        /// <summary>
+        /// The fixed panel
+        /// </summary>
         private FixedPanel _fixedPanel = FixedPanel.Panel1;
 
+        /// <summary>
+        /// The panel1
+        /// </summary>
         private SplitterPanel _panel1;
 
+        /// <summary>
+        /// The panel2
+        /// </summary>
         private SplitterPanel _panel2;
 
+        /// <summary>
+        /// The splitter width
+        /// </summary>
         private int _SplitterWidth;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SplitContainer"/> class.
+        /// </summary>
         public SplitContainer() : base()
         {
             _panel1 = new SplitterPanel(this);
@@ -43,6 +61,10 @@ namespace System.Windows.Forms
             self.Pack2(_panel2.Widget, true, true);
         }
 
+        /// <summary>
+        /// Gets or sets the fixed panel.
+        /// </summary>
+        /// <value>The fixed panel.</value>
         public FixedPanel FixedPanel
         {
             get => _fixedPanel;
@@ -55,8 +77,16 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the orientation.
+        /// </summary>
+        /// <value>The orientation.</value>
         public Orientation Orientation
         {
             get { return self.Orientation == Gtk.Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal; }
@@ -66,6 +96,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the panel1.
+        /// </summary>
+        /// <value>The panel1.</value>
         public SplitterPanel Panel1
         {
             get
@@ -78,6 +112,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the panel2.
+        /// </summary>
+        /// <value>The panel2.</value>
         public SplitterPanel Panel2
         {
             get
@@ -90,10 +128,22 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the splitter distance.
+        /// </summary>
+        /// <value>The splitter distance.</value>
         public int SplitterDistance { get => self.Position + 5; set { _SplitterDistance = Math.Max(1, value - 5); self.Position = _SplitterDistance; } }
 
+        /// <summary>
+        /// Gets or sets the splitter increment.
+        /// </summary>
+        /// <value>The splitter increment.</value>
         public int SplitterIncrement { get; set; }
 
+        /// <summary>
+        /// Gets or sets the width of the splitter.
+        /// </summary>
+        /// <value>The width of the splitter.</value>
         public int SplitterWidth { get { return _SplitterWidth; } set { _SplitterWidth = value; self.WideHandle = value > 2; } }
 
     }

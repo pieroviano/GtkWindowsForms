@@ -249,6 +249,13 @@
             Initializes a new instance of the ToolboxItem class using the specified type.
             </summary>
         </member>
+        <member name="M:System.Drawing.Design.ToolboxItem.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> with the data needed to serialize the target object.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> to populate with data.</param>
+            <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"></see>) for this serialization.</param>
+        </member>
         <member name="T:System.Drawing.Bitmap">
             <summary>
             Encapsulates a GDI+ bitmap, which consists of the pixel data for a graphics image and its attributes. A
@@ -338,6 +345,14 @@
             </param>
             <exception cref="T:System.Exception">The operation failed.
             </exception>
+        </member>
+        <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Drawing.Graphics)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap"/> class.
+            </summary>
+            <param name="width">The width.</param>
+            <param name="height">The height.</param>
+            <param name="g">The g.</param>
         </member>
         <member name="M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Int32,System.Drawing.Imaging.PixelFormat,System.IntPtr)">
             <summary>
@@ -511,6 +526,19 @@
             <returns>The
             <see cref="T:System.Drawing.Bitmap" /> that this method creates.
             </returns>
+        </member>
+        <member name="M:System.Drawing.Bitmap.GetHbitmap">
+            <summary>
+            Gets the hbitmap.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Drawing.Bitmap.GetHbitmap(System.Drawing.Color)">
+            <summary>
+            Gets the hbitmap.
+            </summary>
+            <param name="background">The background.</param>
+            <returns></returns>
         </member>
         <member name="M:System.Drawing.Bitmap.GetHicon">
             <summary>
@@ -1136,6 +1164,11 @@
             Represents a series of connected lines and curves. This class cannot be inherited.
             </summary>
         </member>
+        <member name="F:System.Drawing.Drawing2D.GraphicsPath.SizePoints">
+            <summary>
+            The size points
+            </summary>
+        </member>
         <member name="M:System.Drawing.Drawing2D.GraphicsPath.#ctor">
             <summary>
             Initializes a new instance of the
@@ -1243,9 +1276,7 @@
         <member name="P:System.Drawing.Drawing2D.GraphicsPath.PathData">
             <summary>
             Gets a
-            <see cref="T:System.Drawing.Drawing2D.PathData" /> that encapsulates arrays of points (
-            <paramref name="points" />) and types (
-            <paramref name="types" />) for this
+            <see cref="T:System.Drawing.Drawing2D.PathData" /> that encapsulates arrays of points for this
             <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
             </summary>
             <returns>A
@@ -2332,7 +2363,7 @@
             <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
             </summary>
             <param name="destPoints">An array of
-            <see cref="T:System.Drawing.PointF" /> structures that defines a parallelogram to which the rectangle defined by
+            <see cref="T:System.Drawing.PointF" /> structures that define a parallelogram to which the rectangle defined by
             <paramref name="srcRect" /> is transformed. The array can contain either three or four elements. If the array contains three elements, the lower-right corner of the parallelogram is implied by the first three points.
             </param>
             <param name="srcRect">A
@@ -2402,6 +2433,265 @@
             </param>
             <param name="flatness">A value that specifies the flatness for curves.
             </param>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.ArcMode">
+            <summary>
+            ArcMode is used to store the parameters of an arc segment in a graphics path. It contains a rectangle that defines the bounding box of the arc, a starting angle that specifies where the arc begins, and a sweep angle that determines how far the arc extends from the starting angle.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.ArcMode.rect">
+            <summary>
+            Gets or sets the rect.
+            </summary>
+            <value>
+            The rect.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.ArcMode.startAngle">
+            <summary>
+            Gets or sets the start angle.
+            </summary>
+            <value>
+            The start angle.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.ArcMode.sweepAngle">
+            <summary>
+            Gets or sets the sweep angle.
+            </summary>
+            <value>
+            The sweep angle.
+            </value>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.BezierMode">
+            <summary>
+            Stores a cubic Bézier segment parameters.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.BezierMode.pt1">
+            <summary>
+            Gets or sets the first control/starting point.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.BezierMode.pt2">
+            <summary>
+            Gets or sets the second control point.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.BezierMode.pt3">
+            <summary>
+            Gets or sets the third control point.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.BezierMode.pt4">
+            <summary>
+            Gets or sets the endpoint of the bezier curve.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.BeziersMode">
+            <summary>
+            Stores a sequence of connected cubic Bézier curves.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.BeziersMode.points">
+            <summary>
+            Gets or sets the points that define the Bézier curves.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.ClosedCurveMode">
+            <summary>
+            Stores a closed curve (cardinal spline) parameters.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.ClosedCurveMode.fillmode">
+            <summary>
+            Gets or sets the fill mode used for closed curve filling.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.ClosedCurveMode.points">
+            <summary>
+            Gets or sets the points that define the closed curve.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.ClosedCurveMode.tension">
+            <summary>
+            Gets or sets the tension of the closed curve.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.CurveMode">
+            <summary>
+            Stores a spline curve parameters.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.CurveMode.numberOfSegments">
+            <summary>
+            Gets or sets the number of segments to use when drawing the curve.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.CurveMode.offset">
+            <summary>
+            Gets or sets the offset index in the points array.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.CurveMode.points">
+            <summary>
+            Gets or sets the points that define the spline.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.CurveMode.tension">
+            <summary>
+            Gets or sets the tension for the spline.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.EllipseMode">
+            <summary>
+            Stores an ellipse parameters.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.EllipseMode.rect">
+            <summary>
+            Gets or sets the bounding rectangle for the ellipse.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.FigureMode">
+            <summary>
+            Represents a figure control marker.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.FigureMode.close">
+            <summary>
+            Gets or sets a value indicating whether this figure is closed.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.FigureMode.start">
+            <summary>
+            Gets or sets a value indicating whether this figure is a start marker.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.LineMode">
+            <summary>
+            Stores a single line segment.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.LineMode.pt1">
+            <summary>
+            Gets or sets the starting point of the line.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.LineMode.pt2">
+            <summary>
+            Gets or sets the endpoint of the line.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.LinesMode">
+            <summary>
+            Stores multiple connected line segments.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.LinesMode.points">
+            <summary>
+            Gets or sets the points that define the connected lines.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.PathMode">
+            <summary>
+            Describes a nested path to add.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.PathMode.connect">
+            <summary>
+            Gets or sets whether the path should be connected to the previous figure.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.PathMode.path">
+            <summary>
+            Gets or sets the path to add.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.PieMode">
+            <summary>
+            Stores a pie segment parameters.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.PieMode.rect">
+            <summary>
+            Gets or sets the bounding rectangle for the pie.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.PieMode.startAngle">
+            <summary>
+            Gets or sets the starting angle for the pie.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.PieMode.sweepAngle">
+            <summary>
+            Gets or sets the sweep angle for the pie.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.PolygonMode">
+            <summary>
+            Stores a polygon definition.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.PolygonMode.points">
+            <summary>
+            Gets or sets the points that define the polygon.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.RectangleMode">
+            <summary>
+            Stores a rectangle definition.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.RectangleMode.rect">
+            <summary>
+            Gets or sets the rectangle.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.RectanglesMode">
+            <summary>
+            Stores multiple rectangles.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.RectanglesMode.rects">
+            <summary>
+            Gets or sets the rectangles.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Drawing2D.GraphicsPath.StringMode">
+            <summary>
+            Stores string drawing parameters used when text is added to the path.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.StringMode.emSize">
+            <summary>
+            Gets or sets the em size (font em height) used for the string.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.StringMode.family">
+            <summary>
+            Gets or sets the font family for the string.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.StringMode.format">
+            <summary>
+            Gets or sets the optional string format for layout.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.StringMode.layoutRect">
+            <summary>
+            Gets or sets the layout rectangle for the string.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.StringMode.style">
+            <summary>
+            Gets or sets the style (FontStyle value encoded as int) for the string.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.GraphicsPath.StringMode.text">
+            <summary>
+            Gets or sets the string text.
+            </summary>
         </member>
         <member name="T:System.Drawing.Drawing2D.GraphicsState">
             <summary>
@@ -3001,6 +3291,14 @@
             <see langword="false" />.
             </param>
         </member>
+        <member name="P:System.Drawing.Drawing2D.LinearGradientBrush.Angle">
+            <summary>
+            Gets or sets the angle.
+            </summary>
+            <value>
+            The angle.
+            </value>
+        </member>
         <member name="P:System.Drawing.Drawing2D.LinearGradientBrush.Blend">
             <summary>
             Gets or sets a
@@ -3037,6 +3335,14 @@
             <returns>An array of two
             <see cref="T:System.Drawing.Color" /> structures that represents the starting and ending colors of the gradient.
             </returns>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.LinearGradientBrush.LinearGradientMode">
+            <summary>
+            Gets or sets the linear gradient mode.
+            </summary>
+            <value>
+            The linear gradient mode.
+            </value>
         </member>
         <member name="P:System.Drawing.Drawing2D.LinearGradientBrush.Rectangle">
             <summary>
@@ -3324,6 +3630,20 @@
             <see cref="T:System.Drawing.Drawing2D.Matrix" /> class as the identity matrix.
             </summary>
         </member>
+        <member name="M:System.Drawing.Drawing2D.Matrix.#ctor(System.Drawing.Rectangle,System.Drawing.Point[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Drawing2D.Matrix"/> class.
+            </summary>
+            <param name="rect">The rect.</param>
+            <param name="plgpts">The PLGPTS.</param>
+        </member>
+        <member name="M:System.Drawing.Drawing2D.Matrix.#ctor(System.Drawing.RectangleF,System.Drawing.PointF[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Drawing2D.Matrix"/> class.
+            </summary>
+            <param name="rect">The rect.</param>
+            <param name="plgpts">The PLGPTS.</param>
+        </member>
         <member name="M:System.Drawing.Drawing2D.Matrix.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
             <summary>
             Initializes a new instance of the
@@ -3348,6 +3668,30 @@
             <see cref="T:System.Drawing.Drawing2D.Matrix" />.
             </param>
         </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.angle">
+            <summary>
+            Gets or sets the angle.
+            </summary>
+            <value>
+            The angle.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.dx">
+            <summary>
+            Gets or sets the dx.
+            </summary>
+            <value>
+            The dx.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.dy">
+            <summary>
+            Gets or sets the dy.
+            </summary>
+            <value>
+            The dy.
+            </value>
+        </member>
         <member name="P:System.Drawing.Drawing2D.Matrix.Elements">
             <summary>
             Gets an array of floating-point values that represents the elements of this
@@ -3356,6 +3700,38 @@
             <returns>An array of floating-point values that represents the elements of this
             <see cref="T:System.Drawing.Drawing2D.Matrix" />.
             </returns>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.initMatrix">
+            <summary>
+            Gets or sets the initialize matrix.
+            </summary>
+            <value>
+            The initialize matrix.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.initPointF">
+            <summary>
+            Gets or sets the initialize point f.
+            </summary>
+            <value>
+            The initialize point f.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.initRectangle">
+            <summary>
+            Gets or sets the initialize rectangle.
+            </summary>
+            <value>
+            The initialize rectangle.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.invert">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:System.Drawing.Drawing2D.Matrix"/> is invert.
+            </summary>
+            <value>
+              <c>true</c> if invert; otherwise, <c>false</c>.
+            </value>
         </member>
         <member name="P:System.Drawing.Drawing2D.Matrix.IsIdentity">
             <summary>
@@ -3379,6 +3755,46 @@
             <see langword="false" />.
             </returns>
         </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.m11">
+            <summary>
+            Gets or sets the M11.
+            </summary>
+            <value>
+            The M11.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.m12">
+            <summary>
+            Gets or sets the M12.
+            </summary>
+            <value>
+            The M12.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.m21">
+            <summary>
+            Gets or sets the M21.
+            </summary>
+            <value>
+            The M21.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.m22">
+            <summary>
+            Gets or sets the M22.
+            </summary>
+            <value>
+            The M22.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.multiply">
+            <summary>
+            Gets or sets the multiply.
+            </summary>
+            <value>
+            The multiply.
+            </value>
+        </member>
         <member name="P:System.Drawing.Drawing2D.Matrix.OffsetX">
             <summary>
             Gets the x translation value (the dx value, or the element in the third row and first column) of this
@@ -3396,6 +3812,78 @@
             <returns>The y translation value of this
             <see cref="T:System.Drawing.Drawing2D.Matrix" />.
             </returns>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.order">
+            <summary>
+            Gets or sets the order.
+            </summary>
+            <value>
+            The order.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.rotateAtPoint">
+            <summary>
+            Gets or sets the rotate at point.
+            </summary>
+            <value>
+            The rotate at point.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.scaleX">
+            <summary>
+            Gets or sets the scale x.
+            </summary>
+            <value>
+            The scale x.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.scaleY">
+            <summary>
+            Gets or sets the scale y.
+            </summary>
+            <value>
+            The scale y.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.shearX">
+            <summary>
+            Gets or sets the shear x.
+            </summary>
+            <value>
+            The shear x.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.shearY">
+            <summary>
+            Gets or sets the shear y.
+            </summary>
+            <value>
+            The shear y.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.transformPoints">
+            <summary>
+            Gets or sets the transform points.
+            </summary>
+            <value>
+            The transform points.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.transformVectors">
+            <summary>
+            Gets or sets the transform vectors.
+            </summary>
+            <value>
+            The transform vectors.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Drawing2D.Matrix.vectorTransformPoints">
+            <summary>
+            Gets or sets the vector transform points.
+            </summary>
+            <value>
+            The vector transform points.
+            </value>
         </member>
         <member name="M:System.Drawing.Drawing2D.Matrix.Clone">
             <summary>
@@ -3426,6 +3914,14 @@
             <see cref="T:System.Drawing.Drawing2D.Matrix" /> identical to this
             <see cref="T:System.Drawing.Drawing2D.Matrix" />; otherwise,
             <see langword="false" />.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.Drawing2D.Matrix.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
             </returns>
         </member>
         <member name="M:System.Drawing.Drawing2D.Matrix.Invert">
@@ -4133,19 +4629,367 @@
         </member>
         <member name="T:System.Drawing.GtkImageConverter">
             <summary>
-            GtkImageConverter is a class that provides a type converter to convert Gtk images to and from various other representations, such as byte arrays and strings. It inherits from the System.ComponentModel.TypeConverter class and overrides methods to specify the types it can convert from and to, as well as the actual conversion logic. This allows Gtk images to be easily converted for use in different contexts, such as serialization or display in user interfaces.
+            GtkImageConverter is a class that provides a type converter to convert Gtk images to and from various other representations,
+            such as byte arrays and strings. It inherits from <see cref="T:System.ComponentModel.TypeConverter"/> and overrides methods
+            to specify the types it can convert from and to, as well as the actual conversion logic.
             </summary>
             <seealso cref="T:System.ComponentModel.TypeConverter" />
         </member>
+        <member name="M:System.Drawing.GtkImageConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Returns whether this converter can convert an object of the given source type to the converter's native type.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.GtkImageConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Returns whether this converter can convert the converter's native type to the specified destination type.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.GtkImageConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            Attempts to convert the specified value object to the converter's native type.
+            For now this forwards to the base implementation.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.GtkImageConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <summary>
+            Attempts to convert the specified value object to the requested destination type.
+            For now this returns the incoming value unchanged.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.GtkImageConverter.GetProperties(System.ComponentModel.ITypeDescriptorContext,System.Object,System.Attribute[])">
+            <summary>
+            Returns a collection of properties for the type of object specified by the value parameter.
+            This implementation returns the properties of <see cref="T:System.Drawing.Image"/>.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.GtkImageConverter.GetPropertiesSupported(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>
+            Returns whether this object supports properties. Always returns true.
+            </summary>
+        </member>
         <member name="T:System.Drawing.Image">
             <summary>
-            An abstract base class that provides functionality for the
-            <see cref="T:System.Drawing.Bitmap" /> and
-            <see cref="T:System.Drawing.Imaging.Metafile" /> descended classes.
+            An abstract base class that provides functionality for the <see cref="T:System.Drawing.Bitmap"/> and
+            <see cref="T:System.Drawing.Imaging.Metafile"/> descended classes.
             </summary>
-            <filterpriority>
-            1
-            </filterpriority>
+            <filterpriority>1</filterpriority>
+        </member>
+        <member name="M:System.Drawing.Image.#ctor(System.Byte[])">
+            <summary>
+            Initializes a new instance of <see cref="T:System.Drawing.Image"/> from a pixbuf byte buffer.
+            </summary>
+            <param name="pixbuf">The raw pixbuf bytes.</param>
+        </member>
+        <member name="M:System.Drawing.Image.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of <see cref="T:System.Drawing.Image"/> that wraps an existing native image handle.
+            </summary>
+            <param name="nativeImage">Native image handle.</param>
+        </member>
+        <member name="M:System.Drawing.Image.#ctor">
+            <summary>
+            Protected parameterless ctor for derived classes.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Deserialization constructor. Restores image data from serialized info.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.FileName">
+            <summary>
+            Gets or sets the file name associated with this image. Setting the filename loads the image.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.Flags">
+            <summary>
+            Gets image-related flags. Implementation-specific.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.FrameDimensionsList">
+            <summary>
+            Gets the list of frame dimension GUIDs for this image.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.Height">
+            <summary>
+            Gets the image height in pixels.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.HorizontalResolution">
+            <summary>
+            Gets the horizontal resolution in pixels per inch.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.Palette">
+            <summary>
+            Gets the palette for indexed images, if applicable.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.PhysicalDimension">
+            <summary>
+            Gets the physical dimensions of this image in the units of <see cref="T:System.Drawing.SizeF"/>.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.Pixbuf">
+            <summary>
+            Gets or sets the underlying Gdk <see cref="T:Gdk.Pixbuf"/> representation.
+            Setting the property updates the internal pixbuf byte buffer.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.PixbufData">
+            <summary>
+            Gets or sets the raw pixbuf byte buffer for this image.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.PixelFormat">
+            <summary>
+            Gets the pixel format for the image.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.PropertyIdList">
+            <summary>
+            Gets the list of property ids embedded in the image.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.PropertyItems">
+            <summary>
+            Gets the array of property items embedded in the image (EXIF / metadata).
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.RawFormat">
+            <summary>
+            Gets or sets the raw image format (for example Png, Jpeg).
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.Size">
+            <summary>
+            Gets the logical size of the image.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.Tag">
+            <summary>
+            Arbitrary user data slot associated with the image.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.VerticalResolution">
+            <summary>
+            Gets the vertical resolution in pixels per inch.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Image.Width">
+            <summary>
+            Gets the image width in pixels.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.Clone">
+            <summary>
+            Creates a shallow clone of this image. Returned object is a <see cref="T:System.Drawing.Bitmap"/> instance.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.Dispose">
+            <summary>
+            Disposes this image and releases resources.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.FromFile(System.String)">
+            <summary>
+            Loads an image from the specified file.
+            </summary>
+            <param name="filename">Path to the image file.</param>
+        </member>
+        <member name="M:System.Drawing.Image.FromFile(System.String,System.Boolean)">
+            <summary>
+            Loads an image from the specified file.
+            </summary>
+            <param name="filename">Path to the image file.</param>
+            <param name="useEmbeddedColorManagement">Whether to use embedded color management (not used).</param>
+        </member>
+        <member name="M:System.Drawing.Image.FromHbitmap(System.IntPtr)">
+            <summary>
+            Creates a Bitmap from a GDI HBITMAP handle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.FromHbitmap(System.IntPtr,System.IntPtr)">
+            <summary>
+            Creates a Bitmap from a GDI HBITMAP handle and optional palette handle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.FromStream(System.IO.Stream)">
+            <summary>
+            Creates an image from a <see cref="T:System.IO.Stream"/>.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.FromStream(System.IO.Stream,System.Boolean)">
+            <summary>
+            Creates an image from a <see cref="T:System.IO.Stream"/>.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.FromStream(System.IO.Stream,System.Boolean,System.Boolean)">
+            <summary>
+            Creates an image from a <see cref="T:System.IO.Stream"/>.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.GetBounds(System.Drawing.GraphicsUnit@)">
+            <summary>
+            Returns the bounds of the image. The pageUnit is an input/output parameter.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.GetEncoderParameterList(System.Guid)">
+            <summary>
+            Returns encoder parameters supported by the encoder identified by the given GUID.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.GetFrameCount(System.Drawing.Imaging.FrameDimension)">
+            <summary>
+            Returns the number of frames for the specified frame dimension.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.GetPixelFormatSize(System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Returns the pixel format size in bits for the supplied pixel format.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.GetPropertyItem(System.Int32)">
+            <summary>
+            Retrieves a property item by id, or null if not present.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.GetThumbnailImage(System.Int32,System.Int32,System.Drawing.Image.GetThumbnailImageAbort,System.IntPtr)">
+            <summary>
+            Returns a thumbnail image for this image. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.IsAlphaPixelFormat(System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Returns whether the supplied pixel format contains an alpha channel.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.IsCanonicalPixelFormat(System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Returns whether the supplied pixel format is canonical.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.IsExtendedPixelFormat(System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Returns whether the supplied pixel format is extended.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.RemovePropertyItem(System.Int32)">
+            <summary>
+            Removes a property item by id.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.RotateFlip(System.Drawing.RotateFlipType)">
+            <summary>
+            Rotates and/or flips the image.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.Save(System.String)">
+            <summary>
+            Saves the image to the specified filename. The image format is inferred from the extension.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.Save(System.String,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Saves the image to the specified filename using the given image format.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.Save(System.String,System.Drawing.Imaging.ImageCodecInfo,System.Drawing.Imaging.EncoderParameters)">
+            <summary>
+            Saves the image to the specified filename using the provided encoder and parameters.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.Save(System.IO.Stream,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Saves the image to the provided stream using the given format.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.Save(System.IO.Stream,System.Drawing.Imaging.ImageCodecInfo,System.Drawing.Imaging.EncoderParameters)">
+            <summary>
+            Saves the image to the provided stream using the given encoder and encoder parameters.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.SaveAdd(System.Drawing.Imaging.EncoderParameters)">
+            <summary>
+            Appends encoded data to a multi-frame image. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.SaveAdd(System.Drawing.Image,System.Drawing.Imaging.EncoderParameters)">
+            <summary>
+            Appends encoded image to a multi-frame image. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.SelectActiveFrame(System.Drawing.Imaging.FrameDimension,System.Int32)">
+            <summary>
+            Selects the active frame for animated images.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.SetPropertyItem(System.Drawing.Imaging.PropertyItem)">
+            <summary>
+            Sets a property item on the image.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.CreateImageObject(System.IntPtr)">
+            <summary>
+            Factory for constructing an <see cref="T:System.Drawing.Image"/> wrapper from a native handle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.EnsureSave(System.Drawing.Image,System.String,System.IO.Stream)">
+            <summary>
+            Ensures image data is saved to disk. Platform-specific helper (no-op).
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.SetNativeImage(System.IntPtr)">
+            <summary>
+            Sets the native image handle and updates internal pixbuf if the handle maps to a Gdk.Pixbuf.
+            </summary>
+            <param name="handle">Native image handle.</param>
+        </member>
+        <member name="M:System.Drawing.Image.ValidateImage(System.IntPtr)">
+            <summary>
+            Validates a native image handle. No-op placeholder.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serializes this image into <see cref="T:System.Runtime.Serialization.SerializationInfo"/>.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.Dispose(System.Boolean)">
+            <summary>
+            Releases resources used by this image.
+            </summary>
+            <param name="disposing">True when called from Dispose; false from finalizer.</param>
+        </member>
+        <member name="M:System.Drawing.Image.GetImageFormat(System.String)">
+            <summary>
+            Determines image format from file extension and returns the resolved ImageFormat.
+            </summary>
+            <param name="extension">File extension (including the dot), e.g. ".png".</param>
+        </member>
+        <member name="M:System.Drawing.Image.InitializeFromStream(System.IO.Stream)">
+            <summary>
+            Initializes the internal native image from a stream by creating a <see cref="T:Gdk.Pixbuf"/>.
+            </summary>
+            <param name="stream">Stream containing image data.</param>
+            <returns>Native handle for the created pixbuf.</returns>
+        </member>
+        <member name="M:System.Drawing.Image.Save(System.IO.MemoryStream)">
+            <summary>
+            Saves into a memory stream (helper).
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Image.ThrowIfDirectoryDoesntExist(System.String)">
+            <summary>
+            Throws if directory for the specified filename doesn't exist. Placeholder.
+            </summary>
+        </member>
+        <member name="T:System.Drawing.Image.GetThumbnailImageAbort">
+            <summary>
+            Delegate used as callback to abort thumbnail generation.
+            </summary>
         </member>
         <member name="T:System.Drawing.ImageAnimator">
             <summary>
@@ -4214,6 +5058,69 @@
             1
             </filterpriority>
         </member>
+        <member name="M:System.Drawing.ImageConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Returns whether this converter can convert an object of the given type to the type of this converter, using the specified context.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="sourceType">A <see cref="T:System.Type"></see> that represents the type you want to convert from.</param>
+            <returns>
+            true if this converter can perform the conversion; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.ImageConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Returns whether this converter can convert the object to the specified type, using the specified context.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="destinationType">A <see cref="T:System.Type"></see> that represents the type you want to convert to.</param>
+            <returns>
+            true if this converter can perform the conversion; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.ImageConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            Converts the given object to the type of this converter, using the specified context and culture information.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="culture">The <see cref="T:System.Globalization.CultureInfo"></see> to use as the current culture.</param>
+            <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+            <returns>
+            An <see cref="T:System.Object"></see> that represents the converted value.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.ImageConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <summary>
+            Converts the given value object to the specified type, using the specified context and culture information.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="culture">A <see cref="T:System.Globalization.CultureInfo"></see>. If null is passed, the current culture is assumed.</param>
+            <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+            <param name="destinationType">The <see cref="T:System.Type"></see> to convert the value parameter to.</param>
+            <returns>
+            An <see cref="T:System.Object"></see> that represents the converted value.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.ImageConverter.GetProperties(System.ComponentModel.ITypeDescriptorContext,System.Object,System.Attribute[])">
+            <summary>
+            Returns a collection of properties for the type of array specified by the value parameter, using the specified context and attributes.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="value">An <see cref="T:System.Object"></see> that specifies the type of array for which to get properties.</param>
+            <param name="attributes">An array of type <see cref="T:System.Attribute"></see> that is used as a filter.</param>
+            <returns>
+            A <see cref="T:System.ComponentModel.PropertyDescriptorCollection"></see> with the properties that are exposed for this data type, or null if there are no properties.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.ImageConverter.GetPropertiesSupported(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>
+            Returns whether this object supports properties, using the specified context.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <returns>
+            true if <see cref="M:System.ComponentModel.TypeConverter.GetProperties(System.Object)"></see> should be called to find the properties of this object; otherwise, false.
+            </returns>
+        </member>
         <member name="T:System.Drawing.ImageFormatConverter">
             <summary>
             <see cref="T:System.Drawing.ImageFormatConverter" />
@@ -4225,6 +5132,68 @@
             <filterpriority>
             1
             </filterpriority>
+        </member>
+        <member name="M:System.Drawing.ImageFormatConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Returns whether this converter can convert an object of the given type to the type of this converter, using the specified context.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="sourceType">A <see cref="T:System.Type"></see> that represents the type you want to convert from.</param>
+            <returns>
+            true if this converter can perform the conversion; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.ImageFormatConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Returns whether this converter can convert the object to the specified type, using the specified context.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="destinationType">A <see cref="T:System.Type"></see> that represents the type you want to convert to.</param>
+            <returns>
+            true if this converter can perform the conversion; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.ImageFormatConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            Converts the given object to the type of this converter, using the specified context and culture information.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="culture">The <see cref="T:System.Globalization.CultureInfo"></see> to use as the current culture.</param>
+            <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+            <returns>
+            An <see cref="T:System.Object"></see> that represents the converted value.
+            </returns>
+            <exception cref="T:System.FormatException">ImageFormat err</exception>
+        </member>
+        <member name="M:System.Drawing.ImageFormatConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <summary>
+            Converts the given value object to the specified type, using the specified context and culture information.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="culture">A <see cref="T:System.Globalization.CultureInfo"></see>. If null is passed, the current culture is assumed.</param>
+            <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+            <param name="destinationType">The <see cref="T:System.Type"></see> to convert the value parameter to.</param>
+            <returns>
+            An <see cref="T:System.Object"></see> that represents the converted value.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.ImageFormatConverter.GetStandardValues(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>
+            Returns a collection of standard values for the data type this type converter is designed for when provided with a format context.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context that can be used to extract additional information about the environment from which this converter is invoked. This parameter or properties of this parameter can be null.</param>
+            <returns>
+            A <see cref="T:System.ComponentModel.TypeConverter.StandardValuesCollection"></see> that holds a standard set of valid values, or null if the data type does not support a standard set of values.
+            </returns>
+        </member>
+        <member name="M:System.Drawing.ImageFormatConverter.GetStandardValuesSupported(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>
+            Returns whether this object supports a standard set of values that can be picked from a list, using the specified context.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <returns>
+            true if <see cref="M:System.ComponentModel.TypeConverter.GetStandardValues"></see> should be called to find a common set of values the object supports; otherwise, false.
+            </returns>
         </member>
         <member name="T:System.Drawing.RotateFlipType">
             <summary>
@@ -4388,6 +5357,7 @@
             </summary>
             <param name="prototype">The existing System.Drawing.Font from which to create the new System.Drawing.Font.
             </param>
+            <param name="newStyle">The new style.</param>
         </member>
         <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single)">
             <summary>
@@ -4770,6 +5740,13 @@
             <returns>The line spacing, in pixels, of this font.
             </returns>
         </member>
+        <member name="M:System.Drawing.Font.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> with the data needed to serialize the target object.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> to populate with data.</param>
+            <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"></see>) for this serialization.</param>
+        </member>
         <member name="M:System.Drawing.Font.ToHfont">
             <summary>
             Returns a handle to this System.Drawing.Font.
@@ -5028,36 +6005,1282 @@
             1
             </filterpriority>
         </member>
+        <member name="F:System.Drawing.Graphics.context">
+            <summary>
+            The underlying Cairo context used by this Graphics instance.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Graphics.Context">
+            <summary>
+            Global/static current Cairo context for convenience in some operations.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.#ctor(Gtk.Widget,Cairo.Context,Gdk.Rectangle)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Graphics"/> class for the specified widget and context.
+            </summary>
+            <param name="widget">The GTK widget associated with this graphics.</param>
+            <param name="context">The Cairo context to draw with.</param>
+            <param name="rectangle">The drawing rectangle bounds.</param>
+        </member>
+        <member name="M:System.Drawing.Graphics.#ctor(Cairo.Context,Gdk.Rectangle)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Graphics"/> class for the specified context.
+            </summary>
+            <param name="context">The Cairo context to draw with.</param>
+            <param name="rectangle">The drawing rectangle bounds.</param>
+        </member>
+        <member name="P:System.Drawing.Graphics.Clip">
+            <summary>
+            Gets or sets the clipping region for this Graphics object.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.ClipBounds">
+            <summary>
+            Gets the bounds of the clipping region of this Graphics object.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.CompositingMode">
+            <summary>
+            Gets or sets the compositing mode for this Graphics object.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.CompositingQuality">
+            <summary>
+            Gets or sets the compositing quality for this Graphics object.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.DpiX">
+            <summary>
+            Gets the horizontal resolution, in dots per inch.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.DpiY">
+            <summary>
+            Gets the vertical resolution, in dots per inch.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.InterpolationMode">
+            <summary>
+            Gets or sets the interpolation mode used for scaling operations.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.IsClipEmpty">
+            <summary>
+            Gets a value specifying whether the current clipping region is empty.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.IsVisibleClipEmpty">
+            <summary>
+            Gets a value that indicates whether the visible clipping region is empty.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.PageScale">
+            <summary>
+            Gets or sets the scale of the page.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.PageUnit">
+            <summary>
+            Gets or sets the unit of measure used for page coordinates.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.PixelOffsetMode">
+            <summary>
+            Gets or sets the pixel offset mode.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.RenderingOrigin">
+            <summary>
+            Gets or sets the rendering origin.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.SmoothingMode">
+            <summary>
+            Gets or sets the smoothing mode for this Graphics object.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.TextContrast">
+            <summary>
+            Gets or sets the text contrast used by this Graphics object.
+            Not implemented in this wrapper.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.TextRenderingHint">
+            <summary>
+            Gets or sets the text rendering hint.
+            Not implemented in this wrapper.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.Transform">
+            <summary>
+            Gets or sets the transformation matrix for this Graphics object.
+            Not fully implemented in this wrapper.
+            </summary>
+        </member>
+        <member name="P:System.Drawing.Graphics.VisibleClipBounds">
+            <summary>
+            Gets the bounds of the visible clipping region of this Graphics object.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.AddMetafileComment(System.Byte[])">
+            <summary>
+            Adds a comment to a metafile. Not implemented.
+            </summary>
+            <param name="data">Comment data.</param>
+        </member>
+        <member name="M:System.Drawing.Graphics.BeginContainer">
+            <summary>
+            Begins a graphics container. Not implemented.
+            </summary>
+            <returns>A new GraphicsContainer.</returns>
+        </member>
+        <member name="M:System.Drawing.Graphics.BeginContainer(System.Drawing.Rectangle,System.Drawing.Rectangle,System.Drawing.GraphicsUnit)">
+            <summary>
+            Begins a graphics container with the specified source and destination rectangles.
+            Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.BeginContainer(System.Drawing.RectangleF,System.Drawing.RectangleF,System.Drawing.GraphicsUnit)">
+            <summary>
+            Begins a graphics container with floating point rectangles.
+            Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.Clear(System.Drawing.Color)">
+            <summary>
+            Clears the drawing surface with the specified color.
+            </summary>
+            <param name="color">The color to clear with.</param>
+        </member>
+        <member name="M:System.Drawing.Graphics.CopyFromScreen(System.Drawing.Point,System.Drawing.Point,System.Drawing.Size)">
+            <summary>
+            Copies pixels from the screen. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.CopyFromScreen(System.Drawing.Point,System.Drawing.Point,System.Drawing.Size,System.Drawing.CopyPixelOperation)">
+            <summary>
+            Copies pixels from the screen with copy operation. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.CopyFromScreen(System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.Size)">
+            <summary>
+            Copies pixels from the screen. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.CopyFromScreen(System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.Size,System.Drawing.CopyPixelOperation)">
+            <summary>
+            Copies pixels from the screen with copy operation. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.Dispose">
+            <summary>
+            Releases resources used by the Graphics object.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawArc(System.Drawing.Pen,System.Drawing.Rectangle,System.Single,System.Single)">
+            <summary>
+            Draws an arc defined by a rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawArc(System.Drawing.Pen,System.Drawing.RectangleF,System.Single,System.Single)">
+            <summary>
+            Draws an arc defined by a floating-point rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawArc(System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws an arc with integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawArc(System.Drawing.Pen,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws an arc with floating-point coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawBezier(System.Drawing.Pen,System.Drawing.Point,System.Drawing.Point,System.Drawing.Point,System.Drawing.Point)">
+            <summary>
+            Draws a Bezier curve specified by four points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawBezier(System.Drawing.Pen,System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF)">
+            <summary>
+            Draws a Bezier curve specified by four floating-point points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawBezier(System.Drawing.Pen,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws a Bezier curve using explicit coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawBeziers(System.Drawing.Pen,System.Drawing.PointF[])">
+            <summary>
+            Draws a sequence of Bezier curves.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawBeziers(System.Drawing.Pen,System.Drawing.Point[])">
+            <summary>
+            Draws a sequence of Bezier curves from integer points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawClosedCurve(System.Drawing.Pen,System.Drawing.PointF[])">
+            <summary>
+            Draws a closed curve defined by an array of points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawClosedCurve(System.Drawing.Pen,System.Drawing.PointF[],System.Single,System.Drawing.Drawing2D.FillMode)">
+            <summary>
+            Draws a closed curve with specified tension and fill mode.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawClosedCurve(System.Drawing.Pen,System.Drawing.Point[])">
+            <summary>
+            Draws a closed curve from integer points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawClosedCurve(System.Drawing.Pen,System.Drawing.Point[],System.Single,System.Drawing.Drawing2D.FillMode)">
+            <summary>
+            Draws a closed curve from integer points with tension and fill mode.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawCurve(System.Drawing.Pen,System.Drawing.PointF[])">
+            <summary>
+            Draws a cardinal spline through a specified array of points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawCurve(System.Drawing.Pen,System.Drawing.PointF[],System.Int32,System.Int32)">
+            <summary>
+            Draws a cardinal spline with offset and number of segments.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawCurve(System.Drawing.Pen,System.Drawing.PointF[],System.Int32,System.Int32,System.Single)">
+            <summary>
+            Draws a cardinal spline with tension.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawCurve(System.Drawing.Pen,System.Drawing.PointF[],System.Single)">
+            <summary>
+            Draws a cardinal spline with specified tension.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawCurve(System.Drawing.Pen,System.Drawing.Point[])">
+            <summary>
+            Draws a cardinal spline from integer points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawCurve(System.Drawing.Pen,System.Drawing.Point[],System.Int32,System.Int32,System.Single)">
+            <summary>
+            Draws a cardinal spline from integer points with offset, segments and tension.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawCurve(System.Drawing.Pen,System.Drawing.Point[],System.Single)">
+            <summary>
+            Draws a cardinal spline from integer points with tension.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawEllipse(System.Drawing.Pen,System.Drawing.Rectangle)">
+            <summary>
+            Draws an ellipse specified by a rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawEllipse(System.Drawing.Pen,System.Drawing.RectangleF)">
+            <summary>
+            Draws an ellipse specified by a floating-point rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawEllipse(System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws an ellipse with integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawEllipse(System.Drawing.Pen,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws an ellipse with floating-point coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawIcon(System.Drawing.Icon,System.Drawing.Rectangle)">
+            <summary>
+            Draws an icon into the specified rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawIcon(System.Drawing.Icon,System.Int32,System.Int32)">
+            <summary>
+            Draws an icon at the specified position.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawIconUnstretched(System.Drawing.Icon,System.Drawing.Rectangle)">
+            <summary>
+            Draws an icon without stretching into the target rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point)">
+            <summary>
+            Draws the specified image at the given point.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF)">
+            <summary>
+            Draws the specified image at the given floating point location.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[])">
+            <summary>
+            Draws the image into the polygon defined by three destination points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit)">
+            <summary>
+            Draws a portion of an image into destination polygon.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Draws a portion of an image into destination polygon with image attributes.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort)">
+            <summary>
+            Draws a portion of an image into destination polygon with image attributes and abort callback.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)">
+            <summary>
+            Draws a portion of an image into destination polygon with image attributes and callback data.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[])">
+            <summary>
+            Draws an image into the polygon specified by integer points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit)">
+            <summary>
+            Draws a portion of an image into the polygon specified by integer points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Draws a portion of an image into the polygon specified by integer points with image attributes.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort)">
+            <summary>
+            Draws a portion of an image into the polygon specified by integer points with image attributes and abort callback.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)">
+            <summary>
+            Draws a portion of an image into the polygon specified by integer points with image attributes and callback data.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle)">
+            <summary>
+            Draws an image into the specified destination rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Drawing.Rectangle,System.Drawing.GraphicsUnit)">
+            <summary>
+            Draws a portion of an image into the specified destination rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.GraphicsUnit)">
+            <summary>
+            Draws a portion of an image into the specified destination rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Draws a portion of an image into the specified destination rectangle with image attributes.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort)">
+            <summary>
+            Draws a portion of an image into the specified destination rectangle with image attributes and callback.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.IntPtr)">
+            <summary>
+            Draws a portion of an image into the specified destination rectangle with image attributes, callback and callback data.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Single,System.Single,System.Single,System.Single,System.Drawing.GraphicsUnit)">
+            <summary>
+            Draws a portion of an image into the specified destination rectangle using floating point source coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Single,System.Single,System.Single,System.Single,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Draws a portion of an image into the specified destination rectangle using floating point source coordinates with image attributes.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Single,System.Single,System.Single,System.Single,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort)">
+            <summary>
+            Draws a portion of an image into the specified destination rectangle using floating point source coordinates with image attributes and callback.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Single,System.Single,System.Single,System.Single,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.IntPtr)">
+            <summary>
+            Draws a portion of an image into the specified destination rectangle using floating point source coordinates with image attributes, callback and callback data.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.RectangleF)">
+            <summary>
+            Draws an image using a floating-point destination rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.RectangleF,System.Drawing.RectangleF,System.Drawing.GraphicsUnit)">
+            <summary>
+            Draws a portion of an image into a floating-point destination rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Int32,System.Int32)">
+            <summary>
+            Draws an image at the specified integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Int32,System.Int32,System.Drawing.Rectangle,System.Drawing.GraphicsUnit)">
+            <summary>
+            Draws a portion of an image at the specified integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws an image with the specified size.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Single,System.Single)">
+            <summary>
+            Draws an image at the specified floating point location.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Single,System.Single,System.Drawing.RectangleF,System.Drawing.GraphicsUnit)">
+            <summary>
+            Draws a portion of an image with floating point source rectangle at the specified location.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws an image scaled to the specified floating point size.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImageUnscaled(System.Drawing.Image,System.Drawing.Point)">
+            <summary>
+            Draws an image without scaling at a specified point.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImageUnscaled(System.Drawing.Image,System.Drawing.Rectangle)">
+            <summary>
+            Draws an image without scaling into a specified rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImageUnscaled(System.Drawing.Image,System.Int32,System.Int32)">
+            <summary>
+            Draws an image without scaling at the specified coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImageUnscaled(System.Drawing.Image,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws an image without scaling at the specified coordinates with explicit size.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawImageUnscaledAndClipped(System.Drawing.Image,System.Drawing.Rectangle)">
+            <summary>
+            Draws an image unscaled and clipped to the specified rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawLine(System.Drawing.Pen,System.Drawing.Point,System.Drawing.Point)">
+            <summary>
+            Draws a line between two points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawLine(System.Drawing.Pen,System.Drawing.PointF,System.Drawing.PointF)">
+            <summary>
+            Draws a line between two floating-point points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawLine(System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws a line between two integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawLine(System.Drawing.Pen,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws a line between two floating-point coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawLines(System.Drawing.Pen,System.Drawing.PointF[])">
+            <summary>
+            Draws a sequence of connected lines.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawLines(System.Drawing.Pen,System.Drawing.Point[])">
+            <summary>
+            Draws a sequence of connected lines from integer points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawPath(System.Drawing.Pen,System.Drawing.Drawing2D.GraphicsPath)">
+            <summary>
+            Draws the outline of a GraphicsPath.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawPie(System.Drawing.Pen,System.Drawing.Rectangle,System.Single,System.Single)">
+            <summary>
+            Draws a pie defined by a rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawPie(System.Drawing.Pen,System.Drawing.RectangleF,System.Single,System.Single)">
+            <summary>
+            Draws a pie defined by a floating-point rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawPie(System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws a pie with integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawPie(System.Drawing.Pen,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws a pie with floating-point coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawPolygon(System.Drawing.Pen,System.Drawing.PointF[])">
+            <summary>
+            Draws a polygon defined by an array of points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawPolygon(System.Drawing.Pen,System.Drawing.Point[])">
+            <summary>
+            Draws a polygon from integer points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawRectangle(System.Drawing.Pen,System.Drawing.Rectangle)">
+            <summary>
+            Draws a rectangle specified by a Rectangle structure.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawRectangle(System.Drawing.Pen,System.Drawing.RectangleF)">
+            <summary>
+            Draws a rectangle specified by a RectangleF structure.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawRectangle(System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws a rectangle with integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawRectangle(System.Drawing.Pen,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws a rectangle with floating-point coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawRectangles(System.Drawing.Pen,System.Drawing.RectangleF[])">
+            <summary>
+            Draws multiple rectangles from floating-point rectangles.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawRectangles(System.Drawing.Pen,System.Drawing.Rectangle[])">
+            <summary>
+            Draws multiple rectangles from integer rectangles.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawString(System.String,System.Drawing.Font,System.Drawing.Brush,System.Drawing.PointF)">
+            <summary>
+            Draws the specified string at the given point using the provided font and brush.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawString(System.String,System.Drawing.Font,System.Drawing.Brush,System.Drawing.PointF,System.Drawing.StringFormat)">
+            <summary>
+            Draws the specified string at the given point using the provided font, brush and format.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawString(System.String,System.Drawing.Font,System.Drawing.Brush,System.Drawing.RectangleF)">
+            <summary>
+            Draws the specified string within the specified layout rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawString(System.String,System.Drawing.Font,System.Drawing.Brush,System.Drawing.RectangleF,System.Drawing.StringFormat)">
+            <summary>
+            Draws the specified string within the specified layout rectangle using the given format.
+            </summary>
+            <param name="text">Text to draw.</param>
+            <param name="font">Font to use.</param>
+            <param name="brush">Brush used to draw.</param>
+            <param name="layoutRectangle">Layout rectangle.</param>
+            <param name="format">String format to apply.</param>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawString(System.String,System.Drawing.Font,System.Drawing.Brush,System.Single,System.Single)">
+            <summary>
+            Draws the specified string at the given coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.DrawString(System.String,System.Drawing.Font,System.Drawing.Brush,System.Single,System.Single,System.Drawing.StringFormat)">
+            <summary>
+            Draws the specified string at the given coordinates using a StringFormat.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EndContainer(System.Drawing.Drawing2D.GraphicsContainer)">
+            <summary>
+            Ends a graphics container. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates records in a metafile. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates records in a metafile with callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates records in a metafile with image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates records in a metafile with source rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates records in a metafile with source rectangle and callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point,System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates records in a metafile with source rectangle, callback data and image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates records in a metafile for floating-point destination. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates records in a metafile for floating-point destination with callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates records in a metafile for floating-point destination with image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF,System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates records in a metafile with floating-point source rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF,System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates records in a metafile with floating-point source rectangle and callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF,System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates records in a metafile with floating-point source rectangle, callback data and image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF[],System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates a metafile to destination points. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF[],System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates a metafile to destination points with callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF[],System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates a metafile to destination points with image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates a metafile to destination points with source rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates a metafile to destination points with source rectangle and callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates a metafile to destination points with source rectangle, callback data and image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point[],System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates a metafile to integer destination points. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point[],System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates a metafile to integer destination points with callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point[],System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates a metafile to integer destination points with image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates a metafile to integer destination points with source rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates a metafile to integer destination points with source rectangle and callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates a metafile to integer destination points with source rectangle, callback data and image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Rectangle,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates a metafile into a destination rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Rectangle,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates a metafile into a destination rectangle with callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Rectangle,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates a metafile into a destination rectangle with image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Rectangle,System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates a metafile into a destination rectangle with source rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Rectangle,System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates a metafile into a destination rectangle with source rectangle and callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.Rectangle,System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates a metafile into a destination rectangle with source rectangle, callback data and image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.RectangleF,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates a metafile into a floating-point destination rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.RectangleF,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates a metafile into a floating-point destination rectangle with callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.RectangleF,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates a metafile into a floating-point destination rectangle with image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.RectangleF,System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc)">
+            <summary>
+            Enumerates a metafile into a floating-point destination rectangle with source rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.RectangleF,System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr)">
+            <summary>
+            Enumerates a metafile into a floating-point destination rectangle with source rectangle and callback data. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.EnumerateMetafile(System.Drawing.Imaging.Metafile,System.Drawing.RectangleF,System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Graphics.EnumerateMetafileProc,System.IntPtr,System.Drawing.Imaging.ImageAttributes)">
+            <summary>
+            Enumerates a metafile into a floating-point destination rectangle with source rectangle, callback data and image attributes. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.ExcludeClip(System.Drawing.Rectangle)">
+            <summary>
+            Excludes the specified rectangle from the current clip region. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.ExcludeClip(System.Drawing.Region)">
+            <summary>
+            Excludes the specified region from the current clip region. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillClosedCurve(System.Drawing.Brush,System.Drawing.PointF[])">
+            <summary>
+            Fills a closed curve defined by an array of points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillClosedCurve(System.Drawing.Brush,System.Drawing.PointF[],System.Drawing.Drawing2D.FillMode)">
+            <summary>
+            Fills a closed curve with specified fill mode.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillClosedCurve(System.Drawing.Brush,System.Drawing.PointF[],System.Drawing.Drawing2D.FillMode,System.Single)">
+            <summary>
+            Fills a closed curve with specified fill mode and tension.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillClosedCurve(System.Drawing.Brush,System.Drawing.Point[])">
+            <summary>
+            Fills a closed curve from integer points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillClosedCurve(System.Drawing.Brush,System.Drawing.Point[],System.Drawing.Drawing2D.FillMode)">
+            <summary>
+            Fills a closed curve from integer points with fill mode.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillClosedCurve(System.Drawing.Brush,System.Drawing.Point[],System.Drawing.Drawing2D.FillMode,System.Single)">
+            <summary>
+            Fills a closed curve from integer points with fill mode and tension.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillEllipse(System.Drawing.Brush,System.Drawing.Rectangle)">
+            <summary>
+            Fills an ellipse specified by a rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillEllipse(System.Drawing.Brush,System.Drawing.RectangleF)">
+            <summary>
+            Fills an ellipse specified by a floating-point rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillEllipse(System.Drawing.Brush,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fills an ellipse with integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillEllipse(System.Drawing.Brush,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Fills an ellipse with floating-point coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillPath(System.Drawing.Brush,System.Drawing.Drawing2D.GraphicsPath)">
+            <summary>
+            Fills the interior of a GraphicsPath.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillPie(System.Drawing.Brush,System.Drawing.Rectangle,System.Single,System.Single)">
+            <summary>
+            Fills a pie defined by a rectangle.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillPie(System.Drawing.Brush,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fills a pie with integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillPie(System.Drawing.Brush,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Fills a pie with floating-point coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillPolygon(System.Drawing.Brush,System.Drawing.PointF[])">
+            <summary>
+            Fills a polygon defined by points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillPolygon(System.Drawing.Brush,System.Drawing.PointF[],System.Drawing.Drawing2D.FillMode)">
+            <summary>
+            Fills a polygon defined by points with specified fill mode.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillPolygon(System.Drawing.Brush,System.Drawing.Point[])">
+            <summary>
+            Fills a polygon from integer points.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillPolygon(System.Drawing.Brush,System.Drawing.Point[],System.Drawing.Drawing2D.FillMode)">
+            <summary>
+            Fills a polygon from integer points with specified fill mode.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillRectangle(System.Drawing.Brush,System.Drawing.Rectangle)">
+            <summary>
+            Fills a rectangle specified by a Rectangle structure.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillRectangle(System.Drawing.Brush,System.Drawing.RectangleF)">
+            <summary>
+            Fills a rectangle specified by a RectangleF structure.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillRectangle(System.Drawing.Brush,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fills a rectangle with integer coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillRectangle(System.Drawing.Brush,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Fills a rectangle with floating-point coordinates.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillRectangles(System.Drawing.Brush,System.Drawing.RectangleF[])">
+            <summary>
+            Fills multiple rectangles defined by floating-point rectangles.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillRectangles(System.Drawing.Brush,System.Drawing.Rectangle[])">
+            <summary>
+            Fills multiple rectangles defined by integer rectangles.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FillRegion(System.Drawing.Brush,System.Drawing.Region)">
+            <summary>
+            Fills the interior of the specified region. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.Flush">
+            <summary>
+            Flushes any pending drawing operations.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.Flush(System.Drawing.Drawing2D.FlushIntention)">
+            <summary>
+            Flushes any pending drawing operations with the given intention.
+            </summary>
+            <param name="intention">The flush intention.</param>
+        </member>
+        <member name="M:System.Drawing.Graphics.FromHdc(System.IntPtr)">
+            <summary>
+            Creates a Graphics object from a device context handle. Not implemented.
+            </summary>
+            <param name="hdc">Device context handle.</param>
+        </member>
+        <member name="M:System.Drawing.Graphics.FromHdc(System.IntPtr,System.IntPtr)">
+            <summary>
+            Creates a Graphics object from a device context handle and device handle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FromHdcInternal(System.IntPtr)">
+            <summary>
+            Internal helper to create a Graphics object from HDC. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FromHwnd(System.IntPtr)">
+            <summary>
+            Creates a Graphics object from a window handle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.FromHwndInternal(System.IntPtr)">
+            <summary>
+            Internal helper to create a Graphics object from a window handle. Not implemented.
+            </summary>
+        </member>
         <member name="M:System.Drawing.Graphics.FromImage(System.Drawing.Image)">
             <summary>
-            This method must be executed before useFlush() method outputImage
+            This method must be executed before useFlush() method outputImage.
+            Prepare a Graphics instance for drawing into an Image.
             </summary>
-            <param name="image">
-            </param>
-            <returns>
-            </returns>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-            </exception>
+            <param name="image">The target Image to draw into.</param>
+            <returns>A Graphics object that draws into the provided image.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when image dimensions are invalid.</exception>
+        </member>
+        <member name="M:System.Drawing.Graphics.GetContextInfo">
+            <summary>
+            Returns the underlying context info object. Exposed for advanced uses.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.GetHalftonePalette">
+            <summary>
+            Gets the halftone palette. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.GetHdc">
+            <summary>
+            Returns a handle to the device context for this Graphics object. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.GetNearestColor(System.Drawing.Color)">
+            <summary>
+            Returns the nearest color available in the palette. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IntersectClip(System.Drawing.Rectangle)">
+            <summary>
+            Intersects the clip region with the specified rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IntersectClip(System.Drawing.RectangleF)">
+            <summary>
+            Intersects the clip region with the specified floating-point rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IntersectClip(System.Drawing.Region)">
+            <summary>
+            Intersects the clip region with the specified region. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IsVisible(System.Drawing.Point)">
+            <summary>
+            Determines whether the specified point is contained within the visible clip region. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IsVisible(System.Drawing.PointF)">
+            <summary>
+            Determines whether the specified floating-point point is contained within the visible clip region. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IsVisible(System.Drawing.Rectangle)">
+            <summary>
+            Determines whether the specified rectangle is contained within the visible clip region. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IsVisible(System.Drawing.RectangleF)">
+            <summary>
+            Determines whether the specified floating-point rectangle is contained within the visible clip region. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IsVisible(System.Int32,System.Int32)">
+            <summary>
+            Determines whether the specified coordinates are visible. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IsVisible(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Determines whether the specified integer rectangle is visible. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IsVisible(System.Single,System.Single)">
+            <summary>
+            Determines whether the specified floating point coordinates are visible. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.IsVisible(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Determines whether the specified floating point rectangle is visible. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)">
+            <summary>
+            Measures character ranges for the specified text. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MeasureString(System.String,System.Drawing.Font)">
+            <summary>
+            Measures the specified string. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MeasureString(System.String,System.Drawing.Font,System.Drawing.PointF,System.Drawing.StringFormat)">
+            <summary>
+            Measures the specified string using an origin and format. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MeasureString(System.String,System.Drawing.Font,System.Drawing.SizeF)">
+            <summary>
+            Measures the specified string within a layout area. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MeasureString(System.String,System.Drawing.Font,System.Drawing.SizeF,System.Drawing.StringFormat)">
+            <summary>
+            Measures the specified string within a layout area and format. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MeasureString(System.String,System.Drawing.Font,System.Drawing.SizeF,System.Drawing.StringFormat,System.Int32@,System.Int32@)">
+            <summary>
+            Measures the specified string and returns fitted characters and lines. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MeasureString(System.String,System.Drawing.Font,System.Int32)">
+            <summary>
+            Measures a string to fit a width using the specified format.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MeasureString(System.String,System.Drawing.Font,System.Int32,System.Drawing.StringFormat)">
+            <summary>
+            Measures a string to fit a width using the specified format.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MultiplyTransform(System.Drawing.Drawing2D.Matrix)">
+            <summary>
+            Multiplies the current transform by the specified matrix.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.MultiplyTransform(System.Drawing.Drawing2D.Matrix,System.Drawing.Drawing2D.MatrixOrder)">
+            <summary>
+            Multiplies the current transform by the specified matrix with the given order.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.ReleaseHdc">
+            <summary>
+            Releases a device context handle obtained by GetHdc. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.ReleaseHdc(System.IntPtr)">
+            <summary>
+            Releases the specified device context handle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.ReleaseHdcInternal(System.IntPtr)">
+            <summary>
+            Internal helper to release HDC. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.ResetClip">
+            <summary>
+            Resets the clipping region to infinite.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.ResetTransform">
+            <summary>
+            Resets the transform applied to the context.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.Restore(System.Drawing.Drawing2D.GraphicsState)">
+            <summary>
+            Restores the graphics state from a saved state.
+            </summary>
+            <param name="gstate">Graphics state to restore.</param>
+        </member>
+        <member name="M:System.Drawing.Graphics.RotateTransform(System.Single)">
+            <summary>
+            Rotates the drawing context by the specified angle.
+            </summary>
+            <param name="angle">Angle in degrees.</param>
+        </member>
+        <member name="M:System.Drawing.Graphics.RotateTransform(System.Single,System.Drawing.Drawing2D.MatrixOrder)">
+            <summary>
+            Rotates the drawing context by the specified angle with the given matrix order.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.Save">
+            <summary>
+            Saves the current graphics state.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.ScaleTransform(System.Single,System.Single)">
+            <summary>
+            Scales the drawing context.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.ScaleTransform(System.Single,System.Single,System.Drawing.Drawing2D.MatrixOrder)">
+            <summary>
+            Scales the drawing context with the given order.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetClip(System.Drawing.Drawing2D.GraphicsPath)">
+            <summary>
+            Sets the clipping region to the specified path. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetClip(System.Drawing.Drawing2D.GraphicsPath,System.Drawing.Drawing2D.CombineMode)">
+            <summary>
+            Sets the clipping region to the specified path with combine mode. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetClip(System.Drawing.Graphics)">
+            <summary>
+            Sets the clipping region from another Graphics object. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetClip(System.Drawing.Graphics,System.Drawing.Drawing2D.CombineMode)">
+            <summary>
+            Sets the clipping region from another Graphics object with combine mode. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetClip(System.Drawing.Rectangle)">
+            <summary>
+            Sets the clipping region to the specified rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetClip(System.Drawing.Rectangle,System.Drawing.Drawing2D.CombineMode)">
+            <summary>
+            Sets the clipping region to the specified rectangle with combine mode. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetClip(System.Drawing.RectangleF)">
+            <summary>
+            Sets the clipping region to the specified floating-point rectangle. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetClip(System.Drawing.RectangleF,System.Drawing.Drawing2D.CombineMode)">
+            <summary>
+            Sets the clipping region to the specified floating-point rectangle with combine mode. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetClip(System.Drawing.Region,System.Drawing.Drawing2D.CombineMode)">
+            <summary>
+            Sets the clipping region to the specified region with combine mode. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.TransformPoints(System.Drawing.Drawing2D.CoordinateSpace,System.Drawing.Drawing2D.CoordinateSpace,System.Drawing.PointF[])">
+            <summary>
+            Transforms points between coordinate spaces. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.TransformPoints(System.Drawing.Drawing2D.CoordinateSpace,System.Drawing.Drawing2D.CoordinateSpace,System.Drawing.Point[])">
+            <summary>
+            Transforms points between coordinate spaces. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.TranslateClip(System.Int32,System.Int32)">
+            <summary>
+            Translates the clip region by the specified integer amounts. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.TranslateClip(System.Single,System.Single)">
+            <summary>
+            Translates the clip region by the specified floating point amounts. Not implemented.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.TranslateTransform(System.Single,System.Single)">
+            <summary>
+            Translates the drawing origin by the specified amounts.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.TranslateTransform(System.Single,System.Single,System.Drawing.Drawing2D.MatrixOrder)">
+            <summary>
+            Translates the drawing origin by the specified amounts with matrix order.
+            </summary>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetSourcePen(System.Drawing.Pen,System.Boolean)">
+            <summary>
+            Sets the source (brush/pen) on the Cairo context based on the given pen.
+            Internal use only.
+            </summary>
+            <param name="pen">Pen to convert to Cairo source.</param>
+            <param name="isfill">Whether the source is used for fills.</param>
+        </member>
+        <member name="M:System.Drawing.Graphics.SetTranslateWithDifference(System.Double,System.Double)">
+            <summary>
+            Translates the Cairo context by the given coordinates plus any stored differences.
+            Internal use only.
+            </summary>
         </member>
         <member name="M:System.Drawing.Graphics.CalculateBezier(System.Collections.Generic.List{System.Drawing.PointF},System.Single)">
             <summary>
-            Calculate the position of a single coordinate point on the Bézier curve
+            Calculate the position of a single coordinate point on the Bézier curve.
             </summary>
-            <param name="points">贝塞尔条件坐标集合
-            </param>
-            <param name="time">Time factor
-            </param>
-            <returns>
-            </returns>
+            <param name="points">List of control points.</param>
+            <param name="time">Interpolation parameter, between 0 and 1.</param>
+            <returns>A list containing the calculated point(s) for the specified time.</returns>
         </member>
         <member name="M:System.Drawing.Graphics.GetBezierPoints(System.Collections.Generic.List{System.Drawing.PointF})">
             <summary>
-            Collect the positions of all coordinate points on the Bézier curve
+            Collect the positions of all coordinate points on the Bézier curve.
             </summary>
-            <param name="points">
-            </param>
-            <returns>
-            </returns>
+            <param name="points">Control points for the Bezier curve.</param>
+            <returns>List of points along the Bezier curve.</returns>
+        </member>
+        <member name="T:System.Drawing.Graphics.DrawImageAbort">
+            <summary>
+            Delegate used to optionally abort image drawing.
+            </summary>
+            <param name="callbackdata">Callback data pointer.</param>
+            <returns>True to continue, false to abort.</returns>
+        </member>
+        <member name="T:System.Drawing.Graphics.EnumerateMetafileProc">
+            <summary>
+            Delegate used when enumerating metafile records.
+            </summary>
         </member>
         <member name="T:System.Drawing.GraphicsUnit">
             <summary>
@@ -5110,6 +7333,12 @@
             <filterpriority>
             1
             </filterpriority>
+        </member>
+        <member name="M:System.Drawing.Icon.#ctor(System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Drawing.Icon"/> class.
+            </summary>
+            <param name="bytes">The bytes.</param>
         </member>
         <member name="M:System.Drawing.Icon.#ctor(System.Drawing.Icon,System.Drawing.Size)">
             <summary>
@@ -5206,8 +7435,7 @@
             <param name="size">The desired size of the icon.
             </param>
             <exception cref="T:System.ArgumentException">The
-            <paramref name="string" /> is
-            <see langword="null" /> or does not contain image data.
+            string is <see langword="null" /> or does not contain image data.
             </exception>
         </member>
         <member name="M:System.Drawing.Icon.#ctor(System.String,System.Int32,System.Int32)">
@@ -5225,8 +7453,7 @@
             <see cref="T:System.Drawing.Icon" />.
             </param>
             <exception cref="T:System.ArgumentException">The
-            <paramref name="string" /> is
-            <see langword="null" /> or does not contain image data.
+            string is <see langword="null" /> or does not contain image data.
             </exception>
         </member>
         <member name="M:System.Drawing.Icon.#ctor(System.Type,System.String)">
@@ -5244,6 +7471,22 @@
             <paramref name="type" />.
             </exception>
         </member>
+        <member name="P:System.Drawing.Icon.FileName">
+            <summary>
+            Gets or sets the name of the file.
+            </summary>
+            <value>
+            The name of the file.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Icon.Handle">
+            <summary>
+            Gets the handle.
+            </summary>
+            <value>
+            The handle.
+            </value>
+        </member>
         <member name="P:System.Drawing.Icon.Height">
             <summary>
             Gets the height of this
@@ -5252,6 +7495,22 @@
             <returns>The height of this
             <see cref="T:System.Drawing.Icon" />.
             </returns>
+        </member>
+        <member name="P:System.Drawing.Icon.Pixbuf">
+            <summary>
+            Gets or sets the pixbuf.
+            </summary>
+            <value>
+            The pixbuf.
+            </value>
+        </member>
+        <member name="P:System.Drawing.Icon.PixbufData">
+            <summary>
+            Gets or sets the pixbuf data.
+            </summary>
+            <value>
+            The pixbuf data.
+            </value>
         </member>
         <member name="P:System.Drawing.Icon.Size">
             <summary>
@@ -6923,55 +9182,55 @@
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.FillRects">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.FillRectangles" /> methods.
+            <see cref="T:System.Drawing.Graphics.FillRectangles" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawRects">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawRectangles" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawRectangles" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.FillPolygon">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.FillPolygon" /> methods.
+            <see cref="T:System.Drawing.Graphics.FillPolygon" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawLines">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawLines" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawLines" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.FillEllipse">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.FillEllipse" /> methods.
+            <see cref="T:System.Drawing.Graphics.FillEllipse" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawEllipse">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawEllipse" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawEllipse" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.FillPie">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.FillPie" /> methods.
+            <see cref="T:System.Drawing.Graphics.FillPie" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawPie">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawPie" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawPie" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawArc">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawArc" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawArc" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.FillRegion">
@@ -6995,43 +9254,43 @@
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.FillClosedCurve">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.FillClosedCurve" /> methods.
+            <see cref="T:System.Drawing.Graphics.FillClosedCurve" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawClosedCurve">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawClosedCurve" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawClosedCurve" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawCurve">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawCurve" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawCurve" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawBeziers">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawBeziers" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawBeziers" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawImage">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawImage" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawImage" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawImagePoints">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawImage" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawImage" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawString">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.DrawString" /> methods.
+            <see cref="T:System.Drawing.Graphics.DrawString" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.SetRenderingOrigin">
@@ -7115,7 +9374,7 @@
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.SetWorldTransform">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.TransformPoints" /> methods.
+            <see cref="T:System.Drawing.Graphics.TransformPoints" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.ResetWorldTransform">
@@ -7127,31 +9386,31 @@
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.MultiplyWorldTransform">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.MultiplyTransform" /> methods.
+            <see cref="T:System.Drawing.Graphics.MultiplyTransform" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.TranslateWorldTransform">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.TransformPoints" /> methods.
+            <see cref="T:System.Drawing.Graphics.TransformPoints" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.ScaleWorldTransform">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.ScaleTransform" /> methods.
+            <see cref="T:System.Drawing.Graphics.ScaleTransform" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.RotateWorldTransform">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.RotateTransform" /> methods.
+            <see cref="T:System.Drawing.Graphics.RotateTransform" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.SetPageTransform">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.TransformPoints" /> methods.
+            <see cref="T:System.Drawing.Graphics.TransformPoints" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.ResetClip">
@@ -7163,25 +9422,25 @@
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.SetClipRect">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.SetClip" /> methods.
+            <see cref="T:System.Drawing.Graphics.SetClip" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.SetClipPath">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.SetClip" /> methods.
+            <see cref="T:System.Drawing.Graphics.SetClip" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.SetClipRegion">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.SetClip" /> methods.
+            <see cref="T:System.Drawing.Graphics.SetClip" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.OffsetClip">
             <summary>
             See
-            <see cref="!:Overload:System.Drawing.Graphics.TranslateClip" /> methods.
+            <see cref="T:System.Drawing.Graphics.TranslateClip" /> methods.
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.EmfPlusRecordType.DrawDriverString">
@@ -7244,10 +9503,20 @@
             <see cref="T:System.Drawing.Imaging.Encoder" /> object that is initialized with the globally unique identifier for the color depth parameter category.
             </summary>
         </member>
+        <member name="F:System.Drawing.Imaging.Encoder.ColorSpace">
+            <summary>
+            The color space
+            </summary>
+        </member>
         <member name="F:System.Drawing.Imaging.Encoder.Compression">
             <summary>
             An
             <see cref="T:System.Drawing.Imaging.Encoder" /> object that is initialized with the globally unique identifier for the compression parameter category.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Imaging.Encoder.ImageItems">
+            <summary>
+            The image items
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.Encoder.LuminanceTable">
@@ -7266,6 +9535,11 @@
             <summary>
             Represents an
             <see cref="T:System.Drawing.Imaging.Encoder" /> object that is initialized with the globally unique identifier for the render method parameter category.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Imaging.Encoder.SaveAsCmyk">
+            <summary>
+            The save as cmyk
             </summary>
         </member>
         <member name="F:System.Drawing.Imaging.Encoder.SaveFlag">
@@ -7643,7 +9917,7 @@
             <see cref="P:System.Drawing.Imaging.EncoderParameter.ValueType" /> properties are set to this value.
             </param>
             <param name="value">A pointer to an array of values of the type specified by the
-            <paramref name="Type" /> parameter.
+            <paramref name="type" /> parameter.
             </param>
         </member>
         <member name="P:System.Drawing.Imaging.EncoderParameter.Encoder">
@@ -7784,6 +10058,11 @@
         <member name="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypeRationalRange">
             <summary>
             Specifies that each value in the array is a set of four, 32-bit unsigned integers. The first two integers represent one fraction, and the second two integers represent a second fraction. The two fractions represent a range of rational numbers. The first fraction is the smallest rational number in the range, and the second fraction is the largest rational number in the range.
+            </summary>
+        </member>
+        <member name="F:System.Drawing.Imaging.EncoderParameterValueType.ValueTypePointer">
+            <summary>
+            The value type pointer
             </summary>
         </member>
         <member name="T:System.Drawing.Imaging.EncoderValue">
@@ -8259,15 +10538,15 @@
         <member name="M:System.Drawing.Imaging.ImageAttributes.SetNoOp">
             <summary>
             Turns off color adjustment for the default category. You can call the
-            <see cref="!:Overload:System.Drawing.Imaging.ImageAttributes.ClearNoOp" /> method to reinstate the color-adjustment settings that were in place before the call to the
-            <see cref="!:Overload:System.Drawing.Imaging.ImageAttributes.SetNoOp" /> method.
+            <see cref="T:System.Drawing.Imaging.ImageAttributes.ClearNoOp" /> method to reinstate the color-adjustment settings that were in place before the call to the
+            <see cref="T:System.Drawing.Imaging.ImageAttributes.SetNoOp" /> method.
             </summary>
         </member>
         <member name="M:System.Drawing.Imaging.ImageAttributes.SetNoOp(System.Drawing.Imaging.ColorAdjustType)">
             <summary>
             Turns off color adjustment for a specified category. You can call the
-            <see cref="!:Overload:System.Drawing.Imaging.ImageAttributes.ClearNoOp" /> method to reinstate the color-adjustment settings that were in place before the call to the
-            <see cref="!:Overload:System.Drawing.Imaging.ImageAttributes.SetNoOp" /> method.
+            <see cref="T:System.Drawing.Imaging.ImageAttributes.ClearNoOp" /> method to reinstate the color-adjustment settings that were in place before the call to the
+            <see cref="T:System.Drawing.Imaging.ImageAttributes.SetNoOp" /> method.
             </summary>
             <param name="type">An element of
             <see cref="T:System.Drawing.Imaging.ColorAdjustType" /> that specifies the category for which color correction is turned off.
@@ -8363,7 +10642,7 @@
             <param name="color">An
             <see cref="T:System.Drawing.Imaging.ImageAttributes" /> object that specifies the color of pixels outside of a rendered image. This color is visible if the mode parameter is set to
             <see cref="F:System.Drawing.Drawing2D.WrapMode.Clamp" /> and the source rectangle passed to
-            <see cref="!:Overload:System.Drawing.Graphics.DrawImage" /> is larger than the image itself.
+            <see cref="T:System.Drawing.Graphics.DrawImage" /> is larger than the image itself.
             </param>
         </member>
         <member name="M:System.Drawing.Imaging.ImageAttributes.SetWrapMode(System.Drawing.Drawing2D.WrapMode,System.Drawing.Color,System.Boolean)">
@@ -8375,7 +10654,7 @@
             </param>
             <param name="color">A color object that specifies the color of pixels outside of a rendered image. This color is visible if the mode parameter is set to
             <see cref="F:System.Drawing.Drawing2D.WrapMode.Clamp" /> and the source rectangle passed to
-            <see cref="!:Overload:System.Drawing.Graphics.DrawImage" /> is larger than the image itself.
+            <see cref="T:System.Drawing.Graphics.DrawImage" /> is larger than the image itself.
             </param>
             <param name="clamp">This parameter has no effect. Set it to
             <see langword="false" />.
@@ -8677,6 +10956,14 @@
             <see cref="T:System.Drawing.Imaging.ImageFormat" /> object.
             </returns>
         </member>
+        <member name="P:System.Drawing.Imaging.ImageFormat.Heif">
+            <summary>
+            Gets the heif.
+            </summary>
+            <value>
+            The heif.
+            </value>
+        </member>
         <member name="P:System.Drawing.Imaging.ImageFormat.Icon">
             <summary>
             Gets the Windows icon image format.
@@ -8716,6 +11003,14 @@
             <returns>An
             <see cref="T:System.Drawing.Imaging.ImageFormat" /> object that indicates the TIFF image format.
             </returns>
+        </member>
+        <member name="P:System.Drawing.Imaging.ImageFormat.Webp">
+            <summary>
+            Gets the webp.
+            </summary>
+            <value>
+            The webp.
+            </value>
         </member>
         <member name="P:System.Drawing.Imaging.ImageFormat.Wmf">
             <summary>
@@ -8782,10 +11077,7 @@
         </member>
         <member name="F:System.Drawing.Imaging.ImageLockMode.UserInputBuffer">
             <summary>
-            Specifies that the buffer used for reading or writing pixel data is allocated by the user. If this flag is set, the
-            <paramref name="flags" /> parameter of the
-            <see cref="!:Overload:System.Drawing.Bitmap.LockBits" /> method serves as an input parameter (and possibly as an output parameter). If this flag is cleared, then the
-            <paramref name="flags" /> parameter serves only as an output parameter.
+            Specifies that the buffer used for reading or writing pixel data is allocated by the user.
             </summary>
         </member>
         <member name="T:System.Drawing.Imaging.Metafile">
@@ -12390,7 +14682,7 @@
             </summary>
             <param name="path">The
             <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> to
-            <see cref="!:Overload:System.Drawing.Region.Xor" /> with this
+            <see cref="T:System.Drawing.Region.Xor" /> with this
             <see cref="T:System.Drawing.Region" />.
             </param>
             <exception cref="T:System.ArgumentNullException">
@@ -12406,7 +14698,7 @@
             </summary>
             <param name="rect">The
             <see cref="T:System.Drawing.Rectangle" /> structure to
-            <see cref="!:Overload:System.Drawing.Region.Xor" /> with this
+            <see cref="T:System.Drawing.Region.Xor" /> with this
             <see cref="T:System.Drawing.Region" />.
             </param>
         </member>
@@ -12430,7 +14722,7 @@
             </summary>
             <param name="region">The
             <see cref="T:System.Drawing.Region" /> to
-            <see cref="!:Overload:System.Drawing.Region.Xor" /> with this
+            <see cref="T:System.Drawing.Region.Xor" /> with this
             <see cref="T:System.Drawing.Region" />.
             </param>
             <exception cref="T:System.ArgumentNullException">
@@ -12476,6 +14768,14 @@
             <returns>The
             <see cref="T:System.Drawing.SolidBrush" /> object that this method creates.
             </returns>
+        </member>
+        <member name="M:System.Drawing.SolidBrush.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the
+            <see cref="T:System.Drawing.Brush" /> and optionally releases the managed resources.
+            </summary>
+            <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources;
+            <see langword="false" /> to release only unmanaged resources.</param>
         </member>
         <member name="T:System.Drawing.StringAlignment">
             <summary>
@@ -12783,7 +15083,7 @@
         <member name="F:System.Drawing.StringFormatFlags.MeasureTrailingSpaces">
             <summary>
             Includes the trailing space at the end of each line. By default the boundary rectangle returned by the
-            <see cref="!:Overload:System.Drawing.Graphics.MeasureString" /> method excludes the space at the end of each line. Set this flag to include that space in measurement.
+            <see cref="T:System.Drawing.Graphics.MeasureString" /> method excludes the space at the end of each line. Set this flag to include that space in measurement.
             </summary>
         </member>
         <member name="F:System.Drawing.StringFormatFlags.NoWrap">

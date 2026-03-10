@@ -19,32 +19,68 @@ namespace System.Windows.Forms
     public partial class CheckBox : Control
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly CheckBoxBase self = new CheckBoxBase();
 
+        /// <summary>
+        /// Occurs when checked is changed.
+        /// </summary>
         public event EventHandler CheckedChanged;
 
+        /// <summary>
+        /// Occurs when the check state is changed.
+        /// </summary>
         public virtual event EventHandler CheckStateChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CheckBox"/> class.
+        /// </summary>
         public CheckBox()
         {
             self.Toggled += Self_Toggled;
             self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="CheckBox"/> is checked.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if checked; otherwise, <c>false</c>.
+        /// </value>
         public bool Checked
         {
             get { return self.Active; }
             set { self.Active = value; if (self.IsRealized) { self.Inconsistent = false; } }
         }
 
+        /// <summary>
+        /// Gets or sets the state of the check.
+        /// </summary>
+        /// <value>
+        /// The state of the check.
+        /// </value>
         public CheckState CheckState
         {
             get { if (self.Inconsistent == true) { return CheckState.Indeterminate; } else { return self.Active ? CheckState.Checked : CheckState.Unchecked; } }
             set { self.Inconsistent = value == CheckState.Indeterminate; self.Active = value == CheckState.Checked; }
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>
+        /// The GTK control.
+        /// </value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>
+        /// The text.
+        /// </value>
         public override string Text { get { return self.Label; } set { self.Label = value; } }
 
         private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)

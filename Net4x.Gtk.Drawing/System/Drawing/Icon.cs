@@ -19,6 +19,10 @@ namespace System.Drawing
 
         private byte[] _PixbufData;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Icon"/> class.
+        /// </summary>
+        /// <param name="bytes">The bytes.</param>
         public Icon(byte[] bytes)
         {
             if (bytes != null)
@@ -148,8 +152,7 @@ namespace System.Drawing
         /// <param name="size">The desired size of the icon.
         /// </param>
         /// <exception cref="T:System.ArgumentException">The
-        /// <paramref name="string" /> is
-        /// <see langword="null" /> or does not contain image data.
+        /// string is <see langword="null" /> or does not contain image data.
         /// </exception>
         public Icon(string fileName, Size size) : this(fileName, size.Width, size.Height)
         {
@@ -169,8 +172,7 @@ namespace System.Drawing
         /// <see cref="T:System.Drawing.Icon" />.
         /// </param>
         /// <exception cref="T:System.ArgumentException">The
-        /// <paramref name="string" /> is
-        /// <see langword="null" /> or does not contain image data.
+        /// string is <see langword="null" /> or does not contain image data.
         /// </exception>
         public Icon(string fileName, int width, int height)
         {
@@ -217,8 +219,20 @@ namespace System.Drawing
 
         }
 
+        /// <summary>
+        /// Gets or sets the name of the file.
+        /// </summary>
+        /// <value>
+        /// The name of the file.
+        /// </value>
         public string FileName { get; set; }
 
+        /// <summary>
+        /// Gets the handle.
+        /// </summary>
+        /// <value>
+        /// The handle.
+        /// </value>
         [Browsable(false)]
         public IntPtr Handle
         {
@@ -240,6 +254,12 @@ namespace System.Drawing
             private set;
         }
 
+        /// <summary>
+        /// Gets or sets the pixbuf.
+        /// </summary>
+        /// <value>
+        /// The pixbuf.
+        /// </value>
         public Gdk.Pixbuf Pixbuf
         {
             get
@@ -251,6 +271,12 @@ namespace System.Drawing
             set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
         }
 
+        /// <summary>
+        /// Gets or sets the pixbuf data.
+        /// </summary>
+        /// <value>
+        /// The pixbuf data.
+        /// </value>
         public byte[] PixbufData
         {
             get

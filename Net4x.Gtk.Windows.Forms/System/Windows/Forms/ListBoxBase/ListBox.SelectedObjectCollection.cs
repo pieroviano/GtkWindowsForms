@@ -9,19 +9,43 @@ namespace System.Windows.Forms
 
     public partial class ListBox
     {
+        /// <summary>
+        /// Class SelectedObjectCollection.
+        /// Implements the <see cref="IList" />
+        /// </summary>
+        /// <seealso cref="IList" />
         public class SelectedObjectCollection : IList
         {
             // This is the bitmask used within ItemArray to identify selected objects.
+            /// <summary>
+            /// The selected object mask
+            /// </summary>
             internal static int SelectedObjectMask = ItemArray.CreateMask();
 
+            /// <summary>
+            /// The count
+            /// </summary>
             private int _count;
 
+            /// <summary>
+            /// The last version
+            /// </summary>
             private int _lastVersion;
 
+            /// <summary>
+            /// The owner
+            /// </summary>
             private readonly ListBox _owner;
 
+            /// <summary>
+            /// The state dirty
+            /// </summary>
             private bool _stateDirty;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SelectedObjectCollection"/> class.
+            /// </summary>
+            /// <param name="owner">The owner.</param>
             public SelectedObjectCollection(ListBox owner)
             {
                 _owner = owner;
@@ -32,6 +56,7 @@ namespace System.Windows.Forms
             /// <summary>
             /// Number of current selected items.
             /// </summary>
+            /// <value>The count.</value>
             public int Count
             {
                 get
@@ -71,6 +96,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets a value indicating whether the <see cref="T:System.Collections.IList"></see> is read-only.
+            /// </summary>
+            /// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
             public bool IsReadOnly
             {
                 get
@@ -79,6 +108,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets a value indicating whether the <see cref="T:System.Collections.IList"></see> has a fixed size.
+            /// </summary>
+            /// <value><c>true</c> if this instance is fixed size; otherwise, <c>false</c>.</value>
             bool IList.IsFixedSize
             {
                 get
@@ -87,6 +120,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"></see> is synchronized (thread safe).
+            /// </summary>
+            /// <value><c>true</c> if this instance is synchronized; otherwise, <c>false</c>.</value>
             bool ICollection.IsSynchronized
             {
                 get
@@ -95,6 +132,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"></see>.
+            /// </summary>
+            /// <value>The synchronize root.</value>
             object ICollection.SyncRoot
             {
                 get
@@ -107,6 +148,7 @@ namespace System.Windows.Forms
             /// This is the item array that stores our data.  We share this backing store
             /// with the main object collection.
             /// </summary>
+            /// <value>The inner array.</value>
             private ItemArray InnerArray
             {
                 get
@@ -120,6 +162,9 @@ namespace System.Windows.Forms
             /// <summary>
             /// Retrieves the specified selected item.
             /// </summary>
+            /// <param name="index">The index.</param>
+            /// <returns>System.Nullable.</returns>
+            /// <exception cref="System.NotSupportedException">SR.ListBoxSelectedObjectCollectionIsReadOnly</exception>
             [Browsable(false)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public object? this[int index]
@@ -134,6 +179,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Adds the specified value.
+            /// </summary>
+            /// <param name="value">The value.</param>
             public void Add(object value)
             {
                 if (_owner != null)
@@ -150,16 +199,29 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Removes all items from the <see cref="T:System.Collections.IList"></see>.
+            /// </summary>
             public void Clear()
             {
                 _owner?.ClearSelected();
             }
 
+            /// <summary>
+            /// Determines whether this instance contains the object.
+            /// </summary>
+            /// <param name="selectedObject">The selected object.</param>
+            /// <returns><c>true</c> if [contains] [the specified selected object]; otherwise, <c>false</c>.</returns>
             public bool Contains(object? selectedObject)
             {
                 return IndexOf(selectedObject) != -1;
             }
 
+            /// <summary>
+            /// Copies to.
+            /// </summary>
+            /// <param name="destination">The destination.</param>
+            /// <param name="index">The index.</param>
             public void CopyTo(Array destination, int index)
             {
                 int cnt = InnerArray.GetCount(SelectedObjectMask);
@@ -169,16 +231,29 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Returns an enumerator that iterates through a collection.
+            /// </summary>
+            /// <returns>An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate through the collection.</returns>
             public IEnumerator GetEnumerator()
             {
                 return InnerArray.GetEnumerator(SelectedObjectMask);
             }
 
+            /// <summary>
+            /// Indexes the of.
+            /// </summary>
+            /// <param name="selectedObject">The selected object.</param>
+            /// <returns>System.Int32.</returns>
             public int IndexOf(object? selectedObject)
             {
                 return selectedObject is null ? -1 : InnerArray.IndexOf(selectedObject, SelectedObjectMask);
             }
 
+            /// <summary>
+            /// Removes the first occurrence of a specific object from the <see cref="T:System.Collections.IList"></see>.
+            /// </summary>
+            /// <param name="value">The object to remove from the <see cref="T:System.Collections.IList"></see>.</param>
             public void Remove(object value)
             {
                 if (_owner != null)
@@ -216,16 +291,30 @@ namespace System.Windows.Forms
             // and hence a object comparison is required...
             // This method returns the "object" at the passed index rather than the "item" ...
             // this "object" is then compared in the IndexOf( ) method of the itemsCollection.
+            /// <summary>
+            /// Gets the object at.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <returns>System.Object.</returns>
             internal object GetObjectAt(int index)
             {
                 return InnerArray.GetEntryObject(index, SelectedObjectMask);
             }
 
+            /// <summary>
+            /// Gets the selected.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
             internal bool GetSelected(int index)
             {
                 return InnerArray.GetState(index, SelectedObjectMask);
             }
 
+            /// <summary>
+            /// Pushes the selection into native ListBox.
+            /// </summary>
+            /// <param name="index">The index.</param>
             internal void PushSelectionIntoNativeListBox(int index)
             {
             }
@@ -233,6 +322,8 @@ namespace System.Windows.Forms
             /// <summary>
             /// Same thing for GetSelected.
             /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="value">if set to <c>true</c> [value].</param>
             internal void SetSelected(int index, bool value)
             {
                 if (index > -1 && index < InnerArray.Count)
@@ -242,26 +333,52 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Adds an item to the <see cref="T:System.Collections.IList"></see>.
+            /// </summary>
+            /// <param name="value">The object to add to the <see cref="T:System.Collections.IList"></see>.</param>
+            /// <returns>The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.</returns>
+            /// <exception cref="System.NotSupportedException">SR.ListBoxSelectedObjectCollectionIsReadOnly</exception>
             int IList.Add(object? value)
             {
                 throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
             }
 
+            /// <summary>
+            /// Removes all items from the <see cref="T:System.Collections.IList"></see>.
+            /// </summary>
+            /// <exception cref="System.NotSupportedException">SR.ListBoxSelectedObjectCollectionIsReadOnly</exception>
             void IList.Clear()
             {
                 throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
             }
 
+            /// <summary>
+            /// Inserts an item to the <see cref="T:System.Collections.IList"></see> at the specified index.
+            /// </summary>
+            /// <param name="index">The zero-based index at which value should be inserted.</param>
+            /// <param name="value">The object to insert into the <see cref="T:System.Collections.IList"></see>.</param>
+            /// <exception cref="System.NotSupportedException">SR.ListBoxSelectedObjectCollectionIsReadOnly</exception>
             void IList.Insert(int index, object? value)
             {
                 throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
             }
 
+            /// <summary>
+            /// Removes the first occurrence of a specific object from the <see cref="T:System.Collections.IList"></see>.
+            /// </summary>
+            /// <param name="value">The object to remove from the <see cref="T:System.Collections.IList"></see>.</param>
+            /// <exception cref="System.NotSupportedException">SR.ListBoxSelectedObjectCollectionIsReadOnly</exception>
             void IList.Remove(object? value)
             {
                 throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
             }
 
+            /// <summary>
+            /// Removes the <see cref="T:System.Collections.IList"></see> item at the specified index.
+            /// </summary>
+            /// <param name="index">The zero-based index of the item to remove.</param>
+            /// <exception cref="System.NotSupportedException">SR.ListBoxSelectedObjectCollectionIsReadOnly</exception>
             void IList.RemoveAt(int index)
             {
                 throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");

@@ -13,16 +13,27 @@ namespace System.Windows.Forms
     /// </summary>
     public class ContextMenuStrip : ToolStripDropDownMenu
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContextMenuStrip"/> class.
+        /// </summary>
         public ContextMenuStrip()
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContextMenuStrip"/> class.
+        /// </summary>
+        /// <param name="container">The container.</param>
         public ContextMenuStrip(IContainer container)
         {
 
         }
 
+        /// <summary>
+        /// Sets the visible core.
+        /// </summary>
+        /// <param name="visible">if set to <c>true</c> [visible].</param>
         protected void SetVisibleCore(bool visible) { }
 
     }

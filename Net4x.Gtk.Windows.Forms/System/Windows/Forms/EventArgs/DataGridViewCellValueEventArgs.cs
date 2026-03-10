@@ -1,7 +1,3 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
 using System.Diagnostics;
 
 namespace System.Windows.Forms
@@ -12,12 +8,16 @@ namespace System.Windows.Forms
     /// <see cref="T:System.Windows.Forms.DataGridView.CellValuePushed" /> events of the
     /// <see cref="T:System.Windows.Forms.DataGridView" /> control.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class DataGridViewCellValueEventArgs : EventArgs
     {
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataGridViewCellValueEventArgs"/> class.
+        /// </summary>
+        /// <param name="columnIndex">Index of the column.</param>
+        /// <param name="rowIndex">Index of the row.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">columnIndex</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">rowIndex</exception>
         public DataGridViewCellValueEventArgs(int columnIndex, int rowIndex)
         {
             if (columnIndex < 0)
@@ -33,18 +33,39 @@ namespace System.Windows.Forms
             RowIndex = rowIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataGridViewCellValueEventArgs"/> class.
+        /// </summary>
         internal DataGridViewCellValueEventArgs()
         {
             ColumnIndex = -1;
             RowIndex = -1;
         }
 
+        /// <summary>
+        /// Gets the index of the column.
+        /// </summary>
+        /// <value>The index of the column.</value>
         public int ColumnIndex { get; private set; }
 
+        /// <summary>
+        /// Gets the index of the row.
+        /// </summary>
+        /// <value>The index of the row.</value>
         public int RowIndex { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>The value.</value>
         public object Value { get; set; }
 
+        /// <summary>
+        /// Sets the properties.
+        /// </summary>
+        /// <param name="columnIndex">Index of the column.</param>
+        /// <param name="rowIndex">Index of the row.</param>
+        /// <param name="value">The value.</param>
         internal void SetProperties(int columnIndex, int rowIndex, object value)
         {
             Debug.Assert(columnIndex >= -1);

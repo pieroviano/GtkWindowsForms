@@ -13,30 +13,56 @@ namespace System.Windows.Forms
     /// Enables the user to select a single option from a group of choices when paired with other
     /// <see cref="T:System.Windows.Forms.RadioButton" /> controls.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class RadioButton : Control
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly RadioButtonBase self = new RadioButtonBase();
 
+        /// <summary>
+        /// The checked
+        /// </summary>
         private bool _Checked;
 
+        /// <summary>
+        /// Occurs when [checked changed].
+        /// </summary>
         public event EventHandler CheckedChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RadioButton"/> class.
+        /// </summary>
         public RadioButton() : base()
         {
             self.ParentSet += Self_ParentSet;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="RadioButton"/> is checked.
+        /// </summary>
+        /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
         public bool Checked { get { return self.Active; } set { _Checked = true; self.Active = true; } }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
         public override string Text { get { return self.Label; } set { self.Label = value; } }
 
+        /// <summary>
+        /// Selfs the parent set.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void Self_ParentSet(object o, Gtk.ParentSetArgs args)
         {
             Gtk.Container con = self.Parent as Gtk.Container;
@@ -54,6 +80,11 @@ namespace System.Windows.Forms
             self.Toggled += Self_Toggled;
         }
 
+        /// <summary>
+        /// Handles the Toggled event of the Self control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Self_Toggled(object sender, EventArgs e)
         {
             if (CheckedChanged != null && self.IsVisible)

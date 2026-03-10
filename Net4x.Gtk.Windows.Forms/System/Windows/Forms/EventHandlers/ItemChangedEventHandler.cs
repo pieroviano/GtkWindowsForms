@@ -4,4 +4,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate ItemChangedEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="e">The <see cref="ItemChangedEventArgs"/> instance containing the event data.</param>
 public delegate void ItemChangedEventHandler(object sender, ItemChangedEventArgs e);

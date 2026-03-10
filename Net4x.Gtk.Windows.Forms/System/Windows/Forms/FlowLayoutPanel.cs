@@ -13,21 +13,30 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a panel that dynamically lays out its contents horizontally or vertically.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [ProvideProperty("FlowBreak", typeof(Control))]
     [DefaultProperty("FlowDirection")]
     [DesignerCategory("Component")]
     public partial class FlowLayoutPanel : Control, IExtenderProvider
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly FlowLayoutPanelBase self = new FlowLayoutPanelBase();
 
+        /// <summary>
+        /// The controls
+        /// </summary>
         private ObjectCollection _controls;
 
+        /// <summary>
+        /// The flow direction
+        /// </summary>
         private FlowDirection _FlowDirection;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FlowLayoutPanel"/> class.
+        /// </summary>
         public FlowLayoutPanel() : base()
         {
             self.Orientation = Gtk.Orientation.Horizontal;
@@ -40,8 +49,16 @@ namespace System.Windows.Forms
             _controls = new ObjectCollection(this);
         }
 
+        /// <summary>
+        /// Gets the controls.
+        /// </summary>
+        /// <value>The controls.</value>
         public override ControlCollection Controls => _controls;
 
+        /// <summary>
+        /// Gets or sets the flow direction.
+        /// </summary>
+        /// <value>The flow direction.</value>
         public FlowDirection FlowDirection
         {
             get { return _FlowDirection; }
@@ -52,35 +69,74 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [wrap contents].
+        /// </summary>
+        /// <value><c>true</c> if [wrap contents]; otherwise, <c>false</c>.</value>
         public bool WrapContents { get; set; }
 
+        /// <summary>
+        /// Specifies whether this object can provide its extender properties to the specified object.
+        /// </summary>
+        /// <param name="extendee">The <see cref="T:System.Object"></see> to receive the extender properties.</param>
+        /// <returns>true if this object can provide extender properties to the specified object; otherwise, false.</returns>
         public bool CanExtend(object extendee)
         {
             return true;
         }
 
+        /// <summary>
+        /// Gets the flow break.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool GetFlowBreak(Control control)
         {
             return false;
         }
 
+        /// <summary>
+        /// Sets the flow break.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="value">if set to <c>true</c> [value].</param>
         public void SetFlowBreak(Control control, bool value)
         {
 
         }
 
+        /// <summary>
+        /// Class ObjectCollection.
+        /// Implements the <see cref="System.Windows.Forms.Control.ControlCollection" />
+        /// </summary>
+        /// <seealso cref="System.Windows.Forms.Control.ControlCollection" />
         public class ObjectCollection : ControlCollection
         {
 
+            /// <summary>
+            /// The owner
+            /// </summary>
             private FlowLayoutPanel _owner;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ObjectCollection" /> class.
+            /// </summary>
+            /// <param name="owner">The owner.</param>
             public ObjectCollection(FlowLayoutPanel owner) : base(owner)
             {
                 _owner = owner;
             }
 
+            /// <summary>
+            /// Adds a <see cref="Control" /> to the collection and to the underlying GTK container.
+            /// </summary>
+            /// <param name="control">The control.</param>
             public override void Add(Control control)
             {
                 Gtk.FlowBoxChild box = new FlowBoxChild();

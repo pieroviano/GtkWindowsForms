@@ -1,7 +1,3 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
 namespace System.Windows.Forms;
 
 /// <summary>
@@ -10,11 +6,19 @@ namespace System.Windows.Forms;
 /// </summary>
 public class DataGridViewAutoSizeColumnsModeEventArgs : EventArgs
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataGridViewAutoSizeColumnsModeEventArgs"/> class.
+    /// </summary>
+    /// <param name="previousModes">The previous modes.</param>
     public DataGridViewAutoSizeColumnsModeEventArgs(DataGridViewAutoSizeColumnMode[] previousModes)
     {
         PreviousModes = previousModes;
     }
 
+    /// <summary>
+    /// Gets the previous modes.
+    /// </summary>
+    /// <value>The previous modes.</value>
     public DataGridViewAutoSizeColumnMode[] PreviousModes { get; }
 
 }

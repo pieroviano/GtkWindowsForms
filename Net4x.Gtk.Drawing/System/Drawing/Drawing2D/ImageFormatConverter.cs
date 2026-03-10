@@ -19,6 +19,14 @@ namespace System.Drawing
     /// </filterpriority>
     public class ImageFormatConverter : TypeConverter
     {
+        /// <summary>
+        /// Returns whether this converter can convert an object of the given type to the type of this converter, using the specified context.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <param name="sourceType">A <see cref="T:System.Type"></see> that represents the type you want to convert from.</param>
+        /// <returns>
+        /// true if this converter can perform the conversion; otherwise, false.
+        /// </returns>
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             if (!(sourceType == typeof(string)))
@@ -29,6 +37,14 @@ namespace System.Drawing
             return true;
         }
 
+        /// <summary>
+        /// Returns whether this converter can convert the object to the specified type, using the specified context.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <param name="destinationType">A <see cref="T:System.Type"></see> that represents the type you want to convert to.</param>
+        /// <returns>
+        /// true if this converter can perform the conversion; otherwise, false.
+        /// </returns>
         public override bool CanConvertTo(ITypeDescriptorContext context, [NotNullWhen(true)] Type destinationType)
         {
             if (destinationType == typeof(string) || destinationType == typeof(InstanceDescriptor))
@@ -39,6 +55,16 @@ namespace System.Drawing
             return base.CanConvertTo(context, destinationType);
         }
 
+        /// <summary>
+        /// Converts the given object to the type of this converter, using the specified context and culture information.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo"></see> to use as the current culture.</param>
+        /// <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+        /// <returns>
+        /// An <see cref="T:System.Object"></see> that represents the converted value.
+        /// </returns>
+        /// <exception cref="FormatException">ImageFormat err</exception>
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             string text = value as string;
@@ -101,6 +127,16 @@ namespace System.Drawing
             throw new FormatException("ImageFormat err");
         }
 
+        /// <summary>
+        /// Converts the given value object to the specified type, using the specified context and culture information.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <param name="culture">A <see cref="T:System.Globalization.CultureInfo"></see>. If null is passed, the current culture is assumed.</param>
+        /// <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+        /// <param name="destinationType">The <see cref="T:System.Type"></see> to convert the value parameter to.</param>
+        /// <returns>
+        /// An <see cref="T:System.Object"></see> that represents the converted value.
+        /// </returns>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             ImageFormat imageFormat = value as ImageFormat;
@@ -165,6 +201,13 @@ namespace System.Drawing
             return base.ConvertTo(context, culture, value, destinationType);
         }
 
+        /// <summary>
+        /// Returns a collection of standard values for the data type this type converter is designed for when provided with a format context.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context that can be used to extract additional information about the environment from which this converter is invoked. This parameter or properties of this parameter can be null.</param>
+        /// <returns>
+        /// A <see cref="T:System.ComponentModel.TypeConverter.StandardValuesCollection"></see> that holds a standard set of valid values, or null if the data type does not support a standard set of values.
+        /// </returns>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             return new StandardValuesCollection(new ImageFormat[12]
@@ -184,6 +227,13 @@ namespace System.Drawing
             });
         }
 
+        /// <summary>
+        /// Returns whether this object supports a standard set of values that can be picked from a list, using the specified context.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <returns>
+        /// true if <see cref="M:System.ComponentModel.TypeConverter.GetStandardValues"></see> should be called to find a common set of values the object supports; otherwise, false.
+        /// </returns>
         public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
         {
             return true;

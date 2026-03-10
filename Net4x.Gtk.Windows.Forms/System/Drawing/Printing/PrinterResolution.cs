@@ -51,6 +51,12 @@ namespace System.Drawing.Printing
         /// </summary>
         public int Y { get; set; }
 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString() => _kind != PrinterResolutionKind.Custom
             ? $"[PrinterResolution {Kind}]"
             : FormattableString.Invariant($"[PrinterResolution X={X} Y={Y}]");

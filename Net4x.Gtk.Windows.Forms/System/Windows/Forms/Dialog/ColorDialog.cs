@@ -13,53 +13,101 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a common dialog box that displays available colors along with controls that enable the user to define custom colors.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     public class ColorDialog : CommonDialog
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorDialog"/> class.
+        /// </summary>
         public ColorDialog() : base()
         {
 
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow full open].
+        /// </summary>
+        /// <value><c>true</c> if [allow full open]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
 
         public virtual bool AllowFullOpen { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [any color].
+        /// </summary>
+        /// <value><c>true</c> if [any color]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public virtual bool AnyColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the color.
+        /// </summary>
+        /// <value>The color.</value>
         public Color Color { get; set; }
 
+        /// <summary>
+        /// Gets or sets the custom colors.
+        /// </summary>
+        /// <value>The custom colors.</value>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 
         public int[] CustomColors { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [full open].
+        /// </summary>
+        /// <value><c>true</c> if [full open]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public virtual bool FullOpen { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show help].
+        /// </summary>
+        /// <value><c>true</c> if [show help]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public virtual bool ShowHelp { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [solid color only].
+        /// </summary>
+        /// <value><c>true</c> if [solid color only]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         public virtual bool SolidColorOnly { get; set; }
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <value>The instance.</value>
         protected virtual IntPtr Instance { get; }
 
+        /// <summary>
+        /// Gets the options.
+        /// </summary>
+        /// <value>The options.</value>
         protected virtual int Options { get; }
 
+        /// <summary>
+        /// Resets this instance.
+        /// </summary>
         public override void Reset()
         {
             Color = Color.Black;
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString() { return this.Color.Name; }
 
+        /// <summary>
+        /// Runs the dialog.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         protected override bool RunDialog(IWin32Window owner)
         {
             Gtk.ColorChooserDialog colorChooserDialog = null;

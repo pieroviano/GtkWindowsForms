@@ -13,39 +13,71 @@ namespace System.Windows.Forms
     /// <summary>
     /// Enables users to change page-related print settings, including margins and paper orientation. This class cannot be inherited.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [DefaultProperty(nameof(Document))]
     public sealed class PageSetupDialog : CommonDialog
     {
 
+        /// <summary>
+        /// The minimum margins
+        /// </summary>
         private Margins _minMargins;
 
+        /// <summary>
+        /// The page settings
+        /// </summary>
         private PageSettings _pageSettings;
 
+        /// <summary>
+        /// The print document
+        /// </summary>
         private PrintDocument _printDocument;
 
+        /// <summary>
+        /// The printer settings
+        /// </summary>
         private PrinterSettings _printerSettings;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PageSetupDialog"/> class.
+        /// </summary>
         public PageSetupDialog() => Reset();
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow margins].
+        /// </summary>
+        /// <value><c>true</c> if [allow margins]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
 
         public bool AllowMargins { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow orientation].
+        /// </summary>
+        /// <value><c>true</c> if [allow orientation]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
 
         public bool AllowOrientation { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow paper].
+        /// </summary>
+        /// <value><c>true</c> if [allow paper]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
 
         public bool AllowPaper { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow printer].
+        /// </summary>
+        /// <value><c>true</c> if [allow printer]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
 
         public bool AllowPrinter { get; set; }
 
+        /// <summary>
+        /// Gets or sets the document.
+        /// </summary>
+        /// <value>The document.</value>
         [DefaultValue(null)]
         public PrintDocument Document
         {
@@ -61,17 +93,29 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [enable metric].
+        /// </summary>
+        /// <value><c>true</c> if [enable metric]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public bool EnableMetric { get; set; }
 
+        /// <summary>
+        /// Gets or sets the minimum margins.
+        /// </summary>
+        /// <value>The minimum margins.</value>
         public Margins MinMargins
         {
             get => _minMargins;
             set => _minMargins = value ?? new Margins(0, 0, 0, 0);
         }
 
+        /// <summary>
+        /// Gets or sets the page settings.
+        /// </summary>
+        /// <value>The page settings.</value>
         [DefaultValue(null)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -85,6 +129,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the printer settings.
+        /// </summary>
+        /// <value>The printer settings.</value>
         [DefaultValue(null)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -98,13 +146,24 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show help].
+        /// </summary>
+        /// <value><c>true</c> if [show help]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public bool ShowHelp { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show network].
+        /// </summary>
+        /// <value><c>true</c> if [show network]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
         public bool ShowNetwork { get; set; }
 
+        /// <summary>
+        /// Resets this instance.
+        /// </summary>
         public override void Reset()
         {
             AllowMargins = true;
@@ -119,6 +178,11 @@ namespace System.Windows.Forms
             ShowNetwork = true;
         }
 
+        /// <summary>
+        /// Runs the dialog.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         protected override bool RunDialog(IWin32Window owner)
         {
             try

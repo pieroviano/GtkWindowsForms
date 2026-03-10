@@ -15,14 +15,27 @@ using System.Reflection;
 namespace System.Windows.Forms
 {
 
+    /// <summary>
+    /// A drop-down list control that wraps a GTK combo box and provides WinForms-compatible API.
+    /// Supports data binding via <see cref="DataSource"/>, item collections and selection semantics.
+    /// </summary>
     [DesignerCategory("Component")]
     public partial class ComboBox : ListControl
     {
 
+        /// <summary>
+        /// Backing storage for the data source assigned to the combo box.
+        /// </summary>
         public object _DataSource;
 
+        /// <summary>
+        /// Underlying GTK combo box wrapper used to render and manage the native widget.
+        /// </summary>
         public readonly ComboBoxBase self = new ComboBoxBase();
 
+        /// <summary>
+        /// Index of the currently selected item (internal tracking).
+        /// </summary>
         internal int _selectedIndex;
 
         private ObjectCollection __itemsData;
@@ -31,8 +44,15 @@ namespace System.Windows.Forms
 
         private bool _sorted;
 
+        /// <summary>
+        /// Occurs when the drop-down portion of the combo box is displayed.
+        /// </summary>
         public event EventHandler DropDown;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComboBox"/> class.
+        /// Sets up the underlying GTK widget and prepares the items collection.
+        /// </summary>
         public ComboBox() : base()
         {
             self.Entry.HasFrame = false;
@@ -43,6 +63,10 @@ namespace System.Windows.Forms
             self.Changed += Self_Changed;
         }
 
+        /// <summary>
+        /// Gets or sets the data source for the combo box. When set, the control will attempt
+        /// to populate its items from the provided data structure (DataTable, DataView or IList).
+        /// </summary>
         public override object DataSource
         {
             get => _DataSource;
@@ -56,6 +80,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the style of the combo box (editable or drop-down list).
+        /// Changing this property updates internal GTK classes and behavior.
+        /// </summary>
         public ComboBoxStyle DropDownStyle
         {
             get => _DropDownStyle;
@@ -75,24 +103,51 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the underlying GTK control used by this wrapper.
+        /// </summary>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets the collection of items in the combo box.
+        /// </summary>
         public ObjectCollection Items { get { return __itemsData; } }
 
+        /// <summary>
+        /// Gets or sets the zero-based index of the currently selected item.
+        /// Setting to -1 clears the selection and text.
+        /// </summary>
         public override int SelectedIndex { get { return self.Active; } set { self.Active = value; _selectedIndex = value; if (value == -1) { Text = ""; } } }
 
+        /// <summary>
+        /// Gets or sets the currently selected item object from the Items collection, or null.
+        /// </summary>
         public object SelectedItem
         {
             get { return SelectedIndex == -1 ? null : __itemsData[SelectedIndex]; }
             set { int _index = __itemsData.IndexOf(value); if (_index != -1) { SelectedIndex = _index; } }
         }
 
+        /// <summary>
+        /// Gets or sets the value of the selected item. Uses the GTK ActiveId for the underlying model.
+        /// </summary>
         public override object SelectedValue { get { return self.ActiveId; } set => self.ActiveId = value?.ToString(); }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the items are sorted.
+        /// </summary>
         public bool Sorted { get => _sorted; set => _sorted = value; }
 
+        /// <summary>
+        /// Gets or sets the text associated with the combo box's editable portion.
+        /// </summary>
         public override string Text { get => self.Entry.Text; set { self.Entry.Text = value; } }
 
+        /// <summary>
+        /// Returns the display text for the specified item. The method respects DataRow and primitive types when bound.
+        /// </summary>
+        /// <param name="item">The item to retrieve text for.</param>
+        /// <returns>String representation to display for the item.</returns>
         public override string GetItemText(object item)
         {
             if (item is ObjectCollection.Entry entry)
@@ -109,6 +164,12 @@ namespace System.Windows.Forms
             return item?.ToString();
         }
 
+        /// <summary>
+        /// Adds an item to the underlying GTK model at the given index with value and display text.
+        /// </summary>
+        /// <param name="index">Index at which to insert; ignored when sorted is true.</param>
+        /// <param name="value">Internal value identifier for the item.</param>
+        /// <param name="text">Display text for the item.</param>
         public void NativeAdd(int index, string value, string text)
         {
             if (_sorted == false && index > -1)
@@ -122,6 +183,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Retrieves the display text for the item at the specified index from the native GTK model.
+        /// </summary>
+        /// <param name="index">Zero-based item index.</param>
+        /// <returns>Display text, or null as string if unavailable.</returns>
         public string NativeGetItemText(int index)
         {
             self.Model.GetIter(out TreeIter iter, new TreePath(new int[] { index }));
@@ -162,6 +228,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Populates the combo box items based on the currently assigned <see cref="DataSource"/>.
+        /// Supports DataTable, DataView and IList sources.
+        /// </summary>
         private void OnSetDataSource()
         {
             if (_DataSource != null)
@@ -259,3 +329,4 @@ namespace System.Windows.Forms
     }
 
 }
+

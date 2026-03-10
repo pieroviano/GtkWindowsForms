@@ -6,24 +6,40 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a collection of child controls in a table layout container.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [ListBindable(false)]
     public class TableLayoutControlCollection : Control.ControlCollection
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableLayoutControlCollection"/> class.
+        /// </summary>
+        /// <param name="owner">The owning <see cref="Control" />.</param>
+        /// <param name="ownerContainer">The underlying GTK container used to host children.</param>
         public TableLayoutControlCollection(Control owner, Gtk.Container ownerContainer) : base(owner, ownerContainer)
         {
             Container = owner as TableLayoutPanel;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableLayoutControlCollection"/> class.
+        /// </summary>
+        /// <param name="container">The container.</param>
         public TableLayoutControlCollection(TableLayoutPanel container) : base(container)
         {
             Container = container;
         }
 
+        /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <value>The container.</value>
         public TableLayoutPanel Container { get; }
 
+        /// <summary>
+        /// Adds the specified control.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="column">The column.</param>
+        /// <param name="row">The row.</param>
         public virtual void Add(Control control, int column, int row)
         {
             control.Location = new Drawing.Point(0, 0);

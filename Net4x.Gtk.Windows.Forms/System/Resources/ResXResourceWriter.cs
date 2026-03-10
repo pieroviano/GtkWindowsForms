@@ -19,14 +19,29 @@ namespace System.Resources
 
 #pragma warning disable IDE1006 // Naming Styles (Shipped public API)
 
+        /// <summary>
+        /// The bin serialized object MIME type
+        /// </summary>
         public static readonly string BinSerializedObjectMimeType = "application/x-microsoft.net.object.binary.base64";
 
+        /// <summary>
+        /// The byte array serialized object MIME type
+        /// </summary>
         public static readonly string ByteArraySerializedObjectMimeType = "application/x-microsoft.net.object.bytearray.base64";
 
+        /// <summary>
+        /// The default serialized object MIME type
+        /// </summary>
         public static readonly string DefaultSerializedObjectMimeType = BinSerializedObjectMimeType;
 
+        /// <summary>
+        /// The resource MIME type
+        /// </summary>
         public static readonly string ResMimeType = "text/microsoft-resx";
 
+        /// <summary>
+        /// The resource schema
+        /// </summary>
         public static readonly string ResourceSchema = @"
     <xsd:schema id=""root"" xmlns="""" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata"">
         <xsd:import namespace=""http://www.w3.org/XML/1998/namespace""/>
@@ -76,8 +91,14 @@ namespace System.Resources
         </xsd:schema>
         ";
 
+        /// <summary>
+        /// The SOAP serialized object MIME type
+        /// </summary>
         public static readonly string SoapSerializedObjectMimeType = "application/x-microsoft.net.object.soap.base64";
 
+        /// <summary>
+        /// The version
+        /// </summary>
         public static readonly string Version = "2.0";
 
         internal const string AliasStr = "alias";
@@ -133,6 +154,11 @@ namespace System.Resources
         /// </summary>
         public ResXResourceWriter(string fileName) => _fileName = fileName;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceWriter"/> class.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="typeNameConverter">The type name converter.</param>
         public ResXResourceWriter(string fileName, Func<Type, string> typeNameConverter)
         {
             _fileName = fileName;
@@ -144,6 +170,11 @@ namespace System.Resources
         /// </summary>
         public ResXResourceWriter(Stream stream) => _stream = stream;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceWriter"/> class.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="typeNameConverter">The type name converter.</param>
         public ResXResourceWriter(Stream stream, Func<Type, string> typeNameConverter)
         {
             _stream = stream;
@@ -155,6 +186,11 @@ namespace System.Resources
         /// </summary>
         public ResXResourceWriter(TextWriter textWriter) => _textWriter = textWriter;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceWriter"/> class.
+        /// </summary>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="typeNameConverter">The type name converter.</param>
         public ResXResourceWriter(TextWriter textWriter, Func<Type, string> typeNameConverter)
         {
             _textWriter = textWriter;
@@ -273,6 +309,9 @@ namespace System.Resources
             Dispose();
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public virtual void Dispose()
         {
             Dispose(true);
@@ -298,6 +337,10 @@ namespace System.Resources
             Debug.WriteLineIf(s_resValueProviderSwitch.TraceVerbose, "done");
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

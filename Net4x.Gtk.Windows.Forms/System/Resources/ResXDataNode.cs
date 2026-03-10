@@ -55,10 +55,23 @@ namespace System.Resources
 
         private static readonly char[] s_specialChars = new char[] { ' ', '\r', '\n' };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXDataNode"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
         public ResXDataNode(string name, object value) : this(name, value, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXDataNode"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="typeNameConverter">The type name converter.</param>
+        /// <exception cref="ArgumentException">name</exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public ResXDataNode(string name, object value, Func<Type, string> typeNameConverter)
         {
             if (name.Length == 0)
@@ -84,10 +97,21 @@ namespace System.Resources
             _value = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXDataNode"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="fileRef">The file reference.</param>
         public ResXDataNode(string name, ResXFileRef fileRef) : this(name, fileRef, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXDataNode"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="fileRef">The file reference.</param>
+        /// <param name="typeNameConverter">The type name converter.</param>
         public ResXDataNode(string name, ResXFileRef fileRef, Func<Type, string> typeNameConverter)
         {
             _name = name.OrThrowIfNullOrEmpty();
@@ -105,6 +129,12 @@ namespace System.Resources
         {
         }
 
+        /// <summary>
+        /// Gets or sets the comment.
+        /// </summary>
+        /// <value>
+        /// The comment.
+        /// </value>
         public string Comment
         {
             get
@@ -123,6 +153,12 @@ namespace System.Resources
             }
         }
 
+        /// <summary>
+        /// Gets the file reference.
+        /// </summary>
+        /// <value>
+        /// The file reference.
+        /// </value>
         public ResXFileRef FileRef
         {
             get
@@ -144,6 +180,13 @@ namespace System.Resources
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        /// <exception cref="ArgumentException">Name</exception>
         public string Name
         {
             get

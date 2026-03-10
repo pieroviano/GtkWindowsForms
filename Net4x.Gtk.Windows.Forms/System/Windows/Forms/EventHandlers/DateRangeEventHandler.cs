@@ -4,4 +4,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate DateRangeEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="e">The <see cref="DateRangeEventArgs"/> instance containing the event data.</param>
 public delegate void DateRangeEventHandler(object sender, DateRangeEventArgs e);

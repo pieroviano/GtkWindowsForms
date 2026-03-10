@@ -33,11 +33,21 @@ namespace System.Windows.Forms
         /// </summary>
         private GraphicsState _savedGraphicsState;
 
+        /// <summary>
+        /// The old pal
+        /// </summary>
         private IntPtr oldPal = IntPtr.Zero;
 
 #if DEBUG
+        /// <summary>
+        /// The s paint event finalization switch
+        /// </summary>
         private static readonly TraceSwitch s_paintEventFinalizationSwitch = new TraceSwitch("PaintEventFinalization", "Tracks the creation and finalization of PaintEvent objects");
 
+        /// <summary>
+        /// Gets the allocation stack.
+        /// </summary>
+        /// <returns>System.String.</returns>
         internal static string GetAllocationStack()
         {
             if (s_paintEventFinalizationSwitch.TraceVerbose)
@@ -49,6 +59,9 @@ namespace System.Windows.Forms
                 return "Enabled 'PaintEventFinalization' trace switch to see stack of allocation";
             }
         }
+        /// <summary>
+        /// The allocation site
+        /// </summary>
         private readonly string AllocationSite = PaintEventArgs.GetAllocationStack();
 #endif
 
@@ -57,6 +70,9 @@ namespace System.Windows.Forms
         /// <see cref="PaintEventArgs" />
         /// class with the specified graphics and clipping rectangle.
         /// </summary>
+        /// <param name="graphics">The graphics.</param>
+        /// <param name="clipRect">The clip rect.</param>
+        /// <exception cref="System.ArgumentNullException">graphics</exception>
         public PaintEventArgs(Graphics graphics, Rectangle clipRect)
         {
             _graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
@@ -67,6 +83,8 @@ namespace System.Windows.Forms
         /// Internal version of constructor for performance
         /// We try to avoid getting the graphics object until needed
         /// </summary>
+        /// <param name="dc">The dc.</param>
+        /// <param name="clipRect">The clip rect.</param>
         internal PaintEventArgs(IntPtr dc, Rectangle clipRect)
         {
             Debug.Assert(dc != IntPtr.Zero, "dc is not initialized.");
@@ -78,12 +96,14 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the rectangle in which to paint.
         /// </summary>
+        /// <value>The clip rectangle.</value>
         public Rectangle ClipRectangle { get; }
 
         /// <summary>
         /// Gets the
         /// <see cref="Drawing.Graphics" /> object used to paint.
         /// </summary>
+        /// <value>The graphics.</value>
         public Graphics Graphics
         {
             get
@@ -98,6 +118,7 @@ namespace System.Windows.Forms
         /// HDC, or the GDI+ Graphics object has been created (meaning GDI+ now owns the
         /// HDC), 0 is returned.
         /// </summary>
+        /// <value>The HDC.</value>
         internal IntPtr HDC => _graphics == null ? _dc : IntPtr.Zero;
 
         /// <summary>
@@ -122,6 +143,10 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
 

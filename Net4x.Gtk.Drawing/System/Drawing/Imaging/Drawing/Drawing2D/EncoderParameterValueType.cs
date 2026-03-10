@@ -42,5 +42,8 @@ public enum EncoderParameterValueType
     /// Specifies that each value in the array is a set of four, 32-bit unsigned integers. The first two integers represent one fraction, and the second two integers represent a second fraction. The two fractions represent a range of rational numbers. The first fraction is the smallest rational number in the range, and the second fraction is the largest rational number in the range.
     /// </summary>
     ValueTypeRationalRange,
+    /// <summary>
+    /// The value type pointer
+    /// </summary>
     ValueTypePointer
 }

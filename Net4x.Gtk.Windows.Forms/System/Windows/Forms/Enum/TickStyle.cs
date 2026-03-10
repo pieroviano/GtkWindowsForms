@@ -9,8 +9,20 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public enum TickStyle
 {
+    /// <summary>
+    /// The none
+    /// </summary>
     None,
+    /// <summary>
+    /// The top left
+    /// </summary>
     TopLeft,
+    /// <summary>
+    /// The bottom right
+    /// </summary>
     BottomRight,
+    /// <summary>
+    /// The both
+    /// </summary>
     Both
 }

@@ -13,30 +13,52 @@ namespace System.Windows.Forms
     /// <summary>
     /// Provides a container for Windows toolbar objects.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     public class ToolStrip : Control
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly ToolStripBase self = new ToolStripBase();
 
+        /// <summary>
+        /// The tool strip item collection
+        /// </summary>
         public ToolStripItemCollection toolStripItemCollection;
 
+        /// <summary>
+        /// Occurs when [checked changed].
+        /// </summary>
         public event EventHandler CheckedChanged;
 
+        /// <summary>
+        /// Occurs when [check state changed].
+        /// </summary>
         public event EventHandler CheckStateChanged;
 
+        /// <summary>
+        /// Occurs when the control is clicked.
+        /// </summary>
         public override event EventHandler Click;
 
+        /// <summary>
+        /// Occurs when [drop down item clicked].
+        /// </summary>
         public event ToolStripItemClickedEventHandler DropDownItemClicked;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStrip"/> class.
+        /// </summary>
         public ToolStrip() : base()
         {
             toolStripItemCollection = new ToolStripItemCollection(this);
             self.ActivateCurrent += ToolStripItem_Activated;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStrip"/> class.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
         public ToolStrip(string owner) : base()
         {
             self.Hexpand = false;
@@ -47,10 +69,22 @@ namespace System.Windows.Forms
             self.ActivateCurrent += ToolStripItem_Activated;
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the size of the image scaling.
+        /// </summary>
+        /// <value>The size of the image scaling.</value>
         public Size ImageScalingSize { get; set; }
 
+        /// <summary>
+        /// Gets the items.
+        /// </summary>
+        /// <value>The items.</value>
         public ToolStripItemCollection Items
         {
             get
@@ -59,10 +93,23 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the layout style.
+        /// </summary>
+        /// <value>The layout style.</value>
         public ToolStripLayoutStyle LayoutStyle { get; set; }
 
+        /// <summary>
+        /// Gets or sets the size.
+        /// </summary>
+        /// <value>The size.</value>
         public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, 30); }
 
+        /// <summary>
+        /// Tools the strip item activated.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void ToolStripItem_Activated(object sender, ActivateCurrentArgs e)
         {
             if (DropDownItemClicked != null)

@@ -9,6 +9,9 @@ public sealed class DataGridViewBase : ScrollableBoxBase
 
     internal Gtk.TreeView GridView = new Gtk.TreeView();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataGridViewBase"/> class.
+    /// </summary>
     public DataGridViewBase() : base()
     {
         this.Override = new GtkControlOverride(this);

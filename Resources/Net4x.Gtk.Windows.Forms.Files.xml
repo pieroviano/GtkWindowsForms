@@ -60,6 +60,11 @@
   <Item Source="GtkControls\VScrollBar.cs" Destination="System\Windows\Forms\VScrollBar.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Windows\Forms\VScrollBar.cs</Item>
   <Item Source="GtkSystem\HashCode.cs" Destination="System\HashCode.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\HashCode.cs</Item>
   <Item Source="Microsoft.Win32\RegistryKey.cs" Destination="Microsoft\Win32\RegistryKey.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\Microsoft\Win32\RegistryKey.cs</Item>
+  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.dgspec.json" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.dgspec.json" />
+  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.props" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.props" />
+  <Item Source="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" Destination="obj\Net4x.Gtk.Windows.Forms.csproj.nuget.g.targets" />
+  <Item Source="obj\project.assets.json" Destination="obj\project.assets.json" />
+  <Item Source="obj\project.nuget.cache" Destination="obj\project.nuget.cache" />
   <Item Source="Properties\MessageBoxResources.de.resx" Destination="Properties\MessageBoxResources.de.resx" />
   <Item Source="Properties\MessageBoxResources.Designer.cs" Destination="Properties\MessageBoxResources.Designer.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\Properties\MessageBoxResources.Designer.cs</Item>
   <Item Source="Properties\MessageBoxResources.es.resx" Destination="Properties\MessageBoxResources.es.resx" />
@@ -734,11 +739,19 @@
   <Item Source="GtkSystem\Resources\Extensions\RuntimeResourceSet.cs" Destination="GtkSystem/Resources/Extensions/RuntimeResourceSet.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkSystem\Resources\Extensions\RuntimeResourceSet.cs</Item>
   <Item Source="GtkSystem\Resources\Extensions\SerializationFormat.cs" Destination="GtkSystem/Resources/Extensions/SerializationFormat.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkSystem\Resources\Extensions\SerializationFormat.cs</Item>
   <Item Source="GtkSystem\Resources\Extensions\SR.cs" Destination="FxResources\System\Resources\Extensions\SR.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\FxResources\System\Resources\Extensions\SR.cs</Item>
+  <Item Source="GtkSystem\Resources\Extensions\SR.Designer.cs" Destination="GtkSystem/Resources/Extensions/SR.Designer.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkSystem\Resources\Extensions\SR.Designer.cs</Item>
   <Item Source="GtkSystem\Resources\Extensions\SR.resx" Destination="GtkSystem\Resources\Extensions\SR.resx" />
   <Item Source="GtkSystem\Resources\Extensions\TypeNameComparer.cs" Destination="GtkSystem/Resources/Extensions/TypeNameComparer.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkSystem\Resources\Extensions\TypeNameComparer.cs</Item>
   <Item Source="GtkSystem\Resources\Extensions\UnknownType.cs" Destination="GtkSystem/Resources/Extensions/UnknownType.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkSystem\Resources\Extensions\UnknownType.cs</Item>
   <Item Source="GtkSystem\Resources\IO\BinaryReaderExtensions.cs" Destination="GtkSystem/IO/Resources/BinaryReaderExtensions.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkSystem\IO\Resources\BinaryReaderExtensions.cs</Item>
   <Item Source="GtkSystem\Resources\IO\PinnedBufferMemoryStream.cs" Destination="GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\GtkSystem\IO\Resources\PinnedBufferMemoryStream.cs</Item>
+  <Item Source="obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs" Destination="obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs</Item>
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.AssemblyInfo.cs" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.AssemblyInfo.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms\obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.Backup.AssemblyInfo.cs</Item>
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.AssemblyInfoInputs.cache" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.AssemblyInfoInputs.cache" />
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.assets.cache" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.assets.cache" />
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.csproj.AssemblyReference.cache" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.csproj.AssemblyReference.cache" />
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.GeneratedMSBuildEditorConfig.editorconfig" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.GeneratedMSBuildEditorConfig.editorconfig" />
+  <Item Source="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.GlobalUsings.g.cs" Destination="obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.GlobalUsings.g.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms\obj\Debug\netstandard2.0\Net4x.Gtk.Windows.Forms.Backup.GlobalUsings.g.cs</Item>
   <Item Source="GtkControls\Drawing\Drawing2D\Imaging\BitmapData.cs" Destination="System\Drawing\Imaging\Drawing\Drawing2D\BitmapData.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Drawing\Imaging\Drawing\Drawing2D\BitmapData.cs</Item>
   <Item Source="GtkControls\Drawing\Drawing2D\Imaging\ColorAdjustType.cs" Destination="System\Drawing\Imaging\Drawing\Drawing2D\ColorAdjustType.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Drawing\Imaging\Drawing\Drawing2D\ColorAdjustType.cs</Item>
   <Item Source="GtkControls\Drawing\Drawing2D\Imaging\ColorChannelFlag.cs" Destination="System\Drawing\Imaging\Drawing\Drawing2D\ColorChannelFlag.cs">D:\CommonLibrary\Net4x.GtkWindowsForms\Net4x.Gtk.Windows.Forms.Backup\System\Drawing\Imaging\Drawing\Drawing2D\ColorChannelFlag.cs</Item>

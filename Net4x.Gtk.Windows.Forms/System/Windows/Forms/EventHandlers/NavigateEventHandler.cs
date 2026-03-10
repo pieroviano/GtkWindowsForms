@@ -4,4 +4,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate NavigateEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="ne">The <see cref="NavigateEventArgs"/> instance containing the event data.</param>
 public delegate void NavigateEventHandler(object sender, NavigateEventArgs ne);

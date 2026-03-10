@@ -15,31 +15,55 @@ namespace System.Windows.Forms
     public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposable
     {
 
+        /// <summary>
+        /// Flag indicating the control is performing an auto-scroll operation.
+        /// </summary>
         protected const int ScrollStateAutoScrolling = 1;
 
+        /// <summary>
+        /// Flag indicating full-drag behaviour is enabled.
+        /// </summary>
         protected const int ScrollStateFullDrag = 16;
 
+        /// <summary>
+        /// Flag indicating the horizontal scrollbar is visible.
+        /// </summary>
         protected const int ScrollStateHScrollVisible = 2;
 
+        /// <summary>
+        /// Flag indicating the user has scrolled the control.
+        /// </summary>
         protected const int ScrollStateUserHasScrolled = 8;
 
+        /// <summary>
+        /// Flag indicating the vertical scrollbar is visible.
+        /// </summary>
         protected const int ScrollStateVScrollVisible = 4;
 
         private bool _AutoScroll;
 
         private IScrollableBoxBase scrollbase;
 
+        /// <summary>
+        /// Occurs when the control or its scrollable child is scrolled.
+        /// </summary>
         public virtual event ScrollEventHandler Scroll
         {
             add { if (scrollbase != null) { scrollbase.Scroll += value; } }
             remove { if (scrollbase != null) { scrollbase.Scroll -= value; } }
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ScrollableControl"/>.
+        /// </summary>
         public ScrollableControl() : base()
         {
             scrollbase = GtkControl as IScrollableBoxBase;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the control is automatically scrolled when its contents extend beyond its client area.
+        /// </summary>
         public virtual bool AutoScroll
         {
             get => _AutoScroll;
@@ -51,12 +75,25 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the margin around the auto-scroll area.
+        /// </summary>
         public Size AutoScrollMargin { get; set; }
 
+        /// <summary>
+        /// Gets or sets the minimum size of the auto-scroll area.
+        /// </summary>
         public Size AutoScrollMinSize { get; set; }
 
+        /// <summary>
+        /// Gets or sets the current scroll position of the auto-scrollable control.
+        /// </summary>
         public Point AutoScrollPosition { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the control is automatically resized to fit its contents.
+        /// When set, auto-scroll behaviour may be disabled to allow natural sizing.
+        /// </summary>
         public override bool AutoSize
         {
             get => base.AutoSize;
@@ -74,16 +111,29 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the rectangle that represents the display area of the control (client area).
+        /// </summary>
         public override Rectangle DisplayRectangle { get; }
 
+        /// <summary>
+        /// Gets or sets whether the horizontal scrollbar is visible.
+        /// </summary>
         protected bool HScroll { get => scrollbase.HScroll; set => scrollbase.HScroll = value; }
 
         //public VScrollProperties VerticalScroll { get; }
         //public DockPaddingEdges DockPadding { get; }
         //public HScrollProperties HorizontalScroll { get; }
 
+        /// <summary>
+        /// Gets or sets whether the vertical scrollbar is visible.
+        /// </summary>
         protected bool VScroll { get => scrollbase.VScroll; set => scrollbase.VScroll = value; }
 
+        /// <summary>
+        /// Associates an external scrollable window implementation with this control.
+        /// </summary>
+        /// <param name="scrolledwindow">An implementation of <see cref="IScrollableBoxBase"/> used to drive scrolling behavior.</param>
         public void SetScrolledWindow(IScrollableBoxBase scrolledwindow)
         {
             scrollbase = scrolledwindow;
@@ -91,3 +141,4 @@ namespace System.Windows.Forms
 
     }
 }
+

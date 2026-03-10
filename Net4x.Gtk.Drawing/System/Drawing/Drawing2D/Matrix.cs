@@ -14,11 +14,21 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Matrix"/> class.
+    /// </summary>
+    /// <param name="rect">The rect.</param>
+    /// <param name="plgpts">The PLGPTS.</param>
     public Matrix(Rectangle rect, Point[] plgpts)
     {
 
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Matrix"/> class.
+    /// </summary>
+    /// <param name="rect">The rect.</param>
+    /// <param name="plgpts">The PLGPTS.</param>
     public Matrix(RectangleF rect, PointF[] plgpts)
     {
 
@@ -57,10 +67,28 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         this.dy = dy;
     }
 
+    /// <summary>
+    /// Gets or sets the angle.
+    /// </summary>
+    /// <value>
+    /// The angle.
+    /// </value>
     public float angle { get; set; }
 
+    /// <summary>
+    /// Gets or sets the dx.
+    /// </summary>
+    /// <value>
+    /// The dx.
+    /// </value>
     public float dx { get; set; } = 0;
 
+    /// <summary>
+    /// Gets or sets the dy.
+    /// </summary>
+    /// <value>
+    /// The dy.
+    /// </value>
     public float dy { get; set; } = 0;
 
     /// <summary>
@@ -78,12 +106,36 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         }
     }
 
+    /// <summary>
+    /// Gets or sets the initialize matrix.
+    /// </summary>
+    /// <value>
+    /// The initialize matrix.
+    /// </value>
     public Matrix initMatrix { get; set; }
 
+    /// <summary>
+    /// Gets or sets the initialize point f.
+    /// </summary>
+    /// <value>
+    /// The initialize point f.
+    /// </value>
     public PointF[] initPointF { get; set; }
 
+    /// <summary>
+    /// Gets or sets the initialize rectangle.
+    /// </summary>
+    /// <value>
+    /// The initialize rectangle.
+    /// </value>
     public RectangleF initRectangle { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="Matrix"/> is invert.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> if invert; otherwise, <c>false</c>.
+    /// </value>
     public bool invert { get; set; }
 
     /// <summary>
@@ -120,14 +172,44 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         }
     }
 
+    /// <summary>
+    /// Gets or sets the M11.
+    /// </summary>
+    /// <value>
+    /// The M11.
+    /// </value>
     public float m11 { get; set; } = 1;
 
+    /// <summary>
+    /// Gets or sets the M12.
+    /// </summary>
+    /// <value>
+    /// The M12.
+    /// </value>
     public float m12 { get; set; } = 0;
 
+    /// <summary>
+    /// Gets or sets the M21.
+    /// </summary>
+    /// <value>
+    /// The M21.
+    /// </value>
     public float m21 { get; set; } = 0;
 
+    /// <summary>
+    /// Gets or sets the M22.
+    /// </summary>
+    /// <value>
+    /// The M22.
+    /// </value>
     public float m22 { get; set; } = 1;
 
+    /// <summary>
+    /// Gets or sets the multiply.
+    /// </summary>
+    /// <value>
+    /// The multiply.
+    /// </value>
     public Matrix multiply { get; set; }
 
     /// <summary>
@@ -156,22 +238,76 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         internal set;
     }
 
+    /// <summary>
+    /// Gets or sets the order.
+    /// </summary>
+    /// <value>
+    /// The order.
+    /// </value>
     public MatrixOrder order { get; set; } = MatrixOrder.Prepend;
 
+    /// <summary>
+    /// Gets or sets the rotate at point.
+    /// </summary>
+    /// <value>
+    /// The rotate at point.
+    /// </value>
     public PointF rotateAtPoint { get; set; }
 
+    /// <summary>
+    /// Gets or sets the scale x.
+    /// </summary>
+    /// <value>
+    /// The scale x.
+    /// </value>
     public float scaleX { get; set; }
 
+    /// <summary>
+    /// Gets or sets the scale y.
+    /// </summary>
+    /// <value>
+    /// The scale y.
+    /// </value>
     public float scaleY { get; set; }
 
+    /// <summary>
+    /// Gets or sets the shear x.
+    /// </summary>
+    /// <value>
+    /// The shear x.
+    /// </value>
     public float shearX { get; set; }
 
+    /// <summary>
+    /// Gets or sets the shear y.
+    /// </summary>
+    /// <value>
+    /// The shear y.
+    /// </value>
     public float shearY { get; set; }
 
+    /// <summary>
+    /// Gets or sets the transform points.
+    /// </summary>
+    /// <value>
+    /// The transform points.
+    /// </value>
     public PointF[] transformPoints { get; set; }
 
+    /// <summary>
+    /// Gets or sets the transform vectors.
+    /// </summary>
+    /// <value>
+    /// The transform vectors.
+    /// </value>
     public PointF[] transformVectors { get; set; }
 
+    /// <summary>
+    /// Gets or sets the vector transform points.
+    /// </summary>
+    /// <value>
+    /// The vector transform points.
+    /// </value>
     public Point[] vectorTransformPoints { get; set; }
 
     /// <summary>
@@ -235,6 +371,12 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         return this.GetHashCode() == obj.GetHashCode();
     }
 
+    /// <summary>
+    /// Returns a hash code for this instance.
+    /// </summary>
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+    /// </returns>
     public override int GetHashCode()
     {
         return base.GetHashCode();

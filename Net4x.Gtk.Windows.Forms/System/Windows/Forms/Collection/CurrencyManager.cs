@@ -577,6 +577,10 @@ public class CurrencyManager : BindingManagerBase
         }
     }
 
+    /// <summary>
+    /// Raises the <see cref="E:CurrencyChanged" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
     protected virtual void OnCurrencyChanged(EventArgs e)
     {
         OnCurrentChangedHandler?.Invoke(this, e);

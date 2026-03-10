@@ -928,7 +928,7 @@ namespace System.Drawing
         /// </summary>
         /// <param name="path">The
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> to
-        /// <see cref="Overload:System.Drawing.Region.Xor" /> with this
+        /// <see cref="T:System.Drawing.Region.Xor" /> with this
         /// <see cref="T:System.Drawing.Region" />.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
@@ -946,7 +946,7 @@ namespace System.Drawing
         /// </summary>
         /// <param name="rect">The
         /// <see cref="T:System.Drawing.Rectangle" /> structure to
-        /// <see cref="Overload:System.Drawing.Region.Xor" /> with this
+        /// <see cref="T:System.Drawing.Region.Xor" /> with this
         /// <see cref="T:System.Drawing.Region" />.
         /// </param>
         public void Xor(Rectangle rect)
@@ -974,7 +974,7 @@ namespace System.Drawing
         /// </summary>
         /// <param name="region">The
         /// <see cref="T:System.Drawing.Region" /> to
-        /// <see cref="Overload:System.Drawing.Region.Xor" /> with this
+        /// <see cref="T:System.Drawing.Region.Xor" /> with this
         /// <see cref="T:System.Drawing.Region" />.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">

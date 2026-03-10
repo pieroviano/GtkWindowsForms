@@ -8,16 +8,21 @@ namespace System.Windows.Forms;
 /// Provides data for controls that derive from the
 /// <see cref="!:System.Windows.Forms.UpDownBase" /> control.
 /// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
 public class UpDownEventArgs : EventArgs
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UpDownEventArgs"/> class.
+    /// </summary>
+    /// <param name="buttonPushed">The button pushed.</param>
     public UpDownEventArgs(int buttonPushed)
     {
         ButtonID = buttonPushed;
     }
 
+    /// <summary>
+    /// Gets the button identifier.
+    /// </summary>
+    /// <value>The button identifier.</value>
     public int ButtonID { get; }
 
 }

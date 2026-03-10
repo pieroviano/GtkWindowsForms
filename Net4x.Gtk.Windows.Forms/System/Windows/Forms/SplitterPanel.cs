@@ -16,14 +16,19 @@ namespace System.Windows.Forms
     /// Creates a panel that is associated with a
     /// <see cref="T:System.Windows.Forms.SplitContainer" />
     /// </summary>
-    /// <filterpriority> 1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public sealed class SplitterPanel : Panel
     {
 
+        /// <summary>
+        /// The owner
+        /// </summary>
         internal SplitContainer Owner;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SplitterPanel"/> class.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
         public SplitterPanel(SplitContainer owner) : base()
         {
             self.Override.AddClass("SplitterPanel");
@@ -37,12 +42,28 @@ namespace System.Windows.Forms
             self.Vexpand = false;
         }
 
+        /// <summary>
+        /// Gets or sets the dock.
+        /// </summary>
+        /// <value>The dock.</value>
         public override DockStyle Dock { get { return DockStyle.Fill; } set { } }
 
+        /// <summary>
+        /// Gets or sets the height.
+        /// </summary>
+        /// <value>The height.</value>
         public override int Height { get; set; }
 
+        /// <summary>
+        /// Gets or sets the size.
+        /// </summary>
+        /// <value>The size.</value>
         public override Size Size { get; set; }
 
+        /// <summary>
+        /// Gets or sets the width.
+        /// </summary>
+        /// <value>The width.</value>
         public override int Width { get; set; }
 
     }

@@ -9,30 +9,54 @@ namespace System.Windows.Forms
     /// Represents a Windows progress bar control contained in a
     /// <see cref="T:System.Windows.Forms.StatusStrip" />
     /// </summary>
-    /// <filterpriority> 2
-    /// </filterpriority>
     [DefaultProperty("Value")]
     public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     {
 
+        /// <summary>
+        /// The step
+        /// </summary>
         private int _step;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripProgressBar"/> class.
+        /// </summary>
         public ToolStripProgressBar() : base("ToolStripProgressBar", null)
         {
             base.MenuItem.Realized += Control_Realized;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripProgressBar"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
         public ToolStripProgressBar(string name) : this()
         {
 
         }
 
+        /// <summary>
+        /// Gets or sets the marquee animation speed.
+        /// </summary>
+        /// <value>The marquee animation speed.</value>
         public int MarqueeAnimationSpeed { get; set; } = 100;
 
+        /// <summary>
+        /// Gets or sets the maximum.
+        /// </summary>
+        /// <value>The maximum.</value>
         public int Maximum { get; set; } = 100;
 
+        /// <summary>
+        /// Gets or sets the minimum.
+        /// </summary>
+        /// <value>The minimum.</value>
         public int Minimum { get; set; } = 0;
 
+        /// <summary>
+        /// Gets the progress bar.
+        /// </summary>
+        /// <value>The progress bar.</value>
         public ProgressBar ProgressBar
         {
             get
@@ -41,6 +65,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the size.
+        /// </summary>
+        /// <value>The size.</value>
         public override Size Size
         {
             get
@@ -54,12 +82,24 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the step.
+        /// </summary>
+        /// <value>The step.</value>
         [DefaultValue(10)]
 
         public int Step { get; set; }
 
+        /// <summary>
+        /// Gets or sets the style.
+        /// </summary>
+        /// <value>The style.</value>
         public ProgressBarStyle Style { get; set; }
 
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>The value.</value>
         public int Value
         {
             get { return (int)Math.Round(progressBar.Value, 0); }
@@ -69,16 +109,28 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Increments the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
         public void Increment(int value)
         {
 
         }
 
+        /// <summary>
+        /// Performs the step.
+        /// </summary>
         public void PerformStep()
         {
 
         }
 
+        /// <summary>
+        /// Handles the Realized event of the Control control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Control_Realized(object sender, EventArgs e)
         {
             progressBar.MaxValue = Maximum;

@@ -13,8 +13,17 @@ using Pango;
 namespace System.Windows.Forms.GtkRender
 {
 
+    /// <summary>
+    /// Class CellReandererUtility.
+    /// </summary>
     public class CellReandererUtility
     {
+        /// <summary>
+        /// Gets the format text.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="cellstyle">The cellstyle.</param>
+        /// <returns>System.String.</returns>
         internal string GetFormatText(object text, DataGridViewCellStyle cellstyle)
         {
             if (text == null && cellstyle != null)
@@ -25,6 +34,11 @@ namespace System.Windows.Forms.GtkRender
                 return text?.ToString();
         }
 
+        /// <summary>
+        /// Sets the control with style.
+        /// </summary>
+        /// <param name="cell">The cell.</param>
+        /// <param name="cellstyle">The cellstyle.</param>
         internal void SetControlWithStyle(CellRenderer cell, DataGridViewCellStyle cellstyle)
         {
             if (cellstyle != null)
@@ -52,12 +66,23 @@ namespace System.Windows.Forms.GtkRender
             }
         }
 
+        /// <summary>
+        /// Sets the text with style.
+        /// </summary>
+        /// <param name="cell">The cell.</param>
+        /// <param name="cellstyle">The cellstyle.</param>
+        /// <param name="value">The value.</param>
         internal void SetTextWithStyle(CellRendererText cell, DataGridViewCellStyle cellstyle, object value)
         {
             SetTextWithStyle(cell, cellstyle);
             cell.Text = GetFormatText(value, cellstyle);
         }
 
+        /// <summary>
+        /// Sets the text with style.
+        /// </summary>
+        /// <param name="cell">The cell.</param>
+        /// <param name="cellstyle">The cellstyle.</param>
         internal void SetTextWithStyle(CellRendererText cell, DataGridViewCellStyle cellstyle)
         {
             if (cellstyle != null)
@@ -98,12 +123,29 @@ namespace System.Windows.Forms.GtkRender
 
     }
 
+    /// <summary>
+    /// Class CellRendererButtonValue.
+    /// Implements the <see cref="CellRendererText" />
+    /// Implements the <see cref="System.Windows.Forms.GtkRender.ICellRenderer" />
+    /// </summary>
+    /// <seealso cref="CellRendererText" />
+    /// <seealso cref="System.Windows.Forms.GtkRender.ICellRenderer" />
     public class CellRendererButtonValue : CellRendererText, ICellRenderer
     {
+        /// <summary>
+        /// The column
+        /// </summary>
         DataGridViewColumn Column;
 
+        /// <summary>
+        /// The utility
+        /// </summary>
         private CellReandererUtility utility;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CellRendererButtonValue" /> class.
+        /// </summary>
+        /// <param name="view">The view.</param>
         public CellRendererButtonValue(DataGridViewColumn view)
         {
             Column = view;
@@ -112,8 +154,16 @@ namespace System.Windows.Forms.GtkRender
             this.Ellipsize = Pango.EllipsizeMode.End;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="CellRendererButtonValue" /> is activatable.
+        /// </summary>
+        /// <value><c>true</c> if activatable; otherwise, <c>false</c>.</value>
         public bool Activatable { get; set; }
 
+        /// <summary>
+        /// Sets the cell value.
+        /// </summary>
+        /// <value>The cell value.</value>
         [Property("cellvalue")]
         public DataGridViewCell CellValue
         {
@@ -132,10 +182,26 @@ namespace System.Windows.Forms.GtkRender
             }
         }
 
+        /// <summary>
+        /// Gets or sets the column style.
+        /// </summary>
+        /// <value>The column style.</value>
         public DataGridViewCellStyle ColumnStyle { get; set; }
 
+        /// <summary>
+        /// Gets or sets the markup.
+        /// </summary>
+        /// <value>The markup.</value>
         string ICellRenderer.Markup { get; set; }
 
+        /// <summary>
+        /// Called when [render].
+        /// </summary>
+        /// <param name="cr">The cr.</param>
+        /// <param name="widget">The widget.</param>
+        /// <param name="background_area">The background area.</param>
+        /// <param name="cell_area">The cell area.</param>
+        /// <param name="flags">The flags.</param>
         protected override void OnRender(Cairo.Context cr, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
         {
             widget.StyleContext.AddClass("GridViewCell-Button");
@@ -155,20 +221,45 @@ namespace System.Windows.Forms.GtkRender
 
     }
 
+    /// <summary>
+    /// Class CellRendererComboValue.
+    /// Implements the <see cref="CellRendererCombo" />
+    /// Implements the <see cref="System.Windows.Forms.GtkRender.ICellRenderer" />
+    /// </summary>
+    /// <seealso cref="CellRendererCombo" />
+    /// <seealso cref="System.Windows.Forms.GtkRender.ICellRenderer" />
     public class CellRendererComboValue : CellRendererCombo, ICellRenderer
     {
+        /// <summary>
+        /// The column
+        /// </summary>
         DataGridViewColumn Column;
 
+        /// <summary>
+        /// The utility
+        /// </summary>
         private CellReandererUtility utility;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CellRendererComboValue"/> class.
+        /// </summary>
+        /// <param name="view">The view.</param>
         public CellRendererComboValue(DataGridViewColumn view)
         {
             Column = view;
             utility = new CellReandererUtility();
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ICellRenderer" /> is activatable.
+        /// </summary>
+        /// <value><c>true</c> if activatable; otherwise, <c>false</c>.</value>
         public bool Activatable { get; set; }
 
+        /// <summary>
+        /// Sets the cell value.
+        /// </summary>
+        /// <value>The cell value.</value>
         [Property("cellvalue")]
         public DataGridViewCell CellValue
         {
@@ -186,26 +277,59 @@ namespace System.Windows.Forms.GtkRender
             }
         }
 
+        /// <summary>
+        /// Sets the column style.
+        /// </summary>
+        /// <value>The column style.</value>
         public DataGridViewCellStyle ColumnStyle { get; set; }
 
+        /// <summary>
+        /// Gets or sets the markup.
+        /// </summary>
+        /// <value>The markup.</value>
         string ICellRenderer.Markup { get; set; }
 
     }
 
+    /// <summary>
+    /// Class CellRendererPixbufValue.
+    /// Implements the <see cref="CellRendererPixbuf" />
+    /// Implements the <see cref="System.Windows.Forms.GtkRender.ICellRenderer" />
+    /// </summary>
+    /// <seealso cref="CellRendererPixbuf" />
+    /// <seealso cref="System.Windows.Forms.GtkRender.ICellRenderer" />
     public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     {
+        /// <summary>
+        /// The column
+        /// </summary>
         DataGridViewColumn Column;
 
+        /// <summary>
+        /// The utility
+        /// </summary>
         private CellReandererUtility utility;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CellRendererPixbufValue"/> class.
+        /// </summary>
+        /// <param name="view">The view.</param>
         public CellRendererPixbufValue(DataGridViewColumn view)
         {
             Column = view;
             utility = new CellReandererUtility();
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ICellRenderer" /> is activatable.
+        /// </summary>
+        /// <value><c>true</c> if activatable; otherwise, <c>false</c>.</value>
         public bool Activatable { get; set; }
 
+        /// <summary>
+        /// Sets the cell value.
+        /// </summary>
+        /// <value>The cell value.</value>
         [Property("cellvalue")]
         public DataGridViewCell CellValue
         {
@@ -242,32 +366,77 @@ namespace System.Windows.Forms.GtkRender
             }
         }
 
+        /// <summary>
+        /// Sets the column style.
+        /// </summary>
+        /// <value>The column style.</value>
         public DataGridViewCellStyle ColumnStyle { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ICellRenderer" /> is editable.
+        /// </summary>
+        /// <value><c>true</c> if editable; otherwise, <c>false</c>.</value>
         public bool Editable { get; set; }
 
+        /// <summary>
+        /// Gets or sets the markup.
+        /// </summary>
+        /// <value>The markup.</value>
         public string Markup { get; set; }
 
+        /// <summary>
+        /// Gets or sets the width chars.
+        /// </summary>
+        /// <value>The width chars.</value>
         public int WidthChars { get; set; }
 
+        /// <summary>
+        /// Gets or sets the wrap mode.
+        /// </summary>
+        /// <value>The wrap mode.</value>
         public Pango.WrapMode WrapMode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the width of the wrap.
+        /// </summary>
+        /// <value>The width of the wrap.</value>
         public int WrapWidth { get; set; }
 
     }
 
+    /// <summary>
+    /// Class CellRendererToggleValue.
+    /// Implements the <see cref="CellRendererToggle" />
+    /// Implements the <see cref="System.Windows.Forms.GtkRender.ICellRenderer" />
+    /// </summary>
+    /// <seealso cref="CellRendererToggle" />
+    /// <seealso cref="System.Windows.Forms.GtkRender.ICellRenderer" />
     public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     {
+        /// <summary>
+        /// The column
+        /// </summary>
         DataGridViewColumn Column;
 
+        /// <summary>
+        /// The utility
+        /// </summary>
         private CellReandererUtility utility;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CellRendererToggleValue" /> class.
+        /// </summary>
+        /// <param name="view">The view.</param>
         public CellRendererToggleValue(DataGridViewColumn view)
         {
             Column = view;
             utility = new CellReandererUtility();
         }
 
+        /// <summary>
+        /// Sets the cell value.
+        /// </summary>
+        /// <value>The cell value.</value>
         [Property("cellvalue")]
         public DataGridViewCell CellValue
         {
@@ -286,35 +455,84 @@ namespace System.Windows.Forms.GtkRender
             }
         }
 
+        /// <summary>
+        /// Gets or sets the column style.
+        /// </summary>
+        /// <value>The column style.</value>
         public DataGridViewCellStyle ColumnStyle { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="CellRendererToggleValue" /> is editable.
+        /// </summary>
+        /// <value><c>true</c> if editable; otherwise, <c>false</c>.</value>
         public bool Editable { get; set; }
 
+        /// <summary>
+        /// Gets or sets the markup.
+        /// </summary>
+        /// <value>The markup.</value>
         public string Markup { get; set; }
 
+        /// <summary>
+        /// Gets or sets the width chars.
+        /// </summary>
+        /// <value>The width chars.</value>
         public int WidthChars { get; set; }
 
+        /// <summary>
+        /// Gets or sets the wrap mode.
+        /// </summary>
+        /// <value>The wrap mode.</value>
         public Pango.WrapMode WrapMode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the width of the wrap.
+        /// </summary>
+        /// <value>The width of the wrap.</value>
         public int WrapWidth { get; set; }
 
     }
 
+    /// <summary>
+    /// Class CellRendererValue.
+    /// Implements the <see cref="CellRendererText" />
+    /// Implements the <see cref="System.Windows.Forms.GtkRender.ICellRenderer" />
+    /// </summary>
+    /// <seealso cref="CellRendererText" />
+    /// <seealso cref="System.Windows.Forms.GtkRender.ICellRenderer" />
     public class CellRendererValue : CellRendererText, ICellRenderer
     {
 
+        /// <summary>
+        /// The column
+        /// </summary>
         private DataGridViewColumn Column;
 
+        /// <summary>
+        /// The utility
+        /// </summary>
         private CellReandererUtility utility;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CellRendererValue"/> class.
+        /// </summary>
+        /// <param name="view">The view.</param>
         public CellRendererValue(DataGridViewColumn view)
         {
             Column = view;
             utility = new CellReandererUtility();
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ICellRenderer" /> is activatable.
+        /// </summary>
+        /// <value><c>true</c> if activatable; otherwise, <c>false</c>.</value>
         public bool Activatable { get; set; }
 
+        /// <summary>
+        /// Sets the cell value.
+        /// </summary>
+        /// <value>The cell value.</value>
         [Property("cellvalue")]
         public DataGridViewCell CellValue
         {
@@ -333,32 +551,83 @@ namespace System.Windows.Forms.GtkRender
             }
         }
 
+        /// <summary>
+        /// Sets the column style.
+        /// </summary>
+        /// <value>The column style.</value>
         public DataGridViewCellStyle ColumnStyle { get; set; }
 
+        /// <summary>
+        /// Gets or sets the markup.
+        /// </summary>
+        /// <value>The markup.</value>
         string ICellRenderer.Markup { get; set; }
 
     }
 
+    /// <summary>
+    /// Interface ICellRenderer
+    /// </summary>
     public interface ICellRenderer
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ICellRenderer"/> is activatable.
+        /// </summary>
+        /// <value><c>true</c> if activatable; otherwise, <c>false</c>.</value>
         bool Activatable { get; set; }
 
+        /// <summary>
+        /// Sets the cell value.
+        /// </summary>
+        /// <value>The cell value.</value>
         DataGridViewCell CellValue { set; }
 
+        /// <summary>
+        /// Sets the column style.
+        /// </summary>
+        /// <value>The column style.</value>
         DataGridViewCellStyle ColumnStyle { set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ICellRenderer"/> is editable.
+        /// </summary>
+        /// <value><c>true</c> if editable; otherwise, <c>false</c>.</value>
         bool Editable { get; set; }
 
+        /// <summary>
+        /// Gets or sets the height.
+        /// </summary>
+        /// <value>The height.</value>
         int Height { get; set; }
 
+        /// <summary>
+        /// Gets or sets the markup.
+        /// </summary>
+        /// <value>The markup.</value>
         string Markup { get; set; }
 
+        /// <summary>
+        /// Gets or sets the mode.
+        /// </summary>
+        /// <value>The mode.</value>
         Gtk.CellRendererMode Mode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the width chars.
+        /// </summary>
+        /// <value>The width chars.</value>
         int WidthChars { get; set; }
 
+        /// <summary>
+        /// Gets or sets the wrap mode.
+        /// </summary>
+        /// <value>The wrap mode.</value>
         Pango.WrapMode WrapMode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the width of the wrap.
+        /// </summary>
+        /// <value>The width of the wrap.</value>
         int WrapWidth { get; set; }
 
     }

@@ -66,6 +66,12 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the tag.
+        /// </summary>
+        /// <value>
+        /// The tag.
+        /// </value>
         [Localizable(false)]
         [Bindable(true)]
         [DefaultValue(null)]
@@ -88,6 +94,10 @@ namespace System.Windows.Forms
         /// </summary>
         public void ExitThread() => ExitThreadCore();
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

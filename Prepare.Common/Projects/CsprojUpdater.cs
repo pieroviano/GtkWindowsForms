@@ -9,7 +9,16 @@ public static class CsprojUpdater
         "CS0067",
         "CS0169",
         "CS0419",
-        "CS0436"
+        "CS0436",
+        "CS0162",
+        "CS0168",
+        "CS0414",
+        "CS0612",
+        "CS0618",
+        "CS0649",
+        "CS1574",
+        "CS3021",
+        "CS8002"
     };
 
     public static void EnsureNoWarn(string csprojPath)

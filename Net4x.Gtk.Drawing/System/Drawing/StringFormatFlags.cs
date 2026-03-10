@@ -31,7 +31,7 @@ public enum StringFormatFlags
     NoFontFallback = 0x400,
     /// <summary>
     /// Includes the trailing space at the end of each line. By default the boundary rectangle returned by the
-    /// <see cref="Overload:System.Drawing.Graphics.MeasureString" /> method excludes the space at the end of each line. Set this flag to include that space in measurement.
+    /// <see cref="T:System.Drawing.Graphics.MeasureString" /> method excludes the space at the end of each line. Set this flag to include that space in measurement.
     /// </summary>
     MeasureTrailingSpaces = 0x800,
     /// <summary>

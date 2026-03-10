@@ -8,5 +8,8 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public enum AccessibleRole
 {
+    /// <summary>
+    /// The default
+    /// </summary>
     Default
 }

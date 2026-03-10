@@ -110,6 +110,11 @@ namespace GtkSystem.Resources.Extensions
 
         private static readonly string UnknownObjectTypeName = typeof(UnknownType).FullName;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PreserializedResourceWriter"/> class.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <exception cref="ArgumentNullException">fileName</exception>
         public PreserializedResourceWriter(string fileName)
         {
             if (fileName == null)
@@ -121,6 +126,12 @@ namespace GtkSystem.Resources.Extensions
             _caseInsensitiveDups = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PreserializedResourceWriter"/> class.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <exception cref="ArgumentNullException">stream</exception>
+        /// <exception cref="ArgumentException"></exception>
         public PreserializedResourceWriter(Stream stream)
         {
             if (stream == null)
@@ -162,6 +173,21 @@ namespace GtkSystem.Resources.Extensions
             }
         }
 
+        /// <summary>
+        /// Adds the activator resource.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="typeName">Name of the type.</param>
+        /// <param name="closeAfterWrite">if set to <c>true</c> [close after write].</param>
+        /// <exception cref="ArgumentNullException">
+        /// name
+        /// or
+        /// value
+        /// or
+        /// typeName
+        /// </exception>
+        /// <exception cref="ArgumentException"></exception>
         public void AddActivatorResource(string name, Stream value, string typeName, bool closeAfterWrite = false)
         {
             if (name == null)
@@ -184,6 +210,17 @@ namespace GtkSystem.Resources.Extensions
             _requiresDeserializingResourceReader = true;
         }
 
+        /// <summary>
+        /// Adds the binary formatted resource.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="typeName">Name of the type.</param>
+        /// <exception cref="ArgumentNullException">
+        /// name
+        /// or
+        /// value
+        /// </exception>
         public void AddBinaryFormattedResource(string name, byte[] value, string typeName = null)
         {
             if (name == null)
@@ -202,6 +239,13 @@ namespace GtkSystem.Resources.Extensions
             AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.BinaryFormatter, value));
         }
 
+        /// <summary>
+        /// Adds a named resource of type <see cref="T:System.String"></see> to the list of resources to be written.
+        /// </summary>
+        /// <param name="name">The name of the resource.</param>
+        /// <param name="value">The value of the resource.</param>
+        /// <exception cref="ArgumentNullException">name</exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public void AddResource(string name, string value)
         {
             if (name == null)
@@ -216,6 +260,13 @@ namespace GtkSystem.Resources.Extensions
             _resourceList.Add(name, value);
         }
 
+        /// <summary>
+        /// Adds a named resource of type <see cref="T:System.Object"></see> to the list of resources to be written.
+        /// </summary>
+        /// <param name="name">The name of the resource.</param>
+        /// <param name="value">The value of the resource.</param>
+        /// <exception cref="ArgumentNullException">name</exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public void AddResource(string name, object value)
         {
             if (name == null)
@@ -235,6 +286,14 @@ namespace GtkSystem.Resources.Extensions
             _resourceList.Add(name, value);
         }
 
+        /// <summary>
+        /// Adds the resource.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="closeAfterWrite">if set to <c>true</c> [close after write].</param>
+        /// <exception cref="ArgumentNullException">name</exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public void AddResource(string name, Stream value, bool closeAfterWrite = false)
         {
             if (name == null)
@@ -248,6 +307,13 @@ namespace GtkSystem.Resources.Extensions
             AddResourceInternal(name, value, closeAfterWrite);
         }
 
+        /// <summary>
+        /// Adds an 8-bit unsigned integer array as a named resource to the list of resources to be written.
+        /// </summary>
+        /// <param name="name">Name of a resource.</param>
+        /// <param name="value">Value of a resource as an 8-bit unsigned integer array.</param>
+        /// <exception cref="ArgumentNullException">name</exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public void AddResource(string name, byte[] value)
         {
             if (name == null)
@@ -262,6 +328,20 @@ namespace GtkSystem.Resources.Extensions
             _resourceList.Add(name, value);
         }
 
+        /// <summary>
+        /// Adds the resource.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="typeName">Name of the type.</param>
+        /// <exception cref="ArgumentNullException">
+        /// name
+        /// or
+        /// value
+        /// or
+        /// typeName
+        /// </exception>
+        /// <exception cref="TypeLoadException"></exception>
         public void AddResource(string name, string value, string typeName)
         {
             if (name == null)
@@ -298,6 +378,19 @@ namespace GtkSystem.Resources.Extensions
             }
         }
 
+        /// <summary>
+        /// Adds the type converter resource.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="typeName">Name of the type.</param>
+        /// <exception cref="ArgumentNullException">
+        /// name
+        /// or
+        /// value
+        /// or
+        /// typeName
+        /// </exception>
         public void AddTypeConverterResource(string name, byte[] value, string typeName)
         {
             if (name == null)
@@ -316,16 +409,26 @@ namespace GtkSystem.Resources.Extensions
             _requiresDeserializingResourceReader = true;
         }
 
+        /// <summary>
+        /// Closes the underlying resource file or stream, ensuring all the data has been written to the file.
+        /// </summary>
         public void Close()
         {
             Dispose(disposing: true);
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             Dispose(disposing: true);
         }
 
+        /// <summary>
+        /// Writes all the resources added by the <see cref="M:System.Resources.IResourceWriter.AddResource(System.String,System.String)"></see> method to the output file or stream.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
         public void Generate()
         {
             if (_resourceList == null)

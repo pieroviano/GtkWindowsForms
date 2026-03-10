@@ -21,6 +21,7 @@
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <PackegeId>Net4x.Gtk.Windows.FormsDesigner</PackegeId>
+        <NoWarn>$(NoWarn);CS3021</NoWarn>
     </PropertyGroup>
     <ItemGroup>
         <None Include="$(MSBuildProjectName).xml" Pack="true" PackagePath="\Documentation.xml" />

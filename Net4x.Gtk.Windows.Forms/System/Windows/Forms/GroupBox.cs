@@ -14,19 +14,28 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a Windows control that displays a frame around a group of controls with an optional caption.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class GroupBox : ContainerControl
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly GroupBoxBase self = new GroupBoxBase();
 
+        /// <summary>
+        /// The controls
+        /// </summary>
         private ControlCollection _controls = null;
 
+        /// <summary>
+        /// The contaner
+        /// </summary>
         private Gtk.Overlay contaner = new Gtk.Overlay();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GroupBox"/> class.
+        /// </summary>
         public GroupBox() : base()
         {
             _controls = new ControlCollection(this, contaner);
@@ -39,10 +48,22 @@ namespace System.Windows.Forms
             self.Child = contaner;
         }
 
+        /// <summary>
+        /// Gets the controls.
+        /// </summary>
+        /// <value>The controls.</value>
         public override ControlCollection Controls => _controls;
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the padding.
+        /// </summary>
+        /// <value>The padding.</value>
         public override Padding Padding
         {
             get => base.Padding;
@@ -56,18 +77,32 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
         public override string Text { get { return self.Label; } set { self.Label = value; } }
 
+        /// <summary>
+        /// Forces the control to perform layout logic.
+        /// </summary>
         public override void PerformLayout()
         {
             _Created = true;
         }
 
+        /// <summary>
+        /// Resumes layout logic and optionally forces an immediate layout.
+        /// </summary>
+        /// <param name="resume">if set to <c>true</c> [resume].</param>
         public override void ResumeLayout(bool resume)
         {
             _Created = resume == false;
         }
 
+        /// <summary>
+        /// Suspends layout logic for the control.
+        /// </summary>
         public override void SuspendLayout()
         {
             _Created = false;

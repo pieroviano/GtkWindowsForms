@@ -4,4 +4,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate DateBoldEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="e">The <see cref="DateBoldEventArgs"/> instance containing the event data.</param>
 public delegate void DateBoldEventHandler(object sender, DateBoldEventArgs e);

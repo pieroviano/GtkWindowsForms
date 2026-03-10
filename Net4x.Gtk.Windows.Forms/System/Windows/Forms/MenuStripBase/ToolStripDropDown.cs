@@ -14,22 +14,33 @@ namespace System.Windows.Forms
     /// <see cref="!:System.Windows.Forms.Menu" />
     /// is retained for both backward compatibility and future use if you choose.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class ToolStripDropDown : ToolStripItem
     {
         //public readonly ToolStripDropDownBase self = new ToolStripDropDownBase();
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly Gtk.Menu self = new Gtk.Menu();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripDropDown"/> class.
+        /// </summary>
         public ToolStripDropDown() : base()
         {
 
         }
 
+        /// <summary>
+        /// Gets or sets the size of the image scaling.
+        /// </summary>
+        /// <value>The size of the image scaling.</value>
         public Size ImageScalingSize { get; set; }
 
+        /// <summary>
+        /// Gets the widget.
+        /// </summary>
+        /// <value>The widget.</value>
         public override Gtk.Widget Widget => self;
 
     }

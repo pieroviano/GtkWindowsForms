@@ -15,19 +15,28 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a Windows text box control.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class TextBox : Control
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly TextBoxBase self = new TextBoxBase();
 
+        /// <summary>
+        /// Occurs when a key is pressed while the control has focus.
+        /// </summary>
         public override event KeyEventHandler KeyDown;
 
+        /// <summary>
+        /// Occurs when the Text property value changes.
+        /// </summary>
         public override event EventHandler TextChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextBox"/> class.
+        /// </summary>
         public TextBox() : base()
         {
             self.MaxWidthChars = 1;
@@ -39,8 +48,16 @@ namespace System.Windows.Forms
             self.KeyPressEvent += Self_KeyPressEvent;
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the lines.
+        /// </summary>
+        /// <value>The lines.</value>
         public string[] Lines
         {
             get
@@ -60,16 +77,40 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum length.
+        /// </summary>
+        /// <value>The maximum length.</value>
         public int MaxLength { get => self.MaxLength; set => self.MaxLength = value; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="TextBox"/> is multiline.
+        /// </summary>
+        /// <value><c>true</c> if multiline; otherwise, <c>false</c>.</value>
         public bool Multiline { get; set; }
 
+        /// <summary>
+        /// Gets or sets the password character.
+        /// </summary>
+        /// <value>The password character.</value>
         public virtual char PasswordChar { get => self.InvisibleChar; set { self.InvisibleChar = value; self.Visibility = false; } }
 
+        /// <summary>
+        /// Gets or sets the placeholder text.
+        /// </summary>
+        /// <value>The placeholder text.</value>
         public string PlaceholderText { get { return self.PlaceholderText; } set { self.PlaceholderText = value ?? ""; } }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [read only].
+        /// </summary>
+        /// <value><c>true</c> if [read only]; otherwise, <c>false</c>.</value>
         public virtual bool ReadOnly { get { return self.IsEditable == false; } set { self.IsEditable = value == false; } }
 
+        /// <summary>
+        /// Gets or sets the length of the selection.
+        /// </summary>
+        /// <value>The length of the selection.</value>
         [System.ComponentModel.Browsable(false)]
         public virtual int SelectionLength
         {
@@ -85,6 +126,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selection start.
+        /// </summary>
+        /// <value>The selection start.</value>
         public int SelectionStart
         {
             get
@@ -96,8 +141,16 @@ namespace System.Windows.Forms
             set { Select(value, SelectionLength); }
         }
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
         public override string Text { get { return self.Text; } set { self.Text = value ?? ""; } }
 
+        /// <summary>
+        /// Inserts the text at cursor.
+        /// </summary>
+        /// <param name="text">The text.</param>
         public void InsertTextAtCursor(string text)
         {
             if (text == null) return;
@@ -105,16 +158,31 @@ namespace System.Windows.Forms
             self.InsertText(text, ref posi);
         }
 
+        /// <summary>
+        /// Selects the specified start.
+        /// </summary>
+        /// <param name="start">The start.</param>
+        /// <param name="length">The length.</param>
         public void Select(int start, int length)
         {
             self.SelectRegion(start, start + length);
         }
 
+        /// <summary>
+        /// Handles the Changed event of the Self control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Self_Changed(object sender, EventArgs e)
         {
             if (TextChanged != null && self.IsVisible) { TextChanged(this, EventArgs.Empty); }
         }
 
+        /// <summary>
+        /// Handles the KeyPressEvent event of the Self control.
+        /// </summary>
+        /// <param name="o">The source of the event.</param>
+        /// <param name="args">The <see cref="Gtk.KeyPressEventArgs"/> instance containing the event data.</param>
         private void Self_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)
         {
             if (KeyDown != null)
@@ -127,6 +195,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Selfs the text inserted.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void Self_TextInserted(object o, TextInsertedArgs args)
         {
             if (KeyDown != null && this.GetType().Name == "TextBox")

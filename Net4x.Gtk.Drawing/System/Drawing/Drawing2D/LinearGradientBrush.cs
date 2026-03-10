@@ -203,6 +203,12 @@ namespace System.Drawing.Drawing2D
             this.WrapMode = WrapMode.Clamp;
         }
 
+        /// <summary>
+        /// Gets or sets the angle.
+        /// </summary>
+        /// <value>
+        /// The angle.
+        /// </value>
         public float Angle
         {
             get;
@@ -262,6 +268,12 @@ namespace System.Drawing.Drawing2D
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the linear gradient mode.
+        /// </summary>
+        /// <value>
+        /// The linear gradient mode.
+        /// </value>
         public LinearGradientMode LinearGradientMode
         {
             get;

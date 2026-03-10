@@ -19,24 +19,56 @@ namespace System.Windows.Forms
     [DesignerCategory("Component")]
     public partial class Button : Control
     {
-
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly ButtonBase self = new ButtonBase();
 
         private System.Drawing.ContentAlignment textAlign;
 
+        /// <summary>
+        /// Occurs when the control is clicked.
+        /// </summary>
         public override event EventHandler Click;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Button"/> class.
+        /// </summary>
         public Button() : base()
         {
             self.Clicked += Self_Clicked;
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>
+        /// The GTK control.
+        /// </value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the right to left.
+        /// </summary>
+        /// <value>
+        /// The right to left.
+        /// </value>
         public override RightToLeft RightToLeft { get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; } set { self.Direction = value == RightToLeft.Yes ? Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; } }
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>
+        /// The text.
+        /// </value>
         public override string Text { get => ((Gtk.Label)self.Child).Text; set => ((Gtk.Label)self.Child).Text = value; }
 
+        /// <summary>
+        /// Gets or sets the text align.
+        /// </summary>
+        /// <value>
+        /// The text align.
+        /// </value>
         public System.Drawing.ContentAlignment TextAlign
         {
             get { return textAlign; }

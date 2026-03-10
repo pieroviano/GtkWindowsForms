@@ -9,8 +9,14 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     public sealed class ListBoxBase : ScrollableBoxBase
     {
 
+        /// <summary>
+        /// The ListBox
+        /// </summary>
         public Gtk.ListBox ListBox = new Gtk.ListBox();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListBoxBase"/> class.
+        /// </summary>
         public ListBoxBase() : base()
         {
             this.Override.AddClass("ListBox");

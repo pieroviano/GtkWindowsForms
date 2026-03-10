@@ -14,15 +14,24 @@ namespace System.Windows.Forms
     /// <see cref="T:System.Windows.Forms.TreeView.BeforeSelect" /> events of a
     /// <see cref="T:System.Windows.Forms.TreeView" /> control.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class TreeViewCancelEventArgs : CancelEventArgs
     {
+        /// <summary>
+        /// The action
+        /// </summary>
         private readonly TreeViewAction action;
 
+        /// <summary>
+        /// The node
+        /// </summary>
         private readonly TreeNode node;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeViewCancelEventArgs"/> class.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="cancel">if set to <c>true</c> [cancel].</param>
+        /// <param name="action">The action.</param>
         public TreeViewCancelEventArgs(TreeNode node, bool cancel, TreeViewAction action)
         : base(cancel)
         {
@@ -30,6 +39,10 @@ namespace System.Windows.Forms
             this.action = action;
         }
 
+        /// <summary>
+        /// Gets the action.
+        /// </summary>
+        /// <value>The action.</value>
         public TreeViewAction Action
         {
             get
@@ -38,6 +51,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the node.
+        /// </summary>
+        /// <value>The node.</value>
         public TreeNode Node
         {
             get

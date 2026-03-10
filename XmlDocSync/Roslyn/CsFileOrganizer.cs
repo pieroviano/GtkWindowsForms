@@ -33,7 +33,7 @@ public static class CsFileOrganizer
             contents = contents.Replace("\n\n\n", "\n\n");
         }
 
-        CsFile.WriteAllText(path, contents.Trim('\n'));
+        CsFile.WriteAllText(path, contents.Trim('\n').Replace("cref=\"Overload:","cref=\"T:"));
     }
 
     private static CompilationUnitSyntax ConvertToFileScopedNamespace(CompilationUnitSyntax root)

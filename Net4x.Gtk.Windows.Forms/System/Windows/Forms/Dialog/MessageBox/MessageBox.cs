@@ -13,6 +13,9 @@ using System.Runtime.CompilerServices;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Class MessageBoxOld.
+    /// </summary>
     public class MessageBoxOld
     {
 
@@ -99,11 +102,9 @@ namespace System.Windows.Forms
             return ShowCore(owner, text, caption, buttons, icon, defaultButton, options);
         }
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //END ADD                                                                                                      //
-        /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// Displays a message box with specified text, caption, and style.
+        /// </summary>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                         MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
         {

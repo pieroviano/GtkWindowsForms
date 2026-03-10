@@ -12,19 +12,30 @@ namespace System.Windows.Forms
     /// event of a
     /// <see cref="T:System.Windows.Forms.PropertyGrid" />
     /// </summary>
-    /// <filterpriority> 2
-    /// </filterpriority>
     [ComVisible(true)]
     public class PropertyValueChangedEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyValueChangedEventArgs" /> class.
+        /// </summary>
+        /// <param name="changedItem">The changed item.</param>
+        /// <param name="oldValue">The old value.</param>
         public PropertyValueChangedEventArgs(GridItem changedItem, object oldValue)
         {
             ChangedItem = changedItem;
             OldValue = oldValue;
         }
 
+        /// <summary>
+        /// Gets the changed item.
+        /// </summary>
+        /// <value>The changed item.</value>
         public GridItem ChangedItem { get; }
 
+        /// <summary>
+        /// Gets the old value.
+        /// </summary>
+        /// <value>The old value.</value>
         public object OldValue { get; }
 
     }

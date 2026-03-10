@@ -7,9 +7,6 @@ using System.Reflection;
 
 namespace System.Resources
 {
-    /// <summary>
-    /// ResX resource reader.
-    /// </summary>
     public partial class ResXResourceReader
     {
         private sealed class ReaderAliasResolver : IAliasResolver

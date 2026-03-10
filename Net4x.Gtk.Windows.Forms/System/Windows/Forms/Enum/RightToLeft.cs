@@ -8,7 +8,16 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public enum RightToLeft
 {
+    /// <summary>
+    /// The inherit
+    /// </summary>
     Inherit,
+    /// <summary>
+    /// The no
+    /// </summary>
     No,
+    /// <summary>
+    /// The yes
+    /// </summary>
     Yes
 }

@@ -830,47 +830,47 @@ public enum EmfPlusRecordType
     Clear = 16393,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.FillRectangles" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.FillRectangles" /> methods.
     /// </summary>
     FillRects = 16394,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawRectangles" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawRectangles" /> methods.
     /// </summary>
     DrawRects = 16395,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.FillPolygon" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.FillPolygon" /> methods.
     /// </summary>
     FillPolygon = 16396,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawLines" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawLines" /> methods.
     /// </summary>
     DrawLines = 16397,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.FillEllipse" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.FillEllipse" /> methods.
     /// </summary>
     FillEllipse = 16398,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawEllipse" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawEllipse" /> methods.
     /// </summary>
     DrawEllipse = 16399,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.FillPie" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.FillPie" /> methods.
     /// </summary>
     FillPie = 16400,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawPie" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawPie" /> methods.
     /// </summary>
     DrawPie = 16401,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawArc" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawArc" /> methods.
     /// </summary>
     DrawArc = 16402,
     /// <summary>
@@ -890,37 +890,37 @@ public enum EmfPlusRecordType
     DrawPath = 16405,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.FillClosedCurve" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.FillClosedCurve" /> methods.
     /// </summary>
     FillClosedCurve = 16406,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawClosedCurve" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawClosedCurve" /> methods.
     /// </summary>
     DrawClosedCurve = 16407,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawCurve" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawCurve" /> methods.
     /// </summary>
     DrawCurve = 16408,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawBeziers" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawBeziers" /> methods.
     /// </summary>
     DrawBeziers = 16409,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawImage" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawImage" /> methods.
     /// </summary>
     DrawImage = 16410,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawImage" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawImage" /> methods.
     /// </summary>
     DrawImagePoints = 16411,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.DrawString" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.DrawString" /> methods.
     /// </summary>
     DrawString = 16412,
     /// <summary>
@@ -990,7 +990,7 @@ public enum EmfPlusRecordType
     EndContainer = 16425,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.TransformPoints" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.TransformPoints" /> methods.
     /// </summary>
     SetWorldTransform = 16426,
     /// <summary>
@@ -1000,27 +1000,27 @@ public enum EmfPlusRecordType
     ResetWorldTransform = 16427,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.MultiplyTransform" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.MultiplyTransform" /> methods.
     /// </summary>
     MultiplyWorldTransform = 16428,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.TransformPoints" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.TransformPoints" /> methods.
     /// </summary>
     TranslateWorldTransform = 16429,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.ScaleTransform" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.ScaleTransform" /> methods.
     /// </summary>
     ScaleWorldTransform = 16430,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.RotateTransform" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.RotateTransform" /> methods.
     /// </summary>
     RotateWorldTransform = 16431,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.TransformPoints" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.TransformPoints" /> methods.
     /// </summary>
     SetPageTransform = 16432,
     /// <summary>
@@ -1030,22 +1030,22 @@ public enum EmfPlusRecordType
     ResetClip = 16433,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.SetClip" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.SetClip" /> methods.
     /// </summary>
     SetClipRect = 16434,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.SetClip" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.SetClip" /> methods.
     /// </summary>
     SetClipPath = 16435,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.SetClip" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.SetClip" /> methods.
     /// </summary>
     SetClipRegion = 16436,
     /// <summary>
     /// See
-    /// <see cref="Overload:System.Drawing.Graphics.TranslateClip" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.TranslateClip" /> methods.
     /// </summary>
     OffsetClip = 16437,
     /// <summary>

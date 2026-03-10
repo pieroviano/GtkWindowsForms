@@ -10,10 +10,13 @@ namespace System.Windows.Forms
     /// Provides data for column-related events of a
     /// <see cref="T:System.Windows.Forms.DataGridView" />
     /// </summary>
-    /// <filterpriority> 2
-    /// </filterpriority>
     public class DataGridViewColumnEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataGridViewColumnEventArgs"/> class.
+        /// </summary>
+        /// <param name="dataGridViewColumn">The data grid view column.</param>
+        /// <exception cref="System.ArgumentNullException">dataGridViewColumn</exception>
         public DataGridViewColumnEventArgs(DataGridViewColumn dataGridViewColumn)
         {
             if (dataGridViewColumn == null)
@@ -25,6 +28,10 @@ namespace System.Windows.Forms
             Column = dataGridViewColumn;
         }
 
+        /// <summary>
+        /// Gets the column.
+        /// </summary>
+        /// <value>The column.</value>
         public DataGridViewColumn Column { get; }
 
     }

@@ -122,6 +122,12 @@ namespace System.Drawing
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bitmap"/> class.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="g">The g.</param>
         public Bitmap(int width, int height, Graphics g) : this(width, height, PixelFormat.Format32bppArgb)
         {
 
@@ -357,12 +363,21 @@ namespace System.Drawing
             }
         }
 
+        /// <summary>
+        /// Gets the hbitmap.
+        /// </summary>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public IntPtr GetHbitmap()
         {
             return GetHbitmap(Color.LightGray);
         }
 
+        /// <summary>
+        /// Gets the hbitmap.
+        /// </summary>
+        /// <param name="background">The background.</param>
+        /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public IntPtr GetHbitmap(Color background)
         {

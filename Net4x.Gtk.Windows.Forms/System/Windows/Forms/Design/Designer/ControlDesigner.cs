@@ -15,6 +15,12 @@ namespace System.Windows.Forms.Design
     /// </summary>
     public partial class ControlDesigner : ComponentDesigner
     {
+        /// <summary>
+        /// Represents a sentinel value indicating an invalid or uninitialized point.
+        /// </summary>
+        /// <remarks>This value can be used to signify an error or an undefined state when working with
+        /// points. The coordinates are set to the minimum possible integer values, which are unlikely to represent a
+        /// valid point in typical scenarios.</remarks>
 #pragma warning disable IDE1006 // Naming Styles - Public API
         protected static readonly Point InvalidPoint = new Point(int.MinValue, int.MinValue);
 

@@ -12,20 +12,32 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.TreeView.AfterSelect" /> events of a
 /// <see cref="T:System.Windows.Forms.TreeView" /> control.
 /// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
 public class TreeViewEventArgs : EventArgs
 {
+    /// <summary>
+    /// The action
+    /// </summary>
     readonly TreeViewAction action = TreeViewAction.Unknown;
 
+    /// <summary>
+    /// The node
+    /// </summary>
     readonly TreeNode node;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TreeViewEventArgs"/> class.
+    /// </summary>
+    /// <param name="node">The node.</param>
     public TreeViewEventArgs(TreeNode node)
     {
         this.node = node;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TreeViewEventArgs"/> class.
+    /// </summary>
+    /// <param name="node">The node.</param>
+    /// <param name="action">The action.</param>
     public TreeViewEventArgs(TreeNode node, TreeViewAction action)
     {
         this.node = node;
@@ -35,6 +47,7 @@ public class TreeViewEventArgs : EventArgs
     /// <summary>
     /// An event specific action-flag.
     /// </summary>
+    /// <value>The action.</value>
     public TreeViewAction Action
     {
         get
@@ -43,6 +56,10 @@ public class TreeViewEventArgs : EventArgs
         }
     }
 
+    /// <summary>
+    /// Gets the node.
+    /// </summary>
+    /// <value>The node.</value>
     public TreeNode Node
     {
         get

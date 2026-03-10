@@ -3,4 +3,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate ColumnReorderedEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="e">The <see cref="ColumnReorderedEventArgs"/> instance containing the event data.</param>
 public delegate void ColumnReorderedEventHandler(object? sender, ColumnReorderedEventArgs e);

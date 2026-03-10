@@ -11,20 +11,32 @@ namespace System.Windows.Forms
     /// <summary>
     /// Uses a mask to distinguish between proper and improper user input.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     public class MaskedTextBox : TextBox
     {
 
+        /// <summary>
+        /// The is masking
+        /// </summary>
         internal bool IsMasking = true;
 
+        /// <summary>
+        /// The correct text
+        /// </summary>
         string correctText;
 
+        /// <summary>
+        /// The is backspace
+        /// </summary>
         bool isBackspace = false;
 
+        /// <summary>
+        /// The password character
+        /// </summary>
         private char _PasswordChar;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MaskedTextBox"/> class.
+        /// </summary>
         public MaskedTextBox() : base()
         {
             self.AddClass("MaskedTextBox");
@@ -33,6 +45,10 @@ namespace System.Windows.Forms
             self.Shown += Control_Shown;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MaskedTextBox"/> class.
+        /// </summary>
+        /// <param name="cssClass">The CSS class.</param>
         internal MaskedTextBox(string cssClass) : base()
         {
             self.AddClass(cssClass);
@@ -41,21 +57,50 @@ namespace System.Windows.Forms
             self.Shown += Control_Shown;
         }
 
+        /// <summary>
+        /// Gets or sets the mask.
+        /// </summary>
+        /// <value>The mask.</value>
         public string Mask { get; set; }
 
+        /// <summary>
+        /// Gets or sets the password character.
+        /// </summary>
+        /// <value>The password character.</value>
         public override char PasswordChar { get => _PasswordChar; set { _PasswordChar = value; self.InvisibleChar = value; } }
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
         public override string Text { get { return self.Text; } set { IsMasking = false; self.Text = value ?? ""; IsMasking = true; } }
 
+        /// <summary>
+        /// Gets or sets the text mask format.
+        /// </summary>
+        /// <value>The text mask format.</value>
         public MaskFormat TextMaskFormat { get; set; }
 
+        /// <summary>
+        /// Gets or sets the type of the validating.
+        /// </summary>
+        /// <value>The type of the validating.</value>
         public Type ValidatingType { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is mask password.
+        /// </summary>
+        /// <value><c>true</c> if this instance is mask password; otherwise, <c>false</c>.</value>
         private bool IsMaskPassword
         {
             get { return !string.IsNullOrWhiteSpace(Mask) && IsMasking; }
         }
 
+        /// <summary>
+        /// Handles the Backspace event of the Control control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Control_Backspace(object sender, EventArgs e)
         {
             if (IsMaskPassword == true)
@@ -81,6 +126,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the Shown event of the Control control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Control_Shown(object sender, EventArgs e)
         {
             if (_PasswordChar != '\0')
@@ -106,6 +156,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Controls the text inserted.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void Control_TextInserted(object o, Gtk.TextInsertedArgs args)
         {
             if (self.IsRealized && isBackspace == false)
@@ -141,11 +196,21 @@ namespace System.Windows.Forms
             correctText = self.Text;
         }
 
+        /// <summary>
+        /// Determines whether [is number character] [the specified w].
+        /// </summary>
+        /// <param name="w">The w.</param>
+        /// <returns><c>true</c> if [is number character] [the specified w]; otherwise, <c>false</c>.</returns>
         private bool IsNumberChar(char w)
         {
             return (char.IsNumber(w) || w == '_');
         }
 
+        /// <summary>
+        /// Determines whether [is number text] [the specified text].
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns><c>true</c> if [is number text] [the specified text]; otherwise, <c>false</c>.</returns>
         private bool IsNumberText(string text)
         {
             foreach (char w in text)

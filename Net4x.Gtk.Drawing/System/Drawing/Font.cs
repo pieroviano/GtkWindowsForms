@@ -14,13 +14,13 @@ namespace System.Drawing
     [TypeConverter("System.Drawing.FontConverter, System.Windows.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51")]
     public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISerializable
     {
-
         /// <summary>
         /// Initializes a new System.Drawing.Font that uses the specified existing System.Drawing.Font
         /// and System.Drawing.FontStyle enumeration.
         /// </summary>
         /// <param name="prototype">The existing System.Drawing.Font from which to create the new System.Drawing.Font.
         /// </param>
+        /// <param name="newStyle">The new style.</param>
         public Font(Font prototype, FontStyle newStyle) : this(prototype.FontFamily, prototype.Size, newStyle, prototype.Unit, prototype.GdiCharSet, prototype.GdiVerticalFont)
         {
 
@@ -446,6 +446,11 @@ namespace System.Drawing
         /// </returns>
         public float GetHeight() { return Height; }
 
+        /// <summary>
+        /// Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> with the data needed to serialize the target object.
+        /// </summary>
+        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> to populate with data.</param>
+        /// <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"></see>) for this serialization.</param>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
 

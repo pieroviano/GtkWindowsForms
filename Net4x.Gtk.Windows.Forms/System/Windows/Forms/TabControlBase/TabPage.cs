@@ -17,32 +17,57 @@ namespace System.Windows.Forms
     /// Represents a single tab page in a
     /// <see cref="T:System.Windows.Forms.TabControl" />
     /// </summary>
-    /// <filterpriority> 2
-    /// </filterpriority>
     public class TabPage : ContainerControl
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly TabPageBase self = new TabPageBase();
 
+        /// <summary>
+        /// The tab label
+        /// </summary>
         internal Gtk.Label _tabLabel = new Gtk.Label();
 
+        /// <summary>
+        /// The controls
+        /// </summary>
         private ControlCollection _controls;
 
+        /// <summary>
+        /// The size
+        /// </summary>
         private Size _size;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabPage"/> class.
+        /// </summary>
         public TabPage() : base()
         {
             _controls = new ControlCollection(this, self.Content);
             this.Dock = DockStyle.Fill;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabPage"/> class.
+        /// </summary>
+        /// <param name="text">The text.</param>
         public TabPage(string text) : this()
         {
             _tabLabel.Text = text;
         }
 
+        /// <summary>
+        /// Gets the controls.
+        /// </summary>
+        /// <value>The controls.</value>
         public new ControlCollection Controls => _controls;
 
+        /// <summary>
+        /// Gets or sets the dock.
+        /// </summary>
+        /// <value>The dock.</value>
         public new DockStyle Dock
         {
             get
@@ -52,14 +77,34 @@ namespace System.Windows.Forms
             set { base.Dock = DockStyle.Fill; }
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the index of the image.
+        /// </summary>
+        /// <value>The index of the image.</value>
         public int ImageIndex { get; set; }
 
+        /// <summary>
+        /// Gets or sets the image key.
+        /// </summary>
+        /// <value>The image key.</value>
         public string ImageKey { get; set; }
 
+        /// <summary>
+        /// Gets or sets the image list.
+        /// </summary>
+        /// <value>The image list.</value>
         public List<object> ImageList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>The location.</value>
         public override Point Location
         {
             get
@@ -71,6 +116,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the padding.
+        /// </summary>
+        /// <value>The padding.</value>
         public override Padding Padding
         {
             get => base.Padding;
@@ -84,10 +133,22 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the size.
+        /// </summary>
+        /// <value>The size.</value>
         public override Size Size { get => _size; set { _size = value; } }
 
+        /// <summary>
+        /// Gets the tab label.
+        /// </summary>
+        /// <value>The tab label.</value>
         public Gtk.Label TabLabel { get { return _tabLabel; } }
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
         public override string Text { get { return _tabLabel.Text; } set { _tabLabel.Text = value; } }
 
     }

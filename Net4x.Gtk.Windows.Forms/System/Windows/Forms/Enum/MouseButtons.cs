@@ -36,8 +36,14 @@ namespace System.Windows.Forms
         /// </summary>
         Middle = 0x00400000,
 
+        /// <summary>
+        /// The x button1
+        /// </summary>
         XButton1 = 0x00800000,
 
+        /// <summary>
+        /// The x button2
+        /// </summary>
         XButton2 = 0x01000000,
     }
 }

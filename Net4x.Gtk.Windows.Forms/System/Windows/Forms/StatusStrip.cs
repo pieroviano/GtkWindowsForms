@@ -12,11 +12,11 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a Windows status bar control.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class StatusStrip : ToolStrip
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StatusStrip"/> class.
+        /// </summary>
         public StatusStrip() : base()
         {
             this.self.StyleContext.RemoveClass("ToolStrip");
@@ -24,18 +24,38 @@ namespace System.Windows.Forms
             Dock = DockStyle.Bottom;
         }
 
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>The location.</value>
         public override Point Location { get => base.Location; set => base.Location = new Point(value.X, value.Y - 12); }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show item tool tips].
+        /// </summary>
+        /// <value><c>true</c> if [show item tool tips]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public bool ShowItemToolTips { get; set; }
 
+        /// <summary>
+        /// Gets or sets the size.
+        /// </summary>
+        /// <value>The size.</value>
         public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, value.Height + 12); }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [sizing grip].
+        /// </summary>
+        /// <value><c>true</c> if [sizing grip]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
 
         public bool SizingGrip { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="StatusStrip"/> is stretch.
+        /// </summary>
+        /// <value><c>true</c> if stretch; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
         public bool Stretch { get; set; }
 

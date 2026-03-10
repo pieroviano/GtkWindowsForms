@@ -13,30 +13,52 @@ namespace System.Windows.Forms
     /// <see cref="T:System.Windows.Forms.ToolStripItem" />
     /// that renders text and images and can display hyperlinks.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class ToolStripLabel : WidgetToolStrip<Gtk.MenuItem>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripLabel"/> class.
+        /// </summary>
         public ToolStripLabel() : this("", null, null, "")
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripLabel"/> class.
+        /// </summary>
+        /// <param name="text">The text.</param>
         public ToolStripLabel(string text) : this(text, null, null, "")
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripLabel"/> class.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="image">The image.</param>
         public ToolStripLabel(string text, Image image) : this(text, image, null, "")
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripLabel"/> class.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="image">The image.</param>
+        /// <param name="onClick">The on click.</param>
         public ToolStripLabel(string text, Image image, EventHandler onClick) : this(text, image, onClick, "")
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripLabel"/> class.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="image">The image.</param>
+        /// <param name="onClick">The on click.</param>
+        /// <param name="name">The name.</param>
         public ToolStripLabel(string text, Image image, EventHandler onClick, string name) : base(null, text, image, onClick, name)
         {
         }

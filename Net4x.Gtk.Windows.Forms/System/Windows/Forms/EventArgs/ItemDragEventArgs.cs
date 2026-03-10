@@ -13,24 +13,38 @@ namespace System.Windows.Forms
     /// <see cref="T:System.Windows.Forms.ListView" /> and
     /// <see cref="T:System.Windows.Forms.TreeView" /> controls.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [ComVisible(true)]
     public class ItemDragEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ItemDragEventArgs"/> class.
+        /// </summary>
+        /// <param name="button">The button.</param>
         public ItemDragEventArgs(MouseButtons button) : this(button, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ItemDragEventArgs"/> class.
+        /// </summary>
+        /// <param name="button">The button.</param>
+        /// <param name="item">The item.</param>
         public ItemDragEventArgs(MouseButtons button, object item)
         {
             Button = button;
             Item = item;
         }
 
+        /// <summary>
+        /// Gets the button.
+        /// </summary>
+        /// <value>The button.</value>
         public MouseButtons Button { get; }
 
+        /// <summary>
+        /// Gets the item.
+        /// </summary>
+        /// <value>The item.</value>
         public object Item { get; }
 
     }

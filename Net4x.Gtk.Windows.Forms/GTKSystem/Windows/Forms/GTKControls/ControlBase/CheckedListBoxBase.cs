@@ -6,6 +6,9 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.ScrollableBoxBase" />
 public sealed class CheckedListBoxBase : ScrollableBoxBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CheckedListBoxBase"/> class.
+    /// </summary>
     public CheckedListBoxBase() : base()
     {
         this.Override.AddClass("CheckedListBox");

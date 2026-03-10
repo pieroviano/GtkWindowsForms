@@ -7,8 +7,16 @@ using System.Globalization;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// ComboBox ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.ListControl" />
     public partial class ComboBox
     {
+        /// <summary>
+        /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+        /// </summary>
+        /// <seealso cref="System.Collections.IList" />
         [ListBindable(false)]
         public partial class ObjectCollection : IList, IComparer<ComboBox.ObjectCollection.Entry>
         {
@@ -16,6 +24,10 @@ namespace System.Windows.Forms
 
             private readonly ComboBox _owner;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ObjectCollection"/> class.
+            /// </summary>
+            /// <param name="owner">The owner.</param>
             public ObjectCollection(ComboBox owner)
             {
                 _owner = owner;
@@ -26,6 +38,9 @@ namespace System.Windows.Forms
             /// </summary>
             public int Count => InnerList.Count;
 
+            /// <summary>
+            /// Gets a value indicating whether the <see cref="T:System.Collections.IList"></see> is read-only.
+            /// </summary>
             public bool IsReadOnly
             {
                 get
@@ -100,6 +115,10 @@ namespace System.Windows.Forms
                 return index;
             }
 
+            /// <summary>
+            /// Adds the range.
+            /// </summary>
+            /// <param name="items">The items.</param>
             public void AddRange(params object[] items)
             {
                 foreach (object item in items)
@@ -120,6 +139,13 @@ namespace System.Windows.Forms
                 ClearInternal();
             }
 
+            /// <summary>
+            /// Determines whether this instance contains the object.
+            /// </summary>
+            /// <param name="value">The object to locate in the <see cref="T:System.Collections.IList"></see>.</param>
+            /// <returns>
+            /// true if the <see cref="T:System.Object"></see> is found in the <see cref="T:System.Collections.IList"></see>; otherwise, false.
+            /// </returns>
             public bool Contains(object? value)
             {
                 return IndexOf(value) != -1;
@@ -143,6 +169,13 @@ namespace System.Windows.Forms
             /// </summary>
             public IEnumerator GetEnumerator() => new EntryEnumerator(InnerList);
 
+            /// <summary>
+            /// Determines the index of a specific item in the <see cref="T:System.Collections.IList"></see>.
+            /// </summary>
+            /// <param name="value">The object to locate in the <see cref="T:System.Collections.IList"></see>.</param>
+            /// <returns>
+            /// The index of <paramref name="value">value</paramref> if found in the list; otherwise, -1.
+            /// </returns>
             public int IndexOf(object? value)
             {
                 int virtualIndex = -1;

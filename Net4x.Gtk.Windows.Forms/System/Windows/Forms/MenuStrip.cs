@@ -11,12 +11,12 @@ namespace System.Windows.Forms
     /// <summary>
     /// Provides a menu system for a form.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class MenuStrip : ToolStrip
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MenuStrip"/> class.
+        /// </summary>
         public MenuStrip() : base("MenuStrip")
         {
             this.self.StyleContext.AddClass("MenuStrip");

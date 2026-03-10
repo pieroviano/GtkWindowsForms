@@ -12,11 +12,15 @@ namespace System.Windows.Forms
     /// <see cref="!:System.Windows.Forms.TabControl.Deselecting" /> events of a
     /// <see cref="T:System.Windows.Forms.TabControl" /> control.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class TabControlCancelEventArgs : CancelEventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabControlCancelEventArgs"/> class.
+        /// </summary>
+        /// <param name="tabPage">The tab page.</param>
+        /// <param name="tabPageIndex">Index of the tab page.</param>
+        /// <param name="cancel">if set to <c>true</c> [cancel].</param>
+        /// <param name="action">The action.</param>
         public TabControlCancelEventArgs(TabPage tabPage, int tabPageIndex, bool cancel, TabControlAction action) : base(cancel)
         {
             TabPage = tabPage;
@@ -27,16 +31,19 @@ namespace System.Windows.Forms
         /// <summary>
         /// Stores the TabControl action which instigated the TabControl event.
         /// </summary>
+        /// <value>The action.</value>
         public TabControlAction Action { get; }
 
         /// <summary>
         /// Stores the referemce to the tabpage that is undergoing the TabControl event.
         /// </summary>
+        /// <value>The tab page.</value>
         public TabPage TabPage { get; }
 
         /// <summary>
         /// Stores the index to the tabpage that is undergoing the TabControl event.
         /// </summary>
+        /// <value>The index of the tab page.</value>
         public int TabPageIndex { get; }
 
     }

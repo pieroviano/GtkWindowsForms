@@ -240,7 +240,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Releases the unmanaged resources used by the
-        /// <see cref = "ImageList"/>
+        /// <see cref="T:System.Windows.Forms.ImageList"/>
         /// and optionally releases the managed resources.
         /// </summary>
         /// <param name = "disposing">

@@ -5,8 +5,6 @@ using System.Windows.Forms.Design;
 
 namespace System.Windows.Forms
 {
-    /// <summary>
-    /// </summary>
     public partial class PropertyGrid
     {
         public class PropertyTabCollection : ICollection

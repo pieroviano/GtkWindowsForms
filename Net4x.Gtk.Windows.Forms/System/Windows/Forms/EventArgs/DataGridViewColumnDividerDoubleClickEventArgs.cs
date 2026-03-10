@@ -12,6 +12,13 @@ namespace System.Windows.Forms;
 /// </summary>
 public class DataGridViewColumnDividerDoubleClickEventArgs : HandledMouseEventArgs
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataGridViewColumnDividerDoubleClickEventArgs"/> class.
+    /// </summary>
+    /// <param name="columnIndex">Index of the column.</param>
+    /// <param name="e">The <see cref="HandledMouseEventArgs"/> instance containing the event data.</param>
+    /// <exception cref="System.ArgumentOutOfRangeException">columnIndex</exception>
+    /// <exception cref="System.ArgumentNullException">e</exception>
     public DataGridViewColumnDividerDoubleClickEventArgs(int columnIndex, HandledMouseEventArgs e) : base(e?.Button ?? MouseButtons.None, e?.Clicks ?? 0, e?.X ?? 0, e?.Y ?? 0, e?.Delta ?? 0, e?.Handled ?? false)
     {
         if (columnIndex < -1)
@@ -26,6 +33,10 @@ public class DataGridViewColumnDividerDoubleClickEventArgs : HandledMouseEventAr
         ColumnIndex = columnIndex;
     }
 
+    /// <summary>
+    /// Gets the index of the column.
+    /// </summary>
+    /// <value>The index of the column.</value>
     public int ColumnIndex { get; }
 
 }

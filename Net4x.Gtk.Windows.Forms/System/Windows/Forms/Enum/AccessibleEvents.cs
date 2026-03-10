@@ -7,9 +7,6 @@ namespace System.Windows.Forms;
 /// <summary>
 /// Specifies events that are reported by accessible applications.
 /// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
 public enum AccessibleEvents
 {
     /// <summary>
@@ -60,14 +57,6 @@ public enum AccessibleEvents
     /// </c>
     /// Sent when a menu popup comes up.
     /// </summary>
-    /// <remarks>
-    /// Note that for a call to TrackPopupMenu(), a client will see
-    /// <c>EVENT_SYSTEM_MENUSTART
-    /// </c>
-    /// followed almost immediately by
-    /// <c>EVENT_SYSTEM_MENUPOPUPSTART
-    /// </c> for the popup being shown.
-    /// </remarks>
     /// <seealso cref="SystemMenuPopupEnd" />.
     SystemMenuPopupStart = 0x0006,
 
@@ -76,14 +65,6 @@ public enum AccessibleEvents
     /// </c>
     /// Sent when a menu popup just before it is taken down.
     /// </summary>
-    /// <remarks>
-    /// Note that for a call to TrackPopupMenu(), a client will see
-    /// <c>EVENT_SYSTEM_MENUSTART
-    /// </c>
-    /// followed almost immediately by
-    /// <c>EVENT_SYSTEM_MENUPOPUPSTART
-    /// </c> for the popup being shown.
-    /// </remarks>
     /// <seealso cref="SystemMenuPopupStart" />.
     SystemMenuPopupEnd = 0x0007,
 
@@ -304,9 +285,21 @@ public enum AccessibleEvents
     /// </summary>
     Focus = 0x8005,                 // hwnd + ID + idChild is focused item
 
+    /// <summary>
+    /// The selection
+    /// </summary>
     Selection = 0x8006,             // hwnd + ID + idChild is selected item (if only one), or idChild is OBJID_WINDOW if complex
+    /// <summary>
+    /// The selection add
+    /// </summary>
     SelectionAdd = 0x8007,          // hwnd + ID + idChild is item added
+    /// <summary>
+    /// The selection remove
+    /// </summary>
     SelectionRemove = 0x8008,       // hwnd + ID + idChild is item removed
+    /// <summary>
+    /// The selection within
+    /// </summary>
     SelectionWithin = 0x8009,       // hwnd + ID + idChild is parent of changed selected items
 
     /// <summary>
@@ -314,27 +307,22 @@ public enum AccessibleEvents
     /// keystrokes are going at a given moment. Hence only send a notification
     /// about where the NEW focus is going. A NEW item getting the focus already
     /// implies that the OLD item is losing it.
-    ///
     /// SELECTION however can be multiple. Hence the different SELECTION
     /// notifications. Here's when to use each:
-    ///
     /// (1) Send a SELECTION notification in the simple single selection
     /// case (like the focus) when the item with the selection is
     /// merely moving to a different item within a container. hwnd + ID
     /// is the container control, idChildItem is the new child with the
     /// selection.
-    ///
     /// (2) Send a SELECTIONADD notification when a new item has simply been added
     /// to the selection within a container. This is appropriate when the
     /// number of newly selected items is very small. hwnd + ID is the
     /// container control, idChildItem is the new child added to the selection.
-    ///
     /// (3) Send a SELECTIONREMOVE notification when a new item has simply been
     /// removed from the selection within a container. This is appropriate
     /// when the number of newly selected items is very small, just like
     /// SELECTIONADD. hwnd + ID is the container control, idChildItem is the
     /// new child removed from the selection.
-    ///
     /// (4) Send a SELECTIONWITHIN notification when the selected items within a
     /// control have changed substantially. Rather than propagate a large
     /// number of changes to reflect removal for some items, addition of
@@ -344,12 +332,36 @@ public enum AccessibleEvents
     /// are.
     /// </summary>
     StateChange = 0x800A,           // hwnd + ID + idChild is item w/ state change
+    /// <summary>
+    /// The location change
+    /// </summary>
     LocationChange = 0x800B,        // hwnd + ID + idChild is moved/sized item
+    /// <summary>
+    /// The name change
+    /// </summary>
     NameChange = 0x800C,            // hwnd + ID + idChild is item w/ name change
+    /// <summary>
+    /// The description change
+    /// </summary>
     DescriptionChange = 0x800D,     // hwnd + ID + idChild is item w/ desc change
+    /// <summary>
+    /// The value change
+    /// </summary>
     ValueChange = 0x800E,           // hwnd + ID + idChild is item w/ value change
+    /// <summary>
+    /// The parent change
+    /// </summary>
     ParentChange = 0x800F,          // hwnd + ID + idChild is item w/ new parent
+    /// <summary>
+    /// The help change
+    /// </summary>
     HelpChange = 0x8010,            // hwnd + ID + idChild is item w/ help change
+    /// <summary>
+    /// The default action change
+    /// </summary>
     DefaultActionChange = 0x8011,   // hwnd + ID + idChild is item w/ def action change
+    /// <summary>
+    /// The accelerator change
+    /// </summary>
     AcceleratorChange = 0x8012,     // hwnd + ID + idChild is item w/ keybd accel change
 }

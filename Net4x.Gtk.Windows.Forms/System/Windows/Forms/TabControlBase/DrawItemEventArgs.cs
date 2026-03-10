@@ -32,11 +32,19 @@ namespace System.Windows.Forms
         /// </summary>
         private readonly Color _foreColor;
 
+        /// <summary>
+        /// The graphics
+        /// </summary>
         private Graphics graphics;
 
         /// <summary>
         /// Creates a new DrawItemEventArgs with the given parameters.
         /// </summary>
+        /// <param name="graphics">The graphics.</param>
+        /// <param name="font">The font.</param>
+        /// <param name="rect">The rect.</param>
+        /// <param name="index">The index.</param>
+        /// <param name="state">The state.</param>
         public DrawItemEventArgs(Graphics graphics, Font? font, Rectangle rect, int index, DrawItemState state)
             : this(graphics, font, rect, index, state, SystemColors.WindowText, SystemColors.Window)
         { }
@@ -45,6 +53,14 @@ namespace System.Windows.Forms
         /// Creates a new DrawItemEventArgs with the given parameters, including the foreColor and backColor
         /// of the control.
         /// </summary>
+        /// <param name="graphics">The graphics.</param>
+        /// <param name="font">The font.</param>
+        /// <param name="rect">The rect.</param>
+        /// <param name="index">The index.</param>
+        /// <param name="state">The state.</param>
+        /// <param name="foreColor">Color of the fore.</param>
+        /// <param name="backColor">Color of the back.</param>
+        /// <exception cref="System.ArgumentNullException">graphics</exception>
         public DrawItemEventArgs(
             Graphics graphics,
             Font? font,
@@ -63,23 +79,30 @@ namespace System.Windows.Forms
             _backColor = backColor;
         }
 
+        /// <summary>
+        /// Gets the color of the back.
+        /// </summary>
+        /// <value>The color of the back.</value>
         public Color BackColor
             => (State & DrawItemState.Selected) == DrawItemState.Selected ? SystemColors.Highlight : _backColor;
 
         /// <summary>
         /// The rectangle outlining the area in which the painting should be  done.
         /// </summary>
+        /// <value>The bounds.</value>
         public Rectangle Bounds { get; }
 
         /// <summary>
         /// A suggested font, usually the parent control's Font property.
         /// </summary>
+        /// <value>The font.</value>
         public Font? Font { get; }
 
         /// <summary>
         /// A suggested color drawing: either SystemColors.WindowText or SystemColors.HighlightText,
         /// depending on whether this item is selected.
         /// </summary>
+        /// <value>The color of the fore.</value>
         public Color ForeColor
             => (State & DrawItemState.Selected) == DrawItemState.Selected ? SystemColors.HighlightText : _foreColor;
 
@@ -87,6 +110,7 @@ namespace System.Windows.Forms
         /// Gets the
         /// <see cref="Drawing.Graphics" /> object used to paint.
         /// </summary>
+        /// <value>The graphics.</value>
         public Graphics Graphics
         {
             get
@@ -98,6 +122,7 @@ namespace System.Windows.Forms
         /// <summary>
         /// The index of the item that should be painted.
         /// </summary>
+        /// <value>The index.</value>
         public int Index { get; }
 
         /// <summary>
@@ -106,8 +131,12 @@ namespace System.Windows.Forms
         /// have one special piece of information which indicates if the item
         /// being painted is the editable portion of the ComboBox.
         /// </summary>
+        /// <value>The state.</value>
         public DrawItemState State { get; }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
 
@@ -133,11 +162,18 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Returns the handle to a Windows device context.
+        /// </summary>
+        /// <returns>An System.IntPtr representing the handle of a device context.</returns>
         public IntPtr GetHdc()
         {
             return IntPtr.Zero;
         }
 
+        /// <summary>
+        /// Releases the handle of a Windows device context.
+        /// </summary>
         public void ReleaseHdc()
         {
 

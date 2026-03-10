@@ -10,9 +10,6 @@ namespace System.Windows.Forms
     /// Provides data for the
     /// <see cref="T:System.Windows.Forms.LinkLabel.LinkClicked" /> event.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [ComVisible(true)]
     public class LinkLabelLinkClickedEventArgs : EventArgs
     {
@@ -20,10 +17,16 @@ namespace System.Windows.Forms
         /// Initializes a new instance of the
         /// <see cref="LinkLabelLinkClickedEventArgs" /> class, given the link.
         /// </summary>
+        /// <param name="link">The link.</param>
         public LinkLabelLinkClickedEventArgs(LinkLabel.Link link) : this(link, MouseButtons.Left)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinkLabelLinkClickedEventArgs"/> class.
+        /// </summary>
+        /// <param name="link">The link.</param>
+        /// <param name="button">The button.</param>
         public LinkLabelLinkClickedEventArgs(LinkLabel.Link link, MouseButtons button)
         {
             Link = link;
@@ -33,12 +36,14 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the mouseButton which causes the link to be clicked
         /// </summary>
+        /// <value>The button.</value>
         public MouseButtons Button { get; }
 
         /// <summary>
         /// Gets the
         /// <see cref="LinkLabel.Link" /> that was clicked.
         /// </summary>
+        /// <value>The link.</value>
         public LinkLabel.Link Link { get; }
 
     }

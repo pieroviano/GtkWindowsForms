@@ -8,18 +8,27 @@ namespace System.Windows.Forms;
 /// Provides data for the
 /// <see cref="!:System.Windows.Forms.ListView.RetrieveVirtualItem" /> event.
 /// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
 public class RetrieveVirtualItemEventArgs : EventArgs
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RetrieveVirtualItemEventArgs"/> class.
+    /// </summary>
+    /// <param name="itemIndex">Index of the item.</param>
     public RetrieveVirtualItemEventArgs(int itemIndex)
     {
         ItemIndex = itemIndex;
     }
 
+    /// <summary>
+    /// Gets or sets the item.
+    /// </summary>
+    /// <value>The item.</value>
     public ListViewItem Item { get; set; }
 
+    /// <summary>
+    /// Gets the index of the item.
+    /// </summary>
+    /// <value>The index of the item.</value>
     public int ItemIndex { get; }
 
 }

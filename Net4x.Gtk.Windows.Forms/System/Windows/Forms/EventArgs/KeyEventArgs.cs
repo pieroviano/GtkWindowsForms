@@ -11,18 +11,19 @@ namespace System.Windows.Forms
     /// <see cref="T:System.Windows.Forms.Control.KeyDown" /> or
     /// <see cref="T:System.Windows.Forms.Control.KeyUp" /> event.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [ComVisible(true)]
     public class KeyEventArgs : EventArgs
     {
+        /// <summary>
+        /// The suppress key press
+        /// </summary>
         private bool _suppressKeyPress = false;
 
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="KeyEventArgs" /> class.
         /// </summary>
+        /// <param name="keyData">The key data.</param>
         public KeyEventArgs(Keys keyData)
         {
             KeyData = keyData;
@@ -31,16 +32,19 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets a value indicating whether the ALT key was pressed.
         /// </summary>
+        /// <value><c>true</c> if alt; otherwise, <c>false</c>.</value>
         public virtual bool Alt => (KeyData & Keys.Alt) == Keys.Alt;
 
         /// <summary>
         /// Gets a value indicating whether the CTRL key was pressed.
         /// </summary>
+        /// <value><c>true</c> if control; otherwise, <c>false</c>.</value>
         public bool Control => (KeyData & Keys.Control) == Keys.Control;
 
         /// <summary>
         /// Gets or sets a value indicating whether the event was handled.
         /// </summary>
+        /// <value><c>true</c> if handled; otherwise, <c>false</c>.</value>
         public bool Handled { get; set; }
 
         /// <summary>
@@ -48,6 +52,7 @@ namespace System.Windows.Forms
         /// <see cref="Forms.Control.KeyDown" /> or
         /// <see cref="Forms.Control.KeyUp" /> event.
         /// </summary>
+        /// <value>The key code.</value>
         public Keys KeyCode
         {
             get
@@ -69,6 +74,7 @@ namespace System.Windows.Forms
         /// <see cref="Forms.Control.KeyDown" /> or
         /// <see cref="Forms.Control.KeyUp" /> event.
         /// </summary>
+        /// <value>The key data.</value>
         public Keys KeyData { get; }
 
         /// <summary>
@@ -76,6 +82,7 @@ namespace System.Windows.Forms
         /// <see cref="Forms.Control.KeyDown" /> or
         /// <see cref="Forms.Control.KeyUp" /> event.
         /// </summary>
+        /// <value>The key value.</value>
         public int KeyValue => (int)(KeyData & Keys.KeyCode);
 
         /// <summary>
@@ -84,13 +91,19 @@ namespace System.Windows.Forms
         /// <see cref="Forms.Control.KeyUp" /> event.
         /// This indicates which modifier keys (CTRL, SHIFT, and/or ALT) were pressed.
         /// </summary>
+        /// <value>The modifiers.</value>
         public Keys Modifiers => KeyData & Keys.Modifiers;
 
         /// <summary>
         /// Gets a value indicating whether the SHIFT key was pressed.
         /// </summary>
+        /// <value><c>true</c> if shift; otherwise, <c>false</c>.</value>
         public virtual bool Shift => (KeyData & Keys.Shift) == Keys.Shift;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [suppress key press].
+        /// </summary>
+        /// <value><c>true</c> if [suppress key press]; otherwise, <c>false</c>.</value>
         public bool SuppressKeyPress
         {
             get => _suppressKeyPress;

@@ -23,6 +23,9 @@ public enum UICues
     /// </summary>
     ShowKeyboard = 0x02,
 
+    /// <summary>
+    /// The shown
+    /// </summary>
     Shown = ShowFocus | ShowKeyboard,
 
     /// <summary>
@@ -35,7 +38,13 @@ public enum UICues
     /// </summary>
     ChangeKeyboard = 0x08,
 
+    /// <summary>
+    /// The changed
+    /// </summary>
     Changed = ChangeFocus | ChangeKeyboard,
 
+    /// <summary>
+    /// The none
+    /// </summary>
     None = 0x00,
 }

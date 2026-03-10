@@ -10,17 +10,22 @@ namespace System.Windows.Forms
     /// Provides data for the
     /// <see cref="!:System.Windows.Forms.TreeView.NodeMouseHover" /> event.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [ComVisible(true)]
     public class TreeNodeMouseHoverEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeNodeMouseHoverEventArgs"/> class.
+        /// </summary>
+        /// <param name="node">The node.</param>
         public TreeNodeMouseHoverEventArgs(TreeNode node)
         {
             Node = node;
         }
 
+        /// <summary>
+        /// Gets the node.
+        /// </summary>
+        /// <value>The node.</value>
         public TreeNode Node { get; }
 
     }

@@ -2,6 +2,11 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// IBindableComponent is the interface that must be implemented by any component that supports data binding. It provides the necessary properties to manage data bindings and currency managers for the component.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.IComponent" />
+    /// <seealso cref="System.IDisposable" />
     public interface IBindableComponent : IComponent, IDisposable
     {
         /// <summary>

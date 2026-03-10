@@ -2796,7 +2796,38 @@
             <see cref="T:System.Windows.Forms.CurrencyManager" /> for.
             </param>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.ItemArray" -->
+        <member name="T:System.Windows.Forms.ItemArray">
+            <summary>
+            This is similar to ArrayList except that it also
+            maintains a bit-flag based state element for each item in the array.
+            The methods to enumerate, count and get data support
+            virtualized indexes.  Indexes are virtualized according
+            to the state mask passed in.  This allows ItemArray
+            to be the backing store for one read-write "master"
+            collection and several read-only collections based
+            on masks.  ItemArray supports up to 31 masks.
+            </summary>
+            <summary>
+            This is similar to ArrayList except that it also
+            maintains a bit-flag based state element for each item in the array.
+            The methods to enumerate, count and get data support
+            virtualized indexes.  Indexes are virtualized according
+            to the state mask passed in.  This allows ItemArray
+            to be the backing store for one read-write "master"
+            collection and several read-only collections based
+            on masks.  ItemArray supports up to 31 masks.
+            </summary>
+            <summary>
+            This is similar to ArrayList except that it also
+            maintains a bit-flag based state element for each item in the array.
+            The methods to enumerate, count and get data support
+            virtualized indexes.  Indexes are virtualized according
+            to the state mask passed in.  This allows ItemArray
+            to be the backing store for one read-write "master"
+            collection and several read-only collections based
+            on masks.  ItemArray supports up to 31 masks.
+            </summary>
+        </member>
         <member name="P:System.Windows.Forms.ItemArray.Count">
             <summary>
             Gets the main count
@@ -3103,7 +3134,33 @@
             <see cref="T:System.Windows.Forms.Binding"/> between a data binding and a data-bound property.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.PropertyStore" -->
+        <member name="T:System.Windows.Forms.PropertyStore">
+            <summary>
+            This is a small class that can efficiently store property values.
+            It tries to optimize for size first, "get" access second, and
+            "set" access third.
+            </summary>
+            <summary>
+            This is a small class that can efficiently store property values.
+            It tries to optimize for size first, "get" access second, and
+            "set" access third.
+            </summary>
+            <summary>
+            This is a small class that can efficiently store property values.
+            It tries to optimize for size first, "get" access second, and
+            "set" access third.
+            </summary>
+            <summary>
+            This is a small class that can efficiently store property values.
+            It tries to optimize for size first, "get" access second, and
+            "set" access third.
+            </summary>
+            <summary>
+            This is a small class that can efficiently store property values.
+            It tries to optimize for size first, "get" access second, and
+            "set" access third.
+            </summary>
+        </member>
         <member name="M:System.Windows.Forms.PropertyStore.ContainsInteger(System.Int32)">
             <summary>
             Retrieves an integer value from our property list.
@@ -11352,14 +11409,7 @@
             2
             </filterpriority>
         </member>
-        <member name="T:System.Windows.Forms.ImageList">
-            <summary>
-            The ImageList is an object that stores a collection of Images, most
-            commonly used by other controls, such as the ListView, TreeView, or
-            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
-            other controls will be able to use the Images as they desire.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.ImageList" -->
         <member name="M:System.Windows.Forms.ImageList.#ctor">
             <summary>
             Creates a new ImageList Control with a default image size of 16x16 pixels
@@ -11399,7 +11449,7 @@
         <member name="M:System.Windows.Forms.ImageList.Dispose(System.Boolean)">
             <summary>
             Releases the unmanaged resources used by the
-            <see cref="T:System.Windows.Forms.ImageList"/>
+            <see cref = "T:System.Windows.Forms.ImageList"/>
             and optionally releases the managed resources.
             </summary>
             <param name = "disposing">
@@ -12854,10 +12904,7 @@
             1
             </filterpriority>
         </member>
-        <member name="T:System.Windows.Forms.PropertyGrid">
-            <summary>
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:System.Windows.Forms.PropertyGrid" -->
         <member name="T:System.Windows.Forms.GridItem">
             <summary>
             Implements one row in a
@@ -14949,13 +14996,7 @@
             Get the value contained in this datanode
             </summary>
         </member>
-        <member name="T:System.Resources.ResXFileRef">
-            <summary>
-            ResX File Reference class. This allows the developer to represent
-            a link to an external resource. When the resource manager asks
-            for the value of the resource item, the external resource is loaded.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:System.Resources.ResXFileRef" -->
         <member name="M:System.Resources.ResXFileRef.#ctor(System.String,System.String)">
             <summary>
             Creates a new ResXFileRef that points to the specified file.
@@ -14985,11 +15026,7 @@
             with null.
             </summary>
         </member>
-        <member name="T:System.Resources.ResXResourceReader">
-            <summary>
-            ResX resource reader.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:System.Resources.ResXResourceReader" -->
         <member name="P:System.Resources.ResXResourceReader.BasePath">
             <summary>
             BasePath for relatives filepaths with ResXFileRefs.

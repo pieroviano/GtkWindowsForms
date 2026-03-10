@@ -13,10 +13,19 @@ namespace System.Windows.Forms
     [ComVisible(true)]
     public class QueryAccessibilityHelpEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QueryAccessibilityHelpEventArgs"/> class.
+        /// </summary>
         public QueryAccessibilityHelpEventArgs()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QueryAccessibilityHelpEventArgs"/> class.
+        /// </summary>
+        /// <param name="helpNamespace">The help namespace.</param>
+        /// <param name="helpString">The help string.</param>
+        /// <param name="helpKeyword">The help keyword.</param>
         public QueryAccessibilityHelpEventArgs(string helpNamespace, string helpString, string helpKeyword)
         {
             HelpNamespace = helpNamespace;
@@ -24,10 +33,22 @@ namespace System.Windows.Forms
             HelpKeyword = helpKeyword;
         }
 
+        /// <summary>
+        /// Gets or sets the help keyword.
+        /// </summary>
+        /// <value>The help keyword.</value>
         public string HelpKeyword { get; set; }
 
+        /// <summary>
+        /// Gets or sets the help namespace.
+        /// </summary>
+        /// <value>The help namespace.</value>
         public string HelpNamespace { get; set; }
 
+        /// <summary>
+        /// Gets or sets the help string.
+        /// </summary>
+        /// <value>The help string.</value>
         public string HelpString { get; set; }
 
     }

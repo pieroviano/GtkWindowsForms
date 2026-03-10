@@ -16,36 +16,73 @@ namespace System.Windows.Forms
     /// Displays a hierarchical collection of labeled items, each represented by a
     /// <see cref="T:System.Windows.Forms.TreeNode" />
     /// </summary>
-    /// <filterpriority> 1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class TreeView : ScrollableControl
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly TreeViewBase self = new TreeViewBase();
 
+        /// <summary>
+        /// The root
+        /// </summary>
         internal TreeNode root;
 
+        /// <summary>
+        /// The check boxs
+        /// </summary>
         private bool _checkBoxs;
 
+        /// <summary>
+        /// The image list
+        /// </summary>
         private ImageList _imageList;
 
+        /// <summary>
+        /// The store
+        /// </summary>
         private Gtk.TreeStore _store;
 
+        /// <summary>
+        /// The cancel event arguments
+        /// </summary>
         private TreeViewCancelEventArgs cancelEventArgs = null;
 
+        /// <summary>
+        /// The renderercheckbox
+        /// </summary>
         private CellRendererToggle renderercheckbox;
 
+        /// <summary>
+        /// The renderer pixbuf
+        /// </summary>
         private CellRendererIcon rendererPixbuf;
 
+        /// <summary>
+        /// Occurs when [after collapse].
+        /// </summary>
         public event TreeViewEventHandler AfterCollapse;
 
+        /// <summary>
+        /// Occurs when [after expand].
+        /// </summary>
         public event TreeViewEventHandler AfterExpand;
 
+        /// <summary>
+        /// Occurs when [after select].
+        /// </summary>
         public event TreeViewEventHandler AfterSelect;
 
+        /// <summary>
+        /// Occurs when [before select].
+        /// </summary>
         public event TreeViewCancelEventHandler BeforeSelect;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeView"/> class.
+        /// </summary>
         public TreeView() : base()
         {
             root = new TreeNode(this);
@@ -84,6 +121,10 @@ namespace System.Windows.Forms
             self.TreeView.AppendColumn(column);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [check boxes].
+        /// </summary>
+        /// <value><c>true</c> if [check boxes]; otherwise, <c>false</c>.</value>
         public bool CheckBoxes
         {
             get => _checkBoxs;
@@ -94,12 +135,28 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the index of the image.
+        /// </summary>
+        /// <value>The index of the image.</value>
         public int ImageIndex { get; set; } = -1;
 
+        /// <summary>
+        /// Gets or sets the image key.
+        /// </summary>
+        /// <value>The image key.</value>
         public string ImageKey { get; set; }
 
+        /// <summary>
+        /// Gets or sets the image list.
+        /// </summary>
+        /// <value>The image list.</value>
         public ImageList ImageList
         {
             get => _imageList;
@@ -116,6 +173,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the nodes.
+        /// </summary>
+        /// <value>The nodes.</value>
         public TreeNodeCollection Nodes
         {
             get
@@ -124,6 +185,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the path separator.
+        /// </summary>
+        /// <value>The path separator.</value>
         [DefaultValue("\\")]
         public string PathSeparator
         {
@@ -131,10 +196,22 @@ namespace System.Windows.Forms
             set;
         } = "\\";
 
+        /// <summary>
+        /// Gets or sets the index of the selected image.
+        /// </summary>
+        /// <value>The index of the selected image.</value>
         public int SelectedImageIndex { get; set; }
 
+        /// <summary>
+        /// Gets or sets the selected image key.
+        /// </summary>
+        /// <value>The selected image key.</value>
         public string SelectedImageKey { get; set; }
 
+        /// <summary>
+        /// Gets the selected item.
+        /// </summary>
+        /// <value>The selected item.</value>
         public object SelectedItem
         {
             get
@@ -143,6 +220,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selected node.
+        /// </summary>
+        /// <value>The selected node.</value>
         public TreeNode SelectedNode
         {
             get
@@ -172,6 +253,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the selected value.
+        /// </summary>
+        /// <value>The selected value.</value>
         public object SelectedValue
         {
             get
@@ -180,18 +265,46 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show lines].
+        /// </summary>
+        /// <value><c>true</c> if [show lines]; otherwise, <c>false</c>.</value>
         public bool ShowLines { get => self.TreeView.EnableTreeLines; set { self.TreeView.EnableTreeLines = true; self.TreeView.EnableGridLines = Gtk.TreeViewGridLines.Horizontal; } }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show node tools tips].
+        /// </summary>
+        /// <value><c>true</c> if [show node tools tips]; otherwise, <c>false</c>.</value>
         public bool ShowNodeToolsTips { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show plus minus].
+        /// </summary>
+        /// <value><c>true</c> if [show plus minus]; otherwise, <c>false</c>.</value>
         public bool ShowPlusMinus { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show root lines].
+        /// </summary>
+        /// <value><c>true</c> if [show root lines]; otherwise, <c>false</c>.</value>
         public bool ShowRootLines { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets the index of the state image.
+        /// </summary>
+        /// <value>The index of the state image.</value>
         public int StateImageIndex { get; set; }
 
+        /// <summary>
+        /// Gets or sets the state image key.
+        /// </summary>
+        /// <value>The state image key.</value>
         public string StateImageKey { get; set; }
 
+        /// <summary>
+        /// Gets or sets the top node.
+        /// </summary>
+        /// <value>The top node.</value>
         public TreeNode TopNode
         {
             get
@@ -204,23 +317,41 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the store.
+        /// </summary>
+        /// <value>The store.</value>
         internal Gtk.TreeStore Store { get { return _store; } }
 
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
         public void Clear()
         {
             Store.Clear();
         }
 
+        /// <summary>
+        /// Collapses all.
+        /// </summary>
         public void CollapseAll()
         {
             self.TreeView.CollapseAll();
         }
 
+        /// <summary>
+        /// Expands all.
+        /// </summary>
         public void ExpandAll()
         {
             self.TreeView.ExpandAll();
         }
 
+        /// <summary>
+        /// Gets the node checked.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal bool GetNodeChecked(TreeNode node)
         {
             var val = Store.GetValue(node.TreeIter, 1);
@@ -228,11 +359,21 @@ namespace System.Windows.Forms
             return val == null ? false : (bool)val;
         }
 
+        /// <summary>
+        /// Gets the node expanded.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal bool GetNodeExpanded(TreeNode node)
         {
             return self.TreeView.GetRowExpanded(_store.GetPath(node.TreeIter));
         }
 
+        /// <summary>
+        /// Gets the node selected.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal bool GetNodeSelected(TreeNode node)
         {
             Gtk.TreePath[] treePaths = self.TreeView.Selection.GetSelectedRows();
@@ -248,6 +389,12 @@ namespace System.Windows.Forms
             return false;
         }
 
+        /// <summary>
+        /// Inserts the node.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="node">The node.</param>
+        /// <param name="parent">The parent.</param>
         internal void InsertNode(int position, TreeNode node, TreeNode parent)
         {
             if (node != null && parent != null)
@@ -261,6 +408,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Loads the node value.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="parent">The parent.</param>
         internal void LoadNodeValue(TreeNode node, TreeIter parent)
         {
             TreeIter iter = parent.Equals(TreeIter.Zero) ? Store.AppendValues(node.Text, node.Checked, node.ImageIndex, node.ImageKey) : Store.AppendValues(parent, node.Text, node.Checked, node.ImageIndex, node.ImageKey);
@@ -273,6 +425,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the node checked.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="isChecked">if set to <c>true</c> [is checked].</param>
         internal void NativeNodeChecked(TreeNode node, bool isChecked)
         {
             if (node != null)
@@ -281,6 +438,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the node image.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="index">The index.</param>
         internal void NativeNodeImage(TreeNode node, int index)
         {
             if (node != null)
@@ -289,6 +451,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the node image.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="key">The key.</param>
         internal void NativeNodeImage(TreeNode node, string key)
         {
             if (node != null)
@@ -297,6 +464,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the node selected.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="isSelected">if set to <c>true</c> [is selected].</param>
         internal void NativeNodeSelected(TreeNode node, bool isSelected)
         {
             if (node != null)
@@ -305,6 +477,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the node text.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="text">The text.</param>
         internal void NativeNodeText(TreeNode node, string text)
         {
             if (node != null)
@@ -313,28 +490,50 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Removes the node.
+        /// </summary>
+        /// <param name="node">The node.</param>
         internal void RemoveNode(TreeNode node)
         {
             _store.Remove(ref node.TreeIter);
         }
 
+        /// <summary>
+        /// Sets the collapse node.
+        /// </summary>
+        /// <param name="node">The node.</param>
         internal void SetCollapseNode(TreeNode node)
         {
 
             self.TreeView.CollapseRow(_store.GetPath(node.TreeIter));
         }
 
+        /// <summary>
+        /// Sets the expand node.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="all">if set to <c>true</c> [all].</param>
         internal void SetExpandNode(TreeNode node, bool all)
         {
             self.TreeView.ExpandRow(_store.GetPath(node.TreeIter), all);
         }
 
+        /// <summary>
+        /// Applies styling to the GTK widget based on control properties.
+        /// </summary>
+        /// <param name="widget">GTK widget to style.</param>
         protected override void SetStyle(Widget widget)
         {
             self.TreeView.Name = this.Name;
             base.SetStyle(self.TreeView);
         }
 
+        /// <summary>
+        /// Cells the name toggled.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void CellName_Toggled(object o, ToggledArgs args)
         {
             TreePath path = new TreePath(args.Path);
@@ -344,6 +543,12 @@ namespace System.Windows.Forms
             model.SetValue(iter, 1, val == false);
         }
 
+        /// <summary>
+        /// Gets the node child.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="indices">The indices.</param>
+        /// <param name="result">The result.</param>
         private void GetNodeChild(TreeNode node, int[] indices, ref TreeNode result)
         {
             string nodeIndex = string.Join(",", indices);
@@ -361,6 +566,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the Changed event of the Selection control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Selection_Changed(object sender, EventArgs e)
         {
             if (BeforeSelect != null || AfterSelect != null)
@@ -387,6 +597,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the Realized event of the TreeView control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void TreeView_Realized(object sender, EventArgs e)
         {
             if (ImageList != null)
@@ -405,6 +620,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// TreeViews the row collapsed.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void TreeView_RowCollapsed(object o, RowCollapsedArgs args)
         {
             if (AfterCollapse != null && ((Gtk.TreeView)o).IsVisible)
@@ -415,6 +635,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// TreeViews the row expanded.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void TreeView_RowExpanded(object o, RowExpandedArgs args)
         {
             if (AfterExpand != null && ((Gtk.TreeView)o).IsVisible)
@@ -425,16 +650,32 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Class CellRendererIcon.
+        /// Implements the <see cref="CellRendererPixbuf" />
+        /// </summary>
+        /// <seealso cref="CellRendererPixbuf" />
         private class CellRendererIcon : Gtk.CellRendererPixbuf
         {
 
+            /// <summary>
+            /// The tree view
+            /// </summary>
             public TreeView _treeView;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CellRendererIcon"/> class.
+            /// </summary>
+            /// <param name="treeView">The tree view.</param>
             public CellRendererIcon(TreeView treeView)
             {
                 _treeView = treeView;
             }
 
+            /// <summary>
+            /// Sets the index of the pixbuf.
+            /// </summary>
+            /// <value>The index of the pixbuf.</value>
             [Property("pixbufindex")]
             public int PixbufIndex
             {
@@ -445,6 +686,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Sets the pixbuf key.
+            /// </summary>
+            /// <value>The pixbuf key.</value>
             [Property("pixbufkey")]
             public string PixbufKey
             {

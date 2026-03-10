@@ -9,34 +9,60 @@ namespace System.Windows.Forms
     /// <summary>
     /// Lets users select a printer and choose which sections of the document to print from a Windows Forms application.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [DefaultProperty(nameof(Document))]
     public sealed class PrintDialog : CommonDialog
     {
+        /// <summary>
+        /// The print document
+        /// </summary>
         private PrintDocument _printDocument;
 
+        /// <summary>
+        /// The printer settings
+        /// </summary>
         private PrinterSettings _printerSettings;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrintDialog"/> class.
+        /// </summary>
         public PrintDialog() => Reset();
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow current page].
+        /// </summary>
+        /// <value><c>true</c> if [allow current page]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public bool AllowCurrentPage { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow print to file].
+        /// </summary>
+        /// <value><c>true</c> if [allow print to file]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
 
         public bool AllowPrintToFile { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow selection].
+        /// </summary>
+        /// <value><c>true</c> if [allow selection]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public bool AllowSelection { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow some pages].
+        /// </summary>
+        /// <value><c>true</c> if [allow some pages]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public bool AllowSomePages { get; set; }
 
+        /// <summary>
+        /// Gets or sets the document.
+        /// </summary>
+        /// <value>The document.</value>
         [DefaultValue(null)]
 
         public PrintDocument Document
@@ -49,6 +75,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the printer settings.
+        /// </summary>
+        /// <value>The printer settings.</value>
         [DefaultValue(null)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -66,26 +96,49 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [print to file].
+        /// </summary>
+        /// <value><c>true</c> if [print to file]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public bool PrintToFile { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show help].
+        /// </summary>
+        /// <value><c>true</c> if [show help]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public bool ShowHelp { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show network].
+        /// </summary>
+        /// <value><c>true</c> if [show network]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
 
         public bool ShowNetwork { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [use ex dialog].
+        /// </summary>
+        /// <value><c>true</c> if [use ex dialog]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public bool UseEXDialog { get; set; }
 
+        /// <summary>
+        /// Gets the page settings.
+        /// </summary>
+        /// <value>The page settings.</value>
         private PageSettings PageSettings => Document is null
             ? PrinterSettings.DefaultPageSettings
             : Document.DefaultPageSettings;
 
+        /// <summary>
+        /// Resets this instance.
+        /// </summary>
         public override void Reset()
         {
             AllowCurrentPage = false;
@@ -99,6 +152,12 @@ namespace System.Windows.Forms
             ShowNetwork = true;
         }
 
+        /// <summary>
+        /// Runs the print.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <param name="showDialog">if set to <c>true</c> [show dialog].</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool RunPrint(IWin32Window owner, bool showDialog)
         {
             try
@@ -146,17 +205,32 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Runs the dialog.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         protected override bool RunDialog(IWin32Window owner)
         {
             return RunPrint(owner, true);
         }
 
+        /// <summary>
+        /// Messages the dialog response.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void MessageDialog_Response(object o, ResponseArgs args)
         {
             Gtk.MessageDialog messageDialog = (Gtk.MessageDialog)o;
             messageDialog.Destroy();
         }
 
+        /// <summary>
+        /// Prints the operation begin print.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void PrintOperation_BeginPrint(object o, BeginPrintArgs args)
         {
             _printDocument?.OnBeginPrint(new PrintEventArgs());
@@ -164,6 +238,11 @@ namespace System.Windows.Forms
             oper.RenderPage(0);
         }
 
+        /// <summary>
+        /// Prints the operation draw page.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void PrintOperation_DrawPage(object o, DrawPageArgs args)
         {
             Gtk.PrintOperation oper = (Gtk.PrintOperation)o;
@@ -185,16 +264,31 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Prints the operation end print.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void PrintOperation_EndPrint(object o, EndPrintArgs args)
         {
             _printDocument?.OnEndPrint(new PrintEventArgs());
         }
 
+        /// <summary>
+        /// Prints the operation preview.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void PrintOperation_Preview(object o, PreviewArgs args)
         {
             args.Preview.RenderPage(0);
         }
 
+        /// <summary>
+        /// Prints the operation request page setup.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void PrintOperation_RequestPageSetup(object o, RequestPageSetupArgs args)
         {
             _printDocument?.OnQueryPageSettings(new QueryPageSettingsEventArgs(PageSettings));

@@ -26,8 +26,14 @@ namespace System.Windows.Forms
     public partial class Form : ContainerControl, IWin32Window
     {
 
+        /// <summary>
+        /// Backing field for the <see cref="FormBorderStyle"/> applied to this form.
+        /// </summary>
         public FormBorderStyle formBorderStyle = FormBorderStyle.Sizable;
 
+        /// <summary>
+        /// Underlying GTK window wrapper used by this form.
+        /// </summary>
         public FormBase self = new FormBase();
 
         private ObjectCollection _ObjectCollection;
@@ -40,36 +46,70 @@ namespace System.Windows.Forms
 
         private bool Is_Control_Shown = false;
 
+        /// <summary>
+        /// Occurs after the form has been closed.
+        /// </summary>
         public event FormClosedEventHandler FormClosed;
 
+        /// <summary>
+        /// Occurs as the form is being closed. Handlers can cancel the close.
+        /// </summary>
         public event FormClosingEventHandler FormClosing;
 
+        /// <summary>
+        /// Occurs when the form is loaded.
+        /// </summary>
         public override event EventHandler Load;
 
+        /// <summary>
+        /// Occurs the first time the form is shown.
+        /// </summary>
         public event EventHandler Shown;
 
+        /// <summary>
+        /// Occurs when the form's size changes.
+        /// </summary>
         public override event EventHandler SizeChanged;
 
+        /// <summary>
+        /// Occurs when the form's scroll position changes.
+        /// </summary>
         public override event ScrollEventHandler Scroll
         {
             add { self.Scroll += value; }
             remove { self.Scroll += value; }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form"/> class.
+        /// </summary>
         public Form() : base()
         {
             Init();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form"/> class with the specified title.
+        /// </summary>
+        /// <param name="title">The initial text displayed in the form's title bar.</param>
         public Form(string title) : this()
         {
             self.Title = title;
         }
 
+        /// <summary>
+        /// Gets or sets the design-time autoscale dimensions for the form.
+        /// </summary>
         public SizeF AutoScaleDimensions { get; set; }
 
+        /// <summary>
+        /// Gets or sets the automatic scaling mode of the form.
+        /// </summary>
         public AutoScaleMode AutoScaleMode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the height and width of the client area of the form.
+        /// </summary>
         public override Size ClientSize
         {
             get
@@ -84,10 +124,19 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the collection of controls contained within the form.
+        /// </summary>
         public new ObjectCollection Controls { get { return _ObjectCollection; } }
 
+        /// <summary>
+        /// Gets or sets the dialog result produced by the form.
+        /// </summary>
         public DialogResult DialogResult { get; set; }
 
+        /// <summary>
+        /// Gets or sets the border style of the form.
+        /// </summary>
         public FormBorderStyle FormBorderStyle
         {
             get { return formBorderStyle; }
@@ -117,20 +166,44 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the underlying GTK control object used by the form.
+        /// </summary>
         public override object GtkControl { get => self; }
 
+        /// <summary>
+        /// Gets the native window handle for this form.
+        /// </summary>
         public override IntPtr Handle => self.Handle;
 
+        /// <summary>
+        /// Gets or sets the icon associated with this form.
+        /// </summary>
         public System.Drawing.Icon Icon { get; set; }
 
+        /// <summary>
+        /// Gets or sets the primary menu strip for the form.
+        /// </summary>
         public MenuStrip MainMenuStrip { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the Maximize button is displayed.
+        /// </summary>
         public bool MaximizeBox { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the Minimize button is displayed.
+        /// </summary>
         public bool MinimizeBox { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets the form's opacity (0.0 - fully transparent, 1.0 - fully opaque).
+        /// </summary>
         public double Opacity { get { return self.Opacity; } set { self.Opacity = value; } }
 
+        /// <summary>
+        /// Gets or sets the padding within the form. Padding is applied to the internal GTK overlay margins.
+        /// </summary>
         public override Padding Padding
         {
             get => base.Padding;
@@ -144,14 +217,30 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the form's icon is shown.
+        /// </summary>
         public bool ShowIcon { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the form is displayed in the taskbar.
+        /// </summary>
         public bool ShowInTaskbar { get { return self.SkipTaskbarHint == false; } set { self.SkipTaskbarHint = value == false; } }
 
+        /// <summary>
+        /// Gets or sets the starting position of the form when first shown.
+        /// </summary>
         public FormStartPosition StartPosition { get; set; }
 
+        /// <summary>
+        /// Gets or sets the text associated with the form (displayed in the title bar).
+        /// </summary>
         public override string Text { get { return self.Title; } set { self.Title = value; } }
 
+        /// <summary>
+        /// Gets or sets the state (normal, minimized, maximized) of the form.
+        /// Setting this property will attempt to change the native window state when the window is mapped.
+        /// </summary>
         public FormWindowState WindowState
         {
             get
@@ -175,11 +264,18 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Activates the form and gives it focus.
+        /// </summary>
+        /// <returns>True if the activation succeeded; otherwise false.</returns>
         public bool Activate()
         {
             return self.Activate();
         }
 
+        /// <summary>
+        /// Closes the form. Uses a short timer to defer actual close so UI handlers can complete.
+        /// </summary>
         public void Close()
         {
             if (MessageBox.Instance is NonStaticMessageBox nonStaticMessageBox)
@@ -201,6 +297,9 @@ namespace System.Windows.Forms
             timer.Start();
         }
 
+        /// <summary>
+        /// Immediately closes the native window backing this form.
+        /// </summary>
         public void CloseImmediately()
         {
             if (self != null)
@@ -209,6 +308,9 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Hides the form.
+        /// </summary>
         public override void Hide()
         {
             if (self != null)
@@ -217,21 +319,35 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Forces the control to perform layout; marks the form as created.
+        /// </summary>
         public override void PerformLayout()
         {
             _Created = true;
         }
 
+        /// <summary>
+        /// Resumes layout logic for the form.
+        /// </summary>
+        /// <param name="resume">If true, resume layout processing; otherwise adjust created flag.</param>
         public override void ResumeLayout(bool resume)
         {
             _Created = resume == false;
         }
 
+        /// <summary>
+        /// Shows the form.
+        /// </summary>
         public override void Show()
         {
             this.Show(null);
         }
 
+        /// <summary>
+        /// Shows the form with an optional owner window.
+        /// </summary>
+        /// <param name="owner">The owner window. May be null.</param>
         public void Show(IWin32Window owner)
         {
             if (owner == this)
@@ -311,11 +427,20 @@ namespace System.Windows.Forms
             self.ShowAll();
         }
 
+        /// <summary>
+        /// Shows the form as a modal dialog.
+        /// </summary>
+        /// <returns>The dialog result produced by the form.</returns>
         public DialogResult ShowDialog()
         {
             return ShowDialog(null);
         }
 
+        /// <summary>
+        /// Shows the form as a modal dialog with the specified owner.
+        /// </summary>
+        /// <param name="owner">The owner window. May be null.</param>
+        /// <returns>The dialog result produced by the form.</returns>
         public DialogResult ShowDialog(IWin32Window owner)
         {
             if (owner == this)
@@ -338,6 +463,9 @@ namespace System.Windows.Forms
             return this.DialogResult;
         }
 
+        /// <summary>
+        /// Suspends layout logic for the form.
+        /// </summary>
         public override void SuspendLayout()
         {
             _Created = false;
@@ -456,14 +584,25 @@ namespace System.Windows.Forms
                 SizeChanged(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Placeholder type used to represent an MDI layout. Kept for compatibility.
+        /// </summary>
         public class MdiLayout
         {
         }
 
+        /// <summary>
+        /// Collection that stores controls added to the form.
+        /// </summary>
         public class ObjectCollection : ControlCollection
         {
             Gtk.Container __owner;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ObjectCollection"/> class.
+            /// </summary>
+            /// <param name="control">The parent control.</param>
+            /// <param name="owner">The GTK container that will host child controls.</param>
             public ObjectCollection(Control control, Gtk.Container owner) : base(control, owner)
             {
                 __owner = owner;

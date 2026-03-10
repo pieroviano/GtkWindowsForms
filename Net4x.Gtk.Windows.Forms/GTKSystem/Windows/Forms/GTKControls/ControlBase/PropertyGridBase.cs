@@ -8,16 +8,36 @@ using System.Windows.Forms;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// PropertyGridBase class is a base class for GTK property grid controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of property grid controls.
+    /// </summary>
+    /// <seealso cref="Gtk.Paned" />
+    /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
     public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
     {
+        /// <summary>
+        /// The child1
+        /// </summary>
         public Gtk.ScrolledWindow child1 = new Gtk.ScrolledWindow();
 
+        /// <summary>
+        /// The child2
+        /// </summary>
         public Gtk.Box child2 = new Gtk.Box(Gtk.Orientation.Vertical, 2);
 
+        /// <summary>
+        /// The description label
+        /// </summary>
         Gtk.Label descriptionLabel = new Gtk.Label("description") { Xalign = 0, Yalign = 0 };
 
+        /// <summary>
+        /// The title label
+        /// </summary>
         Gtk.Label titleLabel = new Gtk.Label("name") { Xalign = 0, Yalign = 0 };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyGridBase"/> class.
+        /// </summary>
         public PropertyGridBase() : base(Gtk.Orientation.Vertical)
         {
             this.Override = new GtkControlOverride(this);
@@ -36,14 +56,28 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.Pack2(child2, false, true);
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="GtkControlOverride"/> instance that centralizes drawing and styling behavior for this control. This override encapsulates background painting (color and image), image drawing, CSS class management and raises paint events so the control can handle custom painting (both direct Cairo via <see cref="PaintGraphicsEventHandler"/> and System.Drawing via <see cref="PaintEventHandler"/>). The override is typically created and configured in the control's constructor and invoked from the GTK drawing/show handlers.
+        /// </summary>
+        /// <value>
+        /// The active <see cref="GtkControlOverride"/> used by the control.
+        /// </value>
         public GtkControlOverride Override { get; set; }
 
+        /// <summary>
+        /// Shows the description.
+        /// </summary>
+        /// <param name="title">The title.</param>
+        /// <param name="description">The description.</param>
         public void ShowDescription(string title, string description)
         {
             titleLabel.Text = title;
             descriptionLabel.Text = description;
         }
 
+        /// <summary>
+        /// Called when the control is shown.
+        /// </summary>
         protected override void OnShown()
         {
             Override.OnAddClass();

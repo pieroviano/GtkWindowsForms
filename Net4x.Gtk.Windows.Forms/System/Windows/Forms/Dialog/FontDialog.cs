@@ -7,44 +7,86 @@ namespace System.Windows.Forms
     /// <summary>
     /// Prompts the user to choose a font from among those installed on the local computer.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class FontDialog : CommonDialog
     {
 
+        /// <summary>
+        /// The font
+        /// </summary>
         private Font? _font;
 
+        /// <summary>
+        /// The active window
+        /// </summary>
         private static Gtk.Window ActiveWindow = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FontDialog"/> class.
+        /// </summary>
         public FontDialog() : base()
         {
             this.Reset();
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow full open].
+        /// </summary>
+        /// <value><c>true</c> if [allow full open]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
         public virtual bool AllowFullOpen { get; set; }
 
+        /// <summary>
+        /// Gets or sets the font.
+        /// </summary>
+        /// <value>The font.</value>
         public Font? Font { get => _font; set => _font = value; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [full open].
+        /// </summary>
+        /// <value><c>true</c> if [full open]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
 
         public virtual bool FullOpen { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show help].
+        /// </summary>
+        /// <value><c>true</c> if [show help]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         public virtual bool ShowHelp { get; set; }
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <value>The instance.</value>
         protected virtual IntPtr Instance { get; }
 
+        /// <summary>
+        /// Gets the options.
+        /// </summary>
+        /// <value>The options.</value>
         protected virtual int Options { get; }
 
+        /// <summary>
+        /// Resets this instance.
+        /// </summary>
         public override void Reset()
         {
             _font = null;
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString() => $"{_font.Name} {_font.Size}";
 
+        /// <summary>
+        /// Runs the dialog.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         protected override bool RunDialog(IWin32Window owner)
         {
             Gtk.FontChooserDialog fontChooserDialog = null;

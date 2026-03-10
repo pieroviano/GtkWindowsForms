@@ -14,9 +14,6 @@ namespace System.Windows.Forms
     /// <see cref="T:System.Windows.Forms.PrintPreviewControl" />
     /// for printing from a Windows Forms application.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [DesignTimeVisible(true)]
     //[DefaultProperty(nameof(Document))]
     [ToolboxItemFilter("System.Windows.Forms.Control.TopLevel")]
@@ -24,23 +21,48 @@ namespace System.Windows.Forms
     public partial class PrintPreviewDialog : ScrollableControl
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public ViewportBase self = new ViewportBase();
 
+        /// <summary>
+        /// The preview control
+        /// </summary>
         private PrintPreviewControl _previewControl;
 
+        /// <summary>
+        /// The box
+        /// </summary>
         private Gtk.Box box;
 
+        /// <summary>
+        /// The preview form
+        /// </summary>
         private Form previewForm;
 
+        /// <summary>
+        /// Occurs when [maximum size changed].
+        /// </summary>
         public event EventHandler MaximumSizeChanged;
 
+        /// <summary>
+        /// Occurs when [minimum size changed].
+        /// </summary>
         public event EventHandler MinimumSizeChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrintPreviewDialog"/> class.
+        /// </summary>
         public PrintPreviewDialog() : base()
         {
 
         }
 
+        /// <summary>
+        /// Gets or sets the accept button.
+        /// </summary>
+        /// <value>The accept button.</value>
         public IButtonControl AcceptButton
         {
             get;
@@ -48,12 +70,20 @@ namespace System.Windows.Forms
         }
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [automatic scale].
+        /// </summary>
+        /// <value><c>true</c> if [automatic scale]; otherwise, <c>false</c>.</value>
         public bool AutoScale
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the cancel button.
+        /// </summary>
+        /// <value>The cancel button.</value>
         public IButtonControl CancelButton
         {
             get;
@@ -61,75 +91,131 @@ namespace System.Windows.Forms
         }
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [control box].
+        /// </summary>
+        /// <value><c>true</c> if [control box]; otherwise, <c>false</c>.</value>
         public bool ControlBox
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the document.
+        /// </summary>
+        /// <value>The document.</value>
         public PrintDocument Document
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl { get => self; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [help button].
+        /// </summary>
+        /// <value><c>true</c> if [help button]; otherwise, <c>false</c>.</value>
         public bool HelpButton
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the icon.
+        /// </summary>
+        /// <value>The icon.</value>
         public System.Drawing.Icon Icon
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is MDI container.
+        /// </summary>
+        /// <value><c>true</c> if this instance is MDI container; otherwise, <c>false</c>.</value>
         public bool IsMdiContainer
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [key preview].
+        /// </summary>
+        /// <value><c>true</c> if [key preview]; otherwise, <c>false</c>.</value>
         public bool KeyPreview
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the print preview control.
+        /// </summary>
+        /// <value>The print preview control.</value>
         public PrintPreviewControl PrintPreviewControl => _previewControl;
 
+        /// <summary>
+        /// Gets or sets the size grip style.
+        /// </summary>
+        /// <value>The size grip style.</value>
         public SizeGripStyle SizeGripStyle
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the start position.
+        /// </summary>
+        /// <value>The start position.</value>
         public FormStartPosition StartPosition
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [top most].
+        /// </summary>
+        /// <value><c>true</c> if [top most]; otherwise, <c>false</c>.</value>
         public bool TopMost
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [use anti alias].
+        /// </summary>
+        /// <value><c>true</c> if [use anti alias]; otherwise, <c>false</c>.</value>
         public bool UseAntiAlias
         {
             get => PrintPreviewControl.UseAntiAlias;
             set => PrintPreviewControl.UseAntiAlias = value;
         }
 
+        /// <summary>
+        /// Shows the control.
+        /// </summary>
         public override void Show()
         {
             this.Show(null);
         }
 
+        /// <summary>
+        /// Shows the specified owner.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <exception cref="System.InvalidOperationException">OwnsSelfOrOwner</exception>
         public void Show(IWin32Window owner)
         {
             if (owner == this)
@@ -140,6 +226,11 @@ namespace System.Windows.Forms
             previewForm.Show(owner);
         }
 
+        /// <summary>
+        /// Shows the dialog.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns>DialogResult.</returns>
         public DialogResult ShowDialog(IWin32Window owner)
         {
             Init();
@@ -147,11 +238,18 @@ namespace System.Windows.Forms
             return previewForm.ShowDialog(owner);
         }
 
+        /// <summary>
+        /// Shows the dialog.
+        /// </summary>
+        /// <returns>DialogResult.</returns>
         public DialogResult ShowDialog()
         {
             return ShowDialog(null);
         }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         private void Init()
         {
             previewForm = new Form();
@@ -180,11 +278,21 @@ namespace System.Windows.Forms
             previewForm.SizeChanged += PreviewForm_SizeChanged;
         }
 
+        /// <summary>
+        /// Handles the SizeChanged event of the PreviewForm control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void PreviewForm_SizeChanged(object sender, EventArgs e)
         {
             box.MarginStart = (previewForm.Width - _previewControl.Width) / 2;
         }
 
+        /// <summary>
+        /// Handles the ButtonPressEvent event of the Printbutton control.
+        /// </summary>
+        /// <param name="o">The source of the event.</param>
+        /// <param name="args">The <see cref="Gtk.ButtonPressEventArgs"/> instance containing the event data.</param>
         private void Printbutton_ButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
         {
             PrintDialog printDialog = new PrintDialog();
@@ -195,6 +303,11 @@ namespace System.Windows.Forms
             printDialog.ShowDialog(previewForm);
         }
 
+        /// <summary>
+        /// Handles the ButtonReleaseEvent event of the Printbutton control.
+        /// </summary>
+        /// <param name="o">The source of the event.</param>
+        /// <param name="args">The <see cref="ButtonReleaseEventArgs"/> instance containing the event data.</param>
         private void Printbutton_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
         {
             PrintDialog printDialog = new PrintDialog();

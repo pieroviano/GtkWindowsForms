@@ -68,6 +68,9 @@ public enum PaperSourceKind
     /// </summary>
     Cassette = 11,
 
+    /// <summary>
+    /// The form source
+    /// </summary>
     FormSource = 12,
 
     /// <summary>

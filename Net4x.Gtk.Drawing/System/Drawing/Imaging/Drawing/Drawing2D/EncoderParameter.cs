@@ -415,7 +415,7 @@ namespace System.Drawing.Imaging
         /// <see cref="P:System.Drawing.Imaging.EncoderParameter.ValueType" /> properties are set to this value.
         /// </param>
         /// <param name="value">A pointer to an array of values of the type specified by the
-        /// <paramref name="Type" /> parameter.
+        /// <paramref name="type" /> parameter.
         /// </param>
         public EncoderParameter(Encoder encoder, int numberValues, EncoderParameterValueType type, IntPtr value)
         {

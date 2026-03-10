@@ -38,7 +38,7 @@
 		<PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
 		<EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
 		<AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
-		<NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0436</NoWarn>
+		<NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0436;CS0414;CS3021;CS8002</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<Compile Include="..\Net4x.Gtk.Windows.Forms\System\Diagnostics\CodeAnalysis\NotNullWhenAttribute.cs" Link="System\Diagnostics\CodeAnalysis\NotNullWhenAttribute.cs" />
@@ -52,6 +52,7 @@
 		<None Include="$(MSBuildProjectName).xml" Pack="true" PackagePath="\Documentation.xml" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Brutal.Dev.StrongNameSigner" Version="3.6.4" />
 		<PackageReference Include="System.Memory" Version="4.6.0" />
 		<PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" />
 		<PackageReference Include="System.Resources.Extensions" Version="$(Net4xGtkWindowsFormsVersion).*" />

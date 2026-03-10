@@ -5,12 +5,18 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.ProgressBar" />
 /// uses to indicate the progress of an operation.
 /// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
 public enum ProgressBarStyle
 {
+    /// <summary>
+    /// The blocks
+    /// </summary>
     Blocks,
+    /// <summary>
+    /// The continuous
+    /// </summary>
     Continuous,
+    /// <summary>
+    /// The marquee
+    /// </summary>
     Marquee
 }

@@ -39,12 +39,36 @@ namespace System.Resources
             TextFileEncoding = textFileEncoding;
         }
 
+        /// <summary>
+        /// Gets the name of the file.
+        /// </summary>
+        /// <value>
+        /// The name of the file.
+        /// </value>
         public string FileName { get; private set; }
 
+        /// <summary>
+        /// Gets the text file encoding.
+        /// </summary>
+        /// <value>
+        /// The text file encoding.
+        /// </value>
         public Encoding TextFileEncoding { get; }
 
+        /// <summary>
+        /// Gets the name of the type.
+        /// </summary>
+        /// <value>
+        /// The name of the type.
+        /// </value>
         public string TypeName { get; }
 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             string result = string.Empty;

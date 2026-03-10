@@ -4,4 +4,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate QueryAccessibilityHelpEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="e">The <see cref="QueryAccessibilityHelpEventArgs"/> instance containing the event data.</param>
 public delegate void QueryAccessibilityHelpEventHandler(object sender, QueryAccessibilityHelpEventArgs e);

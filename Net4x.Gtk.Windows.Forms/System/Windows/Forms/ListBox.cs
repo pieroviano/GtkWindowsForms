@@ -14,6 +14,11 @@ using System.Linq;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Class ListBox.
+    /// Implements the <see cref="System.Windows.Forms.ListControl" />
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.ListControl" />
     [DesignerCategory("Component")]
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("Items")]
@@ -21,26 +26,59 @@ namespace System.Windows.Forms
     public partial class ListBox : ListControl
     {
 
+        /// <summary>
+        /// The selection mode
+        /// </summary>
         public SelectionMode _SelectionMode;
 
+        /// <summary>
+        /// The default item height
+        /// </summary>
         public const int DefaultItemHeight = 13;
 
+        /// <summary>
+        /// The no matches
+        /// </summary>
         public const int NoMatches = -1;
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly ListBoxBase self = new ListBoxBase();
 
+        /// <summary>
+        /// The is updateing
+        /// </summary>
         internal bool IsUpdateing = false;
 
+        /// <summary>
+        /// The collect
+        /// </summary>
         private ControlBindingsCollection _collect;
 
+        /// <summary>
+        /// The data source
+        /// </summary>
         private object _DataSource;
 
+        /// <summary>
+        /// The items
+        /// </summary>
         private ObjectCollection _items;
 
+        /// <summary>
+        /// The sorted
+        /// </summary>
         private bool _sorted;
 
+        /// <summary>
+        /// The top index
+        /// </summary>
         private int _topIndex;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListBox"/> class.
+        /// </summary>
         public ListBox() : base()
         {
             self.ListBox.Halign = Gtk.Align.Fill;
@@ -54,14 +92,30 @@ namespace System.Windows.Forms
             this.BorderStyle = BorderStyle.Fixed3D;
         }
 
+        /// <summary>
+        /// Gets or sets the width of the column.
+        /// </summary>
+        /// <value>The width of the column.</value>
         [Localizable(true)]
         [DefaultValue(0)]
         public int ColumnWidth { get; set; }
 
+        /// <summary>
+        /// Gets the custom tab offsets.
+        /// </summary>
+        /// <value>The custom tab offsets.</value>
         public IntegerCollection CustomTabOffsets { get; }
 
+        /// <summary>
+        /// Gets the data bindings.
+        /// </summary>
+        /// <value>The data bindings.</value>
         public override ControlBindingsCollection DataBindings { get => _collect; }
 
+        /// <summary>
+        /// Gets or sets the data source for the control. The data source can be any object that implements IList or IListSource.
+        /// </summary>
+        /// <value>The data source.</value>
         public override object DataSource
         {
             get => _DataSource;
@@ -75,6 +129,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the draw mode.
+        /// </summary>
+        /// <value>The draw mode.</value>
+        /// <exception cref="System.NotImplementedException"></exception>
         [DefaultValue(DrawMode.Normal)]
         public virtual DrawMode DrawMode
         {
@@ -89,42 +148,95 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the horizontal extent.
+        /// </summary>
+        /// <value>The horizontal extent.</value>
         [DefaultValue(0)]
         [Localizable(true)]
         public int HorizontalExtent { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [horizontal scrollbar].
+        /// </summary>
+        /// <value><c>true</c> if [horizontal scrollbar]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         [Localizable(true)]
         public bool HorizontalScrollbar { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [integral height].
+        /// </summary>
+        /// <value><c>true</c> if [integral height]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
         [Localizable(true)]
         public bool IntegralHeight { get; set; }
 
+        /// <summary>
+        /// Gets the i self.
+        /// </summary>
+        /// <value>The i self.</value>
         public override IControlGtk ISelf { get => self; }
 
+        /// <summary>
+        /// Gets or sets the height of the item.
+        /// </summary>
+        /// <value>The height of the item.</value>
         [Localizable(true)]
         public virtual int ItemHeight { get; set; }
 
+        /// <summary>
+        /// Gets the items.
+        /// </summary>
+        /// <value>The items.</value>
         [Localizable(true)]
         public ObjectCollection Items { get => _items; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [multi column].
+        /// </summary>
+        /// <value><c>true</c> if [multi column]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         public bool MultiColumn { get; set; }
 
+        /// <summary>
+        /// Gets or sets the padding.
+        /// </summary>
+        /// <value>The padding.</value>
         public new Padding Padding { get; set; }
 
+        /// <summary>
+        /// Gets the height of the preferred.
+        /// </summary>
+        /// <value>The height of the preferred.</value>
         [Browsable(false)]
         public int PreferredHeight { get; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [scroll always visible].
+        /// </summary>
+        /// <value><c>true</c> if [scroll always visible]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         [Localizable(true)]
         public bool ScrollAlwaysVisible { get; set; }
 
+        /// <summary>
+        /// Gets or sets the index of the currently selected item.
+        /// Derived classes must implement selection indexing.
+        /// </summary>
+        /// <value>The index of the selected.</value>
         public override int SelectedIndex { get => self.ListBox.SelectedRow == null ? -1 : self.ListBox.SelectedRow.Index; set => SelectedItems.SetSelected(value, true); }
 
+        /// <summary>
+        /// Gets the selected indices.
+        /// </summary>
+        /// <value>The selected indices.</value>
         [Browsable(false)]
         public SelectedIndexCollection SelectedIndices
         {
@@ -136,6 +248,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selected item.
+        /// </summary>
+        /// <value>The selected item.</value>
         [Browsable(false)]
         [Bindable(true)]
         public object SelectedItem
@@ -155,6 +271,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the selected items.
+        /// </summary>
+        /// <value>The selected items.</value>
         [Browsable(false)]
         public SelectedObjectCollection SelectedItems
         {
@@ -166,6 +286,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the value of the selected item, as determined by the <see cref="ValueMember" />.
+        /// </summary>
+        /// <value>The selected value.</value>
         [DefaultValue(null)]
         [Browsable(false)]
         public override object SelectedValue
@@ -185,6 +309,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selection mode.
+        /// </summary>
+        /// <value>The selection mode.</value>
         [DefaultValue(SelectionMode.One)]
         public virtual SelectionMode SelectionMode
         {
@@ -214,9 +342,17 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ListBox"/> is sorted.
+        /// </summary>
+        /// <value><c>true</c> if sorted; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         public bool Sorted { get => _sorted; set => _sorted = value; }
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
         [Browsable(false)]
         public override string Text
         {
@@ -255,6 +391,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the index of the top.
+        /// </summary>
+        /// <value>The index of the top.</value>
         public int TopIndex
         {
             get => _topIndex;
@@ -279,63 +419,133 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [use custom tab offsets].
+        /// </summary>
+        /// <value><c>true</c> if [use custom tab offsets]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         [Browsable(false)]
         public bool UseCustomTabOffsets { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [use tab stops].
+        /// </summary>
+        /// <value><c>true</c> if [use tab stops]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
         public bool UseTabStops { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show CheckBox].
+        /// </summary>
+        /// <value><c>true</c> if [show CheckBox]; otherwise, <c>false</c>.</value>
         internal bool ShowCheckBox { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show image].
+        /// </summary>
+        /// <value><c>true</c> if [show image]; otherwise, <c>false</c>.</value>
         internal bool ShowImage { get; set; }
 
+        /// <summary>
+        /// Begins the update.
+        /// </summary>
         public void BeginUpdate()
         {
             IsUpdateing = true;
         }
 
+        /// <summary>
+        /// Clears the selected.
+        /// </summary>
         public void ClearSelected()
         {
             self.ListBox.UnselectAll();
         }
 
+        /// <summary>
+        /// Ends the update.
+        /// </summary>
         public void EndUpdate()
         {
             IsUpdateing = false;
             self.ListBox.ShowAll();
         }
 
+        /// <summary>
+        /// Finds the string.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public int FindString(string s)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Finds the string.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public int FindString(string s, int startIndex)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Finds the string exact.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public int FindStringExact(string s)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Finds the string exact.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public int FindStringExact(string s, int startIndex)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets the height of the item.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public int GetItemHeight(int index)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets the item rectangle.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>Drawing.Rectangle.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public Drawing.Rectangle GetItemRectangle(int index)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Returns the textual representation for the given item.
+        /// By default this calls <see cref="object.ToString" /> on the item.
+        /// Override to provide custom behavior.
+        /// </summary>
+        /// <param name="item">Item to obtain text for.</param>
+        /// <returns>Display text for the item.</returns>
         public override string GetItemText(object item)
         {
             if (item is ItemArray.Entry entry)
@@ -346,34 +556,66 @@ namespace System.Windows.Forms
             return item?.ToString();
         }
 
+        /// <summary>
+        /// Gets the selected.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool GetSelected(int index)
         {
             return self.ListBox.GetRowAtIndex(index).IsSelected;
         }
 
+        /// <summary>
+        /// Indexes from point.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public int IndexFromPoint(Drawing.Point p)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Indexes from point.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public int IndexFromPoint(int x, int y)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Causes the control to be redrawn.
+        /// </summary>
         public override void Refresh()
         {
             self.ListBox.ShowAll();
         }
 
+        /// <summary>
+        /// Resets the BackColor property to its default value.
+        /// </summary>
         public override void ResetBackColor()
         {
         }
 
+        /// <summary>
+        /// Resets the ForeColor property to its default value.
+        /// </summary>
         public override void ResetForeColor()
         {
         }
 
+        /// <summary>
+        /// Sets the selected.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <param name="value">if set to <c>true</c> [value].</param>
         public void SetSelected(int index, bool value)
         {
             if (value == true)
@@ -382,6 +624,10 @@ namespace System.Windows.Forms
                 self.ListBox.UnselectRow(self.ListBox.GetRowAtIndex(index));
         }
 
+        /// <summary>
+        /// Natives the add.
+        /// </summary>
+        /// <param name="item">The item.</param>
         protected void NativeAdd(object item)
         {
             Gtk.ListBoxRow row = new Gtk.ListBoxRow();
@@ -394,6 +640,9 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the clear.
+        /// </summary>
         protected void NativeClear()
         {
             int count = self.ListBox.Children.Length;
@@ -405,6 +654,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the get item text.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>System.String.</returns>
         protected string NativeGetItemText(int index)
         {
             Gtk.Label row = self.ListBox.GetRowAtIndex(index).Child as Gtk.Label;
@@ -412,6 +666,11 @@ namespace System.Windows.Forms
             return row?.Text;
         }
 
+        /// <summary>
+        /// Natives the insert.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <param name="item">The item.</param>
         protected void NativeInsert(int index, object item)
         {
             Gtk.ListBoxRow row = new Gtk.ListBoxRow();
@@ -424,23 +683,38 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the remove at.
+        /// </summary>
+        /// <param name="index">The index.</param>
         protected void NativeRemoveAt(int index)
         {
             self.ListBox.Remove(self.ListBox.GetRowAtIndex(index));
         }
 
+        /// <summary>
+        /// Handles the <see cref="E:SelectedIndexChanged" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void OnSelectedIndexChanged(EventArgs e)
         {
             if (self.ListBox.SelectedRow != null)
                 self.ListBox.SelectRow(self.ListBox.SelectedRow);
         }
 
+        /// <summary>
+        /// Applies styling to the GTK widget based on control properties.
+        /// </summary>
+        /// <param name="widget">GTK widget to style.</param>
         protected override void SetStyle(Widget widget)
         {
             self.ListBox.Name = this.Name;
             base.SetStyle(self.ListBox);
         }
 
+        /// <summary>
+        /// Checks the no data source.
+        /// </summary>
         private void CheckNoDataSource()
         {
             //if (DataSource != null)
@@ -449,6 +723,11 @@ namespace System.Windows.Forms
             //}
         }
 
+        /// <summary>
+        /// Handles the SelectedRowsChanged event of the ListBox control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void ListBox_SelectedRowsChanged(object sender, EventArgs e)
         {
             if (self.ListBox.IsVisible)
@@ -459,6 +738,9 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Called when [set data source].
+        /// </summary>
         private void OnSetDataSource()
         {
             if (_DataSource != null)
@@ -475,12 +757,22 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Properties the notity.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void propertyNotity(object o, NotifyArgs args)
         {
             Binding binding = DataBindings[args.Property];
             binding.WriteValue();
         }
 
+        /// <summary>
+        /// Handles the Realized event of the Self control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Self_Realized(object sender, EventArgs e)
         {
             OnSetDataSource();
@@ -488,6 +780,10 @@ namespace System.Windows.Forms
                 self.ListBox.AddNotification(binding.PropertyName, propertyNotity);
         }
 
+        /// <summary>
+        /// Sets the data source.
+        /// </summary>
+        /// <param name="enumerator">The enumerator.</param>
         private void SetDataSource(IEnumerator enumerator)
         {
             _items.Clear();
@@ -518,15 +814,31 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Class ListBoxItem.
+        /// Implements the <see cref="Label" />
+        /// </summary>
+        /// <seealso cref="Label" />
         public class ListBoxItem : Gtk.Label
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ListBoxItem"/> class.
+            /// </summary>
             public ListBoxItem()
             {
                 base.Xalign = 0;
             }
 
+            /// <summary>
+            /// Gets or sets the check value.
+            /// </summary>
+            /// <value>The check value.</value>
             public object CheckValue { get; set; }
 
+            /// <summary>
+            /// Gets or sets the display text.
+            /// </summary>
+            /// <value>The display text.</value>
             public object DisplayText
             {
                 get
@@ -540,8 +852,16 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets or sets the item value.
+            /// </summary>
+            /// <value>The item value.</value>
             public object ItemValue { get; set; }
 
+            /// <summary>
+            /// Returns a <see cref="System.String" /> that represents this instance.
+            /// </summary>
+            /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
             public override string ToString()
             {
                 return DisplayText?.ToString();

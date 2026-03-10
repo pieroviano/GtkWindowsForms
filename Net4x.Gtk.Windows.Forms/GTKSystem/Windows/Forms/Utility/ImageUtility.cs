@@ -8,9 +8,18 @@ using System.Windows.Forms;
 
 namespace GtkSystem.Windows.Forms.Utility
 {
+    /// <summary>
+    /// ImageUtility class provides utility methods for handling image drawing and scaling in GTK applications. It includes methods for drawing background images, drawing images with specific alignment, and scaling images based on different display modes such as PictureBoxSizeMode and ImageLayout. The class utilizes Cairo for drawing operations and Gdk.Pixbuf for image manipulation. By using ImageUtility, developers can easily manage image rendering in their GTK applications while maintaining compatibility with the underlying GTK framework.
+    /// </summary>
     public class ImageUtility
     {
 
+        /// <summary>
+        /// Draws the background image.
+        /// </summary>
+        /// <param name="ctx">The CTX.</param>
+        /// <param name="img">The img.</param>
+        /// <param name="rec">The record.</param>
         public static void DrawBackgroundImage(Cairo.Context ctx, Gdk.Pixbuf img, Gdk.Rectangle rec)
         {
             ctx.Save();
@@ -30,6 +39,13 @@ namespace GtkSystem.Windows.Forms.Utility
             ctx.Restore();
         }
 
+        /// <summary>
+        /// Draws the image.
+        /// </summary>
+        /// <param name="ctx">The CTX.</param>
+        /// <param name="img">The img.</param>
+        /// <param name="rec">The record.</param>
+        /// <param name="ImageAlign">The image align.</param>
         public static void DrawImage(Cairo.Context ctx, Gdk.Pixbuf img, Gdk.Rectangle rec, ContentAlignment ImageAlign)
         {
             ctx.Save();
@@ -66,6 +82,15 @@ namespace GtkSystem.Windows.Forms.Utility
             ctx.Restore();
         }
 
+        /// <summary>
+        /// Scales the image.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="imagePixbuf">The image pixbuf.</param>
+        /// <param name="imagebytes">The imagebytes.</param>
+        /// <param name="sizeMode">The size mode.</param>
+        /// <param name="backgroundMode">The background mode.</param>
         public static void ScaleImage(int width, int height, ref Gdk.Pixbuf imagePixbuf, byte[] imagebytes, PictureBoxSizeMode sizeMode, ImageLayout backgroundMode)
         {
             if (imagebytes != null)

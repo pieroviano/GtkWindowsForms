@@ -9,19 +9,37 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Class SwitchBox.
+    /// Implements the <see cref="System.Windows.Forms.Control" />
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Control" />
     [DesignerCategory("Component")]
     public partial class SwitchBox : Control
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly SwitchBoxBase self = new SwitchBoxBase();
 
+        /// <summary>
+        /// Occurs when [checked changed].
+        /// </summary>
         public event EventHandler CheckedChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwitchBox"/> class.
+        /// </summary>
         public SwitchBox()
         {
             self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="SwitchBox"/> is checked.
+        /// </summary>
+        /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
         public bool Checked
         {
             get { return self.Active; }
@@ -33,10 +51,23 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
         public override string Text { get { return self.TooltipText; } set { self.TooltipText = value; } }
 
+        /// <summary>
+        /// Handles the ButtonReleaseEvent event of the Self control.
+        /// </summary>
+        /// <param name="o">The source of the event.</param>
+        /// <param name="args">The <see cref="Gtk.ButtonReleaseEventArgs"/> instance containing the event data.</param>
         private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
         {
             if (CheckedChanged != null && self.IsVisible)

@@ -10,6 +10,9 @@ namespace System.Drawing.Drawing2D
     public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     {
 
+        /// <summary>
+        /// The size points
+        /// </summary>
         public List<PointF> SizePoints = new List<PointF>();
 
         internal ArrayList list = new ArrayList();
@@ -141,9 +144,7 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets a
-        /// <see cref="T:System.Drawing.Drawing2D.PathData" /> that encapsulates arrays of points (
-        /// <paramref name="points" />) and types (
-        /// <paramref name="types" />) for this
+        /// <see cref="T:System.Drawing.Drawing2D.PathData" /> that encapsulates arrays of points for this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
         /// <returns>A
@@ -1543,7 +1544,7 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
         /// <param name="destPoints">An array of
-        /// <see cref="T:System.Drawing.PointF" /> structures that defines a parallelogram to which the rectangle defined by
+        /// <see cref="T:System.Drawing.PointF" /> structures that define a parallelogram to which the rectangle defined by
         /// <paramref name="srcRect" /> is transformed. The array can contain either three or four elements. If the array contains three elements, the lower-right corner of the parallelogram is implied by the first three points.
         /// </param>
         /// <param name="srcRect">A
@@ -1646,140 +1647,300 @@ namespace System.Drawing.Drawing2D
                 SizePoints.Add(p);
         }
 
+        /// <summary>
+        /// ArcMode is used to store the parameters of an arc segment in a graphics path. It contains a rectangle that defines the bounding box of the arc, a starting angle that specifies where the arc begins, and a sweep angle that determines how far the arc extends from the starting angle.
+        /// </summary>
         public class ArcMode
         {
 
+            /// <summary>
+            /// Gets or sets the rect.
+            /// </summary>
+            /// <value>
+            /// The rect.
+            /// </value>
             public RectangleF rect { get; set; }
 
+            /// <summary>
+            /// Gets or sets the start angle.
+            /// </summary>
+            /// <value>
+            /// The start angle.
+            /// </value>
             public float startAngle { get; set; }
 
+            /// <summary>
+            /// Gets or sets the sweep angle.
+            /// </summary>
+            /// <value>
+            /// The sweep angle.
+            /// </value>
             public float sweepAngle { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores a cubic Bézier segment parameters.
+        /// </summary>
         public class BezierMode
         {
 
+            /// <summary>
+            /// Gets or sets the first control/starting point.
+            /// </summary>
             public PointF pt1 { get; set; }
 
+            /// <summary>
+            /// Gets or sets the second control point.
+            /// </summary>
             public PointF pt2 { get; set; }
 
+            /// <summary>
+            /// Gets or sets the third control point.
+            /// </summary>
             public PointF pt3 { get; set; }
 
+            /// <summary>
+            /// Gets or sets the endpoint of the bezier curve.
+            /// </summary>
             public PointF pt4 { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores a sequence of connected cubic Bézier curves.
+        /// </summary>
         public class BeziersMode
         {
+            /// <summary>
+            /// Gets or sets the points that define the Bézier curves.
+            /// </summary>
             public PointF[] points { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores a closed curve (cardinal spline) parameters.
+        /// </summary>
         public class ClosedCurveMode
         {
+            /// <summary>
+            /// Gets or sets the fill mode used for closed curve filling.
+            /// </summary>
             public FillMode fillmode { get; set; }
 
+            /// <summary>
+            /// Gets or sets the points that define the closed curve.
+            /// </summary>
             public PointF[] points { get; set; }
 
+            /// <summary>
+            /// Gets or sets the tension of the closed curve.
+            /// </summary>
             public float tension { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores a spline curve parameters.
+        /// </summary>
         public class CurveMode
         {
 
+            /// <summary>
+            /// Gets or sets the number of segments to use when drawing the curve.
+            /// </summary>
             public int numberOfSegments { get; set; }
 
+            /// <summary>
+            /// Gets or sets the offset index in the points array.
+            /// </summary>
             public int offset { get; set; }
 
+            /// <summary>
+            /// Gets or sets the points that define the spline.
+            /// </summary>
             public PointF[] points { get; set; }
 
+            /// <summary>
+            /// Gets or sets the tension for the spline.
+            /// </summary>
             public float tension { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores an ellipse parameters.
+        /// </summary>
         public class EllipseMode
         {
+            /// <summary>
+            /// Gets or sets the bounding rectangle for the ellipse.
+            /// </summary>
             public RectangleF rect { get; set; }
 
         }
 
+        /// <summary>
+        /// Represents a figure control marker.
+        /// </summary>
         public class FigureMode
         {
+            /// <summary>
+            /// Gets or sets a value indicating whether this figure is closed.
+            /// </summary>
             public bool close { get; set; }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether this figure is a start marker.
+            /// </summary>
             public bool start { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores a single line segment.
+        /// </summary>
         public class LineMode
         {
 
+            /// <summary>
+            /// Gets or sets the starting point of the line.
+            /// </summary>
             public PointF pt1 { get; set; }
 
+            /// <summary>
+            /// Gets or sets the endpoint of the line.
+            /// </summary>
             public PointF pt2 { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores multiple connected line segments.
+        /// </summary>
         public class LinesMode
         {
+            /// <summary>
+            /// Gets or sets the points that define the connected lines.
+            /// </summary>
             public PointF[] points { get; set; }
 
         }
 
+        /// <summary>
+        /// Describes a nested path to add.
+        /// </summary>
         public class PathMode
         {
+            /// <summary>
+            /// Gets or sets whether the path should be connected to the previous figure.
+            /// </summary>
             public bool connect { get; set; }
 
+            /// <summary>
+            /// Gets or sets the path to add.
+            /// </summary>
             public GraphicsPath path { get; set; }
 
         }
 
-        public class PieMode
+        /// <summary>
+        /// Stores a pie segment parameters.
+        /// </summary>
+                                                                                                                                                                            public class PieMode
         {
 
+            /// <summary>
+            /// Gets or sets the bounding rectangle for the pie.
+            /// </summary>
             public RectangleF rect { get; set; }
 
+            /// <summary>
+            /// Gets or sets the starting angle for the pie.
+            /// </summary>
             public float startAngle { get; set; }
 
+            /// <summary>
+            /// Gets or sets the sweep angle for the pie.
+            /// </summary>
             public float sweepAngle { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores a polygon definition.
+        /// </summary>
         public class PolygonMode
         {
+            /// <summary>
+            /// Gets or sets the points that define the polygon.
+            /// </summary>
             public PointF[] points { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores a rectangle definition.
+        /// </summary>
         public class RectangleMode
         {
+            /// <summary>
+            /// Gets or sets the rectangle.
+            /// </summary>
             public RectangleF rect { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores multiple rectangles.
+        /// </summary>
         public class RectanglesMode
         {
+            /// <summary>
+            /// Gets or sets the rectangles.
+            /// </summary>
             public RectangleF[] rects { get; set; }
 
         }
 
+        /// <summary>
+        /// Stores string drawing parameters used when text is added to the path.
+        /// </summary>
         public class StringMode
         {
 
+            /// <summary>
+            /// Gets or sets the em size (font em height) used for the string.
+            /// </summary>
             public float emSize { get; set; }
 
+            /// <summary>
+            /// Gets or sets the font family for the string.
+            /// </summary>
             public FontFamily family { get; set; }
 
+            /// <summary>
+            /// Gets or sets the optional string format for layout.
+            /// </summary>
             public StringFormat? format { get; set; }
 
+            /// <summary>
+            /// Gets or sets the layout rectangle for the string.
+            /// </summary>
             public RectangleF layoutRect { get; set; }
 
+            /// <summary>
+            /// Gets or sets the style (FontStyle value encoded as int) for the string.
+            /// </summary>
             public int style { get; set; }
 
+            /// <summary>
+            /// Gets or sets the string text.
+            /// </summary>
             public string text { get; set; }
 
         }
     }
 }
+

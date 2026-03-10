@@ -13,8 +13,20 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public enum TabControlAction
 {
+    /// <summary>
+    /// The selecting
+    /// </summary>
     Selecting,
+    /// <summary>
+    /// The selected
+    /// </summary>
     Selected,
+    /// <summary>
+    /// The deselecting
+    /// </summary>
     Deselecting,
+    /// <summary>
+    /// The deselected
+    /// </summary>
     Deselected
 }

@@ -8,16 +8,22 @@ namespace System.Windows.Forms;
 /// Provides data for row-related
 /// <see cref="T:System.Windows.Forms.DataGridView" /> events.
 /// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
 public class DataGridViewRowEventArgs : EventArgs
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataGridViewRowEventArgs"/> class.
+    /// </summary>
+    /// <param name="dataGridViewRow">The data grid view row.</param>
+    /// <exception cref="System.ArgumentNullException">dataGridViewRow</exception>
     public DataGridViewRowEventArgs(DataGridViewRow dataGridViewRow)
     {
         Row = dataGridViewRow ?? throw new ArgumentNullException(nameof(dataGridViewRow));
     }
 
+    /// <summary>
+    /// Gets the row.
+    /// </summary>
+    /// <value>The row.</value>
     public DataGridViewRow Row { get; }
 
 }

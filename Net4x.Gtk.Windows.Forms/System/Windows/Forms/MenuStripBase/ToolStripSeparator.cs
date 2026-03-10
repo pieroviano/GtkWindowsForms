@@ -11,11 +11,11 @@ namespace System.Windows.Forms
     /// <see cref="T:System.Windows.Forms.ContextMenuStrip" /> or other
     /// <see cref="T:System.Windows.Forms.ToolStripDropDown" /> control.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class ToolStripSeparator : WidgetToolStrip<Gtk.SeparatorMenuItem>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripSeparator"/> class.
+        /// </summary>
         public ToolStripSeparator() : base("ToolStripSeparator")
         {
             this.MenuItem.Hexpand = false;
@@ -25,6 +25,10 @@ namespace System.Windows.Forms
             this.MenuItem.StyleContext.AddClass("ToolStripSeparator");
         }
 
+        /// <summary>
+        /// Gets or sets the size.
+        /// </summary>
+        /// <value>The size.</value>
         public override Size Size
         {
             get => base.Size;
@@ -37,6 +41,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the width.
+        /// </summary>
+        /// <value>The width.</value>
         public override int Width { get; set; }
 
     }

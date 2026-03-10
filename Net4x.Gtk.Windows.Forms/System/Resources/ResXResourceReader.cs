@@ -52,38 +52,80 @@ namespace System.Resources
 
         private bool _useResXDataNodes;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceReader"/> class.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
         public ResXResourceReader(string fileName) : this(fileName, (ITypeResolutionService)null, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceReader"/> class.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="typeResolver">The type resolver.</param>
         public ResXResourceReader(string fileName, ITypeResolutionService typeResolver) : this(fileName, typeResolver, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceReader"/> class.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
         public ResXResourceReader(TextReader reader) : this(reader, (ITypeResolutionService)null, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceReader"/> class.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <param name="typeResolver">The type resolver.</param>
         public ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver) : this(reader, typeResolver, (IAliasResolver)null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceReader"/> class.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
         public ResXResourceReader(Stream stream) : this(stream, (ITypeResolutionService)null, (IAliasResolver)null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceReader"/> class.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="typeResolver">The type resolver.</param>
         public ResXResourceReader(Stream stream, ITypeResolutionService typeResolver) : this(stream, typeResolver, (IAliasResolver)null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceReader"/> class.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="assemblyNames">The assembly names.</param>
         public ResXResourceReader(Stream stream, AssemblyName[] assemblyNames) : this(stream, assemblyNames, (IAliasResolver)null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceReader"/> class.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <param name="assemblyNames">The assembly names.</param>
         public ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames) : this(reader, assemblyNames, (IAliasResolver)null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResXResourceReader"/> class.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="assemblyNames">The assembly names.</param>
         public ResXResourceReader(string fileName, AssemblyName[] assemblyNames) : this(fileName, assemblyNames, (IAliasResolver)null)
         {
         }
@@ -223,6 +265,12 @@ namespace System.Resources
             };
         }
 
+        /// <summary>
+        /// Returns a dictionary enumerator of the resources for this reader.
+        /// </summary>
+        /// <returns>
+        /// A dictionary enumerator for the resources for this reader.
+        /// </returns>
         public IDictionaryEnumerator GetEnumerator()
         {
             _isReaderDirty = true;
@@ -252,6 +300,10 @@ namespace System.Resources
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

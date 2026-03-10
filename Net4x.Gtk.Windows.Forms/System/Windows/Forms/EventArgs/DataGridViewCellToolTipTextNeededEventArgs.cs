@@ -15,6 +15,10 @@ public class DataGridViewCellToolTipTextNeededEventArgs : DataGridViewCellEventA
         ToolTipText = toolTipText;
     }
 
+    /// <summary>
+    /// Gets or sets the tool tip text.
+    /// </summary>
+    /// <value>The tool tip text.</value>
     public string ToolTipText { get; set; }
 
 }

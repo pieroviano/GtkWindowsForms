@@ -9,7 +9,16 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public enum ComboBoxStyle
 {
+    /// <summary>
+    /// The simple
+    /// </summary>
     Simple,
+    /// <summary>
+    /// The drop down
+    /// </summary>
     DropDown,
+    /// <summary>
+    /// The drop down list
+    /// </summary>
     DropDownList
 }

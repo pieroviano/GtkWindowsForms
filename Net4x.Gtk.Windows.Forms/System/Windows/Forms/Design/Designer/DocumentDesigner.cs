@@ -43,18 +43,42 @@ namespace System.Windows.Forms.Design
 
         private bool trayLayoutSuspended;
 
+        /// <summary>
+        /// Gets the set of technologies that this designer can support for its display.
+        /// </summary>
+        /// <value>The supported technologies.</value>
+        /// <exception cref="System.NotImplementedException"></exception>
         public ViewTechnology[] SupportedTechnologies => throw new NotImplementedException();
 
+        /// <summary>
+        /// Gets a value indicating whether the specified tool is supported by the current designer.
+        /// </summary>
+        /// <param name="tool">The
+        /// <see cref="T:System.Drawing.Design.ToolboxItem" /> to be tested for toolbox support.</param>
+        /// <returns>true if the tool is supported by the toolbox and can be enabled; false if the document designer does not know how to use the tool.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public bool GetToolSupported(ToolboxItem tool)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets a view object for the specified view technology.
+        /// </summary>
+        /// <param name="technology">A <see cref="T:System.ComponentModel.Design.ViewTechnology"></see> that indicates a particular view technology.</param>
+        /// <returns>An object that represents the view for this designer.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public object GetView(ViewTechnology technology)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Selects the specified tool.
+        /// </summary>
+        /// <param name="tool">The
+        /// <see cref="T:System.Drawing.Design.ToolboxItem" /> to select.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
         public void ToolPicked(ToolboxItem tool)
         {
             throw new NotImplementedException();

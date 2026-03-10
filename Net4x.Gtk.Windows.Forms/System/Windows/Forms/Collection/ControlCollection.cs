@@ -14,11 +14,23 @@ using System.Windows.Forms.Layout;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// Partial definition of the <see cref="Control"/> class that contains the nested <see cref="ControlCollection"/>.
+    /// The collection manages child controls/widgets for a parent <see cref="Control"/> and bridges WinForms semantics
+    /// to the underlying GTK container.
+    /// </summary>
     public partial class Control
     {
+        /// <summary>
+        /// Collection that stores and manages child controls for a parent <see cref="Control"/>.
+        /// Implements layout-aware collection behavior and provides methods for adding, removing and locating child controls.
+        /// </summary>
         public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable
         {
 
+            /// <summary>
+            /// Offset applied to child widget placement when the underlying GTK container uses absolute positioning.
+            /// </summary>
             internal Drawing.Point Offset = new Drawing.Point(0, 0);
 
             Type __itemType;
@@ -29,6 +41,11 @@ namespace System.Windows.Forms
 
             private bool is__ownerControl_Mapped = false;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ControlCollection"/> class for the specified owner control.
+            /// The collection hooks GTK container events required to manage child layout and mapping.
+            /// </summary>
+            /// <param name="owner">The owning <see cref="Control"/>.</param>
             public ControlCollection(Control owner)
             {
                 __ownerControl = owner.GtkControl as Gtk.Container;
@@ -37,6 +54,11 @@ namespace System.Windows.Forms
                 __ownerControl.ResizeChecked += __ownerControl_ResizeChecked;
             }
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ControlCollection"/> class for the specified owner and GTK container.
+            /// </summary>
+            /// <param name="owner">The owning <see cref="Control"/>.</param>
+            /// <param name="ownerContainer">The underlying GTK container used to host children.</param>
             public ControlCollection(Control owner, Gtk.Container ownerContainer)
             {
                 __ownerControl = ownerContainer;
@@ -45,8 +67,15 @@ namespace System.Windows.Forms
                 __ownerControl.ResizeChecked += __ownerControl_ResizeChecked;
             }
 
+            /// <summary>
+            /// Gets the owning <see cref="Control"/> for this collection.
+            /// </summary>
             public Control Owner { get => __owner; }
 
+            /// <summary>
+            /// Gets the child control at the specified index.
+            /// </summary>
+            /// <param name="index">Zero-based index of the child.</param>
             public new virtual Control this[int index]
             {
                 get
@@ -57,6 +86,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets the child control with the specified key (name), or null if not found.
+            /// </summary>
+            /// <param name="key">The name/key of the control to find.</param>
             public virtual Control? this[string? key]
             {
                 get
@@ -78,17 +111,30 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Adds a GTK widget to the owner control using native integration logic.
+            /// </summary>
+            /// <param name="value">GTK widget to add.</param>
             public virtual void Add(Gtk.Widget value)
             {
                 NativeAdd(value);
             }
 
+            /// <summary>
+            /// Adds a control of the specified type to the collection. The current implementation forwards to <see cref="Add(Control)"/>.
+            /// </summary>
+            /// <param name="itemType">Type of the item to add (ignored).</param>
+            /// <param name="item">The control to add.</param>
             public virtual void Add(Type itemType, Control item)
             {
                 // override handling
                 this.Add(item);
             }
 
+            /// <summary>
+            /// Adds a <see cref="Control"/> to the collection and to the underlying GTK container.
+            /// </summary>
+            /// <param name="value">Control to add.</param>
             public virtual void Add(Control? value)
             {
                 if (value is null)
@@ -99,6 +145,10 @@ namespace System.Windows.Forms
                 InnerList.Add(value);
             }
 
+            /// <summary>
+            /// Adds an array of controls to the collection.
+            /// </summary>
+            /// <param name="controls">Controls to add.</param>
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public virtual void AddRange(params Control[] controls)
             {
@@ -116,12 +166,20 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Adds a GTK widget and registers the corresponding <see cref="Control"/> as a child of the owner.
+            /// </summary>
+            /// <param name="item">GTK widget added.</param>
+            /// <param name="control">Associated <see cref="Control"/> instance.</param>
             public void AddWidget(Gtk.Widget item, Control control)
             {
                 control.Parent = __owner;
                 InnerList.Add(new ArrangedElementWidget(item));
             }
 
+            /// <summary>
+            /// Removes all child widgets from the underlying GTK container and clears the internal list.
+            /// </summary>
             public virtual void Clear()
             {
                 foreach (Gtk.Widget wid in __ownerControl.Children)
@@ -130,6 +188,10 @@ namespace System.Windows.Forms
                 InnerList.Clear();
             }
 
+            /// <summary>
+            /// Creates a shallow clone of this collection containing the same arranged elements.
+            /// </summary>
+            /// <returns>A cloned <see cref="ControlCollection"/> instance.</returns>
             public object Clone()
             {
                 ControlCollection ccOther = new ControlCollection(__owner, __ownerControl);
@@ -138,13 +200,30 @@ namespace System.Windows.Forms
                 return ccOther;
             }
 
+            /// <summary>
+            /// Determines whether the specified control is in the collection.
+            /// </summary>
+            /// <param name="control">Control to test.</param>
+            /// <returns>True if found; otherwise false.</returns>
             public bool Contains(Control? control) => ((IList)InnerList).Contains(control);
 
+            /// <summary>
+            /// Determines whether a control with the given key (name) exists in the collection.
+            /// </summary>
+            /// <param name="key">Key/name to search for.</param>
+            /// <returns>True if a control with the key exists; otherwise false.</returns>
             public virtual bool ContainsKey(string? key)
             {
                 return IsValidIndex(IndexOfKey(key));
             }
 
+            /// <summary>
+            /// Finds child controls by name. When <paramref name="searchAllChildren"/> is true
+            /// the search traverses internal arranged elements as well.
+            /// </summary>
+            /// <param name="key">Name to search for.</param>
+            /// <param name="searchAllChildren">Whether to search nested children.</param>
+            /// <returns>Array of matching <see cref="Control"/> instances (may be empty).</returns>
             public Control[] Find(string key, bool searchAllChildren)
             {
                 List<IArrangedElement> foundControls = InnerList.FindAll(o =>
@@ -165,8 +244,19 @@ namespace System.Windows.Forms
                     return foundControls.ConvertAll(o => o as Control).ToArray();
             }
 
+            /// <summary>
+            /// Gets the child index for the specified control.
+            /// </summary>
+            /// <param name="child">Child control.</param>
+            /// <returns>Index of the child.</returns>
             public int GetChildIndex(Control child) => GetChildIndex(child, true);
 
+            /// <summary>
+            /// Gets the child index for the specified control; optionally throw if not a child.
+            /// </summary>
+            /// <param name="child">Child control.</param>
+            /// <param name="throwException">True to throw when control is not a child.</param>
+            /// <returns>Index of the child.</returns>
             public virtual int GetChildIndex(Control child, bool throwException)
             {
                 int index = IndexOf(child);
@@ -178,13 +268,26 @@ namespace System.Windows.Forms
                 return index;
             }
 
+            /// <summary>
+            /// Returns an enumerator that iterates through the collection.
+            /// </summary>
             public override IEnumerator GetEnumerator()
             {
                 return InnerList.GetEnumerator();
             }
 
+            /// <summary>
+            /// Returns the index of the given control in this collection.
+            /// </summary>
+            /// <param name="control">Control to locate.</param>
+            /// <returns>Zero-based index or -1 if not found.</returns>
             public int IndexOf(Control? control) => ((IList)InnerList).IndexOf(control);
 
+            /// <summary>
+            /// Returns the index of a child control by its key/name.
+            /// </summary>
+            /// <param name="key">Key/name to find.</param>
+            /// <returns>Index of the matching child or -1 if not found.</returns>
             public virtual int IndexOfKey(string? key)
             {
                 if (string.IsNullOrEmpty(key))
@@ -206,6 +309,10 @@ namespace System.Windows.Forms
                 });
             }
 
+            /// <summary>
+            /// Removes the specified child control from the collection and underlying GTK container.
+            /// </summary>
+            /// <param name="value">Control to remove.</param>
             public virtual void Remove(Control? value)
             {
                 if (value is null)
@@ -216,6 +323,10 @@ namespace System.Windows.Forms
                 __ownerControl.Remove(value.Widget);
             }
 
+            /// <summary>
+            /// Removes the child at the specified index.
+            /// </summary>
+            /// <param name="index">Index to remove.</param>
             public void RemoveAt(int index)
             {
                 IArrangedElement element = InnerList[index];
@@ -228,6 +339,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Removes a child control identified by key (name).
+            /// </summary>
+            /// <param name="key">Key/name of the child to remove.</param>
             public virtual void RemoveByKey(string? key)
             {
                 int index = IndexOfKey(key);
@@ -237,6 +352,11 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Sets the child index (z-order) for the specified child control.
+            /// </summary>
+            /// <param name="child">Child control to reposition.</param>
+            /// <param name="newIndex">New zero-based index.</param>
             public virtual void SetChildIndex(Control child, int newIndex) => SetChildIndexInternal(child, newIndex);
 
             internal virtual void SetChildIndexInternal(Control child, int newIndex)
@@ -536,6 +656,9 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Adapts a raw GTK widget into the arranged-element layout system used by WinForms layout APIs.
+        /// </summary>
         internal class ArrangedElementWidget : IArrangedElement
         {
             Gtk.Widget _widget;
@@ -555,6 +678,9 @@ namespace System.Windows.Forms
 
             public Rectangle DisplayRectangle => throw new NotImplementedException();
 
+            /// <summary>
+            /// Gets the wrapped GTK widget.
+            /// </summary>
             public Gtk.Widget GetWidget { get => _widget; }
 
             public bool ParticipatesInLayout => throw new NotImplementedException();
@@ -563,6 +689,9 @@ namespace System.Windows.Forms
 
             public ISite Site { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+            /// <summary>
+            /// Disposes the wrapped GTK widget when the arranged-element wrapper is disposed.
+            /// </summary>
             public void Dispose()
             {
                 if (_widget != null)
@@ -590,3 +719,4 @@ namespace System.Windows.Forms
         }
     }
 }
+

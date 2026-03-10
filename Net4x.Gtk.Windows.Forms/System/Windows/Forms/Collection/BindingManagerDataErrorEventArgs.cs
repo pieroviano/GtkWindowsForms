@@ -8,12 +8,23 @@ namespace System.Windows.Forms
     /// </summary>
     public class BindingManagerDataErrorEventArgs : EventArgs
     {
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindingManagerDataErrorEventArgs"/> class.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
         public BindingManagerDataErrorEventArgs(Exception exception)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets the exception.
+        /// </summary>
+        /// <value>
+        /// The exception.
+        /// </value>
+        /// <exception cref="System.NotImplementedException"></exception>
         public Exception Exception
         {
             [CompilerGenerated]

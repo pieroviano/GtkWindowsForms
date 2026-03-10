@@ -8,6 +8,12 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public enum BindingCompleteContext
 {
+    /// <summary>
+    /// The control update
+    /// </summary>
     ControlUpdate,
+    /// <summary>
+    /// The data source update
+    /// </summary>
     DataSourceUpdate
 }

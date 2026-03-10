@@ -3,4 +3,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate PropertyTabChangedEventHandler
+/// </summary>
+/// <param name="s">The s.</param>
+/// <param name="e">The <see cref="PropertyTabChangedEventArgs"/> instance containing the event data.</param>
 public delegate void PropertyTabChangedEventHandler(object? s, PropertyTabChangedEventArgs e);

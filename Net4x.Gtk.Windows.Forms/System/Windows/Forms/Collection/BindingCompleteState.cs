@@ -8,7 +8,16 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public enum BindingCompleteState
 {
+    /// <summary>
+    /// The success
+    /// </summary>
     Success,
+    /// <summary>
+    /// The data error
+    /// </summary>
     DataError,
+    /// <summary>
+    /// The exception
+    /// </summary>
     Exception
 }

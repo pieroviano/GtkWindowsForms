@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
+namespace System.ComponentModel;
 
-namespace System.ComponentModel
+/// <summary>
+/// TypeConverte1 provides a type converter to convert
+/// </summary>
+public class TypeConverte1
 {
-    public class TypeConverte1
-    {
-
-    }
 }

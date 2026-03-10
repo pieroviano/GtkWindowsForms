@@ -1,5 +1,8 @@
 namespace System.Windows.Forms;
 
+/// <summary>
+/// ICurrencyManagerProvider is the interface that must be implemented by any component that provides a CurrencyManager
+/// </summary>
 public interface ICurrencyManagerProvider
 {
     /// <summary>

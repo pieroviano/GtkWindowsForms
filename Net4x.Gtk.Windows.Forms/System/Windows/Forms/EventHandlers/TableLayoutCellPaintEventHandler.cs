@@ -4,4 +4,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate TableLayoutCellPaintEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="e">The <see cref="TableLayoutCellPaintEventArgs"/> instance containing the event data.</param>
 public delegate void TableLayoutCellPaintEventHandler(object sender, TableLayoutCellPaintEventArgs e);

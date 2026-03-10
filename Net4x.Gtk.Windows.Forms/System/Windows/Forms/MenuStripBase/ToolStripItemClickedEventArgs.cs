@@ -6,17 +6,22 @@ namespace System.Windows.Forms
     /// Provides data for the
     /// <see cref="!:System.Windows.Forms.ToolStrip.ItemClicked" /> event.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class ToolStripItemClickedEventArgs : EventArgs
     {
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripItemClickedEventArgs"/> class.
+        /// </summary>
+        /// <param name="clickedItem">The clicked item.</param>
         public ToolStripItemClickedEventArgs(ToolStripItem clickedItem)
         {
             this.ClickedItem = clickedItem;
         }
 
+        /// <summary>
+        /// Gets the clicked item.
+        /// </summary>
+        /// <value>The clicked item.</value>
         public ToolStripItem ClickedItem { get; }
 
     }

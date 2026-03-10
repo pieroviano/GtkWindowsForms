@@ -19,9 +19,6 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a panel that dynamically lays out its contents in a grid composed of rows and columns.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     //[ProvideProperty("ColumnSpan", typeof(Control))]
     //[ProvideProperty("RowSpan", typeof(Control))]
     //[ProvideProperty("Row", typeof(Control))]
@@ -32,18 +29,39 @@ namespace System.Windows.Forms
     public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly TableLayoutPanelBase self = new TableLayoutPanelBase();
 
+        /// <summary>
+        /// The column count
+        /// </summary>
         private int _ColumnCount;
 
+        /// <summary>
+        /// The column styles
+        /// </summary>
         private TableLayoutColumnStyleCollection _columnStyles;
 
+        /// <summary>
+        /// The controls
+        /// </summary>
         private TableLayoutControlCollection _controls;
 
+        /// <summary>
+        /// The row count
+        /// </summary>
         private int _RowCount;
 
+        /// <summary>
+        /// The row styles
+        /// </summary>
         private TableLayoutRowStyleCollection _rowStyles;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableLayoutPanel"/> class.
+        /// </summary>
         public TableLayoutPanel() : base()
         {
             _controls = new TableLayoutControlCollection(this);
@@ -51,10 +69,18 @@ namespace System.Windows.Forms
             _rowStyles = new TableLayoutRowStyleCollection();
         }
 
+        /// <summary>
+        /// Gets or sets the border style for the control.
+        /// </summary>
+        /// <value>The border style.</value>
         [Browsable(false)]
 
         public override BorderStyle BorderStyle { get => base.BorderStyle; set => base.BorderStyle = value; }
 
+        /// <summary>
+        /// Gets or sets the cell border style.
+        /// </summary>
+        /// <value>The cell border style.</value>
         [Localizable(true)]
         public TableLayoutPanelCellBorderStyle CellBorderStyle
         {
@@ -62,6 +88,10 @@ namespace System.Windows.Forms
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the column count.
+        /// </summary>
+        /// <value>The column count.</value>
         [DefaultValue(0)]
         [Localizable(true)]
         public int ColumnCount
@@ -88,6 +118,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the column styles.
+        /// </summary>
+        /// <value>The column styles.</value>
         [DisplayName("Columns")]
         [Browsable(false)]
         public TableLayoutColumnStyleCollection ColumnStyles
@@ -95,22 +129,42 @@ namespace System.Windows.Forms
             get => _columnStyles;
         }
 
+        /// <summary>
+        /// Gets the controls.
+        /// </summary>
+        /// <value>The controls.</value>
         [Browsable(false)]
         public new TableLayoutControlCollection Controls
         {
             get => _controls;
         }
 
+        /// <summary>
+        /// Gets the grid.
+        /// </summary>
+        /// <value>The grid.</value>
         public Gtk.Grid grid => self.grid;
 
+        /// <summary>
+        /// Gets or sets the grow style.
+        /// </summary>
+        /// <value>The grow style.</value>
         public TableLayoutPanelGrowStyle GrowStyle
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the row count.
+        /// </summary>
+        /// <value>The row count.</value>
         [DefaultValue(0)]
         [Localizable(true)]
         public int RowCount
@@ -137,6 +191,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the row styles.
+        /// </summary>
+        /// <value>The row styles.</value>
         [DisplayName("Rows")]
         [Browsable(false)]
         public TableLayoutRowStyleCollection RowStyles
@@ -144,6 +202,10 @@ namespace System.Windows.Forms
             get => _rowStyles;
         }
 
+        /// <summary>
+        /// Gets or sets the size.
+        /// </summary>
+        /// <value>The size.</value>
         public override Size Size
         {
             get => base.Size;
@@ -155,6 +217,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the cell position.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <returns>TableLayoutPanelCellPosition.</returns>
         [DisplayName("Cell")]
         public TableLayoutPanelCellPosition GetCellPosition(Control control)
         {
@@ -169,6 +236,11 @@ namespace System.Windows.Forms
             return cellPosition;
         }
 
+        /// <summary>
+        /// Gets the column.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <returns>System.Int32.</returns>
         [DefaultValue(-1)]
         [DisplayName("Column")]
         public int GetColumn(Control control)
@@ -176,6 +248,11 @@ namespace System.Windows.Forms
             return control.GetGridCell(grid).LeftAttach;
         }
 
+        /// <summary>
+        /// Gets the column span.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <returns>System.Int32.</returns>
         [DefaultValue(1)]
         [DisplayName("ColumnSpan")]
         public int GetColumnSpan(Control control)
@@ -183,6 +260,10 @@ namespace System.Windows.Forms
             return control.Widget.MarginStart;
         }
 
+        /// <summary>
+        /// Gets the column widths.
+        /// </summary>
+        /// <returns>System.Int32[].</returns>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public int[] GetColumnWidths()
@@ -197,11 +278,22 @@ namespace System.Windows.Forms
             return list.ToArray();
         }
 
+        /// <summary>
+        /// Gets the control from position.
+        /// </summary>
+        /// <param name="column">The column.</param>
+        /// <param name="row">The row.</param>
+        /// <returns>Control.</returns>
         public Control GetControlFromPosition(int column, int row)
         {
             return grid.GetChildAt(column, row).Data["Control"] as Control;
         }
 
+        /// <summary>
+        /// Gets the position from control.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <returns>TableLayoutPanelCellPosition.</returns>
         public TableLayoutPanelCellPosition GetPositionFromControl(Control control)
         {
             TableLayoutPanelCellPosition cellPosition = new TableLayoutPanelCellPosition(-1, -1);
@@ -215,6 +307,11 @@ namespace System.Windows.Forms
             return cellPosition;
         }
 
+        /// <summary>
+        /// Gets the row.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <returns>System.Int32.</returns>
         [DefaultValue(-1)]
         [DisplayName("Row")]
         public int GetRow(Control control)
@@ -222,6 +319,10 @@ namespace System.Windows.Forms
             return control.GetGridCell(grid).TopAttach;
         }
 
+        /// <summary>
+        /// Gets the row heights.
+        /// </summary>
+        /// <returns>System.Int32[].</returns>
         [Browsable(false)]
         public int[] GetRowHeights()
         {
@@ -235,6 +336,11 @@ namespace System.Windows.Forms
             return list.ToArray();
         }
 
+        /// <summary>
+        /// Gets the row span.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <returns>System.Int32.</returns>
         [DefaultValue(1)]
         [DisplayName("RowSpan")]
         public int GetRowSpan(Control control)
@@ -242,12 +348,20 @@ namespace System.Windows.Forms
             return control.Widget.MarginTop;
         }
 
+        /// <summary>
+        /// Forces the control to perform layout logic.
+        /// </summary>
         public override void PerformLayout()
         {
             SetColumnsStyles();
             SetRowsStyles();
         }
 
+        /// <summary>
+        /// Sets the cell position.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="position">The position.</param>
         public void SetCellPosition(Control control, TableLayoutPanelCellPosition position)
         {
             GridCell cell = control.GetGridCell(grid);
@@ -258,6 +372,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Sets the column.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="column">The column.</param>
         public void SetColumn(Control control, int column)
         {
             GridCell child = control.GetGridCell(grid);
@@ -266,28 +385,52 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Sets the column span.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="value">The value.</param>
         public void SetColumnSpan(Control control, int value)
         {
             control.Widget.MarginStart = value;
             control.Widget.MarginEnd = value;
         }
 
+        /// <summary>
+        /// Sets the row.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="row">The row.</param>
         public void SetRow(Control control, int row)
         {
             control.GetGridCell(grid).TopAttach = row;
         }
 
+        /// <summary>
+        /// Sets the row span.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="value">The value.</param>
         public void SetRowSpan(Control control, int value)
         {
             control.Widget.MarginTop = value;
             control.Widget.MarginBottom = value;
         }
 
+        /// <summary>
+        /// Determines whether this instance can extend the specified object.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns><c>true</c> if this instance can extend the specified object; otherwise, <c>false</c>.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         bool IExtenderProvider.CanExtend(object obj)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Sets the columns styles.
+        /// </summary>
         private void SetColumnsStyles()
         {
             Size size = this.Size;
@@ -313,6 +456,9 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Sets the rows styles.
+        /// </summary>
         private void SetRowsStyles()
         {
             Size size = this.Size;

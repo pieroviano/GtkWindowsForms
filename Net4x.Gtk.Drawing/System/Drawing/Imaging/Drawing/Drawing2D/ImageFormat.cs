@@ -94,7 +94,13 @@ namespace System.Drawing.Imaging
         /// </returns>
         public Guid Guid => _guid;
 
-        //[SupportedOSPlatform("windows10.0.17763.0")]
+        //[SupportedOSPlatform("windows10.0.17763.0")]        
+        /// <summary>
+        /// Gets the heif.
+        /// </summary>
+        /// <value>
+        /// The heif.
+        /// </value>
         public static ImageFormat Heif => s_heif;
 
         /// <summary>
@@ -137,7 +143,13 @@ namespace System.Drawing.Imaging
         /// </returns>
         public static ImageFormat Tiff => s_tiff;
 
-        //[SupportedOSPlatform("windows10.0.17763.0")]
+        //[SupportedOSPlatform("windows10.0.17763.0")]        
+        /// <summary>
+        /// Gets the webp.
+        /// </summary>
+        /// <value>
+        /// The webp.
+        /// </value>
         public static ImageFormat Webp => s_webp;
 
         /// <summary>

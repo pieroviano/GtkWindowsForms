@@ -16,23 +16,38 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a Windows control that allows the user to select a date and a time and to display the date and time with a specified format.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class DateTimePicker : MaskedTextBox
     {
 
+        /// <summary>
+        /// The format
+        /// </summary>
         public DateTimePickerFormat _Format;
 
+        /// <summary>
+        /// The calendar
+        /// </summary>
         Gtk.Calendar calendar = new Gtk.Calendar();
 
+        /// <summary>
+        /// The popver
+        /// </summary>
         Gtk.Popover popver;
 
+        /// <summary>
+        /// The custom format
+        /// </summary>
         private string _CustomFormat = System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd;
 
+        /// <summary>
+        ///   ValueChanged event is raised when the Value property is changed, either by user action or programmatically.
+        /// </summary>
         public event EventHandler ValueChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimePicker"/> class.
+        /// </summary>
         public DateTimePicker() : base("DateTimePicker")
         {
             base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
@@ -65,18 +80,46 @@ namespace System.Windows.Forms
             self.Changed += Self_Changed;
         }
 
+        /// <summary>
+        /// Gets or sets the calendar font.
+        /// </summary>
+        /// <value>The calendar font.</value>
         public Font CalendarFont { get; set; }
 
+        /// <summary>
+        /// Gets or sets the color of the calendar fore.
+        /// </summary>
+        /// <value>The color of the calendar fore.</value>
         public Color CalendarForeColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the calendar month background.
+        /// </summary>
+        /// <value>The calendar month background.</value>
         public Color CalendarMonthBackground { get; set; }
 
+        /// <summary>
+        /// Gets or sets the color of the calendar title back.
+        /// </summary>
+        /// <value>The color of the calendar title back.</value>
         public Color CalendarTitleBackColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the color of the calendar title fore.
+        /// </summary>
+        /// <value>The color of the calendar title fore.</value>
         public Color CalendarTitleForeColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the color of the calendar trailing fore.
+        /// </summary>
+        /// <value>The color of the calendar trailing fore.</value>
         public Color CalendarTrailingForeColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the custom format.
+        /// </summary>
+        /// <value>The custom format.</value>
         public string CustomFormat
         {
             get => _CustomFormat;
@@ -87,6 +130,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the format.
+        /// </summary>
+        /// <value>The format.</value>
         public DateTimePickerFormat Format
         {
             get => _Format;
@@ -106,10 +153,22 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum date.
+        /// </summary>
+        /// <value>The maximum date.</value>
         public DateTime MaxDate { get; set; } = DateTime.MaxValue;
 
+        /// <summary>
+        /// Gets or sets the minimum date.
+        /// </summary>
+        /// <value>The minimum date.</value>
         public DateTime MinDate { get; set; } = DateTime.MinValue;
 
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>The value.</value>
         public DateTime Value
         {
             get
@@ -160,6 +219,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the DaySelected event of the Calendar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Calendar_DaySelected(object sender, EventArgs e)
         {
             Gtk.Calendar calendar = sender as Gtk.Calendar;
@@ -176,6 +240,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the NextMonth event of the Calendar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Calendar_NextMonth(object sender, EventArgs e)
         {
             if (calendar.GetDate() > MaxDate)
@@ -184,6 +253,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the NextYear event of the Calendar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Calendar_NextYear(object sender, EventArgs e)
         {
             if (calendar.GetDate() > MaxDate)
@@ -192,6 +266,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the PrevMonth event of the Calendar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Calendar_PrevMonth(object sender, EventArgs e)
         {
             if (calendar.GetDate() < MinDate)
@@ -200,6 +279,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the PrevYear event of the Calendar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Calendar_PrevYear(object sender, EventArgs e)
         {
             if (calendar.GetDate() < MinDate)
@@ -208,6 +292,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Dates the time picker icon release.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void DateTimePicker_IconRelease(object o, Gtk.IconReleaseArgs args)
         {
             DateTime current = Value;
@@ -226,17 +315,32 @@ namespace System.Windows.Forms
             popver.ShowAll();
         }
 
+        /// <summary>
+        /// Handles the Changed event of the Self control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Self_Changed(object sender, EventArgs e)
         {
             if (ValueChanged != null && self.IsMapped)
                 ValueChanged(this, e);
         }
 
+        /// <summary>
+        /// Handles the Shown event of the Self control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Self_Shown(object sender, EventArgs e)
         {
             this.Value = DateTime.Now;
         }
 
+        /// <summary>
+        /// Handles the Clicked event of the Todaybtn control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Todaybtn_Clicked(object sender, EventArgs e)
         {
             this.Value = DateTime.Now;

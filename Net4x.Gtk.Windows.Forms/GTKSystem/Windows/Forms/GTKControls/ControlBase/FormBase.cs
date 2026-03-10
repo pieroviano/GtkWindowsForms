@@ -17,12 +17,25 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin32Window
     {
 
+        /// <summary>
+        /// The scroll view
+        /// </summary>
         public readonly Gtk.ScrolledWindow ScrollView = new Gtk.ScrolledWindow();
 
+        /// <summary>
+        /// Occurs when the close window event occurs.
+        /// </summary>
         public event CloseWindowHandler CloseWindowEvent;
 
+        /// <summary>
+        /// Occurs when a scroll event occurs..
+        /// </summary>
         public event System.Windows.Forms.ScrollEventHandler Scroll;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormBase"/> class.
+        /// </summary>
+        /// <param name="parent">The parent.</param>
         public FormBase(Gtk.Window parent = null) : base("title", Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive), DialogFlags.UseHeaderBar)
         {
             this.Override = new GtkControlOverride(this);
@@ -54,6 +67,17 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             this.Close += FormBase_Close;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether automatic scroll.
+        /// </summary>
+        /// <value>
+        /// <c>
+        /// true
+        /// </c> if automatic scroll; otherwise,
+        /// <c>
+        /// false
+        /// </c>.
+        /// </value>
         public bool AutoScroll
         {
             get => ScrollView.VscrollbarPolicy == Gtk.PolicyType.Automatic;
@@ -74,22 +98,62 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether  horizontal scroll.
+        /// </summary>
+        /// <value>
+        /// <c>
+        /// true
+        /// </c> if  horizontal scroll; otherwise,
+        /// <c>
+        /// false
+        /// </c>.
+        /// </value>
         public bool HScroll { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets the <see cref="GtkControlOverride"/> instance that centralizes drawing and styling behavior for this control.
+        /// This override encapsulates background painting (color and image), image drawing, CSS class management and raises paint events
+        /// so the control can handle custom painting (both direct Cairo via <see cref="PaintGraphicsEventHandler"/> and System.Drawing via <see cref="PaintEventHandler"/>).
+        /// The override is typically created and configured in the control's constructor and invoked from the GTK drawing/show handlers.
+        /// </summary>
+        /// <value>The active <see cref="GtkControlOverride"/> used by the control.</value>
         public GtkControlOverride Override { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether vertical scroll.
+        /// </summary>
+        /// <value>
+        /// <c>
+        /// true
+        /// </c> if vertical scroll; otherwise,
+        /// <c>
+        /// false
+        /// </c>.
+        /// </value>
         public bool VScroll { get; set; } = true;
 
+        /// <summary>
+        /// Adds the specified child.
+        /// </summary>
+        /// <param name="child">The child.</param>
         public new void Add(Gtk.Widget child)
         {
             ScrollView.Child = child;
         }
 
+        /// <summary>
+        /// Adds the class.
+        /// </summary>
+        /// <param name="cssClass">The CSS class.</param>
         public void AddClass(string cssClass)
         {
             this.Override.AddClass(cssClass);
         }
 
+        /// <summary>
+        /// Closes the window.
+        /// </summary>
         public void CloseWindow()
         {
             this.Respond(ResponseType.DeleteEvent);
@@ -143,7 +207,14 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
             }
         }
 
+        /// <summary>
+        /// CloseWindowHandler delegate.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <returns></returns>
         public delegate bool CloseWindowHandler(object sender, EventArgs e);
 
     }
 }
+

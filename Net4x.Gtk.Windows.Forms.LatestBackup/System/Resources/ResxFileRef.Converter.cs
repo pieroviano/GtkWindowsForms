@@ -12,11 +12,6 @@ using System.Text;
 
 namespace System.Resources
 {
-    /// <summary>
-    /// ResX File Reference class. This allows the developer to represent
-    /// a link to an external resource. When the resource manager asks
-    /// for the value of the resource item, the external resource is loaded.
-    /// </summary>
     public partial class ResXFileRef
     {
         public class Converter : TypeConverter

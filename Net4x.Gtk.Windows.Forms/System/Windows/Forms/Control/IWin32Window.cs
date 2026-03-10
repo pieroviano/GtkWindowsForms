@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms
 {
+    /// <summary>
+    /// IWin32Window is the interface implemented by objects that can return a handle to a Win32 window. This is used by various methods in Windows Forms that require a window handle, such as ShowDialog and IWin32Window.Handle.
+    /// </summary>
     [Guid("458AB8A2-A1EA-4d7b-8EBE-DEE5D3D9442C")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     [ComVisible(true)]

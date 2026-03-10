@@ -16,6 +16,12 @@ using System.Xml.Serialization;
 
 namespace GtkSystem.Resources.Extensions
 {
+    /// <summary>
+    /// DeserializingResourceReader is a class that provides an implementation of deserializing a resource file. It reads resources from a stream and allows access to them through the IResourceReader interface. The class supports both binary formatted resources and resources that use type converters for serialization. It also includes error handling to ensure that the resource file is properly formatted and that the resources can be deserialized correctly.
+    /// </summary>
+    /// <seealso cref="System.Resources.IResourceReader" />
+    /// <seealso cref="System.Collections.IEnumerable" />
+    /// <seealso cref="System.IDisposable" />
     public sealed class DeserializingResourceReader : System.Resources.IResourceReader, IEnumerable, IDisposable
     {
 
@@ -51,6 +57,10 @@ namespace GtkSystem.Resources.Extensions
 
         private const int DefaultFileStreamBufferSize = 4096;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeserializingResourceReader"/> class.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
         public DeserializingResourceReader(string fileName)
         {
             _resCache = new Dictionary<string, ResourceLocator>(FastResourceComparer.Default);

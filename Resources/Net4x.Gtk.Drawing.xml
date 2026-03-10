@@ -4388,6 +4388,7 @@
             </summary>
             <param name="prototype">The existing System.Drawing.Font from which to create the new System.Drawing.Font.
             </param>
+            <param name="newStyle">the new style</param>
         </member>
         <member name="M:System.Drawing.Font.#ctor(System.Drawing.FontFamily,System.Single)">
             <summary>

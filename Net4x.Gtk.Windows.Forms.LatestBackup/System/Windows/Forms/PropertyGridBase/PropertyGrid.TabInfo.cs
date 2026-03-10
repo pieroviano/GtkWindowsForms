@@ -6,8 +6,7 @@ using System.Windows.Forms.Design;
 
 namespace System.Windows.Forms
 {
-    /// <summary>
-    /// </summary>
+
     public partial class PropertyGrid
     {
         private record TabInfo(PropertyTab Tab, PropertyTabScope Scope, ToolStripButton Button)

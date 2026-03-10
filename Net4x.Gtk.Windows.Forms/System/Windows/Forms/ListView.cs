@@ -19,57 +19,123 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a Windows list view control, which displays a collection of items that can be displayed using one of four different views.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [DefaultEvent("SelectedIndexChanged")]
     public class ListView : ContainerControl
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly ListViewBase self = new ListViewBase();
 
+        /// <summary>
+        /// The flow box container
+        /// </summary>
         internal Gtk.Box flowBoxContainer = new Gtk.Box(Gtk.Orientation.Vertical, 0);
 
+        /// <summary>
+        /// The header
+        /// </summary>
         internal Gtk.Box header = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
 
+        /// <summary>
+        /// The header view
+        /// </summary>
         internal Gtk.Layout headerView;
 
+        /// <summary>
+        /// The scrolled window
+        /// </summary>
         internal Gtk.ScrolledWindow scrolledWindow = new Gtk.ScrolledWindow();
 
+        /// <summary>
+        /// The headerheight
+        /// </summary>
         private int __headerheight = 30;
 
+        /// <summary>
+        /// The columns
+        /// </summary>
         private ColumnHeaderCollection _columns;
 
+        /// <summary>
+        /// The default group
+        /// </summary>
         private ListViewGroup _defaultGroup;
 
+        /// <summary>
+        /// The font size
+        /// </summary>
         private int _fontSize;
 
+        /// <summary>
+        /// The groups
+        /// </summary>
         private ListViewGroupCollection _groups;
 
+        /// <summary>
+        /// The items
+        /// </summary>
         private ListViewItemCollection _items;
 
+        /// <summary>
+        /// The multi select
+        /// </summary>
         private bool _MultiSelect = true;
 
+        /// <summary>
+        /// The control realized
+        /// </summary>
         private bool ControlRealized = false;
 
+        /// <summary>
+        /// The is cache update
+        /// </summary>
         private bool IsCacheUpdate;
 
+        /// <summary>
+        /// The sorting column index
+        /// </summary>
         private int SortingColumnIndex = -1;
 
+        /// <summary>
+        /// Occurs when [column click].
+        /// </summary>
         public event ColumnClickEventHandler ColumnClick;
 
+        /// <summary>
+        /// Occurs when [column reordered].
+        /// </summary>
         public event ColumnReorderedEventHandler ColumnReordered;
 
+        /// <summary>
+        /// Occurs when [item activate].
+        /// </summary>
         public event EventHandler ItemActivate;
 
+        /// <summary>
+        /// Occurs when [item check].
+        /// </summary>
         public event ItemCheckEventHandler ItemCheck;
 
+        /// <summary>
+        /// Occurs when [item checked].
+        /// </summary>
         public event ItemCheckedEventHandler ItemChecked;
 
+        /// <summary>
+        /// Occurs when [item selection changed].
+        /// </summary>
         public event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
 
+        /// <summary>
+        /// Occurs when [selected index changed].
+        /// </summary>
         public event EventHandler SelectedIndexChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListView"/> class.
+        /// </summary>
         public ListView() : base()
         {
             _items = new ListViewItemCollection(this);
@@ -104,14 +170,34 @@ namespace System.Windows.Forms
             this.BorderStyle = BorderStyle.Fixed3D;
         }
 
+        /// <summary>
+        /// Gets or sets the activation.
+        /// </summary>
+        /// <value>The activation.</value>
         public ItemActivation Activation { get; set; }
 
+        /// <summary>
+        /// Gets or sets the alignment.
+        /// </summary>
+        /// <value>The alignment.</value>
         public System.Windows.Forms.ListViewAlignment Alignment { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow column reorder].
+        /// </summary>
+        /// <value><c>true</c> if [allow column reorder]; otherwise, <c>false</c>.</value>
         public bool AllowColumnReorder { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [check boxes].
+        /// </summary>
+        /// <value><c>true</c> if [check boxes]; otherwise, <c>false</c>.</value>
         public bool CheckBoxes { get; set; }
 
+        /// <summary>
+        /// Gets the checked indices.
+        /// </summary>
+        /// <value>The checked indices.</value>
         public CheckedIndexCollection CheckedIndices
         {
             get
@@ -126,6 +212,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the checked items.
+        /// </summary>
+        /// <value>The checked items.</value>
         public CheckedListViewItemCollection CheckedItems
         {
             get
@@ -143,6 +233,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the columns.
+        /// </summary>
+        /// <value>The columns.</value>
         public ColumnHeaderCollection Columns
         {
             get
@@ -151,12 +245,28 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [full row select].
+        /// </summary>
+        /// <value><c>true</c> if [full row select]; otherwise, <c>false</c>.</value>
         public bool FullRowSelect { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [grid lines].
+        /// </summary>
+        /// <value><c>true</c> if [grid lines]; otherwise, <c>false</c>.</value>
         public bool GridLines { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets the group image list.
+        /// </summary>
+        /// <value>The group image list.</value>
         public ImageList GroupImageList { get; set; }
 
+        /// <summary>
+        /// Gets the groups.
+        /// </summary>
+        /// <value>The groups.</value>
         public ListViewGroupCollection Groups
         {
             get
@@ -165,14 +275,34 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the header style.
+        /// </summary>
+        /// <value>The header style.</value>
         public System.Windows.Forms.ColumnHeaderStyle HeaderStyle { get; set; } = ColumnHeaderStyle.Clickable;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [hide selection].
+        /// </summary>
+        /// <value><c>true</c> if [hide selection]; otherwise, <c>false</c>.</value>
         public bool HideSelection { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [hover selection].
+        /// </summary>
+        /// <value><c>true</c> if [hover selection]; otherwise, <c>false</c>.</value>
         public bool HoverSelection { get; set; }
 
+        /// <summary>
+        /// Gets the items.
+        /// </summary>
+        /// <value>The items.</value>
         public ListViewItemCollection Items
         {
             get
@@ -181,18 +311,38 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [label edit].
+        /// </summary>
+        /// <value><c>true</c> if [label edit]; otherwise, <c>false</c>.</value>
         public bool LabelEdit { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [label wrap].
+        /// </summary>
+        /// <value><c>true</c> if [label wrap]; otherwise, <c>false</c>.</value>
         public bool LabelWrap { get; set; }
 
+        /// <summary>
+        /// Gets or sets the large image list.
+        /// </summary>
+        /// <value>The large image list.</value>
         public ImageList LargeImageList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the ListView item sorter.
+        /// </summary>
+        /// <value>The ListView item sorter.</value>
         public IComparer ListViewItemSorter
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [multi select].
+        /// </summary>
+        /// <value><c>true</c> if [multi select]; otherwise, <c>false</c>.</value>
         public virtual bool MultiSelect
         {
             get
@@ -216,10 +366,22 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [owner draw].
+        /// </summary>
+        /// <value><c>true</c> if [owner draw]; otherwise, <c>false</c>.</value>
         public bool OwnerDraw { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ListView"/> is scrollable.
+        /// </summary>
+        /// <value><c>true</c> if scrollable; otherwise, <c>false</c>.</value>
         public bool Scrollable { get; set; }
 
+        /// <summary>
+        /// Gets the selected indices.
+        /// </summary>
+        /// <value>The selected indices.</value>
         public SelectedIndexCollection SelectedIndices
         {
             get
@@ -234,6 +396,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the selected items.
+        /// </summary>
+        /// <value>The selected items.</value>
         public SelectedListViewItemCollection SelectedItems
         {
             get
@@ -251,22 +417,58 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show groups].
+        /// </summary>
+        /// <value><c>true</c> if [show groups]; otherwise, <c>false</c>.</value>
         public bool ShowGroups { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show item tool tips].
+        /// </summary>
+        /// <value><c>true</c> if [show item tool tips]; otherwise, <c>false</c>.</value>
         public bool ShowItemToolTips { get; set; }
 
+        /// <summary>
+        /// Gets or sets the small image list.
+        /// </summary>
+        /// <value>The small image list.</value>
         public ImageList SmallImageList { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ListView"/> is sorted.
+        /// </summary>
+        /// <value><c>true</c> if sorted; otherwise, <c>false</c>.</value>
         public bool Sorted { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sorting.
+        /// </summary>
+        /// <value>The sorting.</value>
         public System.Windows.Forms.SortOrder Sorting { get; set; }
 
+        /// <summary>
+        /// Gets or sets the state image list.
+        /// </summary>
+        /// <value>The state image list.</value>
         public ImageList StateImageList { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [use compatible state image behavior].
+        /// </summary>
+        /// <value><c>true</c> if [use compatible state image behavior]; otherwise, <c>false</c>.</value>
         public bool UseCompatibleStateImageBehavior { get; set; }
 
+        /// <summary>
+        /// Gets or sets the view.
+        /// </summary>
+        /// <value>The view.</value>
         public System.Windows.Forms.View View { get; set; }
 
+        /// <summary>
+        /// Gets the default group.
+        /// </summary>
+        /// <value>The default group.</value>
         internal ListViewGroup DefaultGroup
         {
             get
@@ -280,6 +482,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the size of the font.
+        /// </summary>
+        /// <value>The size of the font.</value>
         internal int FontSize
         {
             get
@@ -299,17 +505,26 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Begins the update.
+        /// </summary>
         public void BeginUpdate()
         {
             IsCacheUpdate = true;
         }
 
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
         public void Clear()
         {
             Items.Clear();
             Groups.Clear();
         }
 
+        /// <summary>
+        /// Ends the update.
+        /// </summary>
         public void EndUpdate()
         {
             IsCacheUpdate = false;
@@ -317,11 +532,23 @@ namespace System.Windows.Forms
             self.ShowAll();
         }
 
+        /// <summary>
+        /// Finds the item with text.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns>ListViewItem.</returns>
         public ListViewItem FindItemWithText(string text)
         {
             return Items.Find(w => w.Text == text);
         }
 
+        /// <summary>
+        /// Finds the item with text.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="includeSubItemsInSearch">if set to <c>true</c> [include sub items in search].</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <returns>ListViewItem.</returns>
         public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
         {
             int idx = Items.FindIndex(startIndex, w => w.Text == text);
@@ -329,6 +556,14 @@ namespace System.Windows.Forms
             return idx == -1 ? null : Items[idx];
         }
 
+        /// <summary>
+        /// Finds the item with text.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="includeSubItemsInSearch">if set to <c>true</c> [include sub items in search].</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="isPrefixSearch">if set to <c>true</c> [is prefix search].</param>
+        /// <returns>ListViewItem.</returns>
         public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
         {
             int idx = Items.FindIndex(startIndex, w => w.Text == text);
@@ -336,6 +571,12 @@ namespace System.Windows.Forms
             return idx == -1 ? null : Items[idx];
         }
 
+        /// <summary>
+        /// Gets the item at.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+        /// <returns>ListViewItem.</returns>
         public ListViewItem GetItemAt(int x, int y)
         {
             foreach (Gtk.Box vbox in flowBoxContainer.Children)
@@ -357,11 +598,20 @@ namespace System.Windows.Forms
             return null;
         }
 
+        /// <summary>
+        /// Gets the item rect.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>Drawing.Rectangle.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public Drawing.Rectangle GetItemRect(int index)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Sorts this instance.
+        /// </summary>
         public void Sort()
         {
             foreach (var group in GetAllGroups())
@@ -370,6 +620,13 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the sub item at.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+        /// <param name="iItem">The i item.</param>
+        /// <param name="iSubItem">The i sub item.</param>
         internal void GetSubItemAt(int x, int y, out int iItem, out int iSubItem)
         {
             iItem = -1;
@@ -386,6 +643,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the add.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="position">The position.</param>
         internal void NativeAdd(ListViewItem item, int position)
         {
             if (self.IsRealized)
@@ -708,6 +970,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the check item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="ischecked">if set to <c>true</c> [ischecked].</param>
         internal void NativeCheckItem(ListViewItem item, bool ischecked)
         {
             if (item._flowBoxChild != null && item._flowBoxChild.IsRealized && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
@@ -740,6 +1007,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the group add.
+        /// </summary>
+        /// <param name="group">The group.</param>
+        /// <param name="position">The position.</param>
         internal void NativeGroupAdd(ListViewGroup group, int position)
         {
             if (self.IsRealized)
@@ -871,6 +1143,9 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the groups clear.
+        /// </summary>
         internal void NativeGroupsClear()
         {
             foreach (var group in flowBoxContainer.Children)
@@ -882,6 +1157,10 @@ namespace System.Windows.Forms
             _defaultGroup = null;
         }
 
+        /// <summary>
+        /// Natives the header add.
+        /// </summary>
+        /// <param name="col">The col.</param>
         internal void NativeHeaderAdd(ColumnHeader col)
         {
             if (self.IsRealized)
@@ -912,6 +1191,9 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the header clear.
+        /// </summary>
         internal void NativeHeaderClear()
         {
             Clear();
@@ -923,6 +1205,10 @@ namespace System.Windows.Forms
             header.Hide();
         }
 
+        /// <summary>
+        /// Natives the header remove.
+        /// </summary>
+        /// <param name="column">The column.</param>
         internal void NativeHeaderRemove(ColumnHeader column)
         {
             Clear();
@@ -934,6 +1220,9 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the items clear.
+        /// </summary>
         internal void NativeItemsClear()
         {
             foreach (var group in GetAllGroups())
@@ -943,6 +1232,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the select item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="isselected">if set to <c>true</c> [isselected].</param>
         internal void NativeSelectItem(ListViewItem item, bool isselected)
         {
             if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
@@ -954,6 +1248,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Natives the update text.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="text">The text.</param>
         internal void NativeUpdateText(ListViewItem item, string text)
         {
             if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
@@ -1009,6 +1308,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Flows the child activated.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void _flow_ChildActivated(object o, Gtk.ChildActivatedArgs args)
         {
             Gtk.FlowBox widget = (Gtk.FlowBox)o;
@@ -1030,6 +1334,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the SelectedChildrenChanged event of the _flow control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void _flow_SelectedChildrenChanged(object sender, EventArgs e)
         {
             Gtk.FlowBox widget = (Gtk.FlowBox)sender;
@@ -1074,6 +1383,11 @@ namespace System.Windows.Forms
                 SelectedIndexChanged(this, e);
         }
 
+        /// <summary>
+        /// Handles the Clicked event of the Columbt control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Columbt_Clicked(object sender, EventArgs e)
         {
             Gtk.Button btn = (Gtk.Button)sender;
@@ -1108,6 +1422,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the Realized event of the Control control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Control_Realized(object sender, EventArgs e)
         {
             if (this.View == View.Details)
@@ -1134,6 +1453,10 @@ namespace System.Windows.Forms
             self.ShowAll();
         }
 
+        /// <summary>
+        /// Gets all groups.
+        /// </summary>
+        /// <returns>IEnumerable{ListViewGroup}.</returns>
         private IEnumerable<ListViewGroup> GetAllGroups()
         {
             if (_defaultGroup == null)
@@ -1142,11 +1465,21 @@ namespace System.Windows.Forms
                 return Groups.Union(new ListViewGroup[] { _defaultGroup });
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of the Hadjustment control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Hadjustment_ValueChanged(object sender, EventArgs e)
         {
             headerView.Hadjustment.Value = scrolledWindow.Hadjustment.Value;
         }
 
+        /// <summary>
+        /// Overrides the drawn background.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void Override_DrawnBackground(object o, DrawnArgs args)
         {
             Cairo.Rectangle rec = args.Cr.ClipExtents();
@@ -1180,9 +1513,18 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Class CheckedIndexCollection.
+        /// Implements the System.Collections.Generic.List&lt;System.Int32&gt;
+        /// </summary>
+        /// System.Collections.Generic.List&lt;System.Int32&gt;
         public class CheckedIndexCollection : List<int>
         {
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CheckedIndexCollection" /> class.
+            /// </summary>
+            /// <param name="owner">The owner.</param>
             public CheckedIndexCollection(ListView owner)
             {
 
@@ -1190,15 +1532,28 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Class CheckedListViewItemCollection.
+        /// Implements the System.Collections.Generic.List&lt;System.Windows.Forms.ListViewItem&gt;
+        /// </summary>
         [ListBindable(false)]
         public class CheckedListViewItemCollection : List<ListViewItem>
         {
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CheckedListViewItemCollection"/> class.
+            /// </summary>
+            /// <param name="owner">The owner.</param>
             public CheckedListViewItemCollection(ListView owner)
             {
 
             }
 
+            /// <summary>
+            /// Gets the <see cref="ListViewItem"/> with the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <returns>ListViewItem.</returns>
             public virtual ListViewItem this[string key]
             {
                 get
@@ -1209,16 +1564,31 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Class ColumnHeaderCollection.
+        /// Implements the System.Collections.Generic.List&lt;System.Windows.Forms.ColumnHeader&gt;
+        /// </summary>
         [ListBindable(false)]
         public class ColumnHeaderCollection : List<ColumnHeader>
         {
+            /// <summary>
+            /// The owner
+            /// </summary>
             ListView _owner;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ColumnHeaderCollection"/> class.
+            /// </summary>
+            /// <param name="owner">The owner.</param>
             public ColumnHeaderCollection(ListView owner)
             {
                 _owner = owner;
             }
 
+            /// <summary>
+            /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.
+            /// </summary>
+            /// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
             public bool IsReadOnly
             {
                 get
@@ -1227,6 +1597,11 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets the <see cref="ColumnHeader"/> with the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <returns>ColumnHeader.</returns>
             public virtual ColumnHeader this[string key]
             {
                 get
@@ -1235,6 +1610,11 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Adds the specified header.
+            /// </summary>
+            /// <param name="header">The header.</param>
+            /// <returns>System.Int32.</returns>
             public new virtual int Add(ColumnHeader header)
             {
                 header._index = Count;
@@ -1246,31 +1626,71 @@ namespace System.Windows.Forms
                 return index;
             }
 
+            /// <summary>
+            /// Adds the specified text.
+            /// </summary>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
+            /// <param name="textAlign">The text align.</param>
+            /// <returns>ColumnHeader.</returns>
             public virtual ColumnHeader Add(string text, int width, HorizontalAlignment textAlign)
             {
                 return Add("", text, width, textAlign, "");
             }
 
+            /// <summary>
+            /// Adds the specified text.
+            /// </summary>
+            /// <param name="text">The text.</param>
+            /// <returns>ColumnHeader.</returns>
             public virtual ColumnHeader Add(string text)
             {
                 return Add("", text, 60, HorizontalAlignment.Left, "");
             }
 
+            /// <summary>
+            /// Adds the specified text.
+            /// </summary>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
+            /// <returns>ColumnHeader.</returns>
             public virtual ColumnHeader Add(string text, int width)
             {
                 return Add("", text, width, HorizontalAlignment.Left, "");
             }
 
+            /// <summary>
+            /// Adds the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <returns>ColumnHeader.</returns>
             public virtual ColumnHeader Add(string key, string text)
             {
                 return Add(key, text, 60, HorizontalAlignment.Left, "");
             }
 
+            /// <summary>
+            /// Adds the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
+            /// <returns>ColumnHeader.</returns>
             public virtual ColumnHeader Add(string key, string text, int width)
             {
                 return Add(key, text, width, HorizontalAlignment.Left, "");
             }
 
+            /// <summary>
+            /// Adds the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
+            /// <param name="textAlign">The text align.</param>
+            /// <param name="imageKey">The image key.</param>
+            /// <returns>ColumnHeader.</returns>
             public virtual ColumnHeader Add(string key, string text, int width, HorizontalAlignment textAlign, string imageKey)
             {
                 ColumnHeader header = new ColumnHeader();
@@ -1285,6 +1705,15 @@ namespace System.Windows.Forms
                 return header;
             }
 
+            /// <summary>
+            /// Adds the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
+            /// <param name="textAlign">The text align.</param>
+            /// <param name="imageIndex">Index of the image.</param>
+            /// <returns>ColumnHeader.</returns>
             public virtual ColumnHeader Add(string key, string text, int width, HorizontalAlignment textAlign, int imageIndex)
             {
                 ColumnHeader header = new ColumnHeader();
@@ -1298,6 +1727,10 @@ namespace System.Windows.Forms
                 return header;
             }
 
+            /// <summary>
+            /// Adds the range.
+            /// </summary>
+            /// <param name="values">The values.</param>
             public virtual void AddRange(ColumnHeader[] values)
             {
                 foreach (ColumnHeader value in values)
@@ -1306,22 +1739,40 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Clears this instance.
+            /// </summary>
             public new void Clear()
             {
                 base.Clear();
                 _owner.NativeHeaderClear();
             }
 
+            /// <summary>
+            /// Determines whether the specified key contains key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <returns><c>true</c> if the specified key contains key; otherwise, <c>false</c>.</returns>
             public virtual bool ContainsKey(string key)
             {
                 return base.Contains(base.Find(o => o.Name == key));
             }
 
+            /// <summary>
+            /// Indexes the of key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <returns>System.Int32.</returns>
             public virtual int IndexOfKey(string key)
             {
                 return base.FindIndex(o => o.Name == key);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="header">The header.</param>
             public new void Insert(int index, ColumnHeader header)
             {
                 header._index = index;
@@ -1340,32 +1791,72 @@ namespace System.Windows.Forms
                 _owner.NativeHeaderAdd(header);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
+            /// <param name="textAlign">The text align.</param>
             public void Insert(int index, string text, int width, HorizontalAlignment textAlign)
             {
                 Insert(index, "", text, width, textAlign, null);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="text">The text.</param>
             public void Insert(int index, string text)
             {
                 Insert(index, "", text, 0, HorizontalAlignment.Center, null);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
             public void Insert(int index, string text, int width)
             {
                 Insert(index, "", text, width, HorizontalAlignment.Center, null);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
             public void Insert(int index, string key, string text)
             {
                 Insert(index, key, text, 0, HorizontalAlignment.Center, null);
 
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
             public void Insert(int index, string key, string text, int width)
             {
                 Insert(index, key, text, width, HorizontalAlignment.Center, null);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
+            /// <param name="textAlign">The text align.</param>
+            /// <param name="imageKey">The image key.</param>
             public void Insert(int index, string key, string text, int width, HorizontalAlignment textAlign, string imageKey)
             {
                 ColumnHeader header = new ColumnHeader();
@@ -1379,6 +1870,15 @@ namespace System.Windows.Forms
                 Insert(index, header);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="width">The width.</param>
+            /// <param name="textAlign">The text align.</param>
+            /// <param name="imageIndex">Index of the image.</param>
             public void Insert(int index, string key, string text, int width, HorizontalAlignment textAlign, int imageIndex)
             {
                 ColumnHeader header = new ColumnHeader();
@@ -1392,6 +1892,10 @@ namespace System.Windows.Forms
                 Insert(index, header);
             }
 
+            /// <summary>
+            /// Removes the by key.
+            /// </summary>
+            /// <param name="key">The key.</param>
             public virtual void RemoveByKey(string key)
             {
                 ColumnHeader column = base.Find(o => o.Name == key);
@@ -1401,16 +1905,34 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Class ListViewItemCollection.
+        /// Implements the System.Collections.Generic.List&lt;System.Windows.Forms.ListViewItem&gt;
+        /// Implements the <see cref="IList" />
+        /// </summary>
+        /// <seealso cref="IList" />
         [ListBindable(false)]
         public class ListViewItemCollection : List<ListViewItem>, IList
         {
+            /// <summary>
+            /// The owner
+            /// </summary>
             ListView _owner;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ListViewItemCollection"/> class.
+            /// </summary>
+            /// <param name="owner">The owner.</param>
             public ListViewItemCollection(ListView owner)
             {
                 _owner = owner;
             }
 
+            /// <summary>
+            /// Gets the <see cref="ListViewItem"/> with the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <returns>ListViewItem.</returns>
             public virtual ListViewItem this[string key]
             {
                 get
@@ -1419,26 +1941,54 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Adds the specified item.
+            /// </summary>
+            /// <param name="item">The object to be added to the end of the <see cref="T:System.Collections.Generic.List`1"></see>. The value can be null for reference types.</param>
             public new void Add(ListViewItem item)
             {
                 AddCore(item, -1);
             }
 
+            /// <summary>
+            /// Adds the specified text.
+            /// </summary>
+            /// <param name="text">The text.</param>
+            /// <returns>ListViewItem.</returns>
             public virtual ListViewItem Add(string text)
             {
                 return Add("", text, -1);
             }
 
+            /// <summary>
+            /// Adds the specified text.
+            /// </summary>
+            /// <param name="text">The text.</param>
+            /// <param name="imageIndex">Index of the image.</param>
+            /// <returns>ListViewItem.</returns>
             public virtual ListViewItem Add(string text, int imageIndex)
             {
                 return Add("", text, imageIndex);
             }
 
+            /// <summary>
+            /// Adds the specified text.
+            /// </summary>
+            /// <param name="text">The text.</param>
+            /// <param name="imageKey">The image key.</param>
+            /// <returns>ListViewItem.</returns>
             public virtual ListViewItem Add(string text, string imageKey)
             {
                 return Add("", text, imageKey);
             }
 
+            /// <summary>
+            /// Adds the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="imageKey">The image key.</param>
+            /// <returns>ListViewItem.</returns>
             public virtual ListViewItem Add(string key, string text, string imageKey)
             {
                 ListViewItem item = new ListViewItem(text, imageKey);
@@ -1449,6 +1999,13 @@ namespace System.Windows.Forms
                 return item;
             }
 
+            /// <summary>
+            /// Adds the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="imageIndex">Index of the image.</param>
+            /// <returns>ListViewItem.</returns>
             public virtual ListViewItem Add(string key, string text, int imageIndex)
             {
                 ListViewItem item = new ListViewItem(text, imageIndex);
@@ -1458,6 +2015,10 @@ namespace System.Windows.Forms
                 return item;
             }
 
+            /// <summary>
+            /// Adds the range.
+            /// </summary>
+            /// <param name="items">The items.</param>
             public void AddRange(ListViewItem[] items)
             {
                 foreach (ListViewItem item in items)
@@ -1466,12 +2027,19 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Adds the range.
+            /// </summary>
+            /// <param name="items">The items.</param>
             public void AddRange(ListViewItemCollection items)
             {
                 foreach (ListViewItem item in items)
                     AddCore(item, -1);
             }
 
+            /// <summary>
+            /// Clears this instance.
+            /// </summary>
             public new void Clear()
             {
                 if (_owner != null)
@@ -1484,16 +2052,33 @@ namespace System.Windows.Forms
                 base.Clear();
             }
 
+            /// <summary>
+            /// Determines whether the specified key contains key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <returns><c>true</c> if the specified key contains key; otherwise, <c>false</c>.</returns>
             public virtual bool ContainsKey(string key)
             {
                 return base.FindIndex(w => w.Name == key) > -1;
             }
 
+            /// <summary>
+            /// Copies to.
+            /// </summary>
+            /// <param name="dest">The dest.</param>
+            /// <param name="index">The index.</param>
+            /// <exception cref="System.NotImplementedException"></exception>
             public void CopyTo(Array dest, int index)
             {
                 throw new System.NotImplementedException();
             }
 
+            /// <summary>
+            /// Finds the specified key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <param name="searchAllSubItems">if set to <c>true</c> [search all sub items].</param>
+            /// <returns>ListViewItem[].</returns>
             public ListViewItem[] Find(string key, bool searchAllSubItems)
             {
                 if (searchAllSubItems)
@@ -1502,26 +2087,59 @@ namespace System.Windows.Forms
                     return base.FindAll(w => w.Name == key).ToArray();
             }
 
+            /// <summary>
+            /// Indexes the of key.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <returns>System.Int32.</returns>
             public virtual int IndexOfKey(string key)
             {
                 return base.FindIndex(w => w.Name == key);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="text">The text.</param>
+            /// <returns>ListViewItem.</returns>
             public ListViewItem Insert(int index, string text)
             {
                 return Insert(index, "", text, -1);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="imageIndex">Index of the image.</param>
+            /// <returns>ListViewItem.</returns>
             public ListViewItem Insert(int index, string text, int imageIndex)
             {
                 return Insert(index, "", text, imageIndex);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="imageKey">The image key.</param>
+            /// <returns>ListViewItem.</returns>
             public ListViewItem Insert(int index, string text, string imageKey)
             {
                 return Insert(index, "", text, imageKey);
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="imageKey">The image key.</param>
+            /// <returns>ListViewItem.</returns>
             public virtual ListViewItem Insert(int index, string key, string text, string imageKey)
             {
                 ListViewItem item = new ListViewItem(text, imageKey);
@@ -1531,6 +2149,14 @@ namespace System.Windows.Forms
                 return item;
             }
 
+            /// <summary>
+            /// Inserts the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <param name="key">The key.</param>
+            /// <param name="text">The text.</param>
+            /// <param name="imageIndex">Index of the image.</param>
+            /// <returns>ListViewItem.</returns>
             public virtual ListViewItem Insert(int index, string key, string text, int imageIndex)
             {
                 ListViewItem item = new ListViewItem(text, imageIndex);
@@ -1540,11 +2166,20 @@ namespace System.Windows.Forms
                 return item;
             }
 
+            /// <summary>
+            /// Removes the by key.
+            /// </summary>
+            /// <param name="key">The key.</param>
             public virtual void RemoveByKey(string key)
             {
                 base.Remove(base.Find(w => w.Name == key));
             }
 
+            /// <summary>
+            /// Adds the core.
+            /// </summary>
+            /// <param name="item">The item.</param>
+            /// <param name="position">The position.</param>
             private void AddCore(ListViewItem item, int position)
             {
                 item._listView = _owner;
@@ -1558,12 +2193,21 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Class SelectedIndexCollection.
+        /// Implements the System.Collections.Generic.List&lt;System.Int32&gt;
+        /// </summary>
+        /// System.Collections.Generic.List&lt;System.Int32&gt;
         [ListBindable(false)]
         public class SelectedIndexCollection : List<int>
         {
 
         }
 
+        /// <summary>
+        /// Class SelectedListViewItemCollection.
+        /// Implements the System.Collections.Generic.List&lt;System.Windows.Forms.ListViewItem&gt;
+        /// </summary>
         [ListBindable(false)]
         public class SelectedListViewItemCollection : List<ListViewItem>
         {

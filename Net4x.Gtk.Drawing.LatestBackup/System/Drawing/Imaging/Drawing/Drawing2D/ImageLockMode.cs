@@ -23,7 +23,7 @@ public enum ImageLockMode
     /// <summary>
     /// Specifies that the buffer used for reading or writing pixel data is allocated by the user. If this flag is set, the
     /// <paramref name="flags" /> parameter of the
-    /// <see cref="Overload:System.Drawing.Bitmap.LockBits" /> method serves as an input parameter (and possibly as an output parameter). If this flag is cleared, then the
+    /// <see cref="T:System.Drawing.Bitmap.LockBits" /> method serves as an input parameter (and possibly as an output parameter). If this flag is cleared, then the
     /// <paramref name="flags" /> parameter serves only as an output parameter.
     /// </summary>
     UserInputBuffer

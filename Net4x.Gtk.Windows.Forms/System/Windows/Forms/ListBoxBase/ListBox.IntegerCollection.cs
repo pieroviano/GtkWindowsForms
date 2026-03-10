@@ -8,14 +8,32 @@ namespace System.Windows.Forms
 {
     public partial class ListBox
     {
+        /// <summary>
+        /// Class IntegerCollection.
+        /// Implements the <see cref="IList" />
+        /// </summary>
+        /// <seealso cref="IList" />
         public partial class IntegerCollection : IList
         {
+            /// <summary>
+            /// The count
+            /// </summary>
             private int _count;
 
+            /// <summary>
+            /// The inner array
+            /// </summary>
             private int[]? _innerArray;
 
+            /// <summary>
+            /// The owner
+            /// </summary>
             private readonly ListBox _owner;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="IntegerCollection"/> class.
+            /// </summary>
+            /// <param name="owner">The owner.</param>
             public IntegerCollection(ListBox owner)
             {
                 _owner = owner;
@@ -24,6 +42,7 @@ namespace System.Windows.Forms
             /// <summary>
             /// Number of current selected items.
             /// </summary>
+            /// <value>The count.</value>
             [Browsable(false)]
             public int Count
             {
@@ -33,6 +52,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets a value indicating whether the <see cref="T:System.Collections.IList"></see> has a fixed size.
+            /// </summary>
+            /// <value><c>true</c> if this instance is fixed size; otherwise, <c>false</c>.</value>
             bool IList.IsFixedSize
             {
                 get
@@ -41,6 +64,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets a value indicating whether the <see cref="T:System.Collections.IList"></see> is read-only.
+            /// </summary>
+            /// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
             bool IList.IsReadOnly
             {
                 get
@@ -49,6 +76,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"></see> is synchronized (thread safe).
+            /// </summary>
+            /// <value><c>true</c> if this instance is synchronized; otherwise, <c>false</c>.</value>
             bool ICollection.IsSynchronized
             {
                 get
@@ -57,6 +88,10 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"></see>.
+            /// </summary>
+            /// <value>The synchronize root.</value>
             object ICollection.SyncRoot
             {
                 get
@@ -68,6 +103,8 @@ namespace System.Windows.Forms
             /// <summary>
             /// Retrieves the specified selected item.
             /// </summary>
+            /// <param name="index">The index.</param>
+            /// <returns>System.Int32.</returns>
             public int this[int index]
             {
                 get
@@ -81,6 +118,12 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
+            /// <returns>System.Nullable.</returns>
+            /// <exception cref="System.ArgumentException">value</exception>
             object? IList.this[int index]
             {
                 get
@@ -105,6 +148,8 @@ namespace System.Windows.Forms
             /// A SystemException occurs if there is insufficient space available to
             /// store the new item.
             /// </summary>
+            /// <param name="item">The item.</param>
+            /// <returns>System.Int32.</returns>
             public int Add(int item)
             {
                 int index = AddInternal(item);
@@ -112,27 +157,48 @@ namespace System.Windows.Forms
                 return index;
             }
 
+            /// <summary>
+            /// Adds the range.
+            /// </summary>
+            /// <param name="items">The items.</param>
             public void AddRange(params int[] items)
             {
                 AddRangeInternal(items);
             }
 
+            /// <summary>
+            /// Adds the range.
+            /// </summary>
+            /// <param name="value">The value.</param>
             public void AddRange(IntegerCollection value)
             {
                 AddRangeInternal(value);
             }
 
+            /// <summary>
+            /// Removes all items from the <see cref="T:System.Collections.IList"></see>.
+            /// </summary>
             public void Clear()
             {
                 _count = 0;
                 _innerArray = null;
             }
 
+            /// <summary>
+            /// Determines whether this instance contains the object.
+            /// </summary>
+            /// <param name="item">The item.</param>
+            /// <returns><c>true</c> if [contains] [the specified item]; otherwise, <c>false</c>.</returns>
             public bool Contains(int item)
             {
                 return IndexOf(item) != -1;
             }
 
+            /// <summary>
+            /// Copies to.
+            /// </summary>
+            /// <param name="destination">The destination.</param>
+            /// <param name="index">The index.</param>
             public void CopyTo(Array destination, int index)
             {
                 int cnt = Count;
@@ -142,6 +208,11 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Indexes the of.
+            /// </summary>
+            /// <param name="item">The item.</param>
+            /// <returns>System.Int32.</returns>
             public int IndexOf(int item)
             {
                 int index = -1;
@@ -167,6 +238,7 @@ namespace System.Windows.Forms
             /// Removes the given item from the array.  If
             /// the item is not in the array, this does nothing.
             /// </summary>
+            /// <param name="item">The item.</param>
             public void Remove(int item)
             {
                 int index = IndexOf(item);
@@ -180,6 +252,7 @@ namespace System.Windows.Forms
             /// <summary>
             /// Removes the item at the given index.
             /// </summary>
+            /// <param name="index">The zero-based index of the item to remove.</param>
             public void RemoveAt(int index)
             {
                 _count--;
@@ -189,6 +262,12 @@ namespace System.Windows.Forms
                 }
             }
 
+            /// <summary>
+            /// Adds the specified item.
+            /// </summary>
+            /// <param name="item">The item.</param>
+            /// <returns>System.Int32.</returns>
+            /// <exception cref="System.ArgumentException">item</exception>
             int IList.Add(object? item)
             {
                 if (!(item is int))
@@ -199,11 +278,19 @@ namespace System.Windows.Forms
                 return Add((int)item);
             }
 
+            /// <summary>
+            /// Removes all items from the <see cref="T:System.Collections.IList"></see>.
+            /// </summary>
             void IList.Clear()
             {
                 Clear();
             }
 
+            /// <summary>
+            /// Determines whether this instance contains the object.
+            /// </summary>
+            /// <param name="item">The item.</param>
+            /// <returns><c>true</c> if [contains] [the specified item]; otherwise, <c>false</c>.</returns>
             bool IList.Contains(object? item)
             {
                 if (item is int itemAsInt)
@@ -214,11 +301,20 @@ namespace System.Windows.Forms
                 return false;
             }
 
+            /// <summary>
+            /// Returns an enumerator that iterates through a collection.
+            /// </summary>
+            /// <returns>An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate through the collection.</returns>
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return new CustomTabOffsetsEnumerator(this);
             }
 
+            /// <summary>
+            /// Indexes the of.
+            /// </summary>
+            /// <param name="item">The item.</param>
+            /// <returns>System.Int32.</returns>
             int IList.IndexOf(object? item)
             {
                 if (item is int itemAsInt)
@@ -229,11 +325,22 @@ namespace System.Windows.Forms
                 return -1;
             }
 
+            /// <summary>
+            /// Inserts an item to the <see cref="T:System.Collections.IList"></see> at the specified index.
+            /// </summary>
+            /// <param name="index">The zero-based index at which value should be inserted.</param>
+            /// <param name="value">The object to insert into the <see cref="T:System.Collections.IList"></see>.</param>
+            /// <exception cref="System.NotSupportedException">SR.ListBoxCantInsertIntoIntegerCollection</exception>
             void IList.Insert(int index, object? value)
             {
                 throw new NotSupportedException("SR.ListBoxCantInsertIntoIntegerCollection");
             }
 
+            /// <summary>
+            /// Removes the first occurrence of a specific object from the <see cref="T:System.Collections.IList"></see>.
+            /// </summary>
+            /// <param name="value">The object to remove from the <see cref="T:System.Collections.IList"></see>.</param>
+            /// <exception cref="System.ArgumentException">value</exception>
             void IList.Remove(object? value)
             {
                 if (!(value is int))
@@ -244,6 +351,10 @@ namespace System.Windows.Forms
                 Remove((int)value);
             }
 
+            /// <summary>
+            /// Removes the <see cref="T:System.Collections.IList"></see> item at the specified index.
+            /// </summary>
+            /// <param name="index">The zero-based index of the item to remove.</param>
             void IList.RemoveAt(int index)
             {
                 RemoveAt(index);
@@ -254,6 +365,8 @@ namespace System.Windows.Forms
             /// A SystemException occurs if there is insufficient space available to
             /// store the new item.
             /// </summary>
+            /// <param name="item">The item.</param>
+            /// <returns>System.Int32.</returns>
             private int AddInternal(int item)
             {
                 EnsureSpace(1);
@@ -272,6 +385,8 @@ namespace System.Windows.Forms
             /// <summary>
             /// Add range that bypasses the data source check.
             /// </summary>
+            /// <param name="items">The items.</param>
+            /// <exception cref="System.ArgumentException">item</exception>
             private void AddRangeInternal(ICollection items)
             {
                 _owner.BeginUpdate();
@@ -301,6 +416,7 @@ namespace System.Windows.Forms
             /// Ensures that our internal array has space for
             /// the requested # of elements.
             /// </summary>
+            /// <param name="elements">The elements.</param>
             private void EnsureSpace(int elements)
             {
                 if (_innerArray is null)

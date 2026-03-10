@@ -11,51 +11,99 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Represents the raw preview part of print previewing from a Windows Forms application, without any dialog boxes or buttons. Most
-    /// <see cref="T:System.Windows.Forms.PrintPreviewControl"/> objects are found on
-    /// <see cref="T:System.Windows.Forms.PrintPreviewDialog"/>
+    /// <see cref="T:System.Windows.Forms.PrintPreviewControl" /> objects are found on
+    /// <see cref="T:System.Windows.Forms.PrintPreviewDialog" />
     /// objects, but they do not have to be.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [DefaultProperty(nameof(Document))]
     public partial class PrintPreviewControl : Control
     {
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly ViewportBase self = new ViewportBase();
 
+        /// <summary>
+        /// The automatic zoom
+        /// </summary>
         private bool _autoZoom = true;
 
+        /// <summary>
+        /// The columns
+        /// </summary>
         private int _columns = 1;
 
+        /// <summary>
+        /// The document
+        /// </summary>
         private PrintDocument _document;
 
+        /// <summary>
+        /// The rows
+        /// </summary>
         private int _rows = 1;
 
+        /// <summary>
+        /// The start page
+        /// </summary>
         private int _startPage; // 0-based
 
+        /// <summary>
+        /// The zoom
+        /// </summary>
         private double _zoom = DefaultZoom;
 
         // Spacing per page, in mm
+        /// <summary>
+        /// The border
+        /// </summary>
         private const int Border = 10;
 
+        /// <summary>
+        /// The default zoom
+        /// </summary>
         private const double DefaultZoom = .3;
 
+        /// <summary>
+        /// The paper
+        /// </summary>
         private ViewportBase paper;
 
+        /// <summary>
+        /// The pxscale
+        /// </summary>
         private const double pxscale = 0.75;
 
+        /// <summary>
+        /// The s start page changed event
+        /// </summary>
         private static readonly object s_startPageChangedEvent = new object();
 
+        /// <summary>
+        /// The scroll
+        /// </summary>
         private Gtk.ScrolledWindow scroll;
 
+        /// <summary>
+        /// The scroll small change
+        /// </summary>
         private const int ScrollSmallChange = 5;
 
+        /// <summary>
+        /// Occurs when [start page changed].
+        /// </summary>
         public event EventHandler StartPageChanged { add => Events.AddHandler(s_startPageChangedEvent, value); remove => Events.RemoveHandler(s_startPageChangedEvent, value); }
 
+        /// <summary>
+        /// Occurs when [text changed].
+        /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new event EventHandler TextChanged { add => base.TextChanged += value; remove => base.TextChanged -= value; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrintPreviewControl"/> class.
+        /// </summary>
         public PrintPreviewControl()
         {
             Size = new Size(600, 500);
@@ -73,6 +121,10 @@ namespace System.Windows.Forms
             ResetForeColor();
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [automatic zoom].
+        /// </summary>
+        /// <value><c>true</c> if [automatic zoom]; otherwise, <c>false</c>.</value>
         [DefaultValue(true)]
         public bool AutoZoom
         {
@@ -86,6 +138,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the columns.
+        /// </summary>
+        /// <value>The columns.</value>
         [DefaultValue(1)]
         public int Columns
         {
@@ -96,6 +152,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the document.
+        /// </summary>
+        /// <value>The document.</value>
         [DefaultValue(null)]
         public PrintDocument Document
         {
@@ -111,8 +171,16 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the right to left.
+        /// </summary>
+        /// <value>The right to left.</value>
         [Localizable(true)]
         [AmbientValue(RightToLeft.Inherit)]
         public override RightToLeft RightToLeft
@@ -125,6 +193,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the rows.
+        /// </summary>
+        /// <value>The rows.</value>
         [DefaultValue(1)]
         public int Rows
         {
@@ -135,6 +207,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the start page.
+        /// </summary>
+        /// <value>The start page.</value>
         [DefaultValue(0)]
         public int StartPage
         {
@@ -157,17 +233,33 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [tab stop].
+        /// </summary>
+        /// <value><c>true</c> if tab stop; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         public new bool TabStop { get => base.TabStop; set => base.TabStop = value; }
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Bindable(false)]
         public override string Text { get => base.Text; set => base.Text = value; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [use anti alias].
+        /// </summary>
+        /// <value><c>true</c> if [use anti alias]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         public bool UseAntiAlias { get; set; }
 
+        /// <summary>
+        /// Gets or sets the zoom.
+        /// </summary>
+        /// <value>The zoom.</value>
         [DefaultValue(DefaultZoom)]
         public double Zoom
         {
@@ -179,22 +271,40 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Invalidates the preview.
+        /// </summary>
         public void InvalidatePreview()
         {
             paper.QueueDraw();
         }
 
+        /// <summary>
+        /// Resets the BackColor property to its default value.
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void ResetBackColor() => BackColor = SystemColors.AppWorkspace;
 
+        /// <summary>
+        /// Resets the ForeColor property to its default value.
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void ResetForeColor() => ForeColor = Color.White;
 
+        /// <summary>
+        /// Handles the <see cref="E:StartPageChanged" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected virtual void OnStartPageChanged(EventArgs e)
         {
             ((EventHandler)Events[s_startPageChangedEvent])?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Papers the drawn.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="args">The arguments.</param>
         private void paper_Drawn(object o, Gtk.DrawnArgs args)
         {
             if (_document != null)
@@ -226,6 +336,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Handles the Realized event of the Self control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Self_Realized(object? sender, EventArgs e)
         {
             if (AutoZoom == false)

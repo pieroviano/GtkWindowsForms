@@ -5,12 +5,24 @@ using static GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// IControlOverride interface
+    /// </summary>
     public interface IControlOverride
     {
+        /// <summary>
+        /// Occurs when drawn background.
+        /// </summary>
         event DrawnHandler DrawnBackground;
 
+        /// <summary>
+        /// Occurs when paint.
+        /// </summary>
         event PaintEventHandler Paint;
 
+        /// <summary>
+        /// Occurs when paint graphics.
+        /// </summary>
         event PaintGraphicsEventHandler PaintGraphics;
 
         /// <summary>

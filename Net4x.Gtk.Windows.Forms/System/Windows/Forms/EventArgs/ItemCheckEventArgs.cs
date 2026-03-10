@@ -12,12 +12,15 @@ namespace System.Windows.Forms
     /// <see cref="T:System.Windows.Forms.CheckedListBox" /> and
     /// <see cref="T:System.Windows.Forms.ListView" /> controls.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [ComVisible(true)]
     public class ItemCheckEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ItemCheckEventArgs"/> class.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <param name="newCheckValue">The new check value.</param>
+        /// <param name="currentValue">The current value.</param>
         public ItemCheckEventArgs(int index, CheckState newCheckValue, CheckState currentValue)
         {
             Index = index;
@@ -28,16 +31,19 @@ namespace System.Windows.Forms
         /// <summary>
         /// The current state of the CheckBox.
         /// </summary>
+        /// <value>The current value.</value>
         public CheckState CurrentValue { get; }
 
         /// <summary>
         /// The index of the item that is about to change.
         /// </summary>
+        /// <value>The index.</value>
         public int Index { get; }
 
         /// <summary>
         /// The proposed new value of the CheckBox.
         /// </summary>
+        /// <value>The new value.</value>
         public CheckState NewValue { get; set; }
 
     }

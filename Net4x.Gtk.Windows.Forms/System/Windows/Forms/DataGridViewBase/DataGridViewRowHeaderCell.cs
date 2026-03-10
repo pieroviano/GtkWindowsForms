@@ -11,6 +11,9 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class DataGridViewRowHeaderCell //: DataGridViewHeaderCell
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataGridViewRowHeaderCell"/> class.
+        /// </summary>
         public DataGridViewRowHeaderCell()
         {
 

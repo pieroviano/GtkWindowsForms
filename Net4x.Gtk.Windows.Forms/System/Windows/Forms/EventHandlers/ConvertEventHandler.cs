@@ -4,4 +4,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate ConvertEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="e">The <see cref="ConvertEventArgs"/> instance containing the event data.</param>
 public delegate void ConvertEventHandler(object sender, ConvertEventArgs e);

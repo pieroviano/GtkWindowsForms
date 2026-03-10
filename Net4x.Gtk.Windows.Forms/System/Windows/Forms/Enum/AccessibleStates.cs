@@ -97,14 +97,13 @@ public enum AccessibleStates
     Floating = 0x1000,
 
     /// <summary>
-    /// An object with scrolling or moving text or graphics.
+    /// An object wit horizontal scrolling or moving text or graphics.
     /// </summary>
     Marqueed = 0x2000,
 
     /// <summary>
     /// The object has a rapidly or constantly changing appearance. Graphics
     /// that are occasionally animated, but not always, should be defined as
-    /// <see cref="AccessibleRole.Graphic" />|
     /// <see cref="Animated" />.
     /// This state should not be used to indicate that the object's location
     /// is changing.
@@ -224,6 +223,11 @@ public enum AccessibleStates
     /// </summary>
     HasPopup = 0x40000000,
 
+    /// <summary>
+    /// Indicates a valid state. This enumeration value is obsolete and should not be used in new code.
+    /// </summary>
+    /// <remarks>This value has been deprecated and there is no direct replacement. For more information, see
+    /// the provided link in the Obsolete attribute.</remarks>
     [Obsolete("This enumeration value has been deprecated. There is no replacement. http://go.microsoft.com/fwlink/?linkid=14202")]
     Valid = 0x3fffffff,
 }

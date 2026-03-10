@@ -4,4 +4,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate MeasureItemEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="e">The <see cref="MeasureItemEventArgs"/> instance containing the event data.</param>
 public delegate void MeasureItemEventHandler(object sender, MeasureItemEventArgs e);

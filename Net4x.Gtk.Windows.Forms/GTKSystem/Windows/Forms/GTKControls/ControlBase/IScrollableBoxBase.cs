@@ -2,8 +2,14 @@ using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
+    /// <summary>
+    /// IScrollableBoxBase is the base interface for scrollable box controls, such as <see cref="ScrollableBox"/> and <see cref="ScrollableBox2"/>.
+    /// </summary>
     public interface IScrollableBoxBase
     {
+        /// <summary>
+        /// Occurs when scroll.
+        /// </summary>
         event System.Windows.Forms.ScrollEventHandler Scroll;
 
         /// <summary>
@@ -36,12 +42,12 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         int HeightRequest { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether h scroll.
+        /// Gets or sets a value indicating whether  horizontal scroll.
         /// </summary>
         /// <value>
         /// <c>
         /// true
-        /// </c> if h scroll; otherwise,
+        /// </c> if  horizontal scroll; otherwise,
         /// <c>
         /// false
         /// </c>.
@@ -49,20 +55,20 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         bool HScroll { get; set; }
 
         /// <summary>
-        /// Gets or sets the override.
+        /// Gets or sets the <see cref="GtkControlOverride"/> instance that centralizes drawing and styling behavior for this control. This override encapsulates background painting (color and image), image drawing, CSS class management and raises paint events so the control can handle custom painting (both direct Cairo via <see cref="PaintGraphicsEventHandler"/> and System.Drawing via <see cref="PaintEventHandler"/>). The override is typically created and configured in the control's constructor and invoked from the GTK drawing/show handlers.
         /// </summary>
         /// <value>
-        /// The override.
+        /// The active <see cref="GtkControlOverride"/> used by the control.
         /// </value>
         GtkControlOverride Override { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether v scroll.
+        /// Gets or sets a value indicating whether vertical scroll.
         /// </summary>
         /// <value>
         /// <c>
         /// true
-        /// </c> if v scroll; otherwise,
+        /// </c> if vertical scroll; otherwise,
         /// <c>
         /// false
         /// </c>.
@@ -77,6 +83,10 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         /// </value>
         int WidthRequest { get; set; }
 
+        /// <summary>
+        /// Adds the specified child.
+        /// </summary>
+        /// <param name="child">The child.</param>
         void Add(Widget child);
 
         /// <summary>

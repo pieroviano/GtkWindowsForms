@@ -15,16 +15,20 @@ namespace System.Windows.Forms
     /// <see cref="!:System.Windows.Forms.MenuItem" />
     /// is retained for both backward compatibility and future use if you choose.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     public class ToolStripMenuItem : WidgetToolStrip<Gtk.MenuItem>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolStripMenuItem"/> class.
+        /// </summary>
         public ToolStripMenuItem() : base("ToolStripMenuItem")
         {
             DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:System.Windows.Forms.ToolStripItem" /> is checked.
+        /// </summary>
+        /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
         public override bool Checked
         {
             get
@@ -54,6 +58,10 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the state of the check.
+        /// </summary>
+        /// <value>The state of the check.</value>
         public override CheckState CheckState
         {
             get => base.CheckState;

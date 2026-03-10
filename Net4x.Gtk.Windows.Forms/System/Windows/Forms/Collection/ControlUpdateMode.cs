@@ -5,6 +5,12 @@ namespace System.Windows.Forms;
 /// </summary>
 public enum ControlUpdateMode
 {
+    /// <summary>
+    /// The on property changed
+    /// </summary>
     OnPropertyChanged,
+    /// <summary>
+    /// The never
+    /// </summary>
     Never
 }

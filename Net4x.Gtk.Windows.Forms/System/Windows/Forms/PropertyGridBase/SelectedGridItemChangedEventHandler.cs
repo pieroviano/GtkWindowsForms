@@ -3,4 +3,9 @@
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Delegate SelectedGridItemChangedEventHandler
+/// </summary>
+/// <param name="sender">The sender.</param>
+/// <param name="e">The <see cref="SelectedGridItemChangedEventArgs"/> instance containing the event data.</param>
 public delegate void SelectedGridItemChangedEventHandler(object? sender, SelectedGridItemChangedEventArgs e);

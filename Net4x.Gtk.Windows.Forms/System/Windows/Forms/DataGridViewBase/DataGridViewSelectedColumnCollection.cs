@@ -34,8 +34,17 @@ namespace System.Windows.Forms
 
         object ICollection.SyncRoot => this;
 
+        /// <summary>
+        /// Gets the list.
+        /// </summary>
+        /// <value>The list.</value>
         protected override ArrayList List => ArrayList.Adapter(_items);
 
+        /// <summary>
+        /// Gets the <see cref="DataGridViewColumn"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>DataGridViewColumn.</returns>
         public DataGridViewColumn this[int index] => _items[index];
 
         object? IList.this[int index]
@@ -44,6 +53,10 @@ namespace System.Windows.Forms
             set { throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection"); }
         }
 
+        /// <summary>
+        /// Removes all items from the <see cref="T:System.Collections.IList"></see>.
+        /// </summary>
+        /// <exception cref="System.NotSupportedException">SR.DataGridView_ReadOnlyCollection</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void Clear()
         {
@@ -55,8 +68,19 @@ namespace System.Windows.Forms
         /// </summary>
         public bool Contains(DataGridViewColumn dataGridViewColumn) => ((IList)_items).Contains(dataGridViewColumn);
 
+        /// <summary>
+        /// Copies to.
+        /// </summary>
+        /// <param name="array">The array.</param>
+        /// <param name="index">The index.</param>
         public void CopyTo(DataGridViewColumn[] array, int index) => _items.CopyTo(array, index);
 
+        /// <summary>
+        /// Inserts the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <param name="dataGridViewColumn">The data grid view column.</param>
+        /// <exception cref="System.NotSupportedException">SR.DataGridView_ReadOnlyCollection</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void Insert(int index, DataGridViewColumn dataGridViewColumn)
         {

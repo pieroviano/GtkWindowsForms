@@ -14,23 +14,35 @@ namespace System.Windows.Forms
     /// <summary>
     /// Displays a dialog box from which the user can select a file.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     public abstract class FileDialog : CommonDialog
     {
 
+        /// <summary>
+        /// The filter
+        /// </summary>
         private string _filter;
 
+        /// <summary>
+        /// The MIME mapping
+        /// </summary>
         static Dictionary<string, string> MimeMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Occurs when [file ok].
+        /// </summary>
         public event CancelEventHandler FileOk;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileDialog"/> class.
+        /// </summary>
         public FileDialog()
         {
 
         }
 
+        /// <summary>
+        /// Initializes static members of the <see cref="FileDialog"/> class.
+        /// </summary>
         static FileDialog()
         {
             MimeMapping.Clear();
@@ -379,24 +391,65 @@ namespace System.Windows.Forms
             MimeMapping.Add(".zip", "application/x-zip-compressed");
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [add extension].
+        /// </summary>
+        /// <value><c>true</c> if [add extension]; otherwise, <c>false</c>.</value>
         public bool AddExtension { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [automatic upgrade enabled].
+        /// </summary>
+        /// <value><c>true</c> if [automatic upgrade enabled]; otherwise, <c>false</c>.</value>
         public bool AutoUpgradeEnabled { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [check file exists].
+        /// </summary>
+        /// <value><c>true</c> if [check file exists]; otherwise, <c>false</c>.</value>
         public virtual bool CheckFileExists { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [check path exists].
+        /// </summary>
+        /// <value><c>true</c> if [check path exists]; otherwise, <c>false</c>.</value>
         public bool CheckPathExists { get; set; }
 
+        /// <summary>
+        /// Gets or sets the default ext.
+        /// </summary>
+        /// <value>The default ext.</value>
         public string DefaultExt { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [dereference links].
+        /// </summary>
+        /// <value><c>true</c> if [dereference links]; otherwise, <c>false</c>.</value>
         public bool DereferenceLinks { get; set; }
 
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
         public string Description { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the file.
+        /// </summary>
+        /// <value>The name of the file.</value>
         public string FileName { get; set; }
 
+        /// <summary>
+        /// Gets the file names.
+        /// </summary>
+        /// <value>The file names.</value>
         public string[] FileNames { get; internal set; }
 
+        /// <summary>
+        /// Gets or sets the filter.
+        /// </summary>
+        /// <value>The filter.</value>
+        /// <exception cref="System.ArgumentException">FileDialog Invalid Filter</exception>
         public string Filter
         {
             get
@@ -434,26 +487,69 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the index of the filter.
+        /// </summary>
+        /// <value>The index of the filter.</value>
         public int FilterIndex { get; set; }
 
+        /// <summary>
+        /// Gets or sets the initial directory.
+        /// </summary>
+        /// <value>The initial directory.</value>
         public string InitialDirectory { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [restore directory].
+        /// </summary>
+        /// <value><c>true</c> if [restore directory]; otherwise, <c>false</c>.</value>
         public bool RestoreDirectory { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show help].
+        /// </summary>
+        /// <value><c>true</c> if [show help]; otherwise, <c>false</c>.</value>
         public bool ShowHelp { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [support multi dotted extensions].
+        /// </summary>
+        /// <value><c>true</c> if [support multi dotted extensions]; otherwise, <c>false</c>.</value>
         public bool SupportMultiDottedExtensions { get; set; }
 
+        /// <summary>
+        /// Gets or sets the title.
+        /// </summary>
+        /// <value>The title.</value>
         public string Title { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [validate names].
+        /// </summary>
+        /// <value><c>true</c> if [validate names]; otherwise, <c>false</c>.</value>
         public bool ValidateNames { get; set; }
 
+        /// <summary>
+        /// Gets or sets the type of the action.
+        /// </summary>
+        /// <value>The type of the action.</value>
         internal Gtk.FileChooserAction ActionType { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="FileDialog"/> is multiselect.
+        /// </summary>
+        /// <value><c>true</c> if multiselect; otherwise, <c>false</c>.</value>
         internal bool Multiselect { get; set; }
 
+        /// <summary>
+        /// Gets or sets the selected directory.
+        /// </summary>
+        /// <value>The selected directory.</value>
         internal string SelectedDirectory { get; set; }
 
+        /// <summary>
+        /// Resets this instance.
+        /// </summary>
         public override void Reset()
         {
             AddExtension = true;
@@ -466,6 +562,11 @@ namespace System.Windows.Forms
             SupportMultiDottedExtensions = false;
         }
 
+        /// <summary>
+        /// Runs the dialog.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         protected override bool RunDialog(IWin32Window owner)
         {
             Gtk.FileChooserDialog fileDialog = null;

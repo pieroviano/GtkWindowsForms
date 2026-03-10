@@ -12,22 +12,33 @@ namespace System.Windows.Forms
     /// <summary>
     /// Represents a standard Windows horizontal scroll bar.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public class HScrollBar : ScrollBar
     {
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public ScrollbarBase<Gtk.HScrollbar> self = new ScrollbarBase<Gtk.HScrollbar>(Gtk.Orientation.Horizontal);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HScrollBar"/> class.
+        /// </summary>
         public HScrollBar() : base()
         {
 
         }
 
+        /// <summary>
+        /// Gets the adjustment.
+        /// </summary>
+        /// <value>The adjustment.</value>
         public override Gtk.Adjustment Adjustment { get => self.Adjustment; }
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
     }

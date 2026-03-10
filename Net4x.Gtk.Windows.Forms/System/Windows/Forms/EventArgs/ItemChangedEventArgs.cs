@@ -8,16 +8,21 @@ namespace System.Windows.Forms;
 /// Provides data for the
 /// <see cref="T:System.Windows.Forms.CurrencyManager.ItemChanged" /> event.
 /// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
 public class ItemChangedEventArgs : EventArgs
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ItemChangedEventArgs"/> class.
+    /// </summary>
+    /// <param name="index">The index.</param>
     internal ItemChangedEventArgs(int index)
     {
         Index = index;
     }
 
+    /// <summary>
+    /// Gets the index.
+    /// </summary>
+    /// <value>The index.</value>
     public int Index { get; }
 
 }

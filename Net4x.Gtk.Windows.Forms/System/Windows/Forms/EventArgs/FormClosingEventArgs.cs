@@ -15,6 +15,11 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class FormClosingEventArgs : CancelEventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormClosingEventArgs"/> class.
+        /// </summary>
+        /// <param name="closeReason">The close reason.</param>
+        /// <param name="cancel">if set to <c>true</c> [cancel].</param>
         public FormClosingEventArgs(CloseReason closeReason, bool cancel) : base(cancel)
         {
             CloseReason = closeReason;

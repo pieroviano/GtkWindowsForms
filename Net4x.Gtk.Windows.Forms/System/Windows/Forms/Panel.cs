@@ -14,19 +14,28 @@ namespace System.Windows.Forms
     /// <summary>
     /// Used to group collections of controls.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     public partial class Panel : ScrollableControl
     {
 
+        /// <summary>
+        /// The contaner
+        /// </summary>
         public Gtk.Overlay contaner = new Gtk.Overlay();
 
+        /// <summary>
+        /// The self
+        /// </summary>
         public readonly PanelBase self = new PanelBase();
 
+        /// <summary>
+        /// The controls
+        /// </summary>
         private ControlCollection _controls;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Panel"/> class.
+        /// </summary>
         public Panel() : base()
         {
             _controls = new ControlCollection(this, contaner);
@@ -40,10 +49,22 @@ namespace System.Windows.Forms
             self.Add(contaner);
         }
 
+        /// <summary>
+        /// Gets the controls.
+        /// </summary>
+        /// <value>The controls.</value>
         public override ControlCollection Controls => _controls;
 
+        /// <summary>
+        /// Gets the GTK control.
+        /// </summary>
+        /// <value>The GTK control.</value>
         public override object GtkControl => self;
 
+        /// <summary>
+        /// Gets or sets the padding.
+        /// </summary>
+        /// <value>The padding.</value>
         public override Padding Padding
         {
             get => base.Padding;

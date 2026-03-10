@@ -15,6 +15,7 @@
         <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
     <ItemGroup>
         <Compile Remove="Resources\**" />

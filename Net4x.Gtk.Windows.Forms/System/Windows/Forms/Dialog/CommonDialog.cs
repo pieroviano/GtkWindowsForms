@@ -13,26 +13,48 @@ namespace System.Windows.Forms
     /// <summary>
     /// Specifies the base class used for displaying dialog boxes on the screen.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     [ToolboxItemFilter("System.Windows.Forms")]
     public abstract class CommonDialog : Component
     {
+        /// <summary>
+        /// The s help request event
+        /// </summary>
         private static readonly object s_helpRequestEvent = new object();
 
+        /// <summary>
+        /// Occurs when [help request].
+        /// </summary>
         public event EventHandler HelpRequest { add => Events.AddHandler(s_helpRequestEvent, value); remove => Events.RemoveHandler(s_helpRequestEvent, value); }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommonDialog"/> class.
+        /// </summary>
         public CommonDialog()
         {
         }
 
+        /// <summary>
+        /// Gets or sets the tag.
+        /// </summary>
+        /// <value>The tag.</value>
         public object Tag { get; set; }
 
+        /// <summary>
+        /// Resets this instance.
+        /// </summary>
         public abstract void Reset();
 
+        /// <summary>
+        /// Shows the dialog.
+        /// </summary>
+        /// <returns>DialogResult.</returns>
         public virtual DialogResult ShowDialog() => ShowDialog(owner: null);
 
+        /// <summary>
+        /// Shows the dialog.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns>DialogResult.</returns>
         public virtual DialogResult ShowDialog(IWin32Window owner)
         {
             DialogResult result = DialogResult.Cancel;
@@ -45,12 +67,21 @@ namespace System.Windows.Forms
             return result;
         }
 
+        /// <summary>
+        /// Handles the <see cref="E:HelpRequest" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected virtual void OnHelpRequest(EventArgs e)
         {
             EventHandler handler = (EventHandler)Events[s_helpRequestEvent];
             handler?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Runs the dialog.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         protected abstract bool RunDialog(IWin32Window owner);
 
     }

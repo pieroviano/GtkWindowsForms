@@ -5,7 +5,16 @@ namespace System.Windows.Forms;
 /// </summary>
 public enum DataSourceUpdateMode
 {
+    /// <summary>
+    /// The on validation
+    /// </summary>
     OnValidation,
+    /// <summary>
+    /// The on property changed
+    /// </summary>
     OnPropertyChanged,
+    /// <summary>
+    /// The never
+    /// </summary>
     Never
 }

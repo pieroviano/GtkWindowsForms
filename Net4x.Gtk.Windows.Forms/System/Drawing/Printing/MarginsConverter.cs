@@ -14,12 +14,38 @@ namespace System.Drawing.Printing
     /// </summary>
     public class MarginsConverter : ExpandableObjectConverter
     {
+        /// <summary>
+        /// Returns whether this converter can convert an object of the given type to the type of this converter, using the specified context.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <param name="sourceType">A <see cref="T:System.Type"></see> that represents the type you want to convert from.</param>
+        /// <returns>
+        /// true if this converter can perform the conversion; otherwise, false.
+        /// </returns>
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
             => sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
 
+        /// <summary>
+        /// Returns whether this converter can convert the object to the specified type, using the specified context.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <param name="destinationType">A <see cref="T:System.Type"></see> that represents the type you want to convert to.</param>
+        /// <returns>
+        /// true if this converter can perform the conversion; otherwise, false.
+        /// </returns>
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
             => destinationType == typeof(InstanceDescriptor) || base.CanConvertTo(context, destinationType);
 
+        /// <summary>
+        /// Converts the given object to the type of this converter, using the specified context and culture information.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo"></see> to use as the current culture.</param>
+        /// <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+        /// <returns>
+        /// An <see cref="T:System.Object"></see> that represents the converted value.
+        /// </returns>
+        /// <exception cref="ArgumentException">TextParseFailedFormat</exception>
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             if (value is string strValue)
@@ -60,6 +86,16 @@ namespace System.Drawing.Printing
             }
         }
 
+        /// <summary>
+        /// Converts the given value object to the specified type, using the specified context and culture information.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <param name="culture">A <see cref="T:System.Globalization.CultureInfo"></see>. If null is passed, the current culture is assumed.</param>
+        /// <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+        /// <param name="destinationType">The <see cref="T:System.Type"></see> to convert the value parameter to.</param>
+        /// <returns>
+        /// An <see cref="T:System.Object"></see> that represents the converted value.
+        /// </returns>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (value is Margins margins)
@@ -95,6 +131,15 @@ namespace System.Drawing.Printing
             return base.ConvertTo(context, culture, value, destinationType);
         }
 
+        /// <summary>
+        /// Creates an instance of the type that this <see cref="T:System.ComponentModel.TypeConverter"></see> is associated with, using the specified context, given a set of property values for the object.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <param name="propertyValues">An <see cref="T:System.Collections.IDictionary"></see> of new property values.</param>
+        /// <returns>
+        /// An <see cref="T:System.Object"></see> representing the given <see cref="T:System.Collections.IDictionary"></see>, or null if the object cannot be created. This method always returns null.
+        /// </returns>
+        /// <exception cref="ArgumentException">PropertyValueInvalidEntry</exception>
         public override object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
         {
             object left = propertyValues["Left"];
@@ -105,8 +150,19 @@ namespace System.Drawing.Printing
             return left is int && right is int && bottom is int && top is int ? (object)new Margins((int)left, (int)right, (int)top, (int)bottom) : throw new ArgumentException("PropertyValueInvalidEntry");
         }
 
+        /// <summary>
+        /// Returns whether changing a value on this object requires a call to <see cref="M:System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)"></see> to create a new value, using the specified context.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+        /// <returns>
+        /// true if changing a property on this object requires a call to <see cref="M:System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)"></see> to create a new value; otherwise, false.
+        /// </returns>
         public override bool GetCreateInstanceSupported(ITypeDescriptorContext context) => true;
 
+        /// <summary>
+        /// Gets the int converter.
+        /// </summary>
+        /// <returns></returns>
         private static TypeConverter GetIntConverter() => TypeDescriptor.GetConverter(typeof(int));
 
     }
