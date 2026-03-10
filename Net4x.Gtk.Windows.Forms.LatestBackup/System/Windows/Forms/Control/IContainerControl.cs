@@ -14,7 +14,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <returns>
         /// The
-        /// <see cref="System.Windows.Forms.Control" /> that is currently active on the container control.
+        /// <see cref="T:System.Windows.Forms.Control" /> that is currently active on the container control.
         /// </returns>
         /// <filterpriority>
         /// 1
@@ -29,7 +29,7 @@ namespace System.Windows.Forms
         /// </returns>
         /// <param name="active">
         /// The
-        /// <see cref="System.Windows.Forms.Control" /> being activated.
+        /// <see cref="T:System.Windows.Forms.Control" /> being activated.
         /// </param>
         /// <filterpriority>
         /// 1

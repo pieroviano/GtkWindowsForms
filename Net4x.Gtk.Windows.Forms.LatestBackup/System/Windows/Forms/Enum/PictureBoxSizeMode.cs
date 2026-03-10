@@ -6,7 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies how an image is positioned within a
-    /// <see cref="System.Windows.Forms.PictureBox" /> .
+    /// <see cref="T:System.Windows.Forms.PictureBox" /> .
     /// </summary>
     /// <filterpriority>
     /// 2

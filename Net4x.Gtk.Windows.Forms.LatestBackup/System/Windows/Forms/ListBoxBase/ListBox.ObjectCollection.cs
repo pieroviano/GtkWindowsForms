@@ -16,8 +16,7 @@ namespace System.Windows.Forms
     public partial class ListBox
     {
         /// <summary>
-        /// Represents the collection of items in a
-        /// <see cref="System.Windows.Forms.ListBox" />
+        /// A collection that stores objects.
         /// </summary>
         [ListBindable(false)]
         public class ObjectCollection : IList

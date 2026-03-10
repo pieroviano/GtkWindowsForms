@@ -2,7 +2,7 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Used to specify the data type of the
-    /// <see cref="System.Drawing.Imaging.EncoderParameter" /> used with the
+    /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> used with the
     /// <see cref="!:Overload:System.Drawing.Image.Save" /> or
     /// <see cref="!:Overload:System.Drawing.Image.SaveAdd" /> method of an image.
     /// </summary>

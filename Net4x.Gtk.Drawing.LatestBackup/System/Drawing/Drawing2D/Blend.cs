@@ -2,7 +2,7 @@ namespace System.Drawing.Drawing2D
 {
     /// <summary>
     /// Defines a blend pattern for a
-    /// <see cref="System.Drawing.Drawing2D.LinearGradientBrush" /> object. This class cannot be inherited.
+    /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" /> object. This class cannot be inherited.
     /// </summary>
     public sealed class Blend
     {
@@ -19,9 +19,10 @@ namespace System.Drawing.Drawing2D
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Drawing2D.Blend" /> class with the specified number of factors and positions.
         /// </summary>
-        /// <param name="count">The number of elements in the
-        /// <see cref="P:System.Drawing.Drawing2D.Blend.Factors" /> and
-        /// <see cref="P:System.Drawing.Drawing2D.Blend.Positions" /> arrays.
+        /// <param name="count">
+        /// The number of elements in the
+        /// <see cref="T:System.Drawing.Drawing2D.Blend.Factors" /> and
+        /// <see cref="T:System.Drawing.Drawing2D.Blend.Positions" /> arrays.
         /// </param>
         public Blend(int count)
         {

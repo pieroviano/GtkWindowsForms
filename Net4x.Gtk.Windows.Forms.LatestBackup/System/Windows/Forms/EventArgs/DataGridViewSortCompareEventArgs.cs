@@ -9,7 +9,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.SortCompare" /> event.
+    /// <see cref="T:System.Windows.Forms.DataGridView.SortCompare" /> event.
     /// </summary>
     public class DataGridViewSortCompareEventArgs : HandledEventArgs
     {
@@ -24,25 +24,11 @@ namespace System.Windows.Forms
 
         private int sortResult;
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.DataGridViewSortCompareEventArgs" /> class.
-        /// </summary>
-        /// <param name="dataGridViewColumn">The column to sort.
-        /// </param>
-        /// <param name="cellValue1">The value of the first cell to compare.
-        /// </param>
-        /// <param name="cellValue2">The value of the second cell to compare.
-        /// </param>
-        /// <param name="rowIndex1">The index of the row containing the first cell.
-        /// </param>
-        /// <param name="rowIndex2">The index of the row containing the second cell.
-        /// </param>
         public DataGridViewSortCompareEventArgs(DataGridViewColumn dataGridViewColumn,
-                    object cellValue1,
-                    object cellValue2,
-                    int rowIndex1,
-                    int rowIndex2)
+            object cellValue1,
+            object cellValue2,
+            int rowIndex1,
+            int rowIndex2)
         {
             Debug.Assert(dataGridViewColumn != null);
             this.dataGridViewColumn = dataGridViewColumn;
@@ -52,11 +38,6 @@ namespace System.Windows.Forms
             this.rowIndex2 = rowIndex2;
         }
 
-        /// <summary>
-        /// Gets the value of the first cell to compare.
-        /// </summary>
-        /// <returns>The value of the first cell.
-        /// </returns>
         public object CellValue1
         {
             get
@@ -65,11 +46,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the value of the second cell to compare.
-        /// </summary>
-        /// <returns>The value of the second cell.
-        /// </returns>
         public object CellValue2
         {
             get
@@ -78,12 +54,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the column being sorted.
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Windows.Forms.DataGridViewColumn" /> to sort.
-        /// </returns>
         public DataGridViewColumn Column
         {
             get
@@ -92,11 +62,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the index of the row containing the first cell to compare.
-        /// </summary>
-        /// <returns>The index of the row containing the second cell.
-        /// </returns>
         public int RowIndex1
         {
             get
@@ -105,11 +70,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the index of the row containing the second cell to compare.
-        /// </summary>
-        /// <returns>The index of the row containing the second cell.
-        /// </returns>
         public int RowIndex2
         {
             get
@@ -118,11 +78,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating the order in which the compared cells will be sorted.
-        /// </summary>
-        /// <returns>Less than zero if the first cell will be sorted before the second cell; zero if the first cell and second cell have equivalent values; greater than zero if the second cell will be sorted before the first cell.
-        /// </returns>
         public int SortResult
         {
             get

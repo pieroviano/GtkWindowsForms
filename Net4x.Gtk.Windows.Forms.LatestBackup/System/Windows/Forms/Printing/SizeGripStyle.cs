@@ -2,7 +2,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies the style of the sizing grip on a
-    /// <see cref="System.Windows.Forms.Form" /> .
+    /// <see cref="T:System.Windows.Forms.Form" /> .
     /// </summary>
     /// <filterpriority>
     /// 2

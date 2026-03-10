@@ -4,7 +4,7 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Contains attributes of an associated
-    /// <see cref="System.Drawing.Imaging.Metafile" /> . Not inheritable.
+    /// <see cref="T:System.Drawing.Imaging.Metafile" />. Not inheritable.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public sealed class MetafileHeader
@@ -20,13 +20,13 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets a
-        /// <see cref="System.Drawing.Rectangle" /> that bounds the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Rectangle" /> that bounds the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </summary>
         /// <returns>
         /// A
-        /// <see cref="System.Drawing.Rectangle" /> that bounds the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Rectangle" /> that bounds the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -46,11 +46,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets the horizontal resolution, in dots per inch, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </summary>
         /// <returns>
         /// The horizontal resolution, in dots per inch, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -70,11 +70,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets the vertical resolution, in dots per inch, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </summary>
         /// <returns>
         /// The vertical resolution, in dots per inch, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -95,7 +95,8 @@ namespace System.Drawing.Imaging
         /// <summary>
         /// Gets the size, in bytes, of the enhanced metafile plus header file.
         /// </summary>
-        /// <returns>The size, in bytes, of the enhanced metafile plus header file.
+        /// <returns>
+        /// The size, in bytes, of the enhanced metafile plus header file.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -111,11 +112,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets the logical horizontal resolution, in dots per inch, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </summary>
         /// <returns>
         /// The logical horizontal resolution, in dots per inch, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -131,11 +132,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets the logical vertical resolution, in dots per inch, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </summary>
         /// <returns>
         /// The logical vertical resolution, in dots per inch, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -151,10 +152,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets the size, in bytes, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </summary>
-        /// <returns>The size, in bytes, of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <returns>
+        /// The size, in bytes, of the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -174,12 +176,12 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets the type of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </summary>
         /// <returns>
         /// A
-        /// <see cref="System.Drawing.Imaging.MetafileType" /> enumeration that represents the type of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.MetafileType" /> enumeration that represents the type of the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -199,10 +201,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets the version number of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </summary>
-        /// <returns>The version number of the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <returns>
+        /// The version number of the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -222,12 +225,12 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets the Windows metafile (WMF) header file for the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </summary>
         /// <returns>
         /// A
-        /// <see cref="System.Drawing.Imaging.MetaHeader" /> that contains the WMF header file for the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.MetaHeader" /> that contains the WMF header file for the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -243,10 +246,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns a value that indicates whether the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is device dependent.
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is device dependent.
         /// </summary>
-        /// <returns>true if the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is device dependent; otherwise, false.
+        /// <returns>
+        /// true if the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is device dependent; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -263,10 +267,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns a value that indicates whether the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile format.
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile format.
         /// </summary>
-        /// <returns>true if the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile format; otherwise, false.
+        /// <returns>
+        /// true if the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile format; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -279,10 +284,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns a value that indicates whether the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile format or the Windows enhanced metafile plus format.
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile format or the Windows enhanced metafile plus format.
         /// </summary>
-        /// <returns>true if the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile format or the Windows enhanced metafile plus format; otherwise, false.
+        /// <returns>
+        /// true if the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile format or the Windows enhanced metafile plus format; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -295,10 +301,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns a value that indicates whether the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile plus format.
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile plus format.
         /// </summary>
-        /// <returns>true if the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile plus format; otherwise, false.
+        /// <returns>
+        /// true if the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows enhanced metafile plus format; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -311,10 +318,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns a value that indicates whether the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Dual enhanced metafile format. This format supports both the enhanced and the enhanced plus format.
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Dual enhanced metafile format. This format supports both the enhanced and the enhanced plus format.
         /// </summary>
-        /// <returns>true if the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Dual enhanced metafile format; otherwise, false.
+        /// <returns>
+        /// true if the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Dual enhanced metafile format; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -327,11 +335,12 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns a value that indicates whether the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" />
+        /// <see cref="T:System.Drawing.Imaging.Metafile" />
         /// supports only the Windows enhanced metafile plus format.
         /// </summary>
-        /// <returns>true if the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> supports only the Windows enhanced metafile plus format; otherwise, false.
+        /// <returns>
+        /// true if the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> supports only the Windows enhanced metafile plus format; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -344,10 +353,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns a value that indicates whether the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows metafile format.
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows metafile format.
         /// </summary>
-        /// <returns>true if the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows metafile format; otherwise, false.
+        /// <returns>
+        /// true if the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows metafile format; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -360,10 +370,11 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns a value that indicates whether the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows placeable metafile format.
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows placeable metafile format.
         /// </summary>
-        /// <returns>true if the associated
-        /// <see cref="System.Drawing.Imaging.Metafile" /> is in the Windows placeable metafile format; otherwise, false.
+        /// <returns>
+        /// true if the associated
+        /// <see cref="T:System.Drawing.Imaging.Metafile" /> is in the Windows placeable metafile format; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />

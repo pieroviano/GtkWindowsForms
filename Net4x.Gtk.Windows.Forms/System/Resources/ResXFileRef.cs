@@ -20,13 +20,15 @@ namespace System.Resources
     {
         /// <summary>
         /// Creates a new instance of the
-        /// <see cref="System.Resources.ResXFileRef" /> class that references the specified file.
+        /// <see cref="T:System.Resources.ResXFileRef" /> class that references the specified file.
         /// </summary>
-        /// <param name="fileName">The file to reference.
+        /// <param name="fileName">
+        /// The file to reference.
         /// </param>
-        /// <param name="typeName">The type of the resource that is referenced.
+        /// <param name="typeName">
+        /// The type of the resource that is referenced.
         /// </param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="fileName" /> or
         /// <paramref name="typeName " />is null.
         /// </exception>
@@ -38,13 +40,16 @@ namespace System.Resources
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXFileRef" /> class that references the specified file.
+        /// <see cref="T:System.Resources.ResXFileRef" /> class that references the specified file.
         /// </summary>
-        /// <param name="fileName">The file to reference.
+        /// <param name="fileName">
+        /// The file to reference.
         /// </param>
-        /// <param name="typeName">The type name of the resource that is referenced.
+        /// <param name="typeName">
+        /// The type name of the resource that is referenced.
         /// </param>
-        /// <param name="textFileEncoding">The encoding used in the referenced file.
+        /// <param name="textFileEncoding">
+        /// The encoding used in the referenced file.
         /// </param>
         public ResXFileRef(string fileName, string typeName, Encoding textFileEncoding) : this(fileName, typeName)
         {
@@ -55,7 +60,8 @@ namespace System.Resources
         /// Gets the file name specified in the current
         /// <see cref="!:Overload:System.Resources.ResXFileRef.#ctor" /> constructor.
         /// </summary>
-        /// <returns>The name of the referenced file.
+        /// <returns>
+        /// The name of the referenced file.
         /// </returns>
         public string FileName { get; private set; }
 
@@ -63,7 +69,8 @@ namespace System.Resources
         /// Gets the encoding specified in the current
         /// <see cref="!:Overload:System.Resources.ResXFileRef.#ctor" /> constructor.
         /// </summary>
-        /// <returns>The encoding used in the referenced file.
+        /// <returns>
+        /// The encoding used in the referenced file.
         /// </returns>
         public Encoding TextFileEncoding { get; }
 
@@ -71,15 +78,17 @@ namespace System.Resources
         /// Gets the type name specified in the current
         /// <see cref="!:Overload:System.Resources.ResXFileRef.#ctor" /> constructor.
         /// </summary>
-        /// <returns>The type name of the resource that is referenced.
+        /// <returns>
+        /// The type name of the resource that is referenced.
         /// </returns>
         public string TypeName { get; }
 
         /// <summary>
         /// Gets the text representation of the current
-        /// <see cref="System.Resources.ResXFileRef" /> object.
+        /// <see cref="T:System.Resources.ResXFileRef" /> object.
         /// </summary>
-        /// <returns>A string that consists of the concatenated text representations of the parameters specified in the current
+        /// <returns>
+        /// A string that consists of the concatenated text representations of the parameters specified in the current
         /// <see cref="!:Overload:System.Resources.ResXFileRef.#ctor" /> constructor.
         /// </returns>
         public override string ToString()

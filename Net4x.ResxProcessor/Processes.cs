@@ -49,10 +49,10 @@ public class Processes
     /// </summary>
     /// <remarks>This method excludes the current process from the search results. If multiple processes with
     /// the specified name are running, the first matching process is returned. The caller is responsible for disposing
-    /// the returned <see cref="System.Diagnostics.Process"/> object if necessary.</remarks>
+    /// the returned <see cref="T:System.Diagnostics.Process"/> object if necessary.</remarks>
     /// <param name="processName">The name of the process to search for. This value is case-insensitive and should not include the file extension.
     /// Cannot be null or empty.</param>
-    /// <returns>A <see cref="System.Diagnostics.Process"/> object representing a running process with the specified name, or
+    /// <returns>A <see cref="T:System.Diagnostics.Process"/> object representing a running process with the specified name, or
     /// <see langword="null"/> if no such process is found.</returns>
     public System.Diagnostics.Process? IsProcessRunning(string processName)
     {

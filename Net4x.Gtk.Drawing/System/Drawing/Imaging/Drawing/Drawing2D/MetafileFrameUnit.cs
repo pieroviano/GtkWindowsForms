@@ -2,7 +2,7 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Specifies the unit of measurement for the rectangle used to size and position a metafile. This is specified during the creation of the
-    /// <see cref="System.Drawing.Imaging.Metafile" /> object.
+    /// <see cref="T:System.Drawing.Imaging.Metafile" /> object.
     /// </summary>
     public enum MetafileFrameUnit
     {

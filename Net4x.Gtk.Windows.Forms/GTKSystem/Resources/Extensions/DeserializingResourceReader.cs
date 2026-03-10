@@ -70,11 +70,13 @@ namespace GtkSystem.Resources.Extensions
         /// Initializes a new instance of the
         /// <see cref="GtkSystem.Resources.Extensions.DeserializingResourceReader" /> class.
         /// </summary>
-        /// <param name="stream">The stream.
+        /// <param name="stream">
+        /// The stream.
         /// </param>
-        /// <exception cref="System.ArgumentNullException">stream
+        /// <exception cref="T:System.ArgumentNullException">
+        /// stream
         /// </exception>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="T:System.ArgumentException">
         /// </exception>
         public DeserializingResourceReader(Stream stream)
         {
@@ -114,7 +116,7 @@ namespace GtkSystem.Resources.Extensions
         /// <returns>
         /// A dictionary enumerator for the resources for this reader.
         /// </returns>
-        /// <exception cref="System.InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         /// </exception>
         public IDictionaryEnumerator GetEnumerator()
         {

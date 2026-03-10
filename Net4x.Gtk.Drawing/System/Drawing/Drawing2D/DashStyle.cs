@@ -2,7 +2,7 @@ namespace System.Drawing.Drawing2D
 {
     /// <summary>
     /// Specifies the style of dashed lines drawn with a
-    /// <see cref="System.Drawing.Pen" /> object.
+    /// <see cref="T:System.Drawing.Pen" /> object.
     /// </summary>
     public enum DashStyle
     {

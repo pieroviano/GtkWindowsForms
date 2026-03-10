@@ -20,27 +20,27 @@ internal interface IComPropertyBrowser
 
     /// <summary>
     /// Gets a value indicating whether the
-    /// <see cref="System.Windows.Forms.PropertyGrid" /> control is currently setting one of the properties of its selected object.
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control is currently setting one of the properties of its selected object.
     /// </summary>
     /// <returns>
     /// true if the
-    /// <see cref="System.Windows.Forms.PropertyGrid" /> control is currently setting one of the properties of its selected object; otherwise, false.
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control is currently setting one of the properties of its selected object; otherwise, false.
     /// </returns>
     bool InPropertySet { get; }
 
     /// <summary>
     /// Closes andy open drop-down controls on the
-    /// <see cref="System.Windows.Forms.PropertyGrid" /> control.
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control.
     /// </summary>
     void DropDownDone();
 
     /// <summary>
     /// Commits all pending changes to the
-    /// <see cref="System.Windows.Forms.PropertyGrid" /> control.
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control.
     /// </summary>
     /// <returns>
     /// <see langword="true" /> if the
-    /// <see cref="System.Windows.Forms.PropertyGrid" />
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" />
     /// successfully commits changes; otherwise,
     /// <see langword="false" />
     /// </returns>
@@ -48,7 +48,7 @@ internal interface IComPropertyBrowser
 
     /// <summary>
     /// Activates the
-    /// <see cref="System.Windows.Forms.PropertyGrid" /> control when the user chooses Properties for a control in Design view.
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control when the user chooses Properties for a control in Design view.
     /// </summary>
     void HandleF4();
 

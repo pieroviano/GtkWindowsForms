@@ -5,7 +5,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.ScrollBar.Scroll" />
+    /// <see cref="T:System.Windows.Forms.ScrollBar.Scroll" />
     /// event. This enumeration gives the orientation of the scroll that took place
     /// </summary>
     public enum ScrollOrientation

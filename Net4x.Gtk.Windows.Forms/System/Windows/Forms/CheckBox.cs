@@ -11,7 +11,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Represents a Windows
-    /// <see cref="System.Windows.Forms.CheckBox" />
+    /// <see cref="T:System.Windows.Forms.CheckBox" />
     /// </summary>
     /// <filterpriority> 1
     /// </filterpriority>
@@ -25,52 +25,18 @@ namespace System.Windows.Forms
 
         public virtual event EventHandler CheckStateChanged;
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.CheckBox" /> class.
-        /// </summary>
         public CheckBox()
         {
             self.Toggled += Self_Toggled;
             self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
         }
 
-        /// <summary>
-        /// Gets or set a value indicating whether the
-        /// <see cref="System.Windows.Forms.CheckBox" /> is in the checked state.
-        /// </summary>
-        /// <returns>true if the
-        /// <see cref="System.Windows.Forms.CheckBox" /> is in the checked state; otherwise, false. The default value is false.NoteIf the
-        /// <see cref="System.Windows.Forms.CheckBox.ThreeState" /> property is set to true, the
-        /// <see cref="System.Windows.Forms.CheckBox.Checked" /> property will return true for either a Checked or Indeterminate
-        /// <see cref="System.Windows.Forms.CheckBox.CheckState" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public bool Checked
         {
             get { return self.Active; }
             set { self.Active = value; if (self.IsRealized) { self.Inconsistent = false; } }
         }
 
-        /// <summary>
-        /// Gets or sets the state of the
-        /// <see cref="System.Windows.Forms.CheckBox" />
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.CheckState" /> enumeration values. The default value is Unchecked.
-        /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">The value assigned is not one of the
-        /// <see cref="System.Windows.Forms.CheckState" /> enumeration values.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public CheckState CheckState
         {
             get { if (self.Inconsistent == true) { return CheckState.Indeterminate; } else { return self.Active ? CheckState.Checked : CheckState.Unchecked; } }

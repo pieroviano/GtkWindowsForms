@@ -6,7 +6,7 @@ namespace System.Drawing.Printing
 
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Drawing.Printing.PrintDocument.QueryPageSettings" /> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.QueryPageSettings" /> event.
     /// </summary>
     public class QueryPageSettingsEventArgs : PrintEventArgs
     {

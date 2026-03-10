@@ -65,16 +65,11 @@ namespace System.Drawing
         }
 
         /// <summary>
-        /// Gets or sets horizontal alignment of the string..
+        /// Gets or sets horizontal alignment of the string.
         /// </summary>
         /// <returns>A
-        /// <see cref="System.Drawing.StringAlignment" /> enumeration that specifies the horizontal  alignment of the string.
+        /// <see cref="T:System.Drawing.StringAlignment" /> enumeration that specifies the horizontal  alignment of the string.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public StringAlignment Alignment
         {
             get
@@ -89,23 +84,16 @@ namespace System.Drawing
         /// <summary>
         /// Gets the language that is used when local digits are substituted for western digits.
         /// </summary>
-        /// <returns>
-        /// A National Language Support (NLS) language identifier that identifies the language that will be used when local digits are substituted for western digits. You can pass the
-        /// <see cref="System.Globalization.CultureInfo.LCID" /> property of a
-        /// <see cref="System.Globalization.CultureInfo" /> object as the NLS language identifier. For example, suppose you create a
-        /// <see cref="System.Globalization.CultureInfo" /> object by passing the string "ar-EG" to a
-        /// <see cref="System.Globalization.CultureInfo" /> constructor. If you pass the
-        /// <see cref="System.Globalization.CultureInfo.LCID" /> property of that
-        /// <see cref="System.Globalization.CultureInfo" /> object along with.
-        /// <see cref="System.Drawing.StringDigitSubstitute.Traditional" /> to the
-        /// <see cref="System.Drawing.StringFormat.SetDigitSubstitution(System.Int32,System.Drawing.StringDigitSubstitute)" />
-        /// method, then Arabic-Indic digits will be substituted for western digits at display time.
+        /// <returns>A National Language Support (NLS) language identifier that identifies the language that will be used when local digits are substituted for western digits. You can pass the
+        /// <see cref="P:System.Globalization.CultureInfo.LCID" /> property of a
+        /// <see cref="T:System.Globalization.CultureInfo" /> object as the NLS language identifier. For example, suppose you create a
+        /// <see cref="T:System.Globalization.CultureInfo" /> object by passing the string "ar-EG" to a
+        /// <see cref="T:System.Globalization.CultureInfo" /> constructor. If you pass the
+        /// <see cref="P:System.Globalization.CultureInfo.LCID" /> property of that
+        /// <see cref="T:System.Globalization.CultureInfo" /> object along with
+        /// <see cref="F:System.Drawing.StringDigitSubstitute.Traditional" /> to the
+        /// <see cref="M:System.Drawing.StringFormat.SetDigitSubstitution(System.Int32,System.Drawing.StringDigitSubstitute)" /> method, then Arabic-Indic digits will be substituted for western digits at display time.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public int DigitSubstitutionLanguage
         {
             get
@@ -118,13 +106,8 @@ namespace System.Drawing
         /// Gets the method to be used for digit substitution.
         /// </summary>
         /// <returns>A
-        /// <see cref="System.Drawing.StringDigitSubstitute" /> enumeration value that specifies how to substitute characters in a string that cannot be displayed because they are not supported by the current font.
+        /// <see cref="T:System.Drawing.StringDigitSubstitute" /> enumeration value that specifies how to substitute characters in a string that cannot be displayed because they are not supported by the current font.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public StringDigitSubstitute DigitSubstitutionMethod
         {
             get
@@ -135,16 +118,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets a
-        /// <see cref="System.Drawing.StringFormatFlags" /> enumeration that contains formatting information.
+        /// <see cref="T:System.Drawing.StringFormatFlags" /> enumeration that contains formatting information.
         /// </summary>
         /// <returns>A
-        /// <see cref="System.Drawing.StringFormatFlags" /> enumeration that contains formatting information.
+        /// <see cref="T:System.Drawing.StringFormatFlags" /> enumeration that contains formatting information.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public StringFormatFlags FormatFlags
         {
             get
@@ -158,16 +136,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets a generic default
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
         /// <returns>The generic default
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public static StringFormat GenericDefault
         {
             get
@@ -178,16 +151,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets a generic typographic
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
         /// <returns>A generic typographic
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public static StringFormat GenericTypographic
         {
             get
@@ -198,20 +166,14 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the
-        /// <see cref="System.Drawing.Text.HotkeyPrefix" /> object for this
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.Text.HotkeyPrefix" /> object for this
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="System.Drawing.Text.HotkeyPrefix" /> object for this
-        /// <see cref="System.Drawing.StringFormat" /> object, the default is
-        /// <see cref="System.Drawing.Text.HotkeyPrefix.None" />
+        /// <returns>The
+        /// <see cref="T:System.Drawing.Text.HotkeyPrefix" /> object for this
+        /// <see cref="T:System.Drawing.StringFormat" /> object, the default is
+        /// <see cref="F:System.Drawing.Text.HotkeyPrefix.None" />.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public HotkeyPrefix HotkeyPrefix
         {
             get
@@ -227,13 +189,8 @@ namespace System.Drawing
         /// Gets or sets the vertical alignment of the string.
         /// </summary>
         /// <returns>A
-        /// <see cref="System.Drawing.StringAlignment" /> enumeration that represents the vertical line alignment.
+        /// <see cref="T:System.Drawing.StringAlignment" /> enumeration that represents the vertical line alignment.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public StringAlignment LineAlignment
         {
             get
@@ -247,19 +204,13 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the
-        /// <see cref="System.Drawing.StringTrimming" /> enumeration for this
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringTrimming" /> enumeration for this
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.StringTrimming" /> enumeration that indicates how text drawn with this
-        /// <see cref="System.Drawing.StringFormat" /> object is trimmed when it exceeds the edges of the layout rectangle.
+        /// <returns>A
+        /// <see cref="T:System.Drawing.StringTrimming" /> enumeration that indicates how text drawn with this
+        /// <see cref="T:System.Drawing.StringFormat" /> object is trimmed when it exceeds the edges of the layout rectangle.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public StringTrimming Trimming
         {
             get
@@ -273,16 +224,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
         /// <returns>The
-        /// <see cref="System.Drawing.StringFormat" /> object this method creates.
+        /// <see cref="T:System.Drawing.StringFormat" /> object this method creates.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public object Clone()
         {
             throw new System.NotImplementedException();
@@ -290,13 +236,8 @@ namespace System.Drawing
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Dispose()
         {
         }
@@ -336,20 +277,15 @@ namespace System.Drawing
 
         /// <summary>
         /// Specifies an array of
-        /// <see cref="System.Drawing.CharacterRange" /> structures that represent the ranges of characters measured by a call to the
-        /// <see cref="System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" />
-        /// method.
+        /// <see cref="T:System.Drawing.CharacterRange" /> structures that represent the ranges of characters measured by a call to the
+        /// <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
         /// </summary>
-        /// <param name="ranges">
-        /// An array of
-        /// <see cref="System.Drawing.CharacterRange" /> structures that specifies the ranges of characters measured by a call to the
-        /// <see cref="System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" />
-        /// method.
+        /// <param name="ranges">An array of
+        /// <see cref="T:System.Drawing.CharacterRange" /> structures that specifies the ranges of characters measured by a call to the
+        /// <see cref="M:System.Drawing.Graphics.MeasureCharacterRanges(System.String,System.Drawing.Font,System.Drawing.RectangleF,System.Drawing.StringFormat)" /> method.
         /// </param>
-        /// <exception cref="System.OverflowException">More than 32 character ranges are set.
+        /// <exception cref="T:System.OverflowException">More than 32 character ranges are set.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
         public void SetMeasurableCharacterRanges(CharacterRange[] ranges)
         {
         }
@@ -369,16 +305,11 @@ namespace System.Drawing
 
         /// <summary>
         /// Converts this
-        /// <see cref="System.Drawing.StringFormat" /> object to a human-readable string.
+        /// <see cref="T:System.Drawing.StringFormat" /> object to a human-readable string.
         /// </summary>
         /// <returns>A string representation of this
-        /// <see cref="System.Drawing.StringFormat" /> object.
+        /// <see cref="T:System.Drawing.StringFormat" /> object.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public override string ToString()
         {
             throw new System.NotImplementedException();

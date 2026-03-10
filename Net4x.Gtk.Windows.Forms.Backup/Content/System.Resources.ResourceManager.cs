@@ -15,8 +15,8 @@ namespace System.Resources
     /// localized resources such as strings, images, and other data embedded in assemblies.
     /// </summary>
     /// <remarks>This class is intended for internal use and is not visible in standard IntelliSense due to
-    /// the <see cref="EditorBrowsableAttribute"/>. It inherits functionality from <see
-    /// cref="GtkSystem.Resources.ResourceManager"/> to manage resource retrieval. Use the appropriate constructor to
+    /// the <see cref="T:EditorBrowsableAttribute"/>. It inherits functionality from <see
+    /// cref="T:GtkSystem.Resources.ResourceManager"/> to manage resource retrieval. Use the appropriate constructor to
     /// specify the resource source, base name, or assembly when initializing the resource manager.</remarks>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class ResourceManager : GtkSystem.Resources.ResourceManager

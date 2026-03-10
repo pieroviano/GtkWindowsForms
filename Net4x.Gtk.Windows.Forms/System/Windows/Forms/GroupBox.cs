@@ -27,10 +27,6 @@ namespace System.Windows.Forms
 
         private Gtk.Overlay contaner = new Gtk.Overlay();
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.GroupBox" /> class.
-        /// </summary>
         public GroupBox() : base()
         {
             _controls = new ControlCollection(this, contaner);
@@ -60,17 +56,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <returns>
-        /// The text associated with this control.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// <IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public override string Text { get { return self.Label; } set { self.Label = value; } }
 
         public override void PerformLayout()

@@ -83,13 +83,6 @@ public static class XmlDocumentationFormatter
                     return FormatBlock(lines, fixes);
                 }
             }
-            else
-            {
-                RedConsole.Write("Badly formatted Xml comment:");
-                RedConsole.Write($"n===========================\n{rawXml}\n===========================");
-                RedConsole.Write($"{e}");
-                return lines;
-            }
 
             RedConsole.Write("Badly formatted Xml comment:");
             RedConsole.Write($"n===========================\n{rawXml}\n===========================");

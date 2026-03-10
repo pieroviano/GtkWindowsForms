@@ -2,9 +2,9 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies whether the size of the image on a
-    /// <see cref="System.Windows.Forms.ToolStripItem" />
+    /// <see cref="T:System.Windows.Forms.ToolStripItem" />
     /// is automatically adjusted to fit on a
-    /// <see cref="System.Windows.Forms.ToolStrip" />
+    /// <see cref="T:System.Windows.Forms.ToolStrip" />
     /// while retaining the original image proportions.
     /// </summary>
     /// <filterpriority>
@@ -12,17 +12,7 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public enum ToolStripItemImageScaling
     {
-        /// <summary>
-        /// Specifies that the size of the image on a
-        /// <see cref="System.Windows.Forms.ToolStripItem" /> is not automatically adjusted to fit on a
-        /// <see cref="System.Windows.Forms.ToolStrip" />
-        /// </summary>
         None,
-        /// <summary>
-        /// Specifies that the size of the image on a
-        /// <see cref="System.Windows.Forms.ToolStripItem" /> is automatically adjusted to fit on a
-        /// <see cref="System.Windows.Forms.ToolStrip" />
-        /// </summary>
         SizeToFit
     }
 }

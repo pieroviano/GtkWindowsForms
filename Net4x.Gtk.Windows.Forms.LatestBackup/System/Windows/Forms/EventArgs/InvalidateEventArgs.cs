@@ -8,7 +8,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.Control.Invalidated" /> event.
+    /// <see cref="T:System.Windows.Forms.Control.Invalidated" /> event.
     /// </summary>
     /// <filterpriority>
     /// 2
@@ -17,24 +17,19 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.InvalidateEventArgs" /> class.
+        /// <see cref="InvalidateEventArgs" />
+        /// class.
         /// </summary>
-        /// <param name="invalidRect">The
-        /// <see cref="System.Drawing.Rectangle" /> that contains the invalidated window area.
-        /// </param>
         public InvalidateEventArgs(Rectangle invalidRect)
         {
             InvalidRect = invalidRect;
         }
 
         /// <summary>
-        /// Gets the
-        /// <see cref="System.Drawing.Rectangle" /> that contains the invalidated window area.
+        /// Gets a value indicating the
+        /// <see cref="Rectangle" /> that contains the
+        /// invalidated window area.
         /// </summary>
-        /// <returns>The invalidated window area.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public Rectangle InvalidRect { get; }
 
     }

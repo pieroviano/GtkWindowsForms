@@ -10,7 +10,7 @@ namespace System.Drawing.Printing
 {
     /// <summary>
     /// Provides a type converter to convert
-    /// <see cref="System.Drawing.Printing.Margins" /> to and from various other representations, such as a string.
+    /// <see cref="T:System.Drawing.Printing.Margins" /> to and from various other representations, such as a string.
     /// </summary>
     public class MarginsConverter : ExpandableObjectConverter
     {

@@ -3,7 +3,7 @@ namespace System.Windows.Forms
 
     /// <summary>
     /// Defines constants that indicate the alignment of content within a
-    /// <see cref="System.Windows.Forms.DataGridView" /> cell.
+    /// <see cref="T:System.Windows.Forms.DataGridView" /> cell.
     /// </summary>
     /// <filterpriority>
     /// 2

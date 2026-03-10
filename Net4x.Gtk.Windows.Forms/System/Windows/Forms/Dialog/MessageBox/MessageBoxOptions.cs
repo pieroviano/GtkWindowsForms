@@ -6,7 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies options on a
-    /// <see cref="System.Windows.Forms.MessageBox" />.
+    /// <see cref="T:System.Windows.Forms.MessageBox" />.
     /// </summary>
     /// <filterpriority>
     /// 2

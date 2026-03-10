@@ -19,19 +19,21 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets the length (in bytes) of the
-        /// <see cref="P:System.Drawing.Imaging.PropertyItem.Value" /> property.
+        /// <see cref="T:System.Drawing.Imaging.PropertyItem.Value" /> property.
         /// </summary>
-        /// <returns>An integer that represents the length (in bytes) of the
-        /// <see cref="P:System.Drawing.Imaging.PropertyItem.Value" /> byte array.
+        /// <returns>
+        /// An integer that represents the length (in bytes) of the
+        /// <see cref="T:System.Drawing.Imaging.PropertyItem.Value" /> byte array.
         /// </returns>
         public int Len { get; set; }
 
         /// <summary>
         /// Gets or sets an integer that defines the type of data contained in the
-        /// <see cref="P:System.Drawing.Imaging.PropertyItem.Value" /> property.
+        /// <see cref="T:System.Drawing.Imaging.PropertyItem.Value" /> property.
         /// </summary>
-        /// <returns>An integer that defines the type of data contained in
-        /// <see cref="P:System.Drawing.Imaging.PropertyItem.Value" />.
+        /// <returns>
+        /// An integer that defines the type of data contained in
+        /// <see cref="T:System.Drawing.Imaging.PropertyItem.Value" />.
         /// </returns>
         public short Type { get; set; }
 

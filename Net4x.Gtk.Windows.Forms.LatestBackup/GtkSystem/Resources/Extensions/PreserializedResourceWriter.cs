@@ -11,8 +11,8 @@ namespace GtkSystem.Resources.Extensions
     /// <summary>
     /// PreserializedResourceWriter is a class that implements the IResourceWriter interface and is used to write resources to a stream or file in a pre-serialized format. It allows for adding resources of various types, including strings, byte arrays, and streams, and handles the serialization of these resources in a way that can be read by a corresponding resource reader. The class also manages the underlying stream and ensures that all resources are properly written and the stream is closed when done.
     /// </summary>
-    /// <seealso cref="System.Resources.IResourceWriter" />
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="T:System.Resources.IResourceWriter" />
+    /// <seealso cref="T:System.IDisposable" />
     public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
 

@@ -19,27 +19,33 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets dates that are bold.
         /// </summary>
-        /// <returns>The dates that are bold.
+        /// <returns>
+        /// The dates that are bold.
         /// </returns>
-        /// <filterpriority>1
+        /// <filterpriority>
+        /// 1
         /// </filterpriority>
         public int[] DaysToBold { get; set; }
 
         /// <summary>
         /// Gets the number of dates that are bold.
         /// </summary>
-        /// <returns>The number of dates that are bold.
+        /// <returns>
+        /// The number of dates that are bold.
         /// </returns>
-        /// <filterpriority>1
+        /// <filterpriority>
+        /// 1
         /// </filterpriority>
         public int Size { get; }
 
         /// <summary>
         /// Gets the first date that is bold.
         /// </summary>
-        /// <returns>The first date that is bold.
+        /// <returns>
+        /// The first date that is bold.
         /// </returns>
-        /// <filterpriority>1
+        /// <filterpriority>
+        /// 1
         /// </filterpriority>
         public DateTime StartDate { get; }
 

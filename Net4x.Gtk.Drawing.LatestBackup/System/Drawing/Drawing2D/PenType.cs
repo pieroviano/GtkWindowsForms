@@ -2,7 +2,7 @@ namespace System.Drawing.Drawing2D
 {
     /// <summary>
     /// Specifies the type of fill a
-    /// <see cref="System.Drawing.Pen" /> object uses to fill lines.
+    /// <see cref="T:System.Drawing.Pen" /> object uses to fill lines.
     /// </summary>
     public enum PenType
     {

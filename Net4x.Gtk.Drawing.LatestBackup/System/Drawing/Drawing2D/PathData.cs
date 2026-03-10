@@ -2,7 +2,7 @@ namespace System.Drawing.Drawing2D
 {
     /// <summary>
     /// Contains the graphical data that makes up a
-    /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> object. This class cannot be inherited.
+    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object. This class cannot be inherited.
     /// </summary>
     public sealed class PathData
     {
@@ -19,7 +19,8 @@ namespace System.Drawing.Drawing2D
         /// Gets or sets an array of
         /// <see cref="T:System.Drawing.PointF" /> structures that represents the points through which the path is constructed.
         /// </summary>
-        /// <returns>An array of
+        /// <returns>
+        /// An array of
         /// <see cref="T:System.Drawing.PointF" /> objects that represents the points through which the path is constructed.
         /// </returns>
         public PointF[] Points

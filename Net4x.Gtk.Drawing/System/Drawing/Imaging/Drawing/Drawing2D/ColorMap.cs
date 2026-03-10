@@ -2,8 +2,8 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Defines a map for converting colors. Several methods of the
-    /// <see cref="System.Drawing.Imaging.ImageAttributes" /> class adjust image colors by using a color-remap table, which is an array of
-    /// <see cref="System.Drawing.Imaging.ColorMap" /> structures. Not inheritable.
+    /// <see cref="T:System.Drawing.Imaging.ImageAttributes" /> class adjust image colors by using a color-remap table, which is an array of
+    /// <see cref="T:System.Drawing.Imaging.ColorMap" /> structures. Not inheritable.
     /// </summary>
     public sealed class ColorMap
     {

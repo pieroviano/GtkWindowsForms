@@ -11,7 +11,7 @@ namespace System.Drawing.Drawing2D
         World,
         /// <summary>
         /// Specifies that coordinates are in the page coordinate context. Their units are defined by the
-        /// <see cref="P:System.Drawing.Graphics.PageUnit" /> property, and must be one of the elements of the
+        /// <see cref="T:System.Drawing.Graphics.PageUnit" /> property, and must be one of the elements of the
         /// <see cref="T:System.Drawing.GraphicsUnit" /> enumeration.
         /// </summary>
         Page,

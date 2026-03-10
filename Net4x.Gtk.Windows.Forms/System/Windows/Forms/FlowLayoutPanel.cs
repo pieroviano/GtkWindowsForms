@@ -28,10 +28,6 @@ namespace System.Windows.Forms
 
         private FlowDirection _FlowDirection;
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> class.
-        /// </summary>
         public FlowLayoutPanel() : base()
         {
             self.Orientation = Gtk.Orientation.Horizontal;
@@ -46,16 +42,6 @@ namespace System.Windows.Forms
 
         public override ControlCollection Controls => _controls;
 
-        /// <summary>
-        /// Gets or sets a value indicating the flow direction of the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control.
-        /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.FlowDirection" /> values indicating the direction of consecutive placement of controls in the panel. The default is
-        /// <see cref="System.Windows.Forms.FlowDirection.LeftToRight" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public FlowDirection FlowDirection
         {
             get { return _FlowDirection; }
@@ -68,14 +54,6 @@ namespace System.Windows.Forms
 
         public override object GtkControl => self;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control should wrap its contents or let the contents be clipped.
-        /// </summary>
-        /// <returns>true if the contents should be wrapped; otherwise, false. The default is true.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public bool WrapContents { get; set; }
 
         public bool CanExtend(object extendee)
@@ -83,27 +61,11 @@ namespace System.Windows.Forms
             return true;
         }
 
-        /// <summary>
-        /// Returns a value that represents the flow-break setting of the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control.
-        /// </summary>
-        /// <returns>true if the flow break is set; otherwise, false.
-        /// </returns>
-        /// <param name="control">The child control.
-        /// </param>
         public bool GetFlowBreak(Control control)
         {
             return false;
         }
 
-        /// <summary>
-        /// Sets the value that represents the flow-break setting of the
-        /// <see cref="System.Windows.Forms.FlowLayoutPanel" /> control.
-        /// </summary>
-        /// <param name="control">The child control.
-        /// </param>
-        /// <param name="value">The flow-break value to set.
-        /// </param>
         public void SetFlowBreak(Control control, bool value)
         {
 

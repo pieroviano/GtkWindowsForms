@@ -19,36 +19,12 @@ namespace System.Windows.Forms
 
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the dialog box allows multiple files to be selected.
-        /// </summary>
-        /// <returns>true if the dialog box allows multiple files to be selected together or concurrently; otherwise, false. The default value is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public new bool Multiselect { get => base.Multiselect; set => base.Multiselect = value; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the read-only check box is selected.
-        /// </summary>
-        /// <returns>true if the read-only check box is selected; otherwise, false. The default value is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public bool ReadOnlyChecked { get; set; }
 
-        /// <summary>
-        /// Gets the file name and extension for the file selected in the dialog box. The file name does not include the path.
-        /// </summary>
-        /// <returns>The file name and extension for the file selected in the dialog box. The file name does not include the path. The default value is an empty string.
-        /// </returns>
         public string SafeFileName => Path.GetFileName(FileName) ?? string.Empty;
 
-        /// <summary>
-        /// Gets an array of file names and extensions for all the selected files in the dialog box. The file names do not include the path.
-        /// </summary>
-        /// <returns>An array of file names and extensions for all the selected files in the dialog box. The file names do not include the path. If no files are selected, an empty array is returned.
-        /// </returns>
         public string[] SafeFileNames
         {
             get
@@ -69,28 +45,10 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the dialog box contains a read-only check box.
-        /// </summary>
-        /// <returns>true if the dialog box contains a read-only check box; otherwise, false. The default value is false.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public bool ShowReadOnly { get; set; }
 
         private new string Description => base.Description;
 
-        /// <summary>
-        /// Opens the file selected by the user, with read-only permission. The file is specified by the
-        /// <see cref="System.Windows.Forms.FileDialog.FileName" /> property.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.IO.Stream" /> that specifies the read-only file selected by the user.
-        /// </returns>
-        /// <exception cref="System.ArgumentNullException">The file name is null.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
         public Stream OpenFile()
         {
             if (System.IO.File.Exists(base.FileName))

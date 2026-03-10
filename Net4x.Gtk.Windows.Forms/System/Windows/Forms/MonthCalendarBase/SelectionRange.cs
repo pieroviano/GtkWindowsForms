@@ -26,7 +26,8 @@ namespace System.Windows.Forms
         private DateTime start = DateTime.MinValue.Date;
 
         /// <summary>
-        /// Create a new SelectionRange object with the range [null, null].
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Windows.Forms.SelectionRange" /> class.
         /// </summary>
         public SelectionRange()
         {
@@ -34,13 +35,15 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.SelectionRange" /> class with the specified beginning and ending dates.
+        /// <see cref="T:System.Windows.Forms.SelectionRange" /> class with the specified beginning and ending dates.
         /// </summary>
-        /// <param name="lower">The starting date in the
-        /// <see cref="System.Windows.Forms.SelectionRange" />
+        /// <param name="lower">
+        /// The starting date in the
+        /// <see cref="T:System.Windows.Forms.SelectionRange" />
         /// </param>
-        /// <param name="upper">The ending date in the
-        /// <see cref="System.Windows.Forms.SelectionRange" />
+        /// <param name="upper">
+        /// The ending date in the
+        /// <see cref="T:System.Windows.Forms.SelectionRange" />
         /// </param>
         public SelectionRange(DateTime lower, DateTime upper)
         {
@@ -64,10 +67,11 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.SelectionRange" /> class with the specified selection range.
+        /// <see cref="T:System.Windows.Forms.SelectionRange" /> class with the specified selection range.
         /// </summary>
-        /// <param name="range">The existing
-        /// <see cref="System.Windows.Forms.SelectionRange" />
+        /// <param name="range">
+        /// The existing
+        /// <see cref="T:System.Windows.Forms.SelectionRange" />
         /// </param>
         public SelectionRange(SelectionRange range)
         {
@@ -78,10 +82,12 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets the ending date and time of the selection range.
         /// </summary>
-        /// <returns>The ending
-        /// <see cref="System.DateTime" /> value of the range.
+        /// <returns>
+        /// The ending
+        /// <see cref="T:System.DateTime" /> value of the range.
         /// </returns>
-        /// <filterpriority>1
+        /// <filterpriority>
+        /// 1
         /// </filterpriority>
         public DateTime End
         {
@@ -98,10 +104,12 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets the starting date and time of the selection range.
         /// </summary>
-        /// <returns>The starting
-        /// <see cref="System.DateTime" /> value of the range.
+        /// <returns>
+        /// The starting
+        /// <see cref="T:System.DateTime" /> value of the range.
         /// </returns>
-        /// <filterpriority>1
+        /// <filterpriority>
+        /// 1
         /// </filterpriority>
         public DateTime Start
         {
@@ -117,12 +125,13 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Returns a string that represents the
-        /// <see cref="System.Windows.Forms.SelectionRange" />
+        /// <see cref="T:System.Windows.Forms.SelectionRange" />
         /// </summary>
-        /// <returns>A string that represents the current
-        /// <see cref="System.Windows.Forms.SelectionRange" />
+        /// <returns>
+        /// A string that represents the current
+        /// <see cref="T:System.Windows.Forms.SelectionRange" />
         /// </returns>
-        /// <filterpriority>1
+        /// <filterpriority> 1
         /// </filterpriority>
         public override string ToString()
         {

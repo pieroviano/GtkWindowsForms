@@ -21,10 +21,6 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public partial class Control
     {
-        /// <summary>
-        /// Represents a collection of
-        /// <see cref="System.Windows.Forms.Control" /> objects.
-        /// </summary>
         public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable
         {
 

@@ -7,7 +7,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Represents a linked list of
-    /// <see cref="System.Windows.Forms.DataGridViewCell" /> objects
+    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> objects
     /// </summary>
     internal class DataGridViewCellLinkedList : IEnumerable
     {

@@ -12,8 +12,8 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Implicit validation will not occur. Setting this value will not interfere with explicit calls to
-        /// <see cref="System.Windows.Forms.ContainerControl.Validate" /> or
-        /// <see cref="System.Windows.Forms.ContainerControl.ValidateChildren" />
+        /// <see cref="!:System.Windows.Forms.ContainerControl.Validate" /> or
+        /// <see cref="!:System.Windows.Forms.ContainerControl.ValidateChildren" />
         /// </summary>
         Disable = 0,
 
@@ -33,8 +33,8 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// The control inherits its
-        /// <see cref="System.Windows.Forms.AutoValidate" /> behavior from its container (such as a form or another control). If there is no container control, it defaults to
-        /// <see cref="System.Windows.Forms.AutoValidate.EnablePreventFocusChange" />
+        /// <see cref="T:System.Windows.Forms.AutoValidate" /> behavior from its container (such as a form or another control). If there is no container control, it defaults to
+        /// <see cref="T:System.Windows.Forms.AutoValidate.EnablePreventFocusChange" />
         /// </summary>
         Inherit = -1,
     }

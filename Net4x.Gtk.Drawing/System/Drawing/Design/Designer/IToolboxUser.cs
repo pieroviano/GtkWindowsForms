@@ -16,7 +16,7 @@ namespace System.Drawing.Design
         /// </returns>
         /// <param name="tool">
         /// The
-        /// <see cref="System.Drawing.Design.ToolboxItem" /> to be tested for toolbox support.
+        /// <see cref="T:System.Drawing.Design.ToolboxItem" /> to be tested for toolbox support.
         /// </param>
         bool GetToolSupported(ToolboxItem tool);
 
@@ -25,7 +25,7 @@ namespace System.Drawing.Design
         /// </summary>
         /// <param name="tool">
         /// The
-        /// <see cref="System.Drawing.Design.ToolboxItem" /> to select.
+        /// <see cref="T:System.Drawing.Design.ToolboxItem" /> to select.
         /// </param>
         void ToolPicked(ToolboxItem tool);
 

@@ -30,7 +30,7 @@ public static class XmlCommentFormatter
         var collapsedMid = MergeSelfClosingMidlineContinuations(collapsed);
 
         var formatXmlComment = string.Join(LF, collapsedMid);
-        return Normalize($"{formatXmlComment}\n");
+        return Normalize($"{formatXmlComment.Replace("cref=\"System.", "cref=\"T:System.").Replace("cref = \"System.", "cref=\"T:System.")}\n");
     }
 
     // Split lines like "/// <tag>Inline text" into "/// <tag>" and "/// Inline text"

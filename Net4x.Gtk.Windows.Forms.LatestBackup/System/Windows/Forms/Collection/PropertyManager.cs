@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace System.Windows.Forms;
 /// <summary>
 /// Maintains a
-/// <see cref = "System.Windows.Forms.Binding"/> between an object's property and a data-bound control property.
+/// <see cref="T:System.Windows.Forms.Binding"/> between an object's property and a data-bound control property.
 /// </summary>
 /// <filterpriority>
 /// 2

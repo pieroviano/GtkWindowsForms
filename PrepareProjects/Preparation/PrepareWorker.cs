@@ -104,15 +104,7 @@ public static class PrepareWorker
                 "Initializes a new System.Drawing.FontFamily from the specified generic font family.</summary>"),
             ("</returns></summary></summary>", "</returns>")
         };
-        ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Windows.Forms.xml", true);
-        await XmlDocumentationService.MergeXmlDocumentationAsync(
-            "..\\..\\..\\..\\Resources\\Net4x.Gtk.Windows.Forms.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
-        ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Drawing.xml", true);
-        await XmlDocumentationService.MergeXmlDocumentationAsync(
-            "..\\..\\..\\..\\Resources\\Net4x.Gtk.Drawing.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
-#if !SKIP_INITIAL
+#if DONT_SKIP_INITIAL
         ConsoleColor.DarkMagenta.Write("Processing XML comments from System.Windows.Forms.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\Resources\\System.Windows.Forms.xml",
@@ -122,6 +114,14 @@ public static class PrepareWorker
             "..\\..\\..\\..\\Resources\\System.Drawing.xml",
             "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
 #endif
+        ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Windows.Forms.xml", true);
+        await XmlDocumentationService.MergeXmlDocumentationAsync(
+            "..\\..\\..\\..\\Resources\\Net4x.Gtk.Windows.Forms.xml",
+            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
+        ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Drawing.xml", true);
+        await XmlDocumentationService.MergeXmlDocumentationAsync(
+            "..\\..\\..\\..\\Resources\\Net4x.Gtk.Drawing.xml",
+            "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
     }
 
     public static void OptimizeNet4xGtkDrawingFileSystem(string projectDirectory)

@@ -14,8 +14,8 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Equivalent to the
-        /// <see cref="System.Drawing.Drawing2D.QualityMode.Invalid" /> element of the
-        /// <see cref="System.Drawing.Drawing2D.QualityMode" /> enumeration.
+        /// <see cref="T:System.Drawing.Drawing2D.QualityMode.Invalid" /> element of the
+        /// <see cref="T:System.Drawing.Drawing2D.QualityMode" /> enumeration.
         /// </summary>
         Invalid = -1,
 

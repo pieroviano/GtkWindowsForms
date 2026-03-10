@@ -2,8 +2,8 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Used to specify the parameter value passed to a JPEG or TIFF image encoder when using the
-    /// <see cref="System.Drawing.Image.Save(System.String,System.Drawing.Imaging.ImageCodecInfo,System.Drawing.Imaging.EncoderParameters)" /> or
-    /// <see cref="System.Drawing.Image.SaveAdd(System.Drawing.Imaging.EncoderParameters)" /> methods.
+    /// <see cref="T:System.Drawing.Image.Save(System.String,System.Drawing.Imaging.ImageCodecInfo,System.Drawing.Imaging.EncoderParameters)" /> or
+    /// <see cref="T:System.Drawing.Image.SaveAdd(System.Drawing.Imaging.EncoderParameters)" /> methods.
     /// </summary>
     public enum EncoderValue
     {

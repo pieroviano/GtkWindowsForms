@@ -13,10 +13,12 @@ namespace System.Drawing.Drawing2D
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> class with the specified outline and fill.
         /// </summary>
-        /// <param name="fillPath">A
+        /// <param name="fillPath">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the fill for the custom cap.
         /// </param>
-        /// <param name="strokePath">A
+        /// <param name="strokePath">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the outline of the custom cap.
         /// </param>
         public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath)
@@ -28,13 +30,16 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> class from the specified existing
         /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration with the specified outline and fill.
         /// </summary>
-        /// <param name="fillPath">A
+        /// <param name="fillPath">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the fill for the custom cap.
         /// </param>
-        /// <param name="strokePath">A
+        /// <param name="strokePath">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the outline of the custom cap.
         /// </param>
-        /// <param name="baseCap">The line cap from which to create the custom cap.
+        /// <param name="baseCap">
+        /// The line cap from which to create the custom cap.
         /// </param>
         public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap)
         {
@@ -45,15 +50,19 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> class from the specified existing
         /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration with the specified outline, fill, and inset.
         /// </summary>
-        /// <param name="fillPath">A
+        /// <param name="fillPath">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the fill for the custom cap.
         /// </param>
-        /// <param name="strokePath">A
+        /// <param name="strokePath">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the outline of the custom cap.
         /// </param>
-        /// <param name="baseCap">The line cap from which to create the custom cap.
+        /// <param name="baseCap">
+        /// The line cap from which to create the custom cap.
         /// </param>
-        /// <param name="baseInset">The distance between the cap and the line.
+        /// <param name="baseInset">
+        /// The distance between the cap and the line.
         /// </param>
         public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap, float baseInset)
         {
@@ -61,13 +70,13 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets the
-        /// <see cref="System.Drawing.Drawing2D.LineCap" /> enumeration on which this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> is based.
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration on which this
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> is based.
         /// </summary>
         /// <returns>
         /// The
-        /// <see cref="System.Drawing.Drawing2D.LineCap" /> enumeration on which this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> is based.
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration on which this
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> is based.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -86,7 +95,8 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Gets or sets the distance between the cap and the line.
         /// </summary>
-        /// <returns>The distance between the beginning of the cap and the end of the line.
+        /// <returns>
+        /// The distance between the beginning of the cap and the end of the line.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -104,13 +114,13 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets the
-        /// <see cref="System.Drawing.Drawing2D.LineJoin" /> enumeration that determines how lines that compose this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> object are joined.
+        /// <see cref="T:System.Drawing.Drawing2D.LineJoin" /> enumeration that determines how lines that compose this
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> object are joined.
         /// </summary>
         /// <returns>
         /// The
-        /// <see cref="System.Drawing.Drawing2D.LineJoin" /> enumeration this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> object uses to join lines.
+        /// <see cref="T:System.Drawing.Drawing2D.LineJoin" /> enumeration this
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> object uses to join lines.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -128,11 +138,12 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets or sets the amount by which to scale this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" />
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />
         /// Class object with respect to the width of the
-        /// <see cref="System.Drawing.Pen" /> object.
+        /// <see cref="T:System.Drawing.Pen" /> object.
         /// </summary>
-        /// <returns>The amount by which to scale the cap.
+        /// <returns>
+        /// The amount by which to scale the cap.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -150,10 +161,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" />
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" />
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> this method creates, cast as an object.
+        /// <returns>
+        /// The
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> this method creates, cast as an object.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -165,7 +177,7 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> object.
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> object.
         /// </summary>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -177,10 +189,12 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Gets the caps used to start and end lines that make up this custom cap.
         /// </summary>
-        /// <param name="startCap">The
+        /// <param name="startCap">
+        /// The
         /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the beginning of a line within this cap.
         /// </param>
-        /// <param name="endCap">The
+        /// <param name="endCap">
+        /// The
         /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the end of a line within this cap.
         /// </param>
         public void GetStrokeCaps(out LineCap startCap, out LineCap endCap)
@@ -191,10 +205,12 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Sets the caps used to start and end lines that make up this custom cap.
         /// </summary>
-        /// <param name="startCap">The
+        /// <param name="startCap">
+        /// The
         /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the beginning of a line within this cap.
         /// </param>
-        /// <param name="endCap">The
+        /// <param name="endCap">
+        /// The
         /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration used at the end of a line within this cap.
         /// </param>
         public void SetStrokeCaps(LineCap startCap, LineCap endCap)

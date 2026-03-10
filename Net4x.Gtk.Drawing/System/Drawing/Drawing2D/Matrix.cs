@@ -16,13 +16,15 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
         /// </summary>
-        /// <param name="rect">A
-        /// <see cref="System.Drawing.Rectangle" /> structure that represents the rectangle to be transformed.
+        /// <param name="rect">
+        /// A
+        /// <see cref="T:System.Drawing.Rectangle" /> structure that represents the rectangle to be transformed.
         /// </param>
-        /// <param name="plgpts">An array of three
-        /// <see cref="System.Drawing.Point" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
+        /// <param name="plgpts">
+        /// An array of three
+        /// <see cref="T:System.Drawing.Point" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
         /// </param>
         public Matrix(Rectangle rect, Point[] plgpts)
         {
@@ -31,13 +33,15 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> class to the geometric transform defined by the specified rectangle and array of points.
         /// </summary>
-        /// <param name="rect">A
-        /// <see cref="System.Drawing.RectangleF" /> structure that represents the rectangle to be transformed.
+        /// <param name="rect">
+        /// A
+        /// <see cref="T:System.Drawing.RectangleF" /> structure that represents the rectangle to be transformed.
         /// </param>
-        /// <param name="plgpts">An array of three
-        /// <see cref="System.Drawing.PointF" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
+        /// <param name="plgpts">
+        /// An array of three
+        /// <see cref="T:System.Drawing.PointF" /> structures that represents the points of a parallelogram to which the upper-left, upper-right, and lower-left corners of the rectangle is to be transformed. The lower-right corner of the parallelogram is implied by the first three corners.
         /// </param>
         public Matrix(RectangleF rect, PointF[] plgpts)
         {
@@ -48,22 +52,28 @@ namespace System.Drawing.Drawing2D
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> class with the specified elements.
         /// </summary>
-        /// <param name="m11">The value in the first row and first column of the new
+        /// <param name="m11">
+        /// The value in the first row and first column of the new
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
-        /// <param name="m12">The value in the first row and second column of the new
+        /// <param name="m12">
+        /// The value in the first row and second column of the new
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
-        /// <param name="m21">The value in the second row and first column of the new
+        /// <param name="m21">
+        /// The value in the second row and first column of the new
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
-        /// <param name="m22">The value in the second row and second column of the new
+        /// <param name="m22">
+        /// The value in the second row and second column of the new
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
-        /// <param name="dx">The value in the third row and first column of the new
+        /// <param name="dx">
+        /// The value in the third row and first column of the new
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
-        /// <param name="dy">The value in the third row and second column of the new
+        /// <param name="dy">
+        /// The value in the third row and second column of the new
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
         public Matrix(float m11, float m12, float m21, float m22, float dx, float dy)
@@ -85,11 +95,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets an array of floating-point values that represents the elements of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </summary>
         /// <returns>
         /// An array of floating-point values that represents the elements of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -112,10 +122,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets a value indicating whether this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is the identity matrix.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is the identity matrix.
         /// </summary>
-        /// <returns>This property is true if this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is identity; otherwise, false.
+        /// <returns>
+        /// This property is true if this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is identity; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -130,10 +141,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets a value indicating whether this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is invertible.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is invertible.
         /// </summary>
-        /// <returns>This property is true if this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is invertible; otherwise, false.
+        /// <returns>
+        /// This property is true if this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is invertible; otherwise, false.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -158,10 +170,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets the x translation value (the dx value, or the element in the third row and first column) of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </summary>
-        /// <returns>The x translation value of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <returns>
+        /// The x translation value of this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -174,10 +187,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets the y translation value (the dy value, or the element in the third row and second column) of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </summary>
-        /// <returns>The y translation value of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <returns>
+        /// The y translation value of this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -208,10 +222,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that this method creates.
+        /// <returns>
+        /// The
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that this method creates.
         /// </returns>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -225,7 +240,7 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </summary>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
@@ -259,9 +274,11 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> and is identical to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </summary>
-        /// <param name="obj">The object to test.
+        /// <param name="obj">
+        /// The object to test.
         /// </param>
-        /// <returns>This method returns
+        /// <returns>
+        /// This method returns
         /// <see langword="true" /> if
         /// <paramref name="obj" /> is the specified
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> identical to this
@@ -276,8 +293,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Returns a hash code.
         /// </summary>
-        /// <returns>The hash code for this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <returns>
+        /// The hash code for this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </returns>
         public override int GetHashCode()
         {
@@ -286,7 +304,7 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Inverts this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />, if it is invertible.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />, if it is invertible.
         /// </summary>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -298,14 +316,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Multiplies this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> by the matrix specified in the
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by the matrix specified in the
         /// <paramref name="matrix" /> parameter, by prepending the specified
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
         /// </summary>
         /// <param name="matrix">
         /// The
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> by which this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> is to be multiplied.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which this
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is to be multiplied.
         /// </param>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -321,11 +339,13 @@ namespace System.Drawing.Drawing2D
         /// <paramref name="matrix" /> parameter, and in the order specified in the
         /// <paramref name="order" /> parameter.
         /// </summary>
-        /// <param name="matrix">The
+        /// <param name="matrix">
+        /// The
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is to be multiplied.
         /// </param>
-        /// <param name="order">The
+        /// <param name="order">
+        /// The
         /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that represents the order of the multiplication.
         /// </param>
         public void Multiply(Matrix matrix, MatrixOrder order)
@@ -336,7 +356,7 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Resets this
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> to have the elements of the identity matrix.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> to have the elements of the identity matrix.
         /// </summary>
         /// <PermissionSet>
         /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
@@ -369,7 +389,8 @@ namespace System.Drawing.Drawing2D
         /// Prepend to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> a clockwise rotation, around the origin and by the specified angle.
         /// </summary>
-        /// <param name="angle">The angle of the rotation, in degrees.
+        /// <param name="angle">
+        /// The angle of the rotation, in degrees.
         /// </param>
         public void Rotate(float angle)
         {
@@ -382,9 +403,11 @@ namespace System.Drawing.Drawing2D
         /// <paramref name="angle" /> parameter, around the origin (zero x and y coordinates) for this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </summary>
-        /// <param name="angle">The angle (extent) of the rotation, in degrees.
+        /// <param name="angle">
+        /// The angle (extent) of the rotation, in degrees.
         /// </param>
-        /// <param name="order">A
+        /// <param name="order">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the rotation is applied to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
@@ -399,9 +422,11 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> around the point specified in the
         /// <paramref name="point" /> parameter, and by prepending the rotation.
         /// </summary>
-        /// <param name="angle">The angle (extent) of the rotation, in degrees.
+        /// <param name="angle">
+        /// The angle (extent) of the rotation, in degrees.
         /// </param>
-        /// <param name="point">A
+        /// <param name="point">
+        /// A
         /// <see cref="T:System.Drawing.PointF" /> that represents the center of the rotation.
         /// </param>
         public void RotateAt(float angle, PointF point)
@@ -414,12 +439,15 @@ namespace System.Drawing.Drawing2D
         /// Applies a clockwise rotation about the specified point to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the specified order.
         /// </summary>
-        /// <param name="angle">The angle of the rotation, in degrees.
+        /// <param name="angle">
+        /// The angle of the rotation, in degrees.
         /// </param>
-        /// <param name="point">A
+        /// <param name="point">
+        /// A
         /// <see cref="T:System.Drawing.PointF" /> that represents the center of the rotation.
         /// </param>
-        /// <param name="order">A
+        /// <param name="order">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the rotation is applied.
         /// </param>
         public void RotateAt(float angle, PointF point, MatrixOrder order)
@@ -433,10 +461,12 @@ namespace System.Drawing.Drawing2D
         /// Applies the specified scale vector to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by prepending the scale vector.
         /// </summary>
-        /// <param name="scaleX">The value by which to scale this
+        /// <param name="scaleX">
+        /// The value by which to scale this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the x-axis direction.
         /// </param>
-        /// <param name="scaleY">The value by which to scale this
+        /// <param name="scaleY">
+        /// The value by which to scale this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the y-axis direction.
         /// </param>
         public void Scale(float scaleX, float scaleY)
@@ -451,13 +481,16 @@ namespace System.Drawing.Drawing2D
         /// <paramref name="scaleY" />) to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> using the specified order.
         /// </summary>
-        /// <param name="scaleX">The value by which to scale this
+        /// <param name="scaleX">
+        /// The value by which to scale this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the x-axis direction.
         /// </param>
-        /// <param name="scaleY">The value by which to scale this
+        /// <param name="scaleY">
+        /// The value by which to scale this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the y-axis direction.
         /// </param>
-        /// <param name="order">A
+        /// <param name="order">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the scale vector is applied to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
@@ -471,9 +504,11 @@ namespace System.Drawing.Drawing2D
         /// Applies the specified shear vector to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by prepending the shear transformation.
         /// </summary>
-        /// <param name="shearX">The horizontal shear factor.
+        /// <param name="shearX">
+        /// The horizontal shear factor.
         /// </param>
-        /// <param name="shearY">The vertical shear factor.
+        /// <param name="shearY">
+        /// The vertical shear factor.
         /// </param>
         public void Shear(float shearX, float shearY)
         {
@@ -485,11 +520,14 @@ namespace System.Drawing.Drawing2D
         /// Applies the specified shear vector to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the specified order.
         /// </summary>
-        /// <param name="shearX">The horizontal shear factor.
+        /// <param name="shearX">
+        /// The horizontal shear factor.
         /// </param>
-        /// <param name="shearY">The vertical shear factor.
+        /// <param name="shearY">
+        /// The vertical shear factor.
         /// </param>
-        /// <param name="order">A
+        /// <param name="order">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the shear is applied.
         /// </param>
         public void Shear(float shearX, float shearY, MatrixOrder order)
@@ -503,7 +541,8 @@ namespace System.Drawing.Drawing2D
         /// Applies the geometric transform represented by this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> to a specified array of points.
         /// </summary>
-        /// <param name="pts">An array of
+        /// <param name="pts">
+        /// An array of
         /// <see cref="T:System.Drawing.PointF" /> structures that represents the points to transform.
         /// </param>
         public void TransformPoints(PointF[] pts)
@@ -515,7 +554,8 @@ namespace System.Drawing.Drawing2D
         /// Applies the geometric transform represented by this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> to a specified array of points.
         /// </summary>
-        /// <param name="pts">An array of
+        /// <param name="pts">
+        /// An array of
         /// <see cref="T:System.Drawing.Point" /> structures that represents the points to transform.
         /// </param>
         public void TransformPoints(Point[] pts)
@@ -526,7 +566,8 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Multiplies each vector in an array by the matrix. The translation elements of this matrix (third row) are ignored.
         /// </summary>
-        /// <param name="pts">An array of
+        /// <param name="pts">
+        /// An array of
         /// <see cref="T:System.Drawing.Point" /> structures that represents the points to transform.
         /// </param>
         public void TransformVectors(PointF[] pts)
@@ -553,10 +594,12 @@ namespace System.Drawing.Drawing2D
         /// <paramref name="offsetY" />) to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by prepending the translation vector.
         /// </summary>
-        /// <param name="offsetX">The x value by which to translate this
+        /// <param name="offsetX">
+        /// The x value by which to translate this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
-        /// <param name="offsetY">The y value by which to translate this
+        /// <param name="offsetY">
+        /// The y value by which to translate this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
         public void Translate(float offsetX, float offsetY)
@@ -569,13 +612,16 @@ namespace System.Drawing.Drawing2D
         /// Applies the specified translation vector to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the specified order.
         /// </summary>
-        /// <param name="offsetX">The x value by which to translate this
+        /// <param name="offsetX">
+        /// The x value by which to translate this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
-        /// <param name="offsetY">The y value by which to translate this
+        /// <param name="offsetY">
+        /// The y value by which to translate this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
-        /// <param name="order">A
+        /// <param name="order">
+        /// A
         /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the translation is applied to this
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </param>
@@ -588,7 +634,8 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Multiplies each vector in an array by the matrix. The translation elements of this matrix (third row) are ignored.
         /// </summary>
-        /// <param name="pts">An array of
+        /// <param name="pts">
+        /// An array of
         /// <see cref="T:System.Drawing.Point" /> structures that represents the points to transform.
         /// </param>
         public void VectorTransformPoints(Point[] pts)

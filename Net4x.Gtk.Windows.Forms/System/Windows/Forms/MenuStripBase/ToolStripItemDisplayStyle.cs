@@ -4,7 +4,7 @@ namespace System.Windows.Forms
 
     /// <summary>
     /// Specifies what to render (image or text) for this
-    /// <see cref="System.Windows.Forms.ToolStripItem" /> .
+    /// <see cref="T:System.Windows.Forms.ToolStripItem" /> .
     /// </summary>
     /// <filterpriority>
     /// 2

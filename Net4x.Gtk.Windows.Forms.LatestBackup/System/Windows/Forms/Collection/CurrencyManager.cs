@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace System.Windows.Forms;
 /// <summary>
 /// Manages a list of
-/// <see cref = "System.Windows.Forms.Binding"/> objects.
+/// <see cref="T:System.Windows.Forms.Binding"/> objects.
 /// </summary>
 /// <filterpriority>
 /// 2

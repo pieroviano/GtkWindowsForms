@@ -5,7 +5,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies how properties are sorted in the
-    /// <see cref="System.Windows.Forms.PropertyGrid" />
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" />
     /// </summary>
     /// <filterpriority> 2
     /// </filterpriority>
@@ -30,7 +30,8 @@ namespace System.Windows.Forms
         Categorized = 2,
 
         /// <summary>
-        /// Properties are displayed according to their category in a group. The properties are further sorted alphabetically within the group. The categories are defined by the properties themselves.
+        /// Properties are under category groups, which are defined by the
+        /// properties themselves, and are alphabetical within those groups.
         /// </summary>
         CategorizedAlphabetical = Alphabetical | Categorized,
     }

@@ -8,8 +8,8 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.RowHeightInfoNeeded" /> event of a
-    /// <see cref="System.Windows.Forms.DataGridView" />
+    /// <see cref="T:System.Windows.Forms.DataGridView.RowHeightInfoNeeded" /> event of a
+    /// <see cref="T:System.Windows.Forms.DataGridView" />
     /// </summary>
     public class DataGridViewRowHeightInfoNeededEventArgs : EventArgs
     {
@@ -25,12 +25,6 @@ namespace System.Windows.Forms
             _minimumHeight = -1;
         }
 
-        /// <summary>
-        /// Gets the index of the row associated with this
-        /// <see cref="System.Windows.Forms.DataGridViewRowHeightInfoNeededEventArgs" />
-        /// </summary>
-        /// <returns>The zero-based index of the row the event occurred for.
-        /// </returns>
         public int RowIndex { get; private set; }
 
         //        _height = value;

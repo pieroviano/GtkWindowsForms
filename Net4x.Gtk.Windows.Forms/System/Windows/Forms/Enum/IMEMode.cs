@@ -9,7 +9,8 @@ namespace System.Windows.Forms
     /// <summary>
     /// Specifies a value that determines the Input Method Editor (IME) status of an object when the object is selected.
     /// </summary>
-    /// <filterpriority>2
+    /// <filterpriority>
+    /// 2
     /// </filterpriority>
     [ComVisible(true)]
     public enum ImeMode
@@ -73,7 +74,7 @@ namespace System.Windows.Forms
         AlphaFull = 7,
 
         /// <summary>
-        /// Alphanumeric single-byte characters(SBC). This setting is valid for Korean and Japanese IME only.
+        /// Alphanumeric SBC. This setting is valid for Japanese IME only.
         /// </summary>
         Alpha = 8,
 

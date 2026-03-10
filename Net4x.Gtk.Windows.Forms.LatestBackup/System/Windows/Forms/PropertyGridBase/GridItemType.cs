@@ -5,7 +5,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies the valid grid item types for a
-    /// <see cref="System.Windows.Forms.PropertyGrid" /> .
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> .
     /// </summary>
     /// <filterpriority>
     /// 2

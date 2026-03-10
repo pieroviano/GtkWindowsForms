@@ -5,7 +5,7 @@ namespace System.Drawing.Printing
 {
     /// <summary>
     /// Specifies the type of action for the
-    /// <see cref="System.Drawing.Printing.PrintEventArgs" /> .
+    /// <see cref="T:System.Drawing.Printing.PrintEventArgs" /> .
     /// </summary>
     public enum PrintAction
     {

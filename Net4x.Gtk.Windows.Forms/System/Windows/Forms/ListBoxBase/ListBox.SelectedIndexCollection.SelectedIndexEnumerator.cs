@@ -12,10 +12,6 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public partial class ListBox
     {
-        /// <summary>
-        /// Represents the collection containing the indexes to the selected items in a
-        /// <see cref="System.Windows.Forms.ListBox" />
-        /// </summary>
         public partial class SelectedIndexCollection : IList
         {
             /// <summary>

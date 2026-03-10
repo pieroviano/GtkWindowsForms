@@ -6,7 +6,7 @@ namespace System.Drawing.Printing
 
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Drawing.Printing.PrintDocument.PrintPage" /> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.PrintPage" /> event.
     /// </summary>
     public class PrintPageEventArgs : EventArgs
     {

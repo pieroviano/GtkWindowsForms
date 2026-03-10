@@ -7,7 +7,8 @@ namespace System.Windows.Forms
     /// <summary>
     /// Specifies the bounds of the control to use when defining a control's size and position.
     /// </summary>
-    /// <filterpriority>2
+    /// <filterpriority>
+    /// 2
     /// </filterpriority>
     [Flags]
     public enum BoundsSpecified

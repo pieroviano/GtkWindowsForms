@@ -6,12 +6,12 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Gets or sets the collection of currency managers for the
-        /// <see cref="System.Windows.Forms.IBindableComponent" /> .
+        /// <see cref="T:System.Windows.Forms.IBindableComponent" /> .
         /// </summary>
         /// <returns>
         /// The collection of
-        /// <see cref="System.Windows.Forms.BindingManagerBase" /> objects for this
-        /// <see cref="System.Windows.Forms.IBindableComponent" />
+        /// <see cref="T:System.Windows.Forms.BindingManagerBase" /> objects for this
+        /// <see cref="T:System.Windows.Forms.IBindableComponent" />
         /// </returns>
         /// <filterpriority>
         /// 1
@@ -20,13 +20,13 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Gets the collection of data-binding objects for this
-        /// <see cref="System.Windows.Forms.IBindableComponent" /> .
+        /// <see cref="T:System.Windows.Forms.IBindableComponent" /> .
         /// </summary>
         /// <returns>
         /// The
-        /// <see cref="System.Windows.Forms.ControlBindingsCollection" />
+        /// <see cref="T:System.Windows.Forms.ControlBindingsCollection" />
         /// for this
-        /// <see cref="System.Windows.Forms.IBindableComponent" /> .
+        /// <see cref="T:System.Windows.Forms.IBindableComponent" /> .
         /// </returns>
         /// <filterpriority>
         /// 1

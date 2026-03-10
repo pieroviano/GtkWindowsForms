@@ -18,17 +18,17 @@ namespace System.Windows.Forms
         None = 0,
 
         /// <summary>
-        /// The message box contains a symbol consisting of a white X in a circle with a red background.
+        /// Specifies that the message box contains a hand symbol.
         /// </summary>
         Hand = 0x00000010,
 
         /// <summary>
-        /// The message box contains a symbol consisting of a question mark in a circle. The question-mark message icon is no longer recommended because it does not clearly represent a specific type of message and because the phrasing of a message as a question could apply to any message type. In addition, users can confuse the message symbol question mark with Help information. Therefore, do not use this question mark message symbol in your message boxes. The system continues to support its inclusion only for backward compatibility.
+        /// Specifies that the message box contains a question mark symbol.
         /// </summary>
         Question = 0x00000020,
 
         /// <summary>
-        /// The message box contains a symbol consisting of an exclamation point in a triangle with a yellow background.
+        /// Specifies that the message box contains an exclamation symbol.
         /// </summary>
         Exclamation = 0x00000030,
 
@@ -44,12 +44,12 @@ namespace System.Windows.Forms
         Stop = Hand,
 
         /// <summary>
-        /// The message box contains a symbol consisting of white X in a circle with a red background.
+        /// Specifies that the message box contains a hand icon.
         /// </summary>
         Error = Hand,
 
         /// <summary>
-        /// The message box contains a symbol consisting of an exclamation point in a triangle with a yellow background.
+        /// Specifies that the message box contains an exclamation icon.
         /// </summary>
         Warning = Exclamation,
 

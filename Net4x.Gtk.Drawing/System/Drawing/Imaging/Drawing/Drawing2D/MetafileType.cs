@@ -2,7 +2,7 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Specifies types of metafiles. The
-    /// <see cref="System.Drawing.Imaging.MetafileHeader.Type" /> property returns a member of this enumeration.
+    /// <see cref="P:System.Drawing.Imaging.MetafileHeader.Type" /> property returns a member of this enumeration.
     /// </summary>
     public enum MetafileType
     {

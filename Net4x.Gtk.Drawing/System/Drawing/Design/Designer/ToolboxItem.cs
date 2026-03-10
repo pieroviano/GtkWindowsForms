@@ -25,7 +25,7 @@ namespace System.Drawing.Design
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Drawing.Design.ToolboxItem" /> class.
+        /// <see cref="T:System.Drawing.Design.ToolboxItem" /> class.
         /// </summary>
         public ToolboxItem()
         {
@@ -34,13 +34,15 @@ namespace System.Drawing.Design
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Drawing.Design.ToolboxItem" /> class that creates the specified type of component.
+        /// <see cref="T:System.Drawing.Design.ToolboxItem" /> class that creates the specified type of component.
         /// </summary>
-        /// <param name="toolType">The type of
-        /// <see cref="System.ComponentModel.IComponent" /> that the toolbox item creates.
+        /// <param name="toolType">
+        /// The type of
+        /// <see cref="T:System.ComponentModel.IComponent" /> that the toolbox item creates.
         /// </param>
-        /// <exception cref="System.InvalidOperationException">The
-        /// <see cref="System.Drawing.Design.ToolboxItem" /> was locked.
+        /// <exception cref="T:System.InvalidOperationException">
+        /// The
+        /// <see cref="T:System.Drawing.Design.ToolboxItem" /> was locked.
         /// </exception>
         public ToolboxItem(Type? toolType) : this()
         {

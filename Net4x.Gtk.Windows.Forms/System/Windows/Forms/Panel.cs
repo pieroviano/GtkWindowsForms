@@ -27,10 +27,6 @@ namespace System.Windows.Forms
 
         private ControlCollection _controls;
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.Panel" /> class.
-        /// </summary>
         public Panel() : base()
         {
             _controls = new ControlCollection(this, contaner);

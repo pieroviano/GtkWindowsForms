@@ -12,7 +12,8 @@ using System.Xml;
 namespace System.Resources
 {
     /// <summary>
-    /// ResX resource writer. See the text in "ResourceSchema" for more information.
+    /// ResX resource writer. See the text in "ResourceSchema" for more
+    /// information.
     /// </summary>
     public class ResXResourceWriter : IResourceWriter
     {
@@ -130,19 +131,22 @@ namespace System.Resources
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceWriter" /> class that writes the resources to the specified file.
+        /// <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to the specified file.
         /// </summary>
-        /// <param name="fileName">The output file name.
+        /// <param name="fileName">
+        /// The output file name.
         /// </param>
         public ResXResourceWriter(string fileName) => _fileName = fileName;
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceWriter" /> class that writes the resources to a specified file and sets a delegate that enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
+        /// <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to a specified file and sets a delegate that enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
         /// </summary>
-        /// <param name="fileName">The file to send output to.
+        /// <param name="fileName">
+        /// The file to send output to.
         /// </param>
-        /// <param name="typeNameConverter">The delegate that is used to target earlier versions of the .NET Framework.
+        /// <param name="typeNameConverter">
+        /// The delegate that is used to target earlier versions of the .NET Framework.
         /// </param>
         public ResXResourceWriter(string fileName, Func<Type, string> typeNameConverter)
         {
@@ -152,19 +156,22 @@ namespace System.Resources
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceWriter" /> class that writes the resources to the specified stream object.
+        /// <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to the specified stream object.
         /// </summary>
-        /// <param name="stream">The output stream.
+        /// <param name="stream">
+        /// The output stream.
         /// </param>
         public ResXResourceWriter(Stream stream) => _stream = stream;
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceWriter" /> class that writes the resources to a specified stream object and sets a converter delegate. This delegate enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
+        /// <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to a specified stream object and sets a converter delegate. This delegate enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
         /// </summary>
-        /// <param name="stream">The stream to send the output to.
+        /// <param name="stream">
+        /// The stream to send the output to.
         /// </param>
-        /// <param name="typeNameConverter">The delegate that is used to target earlier versions of the .NET Framework.
+        /// <param name="typeNameConverter">
+        /// The delegate that is used to target earlier versions of the .NET Framework.
         /// </param>
         public ResXResourceWriter(Stream stream, Func<Type, string> typeNameConverter)
         {
@@ -174,22 +181,25 @@ namespace System.Resources
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceWriter" /> class that writes to the specified
-        /// <see cref="System.IO.TextWriter" /> object.
+        /// <see cref="T:System.Resources.ResXResourceWriter" /> class that writes to the specified
+        /// <see cref="T:System.IO.TextWriter" /> object.
         /// </summary>
-        /// <param name="textWriter">The
-        /// <see cref="System.IO.TextWriter" /> object to send the output to.
+        /// <param name="textWriter">
+        /// The
+        /// <see cref="T:System.IO.TextWriter" /> object to send the output to.
         /// </param>
         public ResXResourceWriter(TextWriter textWriter) => _textWriter = textWriter;
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXResourceWriter" /> class that writes the resources to a specified
-        /// <see cref="System.IO.TextWriter" /> object and sets a delegate that enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
+        /// <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to a specified
+        /// <see cref="T:System.IO.TextWriter" /> object and sets a delegate that enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
         /// </summary>
-        /// <param name="textWriter">The object to send output to.
+        /// <param name="textWriter">
+        /// The object to send output to.
         /// </param>
-        /// <param name="typeNameConverter">The delegate that is used to target earlier versions of the .NET Framework.
+        /// <param name="typeNameConverter">
+        /// The delegate that is used to target earlier versions of the .NET Framework.
         /// </param>
         public ResXResourceWriter(TextWriter textWriter, Func<Type, string> typeNameConverter)
         {
@@ -199,10 +209,11 @@ namespace System.Resources
 
         /// <summary>
         /// Gets or sets the base path for the relative file path specified in a
-        /// <see cref="System.Resources.ResXFileRef" /> object.
+        /// <see cref="T:System.Resources.ResXFileRef" /> object.
         /// </summary>
-        /// <returns>A path that, if prepended to the relative file path specified in a
-        /// <see cref="System.Resources.ResXFileRef" /> object, yields an absolute path to an XML resource file.
+        /// <returns>
+        /// A path that, if prepended to the relative file path specified in a
+        /// <see cref="T:System.Resources.ResXFileRef" /> object, yields an absolute path to an XML resource file.
         /// </returns>
         public string BasePath { get; set; }
 
@@ -222,12 +233,14 @@ namespace System.Resources
         /// <summary>
         /// Adds the specified alias to a list of aliases.
         /// </summary>
-        /// <param name="aliasName">The name of the alias.
+        /// <param name="aliasName">
+        /// The name of the alias.
         /// </param>
-        /// <param name="assemblyName">The name of the assembly represented by
+        /// <param name="assemblyName">
+        /// The name of the assembly represented by
         /// <paramref name="aliasName" />
         /// </param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="assemblyName" /> is null.
         /// </exception>
         public virtual void AddAlias(string aliasName, AssemblyName assemblyName)
@@ -244,11 +257,14 @@ namespace System.Resources
         /// <summary>
         /// Adds a design-time property whose value is specifed as a byte array to the list of resources to write.
         /// </summary>
-        /// <param name="name">The name of a property.
+        /// <param name="name">
+        /// The name of a property.
         /// </param>
-        /// <param name="value">A byte array containing the value of the property to add.
+        /// <param name="value">
+        /// A byte array containing the value of the property to add.
         /// </param>
-        /// <exception cref="System.InvalidOperationException">The resource specified by the
+        /// <exception cref="T:System.InvalidOperationException">
+        /// The resource specified by the
         /// <paramref name="name" /> parameter has already been added.
         /// </exception>
         public void AddMetadata(string name, byte[] value) => AddDataRow(MetadataStr, name, value);
@@ -256,11 +272,14 @@ namespace System.Resources
         /// <summary>
         /// Adds a design-time property whose value is specified as a string to the list of resources to write.
         /// </summary>
-        /// <param name="name">The name of a property.
+        /// <param name="name">
+        /// The name of a property.
         /// </param>
-        /// <param name="value">A string that is the value of the property to add.
+        /// <param name="value">
+        /// A string that is the value of the property to add.
         /// </param>
-        /// <exception cref="System.InvalidOperationException">The resource specified by the
+        /// <exception cref="T:System.InvalidOperationException">
+        /// The resource specified by the
         /// <paramref name="name" /> property has already been added.
         /// </exception>
         public void AddMetadata(string name, string value) => AddDataRow(MetadataStr, name, value);
@@ -268,11 +287,14 @@ namespace System.Resources
         /// <summary>
         /// Adds a design-time property whose value is specified as an object to the list of resources to write.
         /// </summary>
-        /// <param name="name">The name of a property.
+        /// <param name="name">
+        /// The name of a property.
         /// </param>
-        /// <param name="value">An object that is the value of the property to add.
+        /// <param name="value">
+        /// An object that is the value of the property to add.
         /// </param>
-        /// <exception cref="System.InvalidOperationException">The resource specified by the
+        /// <exception cref="T:System.InvalidOperationException">
+        /// The resource specified by the
         /// <paramref name="name" /> parameter has already been added.
         /// </exception>
         public void AddMetadata(string name, object value) => AddDataRow(MetadataStr, name, value);
@@ -280,9 +302,11 @@ namespace System.Resources
         /// <summary>
         /// Adds a named resource specified as a byte array to the list of resources to write.
         /// </summary>
-        /// <param name="name">The name of the resource.
+        /// <param name="name">
+        /// The name of the resource.
         /// </param>
-        /// <param name="value">The value of the resource to add as an 8-bit unsigned integer array.
+        /// <param name="value">
+        /// The value of the resource to add as an 8-bit unsigned integer array.
         /// </param>
         public void AddResource(string name, byte[] value) => AddDataRow(DataStr, name, value);
 
@@ -306,18 +330,21 @@ namespace System.Resources
         /// <summary>
         /// Adds a string resource to the resources.
         /// </summary>
-        /// <param name="name">The name of the resource.
+        /// <param name="name">
+        /// The name of the resource.
         /// </param>
-        /// <param name="value">The value of the resource.
+        /// <param name="value">
+        /// The value of the resource.
         /// </param>
         public void AddResource(string name, string value) => AddDataRow(DataStr, name, value);
 
         /// <summary>
         /// Adds a named resource specified in a
-        /// <see cref="System.Resources.ResXDataNode" /> object to the list of resources to write.
+        /// <see cref="T:System.Resources.ResXDataNode" /> object to the list of resources to write.
         /// </summary>
-        /// <param name="node">A
-        /// <see cref="System.Resources.ResXDataNode" /> object that contains a resource name/value pair.
+        /// <param name="node">
+        /// A
+        /// <see cref="T:System.Resources.ResXDataNode" /> object that contains a resource name/value pair.
         /// </param>
         public void AddResource(ResXDataNode node)
         {
@@ -345,7 +372,7 @@ namespace System.Resources
 
         /// <summary>
         /// Releases all resources used by the
-        /// <see cref="System.Resources.ResXResourceWriter" />
+        /// <see cref="T:System.Resources.ResXResourceWriter" />
         /// </summary>
         public void Close()
         {
@@ -354,7 +381,7 @@ namespace System.Resources
 
         /// <summary>
         /// Releases all resources used by the
-        /// <see cref="System.Resources.ResXResourceWriter" />
+        /// <see cref="T:System.Resources.ResXResourceWriter" />
         /// </summary>
         public virtual void Dispose()
         {
@@ -364,9 +391,10 @@ namespace System.Resources
 
         /// <summary>
         /// Writes all resources added by the
-        /// <see cref="System.Resources.ResXResourceWriter.AddResource(System.String,System.Byte[])" /> method to the output file or stream.
+        /// <see cref="T:System.Resources.ResXResourceWriter.AddResource(System.String,System.Byte[])" /> method to the output file or stream.
         /// </summary>
-        /// <exception cref="System.InvalidOperationException">The resource has already been saved.
+        /// <exception cref="T:System.InvalidOperationException">
+        /// The resource has already been saved.
         /// </exception>
         public void Generate()
         {
@@ -386,9 +414,10 @@ namespace System.Resources
 
         /// <summary>
         /// Releases the unmanaged resources used by the
-        /// <see cref="System.Resources.ResXResourceWriter" /> and optionally releases the managed resources.
+        /// <see cref="T:System.Resources.ResXResourceWriter" /> and optionally releases the managed resources.
         /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
+        /// <param name="disposing">
+        /// true to release both managed and unmanaged resources; false to release only unmanaged resources.
         /// </param>
         protected virtual void Dispose(bool disposing)
         {

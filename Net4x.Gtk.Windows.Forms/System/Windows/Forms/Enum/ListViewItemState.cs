@@ -7,7 +7,7 @@ namespace System.Windows.Forms
 
     /// <summary>
     /// Defines constants that represent the possible states of a
-    /// <see cref="System.Windows.Forms.ListViewItem" /> .
+    /// <see cref="T:System.Windows.Forms.ListViewItem" /> .
     /// </summary>
     /// <filterpriority>
     /// 2

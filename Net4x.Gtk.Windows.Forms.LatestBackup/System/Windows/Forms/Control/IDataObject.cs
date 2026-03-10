@@ -53,7 +53,7 @@ namespace System.Windows.Forms
         /// </returns>
         /// <param name="format">
         /// A
-        /// <see cref="System.Type" /> representing the format of the data to retrieve. See
+        /// <see cref="T:System.Type" /> representing the format of the data to retrieve. See
         /// <see cref="!:System.Windows.Forms.DataFormats" /> for predefined formats.
         /// </param>
         /// <filterpriority>
@@ -102,7 +102,7 @@ namespace System.Windows.Forms
         /// </returns>
         /// <param name="format">
         /// A
-        /// <see cref="System.Type" /> representing the format for which to check. See
+        /// <see cref="T:System.Type" /> representing the format for which to check. See
         /// <see cref="!:System.Windows.Forms.DataFormats" /> for predefined formats.
         /// </param>
         /// <filterpriority>
@@ -173,7 +173,7 @@ namespace System.Windows.Forms
         /// </summary>
         /// <param name="format">
         /// A
-        /// <see cref="System.Type" /> representing the format associated with the data. See
+        /// <see cref="T:System.Type" /> representing the format associated with the data. See
         /// <see cref="!:System.Windows.Forms.DataFormats" /> for predefined formats.
         /// </param>
         /// <param name="data">

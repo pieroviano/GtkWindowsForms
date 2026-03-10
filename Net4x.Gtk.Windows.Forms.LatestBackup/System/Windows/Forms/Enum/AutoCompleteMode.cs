@@ -6,8 +6,8 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies the mode for the automatic completion feature used in the
-    /// <see cref="System.Windows.Forms.ComboBox" /> and
-    /// <see cref="System.Windows.Forms.TextBox" /> controls.
+    /// <see cref="T:System.Windows.Forms.ComboBox" /> and
+    /// <see cref="T:System.Windows.Forms.TextBox" /> controls.
     /// </summary>
     /// <filterpriority>
     /// 2
@@ -15,9 +15,7 @@ namespace System.Windows.Forms
     public enum AutoCompleteMode
     {
         /// <summary>
-        /// Disables the automatic completion feature for the
-        /// <see cref="System.Windows.Forms.ComboBox" /> and
-        /// <see cref="System.Windows.Forms.TextBox" /> controls.
+        /// Disables the AutoComplete Feature for ComboBox and TextBox.
         /// </summary>
         None = 0,
 

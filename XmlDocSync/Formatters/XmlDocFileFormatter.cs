@@ -41,7 +41,7 @@ public static class XmlDocFileFormatter
         if (insideDoc)
             result.Append(ProcessBlock(block.ToString()));
 
-        return result.ToString().Replace("\n", Environment.NewLine);
+        return result.ToString().Replace("cref=\"System.", "cref=\"T:System.").Replace("cref = \"System.", "cref=\"T:System.").Replace(Environment.NewLine, "\n");
     }
 
     private static bool IsDocLine(string line)

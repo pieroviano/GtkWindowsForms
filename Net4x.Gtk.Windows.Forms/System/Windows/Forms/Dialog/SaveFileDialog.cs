@@ -26,13 +26,6 @@ namespace System.Windows.Forms
 
         private new string Description => base.Description;
 
-        /// <summary>
-        /// Opens the file with read/write permission selected by the user.
-        /// </summary>
-        /// <returns>The read/write file selected by the user.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public Stream OpenFile()
         {
             string filename = FileName;

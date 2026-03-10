@@ -66,15 +66,6 @@ internal class ListBindingHelper
         return propertyDescriptor.GetValue(obj);
     }
 
-    /// <summary>
-    /// Returns a list associated with the specified data source.
-    /// </summary>
-    /// <returns>An
-    /// <see cref="System.Object" /> representing the underlying list if it exists; otherwise, the original data source specified by
-    /// <paramref name="list" />
-    /// </returns>
-    /// <param name="list">The data source to examine for its underlying list.
-    /// </param>
     public static object? GetList(object? list)
     {
         if (!(list is IListSource))
@@ -85,17 +76,6 @@ internal class ListBindingHelper
         return (list as IListSource)?.GetList();
     }
 
-    /// <summary>
-    /// Returns the
-    /// <see cref="System.ComponentModel.PropertyDescriptorCollection" /> that describes the properties of an item type contained in a specified data source, or properties of the specified data source.
-    /// </summary>
-    /// <returns>The
-    /// <see cref="System.ComponentModel.PropertyDescriptorCollection" /> containing the properties of the items contained in
-    /// <paramref name="list" />, or properties of
-    /// <paramref name="list.." />
-    /// </returns>
-    /// <param name="list">The data source to examine for property information.
-    /// </param>
     public static PropertyDescriptorCollection? GetListItemProperties(object? list)
     {
         PropertyDescriptorCollection? itemProperties;
@@ -166,19 +146,6 @@ internal class ListBindingHelper
         return GetListItemProperties(dataSource, listAccessors);
     }
 
-    /// <summary>
-    /// Returns the
-    /// <see cref="System.ComponentModel.PropertyDescriptorCollection" /> that describes the properties of an item type contained in a collection property of a data source. Uses the specified
-    /// <see cref="System.ComponentModel.PropertyDescriptor" /> array to indicate which properties to examine.
-    /// </summary>
-    /// <returns>The
-    /// <see cref="System.ComponentModel.PropertyDescriptorCollection" /> describing the properties of the item type contained in a collection property of the data source.
-    /// </returns>
-    /// <param name="list">The data source to be examined for property information.
-    /// </param>
-    /// <param name="listAccessors">The
-    /// <see cref="System.ComponentModel.PropertyDescriptor" /> array describing which properties of the data source to examine. This can be null.
-    /// </param>
     public static PropertyDescriptorCollection? GetListItemProperties(object? list, PropertyDescriptor?[]? listAccessors)
     {
         PropertyDescriptorCollection? listItemProperties;
@@ -242,14 +209,6 @@ internal class ListBindingHelper
         return GetListItemType(propertyDescriptor.PropertyType);
     }
 
-    /// <summary>
-    /// Returns the data type of the items in the specified list.
-    /// </summary>
-    /// <returns>The
-    /// <see cref="System.Type" /> of the items contained in the list.
-    /// </returns>
-    /// <param name="list">The list to be examined for type information.
-    /// </param>
     public static Type? GetListItemType(object? list)
     {
         if (list == null)

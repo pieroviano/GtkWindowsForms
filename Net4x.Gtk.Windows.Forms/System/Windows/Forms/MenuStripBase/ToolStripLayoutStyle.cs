@@ -3,7 +3,7 @@ namespace System.Windows.Forms
 
     /// <summary>
     /// Specifies the possible alignments with which the items of a
-    /// <see cref="System.Windows.Forms.ToolStrip" /> can be displayed.
+    /// <see cref="T:System.Windows.Forms.ToolStrip" /> can be displayed.
     /// </summary>
     /// <filterpriority>
     /// 2

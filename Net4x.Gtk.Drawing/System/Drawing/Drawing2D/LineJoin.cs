@@ -2,7 +2,7 @@ namespace System.Drawing.Drawing2D
 {
     /// <summary>
     /// Specifies how to join consecutive line or curve segments in a figure (subpath) contained in a
-    /// <see cref="System.Drawing.Drawing2D.GraphicsPath" /> object.
+    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object.
     /// </summary>
     public enum LineJoin
     {

@@ -40,7 +40,8 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         /// <summary>
         /// Adds the class.
         /// </summary>
-        /// <param name="cssClass">The CSS class.
+        /// <param name="cssClass">
+        /// The CSS class.
         /// </param>
         void AddClass(string cssClass);
 
@@ -52,18 +53,22 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
         /// <summary>
         /// Called when drawn background.
         /// </summary>
-        /// <param name="cr">The Cairo context.
+        /// <param name="cr">
+        /// The Cairo context.
         /// </param>
-        /// <param name="area">The area.
+        /// <param name="area">
+        /// The area.
         /// </param>
         void OnDrawnBackground(Cairo.Context cr, Gdk.Rectangle area);
 
         /// <summary>
         /// Called when paint.
         /// </summary>
-        /// <param name="cr">The Cairo context.
+        /// <param name="cr">
+        /// The Cairo context.
         /// </param>
-        /// <param name="area">The area.
+        /// <param name="area">
+        /// The area.
         /// </param>
         void OnPaint(Cairo.Context cr, Gdk.Rectangle area);
 

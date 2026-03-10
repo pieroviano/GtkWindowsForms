@@ -25,7 +25,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ApplicationContext" /> class with no context.
+        /// <see cref="T:System.Windows.Forms.ApplicationContext" /> class with no context.
         /// </summary>
         public ApplicationContext() : this(null)
         {
@@ -33,11 +33,12 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ApplicationContext" /> class with the specified
-        /// <see cref="System.Windows.Forms.Form" />
+        /// <see cref="T:System.Windows.Forms.ApplicationContext" /> class with the specified
+        /// <see cref="T:System.Windows.Forms.Form" />
         /// </summary>
-        /// <param name="mainForm">The main
-        /// <see cref="System.Windows.Forms.Form" /> of the application to use for context.
+        /// <param name="mainForm">
+        /// The main
+        /// <see cref="T:System.Windows.Forms.Form" /> of the application to use for context.
         /// </param>
         public ApplicationContext(Form mainForm)
         {
@@ -73,10 +74,12 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets or sets an object that contains data about the control.
         /// </summary>
-        /// <returns>An
-        /// <see cref="System.Object" /> that contains data about the control. The default is null.
+        /// <returns>
+        /// An
+        /// <see cref="T:System.Object" /> that contains data about the control. The default is null.
         /// </returns>
-        /// <filterpriority>2
+        /// <filterpriority>
+        /// 2
         /// </filterpriority>
         [Localizable(false)]
         [Bindable(true)]
@@ -102,9 +105,10 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Releases the unmanaged resources used by the
-        /// <see cref="System.Windows.Forms.ApplicationContext" /> and optionally releases the managed resources.
+        /// <see cref="T:System.Windows.Forms.ApplicationContext" /> and optionally releases the managed resources.
         /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
+        /// <param name="disposing">
+        /// true to release both managed and unmanaged resources; false to release only unmanaged resources.
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
@@ -129,13 +133,15 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Calls
-        /// <see cref="System.Windows.Forms.ApplicationContext.ExitThreadCore" />, which raises the
-        /// <see cref="System.Windows.Forms.ApplicationContext.ThreadExit" /> event.
+        /// <see cref="T:System.Windows.Forms.ApplicationContext.ExitThreadCore" />, which raises the
+        /// <see cref="T:System.Windows.Forms.ApplicationContext.ThreadExit" /> event.
         /// </summary>
-        /// <param name="sender">The object that raised the event.
+        /// <param name="sender">
+        /// The object that raised the event.
         /// </param>
-        /// <param name="e">The
-        /// <see cref="System.EventArgs" /> that contains the event data.
+        /// <param name="e">
+        /// The
+        /// <see cref="T:System.EventArgs" /> that contains the event data.
         /// </param>
         protected virtual void OnMainFormClosed(object sender, EventArgs e) => ExitThreadCore();
 

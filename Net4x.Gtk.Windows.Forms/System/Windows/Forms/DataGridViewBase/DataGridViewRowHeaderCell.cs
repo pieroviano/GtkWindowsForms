@@ -4,7 +4,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Represents a row header of a
-    /// <see cref="System.Windows.Forms.DataGridView" /> control.
+    /// <see cref="T:System.Windows.Forms.DataGridView" /> control.
     /// </summary>
     /// <filterpriority>
     /// 2

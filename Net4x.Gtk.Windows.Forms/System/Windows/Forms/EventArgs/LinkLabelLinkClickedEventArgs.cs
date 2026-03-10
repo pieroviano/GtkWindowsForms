@@ -8,7 +8,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.LinkLabel.LinkClicked" /> event.
+    /// <see cref="T:System.Windows.Forms.LinkLabel.LinkClicked" /> event.
     /// </summary>
     /// <filterpriority>
     /// 2
@@ -18,25 +18,12 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.LinkLabelLinkClickedEventArgs" /> class with the specified link.
+        /// <see cref="LinkLabelLinkClickedEventArgs" /> class, given the link.
         /// </summary>
-        /// <param name="link">The
-        /// <see cref="System.Windows.Forms.LinkLabel.Link" /> that was clicked.
-        /// </param>
         public LinkLabelLinkClickedEventArgs(LinkLabel.Link link) : this(link, MouseButtons.Left)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.LinkLabelLinkClickedEventArgs" /> class with the specified link and the specified mouse button.
-        /// </summary>
-        /// <param name="link">The
-        /// <see cref="System.Windows.Forms.LinkLabel.Link" /> that was clicked.
-        /// </param>
-        /// <param name="button">One of the
-        /// <see cref="System.Windows.Forms.MouseButtons" /> values.
-        /// </param>
         public LinkLabelLinkClickedEventArgs(LinkLabel.Link link, MouseButtons button)
         {
             Link = link;
@@ -44,22 +31,14 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the mouse button that causes the link to be clicked.
+        /// Gets the mouseButton which causes the link to be clicked
         /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.MouseButtons" /> values.
-        /// </returns>
         public MouseButtons Button { get; }
 
         /// <summary>
         /// Gets the
-        /// <see cref="System.Windows.Forms.LinkLabel.Link" /> that was clicked.
+        /// <see cref="LinkLabel.Link" /> that was clicked.
         /// </summary>
-        /// <returns>A link on the
-        /// <see cref="System.Windows.Forms.LinkLabel" />
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public LinkLabel.Link Link { get; }
 
     }

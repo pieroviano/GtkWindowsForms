@@ -6,20 +6,16 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Represents a line used to group items of a
-    /// <see cref="System.Windows.Forms.ToolStrip" /> or the drop-down items of a
-    /// <see cref="System.Windows.Forms.MenuStrip" /> or
-    /// <see cref="System.Windows.Forms.ContextMenuStrip" /> or other
-    /// <see cref="System.Windows.Forms.ToolStripDropDown" /> control.
+    /// <see cref="T:System.Windows.Forms.ToolStrip" /> or the drop-down items of a
+    /// <see cref="T:System.Windows.Forms.MenuStrip" /> or
+    /// <see cref="T:System.Windows.Forms.ContextMenuStrip" /> or other
+    /// <see cref="T:System.Windows.Forms.ToolStripDropDown" /> control.
     /// </summary>
     /// <filterpriority>
     /// 2
     /// </filterpriority>
     public class ToolStripSeparator : WidgetToolStrip<Gtk.SeparatorMenuItem>
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ToolStripSeparator" /> class.
-        /// </summary>
         public ToolStripSeparator() : base("ToolStripSeparator")
         {
             this.MenuItem.Hexpand = false;

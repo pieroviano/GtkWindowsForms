@@ -2,8 +2,8 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Specifies the attributes of the pixel data contained in an
-    /// <see cref="System.Drawing.Image" /> object. The
-    /// <see cref="System.Drawing.Image.Flags" />
+    /// <see cref="T:System.Drawing.Image" /> object. The
+    /// <see cref="T:System.Drawing.Image.Flags" />
     /// property returns a member of this enumeration.
     /// </summary>
     [Flags]

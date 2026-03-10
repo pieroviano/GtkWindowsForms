@@ -38,7 +38,7 @@ namespace System.Windows.Forms
         /// <param name="context">A System.ComponentModel.ITypeDescriptorContext that provides information about the context of a type converter.</param>
         /// <param name="culture">The locale information for the conversion.</param>
         /// <param name="value">The object to convert.</param>
-        /// <exception cref="System.Exception">The object was not a supported type for the conversion.</exception>
+        /// <exception cref="T:T:System.Exception">The object was not a supported type for the conversion.</exception>
         /// <returns>An System.Object that represents the converted value.</returns>
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value) { return value; }
 
@@ -49,7 +49,7 @@ namespace System.Windows.Forms
         /// <param name="culture">The locale information for the conversion.</param>
         /// <param name="value">The value to convert.</param>
         /// <param name="destinationType">The type to convert the object to.</param>
-        /// <exception cref="System.ArgumentNullException">destinationType is null.</exception>
+        /// <exception cref="T:T:System.ArgumentNullException">destinationType is null.</exception>
         /// <returns>An System.Object that represents the converted value.</returns>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) { return value; }
     }

@@ -26,7 +26,8 @@ namespace System.Drawing.Imaging
         /// Gets an array of
         /// <see cref="T:System.Drawing.Color" /> structures.
         /// </summary>
-        /// <returns>The array of
+        /// <returns>
+        /// The array of
         /// <see cref="T:System.Drawing.Color" /> structure that make up this
         /// <see cref="T:System.Drawing.Imaging.ColorPalette" />.
         /// </returns>

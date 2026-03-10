@@ -13,7 +13,7 @@ namespace System.Windows.Forms
     public enum ValidationConstraints
     {
         /// <summary>
-        /// Validates all child controls, and all children of these child controls, regardless of their property settings.
+        /// All child controls and their descendants are validated.
         /// </summary>
         None = 0x00,
 
@@ -29,34 +29,23 @@ namespace System.Windows.Forms
         Selectable = 0x01,
 
         /// <summary>
-        /// Validates child controls whose
-        /// <see cref="System.Windows.Forms.Control.Enabled" /> property is set to true.
+        /// Child control must be enabled to be validated (Control.Enabled = true).
         /// </summary>
         Enabled = 0x02,
 
         /// <summary>
-        /// Validates child controls whose
-        /// <see cref="System.Windows.Forms.Control.Visible" /> property is set to true.
+        /// Child control must be visible to be validated (Control.Visible = true).
         /// </summary>
         Visible = 0x04,
 
         /// <summary>
-        /// Validates child controls that have a
-        /// <see cref="System.Windows.Forms.Control.TabStop" /> value set, which means that the user can navigate to the control using the TAB key.
+        /// Child control must be a tab stops to be validated (Control.TabStop = true).
         /// </summary>
         TabStop = 0x08,
 
         /// <summary>
-        /// Validates child controls that are directly hosted within the container. Does not validate any of the children of these children. For example, if you have a
-        /// <see cref="System.Windows.Forms.Form" /> that contains a custom
-        /// <see cref="System.Windows.Forms.UserControl" />, and the
-        /// <see cref="System.Windows.Forms.UserControl" /> contains a
-        /// <see cref="System.Windows.Forms.Button" />, using
-        /// <see cref="System.Windows.Forms.ValidationConstraints.ImmediateChildren" /> will cause the
-        /// <see cref="System.Windows.Forms.Control.Validating" /> event of the
-        /// <see cref="System.Windows.Forms.UserControl" /> to occur, but not the
-        /// <see cref="System.Windows.Forms.Control.Validating" /> event of the
-        /// <see cref="System.Windows.Forms.Button" />
+        /// Only immediate children of container control are validated.
+        /// Descendants are not validated.
         /// </summary>
         ImmediateChildren = 0x10,
     }

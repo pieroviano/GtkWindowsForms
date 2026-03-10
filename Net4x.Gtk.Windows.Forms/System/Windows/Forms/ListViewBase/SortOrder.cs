@@ -8,17 +8,8 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public enum SortOrder
     {
-        /// <summary>
-        /// The items are not sorted.
-        /// </summary>
         None,
-        /// <summary>
-        /// The items are sorted in ascending order.
-        /// </summary>
         Ascending,
-        /// <summary>
-        /// The items are sorted in descending order.
-        /// </summary>
         Descending
     }
 }

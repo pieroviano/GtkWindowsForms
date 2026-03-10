@@ -10,7 +10,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides the data portion of an
-    /// <see cref="System.Windows.Forms.ImageList" />
+    /// <see cref="T:System.Windows.Forms.ImageList" />
     /// </summary>
     /// <filterpriority> 2
     /// </filterpriority>
@@ -60,37 +60,14 @@ namespace System.Windows.Forms
 
         public ResourceInfo ResourceInfo { get; set; }
 
-        /// <summary>
-        /// Releases all resources used by the current instance of the
-        /// <see cref="System.Windows.Forms.ImageListStreamer" /> class.
-        /// </summary>
         public void Dispose()
         {
             _nativeImageList?.Dispose();
             _nativeImageList = null;
         }
 
-        /// <summary>
-        /// Populates a
-        /// <see cref="System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the target object.
-        /// </summary>
-        /// <param name="si">The
-        /// <see cref="System.Runtime.Serialization.SerializationInfo" /> to populate with data.
-        /// </param>
-        /// <param name="context">The
-        /// <see cref="System.Runtime.Serialization.StreamingContext" /> that is the destination for this serialization.
-        /// </param>
-        /// <exception cref="System.InvalidOperationException">The
-        /// <see cref="System.Runtime.Serialization.SerializationInfo" /> cannot be populated with data because no data exists, or it is not in the correct format.
-        /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="SerializationFormatter" />
-        /// </PermissionSet>
         public void GetObjectData(SerializationInfo si, StreamingContext context) =>
-                    si.AddValue("Data", Serialize());
+            si.AddValue("Data", Serialize());
 
         internal ImageList.NativeImageList? GetNativeImageList() => _nativeImageList;
 

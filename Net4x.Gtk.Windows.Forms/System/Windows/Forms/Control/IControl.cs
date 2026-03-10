@@ -303,7 +303,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Gets or sets a value indicating whether this
-        /// <see cref="System.Windows.Forms.IControl" /> is capture.
+        /// <see cref="T:System.Windows.Forms.IControl" /> is capture.
         /// </summary>
         /// <value>
         /// <c>
@@ -367,7 +367,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Gets a value indicating whether this
-        /// <see cref="System.Windows.Forms.IControl" /> is created.
+        /// <see cref="T:System.Windows.Forms.IControl" /> is created.
         /// </summary>
         /// <value>
         /// <c>
@@ -413,7 +413,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Gets a value indicating whether this
-        /// <see cref="System.Windows.Forms.IControl" /> is disposing.
+        /// <see cref="T:System.Windows.Forms.IControl" /> is disposing.
         /// </summary>
         /// <value>
         /// <c>
@@ -435,7 +435,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Gets or sets a value indicating whether this
-        /// <see cref="System.Windows.Forms.IControl" /> is enabled.
+        /// <see cref="T:System.Windows.Forms.IControl" /> is enabled.
         /// </summary>
         /// <value>
         /// <c>
@@ -449,7 +449,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Gets a value indicating whether this
-        /// <see cref="System.Windows.Forms.IControl" /> is focused.
+        /// <see cref="T:System.Windows.Forms.IControl" /> is focused.
         /// </summary>
         /// <value>
         /// <c>
@@ -795,7 +795,7 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Gets or sets a value indicating whether this
-        /// <see cref="System.Windows.Forms.IControl" /> is visible.
+        /// <see cref="T:System.Windows.Forms.IControl" /> is visible.
         /// </summary>
         /// <value>
         /// <c>
@@ -832,7 +832,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Begins the invoke.
         /// </summary>
-        /// <param name="method">The method.
+        /// <param name="method">
+        /// The method.
         /// </param>
         /// <returns>
         /// </returns>
@@ -841,9 +842,11 @@ namespace System.Windows.Forms
         /// <summary>
         /// Begins the invoke.
         /// </summary>
-        /// <param name="method">The method.
+        /// <param name="method">
+        /// The method.
         /// </param>
-        /// <param name="args">The arguments.
+        /// <param name="args">
+        /// The arguments.
         /// </param>
         /// <returns>
         /// </returns>
@@ -852,7 +855,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Begins the invoke.
         /// </summary>
-        /// <param name="method">The method.
+        /// <param name="method">
+        /// The method.
         /// </param>
         /// <returns>
         /// </returns>
@@ -866,7 +870,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Determines whether this instance contains the object.
         /// </summary>
-        /// <param name="ctl">The control.
+        /// <param name="ctl">
+        /// The control.
         /// </param>
         /// <returns>
         /// <c>
@@ -893,9 +898,11 @@ namespace System.Windows.Forms
         /// <summary>
         /// Does the drag drop.
         /// </summary>
-        /// <param name="data">The data.
+        /// <param name="data">
+        /// The data.
         /// </param>
-        /// <param name="allowedEffects">The allowed effects.
+        /// <param name="allowedEffects">
+        /// The allowed effects.
         /// </param>
         /// <returns>
         /// </returns>
@@ -904,16 +911,19 @@ namespace System.Windows.Forms
         /// <summary>
         /// Draws to bitmap.
         /// </summary>
-        /// <param name="bitmap">The bitmap.
+        /// <param name="bitmap">
+        /// The bitmap.
         /// </param>
-        /// <param name="targetBounds">The target bounds.
+        /// <param name="targetBounds">
+        /// The target bounds.
         /// </param>
         void DrawToBitmap(Bitmap bitmap, Rectangle targetBounds);
 
         /// <summary>
         /// Ends the invoke.
         /// </summary>
-        /// <param name="asyncResult">The asynchronous result.
+        /// <param name="asyncResult">
+        /// The asynchronous result.
         /// </param>
         /// <returns>
         /// </returns>
@@ -936,7 +946,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the child at point.
         /// </summary>
-        /// <param name="pt">The pt.
+        /// <param name="pt">
+        /// The pt.
         /// </param>
         /// <returns>
         /// </returns>
@@ -945,9 +956,11 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the child at point.
         /// </summary>
-        /// <param name="pt">The pt.
+        /// <param name="pt">
+        /// The pt.
         /// </param>
-        /// <param name="skipValue">The skip value.
+        /// <param name="skipValue">
+        /// The skip value.
         /// </param>
         /// <returns>
         /// </returns>
@@ -963,9 +976,11 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the next control.
         /// </summary>
-        /// <param name="ctl">The control.
+        /// <param name="ctl">
+        /// The control.
         /// </param>
-        /// <param name="forward">if set to
+        /// <param name="forward">
+        /// if set to
         /// <c>
         /// true
         /// </c> [forward].
@@ -977,7 +992,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Gets the size of the preferred.
         /// </summary>
-        /// <param name="proposedSize">Size of the proposed.
+        /// <param name="proposedSize">
+        /// Size of the proposed.
         /// </param>
         /// <returns>
         /// </returns>
@@ -992,7 +1008,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Invalidates the specified invalidate children.
         /// </summary>
-        /// <param name="invalidateChildren">if set to
+        /// <param name="invalidateChildren">
+        /// if set to
         /// <c>
         /// true
         /// </c> [invalidate children].
@@ -1002,16 +1019,19 @@ namespace System.Windows.Forms
         /// <summary>
         /// Invalidates the specified rc.
         /// </summary>
-        /// <param name="rc">The rc.
+        /// <param name="rc">
+        /// The rc.
         /// </param>
         void Invalidate(Rectangle rc);
 
         /// <summary>
         /// Invalidates the specified rc.
         /// </summary>
-        /// <param name="rc">The rc.
+        /// <param name="rc">
+        /// The rc.
         /// </param>
-        /// <param name="invalidateChildren">if set to
+        /// <param name="invalidateChildren">
+        /// if set to
         /// <c>
         /// true
         /// </c> [invalidate children].
@@ -1021,16 +1041,19 @@ namespace System.Windows.Forms
         /// <summary>
         /// Invalidates the specified region.
         /// </summary>
-        /// <param name="region">The region.
+        /// <param name="region">
+        /// The region.
         /// </param>
         void Invalidate(Region region);
 
         /// <summary>
         /// Invalidates the specified region.
         /// </summary>
-        /// <param name="region">The region.
+        /// <param name="region">
+        /// The region.
         /// </param>
-        /// <param name="invalidateChildren">if set to
+        /// <param name="invalidateChildren">
+        /// if set to
         /// <c>
         /// true
         /// </c> [invalidate children].
@@ -1040,7 +1063,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Invokes the specified method.
         /// </summary>
-        /// <param name="method">The method.
+        /// <param name="method">
+        /// The method.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1049,9 +1073,11 @@ namespace System.Windows.Forms
         /// <summary>
         /// Invokes the specified method.
         /// </summary>
-        /// <param name="method">The method.
+        /// <param name="method">
+        /// The method.
         /// </param>
-        /// <param name="args">The arguments.
+        /// <param name="args">
+        /// The arguments.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1060,9 +1086,11 @@ namespace System.Windows.Forms
         /// <summary>
         /// Invokes the specified method.
         /// </summary>
-        /// <typeparam name="TEntry">The type of the entry.
+        /// <typeparam name="TEntry">
+        /// The type of the entry.
         /// </typeparam>
-        /// <param name="method">The method.
+        /// <param name="method">
+        /// The method.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1071,7 +1099,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Logicals to device units.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1080,7 +1109,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Logicals to device units.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1094,16 +1124,19 @@ namespace System.Windows.Forms
         /// <summary>
         /// Performs the layout.
         /// </summary>
-        /// <param name="affectedControl">The affected control.
+        /// <param name="affectedControl">
+        /// The affected control.
         /// </param>
-        /// <param name="affectedProperty">The affected property.
+        /// <param name="affectedProperty">
+        /// The affected property.
         /// </param>
         void PerformLayout(Control affectedControl, string affectedProperty);
 
         /// <summary>
         /// Points to client.
         /// </summary>
-        /// <param name="p">The p.
+        /// <param name="p">
+        /// The p.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1112,7 +1145,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Points to screen.
         /// </summary>
-        /// <param name="p">The p.
+        /// <param name="p">
+        /// The p.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1121,7 +1155,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Pres the process control message.
         /// </summary>
-        /// <param name="msg">The MSG.
+        /// <param name="msg">
+        /// The MSG.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1130,7 +1165,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Pres the process message.
         /// </summary>
-        /// <param name="msg">The MSG.
+        /// <param name="msg">
+        /// The MSG.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1139,7 +1175,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Rectangles to client.
         /// </summary>
-        /// <param name="r">The r.
+        /// <param name="r">
+        /// The r.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1148,7 +1185,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Rectangles to screen.
         /// </summary>
-        /// <param name="r">The r.
+        /// <param name="r">
+        /// The r.
         /// </param>
         /// <returns>
         /// </returns>
@@ -1207,7 +1245,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Resumes the layout.
         /// </summary>
-        /// <param name="performLayout">if set to
+        /// <param name="performLayout">
+        /// if set to
         /// <c>
         /// true
         /// </c> [perform layout].
@@ -1217,30 +1256,35 @@ namespace System.Windows.Forms
         /// <summary>
         /// Scales the specified ratio.
         /// </summary>
-        /// <param name="ratio">The ratio.
+        /// <param name="ratio">
+        /// The ratio.
         /// </param>
         void Scale(float ratio);
 
         /// <summary>
         /// Scales the specified dx.
         /// </summary>
-        /// <param name="dx">The dx.
+        /// <param name="dx">
+        /// The dx.
         /// </param>
-        /// <param name="dy">The dy.
+        /// <param name="dy">
+        /// The dy.
         /// </param>
         void Scale(float dx, float dy);
 
         /// <summary>
         /// Scales the specified factor.
         /// </summary>
-        /// <param name="factor">The factor.
+        /// <param name="factor">
+        /// The factor.
         /// </param>
         void Scale(SizeF factor);
 
         /// <summary>
         /// Scales the bitmap logical to device.
         /// </summary>
-        /// <param name="logicalBitmap">The logical bitmap.
+        /// <param name="logicalBitmap">
+        /// The logical bitmap.
         /// </param>
         void ScaleBitmapLogicalToDevice(ref Bitmap logicalBitmap);
 
@@ -1252,24 +1296,29 @@ namespace System.Windows.Forms
         /// <summary>
         /// Selects the next control.
         /// </summary>
-        /// <param name="ctl">The control.
+        /// <param name="ctl">
+        /// The control.
         /// </param>
-        /// <param name="forward">if set to
+        /// <param name="forward">
+        /// if set to
         /// <c>
         /// true
         /// </c> [forward].
         /// </param>
-        /// <param name="tabStopOnly">if set to
+        /// <param name="tabStopOnly">
+        /// if set to
         /// <c>
         /// true
         /// </c> [tab stop only].
         /// </param>
-        /// <param name="nested">if set to
+        /// <param name="nested">
+        /// if set to
         /// <c>
         /// true
         /// </c> [nested].
         /// </param>
-        /// <param name="wrap">if set to
+        /// <param name="wrap">
+        /// if set to
         /// <c>
         /// true
         /// </c> [wrap].
@@ -1286,28 +1335,37 @@ namespace System.Windows.Forms
         /// <summary>
         /// Sets the bounds.
         /// </summary>
-        /// <param name="x">The x.
+        /// <param name="x">
+        /// The x.
         /// </param>
-        /// <param name="y">The y.
+        /// <param name="y">
+        /// The y.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <param name="height">The height.
+        /// <param name="height">
+        /// The height.
         /// </param>
         void SetBounds(int x, int y, int width, int height);
 
         /// <summary>
         /// Sets the bounds.
         /// </summary>
-        /// <param name="x">The x.
+        /// <param name="x">
+        /// The x.
         /// </param>
-        /// <param name="y">The y.
+        /// <param name="y">
+        /// The y.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <param name="height">The height.
+        /// <param name="height">
+        /// The height.
         /// </param>
-        /// <param name="specified">The specified.
+        /// <param name="specified">
+        /// The specified.
         /// </param>
         void SetBounds(int x, int y, int width, int height, BoundsSpecified specified);
 

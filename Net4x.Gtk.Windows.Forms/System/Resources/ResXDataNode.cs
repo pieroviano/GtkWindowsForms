@@ -55,48 +55,10 @@ namespace System.Resources
 
         private static readonly char[] s_specialChars = new char[] { ' ', '\r', '\n' };
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXDataNode" /> class.
-        /// </summary>
-        /// <param name="name">The name of the resource.
-        /// </param>
-        /// <param name="value">The resource to store.
-        /// </param>
-        /// <exception cref="System.InvalidOperationException">The resource named in
-        /// <paramref name="value" /> does not support serialization.
-        /// </exception>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="name" /> is null.
-        /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// <paramref name="name" /> is a string of zero length.
-        /// </exception>
         public ResXDataNode(string name, object value) : this(name, value, null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXDataNode" /> class.
-        /// </summary>
-        /// <param name="name">The name of the resource.
-        /// </param>
-        /// <param name="value">The resource to store.
-        /// </param>
-        /// <param name="typeNameConverter">A reference to a method that takes a
-        /// <see cref="System.Type" /> and returns a string containing the
-        /// <see cref="System.Type" /> name.
-        /// </param>
-        /// <exception cref="System.InvalidOperationException">The resource named in
-        /// <paramref name="value" /> does not support serialization.
-        /// </exception>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="name" /> is null.
-        /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// <paramref name="name" /> is a string of zero length.
-        /// </exception>
         public ResXDataNode(string name, object value, Func<Type, string> typeNameConverter)
         {
             if (name.Length == 0)
@@ -122,44 +84,10 @@ namespace System.Resources
             _value = value;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXDataNode" /> class with a reference to a resource file.
-        /// </summary>
-        /// <param name="name">The name of the resource.
-        /// </param>
-        /// <param name="fileRef">The file reference to use as the resource.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="name" /> is null or
-        /// <paramref name="fileRef" /> is null.
-        /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// <paramref name="name" /> is a string of zero length.
-        /// </exception>
         public ResXDataNode(string name, ResXFileRef fileRef) : this(name, fileRef, null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Resources.ResXDataNode" /> class with a reference to a resource file.
-        /// </summary>
-        /// <param name="name">The name of the resource.
-        /// </param>
-        /// <param name="fileRef">The file reference to use as the resource.
-        /// </param>
-        /// <param name="typeNameConverter">A reference to a method that takes a
-        /// <see cref="System.Type" /> and returns a string containing the
-        /// <see cref="System.Type" /> name.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="name" /> is null or
-        /// <paramref name="fileRef" /> is null.
-        /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// <paramref name="name" /> is a string of zero length.
-        /// </exception>
         public ResXDataNode(string name, ResXFileRef fileRef, Func<Type, string> typeNameConverter)
         {
             _name = name.OrThrowIfNullOrEmpty();
@@ -177,12 +105,6 @@ namespace System.Resources
         {
         }
 
-        /// <summary>
-        /// Gets or sets an arbitrary comment regarding this resource.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.String" /> representing the comment.
-        /// </returns>
         public string Comment
         {
             get
@@ -201,13 +123,6 @@ namespace System.Resources
             }
         }
 
-        /// <summary>
-        /// Gets the file reference for this resource.
-        /// </summary>
-        /// <returns>The
-        /// <see cref="System.Resources.ResXFileRef" /> corresponding to the file reference, if this resource uses one. If this resource stores its value as an
-        /// <see cref="System.Object" />, this property will return null.
-        /// </returns>
         public ResXFileRef FileRef
         {
             get
@@ -229,16 +144,6 @@ namespace System.Resources
             }
         }
 
-        /// <summary>
-        /// Gets or sets the name of this resource.
-        /// </summary>
-        /// <returns>A
-        /// <see cref="System.String" /> corresponding to the resource name. If no name is assigned, returns a zero-length string.
-        /// </returns>
-        /// <exception cref="System.ArgumentNullException">The name property is set to null.
-        /// </exception>
-        /// <exception cref="System.ArgumentException">The name property is set to a string of zero length.
-        /// </exception>
         public string Name
         {
             get
@@ -287,31 +192,17 @@ namespace System.Resources
         }
 
         /// <summary>
-        /// Gets the position of the resource in the resource file.
+        /// Might return the position in the resx file of the current node, if known
+        /// otherwise, will return Point(0,0) since point is a struct
         /// </summary>
-        /// <returns>A
-        /// <see cref="System.Drawing.Point" /> structure specifying the location of this resource in the resource file as a line position (
-        /// <see cref="System.Drawing.Point.X" />) and a column position (
-        /// <see cref="System.Drawing.Point.Y" />). If this resource is not part of a resource file, returns a
-        /// <see cref="System.Drawing.Point" /> structure with an
-        /// <see cref="System.Drawing.Point.X" /> of 0 and a
-        /// <see cref="System.Drawing.Point.Y" /> of 0.
-        /// </returns>
         public Point GetNodePosition()
         {
             return _nodeInfo?.ReaderPosition ?? new Point();
         }
 
         /// <summary>
-        /// Gets the object stored by this node.
+        /// Get the value contained in this datanode
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Object" /> corresponding to the stored value.
-        /// </returns>
-        /// <param name="typeResolver">The type resolution service to use when looking for a type converter.
-        /// </param>
-        /// <exception cref="System.TypeLoadException">The corresponding type could not be found, or an appropriate type converter is not available.
-        /// </exception>
         public object GetValue(ITypeResolutionService typeResolver)
         {
             if (_value != null)
@@ -357,31 +248,17 @@ namespace System.Resources
         }
 
         /// <summary>
-        /// Gets the object stored by this node.
+        /// Get the value contained in this datanode
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Object" /> corresponding to the stored value.
-        /// </returns>
-        /// <param name="names">The list of assemblies in which to look for the type of the object.
-        /// </param>
-        /// <exception cref="System.TypeLoadException">The corresponding type could not be found, or an appropriate type converter is not available.
-        /// </exception>
         public object GetValue(AssemblyName[] names)
         {
             return GetValue(new AssemblyNamesTypeResolutionService(names));
         }
 
         /// <summary>
-        /// A
-        /// <see cref="System.String" /> representing the fully qualified name of the type.
+        /// Get the FQ type name for this datanode.
+        /// We return typeof(object) for ResXNullRef
         /// </summary>
-        /// <returns>A
-        /// <see cref="System.String" /> representing the fully qualified name of the type.
-        /// </returns>
-        /// <param name="typeResolver">The type resolution service to use to locate a converter for this type.
-        /// </param>
-        /// <exception cref="System.TypeLoadException">The corresponding type could not be found.
-        /// </exception>
         public string GetValueTypeName(ITypeResolutionService typeResolver)
         {
             // the type name here is always a FQN
@@ -465,15 +342,8 @@ namespace System.Resources
         }
 
         /// <summary>
-        /// Gets the name of the type of the value.
+        /// Get the FQ type name for this datanode
         /// </summary>
-        /// <returns>A
-        /// <see cref="System.String" /> representing the fully qualified name of the type.
-        /// </returns>
-        /// <param name="names">The assemblies to examine for the type.
-        /// </param>
-        /// <exception cref="System.TypeLoadException">The corresponding type could not be found.
-        /// </exception>
         public string GetValueTypeName(AssemblyName[] names)
         {
             return GetValueTypeName(new AssemblyNamesTypeResolutionService(names));
@@ -536,14 +406,8 @@ namespace System.Resources
         }
 
         /// <summary>
-        /// Retrieves the object's data.
+        /// Get the value contained in this datanode
         /// </summary>
-        /// <param name="si">A
-        /// <see cref="System.Runtime.Serialization.SerializationInfo" /> object.
-        /// </param>
-        /// <param name="context">A
-        /// <see cref="System.Runtime.Serialization.StreamingContext" /> object.
-        /// </param>
         void ISerializable.GetObjectData(SerializationInfo si, StreamingContext context)
         {
             throw new PlatformNotSupportedException();

@@ -5,7 +5,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies the type of action used to raise the
-    /// <see cref="System.Windows.Forms.ScrollBar.Scroll" /> event.
+    /// <see cref="T:System.Windows.Forms.ScrollBar.Scroll" /> event.
     /// </summary>
     /// <filterpriority>
     /// 2

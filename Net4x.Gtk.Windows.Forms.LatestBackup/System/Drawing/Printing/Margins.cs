@@ -39,7 +39,7 @@ namespace System.Drawing.Printing
 
         /// <summary>
         /// Initializes a new instance of a the
-        /// <see cref="Margins" /> class with one-inch margins.
+        /// <see cref="T:System.Drawing.Printing.Margins" /> class with one-inch margins.
         /// </summary>
         public Margins() : this(100, 100, 100, 100)
         {
@@ -47,7 +47,7 @@ namespace System.Drawing.Printing
 
         /// <summary>
         /// Initializes a new instance of a the
-        /// <see cref="Margins" /> class with the specified left, right, top, and bottom margins.
+        /// <see cref="T:System.Drawing.Printing.Margins" /> class with the specified left, right, top, and bottom margins.
         /// </summary>
         public Margins(int left, int right, int top, int bottom)
         {

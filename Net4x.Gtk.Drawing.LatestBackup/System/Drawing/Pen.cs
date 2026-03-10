@@ -89,28 +89,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the alignment for this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Drawing2D.PenAlignment" /> that represents the alignment for this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Drawing2D.PenAlignment" /> that represents the alignment for this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">
-        /// The specified value is not a member of
-        /// <see cref="System.Drawing.Drawing2D.PenAlignment" />
+        /// <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">The specified value is not a member of
+        /// <see cref="T:System.Drawing.Drawing2D.PenAlignment" />.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.Alignment" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.Alignment" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public PenAlignment Alignment
         {
             get;
@@ -119,25 +111,18 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the
-        /// <see cref="System.Drawing.Brush" /> that determines attributes of this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Brush" /> that determines attributes of this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Brush" /> that determines attributes of this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Brush" /> that determines attributes of this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.Brush" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.Brush" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public Brush Brush
         {
             get;
@@ -146,24 +131,17 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the color of this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Color" /> structure that represents the color of this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Color" /> structure that represents the color of this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.Color" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.Color" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public Color Color
         {
             get;
@@ -175,17 +153,11 @@ namespace System.Drawing
         /// </summary>
         /// <returns>An array of real numbers that specifies the compound array. The elements in the array must be in increasing order, not less than 0, and not greater than 1.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.CompoundArray" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.CompoundArray" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public float[] CompoundArray
         {
             get;
@@ -194,24 +166,17 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets a custom cap to use at the end of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> that represents the cap used at the end of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> that represents the cap used at the end of lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.CustomEndCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.CustomEndCap" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public CustomLineCap CustomEndCap
         {
             get;
@@ -220,24 +185,17 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets a custom cap to use at the beginning of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Drawing2D.CustomLineCap" /> that represents the cap used at the beginning of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> that represents the cap used at the beginning of lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.CustomStartCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.CustomStartCap" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public CustomLineCap CustomStartCap
         {
             get;
@@ -246,28 +204,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the cap style used at the end of the dashes that make up dashed lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Drawing2D.DashCap" /> values that represents the cap style used at the beginning and end of the dashes that make up dashed lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>One of the
+        /// <see cref="T:System.Drawing.Drawing2D.DashCap" /> values that represents the cap style used at the beginning and end of the dashes that make up dashed lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">
-        /// The specified value is not a member of
-        /// <see cref="System.Drawing.Drawing2D.DashCap" />
+        /// <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">The specified value is not a member of
+        /// <see cref="T:System.Drawing.Drawing2D.DashCap" />.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.DashCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.DashCap" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public DashCap DashCap
         {
             get;
@@ -279,17 +229,11 @@ namespace System.Drawing
         /// </summary>
         /// <returns>The distance from the start of a line to the beginning of a dash pattern.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.DashOffset" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.DashOffset" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public float DashOffset
         {
             get;
@@ -301,17 +245,11 @@ namespace System.Drawing
         /// </summary>
         /// <returns>An array of real numbers that specifies the lengths of alternating dashes and spaces in dashed lines.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.DashPattern" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.DashPattern" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public float[] DashPattern
         {
             get;
@@ -320,24 +258,17 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the style used for dashed lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Drawing2D.DashStyle" /> that represents the style used for dashed lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Drawing2D.DashStyle" /> that represents the style used for dashed lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.DashStyle" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.DashStyle" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public DashStyle DashStyle
         {
             get;
@@ -346,28 +277,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the cap style used at the end of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Drawing2D.LineCap" /> values that represents the cap style used at the end of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>One of the
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> values that represents the cap style used at the end of lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">
-        /// The specified value is not a member of
-        /// <see cref="System.Drawing.Drawing2D.LineCap" />
+        /// <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">The specified value is not a member of
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.EndCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.EndCap" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public LineCap EndCap
         {
             get;
@@ -376,24 +299,17 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the join style for the ends of two consecutive lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Drawing2D.LineJoin" /> that represents the join style for the ends of two consecutive lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Drawing2D.LineJoin" /> that represents the join style for the ends of two consecutive lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.LineJoin" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.LineJoin" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public LineJoin LineJoin
         {
             get;
@@ -405,17 +321,11 @@ namespace System.Drawing
         /// </summary>
         /// <returns>The limit of the thickness of the join on a mitered corner.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.MiterLimit" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.MiterLimit" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public float MiterLimit
         {
             get;
@@ -424,18 +334,12 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets the style of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Drawing2D.PenType" /> enumeration that specifies the style of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Drawing2D.PenType" /> enumeration that specifies the style of lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public PenType PenType
         {
             get
@@ -446,28 +350,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets the cap style used at the beginning of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="System.Drawing.Drawing2D.LineCap" /> values that represents the cap style used at the beginning of lines drawn with this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>One of the
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> values that represents the cap style used at the beginning of lines drawn with this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">
-        /// The specified value is not a member of
-        /// <see cref="System.Drawing.Drawing2D.LineCap" />
+        /// <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">The specified value is not a member of
+        /// <see cref="T:System.Drawing.Drawing2D.LineCap" />.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.StartCap" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.StartCap" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public LineCap StartCap
         {
             get;
@@ -476,24 +372,17 @@ namespace System.Drawing
 
         /// <summary>
         /// Gets or sets a copy of the geometric transformation for this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// A copy of the
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> that represents the geometric transformation for this
-        /// <see cref="System.Drawing.Pen" />
+        /// <returns>A copy of the
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that represents the geometric transformation for this
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <exception cref="System.ArgumentException">
-        /// The
-        /// <see cref="System.Drawing.Pen.Transform" /> property is set on an immutable
-        /// <see cref="System.Drawing.Pen" />, such as those returned by the
-        /// <see cref="System.Drawing.Pens" /> class.
+        /// <exception cref="T:System.ArgumentException">The
+        /// <see cref="P:System.Drawing.Pen.Transform" /> property is set on an immutable
+        /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
+        /// <see cref="T:System.Drawing.Pens" /> class.
         /// </exception>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public Matrix Transform
         {
             get;
@@ -521,17 +410,12 @@ namespace System.Drawing
 
         /// <summary>
         /// Creates an exact copy of this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
         /// <returns>An
-        /// <see cref="System.Object" /> that can be cast to a
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Object" /> that can be cast to a
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public object Clone()
         {
             return null;
@@ -539,30 +423,20 @@ namespace System.Drawing
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Dispose()
         {
         }
 
         /// <summary>
         /// Multiplies the transformation matrix for this
-        /// <see cref="System.Drawing.Pen" /> by the specified
-        /// <see cref="System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Pen" /> by the specified
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </summary>
         /// <param name="matrix">The
-        /// <see cref="System.Drawing.Drawing2D.Matrix" /> object by which to multiply the transformation matrix.
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> object by which to multiply the transformation matrix.
         /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void MultiplyTransform(Matrix matrix)
         {
         }
@@ -583,13 +457,8 @@ namespace System.Drawing
 
         /// <summary>
         /// Resets the geometric transformation matrix for this
-        /// <see cref="System.Drawing.Pen" /> to identity.
+        /// <see cref="T:System.Drawing.Pen" /> to identity.
         /// </summary>
-        /// <filterpriority>1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void ResetTransform()
         {
         }
@@ -599,8 +468,6 @@ namespace System.Drawing
         /// </summary>
         /// <param name="angle">The angle of rotation.
         /// </param>
-        /// <filterpriority>1
-        /// </filterpriority>
         public void RotateTransform(float angle)
         {
         }

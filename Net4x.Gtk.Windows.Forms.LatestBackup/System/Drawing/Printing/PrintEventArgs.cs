@@ -7,8 +7,8 @@ namespace System.Drawing.Printing
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Drawing.Printing.PrintDocument.BeginPrint" /> and
-    /// <see cref="System.Drawing.Printing.PrintDocument.EndPrint" /> events.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.BeginPrint" /> and
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.EndPrint" /> events.
     /// </summary>
     public class PrintEventArgs : CancelEventArgs
     {

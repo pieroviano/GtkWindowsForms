@@ -9,8 +9,8 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.RowHeightInfoPushed" /> event of a
-    /// <see cref="System.Windows.Forms.DataGridView" />
+    /// <see cref="T:System.Windows.Forms.DataGridView.RowHeightInfoPushed" /> event of a
+    /// <see cref="T:System.Windows.Forms.DataGridView" />
     /// </summary>
     public class DataGridViewRowHeightInfoPushedEventArgs : HandledEventArgs
     {
@@ -22,25 +22,10 @@ namespace System.Windows.Forms
             MinimumHeight = minimumHeight;
         }
 
-        /// <summary>
-        /// Gets the height of the row the event occurred for.
-        /// </summary>
-        /// <returns>The row height, in pixels.
-        /// </returns>
         public int Height { get; }
 
-        /// <summary>
-        /// Gets the minimum height of the row the event occurred for.
-        /// </summary>
-        /// <returns>The minimum row height, in pixels.
-        /// </returns>
         public int MinimumHeight { get; }
 
-        /// <summary>
-        /// Gets the index of the row the event occurred for.
-        /// </summary>
-        /// <returns>The zero-based index of the row.
-        /// </returns>
         public int RowIndex { get; }
 
     }

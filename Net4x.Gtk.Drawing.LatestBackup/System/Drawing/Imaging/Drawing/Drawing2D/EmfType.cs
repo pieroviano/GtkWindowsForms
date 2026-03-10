@@ -2,7 +2,7 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Specifies the nature of the records that are placed in an Enhanced Metafile (EMF) file. This enumeration is used by several constructors in the
-    /// <see cref="System.Drawing.Imaging.Metafile" /> class.
+    /// <see cref="T:System.Drawing.Imaging.Metafile" /> class.
     /// </summary>
     public enum EmfType
     {

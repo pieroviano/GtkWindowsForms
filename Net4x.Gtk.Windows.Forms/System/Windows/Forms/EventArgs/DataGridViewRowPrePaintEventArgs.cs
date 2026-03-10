@@ -10,7 +10,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.RowPrePaint" /> event.
+    /// <see cref="T:System.Windows.Forms.DataGridView.RowPrePaint" /> event.
     /// </summary>
     /// <filterpriority>
     /// 2

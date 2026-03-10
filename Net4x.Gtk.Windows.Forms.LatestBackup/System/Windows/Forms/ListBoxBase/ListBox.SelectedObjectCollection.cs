@@ -13,10 +13,6 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public partial class ListBox
     {
-        /// <summary>
-        /// Represents the collection of selected items in the
-        /// <see cref="System.Windows.Forms.ListBox" />
-        /// </summary>
         public class SelectedObjectCollection : IList
         {
             // This is the bitmask used within ItemArray to identify selected objects.

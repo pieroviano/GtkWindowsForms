@@ -2,7 +2,7 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Specifies the types of images and colors that will be affected by the color and grayscale adjustment settings of an
-    /// <see cref="System.Drawing.Imaging.ImageAttributes" /> .
+    /// <see cref="T:System.Drawing.Imaging.ImageAttributes" />.
     /// </summary>
     public enum ColorMatrixFlag
     {

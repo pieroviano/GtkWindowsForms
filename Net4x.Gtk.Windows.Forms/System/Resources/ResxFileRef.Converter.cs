@@ -13,16 +13,10 @@ using System.Text;
 namespace System.Resources
 {
     /// <summary>
-    /// ResX File Reference class. This allows the developer to represent
-    /// a link to an external resource. When the resource manager asks
-    /// for the value of the resource item, the external resource is loaded.
+    /// Represents a link to an external resource.
     /// </summary>
     public partial class ResXFileRef
     {
-        /// <summary>
-        /// Provides a type converter to convert data for a
-        /// <see cref="System.Resources.ResXFileRef" /> to and from a string.
-        /// </summary>
         public class Converter : TypeConverter
         {
             public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)

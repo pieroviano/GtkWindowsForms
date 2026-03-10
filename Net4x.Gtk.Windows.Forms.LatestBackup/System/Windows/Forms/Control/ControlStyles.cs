@@ -16,9 +16,9 @@ namespace System.Windows.Forms
         ContainerControl = 0x00000001,
 
         /// <summary>
-        /// If true, the control paints itself rather than the operating system doing so. If false, the
-        /// <see cref="System.Windows.Forms.Control.Paint" /> event is not raised. This style only applies to classes derived from
-        /// <see cref="System.Windows.Forms.Control" />
+        /// The control paints itself; WM_PAINT and WM_ERASEBKGND messages are not
+        /// passed on to the underlying NativeWindow.
+        /// This style only applies to subclasses of Control.
         /// </summary>
         UserPaint = 0x00000002,
 
@@ -35,16 +35,12 @@ namespace System.Windows.Forms
         ResizeRedraw = 0x00000010,
 
         /// <summary>
-        /// If true, the control has a fixed width when auto-scaled. For example, if a layout operation attempts to rescale the control to accommodate a new
-        /// <see cref="System.Drawing.Font" />, the control's
-        /// <see cref="System.Windows.Forms.Control.Width" /> remains unchanged.
+        /// The control has a fixed width.
         /// </summary>
         FixedWidth = 0x00000020,
 
         /// <summary>
-        /// If true, the control has a fixed height when auto-scaled. For example, if a layout operation attempts to rescale the control to accommodate a new
-        /// <see cref="System.Drawing.Font" />, the control's
-        /// <see cref="System.Windows.Forms.Control.Height" /> remains unchanged.
+        /// The control has a fixed height.
         /// </summary>
         FixedHeight = 0x00000040,
 
@@ -107,25 +103,23 @@ namespace System.Windows.Forms
         CacheText = 0x00004000,
 
         /// <summary>
-        /// If true, the
-        /// <see cref="System.Windows.Forms.Control.OnNotifyMessage(System.Windows.Forms.Message)" /> method is called for every message sent to the control's
-        /// <see cref="System.Windows.Forms.Control.WndProc(System.Windows.Forms.Message)" /> This style defaults to false.
-        /// <see cref="System.Windows.Forms.ControlStyles.EnableNotifyMessage" /> does not work in partial trust.
+        /// If true, the OnNotifyMessage method will be called for every message
+        /// sent to the control's WndProc.
+        /// This style defaults to false.
         /// </summary>
         EnableNotifyMessage = 0x00008000,
 
         /// <summary>
-        /// If true, drawing is performed in a buffer, and after it completes, the result is output to the screen. Double-buffering prevents flicker caused by the redrawing of the control. If you set
-        /// <see cref="System.Windows.Forms.ControlStyles.DoubleBuffer" /> to true, you should also set
-        /// <see cref="System.Windows.Forms.ControlStyles.UserPaint" /> and
-        /// <see cref="System.Windows.Forms.ControlStyles.AllPaintingInWmPaint" /> to true.
+        /// If set, all control painting will be double buffered. You must also
+        /// set the UserPaint and AllPaintingInWmPaint style. Note: This is
+        /// obsolete, please
+        /// use OptimizedDoubleBuffer instead.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)] // It is recommended that you use the DoubleBuffer property instead.
         DoubleBuffer = 0x00010000,
 
         /// <summary>
-        /// If true, the control is first drawn to a buffer rather than directly to the screen, which can reduce flicker. If you set this property to true, you should also set the
-        /// <see cref="System.Windows.Forms.ControlStyles.AllPaintingInWmPaint" /> to true.
+        /// If set, all control painting will be double buffered.
         /// </summary>
         OptimizedDoubleBuffer = 0x00020000,
 

@@ -8,7 +8,7 @@ namespace System.Windows.Forms
     /// Provides data for the
     /// <see cref="!:System.Windows.Forms.TabControl.Selected" /> and
     /// <see cref="!:System.Windows.Forms.TabControl.Deselected" /> events of a
-    /// <see cref="System.Windows.Forms.TabControl" /> control.
+    /// <see cref="T:System.Windows.Forms.TabControl" /> control.
     /// </summary>
     /// <filterpriority>
     /// 2
@@ -17,18 +17,8 @@ namespace System.Windows.Forms
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.TabControlEventArgs" /> class.
+        /// <see cref="TabControlEventArgs" /> class.
         /// </summary>
-        /// <param name="tabPage">The
-        /// <see cref="System.Windows.Forms.TabPage" /> the event is occurring for.
-        /// </param>
-        /// <param name="tabPageIndex">The zero-based index of
-        /// <paramref name="tabPage" /> in the
-        /// <see cref="System.Windows.Forms.TabControl.TabPages" /> collection.
-        /// </param>
-        /// <param name="action">One of the
-        /// <see cref="System.Windows.Forms.TabControlAction" /> values.
-        /// </param>
         public TabControlEventArgs(TabPage tabPage, int tabPageIndex, TabControlAction action)
         {
             TabPage = tabPage;
@@ -37,37 +27,18 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets a value indicating which event is occurring.
+        /// Stores the action which instigated the event.
         /// </summary>
-        /// <returns>One of the
-        /// <see cref="System.Windows.Forms.TabControlAction" /> values.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public TabControlAction Action { get; }
 
         /// <summary>
-        /// Gets the
-        /// <see cref="System.Windows.Forms.TabPage" /> the event is occurring for.
+        /// Stores the referemce to the tabpage that is undergoing the event.
         /// </summary>
-        /// <returns>The
-        /// <see cref="System.Windows.Forms.TabPage" /> the event is occurring for.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public TabPage TabPage { get; }
 
         /// <summary>
-        /// Gets the zero-based index of the
-        /// <see cref="System.Windows.Forms.TabControlEventArgs.TabPage" /> in the
-        /// <see cref="System.Windows.Forms.TabControl.TabPages" /> collection.
+        /// Stores the index to the tabpage that is undergoing the event.
         /// </summary>
-        /// <returns>The zero-based index of the
-        /// <see cref="System.Windows.Forms.TabControlEventArgs.TabPage" /> in the
-        /// <see cref="System.Windows.Forms.TabControl.TabPages" /> collection.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public int TabPageIndex { get; }
 
     }

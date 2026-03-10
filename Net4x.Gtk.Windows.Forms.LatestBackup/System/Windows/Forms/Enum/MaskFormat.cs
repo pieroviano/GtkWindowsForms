@@ -6,7 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Defines how to format the text inside of a
-    /// <see cref="System.Windows.Forms.MaskedTextBox" /> .
+    /// <see cref="T:System.Windows.Forms.MaskedTextBox" /> .
     /// </summary>
     public enum MaskFormat
     {

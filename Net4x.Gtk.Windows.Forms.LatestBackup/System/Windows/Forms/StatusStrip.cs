@@ -17,10 +17,6 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public class StatusStrip : ToolStrip
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.StatusStrip" /> class.
-        /// </summary>
         public StatusStrip() : base()
         {
             this.self.StyleContext.RemoveClass("ToolStrip");
@@ -30,34 +26,16 @@ namespace System.Windows.Forms
 
         public override Point Location { get => base.Location; set => base.Location = new Point(value.X, value.Y - 12); }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether ToolTips are shown for the
-        /// <see cref="System.Windows.Forms.StatusStrip" />
-        /// </summary>
-        /// <returns>true if ToolTips are shown for the
-        /// <see cref="System.Windows.Forms.StatusStrip" />; otherwise, false. The default is false.
-        /// </returns>
         [DefaultValue(false)]
+
         public bool ShowItemToolTips { get; set; }
 
         public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, value.Height + 12); }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether a sizing handle (grip) is displayed in the lower-right corner of the control.
-        /// </summary>
-        /// <returns>true if a grip is displayed; otherwise, false. The default is true.
-        /// </returns>
         [DefaultValue(true)]
+
         public bool SizingGrip { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the
-        /// <see cref="System.Windows.Forms.StatusStrip" /> stretches from end to end in its container.
-        /// </summary>
-        /// <returns>true if the
-        /// <see cref="System.Windows.Forms.StatusStrip" /> stretches from end to end in its
-        /// <see cref="System.Windows.Forms.ToolStripContainer" />; otherwise, false. The default is true.
-        /// </returns>
         [DefaultValue(true)]
         public bool Stretch { get; set; }
 

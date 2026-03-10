@@ -13,13 +13,15 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> class with the specified
         /// <see cref="T:System.Drawing.Drawing2D.HatchStyle" /> enumeration and foreground color.
         /// </summary>
-        /// <param name="hatchstyle">One of the
+        /// <param name="hatchstyle">
+        /// One of the
         /// <see cref="T:System.Drawing.Drawing2D.HatchStyle" /> values that represents the pattern drawn by this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />
         /// </param>
-        /// <param name="foreColor">The
+        /// <param name="foreColor">
+        /// The
         /// <see cref="T:System.Drawing.Color" /> structure that represents the color of lines drawn by this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />
         /// </param>
         public HatchBrush(HatchStyle hatchstyle, Color foreColor) : this(hatchstyle, foreColor, Color.Transparent)
         {
@@ -30,17 +32,20 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> class with the specified
         /// <see cref="T:System.Drawing.Drawing2D.HatchStyle" /> enumeration, foreground color, and background color.
         /// </summary>
-        /// <param name="hatchstyle">One of the
+        /// <param name="hatchstyle">
+        /// One of the
         /// <see cref="T:System.Drawing.Drawing2D.HatchStyle" /> values that represents the pattern drawn by this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />
         /// </param>
-        /// <param name="foreColor">The
+        /// <param name="foreColor">
+        /// The
         /// <see cref="T:System.Drawing.Color" /> structure that represents the color of lines drawn by this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />
         /// </param>
-        /// <param name="backColor">The
+        /// <param name="backColor">
+        /// The
         /// <see cref="T:System.Drawing.Color" /> structure that represents the color of spaces between the lines drawn by this
-        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
+        /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />
         /// </param>
         public HatchBrush(HatchStyle hatchstyle, Color foreColor, Color backColor)
         {
@@ -53,7 +58,8 @@ namespace System.Drawing.Drawing2D
         /// Gets the color of spaces between the hatch lines drawn by this
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
         /// </summary>
-        /// <returns>A
+        /// <returns>
+        /// A
         /// <see cref="T:System.Drawing.Color" /> structure that represents the background color for this
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
         /// </returns>
@@ -67,7 +73,8 @@ namespace System.Drawing.Drawing2D
         /// Gets the color of hatch lines drawn by this
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
         /// </summary>
-        /// <returns>A
+        /// <returns>
+        /// A
         /// <see cref="T:System.Drawing.Color" /> structure that represents the foreground color for this
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
         /// </returns>
@@ -81,7 +88,8 @@ namespace System.Drawing.Drawing2D
         /// Gets the hatch style of this
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
         /// </summary>
-        /// <returns>One of the
+        /// <returns>
+        /// One of the
         /// <see cref="T:System.Drawing.Drawing2D.HatchStyle" /> values that represents the pattern of this
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />.
         /// </returns>
@@ -95,7 +103,8 @@ namespace System.Drawing.Drawing2D
         /// Creates an exact copy of this
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> object.
         /// </summary>
-        /// <returns>The
+        /// <returns>
+        /// The
         /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> this method creates, cast as an object.
         /// </returns>
         public override object Clone()

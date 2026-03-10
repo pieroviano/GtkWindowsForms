@@ -10,10 +10,6 @@ namespace System.Windows.Forms
     /// </filterpriority>
     public partial class ComboBox
     {
-        /// <summary>
-        /// Represents the collection of items in a
-        /// <see cref="System.Windows.Forms.ComboBox" />
-        /// </summary>
         public partial class ObjectCollection
         {
             /// <summary>

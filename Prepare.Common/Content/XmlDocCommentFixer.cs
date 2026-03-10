@@ -95,7 +95,7 @@ public sealed class XmlDocCommentFixer
         foreach (var ex in content.Exceptions)
         {
             sb.AppendLine(
-                $"{indent}/// <exception cref=\"{ex.Type}\">{ex.Description}</exception>");
+                $"{indent}/// <exception cref=\"T:{ex.Type}\">{ex.Description}</exception>");
         }
 
         foreach (var ret in content.Returns)
@@ -166,8 +166,8 @@ public sealed class XmlDocCommentFixer
                     break;
 
                 case DocSection.Exceptions:
-                    if (!line.StartsWith("T:") || !line.EndsWith(":")) { i++; break; }
-                    var exType = line.Substring(2).TrimEnd(':'); i++;
+                    if (!line.EndsWith(":")) { i++; break; }
+                    var exType = line.TrimEnd(':'); i++;
                     var exDesc = ReadDescription(block, ref i);
                     content.Exceptions.Add(new DocException(exType, exDesc));
                     break;

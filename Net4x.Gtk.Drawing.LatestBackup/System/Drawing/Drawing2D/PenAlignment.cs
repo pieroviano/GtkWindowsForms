@@ -2,7 +2,7 @@ namespace System.Drawing.Drawing2D
 {
     /// <summary>
     /// Specifies the alignment of a
-    /// <see cref="System.Drawing.Pen" /> object in relation to the theoretical, zero-width line.
+    /// <see cref="T:System.Drawing.Pen" /> object in relation to the theoretical, zero-width line.
     /// </summary>
     public enum PenAlignment
     {

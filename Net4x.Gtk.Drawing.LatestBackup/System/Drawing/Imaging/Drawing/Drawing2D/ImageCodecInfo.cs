@@ -4,7 +4,7 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// The
-    /// <see cref="System.Drawing.Imaging.ImageCodecInfo" />
+    /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" />
     /// class provides the necessary storage members and methods to retrieve all pertinent information about the installed image encoders and decoders (called codecs). Not inheritable.
     /// </summary>
     public sealed class ImageCodecInfo
@@ -72,13 +72,11 @@ namespace System.Drawing.Imaging
         }
 
         /// <summary>
-        /// Gets or sets string that contains the path name of the DLL that holds the codec. If the codec is not in a DLL, this pointer is null.
+        /// Gets or sets string that contains the path name of the DLL that holds the codec. If the codec is not in a DLL, this pointer is
+        /// <see langword="null" />.
         /// </summary>
         /// <returns>A string that contains the path name of the DLL that holds the codec.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-        /// </PermissionSet>
         public string DllName
         {
             get
@@ -234,16 +232,12 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns an array of
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> objects that contain information about the image decoders built into GDI+.
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> objects that contain information about the image decoders built into GDI+.
         /// </summary>
-        /// <returns>
-        /// An array of
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> objects. Each
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> object in the array contains information about one of the built-in image decoders.
+        /// <returns>An array of
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> objects. Each
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> object in the array contains information about one of the built-in image decoders.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public static ImageCodecInfo[] GetImageDecoders()
         {
 
@@ -253,16 +247,12 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Returns an array of
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> objects that contain information about the image encoders built into GDI+.
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> objects that contain information about the image encoders built into GDI+.
         /// </summary>
-        /// <returns>
-        /// An array of
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> objects. Each
-        /// <see cref="System.Drawing.Imaging.ImageCodecInfo" /> object in the array contains information about one of the built-in image encoders.
+        /// <returns>An array of
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> objects. Each
+        /// <see cref="T:System.Drawing.Imaging.ImageCodecInfo" /> object in the array contains information about one of the built-in image encoders.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public static ImageCodecInfo[] GetImageEncoders()
         {
 

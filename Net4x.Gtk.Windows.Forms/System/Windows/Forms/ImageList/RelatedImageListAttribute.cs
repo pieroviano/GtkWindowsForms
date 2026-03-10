@@ -14,10 +14,11 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.RelatedImageListAttribute" /> class.
+        /// <see cref="T:System.Windows.Forms.RelatedImageListAttribute" /> class.
         /// </summary>
-        /// <param name="relatedImageList">The name of the
-        /// <see cref="System.Windows.Forms.ImageList" /> the property relates to.
+        /// <param name="relatedImageList">
+        /// The name of the
+        /// <see cref="T:System.Windows.Forms.ImageList" /> the property relates to.
         /// </param>
         public RelatedImageListAttribute(string? relatedImageList)
         {
@@ -26,10 +27,11 @@ namespace System.Windows.Forms
 
         /// <summary>
         /// Gets the name of the related
-        /// <see cref="System.Windows.Forms.ImageList" />
+        /// <see cref="T:System.Windows.Forms.ImageList" />
         /// </summary>
-        /// <returns>The name of the related
-        /// <see cref="System.Windows.Forms.ImageList" />
+        /// <returns>
+        /// The name of the related
+        /// <see cref="T:System.Windows.Forms.ImageList" />
         /// </returns>
         public string? RelatedImageList
         {

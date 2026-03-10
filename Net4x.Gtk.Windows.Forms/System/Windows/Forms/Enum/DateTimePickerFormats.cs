@@ -5,7 +5,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Specifies the date and time format the
-    /// <see cref="System.Windows.Forms.DateTimePicker" /> control displays.
+    /// <see cref="T:System.Windows.Forms.DateTimePicker" /> control displays.
     /// </summary>
     /// <filterpriority>
     /// 2
@@ -13,27 +13,22 @@ namespace System.Windows.Forms
     public enum DateTimePickerFormat
     {
         /// <summary>
-        /// The
-        /// <see cref="System.Windows.Forms.DateTimePicker" /> control displays the date/time value in the long date format set by the user's operating system.
+        /// Long format - produces output in the form "Wednesday, April 7, 1999"
         /// </summary>
         Long = 0x0001,
 
         /// <summary>
-        /// The
-        /// <see cref="System.Windows.Forms.DateTimePicker" /> control displays the date/time value in the short date format set by the user's operating system.
+        /// Short format - produces output in the form "4/7/99"
         /// </summary>
         Short = 0x0002,
 
         /// <summary>
-        /// The
-        /// <see cref="System.Windows.Forms.DateTimePicker" /> control displays the date/time value in the time format set by the user's operating system.
+        /// Time format - produces output in time format
         /// </summary>
         Time = 0x0004,
 
         /// <summary>
-        /// The
-        /// <see cref="System.Windows.Forms.DateTimePicker" /> control displays the date/time value in a custom format. For more information, see
-        /// <see cref="System.Windows.Forms.DateTimePicker.CustomFormat" />
+        /// Custom format - produces output in custom format.
         /// </summary>
         Custom = 0x0008,
     }

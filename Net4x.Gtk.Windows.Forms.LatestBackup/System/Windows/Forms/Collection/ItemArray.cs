@@ -10,7 +10,9 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// This is similar to ArrayList except that it also
-    /// maintains a bit-flag based state element for each item in the array.
+    /// maintains a bit-flag based state element for each item
+    /// in the array.
+    ///
     /// The methods to enumerate, count and get data support
     /// virtualized indexes.  Indexes are virtualized according
     /// to the state mask passed in.  This allows ItemArray

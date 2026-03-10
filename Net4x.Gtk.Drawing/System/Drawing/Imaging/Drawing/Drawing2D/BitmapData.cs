@@ -5,11 +5,11 @@ namespace System.Drawing.Imaging
 {
     /// <summary>
     /// Specifies the attributes of a bitmap image. The
-    /// <see cref="System.Drawing.Imaging.BitmapData" /> class is used by the
+    /// <see cref="T:System.Drawing.Imaging.BitmapData" /> class is used by the
     /// <see cref="!:Overload:System.Drawing.Bitmap.LockBits" /> and
-    /// <see cref="System.Drawing.Bitmap.UnlockBits(System.Drawing.Imaging.BitmapData)" />
+    /// <see cref="T:System.Drawing.Bitmap.UnlockBits(System.Drawing.Imaging.BitmapData)" />
     /// methods of the
-    /// <see cref="System.Drawing.Bitmap" /> class. Not inheritable.
+    /// <see cref="T:System.Drawing.Bitmap" /> class. Not inheritable.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public sealed class BitmapData
@@ -56,17 +56,13 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets the format of the pixel information in the
-        /// <see cref="System.Drawing.Bitmap" /> object that returned this
-        /// <see cref="System.Drawing.Imaging.BitmapData" /> object.
+        /// <see cref="T:System.Drawing.Bitmap" /> object that returned this
+        /// <see cref="T:System.Drawing.Imaging.BitmapData" /> object.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="System.Drawing.Imaging.PixelFormat" /> that specifies the format of the pixel information in the associated
-        /// <see cref="System.Drawing.Bitmap" /> object.
+        /// <returns>A
+        /// <see cref="T:System.Drawing.Imaging.PixelFormat" /> that specifies the format of the pixel information in the associated
+        /// <see cref="T:System.Drawing.Bitmap" /> object.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public PixelFormat PixelFormat
         {
             get

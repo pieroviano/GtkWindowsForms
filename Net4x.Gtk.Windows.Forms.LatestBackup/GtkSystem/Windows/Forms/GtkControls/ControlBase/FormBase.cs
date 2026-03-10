@@ -13,7 +13,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
     /// <seealso cref="Gtk.Dialog" />
     /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
     /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase" />
-    /// <seealso cref="System.Windows.Forms.IWin32Window" />
+    /// <seealso cref="T:System.Windows.Forms.IWin32Window" />
     public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin32Window
     {
 

@@ -46,7 +46,7 @@ namespace System.Drawing
         /// <param name="family">The System.Drawing.FontFamily of the new System.Drawing.Font.</param>
         /// <param name="emSize">The em-size, in points, of the new font.</param>
         /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
-        /// <exception cref="System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</exception>
+        /// <exception cref="T:T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</exception>
         public Font(FontFamily family, float emSize, FontStyle style) : this(family, emSize, style, GraphicsUnit.Point, 1, false) { }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace System.Drawing
         /// <param name="family">The System.Drawing.FontFamily of the new System.Drawing.Font.</param>
         /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
         /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
-        /// <exception cref="System.ArgumentNullException">family is null.</exception>
+        /// <exception cref="T:T:System.ArgumentNullException">family is null.</exception>
         public Font(FontFamily family, float emSize, GraphicsUnit unit) : this(family, emSize, FontStyle.Regular, unit, 1, false)
         {
 
@@ -106,7 +106,7 @@ namespace System.Drawing
         /// <param name="emSize">The em-size of the new font in the units specified by the unit parameter.</param>
         /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
         /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
-        /// <exception cref="System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</exception>
+        /// <exception cref="T:T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</exception>
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit) : this(family, emSize, style, unit, 1, false) { }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace System.Drawing
         /// <param name="style">The System.Drawing.FontStyle of the new font.</param>
         /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
         /// <param name="gdiCharSet">A System.Byte that specifies a GDI character set to use for the new font.</param>
-        /// <exception cref="System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</exception>
+        /// <exception cref="T:T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</exception>
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet) : this(family, emSize, style, unit, gdiCharSet, false) { }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace System.Drawing
         /// <param name="unit">The System.Drawing.GraphicsUnit of the new font.</param>
         /// <param name="gdiCharSet">A System.Byte that specifies a GDI character set to use for this font.</param>
         /// <param name="gdiVerticalFont">A Boolean value indicating whether the new font is derived from a GDI vertical font.</param>
-        /// <exception cref="System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</exception>
+        /// <exception cref="T:T:System.ArgumentException">emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.</exception>
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont) {
             this.Name = family?.Name;
             this.FontFamily = family;
@@ -381,7 +381,7 @@ namespace System.Drawing
 
         /// <summary>
         /// Returns a handle to this System.Drawing.Font.
-        /// <exception cref="System.ComponentModel.Win32Exception">The operation was unsuccessful. </summary></exception>
+        /// <exception cref="T:T:System.ComponentModel.Win32Exception">The operation was unsuccessful. </summary></exception>
         /// <returns>A Windows handle to this System.Drawing.Font.</returns>
         public IntPtr ToHfont() { return IntPtr.Zero; }
 

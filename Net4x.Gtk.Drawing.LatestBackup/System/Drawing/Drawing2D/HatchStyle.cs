@@ -2,7 +2,7 @@ namespace System.Drawing.Drawing2D
 {
     /// <summary>
     /// Specifies the different patterns available for
-    /// <see cref="System.Drawing.Drawing2D.HatchBrush" /> objects.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> objects.
     /// </summary>
     public enum HatchStyle
     {
@@ -135,14 +135,14 @@ namespace System.Drawing.Drawing2D
         LightHorizontal = 25,
         /// <summary>
         /// Specifies vertical lines that are spaced 75 percent closer together than hatch style
-        /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Vertical" /> (or 25 percent closer together than
-        /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.LightVertical" />).
+        /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Vertical" /> (or 25 percent closer together than
+        /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.LightVertical" />).
         /// </summary>
         NarrowVertical = 26,
         /// <summary>
         /// Specifies horizontal lines that are spaced 75 percent closer together than hatch style
-        /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Horizontal" /> (or 25 percent closer together than
-        /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.LightHorizontal" />).
+        /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Horizontal" /> (or 25 percent closer together than
+        /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.LightHorizontal" />).
         /// </summary>
         NarrowHorizontal = 27,
         /// <summary>
@@ -152,8 +152,8 @@ namespace System.Drawing.Drawing2D
         DarkVertical = 28,
         /// <summary>
         /// Specifies horizontal lines that are spaced 50 percent closer together than
-        /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Horizontal" /> and are twice the width of
-        /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Horizontal" />.
+        /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Horizontal" /> and are twice the width of
+        /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Horizontal" />.
         /// </summary>
         DarkHorizontal = 29,
         /// <summary>

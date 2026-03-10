@@ -2,7 +2,7 @@ namespace System.Drawing
 {
     /// <summary>
     /// The
-    /// <see cref="System.Drawing.StringDigitSubstitute" /> enumeration specifies how to substitute digits in a string according to a user's locale or language.
+    /// <see cref="T:System.Drawing.StringDigitSubstitute" /> enumeration specifies how to substitute digits in a string according to a user's locale or language.
     /// </summary>
     /// <filterpriority>
     /// 2

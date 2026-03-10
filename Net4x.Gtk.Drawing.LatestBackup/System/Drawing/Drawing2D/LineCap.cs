@@ -2,7 +2,7 @@ namespace System.Drawing.Drawing2D
 {
     /// <summary>
     /// Specifies the available cap styles with which a
-    /// <see cref="System.Drawing.Pen" /> object can end a line.
+    /// <see cref="T:System.Drawing.Pen" /> object can end a line.
     /// </summary>
     public enum LineCap
     {

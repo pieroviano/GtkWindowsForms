@@ -6,7 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.DataGridView.CellToolTipTextNeeded" /> event.
+    /// <see cref="T:System.Windows.Forms.DataGridView.CellToolTipTextNeeded" /> event.
     /// </summary>
     public class DataGridViewCellToolTipTextNeededEventArgs : DataGridViewCellEventArgs
     {
@@ -15,11 +15,6 @@ namespace System.Windows.Forms
             ToolTipText = toolTipText;
         }
 
-        /// <summary>
-        /// Gets or sets the ToolTip text.
-        /// </summary>
-        /// <returns>The current ToolTip text.
-        /// </returns>
         public string ToolTipText { get; set; }
 
     }

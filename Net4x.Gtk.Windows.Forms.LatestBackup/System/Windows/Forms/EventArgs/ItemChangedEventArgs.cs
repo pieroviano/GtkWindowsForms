@@ -6,7 +6,7 @@ namespace System.Windows.Forms
 {
     /// <summary>
     /// Provides data for the
-    /// <see cref="System.Windows.Forms.CurrencyManager.ItemChanged" /> event.
+    /// <see cref="T:System.Windows.Forms.CurrencyManager.ItemChanged" /> event.
     /// </summary>
     /// <filterpriority>
     /// 2
@@ -18,13 +18,6 @@ namespace System.Windows.Forms
             Index = index;
         }
 
-        /// <summary>
-        /// Indicates the position of the item being changed within the list.
-        /// </summary>
-        /// <returns>The zero-based index to the item being changed.
-        /// </returns>
-        /// <filterpriority>1
-        /// </filterpriority>
         public int Index { get; }
 
     }

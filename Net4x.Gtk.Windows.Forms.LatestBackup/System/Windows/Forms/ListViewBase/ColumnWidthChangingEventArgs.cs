@@ -12,28 +12,10 @@ namespace System.Windows.Forms
     /// </summary>
     public class ColumnWidthChangingEventArgs : CancelEventArgs
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ColumnWidthChangingEventArgs" /> class with the specified column index and width.
-        /// </summary>
-        /// <param name="columnIndex">The index of the column whose width is changing.
-        /// </param>
-        /// <param name="newWidth">The new width for the column.
-        /// </param>
         public ColumnWidthChangingEventArgs(int columnIndex, int newWidth) : this(columnIndex, newWidth, false)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="System.Windows.Forms.ColumnWidthChangingEventArgs" /> class, specifying the column index and width and whether to cancel the event.
-        /// </summary>
-        /// <param name="columnIndex">The index of the column whose width is changing.
-        /// </param>
-        /// <param name="newWidth">The new width of the column.
-        /// </param>
-        /// <param name="cancel">true to cancel the width change; otherwise, false.
-        /// </param>
         public ColumnWidthChangingEventArgs(int columnIndex, int newWidth, bool cancel) : base(cancel)
         {
             ColumnIndex = columnIndex;
@@ -41,10 +23,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Gets the index of the column whose width is changing.
+        /// Returns the index of the column header whose width is changing
         /// </summary>
-        /// <returns>The index of the column whose width is changing.
-        /// </returns>
         public int ColumnIndex { get; }
 
         /// <summary>
