@@ -1,15 +1,14 @@
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+public enum Column
 {
-    public enum Column
-    {
-        Fixed,
-        Number,
-        Severity,
-        Description,
-        Pulse,
-        Icon,
-        Active,
-        Sensitive,
-        Num
-    }
+    Fixed,
+    Number,
+    Severity,
+    Description,
+    Pulse,
+    Icon,
+    Active,
+    Sensitive,
+    Num
 }

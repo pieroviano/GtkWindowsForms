@@ -8,7 +8,7 @@ namespace XmlDocSync.Roslyn;
 
 public static class CsFileOrganizer
 {
-    public static void ProcessFile(string path)
+    public static void ProcessFile(string path, params string[] toExclude)
     {
         var code = File.ReadAllText(path);
 
@@ -18,6 +18,11 @@ public static class CsFileOrganizer
         // Remove #region / #endregion
         var regionRemover = new RegionRemover();
         root = (CompilationUnitSyntax)regionRemover.Visit(root);
+
+        if (!toExclude.Contains(Path.GetFileName(path)))
+        {
+            root = ConvertToFileScopedNamespace(root);
+        }
 
         var newRoot = ProcessCompilationUnit(root);
 
@@ -29,6 +34,43 @@ public static class CsFileOrganizer
         }
 
         CsFile.WriteAllText(path, contents.Trim('\n'));
+    }
+
+    private static CompilationUnitSyntax ConvertToFileScopedNamespace(CompilationUnitSyntax root)
+    {
+        var namespaces = root.Members.OfType<NamespaceDeclarationSyntax>().ToList();
+
+        if (namespaces.Count != 1)
+            return root;
+
+        var ns = namespaces[0];
+
+        if (ns.Members.OfType<NamespaceDeclarationSyntax>().Any())
+            return root;
+
+        var newRoot = root
+            .WithUsings(root.Usings.AddRange(ns.Usings))
+            .WithExterns(root.Externs.AddRange(ns.Externs));
+
+        var cleanName = ns.Name.WithoutTrailingTrivia();
+
+        var semicolon = SyntaxFactory.Token(SyntaxKind.SemicolonToken)
+            .WithTrailingTrivia(
+                SyntaxFactory.CarriageReturnLineFeed,
+                SyntaxFactory.CarriageReturnLineFeed); // blank line after namespace
+
+        var fileScoped = SyntaxFactory.FileScopedNamespaceDeclaration(
+                attributeLists: ns.AttributeLists,
+                modifiers: ns.Modifiers,
+                name: cleanName,
+                externs: default,
+                usings: default,
+                members: ns.Members)
+            .WithNamespaceKeyword(ns.NamespaceKeyword)
+            .WithSemicolonToken(semicolon)
+            .WithLeadingTrivia(ns.GetLeadingTrivia());
+
+        return newRoot.ReplaceNode(ns, fileScoped);
     }
 
     private static CompilationUnitSyntax ProcessCompilationUnit(CompilationUnitSyntax root)

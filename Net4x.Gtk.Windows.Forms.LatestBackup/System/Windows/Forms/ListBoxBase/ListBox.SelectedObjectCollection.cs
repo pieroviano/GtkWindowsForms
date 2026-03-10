@@ -6,11 +6,7 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
-    /// <summary>
-    /// Represents a Windows control to display a list of items.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
+
     public partial class ListBox
     {
         public class SelectedObjectCollection : IList

@@ -2,23 +2,22 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="T:System.Windows.Forms.ListControl.Format" /> event.
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public class ListControlConvertEventArgs : ConvertEventArgs
 {
-    /// <summary>
-    /// Provides data for the
-    /// <see cref="T:System.Windows.Forms.ListControl.Format" /> event.
-    /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class ListControlConvertEventArgs : ConvertEventArgs
+    public ListControlConvertEventArgs(object value, Type desiredType, object listItem) : base(value, desiredType)
     {
-        public ListControlConvertEventArgs(object value, Type desiredType, object listItem) : base(value, desiredType)
-        {
-            ListItem = listItem;
-        }
-
-        public object ListItem { get; }
-
+        ListItem = listItem;
     }
+
+    public object ListItem { get; }
+
 }

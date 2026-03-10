@@ -1,100 +1,99 @@
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Represents a collection of
+/// <see cref="T:System.Windows.Forms.TreeNode" /> objects.
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public class TreeNodeCollection : List<TreeNode>
 {
-    /// <summary>
-    /// Represents a collection of
-    /// <see cref="T:System.Windows.Forms.TreeNode" /> objects.
-    /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class TreeNodeCollection : List<TreeNode>
+    private TreeNode owner;
+
+    internal TreeNodeCollection(TreeNode owner)
     {
-        private TreeNode owner;
-
-        internal TreeNodeCollection(TreeNode owner)
-        {
-            this.owner = owner;
-
-        }
-
-        public new void Add(TreeNode node)
-        {
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-            node.Parent = owner;
-            node.treeView = owner.TreeView;
-            base.Add(node);
-            if (owner != null && owner.TreeView != null)
-            {
-                owner.TreeView.LoadNodeValue(node, owner.TreeIter);
-            }
-        }
-
-        public void AddRange(TreeNode[] nodes)
-        {
-            if (nodes == null)
-            {
-                throw new ArgumentNullException("nodes");
-            }
-            foreach (TreeNode node in nodes)
-            {
-                Add(node);
-            }
-        }
-
-        public new void AddRange(IEnumerable<TreeNode> nodes)
-        {
-            if (nodes == null)
-            {
-                throw new ArgumentNullException("nodes");
-            }
-            foreach (TreeNode node in nodes)
-            {
-                Add(node);
-            }
-        }
-
-        public new void Clear()
-        {
-            if (owner.TreeView != null)
-            {
-                foreach (TreeNode node in this)
-                    owner.TreeView.RemoveNode(node);
-            }
-            base.Clear();
-        }
-
-        public new void Insert(int index, TreeNode node)
-        {
-            if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
-            if (this.Count <= index)
-            {
-                throw new ArgumentOutOfRangeException("index " + index.ToString());
-            }
-            base.Insert(index, node);
-            if (owner != null && owner.TreeView != null)
-            {
-                owner.TreeView.InsertNode(index, node, owner);
-            }
-        }
-
-        public new void Remove(TreeNode node)
-        {
-            if (owner.TreeView != null)
-                this.owner.TreeView.RemoveNode(node);
-            base.Remove(node);
-        }
-
-        public new void RemoveAt(int index)
-        {
-            if (index < this.Count)
-                Remove(this[index]);
-        }
+        this.owner = owner;
 
     }
+
+    public new void Add(TreeNode node)
+    {
+        if (node == null)
+        {
+            throw new ArgumentNullException("node");
+        }
+        node.Parent = owner;
+        node.treeView = owner.TreeView;
+        base.Add(node);
+        if (owner != null && owner.TreeView != null)
+        {
+            owner.TreeView.LoadNodeValue(node, owner.TreeIter);
+        }
+    }
+
+    public void AddRange(TreeNode[] nodes)
+    {
+        if (nodes == null)
+        {
+            throw new ArgumentNullException("nodes");
+        }
+        foreach (TreeNode node in nodes)
+        {
+            Add(node);
+        }
+    }
+
+    public new void AddRange(IEnumerable<TreeNode> nodes)
+    {
+        if (nodes == null)
+        {
+            throw new ArgumentNullException("nodes");
+        }
+        foreach (TreeNode node in nodes)
+        {
+            Add(node);
+        }
+    }
+
+    public new void Clear()
+    {
+        if (owner.TreeView != null)
+        {
+            foreach (TreeNode node in this)
+                owner.TreeView.RemoveNode(node);
+        }
+        base.Clear();
+    }
+
+    public new void Insert(int index, TreeNode node)
+    {
+        if (node == null)
+        {
+            throw new ArgumentNullException("node");
+        }
+        if (this.Count <= index)
+        {
+            throw new ArgumentOutOfRangeException("index " + index.ToString());
+        }
+        base.Insert(index, node);
+        if (owner != null && owner.TreeView != null)
+        {
+            owner.TreeView.InsertNode(index, node, owner);
+        }
+    }
+
+    public new void Remove(TreeNode node)
+    {
+        if (owner.TreeView != null)
+            this.owner.TreeView.RemoveNode(node);
+        base.Remove(node);
+    }
+
+    public new void RemoveAt(int index)
+    {
+        if (index < this.Count)
+            Remove(this[index]);
+    }
+
 }

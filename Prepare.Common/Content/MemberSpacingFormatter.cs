@@ -48,7 +48,8 @@ public static class MemberSpacingFormatter
                 currentBlock.Add(line);
                 continue;
             }
-            else if (insideXmlComment)
+
+            if (insideXmlComment)
             {
                 // End of XML comment block
                 insideXmlComment = false;

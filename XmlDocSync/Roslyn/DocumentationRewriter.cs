@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using XmlDocSync.Formatters;
+
 #pragma warning disable CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
 
 namespace XmlDocSync.Roslyn;
@@ -109,7 +110,7 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         {
             var line = lines[i];
 
-            if (System.Text.RegularExpressions.Regex.IsMatch(line, @"^\s*///"))
+            if (Regex.IsMatch(line, @"^\s*///"))
             {
                 relevantLineIndices.Add(i);
                 continue;
@@ -117,7 +118,7 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
 
             if (!codeLineCaptured &&
                 !string.IsNullOrWhiteSpace(line) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(line, @"^\s*//"))
+                !Regex.IsMatch(line, @"^\s*//"))
             {
                 relevantLineIndices.Add(i);
                 codeLineCaptured = true;

@@ -1,10 +1,9 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Prepare.Common.Logging;
-using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Prepare.Common.Content;
+using Prepare.Common.Logging;
 using XmlDocSync.Cleaning;
 using XmlDocSync.Formatters;
 using XmlDocSync.Roslyn;

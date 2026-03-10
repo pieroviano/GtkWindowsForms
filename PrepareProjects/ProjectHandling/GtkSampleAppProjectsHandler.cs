@@ -1,11 +1,11 @@
-﻿using Prepare.Common.Content;
+﻿using System.Reflection;
+using System.Xml.Linq;
+using Prepare.Common.Content;
 using Prepare.Common.IO;
 using Prepare.Common.Languages;
 using Prepare.Common.Logging;
 using Prepare.Common.Projects;
 using PrepareProjects.Preparation.Source;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace PrepareProjects.ProjectHandling;
 
@@ -79,7 +79,7 @@ public static class GtkSampleAppProjectsHandler
 
     private static void ReplaceTestDataJson(string targetDir)
     {
-        foreach (var testData in new String[] { "TestData1.json", "TestData1.en.json" })
+        foreach (var testData in new[] { "TestData1.json", "TestData1.en.json" })
         {
 #pragma warning disable CS8604 // Possible null reference argument.
             var sourceFileName = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"..\..\..\..\Resources", testData));

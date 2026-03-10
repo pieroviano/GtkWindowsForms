@@ -24,22 +24,17 @@ namespace System.Windows.Forms
         public event EventHandler ThreadExit;
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Windows.Forms.ApplicationContext" /> class with no context.
+        /// Creates a new ApplicationContext with no mainForm.
         /// </summary>
         public ApplicationContext() : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Windows.Forms.ApplicationContext" /> class with the specified
-        /// <see cref="T:System.Windows.Forms.Form" />
+        /// Creates a new ApplicationContext with the specified mainForm.
+        /// If OnMainFormClosed is not overriden, the thread's message
+        /// loop will be terminated when mainForm is closed.
         /// </summary>
-        /// <param name="mainForm">
-        /// The main
-        /// <see cref="T:System.Windows.Forms.Form" /> of the application to use for context.
-        /// </param>
         public ApplicationContext(Form mainForm)
         {
             MainForm = mainForm;
@@ -71,16 +66,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets an object that contains data about the control.
-        /// </summary>
-        /// <returns>
-        /// An
-        /// <see cref="T:System.Object" /> that contains data about the control. The default is null.
-        /// </returns>
-        /// <filterpriority>
-        /// 2
-        /// </filterpriority>
         [Localizable(false)]
         [Bindable(true)]
         [DefaultValue(null)]
@@ -103,13 +88,6 @@ namespace System.Windows.Forms
         /// </summary>
         public void ExitThread() => ExitThreadCore();
 
-        /// <summary>
-        /// Releases the unmanaged resources used by the
-        /// <see cref="T:System.Windows.Forms.ApplicationContext" /> and optionally releases the managed resources.
-        /// </summary>
-        /// <param name="disposing">
-        /// true to release both managed and unmanaged resources; false to release only unmanaged resources.
-        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -132,17 +110,9 @@ namespace System.Windows.Forms
         protected virtual void ExitThreadCore() => ThreadExit?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
-        /// Calls
-        /// <see cref="T:System.Windows.Forms.ApplicationContext.ExitThreadCore" />, which raises the
-        /// <see cref="T:System.Windows.Forms.ApplicationContext.ThreadExit" /> event.
+        /// Called when the mainForm is closed. The default implementation
+        /// of this will call ExitThreadCore.
         /// </summary>
-        /// <param name="sender">
-        /// The object that raised the event.
-        /// </param>
-        /// <param name="e">
-        /// The
-        /// <see cref="T:System.EventArgs" /> that contains the event data.
-        /// </param>
         protected virtual void OnMainFormClosed(object sender, EventArgs e) => ExitThreadCore();
 
         /// <summary>

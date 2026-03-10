@@ -57,7 +57,7 @@ public class Program
         SummaryCommentTransformer.TransformFolder(targetDir);
         MemberSpacingFormatter.TransformFolder(targetDir);
 
-        ConsoleColor.Green.Write($@"Removing old Xml comments generated from submodule", true);
+        ConsoleColor.Green.Write(@"Removing old Xml comments generated from submodule", true);
         PrepareWorker.RemoveOldXmlComments(csprojPath);
 
         ConsoleColor.Green.Write($@"Reorganizing files for {net4xGtkWindowsForms}", true);
@@ -68,7 +68,7 @@ public class Program
             "Resources"
         }, ["GTKControls", "GTKSystem"], ["Application"]);
 
-        ConsoleColor.Green.Write($@"Normalizing Gtk folders", true);
+        ConsoleColor.Green.Write(@"Normalizing Gtk folders", true);
         GtkFoldersService.NormalizeGtkFolders(csprojPath);
         FixService.FixClasses(csprojPath);
         var projectDirectory = Path.GetDirectoryName(csprojPath)!;

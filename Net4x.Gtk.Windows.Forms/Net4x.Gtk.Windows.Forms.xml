@@ -631,20 +631,15 @@
         </member>
         <member name="M:System.Windows.Forms.ApplicationContext.#ctor">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.ApplicationContext" /> class with no context.
+            Creates a new ApplicationContext with no mainForm.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ApplicationContext.#ctor(System.Windows.Forms.Form)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.ApplicationContext" /> class with the specified
-            <see cref="T:System.Windows.Forms.Form" />
+            Creates a new ApplicationContext with the specified mainForm.
+            If OnMainFormClosed is not overriden, the thread's message
+            loop will be terminated when mainForm is closed.
             </summary>
-            <param name="mainForm">
-            The main
-            <see cref="T:System.Windows.Forms.Form" /> of the application to use for context.
-            </param>
         </member>
         <member name="P:System.Windows.Forms.ApplicationContext.MainForm">
             <summary>
@@ -653,18 +648,6 @@
             If OnMainFormClosed is not overriden, the thread's message
             loop will be terminated when mainForm is closed.
             </summary>
-        </member>
-        <member name="P:System.Windows.Forms.ApplicationContext.Tag">
-            <summary>
-            Gets or sets an object that contains data about the control.
-            </summary>
-            <returns>
-            An
-            <see cref="T:System.Object" /> that contains data about the control. The default is null.
-            </returns>
-            <filterpriority>
-            2
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.ApplicationContext.Dispose">
             <summary>
@@ -678,15 +661,6 @@
             Causes the thread's message loop to be terminated. This will call ExitThreadCore.
             </summary>
         </member>
-        <member name="M:System.Windows.Forms.ApplicationContext.Dispose(System.Boolean)">
-            <summary>
-            Releases the unmanaged resources used by the
-            <see cref="T:System.Windows.Forms.ApplicationContext" /> and optionally releases the managed resources.
-            </summary>
-            <param name="disposing">
-            true to release both managed and unmanaged resources; false to release only unmanaged resources.
-            </param>
-        </member>
         <member name="M:System.Windows.Forms.ApplicationContext.ExitThreadCore">
             <summary>
             Causes the thread's message loop to be terminated.
@@ -694,17 +668,9 @@
         </member>
         <member name="M:System.Windows.Forms.ApplicationContext.OnMainFormClosed(System.Object,System.EventArgs)">
             <summary>
-            Calls
-            <see cref="T:System.Windows.Forms.ApplicationContext.ExitThreadCore" />, which raises the
-            <see cref="T:System.Windows.Forms.ApplicationContext.ThreadExit" /> event.
+            Called when the mainForm is closed. The default implementation
+            of this will call ExitThreadCore.
             </summary>
-            <param name="sender">
-            The object that raised the event.
-            </param>
-            <param name="e">
-            The
-            <see cref="T:System.EventArgs" /> that contains the event data.
-            </param>
         </member>
         <member name="M:System.Windows.Forms.ApplicationContext.OnMainFormDestroy(System.Object,System.EventArgs)">
             <summary>
@@ -1544,12 +1510,10 @@
             Initializes a new instance of the
             <see cref="T:System.Windows.Forms.BindingSource"/> class with the specified data source and data member.
             </summary>
-            <param name = "dataSource">
-            The data source for the
+            <param name = "dataSource">The data source for the
             <see cref="T:System.Windows.Forms.BindingSource"/>.
             </param>
-            <param name = "dataMember">
-            The specific column or list name within the data source to bind to.
+            <param name = "dataMember">The specific column or list name within the data source to bind to.
             </param>
         </member>
         <member name="M:System.Windows.Forms.BindingSource.#ctor(System.ComponentModel.IContainer)">
@@ -1558,8 +1522,7 @@
             <see cref="T:System.Windows.Forms.BindingSource"/> class and adds the
             <see cref="T:System.Windows.Forms.BindingSource"/> to the specified container.
             </summary>
-            <param name = "container">
-            The
+            <param name = "container">The
             <see cref="T:System.ComponentModel.IContainer"/> to add the current
             <see cref="T:System.Windows.Forms.BindingSource"/> to.
             </param>
@@ -1574,19 +1537,16 @@
         <member name="P:System.Windows.Forms.BindingSource.AllowNew">
             <summary>
             Gets or sets a value indicating whether the
-            <see cref="T:System.Windows.Forms.BindingSource.AddNew"/> method can be used to add items to the list.
+            <see cref="M:System.Windows.Forms.BindingSource.AddNew"/> method can be used to add items to the list.
             </summary>
-            <returns>
-            true if
-            <see cref="T:System.Windows.Forms.BindingSource.AddNew"/> can be used to add items to the list; otherwise, false.
+            <returns>true if
+            <see cref="M:System.Windows.Forms.BindingSource.AddNew"/> can be used to add items to the list; otherwise, false.
             </returns>
-            <exception cref="T:System.InvalidOperationException">
-            This property is set to true when the underlying list represented by the
-            <see cref="T:System.Windows.Forms.BindingSource.List"/> property has a fixed size or is read-only.
+            <exception cref="T:System.InvalidOperationException">This property is set to true when the underlying list represented by the
+            <see cref="P:System.Windows.Forms.BindingSource.List"/> property has a fixed size or is read-only.
             </exception>
-            <exception cref="T:System.MissingMethodException">
-            The property is set to true and the
-            <see cref="T:System.Windows.Forms.BindingSource.AddingNew"/> event is not handled when the underlying list type does not have a default constructor.
+            <exception cref="T:System.MissingMethodException">The property is set to true and the
+            <see cref="E:System.Windows.Forms.BindingSource.AddingNew"/> event is not handled when the underlying list type does not have a default constructor.
             </exception>
         </member>
         <member name="P:System.Windows.Forms.BindingSource.AllowRemove">
@@ -1609,8 +1569,7 @@
             Gets the currency manager associated with this
             <see cref="T:System.Windows.Forms.BindingSource"/>.
             </summary>
-            <returns>
-            The
+            <returns>The
             <see cref="T:System.Windows.Forms.CurrencyManager"/> associated with this
             <see cref="T:System.Windows.Forms.BindingSource"/>.
             </returns>
@@ -1737,8 +1696,7 @@
             Gets the
             <see cref="T:System.ComponentModel.PropertyDescriptor"/> that is being used for sorting the list.
             </summary>
-            <returns>
-            If the list is an
+            <returns>If the list is an
             <see cref="T:System.ComponentModel.IBindingList"/>, the
             <see cref="T:System.ComponentModel.PropertyDescriptor"/> that is being used for sorting; otherwise, null.
             </returns>
@@ -1831,29 +1789,24 @@
             <summary>
             Adds a new item to the underlying list.
             </summary>
-            <returns>
-            The
+            <returns>The
             <see cref="T:System.Object"/> that was created and added to the list.
             </returns>
-            <exception cref="T:System.InvalidOperationException">
-            The
-            <see cref="T:System.Windows.Forms.BindingSource.AllowNew"/> property is set to false. -or-A public default constructor could not be found for the current item type.
+            <exception cref="T:System.InvalidOperationException">The
+            <see cref="P:System.Windows.Forms.BindingSource.AllowNew"/> property is set to false. -or-A public default constructor could not be found for the current item type.
             </exception>
         </member>
         <member name="M:System.Windows.Forms.BindingSource.ApplySort(System.ComponentModel.PropertyDescriptor,System.ComponentModel.ListSortDirection)">
             <summary>
             Sorts the data source using the specified property descriptor and sort direction.
             </summary>
-            <param name = "property">
-            A
+            <param name = "property">A
             <see cref="T:System.ComponentModel.PropertyDescriptor"/> that describes the property by which to sort the data source.
             </param>
-            <param name = "sortDirection">
-            A
+            <param name = "sortDirection">A
             <see cref="T:System.ComponentModel.ListSortDirection"/> indicating how the list should be sorted.
             </param>
-            <exception cref="T:System.NotSupportedException">
-            The data source is not an
+            <exception cref="T:System.NotSupportedException">The data source is not an
             <see cref="T:System.ComponentModel.IBindingList"/>.
             </exception>
         </member>
@@ -1861,12 +1814,10 @@
             <summary>
             Sorts the data source with the specified sort descriptions.
             </summary>
-            <param name = "sorts">
-            A
+            <param name = "sorts">A
             <see cref="T:System.ComponentModel.ListSortDescriptionCollection"/> containing the sort descriptions to apply to the data source.
             </param>
-            <exception cref="T:System.NotSupportedException">
-            The data source is not an
+            <exception cref="T:System.NotSupportedException">The data source is not an
             <see cref="T:System.ComponentModel.IBindingListView"/>.
             </exception>
         </member>
@@ -1884,15 +1835,13 @@
             <summary>
             Determines whether an object is an item in the list.
             </summary>
-            <returns>
-            true if the
+            <returns>true if the
             <paramref name = "value"/> parameter is found in the
-            <see cref="T:System.Windows.Forms.BindingSource.List"/>; otherwise, false.
+            <see cref="P:System.Windows.Forms.BindingSource.List"/>; otherwise, false.
             </returns>
-            <param name = "value">
-            The
+            <param name = "value">The
             <see cref="T:System.Object"/> to locate in the underlying list represented by the
-            <see cref="T:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
+            <see cref="P:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
             </param>
         </member>
         <member name="M:System.Windows.Forms.BindingSource.CopyTo(System.Array,System.Int32)">
@@ -1932,32 +1881,27 @@
             <summary>
             Searches for the index of the item that has the given property descriptor.
             </summary>
-            <returns>
-            The zero-based index of the item that has the given value for
+            <returns>The zero-based index of the item that has the given value for
             <see cref="T:System.ComponentModel.PropertyDescriptor"/>.
             </returns>
-            <param name = "prop">
-            The
+            <param name = "prop">The
             <see cref="T:System.ComponentModel.PropertyDescriptor"/> to search for.
             </param>
-            <param name = "key">
-            The value of
+            <param name = "key">The value of
             <paramref name = "prop"/> to match.
             </param>
-            <exception cref="T:System.NotSupportedException">
-            The underlying list is not of type
+            <exception cref="T:System.NotSupportedException">The underlying list is not of type
             <see cref="T:System.ComponentModel.IBindingList"/>.
             </exception>
         </member>
         <member name="M:System.Windows.Forms.BindingSource.GetEnumerator">
             <summary>
             Retrieves an enumerator for the
-            <see cref="T:System.Windows.Forms.BindingSource.List"/>.
+            <see cref="P:System.Windows.Forms.BindingSource.List"/>.
             </summary>
-            <returns>
-            An
+            <returns>An
             <see cref="T:System.Collections.IEnumerator"/> for the
-            <see cref="T:System.Windows.Forms.BindingSource.List"/>.
+            <see cref="P:System.Windows.Forms.BindingSource.List"/>.
             </returns>
         </member>
         <member name="M:System.Windows.Forms.BindingSource.GetItemProperties(System.ComponentModel.PropertyDescriptor[])">
@@ -1965,12 +1909,10 @@
             Retrieves an array of
             <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects representing the bindable properties of the data source list type.
             </summary>
-            <returns>
-            An array of
+            <returns>An array of
             <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects that represents the properties on this list type used to bind data.
             </returns>
-            <param name = "listAccessors">
-            An array of
+            <param name = "listAccessors">An array of
             <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects to find in the list as bindable.
             </param>
         </member>
@@ -1998,15 +1940,13 @@
             <summary>
             Searches for the specified object and returns the index of the first occurrence within the entire list.
             </summary>
-            <returns>
-            The zero-based index of the first occurrence of the
+            <returns>The zero-based index of the first occurrence of the
             <paramref name = "value"/> parameter; otherwise, -1 if
             <paramref name = "value"/> is not in the list.
             </returns>
-            <param name = "value">
-            The
+            <param name = "value">The
             <see cref="T:System.Object"/> to locate in the underlying list represented by the
-            <see cref="T:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
+            <see cref="P:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
             </param>
         </member>
         <member name="M:System.Windows.Forms.BindingSource.Insert(System.Int32,System.Object)">
@@ -2074,15 +2014,13 @@
             <summary>
             Removes the current item from the list.
             </summary>
-            <exception cref="T:System.InvalidOperationException">
-            The
-            <see cref="T:System.Windows.Forms.BindingSource.AllowRemove"/> property is false.-or-
-            <see cref="T:System.Windows.Forms.BindingSource.Position"/> is less than zero or greater than
-            <see cref="T:System.Windows.Forms.BindingSource.Count"/>.
+            <exception cref="T:System.InvalidOperationException">The
+            <see cref="P:System.Windows.Forms.BindingSource.AllowRemove"/> property is false.-or-
+            <see cref="P:System.Windows.Forms.BindingSource.Position"/> is less than zero or greater than
+            <see cref="P:System.Windows.Forms.BindingSource.Count"/>.
             </exception>
-            <exception cref="T:System.NotSupportedException">
-            The underlying list represented by the
-            <see cref="T:System.Windows.Forms.BindingSource.List"/> property is read-only or has a fixed size.
+            <exception cref="T:System.NotSupportedException">The underlying list represented by the
+            <see cref="P:System.Windows.Forms.BindingSource.List"/> property is read-only or has a fixed size.
             </exception>
         </member>
         <member name="M:System.Windows.Forms.BindingSource.RemoveFilter">
@@ -2144,12 +2082,10 @@
             Adds the
             <see cref="T:System.ComponentModel.PropertyDescriptor"/> to the indexes used for searching.
             </summary>
-            <param name = "property">
-            The
+            <param name = "property">The
             <see cref="T:System.ComponentModel.PropertyDescriptor"/> to add to the indexes used for searching.
             </param>
-            <exception cref="T:System.NotSupportedException">
-            The underlying list is not an
+            <exception cref="T:System.NotSupportedException">The underlying list is not an
             <see cref="T:System.ComponentModel.IBindingList"/>.
             </exception>
         </member>
@@ -2332,23 +2268,6 @@
             a valid column given this DataSource.Table's schema.
             Fires the CollectionChangedEvent.
             </summary>
-        </member>
-        <member name="T:System.Windows.Forms.Control">
-            <summary>
-            Defines the base class for controls, which are components with visual representation.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Defines the base class for controls, which are components with visual representation.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Defines the base class for controls, which are components with visual representation.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.Control.OnAnchorChanged(System.EventArgs)">
             <summary>
@@ -3310,8 +3229,8 @@
             Will be set to null if the key is not present.
             </param>
             <remarks>
-            <para>If a null value is set for a given key
-            it will return true and a null value.
+            <para>
+            If a null value is set for a given key it will return true and a null value.
             </para>
             </remarks>
             <returns>True if an object (including null) is found for the given key; otherwise, false.
@@ -3359,28 +3278,6 @@
             that uses the bottom two bits of the key to identify
             one of four elements in an entry.
             </summary>
-        </member>
-        <member name="T:System.Windows.Forms.ComboBox">
-            <summary>
-            Represents a Windows combo box control.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Represents a Windows combo box control.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Represents a Windows combo box control.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Represents a Windows combo box control.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
         </member>
         <member name="P:System.Windows.Forms.ComboBox.ObjectCollection.Count">
             <summary>
@@ -6917,9 +6814,7 @@
         </member>
         <member name="F:System.Windows.Forms.AutoValidate.Disable">
             <summary>
-            Implicit validation will not occur. Setting this value will not interfere with explicit calls to
-            <see cref="!:System.Windows.Forms.ContainerControl.Validate" /> or
-            <see cref="!:System.Windows.Forms.ContainerControl.ValidateChildren" />
+            Controls in this container will not be validated when the focus changes.
             </summary>
         </member>
         <member name="F:System.Windows.Forms.AutoValidate.EnablePreventFocusChange">
@@ -6938,9 +6833,7 @@
         </member>
         <member name="F:System.Windows.Forms.AutoValidate.Inherit">
             <summary>
-            The control inherits its
-            <see cref="T:System.Windows.Forms.AutoValidate" /> behavior from its container (such as a form or another control). If there is no container control, it defaults to
-            <see cref="T:System.Windows.Forms.AutoValidate.EnablePreventFocusChange" />
+            AutoValidate setting for this container is determined by its parent container.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.BorderStyle">
@@ -9684,39 +9577,6 @@
             the days within the visible months should be displayed.
             </summary>
         </member>
-        <member name="P:System.Windows.Forms.DateBoldEventArgs.DaysToBold">
-            <summary>
-            Gets or sets dates that are bold.
-            </summary>
-            <returns>
-            The dates that are bold.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
-        </member>
-        <member name="P:System.Windows.Forms.DateBoldEventArgs.Size">
-            <summary>
-            Gets the number of dates that are bold.
-            </summary>
-            <returns>
-            The number of dates that are bold.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
-        </member>
-        <member name="P:System.Windows.Forms.DateBoldEventArgs.StartDate">
-            <summary>
-            Gets the first date that is bold.
-            </summary>
-            <returns>
-            The first date that is bold.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
-        </member>
         <member name="T:System.Windows.Forms.DateRangeEventArgs">
             <summary>
             Provides data for the
@@ -9734,10 +9594,8 @@
             </summary>
         </member>
         <member name="M:System.Windows.Forms.DpiChangedEventArgs.#ctor(System.Int32,System.Windows.Forms.Message)">
-            
-             &lt;devdov&gt;
-             Parameter units are pixels(dots) per inch.
-            
+            &lt;devdov&gt;
+            Parameter units are pixels(dots) per inch.
         </member>
         <member name="T:System.Windows.Forms.DragEventArgs">
             <summary>
@@ -10268,46 +10126,23 @@
         </member>
         <member name="M:System.Windows.Forms.ListViewItemSelectionChangedEventArgs.#ctor(System.Windows.Forms.ListViewItem,System.Int32,System.Boolean)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.ListViewItemSelectionChangedEventArgs" /> class.
+            Constructs a ListViewItemSelectionChangedEventArgs object.
             </summary>
-            <param name="item">
-            The
-            <see cref="T:System.Windows.Forms.ListViewItem" /> whose selection state has changed.
-            </param>
-            <param name="itemIndex">
-            The index of the
-            <see cref="T:System.Windows.Forms.ListViewItem" /> whose selection state has changed.
-            </param>
-            <param name="isSelected">
-            true to indicate the item's state has changed to selected; false to indicate the item's state has changed to deselected.
-            </param>
         </member>
         <member name="P:System.Windows.Forms.ListViewItemSelectionChangedEventArgs.IsSelected">
             <summary>
-            Gets a value indicating whether the item's state has changed to selected.
+            Return true if the item is selected
             </summary>
-            <returns>
-            true if the item's state has changed to selected; false if the item's state has changed to deselected.
-            </returns>
         </member>
         <member name="P:System.Windows.Forms.ListViewItemSelectionChangedEventArgs.Item">
             <summary>
-            Gets the item whose selection state has changed.
+            The list view item whose selection changed
             </summary>
-            <returns>
-            The
-            <see cref="T:System.Windows.Forms.ListViewItem" /> whose selection state has changed.
-            </returns>
         </member>
         <member name="P:System.Windows.Forms.ListViewItemSelectionChangedEventArgs.ItemIndex">
             <summary>
-            Gets the index of the item whose selection state has changed.
+            The list view item's index
             </summary>
-            <returns>
-            The index of the
-            <see cref="T:System.Windows.Forms.ListViewItem" /> whose selection state has changed.
-            </returns>
         </member>
         <member name="T:System.Windows.Forms.ListViewVirtualItemsSelectionRangeChangedEventArgs">
             <summary>
@@ -10601,65 +10436,6 @@
             The QueryAccessibilityHelpEventArgs is fired when AccessibleObject is providing help
             to accessibility applications.
             </summary>
-        </member>
-        <member name="M:System.Windows.Forms.QueryAccessibilityHelpEventArgs.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.QueryAccessibilityHelpEventArgs" /> class.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.QueryAccessibilityHelpEventArgs.#ctor(System.String,System.String,System.String)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.QueryAccessibilityHelpEventArgs" /> class.
-            </summary>
-            <param name="helpNamespace">
-            The file containing Help for the
-            <see cref="T:System.Windows.Forms.AccessibleObject" />
-            </param>
-            <param name="helpString">
-            The string defining what Help to get for the
-            <see cref="T:System.Windows.Forms.AccessibleObject" />
-            </param>
-            <param name="helpKeyword">
-            The keyword to associate with the Help request for the
-            <see cref="T:System.Windows.Forms.AccessibleObject" />
-            </param>
-        </member>
-        <member name="P:System.Windows.Forms.QueryAccessibilityHelpEventArgs.HelpKeyword">
-            <summary>
-            Gets or sets the Help keyword for the specified control.
-            </summary>
-            <returns>
-            The Help topic associated with the
-            <see cref="T:System.Windows.Forms.AccessibleObject" /> that was queried.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
-        </member>
-        <member name="P:System.Windows.Forms.QueryAccessibilityHelpEventArgs.HelpNamespace">
-            <summary>
-            Gets or sets a value specifying the name of the Help file.
-            </summary>
-            <returns>
-            The name of the Help file. This name can be in the form C:\path\sample.chm or /folder/file.htm.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
-        </member>
-        <member name="P:System.Windows.Forms.QueryAccessibilityHelpEventArgs.HelpString">
-            <summary>
-            Gets or sets the string defining what Help to get for the
-            <see cref="T:System.Windows.Forms.AccessibleObject" />
-            </summary>
-            <returns>
-            The Help to retrieve for the accessible object.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="T:System.Windows.Forms.QueryContinueDragEventArgs">
             <summary>
@@ -10967,54 +10743,6 @@
             It contains additional information indicating the row/column of the cell
             as well as the bound of the cell
             </summary>
-        </member>
-        <member name="M:System.Windows.Forms.TableLayoutCellPaintEventArgs.#ctor(System.Drawing.Graphics,System.Drawing.Rectangle,System.Drawing.Rectangle,System.Int32,System.Int32)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.TableLayoutCellPaintEventArgs" /> class.
-            </summary>
-            <param name="g">
-            The
-            <see cref="T:System.Drawing.Graphics" /> used to paint the item.
-            </param>
-            <param name="clipRectangle">
-            The
-            <see cref="T:System.Drawing.Rectangle" /> that represents the rectangle in which to paint.
-            </param>
-            <param name="cellBounds">
-            The bounds of the cell.
-            </param>
-            <param name="column">
-            The column of the cell.
-            </param>
-            <param name="row">
-            The row of the cell.
-            </param>
-        </member>
-        <member name="P:System.Windows.Forms.TableLayoutCellPaintEventArgs.CellBounds">
-            <summary>
-            Gets the size and location of the cell.
-            </summary>
-            <returns>
-            A
-            <see cref="T:System.Drawing.Rectangle" /> representing the size and location of the cell.
-            </returns>
-        </member>
-        <member name="P:System.Windows.Forms.TableLayoutCellPaintEventArgs.Column">
-            <summary>
-            Gets the column of the cell.
-            </summary>
-            <returns>
-            The column position of the cell.
-            </returns>
-        </member>
-        <member name="P:System.Windows.Forms.TableLayoutCellPaintEventArgs.Row">
-            <summary>
-            Gets the row of the cell.
-            </summary>
-            <returns>
-            The row position of the cell.
-            </returns>
         </member>
         <member name="T:System.Windows.Forms.TreeNodeMouseClickEventArgs">
             <summary>
@@ -11651,301 +11379,77 @@
             other controls will be able to use the Images as they desire.
             </summary>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
-            <filterpriority>2
-            </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
-            <filterpriority>2
-            </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
-            <filterpriority>2
-            </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
-            <filterpriority>2
-            </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
-            <filterpriority>2
-            </filterpriority>
             <summary>
-            Provides methods to manage a collection of
-            <see cref="T:System.Drawing.Image" /> objects. This class cannot be inherited.
+            The ImageList is an object that stores a collection of Images, most
+            commonly used by other controls, such as the ListView, TreeView, or
+            Toolbar. You can add either bitmaps or Icons to the ImageList, and the
+            other controls will be able to use the Images as they desire.
             </summary>
-            <filterpriority>2
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.ImageList.#ctor">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.ImageList"/> class with default values for
-            <see cref="T:System.Windows.Forms.ImageList.ColorDepth"/>,
-            <see cref="T:System.Windows.Forms.ImageList.ImageSize"/>, and
-            <see cref="T:System.Windows.Forms.ImageList.TransparentColor"/>
+            Creates a new ImageList Control with a default image size of 16x16 pixels
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ImageList.#ctor(System.ComponentModel.IContainer)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.ImageList"/> class, associating it with a container.
+            Creates a new ImageList Control with a default image size of 16x16
+            pixels and adds the ImageList to the passed in container.
             </summary>
-            <param name = "container">
-            An object implementing
-            <see cref="T:System.ComponentModel.IContainer"/> to associate with this instance of
-            <see cref="T:System.Windows.Forms.ImageList"/>
-            </param>
-        </member>
-        <member name="P:System.Windows.Forms.ImageList.ColorDepth">
-            <summary>
-            Gets the color depth of the image list.
-            </summary>
-            <returns>
-            The number of available colors for the image. In the .NET Framework version 1.0, the default is
-            <see cref="T:System.Windows.Forms.ColorDepth.Depth4Bit"/> In the .NET Framework version 1.1 or later, the default is
-            <see cref="T:System.Windows.Forms.ColorDepth.Depth8Bit"/>
-            </returns>
-            <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">
-            The color depth is not a valid
-            <see cref="T:System.Windows.Forms.ColorDepth"/> enumeration value.
-            </exception>
-            <filterpriority>
-            1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-            </PermissionSet>
-        </member>
-        <member name="P:System.Windows.Forms.ImageList.Handle">
-            <summary>
-            Gets the handle of the image list object.
-            </summary>
-            <returns>
-            The handle for the image list. The default is null.
-            </returns>
-            <exception cref="T:System.InvalidOperationException">
-            Creating the handle for the
-            <see cref="T:System.Windows.Forms.ImageList"/> failed.
-            </exception>
-            <filterpriority>
-            1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-            </PermissionSet>
-        </member>
-        <member name="P:System.Windows.Forms.ImageList.HandleCreated">
-            <summary>
-            Gets a value indicating whether the underlying Win32 handle has been created.
-            </summary>
-            <returns>
-            true if the
-            <see cref="T:System.Windows.Forms.ImageList.Handle"/> has been created; otherwise, false. The default is false.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
-        </member>
-        <member name="P:System.Windows.Forms.ImageList.Images">
-            <summary>
-            Gets the
-            <see cref="T:System.Windows.Forms.ImageList.ImageCollection"/> for this image list.
-            </summary>
-            <returns>
-            The collection of images.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-            </PermissionSet>
-        </member>
-        <member name="P:System.Windows.Forms.ImageList.ImageSize">
-            <summary>
-            Gets or sets the size of the images in the image list.
-            </summary>
-            <returns>
-            The
-            <see cref="T:System.Drawing.Size"/> that defines the height and width, in pixels, of the images in the list. The default size is 16 by 16. The maximum size is 256 by 256.
-            </returns>
-            <exception cref="T:System.ArgumentException">
-            The value assigned is equal to
-            <see cref="T:System.Drawing.Size.IsEmpty"/>-or- The value of the height or width is less than or equal to 0.-or- The value of the height or width is greater than 256.
-            </exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-            The new size has a dimension less than 0 or greater than 256.
-            </exception>
-            <filterpriority>
-            1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-            </PermissionSet>
-        </member>
-        <member name="P:System.Windows.Forms.ImageList.ImageStream">
-            <summary>
-            Gets the
-            <see cref="T:System.Windows.Forms.ImageListStreamer"/> associated with this image list.
-            </summary>
-            <returns>
-            null if the image list is empty; otherwise, a
-            <see cref="T:System.Windows.Forms.ImageListStreamer"/> for this
-            <see cref="T:System.Windows.Forms.ImageList"/>
-            </returns>
-            <filterpriority> 1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-            </PermissionSet>
-        </member>
-        <member name="P:System.Windows.Forms.ImageList.Tag">
-            <summary>
-            Gets or sets an object that contains additional data about the
-            <see cref="T:System.Windows.Forms.ImageList"/>
-            </summary>
-            <returns>
-            An
-            <see cref="T:System.Object"/> that contains additional data about the
-            <see cref="T:System.Windows.Forms.ImageList"/>
-            </returns>
-            <filterpriority> 1
-            </filterpriority>
-        </member>
-        <member name="P:System.Windows.Forms.ImageList.TransparentColor">
-            <summary>
-            Gets or sets the color to treat as transparent.
-            </summary>
-            <returns>
-            One of the
-            <see cref="T:System.Drawing.Color"/> values. The default is Transparent.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.ImageList.Draw(System.Drawing.Graphics,System.Drawing.Point,System.Int32)">
             <summary>
-            Draws the image indicated by the specified index on the specified
-            <see cref="T:System.Drawing.Graphics"/> at the given location.
+            Draw the image indicated by the given index on the given Graphics
+            at the given location.
             </summary>
-            <param name = "g">
-            The
-            <see cref="T:System.Drawing.Graphics"/> to draw on.
-            </param>
-            <param name = "pt">
-            The location defined by a
-            <see cref="T:System.Drawing.Point"/> at which to draw the image.
-            </param>
-            <param name = "index">
-            The index of the image in the
-            <see cref="T:System.Windows.Forms.ImageList"/> to draw.
-            </param>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-            The index is less than 0.-or- The index is greater than or equal to the count of images in the image list.
-            </exception>
-            <filterpriority>
-            1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-            </PermissionSet>
         </member>
         <member name="M:System.Windows.Forms.ImageList.Draw(System.Drawing.Graphics,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Draws the image indicated by the given index on the specified
-            <see cref="T:System.Drawing.Graphics"/> at the specified location.
+            Draw the image indicated by the given index on the given Graphics
+            at the given location.
             </summary>
-            <param name = "g">
-            The
-            <see cref="T:System.Drawing.Graphics"/> to draw on.
-            </param>
-            <param name = "x">
-            The horizontal position at which to draw the image.
-            </param>
-            <param name = "y">
-            The vertical position at which to draw the image.
-            </param>
-            <param name = "index">
-            The index of the image in the
-            <see cref="T:System.Windows.Forms.ImageList"/> to draw.
-            </param>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-            The index is less than 0.-or- The index is greater than or equal to the count of images in the image list.
-            </exception>
-            <filterpriority>
-            1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-            </PermissionSet>
         </member>
         <member name="M:System.Windows.Forms.ImageList.Draw(System.Drawing.Graphics,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Draws the image indicated by the given index on the specified
-            <see cref="T:System.Drawing.Graphics"/> using the specified location and size.
+            Draw the image indicated by the given index using the location, size
+            and raster op code specified. The image is stretched or compressed as
+            necessary to fit the bounds provided.
             </summary>
-            <param name = "g">
-            The
-            <see cref="T:System.Drawing.Graphics"/> to draw on.
-            </param>
-            <param name = "x">
-            The horizontal position at which to draw the image.
-            </param>
-            <param name = "y">
-            The vertical position at which to draw the image.
-            </param>
-            <param name = "width">
-            The width, in pixels, of the destination image.
-            </param>
-            <param name = "height">
-            The height, in pixels, of the destination image.
-            </param>
-            <param name = "index">
-            The index of the image in the
-            <see cref="T:System.Windows.Forms.ImageList"/> to draw.
-            </param>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-            The index is less than 0.-or- The index is greater than or equal to the count of images in the image list.
-            </exception>
-            <filterpriority>
-            1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-            </PermissionSet>
         </member>
         <member name="M:System.Windows.Forms.ImageList.GetBitmap(System.Int32)">
             <summary>
             Returns the image specified by the given index. The bitmap returned is a
             copy of the original image.
             </summary>
-        </member>
-        <member name="M:System.Windows.Forms.ImageList.ToString">
-            <summary>
-            Returns a string that represents the current
-            <see cref="T:System.Windows.Forms.ImageList"/>
-            </summary>
-            <returns>
-            A string that represents the current
-            <see cref="T:System.Windows.Forms.ImageList"/>
-            </returns>
-            <filterpriority> 1
-            </filterpriority>
-            <PermissionSet>
-            <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-            </PermissionSet>
         </member>
         <member name="M:System.Windows.Forms.ImageList.Dispose(System.Boolean)">
             <summary>
@@ -12083,26 +11587,6 @@
             Specifies which imagelist a property relates to. For example ImageListIndex must relate to a
             specific ImageList property
             </summary>
-        </member>
-        <member name="M:System.Windows.Forms.RelatedImageListAttribute.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.RelatedImageListAttribute" /> class.
-            </summary>
-            <param name="relatedImageList">
-            The name of the
-            <see cref="T:System.Windows.Forms.ImageList" /> the property relates to.
-            </param>
-        </member>
-        <member name="P:System.Windows.Forms.RelatedImageListAttribute.RelatedImageList">
-            <summary>
-            Gets the name of the related
-            <see cref="T:System.Windows.Forms.ImageList" />
-            </summary>
-            <returns>
-            The name of the related
-            <see cref="T:System.Windows.Forms.ImageList" />
-            </returns>
         </member>
         <member name="M:System.Windows.Forms.IMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
             <summary>
@@ -12289,43 +11773,6 @@
             </summary>
             <filterpriority>
             1
-            </filterpriority>
-        </member>
-        <member name="T:System.Windows.Forms.ListBox">
-            <summary>
-            Represents a Windows control to display a list of items.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Represents a Windows control to display a list of items.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Represents a Windows control to display a list of items.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Represents a Windows control to display a list of items.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Represents a Windows control to display a list of items.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Represents a Windows control to display a list of items.
-            </summary>
-            <filterpriority>1
-            </filterpriority>
-            <summary>
-            Represents a Windows control to display a list of items.
-            </summary>
-            <filterpriority>1
             </filterpriority>
         </member>
         <member name="P:System.Windows.Forms.ListBox.IntegerCollection.Count">
@@ -13181,69 +12628,33 @@
         </member>
         <member name="M:System.Windows.Forms.SelectionRange.#ctor">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.SelectionRange" /> class.
+            Create a new SelectionRange object with the range [null, null].
             </summary>
         </member>
         <member name="M:System.Windows.Forms.SelectionRange.#ctor(System.DateTime,System.DateTime)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.SelectionRange" /> class with the specified beginning and ending dates.
+            Create a new SelectionRange object with the given range.
             </summary>
-            <param name="lower">
-            The starting date in the
-            <see cref="T:System.Windows.Forms.SelectionRange" />
-            </param>
-            <param name="upper">
-            The ending date in the
-            <see cref="T:System.Windows.Forms.SelectionRange" />
-            </param>
         </member>
         <member name="M:System.Windows.Forms.SelectionRange.#ctor(System.Windows.Forms.SelectionRange)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.SelectionRange" /> class with the specified selection range.
+            Create a new SelectionRange object given an existing SelectionRange object.
             </summary>
-            <param name="range">
-            The existing
-            <see cref="T:System.Windows.Forms.SelectionRange" />
-            </param>
         </member>
         <member name="P:System.Windows.Forms.SelectionRange.End">
             <summary>
-            Gets or sets the ending date and time of the selection range.
+            Returns the ending time of this range.
             </summary>
-            <returns>
-            The ending
-            <see cref="T:System.DateTime" /> value of the range.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="P:System.Windows.Forms.SelectionRange.Start">
             <summary>
-            Gets or sets the starting date and time of the selection range.
+            Starting time of this range
             </summary>
-            <returns>
-            The starting
-            <see cref="T:System.DateTime" /> value of the range.
-            </returns>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.SelectionRange.ToString">
             <summary>
-            Returns a string that represents the
-            <see cref="T:System.Windows.Forms.SelectionRange" />
+            Returns a string representation for this control.
             </summary>
-            <returns>
-            A string that represents the current
-            <see cref="T:System.Windows.Forms.SelectionRange" />
-            </returns>
-            <filterpriority> 1
-            </filterpriority>
         </member>
         <member name="T:System.Windows.Forms.SelectionRangeConverter">
             <summary>
@@ -13254,193 +12665,55 @@
         </member>
         <member name="M:System.Windows.Forms.SelectionRangeConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
             <summary>
-            Determines if this converter can convert an object of the specified source type to the native type of the converter by querying the supplied type descriptor context.
+            Determines if this converter can convert an object in the given source
+            type to the native type of the converter.
             </summary>
-            <returns>
-            true if the converter can perform the specified conversion; otherwise, false.
-            </returns>
-            <param name="context">
-            A
-            <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> that provides a format context.
-            </param>
-            <param name="sourceType">
-            The source
-            <see cref="T:System.Type" /> to be converted.
-            </param>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.SelectionRangeConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)">
             <summary>
-            Gets a value indicating whether this converter can convert an object to the specified destination type by using the specified context.
+            Gets a value indicating whether this converter can
+            convert an object to the given destination type using the context.
             </summary>
-            <returns>
-            true if this converter can perform the specified conversion; otherwise, false.
-            </returns>
-            <param name="context">
-            A
-            <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> that provides a format context.
-            </param>
-            <param name="destinationType">
-            The destination
-            <see cref="T:System.Type" /> to convert into.
-            </param>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.SelectionRangeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
             <summary>
-            Converts the specified value to the converter's native type by using the specified locale.
+            Converts the given object to the converter's native type.
             </summary>
-            <returns>
-            An
-            <see cref="T:System.Object" /> that represents the converted
-            <paramref name="value" />
-            </returns>
-            <param name="context">
-            A
-            <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> that provides a format context.
-            </param>
-            <param name="culture">
-            The locale information for the conversion.
-            </param>
-            <param name="value">
-            The
-            <see cref="T:System.Object" /> to convert.
-            </param>
-            <exception cref="T:System.ArgumentException">
-            <paramref name="value" /> is of type
-            <see cref="T:System.String" /> but could not be parsed into two strings representing dates.
-            </exception>
-            <exception cref="T:System.InvalidCastException">
-            <paramref name="value" /> is of type
-            <see cref="T:System.String" /> that was parsed into two strings, but the conversion of one or both into the
-            <see cref="T:System.DateTime" /> type did not succeed.
-            </exception>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.SelectionRangeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
             <summary>
-            Converts the specified
-            <see cref="T:System.Windows.Forms.SelectionRangeConverter" /> object to another type by using the specified culture.
+            Converts the given object to another type.  The most common types to convert
+            are to and from a string object.  The default implementation will make a call
+            to ToString on the object if the object is valid and if the destination
+            type is string.  If this cannot convert to the desitnation type, this will
+            throw a NotSupportedException.
             </summary>
-            <returns>
-            An
-            <see cref="T:System.Object" /> that represents the converted
-            <paramref name="value" />
-            </returns>
-            <param name="context">
-            A
-            <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> that provides a format context.
-            </param>
-            <param name="culture">
-            The locale information for the conversion.
-            </param>
-            <param name="value">
-            The
-            <see cref="T:System.Object" /> to convert.
-            </param>
-            <param name="destinationType">
-            The destination
-            <see cref="T:System.Type" /> to convert into.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="destinationType" /> is null.
-            </exception>
-            <exception cref="T:System.NotSupportedException">
-            <paramref name="value" /> cannot be converted to the
-            <paramref name="destinationType" />
-            </exception>
-            <filterpriority> 1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.SelectionRangeConverter.CreateInstance(System.ComponentModel.ITypeDescriptorContext,System.Collections.IDictionary)">
             <summary>
-            Creates a
-            <see cref="T:System.Windows.Forms.SelectionRange" /> object by using the specified type descriptor and set of property values for that object.
+            Creates an instance of this type given a set of property values
+            for the object.  This is useful for objects that are immutable, but still
+            want to provide changable properties.
             </summary>
-            <returns>
-            If successful, the newly created
-            <see cref="T:System.Windows.Forms.SelectionRange" />; otherwise, this method throws an exception.
-            </returns>
-            <param name="context">
-            A
-            <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> that provides a format context.
-            </param>
-            <param name="propertyValues">
-            An
-            <see cref="T:System.Collections.IDictionary" /> that contains the new property values.
-            </param>
-            <exception cref="T:System.ArgumentException">
-            <paramref name="propertyValues" /> is null or its Start and End elements could not be converted into a
-            <see cref="T:System.Windows.Forms.SelectionRange" />
-            </exception>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.SelectionRangeConverter.GetCreateInstanceSupported(System.ComponentModel.ITypeDescriptorContext)">
             <summary>
-            Determines if changing a value on an instance should require a call to
-            <see cref="!:Overload:System.Windows.Forms.SelectionRangeConverter.CreateInstance" /> to create a new value.
+            Determines if changing a value on this object should require a call to
+            CreateInstance to create a new value.
             </summary>
-            <returns>
-            true if
-            <see cref="!:Overload:System.Windows.Forms.SelectionRangeConverter.CreateInstance" /> must be called to make a change to one or more properties; otherwise false.
-            </returns>
-            <param name="context">
-            A
-            <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> that provides a format context.
-            </param>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.SelectionRangeConverter.GetProperties(System.ComponentModel.ITypeDescriptorContext,System.Object,System.Attribute[])">
             <summary>
-            Returns the set of filtered properties for the
-            <see cref="T:System.Windows.Forms.SelectionRange" /> type
+            Retrieves the set of properties for this type.  By default, a type has
+            does not return any properties.  An easy implementation of this method
+            can just call TypeDescriptor.GetProperties for the correct data type.
             </summary>
-            <returns>
-            If successful, the set of properties that should be exposed for the
-            <see cref="T:System.Windows.Forms.SelectionRange" /> type; otherwise, null.
-            </returns>
-            <param name="context">
-            A
-            <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> that provides a format context.
-            </param>
-            <param name="value">
-            An
-            <see cref="T:System.Object" /> that specifies the type of array for which to get properties.
-            </param>
-            <param name="attributes">
-            An array of type
-            <see cref="T:System.Attribute" /> that is used as a filter.
-            </param>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.SelectionRangeConverter.GetPropertiesSupported(System.ComponentModel.ITypeDescriptorContext)">
             <summary>
-            Determines whether the current object supports properties that use the specified type descriptor context.
+            Determines if this object supports properties.  By default, this
+            is false.
             </summary>
-            <returns>
-            true if
-            <see cref="!:Overload:System.Windows.Forms.SelectionRangeConverter.GetProperties" /> can be called to find the properties of a
-            <see cref="T:System.Windows.Forms.SelectionRange" /> object; otherwise, false.
-            </returns>
-            <param name="context">
-            A
-            <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> that provides a format context.
-            </param>
-            <filterpriority>
-            1
-            </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.NonStaticMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
             <summary>
@@ -13638,25 +12911,13 @@
         </member>
         <member name="T:System.Windows.Forms.PropertyGrid">
             <summary>
-            Provides a user interface for browsing the properties of an object.
             </summary>
-            <filterpriority>1
-            </filterpriority>
             <summary>
-            Provides a user interface for browsing the properties of an object.
             </summary>
-            <filterpriority>1
-            </filterpriority>
             <summary>
-            Provides a user interface for browsing the properties of an object.
             </summary>
-            <filterpriority>1
-            </filterpriority>
             <summary>
-            Provides a user interface for browsing the properties of an object.
             </summary>
-            <filterpriority>1
-            </filterpriority>
         </member>
         <member name="T:System.Windows.Forms.GridItem">
             <summary>
@@ -15648,8 +14909,8 @@
         <member name="F:System.Drawing.Printing.PrintRange.SomePages">
             <summary>
             The pages between
-            <see cref="T:System.Drawing.Printing.PrinterSettings.FromPage" /> and
-            <see cref="T:System.Drawing.Printing.PrinterSettings.ToPage" /> are printed.
+            <see cref="P:System.Drawing.Printing.PrinterSettings.FromPage" /> and
+            <see cref="P:System.Drawing.Printing.PrinterSettings.ToPage" /> are printed.
             </summary>
         </member>
         <member name="F:System.Drawing.Printing.PrintRange.Selection">
@@ -15751,7 +15012,9 @@
         </member>
         <member name="T:System.Resources.ResXFileRef">
             <summary>
-            Represents a link to an external resource.
+            ResX File Reference class. This allows the developer to represent
+            a link to an external resource. When the resource manager asks
+            for the value of the resource item, the external resource is loaded.
             </summary>
             <summary>
             ResX File Reference class. This allows the developer to represent
@@ -15761,71 +15024,17 @@
         </member>
         <member name="M:System.Resources.ResXFileRef.#ctor(System.String,System.String)">
             <summary>
-            Creates a new instance of the
-            <see cref="T:System.Resources.ResXFileRef" /> class that references the specified file.
+            Creates a new ResXFileRef that points to the specified file.
+            The type refered to by typeName must support a constructor
+            that accepts a System.IO.Stream as a parameter.
             </summary>
-            <param name="fileName">
-            The file to reference.
-            </param>
-            <param name="typeName">
-            The type of the resource that is referenced.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="fileName" /> or
-            <paramref name="typeName " />is null.
-            </exception>
         </member>
         <member name="M:System.Resources.ResXFileRef.#ctor(System.String,System.String,System.Text.Encoding)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Resources.ResXFileRef" /> class that references the specified file.
+            Creates a new ResXFileRef that points to the specified file.
+            The type refered to by typeName must support a constructor
+            that accepts a System.IO.Stream as a parameter.
             </summary>
-            <param name="fileName">
-            The file to reference.
-            </param>
-            <param name="typeName">
-            The type name of the resource that is referenced.
-            </param>
-            <param name="textFileEncoding">
-            The encoding used in the referenced file.
-            </param>
-        </member>
-        <member name="P:System.Resources.ResXFileRef.FileName">
-            <summary>
-            Gets the file name specified in the current
-            <see cref="!:Overload:System.Resources.ResXFileRef.#ctor" /> constructor.
-            </summary>
-            <returns>
-            The name of the referenced file.
-            </returns>
-        </member>
-        <member name="P:System.Resources.ResXFileRef.TextFileEncoding">
-            <summary>
-            Gets the encoding specified in the current
-            <see cref="!:Overload:System.Resources.ResXFileRef.#ctor" /> constructor.
-            </summary>
-            <returns>
-            The encoding used in the referenced file.
-            </returns>
-        </member>
-        <member name="P:System.Resources.ResXFileRef.TypeName">
-            <summary>
-            Gets the type name specified in the current
-            <see cref="!:Overload:System.Resources.ResXFileRef.#ctor" /> constructor.
-            </summary>
-            <returns>
-            The type name of the resource that is referenced.
-            </returns>
-        </member>
-        <member name="M:System.Resources.ResXFileRef.ToString">
-            <summary>
-            Gets the text representation of the current
-            <see cref="T:System.Resources.ResXFileRef" /> object.
-            </summary>
-            <returns>
-            A string that consists of the concatenated text representations of the parameters specified in the current
-            <see cref="!:Overload:System.Resources.ResXFileRef.#ctor" /> constructor.
-            </returns>
         </member>
         <member name="M:System.Resources.ResXFileRef.PathDifference(System.String,System.String,System.Boolean)">
             <summary>
@@ -15844,10 +15053,10 @@
         </member>
         <member name="T:System.Resources.ResXResourceReader">
             <summary>
-            Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+            ResX resource reader.
             </summary>
             <summary>
-            Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+            ResX resource reader.
             </summary>
         </member>
         <member name="P:System.Resources.ResXResourceReader.BasePath">
@@ -15925,156 +15134,56 @@
         </member>
         <member name="T:System.Resources.ResXResourceWriter">
             <summary>
-            ResX resource writer. See the text in "ResourceSchema" for more
-            information.
+            ResX resource writer. See the text in "ResourceSchema" for more information.
             </summary>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to the specified file.
+            Creates a new ResXResourceWriter that will write to the specified file.
             </summary>
-            <param name="fileName">
-            The output file name.
-            </param>
-        </member>
-        <member name="M:System.Resources.ResXResourceWriter.#ctor(System.String,System.Func{System.Type,System.String})">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to a specified file and sets a delegate that enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
-            </summary>
-            <param name="fileName">
-            The file to send output to.
-            </param>
-            <param name="typeNameConverter">
-            The delegate that is used to target earlier versions of the .NET Framework.
-            </param>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.#ctor(System.IO.Stream)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to the specified stream object.
+            Creates a new ResXResourceWriter that will write to the specified stream.
             </summary>
-            <param name="stream">
-            The output stream.
-            </param>
-        </member>
-        <member name="M:System.Resources.ResXResourceWriter.#ctor(System.IO.Stream,System.Func{System.Type,System.String})">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to a specified stream object and sets a converter delegate. This delegate enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
-            </summary>
-            <param name="stream">
-            The stream to send the output to.
-            </param>
-            <param name="typeNameConverter">
-            The delegate that is used to target earlier versions of the .NET Framework.
-            </param>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.#ctor(System.IO.TextWriter)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Resources.ResXResourceWriter" /> class that writes to the specified
-            <see cref="T:System.IO.TextWriter" /> object.
+            Creates a new ResXResourceWriter that will write to the specified TextWriter.
             </summary>
-            <param name="textWriter">
-            The
-            <see cref="T:System.IO.TextWriter" /> object to send the output to.
-            </param>
-        </member>
-        <member name="M:System.Resources.ResXResourceWriter.#ctor(System.IO.TextWriter,System.Func{System.Type,System.String})">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Resources.ResXResourceWriter" /> class that writes the resources to a specified
-            <see cref="T:System.IO.TextWriter" /> object and sets a delegate that enables resource assemblies to be written that target versions of the .NET Framework before the .NET Framework version 4 by using qualified assembly names.
-            </summary>
-            <param name="textWriter">
-            The object to send output to.
-            </param>
-            <param name="typeNameConverter">
-            The delegate that is used to target earlier versions of the .NET Framework.
-            </param>
         </member>
         <member name="P:System.Resources.ResXResourceWriter.BasePath">
             <summary>
-            Gets or sets the base path for the relative file path specified in a
-            <see cref="T:System.Resources.ResXFileRef" /> object.
+            Base Path for ResXFileRefs.
             </summary>
-            <returns>
-            A path that, if prepended to the relative file path specified in a
-            <see cref="T:System.Resources.ResXFileRef" /> object, yields an absolute path to an XML resource file.
-            </returns>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.AddAlias(System.String,System.Reflection.AssemblyName)">
             <summary>
-            Adds the specified alias to a list of aliases.
+            Adds aliases to the resource file...
             </summary>
-            <param name="aliasName">
-            The name of the alias.
-            </param>
-            <param name="assemblyName">
-            The name of the assembly represented by
-            <paramref name="aliasName" />
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="assemblyName" /> is null.
-            </exception>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.AddMetadata(System.String,System.Byte[])">
             <summary>
-            Adds a design-time property whose value is specifed as a byte array to the list of resources to write.
+            Adds the given value to the collection of metadata.  These name/value pairs
+            will be emitted to the &lt;metadata&gt; elements in the .resx file.
             </summary>
-            <param name="name">
-            The name of a property.
-            </param>
-            <param name="value">
-            A byte array containing the value of the property to add.
-            </param>
-            <exception cref="T:System.InvalidOperationException">
-            The resource specified by the
-            <paramref name="name" /> parameter has already been added.
-            </exception>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.AddMetadata(System.String,System.String)">
             <summary>
-            Adds a design-time property whose value is specified as a string to the list of resources to write.
+            Adds the given value to the collection of metadata.  These name/value pairs
+            will be emitted to the &lt;metadata&gt; elements in the .resx file.
             </summary>
-            <param name="name">
-            The name of a property.
-            </param>
-            <param name="value">
-            A string that is the value of the property to add.
-            </param>
-            <exception cref="T:System.InvalidOperationException">
-            The resource specified by the
-            <paramref name="name" /> property has already been added.
-            </exception>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.AddMetadata(System.String,System.Object)">
             <summary>
-            Adds a design-time property whose value is specified as an object to the list of resources to write.
+            Adds the given value to the collection of metadata.  These name/value pairs
+            will be emitted to the &lt;metadata&gt; elements in the .resx file.
             </summary>
-            <param name="name">
-            The name of a property.
-            </param>
-            <param name="value">
-            An object that is the value of the property to add.
-            </param>
-            <exception cref="T:System.InvalidOperationException">
-            The resource specified by the
-            <paramref name="name" /> parameter has already been added.
-            </exception>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.AddResource(System.String,System.Byte[])">
             <summary>
-            Adds a named resource specified as a byte array to the list of resources to write.
+            Adds a blob resource to the resources.
             </summary>
-            <param name="name">
-            The name of the resource.
-            </param>
-            <param name="value">
-            The value of the resource to add as an 8-bit unsigned integer array.
-            </param>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.AddResource(System.String,System.Object)">
             <summary>
@@ -16087,52 +15196,21 @@
             <summary>
             Adds a string resource to the resources.
             </summary>
-            <param name="name">
-            The name of the resource.
-            </param>
-            <param name="value">
-            The value of the resource.
-            </param>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.AddResource(System.Resources.ResXDataNode)">
             <summary>
-            Adds a named resource specified in a
-            <see cref="T:System.Resources.ResXDataNode" /> object to the list of resources to write.
+            Adds a string resource to the resources.
             </summary>
-            <param name="node">
-            A
-            <see cref="T:System.Resources.ResXDataNode" /> object that contains a resource name/value pair.
-            </param>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.Close">
             <summary>
-            Releases all resources used by the
-            <see cref="T:System.Resources.ResXResourceWriter" />
-            </summary>
-        </member>
-        <member name="M:System.Resources.ResXResourceWriter.Dispose">
-            <summary>
-            Releases all resources used by the
-            <see cref="T:System.Resources.ResXResourceWriter" />
+            Closes any files or streams locked by the writer.
             </summary>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.Generate">
             <summary>
-            Writes all resources added by the
-            <see cref="T:System.Resources.ResXResourceWriter.AddResource(System.String,System.Byte[])" /> method to the output file or stream.
+            Writes the resources out to the file or stream.
             </summary>
-            <exception cref="T:System.InvalidOperationException">
-            The resource has already been saved.
-            </exception>
-        </member>
-        <member name="M:System.Resources.ResXResourceWriter.Dispose(System.Boolean)">
-            <summary>
-            Releases the unmanaged resources used by the
-            <see cref="T:System.Resources.ResXResourceWriter" /> and optionally releases the managed resources.
-            </summary>
-            <param name="disposing">
-            true to release both managed and unmanaged resources; false to release only unmanaged resources.
-            </param>
         </member>
         <member name="M:System.Resources.ResXResourceWriter.AddDataRow(System.String,System.String,System.Byte[])">
             <summary>

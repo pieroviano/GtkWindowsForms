@@ -2,25 +2,24 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="!:System.Windows.Forms.ListView.RetrieveVirtualItem" /> event.
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public class RetrieveVirtualItemEventArgs : EventArgs
 {
-    /// <summary>
-    /// Provides data for the
-    /// <see cref="!:System.Windows.Forms.ListView.RetrieveVirtualItem" /> event.
-    /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class RetrieveVirtualItemEventArgs : EventArgs
+    public RetrieveVirtualItemEventArgs(int itemIndex)
     {
-        public RetrieveVirtualItemEventArgs(int itemIndex)
-        {
-            ItemIndex = itemIndex;
-        }
-
-        public ListViewItem Item { get; set; }
-
-        public int ItemIndex { get; }
-
+        ItemIndex = itemIndex;
     }
+
+    public ListViewItem Item { get; set; }
+
+    public int ItemIndex { get; }
+
 }

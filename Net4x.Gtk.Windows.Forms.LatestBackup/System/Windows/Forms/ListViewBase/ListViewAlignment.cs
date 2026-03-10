@@ -1,16 +1,15 @@
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Specifies how items align in the
+/// <see cref="T:System.Windows.Forms.ListView" />
+/// </summary>
+/// <filterpriority> 2
+/// </filterpriority>
+public enum ListViewAlignment
 {
-    /// <summary>
-    /// Specifies how items align in the
-    /// <see cref="T:System.Windows.Forms.ListView" />
-    /// </summary>
-    /// <filterpriority> 2
-    /// </filterpriority>
-    public enum ListViewAlignment
-    {
-        Default = 0,
-        Top = 2,
-        Left = 1,
-        SnapToGrid = 5
-    }
+    Default = 0,
+    Top = 2,
+    Left = 1,
+    SnapToGrid = 5
 }

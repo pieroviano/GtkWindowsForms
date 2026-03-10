@@ -8,7 +8,7 @@ using System.Reflection;
 namespace System.Resources
 {
     /// <summary>
-    /// Enumerates XML resource (.resx) files and streams, and reads the sequential resource name and value pairs.
+    /// ResX resource reader.
     /// </summary>
     public partial class ResXResourceReader
     {

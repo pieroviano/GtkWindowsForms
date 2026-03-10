@@ -15,10 +15,8 @@ namespace System.Drawing.Imaging
         /// <see cref="T:System.Drawing.Imaging.EncoderParameters" /> class that can contain the specified number of
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects.
         /// </summary>
-        /// <param name="count">
-        /// An integer that specifies the number of
-        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" />
-        /// objects that the
+        /// <param name="count">An integer that specifies the number of
+        /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects that the
         /// <see cref="T:System.Drawing.Imaging.EncoderParameters" /> object can contain.
         /// </param>
         public EncoderParameters(int count)
@@ -40,8 +38,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets an array of
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects.
         /// </summary>
-        /// <returns>
-        /// The array of
+        /// <returns>The array of
         /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects.
         /// </returns>
         public EncoderParameter[] Param

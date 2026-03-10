@@ -1,6 +1,7 @@
 ﻿#if !NETSTANDARD
 using System.CodeDom.Compiler;
 using System.Resources.Tools;
+using System.Text;
 using Microsoft.CSharp;
 
 namespace PrepareProjects.Compilation;
@@ -45,7 +46,7 @@ public static class ResxTypedClassGenerator
                 "Resource generation failed:\n" + string.Join("\n", errors));
         }
 
-        using var writer = new StreamWriter(outputPath, false, System.Text.Encoding.UTF8);
+        using var writer = new StreamWriter(outputPath, false, Encoding.UTF8);
 
         using var provider = CodeDomProvider.CreateProvider("CSharp");
 

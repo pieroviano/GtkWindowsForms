@@ -2,24 +2,23 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="!:System.Windows.Forms.TreeView.NodeMouseClick" /> and
+/// <see cref="!:System.Windows.Forms.TreeView.NodeMouseDoubleClick" /> events.
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public class TreeNodeMouseClickEventArgs : MouseEventArgs
 {
-    /// <summary>
-    /// Provides data for the
-    /// <see cref="!:System.Windows.Forms.TreeView.NodeMouseClick" /> and
-    /// <see cref="!:System.Windows.Forms.TreeView.NodeMouseDoubleClick" /> events.
-    /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class TreeNodeMouseClickEventArgs : MouseEventArgs
+    public TreeNodeMouseClickEventArgs(TreeNode node, MouseButtons button, int clicks, int x, int y) : base(button, clicks, x, y, 0)
     {
-        public TreeNodeMouseClickEventArgs(TreeNode node, MouseButtons button, int clicks, int x, int y) : base(button, clicks, x, y, 0)
-        {
-            Node = node;
-        }
-
-        public TreeNode Node { get; }
-
+        Node = node;
     }
+
+    public TreeNode Node { get; }
+
 }

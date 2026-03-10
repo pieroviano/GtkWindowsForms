@@ -2,20 +2,19 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="T:System.Windows.Forms.DataGridView.AutoSizeColumnsModeChanged" /> event.
+/// </summary>
+public class DataGridViewAutoSizeColumnsModeEventArgs : EventArgs
 {
-    /// <summary>
-    /// Provides data for the
-    /// <see cref="T:System.Windows.Forms.DataGridView.AutoSizeColumnsModeChanged" /> event.
-    /// </summary>
-    public class DataGridViewAutoSizeColumnsModeEventArgs : EventArgs
+    public DataGridViewAutoSizeColumnsModeEventArgs(DataGridViewAutoSizeColumnMode[] previousModes)
     {
-        public DataGridViewAutoSizeColumnsModeEventArgs(DataGridViewAutoSizeColumnMode[] previousModes)
-        {
-            PreviousModes = previousModes;
-        }
-
-        public DataGridViewAutoSizeColumnMode[] PreviousModes { get; }
-
+        PreviousModes = previousModes;
     }
+
+    public DataGridViewAutoSizeColumnMode[] PreviousModes { get; }
+
 }

@@ -2,7 +2,7 @@
 
 namespace XmlDocSync.Formatters;
 
-public static partial class XmlDocIndentFormatter
+public static class XmlDocIndentFormatter
 {
     public static string FixIndentationAndRemoveBlanks(string source)
     {

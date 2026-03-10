@@ -1,4 +1,5 @@
 ﻿using Prepare.Common.Content;
+using XmlDocSync.Roslyn;
 
 namespace Prepare.Tests;
 
@@ -20,7 +21,7 @@ public class CsFileOrganizerRegionTests
 
         var path = WriteTempFile(code);
 
-        XmlDocSync.Roslyn.CsFileOrganizer.ProcessFile(path);
+        CsFileOrganizer.ProcessFile(path);
 
         var result = File.ReadAllText(path);
 

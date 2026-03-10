@@ -35,7 +35,7 @@ public class EncodeDetector
             else
             {
                 // Detect encoding and convert to UTF8 when necessary
-                var encoding = EncodeDetector.DetectEncoding(file);
+                var encoding = DetectEncoding(file);
 
                 if (encoding != null && encoding.CodePage != Encoding.UTF8.CodePage)
                 {

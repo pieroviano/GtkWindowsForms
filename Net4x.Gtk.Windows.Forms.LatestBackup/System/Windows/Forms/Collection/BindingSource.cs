@@ -179,12 +179,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.BindingSource"/> class with the specified data source and data member.
     /// </summary>
-    /// <param name = "dataSource">
-    /// The data source for the
+    /// <param name = "dataSource">The data source for the
     /// <see cref="T:System.Windows.Forms.BindingSource"/>.
     /// </param>
-    /// <param name = "dataMember">
-    /// The specific column or list name within the data source to bind to.
+    /// <param name = "dataMember">The specific column or list name within the data source to bind to.
     /// </param>
     public BindingSource(object? dataSource, string? dataMember)
     {
@@ -203,8 +201,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <see cref="T:System.Windows.Forms.BindingSource"/> class and adds the
     /// <see cref="T:System.Windows.Forms.BindingSource"/> to the specified container.
     /// </summary>
-    /// <param name = "container">
-    /// The
+    /// <param name = "container">The
     /// <see cref="T:System.ComponentModel.IContainer"/> to add the current
     /// <see cref="T:System.Windows.Forms.BindingSource"/> to.
     /// </param>
@@ -253,19 +250,16 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Gets or sets a value indicating whether the
-    /// <see cref="T:System.Windows.Forms.BindingSource.AddNew"/> method can be used to add items to the list.
+    /// <see cref="M:System.Windows.Forms.BindingSource.AddNew"/> method can be used to add items to the list.
     /// </summary>
-    /// <returns>
-    /// true if
-    /// <see cref="T:System.Windows.Forms.BindingSource.AddNew"/> can be used to add items to the list; otherwise, false.
+    /// <returns>true if
+    /// <see cref="M:System.Windows.Forms.BindingSource.AddNew"/> can be used to add items to the list; otherwise, false.
     /// </returns>
-    /// <exception cref="T:System.InvalidOperationException">
-    /// This property is set to true when the underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property has a fixed size or is read-only.
+    /// <exception cref="T:System.InvalidOperationException">This property is set to true when the underlying list represented by the
+    /// <see cref="P:System.Windows.Forms.BindingSource.List"/> property has a fixed size or is read-only.
     /// </exception>
-    /// <exception cref="T:System.MissingMethodException">
-    /// The property is set to true and the
-    /// <see cref="T:System.Windows.Forms.BindingSource.AddingNew"/> event is not handled when the underlying list type does not have a default constructor.
+    /// <exception cref="T:System.MissingMethodException">The property is set to true and the
+    /// <see cref="E:System.Windows.Forms.BindingSource.AddingNew"/> event is not handled when the underlying list type does not have a default constructor.
     /// </exception>
     [Category("CatBehavior")]
     [Description("BindingSourceAllowNewDescr")]
@@ -356,8 +350,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// Gets the currency manager associated with this
     /// <see cref="T:System.Windows.Forms.BindingSource"/>.
     /// </summary>
-    /// <returns>
-    /// The
+    /// <returns>The
     /// <see cref="T:System.Windows.Forms.CurrencyManager"/> associated with this
     /// <see cref="T:System.Windows.Forms.BindingSource"/>.
     /// </returns>
@@ -626,8 +619,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// Gets the
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> that is being used for sorting the list.
     /// </summary>
-    /// <returns>
-    /// If the list is an
+    /// <returns>If the list is an
     /// <see cref="T:System.ComponentModel.IBindingList"/>, the
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> that is being used for sorting; otherwise, null.
     /// </returns>
@@ -907,13 +899,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Adds a new item to the underlying list.
     /// </summary>
-    /// <returns>
-    /// The
+    /// <returns>The
     /// <see cref="T:System.Object"/> that was created and added to the list.
     /// </returns>
-    /// <exception cref="T:System.InvalidOperationException">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingSource.AllowNew"/> property is set to false. -or-A public default constructor could not be found for the current item type.
+    /// <exception cref="T:System.InvalidOperationException">The
+    /// <see cref="P:System.Windows.Forms.BindingSource.AllowNew"/> property is set to false. -or-A public default constructor could not be found for the current item type.
     /// </exception>
     public virtual object? AddNew()
     {
@@ -971,16 +961,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Sorts the data source using the specified property descriptor and sort direction.
     /// </summary>
-    /// <param name = "property">
-    /// A
+    /// <param name = "property">A
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> that describes the property by which to sort the data source.
     /// </param>
-    /// <param name = "sortDirection">
-    /// A
+    /// <param name = "sortDirection">A
     /// <see cref="T:System.ComponentModel.ListSortDirection"/> indicating how the list should be sorted.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">
-    /// The data source is not an
+    /// <exception cref="T:System.NotSupportedException">The data source is not an
     /// <see cref="T:System.ComponentModel.IBindingList"/>.
     /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -997,12 +984,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Sorts the data source with the specified sort descriptions.
     /// </summary>
-    /// <param name = "sorts">
-    /// A
+    /// <param name = "sorts">A
     /// <see cref="T:System.ComponentModel.ListSortDescriptionCollection"/> containing the sort descriptions to apply to the data source.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">
-    /// The data source is not an
+    /// <exception cref="T:System.NotSupportedException">The data source is not an
     /// <see cref="T:System.ComponentModel.IBindingListView"/>.
     /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -1037,15 +1022,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Determines whether an object is an item in the list.
     /// </summary>
-    /// <returns>
-    /// true if the
+    /// <returns>true if the
     /// <paramref name = "value"/> parameter is found in the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/>; otherwise, false.
+    /// <see cref="P:System.Windows.Forms.BindingSource.List"/>; otherwise, false.
     /// </returns>
-    /// <param name = "value">
-    /// The
+    /// <param name = "value">The
     /// <see cref="T:System.Object"/> to locate in the underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
+    /// <see cref="P:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
     /// </param>
     public virtual bool Contains(object? value)
     {
@@ -1126,20 +1109,16 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Searches for the index of the item that has the given property descriptor.
     /// </summary>
-    /// <returns>
-    /// The zero-based index of the item that has the given value for
+    /// <returns>The zero-based index of the item that has the given value for
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/>.
     /// </returns>
-    /// <param name = "prop">
-    /// The
+    /// <param name = "prop">The
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to search for.
     /// </param>
-    /// <param name = "key">
-    /// The value of
+    /// <param name = "key">The value of
     /// <paramref name = "prop"/> to match.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">
-    /// The underlying list is not of type
+    /// <exception cref="T:System.NotSupportedException">The underlying list is not of type
     /// <see cref="T:System.ComponentModel.IBindingList"/>.
     /// </exception>
     public virtual int Find(PropertyDescriptor prop, object key)
@@ -1154,12 +1133,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Retrieves an enumerator for the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/>.
+    /// <see cref="P:System.Windows.Forms.BindingSource.List"/>.
     /// </summary>
-    /// <returns>
-    /// An
+    /// <returns>An
     /// <see cref="T:System.Collections.IEnumerator"/> for the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/>.
+    /// <see cref="P:System.Windows.Forms.BindingSource.List"/>.
     /// </returns>
     public virtual IEnumerator GetEnumerator()
     {
@@ -1170,12 +1148,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// Retrieves an array of
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects representing the bindable properties of the data source list type.
     /// </summary>
-    /// <returns>
-    /// An array of
+    /// <returns>An array of
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects that represents the properties on this list type used to bind data.
     /// </returns>
-    /// <param name = "listAccessors">
-    /// An array of
+    /// <param name = "listAccessors">An array of
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects to find in the list as bindable.
     /// </param>
     public virtual PropertyDescriptorCollection? GetItemProperties(PropertyDescriptor[]? listAccessors)
@@ -1229,15 +1205,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Searches for the specified object and returns the index of the first occurrence within the entire list.
     /// </summary>
-    /// <returns>
-    /// The zero-based index of the first occurrence of the
+    /// <returns>The zero-based index of the first occurrence of the
     /// <paramref name = "value"/> parameter; otherwise, -1 if
     /// <paramref name = "value"/> is not in the list.
     /// </returns>
-    /// <param name = "value">
-    /// The
+    /// <param name = "value">The
     /// <see cref="T:System.Object"/> to locate in the underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
+    /// <see cref="P:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
     /// </param>
     public virtual int IndexOf(object value)
     {
@@ -1336,15 +1310,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Removes the current item from the list.
     /// </summary>
-    /// <exception cref="T:System.InvalidOperationException">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingSource.AllowRemove"/> property is false.-or-
-    /// <see cref="T:System.Windows.Forms.BindingSource.Position"/> is less than zero or greater than
-    /// <see cref="T:System.Windows.Forms.BindingSource.Count"/>.
+    /// <exception cref="T:System.InvalidOperationException">The
+    /// <see cref="P:System.Windows.Forms.BindingSource.AllowRemove"/> property is false.-or-
+    /// <see cref="P:System.Windows.Forms.BindingSource.Position"/> is less than zero or greater than
+    /// <see cref="P:System.Windows.Forms.BindingSource.Count"/>.
     /// </exception>
-    /// <exception cref="T:System.NotSupportedException">
-    /// The underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property is read-only or has a fixed size.
+    /// <exception cref="T:System.NotSupportedException">The underlying list represented by the
+    /// <see cref="P:System.Windows.Forms.BindingSource.List"/> property is read-only or has a fixed size.
     /// </exception>
     public void RemoveCurrent()
     {
@@ -1464,12 +1436,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// Adds the
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to the indexes used for searching.
     /// </summary>
-    /// <param name = "property">
-    /// The
+    /// <param name = "property">The
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to add to the indexes used for searching.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">
-    /// The underlying list is not an
+    /// <exception cref="T:System.NotSupportedException">The underlying list is not an
     /// <see cref="T:System.ComponentModel.IBindingList"/>.
     /// </exception>
     void IBindingList.AddIndex(PropertyDescriptor property)

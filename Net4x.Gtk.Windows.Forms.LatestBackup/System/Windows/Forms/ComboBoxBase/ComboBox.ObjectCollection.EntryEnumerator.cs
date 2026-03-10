@@ -6,11 +6,7 @@ using System.Collections.Generic;
 
 namespace System.Windows.Forms
 {
-    /// <summary>
-    /// Represents a Windows combo box control.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
+
     public partial class ComboBox
     {
         public partial class ObjectCollection

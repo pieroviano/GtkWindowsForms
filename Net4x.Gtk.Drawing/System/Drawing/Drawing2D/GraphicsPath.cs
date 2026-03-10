@@ -40,17 +40,15 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> array with the specified
-        /// <see cref="!:System.Drawing.Drawing2D.PathPointType" /> and
+        /// <see cref="T:System.Drawing.Drawing2D.PathPointType" /> and
         /// <see cref="T:System.Drawing.PointF" /> arrays.
         /// </summary>
-        /// <param name="pts">
-        /// An array of
+        /// <param name="pts">An array of
         /// <see cref="T:System.Drawing.PointF" /> structures that defines the coordinates of the points that make up this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </param>
-        /// <param name="types">
-        /// An array of
-        /// <see cref="!:System.Drawing.Drawing2D.PathPointType" /> enumeration elements that specifies the type of each corresponding point in the
+        /// <param name="types">An array of
+        /// <see cref="T:System.Drawing.Drawing2D.PathPointType" /> enumeration elements that specifies the type of each corresponding point in the
         /// <paramref name="pts" /> array.
         /// </param>
         public GraphicsPath(PointF[] pts, byte[] types) : this(pts, types, FillMode.Alternate)
@@ -60,22 +58,19 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> array with the specified
-        /// <see cref="!:System.Drawing.Drawing2D.PathPointType" /> and
+        /// <see cref="T:System.Drawing.Drawing2D.PathPointType" /> and
         /// <see cref="T:System.Drawing.PointF" /> arrays and with the specified
         /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> enumeration element.
         /// </summary>
-        /// <param name="pts">
-        /// An array of
+        /// <param name="pts">An array of
         /// <see cref="T:System.Drawing.PointF" /> structures that defines the coordinates of the points that make up this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </param>
-        /// <param name="types">
-        /// An array of
-        /// <see cref="!:System.Drawing.Drawing2D.PathPointType" /> enumeration elements that specifies the type of each corresponding point in the
+        /// <param name="types">An array of
+        /// <see cref="T:System.Drawing.Drawing2D.PathPointType" /> enumeration elements that specifies the type of each corresponding point in the
         /// <paramref name="pts" /> array.
         /// </param>
-        /// <param name="fillMode">
-        /// A
+        /// <param name="fillMode">A
         /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> enumeration that specifies how the interiors of shapes in this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> are filled.
         /// </param>
@@ -91,17 +86,15 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> class with the specified
-        /// <see cref="!:System.Drawing.Drawing2D.PathPointType" /> and
+        /// <see cref="T:System.Drawing.Drawing2D.PathPointType" /> and
         /// <see cref="T:System.Drawing.Point" /> arrays.
         /// </summary>
-        /// <param name="pts">
-        /// An array of
+        /// <param name="pts">An array of
         /// <see cref="T:System.Drawing.Point" /> structures that defines the coordinates of the points that make up this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </param>
-        /// <param name="types">
-        /// An array of
-        /// <see cref="!:System.Drawing.Drawing2D.PathPointType" /> enumeration elements that specifies the type of each corresponding point in the
+        /// <param name="types">An array of
+        /// <see cref="T:System.Drawing.Drawing2D.PathPointType" /> enumeration elements that specifies the type of each corresponding point in the
         /// <paramref name="pts" /> array.
         /// </param>
         public GraphicsPath(Point[] pts, byte[] types) : this(pts, types, FillMode.Alternate)
@@ -111,22 +104,19 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> class with the specified
-        /// <see cref="!:System.Drawing.Drawing2D.PathPointType" /> and
+        /// <see cref="T:System.Drawing.Drawing2D.PathPointType" /> and
         /// <see cref="T:System.Drawing.Point" /> arrays and with the specified
         /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> enumeration element.
         /// </summary>
-        /// <param name="pts">
-        /// An array of
+        /// <param name="pts">An array of
         /// <see cref="T:System.Drawing.Point" /> structures that defines the coordinates of the points that make up this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </param>
-        /// <param name="types">
-        /// An array of
-        /// <see cref="!:System.Drawing.Drawing2D.PathPointType" /> enumeration elements that specifies the type of each corresponding point in the
+        /// <param name="types">An array of
+        /// <see cref="T:System.Drawing.Drawing2D.PathPointType" /> enumeration elements that specifies the type of each corresponding point in the
         /// <paramref name="pts" /> array.
         /// </param>
-        /// <param name="fillMode">
-        /// A
+        /// <param name="fillMode">A
         /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> enumeration that specifies how the interiors of shapes in this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> are filled.
         /// </param>
@@ -139,14 +129,10 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> enumeration that determines how the interiors of shapes in this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> are filled.
         /// </summary>
-        /// <returns>
-        /// A
+        /// <returns>A
         /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> enumeration that specifies how the interiors of shapes in this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> are filled.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public FillMode FillMode
         {
             get;
@@ -158,16 +144,12 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.PathData" /> that encapsulates arrays of points (
         /// <paramref name="points" />) and types (
         /// <paramref name="types" />) for this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <returns>
-        /// A
+        /// <returns>A
         /// <see cref="T:System.Drawing.Drawing2D.PathData" /> that encapsulates arrays for both the points and types for this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public PathData PathData
         {
             get;
@@ -177,13 +159,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Gets the points in the path.
         /// </summary>
-        /// <returns>
-        /// An array of
+        /// <returns>An array of
         /// <see cref="T:System.Drawing.PointF" /> objects that represent the path.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public PointF[] PathPoints
         {
             get;
@@ -192,14 +170,10 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets the types of the corresponding points in the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array.
+        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array.
         /// </summary>
-        /// <returns>
-        /// An array of bytes that specifies the types of the corresponding points in the path.
+        /// <returns>An array of bytes that specifies the types of the corresponding points in the path.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public byte[] PathTypes
         {
             get;
@@ -208,17 +182,13 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets the number of elements in the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> or the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> array.
+        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> or the
+        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> array.
         /// </summary>
-        /// <returns>
-        /// An integer that specifies the number of elements in the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> or the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> array.
+        /// <returns>An integer that specifies the number of elements in the
+        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> or the
+        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> array.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public int PointCount
         {
             get;
@@ -244,15 +214,12 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Appends an elliptical arc to the current figure.
         /// </summary>
-        /// <param name="rect">
-        /// A
+        /// <param name="rect">A
         /// <see cref="T:System.Drawing.Rectangle" /> that represents the rectangular bounds of the ellipse from which the arc is taken.
         /// </param>
-        /// <param name="startAngle">
-        /// The starting angle of the arc, measured in degrees clockwise from the x-axis.
+        /// <param name="startAngle">The starting angle of the arc, measured in degrees clockwise from the x-axis.
         /// </param>
-        /// <param name="sweepAngle">
-        /// The angle between
+        /// <param name="sweepAngle">The angle between
         /// <paramref name="startAngle" /> and the end of the arc.
         /// </param>
         public void AddArc(Rectangle rect, float startAngle, float sweepAngle)
@@ -281,23 +248,17 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Appends an elliptical arc to the current figure.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the upper-left corner of the rectangular region that defines the ellipse from which the arc is drawn.
+        /// <param name="x">The x-coordinate of the upper-left corner of the rectangular region that defines the ellipse from which the arc is drawn.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the upper-left corner of the rectangular region that defines the ellipse from which the arc is drawn.
+        /// <param name="y">The y-coordinate of the upper-left corner of the rectangular region that defines the ellipse from which the arc is drawn.
         /// </param>
-        /// <param name="width">
-        /// The width of the rectangular region that defines the ellipse from which the arc is drawn.
+        /// <param name="width">The width of the rectangular region that defines the ellipse from which the arc is drawn.
         /// </param>
-        /// <param name="height">
-        /// The height of the rectangular region that defines the ellipse from which the arc is drawn.
+        /// <param name="height">The height of the rectangular region that defines the ellipse from which the arc is drawn.
         /// </param>
-        /// <param name="startAngle">
-        /// The starting angle of the arc, measured in degrees clockwise from the x-axis.
+        /// <param name="startAngle">The starting angle of the arc, measured in degrees clockwise from the x-axis.
         /// </param>
-        /// <param name="sweepAngle">
-        /// The angle between
+        /// <param name="sweepAngle">The angle between
         /// <paramref name="startAngle" /> and the end of the arc.
         /// </param>
         public void AddArc(int x, int y, int width, int height, float startAngle, float sweepAngle)
@@ -309,23 +270,17 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Appends an elliptical arc to the current figure.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the upper-left corner of the rectangular region that defines the ellipse from which the arc is drawn.
+        /// <param name="x">The x-coordinate of the upper-left corner of the rectangular region that defines the ellipse from which the arc is drawn.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the upper-left corner of the rectangular region that defines the ellipse from which the arc is drawn.
+        /// <param name="y">The y-coordinate of the upper-left corner of the rectangular region that defines the ellipse from which the arc is drawn.
         /// </param>
-        /// <param name="width">
-        /// The width of the rectangular region that defines the ellipse from which the arc is drawn.
+        /// <param name="width">The width of the rectangular region that defines the ellipse from which the arc is drawn.
         /// </param>
-        /// <param name="height">
-        /// The height of the rectangular region that defines the ellipse from which the arc is drawn.
+        /// <param name="height">The height of the rectangular region that defines the ellipse from which the arc is drawn.
         /// </param>
-        /// <param name="startAngle">
-        /// The starting angle of the arc, measured in degrees clockwise from the x-axis.
+        /// <param name="startAngle">The starting angle of the arc, measured in degrees clockwise from the x-axis.
         /// </param>
-        /// <param name="sweepAngle">
-        /// The angle between
+        /// <param name="sweepAngle">The angle between
         /// <paramref name="startAngle" /> and the end of the arc.
         /// </param>
         public void AddArc(float x, float y, float width, float height, float startAngle, float sweepAngle)
@@ -337,20 +292,16 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds a cubic Bézier curve to the current figure.
         /// </summary>
-        /// <param name="pt1">
-        /// A
+        /// <param name="pt1">A
         /// <see cref="T:System.Drawing.Point" /> that represents the starting point of the curve.
         /// </param>
-        /// <param name="pt2">
-        /// A
+        /// <param name="pt2">A
         /// <see cref="T:System.Drawing.Point" /> that represents the first control point for the curve.
         /// </param>
-        /// <param name="pt3">
-        /// A
+        /// <param name="pt3">A
         /// <see cref="T:System.Drawing.Point" /> that represents the second control point for the curve.
         /// </param>
-        /// <param name="pt4">
-        /// A
+        /// <param name="pt4">A
         /// <see cref="T:System.Drawing.Point" /> that represents the endpoint of the curve.
         /// </param>
         public void AddBezier(Point pt1, Point pt2, Point pt3, Point pt4)
@@ -362,20 +313,16 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds a cubic Bézier curve to the current figure.
         /// </summary>
-        /// <param name="pt1">
-        /// A
+        /// <param name="pt1">A
         /// <see cref="T:System.Drawing.PointF" /> that represents the starting point of the curve.
         /// </param>
-        /// <param name="pt2">
-        /// A
+        /// <param name="pt2">A
         /// <see cref="T:System.Drawing.PointF" /> that represents the first control point for the curve.
         /// </param>
-        /// <param name="pt3">
-        /// A
+        /// <param name="pt3">A
         /// <see cref="T:System.Drawing.PointF" /> that represents the second control point for the curve.
         /// </param>
-        /// <param name="pt4">
-        /// A
+        /// <param name="pt4">A
         /// <see cref="T:System.Drawing.PointF" /> that represents the endpoint of the curve.
         /// </param>
         public void AddBezier(PointF pt1, PointF pt2, PointF pt3, PointF pt4)
@@ -449,8 +396,7 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds a sequence of connected cubic Bézier curves to the current figure.
         /// </summary>
-        /// <param name="points">
-        /// An array of
+        /// <param name="points">An array of
         /// <see cref="T:System.Drawing.Point" /> structures that represents the points that define the curves.
         /// </param>
         public void AddBeziers(params Point[] points)
@@ -488,8 +434,7 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds a closed curve to this path. A cardinal spline curve is used because the curve travels through each of the points in the array.
         /// </summary>
-        /// <param name="points">
-        /// An array of
+        /// <param name="points">An array of
         /// <see cref="T:System.Drawing.Point" /> structures that represents the points that define the curve.
         /// </param>
         public void AddClosedCurve(Point[] points)
@@ -501,12 +446,10 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds a closed curve to this path. A cardinal spline curve is used because the curve travels through each of the points in the array.
         /// </summary>
-        /// <param name="points">
-        /// An array of
+        /// <param name="points">An array of
         /// <see cref="T:System.Drawing.Point" /> structures that represents the points that define the curve.
         /// </param>
-        /// <param name="tension">
-        /// A value between from 0 through 1 that specifies the amount that the curve bends between points, with 0 being the smallest curve (sharpest corner) and 1 being the smoothest curve.
+        /// <param name="tension">A value between from 0 through 1 that specifies the amount that the curve bends between points, with 0 being the smallest curve (sharpest corner) and 1 being the smoothest curve.
         /// </param>
         public void AddClosedCurve(Point[] points, float tension)
         {
@@ -607,13 +550,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds an ellipse to the current path.
         /// </summary>
-        /// <param name="rect">
-        /// A
+        /// <param name="rect">A
         /// <see cref="T:System.Drawing.Rectangle" /> that represents the bounding rectangle that defines the ellipse.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void AddEllipse(Rectangle rect)
         {
             AddPathPoints(new PointF(rect.X, rect.Y), new PointF(rect.Right, rect.Bottom));
@@ -623,13 +562,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds an ellipse to the current path.
         /// </summary>
-        /// <param name="rect">
-        /// A
+        /// <param name="rect">A
         /// <see cref="T:System.Drawing.RectangleF" /> that represents the bounding rectangle that defines the ellipse.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void AddEllipse(RectangleF rect)
         {
             AddPathPoints(new PointF(rect.X, rect.Y), new PointF(rect.Right, rect.Bottom));
@@ -672,19 +607,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Appends a line segment to this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="pt1">
-        /// A
+        /// <param name="pt1">A
         /// <see cref="T:System.Drawing.Point" /> that represents the starting point of the line.
         /// </param>
-        /// <param name="pt2">
-        /// A
+        /// <param name="pt2">A
         /// <see cref="T:System.Drawing.Point" /> that represents the endpoint of the line.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void AddLine(Point pt1, Point pt2)
         {
             AddPathPoints(new PointF(pt1.X, pt1.Y), new PointF(pt2.X, pt2.Y));
@@ -693,19 +623,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Appends a line segment to this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="pt1">
-        /// A
+        /// <param name="pt1">A
         /// <see cref="T:System.Drawing.PointF" /> that represents the starting point of the line.
         /// </param>
-        /// <param name="pt2">
-        /// A
+        /// <param name="pt2">A
         /// <see cref="T:System.Drawing.PointF" /> that represents the endpoint of the line.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void AddLine(PointF pt1, PointF pt2)
         {
             AddPathPoints(new PointF(pt1.X, pt1.Y), new PointF(pt2.X, pt2.Y));
@@ -880,13 +805,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds a rectangle to this path.
         /// </summary>
-        /// <param name="rect">
-        /// A
+        /// <param name="rect">A
         /// <see cref="T:System.Drawing.Rectangle" /> that represents the rectangle to add.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void AddRectangle(Rectangle rect)
         {
             AddPathPoints(new PointF(rect.Left, rect.Top), new PointF(rect.Right, rect.Bottom));
@@ -896,13 +817,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds a rectangle to this path.
         /// </summary>
-        /// <param name="rect">
-        /// A
+        /// <param name="rect">A
         /// <see cref="T:System.Drawing.RectangleF" /> that represents the rectangle to add.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void AddRectangle(RectangleF rect)
         {
             AddPathPoints(new PointF(rect.Left, rect.Top), new PointF(rect.Right, rect.Bottom));
@@ -939,27 +856,21 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds a text string to this path.
         /// </summary>
-        /// <param name="s">
-        /// The
+        /// <param name="s">The
         /// <see cref="T:System.String" /> to add.
         /// </param>
-        /// <param name="family">
-        /// A
+        /// <param name="family">A
         /// <see cref="T:System.Drawing.FontFamily" /> that represents the name of the font with which the test is drawn.
         /// </param>
-        /// <param name="style">
-        /// A
+        /// <param name="style">A
         /// <see cref="T:System.Drawing.FontStyle" /> enumeration that represents style information about the text (bold, italic, and so on). This must be cast as an integer (see the example code later in this section).
         /// </param>
-        /// <param name="emSize">
-        /// The height of the em square box that bounds the character.
+        /// <param name="emSize">The height of the em square box that bounds the character.
         /// </param>
-        /// <param name="origin">
-        /// A
+        /// <param name="origin">A
         /// <see cref="T:System.Drawing.Point" /> that represents the point where the text starts.
         /// </param>
-        /// <param name="format">
-        /// A
+        /// <param name="format">A
         /// <see cref="T:System.Drawing.StringFormat" /> that specifies text formatting information, such as line spacing and alignment.
         /// </param>
         public void AddString(string s, FontFamily family, int style, float emSize, Point origin, StringFormat format)
@@ -1049,9 +960,6 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Clears all markers from this path.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void ClearMarkers()
         {
         }
@@ -1059,13 +967,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Creates an exact copy of this path.
         /// </summary>
-        /// <returns>
-        /// The
+        /// <returns>The
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> this method creates, cast as an object.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public object Clone()
         {
             return null;
@@ -1074,9 +978,6 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Closes all open figures in this path and starts a new figure. It closes each open figure by connecting a line from its endpoint to its starting point.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void CloseAllFigures()
         {
             IsCloseAllFigures = true;
@@ -1085,9 +986,6 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Closes the current figure and starts a new figure. If the current figure contains a sequence of connected lines and curves, the method closes the loop by connecting a line from the endpoint to the starting point.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void CloseFigure()
         {
             list.Add(new FigureMode() { start = false, close = true });
@@ -1095,11 +993,8 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Releases all resources used by this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Dispose()
         {
         }
@@ -1107,9 +1002,6 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Converts each curve in this path into a sequence of connected line segments.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Flatten()
         {
         }
@@ -1118,14 +1010,10 @@ namespace System.Drawing.Drawing2D
         /// Applies the specified transform and then converts each curve in this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> into a sequence of connected line segments.
         /// </summary>
-        /// <param name="matrix">
-        /// A
+        /// <param name="matrix">A
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which to transform this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> before flattening.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Flatten(Matrix matrix)
         {
         }
@@ -1134,13 +1022,11 @@ namespace System.Drawing.Drawing2D
         /// Converts each curve in this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> into a sequence of connected line segments.
         /// </summary>
-        /// <param name="matrix">
-        /// A
+        /// <param name="matrix">A
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which to transform this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> before flattening.
         /// </param>
-        /// <param name="flatness">
-        /// Specifies the maximum permitted error between the curve and its flattened approximation. A value of 0.25 is the default. Reducing the flatness value will increase the number of line segments in the approximation.
+        /// <param name="flatness">Specifies the maximum permitted error between the curve and its flattened approximation. A value of 0.25 is the default. Reducing the flatness value will increase the number of line segments in the approximation.
         /// </param>
         public void Flatten(Matrix matrix, float flatness)
         {
@@ -1148,16 +1034,12 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Returns a rectangle that bounds this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <returns>
-        /// A
+        /// <returns>A
         /// <see cref="T:System.Drawing.RectangleF" /> that represents a rectangle that bounds this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public RectangleF GetBounds()
         {
             throw new System.NotImplementedException();
@@ -1166,20 +1048,15 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Returns a rectangle that bounds this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when this path is transformed by the specified
-        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />
+        /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
         /// </summary>
-        /// <returns>
-        /// A
-        /// <see cref="T:System.Drawing.RectangleF" /> that represents a rectangle that bounds this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
-        /// </returns>
-        /// <param name="matrix">
-        /// The
+        /// <param name="matrix">The
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that specifies a transformation to be applied to this path before the bounding rectangle is calculated. This path is not permanently transformed; the transformation is used only during the process of calculating the bounding rectangle.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
+        /// <returns>A
+        /// <see cref="T:System.Drawing.RectangleF" /> that represents a rectangle that bounds this
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
+        /// </returns>
         public RectangleF GetBounds(Matrix matrix)
         {
             throw new System.NotImplementedException();
@@ -1191,17 +1068,14 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> and drawn with the specified
         /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <param name="matrix">
-        /// The
+        /// <param name="matrix">The
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that specifies a transformation to be applied to this path before the bounding rectangle is calculated. This path is not permanently transformed; the transformation is used only during the process of calculating the bounding rectangle.
         /// </param>
-        /// <param name="pen">
-        /// The
+        /// <param name="pen">The
         /// <see cref="T:System.Drawing.Pen" /> with which to draw the
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </param>
-        /// <returns>
-        /// A
+        /// <returns>A
         /// <see cref="T:System.Drawing.RectangleF" /> that represents a rectangle that bounds this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </returns>
@@ -1212,17 +1086,13 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Gets the last point in the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array of this
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <returns>
-        /// A
+        /// <returns>A
         /// <see cref="T:System.Drawing.PointF" /> that represents the last point in this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </returns>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public PointF GetLastPoint()
         {
             throw new System.NotImplementedException();
@@ -1231,24 +1101,20 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Indicates whether the specified point is contained within (under) the outline of this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-        /// <see cref="T:System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// This method returns true if the specified point is contained within the outline of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-        /// <see cref="T:System.Drawing.Pen" />; otherwise, false.
-        /// </returns>
-        /// <param name="point">
-        /// A
+        /// <param name="point">A
         /// <see cref="T:System.Drawing.Point" /> that specifies the location to test.
         /// </param>
-        /// <param name="pen">
-        /// The
+        /// <param name="pen">The
         /// <see cref="T:System.Drawing.Pen" /> to test.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
+        /// <returns>This method returns
+        /// <see langword="true" /> if the specified point is contained within the outline of this
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
+        /// <see cref="T:System.Drawing.Pen" />; otherwise,
+        /// <see langword="false" />.
+        /// </returns>
         public bool IsOutlineVisible(Point point, Pen pen)
         {
             throw new System.NotImplementedException();
@@ -1260,20 +1126,16 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Pen" /> and using the specified
         /// <see cref="T:System.Drawing.Graphics" />.
         /// </summary>
-        /// <param name="pt">
-        /// A
+        /// <param name="pt">A
         /// <see cref="T:System.Drawing.Point" /> that specifies the location to test.
         /// </param>
-        /// <param name="pen">
-        /// The
+        /// <param name="pen">The
         /// <see cref="T:System.Drawing.Pen" /> to test.
         /// </param>
-        /// <param name="graphics">
-        /// The
+        /// <param name="graphics">The
         /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within the outline of this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified
         /// <see cref="T:System.Drawing.Pen" />; otherwise,
@@ -1287,24 +1149,20 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Indicates whether the specified point is contained within (under) the outline of this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-        /// <see cref="T:System.Drawing.Pen" />
+        /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <returns>
-        /// This method returns true if the specified point is contained within the outline of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-        /// <see cref="T:System.Drawing.Pen" />; otherwise, false.
-        /// </returns>
-        /// <param name="point">
-        /// A
+        /// <param name="point">A
         /// <see cref="T:System.Drawing.PointF" /> that specifies the location to test.
         /// </param>
-        /// <param name="pen">
-        /// The
+        /// <param name="pen">The
         /// <see cref="T:System.Drawing.Pen" /> to test.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
+        /// <returns>This method returns
+        /// <see langword="true" /> if the specified point is contained within the outline of this
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
+        /// <see cref="T:System.Drawing.Pen" />; otherwise,
+        /// <see langword="false" />.
+        /// </returns>
         public bool IsOutlineVisible(PointF point, Pen pen)
         {
             throw new System.NotImplementedException();
@@ -1316,20 +1174,16 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Pen" /> and using the specified
         /// <see cref="T:System.Drawing.Graphics" />.
         /// </summary>
-        /// <param name="pt">
-        /// A
+        /// <param name="pt">A
         /// <see cref="T:System.Drawing.PointF" /> that specifies the location to test.
         /// </param>
-        /// <param name="pen">
-        /// The
+        /// <param name="pen">The
         /// <see cref="T:System.Drawing.Pen" /> to test.
         /// </param>
-        /// <param name="graphics">
-        /// The
+        /// <param name="graphics">The
         /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within (under) the outline of this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified
         /// <see cref="T:System.Drawing.Pen" />; otherwise,
@@ -1345,18 +1199,14 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
         /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <param name="pen">
-        /// The
+        /// <param name="pen">The
         /// <see cref="T:System.Drawing.Pen" /> to test.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within the outline of this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
         /// <see cref="T:System.Drawing.Pen" />; otherwise,
@@ -1373,22 +1223,17 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Pen" /> and using the specified
         /// <see cref="T:System.Drawing.Graphics" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <param name="pen">
-        /// The
+        /// <param name="pen">The
         /// <see cref="T:System.Drawing.Pen" /> to test.
         /// </param>
-        /// <param name="graphics">
-        /// The
+        /// <param name="graphics">The
         /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within the outline of this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified
         /// <see cref="T:System.Drawing.Pen" />; otherwise,
@@ -1404,18 +1249,14 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
         /// <see cref="T:System.Drawing.Pen" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <param name="pen">
-        /// The
+        /// <param name="pen">The
         /// <see cref="T:System.Drawing.Pen" /> to test.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within the outline of this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
         /// <see cref="T:System.Drawing.Pen" />; otherwise,
@@ -1432,22 +1273,17 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Pen" /> and using the specified
         /// <see cref="T:System.Drawing.Graphics" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <param name="pen">
-        /// The
+        /// <param name="pen">The
         /// <see cref="T:System.Drawing.Pen" /> to test.
         /// </param>
-        /// <param name="graphics">
-        /// The
+        /// <param name="graphics">The
         /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within (under) the outline of this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified
         /// <see cref="T:System.Drawing.Pen" />; otherwise,
@@ -1460,19 +1296,16 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <returns>
-        /// This method returns true if the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, false.
-        /// </returns>
-        /// <param name="point">
-        /// A
+        /// <param name="point">A
         /// <see cref="T:System.Drawing.Point" /> that represents the point to test.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
+        /// <returns>This method returns
+        /// <see langword="true" /> if the specified point is contained within this
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
+        /// <see langword="false" />.
+        /// </returns>
         public bool IsVisible(Point point)
         {
             throw new System.NotImplementedException();
@@ -1480,23 +1313,19 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <returns>
-        /// This method returns true if the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, false.
-        /// </returns>
-        /// <param name="pt">
-        /// A
+        /// <param name="pt">A
         /// <see cref="T:System.Drawing.Point" /> that represents the point to test.
         /// </param>
-        /// <param name="graphics">
-        /// The
+        /// <param name="graphics">The
         /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
+        /// <returns>This method returns
+        /// <see langword="true" /> if the specified point is contained within this
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
+        /// <see langword="false" />.
+        /// </returns>
         public bool IsVisible(Point pt, Graphics graphics)
         {
             throw new System.NotImplementedException();
@@ -1504,19 +1333,16 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <returns>
-        /// This method returns true if the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise, false.
-        /// </returns>
-        /// <param name="point">
-        /// A
+        /// <param name="point">A
         /// <see cref="T:System.Drawing.PointF" /> that represents the point to test.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
+        /// <returns>This method returns
+        /// <see langword="true" /> if the specified point is contained within this
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
+        /// <see langword="false" />.
+        /// </returns>
         public bool IsVisible(PointF point)
         {
             throw new System.NotImplementedException();
@@ -1524,22 +1350,18 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Indicates whether the specified point is contained within this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <returns>
-        /// This method returns true if the specified point is contained within this; otherwise, false.
-        /// </returns>
-        /// <param name="pt">
-        /// A
+        /// <param name="pt">A
         /// <see cref="T:System.Drawing.PointF" /> that represents the point to test.
         /// </param>
-        /// <param name="graphics">
-        /// The
+        /// <param name="graphics">The
         /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
+        /// <returns>This method returns
+        /// <see langword="true" /> if the specified point is contained within this; otherwise,
+        /// <see langword="false" />.
+        /// </returns>
         public bool IsVisible(PointF pt, Graphics graphics)
         {
             throw new System.NotImplementedException();
@@ -1549,14 +1371,11 @@ namespace System.Drawing.Drawing2D
         /// Indicates whether the specified point is contained within this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
         /// <see langword="false" />.
@@ -1571,18 +1390,14 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />, using the specified
         /// <see cref="T:System.Drawing.Graphics" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <param name="graphics">
-        /// The
+        /// <param name="graphics">The
         /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
         /// <see langword="false" />.
@@ -1596,14 +1411,11 @@ namespace System.Drawing.Drawing2D
         /// Indicates whether the specified point is contained within this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
         /// <see langword="false" />.
@@ -1618,18 +1430,14 @@ namespace System.Drawing.Drawing2D
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> in the visible clip region of the specified
         /// <see cref="T:System.Drawing.Graphics" />.
         /// </summary>
-        /// <param name="x">
-        /// The x-coordinate of the point to test.
+        /// <param name="x">The x-coordinate of the point to test.
         /// </param>
-        /// <param name="y">
-        /// The y-coordinate of the point to test.
+        /// <param name="y">The y-coordinate of the point to test.
         /// </param>
-        /// <param name="graphics">
-        /// The
+        /// <param name="graphics">The
         /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
         /// </param>
-        /// <returns>
-        /// This method returns
+        /// <returns>This method returns
         /// <see langword="true" /> if the specified point is contained within this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
         /// <see langword="false" />.
@@ -1641,14 +1449,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Empties the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> and
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> arrays and sets the
+        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> and
+        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathTypes" /> arrays and sets the
         /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> to
-        /// <see cref="T:System.Drawing.Drawing2D.FillMode.Alternate" />
+        /// <see cref="F:System.Drawing.Drawing2D.FillMode.Alternate" />.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Reset()
         {
             this.PathPoints = null;
@@ -1658,23 +1463,17 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Reverses the order of points in the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array of this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="P:System.Drawing.Drawing2D.GraphicsPath.PathPoints" /> array of this
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Reverse()
         {
         }
 
         /// <summary>
         /// Sets a marker on this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void SetMarkers()
         {
         }
@@ -1682,9 +1481,6 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Starts a new figure without closing the current figure. All subsequent points added to the path are added to this new figure.
         /// </summary>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void StartFigure()
         {
             list.Add(new FigureMode() { start = true, close = false });
@@ -1692,15 +1488,11 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Applies a transform matrix to this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="matrix">
-        /// A
+        /// <param name="matrix">A
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that represents the transformation to apply.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Transform(Matrix matrix)
         {
             this.matrix = matrix;
@@ -1708,17 +1500,15 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Applies a warp transform, defined by a rectangle and a parallelogram, to this
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="destPoints">
-        /// An array of
+        /// <param name="destPoints">An array of
         /// <see cref="T:System.Drawing.PointF" /> structures that define a parallelogram to which the rectangle defined by
         /// <paramref name="srcRect" /> is transformed. The array can contain either three or four elements. If the array contains three elements, the lower-right corner of the parallelogram is implied by the first three points.
         /// </param>
-        /// <param name="srcRect">
-        /// A
+        /// <param name="srcRect">A
         /// <see cref="T:System.Drawing.RectangleF" /> that represents the rectangle that is transformed to the parallelogram defined by
-        /// <paramref name="destPoints" />
+        /// <paramref name="destPoints" />.
         /// </param>
         public void Warp(PointF[] destPoints, RectangleF srcRect)
         {
@@ -1730,18 +1520,15 @@ namespace System.Drawing.Drawing2D
         /// Applies a warp transform, defined by a rectangle and a parallelogram, to this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="destPoints">
-        /// An array of
+        /// <param name="destPoints">An array of
         /// <see cref="T:System.Drawing.PointF" /> structures that define a parallelogram to which the rectangle defined by
         /// <paramref name="srcRect" /> is transformed. The array can contain either three or four elements. If the array contains three elements, the lower-right corner of the parallelogram is implied by the first three points.
         /// </param>
-        /// <param name="srcRect">
-        /// A
+        /// <param name="srcRect">A
         /// <see cref="T:System.Drawing.RectangleF" /> that represents the rectangle that is transformed to the parallelogram defined by
         /// <paramref name="destPoints" />.
         /// </param>
-        /// <param name="matrix">
-        /// A
+        /// <param name="matrix">A
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that specifies a geometric transform to apply to the path.
         /// </param>
         public void Warp(PointF[] destPoints, RectangleF srcRect, Matrix matrix)
@@ -1755,22 +1542,18 @@ namespace System.Drawing.Drawing2D
         /// Applies a warp transform, defined by a rectangle and a parallelogram, to this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="destPoints">
-        /// An array of
+        /// <param name="destPoints">An array of
         /// <see cref="T:System.Drawing.PointF" /> structures that defines a parallelogram to which the rectangle defined by
         /// <paramref name="srcRect" /> is transformed. The array can contain either three or four elements. If the array contains three elements, the lower-right corner of the parallelogram is implied by the first three points.
         /// </param>
-        /// <param name="srcRect">
-        /// A
+        /// <param name="srcRect">A
         /// <see cref="T:System.Drawing.RectangleF" /> that represents the rectangle that is transformed to the parallelogram defined by
         /// <paramref name="destPoints" />.
         /// </param>
-        /// <param name="matrix">
-        /// A
+        /// <param name="matrix">A
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that specifies a geometric transform to apply to the path.
         /// </param>
-        /// <param name="warpMode">
-        /// A
+        /// <param name="warpMode">A
         /// <see cref="T:System.Drawing.Drawing2D.WarpMode" /> enumeration that specifies whether this warp operation uses perspective or bilinear mode.
         /// </param>
         public void Warp(PointF[] destPoints, RectangleF srcRect, Matrix matrix, WarpMode warpMode)
@@ -1785,27 +1568,22 @@ namespace System.Drawing.Drawing2D
         /// Applies a warp transform, defined by a rectangle and a parallelogram, to this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="destPoints">
-        /// An array of
+        /// <param name="destPoints">An array of
         /// <see cref="T:System.Drawing.PointF" /> structures that define a parallelogram to which the rectangle defined by
         /// <paramref name="srcRect" /> is transformed. The array can contain either three or four elements. If the array contains three elements, the lower-right corner of the parallelogram is implied by the first three points.
         /// </param>
-        /// <param name="srcRect">
-        /// A
+        /// <param name="srcRect">A
         /// <see cref="T:System.Drawing.RectangleF" /> that represents the rectangle that is transformed to the parallelogram defined by
         /// <paramref name="destPoints" />.
         /// </param>
-        /// <param name="matrix">
-        /// A
+        /// <param name="matrix">A
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that specifies a geometric transform to apply to the path.
         /// </param>
-        /// <param name="warpMode">
-        /// A
+        /// <param name="warpMode">A
         /// <see cref="T:System.Drawing.Drawing2D.WarpMode" /> enumeration that specifies whether this warp operation uses perspective or bilinear mode.
         /// </param>
-        /// <param name="flatness">
-        /// A value from 0 through 1 that specifies how flat the resulting path is. For more information, see the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath.Flatten" /> methods.
+        /// <param name="flatness">A value from 0 through 1 that specifies how flat the resulting path is. For more information, see the
+        /// <see cref="M:System.Drawing.Drawing2D.GraphicsPath.Flatten" /> methods.
         /// </param>
         public void Warp(PointF[] destPoints, RectangleF srcRect, Matrix matrix, WarpMode warpMode, float flatness)
         {
@@ -1819,13 +1597,9 @@ namespace System.Drawing.Drawing2D
         /// <summary>
         /// Adds an additional outline to the path.
         /// </summary>
-        /// <param name="pen">
-        /// A
+        /// <param name="pen">A
         /// <see cref="T:System.Drawing.Pen" /> that specifies the width between the original outline of the path and the new outline this method creates.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Widen(Pen pen)
         {
             this.pen = pen;
@@ -1833,19 +1607,14 @@ namespace System.Drawing.Drawing2D
 
         /// <summary>
         /// Adds an additional outline to the
-        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />
+        /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
         /// </summary>
-        /// <param name="pen">
-        /// A
+        /// <param name="pen">A
         /// <see cref="T:System.Drawing.Pen" /> that specifies the width between the original outline of the path and the new outline this method creates.
         /// </param>
-        /// <param name="matrix">
-        /// A
+        /// <param name="matrix">A
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that specifies a transform to apply to the path before widening.
         /// </param>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
-        /// </PermissionSet>
         public void Widen(Pen pen, Matrix matrix)
         {
             this.pen = pen;
@@ -1856,16 +1625,13 @@ namespace System.Drawing.Drawing2D
         /// Replaces this
         /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> with curves that enclose the area that is filled when this path is drawn by the specified pen.
         /// </summary>
-        /// <param name="pen">
-        /// A
+        /// <param name="pen">A
         /// <see cref="T:System.Drawing.Pen" /> that specifies the width between the original outline of the path and the new outline this method creates.
         /// </param>
-        /// <param name="matrix">
-        /// A
+        /// <param name="matrix">A
         /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that specifies a transform to apply to the path before widening.
         /// </param>
-        /// <param name="flatness">
-        /// A value that specifies the flatness for curves.
+        /// <param name="flatness">A value that specifies the flatness for curves.
         /// </param>
         public void Widen(Pen pen, Matrix matrix, float flatness)
         {

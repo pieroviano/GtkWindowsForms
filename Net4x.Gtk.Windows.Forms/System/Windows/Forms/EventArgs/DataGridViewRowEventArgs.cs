@@ -2,23 +2,22 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for row-related
+/// <see cref="T:System.Windows.Forms.DataGridView" /> events.
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public class DataGridViewRowEventArgs : EventArgs
 {
-    /// <summary>
-    /// Provides data for row-related
-    /// <see cref="T:System.Windows.Forms.DataGridView" /> events.
-    /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class DataGridViewRowEventArgs : EventArgs
+    public DataGridViewRowEventArgs(DataGridViewRow dataGridViewRow)
     {
-        public DataGridViewRowEventArgs(DataGridViewRow dataGridViewRow)
-        {
-            Row = dataGridViewRow ?? throw new ArgumentNullException(nameof(dataGridViewRow));
-        }
-
-        public DataGridViewRow Row { get; }
-
+        Row = dataGridViewRow ?? throw new ArgumentNullException(nameof(dataGridViewRow));
     }
+
+    public DataGridViewRow Row { get; }
+
 }

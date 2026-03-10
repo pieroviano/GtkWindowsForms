@@ -59,48 +59,21 @@ namespace System.Windows.Forms
         internal event EventHandler? ChangeHandle { add => _changeHandler += value; remove => _changeHandler -= value; }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Windows.Forms.ImageList"/> class with default values for
-        /// <see cref="T:System.Windows.Forms.ImageList.ColorDepth"/>,
-        /// <see cref="T:System.Windows.Forms.ImageList.ImageSize"/>, and
-        /// <see cref="T:System.Windows.Forms.ImageList.TransparentColor"/>
+        /// Creates a new ImageList Control with a default image size of 16x16 pixels
         /// </summary>
         public ImageList()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Windows.Forms.ImageList"/> class, associating it with a container.
+        /// Creates a new ImageList Control with a default image size of 16x16
+        /// pixels and adds the ImageList to the passed in container.
         /// </summary>
-        /// <param name = "container">
-        /// An object implementing
-        /// <see cref="T:System.ComponentModel.IContainer"/> to associate with this instance of
-        /// <see cref="T:System.Windows.Forms.ImageList"/>
-        /// </param>
         public ImageList(IContainer container) : this()
         {
             container.Add(this);
         }
 
-        /// <summary>
-        /// Gets the color depth of the image list.
-        /// </summary>
-        /// <returns>
-        /// The number of available colors for the image. In the .NET Framework version 1.0, the default is
-        /// <see cref="T:System.Windows.Forms.ColorDepth.Depth4Bit"/> In the .NET Framework version 1.1 or later, the default is
-        /// <see cref="T:System.Windows.Forms.ColorDepth.Depth8Bit"/>
-        /// </returns>
-        /// <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">
-        /// The color depth is not a valid
-        /// <see cref="T:System.Windows.Forms.ColorDepth"/> enumeration value.
-        /// </exception>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public ColorDepth ColorDepth
         {
             get => _colorDepth;
@@ -115,22 +88,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the handle of the image list object.
-        /// </summary>
-        /// <returns>
-        /// The handle for the image list. The default is null.
-        /// </returns>
-        /// <exception cref="T:System.InvalidOperationException">
-        /// Creating the handle for the
-        /// <see cref="T:System.Windows.Forms.ImageList"/> failed.
-        /// </exception>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public IntPtr Handle
         {
             get
@@ -139,53 +96,10 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the underlying Win32 handle has been created.
-        /// </summary>
-        /// <returns>
-        /// true if the
-        /// <see cref="T:System.Windows.Forms.ImageList.Handle"/> has been created; otherwise, false. The default is false.
-        /// </returns>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
         public bool HandleCreated => !(_nativeImageList is null);
 
-        /// <summary>
-        /// Gets the
-        /// <see cref="T:System.Windows.Forms.ImageList.ImageCollection"/> for this image list.
-        /// </summary>
-        /// <returns>
-        /// The collection of images.
-        /// </returns>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public ImageCollection Images => _imageCollection ??= new ImageCollection(this);
 
-        /// <summary>
-        /// Gets or sets the size of the images in the image list.
-        /// </summary>
-        /// <returns>
-        /// The
-        /// <see cref="T:System.Drawing.Size"/> that defines the height and width, in pixels, of the images in the list. The default size is 16 by 16. The maximum size is 256 by 256.
-        /// </returns>
-        /// <exception cref="T:System.ArgumentException">
-        /// The value assigned is equal to
-        /// <see cref="T:System.Drawing.Size.IsEmpty"/>-or- The value of the height or width is less than or equal to 0.-or- The value of the height or width is greater than 256.
-        /// </exception>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// The new size has a dimension less than 0 or greater than 256.
-        /// </exception>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public Size ImageSize
         {
             get => _imageSize;
@@ -198,20 +112,6 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the
-        /// <see cref="T:System.Windows.Forms.ImageListStreamer"/> associated with this image list.
-        /// </summary>
-        /// <returns>
-        /// null if the image list is empty; otherwise, a
-        /// <see cref="T:System.Windows.Forms.ImageListStreamer"/> for this
-        /// <see cref="T:System.Windows.Forms.ImageList"/>
-        /// </returns>
-        /// <filterpriority> 1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public ImageListStreamer? ImageStream
         {
             get
@@ -229,127 +129,33 @@ namespace System.Windows.Forms
             }
         }
 
-        /// <summary>
-        /// Gets or sets an object that contains additional data about the
-        /// <see cref="T:System.Windows.Forms.ImageList"/>
-        /// </summary>
-        /// <returns>
-        /// An
-        /// <see cref="T:System.Object"/> that contains additional data about the
-        /// <see cref="T:System.Windows.Forms.ImageList"/>
-        /// </returns>
-        /// <filterpriority> 1
-        /// </filterpriority>
-
 #if DEBUG
 
         internal bool IsDisposed { get; private set; }
 #endif
         public object? Tag { get; set; }
 
-        /// <summary>
-        /// Gets or sets the color to treat as transparent.
-        /// </summary>
-        /// <returns>
-        /// One of the
-        /// <see cref="T:System.Drawing.Color"/> values. The default is Transparent.
-        /// </returns>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
         public Color TransparentColor { get; set; } = Color.Transparent;
 
         private bool UseTransparentColor => TransparentColor.A > 0;
 
         /// <summary>
-        /// Draws the image indicated by the specified index on the specified
-        /// <see cref="T:System.Drawing.Graphics"/> at the given location.
+        /// Draw the image indicated by the given index on the given Graphics
+        /// at the given location.
         /// </summary>
-        /// <param name = "g">
-        /// The
-        /// <see cref="T:System.Drawing.Graphics"/> to draw on.
-        /// </param>
-        /// <param name = "pt">
-        /// The location defined by a
-        /// <see cref="T:System.Drawing.Point"/> at which to draw the image.
-        /// </param>
-        /// <param name = "index">
-        /// The index of the image in the
-        /// <see cref="T:System.Windows.Forms.ImageList"/> to draw.
-        /// </param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// The index is less than 0.-or- The index is greater than or equal to the count of images in the image list.
-        /// </exception>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public void Draw(Graphics g, Point pt, int index) => Draw(g, pt.X, pt.Y, index);
 
         /// <summary>
-        /// Draws the image indicated by the given index on the specified
-        /// <see cref="T:System.Drawing.Graphics"/> at the specified location.
+        /// Draw the image indicated by the given index on the given Graphics
+        /// at the given location.
         /// </summary>
-        /// <param name = "g">
-        /// The
-        /// <see cref="T:System.Drawing.Graphics"/> to draw on.
-        /// </param>
-        /// <param name = "x">
-        /// The horizontal position at which to draw the image.
-        /// </param>
-        /// <param name = "y">
-        /// The vertical position at which to draw the image.
-        /// </param>
-        /// <param name = "index">
-        /// The index of the image in the
-        /// <see cref="T:System.Windows.Forms.ImageList"/> to draw.
-        /// </param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// The index is less than 0.-or- The index is greater than or equal to the count of images in the image list.
-        /// </exception>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public void Draw(Graphics g, int x, int y, int index) => Draw(g, x, y, _imageSize.Width, _imageSize.Height, index);
 
         /// <summary>
-        /// Draws the image indicated by the given index on the specified
-        /// <see cref="T:System.Drawing.Graphics"/> using the specified location and size.
+        /// Draw the image indicated by the given index using the location, size
+        /// and raster op code specified. The image is stretched or compressed as
+        /// necessary to fit the bounds provided.
         /// </summary>
-        /// <param name = "g">
-        /// The
-        /// <see cref="T:System.Drawing.Graphics"/> to draw on.
-        /// </param>
-        /// <param name = "x">
-        /// The horizontal position at which to draw the image.
-        /// </param>
-        /// <param name = "y">
-        /// The vertical position at which to draw the image.
-        /// </param>
-        /// <param name = "width">
-        /// The width, in pixels, of the destination image.
-        /// </param>
-        /// <param name = "height">
-        /// The height, in pixels, of the destination image.
-        /// </param>
-        /// <param name = "index">
-        /// The index of the image in the
-        /// <see cref="T:System.Windows.Forms.ImageList"/> to draw.
-        /// </param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// The index is less than 0.-or- The index is greater than or equal to the count of images in the image list.
-        /// </exception>
-        /// <filterpriority>
-        /// 1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public void Draw(Graphics g, int x, int y, int width, int height, int index)
         {
             //HDC dc = (HDC)g.GetHdc();
@@ -405,19 +211,6 @@ namespace System.Windows.Forms
             return GetBitmap(index);
         }
 
-        /// <summary>
-        /// Returns a string that represents the current
-        /// <see cref="T:System.Windows.Forms.ImageList"/>
-        /// </summary>
-        /// <returns>
-        /// A string that represents the current
-        /// <see cref="T:System.Windows.Forms.ImageList"/>
-        /// </returns>
-        /// <filterpriority> 1
-        /// </filterpriority>
-        /// <PermissionSet>
-        /// <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
-        /// </PermissionSet>
         public override string ToString() => Images is null ? base.ToString() : $"{base.ToString()} Images.Count: {Images.Count}, ImageSize: {ImageSize}";
 
         internal Image GetOriginalImage(string name)

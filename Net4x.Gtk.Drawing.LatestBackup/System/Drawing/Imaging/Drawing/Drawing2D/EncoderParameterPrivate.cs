@@ -1,15 +1,14 @@
-namespace System.Drawing.Imaging
+namespace System.Drawing.Imaging;
+
+internal struct EncoderParameterPrivate
 {
-    internal struct EncoderParameterPrivate
-    {
 
-        public int NumberOfValues;
+    public int NumberOfValues;
 
-        public Guid ParameterGuid;
+    public Guid ParameterGuid;
 
-        public IntPtr ParameterValue;
+    public IntPtr ParameterValue;
 
-        public EncoderParameterValueType ParameterValueType;
+    public EncoderParameterValueType ParameterValueType;
 
-    }
 }

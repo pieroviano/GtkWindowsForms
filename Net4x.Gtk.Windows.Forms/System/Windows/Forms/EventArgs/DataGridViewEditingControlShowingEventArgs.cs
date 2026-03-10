@@ -2,32 +2,31 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="T:System.Windows.Forms.DataGridView.EditingControlShowing" /> event.
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public class DataGridViewEditingControlShowingEventArgs : EventArgs
 {
-    /// <summary>
-    /// Provides data for the
-    /// <see cref="T:System.Windows.Forms.DataGridView.EditingControlShowing" /> event.
-    /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class DataGridViewEditingControlShowingEventArgs : EventArgs
+    private DataGridViewCellStyle _cellStyle;
+
+    public DataGridViewEditingControlShowingEventArgs(Control control, DataGridViewCellStyle cellStyle)
     {
-        private DataGridViewCellStyle _cellStyle;
-
-        public DataGridViewEditingControlShowingEventArgs(Control control, DataGridViewCellStyle cellStyle)
-        {
-            Control = control;
-            _cellStyle = cellStyle;
-        }
-
-        public DataGridViewCellStyle CellStyle
-        {
-            get => _cellStyle;
-            set => _cellStyle = value ?? throw new ArgumentNullException(nameof(value));
-        }
-
-        public Control Control { get; }
-
+        Control = control;
+        _cellStyle = cellStyle;
     }
+
+    public DataGridViewCellStyle CellStyle
+    {
+        get => _cellStyle;
+        set => _cellStyle = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public Control Control { get; }
+
 }

@@ -14,11 +14,6 @@ using System.Linq;
 
 namespace System.Windows.Forms
 {
-    /// <summary>
-    /// Represents a Windows control to display a list of items.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
     [DesignerCategory("Component")]
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("Items")]

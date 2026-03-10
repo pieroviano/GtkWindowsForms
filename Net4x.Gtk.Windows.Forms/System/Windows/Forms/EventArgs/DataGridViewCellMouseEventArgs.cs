@@ -2,45 +2,44 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Windows.Forms
-{
-    /// <summary>
-    /// Provides data for mouse events raised by a
-    /// <see cref="T:System.Windows.Forms.DataGridView" />
-    /// whenever the mouse is moved within a
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" />
-    /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class DataGridViewCellMouseEventArgs : MouseEventArgs
-    {
-        public DataGridViewCellMouseEventArgs(int columnIndex,
-            int rowIndex,
-            int localX,
-            int localY,
-            MouseEventArgs e) : base(e?.Button ?? MouseButtons.None, e?.Clicks ?? 0, localX, localY, e?.Delta ?? 0)
-        {
-            if (columnIndex < -1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(columnIndex));
-            }
-            if (rowIndex < -1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(rowIndex));
-            }
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
+namespace System.Windows.Forms;
 
-            ColumnIndex = columnIndex;
-            RowIndex = rowIndex;
+/// <summary>
+/// Provides data for mouse events raised by a
+/// <see cref="T:System.Windows.Forms.DataGridView" />
+/// whenever the mouse is moved within a
+/// <see cref="T:System.Windows.Forms.DataGridViewCell" />
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public class DataGridViewCellMouseEventArgs : MouseEventArgs
+{
+    public DataGridViewCellMouseEventArgs(int columnIndex,
+        int rowIndex,
+        int localX,
+        int localY,
+        MouseEventArgs e) : base(e?.Button ?? MouseButtons.None, e?.Clicks ?? 0, localX, localY, e?.Delta ?? 0)
+    {
+        if (columnIndex < -1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(columnIndex));
+        }
+        if (rowIndex < -1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rowIndex));
+        }
+        if (e == null)
+        {
+            throw new ArgumentNullException(nameof(e));
         }
 
-        public int ColumnIndex { get; }
-
-        public int RowIndex { get; }
-
+        ColumnIndex = columnIndex;
+        RowIndex = rowIndex;
     }
+
+    public int ColumnIndex { get; }
+
+    public int RowIndex { get; }
+
 }

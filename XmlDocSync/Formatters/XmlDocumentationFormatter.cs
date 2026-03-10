@@ -1,5 +1,5 @@
-﻿using Prepare.Common.Logging;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using Prepare.Common.Logging;
 
 namespace XmlDocSync.Formatters;
 

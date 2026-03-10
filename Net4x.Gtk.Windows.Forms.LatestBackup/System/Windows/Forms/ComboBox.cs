@@ -14,11 +14,7 @@ using System.Reflection;
 
 namespace System.Windows.Forms
 {
-    /// <summary>
-    /// Represents a Windows combo box control.
-    /// </summary>
-    /// <filterpriority>1
-    /// </filterpriority>
+
     [DesignerCategory("Component")]
     public partial class ComboBox : ListControl
     {

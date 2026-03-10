@@ -1,9 +1,8 @@
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Specifies which child controls to skip.
+/// </summary>
+public class GetChildAtPointSkip
 {
-    /// <summary>
-    /// Specifies which child controls to skip.
-    /// </summary>
-    public class GetChildAtPointSkip
-    {
-    }
 }

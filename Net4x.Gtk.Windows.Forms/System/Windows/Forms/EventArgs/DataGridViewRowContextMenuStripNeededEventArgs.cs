@@ -2,32 +2,31 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="T:System.Windows.Forms.DataGridView.RowContextMenuStripNeeded" /> event.
+/// </summary>
+public class DataGridViewRowContextMenuStripNeededEventArgs : EventArgs
 {
-    /// <summary>
-    /// Provides data for the
-    /// <see cref="T:System.Windows.Forms.DataGridView.RowContextMenuStripNeeded" /> event.
-    /// </summary>
-    public class DataGridViewRowContextMenuStripNeededEventArgs : EventArgs
+    public DataGridViewRowContextMenuStripNeededEventArgs(int rowIndex)
     {
-        public DataGridViewRowContextMenuStripNeededEventArgs(int rowIndex)
+        if (rowIndex < -1)
         {
-            if (rowIndex < -1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(rowIndex));
-            }
-
-            RowIndex = rowIndex;
+            throw new ArgumentOutOfRangeException(nameof(rowIndex));
         }
 
-        internal DataGridViewRowContextMenuStripNeededEventArgs(int rowIndex, ContextMenuStrip contextMenuStrip) : this(rowIndex)
-        {
-            ContextMenuStrip = contextMenuStrip;
-        }
-
-        public ContextMenuStrip ContextMenuStrip { get; set; }
-
-        public int RowIndex { get; }
-
+        RowIndex = rowIndex;
     }
+
+    internal DataGridViewRowContextMenuStripNeededEventArgs(int rowIndex, ContextMenuStrip contextMenuStrip) : this(rowIndex)
+    {
+        ContextMenuStrip = contextMenuStrip;
+    }
+
+    public ContextMenuStrip ContextMenuStrip { get; set; }
+
+    public int RowIndex { get; }
+
 }

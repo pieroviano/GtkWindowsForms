@@ -77,8 +77,7 @@ namespace System.Drawing.Imaging
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> class using the elements in the specified matrix
         /// <paramref name="newColorMatrix" />.
         /// </summary>
-        /// <param name="newColorMatrix">
-        /// The values of the elements for the new
+        /// <param name="newColorMatrix">The values of the elements for the new
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </param>
         [CLSCompliant(false)]
@@ -91,8 +90,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the 0 (zero) row and 0 column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the 0 row and 0 column of this
+        /// <returns>The element at the 0 row and 0 column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix00
@@ -111,8 +109,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the 0 (zero) row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the 0 row and first column of this
+        /// <returns>The element at the 0 row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> .
         /// </returns>
         public float Matrix01
@@ -131,8 +128,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the 0 (zero) row and second column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the 0 row and second column of this
+        /// <returns>The element at the 0 row and second column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix02
@@ -151,8 +147,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the 0 (zero) row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />. Represents the alpha component.
         /// </summary>
-        /// <returns>
-        /// The element at the 0 row and third column of this
+        /// <returns>The element at the 0 row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix03
@@ -171,8 +166,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the 0 (zero) row and fourth column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the 0 row and fourth column of this
+        /// <returns>The element at the 0 row and fourth column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix04
@@ -191,8 +185,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the first row and 0 (zero) column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the first row and 0 column of this
+        /// <returns>The element at the first row and 0 column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix10
@@ -211,8 +204,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the first row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the first row and first column of this
+        /// <returns>The element at the first row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix11
@@ -231,8 +223,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the first row and second column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the first row and second column of this
+        /// <returns>The element at the first row and second column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix12
@@ -251,8 +242,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the first row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />. Represents the alpha component.
         /// </summary>
-        /// <returns>
-        /// The element at the first row and third column of this
+        /// <returns>The element at the first row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix13
@@ -271,8 +261,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the first row and fourth column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the first row and fourth column of this
+        /// <returns>The element at the first row and fourth column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix14
@@ -291,8 +280,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the second row and 0 (zero) column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the second row and 0 column of this
+        /// <returns>The element at the second row and 0 column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix20
@@ -311,8 +299,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the second row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the second row and first column of this
+        /// <returns>The element at the second row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix21
@@ -329,11 +316,10 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets the element at the second row and second column of this
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the second row and second column of this
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> .
+        /// <returns>The element at the second row and second column of this
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix22
         {
@@ -351,8 +337,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the second row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the second row and third column of this
+        /// <returns>The element at the second row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix23
@@ -369,11 +354,10 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets the element at the second row and fourth column of this
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the second row and fourth column of this
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> .
+        /// <returns>The element at the second row and fourth column of this
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix24
         {
@@ -391,8 +375,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the third row and 0 (zero) column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the third row and 0 column of this
+        /// <returns>The element at the third row and 0 column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix30
@@ -411,8 +394,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the third row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the third row and first column of this
+        /// <returns>The element at the third row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix31
@@ -431,8 +413,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the third row and second column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the third row and second column of this
+        /// <returns>The element at the third row and second column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix32
@@ -451,8 +432,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the third row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />. Represents the alpha component.
         /// </summary>
-        /// <returns>
-        /// The element at the third row and third column of this
+        /// <returns>The element at the third row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix33
@@ -471,8 +451,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the third row and fourth column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the third row and fourth column of this
+        /// <returns>The element at the third row and fourth column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix34
@@ -491,8 +470,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the fourth row and 0 (zero) column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the fourth row and 0 column of this
+        /// <returns>The element at the fourth row and 0 column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix40
@@ -511,8 +489,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the fourth row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the fourth row and first column of this
+        /// <returns>The element at the fourth row and first column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix41
@@ -529,11 +506,10 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets the element at the fourth row and second column of this
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the fourth row and second column of this
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> .
+        /// <returns>The element at the fourth row and second column of this
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix42
         {
@@ -551,8 +527,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the element at the fourth row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />. Represents the alpha component.
         /// </summary>
-        /// <returns>
-        /// The element at the fourth row and third column of this
+        /// <returns>The element at the fourth row and third column of this
         /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix43
@@ -569,11 +544,10 @@ namespace System.Drawing.Imaging
 
         /// <summary>
         /// Gets or sets the element at the fourth row and fourth column of this
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </summary>
-        /// <returns>
-        /// The element at the fourth row and fourth column of this
-        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" /> .
+        /// <returns>The element at the fourth row and fourth column of this
+        /// <see cref="T:System.Drawing.Imaging.ColorMatrix" />.
         /// </returns>
         public float Matrix44
         {

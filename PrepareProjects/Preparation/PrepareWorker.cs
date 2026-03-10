@@ -1,8 +1,7 @@
-using Prepare.Common.IO;
-using PrepareProjects.Preparation.Directories;
-using System.Diagnostics;
 using System.Reflection;
 using Prepare.Common.Content;
+using Prepare.Common.IO;
+using PrepareProjects.Preparation.Directories;
 using XmlDocSync.Roslyn;
 using XmlDocSync.Services;
 
@@ -14,7 +13,7 @@ public static class PrepareWorker
 
     public static void EnsureOnEventRaisesEvent()
     {
-        var myProjectDir = @"..\\..\\..\\..\\Net4x.Gtk.Windows.Forms\\";
+        var myProjectDir = "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms\\";
         var targets = EventMethodDetector.DetectFiles(myProjectDir);
 
         var exclude = new[]{"ToolStripButton.cs",
@@ -37,7 +36,7 @@ public static class PrepareWorker
             CsFileOrganizer.ProcessFile(file);
         }
 
-        myProjectDir = @"..\\..\\..\\..\\Net4x.Gtk.Drawing\\";
+        myProjectDir = "..\\..\\..\\..\\Net4x.Gtk.Drawing\\";
         targets = EventMethodDetector.DetectFiles(myProjectDir);
 
         ConsoleColor.Green.Write($"Processing files from: {Path.GetFullPath(myProjectDir)}", true);
@@ -59,7 +58,7 @@ public static class PrepareWorker
     private static void EventOnMethod(string file)
     {
         var source=File.ReadAllText(file);
-        var result = XmlDocSync.Roslyn.EventOnMethodGenerator.Process(source, XmlDocSync.Roslyn.EventOnMethodGenerator.DefaultMap);
+        var result = EventOnMethodGenerator.Process(source, EventOnMethodGenerator.DefaultMap);
         if (result != source)
         {
             CsFile.WriteAllText(file, result);

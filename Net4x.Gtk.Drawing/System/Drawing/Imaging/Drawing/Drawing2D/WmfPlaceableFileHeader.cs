@@ -107,8 +107,7 @@ namespace System.Drawing.Imaging
         /// Gets or sets the checksum value for the previous ten
         /// <see langword="WORD" /> s in the header.
         /// </summary>
-        /// <returns>
-        /// The checksum value for the previous ten
+        /// <returns>The checksum value for the previous ten
         /// <see langword="WORD" /> s in the header.
         /// </returns>
         public short Checksum

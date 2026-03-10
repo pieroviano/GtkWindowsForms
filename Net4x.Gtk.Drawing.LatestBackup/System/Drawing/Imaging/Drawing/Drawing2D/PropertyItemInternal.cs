@@ -1,12 +1,11 @@
-namespace System.Drawing.Imaging
+namespace System.Drawing.Imaging;
+
+internal struct PropertyItemInternal
 {
-    internal struct PropertyItemInternal
-    {
-        public int id;
+    public int id;
 
-        public int len;
+    public int len;
 
-        public short type;
+    public short type;
 
-    }
 }
