@@ -1,4 +1,4 @@
-#if NETSTANDARD
+﻿#if NETSTANDARD
 using System.Runtime.CompilerServices;
 
 #nullable disable

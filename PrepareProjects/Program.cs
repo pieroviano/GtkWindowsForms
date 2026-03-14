@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text;
 using Prepare.Common.Content;
 using Prepare.Common.IO;
+using Prepare.Common.Logging;
 using Prepare.Common.Projects;
 using Prepare.Common.Text;
 using PrepareProjects.Preparation;
@@ -19,7 +20,7 @@ public class Program
     {
         PrepareWorker.RenameDirectoriesInSourceRepository();
 
-#if RELEASE
+#if REFRESH_XML_COMMENT_FILES
         PrepareWorker.RefreshXmlCommentFiles();
 #endif
 
@@ -95,10 +96,8 @@ public class Program
         var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.IntermediateBackup);
 
-#if RELEASE
         ConsoleColor.Green.Write(@"Merging Xml documentation", true);
         await PrepareWorker.MergeXmlDocumentationAsync();
-#endif
 
         ConsoleColor.DarkMagenta.Write("Ensuring On....(...EventArgs) are raising event.", true);
         PrepareWorker.EnsureOnEventRaisesEvent();
@@ -126,13 +125,13 @@ public class Program
         var directoryName = Path.GetDirectoryName(net4xGtkDrawingPath) ?? string.Empty;
         projectFiles = ProjectUtility.GetProjectFiles(net4xGtkDrawingPath, out _);
         ProjectUtility.PersistProjectFiles(net4xGtkDrawingPath, projectFiles, directoryName, BackupUtility.LatestBackup);
+        BackupUtility.DeleteBackupFolders("..\\..\\..\\..\\");
 
         ConsoleColor.Green.Write(@"Building the solution", true);
         updatePropsFiles.Invoke();
         var solutionPath = PrepareWorker.GetSolutionPath(projectDirectory);
         ProjectCompilation.RestoreSolution(solutionPath);
         ProjectCompilation.BuildSolution(solutionPath);
-#if RELEASE
         ProjectCompilation.BuildSolution(Path.GetFullPath("..\\..\\..\\..\\Prepare.Common\\Prepare.Common.csproj"));
         var folder = Path.GetFullPath(@"..\..\..\..\Packages");
 
@@ -147,7 +146,7 @@ public class Program
             }
             catch (Exception ex)
             {
-                ConsoleColor.Red.Write($"Error deleting file {file}: {ex}", true);
+                RedConsole.Write($"Error deleting file {file}: {ex}");
                 throw;
             }
         }
@@ -159,7 +158,6 @@ public class Program
             var process = Process.Start(exe);
             await process.WaitForExitAsync();
         }
-#endif
         ConsoleColor.Green.Write("Preparation complete", true);
     }
 }

@@ -1,4 +1,4 @@
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Specifies whether commands in the graphics stack are terminated (flushed) immediately or executed as soon as possible.

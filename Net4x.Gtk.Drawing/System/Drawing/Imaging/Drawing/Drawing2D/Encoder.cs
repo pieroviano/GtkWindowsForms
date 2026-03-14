@@ -1,4 +1,4 @@
-namespace System.Drawing.Imaging;
+﻿namespace System.Drawing.Imaging;
 
 /// <summary>
 /// An
@@ -82,13 +82,14 @@ public sealed class Encoder
     /// </summary>
     public static readonly Encoder Version = new Encoder(new Guid(617712758, -32438, 16804, new byte[8] { 191, 83, 28, 33, 156, 204, 247, 151 }));
 
-    private Guid _guid;
+    private readonly Guid _guid;
 
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Imaging.Encoder" /> class from the specified globally unique identifier (GUID). The GUID specifies an image encoder parameter category.
     /// </summary>
-    /// <param name="guid">A globally unique identifier that identifies an image encoder parameter category.
+    /// <param name="guid">
+    /// A globally unique identifier that identifies an image encoder parameter category.
     /// </param>
     public Encoder(Guid guid)
     {
@@ -98,7 +99,8 @@ public sealed class Encoder
     /// <summary>
     /// Gets a globally unique identifier (GUID) that identifies an image encoder parameter category.
     /// </summary>
-    /// <returns>The GUID that identifies an image encoder parameter category.
+    /// <returns>
+    /// The GUID that identifies an image encoder parameter category.
     /// </returns>
     public Guid Guid => _guid;
 

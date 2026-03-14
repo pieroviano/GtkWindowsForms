@@ -1,41 +1,40 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System.Runtime.InteropServices;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="T:System.Windows.Forms.Control.GiveFeedback" />
+/// event, which occurs during a drag operation.
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+[ComVisible(true)]
+public class GiveFeedbackEventArgs : EventArgs
 {
     /// <summary>
-    /// Provides data for the
-    /// <see cref="T:System.Windows.Forms.Control.GiveFeedback" />
-    /// event, which occurs during a drag operation.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.GiveFeedbackEventArgs" /> class.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    [ComVisible(true)]
-    public class GiveFeedbackEventArgs : EventArgs
+    public GiveFeedbackEventArgs(DragDropEffects effect, bool useDefaultCursors)
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="GiveFeedbackEventArgs" /> class.
-        /// </summary>
-        public GiveFeedbackEventArgs(DragDropEffects effect, bool useDefaultCursors)
-        {
-            Effect = effect;
-            UseDefaultCursors = useDefaultCursors;
-        }
-
-        /// <summary>
-        /// Gets the type of drag-and-drop operation.
-        /// </summary>
-        public DragDropEffects Effect { get; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether a default pointer is used.
-        /// </summary>
-        public bool UseDefaultCursors { get; set; }
-
+        Effect = effect;
+        UseDefaultCursors = useDefaultCursors;
     }
+
+    /// <summary>
+    /// Gets the type of drag-and-drop operation.
+    /// </summary>
+    public DragDropEffects Effect { get; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether a default pointer is used.
+    /// </summary>
+    public bool UseDefaultCursors { get; set; }
+
 }

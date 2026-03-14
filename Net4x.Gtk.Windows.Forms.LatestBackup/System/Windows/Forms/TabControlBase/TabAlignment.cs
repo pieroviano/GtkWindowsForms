@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// Specifies the locations of the tabs in a tab control.

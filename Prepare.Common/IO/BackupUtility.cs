@@ -1,3 +1,5 @@
+﻿using Prepare.Common.Logging;
+
 namespace Prepare.Common.IO;
 
 public static class BackupUtility
@@ -57,6 +59,34 @@ public static class BackupUtility
             if (!hasFiles && !hasSubDirs)
             {
                 dir.Delete();
+            }
+        }
+    }
+
+    public static void DeleteBackupFolders(string basePath)
+    {
+        if (!Directory.Exists(basePath))
+            return;
+
+        var directories = Directory.GetDirectories(basePath, "*", SearchOption.AllDirectories);
+
+        foreach (var dir in directories)
+        {
+            var name = Path.GetFileName(dir);
+
+            if (name.EndsWith(".Backup", StringComparison.OrdinalIgnoreCase) ||
+                name.EndsWith(".IntermediateBackup", StringComparison.OrdinalIgnoreCase))
+            {
+                try
+                {
+                    Directory.Delete(dir, true);
+                }
+                catch (Exception ex)
+                {
+                    {
+                        RedConsole.Write($"Failed to delete backup folder: {dir}. Exception: {ex.Message}");
+                    }
+                }
             }
         }
     }

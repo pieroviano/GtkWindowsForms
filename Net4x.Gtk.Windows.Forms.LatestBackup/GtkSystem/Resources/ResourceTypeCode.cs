@@ -1,4 +1,4 @@
-namespace GtkSystem.Resources;
+﻿namespace GtkSystem.Resources;
 
 internal enum ResourceTypeCode
 {

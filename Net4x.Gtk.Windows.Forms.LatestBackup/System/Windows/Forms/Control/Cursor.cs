@@ -1,188 +1,327 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using GLib;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using GLib;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Represents the image used to paint the mouse pointer.
+/// </summary>
+/// <filterpriority>
+/// 1
+/// </filterpriority>
+/// <completionlist cref="T:System.Windows.Forms.Cursors" />
+public sealed class Cursor : IDisposable, ISerializable
 {
+
+    private readonly byte[]? _cursorData;
+
+    private readonly bool _freeHandle;
+
+    private readonly IntPtr _handle;
+
+    private static Size s_cursorSize = Size.Empty;
+
     /// <summary>
-    /// Represents the image used to paint the mouse pointer.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Cursor" /> class from a native handle.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
-    /// <completionlist cref="T:System.Windows.Forms.Cursors" />
-    public sealed class Cursor : IDisposable, ISerializable
+    /// <param name="handle">Native cursor handle.
+    /// </param>
+    public Cursor(IntPtr handle)
     {
+        _freeHandle = false;
+        _handle = handle;
+        var cur =new Gdk.Cursor(handle);
+        _cursorData = cur.Image.ReadPixelBytes().Data;
+    }
 
-        private readonly byte[]? _cursorData;
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Cursor" /> class for a standard GDK cursor type.
+    /// </summary>
+    /// <param name="cursorType">The GDK cursor type.
+    /// </param>
+    public Cursor(Gdk.CursorType cursorType)
+    {
+        _freeHandle = false;
+        CursorType = cursorType;
+    }
 
-        private readonly bool _freeHandle;
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Cursor" /> class from a cursor file.
+    /// </summary>
+    /// <param name="fileName">Path to the cursor file.
+    /// </param>
+    public Cursor(string fileName)
+    {
+        _cursorData = File.ReadAllBytes(fileName);
+        _freeHandle = true;
+    }
 
-        private IntPtr _handle;
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Cursor" /> class from an embedded resource.
+    /// </summary>
+    /// <param name="type">Type used to locate the assembly containing the resource.
+    /// </param>
+    /// <param name="resource">Resource name.
+    /// </param>
+    public Cursor(Type type, string resource) : this(type.Module.Assembly.GetManifestResourceStream(resource)!)
+    {
+    }
 
-        private static Size s_cursorSize = Size.Empty;
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Cursor" /> class from a stream.
+    /// </summary>
+    /// <param name="stream">Stream containing cursor image data.
+    /// </param>
+    public Cursor(Stream stream)
+    {
+        _freeHandle = true;
+        CursorType = Gdk.CursorType.CursorIsPixmap;
+        CursorPixbuf = new Gdk.Pixbuf(stream).ScaleSimple(48, 48, Gdk.InterpType.Tiles);
+    }
 
-        public Cursor(IntPtr handle)
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Cursor" /> class from an embedded resource.
+    /// </summary>
+    /// <param name="type">Type used to locate the assembly containing the resource.
+    /// </param>
+    /// <param name="resource">Resource name.
+    /// </param>
+    internal Cursor(string resource, string cursorsProperty)
+                : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
+    {
+        CursorsProperty = cursorsProperty;
+        _freeHandle = false;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Cursor" /> class from a native handle.
+    /// </summary>
+    /// <param name="handle">Native cursor handle.
+    /// </param>
+    internal Cursor(string resource, int x, int y)
+                : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
+    {
+        CursorsXY = new Point(x, y);
+        _freeHandle = false;
+    }
+
+    /// <summary>
+    /// Gets or sets the cursor clip rectangle. On this platform this property is a placeholder and returns a default rectangle.
+    /// </summary>
+    public static unsafe Rectangle Clip
+    {
+        get
         {
-            _freeHandle = false;
-            _handle = handle;
-            var cur = new Gdk.Cursor(handle);
-            _cursorData = cur.Image.ReadPixelBytes().Data;
+            return new Rectangle(0, 0, 16, 16);
         }
-
-        public Cursor(Gdk.CursorType cursorType)
+        set
         {
-            _freeHandle = false;
-            CursorType = cursorType;
+
         }
+    }
 
-        public Cursor(string fileName)
-        {
-            _cursorData = File.ReadAllBytes(fileName);
-            _freeHandle = true;
-        }
+    /// <summary>
+    /// Gets or sets the current cursor instance.
+    /// </summary>
+    public static Cursor? Current
+    {
+        get;
+        set;
+    }
 
-        public Cursor(Type type, string resource) : this(type.Module.Assembly.GetManifestResourceStream(resource)!)
-        {
-        }
-
-        public Cursor(Stream stream)
-        {
-            _freeHandle = true;
-            CursorType = Gdk.CursorType.CursorIsPixmap;
-            CursorPixbuf = new Gdk.Pixbuf(stream).ScaleSimple(48, 48, Gdk.InterpType.Tiles);
-        }
-
-        internal Cursor(string resource, string cursorsProperty)
-            : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
-        {
-            CursorsProperty = cursorsProperty;
-            _freeHandle = false;
-        }
-
-        internal Cursor(string resource, int x, int y)
-            : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
-        {
-            CursorsXY = new Point(x, y);
-            _freeHandle = false;
-        }
-
-        public static unsafe Rectangle Clip
-        {
-            get
-            {
-                return new Rectangle(0, 0, 16, 16);
-            }
-            set
-            {
-
-            }
-        }
-
-        public static Cursor? Current
-        {
-            get;
-            set;
-        }
-
-        public IntPtr Handle
-        {
-            get
-            {
-                return IntPtr.Zero;
-            }
-        }
-
-        public Point HotSpot
-        {
-            get;
-        }
-
-        public static Point Position
-        {
-            get;
-            set;
-        }
-
-        public Size Size
-        {
-            get;
-        }
-
-        public object? Tag { get; set; }
-
-        internal Gdk.Pixbuf CursorPixbuf { get; set; }
-
-        internal string? CursorsProperty { get; }
-
-        internal Point CursorsXY { get; }
-
-        internal Gdk.CursorType CursorType { get; set; }
-
-        public IntPtr CopyHandle()
+    /// <summary>
+    /// Gets the underlying native cursor handle.
+    /// </summary>
+    public IntPtr Handle
+    {
+        get
         {
             return IntPtr.Zero;
         }
+    }
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
+    /// <summary>
+    /// Gets the hotspot (active point) of the cursor.
+    /// </summary>
+    public Point HotSpot
+    {
+        get;
+    }
 
-        public void Draw(Graphics g, Rectangle targetRect)
-        {
+    /// <summary>
+    /// Gets or sets the current cursor position in screen coordinates.
+    /// </summary>
+    public static Point Position
+    {
+        get;
+        set;
+    }
 
-        }
+    /// <summary>
+    /// Gets the size of the cursor.
+    /// </summary>
+    public Size Size
+    {
+        get;
+    }
 
-        public void DrawStretched(Graphics g, Rectangle targetRect)
-        {
+    /// <summary>
+    /// Gets or sets optional user data associated with the cursor.
+    /// </summary>
+    public object? Tag { get; set; }
 
-        }
+    /// <summary>
+    /// Backing pixbuf used for custom cursors.
+    /// </summary>
+    internal Gdk.Pixbuf CursorPixbuf { get; set; }
 
-        public override bool Equals(object? obj) => obj is Cursor cursor && this == cursor;
+    /// <summary>
+    /// Optional property name used when this cursor is created from a resource.
+    /// </summary>
+    internal string? CursorsProperty { get; }
 
-        public override int GetHashCode()
-        {
-            if (_cursorData != null)
-            {
-                return _cursorData.GetHashCode();
-            }
-            else if (_handle != IntPtr.Zero)
-            {
-                return _handle.GetHashCode();
-            }
-            else
-                return 0;
+    /// <summary>
+    /// Optional hotspot coordinates when the cursor is created from a resource.
+    /// </summary>
+    internal Point CursorsXY { get; }
 
-        }
+    /// <summary>
+    /// The GDK cursor type for system cursors or
+    /// <see cref="Gdk.CursorType.CursorIsPixmap" /> for custom pixbuf cursors.
+    /// </summary>
+    internal Gdk.CursorType CursorType { get; set; }
 
-        public static void Hide() { }
+    /// <summary>
+    /// Returns a copy of the underlying native handle.
+    /// </summary>
+    /// <returns>A copy of the native handle.
+    /// </returns>
+    public IntPtr CopyHandle()
+    {
+        return IntPtr.Zero;
+    }
 
-        public static void Show() { }
+    /// <summary>
+    /// Releases resources used by the cursor.
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+    }
 
-        public override string ToString() => $"[Cursor: {CursorsProperty ?? base.ToString()}]";
-
-        internal unsafe byte[] GetData()
-        {
-            return (byte[])_cursorData.Clone();
-        }
-
-        void ISerializable.GetObjectData(SerializationInfo si, StreamingContext context)
-        {
-            throw new PlatformNotSupportedException();
-        }
-
-        private void Dispose(bool disposing)
-        {
-
-        }
+    /// <summary>
+    /// Draws the cursor into the specified graphics surface without scaling.
+    /// </summary>
+    /// <param name="g">Graphics surface to draw into.
+    /// </param>
+    /// <param name="targetRect">Target rectangle in which to draw the cursor.
+    /// </param>
+    public void Draw(Graphics g, Rectangle targetRect)
+    {
 
     }
+
+    /// <summary>
+    /// Draws the cursor stretched to fit the specified target rectangle.
+    /// </summary>
+    /// <param name="g">Graphics surface to draw into.
+    /// </param>
+    /// <param name="targetRect">Target rectangle in which to draw the cursor.
+    /// </param>
+    public void DrawStretched(Graphics g, Rectangle targetRect)
+    {
+
+    }
+
+    /// <summary>
+    /// Compares this instance to another object for equality.
+    /// </summary>
+    /// <param name="obj">Object to compare with.
+    /// </param>
+    /// <returns>True when equal; otherwise false.
+    /// </returns>
+    public override bool Equals(object? obj) => obj is Cursor cursor && this == cursor;
+
+    /// <summary>
+    /// Returns a hash code for the cursor instance.
+    /// </summary>
+    /// <returns>An integer hash code.
+    /// </returns>
+    public override int GetHashCode()
+    {
+        if (_cursorData != null)
+        {
+            return _cursorData.GetHashCode();
+        }
+        else if (_handle != IntPtr.Zero)
+        {
+            return _handle.GetHashCode();
+        }
+        else
+            return 0;
+
+    }
+
+    /// <summary>
+    /// Hides the system cursor (placeholder).
+    /// </summary>
+    public static void Hide() { }
+
+    /// <summary>
+    /// Shows the system cursor (placeholder).
+    /// </summary>
+    public static void Show() { }
+
+    /// <summary>
+    /// Returns a string that represents the current cursor.
+    /// </summary>
+    /// <returns>A string representation.
+    /// </returns>
+    public override string ToString() => $"[Cursor: {CursorsProperty ?? base.ToString()}]";
+
+    /// <summary>
+    /// Returns a copy of the raw cursor data bytes.
+    /// </summary>
+    /// <returns>Raw cursor bytes.
+    /// </returns>
+    internal unsafe byte[] GetData()
+    {
+        return (byte[])_cursorData.Clone();
+    }
+
+    /// <summary>
+    /// Populates a
+    /// <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the cursor.
+    /// This platform does not support cursor serialization.
+    /// </summary>
+    void ISerializable.GetObjectData(SerializationInfo si, StreamingContext context)
+    {
+        throw new PlatformNotSupportedException();
+    }
+
+    /// <summary>
+    /// Releases managed and unmanaged resources used by the cursor.
+    /// </summary>
+    /// <param name="disposing">True to release managed resources as well as unmanaged.
+    /// </param>
+    private void Dispose(bool disposing)
+    {
+
+    }
+
 }

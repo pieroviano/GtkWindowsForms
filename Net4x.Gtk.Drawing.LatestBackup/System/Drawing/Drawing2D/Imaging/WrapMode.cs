@@ -1,4 +1,4 @@
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Specifies how a texture or gradient is tiled when it is smaller than the area being filled.

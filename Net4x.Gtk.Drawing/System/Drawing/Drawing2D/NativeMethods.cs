@@ -1,72 +1,71 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace System.Drawing
+namespace System.Drawing;
+
+internal static class NativeMethods
 {
-    internal static class NativeMethods
+
+    public const int MAX_PATH = 260;
+
+    internal const int BI_BITFIELDS = 3;
+
+    internal const int BI_RGB = 0;
+
+    internal const int DIB_RGB_COLORS = 0;
+
+    internal const int SM_REMOTESESSION = 4096;
+
+    internal static HandleRef NullHandleRef => new HandleRef(null, IntPtr.Zero);
+
+    internal struct BITMAPINFOHEADER
     {
 
-        public const int MAX_PATH = 260;
+        public short biBitCount;
 
-        internal const int BI_BITFIELDS = 3;
+        public int biClrImportant;
 
-        internal const int BI_RGB = 0;
+        public int biClrUsed;
 
-        internal const int DIB_RGB_COLORS = 0;
+        public int biCompression;
 
-        internal const int SM_REMOTESESSION = 4096;
+        public int biHeight;
 
-        internal static HandleRef NullHandleRef => new HandleRef(null, IntPtr.Zero);
+        public short biPlanes;
 
-        internal struct BITMAPINFOHEADER
-        {
+        public int biSize;
 
-            public short biBitCount;
+        public int biSizeImage;
 
-            public int biClrImportant;
+        public int biWidth;
 
-            public int biClrUsed;
+        public int biXPelsPerMeter;
 
-            public int biCompression;
+        public int biYPelsPerMeter;
 
-            public int biHeight;
+    }
 
-            public short biPlanes;
+    internal struct PALETTEENTRY
+    {
 
-            public int biSize;
+        public byte peBlue;
 
-            public int biSizeImage;
+        public byte peFlags;
 
-            public int biWidth;
+        public byte peGreen;
 
-            public int biXPelsPerMeter;
+        public byte peRed;
 
-            public int biYPelsPerMeter;
+    }
 
-        }
+    internal struct RGBQUAD
+    {
+        public byte rgbBlue;
 
-        internal struct PALETTEENTRY
-        {
+        public byte rgbGreen;
 
-            public byte peBlue;
+        public byte rgbRed;
 
-            public byte peFlags;
+        public byte rgbReserved;
 
-            public byte peGreen;
-
-            public byte peRed;
-
-        }
-
-        internal struct RGBQUAD
-        {
-            public byte rgbBlue;
-
-            public byte rgbGreen;
-
-            public byte rgbRed;
-
-            public byte rgbReserved;
-
-        }
     }
 }

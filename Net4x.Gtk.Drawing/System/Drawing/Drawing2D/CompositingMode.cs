@@ -1,4 +1,4 @@
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Specifies how the source colors are combined with the background colors.

@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace System.Windows.Forms;
 
@@ -192,9 +192,8 @@ internal class BindToObject
 
     private string GetErrorText(object? value)
     {
-        var dataErrorInfo = value as IDataErrorInfo;
         var empty = string.Empty;
-        if (dataErrorInfo != null)
+        if (value is IDataErrorInfo dataErrorInfo)
         {
             empty = _fieldInfo != null ? dataErrorInfo[_fieldInfo.Name] : dataErrorInfo.Error;
         }

@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// Specifies the possible effects of a drag-and-drop operation.
@@ -30,9 +30,9 @@ public enum DragDropEffects
     Scroll = int.MinValue,
     /// <summary>
     /// The combination of the
-    /// <see cref="F:System.Windows.DragDropEffects.Copy" />,
-    /// <see cref="F:System.Windows.Forms.DragDropEffects.Move" />, and
-    /// <see cref="F:System.Windows.Forms.DragDropEffects.Scroll" /> effects.
+    /// <see cref="T:System.Windows.DragDropEffects.Copy" />,
+    /// <see cref="T:System.Windows.Forms.DragDropEffects.Move" />, and
+    /// <see cref="T:System.Windows.Forms.DragDropEffects.Scroll" /> effects.
     /// </summary>
     All = -2147483645
 }

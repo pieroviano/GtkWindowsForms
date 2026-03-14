@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -11,10 +11,22 @@
 
   <ItemGroup>
     <Compile Remove="Resources\Binding.cs" />
+    <Compile Remove="Roslyn\Bitmap.cs" />
+    <Compile Remove="Roslyn\ColumnWidthChangingEventHandler.cs" />
+    <Compile Remove="Roslyn\GraphicsPath.cs" />
+    <Compile Remove="Roslyn\RichTextBoxBase.cs" />
+    <Compile Remove="Roslyn\TableLayoutPanel.cs" />
+    <Compile Remove="Roslyn\ToolboxItem.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Resources\Binding.cs" />
+    <Content Include="Roslyn\Bitmap.cs" />
+    <Content Include="Roslyn\ColumnWidthChangingEventHandler.cs" />
+    <Content Include="Roslyn\GraphicsPath.cs" />
+    <Content Include="Roslyn\RichTextBoxBase.cs" />
+    <Content Include="Roslyn\TableLayoutPanel.cs" />
+    <Content Include="Roslyn\ToolboxItem.cs" />
   </ItemGroup>
 
   <ItemGroup>

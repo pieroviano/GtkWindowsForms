@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel.Design;
@@ -14,7 +14,7 @@ internal interface IComPropertyBrowser
 
     /// <summary>
     /// Occurs when the
-    /// <see cref="PropertyGrid" /> control is browsing a COM object and the user renames the object.
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control is browsing a COM object and the user renames the object.
     /// </summary>
     event ComponentRenameEventHandler? ComComponentNameChanged;
 
@@ -54,17 +54,19 @@ internal interface IComPropertyBrowser
 
     /// <summary>
     /// Loads user states from the registry into the
-    /// <see cref="PropertyGrid" /> control.
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control.
     /// </summary>
-    /// <param name="key">The registry key that contains the user states.
+    /// <param name="key">
+    /// The registry key that contains the user states.
     /// </param>
     void LoadState(RegistryKey? key);
 
     /// <summary>
     /// Saves user states from the
-    /// <see cref="PropertyGrid" /> control to the registry.
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control to the registry.
     /// </summary>
-    /// <param name="key">The registry key that contains the user states.
+    /// <param name="key">
+    /// The registry key that contains the user states.
     /// </param>
     void SaveState(RegistryKey? key);
 

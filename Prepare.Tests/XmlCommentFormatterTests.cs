@@ -80,7 +80,7 @@ public class XmlCommentFormatterTests
 
         var expected =
             @"/// <summary>
-/// Hello <see cref=""T:System.String"" /> world.
+/// Hello <see cref=""T:System.String""/> world.
 /// </summary>";
 
         var result = XmlCommentFormatter.FormatXmlComment(input);
@@ -100,7 +100,7 @@ public class XmlCommentFormatterTests
 
         var expected =
             @"/// <returns>
-/// A <see cref=""T:System.Drawing.Color"" />
+/// A <see cref=""T:System.Drawing.Color""/>
 /// </returns>
 /// More text";
 
@@ -129,14 +129,14 @@ public class XmlCommentFormatterTests
 
         var expected =
             @"/// <summary>
-/// Gets or sets the color of this <see cref=""T:System.Drawing.SolidBrush"" /> object.
+/// Gets or sets the color of this <see cref=""T:System.Drawing.SolidBrush""/> object.
 /// </summary>
 /// <returns>
-/// A <see cref=""T:System.Drawing.Color"" /> structure that represents the color of this brush.
+/// A <see cref=""T:System.Drawing.Color""/> structure that represents the color of this brush.
 /// </returns>
 /// <exception cref=""T:System.ArgumentException"">
-/// The <see cref=""P:System.Drawing.SolidBrush.Color"" /> property is
-/// set on an immutable <see cref=""T:System.Drawing.SolidBrush"" />.
+/// The <see cref=""P:System.Drawing.SolidBrush.Color""/> property is
+/// set on an immutable <see cref=""T:System.Drawing.SolidBrush""/>.
 /// </exception>";
 
         var result = XmlCommentFormatter.FormatXmlComment(input);

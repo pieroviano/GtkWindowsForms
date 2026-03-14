@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -16,10 +16,9 @@ public class LabelEditEventArgs : EventArgs
 {
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="LabelEditEventArgs" />
+    /// <see cref="T:System.Windows.Forms.LabelEditEventArgs" />
     /// class with the specified index to the
-    /// <see cref="ListViewItem" />
-    /// to edit.
+    /// <see cref="T:System.Windows.Forms.ListViewItem" /> to edit.
     /// </summary>
     public LabelEditEventArgs(int item) : this(item, null)
     {
@@ -27,11 +26,11 @@ public class LabelEditEventArgs : EventArgs
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="LabelEditEventArgs" />
+    /// <see cref="T:System.Windows.Forms.LabelEditEventArgs" />
     /// class with the specified index to the
-    /// <see cref="ListViewItem" />
+    /// <see cref="T:System.Windows.Forms.ListViewItem" />
     /// being edited and the new text for the label of the
-    /// <see cref="ListViewItem" />.
+    /// <see cref="T:System.Windows.Forms.ListViewItem" />.
     /// </summary>
     public LabelEditEventArgs(int item, string label)
     {
@@ -41,20 +40,19 @@ public class LabelEditEventArgs : EventArgs
 
     /// <summary>
     /// Gets or sets a value indicating whether changes made to the label of the
-    /// <see cref="ListViewItem" /> should be canceled.
+    /// <see cref="T:System.Windows.Forms.ListViewItem" /> should be canceled.
     /// </summary>
     public bool CancelEdit { get; set; }
 
     /// <summary>
     /// Gets the zero-based index of the
-    /// <see cref="ListViewItem" /> containing
-    /// the label to edit.
+    /// <see cref="T:System.Windows.Forms.ListViewItem" /> containing the label to edit.
     /// </summary>
     public int Item { get; }
 
     /// <summary>
     /// Gets the new text assigned to the label of the
-    /// <see cref="ListViewItem" />.
+    /// <see cref="T:System.Windows.Forms.ListViewItem" />.
     /// </summary>
     public string Label { get; }
 

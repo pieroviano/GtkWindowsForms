@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
@@ -14,6 +14,35 @@ namespace System.Windows.Forms;
 /// This is a small class that can efficiently store property values.
 /// It tries to optimize for size first, "get" access second, and
 /// "set" access third.
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+/// </summary>
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
+///
 internal partial class PropertyStore
 {
 
@@ -64,6 +93,9 @@ internal partial class PropertyStore
     /// </summary>
     public static int CreateKey() => s_currentKey++;
 
+    /// <summary>
+    /// A wrapper around GetObject designed to reduce the boxing hit
+    /// </summary>
     public Color GetColor(int key) => GetColor(key, out _);
 
     /// <summary>
@@ -539,19 +571,23 @@ internal partial class PropertyStore
     /// This will set value to null and return false if the
     /// list does not contain the given key.
     /// </summary>
-    /// <typeparam name="T">The type of object to retrieve.
+    /// <typeparam name="T">
+    /// The type of object to retrieve.
     /// </typeparam>
-    /// <param name="key">The key corresponding to the object in the property list.
+    /// <param name="key">
+    /// The key corresponding to the object in the property list.
     /// </param>
-    /// <param name="value">Output parameter where the object will be set if found.
+    /// <param name="value">
+    /// Output parameter where the object will be set if found.
     /// Will be set to null if the key is not present.
     /// </param>
     /// <remarks>
-    /// <para>If a null value is set for a given key
-    /// it will return true and a null value.
+    /// <para>
+    /// If a null value is set for a given key it will return true and a null value.
     /// </para>
     /// </remarks>
-    /// <returns>True if an object (including null) is found for the given key; otherwise, false.
+    /// <returns>
+    /// True if an object (including null) is found for the given key; otherwise, false.
     /// </returns>
     public bool TryGetObject<T>(int key, out T? value)
     {

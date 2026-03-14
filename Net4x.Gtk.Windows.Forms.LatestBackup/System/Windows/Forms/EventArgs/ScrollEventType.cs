@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Windows.Forms;
@@ -48,15 +48,13 @@ public enum ScrollEventType
 
     /// <summary>
     /// The scroll box was moved to the
-    /// <see cref="ScrollBar.Minimum" />
-    /// position.
+    /// <see cref="T:System.Windows.Forms.ScrollBar.Minimum" /> position.
     /// </summary>
     First = 7,
 
     /// <summary>
     /// The scroll box was moved to the
-    /// <see cref="ScrollBar.Maximum" />
-    /// position.
+    /// <see cref="T:System.Windows.Forms.ScrollBar.Maximum" /> position.
     /// </summary>
     Last = 8,
 

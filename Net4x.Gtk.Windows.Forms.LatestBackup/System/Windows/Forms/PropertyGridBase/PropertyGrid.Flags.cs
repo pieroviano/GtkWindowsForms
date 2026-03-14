@@ -1,8 +1,17 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Windows.Forms;
 
+/// <summary>
+/// Class PropertyGrid.
+/// Implements the
+/// <see cref="T:System.Windows.Forms.ContainerControl" />
+/// Implements the
+/// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ContainerControl" />
+/// <seealso cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
 public partial class PropertyGrid
 {
     [Flags]

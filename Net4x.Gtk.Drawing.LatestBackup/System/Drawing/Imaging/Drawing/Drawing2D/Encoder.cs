@@ -1,4 +1,4 @@
-namespace System.Drawing.Imaging;
+﻿namespace System.Drawing.Imaging;
 
 /// <summary>
 /// An
@@ -19,6 +19,9 @@ public sealed class Encoder
     /// </summary>
     public static readonly Encoder ColorDepth = new Encoder(new Guid(1711829077, -21146, 19580, new byte[8] { 154, 24, 56, 162, 49, 11, 131, 55 }));
 
+    /// <summary>
+    /// The color space
+    /// </summary>
     public static readonly Encoder ColorSpace = new Encoder(new Guid(-1367711072, -4564, 18904, new byte[8] { 157, 7, 27, 168, 169, 39, 89, 110 }));
 
     /// <summary>
@@ -27,6 +30,9 @@ public sealed class Encoder
     /// </summary>
     public static readonly Encoder Compression = new Encoder(new Guid(-526552163, -13100, 17646, new byte[8] { 142, 186, 63, 191, 139, 228, 252, 88 }));
 
+    /// <summary>
+    /// The image items
+    /// </summary>
     public static readonly Encoder ImageItems = new Encoder(new Guid(1669815827, 7965, 17835, new byte[8] { 145, 149, 162, 155, 96, 102, 166, 80 }));
 
     /// <summary>
@@ -47,6 +53,9 @@ public sealed class Encoder
     /// </summary>
     public static readonly Encoder RenderMethod = new Encoder(new Guid(1833092410, 8858, 18469, new byte[8] { 139, 183, 92, 153, 226, 185, 168, 184 }));
 
+    /// <summary>
+    /// The save as cmyk
+    /// </summary>
     public static readonly Encoder SaveAsCmyk = new Encoder(new Guid(-1575371831, 2717, 16389, new byte[8] { 163, 238, 58, 66, 27, 139, 176, 108 }));
 
     /// <summary>
@@ -73,13 +82,14 @@ public sealed class Encoder
     /// </summary>
     public static readonly Encoder Version = new Encoder(new Guid(617712758, -32438, 16804, new byte[8] { 191, 83, 28, 33, 156, 204, 247, 151 }));
 
-    private Guid _guid;
+    private readonly Guid _guid;
 
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Imaging.Encoder" /> class from the specified globally unique identifier (GUID). The GUID specifies an image encoder parameter category.
     /// </summary>
-    /// <param name="guid">A globally unique identifier that identifies an image encoder parameter category.
+    /// <param name="guid">
+    /// A globally unique identifier that identifies an image encoder parameter category.
     /// </param>
     public Encoder(Guid guid)
     {
@@ -89,7 +99,8 @@ public sealed class Encoder
     /// <summary>
     /// Gets a globally unique identifier (GUID) that identifies an image encoder parameter category.
     /// </summary>
-    /// <returns>The GUID that identifies an image encoder parameter category.
+    /// <returns>
+    /// The GUID that identifies an image encoder parameter category.
     /// </returns>
     public Guid Guid => _guid;
 

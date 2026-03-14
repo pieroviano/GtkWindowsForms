@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -15,10 +15,13 @@ namespace System.Windows.Forms;
 public class ConvertEventArgs : EventArgs
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ConvertEventArgs"/> class.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.ConvertEventArgs" /> class.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <param name="desiredType">Type of the desired.</param>
+    /// <param name="value">The value.
+    /// </param>
+    /// <param name="desiredType">Type of the desired.
+    /// </param>
     public ConvertEventArgs(object value, Type desiredType)
     {
         Value = value;
@@ -28,13 +31,15 @@ public class ConvertEventArgs : EventArgs
     /// <summary>
     /// Gets the type of the desired.
     /// </summary>
-    /// <value>The type of the desired.</value>
+    /// <value>The type of the desired.
+    /// </value>
     public Type DesiredType { get; }
 
     /// <summary>
     /// Gets or sets the value.
     /// </summary>
-    /// <value>The value.</value>
+    /// <value>The value.
+    /// </value>
     public object Value { get; set; }
 
 }

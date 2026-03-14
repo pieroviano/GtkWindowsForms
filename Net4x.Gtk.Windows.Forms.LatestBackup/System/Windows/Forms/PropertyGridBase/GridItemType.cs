@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Windows.Forms;
@@ -14,13 +14,13 @@ public enum GridItemType
 {
     /// <summary>
     /// The
-    /// <see cref="GridItem" /> corresponds to a property.
+    /// <see cref="T:System.Windows.Forms.GridItem" /> corresponds to a property.
     /// </summary>
     Property,
 
     /// <summary>
     /// The
-    /// <see cref="GridItem" /> is a category name.
+    /// <see cref="T:System.Windows.Forms.GridItem" /> is a category name.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -31,18 +31,18 @@ public enum GridItemType
 
     /// <summary>
     /// The
-    /// <see cref="GridItem" /> is an element of an array.
+    /// <see cref="T:System.Windows.Forms.GridItem" /> is an element of an array.
     /// </summary>
     ArrayValue,
 
     /// <summary>
     /// The
-    /// <see cref="GridItem" /> is the root in the grid hierarchy.
+    /// <see cref="T:System.Windows.Forms.GridItem" /> is the root in the grid hierarchy.
     /// </summary>
     /// <remarks>
     /// <para>
     /// This item represents the selection in the
-    /// <see cref="PropertyGrid" />.
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" />.
     /// </para>
     /// </remarks>
     Root

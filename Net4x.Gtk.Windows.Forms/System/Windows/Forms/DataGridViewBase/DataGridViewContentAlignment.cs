@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// Defines constants that indicate the alignment of content within a

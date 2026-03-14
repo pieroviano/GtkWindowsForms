@@ -1,4 +1,4 @@
-namespace GtkSystem.IO;
+﻿namespace GtkSystem.IO;
 
 internal static class BinaryReaderExtensions
 {

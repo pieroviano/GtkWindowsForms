@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -97,15 +97,14 @@ public enum AccessibleStates
     Floating = 0x1000,
 
     /// <summary>
-    /// An object with scrolling or moving text or graphics.
+    /// An object wit horizontal scrolling or moving text or graphics.
     /// </summary>
     Marqueed = 0x2000,
 
     /// <summary>
     /// The object has a rapidly or constantly changing appearance. Graphics
     /// that are occasionally animated, but not always, should be defined as
-    /// <see cref="AccessibleRole.Graphic" />|
-    /// <see cref="Animated" />.
+    /// <see cref="T:System.Windows.Forms.AccessibleStates.Animated" />.
     /// This state should not be used to indicate that the object's location
     /// is changing.
     /// </summary>
@@ -173,17 +172,16 @@ public enum AccessibleStates
     /// object is selected, the selection is extended to include this object
     /// and all the objects in between. You can set the selection state by
     /// combining this flag with
-    /// <see cref="AccessibleSelection.AddSelection" />
-    /// or
-    /// <see cref="AccessibleSelection.RemoveSelection" />. This flag does
+    /// <see cref="!:AccessibleSelection.AddSelection" /> or
+    /// <see cref="!:AccessibleSelection.RemoveSelection" />. This flag does
     /// not change the focus or the selection anchor unless it is combined with
-    /// <see cref="AccessibleSelection.TakeFocus" />. The behavior of
-    /// <see cref="AccessibleStates.ExtendSelection" />|
-    /// <see cref="AccessibleSelection.TakeFocus" />
+    /// <see cref="!:AccessibleSelection.TakeFocus" />. The behavior of
+    /// <see cref="!:AccessibleStates.ExtendSelection" />|
+    /// <see cref="!:AccessibleSelection.TakeFocus" />
     /// is equivalent to adding an item to a selection manually by holding down
     /// the SHIFT key and clicking an unselected object.
     /// This flag may not be combined with
-    /// <see cref="AccessibleSelection.TakeSelection" />.
+    /// <see cref="!:AccessibleSelection.TakeSelection" />.
     /// </summary>
     ExtSelectable = 0x2000000,
 
@@ -198,8 +196,7 @@ public enum AccessibleStates
     /// to reach a low level, it could generate a medium-level alert. Blind
     /// access utilities could then generate a sound to let the user know that
     /// important information is available, without actually interrupting the
-    /// user's work. The user could then query the alert information at their
-    /// leisure.
+    /// user's work. The user could then query the alert information at their leisure.
     /// </summary>
     AlertMedium = 0x8000000,
 
@@ -223,7 +220,13 @@ public enum AccessibleStates
     /// Object displays a pop-up menu or window when invoked.
     /// </summary>
     HasPopup = 0x40000000,
-
+    /// <summary>
+    /// Indicates a valid state. This enumeration value is obsolete and should not be used in new code.
+    /// </summary>
+    /// <remarks>
+    /// This value has been deprecated and there is no direct replacement. For more information, see
+    /// the provided link in the Obsolete attribute.
+    /// </remarks>
     [Obsolete("This enumeration value has been deprecated. There is no replacement. http://go.microsoft.com/fwlink/?linkid=14202")]
     Valid = 0x3fffffff,
 }

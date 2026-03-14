@@ -1,10 +1,11 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Drawing.Printing;
 
 /// <summary>
-/// PaperSource specifies the source of paper to use when printing. It is used by the <see cref="PageSettings"/> class to specify the source of paper to use when printing a document.
+/// PaperSource specifies the source of paper to use when printing. It is used by the
+/// <see cref="T:System.Drawing.Printing.PageSettings" /> class to specify the source of paper to use when printing a document.
 /// </summary>
 public partial class PaperSource
 {
@@ -13,7 +14,8 @@ public partial class PaperSource
     private string _name;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PaperSource"/> class.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Drawing.Printing.PaperSource" /> class.
     /// </summary>
     public PaperSource()
     {
@@ -21,6 +23,10 @@ public partial class PaperSource
         _name = string.Empty;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Drawing.Printing.PaperSource" /> class.
+    /// </summary>
     internal PaperSource(PaperSourceKind kind, string name)
     {
         _kind = kind;
@@ -63,7 +69,8 @@ public partial class PaperSource
     /// Converts to string.
     /// </summary>
     /// <returns>
-    /// A <see cref="System.String" /> that represents this instance.
+    /// A
+    /// <see cref="T:System.String" /> that represents this instance.
     /// </returns>
     public override string ToString() => $"[PaperSource {SourceName} Kind={Kind}]";
 

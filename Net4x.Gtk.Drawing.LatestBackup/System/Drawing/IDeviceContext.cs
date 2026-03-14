@@ -1,4 +1,4 @@
-namespace System.Drawing;
+﻿namespace System.Drawing;
 
 /// <summary>
 /// Defines methods for obtaining and releasing an existing handle to a Windows device
@@ -10,7 +10,8 @@ public interface IDeviceContext : IDisposable
     /// <summary>
     /// Returns the handle to a Windows device context.
     /// </summary>
-    /// <returns>An System.IntPtr representing the handle of a device context.
+    /// <returns>
+    /// An System.IntPtr representing the handle of a device context.
     /// </returns>
     IntPtr GetHdc();
 

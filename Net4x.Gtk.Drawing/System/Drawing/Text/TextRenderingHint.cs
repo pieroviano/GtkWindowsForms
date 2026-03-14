@@ -1,4 +1,4 @@
-namespace System.Drawing.Text;
+﻿namespace System.Drawing.Text;
 
 /// <summary>
 /// Specifies the quality of text rendering.

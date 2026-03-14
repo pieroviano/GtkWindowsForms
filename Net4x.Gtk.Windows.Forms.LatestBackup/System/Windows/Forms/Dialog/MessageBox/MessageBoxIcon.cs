@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -38,8 +38,7 @@ public enum MessageBoxIcon
     Asterisk = 0x00000040,
 
     /// <summary>
-    /// Specifies that the message box contains a hand icon. This field is
-    /// constant.
+    /// Specifies that the message box contains a hand icon. This field is constant.
     /// </summary>
     Stop = Hand,
 

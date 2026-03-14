@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
@@ -20,12 +20,15 @@ internal static class BitOperations
     /// Rotates the specified value left by the specified number of bits.
     /// Similar in behavior to the x86 instruction ROL.
     /// </summary>
-    /// <param name="value">The value to rotate.
+    /// <param name="value">
+    /// The value to rotate.
     /// </param>
-    /// <param name="offset">The number of bits to rotate by.
+    /// <param name="offset">
+    /// The number of bits to rotate by.
     /// Any value outside the range [0..31] is treated as congruent mod 32.
     /// </param>
-    /// <returns>The rotated value.
+    /// <returns>
+    /// The rotated value.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
@@ -36,12 +39,15 @@ internal static class BitOperations
     /// Rotates the specified value left by the specified number of bits.
     /// Similar in behavior to the x86 instruction ROL.
     /// </summary>
-    /// <param name="value">The value to rotate.
+    /// <param name="value">
+    /// The value to rotate.
     /// </param>
-    /// <param name="offset">The number of bits to rotate by.
+    /// <param name="offset">
+    /// The number of bits to rotate by.
     /// Any value outside the range [0..63] is treated as congruent mod 64.
     /// </param>
-    /// <returns>The rotated value.
+    /// <returns>
+    /// The rotated value.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
@@ -52,13 +58,16 @@ internal static class BitOperations
     /// Rotates the specified value left by the specified number of bits.
     /// Similar in behavior to the x86 instruction ROL.
     /// </summary>
-    /// <param name="value">The value to rotate.
+    /// <param name="value">
+    /// The value to rotate.
     /// </param>
-    /// <param name="offset">The number of bits to rotate by.
+    /// <param name="offset">
+    /// The number of bits to rotate by.
     /// Any value outside the range [0..31] is treated as congruent mod 32 on a 32-bit process,
     /// and any value outside the range [0..63] is treated as congruent mod 64 on a 64-bit process.
     /// </param>
-    /// <returns>The rotated value.
+    /// <returns>
+    /// The rotated value.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
@@ -75,12 +84,15 @@ internal static class BitOperations
     /// Rotates the specified value right by the specified number of bits.
     /// Similar in behavior to the x86 instruction ROR.
     /// </summary>
-    /// <param name="value">The value to rotate.
+    /// <param name="value">
+    /// The value to rotate.
     /// </param>
-    /// <param name="offset">The number of bits to rotate by.
+    /// <param name="offset">
+    /// The number of bits to rotate by.
     /// Any value outside the range [0..31] is treated as congruent mod 32.
     /// </param>
-    /// <returns>The rotated value.
+    /// <returns>
+    /// The rotated value.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
@@ -91,12 +103,15 @@ internal static class BitOperations
     /// Rotates the specified value right by the specified number of bits.
     /// Similar in behavior to the x86 instruction ROR.
     /// </summary>
-    /// <param name="value">The value to rotate.
+    /// <param name="value">
+    /// The value to rotate.
     /// </param>
-    /// <param name="offset">The number of bits to rotate by.
+    /// <param name="offset">
+    /// The number of bits to rotate by.
     /// Any value outside the range [0..63] is treated as congruent mod 64.
     /// </param>
-    /// <returns>The rotated value.
+    /// <returns>
+    /// The rotated value.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
@@ -107,13 +122,16 @@ internal static class BitOperations
     /// Rotates the specified value right by the specified number of bits.
     /// Similar in behavior to the x86 instruction ROR.
     /// </summary>
-    /// <param name="value">The value to rotate.
+    /// <param name="value">
+    /// The value to rotate.
     /// </param>
-    /// <param name="offset">The number of bits to rotate by.
+    /// <param name="offset">
+    /// The number of bits to rotate by.
     /// Any value outside the range [0..31] is treated as congruent mod 32 on a 32-bit process,
     /// and any value outside the range [0..63] is treated as congruent mod 64 on a 64-bit process.
     /// </param>
-    /// <returns>The rotated value.
+    /// <returns>
+    /// The rotated value.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]

@@ -1,4 +1,4 @@
-
+﻿
 namespace System.Windows.Forms;
 
 /// <summary>
@@ -13,7 +13,8 @@ public class ContainerControl : ScrollableControl, IContainerControl
     private Control _ActiveControl;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ContainerControl"/> class.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.ContainerControl" /> class.
     /// </summary>
     public ContainerControl() : base()
     {
@@ -51,8 +52,10 @@ public class ContainerControl : ScrollableControl, IContainerControl
     /// <summary>
     /// Activates a specified control.
     /// </summary>
-    /// <param name="active">The
-    /// <see cref="T:System.Windows.Forms.Control" /> being activated.</param>
+    /// <param name="active">
+    /// The
+    /// <see cref="T:System.Windows.Forms.Control" /> being activated.
+    /// </param>
     /// <returns>
     /// true if the control is successfully activated; otherwise, false.
     /// </returns>

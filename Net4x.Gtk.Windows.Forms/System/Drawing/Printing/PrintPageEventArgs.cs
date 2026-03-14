@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Drawing.Printing;
@@ -11,7 +11,7 @@ public class PrintPageEventArgs : EventArgs
 {
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="PrintPageEventArgs" /> class.
+    /// <see cref="T:System.Drawing.Printing.PrintPageEventArgs" /> class.
     /// </summary>
     public PrintPageEventArgs(Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings)
     {
@@ -28,7 +28,7 @@ public class PrintPageEventArgs : EventArgs
 
     /// <summary>
     /// Gets the
-    /// <see cref="Drawing.Graphics" /> used to paint the item.
+    /// <see cref="T:System.Drawing.Graphics" /> used to paint the item.
     /// </summary>
     public Graphics Graphics { get; private set; }
 
@@ -59,7 +59,7 @@ public class PrintPageEventArgs : EventArgs
 
     /// <summary>
     /// Disposes of the resources (other than memory) used by the
-    /// <see cref="PrintPageEventArgs" />.
+    /// <see cref="T:System.Drawing.Printing.PrintPageEventArgs" />.
     /// </summary>
     internal void Dispose() => Graphics?.Dispose();
 

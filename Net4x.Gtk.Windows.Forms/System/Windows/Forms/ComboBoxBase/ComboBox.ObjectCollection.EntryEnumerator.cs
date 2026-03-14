@@ -1,77 +1,86 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
 using System.Collections.Generic;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// A drop-down list control that wraps a GTK combo box and provides WinForms-compatible API.
+/// Supports data binding via
+/// <see cref="T:System.Windows.Forms.ComboBox.DataSource" />, item collections and selection semantics.
+/// </summary>
+/// ComboBox ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+public partial class ComboBox
 {
-
-    public partial class ComboBox
+    /// <summary>
+    /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+    /// </summary>
+    /// <seealso cref="T:System.Collections.IList" />
+    public partial class ObjectCollection
     {
-        public partial class ObjectCollection
+        /// <summary>
+        /// EntryEnumerator is an enumerator that will enumerate over a given state mask.
+        /// </summary>
+        private class EntryEnumerator : IEnumerator
         {
+            private int _current;
+
+            private readonly List<Entry> _entries;
+
             /// <summary>
-            /// EntryEnumerator is an enumerator that will enumerate over
-            /// a given state mask.
+            /// Creates a new enumerator that will enumerate over the given state.
             /// </summary>
-            private class EntryEnumerator : IEnumerator
+            public EntryEnumerator(List<Entry> entries)
             {
-                private int _current;
-
-                private readonly List<Entry> _entries;
-
-                /// <summary>
-                /// Creates a new enumerator that will enumerate over the given state.
-                /// </summary>
-                public EntryEnumerator(List<Entry> entries)
-                {
-                    _entries = entries;
-                    _current = -1;
-                }
-
-                /// <summary>
-                /// Retrieves the current value in the enumerator.
-                /// </summary>
-                object IEnumerator.Current
-                {
-                    get
-                    {
-                        if (_current == -1 || _current == _entries.Count)
-                        {
-                            throw new InvalidOperationException("SR.ListEnumCurrentOutOfRange");
-                        }
-
-                        return _entries[_current].Item;
-                    }
-                }
-
-                /// <summary>
-                /// Moves to the next element, or returns false if at the end.
-                /// </summary>
-                bool IEnumerator.MoveNext()
-                {
-                    if (_current < _entries.Count - 1)
-                    {
-                        _current++;
-                        return true;
-                    }
-                    else
-                    {
-                        _current = _entries.Count;
-                        return false;
-                    }
-                }
-
-                /// <summary>
-                /// Resets the enumeration back to the beginning.
-                /// </summary>
-                void IEnumerator.Reset()
-                {
-                    _current = -1;
-                }
-
+                _entries = entries;
+                _current = -1;
             }
+
+            /// <summary>
+            /// Retrieves the current value in the enumerator.
+            /// </summary>
+            object IEnumerator.Current
+            {
+                get
+                {
+                    if (_current == -1 || _current == _entries.Count)
+                    {
+                        throw new InvalidOperationException("SR.ListEnumCurrentOutOfRange");
+                    }
+
+                    return _entries[_current].Item;
+                }
+            }
+
+            /// <summary>
+            /// Moves to the next element, or returns false if at the end.
+            /// </summary>
+            bool IEnumerator.MoveNext()
+            {
+                if (_current < _entries.Count - 1)
+                {
+                    _current++;
+                    return true;
+                }
+                else
+                {
+                    _current = _entries.Count;
+                    return false;
+                }
+            }
+
+            /// <summary>
+            /// Resets the enumeration back to the beginning.
+            /// </summary>
+            void IEnumerator.Reset()
+            {
+                _current = -1;
+            }
+
         }
     }
 }

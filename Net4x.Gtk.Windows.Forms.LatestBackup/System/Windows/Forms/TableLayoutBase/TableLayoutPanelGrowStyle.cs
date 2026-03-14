@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// Specifies how a
@@ -7,7 +7,16 @@ namespace System.Windows.Forms;
 /// </summary>
 public enum TableLayoutPanelGrowStyle
 {
+    /// <summary>
+    /// The fixed size
+    /// </summary>
     FixedSize,
+    /// <summary>
+    /// The add rows
+    /// </summary>
     AddRows,
+    /// <summary>
+    /// The add columns
+    /// </summary>
     AddColumns
 }

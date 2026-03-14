@@ -1,4 +1,4 @@
-namespace System.Drawing.Imaging;
+﻿namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Specifies the methods available for use with a metafile to read and write graphic commands.
@@ -799,12 +799,12 @@ public enum EmfPlusRecordType
     EndOfFile = 16386,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.AddMetafileComment(System.Byte[])" />.
+    /// <see cref="T:System.Drawing.Graphics.AddMetafileComment(System.Byte[])" />.
     /// </summary>
     Comment = 16387,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.GetHdc" />.
+    /// <see cref="T:System.Drawing.Graphics.GetHdc" />.
     /// </summary>
     GetDC = 16388,
     /// <summary>
@@ -825,7 +825,7 @@ public enum EmfPlusRecordType
     Object = 16392,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.Clear(System.Drawing.Color)" />.
+    /// <see cref="T:System.Drawing.Graphics.Clear(System.Drawing.Color)" />.
     /// </summary>
     Clear = 16393,
     /// <summary>
@@ -875,17 +875,17 @@ public enum EmfPlusRecordType
     DrawArc = 16402,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.FillRegion(System.Drawing.Brush,System.Drawing.Region)" />.
+    /// <see cref="T:System.Drawing.Graphics.FillRegion(System.Drawing.Brush,System.Drawing.Region)" />.
     /// </summary>
     FillRegion = 16403,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.FillPath(System.Drawing.Brush,System.Drawing.Drawing2D.GraphicsPath)" />.
+    /// <see cref="T:System.Drawing.Graphics.FillPath(System.Drawing.Brush,System.Drawing.Drawing2D.GraphicsPath)" />.
     /// </summary>
     FillPath = 16404,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.DrawPath(System.Drawing.Pen,System.Drawing.Drawing2D.GraphicsPath)" />.
+    /// <see cref="T:System.Drawing.Graphics.DrawPath(System.Drawing.Pen,System.Drawing.Drawing2D.GraphicsPath)" />.
     /// </summary>
     DrawPath = 16405,
     /// <summary>
@@ -925,67 +925,67 @@ public enum EmfPlusRecordType
     DrawString = 16412,
     /// <summary>
     /// See
-    /// <see cref="P:System.Drawing.Graphics.RenderingOrigin" />.
+    /// <see cref="T:System.Drawing.Graphics.RenderingOrigin" />.
     /// </summary>
     SetRenderingOrigin = 16413,
     /// <summary>
     /// See
-    /// <see cref="P:System.Drawing.Graphics.SmoothingMode" />.
+    /// <see cref="T:System.Drawing.Graphics.SmoothingMode" />.
     /// </summary>
     SetAntiAliasMode = 16414,
     /// <summary>
     /// See
-    /// <see cref="P:System.Drawing.Graphics.TextRenderingHint" />.
+    /// <see cref="T:System.Drawing.Graphics.TextRenderingHint" />.
     /// </summary>
     SetTextRenderingHint = 16415,
     /// <summary>
     /// See
-    /// <see cref="P:System.Drawing.Graphics.TextContrast" />.
+    /// <see cref="T:System.Drawing.Graphics.TextContrast" />.
     /// </summary>
     SetTextContrast = 16416,
     /// <summary>
     /// See
-    /// <see cref="P:System.Drawing.Graphics.InterpolationMode" />.
+    /// <see cref="T:System.Drawing.Graphics.InterpolationMode" />.
     /// </summary>
     SetInterpolationMode = 16417,
     /// <summary>
     /// See
-    /// <see cref="P:System.Drawing.Graphics.PixelOffsetMode" />.
+    /// <see cref="T:System.Drawing.Graphics.PixelOffsetMode" />.
     /// </summary>
     SetPixelOffsetMode = 16418,
     /// <summary>
     /// See
-    /// <see cref="P:System.Drawing.Graphics.CompositingMode" />.
+    /// <see cref="T:System.Drawing.Graphics.CompositingMode" />.
     /// </summary>
     SetCompositingMode = 16419,
     /// <summary>
     /// See
-    /// <see cref="P:System.Drawing.Graphics.CompositingQuality" />.
+    /// <see cref="T:System.Drawing.Graphics.CompositingQuality" />.
     /// </summary>
     SetCompositingQuality = 16420,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.Save" />.
+    /// <see cref="T:System.Drawing.Graphics.Save" />.
     /// </summary>
     Save = 16421,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.Restore(System.Drawing.Drawing2D.GraphicsState)" />.
+    /// <see cref="T:System.Drawing.Graphics.Restore(System.Drawing.Drawing2D.GraphicsState)" />.
     /// </summary>
     Restore = 16422,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.BeginContainer" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.BeginContainer" /> methods.
     /// </summary>
     BeginContainer = 16423,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.BeginContainer" /> methods.
+    /// <see cref="T:System.Drawing.Graphics.BeginContainer" /> methods.
     /// </summary>
     BeginContainerNoParams = 16424,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.EndContainer(System.Drawing.Drawing2D.GraphicsContainer)" />.
+    /// <see cref="T:System.Drawing.Graphics.EndContainer(System.Drawing.Drawing2D.GraphicsContainer)" />.
     /// </summary>
     EndContainer = 16425,
     /// <summary>
@@ -995,7 +995,7 @@ public enum EmfPlusRecordType
     SetWorldTransform = 16426,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.ResetTransform" />.
+    /// <see cref="T:System.Drawing.Graphics.ResetTransform" />.
     /// </summary>
     ResetWorldTransform = 16427,
     /// <summary>
@@ -1025,7 +1025,7 @@ public enum EmfPlusRecordType
     SetPageTransform = 16432,
     /// <summary>
     /// See
-    /// <see cref="M:System.Drawing.Graphics.ResetClip" />.
+    /// <see cref="T:System.Drawing.Graphics.ResetClip" />.
     /// </summary>
     ResetClip = 16433,
     /// <summary>

@@ -1,4 +1,4 @@
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Specifies the different patterns available for
@@ -12,7 +12,7 @@ public enum HatchStyle
     Horizontal = 0,
     /// <summary>
     /// Specifies hatch style
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Horizontal" />.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Horizontal" />.
     /// </summary>
     Min = 0,
     /// <summary>
@@ -33,12 +33,12 @@ public enum HatchStyle
     Cross = 4,
     /// <summary>
     /// Specifies the hatch style
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Cross" />.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Cross" />.
     /// </summary>
     LargeGrid = 4,
     /// <summary>
     /// Specifies hatch style
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.SolidDiamond" />.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.SolidDiamond" />.
     /// </summary>
     Max = 4,
     /// <summary>
@@ -95,65 +95,65 @@ public enum HatchStyle
     Percent90 = 17,
     /// <summary>
     /// Specifies diagonal lines that slant to the right from top points to bottom points and are spaced 50 percent closer together than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.ForwardDiagonal" />, but are not antialiased.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.ForwardDiagonal" />, but are not antialiased.
     /// </summary>
     LightDownwardDiagonal = 18,
     /// <summary>
     /// Specifies diagonal lines that slant to the left from top points to bottom points and are spaced 50 percent closer together than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.BackwardDiagonal" />, but they are not antialiased.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.BackwardDiagonal" />, but they are not antialiased.
     /// </summary>
     LightUpwardDiagonal = 19,
     /// <summary>
     /// Specifies diagonal lines that slant to the right from top points to bottom points, are spaced 50 percent closer together than, and are twice the width of
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.ForwardDiagonal" />. This hatch pattern is not antialiased.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.ForwardDiagonal" />. This hatch pattern is not antialiased.
     /// </summary>
     DarkDownwardDiagonal = 20,
     /// <summary>
     /// Specifies diagonal lines that slant to the left from top points to bottom points, are spaced 50 percent closer together than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.BackwardDiagonal" />, and are twice its width, but the lines are not antialiased.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.BackwardDiagonal" />, and are twice its width, but the lines are not antialiased.
     /// </summary>
     DarkUpwardDiagonal = 21,
     /// <summary>
     /// Specifies diagonal lines that slant to the right from top points to bottom points, have the same spacing as hatch style
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.ForwardDiagonal" />, and are triple its width, but are not antialiased.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.ForwardDiagonal" />, and are triple its width, but are not antialiased.
     /// </summary>
     WideDownwardDiagonal = 22,
     /// <summary>
     /// Specifies diagonal lines that slant to the left from top points to bottom points, have the same spacing as hatch style
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.BackwardDiagonal" />, and are triple its width, but are not antialiased.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.BackwardDiagonal" />, and are triple its width, but are not antialiased.
     /// </summary>
     WideUpwardDiagonal = 23,
     /// <summary>
     /// Specifies vertical lines that are spaced 50 percent closer together than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Vertical" />.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Vertical" />.
     /// </summary>
     LightVertical = 24,
     /// <summary>
     /// Specifies horizontal lines that are spaced 50 percent closer together than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Horizontal" />.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Horizontal" />.
     /// </summary>
     LightHorizontal = 25,
     /// <summary>
     /// Specifies vertical lines that are spaced 75 percent closer together than hatch style
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Vertical" /> (or 25 percent closer together than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.LightVertical" />).
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Vertical" /> (or 25 percent closer together than
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.LightVertical" />).
     /// </summary>
     NarrowVertical = 26,
     /// <summary>
     /// Specifies horizontal lines that are spaced 75 percent closer together than hatch style
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Horizontal" /> (or 25 percent closer together than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.LightHorizontal" />).
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Horizontal" /> (or 25 percent closer together than
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.LightHorizontal" />).
     /// </summary>
     NarrowHorizontal = 27,
     /// <summary>
     /// Specifies vertical lines that are spaced 50 percent closer together than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Vertical" /> and are twice its width.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Vertical" /> and are twice its width.
     /// </summary>
     DarkVertical = 28,
     /// <summary>
     /// Specifies horizontal lines that are spaced 50 percent closer together than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Horizontal" /> and are twice the width of
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Horizontal" />.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Horizontal" /> and are twice the width of
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Horizontal" />.
     /// </summary>
     DarkHorizontal = 29,
     /// <summary>
@@ -178,7 +178,7 @@ public enum HatchStyle
     SmallConfetti = 34,
     /// <summary>
     /// Specifies a hatch that has the appearance of confetti, and is composed of larger pieces than
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.SmallConfetti" />.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.SmallConfetti" />.
     /// </summary>
     LargeConfetti = 35,
     /// <summary>
@@ -231,7 +231,7 @@ public enum HatchStyle
     Sphere = 47,
     /// <summary>
     /// Specifies horizontal and vertical lines that cross and are spaced 50 percent closer together than hatch style
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.Cross" />.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.Cross" />.
     /// </summary>
     SmallGrid = 48,
     /// <summary>
@@ -240,7 +240,7 @@ public enum HatchStyle
     SmallCheckerBoard = 49,
     /// <summary>
     /// Specifies a hatch that has the appearance of a checkerboard with squares that are twice the size of
-    /// <see cref="F:System.Drawing.Drawing2D.HatchStyle.SmallCheckerBoard" />.
+    /// <see cref="T:System.Drawing.Drawing2D.HatchStyle.SmallCheckerBoard" />.
     /// </summary>
     LargeCheckerBoard = 50,
     /// <summary>

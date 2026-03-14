@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -11,10 +11,13 @@ namespace System.Windows.Forms;
 public class DataGridViewColumnStateChangedEventArgs : EventArgs
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataGridViewColumnStateChangedEventArgs"/> class.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumnStateChangedEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridViewColumn">The data grid view column.</param>
-    /// <param name="stateChanged">The state changed.</param>
+    /// <param name="dataGridViewColumn">The data grid view column.
+    /// </param>
+    /// <param name="stateChanged">The state changed.
+    /// </param>
     public DataGridViewColumnStateChangedEventArgs(DataGridViewColumn dataGridViewColumn, DataGridViewElementStates stateChanged)
     {
         Column = dataGridViewColumn;
@@ -24,13 +27,15 @@ public class DataGridViewColumnStateChangedEventArgs : EventArgs
     /// <summary>
     /// Gets the column.
     /// </summary>
-    /// <value>The column.</value>
+    /// <value>The column.
+    /// </value>
     public DataGridViewColumn Column { get; }
 
     /// <summary>
     /// Gets the state changed.
     /// </summary>
-    /// <value>The state changed.</value>
+    /// <value>The state changed.
+    /// </value>
     public DataGridViewElementStates StateChanged { get; }
 
 }

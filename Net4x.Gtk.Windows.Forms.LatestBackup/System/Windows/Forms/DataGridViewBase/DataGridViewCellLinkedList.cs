@@ -1,75 +1,79 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Represents a linked list of
+/// <see cref="T:System.Windows.Forms.DataGridViewCell" /> objects
+/// </summary>
+internal class DataGridViewCellLinkedList : IEnumerable
 {
+
+    private readonly int _count;
+
     /// <summary>
-    /// Represents a linked list of
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> objects
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridView" /> class.
+    /// Configures the underlying GTK TreeView and prepares columns/rows collections.
     /// </summary>
-    internal class DataGridViewCellLinkedList : IEnumerable
+    public DataGridViewCellLinkedList()
     {
 
-        private int _count;
+    }
 
-        public DataGridViewCellLinkedList()
+    public int Count => _count;
+
+    public DataGridViewCell HeadCell
+    {
+        get
         {
-
+            return null;
         }
+    }
 
-        public int Count => _count;
-
-        public DataGridViewCell HeadCell
+    public DataGridViewCell this[int index]
+    {
+        get
         {
-            get
-            {
-                return null;
-            }
+            return null;
         }
+    }
 
-        public DataGridViewCell this[int index]
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        public void Add(DataGridViewCell dataGridViewCell)
-        {
-
-        }
-
-        public void Clear()
-        {
-
-        }
-
-        public bool Contains(DataGridViewCell dataGridViewCell)
-        {
-
-            return false;
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(DataGridViewCell dataGridViewCell)
-        {
-
-            return false;
-        }
-
-        public int RemoveAllCellsAtBand(bool column, int bandIndex)
-        {
-            int removedCount = 0;
-
-            return removedCount;
-        }
+    public void Add(DataGridViewCell dataGridViewCell)
+    {
 
     }
+
+    public void Clear()
+    {
+
+    }
+
+    public bool Contains(DataGridViewCell dataGridViewCell)
+    {
+
+        return false;
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Remove(DataGridViewCell dataGridViewCell)
+    {
+
+        return false;
+    }
+
+    public int RemoveAllCellsAtBand(bool column, int bandIndex)
+    {
+        int removedCount = 0;
+
+        return removedCount;
+    }
+
 }

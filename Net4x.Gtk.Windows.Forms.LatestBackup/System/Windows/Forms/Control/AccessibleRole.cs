@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// Specifies values representing possible roles for an accessible object.
@@ -8,5 +8,8 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public enum AccessibleRole
 {
+    /// <summary>
+    /// The default
+    /// </summary>
     Default
 }

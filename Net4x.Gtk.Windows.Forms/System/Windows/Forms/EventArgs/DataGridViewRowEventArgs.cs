@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -11,10 +11,13 @@ namespace System.Windows.Forms;
 public class DataGridViewRowEventArgs : EventArgs
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataGridViewRowEventArgs"/> class.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridViewRowEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridViewRow">The data grid view row.</param>
-    /// <exception cref="System.ArgumentNullException">dataGridViewRow</exception>
+    /// <param name="dataGridViewRow">The data grid view row.
+    /// </param>
+    /// <exception cref="T:System.ArgumentNullException">dataGridViewRow
+    /// </exception>
     public DataGridViewRowEventArgs(DataGridViewRow dataGridViewRow)
     {
         Row = dataGridViewRow ?? throw new ArgumentNullException(nameof(dataGridViewRow));
@@ -23,7 +26,8 @@ public class DataGridViewRowEventArgs : EventArgs
     /// <summary>
     /// Gets the row.
     /// </summary>
-    /// <value>The row.</value>
+    /// <value>The row.
+    /// </value>
     public DataGridViewRow Row { get; }
 
 }

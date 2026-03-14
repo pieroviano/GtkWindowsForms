@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using Prepare.Common.Content;
 using Prepare.Common.IO;
 using PrepareProjects.Preparation.Directories;
@@ -116,11 +116,11 @@ public static class PrepareWorker
         ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Windows.Forms.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\Resources\\Net4x.Gtk.Windows.Forms.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
+            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes, true, false);
         ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Drawing.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
             "..\\..\\..\\..\\Resources\\Net4x.Gtk.Drawing.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
+            "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes, true, false);
     }
 
     public static void OptimizeNet4xGtkDrawingFileSystem(string projectDirectory)
@@ -189,6 +189,6 @@ public static class PrepareWorker
     {
         var text=await File.ReadAllTextAsync(path);
         text = text.Replace("System.System.", "System.");
-        await CsFile.WriteAllTextAsync(path,text);
+        await CsFile.WriteAllTextAsync(path, text);
     }
 }

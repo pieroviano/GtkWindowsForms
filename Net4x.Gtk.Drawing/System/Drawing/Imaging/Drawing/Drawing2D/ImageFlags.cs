@@ -1,4 +1,4 @@
-namespace System.Drawing.Imaging;
+﻿namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Specifies the attributes of the pixel data contained in an

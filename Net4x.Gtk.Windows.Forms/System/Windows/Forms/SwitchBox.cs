@@ -1,78 +1,91 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.ComponentModel;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Class SwitchBox.
+/// Implements the
+/// <see cref="T:System.Windows.Forms.Control" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.Control" />
+[DesignerCategory("Component")]
+public partial class SwitchBox : Control
 {
     /// <summary>
-    /// Class SwitchBox.
-    /// Implements the <see cref="System.Windows.Forms.Control" />
+    /// The self
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Control" />
-    [DesignerCategory("Component")]
-    public partial class SwitchBox : Control
+    public readonly SwitchBoxBase self = new SwitchBoxBase();
+
+    /// <summary>
+    /// Occurs when [checked changed].
+    /// </summary>
+    public event EventHandler CheckedChanged;
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.SwitchBox" /> class.
+    /// </summary>
+    public SwitchBox()
     {
+        self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
+    }
 
-        /// <summary>
-        /// The self
-        /// </summary>
-        public readonly SwitchBoxBase self = new SwitchBoxBase();
-
-        /// <summary>
-        /// Occurs when [checked changed].
-        /// </summary>
-        public event EventHandler CheckedChanged;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwitchBox"/> class.
-        /// </summary>
-        public SwitchBox()
+    /// <summary>
+    /// Gets or sets a value indicating whether this
+    /// <see cref="T:System.Windows.Forms.SwitchBox" /> is checked.
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if checked; otherwise,
+    /// <c>false
+    /// </c>.
+    /// </value>
+    public bool Checked
+    {
+        get { return self.Active; }
+        set
         {
-            self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="SwitchBox"/> is checked.
-        /// </summary>
-        /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
-        public bool Checked
-        {
-            get { return self.Active; }
-            set
-            {
-                self.Active = value;
-                if (CheckedChanged != null && self.IsVisible)
-                    CheckedChanged(this, EventArgs.Empty);
-            }
-        }
-
-        /// <summary>
-        /// Gets the GTK control.
-        /// </summary>
-        /// <value>The GTK control.</value>
-        public override object GtkControl => self;
-
-        /// <summary>
-        /// Gets or sets the text.
-        /// </summary>
-        /// <value>The text.</value>
-        public override string Text { get { return self.TooltipText; } set { self.TooltipText = value; } }
-
-        /// <summary>
-        /// Handles the ButtonReleaseEvent event of the Self control.
-        /// </summary>
-        /// <param name="o">The source of the event.</param>
-        /// <param name="args">The <see cref="Gtk.ButtonReleaseEventArgs"/> instance containing the event data.</param>
-        private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
-        {
+            self.Active = value;
             if (CheckedChanged != null && self.IsVisible)
                 CheckedChanged(this, EventArgs.Empty);
         }
-
     }
+
+    /// <summary>
+    /// Gets the GTK control.
+    /// </summary>
+    /// <value>The GTK control.
+    /// </value>
+    public override object GtkControl => self;
+
+    /// <summary>
+    /// Gets or sets the text.
+    /// </summary>
+    /// <value>The text.
+    /// </value>
+    public override string Text { get { return self.TooltipText; } set { self.TooltipText = value; } }
+
+    /// <summary>
+    /// Handles the ButtonReleaseEvent event of the Self control.
+    /// </summary>
+    /// <param name="o">The source of the event.
+    /// </param>
+    /// <param name="args">
+    /// The
+    /// <see cref="Gtk.ButtonReleaseEventArgs" /> instance containing the event data.
+    /// </param>
+    private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
+    {
+        if (CheckedChanged != null && self.IsVisible)
+            CheckedChanged(this, EventArgs.Empty);
+    }
+
 }

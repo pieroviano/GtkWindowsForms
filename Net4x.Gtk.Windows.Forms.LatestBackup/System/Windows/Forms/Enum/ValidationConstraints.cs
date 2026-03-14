@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -19,7 +19,6 @@ public enum ValidationConstraints
 
     /// <summary>
     /// Child control must be selectable to be validated.
-    ///
     /// Note: This flag allows validation of a control that has the
     /// ControlStyles.Selectable style, ie. has the ability to be selected,
     /// even when that control is currently unselectable because it has been

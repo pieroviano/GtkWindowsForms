@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// Specifies whether the size of the image on a
@@ -7,11 +7,14 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.ToolStrip" />
 /// while retaining the original image proportions.
 /// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
 public enum ToolStripItemImageScaling
 {
+    /// <summary>
+    /// The none
+    /// </summary>
     None,
+    /// <summary>
+    /// The size to fit
+    /// </summary>
     SizeToFit
 }

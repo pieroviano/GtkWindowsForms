@@ -21,13 +21,10 @@ namespace System.ComponentModel
     public class ComponentResourceManager : GtkSystem.ComponentModel.ComponentResourceManager
     {
         /// <summary>
-        /// Initializes a new instance of the ComponentResourceManager class for the specified form type.
+        /// Initializes a new instance of the
+        /// <see cref="GtkSystem.ComponentModel.ComponentResourceManager" /> class.
         /// </summary>
-        /// <remarks>Use this constructor to associate the resource manager with a specific form type,
-        /// enabling resource retrieval for that form. This is typically used to support localization and resource
-        /// management in Windows Forms applications.
-        /// </remarks>
-        /// <param name="form">The Type of the form for which resources will be managed. Cannot be null.
+        /// <param name="form">The form.
         /// </param>
         public ComponentResourceManager(Type form) : base(form)
         {

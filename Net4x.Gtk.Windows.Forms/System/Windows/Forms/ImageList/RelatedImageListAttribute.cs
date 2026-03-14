@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Windows.Forms;
@@ -16,9 +16,11 @@ public sealed class RelatedImageListAttribute : Attribute
     private readonly string? _relatedImageList;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RelatedImageListAttribute"/> class.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.RelatedImageListAttribute" /> class.
     /// </summary>
-    /// <param name="relatedImageList">The related image list.</param>
+    /// <param name="relatedImageList">The related image list.
+    /// </param>
     public RelatedImageListAttribute(string? relatedImageList)
     {
         _relatedImageList = relatedImageList;
@@ -27,7 +29,8 @@ public sealed class RelatedImageListAttribute : Attribute
     /// <summary>
     /// Gets the related image list.
     /// </summary>
-    /// <value>The related image list.</value>
+    /// <value>The related image list.
+    /// </value>
     public string? RelatedImageList
     {
         get

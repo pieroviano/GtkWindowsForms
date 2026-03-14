@@ -1,14 +1,18 @@
+﻿using System.IO;
+using System.Threading.Tasks;
 using Gtk;
-using System.IO;
 
 namespace System.Windows.Forms;
 
+using static System.Net.Mime.MediaTypeNames;
 using FormsMessageBoxButtons = MessageBoxButtons;
 
 /// <summary>
 /// An IMessageBox implementation that wraps a platform message box and automatically disposes it after a timeout.
 /// This class delegates actual presentation to a non-static MessageBox implementation and starts a background
-/// task to auto-close/cleanup the underlying GTK <see cref="Dialog"/> after <see cref="MessageBoxTimeout"/> milliseconds.
+/// task to auto-close/cleanup the underlying GTK
+/// <see cref="Gtk.Dialog" /> after
+/// <see cref="T:System.Windows.Forms.AutoClosingMessageBox.MessageBoxTimeout" /> milliseconds.
 /// </summary>
 public class AutoClosingMessageBox : IMessageBox
 {
@@ -51,7 +55,8 @@ public class AutoClosingMessageBox : IMessageBox
     }
 
     /// <summary>
-    /// Gets the thread-local singleton instance of <see cref="AutoClosingMessageBox"/>.
+    /// Gets the thread-local singleton instance of
+    /// <see cref="T:System.Windows.Forms.AutoClosingMessageBox" />.
     /// Accessing this property creates the instance on first use in the current thread.
     /// </summary>
     public static AutoClosingMessageBox Instance
@@ -61,7 +66,8 @@ public class AutoClosingMessageBox : IMessageBox
 
     /// <summary>
     /// Gets or sets the timeout in milliseconds after which the shown message box (GTK dialog) will be disposed.
-    /// Default value is configured via <see cref="Init(int)"/>.
+    /// Default value is configured via
+    /// <see cref="T:System.Windows.Forms.AutoClosingMessageBox.Init(System.Int32)" />.
     /// </summary>
     public int MessageBoxTimeout { get; set; }
 
@@ -69,7 +75,8 @@ public class AutoClosingMessageBox : IMessageBox
     /// Initialize the auto-closing behavior and optionally set the default timeout interval.
     /// This is a convenience to ensure the singleton and timeout are configured.
     /// </summary>
-    /// <param name="interval">Timeout in milliseconds for auto-disposal. Default is 5000 ms.</param>
+    /// <param name="interval">Timeout in milliseconds for auto-disposal. Default is 5000 ms.
+    /// </param>
     public static void Init(int interval = 5000)
     {
         Instance.Initialize(interval);
@@ -289,8 +296,10 @@ public class AutoClosingMessageBox : IMessageBox
     /// <summary>
     /// Handles the DialogAvailable event from the underlying message box implementation and stores the GTK dialog instance.
     /// </summary>
-    /// <param name="sender">Event sender.</param>
-    /// <param name="e">Dialog event data containing the GTK dialog.</param>
+    /// <param name="sender">Event sender.
+    /// </param>
+    /// <param name="e">Dialog event data containing the GTK dialog.
+    /// </param>
     private void FormsMessageBox_DialogAvailable(object? sender, DialogEventArgs e)
     {
         _dialog = e.Dialog;
@@ -299,7 +308,8 @@ public class AutoClosingMessageBox : IMessageBox
     /// <summary>
     /// Internal initializer for the instance; sets the default timeout.
     /// </summary>
-    /// <param name="interval">Timeout interval in milliseconds.</param>
+    /// <param name="interval">Timeout interval in milliseconds.
+    /// </param>
     private void Initialize(int interval = 5000)
     {
         MessageBoxTimeout = interval;
@@ -308,8 +318,10 @@ public class AutoClosingMessageBox : IMessageBox
     /// <summary>
     /// Invokes the supplied show function and arranges for automatic disposal of the dialog after the timeout.
     /// </summary>
-    /// <param name="invoke">A function that shows the dialog and returns the DialogResult.</param>
-    /// <returns>The dialog result returned by the underlying message box.</returns>
+    /// <param name="invoke">A function that shows the dialog and returns the DialogResult.
+    /// </param>
+    /// <returns>The dialog result returned by the underlying message box.
+    /// </returns>
     private DialogResult InvokeAndAutoClose(Func<DialogResult> invoke)
     {
         AutoDisposeAfterTimeout();
@@ -318,4 +330,3 @@ public class AutoClosingMessageBox : IMessageBox
     }
 
 }
-

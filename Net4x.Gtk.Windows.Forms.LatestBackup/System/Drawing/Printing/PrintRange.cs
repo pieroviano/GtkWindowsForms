@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Drawing.Printing;
@@ -15,8 +15,8 @@ public enum PrintRange
 
     /// <summary>
     /// The pages between
-    /// <see cref="PrinterSettings.FromPage" /> and
-    /// <see cref="PrinterSettings.ToPage" /> are printed.
+    /// <see cref="T:System.Drawing.Printing.PrinterSettings.FromPage" /> and
+    /// <see cref="T:System.Drawing.Printing.PrinterSettings.ToPage" /> are printed.
     /// </summary>
     SomePages = 1,
 

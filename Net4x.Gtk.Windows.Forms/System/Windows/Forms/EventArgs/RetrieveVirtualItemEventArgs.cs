@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -11,9 +11,11 @@ namespace System.Windows.Forms;
 public class RetrieveVirtualItemEventArgs : EventArgs
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="RetrieveVirtualItemEventArgs"/> class.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.RetrieveVirtualItemEventArgs" /> class.
     /// </summary>
-    /// <param name="itemIndex">Index of the item.</param>
+    /// <param name="itemIndex">Index of the item.
+    /// </param>
     public RetrieveVirtualItemEventArgs(int itemIndex)
     {
         ItemIndex = itemIndex;
@@ -22,13 +24,15 @@ public class RetrieveVirtualItemEventArgs : EventArgs
     /// <summary>
     /// Gets or sets the item.
     /// </summary>
-    /// <value>The item.</value>
+    /// <value>The item.
+    /// </value>
     public ListViewItem Item { get; set; }
 
     /// <summary>
     /// Gets the index of the item.
     /// </summary>
-    /// <value>The index of the item.</value>
+    /// <value>The index of the item.
+    /// </value>
     public int ItemIndex { get; }
 
 }

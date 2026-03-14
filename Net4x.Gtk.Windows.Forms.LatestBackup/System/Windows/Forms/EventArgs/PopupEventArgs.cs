@@ -1,51 +1,50 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System.ComponentModel;
 using System.Drawing;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="!:System.Windows.Forms.ToolTip.Popup" /> event.
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public class PopupEventArgs : CancelEventArgs
 {
     /// <summary>
-    /// Provides data for the
-    /// <see cref="!:System.Windows.Forms.ToolTip.Popup" /> event.
+    /// Creates a new PopupEventArgs with the given parameters.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class PopupEventArgs : CancelEventArgs
+    public PopupEventArgs(IWin32Window associatedWindow, Control associatedControl, bool isBalloon, Size size)
     {
-        /// <summary>
-        /// Creates a new PopupEventArgs with the given parameters.
-        /// </summary>
-        public PopupEventArgs(IWin32Window associatedWindow, Control associatedControl, bool isBalloon, Size size)
-        {
-            AssociatedWindow = associatedWindow;
-            AssociatedControl = associatedControl;
-            ToolTipSize = size;
-            IsBalloon = isBalloon;
-        }
-
-        /// <summary>
-        /// The control for which the tooltip is being painted.
-        /// </summary>
-        public Control AssociatedControl { get; }
-
-        /// <summary>
-        /// The Associated Window for which the tooltip is being painted.
-        /// </summary>
-        public IWin32Window AssociatedWindow { get; }
-
-        /// <summary>
-        /// Whether the tooltip is Ballooned.
-        /// </summary>
-        public bool IsBalloon { get; }
-
-        /// <summary>
-        /// The rectangle outlining the area in which the painting should be done.
-        /// </summary>
-        public Size ToolTipSize { get; set; }
-
+        AssociatedWindow = associatedWindow;
+        AssociatedControl = associatedControl;
+        ToolTipSize = size;
+        IsBalloon = isBalloon;
     }
+
+    /// <summary>
+    /// The control for which the tooltip is being painted.
+    /// </summary>
+    public Control AssociatedControl { get; }
+
+    /// <summary>
+    /// The Associated Window for which the tooltip is being painted.
+    /// </summary>
+    public IWin32Window AssociatedWindow { get; }
+
+    /// <summary>
+    /// Whether the tooltip is Ballooned.
+    /// </summary>
+    public bool IsBalloon { get; }
+
+    /// <summary>
+    /// The rectangle outlining the area in which the painting should be done.
+    /// </summary>
+    public Size ToolTipSize { get; set; }
+
 }

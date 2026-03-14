@@ -1,5 +1,4 @@
-using Gtk;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -8,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Gtk;
 
 namespace System.Windows.Forms
 {
@@ -197,9 +197,8 @@ namespace System.Windows.Forms
         }
 
         /// <summary>
-        /// Exits the specified e.
+        /// Exits this instance.
         /// </summary>
-        /// <param name="e">The <see cref="CancelEventArgs"/> instance containing the event data.</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static void Exit(CancelEventArgs e)
         {
@@ -244,7 +243,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Initializes this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// </returns>
         public static Gtk.Application Init()
         {
             if (App == null)
@@ -357,12 +357,12 @@ namespace System.Windows.Forms
                     Gtk.Window.SetDefaultIconFromFile(iconpath);
 
                 Gtk.CssProvider css = new Gtk.CssProvider();
-                StringBuilder cssBuilder = new StringBuilder();
+                StringBuilder cssBuilder=new StringBuilder();
 
                 if (File.Exists(themesetuppath))
                 {
                     string[] setuptheme = File.ReadAllLines(themesetuppath, Text.Encoding.UTF8);
-                    Dictionary<string, string> nameValue = setuptheme.Where(w => w.Contains("=")).ToDictionary(k => k.Split('=')[0], v => v.Split('=')[1]);
+                    Dictionary<string,string> nameValue = setuptheme.Where(w=>w.Contains("=")).ToDictionary(k => k.Split('=')[0],v=>v.Split('=')[1]);
                     nameValue.TryGetValue("UseDefaultStyle", out string usedef);
                     if (usedef != "false")
                         cssBuilder.AppendLine(css_style);
@@ -468,7 +468,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Runs the specified main form.
         /// </summary>
-        /// <param name="mainForm">The main form.</param>
+        /// <param name="mainForm">The main form.
+        /// </param>
         public static void Run(Form mainForm)
         {
             mainForm.self.Destroyed += Control_Destroyed;
@@ -479,7 +480,11 @@ namespace System.Windows.Forms
         /// <summary>
         /// Sets the compatible text rendering default.
         /// </summary>
-        /// <param name="defaultValue">if set to <c>true</c> [default value].</param>
+        /// <param name="defaultValue">
+        /// if set to
+        /// <c>true
+        /// </c> [default value].
+        /// </param>
         public static void SetCompatibleTextRenderingDefault(bool defaultValue)
         {
 
@@ -488,8 +493,10 @@ namespace System.Windows.Forms
         /// <summary>
         /// Sets the high dpi mode.
         /// </summary>
-        /// <param name="highDpiMode">The high dpi mode.</param>
-        /// <returns></returns>
+        /// <param name="highDpiMode">The high dpi mode.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public static bool SetHighDpiMode(HighDpiMode highDpiMode)
         {
             return true;
@@ -519,10 +526,11 @@ namespace System.Windows.Forms
     public static class InitAppliction
     {
 
-        private static Gtk.Application app = Application.Init();
+        private static readonly Gtk.Application app = Application.Init();
 
         /// <summary>
-        /// Initializes the <see cref="InitAppliction"/> class.
+        /// Initializes the
+        /// <see cref="T:System.Windows.Forms.InitAppliction" /> class.
         /// </summary>
         static InitAppliction()
         {
@@ -531,7 +539,6 @@ namespace System.Windows.Forms
 
     }
 }
-
 /// <summary>
 /// ApplicationConfiguration is a static class that is used to configure the application. It is used to set the application properties and to configure the application. This class cannot be inherited.
 /// </summary>

@@ -1,365 +1,398 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// A drop-down list control that wraps a GTK combo box and provides WinForms-compatible API.
+/// Supports data binding via
+/// <see cref="T:System.Windows.Forms.ComboBox.DataSource" />, item collections and selection semantics.
+/// </summary>
+/// ComboBox ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+public partial class ComboBox
 {
     /// <summary>
-    /// ComboBox ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+    /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.ListControl" />
-    public partial class ComboBox
+    /// <seealso cref="T:System.Collections.IList" />
+    [ListBindable(false)]
+    public partial class ObjectCollection : IList, IComparer<ComboBox.ObjectCollection.Entry>
     {
+        private readonly List<Entry> _innerList = new List<Entry>();
+
+        private readonly ComboBox _owner;
+
         /// <summary>
-        /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Windows.Forms.ComboBox.ObjectCollection" /> class.
         /// </summary>
-        /// <seealso cref="System.Collections.IList" />
-        [ListBindable(false)]
-        public partial class ObjectCollection : IList, IComparer<ComboBox.ObjectCollection.Entry>
+        /// <param name="owner">The owner.
+        /// </param>
+        public ObjectCollection(ComboBox owner)
         {
-            private List<Entry> _innerList = new List<Entry>();
+            _owner = owner;
+        }
 
-            private readonly ComboBox _owner;
+        /// <summary>
+        /// Retrieves the number of items.
+        /// </summary>
+        public int Count => InnerList.Count;
 
-            /// <summary>
-            /// Initializes a new instance of the <see cref="ObjectCollection"/> class.
-            /// </summary>
-            /// <param name="owner">The owner.</param>
-            public ObjectCollection(ComboBox owner)
+        /// <summary>
+        /// Gets a value indicating whether the
+        /// <see cref="T:System.Collections.IList">
+        /// </see> is read-only.
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get
             {
-                _owner = owner;
+                return false;
             }
+        }
 
-            /// <summary>
-            /// Retrieves the number of items.
-            /// </summary>
-            public int Count => InnerList.Count;
-
-            /// <summary>
-            /// Gets a value indicating whether the <see cref="T:System.Collections.IList"></see> is read-only.
-            /// </summary>
-            public bool IsReadOnly
+        internal List<Entry> InnerList
+        {
+            get
             {
-                get
-                {
-                    return false;
-                }
+                return _innerList;
             }
+        }
 
-            internal List<Entry> InnerList
+        bool IList.IsFixedSize
+        {
+            get
             {
-                get
-                {
-                    return _innerList;
-                }
+                return false;
             }
+        }
 
-            bool IList.IsFixedSize
+        bool ICollection.IsSynchronized
+        {
+            get
             {
-                get
-                {
-                    return false;
-                }
+                return false;
             }
+        }
 
-            bool ICollection.IsSynchronized
+        object ICollection.SyncRoot
+        {
+            get
             {
-                get
-                {
-                    return false;
-                }
+                return this;
             }
+        }
 
-            object ICollection.SyncRoot
+        /// <summary>
+        /// Retrieves the item with the specified index.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public virtual object? this[int index]
+        {
+            get
             {
-                get
-                {
-                    return this;
-                }
+                return InnerList[index].Item;
             }
-
-            /// <summary>
-            /// Retrieves the item with the specified index.
-            /// </summary>
-            [Browsable(false)]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-            public virtual object? this[int index]
+            set
             {
-                get
-                {
-                    return InnerList[index].Item;
-                }
-                set
-                {
-                    SetItemInternal(index, value!);
-                }
+                SetItemInternal(index, value!);
             }
+        }
 
-            /// <summary>
-            /// Adds an item to the combo box. For an unsorted combo box, the item is
-            /// added to the end of the existing list of items. For a sorted combo box,
-            /// the item is inserted into the list according to its sorted position.
-            /// The item's toString() method is called to obtain the string that is
-            /// displayed in the combo box.
-            /// A SystemException occurs if there is insufficient space available to
-            /// store the new item.
-            /// </summary>
-            public int Add(object item)
+        /// <summary>
+        /// Adds an item to the combo box. For an unsorted combo box, the item is
+        /// added to the end of the existing list of items. For a sorted combo box,
+        /// the item is inserted into the list according to its sorted position.
+        /// The item's toString() method is called to obtain the string that is
+        /// displayed in the combo box.
+        /// A SystemException occurs if there is insufficient space available to
+        /// store the new item.
+        /// </summary>
+        public int Add(object item)
+        {
+            int index = AddInternal(item);
+            NativeAdd(-1, item.ToString(), item.ToString());
+
+            return index;
+        }
+
+        /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <param name="items">The items.
+        /// </param>
+        public void AddRange(params object[] items)
+        {
+            foreach (object item in items)
             {
-                int index = AddInternal(item);
-                NativeAdd(-1, item.ToString(), item.ToString());
-
-                return index;
-            }
-
-            /// <summary>
-            /// Adds the range.
-            /// </summary>
-            /// <param name="items">The items.</param>
-            public void AddRange(params object[] items)
-            {
-                foreach (object item in items)
-                {
-                    AddInternal(item);
-                    if (item is Entry entryItem)
-                        NativeAdd(-1, entryItem.Item?.ToString(), entryItem.Item?.ToString());
-                    else
-                        NativeAdd(-1, item?.ToString(), item?.ToString());
-                }
-            }
-
-            /// <summary>
-            /// Removes all items from the ComboBox.
-            /// </summary>
-            public void Clear()
-            {
-                ClearInternal();
-            }
-
-            /// <summary>
-            /// Determines whether this instance contains the object.
-            /// </summary>
-            /// <param name="value">The object to locate in the <see cref="T:System.Collections.IList"></see>.</param>
-            /// <returns>
-            /// true if the <see cref="T:System.Object"></see> is found in the <see cref="T:System.Collections.IList"></see>; otherwise, false.
-            /// </returns>
-            public bool Contains(object? value)
-            {
-                return IndexOf(value) != -1;
-            }
-
-            /// <summary>
-            /// Copies the ComboBox Items collection to a destination array.
-            /// </summary>
-            public void CopyTo(object[] destination, int arrayIndex)
-            {
-                int count = InnerList.Count;
-
-                for (int i = 0; i < count; i++)
-                {
-                    destination[i + arrayIndex] = InnerList[i].Item;
-                }
-            }
-
-            /// <summary>
-            /// Returns an enumerator for the ComboBox Items collection.
-            /// </summary>
-            public IEnumerator GetEnumerator() => new EntryEnumerator(InnerList);
-
-            /// <summary>
-            /// Determines the index of a specific item in the <see cref="T:System.Collections.IList"></see>.
-            /// </summary>
-            /// <param name="value">The object to locate in the <see cref="T:System.Collections.IList"></see>.</param>
-            /// <returns>
-            /// The index of <paramref name="value">value</paramref> if found in the list; otherwise, -1.
-            /// </returns>
-            public int IndexOf(object? value)
-            {
-                int virtualIndex = -1;
-
-                foreach (Entry entry in InnerList)
-                {
-                    virtualIndex++;
-                    if ((value is Entry itemEntry && entry == itemEntry) || entry.Item.Equals(value))
-                    {
-                        return virtualIndex;
-                    }
-                }
-
-                return -1;
-            }
-
-            /// <summary>
-            /// Adds an item to the combo box. For an unsorted combo box, the item is
-            /// added to the end of the existing list of items. For a sorted combo box,
-            /// the item is inserted into the list according to its sorted position.
-            /// The item's toString() method is called to obtain the string that is
-            /// displayed in the combo box.
-            /// A SystemException occurs if there is insufficient space available to
-            /// store the new item.
-            /// </summary>
-            public void Insert(int index, object? item)
-            {
-                item ??= "";
-                if (_owner._sorted)
-                {
-                    Add(item);
-                }
+                AddInternal(item);
+                if (item is Entry entryItem)
+                    NativeAdd(-1, entryItem.Item?.ToString(), entryItem.Item?.ToString());
                 else
-                {
-                    InnerList.Insert(index, new Entry(item));
-                    NativeAdd(index, item?.ToString(), item?.ToString());
-                }
+                    NativeAdd(-1, item?.ToString(), item?.ToString());
             }
+        }
 
-            /// <summary>
-            /// Removes the given item from the ComboBox, provided that it is
-            /// actually in the list.
-            /// </summary>
-            public void Remove(object? value)
+        /// <summary>
+        /// Removes all items from the ComboBox.
+        /// </summary>
+        public void Clear()
+        {
+            ClearInternal();
+        }
+
+        /// <summary>
+        /// Determines whether this instance contains the object.
+        /// </summary>
+        /// <param name="value">
+        /// The object to locate in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </param>
+        /// <returns>
+        /// true if the
+        /// <see cref="T:System.Object">
+        /// </see> is found in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>; otherwise, false.
+        /// </returns>
+        public bool Contains(object? value)
+        {
+            return IndexOf(value) != -1;
+        }
+
+        /// <summary>
+        /// Copies the ComboBox Items collection to a destination array.
+        /// </summary>
+        public void CopyTo(object[] destination, int arrayIndex)
+        {
+            int count = InnerList.Count;
+
+            for (int i = 0; i < count; i++)
             {
-                int index = IndexOf(value);
+                destination[i + arrayIndex] = InnerList[i].Item;
+            }
+        }
 
-                if (index != -1)
+        /// <summary>
+        /// Returns an enumerator for the ComboBox Items collection.
+        /// </summary>
+        public IEnumerator GetEnumerator() => new EntryEnumerator(InnerList);
+
+        /// <summary>
+        /// Determines the index of a specific item in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </summary>
+        /// <param name="value">
+        /// The object to locate in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </param>
+        /// <returns>
+        /// The index of
+        /// <paramref name="value">value
+        /// </paramref> if found in the list; otherwise, -1.
+        /// </returns>
+        public int IndexOf(object? value)
+        {
+            int virtualIndex = -1;
+
+            foreach (Entry entry in InnerList)
+            {
+                virtualIndex++;
+                if ((value is Entry itemEntry && entry == itemEntry) || entry.Item.Equals(value))
                 {
-                    RemoveAt(index);
+                    return virtualIndex;
                 }
             }
 
-            /// <summary>
-            /// Removes an item from the ComboBox at the given index.
-            /// </summary>
-            public void RemoveAt(int index)
+            return -1;
+        }
+
+        /// <summary>
+        /// Adds an item to the combo box. For an unsorted combo box, the item is
+        /// added to the end of the existing list of items. For a sorted combo box,
+        /// the item is inserted into the list according to its sorted position.
+        /// The item's toString() method is called to obtain the string that is
+        /// displayed in the combo box.
+        /// A SystemException occurs if there is insufficient space available to
+        /// store the new item.
+        /// </summary>
+        public void Insert(int index, object? item)
+        {
+            item ??= "";
+            if (_owner._sorted)
+            {
+                Add(item);
+            }
+            else
+            {
+                InnerList.Insert(index, new Entry(item));
+                NativeAdd(index, item?.ToString(), item?.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Removes the given item from the ComboBox, provided that it is
+        /// actually in the list.
+        /// </summary>
+        public void Remove(object? value)
+        {
+            int index = IndexOf(value);
+
+            if (index != -1)
+            {
+                RemoveAt(index);
+            }
+        }
+
+        /// <summary>
+        /// Removes an item from the ComboBox at the given index.
+        /// </summary>
+        public void RemoveAt(int index)
+        {
+            _owner.self.Remove(index);
+            InnerList.RemoveAt(index);
+            if (_owner.self.IsRealized == false)
+            {
+                if (index < _owner._selectedIndex)
+                {
+                    _owner._selectedIndex--;
+                }
+                else if (index == _owner._selectedIndex)
+                {
+                    _owner._selectedIndex = -1;
+                    _owner.Text = string.Empty;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds an item to the combo box. For an unsorted combo box, the item is
+        /// added to the end of the existing list of items. For a sorted combo box,
+        /// the item is inserted into the list according to its sorted position.
+        /// The item's toString() method is called to obtain the string that is
+        /// displayed in the combo box.
+        /// A SystemException occurs if there is insufficient space available to
+        /// store the new item.
+        /// </summary>
+        internal int Add(string value, string text, object item)
+        {
+            int index = AddInternal(item);
+            NativeAdd(-1, value, text);
+
+            return index;
+        }
+
+        internal void ClearInternal()
+        {
+            _owner.self.RemoveAll();
+            InnerList.Clear();
+            _owner.SelectedIndex = -1;
+        }
+
+        internal void SetItemInternal(int index, object value)
+        {
+            // If the native control has been created, and the display text of the new list item object
+            // is different to the current text in the native list item, recreate the native list item...
+            if (!_owner.IsHandleCreated)
+            {
+                return;
+            }
+
+            bool selected = (index == _owner.SelectedIndex);
+
+            if (string.Compare(_owner.GetItemText(value), _owner.NativeGetItemText(index), true, CultureInfo.CurrentCulture) != 0)
             {
                 _owner.self.Remove(index);
+                _owner.self.Insert(index, value?.ToString(), value?.ToString());
+
                 InnerList.RemoveAt(index);
-                if (_owner.self.IsRealized == false)
+                InnerList.Insert(index, new Entry(value));
+                if (selected)
                 {
-                    if (index < _owner._selectedIndex)
-                    {
-                        _owner._selectedIndex--;
-                    }
-                    else if (index == _owner._selectedIndex)
-                    {
-                        _owner._selectedIndex = -1;
-                        _owner.Text = string.Empty;
-                    }
+                    _owner.SelectedIndex = index;
+                    _owner.Text = value?.ToString();
                 }
             }
-
-            internal int Add(string value, string text, object item)
+            else
             {
-                int index = AddInternal(item);
-                NativeAdd(-1, value, text);
-
-                return index;
-            }
-
-            internal void ClearInternal()
-            {
-                _owner.self.RemoveAll();
-                InnerList.Clear();
-                _owner.SelectedIndex = -1;
-            }
-
-            internal void SetItemInternal(int index, object value)
-            {
-                // If the native control has been created, and the display text of the new list item object
-                // is different to the current text in the native list item, recreate the native list item...
-                if (!_owner.IsHandleCreated)
+                if (selected)
                 {
-                    return;
-                }
-
-                bool selected = (index == _owner.SelectedIndex);
-
-                if (string.Compare(_owner.GetItemText(value), _owner.NativeGetItemText(index), true, CultureInfo.CurrentCulture) != 0)
-                {
-                    _owner.self.Remove(index);
-                    _owner.self.Insert(index, value?.ToString(), value?.ToString());
-
-                    InnerList.RemoveAt(index);
-                    InnerList.Insert(index, new Entry(value));
-                    if (selected)
-                    {
-                        _owner.SelectedIndex = index;
-                        _owner.Text = value?.ToString();
-                    }
-                }
-                else
-                {
-                    if (selected)
-                    {
-                        _owner.self.SetStateFlags(Gtk.StateFlags.Selected, true);
-                    }
+                    _owner.self.SetStateFlags(Gtk.StateFlags.Selected, true);
                 }
             }
-
-            int IList.Add(object? item)
-            {
-                return Add(item!);
-            }
-
-            int IComparer<Entry>.Compare(Entry? entry1, Entry? entry2)
-            {
-                string? itemName1 = _owner.GetItemText(entry1.Item);
-                string? itemName2 = _owner.GetItemText(entry2.Item);
-
-                CompareInfo compInfo = Application.CurrentCulture.CompareInfo;
-
-                return compInfo.Compare(itemName1, itemName2, CompareOptions.StringSort);
-            }
-
-            void ICollection.CopyTo(Array destination, int index)
-            {
-
-                int count = InnerList.Count;
-
-                for (int i = 0; i < count; i++)
-                {
-                    destination.SetValue(InnerList[i], i + index);
-                }
-            }
-
-            private int AddInternal(object item)
-            {
-                item ??= "";
-                int index = -1;
-                if (!_owner._sorted)
-                {
-                    InnerList.Add(new Entry(item));
-                    index = InnerList.Count - 1;
-                }
-                else
-                {
-                    Entry entry = item is Entry entryItem ? entryItem : new Entry(item);
-                    index = InnerList.BinarySearch(index: 0, Count, entry, this);
-                    if (index < 0)
-                    {
-                        index = ~index; // getting the index of the first element that is larger than the search value
-                    }
-                    InnerList.Insert(index, entry);
-                }
-
-                return index;
-            }
-
-            private void NativeAdd(int index, string value, string text)
-            {
-                try
-                {
-                    _owner.NativeAdd(index, value, text);
-                }
-                catch
-                {
-                    InnerList.RemoveAt(index);
-                    throw;
-                }
-            }
-
         }
+
+        int IList.Add(object? item)
+        {
+            return Add(item!);
+        }
+
+        int IComparer<Entry>.Compare(Entry? entry1, Entry? entry2)
+        {
+            string? itemName1 = _owner.GetItemText(entry1.Item);
+            string? itemName2 = _owner.GetItemText(entry2.Item);
+
+            CompareInfo compInfo = Application.CurrentCulture.CompareInfo;
+
+            return compInfo.Compare(itemName1, itemName2, CompareOptions.StringSort);
+        }
+
+        void ICollection.CopyTo(Array destination, int index)
+        {
+
+            int count = InnerList.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                destination.SetValue(InnerList[i], i + index);
+            }
+        }
+
+        private int AddInternal(object item)
+        {
+            item ??= "";
+            int index = -1;
+            if (!_owner._sorted)
+            {
+                InnerList.Add(new Entry(item));
+                index = InnerList.Count - 1;
+            }
+            else
+            {
+                Entry entry = item is Entry entryItem ? entryItem : new Entry(item);
+                index = InnerList.BinarySearch(index: 0, Count, entry, this);
+                if (index < 0)
+                {
+                    index = ~index; // getting the index of the first element that is larger than the search value
+                }
+                InnerList.Insert(index, entry);
+            }
+
+            return index;
+        }
+
+        private void NativeAdd(int index, string value, string text)
+        {
+            try
+            {
+                _owner.NativeAdd(index, value, text);
+            }
+            catch
+            {
+                InnerList.RemoveAt(index);
+                throw;
+            }
+        }
+
     }
 }

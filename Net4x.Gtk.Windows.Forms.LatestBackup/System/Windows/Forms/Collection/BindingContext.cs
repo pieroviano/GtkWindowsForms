@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -20,11 +20,32 @@ public class BindingContext : ContextBoundObject
 
     private readonly Hashtable listManagers = new();
 
+    /// <summary>
+    /// Determines whether this instance contains the object.
+    /// </summary>
+    /// <param name="dataSource">The data source.
+    /// </param>
+    /// <param name="dataMember">The data member.
+    /// </param>
+    /// <returns>
+    /// <c>
+    /// true
+    /// </c> if [contains] [the specified data source]; otherwise,
+    /// <c>false
+    /// </c>.
+    /// </returns>
     public bool Contains(object? dataSource, string? dataMember)
     {
         return listManagers.ContainsKey(GetKey(dataSource, dataMember));
     }
 
+    /// <summary>
+    /// Updates the binding.
+    /// </summary>
+    /// <param name="newBindingContext">The new binding context.
+    /// </param>
+    /// <param name="binding">The binding.
+    /// </param>
     public static void UpdateBinding(BindingContext? newBindingContext, Binding binding)
     {
         var bindingManagerBase = binding.BindingManagerBase;
@@ -41,10 +62,7 @@ public class BindingContext : ContextBoundObject
             {
                 var bindingManagerBase1 = newBindingContext.EnsureListManager(bindToObject.DataSource,
                     bindToObject.BindingMemberInfo.BindingPath);
-                if (bindingManagerBase1 != null)
-                {
-                    bindingManagerBase1.Bindings.Add(binding);
-                }
+                bindingManagerBase1?.Bindings.Add(binding);
             }
         }
     }
@@ -85,12 +103,7 @@ public class BindingContext : ContextBoundObject
             var str = num == -1 ? "" : dataMember.Substring(0, num);
             var str1 = dataMember.Substring(num + 1);
             var bindingManagerBase = EnsureListManager(dataSource, str);
-            var propertyDescriptor = bindingManagerBase.GetItemProperties()?.Find(str1, true);
-            if (propertyDescriptor == null)
-            {
-                throw new ArgumentException("RelatedListManagerChild");
-            }
-
+            var propertyDescriptor = (bindingManagerBase.GetItemProperties()?.Find(str1, true)) ?? throw new ArgumentException("RelatedListManagerChild");
             if (!typeof(IList).IsAssignableFrom(propertyDescriptor.PropertyType))
             {
                 relatedCurrencyManager = new RelatedPropertyManager(bindingManagerBase, str1);

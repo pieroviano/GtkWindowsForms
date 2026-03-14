@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,68 +6,67 @@ using System.Globalization;
 using System.Security;
 using System.Threading;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+static internal class ClientUtils
 {
-    static internal class ClientUtils
+
+    /// <summary>
+    /// Imitates the backwards word selection logic of the native SHAutoComplete Ctrl+Backspace handler.
+    /// The selection will consist of any run of word characters and any run of non-word characters at the end of that word.
+    /// If the selection reaches the second character in the input, and the first character is non-word, it is also selected.
+    /// Here, word characters are equivalent to the "\w" regex class but with UnicodeCategory.ConnectorPunctuation excluded.
+    /// </summary>
+    public static int GetWordBoundaryStart(string text, int endIndex)
     {
-
-        /// <summary>
-        /// Imitates the backwards word selection logic of the native SHAutoComplete Ctrl+Backspace handler.
-        /// The selection will consist of any run of word characters and any run of non-word characters at the end of that word.
-        /// If the selection reaches the second character in the input, and the first character is non-word, it is also selected.
-        /// Here, word characters are equivalent to the "\w" regex class but with UnicodeCategory.ConnectorPunctuation excluded.
-        /// </summary>
-        public static int GetWordBoundaryStart(string text, int endIndex)
+        bool seenWord = false;
+        CharType lastSeen = CharType.None;
+        int index = endIndex - 1;
+        for (; index >= 0; index--)
         {
-            bool seenWord = false;
-            CharType lastSeen = CharType.None;
-            int index = endIndex - 1;
-            for (; index >= 0; index--)
+            char character = text[index];
+            if (char.IsSurrogate(character))
             {
-                char character = text[index];
-                if (char.IsSurrogate(character))
-                {
-                    break;
-                }
-
-                bool isWord = char.IsLetterOrDigit(character) ||
-                    CharUnicodeInfo.GetUnicodeCategory(character) == UnicodeCategory.NonSpacingMark;
-                if ((isWord && lastSeen == CharType.NonWord && seenWord) ||
-                    (!isWord && lastSeen == CharType.Word && index != 0))
-                {
-                    break;
-                }
-
-                seenWord |= isWord;
-                lastSeen = isWord ? CharType.Word : CharType.NonWord;
+                break;
             }
 
-            return index + 1;
-        }
-
-        public static bool IsCriticalException(Exception ex)
-            => ex is NullReferenceException
-                || ex is StackOverflowException
-                || ex is OutOfMemoryException
-                || ex is ThreadAbortException
-                || ex is IndexOutOfRangeException
-                || ex is AccessViolationException;
-
-        public static bool IsSecurityOrCriticalException(Exception ex)
-        {
-            if (ex is SecurityException)
+            bool isWord = char.IsLetterOrDigit(character) ||
+                CharUnicodeInfo.GetUnicodeCategory(character) == UnicodeCategory.NonSpacingMark;
+            if ((isWord && lastSeen == CharType.NonWord && seenWord) ||
+                (!isWord && lastSeen == CharType.Word && index != 0))
             {
-                return true;
+                break;
             }
 
-            return IsCriticalException(ex);
+            seenWord |= isWord;
+            lastSeen = isWord ? CharType.Word : CharType.NonWord;
         }
 
-        private enum CharType
+        return index + 1;
+    }
+
+    public static bool IsCriticalException(Exception ex)
+        => ex is NullReferenceException
+            || ex is StackOverflowException
+            || ex is OutOfMemoryException
+            || ex is ThreadAbortException
+            || ex is IndexOutOfRangeException
+            || ex is AccessViolationException;
+
+    public static bool IsSecurityOrCriticalException(Exception ex)
+    {
+        if (ex is SecurityException)
         {
-            None,
-            Word,
-            NonWord
+            return true;
         }
+
+        return IsCriticalException(ex);
+    }
+
+    private enum CharType
+    {
+        None,
+        Word,
+        NonWord
     }
 }

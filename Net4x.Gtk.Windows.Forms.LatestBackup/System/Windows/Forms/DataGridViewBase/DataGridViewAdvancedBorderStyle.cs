@@ -1,10 +1,12 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Windows.Forms;
 /// <summary>
 /// Contains border styles for the cells in a
-/// <see cref="T:System.Windows.Forms.DataGridView" /> control.
+/// <see cref="T:System.Windows.Forms.DataGridView">
+/// DataGridView
+/// </see> control.
 /// </summary>
 /// <filterpriority>
 /// 2
@@ -30,21 +32,29 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
 
     private DataGridViewAdvancedCellBorderStyle _top = DataGridViewAdvancedCellBorderStyle.None;
 
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridViewAdvancedBorderStyle" /> class.
+    /// </summary>
     public DataGridViewAdvancedBorderStyle()
-        : this(
-            null,
-            DataGridViewAdvancedCellBorderStyle.NotSet,
-            DataGridViewAdvancedCellBorderStyle.NotSet,
-            DataGridViewAdvancedCellBorderStyle.NotSet)
+            : this(
+                null,
+                DataGridViewAdvancedCellBorderStyle.NotSet,
+                DataGridViewAdvancedCellBorderStyle.NotSet,
+                DataGridViewAdvancedCellBorderStyle.NotSet)
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridViewAdvancedBorderStyle" /> class.
+    /// </summary>
     internal DataGridViewAdvancedBorderStyle(DataGridView owner)
-        : this(
-            owner,
-            DataGridViewAdvancedCellBorderStyle.NotSet,
-            DataGridViewAdvancedCellBorderStyle.NotSet,
-            DataGridViewAdvancedCellBorderStyle.NotSet)
+            : this(
+                owner,
+                DataGridViewAdvancedCellBorderStyle.NotSet,
+                DataGridViewAdvancedCellBorderStyle.NotSet,
+                DataGridViewAdvancedCellBorderStyle.NotSet)
     {
     }
 
@@ -64,6 +74,11 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         _banned3 = banned3;
     }
 
+    /// <summary>
+    /// Gets or sets all.
+    /// </summary>
+    /// <value>All.
+    /// </value>
     public DataGridViewAdvancedCellBorderStyle All
     {
         get
@@ -76,6 +91,11 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         }
     }
 
+    /// <summary>
+    /// Gets or sets the bottom.
+    /// </summary>
+    /// <value>The bottom.
+    /// </value>
     public DataGridViewAdvancedCellBorderStyle Bottom
     {
         get
@@ -93,6 +113,11 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         }
     }
 
+    /// <summary>
+    /// Gets or sets the left.
+    /// </summary>
+    /// <value>The left.
+    /// </value>
     public DataGridViewAdvancedCellBorderStyle Left
     {
         get
@@ -110,6 +135,11 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         }
     }
 
+    /// <summary>
+    /// Gets or sets the right.
+    /// </summary>
+    /// <value>The right.
+    /// </value>
     public DataGridViewAdvancedCellBorderStyle Right
     {
         get
@@ -127,6 +157,11 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         }
     }
 
+    /// <summary>
+    /// Gets or sets the top.
+    /// </summary>
+    /// <value>The top.
+    /// </value>
     public DataGridViewAdvancedCellBorderStyle Top
     {
         get
@@ -171,6 +206,22 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         }
     }
 
+    /// <summary>
+    /// Determines whether the specified
+    /// <see cref="T:System.Object" /> is equal to this instance.
+    /// </summary>
+    /// <param name="other">
+    /// The
+    /// <see cref="T:System.Object" /> to compare with this instance.
+    /// </param>
+    /// <returns>
+    /// <c>
+    /// true
+    /// </c> if the specified
+    /// <see cref="T:System.Object" /> is equal to this instance; otherwise,
+    /// <c>false
+    /// </c>.
+    /// </returns>
     public override bool Equals(object? other)
     {
         if (other is not DataGridViewAdvancedBorderStyle dgvabsOther)
@@ -185,8 +236,21 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
             dgvabsOther._right == _right;
     }
 
+    /// <summary>
+    /// Returns a hash code for this instance.
+    /// </summary>
+    /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+    /// </returns>
     public override int GetHashCode() => HashCode.Combine(_top, _left, _bottom, _right);
 
+    /// <summary>
+    /// Returns a
+    /// <see cref="T:System.String" /> that represents this instance.
+    /// </summary>
+    /// <returns>
+    /// A
+    /// <see cref="T:System.String" /> that represents this instance.
+    /// </returns>
     public override string ToString()
     {
         return $"DataGridViewAdvancedBorderStyle {{ All={All}, Left={Left}, Right={Right}, Top={Top}, Bottom={Bottom} }}";

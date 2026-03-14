@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PrepareProjects": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}

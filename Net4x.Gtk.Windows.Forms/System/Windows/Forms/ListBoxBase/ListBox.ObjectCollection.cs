@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -6,491 +6,615 @@ using System.ComponentModel;
 using System.Globalization;
 using static System.Windows.Forms.ItemArray;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Class ListBox.
+/// Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+public partial class ListBox
 {
-    public partial class ListBox
+    /// <summary>
+    /// A collection that stores objects.
+    /// </summary>
+    [ListBindable(false)]
+    public class ObjectCollection : IList
     {
         /// <summary>
-        /// A collection that stores objects.
+        /// The items
         /// </summary>
-        [ListBindable(false)]
-        public class ObjectCollection : IList
+        private ItemArray _items = null!;
+
+        /// <summary>
+        /// The owner
+        /// </summary>
+        private readonly ListBox _owner;
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Windows.Forms.ListBox.ObjectCollection" /> class.
+        /// </summary>
+        /// <param name="owner">The owner.
+        /// </param>
+        public ObjectCollection(ListBox owner)
         {
-            /// <summary>
-            /// The items
-            /// </summary>
-            private ItemArray _items = null!;
+            _owner = owner;
+        }
 
-            /// <summary>
-            /// The owner
-            /// </summary>
-            private readonly ListBox _owner;
+        /// <summary>
+        /// Initializes a new instance of ListBox.ObjectCollection based on another ListBox.ObjectCollection.
+        /// </summary>
+        /// <param name="owner">The owner.
+        /// </param>
+        /// <param name="value">The value.
+        /// </param>
+        public ObjectCollection(ListBox owner, ObjectCollection value)
+            : this(owner)
+        {
+            AddRange(value);
+        }
 
-            /// <summary>
-            /// Initializes a new instance of the <see cref="ObjectCollection"/> class.
-            /// </summary>
-            /// <param name="owner">The owner.</param>
-            public ObjectCollection(ListBox owner)
+        /// <summary>
+        /// Initializes a new instance of ListBox.ObjectCollection containing any array of objects.
+        /// </summary>
+        /// <param name="owner">The owner.
+        /// </param>
+        /// <param name="value">The value.
+        /// </param>
+        public ObjectCollection(ListBox owner, object[] value)
+            : this(owner)
+        {
+            AddRange(value);
+        }
+
+        /// <summary>
+        /// Retrieves the number of items.
+        /// </summary>
+        /// <value>The count.
+        /// </value>
+        public int Count => InnerArray.Count;
+
+        /// <summary>
+        /// Gets a value indicating whether the
+        /// <see cref="T:System.Collections.IList">
+        /// </see> is read-only.
+        /// </summary>
+        /// <value>
+        /// <c>
+        /// true
+        /// </c> if this instance is read only; otherwise,
+        /// <c>false
+        /// </c>.
+        /// </value>
+        public bool IsReadOnly => false;
+
+        /// <summary>
+        /// Internal access to the actual data store.
+        /// </summary>
+        /// <value>The inner array.
+        /// </value>
+        internal ItemArray InnerArray
+        {
+            get
             {
-                _owner = owner;
-            }
+                _items ??= new ItemArray(_owner);
 
-            /// <summary>
-            /// Initializes a new instance of ListBox.ObjectCollection based on another ListBox.ObjectCollection.
-            /// </summary>
-            /// <param name="owner">The owner.</param>
-            /// <param name="value">The value.</param>
-            public ObjectCollection(ListBox owner, ObjectCollection value)
-                : this(owner)
+                return _items;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the
+        /// <see cref="T:System.Collections.IList">
+        /// </see> has a fixed size.
+        /// </summary>
+        /// <value>
+        /// <c>
+        /// true
+        /// </c> if this instance is fixed size; otherwise,
+        /// <c>false
+        /// </c>.
+        /// </value>
+        bool IList.IsFixedSize => false;
+
+        /// <summary>
+        /// Gets a value indicating whether access to the
+        /// <see cref="T:System.Collections.ICollection">
+        /// </see> is synchronized (thread safe).
+        /// </summary>
+        /// <value>
+        /// <c>
+        /// true
+        /// </c> if this instance is synchronized; otherwise,
+        /// <c>false
+        /// </c>.
+        /// </value>
+        bool ICollection.IsSynchronized => false;
+
+        /// <summary>
+        /// Gets an object that can be used to synchronize access to the
+        /// <see cref="T:System.Collections.ICollection">
+        /// </see>.
+        /// </summary>
+        /// <value>The synchronize root.
+        /// </value>
+        object ICollection.SyncRoot => this;
+
+        /// <summary>
+        /// Retrieves the item with the specified index.
+        /// </summary>
+        /// <param name="index">The index.
+        /// </param>
+        /// <returns>System.Object.
+        /// </returns>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public virtual object this[int index]
+        {
+            get
             {
-                AddRange(value);
+                return InnerArray.GetItem(index);
             }
-
-            /// <summary>
-            /// Initializes a new instance of ListBox.ObjectCollection containing any array of objects.
-            /// </summary>
-            /// <param name="owner">The owner.</param>
-            /// <param name="value">The value.</param>
-            public ObjectCollection(ListBox owner, object[] value)
-                : this(owner)
-            {
-                AddRange(value);
-            }
-
-            /// <summary>
-            /// Retrieves the number of items.
-            /// </summary>
-            /// <value>The count.</value>
-            public int Count => InnerArray.Count;
-
-            /// <summary>
-            /// Gets a value indicating whether the <see cref="T:System.Collections.IList"></see> is read-only.
-            /// </summary>
-            /// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
-            public bool IsReadOnly => false;
-
-            /// <summary>
-            /// Internal access to the actual data store.
-            /// </summary>
-            /// <value>The inner array.</value>
-            internal ItemArray InnerArray
-            {
-                get
-                {
-                    _items ??= new ItemArray(_owner);
-
-                    return _items;
-                }
-            }
-
-            /// <summary>
-            /// Gets a value indicating whether the <see cref="T:System.Collections.IList"></see> has a fixed size.
-            /// </summary>
-            /// <value><c>true</c> if this instance is fixed size; otherwise, <c>false</c>.</value>
-            bool IList.IsFixedSize => false;
-
-            /// <summary>
-            /// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"></see> is synchronized (thread safe).
-            /// </summary>
-            /// <value><c>true</c> if this instance is synchronized; otherwise, <c>false</c>.</value>
-            bool ICollection.IsSynchronized => false;
-
-            /// <summary>
-            /// Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"></see>.
-            /// </summary>
-            /// <value>The synchronize root.</value>
-            object ICollection.SyncRoot => this;
-
-            /// <summary>
-            /// Retrieves the item with the specified index.
-            /// </summary>
-            /// <param name="index">The index.</param>
-            /// <returns>System.Object.</returns>
-            [Browsable(false)]
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-            public virtual object this[int index]
-            {
-                get
-                {
-                    return InnerArray.GetItem(index);
-                }
-                set
-                {
-                    _owner.CheckNoDataSource();
-                    SetItemInternal(index, value);
-                }
-            }
-
-            /// <summary>
-            /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
-            /// </summary>
-            /// <param name="index">The index.</param>
-            /// <returns>System.Nullable.</returns>
-            object? IList.this[int index]
-            {
-                get => this[index];
-                set => this[index] = value!;
-            }
-
-            /// <summary>
-            /// Adds an item to the List box. For an unsorted List box, the item is
-            /// added to the end of the existing list of items. For a sorted List box,
-            /// the item is inserted into the list according to its sorted position.
-            /// The item's toString() method is called to obtain the string that is
-            /// displayed in the List box.
-            /// A SystemException occurs if there is insufficient space available to
-            /// store the new item.
-            /// </summary>
-            /// <param name="item">The item.</param>
-            /// <returns>System.Int32.</returns>
-            public int Add(object item)
+            set
             {
                 _owner.CheckNoDataSource();
-                int index = AddInternal(item);
-
-                return index;
+                SetItemInternal(index, value);
             }
+        }
 
-            /// <summary>
-            /// Adds the range.
-            /// </summary>
-            /// <param name="value">The value.</param>
-            public void AddRange(ObjectCollection value)
+        /// <summary>
+        /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
+        /// </summary>
+        /// <param name="index">The index.
+        /// </param>
+        /// <returns>System.Nullable.
+        /// </returns>
+        object? IList.this[int index]
+        {
+            get => this[index];
+            set => this[index] = value!;
+        }
+
+        /// <summary>
+        /// Adds an item to the List box. For an unsorted List box, the item is
+        /// added to the end of the existing list of items. For a sorted List box,
+        /// the item is inserted into the list according to its sorted position.
+        /// The item's toString() method is called to obtain the string that is
+        /// displayed in the List box.
+        /// A SystemException occurs if there is insufficient space available to
+        /// store the new item.
+        /// </summary>
+        /// <param name="item">The item.
+        /// </param>
+        /// <returns>System.Int32.
+        /// </returns>
+        public int Add(object item)
+        {
+            _owner.CheckNoDataSource();
+            int index = AddInternal(item);
+
+            return index;
+        }
+
+        /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <param name="value">The value.
+        /// </param>
+        public void AddRange(ObjectCollection value)
+        {
+            _owner.CheckNoDataSource();
+            AddRangeInternal(value);
+        }
+
+        /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <param name="items">The items.
+        /// </param>
+        public void AddRange(params object[] items)
+        {
+            _owner.CheckNoDataSource();
+            AddRangeInternal(items);
+        }
+
+        /// <summary>
+        /// Removes all items from the ListBox.
+        /// </summary>
+        public virtual void Clear()
+        {
+            _owner.CheckNoDataSource();
+            ClearInternal();
+        }
+
+        /// <summary>
+        /// Determines whether the
+        /// <see cref="T:System.Collections.IList">
+        /// </see> contains a specific value.
+        /// </summary>
+        /// <param name="value">
+        /// The object to locate in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </param>
+        /// <returns>
+        /// true if the
+        /// <see cref="T:System.Object">
+        /// </see> is found in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>; otherwise, false.
+        /// </returns>
+        public bool Contains(object value)
+        {
+            return IndexOf(value) != -1;
+        }
+
+        /// <summary>
+        /// Copies the ListBox Items collection to a destination array.
+        /// </summary>
+        /// <param name="destination">The destination.
+        /// </param>
+        /// <param name="arrayIndex">Index of the array.
+        /// </param>
+        public void CopyTo(object[] destination, int arrayIndex)
+        {
+            int count = InnerArray.Count;
+            for (int i = 0; i < count; i++)
             {
-                _owner.CheckNoDataSource();
-                AddRangeInternal(value);
+                destination[i + arrayIndex] = InnerArray.GetItem(i);
             }
+        }
 
-            /// <summary>
-            /// Adds the range.
-            /// </summary>
-            /// <param name="items">The items.</param>
-            public void AddRange(params object[] items)
+        /// <summary>
+        /// Returns an enumerator for the ListBox Items collection.
+        /// </summary>
+        /// <returns>
+        /// An
+        /// <see cref="T:System.Collections.IEnumerator">
+        /// </see> object that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator GetEnumerator() => InnerArray.GetEnumerator(0);
+
+        /// <summary>
+        /// Determines the index of a specific item in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </summary>
+        /// <param name="value">
+        /// The object to locate in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </param>
+        /// <returns>
+        /// The index of
+        /// <paramref name="value">value
+        /// </paramref> if found in the list; otherwise, -1.
+        /// </returns>
+        public int IndexOf(object value)
+        {
+            return InnerArray.IndexOf(value);
+        }
+
+        /// <summary>
+        /// Adds an item to the List box. For an unsorted List box, the item is
+        /// added to the end of the existing list of items. For a sorted List box,
+        /// the item is inserted into the list according to its sorted position.
+        /// The item's toString() method is called to obtain the string that is
+        /// displayed in the List box.
+        /// A SystemException occurs if there is insufficient space available to
+        /// store the new item.
+        /// </summary>
+        /// <param name="index">The index.
+        /// </param>
+        /// <param name="item">The item.
+        /// </param>
+        public void Insert(int index, object item)
+        {
+            _owner.CheckNoDataSource();
+            // If the List box is sorted, then nust treat this like an add
+            // because we are going to twiddle the index anyway.
+            if (_owner._sorted)
             {
-                _owner.CheckNoDataSource();
-                AddRangeInternal(items);
+                Add(item);
             }
-
-            /// <summary>
-            /// Removes all items from the ListBox.
-            /// </summary>
-            public virtual void Clear()
+            else
             {
-                _owner.CheckNoDataSource();
-                ClearInternal();
-            }
-
-            /// <summary>
-            /// Determines whether the <see cref="T:System.Collections.IList"></see> contains a specific value.
-            /// </summary>
-            /// <param name="value">The object to locate in the <see cref="T:System.Collections.IList"></see>.</param>
-            /// <returns>true if the <see cref="T:System.Object"></see> is found in the <see cref="T:System.Collections.IList"></see>; otherwise, false.</returns>
-            public bool Contains(object value)
-            {
-                return IndexOf(value) != -1;
-            }
-
-            /// <summary>
-            /// Copies the ListBox Items collection to a destination array.
-            /// </summary>
-            /// <param name="destination">The destination.</param>
-            /// <param name="arrayIndex">Index of the array.</param>
-            public void CopyTo(object[] destination, int arrayIndex)
-            {
-                int count = InnerArray.Count;
-                for (int i = 0; i < count; i++)
+                InnerArray.Insert(index, item);
+                if (_owner.IsHandleCreated)
                 {
-                    destination[i + arrayIndex] = InnerArray.GetItem(i);
-                }
-            }
+                    bool successful = false;
 
-            /// <summary>
-            /// Returns an enumerator for the ListBox Items collection.
-            /// </summary>
-            /// <returns>An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate through the collection.</returns>
-            public IEnumerator GetEnumerator() => InnerArray.GetEnumerator(0);
-
-            /// <summary>
-            /// Determines the index of a specific item in the <see cref="T:System.Collections.IList"></see>.
-            /// </summary>
-            /// <param name="value">The object to locate in the <see cref="T:System.Collections.IList"></see>.</param>
-            /// <returns>The index of <paramref name="value">value</paramref> if found in the list; otherwise, -1.</returns>
-            public int IndexOf(object value)
-            {
-                return InnerArray.IndexOf(value);
-            }
-
-            /// <summary>
-            /// Adds an item to the List box. For an unsorted List box, the item is
-            /// added to the end of the existing list of items. For a sorted List box,
-            /// the item is inserted into the list according to its sorted position.
-            /// The item's toString() method is called to obtain the string that is
-            /// displayed in the List box.
-            /// A SystemException occurs if there is insufficient space available to
-            /// store the new item.
-            /// </summary>
-            /// <param name="index">The index.</param>
-            /// <param name="item">The item.</param>
-            public void Insert(int index, object item)
-            {
-                _owner.CheckNoDataSource();
-                // If the List box is sorted, then nust treat this like an add
-                // because we are going to twiddle the index anyway.
-                if (_owner._sorted)
-                {
-                    Add(item);
-                }
-                else
-                {
-                    InnerArray.Insert(index, item);
-                    if (_owner.IsHandleCreated)
+                    try
                     {
-                        bool successful = false;
-
-                        try
+                        _owner.NativeInsert(index, item);
+                        successful = true;
+                    }
+                    finally
+                    {
+                        if (!successful)
                         {
-                            _owner.NativeInsert(index, item);
-                            successful = true;
-                        }
-                        finally
-                        {
-                            if (!successful)
-                            {
-                                InnerArray.RemoveAt(index);
-                            }
+                            InnerArray.RemoveAt(index);
                         }
                     }
                 }
             }
+        }
 
-            /// <summary>
-            /// Removes the given item from the ListBox, provided that it is
-            /// actually in the list.
-            /// </summary>
-            /// <param name="value">The object to remove from the <see cref="T:System.Collections.IList"></see>.</param>
-            public void Remove(object value)
+        /// <summary>
+        /// Removes the given item from the ListBox, provided that it is
+        /// actually in the list.
+        /// </summary>
+        /// <param name="value">
+        /// The object to remove from the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </param>
+        public void Remove(object value)
+        {
+            _owner.CheckNoDataSource();
+
+            int index = InnerArray.IndexOf(value);
+            if (index != -1)
             {
-                _owner.CheckNoDataSource();
+                RemoveAt(index);
+            }
+        }
 
-                int index = InnerArray.IndexOf(value);
-                if (index != -1)
+        /// <summary>
+        /// Removes an item from the ListBox at the given index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the item to remove.
+        /// </param>
+        public void RemoveAt(int index)
+        {
+            _owner.CheckNoDataSource();
+            // Update InnerArray before calling NativeRemoveAt to ensure that when
+            // SelectedIndexChanged is raised (by NativeRemoveAt), InnerArray's state matches wrapped LB state.
+            InnerArray.RemoveAt(index);
+
+            if (_owner.IsHandleCreated)
+            {
+                _owner.NativeRemoveAt(index);
+            }
+        }
+
+        /// <summary>
+        /// Adds the range internal.
+        /// </summary>
+        /// <param name="items">The items.
+        /// </param>
+        internal void AddRangeInternal(ICollection items)
+        {
+            _owner.BeginUpdate();
+            try
+            {
+                foreach (object item in items)
                 {
-                    RemoveAt(index);
+                    AddInternal(item);
                 }
             }
-
-            /// <summary>
-            /// Removes an item from the ListBox at the given index.
-            /// </summary>
-            /// <param name="index">The zero-based index of the item to remove.</param>
-            public void RemoveAt(int index)
+            finally
             {
-                _owner.CheckNoDataSource();
-                // Update InnerArray before calling NativeRemoveAt to ensure that when
-                // SelectedIndexChanged is raised (by NativeRemoveAt), InnerArray's state matches wrapped LB state.
-                InnerArray.RemoveAt(index);
+                _owner.EndUpdate();
+            }
+        }
 
-                if (_owner.IsHandleCreated)
+        /// <summary>
+        /// Removes all items from the ListBox.  Bypasses the data source check.
+        /// </summary>
+        internal void ClearInternal()
+        {
+            // update the width.. to reset Scrollbars..
+            // Clear the selection state.
+            if (_owner.IsHandleCreated)
+            {
+                _owner.NativeClear();
+            }
+            InnerArray.Clear();
+        }
+
+        /// <summary>
+        /// Indexes the of identifier.
+        /// </summary>
+        /// <param name="value">The value.
+        /// </param>
+        /// <returns>System.Int32.
+        /// </returns>
+        internal int IndexOfIdentifier(object value)
+        {
+            return InnerArray.IndexOf(value);
+        }
+
+        /// <summary>
+        /// Sets the item internal.
+        /// </summary>
+        /// <param name="index">The index.
+        /// </param>
+        /// <param name="value">The value.
+        /// </param>
+        internal void SetItemInternal(int index, object value)
+        {
+            InnerArray.SetItem(index, value);
+
+            // If the native control has been created, and the display text of the new list item object
+            // is different to the current text in the native list item, recreate the native list item...
+            if (_owner.IsHandleCreated)
+            {
+                bool selected = (_owner.SelectedIndex == index);
+                if (string.Compare(_owner.GetItemText(value), _owner.NativeGetItemText(index), true, CultureInfo.CurrentCulture) != 0)
                 {
                     _owner.NativeRemoveAt(index);
-                }
-            }
-
-            /// <summary>
-            /// Adds the range internal.
-            /// </summary>
-            /// <param name="items">The items.</param>
-            internal void AddRangeInternal(ICollection items)
-            {
-                _owner.BeginUpdate();
-                try
-                {
-                    foreach (object item in items)
+                    _owner.SelectedItems.SetSelected(index, false);
+                    _owner.NativeInsert(index, value);
+                    if (selected)
                     {
-                        AddInternal(item);
+                        _owner.SelectedIndex = index;
                     }
-                }
-                finally
-                {
-                    _owner.EndUpdate();
-                }
-            }
-
-            /// <summary>
-            /// Removes all items from the ListBox.  Bypasses the data source check.
-            /// </summary>
-            internal void ClearInternal()
-            {
-                // update the width.. to reset Scrollbars..
-                // Clear the selection state.
-                if (_owner.IsHandleCreated)
-                {
-                    _owner.NativeClear();
-                }
-                InnerArray.Clear();
-            }
-
-            /// <summary>
-            /// Indexes the of identifier.
-            /// </summary>
-            /// <param name="value">The value.</param>
-            /// <returns>System.Int32.</returns>
-            internal int IndexOfIdentifier(object value)
-            {
-                return InnerArray.IndexOf(value);
-            }
-
-            /// <summary>
-            /// Sets the item internal.
-            /// </summary>
-            /// <param name="index">The index.</param>
-            /// <param name="value">The value.</param>
-            internal void SetItemInternal(int index, object value)
-            {
-                InnerArray.SetItem(index, value);
-
-                // If the native control has been created, and the display text of the new list item object
-                // is different to the current text in the native list item, recreate the native list item...
-                if (_owner.IsHandleCreated)
-                {
-                    bool selected = (_owner.SelectedIndex == index);
-                    if (string.Compare(_owner.GetItemText(value), _owner.NativeGetItemText(index), true, CultureInfo.CurrentCulture) != 0)
-                    {
-                        _owner.NativeRemoveAt(index);
-                        _owner.SelectedItems.SetSelected(index, false);
-                        _owner.NativeInsert(index, value);
-                        if (selected)
-                        {
-                            _owner.SelectedIndex = index;
-                        }
-                    }
-                    else
-                    {
-                        // FOR COMPATIBILITY REASONS
-                        if (selected)
-                        {
-                            _owner.OnSelectedIndexChanged(EventArgs.Empty); // will fire selectedvaluechanged
-
-                        }
-                    }
-                }
-            }
-
-            /// <summary>
-            /// Adds the specified item.
-            /// </summary>
-            /// <param name="item">The item.</param>
-            /// <returns>System.Int32.</returns>
-            int IList.Add(object? item) => Add(item!);
-
-            /// <summary>
-            /// Determines whether the <see cref="T:System.Collections.IList"></see> contains a specific value.
-            /// </summary>
-            /// <param name="value">The object to locate in the <see cref="T:System.Collections.IList"></see>.</param>
-            /// <returns>true if the <see cref="T:System.Object"></see> is found in the <see cref="T:System.Collections.IList"></see>; otherwise, false.</returns>
-            bool IList.Contains(object? value) => Contains(value!);
-
-            /// <summary>
-            /// Copies to.
-            /// </summary>
-            /// <param name="destination">The destination.</param>
-            /// <param name="index">The index.</param>
-            void ICollection.CopyTo(Array destination, int index)
-            {
-                int count = InnerArray.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    destination.SetValue(InnerArray.GetItem(i), i + index);
-                }
-            }
-
-            /// <summary>
-            /// Determines the index of a specific item in the <see cref="T:System.Collections.IList"></see>.
-            /// </summary>
-            /// <param name="value">The object to locate in the <see cref="T:System.Collections.IList"></see>.</param>
-            /// <returns>The index of <paramref name="value">value</paramref> if found in the list; otherwise, -1.</returns>
-            int IList.IndexOf(object? value) => IndexOf(value!);
-
-            /// <summary>
-            /// Inserts the specified index.
-            /// </summary>
-            /// <param name="index">The index.</param>
-            /// <param name="item">The item.</param>
-            void IList.Insert(int index, object? item) => Insert(index, item!);
-
-            /// <summary>
-            /// Removes the first occurrence of a specific object from the <see cref="T:System.Collections.IList"></see>.
-            /// </summary>
-            /// <param name="value">The object to remove from the <see cref="T:System.Collections.IList"></see>.</param>
-            void IList.Remove(object? value) => Remove(value!);
-
-            /// <summary>
-            /// Adds the internal.
-            /// </summary>
-            /// <param name="item">The item.</param>
-            /// <returns>System.Int32.</returns>
-            private int AddInternal(object item)
-            {
-                item ??= "";
-                int index = -1;
-                if (!_owner._sorted)
-                {
-                    InnerArray.Add(item);
                 }
                 else
                 {
-                    Entry entry = GetEntry(item);
-                    if (Count > 0)
+                    // FOR COMPATIBILITY REASONS
+                    if (selected)
                     {
-                        index = InnerArray.BinarySearch(entry);
-                        if (index < 0)
-                        {
-                            // getting the index of the first element that is larger than the search value
-                            // this index will be used for insert
-                            index = ~index;
-                        }
-                    }
-                    else
-                    {
-                        index = 0;
-                    }
+                        _owner.OnSelectedIndexChanged(EventArgs.Empty); // will fire selectedvaluechanged
 
-                    InnerArray.InsertEntry(index, entry);
+                    }
                 }
+            }
+        }
 
-                bool successful = false;
+        /// <summary>
+        /// Adds the specified item.
+        /// </summary>
+        /// <param name="item">The item.
+        /// </param>
+        /// <returns>System.Int32.
+        /// </returns>
+        int IList.Add(object? item) => Add(item!);
 
-                try
+        /// <summary>
+        /// Determines whether the
+        /// <see cref="T:System.Collections.IList">
+        /// </see> contains a specific value.
+        /// </summary>
+        /// <param name="value">
+        /// The object to locate in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </param>
+        /// <returns>
+        /// true if the
+        /// <see cref="T:System.Object">
+        /// </see> is found in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>; otherwise, false.
+        /// </returns>
+        bool IList.Contains(object? value) => Contains(value!);
+
+        /// <summary>
+        /// Copies to.
+        /// </summary>
+        /// <param name="destination">The destination.
+        /// </param>
+        /// <param name="index">The index.
+        /// </param>
+        void ICollection.CopyTo(Array destination, int index)
+        {
+            int count = InnerArray.Count;
+            for (int i = 0; i < count; i++)
+            {
+                destination.SetValue(InnerArray.GetItem(i), i + index);
+            }
+        }
+
+        /// <summary>
+        /// Determines the index of a specific item in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </summary>
+        /// <param name="value">
+        /// The object to locate in the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </param>
+        /// <returns>
+        /// The index of
+        /// <paramref name="value">value
+        /// </paramref> if found in the list; otherwise, -1.
+        /// </returns>
+        int IList.IndexOf(object? value) => IndexOf(value!);
+
+        /// <summary>
+        /// Inserts the specified index.
+        /// </summary>
+        /// <param name="index">The index.
+        /// </param>
+        /// <param name="item">The item.
+        /// </param>
+        void IList.Insert(int index, object? item) => Insert(index, item!);
+
+        /// <summary>
+        /// Removes the first occurrence of a specific object from the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </summary>
+        /// <param name="value">
+        /// The object to remove from the
+        /// <see cref="T:System.Collections.IList">
+        /// </see>.
+        /// </param>
+        void IList.Remove(object? value) => Remove(value!);
+
+        /// <summary>
+        /// Adds the internal.
+        /// </summary>
+        /// <param name="item">The item.
+        /// </param>
+        /// <returns>System.Int32.
+        /// </returns>
+        private int AddInternal(object item)
+        {
+            item ??= "";
+            int index = -1;
+            if (!_owner._sorted)
+            {
+                InnerArray.Add(item);
+            }
+            else
+            {
+                Entry entry = GetEntry(item);
+                if (Count > 0)
                 {
-                    if (_owner._sorted)
+                    index = InnerArray.BinarySearch(entry);
+                    if (index < 0)
                     {
-                        if (_owner.IsHandleCreated)
-                        {
-                            _owner.NativeInsert(index, item);
-                        }
+                        // getting the index of the first element that is larger than the search value
+                        // this index will be used for insert
+                        index = ~index;
                     }
-                    else
-                    {
-                        index = Count - 1;
-                        if (_owner.IsHandleCreated)
-                        {
-                            _owner.NativeAdd(item);
-                        }
-                    }
-
-                    successful = true;
                 }
-                finally
+                else
                 {
-                    if (!successful)
-                    {
-                        InnerArray.Remove(item);
-                    }
+                    index = 0;
                 }
 
-                return index;
+                InnerArray.InsertEntry(index, entry);
             }
 
+            bool successful = false;
+
+            try
+            {
+                if (_owner._sorted)
+                {
+                    if (_owner.IsHandleCreated)
+                    {
+                        _owner.NativeInsert(index, item);
+                    }
+                }
+                else
+                {
+                    index = Count - 1;
+                    if (_owner.IsHandleCreated)
+                    {
+                        _owner.NativeAdd(item);
+                    }
+                }
+
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    InnerArray.Remove(item);
+                }
+            }
+
+            return index;
         }
+
     }
 }

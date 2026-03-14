@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -26,15 +26,19 @@ internal class ListBindingHelper
     /// <summary>
     /// Returns an object, typically a list, from the evaluation of a specified data source and optional data member.
     /// </summary>
-    /// <returns>An
+    /// <returns>
+    /// An
     /// <see cref="T:System.Object" /> representing the underlying list if it was found; otherwise,
     /// <paramref name="dataSource" />.
     /// </returns>
-    /// <param name="dataSource">The data source from which to find the list.
+    /// <param name="dataSource">
+    /// The data source from which to find the list.
     /// </param>
-    /// <param name="dataMember">The name of the data source property that contains the list. This can be null.
+    /// <param name="dataMember">
+    /// The name of the data source property that contains the list. This can be null.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">The specified data member name did not match any of the properties found for the data source.
+    /// <exception cref="T:System.ArgumentException">
+    /// The specified data member name did not match any of the properties found for the data source.
     /// </exception>
     public static object? GetList(object? dataSource, string? dataMember)
     {
@@ -44,11 +48,7 @@ internal class ListBindingHelper
         {
             return dataSource;
         }
-        var propertyDescriptor = GetListItemProperties(dataSource)?.Find(dataMember, true);
-        if (propertyDescriptor == null)
-        {
-            throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
-        }
+        var propertyDescriptor = (GetListItemProperties(dataSource)?.Find(dataMember, true)) ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
         if (!(dataSource is ICurrencyManagerProvider))
         {
             obj = !(dataSource is IEnumerable) ? dataSource : GetFirstItemByEnumerable(dataSource as IEnumerable);
@@ -66,6 +66,23 @@ internal class ListBindingHelper
         return propertyDescriptor.GetValue(obj);
     }
 
+    /// <summary>
+    /// Returns an object, typically a list, from the evaluation of a specified data source and optional data member.
+    /// </summary>
+    /// <returns>
+    /// An
+    /// <see cref="T:System.Object" /> representing the underlying list if it was found; otherwise,
+    /// <paramref name="dataSource" />.
+    /// </returns>
+    /// <param name="dataSource">
+    /// The data source from which to find the list.
+    /// </param>
+    /// <param name="dataMember">
+    /// The name of the data source property that contains the list. This can be null.
+    /// </param>
+    /// <exception cref="T:System.ArgumentException">
+    /// The specified data member name did not match any of the properties found for the data source.
+    /// </exception>
     public static object? GetList(object? list)
     {
         if (!(list is IListSource))
@@ -76,6 +93,28 @@ internal class ListBindingHelper
         return (list as IListSource)?.GetList();
     }
 
+    /// <summary>
+    /// Returns the
+    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> that describes the properties of an item type contained in the specified data member of a data source. Uses the specified
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array to indicate which properties to examine.
+    /// </summary>
+    /// <returns>
+    /// The
+    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> describing the properties of an item type contained in a collection property of the specified data source.
+    /// </returns>
+    /// <param name="dataSource">
+    /// The data source to be examined for property information.
+    /// </param>
+    /// <param name="dataMember">
+    /// The optional data member to be examined for property information. This can be null.
+    /// </param>
+    /// <param name="listAccessors">
+    /// The
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array describing which properties of the data member to examine. This can be null.
+    /// </param>
+    /// <exception cref="T:System.ArgumentException">
+    /// The specified data member could not be found in the specified data source.
+    /// </exception>
     public static PropertyDescriptorCollection? GetListItemProperties(object? list)
     {
         PropertyDescriptorCollection? itemProperties;
@@ -108,17 +147,22 @@ internal class ListBindingHelper
     /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> that describes the properties of an item type contained in the specified data member of a data source. Uses the specified
     /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array to indicate which properties to examine.
     /// </summary>
-    /// <returns>The
+    /// <returns>
+    /// The
     /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> describing the properties of an item type contained in a collection property of the specified data source.
     /// </returns>
-    /// <param name="dataSource">The data source to be examined for property information.
+    /// <param name="dataSource">
+    /// The data source to be examined for property information.
     /// </param>
-    /// <param name="dataMember">The optional data member to be examined for property information. This can be null.
+    /// <param name="dataMember">
+    /// The optional data member to be examined for property information. This can be null.
     /// </param>
-    /// <param name="listAccessors">The
+    /// <param name="listAccessors">
+    /// The
     /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array describing which properties of the data member to examine. This can be null.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">The specified data member could not be found in the specified data source.
+    /// <exception cref="T:System.ArgumentException">
+    /// The specified data member could not be found in the specified data source.
     /// </exception>
     public static PropertyDescriptorCollection? GetListItemProperties(object? dataSource, string? dataMember, PropertyDescriptor[]? listAccessors)
     {
@@ -126,13 +170,9 @@ internal class ListBindingHelper
         if (!string.IsNullOrEmpty(dataMember))
         {
             var propertyDescriptor = GetListItemProperties(dataSource)?.Find(dataMember, true);
-            if (propertyDescriptor == null)
-            {
-                throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
-            }
             var num = listAccessors == null ? 1 : listAccessors.Length + 1;
             var propertyDescriptorArray = new PropertyDescriptor[num];
-            propertyDescriptorArray[0] = propertyDescriptor;
+            propertyDescriptorArray[0] = propertyDescriptor ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
             for (var i = 1; i < num; i++)
             {
                 if (listAccessors != null)
@@ -146,6 +186,28 @@ internal class ListBindingHelper
         return GetListItemProperties(dataSource, listAccessors);
     }
 
+    /// <summary>
+    /// Returns the
+    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> that describes the properties of an item type contained in the specified data member of a data source. Uses the specified
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array to indicate which properties to examine.
+    /// </summary>
+    /// <returns>
+    /// The
+    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> describing the properties of an item type contained in a collection property of the specified data source.
+    /// </returns>
+    /// <param name="dataSource">
+    /// The data source to be examined for property information.
+    /// </param>
+    /// <param name="dataMember">
+    /// The optional data member to be examined for property information. This can be null.
+    /// </param>
+    /// <param name="listAccessors">
+    /// The
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array describing which properties of the data member to examine. This can be null.
+    /// </param>
+    /// <exception cref="T:System.ArgumentException">
+    /// The specified data member could not be found in the specified data source.
+    /// </exception>
     public static PropertyDescriptorCollection? GetListItemProperties(object? list, PropertyDescriptor?[]? listAccessors)
     {
         PropertyDescriptorCollection? listItemProperties;
@@ -176,14 +238,17 @@ internal class ListBindingHelper
     /// <summary>
     /// Returns the data type of the items in the specified data source.
     /// </summary>
-    /// <returns>For complex data binding, the
+    /// <returns>
+    /// For complex data binding, the
     /// <see cref="T:System.Type" /> of the items represented by the
     /// <paramref name="dataMember" /> in the data source; otherwise, the
     /// <see cref="T:System.Type" /> of the item in the list itself.
     /// </returns>
-    /// <param name="dataSource">The data source to examine for items.
+    /// <param name="dataSource">
+    /// The data source to examine for items.
     /// </param>
-    /// <param name="dataMember">The optional name of the property on the data source that is to be used as the data member. This can be null.
+    /// <param name="dataMember">
+    /// The optional name of the property on the data source that is to be used as the data member. This can be null.
     /// </param>
     public static Type? GetListItemType(object? dataSource, string? dataMember)
     {
@@ -209,6 +274,21 @@ internal class ListBindingHelper
         return GetListItemType(propertyDescriptor.PropertyType);
     }
 
+    /// <summary>
+    /// Returns the data type of the items in the specified data source.
+    /// </summary>
+    /// <returns>
+    /// For complex data binding, the
+    /// <see cref="T:System.Type" /> of the items represented by the
+    /// <paramref name="dataMember" /> in the data source; otherwise, the
+    /// <see cref="T:System.Type" /> of the item in the list itself.
+    /// </returns>
+    /// <param name="dataSource">
+    /// The data source to examine for items.
+    /// </param>
+    /// <param name="dataMember">
+    /// The optional name of the property on the data source that is to be used as the data member. This can be null.
+    /// </param>
     public static Type? GetListItemType(object? list)
     {
         if (list == null)
@@ -247,12 +327,15 @@ internal class ListBindingHelper
     /// Returns the name of an underlying list, given a data source and optional
     /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array.
     /// </summary>
-    /// <returns>The name of the list in the data source, as described by
+    /// <returns>
+    /// The name of the list in the data source, as described by
     /// <paramref name="listAccessors" />, orthe name of the data source type.
     /// </returns>
-    /// <param name="list">The data source to examine for the list name.
+    /// <param name="list">
+    /// The data source to examine for the list name.
     /// </param>
-    /// <param name="listAccessors">An array of
+    /// <param name="listAccessors">
+    /// An array of
     /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> objects to find in the data source. This can be null.
     /// </param>
     public static string? GetListName(object? list, PropertyDescriptor[]? listAccessors)
@@ -438,7 +521,7 @@ internal class ListBindingHelper
 
     private static PropertyDescriptorCollection? GetListItemPropertiesByInstance(object? target, PropertyDescriptor?[]? listAccessors, int startIndex)
     {
-        PropertyDescriptorCollection? properties = null;
+        PropertyDescriptorCollection? properties=null;
         if (listAccessors == null || listAccessors.Length <= startIndex)
         {
             properties = TypeDescriptor.GetProperties(target, BrowsableAttributeList);
@@ -531,7 +614,7 @@ internal class ListBindingHelper
         {
             return null;
         }
-        var properties = type?.GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? [];
+        var properties = type?.GetProperties(BindingFlags.Instance | BindingFlags.Public)??[];
         for (var i = 0; i < properties.Length; i++)
         {
             if (properties[i].GetIndexParameters().Length != 0 && properties[i].PropertyType != typeof(object))
@@ -557,7 +640,7 @@ internal class ListBindingHelper
         {
             return true;
         }
-        var interfaces = type?.GetInterfaces() ?? [];
+        var interfaces = type?.GetInterfaces()?? [];
         for (var i = 0; i < interfaces.Length; i++)
         {
             var type1 = interfaces[i];

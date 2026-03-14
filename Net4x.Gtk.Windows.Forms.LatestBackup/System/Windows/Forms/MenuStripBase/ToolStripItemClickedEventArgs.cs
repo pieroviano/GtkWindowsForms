@@ -1,23 +1,29 @@
-using System;
+﻿using System;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="!:System.Windows.Forms.ToolStrip.ItemClicked" /> event.
+/// </summary>
+public class ToolStripItemClickedEventArgs : EventArgs
 {
     /// <summary>
-    /// Provides data for the
-    /// <see cref="!:System.Windows.Forms.ToolStrip.ItemClicked" /> event.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.ToolStripItemClickedEventArgs" /> class.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class ToolStripItemClickedEventArgs : EventArgs
+    /// <param name="clickedItem">The clicked item.
+    /// </param>
+    public ToolStripItemClickedEventArgs(ToolStripItem clickedItem)
     {
-
-        public ToolStripItemClickedEventArgs(ToolStripItem clickedItem)
-        {
-            this.ClickedItem = clickedItem;
-        }
-
-        public ToolStripItem ClickedItem { get; }
-
+        this.ClickedItem = clickedItem;
     }
+
+    /// <summary>
+    /// Gets the clicked item.
+    /// </summary>
+    /// <value>The clicked item.
+    /// </value>
+    public ToolStripItem ClickedItem { get; }
+
 }

@@ -1,4 +1,4 @@
-namespace System.Drawing.Imaging;
+﻿namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Defines a map for converting colors. Several methods of the
@@ -24,7 +24,8 @@ public sealed class ColorMap
     /// Gets or sets the new
     /// <see cref="T:System.Drawing.Color" /> structure to which to convert.
     /// </summary>
-    /// <returns>The new
+    /// <returns>
+    /// The new
     /// <see cref="T:System.Drawing.Color" /> structure to which to convert.
     /// </returns>
     public Color NewColor
@@ -43,7 +44,8 @@ public sealed class ColorMap
     /// Gets or sets the existing
     /// <see cref="T:System.Drawing.Color" /> structure to be converted.
     /// </summary>
-    /// <returns>The existing
+    /// <returns>
+    /// The existing
     /// <see cref="T:System.Drawing.Color" /> structure to be converted.
     /// </returns>
     public Color OldColor

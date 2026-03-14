@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Windows.Forms;
@@ -78,7 +78,8 @@ public class CreateParams
     /// Converts to string.
     /// </summary>
     /// <returns>
-    /// A <see cref="System.String" /> that represents this instance.
+    /// A
+    /// <see cref="T:System.String" /> that represents this instance.
     /// </returns>
     public override string ToString()
     {

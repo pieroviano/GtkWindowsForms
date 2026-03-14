@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// Specifies a value indicating whether the text appears from right to left, such as when using Hebrew or Arabic fonts.

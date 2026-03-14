@@ -1,23 +1,23 @@
-using System.Drawing;
+﻿using System.Drawing;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Represents a row header of a
+/// <see cref="T:System.Windows.Forms.DataGridView" /> control.
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public class DataGridViewRowHeaderCell //: DataGridViewHeaderCell
 {
     /// <summary>
-    /// Represents a row header of a
-    /// <see cref="T:System.Windows.Forms.DataGridView" /> control.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridViewRowHeaderCell" /> class.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class DataGridViewRowHeaderCell //: DataGridViewHeaderCell
+    public DataGridViewRowHeaderCell()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DataGridViewRowHeaderCell"/> class.
-        /// </summary>
-        public DataGridViewRowHeaderCell()
-        {
-
-        }
 
     }
+
 }

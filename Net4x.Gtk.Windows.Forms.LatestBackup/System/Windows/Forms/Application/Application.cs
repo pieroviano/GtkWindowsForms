@@ -1,5 +1,4 @@
-using Gtk;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -8,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Gtk;
 
 namespace System.Windows.Forms
 {
@@ -27,8 +27,20 @@ namespace System.Windows.Forms
             Init();
         }
 
+        /// <summary>
+        /// Gets the application.
+        /// </summary>
+        /// <value>
+        /// The application.
+        /// </value>
         public static Gtk.Application App { get; private set; }
 
+        /// <summary>
+        /// Gets the common application data path.
+        /// </summary>
+        /// <value>
+        /// The common application data path.
+        /// </value>
         public static string CommonAppDataPath
         {
             get
@@ -37,6 +49,12 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current culture.
+        /// </summary>
+        /// <value>
+        /// The current culture.
+        /// </value>
         public static CultureInfo CurrentCulture
         {
             get
@@ -49,6 +67,12 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current input language.
+        /// </summary>
+        /// <value>
+        /// The current input language.
+        /// </value>
         public static InputLanguage CurrentInputLanguage
         {
             get
@@ -61,6 +85,12 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the executable path.
+        /// </summary>
+        /// <value>
+        /// The executable path.
+        /// </value>
         public static string ExecutablePath
         {
             get
@@ -73,6 +103,12 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the local user application data path.
+        /// </summary>
+        /// <value>
+        /// The local user application data path.
+        /// </value>
         public static string LocalUserAppDataPath
         {
             get
@@ -81,6 +117,12 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the open forms.
+        /// </summary>
+        /// <value>
+        /// The open forms.
+        /// </value>
         public static FormCollection OpenForms
         {
             get
@@ -95,8 +137,20 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets the startup path.
+        /// </summary>
+        /// <value>
+        /// The startup path.
+        /// </value>
         public static string StartupPath { get { return System.IO.Directory.GetCurrentDirectory(); } }
 
+        /// <summary>
+        /// Gets the user application data path.
+        /// </summary>
+        /// <value>
+        /// The user application data path.
+        /// </value>
         public static string UserAppDataPath
         {
             get
@@ -117,22 +171,34 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Does the events.
+        /// </summary>
         public static void DoEvents()
         {
             while (Gtk.Application.EventsPending())
                 Gtk.Application.RunIteration(false);
         }
 
+        /// <summary>
+        /// Enables the visual styles.
+        /// </summary>
         public static void EnableVisualStyles()
         {
 
         }
 
+        /// <summary>
+        /// Exits this instance.
+        /// </summary>
         public static void Exit()
         {
             ExitThread();
         }
 
+        /// <summary>
+        /// Exits this instance.
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static void Exit(CancelEventArgs e)
         {
@@ -158,6 +224,9 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Exits the thread.
+        /// </summary>
         public static void ExitThread()
         {
             lock (internalSyncObject)
@@ -171,6 +240,11 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        /// <returns>
+        /// </returns>
         public static Gtk.Application Init()
         {
             if (App == null)
@@ -283,12 +357,12 @@ namespace System.Windows.Forms
                     Gtk.Window.SetDefaultIconFromFile(iconpath);
 
                 Gtk.CssProvider css = new Gtk.CssProvider();
-                StringBuilder cssBuilder = new StringBuilder();
+                StringBuilder cssBuilder=new StringBuilder();
 
                 if (File.Exists(themesetuppath))
                 {
                     string[] setuptheme = File.ReadAllLines(themesetuppath, Text.Encoding.UTF8);
-                    Dictionary<string, string> nameValue = setuptheme.Where(w => w.Contains("=")).ToDictionary(k => k.Split('=')[0], v => v.Split('=')[1]);
+                    Dictionary<string,string> nameValue = setuptheme.Where(w=>w.Contains("=")).ToDictionary(k => k.Split('=')[0],v=>v.Split('=')[1]);
                     nameValue.TryGetValue("UseDefaultStyle", out string usedef);
                     if (usedef != "false")
                         cssBuilder.AppendLine(css_style);
@@ -391,6 +465,11 @@ namespace System.Windows.Forms
             return App;
         }
 
+        /// <summary>
+        /// Runs the specified main form.
+        /// </summary>
+        /// <param name="mainForm">The main form.
+        /// </param>
         public static void Run(Form mainForm)
         {
             mainForm.self.Destroyed += Control_Destroyed;
@@ -398,11 +477,26 @@ namespace System.Windows.Forms
             Gtk.Application.Run();
         }
 
+        /// <summary>
+        /// Sets the compatible text rendering default.
+        /// </summary>
+        /// <param name="defaultValue">
+        /// if set to
+        /// <c>true
+        /// </c> [default value].
+        /// </param>
         public static void SetCompatibleTextRenderingDefault(bool defaultValue)
         {
 
         }
 
+        /// <summary>
+        /// Sets the high dpi mode.
+        /// </summary>
+        /// <param name="highDpiMode">The high dpi mode.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public static bool SetHighDpiMode(HighDpiMode highDpiMode)
         {
             return true;
@@ -426,11 +520,18 @@ namespace System.Windows.Forms
 
     }
 
+    /// <summary>
+    /// InitAppliction is a static class that is used to initialize the application. It is used to set the application properties and to initialize the application. This class cannot be inherited.
+    /// </summary>
     public static class InitAppliction
     {
 
-        private static Gtk.Application app = Application.Init();
+        private static readonly Gtk.Application app = Application.Init();
 
+        /// <summary>
+        /// Initializes the
+        /// <see cref="T:System.Windows.Forms.InitAppliction" /> class.
+        /// </summary>
         static InitAppliction()
         {
 
@@ -438,8 +539,14 @@ namespace System.Windows.Forms
 
     }
 }
+/// <summary>
+/// ApplicationConfiguration is a static class that is used to configure the application. It is used to set the application properties and to configure the application. This class cannot be inherited.
+/// </summary>
 public sealed class ApplicationConfiguration
 {
+    /// <summary>
+    /// Initializes this instance.
+    /// </summary>
     public static void Initialize()
     {
         global::System.Windows.Forms.Application.EnableVisualStyles();

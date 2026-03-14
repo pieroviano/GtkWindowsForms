@@ -1,4 +1,4 @@
-namespace System.Drawing.Text;
+﻿namespace System.Drawing.Text;
 
 /// <summary>
 /// Specifies the type of display for hot-key prefixes that relate to text.

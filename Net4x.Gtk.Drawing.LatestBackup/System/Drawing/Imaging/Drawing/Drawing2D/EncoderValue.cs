@@ -1,4 +1,4 @@
-namespace System.Drawing.Imaging;
+﻿namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Used to specify the parameter value passed to a JPEG or TIFF image encoder when using the

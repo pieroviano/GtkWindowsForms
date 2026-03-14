@@ -1,354 +1,394 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-using Gtk;
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Runtime.InteropServices;
+using Gtk;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Represents the raw preview part of print previewing from a Windows Forms application, without any dialog boxes or buttons. Most
+/// <see cref="T:System.Windows.Forms.PrintPreviewControl"/> objects are found on
+/// <see cref="T:System.Windows.Forms.PrintPreviewDialog"/>
+/// objects, but they do not have to be.
+/// </summary>
+[DefaultProperty(nameof(Document))]
+public partial class PrintPreviewControl : Control
 {
     /// <summary>
-    /// Represents the raw preview part of print previewing from a Windows Forms application, without any dialog boxes or buttons. Most
-    /// <see cref="T:System.Windows.Forms.PrintPreviewControl" /> objects are found on
-    /// <see cref="T:System.Windows.Forms.PrintPreviewDialog" />
-    /// objects, but they do not have to be.
+    /// The self
     /// </summary>
-    [DefaultProperty(nameof(Document))]
-    public partial class PrintPreviewControl : Control
+    public readonly ViewportBase self = new ViewportBase();
+
+    /// <summary>
+    /// The automatic zoom
+    /// </summary>
+    private bool _autoZoom = true;
+
+    /// <summary>
+    /// The columns
+    /// </summary>
+    private int _columns = 1;
+
+    /// <summary>
+    /// The document
+    /// </summary>
+    private PrintDocument _document;
+
+    /// <summary>
+    /// The rows
+    /// </summary>
+    private int _rows = 1;
+
+    /// <summary>
+    /// The start page
+    /// </summary>
+    private int _startPage; // 0-based
+
+    /// <summary>
+    /// The zoom
+    /// </summary>
+    private double _zoom = DefaultZoom;
+
+    /// <summary>
+    /// The border
+    /// </summary>
+     // Spacing per page, in mm
+    private const int Border = 10;
+
+    /// <summary>
+    /// The default zoom
+    /// </summary>
+    private const double DefaultZoom = .3;
+
+    /// <summary>
+    /// The paper
+    /// </summary>
+    private readonly ViewportBase paper;
+
+    /// <summary>
+    /// The pxscale
+    /// </summary>
+    private const double pxscale = 0.75;
+
+    /// <summary>
+    /// The s start page changed event
+    /// </summary>
+    private static readonly object s_startPageChangedEvent = new object ();
+
+    /// <summary>
+    /// The scroll
+    /// </summary>
+    private readonly Gtk.ScrolledWindow scroll;
+
+    /// <summary>
+    /// The scroll small change
+    /// </summary>
+    private const int ScrollSmallChange = 5;
+
+    /// <summary>
+    /// Occurs when [start page changed].
+    /// </summary>
+    public event EventHandler StartPageChanged { add => Events.AddHandler(s_startPageChangedEvent, value); remove => Events.RemoveHandler(s_startPageChangedEvent, value); }
+
+    /// <summary>
+    /// Occurs when [text changed].
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public new event EventHandler TextChanged { add => base.TextChanged += value; remove => base.TextChanged -= value; }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.PrintPreviewControl"/> class.
+    /// </summary>
+    public PrintPreviewControl()
     {
-        /// <summary>
-        /// The self
-        /// </summary>
-        public readonly ViewportBase self = new ViewportBase();
-
-        /// <summary>
-        /// The automatic zoom
-        /// </summary>
-        private bool _autoZoom = true;
-
-        /// <summary>
-        /// The columns
-        /// </summary>
-        private int _columns = 1;
-
-        /// <summary>
-        /// The document
-        /// </summary>
-        private PrintDocument _document;
-
-        /// <summary>
-        /// The rows
-        /// </summary>
-        private int _rows = 1;
-
-        /// <summary>
-        /// The start page
-        /// </summary>
-        private int _startPage; // 0-based
-
-        /// <summary>
-        /// The zoom
-        /// </summary>
-        private double _zoom = DefaultZoom;
-
-        // Spacing per page, in mm
-        /// <summary>
-        /// The border
-        /// </summary>
-        private const int Border = 10;
-
-        /// <summary>
-        /// The default zoom
-        /// </summary>
-        private const double DefaultZoom = .3;
-
-        /// <summary>
-        /// The paper
-        /// </summary>
-        private ViewportBase paper;
-
-        /// <summary>
-        /// The pxscale
-        /// </summary>
-        private const double pxscale = 0.75;
-
-        /// <summary>
-        /// The s start page changed event
-        /// </summary>
-        private static readonly object s_startPageChangedEvent = new object();
-
-        /// <summary>
-        /// The scroll
-        /// </summary>
-        private Gtk.ScrolledWindow scroll;
-
-        /// <summary>
-        /// The scroll small change
-        /// </summary>
-        private const int ScrollSmallChange = 5;
-
-        /// <summary>
-        /// Occurs when [start page changed].
-        /// </summary>
-        public event EventHandler StartPageChanged { add => Events.AddHandler(s_startPageChangedEvent, value); remove => Events.RemoveHandler(s_startPageChangedEvent, value); }
-
-        /// <summary>
-        /// Occurs when [text changed].
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler TextChanged { add => base.TextChanged += value; remove => base.TextChanged -= value; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PrintPreviewControl"/> class.
-        /// </summary>
-        public PrintPreviewControl()
+        Size = new Size(600, 500);
+        self.StyleContext.AddClass("PrintPreviewBack");
+        paper = new ViewportBase
         {
-            Size = new Size(600, 500);
-            self.StyleContext.AddClass("PrintPreviewBack");
-            paper = new ViewportBase();
-            paper.Valign = Align.Center;
-            paper.Halign = Align.Center;
-            paper.StyleContext.AddClass("Paper");
-            paper.Drawn += paper_Drawn;
-            scroll = new Gtk.ScrolledWindow();
-            scroll.Child = paper;
-            self.Add(scroll);
-            self.Realized += Self_Realized;
-            ResetBackColor();
-            ResetForeColor();
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [automatic zoom].
-        /// </summary>
-        /// <value><c>true</c> if [automatic zoom]; otherwise, <c>false</c>.</value>
-        [DefaultValue(true)]
-        public bool AutoZoom
+            Valign = Align.Center,
+            Halign = Align.Center
+        };
+        paper.StyleContext.AddClass("Paper");
+        paper.Drawn += paper_Drawn;
+        scroll = new Gtk.ScrolledWindow
         {
-            get => _autoZoom;
-            set
+            Child = paper
+        };
+        self.Add(scroll);
+        self.Realized += Self_Realized;
+        ResetBackColor();
+        ResetForeColor();
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether [automatic zoom].
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if [automatic zoom]; otherwise,
+    /// <c>false
+    /// </c>.
+    /// </value>
+    [DefaultValue(true)]
+    public bool AutoZoom
+    {
+        get => _autoZoom;
+        set
+        {
+            if (_autoZoom != value)
             {
-                if (_autoZoom != value)
-                {
-                    _autoZoom = value;
-                }
+                _autoZoom = value;
             }
         }
+    }
 
-        /// <summary>
-        /// Gets or sets the columns.
-        /// </summary>
-        /// <value>The columns.</value>
-        [DefaultValue(1)]
-        public int Columns
+    /// <summary>
+    /// Gets or sets the columns.
+    /// </summary>
+    /// <value>The columns.
+    /// </value>
+    [DefaultValue(1)]
+    public int Columns
+    {
+        get => _columns;
+        set
         {
-            get => _columns;
-            set
+            _columns = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the document.
+    /// </summary>
+    /// <value>The document.
+    /// </value>
+    [DefaultValue(null)]
+    public PrintDocument Document
+    {
+        get => _document;
+        set
+        {
+            _document = value;
+            paper.WidthRequest = (int)Math.Round(_document.PageSetup.GetPaperWidth(Unit.Points) / pxscale, 0);
+            paper.HeightRequest = (int)Math.Round(_document.PageSetup.GetPaperHeight(Unit.Points) / pxscale, 0);
+            self.WidthRequest = paper.WidthRequest + 100;
+            self.HeightRequest = paper.HeightRequest + 100;
+            InvalidatePreview();
+        }
+    }
+
+    /// <summary>
+    /// Gets the GTK control.
+    /// </summary>
+    /// <value>The GTK control.
+    /// </value>
+    public override object GtkControl => self;
+
+    /// <summary>
+    /// Gets or sets the right to left.
+    /// </summary>
+    /// <value>The right to left.
+    /// </value>
+    [Localizable(true)]
+    [AmbientValue(RightToLeft.Inherit)]
+    public override RightToLeft RightToLeft
+    {
+        get => base.RightToLeft;
+        set
+        {
+            base.RightToLeft = value;
+            InvalidatePreview();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the rows.
+    /// </summary>
+    /// <value>The rows.
+    /// </value>
+    [DefaultValue(1)]
+    public int Rows
+    {
+        get => _rows;
+        set
+        {
+            _rows = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the start page.
+    /// </summary>
+    /// <value>The start page.
+    /// </value>
+    [DefaultValue(0)]
+    public int StartPage
+    {
+        get
+        {
+            int value = _startPage;
+            value = Math.Max(value, 0);
+
+            return value;
+        }
+
+        set
+        {
+            int oldValue = StartPage;
+            _startPage = value;
+            if (oldValue != _startPage)
             {
-                _columns = value;
+                OnStartPageChanged(EventArgs.Empty);
             }
         }
+    }
 
-        /// <summary>
-        /// Gets or sets the document.
-        /// </summary>
-        /// <value>The document.</value>
-        [DefaultValue(null)]
-        public PrintDocument Document
+    /// <summary>
+    /// Gets or sets a value indicating whether [tab stop].
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if tab stop; otherwise,
+    /// <c>false
+    /// </c>.
+    /// </value>
+    [DefaultValue(false)]
+    public new bool TabStop { get => base.TabStop; set => base.TabStop = value; }
+
+    /// <summary>
+    /// Gets or sets the text.
+    /// </summary>
+    /// <value>The text.
+    /// </value>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Bindable(false)]
+    public override string Text { get => base.Text; set => base.Text = value; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether [use anti alias].
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if [use anti alias]; otherwise,
+    /// <c>false
+    /// </c>.
+    /// </value>
+    [DefaultValue(false)]
+    public bool UseAntiAlias { get; set; }
+
+    /// <summary>
+    /// Gets or sets the zoom.
+    /// </summary>
+    /// <value>The zoom.
+    /// </value>
+    [DefaultValue(DefaultZoom)]
+    public double Zoom
+    {
+        get => _zoom;
+        set
         {
-            get => _document;
-            set
-            {
-                _document = value;
-                paper.WidthRequest = (int)Math.Round(_document.PageSetup.GetPaperWidth(Unit.Points) / pxscale, 0);
-                paper.HeightRequest = (int)Math.Round(_document.PageSetup.GetPaperHeight(Unit.Points) / pxscale, 0);
-                self.WidthRequest = paper.WidthRequest + 100;
-                self.HeightRequest = paper.HeightRequest + 100;
-                InvalidatePreview();
-            }
+            _autoZoom = false;
+            _zoom = value;
         }
+    }
 
-        /// <summary>
-        /// Gets the GTK control.
-        /// </summary>
-        /// <value>The GTK control.</value>
-        public override object GtkControl => self;
+    /// <summary>
+    /// Invalidates the preview.
+    /// </summary>
+    public void InvalidatePreview()
+    {
+        paper.QueueDraw();
+    }
 
-        /// <summary>
-        /// Gets or sets the right to left.
-        /// </summary>
-        /// <value>The right to left.</value>
-        [Localizable(true)]
-        [AmbientValue(RightToLeft.Inherit)]
-        public override RightToLeft RightToLeft
+    /// <summary>
+    /// Resets the BackColor property to its default value.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override void ResetBackColor() => BackColor = SystemColors.AppWorkspace;
+
+    /// <summary>
+    /// Resets the ForeColor property to its default value.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override void ResetForeColor() => ForeColor = Color.White;
+
+    /// <summary>
+    /// Handles the
+    /// <see cref = "StartPageChanged"/> event.
+    /// </summary>
+    /// <param name = "e">
+    /// The
+    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// </param>
+    protected virtual void OnStartPageChanged(EventArgs e)
+    {
+        ((EventHandler)Events[s_startPageChangedEvent])?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Papers the drawn.
+    /// </summary>
+    /// <param name = "o">The o.
+    /// </param>
+    /// <param name = "args">The arguments.
+    /// </param>
+    private void paper_Drawn(object o, Gtk.DrawnArgs args)
+    {
+        if (_document != null)
         {
-            get => base.RightToLeft;
-            set
-            {
-                base.RightToLeft = value;
-                InvalidatePreview();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the rows.
-        /// </summary>
-        /// <value>The rows.</value>
-        [DefaultValue(1)]
-        public int Rows
-        {
-            get => _rows;
-            set
-            {
-                _rows = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the start page.
-        /// </summary>
-        /// <value>The start page.</value>
-        [DefaultValue(0)]
-        public int StartPage
-        {
-            get
-            {
-                int value = _startPage;
-                value = Math.Max(value, 0);
-
-                return value;
-            }
-
-            set
-            {
-                int oldValue = StartPage;
-                _startPage = value;
-                if (oldValue != _startPage)
-                {
-                    OnStartPageChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [tab stop].
-        /// </summary>
-        /// <value><c>true</c> if tab stop; otherwise, <c>false</c>.</value>
-        [DefaultValue(false)]
-        public new bool TabStop { get => base.TabStop; set => base.TabStop = value; }
-
-        /// <summary>
-        /// Gets or sets the text.
-        /// </summary>
-        /// <value>The text.</value>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Bindable(false)]
-        public override string Text { get => base.Text; set => base.Text = value; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [use anti alias].
-        /// </summary>
-        /// <value><c>true</c> if [use anti alias]; otherwise, <c>false</c>.</value>
-        [DefaultValue(false)]
-        public bool UseAntiAlias { get; set; }
-
-        /// <summary>
-        /// Gets or sets the zoom.
-        /// </summary>
-        /// <value>The zoom.</value>
-        [DefaultValue(DefaultZoom)]
-        public double Zoom
-        {
-            get => _zoom;
-            set
-            {
-                _autoZoom = false;
-                _zoom = value;
-            }
-        }
-
-        /// <summary>
-        /// Invalidates the preview.
-        /// </summary>
-        public void InvalidatePreview()
-        {
-            paper.QueueDraw();
-        }
-
-        /// <summary>
-        /// Resets the BackColor property to its default value.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void ResetBackColor() => BackColor = SystemColors.AppWorkspace;
-
-        /// <summary>
-        /// Resets the ForeColor property to its default value.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void ResetForeColor() => ForeColor = Color.White;
-
-        /// <summary>
-        /// Handles the <see cref="E:StartPageChanged" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected virtual void OnStartPageChanged(EventArgs e)
-        {
-            ((EventHandler)Events[s_startPageChangedEvent])?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Papers the drawn.
-        /// </summary>
-        /// <param name="o">The o.</param>
-        /// <param name="args">The arguments.</param>
-        private void paper_Drawn(object o, Gtk.DrawnArgs args)
-        {
-            if (_document != null)
-            {
-                PageSetup setup = _document.PageSetup;
-                _document.OnBeginPrint(new PrintEventArgs());
-                var cr = args.Cr;
-                int top = (int)Math.Round(setup.GetTopMargin(Unit.Points) / pxscale, 0);
-                int left = (int)Math.Round(setup.GetLeftMargin(Unit.Points) / pxscale, 0);
-                int right = (int)Math.Round(setup.GetRightMargin(Unit.Points) / pxscale, 0);
-                int bottom = (int)Math.Round(setup.GetBottomMargin(Unit.Points) / pxscale, 0);
-                int width = (int)Math.Round(setup.GetPaperWidth(Unit.Points) / pxscale, 0); //page<paper
-                int height = (int)Math.Round(setup.GetPaperHeight(Unit.Points) / pxscale, 0);
-                if (AutoZoom == false)
-                {
-                    paper.WidthRequest = (int)Math.Round(width * _zoom, 0);
-                    paper.HeightRequest = (int)Math.Round(height * _zoom, 0);
-                    self.WidthRequest = paper.WidthRequest + 100;
-                    self.HeightRequest = paper.HeightRequest + 100;
-                    cr.Scale(_zoom, _zoom);
-                }
-
-                cr.Translate(0, 0);
-                cr.Rectangle(0, 0, width, height);
-                cr.SetSourceRGBA(ForeColor.R / 255, ForeColor.G / 255, ForeColor.B / 255, ForeColor.A / 255);
-                cr.Fill();
-                _document.OnPrintPage(new PrintPageEventArgs(new Drawing.Graphics((Gtk.Widget)o, cr, new Gdk.Rectangle(0, 0, width, height)), new Drawing.Rectangle(left, top, width - left - right, height - top - bottom), new Drawing.Rectangle(0, 0, width, height), _document.DefaultPageSettings));
-                _document.OnEndPrint(new PrintEventArgs());
-            }
-        }
-
-        /// <summary>
-        /// Handles the Realized event of the Self control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void Self_Realized(object? sender, EventArgs e)
-        {
+            PageSetup setup = _document.PageSetup;
+            _document.OnBeginPrint(new PrintEventArgs());
+            var cr = args.Cr;
+            int top = (int)Math.Round(setup.GetTopMargin(Unit.Points) / pxscale, 0);
+            int left = (int)Math.Round(setup.GetLeftMargin(Unit.Points) / pxscale, 0);
+            int right = (int)Math.Round(setup.GetRightMargin(Unit.Points) / pxscale, 0);
+            int bottom = (int)Math.Round(setup.GetBottomMargin(Unit.Points) / pxscale, 0);
+            int width = (int)Math.Round(setup.GetPaperWidth(Unit.Points) / pxscale, 0); //page<paper
+            int height = (int)Math.Round(setup.GetPaperHeight(Unit.Points) / pxscale, 0);
             if (AutoZoom == false)
             {
-                paper.WidthRequest = (int)Math.Round(_document.PageSetup.GetPaperWidth(Unit.Points) * _zoom / 0.75, 0);
-                paper.HeightRequest = (int)Math.Round(_document.PageSetup.GetPaperHeight(Unit.Points) * _zoom / 0.75, 0);
+                paper.WidthRequest = (int)Math.Round(width * _zoom, 0);
+                paper.HeightRequest = (int)Math.Round(height * _zoom, 0);
+                self.WidthRequest = paper.WidthRequest + 100;
+                self.HeightRequest = paper.HeightRequest + 100;
+                cr.Scale(_zoom, _zoom);
             }
-        }
 
+            cr.Translate(0, 0);
+            cr.Rectangle(0, 0, width, height);
+            cr.SetSourceRGBA(ForeColor.R / 255, ForeColor.G / 255, ForeColor.B / 255, ForeColor.A / 255);
+            cr.Fill();
+            _document.OnPrintPage(new PrintPageEventArgs(new Drawing.Graphics((Gtk.Widget)o, cr, new Gdk.Rectangle(0, 0, width, height)), new Drawing.Rectangle(left, top, width - left - right, height - top - bottom), new Drawing.Rectangle(0, 0, width, height), _document.DefaultPageSettings));
+            _document.OnEndPrint(new PrintEventArgs());
+        }
     }
+
+    /// <summary>
+    /// Handles the Realized event of the Self control.
+    /// </summary>
+    /// <param name = "sender">The source of the event.
+    /// </param>
+    /// <param name = "e">
+    /// The
+    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// </param>
+    private void Self_Realized(object? sender, EventArgs e)
+    {
+        if (AutoZoom == false)
+        {
+            paper.WidthRequest = (int)Math.Round(_document.PageSetup.GetPaperWidth(Unit.Points) * _zoom / 0.75, 0);
+            paper.HeightRequest = (int)Math.Round(_document.PageSetup.GetPaperHeight(Unit.Points) * _zoom / 0.75, 0);
+        }
+    }
+
 }

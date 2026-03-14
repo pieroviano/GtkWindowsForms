@@ -1,3 +1,5 @@
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
@@ -12,21 +14,23 @@ namespace XmlDocSync.Services;
 
 public static class XmlDocumentationService
 {
-    public static async Task<int> MergeXmlDocumentationAsync(
-        string xmlPath,
-        string sourceDir,
-        (string ToReplace, string DestinationValue)[] fixes)
+    public static async Task<(int Failure, (string Path, string Content)[] Contents)> MergeXmlDocumentationAsync(
+            string xmlPath,
+            string sourceDir,
+            (string ToReplace, string DestinationValue)[] fixes,
+            bool writeToDisk,
+            bool noParallel)
     {
         if (!File.Exists(xmlPath))
         {
             RedConsole.Write("XML documentation file not found.");
-            return 1;
+            return (1, null);
         }
 
         if (!Directory.Exists(sourceDir))
         {
             RedConsole.Write("Source directory not found.");
-            return 1;
+            return (1, null);
         }
 
         var xmlDocumentation = LoadXmlDocumentation(xmlPath);
@@ -37,25 +41,28 @@ public static class XmlDocumentationService
             .ToArray();
 
         // Parse syntax trees in parallel
-        var syntaxTrees = await ParseAllSyntaxTrees(files);
+        var syntaxTrees = await ParseAllSyntaxTrees(files, noParallel);
 
         var compilation = GetCSharpCompilation(syntaxTrees);
 
-        var options = new ParallelOptions
-        {
-            MaxDegreeOfParallelism = Environment.ProcessorCount
-        };
+        var options = new ParallelOptions();
+        if (noParallel)
+            options.MaxDegreeOfParallelism = 1;
+        else
+            options.MaxDegreeOfParallelism = Environment.ProcessorCount;
 
-        await Parallel.ForEachAsync(syntaxTrees, options, async (tree, ct) =>
+        var concurrentBag = new ConcurrentBag<(string Path, string Content)>();
+        await Parallel.ForEachAsync(syntaxTrees, options, async (tree, _) =>
         {
-            await ProcessFile(
+            var content = await ProcessFile(
                 compilation,
                 xmlDocumentation,
                 tree,
-                fixes);
+                fixes, writeToDisk);
+            concurrentBag.Add((tree.FilePath, content ?? string.Empty));
         });
 
-        return 0;
+        return (0, concurrentBag.ToArray());
     }
 
     private static CSharpCompilation GetCSharpCompilation(List<SyntaxTree> syntaxTrees)
@@ -125,19 +132,13 @@ public static class XmlDocumentationService
             }
         }
 
-        if (relevant.Count == 0)
-        {
-            return text;
-        }
+        if (relevant.Count == 0) return text;
 
         var minIndent = relevant
             .Select(i => lines[i].TakeWhile(char.IsWhiteSpace).Count())
             .Min();
 
-        foreach (var i in relevant)
-        {
-            lines[i] = new string(' ', minIndent) + lines[i].TrimStart();
-        }
+        foreach (var i in relevant) lines[i] = new string(' ', minIndent) + lines[i].TrimStart();
 
         var source = string.Join("\n", lines);
         var removeTextBeforeNonOpenedSummary = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(source);
@@ -146,14 +147,15 @@ public static class XmlDocumentationService
         return XmlDocumentationFormatter.Format(fixIndentationAndRemoveBlanks, fixes)?.TrimEnd('\n', '\r', ' ', '\t');
     }
 
-    private static async Task<List<SyntaxTree>> ParseAllSyntaxTrees(string[] files)
+    private static async Task<List<SyntaxTree>> ParseAllSyntaxTrees(string[] files, bool noParallel)
     {
         var trees = new SyntaxTree[files.Length];
 
-        var options = new ParallelOptions
-        {
-            MaxDegreeOfParallelism = Environment.ProcessorCount
-        };
+        var options = new ParallelOptions();
+        if (noParallel)
+            options.MaxDegreeOfParallelism = 1;
+        else
+            options.MaxDegreeOfParallelism = Environment.ProcessorCount;
 
         await Parallel.ForEachAsync(
             Enumerable.Range(0, files.Length),
@@ -166,8 +168,10 @@ public static class XmlDocumentationService
 
         return trees.ToList();
     }
-    private static async Task ProcessFile(CSharpCompilation compilation,
-        Dictionary<string, string> xmlDocumentation, SyntaxTree syntaxTree, (string ToReplace, string DestinationValue)[] valueTuples)
+
+    private static async Task<string?> ProcessFile(CSharpCompilation compilation,
+        Dictionary<string, string> xmlDocumentation, SyntaxTree syntaxTree,
+        (string ToReplace, string DestinationValue)[] valueTuples, bool writeToDisk)
     {
         ConsoleColor.DarkGray.Write($"Processing {syntaxTree.FilePath}");
 
@@ -213,7 +217,9 @@ public static class XmlDocumentationService
                 WinMergeService.CompareWithWinMerge(syntaxTree.FilePath, normalizedOriginalText, contents);
 #endif
                 ConsoleColor.Blue.Write($"Modified {syntaxTree.FilePath}");
-                await CsFile.WriteAllTextAsync(syntaxTree.FilePath, contents);
+                if (writeToDisk) await CsFile.WriteAllTextAsync(syntaxTree.FilePath, contents);
+
+                return contents;
             }
         }
         else
@@ -235,8 +241,12 @@ public static class XmlDocumentationService
                 WinMergeService.CompareWithWinMerge(syntaxTree.FilePath, normalizedOriginalText, contents);
 #endif
                 ConsoleColor.Blue.Write($"Modified {syntaxTree.FilePath}");
-                await CsFile.WriteAllTextAsync(syntaxTree.FilePath, contents);
+                if (writeToDisk) await CsFile.WriteAllTextAsync(syntaxTree.FilePath, contents);
+
+                return contents;
             }
         }
+
+        return sourceText.ToString();
     }
 }

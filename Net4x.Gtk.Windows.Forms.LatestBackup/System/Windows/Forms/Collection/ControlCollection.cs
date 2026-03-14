@@ -1,592 +1,776 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
 
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Partial definition of the
+/// <see cref="T:System.Windows.Forms.Control" /> class that contains the nested
+/// <see cref="T:System.Windows.Forms.Control.ControlCollection" />.
+/// The collection manages child controls/widgets for a parent
+/// <see cref="T:System.Windows.Forms.Control" /> and bridges WinForms semantics
+/// to the underlying GTK container.
+/// </summary>
+/// Represents a Windows Forms control that is backed by a GTK widget.
+/// This class provides a compatibility layer so WinForms-style APIs can be used on GTK platforms.
+/// </summary>
+public partial class Control
 {
-    public partial class Control
+    /// <summary>
+    /// Collection that stores and manages child controls for a parent
+    /// <see cref="T:System.Windows.Forms.Control" />.
+    /// Implements layout-aware collection behavior and provides methods for adding, removing and locating child controls.
+    /// </summary>
+    public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable
     {
-        public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable
+        /// <summary>
+        /// Offset applied to child widget placement when the underlying GTK container uses absolute positioning.
+        /// </summary>
+        internal Drawing.Point Offset = new Drawing.Point(0, 0);
+
+        readonly Type __itemType;
+
+        readonly Control __owner;
+
+        readonly Gtk.Container __ownerControl;
+
+        private bool is__ownerControl_Mapped = false;
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Windows.Forms.Control.ControlCollection" /> class for the specified owner control.
+        /// The collection hooks GTK container events required to manage child layout and mapping.
+        /// </summary>
+        /// <param name="owner">
+        /// The owning
+        /// <see cref="T:System.Windows.Forms.Control" />.
+        /// </param>
+        public ControlCollection(Control owner)
         {
+            __ownerControl = owner.GtkControl as Gtk.Container;
+            __owner = owner;
+            __ownerControl.Mapped += __ownerControl_Mapped;
+            __ownerControl.ResizeChecked += __ownerControl_ResizeChecked;
+        }
 
-            internal Drawing.Point Offset = new Drawing.Point(0, 0);
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:System.Windows.Forms.Control.ControlCollection" /> class for the specified owner and GTK container.
+        /// </summary>
+        /// <param name="owner">
+        /// The owning
+        /// <see cref="T:System.Windows.Forms.Control" />.
+        /// </param>
+        /// <param name="ownerContainer">The underlying GTK container used to host children.
+        /// </param>
+        public ControlCollection(Control owner, Gtk.Container ownerContainer)
+        {
+            __ownerControl = ownerContainer;
+            __owner = owner;
+            __ownerControl.Mapped += __ownerControl_Mapped;
+            __ownerControl.ResizeChecked += __ownerControl_ResizeChecked;
+        }
 
-            Type __itemType;
+        /// <summary>
+        /// Gets the owning
+        /// <see cref="T:System.Windows.Forms.Control" /> for this collection.
+        /// </summary>
+        public Control Owner { get => __owner; }
 
-            Control __owner;
-
-            Gtk.Container __ownerControl;
-
-            private bool is__ownerControl_Mapped = false;
-
-            public ControlCollection(Control owner)
+        /// <summary>
+        /// Gets the child control at the specified index.
+        /// </summary>
+        /// <param name="index">Zero-based index of the child.
+        /// </param>
+        public new virtual Control this[int index]
+        {
+            get
             {
-                __ownerControl = owner.GtkControl as Gtk.Container;
-                __owner = owner;
-                __ownerControl.Mapped += __ownerControl_Mapped;
-                __ownerControl.ResizeChecked += __ownerControl_ResizeChecked;
+                Control control = (Control)InnerList[index]!;
+
+                return control;
             }
+        }
 
-            public ControlCollection(Control owner, Gtk.Container ownerContainer)
-            {
-                __ownerControl = ownerContainer;
-                __owner = owner;
-                __ownerControl.Mapped += __ownerControl_Mapped;
-                __ownerControl.ResizeChecked += __ownerControl_ResizeChecked;
-            }
-
-            public Control Owner { get => __owner; }
-
-            public new virtual Control this[int index]
-            {
-                get
-                {
-                    Control control = (Control)InnerList[index]!;
-
-                    return control;
-                }
-            }
-
-            public virtual Control? this[string? key]
-            {
-                get
-                {
-                    if (string.IsNullOrEmpty(key))
-                    {
-                        return null;
-                    }
-
-                    int index = IndexOfKey(key);
-                    if (IsValidIndex(index))
-                    {
-                        return this[index];
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-
-            public virtual void Add(Gtk.Widget value)
-            {
-                NativeAdd(value);
-            }
-
-            public virtual void Add(Type itemType, Control item)
-            {
-                // override handling
-                this.Add(item);
-            }
-
-            public virtual void Add(Control? value)
-            {
-                if (value is null)
-                {
-                    return;
-                }
-                NativeAdd(value);
-                InnerList.Add(value);
-            }
-
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-            public virtual void AddRange(params Control[] controls)
-            {
-                if (controls == null)
-                {
-                    throw new ArgumentNullException(nameof(controls));
-                }
-                if (controls.Length == 0)
-                {
-                    return;
-                }
-                foreach (Control item in controls)
-                {
-                    Add(item);
-                }
-            }
-
-            public void AddWidget(Gtk.Widget item, Control control)
-            {
-                control.Parent = __owner;
-                InnerList.Add(new ArrangedElementWidget(item));
-            }
-
-            public virtual void Clear()
-            {
-                foreach (Gtk.Widget wid in __ownerControl.Children)
-                    __ownerControl.Remove(wid);
-
-                InnerList.Clear();
-            }
-
-            public object Clone()
-            {
-                ControlCollection ccOther = new ControlCollection(__owner, __ownerControl);
-                ccOther.InnerList.AddRange(InnerList);
-
-                return ccOther;
-            }
-
-            public bool Contains(Control? control) => ((IList)InnerList).Contains(control);
-
-            public virtual bool ContainsKey(string? key)
-            {
-                return IsValidIndex(IndexOfKey(key));
-            }
-
-            public Control[] Find(string key, bool searchAllChildren)
-            {
-                List<IArrangedElement> foundControls = InnerList.FindAll(o =>
-                {
-                    if (o is Control con)
-                    {
-                        return con.Name == key;
-                    }
-                    else if (o is ArrangedElementWidget widget)
-                    {
-                        return widget.GetWidget?.Name == key;
-                    }
-                    else { return false; }
-                });
-                if (foundControls == null)
-                    return new Control[0];
-                else
-                    return foundControls.ConvertAll(o => o as Control).ToArray();
-            }
-
-            public int GetChildIndex(Control child) => GetChildIndex(child, true);
-
-            public virtual int GetChildIndex(Control child, bool throwException)
-            {
-                int index = IndexOf(child);
-                if (index == -1 && throwException)
-                {
-                    throw new ArgumentException("ControlNotChild");
-                }
-
-                return index;
-            }
-
-            public override IEnumerator GetEnumerator()
-            {
-                return InnerList.GetEnumerator();
-            }
-
-            public int IndexOf(Control? control) => ((IList)InnerList).IndexOf(control);
-
-            public virtual int IndexOfKey(string? key)
+        /// <summary>
+        /// Gets the child control with the specified key (name), or null if not found.
+        /// </summary>
+        /// <param name="key">The name/key of the control to find.
+        /// </param>
+        public virtual Control? this[string? key]
+        {
+            get
             {
                 if (string.IsNullOrEmpty(key))
                 {
-                    return -1;
+                    return null;
                 }
 
-                return InnerList.FindIndex(o =>
-                {
-                    if (o is Control con)
-                    {
-                        return con.Name == key;
-                    }
-                    else if (o is ArrangedElementWidget widget)
-                    {
-                        return widget.GetWidget?.Name == key;
-                    }
-                    else { return false; }
-                });
-            }
-
-            public virtual void Remove(Control? value)
-            {
-                if (value is null)
-                {
-                    return;
-                }
-                InnerList.Remove(value);
-                __ownerControl.Remove(value.Widget);
-            }
-
-            public void RemoveAt(int index)
-            {
-                IArrangedElement element = InnerList[index];
-                if (element is Control control)
-                    Remove(control);
-                else if (element is ArrangedElementWidget widget)
-                {
-                    InnerList.RemoveAt(index);
-                    __ownerControl.Remove(widget.GetWidget);
-                }
-            }
-
-            public virtual void RemoveByKey(string? key)
-            {
                 int index = IndexOfKey(key);
                 if (IsValidIndex(index))
                 {
-                    RemoveAt(index);
-                }
-            }
-
-            public virtual void SetChildIndex(Control child, int newIndex) => SetChildIndexInternal(child, newIndex);
-
-            internal virtual void SetChildIndexInternal(Control child, int newIndex)
-            {
-
-            }
-
-            int IList.Add(object? control)
-            {
-                if (control is Control c)
-                {
-                    Add(c);
-                    return IndexOf(c);
+                    return this[index];
                 }
                 else
                 {
-                    throw new ArgumentException("ControlBadControl {0}", nameof(control));
+                    return null;
                 }
             }
+        }
 
-            object ICloneable.Clone()
+        /// <summary>
+        /// Adds a GTK widget to the owner control using native integration logic.
+        /// </summary>
+        /// <param name="value">GTK widget to add.
+        /// </param>
+        public virtual void Add(Gtk.Widget value)
+        {
+            NativeAdd(value);
+        }
+
+        /// <summary>
+        /// Adds a control of the specified type to the collection. The current implementation forwards to
+        /// <see cref="T:System.Windows.Forms.Control.ControlCollection.Add(System.Windows.Forms.Control)" />.
+        /// </summary>
+        /// <param name="itemType">Type of the item to add (ignored).
+        /// </param>
+        /// <param name="item">The control to add.
+        /// </param>
+        public virtual void Add(Type itemType, Control item)
+        {
+            // override handling
+            this.Add(item);
+        }
+
+        /// <summary>
+        /// Adds a
+        /// <see cref="T:System.Windows.Forms.Control" /> to the collection and to the underlying GTK container.
+        /// </summary>
+        /// <param name="value">Control to add.
+        /// </param>
+        public virtual void Add(Control? value)
+        {
+            if (value is null)
             {
-                ControlCollection ccOther = new ControlCollection(__owner, __ownerControl);
-                ccOther.InnerList.AddRange(InnerList);
-
-                return ccOther;
+                return;
             }
+            NativeAdd(value);
+            InnerList.Add(value);
+        }
 
-            void IList.Remove(object? element)
+        /// <summary>
+        /// Adds an array of controls to the collection.
+        /// </summary>
+        /// <param name="controls">Controls to add.
+        /// </param>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public virtual void AddRange(params Control[] controls)
+        {
+            if (controls == null)
             {
-                if (element is Control control)
-                    Remove(control);
-                else if (element is Gtk.Widget widget)
+                throw new ArgumentNullException(nameof(controls));
+            }
+            if (controls.Length == 0)
+            {
+                return;
+            }
+            foreach (Control item in controls)
+            {
+                Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Adds a GTK widget and registers the corresponding
+        /// <see cref="T:System.Windows.Forms.Control" /> as a child of the owner.
+        /// </summary>
+        /// <param name="item">GTK widget added.
+        /// </param>
+        /// <param name="control">
+        /// Associated
+        /// <see cref="T:System.Windows.Forms.Control" /> instance.
+        /// </param>
+        public void AddWidget(Gtk.Widget item, Control control)
+        {
+            control.Parent = __owner;
+            InnerList.Add(new ArrangedElementWidget(item));
+        }
+
+        /// <summary>
+        /// Removes all child widgets from the underlying GTK container and clears the internal list.
+        /// </summary>
+        public virtual void Clear()
+        {
+            foreach (Gtk.Widget wid in __ownerControl.Children)
+                __ownerControl.Remove(wid);
+
+            InnerList.Clear();
+        }
+
+        /// <summary>
+        /// Creates a shallow clone of this collection containing the same arranged elements.
+        /// </summary>
+        /// <returns>
+        /// A cloned
+        /// <see cref="T:System.Windows.Forms.Control.ControlCollection" /> instance.
+        /// </returns>
+        public object Clone()
+        {
+            ControlCollection ccOther = new ControlCollection(__owner, __ownerControl);
+            ccOther.InnerList.AddRange(InnerList);
+
+            return ccOther;
+        }
+
+        /// <summary>
+        /// Determines whether the specified control is in the collection.
+        /// </summary>
+        /// <param name="control">Control to test.
+        /// </param>
+        /// <returns>True if found; otherwise false.
+        /// </returns>
+        public bool Contains(Control? control) => ((IList)InnerList).Contains(control);
+
+        /// <summary>
+        /// Determines whether a control with the given key (name) exists in the collection.
+        /// </summary>
+        /// <param name="key">Key/name to search for.
+        /// </param>
+        /// <returns>True if a control with the key exists; otherwise false.
+        /// </returns>
+        public virtual bool ContainsKey(string? key)
+        {
+            return IsValidIndex(IndexOfKey(key));
+        }
+
+        /// <summary>
+        /// Finds child controls by name. When
+        /// <paramref name="searchAllChildren" /> is true
+        /// the search traverses internal arranged elements as well.
+        /// </summary>
+        /// <param name="key">Name to search for.
+        /// </param>
+        /// <param name="searchAllChildren">Whether to search nested children.
+        /// </param>
+        /// <returns>
+        /// Array of matching
+        /// <see cref="T:System.Windows.Forms.Control" /> instances (may be empty).
+        /// </returns>
+        public Control[] Find(string key, bool searchAllChildren)
+        {
+            List<IArrangedElement> foundControls = InnerList.FindAll(o =>
+            {
+                if (o is Control con)
                 {
-                    __ownerControl.Remove(widget);
-                    int index = this.IndexOfKey(widget.Name);
-                    if (index >= 0)
-                        InnerList.RemoveAt(index);
+                    return con.Name == key;
                 }
-            }
-
-            private void __ownerControl_Mapped(object sender, EventArgs e)
-            {
-                if (is__ownerControl_Mapped == false)
+                else if (o is ArrangedElementWidget widget)
                 {
-                    is__ownerControl_Mapped = true;
-                    if (sender is Gtk.Overlay lay)
-                    {
-                        ResizeMapped(lay);
-                    }
+                    return widget.GetWidget?.Name == key;
                 }
+                else { return false; }
+            });
+            if (foundControls == null)
+                return new Control[0];
+            else
+                return foundControls.ConvertAll(o => o as Control).ToArray();
+        }
+
+        /// <summary>
+        /// Gets the child index for the specified control.
+        /// </summary>
+        /// <param name="child">Child control.
+        /// </param>
+        /// <returns>Index of the child.
+        /// </returns>
+        public int GetChildIndex(Control child) => GetChildIndex(child, true);
+
+        /// <summary>
+        /// Gets the child index for the specified control; optionally throw if not a child.
+        /// </summary>
+        /// <param name="child">Child control.
+        /// </param>
+        /// <param name="throwException">True to throw when control is not a child.
+        /// </param>
+        /// <returns>Index of the child.
+        /// </returns>
+        public virtual int GetChildIndex(Control child, bool throwException)
+        {
+            int index = IndexOf(child);
+            if (index == -1 && throwException)
+            {
+                throw new ArgumentException("ControlNotChild");
             }
 
-            //ResizeChecked resettable layout
-            private void __ownerControl_ResizeChecked(object sender, EventArgs e)
+            return index;
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        public override IEnumerator GetEnumerator()
+        {
+            return InnerList.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns the index of the given control in this collection.
+        /// </summary>
+        /// <param name="control">Control to locate.
+        /// </param>
+        /// <returns>Zero-based index or -1 if not found.
+        /// </returns>
+        public int IndexOf(Control? control) => ((IList)InnerList).IndexOf(control);
+
+        /// <summary>
+        /// Returns the index of a child control by its key/name.
+        /// </summary>
+        /// <param name="key">Key/name to find.
+        /// </param>
+        /// <returns>Index of the matching child or -1 if not found.
+        /// </returns>
+        public virtual int IndexOfKey(string? key)
+        {
+            if (string.IsNullOrEmpty(key))
             {
+                return -1;
+            }
+
+            return InnerList.FindIndex(o =>
+            {
+                if (o is Control con)
+                {
+                    return con.Name == key;
+                }
+                else if (o is ArrangedElementWidget widget)
+                {
+                    return widget.GetWidget?.Name == key;
+                }
+                else { return false; }
+            });
+        }
+
+        /// <summary>
+        /// Removes the specified child control from the collection and underlying GTK container.
+        /// </summary>
+        /// <param name="value">Control to remove.
+        /// </param>
+        public virtual void Remove(Control? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+            InnerList.Remove(value);
+            __ownerControl.Remove(value.Widget);
+        }
+
+        /// <summary>
+        /// Removes the child at the specified index.
+        /// </summary>
+        /// <param name="index">Index to remove.
+        /// </param>
+        public void RemoveAt(int index)
+        {
+            IArrangedElement element = InnerList[index];
+            if (element is Control control)
+                Remove(control);
+            else if (element is ArrangedElementWidget widget)
+            {
+                InnerList.RemoveAt(index);
+                __ownerControl.Remove(widget.GetWidget);
+            }
+        }
+
+        /// <summary>
+        /// Removes a child control identified by key (name).
+        /// </summary>
+        /// <param name="key">Key/name of the child to remove.
+        /// </param>
+        public virtual void RemoveByKey(string? key)
+        {
+            int index = IndexOfKey(key);
+            if (IsValidIndex(index))
+            {
+                RemoveAt(index);
+            }
+        }
+
+        /// <summary>
+        /// Sets the child index (z-order) for the specified child control.
+        /// </summary>
+        /// <param name="child">Child control to reposition.
+        /// </param>
+        /// <param name="newIndex">New zero-based index.
+        /// </param>
+        public virtual void SetChildIndex(Control child, int newIndex) => SetChildIndexInternal(child, newIndex);
+
+        internal virtual void SetChildIndexInternal(Control child, int newIndex)
+        {
+
+        }
+
+        int IList.Add(object? control)
+        {
+            if (control is Control c)
+            {
+                Add(c);
+                return IndexOf(c);
+            }
+            else
+            {
+                throw new ArgumentException("ControlBadControl {0}", nameof(control));
+            }
+        }
+
+        object ICloneable.Clone()
+        {
+            ControlCollection ccOther = new ControlCollection(__owner, __ownerControl);
+            ccOther.InnerList.AddRange(InnerList);
+
+            return ccOther;
+        }
+
+        void IList.Remove(object? element)
+        {
+            if (element is Control control)
+                Remove(control);
+            else if (element is Gtk.Widget widget)
+            {
+                __ownerControl.Remove(widget);
+                int index = this.IndexOfKey(widget.Name);
+                if (index >= 0)
+                    InnerList.RemoveAt(index);
+            }
+        }
+
+        private void __ownerControl_Mapped(object sender, EventArgs e)
+        {
+            if (is__ownerControl_Mapped == false)
+            {
+                is__ownerControl_Mapped = true;
                 if (sender is Gtk.Overlay lay)
                 {
                     ResizeMapped(lay);
                 }
             }
+        }
 
-            private void Control_AnchorChanged(object sender, EventArgs e)
+        //ResizeChecked resettable layout
+        private void __ownerControl_ResizeChecked(object sender, EventArgs e)
+        {
+            if (sender is Gtk.Overlay lay)
             {
-                Control control = sender as Control;
-                if (control.Widget.Parent is Gtk.Overlay lay)
+                ResizeMapped(lay);
+            }
+        }
+
+        private void Control_AnchorChanged(object sender, EventArgs e)
+        {
+            Control control = sender as Control;
+            if (control.Widget.Parent is Gtk.Overlay lay)
+            {
+                SetMarginEnd(lay, control);
+            }
+        }
+
+        private void Control_DockChanged(object sender, EventArgs e)
+        {
+            Control control = sender as Control;
+            if (control.Widget.Parent is Gtk.Overlay lay)
+            {
+                SetMarginEnd(lay, control);
+            }
+        }
+
+        private Gtk.Widget GetFrame(Gtk.Widget widget)
+        {
+            Gtk.Widget parent = widget.Parent;
+            while (parent != null)
+            {
+                if (parent is GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk)
                 {
-                    SetMarginEnd(lay, control);
+                    return parent;
                 }
+                else
+                    parent = parent.Parent;
             }
 
-            private void Control_DockChanged(object sender, EventArgs e)
+            return null;
+        }
+
+        private bool IsValidIndex(int index)
+        {
+            return ((index >= 0) && (index < Count));
+        }
+
+        private void NativeAdd(object item)
+        {
+            try
             {
-                Control control = sender as Control;
-                if (control.Widget.Parent is Gtk.Overlay lay)
+                if (item is Control icontrol)
                 {
-                    SetMarginEnd(lay, control);
+                    icontrol.Parent = __owner;
                 }
-            }
-
-            private Gtk.Widget GetFrame(Gtk.Widget widget)
-            {
-                Gtk.Widget parent = widget.Parent;
-                while (parent != null)
+                if (__ownerControl is Gtk.Overlay lay)
                 {
-                    if (parent is GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk)
+                    if (item is StatusStrip statusbar)
                     {
-                        return parent;
-                    }
-                    else
-                        parent = parent.Parent;
-                }
-
-                return null;
-            }
-
-            private bool IsValidIndex(int index)
-            {
-                return ((index >= 0) && (index < Count));
-            }
-
-            private void NativeAdd(object item)
-            {
-                try
-                {
-                    if (item is Control icontrol)
-                    {
-                        icontrol.Parent = __owner;
-                    }
-                    if (__ownerControl is Gtk.Overlay lay)
-                    {
-                        if (item is StatusStrip statusbar)
+                        if (__owner is Form form)
                         {
-                            if (__owner is Form form)
+                            statusbar.self.Halign = Gtk.Align.Fill;
+                            statusbar.self.Valign = Gtk.Align.Start;
+                            statusbar.self.Expand = false;
+                            statusbar.self.MarginStart = 0;
+                            statusbar.self.MarginTop = 0;
+                            statusbar.self.MarginEnd = 0;
+                            statusbar.self.MarginBottom = 0;
+                            Gtk.Overlay overlay = new Gtk.Overlay
                             {
-                                statusbar.self.Halign = Gtk.Align.Fill;
-                                statusbar.self.Valign = Gtk.Align.Start;
-                                statusbar.self.Expand = false;
-                                statusbar.self.MarginStart = 0;
-                                statusbar.self.MarginTop = 0;
-                                statusbar.self.MarginEnd = 0;
-                                statusbar.self.MarginBottom = 0;
-                                Gtk.Overlay overlay = new Gtk.Overlay();
-                                overlay.HeightRequest = statusbar.Height;
-                                overlay.AddOverlay(statusbar.self);
-                                form.self.ContentArea.PackEnd(overlay, false, false, 0);
-                            }
-                        }
-                        else if (item is Control control)
-                        {
-                            lay.AddOverlay(control.Widget);
-                            if (control.Widget is Gtk.Label || control.Widget is Gtk.Button || control.Widget is Gtk.Entry || control.Widget is Gtk.TextView || control.Widget is Gtk.ScrolledWindow)
-                                lay.SetOverlayPassThrough(control.Widget, true);
-                            control.DockChanged += Control_DockChanged;
-                            control.AnchorChanged += Control_AnchorChanged;
-                            SetMarginEnd(lay, control);
-                        }
-                        else if (item is Gtk.Widget widget)
-                        {
-                            lay.AddOverlay(widget);
+                                HeightRequest = statusbar.Height
+                            };
+                            overlay.AddOverlay(statusbar.self);
+                            form.self.ContentArea.PackEnd(overlay, false, false, 0);
                         }
                     }
-                    else if (__ownerControl is Gtk.Fixed lay2)
+                    else if (item is Control control)
                     {
-                        if (item is Control con)
-                        {
-                            lay2.Put(con.Widget, Offset.X, Offset.Y);
-                        }
-                        else if (item is Gtk.Widget widget)
-                        {
-                            lay2.Put(widget, Offset.X, Offset.Y);
-                        }
-                    }
-                    else if (__ownerControl is Gtk.Layout lay3)
-                    {
-                        if (item is Control con)
-                        {
-                            lay3.Put(con.Widget, Offset.X, Offset.Y);
-                        }
-                        else if (item is Gtk.Widget widget)
-                        {
-                            lay3.Put(widget, Offset.X, Offset.Y);
-                        }
-                    }
-                }
-                catch
-                {
-                    throw;
-                }
-                finally
-                {
-                    if (__ownerControl.IsRealized)
-                    {
-                        if (item is Control con)
-                            con.Widget.ShowAll();
-                        else if (item is Gtk.Widget widget)
-                            widget.ShowAll();
-                    }
-                }
-            }
-
-            private void NativeAdd()
-            {
-                try
-                {
-                    foreach (object item in this)
-                    {
-                        NativeAdd(item);
-                    }
-                }
-                catch
-                {
-                    throw;
-                }
-            }
-
-            private void ResizeMapped(Gtk.Overlay lay)
-            {
-                foreach (object item in this)
-                {
-                    if (item is Control control)
-                    {
-                        control.Widget.MarginStart = Math.Max(0, control.Widget.MarginStart + Offset.X);
-                        control.Widget.MarginTop = Math.Max(0, control.Widget.MarginTop + Offset.Y);
+                        lay.AddOverlay(control.Widget);
+                        if (control.Widget is Gtk.Label || control.Widget is Gtk.Button || control.Widget is Gtk.Entry || control.Widget is Gtk.TextView || control.Widget is Gtk.ScrolledWindow)
+                            lay.SetOverlayPassThrough(control.Widget, true);
+                        control.DockChanged += Control_DockChanged;
+                        control.AnchorChanged += Control_AnchorChanged;
+                        SetMarginEnd(lay, control);
                     }
                     else if (item is Gtk.Widget widget)
                     {
-                        widget.MarginStart = Math.Max(0, widget.MarginStart + Offset.X);
-                        widget.MarginTop = Math.Max(0, widget.MarginTop + Offset.Y);
+                        lay.AddOverlay(widget);
                     }
                 }
+                else if (__ownerControl is Gtk.Fixed lay2)
+                {
+                    if (item is Control con)
+                    {
+                        lay2.Put(con.Widget, Offset.X, Offset.Y);
+                    }
+                    else if (item is Gtk.Widget widget)
+                    {
+                        lay2.Put(widget, Offset.X, Offset.Y);
+                    }
+                }
+                else if (__ownerControl is Gtk.Layout lay3)
+                {
+                    if (item is Control con)
+                    {
+                        lay3.Put(con.Widget, Offset.X, Offset.Y);
+                    }
+                    else if (item is Gtk.Widget widget)
+                    {
+                        lay3.Put(widget, Offset.X, Offset.Y);
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (__ownerControl.IsRealized)
+                {
+                    if (item is Control con)
+                        con.Widget.ShowAll();
+                    else if (item is Gtk.Widget widget)
+                        widget.ShowAll();
+                }
+            }
+        }
+
+        private void NativeAdd()
+        {
+            try
+            {
                 foreach (object item in this)
                 {
-                    if (item is Control control)
-                    {
-                        SetMarginEnd(lay, control);
-                    }
+                    NativeAdd(item);
                 }
             }
-
-            private void SetMarginEnd(Gtk.Overlay lay, Control control)
+            catch
             {
-                if (__owner is Form)
-                {
-                    lay.WidthRequest = Math.Max(-1, Math.Max(lay.Parent.Parent.AllocatedWidth, control.Location.X + control.Width));
-                    lay.HeightRequest = Math.Max(-1, Math.Max(lay.Parent.Parent.AllocatedHeight, control.Location.Y + control.Height));
-                }
-                else
-                {
-                    lay.WidthRequest = Math.Max(-1, Math.Max(__owner.Width - 4, control.Location.X + control.Width));
-                    lay.HeightRequest = Math.Max(-1, Math.Max(__owner.Height - 4, control.Location.Y + control.Height));
-                }
-                if (control.Dock == DockStyle.Fill)
-                {
-                    control.Widget.WidthRequest = -1;
-                    control.Widget.HeightRequest = -1;
-                    lay.WidthRequest = -1;
-                    lay.HeightRequest = -1;
-                }
-                else if (control.Dock == DockStyle.Left)
-                {
-                    control.Widget.HeightRequest = -1;
-                    lay.HeightRequest = -1;
-                }
-                else if (control.Dock == DockStyle.Right)
-                {
-                    control.Widget.HeightRequest = -1;
-                    lay.HeightRequest = -1;
-                }
-                else if (control.Dock == DockStyle.Top)
-                {
-                    control.Widget.WidthRequest = -1;
-                    lay.WidthRequest = -1;
-                }
-                else if (control.Dock == DockStyle.Bottom)
-                {
-                    control.Widget.WidthRequest = -1;
-                    lay.WidthRequest = -1;
-                }
-                if (lay.IsMapped == true)
-                {
-                    Gtk.Widget widget = control.Widget;
-                    if (widget.Halign == Gtk.Align.End)
-                    {
-                        if (widget.WidthRequest > 0)
-                            widget.MarginEnd = Math.Max(0, lay.AllocatedWidth - widget.MarginStart - widget.WidthRequest);
-                        else
-                            widget.MarginEnd = 0;
-                    }
-                    else if (widget.Halign == Gtk.Align.Fill)
-                    {
-                        if (control.Dock == DockStyle.Fill)
-                            widget.MarginEnd = 0;
-                        else if (widget.WidthRequest > 0)
-                            widget.MarginEnd = Math.Max(control.Padding.Right, lay.AllocatedWidth - widget.MarginStart - widget.WidthRequest);
-                        else
-                            widget.MarginEnd = 0;
-                    }
-                    if (widget.Valign == Gtk.Align.End)
-                    {
-                        if (widget.HeightRequest > 0)
-                            widget.MarginBottom = Math.Max(0, lay.AllocatedHeight - widget.MarginTop - widget.HeightRequest);
-                        else
-                            widget.MarginBottom = 0;
-                    }
-                    else if (widget.Valign == Gtk.Align.Fill)
-                    {
-                        if (control.Dock == DockStyle.Fill)
-                            widget.MarginBottom = 0;
-                        else if (widget.HeightRequest > 0)
-                            widget.MarginBottom = Math.Max(control.Padding.Bottom, lay.AllocatedHeight - widget.MarginTop - widget.HeightRequest);
-                        else
-                            widget.MarginBottom = 0;
-                    }
-                }
+                throw;
             }
-
         }
 
-        internal class ArrangedElementWidget : IArrangedElement
+        private void ResizeMapped(Gtk.Overlay lay)
         {
-            Gtk.Widget _widget;
-
-            public event EventHandler Disposed;
-
-            internal ArrangedElementWidget(Gtk.Widget widget)
+            foreach (object item in this)
             {
-                _widget = widget;
-            }
-
-            public Rectangle Bounds => throw new NotImplementedException();
-
-            public ArrangedElementCollection Children => throw new NotImplementedException();
-
-            public IArrangedElement Container => throw new NotImplementedException();
-
-            public Rectangle DisplayRectangle => throw new NotImplementedException();
-
-            public Gtk.Widget GetWidget { get => _widget; }
-
-            public bool ParticipatesInLayout => throw new NotImplementedException();
-
-            public PropertyStore Properties => throw new NotImplementedException();
-
-            public ISite Site { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-            public void Dispose()
-            {
-                if (_widget != null)
+                if (item is Control control)
                 {
-                    _widget.Dispose();
-                    _widget = null;
+                    control.Widget.MarginStart = Math.Max(0, control.Widget.MarginStart + Offset.X);
+                    control.Widget.MarginTop = Math.Max(0, control.Widget.MarginTop + Offset.Y);
+                }
+                else if (item is Gtk.Widget widget)
+                {
+                    widget.MarginStart = Math.Max(0, widget.MarginStart + Offset.X);
+                    widget.MarginTop = Math.Max(0, widget.MarginTop + Offset.Y);
                 }
             }
-
-            public Size GetPreferredSize(Size proposedSize)
+            foreach (object item in this)
             {
-                throw new NotImplementedException();
+                if (item is Control control)
+                {
+                    SetMarginEnd(lay, control);
+                }
             }
-
-            public void PerformLayout(IArrangedElement affectedElement, string propertyName)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void SetBounds(Rectangle bounds, BoundsSpecified specified)
-            {
-                throw new NotImplementedException();
-            }
-
         }
+
+        private void SetMarginEnd(Gtk.Overlay lay, Control control)
+        {
+            if (__owner is Form)
+            {
+                lay.WidthRequest = Math.Max(-1, Math.Max(lay.Parent.Parent.AllocatedWidth, control.Location.X + control.Width));
+                lay.HeightRequest = Math.Max(-1, Math.Max(lay.Parent.Parent.AllocatedHeight, control.Location.Y + control.Height));
+            }
+            else
+            {
+                lay.WidthRequest = Math.Max(-1, Math.Max(__owner.Width - 4, control.Location.X + control.Width));
+                lay.HeightRequest = Math.Max(-1, Math.Max(__owner.Height - 4, control.Location.Y + control.Height));
+            }
+            if (control.Dock == DockStyle.Fill)
+            {
+                control.Widget.WidthRequest = -1;
+                control.Widget.HeightRequest = -1;
+                lay.WidthRequest = -1;
+                lay.HeightRequest = -1;
+            }
+            else if (control.Dock == DockStyle.Left)
+            {
+                control.Widget.HeightRequest = -1;
+                lay.HeightRequest = -1;
+            }
+            else if (control.Dock == DockStyle.Right)
+            {
+                control.Widget.HeightRequest = -1;
+                lay.HeightRequest = -1;
+            }
+            else if (control.Dock == DockStyle.Top)
+            {
+                control.Widget.WidthRequest = -1;
+                lay.WidthRequest = -1;
+            }
+            else if (control.Dock == DockStyle.Bottom)
+            {
+                control.Widget.WidthRequest = -1;
+                lay.WidthRequest = -1;
+            }
+            if (lay.IsMapped == true)
+            {
+                Gtk.Widget widget = control.Widget;
+                if (widget.Halign == Gtk.Align.End)
+                {
+                    if (widget.WidthRequest > 0)
+                        widget.MarginEnd = Math.Max(0, lay.AllocatedWidth - widget.MarginStart - widget.WidthRequest);
+                    else
+                        widget.MarginEnd = 0;
+                }
+                else if (widget.Halign == Gtk.Align.Fill)
+                {
+                    if (control.Dock == DockStyle.Fill)
+                        widget.MarginEnd = 0;
+                    else if (widget.WidthRequest > 0)
+                        widget.MarginEnd = Math.Max(control.Padding.Right, lay.AllocatedWidth - widget.MarginStart - widget.WidthRequest);
+                    else
+                        widget.MarginEnd = 0;
+                }
+                if (widget.Valign == Gtk.Align.End)
+                {
+                    if (widget.HeightRequest > 0)
+                        widget.MarginBottom = Math.Max(0, lay.AllocatedHeight - widget.MarginTop - widget.HeightRequest);
+                    else
+                        widget.MarginBottom = 0;
+                }
+                else if (widget.Valign == Gtk.Align.Fill)
+                {
+                    if (control.Dock == DockStyle.Fill)
+                        widget.MarginBottom = 0;
+                    else if (widget.HeightRequest > 0)
+                        widget.MarginBottom = Math.Max(control.Padding.Bottom, lay.AllocatedHeight - widget.MarginTop - widget.HeightRequest);
+                    else
+                        widget.MarginBottom = 0;
+                }
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// Adapts a raw GTK widget into the arranged-element layout system used by WinForms layout APIs.
+    /// </summary>
+    internal class ArrangedElementWidget : IArrangedElement
+    {
+        Gtk.Widget _widget;
+
+        public event EventHandler Disposed;
+
+        internal ArrangedElementWidget(Gtk.Widget widget)
+        {
+            _widget = widget;
+        }
+
+        public Rectangle Bounds => throw new NotImplementedException();
+
+        public ArrangedElementCollection Children => throw new NotImplementedException();
+
+        public IArrangedElement Container => throw new NotImplementedException();
+
+        public Rectangle DisplayRectangle => throw new NotImplementedException();
+
+        /// <summary>
+        /// Gets the wrapped GTK widget.
+        /// </summary>
+        public Gtk.Widget GetWidget { get => _widget; }
+
+        public bool ParticipatesInLayout => throw new NotImplementedException();
+
+        public PropertyStore Properties => throw new NotImplementedException();
+
+        public ISite Site { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        /// <summary>
+        /// Disposes the wrapped GTK widget when the arranged-element wrapper is disposed.
+        /// </summary>
+        public void Dispose()
+        {
+            _widget?.Dispose();
+            _widget = null;
+        }
+
+        public Size GetPreferredSize(Size proposedSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PerformLayout(IArrangedElement affectedElement, string propertyName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetBounds(Rectangle bounds, BoundsSpecified specified)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

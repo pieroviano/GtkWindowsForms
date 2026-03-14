@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -82,16 +82,11 @@ internal class NonStaticMessageBox : IMessageBox
         return ShowCore(owner, text, caption, buttons, icon);
     }
 
+    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     //END ADD                                                                                                      //
+    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// <summary>
     /// Displays a message box with specified text, caption, and style.
-    /// </summary>
-    /// <param name="text"></param>
-    /// <param name="caption"></param>
-    /// <param name="buttons"></param>
-    /// <param name="icon"></param>
-    /// <param name="defaultButton"></param>
-    /// <param name="options"></param>
-    /// <returns></returns>
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
     {
         return ShowCore(null, text, caption, buttons, icon);
@@ -233,7 +228,7 @@ internal class NonStaticMessageBox : IMessageBox
 
     private void Dia_Response(object o, ResponseArgs args)
     {
-        var dia = (Dialog?)o;
+        var dia = (Dialog? )o;
         if (dia != null)
         {
             dia.PangoContext.Dispose();
@@ -261,9 +256,11 @@ internal class NonStaticMessageBox : IMessageBox
         dia.BorderWidth = 20;
         dia.Valign = Align.Fill;
         dia.Halign = Align.Fill;
-        var msgbox = new Box(Gtk.Orientation.Horizontal, 10);
-        msgbox.Valign = Align.Start;
-        msgbox.Halign = Align.Fill;
+        var msgbox = new Box(Gtk.Orientation.Horizontal, 10)
+        {
+            Valign = Align.Start,
+            Halign = Align.Fill
+        };
         if (icon == MessageBoxIcon.Question)
             msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-question.png"), false, false, 5);
         else if (icon == MessageBoxIcon.Warning || icon == MessageBoxIcon.Exclamation)
@@ -274,10 +271,10 @@ internal class NonStaticMessageBox : IMessageBox
             msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-error.png"), false, false, 5);
         var content = new Gtk.Label(text)
         {
-            MarginEnd = 30
+            MarginEnd = 30,
+            Halign = Align.Fill,
+            Valign = Align.Start
         };
-        content.Halign = Align.Fill;
-        content.Valign = Align.Start;
         var maxwidth = 300;
         if (Gdk.Screen.Default.Display.NMonitors > 0)
         {

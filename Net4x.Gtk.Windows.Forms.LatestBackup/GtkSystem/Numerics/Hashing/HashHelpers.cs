@@ -1,17 +1,16 @@
-using System;
+﻿using System;
 
-namespace GtkSystem.Numerics.Hashing
+namespace GtkSystem.Numerics.Hashing;
+
+internal static class HashHelpers
 {
-    internal static class HashHelpers
+    public static readonly int RandomSeed = new Random().Next(int.MinValue, int.MaxValue);
+
+    public static int Combine(int h1, int h2)
     {
-        public static readonly int RandomSeed = new Random().Next(int.MinValue, int.MaxValue);
+        uint num = (uint)(h1 << 5) | ((uint)h1 >> 27);
 
-        public static int Combine(int h1, int h2)
-        {
-            uint num = (uint)(h1 << 5) | ((uint)h1 >> 27);
-
-            return ((int)num + h1) ^ h2;
-        }
-
+        return ((int)num + h1) ^ h2;
     }
+
 }

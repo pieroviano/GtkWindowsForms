@@ -1,27 +1,41 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for the
+/// <see cref="T:System.Windows.Forms.BindingManagerBase.DataError" /> event.
+/// </summary>
+public class BindingManagerDataErrorEventArgs : EventArgs
 {
     /// <summary>
-    /// Provides data for the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase.DataError" /> event.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.BindingManagerDataErrorEventArgs" /> class.
     /// </summary>
-    public class BindingManagerDataErrorEventArgs : EventArgs
+    /// <param name="exception">The exception.
+    /// </param>
+    /// <exception cref="T:System.NotImplementedException">
+    /// </exception>
+    public BindingManagerDataErrorEventArgs(Exception exception)
     {
+        throw new System.NotImplementedException();
+    }
 
-        public BindingManagerDataErrorEventArgs(Exception exception)
+    /// <summary>
+    /// Gets the exception.
+    /// </summary>
+    /// <value>
+    /// The exception.
+    /// </value>
+    /// <exception cref="T:System.NotImplementedException">
+    /// </exception>
+    public Exception Exception
+    {
+        [CompilerGenerated]
+        get
         {
             throw new System.NotImplementedException();
         }
-
-        public Exception Exception
-        {
-            [CompilerGenerated]
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
     }
+
 }

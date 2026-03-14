@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -7,28 +7,40 @@
 using System.ComponentModel;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Represents a standard Windows vertical scroll bar.
+/// </summary>
+[DesignerCategory("Component")]
+public class VScrollBar : ScrollBar
 {
     /// <summary>
-    /// Represents a standard Windows vertical scroll bar.
+    /// The self
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    [DesignerCategory("Component")]
-    public class VScrollBar : ScrollBar
+    public ScrollbarBase<Gtk.VScrollbar> self=new ScrollbarBase<Gtk.VScrollbar>(Gtk.Orientation.Vertical);
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.VScrollBar" /> class.
+    /// </summary>
+    public VScrollBar() : base()
     {
 
-        public ScrollbarBase<Gtk.VScrollbar> self = new ScrollbarBase<Gtk.VScrollbar>(Gtk.Orientation.Vertical);
-
-        public VScrollBar() : base()
-        {
-
-        }
-
-        public override Gtk.Adjustment Adjustment { get => self.Adjustment; }
-
-        public override object GtkControl => self;
-
     }
+
+    /// <summary>
+    /// Gets the adjustment.
+    /// </summary>
+    /// <value>The adjustment.
+    /// </value>
+    public override Gtk.Adjustment Adjustment { get => self.Adjustment; }
+
+    /// <summary>
+    /// Gets the GTK control.
+    /// </summary>
+    /// <value>The GTK control.
+    /// </value>
+    public override object GtkControl => self;
+
 }

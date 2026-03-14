@@ -1,14 +1,14 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Drawing.Printing;
 
 /// <summary>
 /// Represents the method that will handle the
-/// <see cref="PrintDocument.BeginPrint" />,
-/// <see cref="PrintDocument.EndPrint" />, or
-/// <see cref="PrintDocument.QueryPageSettings" />
+/// <see cref="T:System.Drawing.Printing.PrintDocument.BeginPrint" />,
+/// <see cref="T:System.Drawing.Printing.PrintDocument.EndPrint" />, or
+/// <see cref="T:System.Drawing.Printing.PrintDocument.QueryPageSettings" />
 /// event of a
-/// <see cref="PrintDocument" />.
+/// <see cref="T:System.Drawing.Printing.PrintDocument" />.
 /// </summary>
 public delegate void PrintEventHandler(object sender, PrintEventArgs e);

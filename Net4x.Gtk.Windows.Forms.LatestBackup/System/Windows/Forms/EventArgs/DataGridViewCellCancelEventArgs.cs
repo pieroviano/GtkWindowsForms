@@ -1,44 +1,67 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System.ComponentModel;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides data for
+/// <see cref="T:System.Windows.Forms.DataGridView.CellBeginEdit" /> and
+/// <see cref="T:System.Windows.Forms.DataGridView.RowValidating" /> events.
+/// </summary>
+public class DataGridViewCellCancelEventArgs : CancelEventArgs
 {
     /// <summary>
-    /// Provides data for
-    /// <see cref="T:System.Windows.Forms.DataGridView.CellBeginEdit" /> and
-    /// <see cref="T:System.Windows.Forms.DataGridView.RowValidating" /> events.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridViewCellCancelEventArgs" /> class.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public class DataGridViewCellCancelEventArgs : CancelEventArgs
+    /// <param name="columnIndex">Index of the column.
+    /// </param>
+    /// <param name="rowIndex">Index of the row.
+    /// </param>
+    /// <exception cref="T:System.ArgumentOutOfRangeException">columnIndex
+    /// </exception>
+    /// <exception cref="T:System.ArgumentOutOfRangeException">rowIndex
+    /// </exception>
+    public DataGridViewCellCancelEventArgs(int columnIndex, int rowIndex)
     {
-
-        public DataGridViewCellCancelEventArgs(int columnIndex, int rowIndex)
+        if (columnIndex < -1)
         {
-            if (columnIndex < -1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(columnIndex));
-            }
-            if (rowIndex < -1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(rowIndex));
-            }
-
-            ColumnIndex = columnIndex;
-            RowIndex = rowIndex;
+            throw new ArgumentOutOfRangeException(nameof(columnIndex));
+        }
+        if (rowIndex < -1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rowIndex));
         }
 
-        internal DataGridViewCellCancelEventArgs(DataGridViewCell dataGridViewCell) : this(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex)
-        {
-        }
-
-        public int ColumnIndex { get; }
-
-        public int RowIndex { get; }
-
+        ColumnIndex = columnIndex;
+        RowIndex = rowIndex;
     }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridViewCellCancelEventArgs" /> class.
+    /// </summary>
+    /// <param name="dataGridViewCell">The data grid view cell.
+    /// </param>
+    internal DataGridViewCellCancelEventArgs(DataGridViewCell dataGridViewCell) : this(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex)
+    {
+    }
+
+    /// <summary>
+    /// Gets the index of the column.
+    /// </summary>
+    /// <value>The index of the column.
+    /// </value>
+    public int ColumnIndex { get; }
+
+    /// <summary>
+    /// Gets the index of the row.
+    /// </summary>
+    /// <value>The index of the row.
+    /// </value>
+    public int RowIndex { get; }
+
 }

@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 internal class ListViewGroupImageIndexer : ImageList.Indexer
 {

@@ -1,4 +1,4 @@
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Encapsulates a 3-by-3 affine matrix that represents a geometric transform. This class cannot be inherited.
@@ -14,11 +14,27 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> class.
+    /// </summary>
+    /// <param name="rect">The rect.
+    /// </param>
+    /// <param name="plgpts">The PLGPTS.
+    /// </param>
     public Matrix(Rectangle rect, Point[] plgpts)
     {
 
     }
 
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> class.
+    /// </summary>
+    /// <param name="rect">The rect.
+    /// </param>
+    /// <param name="plgpts">The PLGPTS.
+    /// </param>
     public Matrix(RectangleF rect, PointF[] plgpts)
     {
 
@@ -28,22 +44,28 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> class with the specified elements.
     /// </summary>
-    /// <param name="m11">The value in the first row and first column of the new
+    /// <param name="m11">
+    /// The value in the first row and first column of the new
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
-    /// <param name="m12">The value in the first row and second column of the new
+    /// <param name="m12">
+    /// The value in the first row and second column of the new
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
-    /// <param name="m21">The value in the second row and first column of the new
+    /// <param name="m21">
+    /// The value in the second row and first column of the new
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
-    /// <param name="m22">The value in the second row and second column of the new
+    /// <param name="m22">
+    /// The value in the second row and second column of the new
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
-    /// <param name="dx">The value in the third row and first column of the new
+    /// <param name="dx">
+    /// The value in the third row and first column of the new
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
-    /// <param name="dy">The value in the third row and second column of the new
+    /// <param name="dy">
+    /// The value in the third row and second column of the new
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
     public Matrix(float m11, float m12, float m21, float m22, float dx, float dy)
@@ -57,17 +79,36 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         this.dy = dy;
     }
 
+    /// <summary>
+    /// Gets or sets the angle.
+    /// </summary>
+    /// <value>
+    /// The angle.
+    /// </value>
     public float angle { get; set; }
 
+    /// <summary>
+    /// Gets or sets the dx.
+    /// </summary>
+    /// <value>
+    /// The dx.
+    /// </value>
     public float dx { get; set; } = 0;
 
+    /// <summary>
+    /// Gets or sets the dy.
+    /// </summary>
+    /// <value>
+    /// The dy.
+    /// </value>
     public float dy { get; set; } = 0;
 
     /// <summary>
     /// Gets an array of floating-point values that represents the elements of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </summary>
-    /// <returns>An array of floating-point values that represents the elements of this
+    /// <returns>
+    /// An array of floating-point values that represents the elements of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </returns>
     public float[] Elements
@@ -78,19 +119,49 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         }
     }
 
+    /// <summary>
+    /// Gets or sets the initialize matrix.
+    /// </summary>
+    /// <value>
+    /// The initialize matrix.
+    /// </value>
     public Matrix initMatrix { get; set; }
 
+    /// <summary>
+    /// Gets or sets the initialize point f.
+    /// </summary>
+    /// <value>
+    /// The initialize point f.
+    /// </value>
     public PointF[] initPointF { get; set; }
 
+    /// <summary>
+    /// Gets or sets the initialize rectangle.
+    /// </summary>
+    /// <value>
+    /// The initialize rectangle.
+    /// </value>
     public RectangleF initRectangle { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this
+    /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is invert.
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if invert; otherwise,
+    /// <c>false
+    /// </c>.
+    /// </value>
     public bool invert { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is the identity matrix.
     /// </summary>
-    /// <returns>This property is
+    /// <returns>
+    /// This property is
     /// <see langword="true" /> if this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is identity; otherwise,
     /// <see langword="false" />.
@@ -107,7 +178,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Gets a value indicating whether this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is invertible.
     /// </summary>
-    /// <returns>This property is
+    /// <returns>
+    /// This property is
     /// <see langword="true" /> if this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is invertible; otherwise,
     /// <see langword="false" />.
@@ -120,21 +192,52 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         }
     }
 
+    /// <summary>
+    /// Gets or sets the M11.
+    /// </summary>
+    /// <value>
+    /// The M11.
+    /// </value>
     public float m11 { get; set; } = 1;
 
+    /// <summary>
+    /// Gets or sets the M12.
+    /// </summary>
+    /// <value>
+    /// The M12.
+    /// </value>
     public float m12 { get; set; } = 0;
 
+    /// <summary>
+    /// Gets or sets the M21.
+    /// </summary>
+    /// <value>
+    /// The M21.
+    /// </value>
     public float m21 { get; set; } = 0;
 
+    /// <summary>
+    /// Gets or sets the M22.
+    /// </summary>
+    /// <value>
+    /// The M22.
+    /// </value>
     public float m22 { get; set; } = 1;
 
+    /// <summary>
+    /// Gets or sets the multiply.
+    /// </summary>
+    /// <value>
+    /// The multiply.
+    /// </value>
     public Matrix multiply { get; set; }
 
     /// <summary>
     /// Gets the x translation value (the dx value, or the element in the third row and first column) of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </summary>
-    /// <returns>The x translation value of this
+    /// <returns>
+    /// The x translation value of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </returns>
     public float OffsetX
@@ -147,7 +250,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Gets the y translation value (the dy value, or the element in the third row and second column) of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </summary>
-    /// <returns>The y translation value of this
+    /// <returns>
+    /// The y translation value of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </returns>
     public float OffsetY
@@ -156,29 +260,84 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         internal set;
     }
 
+    /// <summary>
+    /// Gets or sets the order.
+    /// </summary>
+    /// <value>
+    /// The order.
+    /// </value>
     public MatrixOrder order { get; set; } = MatrixOrder.Prepend;
 
+    /// <summary>
+    /// Gets or sets the rotate at point.
+    /// </summary>
+    /// <value>
+    /// The rotate at point.
+    /// </value>
     public PointF rotateAtPoint { get; set; }
 
+    /// <summary>
+    /// Gets or sets the scale x.
+    /// </summary>
+    /// <value>
+    /// The scale x.
+    /// </value>
     public float scaleX { get; set; }
 
+    /// <summary>
+    /// Gets or sets the scale y.
+    /// </summary>
+    /// <value>
+    /// The scale y.
+    /// </value>
     public float scaleY { get; set; }
 
+    /// <summary>
+    /// Gets or sets the shear x.
+    /// </summary>
+    /// <value>
+    /// The shear x.
+    /// </value>
     public float shearX { get; set; }
 
+    /// <summary>
+    /// Gets or sets the shear y.
+    /// </summary>
+    /// <value>
+    /// The shear y.
+    /// </value>
     public float shearY { get; set; }
 
+    /// <summary>
+    /// Gets or sets the transform points.
+    /// </summary>
+    /// <value>
+    /// The transform points.
+    /// </value>
     public PointF[] transformPoints { get; set; }
 
+    /// <summary>
+    /// Gets or sets the transform vectors.
+    /// </summary>
+    /// <value>
+    /// The transform vectors.
+    /// </value>
     public PointF[] transformVectors { get; set; }
 
+    /// <summary>
+    /// Gets or sets the vector transform points.
+    /// </summary>
+    /// <value>
+    /// The vector transform points.
+    /// </value>
     public Point[] vectorTransformPoints { get; set; }
 
     /// <summary>
     /// Creates an exact copy of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </summary>
-    /// <returns>The
+    /// <returns>
+    /// The
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that this method creates.
     /// </returns>
     public Matrix Clone()
@@ -221,9 +380,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> and is identical to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </summary>
-    /// <param name="obj">The object to test.
+    /// <param name="obj">
+    /// The object to test.
     /// </param>
-    /// <returns>This method returns
+    /// <returns>
+    /// This method returns
     /// <see langword="true" /> if
     /// <paramref name="obj" /> is the specified
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> identical to this
@@ -235,6 +396,12 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
         return this.GetHashCode() == obj.GetHashCode();
     }
 
+    /// <summary>
+    /// Returns a hash code for this instance.
+    /// </summary>
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+    /// </returns>
     public override int GetHashCode()
     {
         return base.GetHashCode();
@@ -255,7 +422,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <paramref name="matrix" /> parameter, by prepending the specified
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </summary>
-    /// <param name="matrix">The
+    /// <param name="matrix">
+    /// The
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is to be multiplied.
     /// </param>
@@ -270,11 +438,13 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <paramref name="matrix" /> parameter, and in the order specified in the
     /// <paramref name="order" /> parameter.
     /// </summary>
-    /// <param name="matrix">The
+    /// <param name="matrix">
+    /// The
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by which this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> is to be multiplied.
     /// </param>
-    /// <param name="order">The
+    /// <param name="order">
+    /// The
     /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that represents the order of the multiplication.
     /// </param>
     public void Multiply(Matrix matrix, MatrixOrder order)
@@ -315,7 +485,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Prepend to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> a clockwise rotation, around the origin and by the specified angle.
     /// </summary>
-    /// <param name="angle">The angle of the rotation, in degrees.
+    /// <param name="angle">
+    /// The angle of the rotation, in degrees.
     /// </param>
     public void Rotate(float angle)
     {
@@ -328,9 +499,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <paramref name="angle" /> parameter, around the origin (zero x and y coordinates) for this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </summary>
-    /// <param name="angle">The angle (extent) of the rotation, in degrees.
+    /// <param name="angle">
+    /// The angle (extent) of the rotation, in degrees.
     /// </param>
-    /// <param name="order">A
+    /// <param name="order">
+    /// A
     /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the rotation is applied to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
@@ -345,9 +518,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> around the point specified in the
     /// <paramref name="point" /> parameter, and by prepending the rotation.
     /// </summary>
-    /// <param name="angle">The angle (extent) of the rotation, in degrees.
+    /// <param name="angle">
+    /// The angle (extent) of the rotation, in degrees.
     /// </param>
-    /// <param name="point">A
+    /// <param name="point">
+    /// A
     /// <see cref="T:System.Drawing.PointF" /> that represents the center of the rotation.
     /// </param>
     public void RotateAt(float angle, PointF point)
@@ -360,12 +535,15 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Applies a clockwise rotation about the specified point to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the specified order.
     /// </summary>
-    /// <param name="angle">The angle of the rotation, in degrees.
+    /// <param name="angle">
+    /// The angle of the rotation, in degrees.
     /// </param>
-    /// <param name="point">A
+    /// <param name="point">
+    /// A
     /// <see cref="T:System.Drawing.PointF" /> that represents the center of the rotation.
     /// </param>
-    /// <param name="order">A
+    /// <param name="order">
+    /// A
     /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the rotation is applied.
     /// </param>
     public void RotateAt(float angle, PointF point, MatrixOrder order)
@@ -379,10 +557,12 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Applies the specified scale vector to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by prepending the scale vector.
     /// </summary>
-    /// <param name="scaleX">The value by which to scale this
+    /// <param name="scaleX">
+    /// The value by which to scale this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the x-axis direction.
     /// </param>
-    /// <param name="scaleY">The value by which to scale this
+    /// <param name="scaleY">
+    /// The value by which to scale this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the y-axis direction.
     /// </param>
     public void Scale(float scaleX, float scaleY)
@@ -397,13 +577,16 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <paramref name="scaleY" />) to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> using the specified order.
     /// </summary>
-    /// <param name="scaleX">The value by which to scale this
+    /// <param name="scaleX">
+    /// The value by which to scale this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the x-axis direction.
     /// </param>
-    /// <param name="scaleY">The value by which to scale this
+    /// <param name="scaleY">
+    /// The value by which to scale this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the y-axis direction.
     /// </param>
-    /// <param name="order">A
+    /// <param name="order">
+    /// A
     /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the scale vector is applied to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
@@ -417,9 +600,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Applies the specified shear vector to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by prepending the shear transformation.
     /// </summary>
-    /// <param name="shearX">The horizontal shear factor.
+    /// <param name="shearX">
+    /// The horizontal shear factor.
     /// </param>
-    /// <param name="shearY">The vertical shear factor.
+    /// <param name="shearY">
+    /// The vertical shear factor.
     /// </param>
     public void Shear(float shearX, float shearY)
     {
@@ -431,11 +616,14 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Applies the specified shear vector to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the specified order.
     /// </summary>
-    /// <param name="shearX">The horizontal shear factor.
+    /// <param name="shearX">
+    /// The horizontal shear factor.
     /// </param>
-    /// <param name="shearY">The vertical shear factor.
+    /// <param name="shearY">
+    /// The vertical shear factor.
     /// </param>
-    /// <param name="order">A
+    /// <param name="order">
+    /// A
     /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the shear is applied.
     /// </param>
     public void Shear(float shearX, float shearY, MatrixOrder order)
@@ -449,7 +637,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Applies the geometric transform represented by this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> to a specified array of points.
     /// </summary>
-    /// <param name="pts">An array of
+    /// <param name="pts">
+    /// An array of
     /// <see cref="T:System.Drawing.PointF" /> structures that represents the points to transform.
     /// </param>
     public void TransformPoints(PointF[] pts)
@@ -461,7 +650,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Applies the geometric transform represented by this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> to a specified array of points.
     /// </summary>
-    /// <param name="pts">An array of
+    /// <param name="pts">
+    /// An array of
     /// <see cref="T:System.Drawing.Point" /> structures that represents the points to transform.
     /// </param>
     public void TransformPoints(Point[] pts)
@@ -472,7 +662,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <summary>
     /// Multiplies each vector in an array by the matrix. The translation elements of this matrix (third row) are ignored.
     /// </summary>
-    /// <param name="pts">An array of
+    /// <param name="pts">
+    /// An array of
     /// <see cref="T:System.Drawing.Point" /> structures that represents the points to transform.
     /// </param>
     public void TransformVectors(PointF[] pts)
@@ -485,7 +676,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Applies only the scale and rotate components of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> to the specified array of points.
     /// </summary>
-    /// <param name="pts">An array of
+    /// <param name="pts">
+    /// An array of
     /// <see cref="T:System.Drawing.Point" /> structures that represents the points to transform.
     /// </param>
     public void TransformVectors(Point[] pts)
@@ -499,10 +691,12 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <paramref name="offsetY" />) to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> by prepending the translation vector.
     /// </summary>
-    /// <param name="offsetX">The x value by which to translate this
+    /// <param name="offsetX">
+    /// The x value by which to translate this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
-    /// <param name="offsetY">The y value by which to translate this
+    /// <param name="offsetY">
+    /// The y value by which to translate this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
     public void Translate(float offsetX, float offsetY)
@@ -515,13 +709,16 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// Applies the specified translation vector to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> in the specified order.
     /// </summary>
-    /// <param name="offsetX">The x value by which to translate this
+    /// <param name="offsetX">
+    /// The x value by which to translate this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
-    /// <param name="offsetY">The y value by which to translate this
+    /// <param name="offsetY">
+    /// The y value by which to translate this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
-    /// <param name="order">A
+    /// <param name="order">
+    /// A
     /// <see cref="T:System.Drawing.Drawing2D.MatrixOrder" /> that specifies the order (append or prepend) in which the translation is applied to this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </param>
@@ -534,7 +731,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <summary>
     /// Multiplies each vector in an array by the matrix. The translation elements of this matrix (third row) are ignored.
     /// </summary>
-    /// <param name="pts">An array of
+    /// <param name="pts">
+    /// An array of
     /// <see cref="T:System.Drawing.Point" /> structures that represents the points to transform.
     /// </param>
     public void VectorTransformPoints(Point[] pts)

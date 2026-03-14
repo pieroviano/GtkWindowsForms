@@ -1,35 +1,34 @@
-using System;
-namespace System.Windows.Forms
+﻿using System;
+namespace System.Windows.Forms;
+
+
+/// <summary>
+/// Specifies what to render (image or text) for this
+/// <see cref="T:System.Windows.Forms.ToolStripItem" /> .
+/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
+public enum ToolStripItemDisplayStyle
 {
 
     /// <summary>
-    /// Specifies what to render (image or text) for this
-    /// <see cref="T:System.Windows.Forms.ToolStripItem" /> .
+    /// Specifies that neither image nor text is to be rendered for this System.Windows.Forms.ToolStripItem.
     /// </summary>
-    /// <filterpriority>
-    /// 2
-    /// </filterpriority>
-    public enum ToolStripItemDisplayStyle
-    {
+    None = 0,
 
-        /// <summary>
-        /// Specifies that neither image nor text is to be rendered for this System.Windows.Forms.ToolStripItem.
-        /// </summary>
-        None = 0,
+    /// <summary>
+    /// Specifies that only text is to be rendered for this System.Windows.Forms.ToolStripItem.
+    /// </summary>
+    Text = 1,
 
-        /// <summary>
-        /// Specifies that only text is to be rendered for this System.Windows.Forms.ToolStripItem.
-        /// </summary>
-        Text = 1,
+    /// <summary>
+    /// Specifies that only an image is to be rendered for this System.Windows.Forms.ToolStripItem.
+    /// </summary>
+    Image = 2,
 
-        /// <summary>
-        /// Specifies that only an image is to be rendered for this System.Windows.Forms.ToolStripItem.
-        /// </summary>
-        Image = 2,
-
-        /// <summary>
-        /// Specifies that both an image and text are to be rendered for this System.Windows.Forms.ToolStripItem.
-        /// </summary>
-        ImageAndText = 3
-    }
+    /// <summary>
+    /// Specifies that both an image and text are to be rendered for this System.Windows.Forms.ToolStripItem.
+    /// </summary>
+    ImageAndText = 3
 }

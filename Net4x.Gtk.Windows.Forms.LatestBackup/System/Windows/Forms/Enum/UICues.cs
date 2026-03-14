@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -22,7 +22,9 @@ public enum UICues
     /// Keyboard cues are underlined after the change.
     /// </summary>
     ShowKeyboard = 0x02,
-
+    /// <summary>
+    /// The shown
+    /// </summary>
     Shown = ShowFocus | ShowKeyboard,
 
     /// <summary>
@@ -34,8 +36,12 @@ public enum UICues
     /// The state of the keyboard cues has changed.
     /// </summary>
     ChangeKeyboard = 0x08,
-
+    /// <summary>
+    /// The changed
+    /// </summary>
     Changed = ChangeFocus | ChangeKeyboard,
-
+    /// <summary>
+    /// The none
+    /// </summary>
     None = 0x00,
 }

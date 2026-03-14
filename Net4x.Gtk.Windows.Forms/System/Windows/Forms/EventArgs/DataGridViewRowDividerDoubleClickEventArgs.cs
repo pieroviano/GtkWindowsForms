@@ -1,3 +1,7 @@
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 namespace System.Windows.Forms;
 
 /// <summary>
@@ -9,12 +13,19 @@ namespace System.Windows.Forms;
 public class DataGridViewRowDividerDoubleClickEventArgs : HandledMouseEventArgs
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataGridViewRowDividerDoubleClickEventArgs"/> class.
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridViewRowDividerDoubleClickEventArgs" /> class.
     /// </summary>
-    /// <param name="rowIndex">Index of the row.</param>
-    /// <param name="e">The <see cref="HandledMouseEventArgs"/> instance containing the event data.</param>
-    /// <exception cref="System.ArgumentOutOfRangeException">rowIndex</exception>
-    /// <exception cref="System.ArgumentNullException">e</exception>
+    /// <param name="rowIndex">Index of the row.
+    /// </param>
+    /// <param name="e">
+    /// The
+    /// <see cref="T:System.Windows.Forms.HandledMouseEventArgs" /> instance containing the event data.
+    /// </param>
+    /// <exception cref="T:System.ArgumentOutOfRangeException">rowIndex
+    /// </exception>
+    /// <exception cref="T:System.ArgumentNullException">e
+    /// </exception>
     public DataGridViewRowDividerDoubleClickEventArgs(int rowIndex, HandledMouseEventArgs e) : base(e?.Button ?? MouseButtons.None, e?.Clicks ?? 0, e?.X ?? 0, e?.Y ?? 0, e?.Delta ?? 0, e?.Handled ?? false)
     {
         if (rowIndex < -1)
@@ -32,7 +43,8 @@ public class DataGridViewRowDividerDoubleClickEventArgs : HandledMouseEventArgs
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.</value>
+    /// <value>The index of the row.
+    /// </value>
     public int RowIndex { get; }
 
 }

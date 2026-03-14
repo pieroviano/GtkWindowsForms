@@ -30,7 +30,14 @@ public static class XmlCommentFormatter
         var collapsedMid = MergeSelfClosingMidlineContinuations(collapsed);
 
         var formatXmlComment = string.Join(LF, collapsedMid);
-        return Normalize($"{formatXmlComment.Replace("cref=\"System.", "cref=\"T:System.").Replace("cref = \"System.", "cref=\"T:System.")}\n");
+
+        // normalize crefs and ensure self-closing tags have no extra space before the '/>'
+        formatXmlComment = formatXmlComment
+            .Replace("cref=\"System.", "cref=\"T:System.")
+            .Replace("cref = \"System.", "cref=\"T:System.")
+            .Replace(" />", "/>");
+
+        return Normalize($"{formatXmlComment}\n");
     }
 
     // Split lines like "/// <tag>Inline text" into "/// <tag>" and "/// Inline text"

@@ -1,16 +1,16 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
+using System.ComponentModel;
+using System.Reflection;
 using Atk;
 using Cairo;
 using Gdk;
 using GLib;
 using Gtk;
-using System.ComponentModel;
-using System.Reflection;
 
 namespace System.Windows.Forms.PropertyGridInternal;
 
@@ -36,61 +36,77 @@ internal sealed partial class PropertyGridView
         tree.EnableTreeLines = false;
         tree.EnableGridLines = TreeViewGridLines.Horizontal;
         IconTheme iconTheme = new IconTheme();
-        Gtk.TreeViewColumn column1 = new Gtk.TreeViewColumn();
-        column1.FixedWidth = 30;
-        column1.Resizable = false;
-        column1.Clickable = false;
-        column1.SortIndicator = false;
-        column1.Reorderable = false;
+        Gtk.TreeViewColumn column1 = new Gtk.TreeViewColumn
+        {
+            FixedWidth = 30,
+            Resizable = false,
+            Clickable = false,
+            SortIndicator = false,
+            Reorderable = false
+        };
         Gtk.Button button1 = column1.Button as Gtk.Button;
         if (button1.Child is Gtk.Box box1)
         {
-            Gtk.Image img = new Gtk.Image(this.GetType().Assembly, "Resources.System.PBCategory.ico");
-            img.Visible = true;
+            Gtk.Image img = new Gtk.Image(this.GetType().Assembly, "Resources.System.PBCategory.ico")
+            {
+                Visible = true
+            };
             box1.PackStart(img, false, true, 1);
             box1.ReorderChild(img, 0);
         }
 
-        CellRendererExpander expander = new CellRendererExpander(this);
-        expander.CellBackgroundRgba = new RGBA() { Alpha = 0.6, Red = 0.9, Green = 0.9, Blue = 0.9 };
+        CellRendererExpander expander = new CellRendererExpander(this)
+        {
+            CellBackgroundRgba = new RGBA() { Alpha = 0.6, Red = 0.9, Green = 0.9, Blue = 0.9 }
+        };
         column1.PackStart(expander, false);
         column1.AddAttribute(expander, "icon", 0);
 
-        Gtk.TreeViewColumn column2 = new Gtk.TreeViewColumn();
-        column2.MinWidth = 20;
-        column2.FixedWidth = 150;
-        column2.Resizable = true;
-        column2.Clickable = false;
-        column2.Title = " ";
-        column2.SortIndicator = true;
-        column2.SortOrder = SortType.Ascending;
-        column2.Reorderable = false;
+        Gtk.TreeViewColumn column2 = new Gtk.TreeViewColumn
+        {
+            MinWidth = 20,
+            FixedWidth = 150,
+            Resizable = true,
+            Clickable = false,
+            Title = " ",
+            SortIndicator = true,
+            SortOrder = SortType.Ascending,
+            Reorderable = false
+        };
         column2.Button.Name = "key";
         Gtk.Button button2 = column2.Button as Gtk.Button;
         if (button2.Child is Gtk.Box box)
         {
-            Gtk.Image img = new Gtk.Image(this.GetType().Assembly, "Resources.System.PBAlpha.ico");
-            img.Visible = true;
+            Gtk.Image img = new Gtk.Image(this.GetType().Assembly, "Resources.System.PBAlpha.ico")
+            {
+                Visible = true
+            };
             box.PackStart(img, false, true, 1);
             box.ReorderChild(img, 0);
             box.SetChildPacking(box.Children[2], false, true, 0, PackType.End);
         }
-        CellRendererText names = new CellRendererProperty(this);
-        names.Editable = false;
+        CellRendererText names = new CellRendererProperty(this)
+        {
+            Editable = false
+        };
         column2.SortColumnId = 0;
         column2.PackStart(names, false);
         column2.AddAttribute(names, "otext", 0);
 
-        Gtk.TreeViewColumn column3 = new Gtk.TreeViewColumn();
-        column3.MinWidth = 10;
-        column3.Resizable = false;
-        column3.Clickable = false;
-        column3.Title = " ";
-        column3.SortIndicator = false;
-        column3.Reorderable = false;
+        Gtk.TreeViewColumn column3 = new Gtk.TreeViewColumn
+        {
+            MinWidth = 10,
+            Resizable = false,
+            Clickable = false,
+            Title = " ",
+            SortIndicator = false,
+            Reorderable = false
+        };
         column3.Button.Name = "value";
-        Gtk.CellRendererText values = new CellRendererProperty(this);
-        values.Editable = true;
+        Gtk.CellRendererText values = new CellRendererProperty(this)
+        {
+            Editable = true
+        };
         column3.PackStart(values, false);
         column3.AddAttribute(values, "ovalue", 0);
 
@@ -150,8 +166,10 @@ internal sealed partial class PropertyGridView
                 description = attribute.Description;
             }
 
-            GridEntry propertyItem = new GridEntry(null, GridItemType.Category, 0, category, category, description);
-            propertyItem.PropertyInfo = propertyInfo;
+            GridEntry propertyItem = new GridEntry(null, GridItemType.Category, 0, category, category, description)
+            {
+                PropertyInfo = propertyInfo
+            };
             categorys.Add(propertyItem);
         }
         var gs = categorys.GroupBy(o => o.Label).OrderBy(g => g.Key);
@@ -245,8 +263,7 @@ internal sealed partial class PropertyGridView
         if (tree.Selection.GetSelected(out ITreeModel model, out Gtk.TreeIter oiter))
         {
             GridEntry propertyItem = store.GetValue(oiter, 0) as GridEntry;
-            if (SelectedGridItemChanged != null)
-                SelectedGridItemChanged(sender, new SelectedGridItemChangedEventArgs(oldSelectedPropertyItem, propertyItem));
+            SelectedGridItemChanged?.Invoke(sender, new SelectedGridItemChangedEventArgs(oldSelectedPropertyItem, propertyItem));
             oldSelectedPropertyItem = propertyItem;
         }
     }
@@ -273,9 +290,9 @@ internal sealed partial class PropertyGridView
 
     public class CellRendererExpander : Gtk.CellRendererToggle
     {
-        Pixbuf godownixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-down-symbolic.png");
+        readonly Pixbuf godownixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-down-symbolic.png");
 
-        Pixbuf gonextpixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-next-symbolic.png");
+        readonly Pixbuf gonextpixbuf = new Pixbuf(typeof(CellRendererExpander).Assembly, "Resources.System.go-next-symbolic.png");
 
         public CellRendererExpander(PropertyGridView owner)
         {
@@ -321,9 +338,9 @@ internal sealed partial class PropertyGridView
 
     public class CellRendererProperty : Gtk.CellRendererCombo
     {
-        Gtk.ListStore model = new Gtk.ListStore(typeof(string));
+        readonly Gtk.ListStore model = new Gtk.ListStore(typeof(string));
 
-        PropertyGridView owner;
+        readonly PropertyGridView owner;
 
         private GridEntry _value;
 
@@ -467,8 +484,7 @@ internal sealed partial class PropertyGridView
                 {
                 }
 
-                if (owner.PropertyValueChanged != null)
-                    owner.PropertyValueChanged(o, new PropertyValueChangedEventArgs(val, oldvalue));
+                owner.PropertyValueChanged?.Invoke(o, new PropertyValueChangedEventArgs(val, oldvalue));
             }
         }
 
