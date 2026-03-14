@@ -16,13 +16,17 @@ public class DataGridViewRowsRemovedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowsRemovedEventArgs" /> class.
     /// </summary>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="rowCount">The row count.
+    /// <param name="rowCount">
+    /// The row count.
     /// </param>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">rowIndex - string.Format(SR.InvalidLowBoundArgumentEx, nameof(rowIndex), rowIndex.ToString(CultureInfo.CurrentCulture), 0)
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// rowIndex - string.Format(SR.InvalidLowBoundArgumentEx, nameof(rowIndex), rowIndex.ToString(CultureInfo.CurrentCulture), 0)
     /// </exception>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">rowCount - string.Format(SR.InvalidLowBoundArgumentEx, nameof(rowCount), rowCount.ToString(CultureInfo.CurrentCulture), 1)
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// rowCount - string.Format(SR.InvalidLowBoundArgumentEx, nameof(rowCount), rowCount.ToString(CultureInfo.CurrentCulture), 1)
     /// </exception>
     public DataGridViewRowsRemovedEventArgs(int rowIndex, int rowCount)
     {
@@ -42,14 +46,16 @@ public class DataGridViewRowsRemovedEventArgs : EventArgs
     /// <summary>
     /// Gets the row count.
     /// </summary>
-    /// <value>The row count.
+    /// <value>
+    /// The row count.
     /// </value>
     public int RowCount { get; }
 
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

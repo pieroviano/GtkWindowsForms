@@ -72,9 +72,11 @@ public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
     /// <summary>
     /// Shows the description.
     /// </summary>
-    /// <param name="title">The title.
+    /// <param name="title">
+    /// The title.
     /// </param>
-    /// <param name="description">The description.
+    /// <param name="description">
+    /// The description.
     /// </param>
     public void ShowDescription(string title, string description)
     {

@@ -20,7 +20,8 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripSplitButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public ToolStripSplitButton(string text) : base(text, null) { }
 
@@ -28,7 +29,8 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripSplitButton" /> class.
     /// </summary>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
     public ToolStripSplitButton(Image image) : base("", image) { }
 
@@ -36,9 +38,11 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripSplitButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
     public ToolStripSplitButton(string text, Image image) : base(text, image) { }
 
@@ -46,11 +50,14 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripSplitButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
     public ToolStripSplitButton(string text, Image image, EventHandler onClick) : base(text, image, onClick) { }
 
@@ -58,11 +65,14 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripSplitButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="dropDownItems">The drop down items.
+    /// <param name="dropDownItems">
+    /// The drop down items.
     /// </param>
     public ToolStripSplitButton(string text, Image image, params ToolStripItem[] dropDownItems) : base(text, image, dropDownItems) { }
 
@@ -70,13 +80,17 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripSplitButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     public ToolStripSplitButton(string text, Image image, EventHandler onClick, string name) : base(text, image, onClick, name)
     {
@@ -86,32 +100,35 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// <summary>
     /// Gets the button bounds.
     /// </summary>
-    /// <value>The button bounds.
+    /// <value>
+    /// The button bounds.
     /// </value>
     [Browsable(false)]
     public Rectangle ButtonBounds { get; }
 
     /// <summary>
-    /// Gets a value indicating whether [button pressed].
+    /// Gets a value indicating whether button pressed.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [button pressed]; otherwise,
-    /// <c>false
+    /// </c> if button pressed; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
     public bool ButtonPressed { get; }
 
     /// <summary>
-    /// Gets a value indicating whether [button selected].
+    /// Gets a value indicating whether button selected.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [button selected]; otherwise,
-    /// <c>false
+    /// </c> if button selected; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -120,7 +137,8 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// <summary>
     /// Gets or sets the default item.
     /// </summary>
-    /// <value>The default item.
+    /// <value>
+    /// The default item.
     /// </value>
     [Browsable(false)]
     [DefaultValue(null)]
@@ -129,32 +147,35 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// <summary>
     /// Gets the drop down button bounds.
     /// </summary>
-    /// <value>The drop down button bounds.
+    /// <value>
+    /// The drop down button bounds.
     /// </value>
     [Browsable(false)]
     public Rectangle DropDownButtonBounds { get; }
 
     /// <summary>
-    /// Gets a value indicating whether [drop down button pressed].
+    /// Gets a value indicating whether drop down button pressed.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [drop down button pressed]; otherwise,
-    /// <c>false
+    /// </c> if drop down button pressed; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
     public bool DropDownButtonPressed { get; }
 
     /// <summary>
-    /// Gets a value indicating whether [drop down button selected].
+    /// Gets a value indicating whether drop down button selected.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [drop down button selected]; otherwise,
-    /// <c>false
+    /// </c> if drop down button selected; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -163,7 +184,8 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// <summary>
     /// Gets or sets the width of the drop down button.
     /// </summary>
-    /// <value>The width of the drop down button.
+    /// <value>
+    /// The width of the drop down button.
     /// </value>
     //[DefaultValue(true)]
     //public bool AutoToolTip { get; set; }
@@ -173,31 +195,34 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// <summary>
     /// Gets the splitter bounds.
     /// </summary>
-    /// <value>The splitter bounds.
+    /// <value>
+    /// The splitter bounds.
     /// </value>
     [Browsable(false)]
     public Rectangle SplitterBounds { get; }
 
     /// <summary>
-    /// Gets a value indicating whether [dismiss when clicked].
+    /// Gets a value indicating whether dismiss when clicked.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [dismiss when clicked]; otherwise,
-    /// <c>false
+    /// </c> if dismiss when clicked; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     protected internal bool DismissWhenClicked { get; }
 
     /// <summary>
-    /// Gets a value indicating whether [default automatic tool tip].
+    /// Gets a value indicating whether default automatic tool tip.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [default automatic tool tip]; otherwise,
-    /// <c>false
+    /// </c> if default automatic tool tip; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     protected bool DefaultAutoToolTip { get; }

@@ -25,7 +25,8 @@ public class ImageListImage
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Design.ImageListImage" /> class that wraps the specified image.
     /// </summary>
-    /// <param name="image">The image to wrap.
+    /// <param name="image">
+    /// The image to wrap.
     /// </param>
     public ImageListImage(Image image)
     {
@@ -36,9 +37,11 @@ public class ImageListImage
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Design.ImageListImage" /> class that wraps the specified image and assigns a name.
     /// </summary>
-    /// <param name="image">The image to wrap.
+    /// <param name="image">
+    /// The image to wrap.
     /// </param>
-    /// <param name="name">The name to associate with the image.
+    /// <param name="name">
+    /// The name to associate with the image.
     /// </param>
     public ImageListImage(Image image, string name)
     {
@@ -97,13 +100,14 @@ public class ImageListImage
 
     /// <summary>
     /// Creates an
-    /// <see cref="T:System.Windows.Forms.Design.ImageListImage" /> from a stream.
-    /// If
+    /// <see cref="T:System.Windows.Forms.Design.ImageListImage" /> from a stream. If
     /// <paramref name="imageIsIcon" /> is true the stream is treated as an icon and converted to a bitmap.
     /// </summary>
-    /// <param name="stream">Stream that contains image data.
+    /// <param name="stream">
+    /// Stream that contains image data.
     /// </param>
-    /// <param name="imageIsIcon">If true, interpret the stream as an icon.
+    /// <param name="imageIsIcon">
+    /// If true, interpret the stream as an icon.
     /// </param>
     /// <returns>
     /// A new

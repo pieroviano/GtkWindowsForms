@@ -14,11 +14,14 @@ public class ListControlConvertEventArgs : ConvertEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListControlConvertEventArgs" /> class.
     /// </summary>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="desiredType">Type of the desired.
+    /// <param name="desiredType">
+    /// Type of the desired.
     /// </param>
-    /// <param name="listItem">The list item.
+    /// <param name="listItem">
+    /// The list item.
     /// </param>
     public ListControlConvertEventArgs(object value, Type desiredType, object listItem) : base(value, desiredType)
     {
@@ -28,7 +31,8 @@ public class ListControlConvertEventArgs : ConvertEventArgs
     /// <summary>
     /// Gets the list item.
     /// </summary>
-    /// <value>The list item.
+    /// <value>
+    /// The list item.
     /// </value>
     public object ListItem { get; }
 

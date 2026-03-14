@@ -27,7 +27,7 @@ public abstract class FileDialog : CommonDialog
     static readonly Dictionary<string, string> MimeMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
-    /// Occurs when [file ok].
+    /// Occurs when [file ok.
     /// </summary>
     public event CancelEventHandler FileOk;
 
@@ -393,49 +393,53 @@ public abstract class FileDialog : CommonDialog
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [add extension].
+    /// Gets or sets a value indicating whether add extension.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [add extension]; otherwise,
-    /// <c>false
+    /// </c> if add extension; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool AddExtension { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [automatic upgrade enabled].
+    /// Gets or sets a value indicating whether automatic upgrade enabled.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [automatic upgrade enabled]; otherwise,
-    /// <c>false
+    /// </c> if automatic upgrade enabled; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool AutoUpgradeEnabled { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [check file exists].
+    /// Gets or sets a value indicating whether check file exists.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [check file exists]; otherwise,
-    /// <c>false
+    /// </c> if check file exists; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public virtual bool CheckFileExists { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [check path exists].
+    /// Gets or sets a value indicating whether check path exists.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [check path exists]; otherwise,
-    /// <c>false
+    /// </c> if check path exists; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool CheckPathExists { get; set; }
@@ -443,18 +447,20 @@ public abstract class FileDialog : CommonDialog
     /// <summary>
     /// Gets or sets the default ext.
     /// </summary>
-    /// <value>The default ext.
+    /// <value>
+    /// The default ext.
     /// </value>
     public string DefaultExt { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [dereference links].
+    /// Gets or sets a value indicating whether dereference links.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [dereference links]; otherwise,
-    /// <c>false
+    /// </c> if dereference links; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool DereferenceLinks { get; set; }
@@ -462,30 +468,35 @@ public abstract class FileDialog : CommonDialog
     /// <summary>
     /// Gets or sets the description.
     /// </summary>
-    /// <value>The description.
+    /// <value>
+    /// The description.
     /// </value>
     public string Description { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the file.
     /// </summary>
-    /// <value>The name of the file.
+    /// <value>
+    /// The name of the file.
     /// </value>
     public string FileName { get; set; }
 
     /// <summary>
     /// Gets the file names.
     /// </summary>
-    /// <value>The file names.
+    /// <value>
+    /// The file names.
     /// </value>
     public string[] FileNames { get; internal set; }
 
     /// <summary>
     /// Gets or sets the filter.
     /// </summary>
-    /// <value>The filter.
+    /// <value>
+    /// The filter.
     /// </value>
-    /// <exception cref="T:System.ArgumentException">FileDialog Invalid Filter
+    /// <exception cref="T:System.ArgumentException">
+    /// FileDialog Invalid Filter
     /// </exception>
     public string Filter
     {
@@ -527,49 +538,54 @@ public abstract class FileDialog : CommonDialog
     /// <summary>
     /// Gets or sets the index of the filter.
     /// </summary>
-    /// <value>The index of the filter.
+    /// <value>
+    /// The index of the filter.
     /// </value>
     public int FilterIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the initial directory.
     /// </summary>
-    /// <value>The initial directory.
+    /// <value>
+    /// The initial directory.
     /// </value>
     public string InitialDirectory { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [restore directory].
+    /// Gets or sets a value indicating whether restore directory.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [restore directory]; otherwise,
-    /// <c>false
+    /// </c> if restore directory; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool RestoreDirectory { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show help].
+    /// Gets or sets a value indicating whether show help.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show help]; otherwise,
-    /// <c>false
+    /// </c> if show help; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowHelp { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [support multi dotted extensions].
+    /// Gets or sets a value indicating whether support multi dotted extensions.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [support multi dotted extensions]; otherwise,
-    /// <c>false
+    /// </c> if support multi dotted extensions; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool SupportMultiDottedExtensions { get; set; }
@@ -577,18 +593,20 @@ public abstract class FileDialog : CommonDialog
     /// <summary>
     /// Gets or sets the title.
     /// </summary>
-    /// <value>The title.
+    /// <value>
+    /// The title.
     /// </value>
     public string Title { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [validate names].
+    /// Gets or sets a value indicating whether validate names.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [validate names]; otherwise,
-    /// <c>false
+    /// </c> if validate names; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ValidateNames { get; set; }
@@ -596,7 +614,8 @@ public abstract class FileDialog : CommonDialog
     /// <summary>
     /// Gets or sets the type of the action.
     /// </summary>
-    /// <value>The type of the action.
+    /// <value>
+    /// The type of the action.
     /// </value>
     internal Gtk.FileChooserAction ActionType { get; set; }
 
@@ -608,7 +627,8 @@ public abstract class FileDialog : CommonDialog
     /// <c>
     /// true
     /// </c> if multiselect; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     internal bool Multiselect { get; set; }
@@ -616,7 +636,8 @@ public abstract class FileDialog : CommonDialog
     /// <summary>
     /// Gets or sets the selected directory.
     /// </summary>
-    /// <value>The selected directory.
+    /// <value>
+    /// The selected directory.
     /// </value>
     internal string SelectedDirectory { get; set; }
 
@@ -638,13 +659,15 @@ public abstract class FileDialog : CommonDialog
     /// <summary>
     /// Runs the dialog.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     protected override bool RunDialog(IWin32Window owner)

@@ -20,7 +20,8 @@ public class ItemDragEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ItemDragEventArgs" /> class.
     /// </summary>
-    /// <param name="button">The button.
+    /// <param name="button">
+    /// The button.
     /// </param>
     public ItemDragEventArgs(MouseButtons button) : this(button, null)
     {
@@ -30,9 +31,11 @@ public class ItemDragEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ItemDragEventArgs" /> class.
     /// </summary>
-    /// <param name="button">The button.
+    /// <param name="button">
+    /// The button.
     /// </param>
-    /// <param name="item">The item.
+    /// <param name="item">
+    /// The item.
     /// </param>
     public ItemDragEventArgs(MouseButtons button, object item)
     {
@@ -43,14 +46,16 @@ public class ItemDragEventArgs : EventArgs
     /// <summary>
     /// Gets the button.
     /// </summary>
-    /// <value>The button.
+    /// <value>
+    /// The button.
     /// </value>
     public MouseButtons Button { get; }
 
     /// <summary>
     /// Gets the item.
     /// </summary>
-    /// <value>The item.
+    /// <value>
+    /// The item.
     /// </value>
     public object Item { get; }
 

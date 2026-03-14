@@ -12,7 +12,8 @@ public class ToolStripItemClickedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripItemClickedEventArgs" /> class.
     /// </summary>
-    /// <param name="clickedItem">The clicked item.
+    /// <param name="clickedItem">
+    /// The clicked item.
     /// </param>
     public ToolStripItemClickedEventArgs(ToolStripItem clickedItem)
     {
@@ -22,7 +23,8 @@ public class ToolStripItemClickedEventArgs : EventArgs
     /// <summary>
     /// Gets the clicked item.
     /// </summary>
-    /// <value>The clicked item.
+    /// <value>
+    /// The clicked item.
     /// </value>
     public ToolStripItem ClickedItem { get; }
 

@@ -19,7 +19,8 @@ public class UICuesEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.UICuesEventArgs" /> class.
     /// </summary>
-    /// <param name="uicues">The uicues.
+    /// <param name="uicues">
+    /// The uicues.
     /// </param>
     public UICuesEventArgs(UICues uicues)
     {
@@ -29,7 +30,8 @@ public class UICuesEventArgs : EventArgs
     /// <summary>
     /// Gets the changed.
     /// </summary>
-    /// <value>The changed.
+    /// <value>
+    /// The changed.
     /// </value>
     public UICues Changed => (_uicues & UICues.Changed);
 
@@ -39,8 +41,9 @@ public class UICuesEventArgs : EventArgs
     /// <value>
     /// <c>
     /// true
-    /// </c> if [change focus]; otherwise,
-    /// <c>false
+    /// </c> if change focus; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ChangeFocus => (_uicues & UICues.ChangeFocus) != 0;
@@ -51,8 +54,9 @@ public class UICuesEventArgs : EventArgs
     /// <value>
     /// <c>
     /// true
-    /// </c> if [change keyboard]; otherwise,
-    /// <c>false
+    /// </c> if change keyboard; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ChangeKeyboard => (_uicues & UICues.ChangeKeyboard) != 0;
@@ -63,8 +67,9 @@ public class UICuesEventArgs : EventArgs
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show focus]; otherwise,
-    /// <c>false
+    /// </c> if show focus; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowFocus => (_uicues & UICues.ShowFocus) != 0;
@@ -75,8 +80,9 @@ public class UICuesEventArgs : EventArgs
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show keyboard]; otherwise,
-    /// <c>false
+    /// </c> if show keyboard; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowKeyboard => (_uicues & UICues.ShowKeyboard) != 0;

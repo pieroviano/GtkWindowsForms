@@ -16,7 +16,8 @@ public class DataGridViewBindingCompleteEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewBindingCompleteEventArgs" /> class.
     /// </summary>
-    /// <param name="listChangedType">Type of the list changed.
+    /// <param name="listChangedType">
+    /// Type of the list changed.
     /// </param>
     public DataGridViewBindingCompleteEventArgs(ListChangedType listChangedType)
     {
@@ -26,7 +27,8 @@ public class DataGridViewBindingCompleteEventArgs : EventArgs
     /// <summary>
     /// Gets the type of the list changed.
     /// </summary>
-    /// <value>The type of the list changed.
+    /// <value>
+    /// The type of the list changed.
     /// </value>
     public ListChangedType ListChangedType { get; }
 

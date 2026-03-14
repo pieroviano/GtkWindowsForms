@@ -72,7 +72,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets or sets the border style for the control.
     /// </summary>
-    /// <value>The border style.
+    /// <value>
+    /// The border style.
     /// </value>
     [Browsable(false)]
     public override BorderStyle BorderStyle { get => base.BorderStyle; set => base.BorderStyle = value; }
@@ -80,7 +81,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets or sets the cell border style.
     /// </summary>
-    /// <value>The cell border style.
+    /// <value>
+    /// The cell border style.
     /// </value>
     [Localizable(true)]
     public TableLayoutPanelCellBorderStyle CellBorderStyle
@@ -92,7 +94,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets or sets the column count.
     /// </summary>
-    /// <value>The column count.
+    /// <value>
+    /// The column count.
     /// </value>
     [DefaultValue(0)]
     [Localizable(true)]
@@ -123,7 +126,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the column styles.
     /// </summary>
-    /// <value>The column styles.
+    /// <value>
+    /// The column styles.
     /// </value>
     [DisplayName("Columns")]
     [Browsable(false)]
@@ -135,7 +139,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the controls.
     /// </summary>
-    /// <value>The controls.
+    /// <value>
+    /// The controls.
     /// </value>
     [Browsable(false)]
     public new TableLayoutControlCollection Controls
@@ -146,14 +151,16 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the grid.
     /// </summary>
-    /// <value>The grid.
+    /// <value>
+    /// The grid.
     /// </value>
     public Gtk.Grid grid => self.grid;
 
     /// <summary>
     /// Gets or sets the grow style.
     /// </summary>
-    /// <value>The grow style.
+    /// <value>
+    /// The grow style.
     /// </value>
     public TableLayoutPanelGrowStyle GrowStyle
     {
@@ -164,14 +171,16 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the row count.
     /// </summary>
-    /// <value>The row count.
+    /// <value>
+    /// The row count.
     /// </value>
     [DefaultValue(0)]
     [Localizable(true)]
@@ -202,7 +211,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the row styles.
     /// </summary>
-    /// <value>The row styles.
+    /// <value>
+    /// The row styles.
     /// </value>
     [DisplayName("Rows")]
     [Browsable(false)]
@@ -214,7 +224,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     public override Size Size
     {
@@ -230,9 +241,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the cell position.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <returns>TableLayoutPanelCellPosition.
+    /// <returns>
+    /// TableLayoutPanelCellPosition.
     /// </returns>
     [DisplayName("Cell")]
     public TableLayoutPanelCellPosition GetCellPosition(Control control)
@@ -251,9 +264,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the column.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     [DefaultValue(-1)]
     [DisplayName("Column")]
@@ -265,9 +280,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the column span.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     [DefaultValue(1)]
     [DisplayName("ColumnSpan")]
@@ -279,7 +296,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the column widths.
     /// </summary>
-    /// <returns>System.Int32[].
+    /// <returns>
+    /// System.Int32[.
     /// </returns>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -298,11 +316,14 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the control from position.
     /// </summary>
-    /// <param name="column">The column.
+    /// <param name="column">
+    /// The column.
     /// </param>
-    /// <param name="row">The row.
+    /// <param name="row">
+    /// The row.
     /// </param>
-    /// <returns>Control.
+    /// <returns>
+    /// Control.
     /// </returns>
     public Control GetControlFromPosition(int column, int row)
     {
@@ -312,9 +333,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the position from control.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <returns>TableLayoutPanelCellPosition.
+    /// <returns>
+    /// TableLayoutPanelCellPosition.
     /// </returns>
     public TableLayoutPanelCellPosition GetPositionFromControl(Control control)
     {
@@ -332,9 +355,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the row.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     [DefaultValue(-1)]
     [DisplayName("Row")]
@@ -346,7 +371,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the row heights.
     /// </summary>
-    /// <returns>System.Int32[].
+    /// <returns>
+    /// System.Int32[.
     /// </returns>
     [Browsable(false)]
     public int[] GetRowHeights()
@@ -364,9 +390,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Gets the row span.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     [DefaultValue(1)]
     [DisplayName("RowSpan")]
@@ -387,9 +415,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Sets the cell position.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <param name="position">The position.
+    /// <param name="position">
+    /// The position.
     /// </param>
     public void SetCellPosition(Control control, TableLayoutPanelCellPosition position)
     {
@@ -404,9 +434,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Sets the column.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <param name="column">The column.
+    /// <param name="column">
+    /// The column.
     /// </param>
     public void SetColumn(Control control, int column)
     {
@@ -418,9 +450,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Sets the column span.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
     public void SetColumnSpan(Control control, int value)
     {
@@ -431,9 +465,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Sets the row.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <param name="row">The row.
+    /// <param name="row">
+    /// The row.
     /// </param>
     public void SetRow(Control control, int row)
     {
@@ -443,9 +479,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Sets the row span.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
     public void SetRowSpan(Control control, int value)
     {
@@ -456,13 +494,15 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <summary>
     /// Determines whether this instance can extend the specified object.
     /// </summary>
-    /// <param name="obj">The object.
+    /// <param name="obj">
+    /// The object.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if this instance can extend the specified object; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">

@@ -18,11 +18,14 @@ public class DataGridViewRowHeightInfoPushedEventArgs : HandledEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowHeightInfoPushedEventArgs" /> class.
     /// </summary>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="height">The height.
+    /// <param name="height">
+    /// The height.
     /// </param>
-    /// <param name="minimumHeight">The minimum height.
+    /// <param name="minimumHeight">
+    /// The minimum height.
     /// </param>
     internal DataGridViewRowHeightInfoPushedEventArgs(int rowIndex, int height, int minimumHeight) : base(false)
     {
@@ -35,21 +38,24 @@ public class DataGridViewRowHeightInfoPushedEventArgs : HandledEventArgs
     /// <summary>
     /// Gets the height.
     /// </summary>
-    /// <value>The height.
+    /// <value>
+    /// The height.
     /// </value>
     public int Height { get; }
 
     /// <summary>
     /// Gets the minimum height.
     /// </summary>
-    /// <value>The minimum height.
+    /// <value>
+    /// The minimum height.
     /// </value>
     public int MinimumHeight { get; }
 
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

@@ -24,7 +24,8 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// <c>
     /// true
     /// </c> if this instance can modify components; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     /// <exception cref="T:System.NotImplementedException">
@@ -34,20 +35,24 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// <summary>
     /// Retrieves the control view instance for the designer that is hosting the drag.
     /// </summary>
-    /// <param name="component">The component.
+    /// <param name="component">
+    /// The component.
     /// </param>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     /// <param name="firstAdd">
     /// if set to
-    /// <c>true
-    /// </c> [first add].
+    /// <c>
+    /// true
+    /// </c>first add.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
@@ -61,9 +66,11 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// Retrieves the control view instance for the given component.
     /// For Win32 designer, this will often be the component itself.
     /// </summary>
-    /// <param name="component">The component.
+    /// <param name="component">
+    /// The component.
     /// </param>
-    /// <returns>Control.
+    /// <returns>
+    /// Control.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -75,7 +82,8 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// <summary>
     /// Retrieves the control view instance for the designer that is hosting the drag.
     /// </summary>
-    /// <returns>Control.
+    /// <returns>
+    /// Control.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -87,13 +95,15 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// <summary>
     /// Checks if it is valid to drop this type of a component on this client.
     /// </summary>
-    /// <param name="component">The component.
+    /// <param name="component">
+    /// The component.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [is drop ok] [the specified component]; otherwise,
-    /// <c>false
+    /// </c> if is drop ok the specified component; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">

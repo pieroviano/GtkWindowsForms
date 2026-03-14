@@ -32,7 +32,8 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <summary>
     /// Gets the total number of elements in a collection.
     /// </summary>
-    /// <value>The count.
+    /// <value>
+    /// The count.
     /// </value>
     int ICollection.Count => _items.Count;
 
@@ -45,7 +46,8 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <c>
     /// true
     /// </c> if this instance is fixed size; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool IList.IsFixedSize => true;
@@ -57,7 +59,8 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <c>
     /// true
     /// </c> if this instance is read only; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool IList.IsReadOnly => true;
@@ -71,7 +74,8 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <c>
     /// true
     /// </c> if this instance is synchronized; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool ICollection.IsSynchronized => false;
@@ -81,14 +85,16 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <see cref="T:System.Collections.ICollection">
     /// </see>.
     /// </summary>
-    /// <value>The synchronize root.
+    /// <value>
+    /// The synchronize root.
     /// </value>
     object ICollection.SyncRoot => this;
 
     /// <summary>
     /// Gets the list.
     /// </summary>
-    /// <value>The list.
+    /// <value>
+    /// The list.
     /// </value>
     protected override ArrayList List
     {
@@ -102,9 +108,11 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// Gets the
     /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>DataGridViewCell.
+    /// <returns>
+    /// DataGridViewCell.
     /// </returns>
     public DataGridViewCell this[int index]
     {
@@ -117,11 +125,14 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <summary>
     /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>System.Nullable.
+    /// <returns>
+    /// System.Nullable.
     /// </returns>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     object? IList.this[int index]
     {
@@ -134,7 +145,8 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </summary>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public void Clear()
@@ -145,13 +157,15 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <summary>
     /// Checks to see if a DataGridViewCell is contained in this collection.
     /// </summary>
-    /// <param name="dataGridViewCell">The data grid view cell.
+    /// <param name="dataGridViewCell">
+    /// The data grid view cell.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [contains] [the specified data grid view cell]; otherwise,
-    /// <c>false
+    /// </c> if contains [the specified data grid view cell]; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public bool Contains(DataGridViewCell dataGridViewCell) => ((IList)_items).Contains(dataGridViewCell);
@@ -159,20 +173,25 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <summary>
     /// Copies to.
     /// </summary>
-    /// <param name="array">The array.
+    /// <param name="array">
+    /// The array.
     /// </param>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
     public void CopyTo(DataGridViewCell[] array, int index) => _items.CopyTo(array, index);
 
     /// <summary>
     /// Inserts the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <param name="dataGridViewCell">The data grid view cell.
+    /// <param name="dataGridViewCell">
+    /// The data grid view cell.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public void Insert(int index, DataGridViewCell dataGridViewCell)
@@ -184,9 +203,11 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// Adds a
     /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> to this collection.
     /// </summary>
-    /// <param name="dataGridViewCell">The data grid view cell.
+    /// <param name="dataGridViewCell">
+    /// The data grid view cell.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     internal int Add(DataGridViewCell dataGridViewCell)
     {
@@ -197,7 +218,8 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// Adds all the
     /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> objects from the provided linked list to this collection.
     /// </summary>
-    /// <param name="dataGridViewCells">The data grid view cells.
+    /// <param name="dataGridViewCells">
+    /// The data grid view cells.
     /// </param>
     internal void AddCellLinkedList(DataGridViewCellLinkedList dataGridViewCells)
     {
@@ -217,9 +239,11 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </param>
-    /// <returns>The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
+    /// <returns>
+    /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
     /// </returns>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     int IList.Add(object? value)
     {
@@ -231,7 +255,8 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </summary>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     void IList.Clear()
     {
@@ -275,14 +300,16 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <see cref="T:System.Array">
     /// </see> must have zero-based indexing.
     /// </param>
-    /// <param name="index">The zero-based index in array at which copying begins.
+    /// <param name="index">
+    /// The zero-based index in array at which copying begins.
     /// </param>
     void ICollection.CopyTo(Array array, int index) => ((ICollection)_items).CopyTo(array, index);
 
     /// <summary>
     /// Gets an IEnumerator for the collection.
     /// </summary>
-    /// <returns>IEnumerator.
+    /// <returns>
+    /// IEnumerator.
     /// </returns>
     IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
@@ -298,7 +325,8 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// </param>
     /// <returns>
     /// The index of
-    /// <paramref name="value">value
+    /// <paramref name="value">
+    /// value
     /// </paramref> if found in the list; otherwise, -1.
     /// </returns>
     int IList.IndexOf(object? value) => ((IList)_items).IndexOf(value);
@@ -308,14 +336,16 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <see cref="T:System.Collections.IList">
     /// </see> at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index at which value should be inserted.
+    /// <param name="index">
+    /// The zero-based index at which value should be inserted.
     /// </param>
     /// <param name="value">
     /// The object to insert into the
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     void IList.Insert(int index, object? value)
     {
@@ -332,7 +362,8 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     void IList.Remove(object? value)
     {
@@ -344,9 +375,11 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     /// <see cref="T:System.Collections.IList">
     /// </see> item at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index of the item to remove.
+    /// <param name="index">
+    /// The zero-based index of the item to remove.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     void IList.RemoveAt(int index)
     {

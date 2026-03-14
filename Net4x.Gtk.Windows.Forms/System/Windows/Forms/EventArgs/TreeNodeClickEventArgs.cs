@@ -15,15 +15,20 @@ public class TreeNodeMouseClickEventArgs : MouseEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeNodeMouseClickEventArgs" /> class.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <param name="button">The button.
+    /// <param name="button">
+    /// The button.
     /// </param>
-    /// <param name="clicks">The clicks.
+    /// <param name="clicks">
+    /// The clicks.
     /// </param>
-    /// <param name="x">The x.
+    /// <param name="x">
+    /// The x.
     /// </param>
-    /// <param name="y">The y.
+    /// <param name="y">
+    /// The y.
     /// </param>
     public TreeNodeMouseClickEventArgs(TreeNode node, MouseButtons button, int clicks, int x, int y) : base(button, clicks, x, y, 0)
     {
@@ -33,7 +38,8 @@ public class TreeNodeMouseClickEventArgs : MouseEventArgs
     /// <summary>
     /// Gets the node.
     /// </summary>
-    /// <value>The node.
+    /// <value>
+    /// The node.
     /// </value>
     public TreeNode Node { get; }
 

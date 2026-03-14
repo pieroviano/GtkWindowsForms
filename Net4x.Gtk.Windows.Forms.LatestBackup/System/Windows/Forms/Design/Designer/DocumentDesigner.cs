@@ -46,7 +46,8 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
     /// <summary>
     /// Gets the set of technologies that this designer can support for its display.
     /// </summary>
-    /// <value>The supported technologies.
+    /// <value>
+    /// The supported technologies.
     /// </value>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -59,7 +60,8 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
     /// The
     /// <see cref="T:System.Drawing.Design.ToolboxItem" /> to be tested for toolbox support.
     /// </param>
-    /// <returns>true if the tool is supported by the toolbox and can be enabled; false if the document designer does not know how to use the tool.
+    /// <returns>
+    /// true if the tool is supported by the toolbox and can be enabled; false if the document designer does not know how to use the tool.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -76,7 +78,8 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
     /// <see cref="T:System.ComponentModel.Design.ViewTechnology">
     /// </see> that indicates a particular view technology.
     /// </param>
-    /// <returns>An object that represents the view for this designer.
+    /// <returns>
+    /// An object that represents the view for this designer.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>

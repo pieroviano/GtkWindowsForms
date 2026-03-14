@@ -502,41 +502,22 @@
         </member>
         <member name="M:System.Drawing.Bitmap.#ctor(System.Byte[])">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap"/> class.
             </summary>
-            <param name="filename">
-            The bitmap file name and path.
-            </param>
-            <exception cref="T:System.IO.FileNotFoundException">
-            The specified file is not found.
-            </exception>
+            <param name="pixbuf">The raw pixbuf bytes.</param>
         </member>
         <member name="M:System.Drawing.Bitmap.#ctor(System.IntPtr)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap"/> class.
             </summary>
-            <param name="filename">
-            The bitmap file name and path.
-            </param>
-            <exception cref="T:System.IO.FileNotFoundException">
-            The specified file is not found.
-            </exception>
+            <param name="ptr">The PTR.</param>
         </member>
         <member name="M:System.Drawing.Bitmap.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
+            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap"/> class.
             </summary>
-            <param name="filename">
-            The name of the bitmap file.
-            </param>
-            <param name="useIcm">
-            <see langword="true" /> to use color correction for this
-            <see cref="T:System.Drawing.Bitmap" />; otherwise,
-            <see langword="false" />.
-            </param>
+            <param name="info"></param>
+            <param name="context"></param>
         </member>
         <member name="M:System.Drawing.Bitmap.Clone(System.Drawing.RectangleF,System.Drawing.Imaging.PixelFormat)">
             <summary>
@@ -5652,11 +5633,9 @@
         </member>
         <member name="M:System.Drawing.ImageAnimator.ImageInfo.#ctor(System.Drawing.Image)">
             <summary>
-            Initializes a new instance of
-            <see cref="T:System.Drawing.Image"/> from a pixbuf byte buffer.
+            Initializes a new instance of the <see cref="T:System.Drawing.ImageAnimator.ImageInfo"/> class.
             </summary>
-            <param name = "pixbuf">The raw pixbuf bytes.
-            </param>
+            <param name="image">The image.</param>
         </member>
         <member name="T:System.Drawing.ImageConverter">
             <summary>
@@ -13190,28 +13169,16 @@
         </member>
         <member name="M:System.Drawing.Imaging.Metafile.#ctor(System.IntPtr)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Drawing.Imaging.Metafile" /> class from the specified file name.
+            Initializes a new instance of the <see cref="T:System.Drawing.Imaging.Metafile"/> class.
             </summary>
-            <param name="filename">
-            A
-            <see cref="T:System.String" /> that represents the file name from which to create the new
-            <see cref="T:System.Drawing.Imaging.Metafile" />.
-            </param>
+            <param name="ptr">The PTR.</param>
         </member>
         <member name="M:System.Drawing.Imaging.Metafile.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Drawing.Imaging.Metafile" /> class from the specified handle.
+            Initializes a new instance of the <see cref="T:System.Drawing.Imaging.Metafile"/> class.
             </summary>
-            <param name="henhmetafile">
-            A handle to an enhanced metafile.
-            </param>
-            <param name="deleteEmf">
-            <see langword="true" /> to delete the enhanced metafile handle when the
-            <see cref="T:System.Drawing.Imaging.Metafile" /> is deleted; otherwise,
-            <see langword="false" />.
-            </param>
+            <param name="info"></param>
+            <param name="context"></param>
         </member>
         <member name="M:System.Drawing.Imaging.Metafile.GetHenhmetafile">
             <summary>

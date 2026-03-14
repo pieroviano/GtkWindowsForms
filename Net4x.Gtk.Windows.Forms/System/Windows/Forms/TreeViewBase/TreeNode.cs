@@ -77,7 +77,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeNode" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public TreeNode(string text) : this()
     {
@@ -88,9 +89,11 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeNode" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="children">The children.
+    /// <param name="children">
+    /// The children.
     /// </param>
     public TreeNode(string text, TreeNode[] children) : this()
     {
@@ -102,7 +105,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeNode" /> class.
     /// </summary>
-    /// <param name="view">The view.
+    /// <param name="view">
+    /// The view.
     /// </param>
     public TreeNode(TreeView view) : this()
     {
@@ -113,7 +117,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeNode" /> class.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     public TreeNode(TreeNode node) : this()
     {
@@ -125,11 +130,14 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeNode" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="pImageIndex">Index of the p image.
+    /// <param name="pImageIndex">
+    /// Index of the p image.
     /// </param>
-    /// <param name="pSelectedImageIndex">Index of the p selected image.
+    /// <param name="pSelectedImageIndex">
+    /// Index of the p selected image.
     /// </param>
     public TreeNode(string text, int pImageIndex, int pSelectedImageIndex) : this(text)
     {
@@ -145,7 +153,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <c>
     /// true
     /// </c> if checked; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Checked
@@ -165,7 +174,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets or sets the full path.
     /// </summary>
-    /// <value>The full path.
+    /// <value>
+    /// The full path.
     /// </value>
     public string FullPath
     {
@@ -182,7 +192,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets or sets the index of the image.
     /// </summary>
-    /// <value>The index of the image.
+    /// <value>
+    /// The index of the image.
     /// </value>
     public int ImageIndex
     {
@@ -193,7 +204,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets or sets the image key.
     /// </summary>
-    /// <value>The image key.
+    /// <value>
+    /// The image key.
     /// </value>
     public string ImageKey
     {
@@ -204,7 +216,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets the index.
     /// </summary>
-    /// <value>The index.
+    /// <value>
+    /// The index.
     /// </value>
     public string Index { get { return index; } internal set { index = value ?? ""; } }
 
@@ -215,7 +228,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <c>
     /// true
     /// </c> if this instance is expanded; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool IsExpanded
@@ -233,7 +247,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <c>
     /// true
     /// </c> if this instance is selected; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool IsSelected
@@ -257,7 +272,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets the level.
     /// </summary>
-    /// <value>The level.
+    /// <value>
+    /// The level.
     /// </value>
     public int Level
     {
@@ -275,7 +291,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets or sets the name.
     /// </summary>
-    /// <value>The name.
+    /// <value>
+    /// The name.
     /// </value>
     public string Name
     {
@@ -285,7 +302,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets the nodes.
     /// </summary>
-    /// <value>The nodes.
+    /// <value>
+    /// The nodes.
     /// </value>
     public TreeNodeCollection Nodes
     {
@@ -298,7 +316,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets the parent.
     /// </summary>
-    /// <value>The parent.
+    /// <value>
+    /// The parent.
     /// </value>
     public TreeNode Parent
     {
@@ -309,42 +328,48 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets or sets the index of the selected image.
     /// </summary>
-    /// <value>The index of the selected image.
+    /// <value>
+    /// The index of the selected image.
     /// </value>
     public int SelectedImageIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the selected image key.
     /// </summary>
-    /// <value>The selected image key.
+    /// <value>
+    /// The selected image key.
     /// </value>
     public string SelectedImageKey { get; set; }
 
     /// <summary>
     /// Gets or sets the index of the state image.
     /// </summary>
-    /// <value>The index of the state image.
+    /// <value>
+    /// The index of the state image.
     /// </value>
     public int StateImageIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the state image key.
     /// </summary>
-    /// <value>The state image key.
+    /// <value>
+    /// The state image key.
     /// </value>
     public string StateImageKey { get; set; }
 
     /// <summary>
     /// Gets or sets the tag.
     /// </summary>
-    /// <value>The tag.
+    /// <value>
+    /// The tag.
     /// </value>
     public object Tag { get; set; }
 
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public string Text
     {
@@ -359,7 +384,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets or sets the tool tip text.
     /// </summary>
-    /// <value>The tool tip text.
+    /// <value>
+    /// The tool tip text.
     /// </value>
     public string ToolTipText
     {
@@ -369,7 +395,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets the TreeView.
     /// </summary>
-    /// <value>The TreeView.
+    /// <value>
+    /// The TreeView.
     /// </value>
     internal TreeView TreeView
     {
@@ -385,7 +412,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Creates a new object that is a copy of the current instance.
     /// </summary>
-    /// <returns>A new object that is a copy of this instance.
+    /// <returns>
+    /// A new object that is a copy of this instance.
     /// </returns>
     public object Clone()
     {
@@ -403,11 +431,13 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Indicates whether the current object is equal to another object of the same type.
     /// </summary>
-    /// <param name="other">An object to compare with this object.
+    /// <param name="other">
+    /// An object to compare with this object.
     /// </param>
     /// <returns>
     /// true if the current object is equal to the
-    /// <paramref name="other">other
+    /// <paramref name="other">
+    /// other
     /// </paramref> parameter; otherwise, false.
     /// </returns>
     public bool Equals([AllowNull] TreeNode other)
@@ -461,9 +491,11 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <summary>
     /// Gets the full path.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <param name="paths">The paths.
+    /// <param name="paths">
+    /// The paths.
     /// </param>
     protected void GetFullPath(TreeNode node, List<string> paths)
     {

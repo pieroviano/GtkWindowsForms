@@ -14,7 +14,8 @@ public class DataGridViewAutoSizeColumnsModeEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewAutoSizeColumnsModeEventArgs" /> class.
     /// </summary>
-    /// <param name="previousModes">The previous modes.
+    /// <param name="previousModes">
+    /// The previous modes.
     /// </param>
     public DataGridViewAutoSizeColumnsModeEventArgs(DataGridViewAutoSizeColumnMode[] previousModes)
     {
@@ -24,7 +25,8 @@ public class DataGridViewAutoSizeColumnsModeEventArgs : EventArgs
     /// <summary>
     /// Gets the previous modes.
     /// </summary>
-    /// <value>The previous modes.
+    /// <value>
+    /// The previous modes.
     /// </value>
     public DataGridViewAutoSizeColumnMode[] PreviousModes { get; }
 

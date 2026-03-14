@@ -8,16 +8,24 @@ using System.Globalization;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// A drop-down list control that wraps a GTK combo box and provides WinForms-compatible API.
-/// Supports data binding via
-/// <see cref="T:System.Windows.Forms.ComboBox.DataSource" />, item collections and selection semantics.
+/// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
 /// </summary>
-/// ComboBox ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+/// <seealso cref="T:System.Collections.IList" />
+/// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
 /// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// <seealso cref="T:System.Collections.IList" />
+/// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+/// </summary>
+/// <seealso cref="T:System.Collections.IList" />
 public partial class ComboBox
 {
     /// <summary>
+    /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+    /// </summary>
+    /// <seealso cref="T:System.Collections.IList" />
+    /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+    /// </summary>
+    /// <seealso cref="T:System.Collections.IList" />
     /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />
@@ -32,7 +40,8 @@ public partial class ComboBox
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ComboBox.ObjectCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public ObjectCollection(ComboBox owner)
         {
@@ -126,7 +135,8 @@ public partial class ComboBox
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
         public void AddRange(params object[] items)
         {
@@ -198,7 +208,8 @@ public partial class ComboBox
         /// </param>
         /// <returns>
         /// The index of
-        /// <paramref name="value">value
+        /// <paramref name="value">
+        /// value
         /// </paramref> if found in the list; otherwise, -1.
         /// </returns>
         public int IndexOf(object? value)

@@ -13,12 +13,9 @@ using System.Text;
 namespace System.Resources;
 
 /// <summary>
-/// ResXFileRef is a class that is used to reference a file in a .resx file. It is used to reference files that are not embedded in the assembly, but are instead stored as separate files on disk. The ResXFileRef class is used in conjunction with the ResXResourceWriter class to write resources to a .resx file.
+/// Converter is a class that is used to convert a ResXFileRef object to and from a string. The string format is "fileName;typeName;[encoding]". The fileName is the name of the file that is being referenced, the typeName is the name of the type that is being created from the file, and the encoding is the encoding of the file (optional, only used for text files). The Converter class is used by the ResXResourceWriter class to write resources to a .resx file, and by the ResXResourceReader class to read resources from a .resx file.
 /// </summary>
-/// ResX File Reference class. This allows the developer to represent
-/// a link to an external resource. When the resource manager asks
-/// for the value of the resource item, the external resource is loaded.
-/// </summary>
+/// <seealso cref="T:System.ComponentModel.TypeConverter" />
 public partial class ResXFileRef
 {
     /// <summary>

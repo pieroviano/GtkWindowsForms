@@ -15,15 +15,20 @@ public class DataGridViewCellParsingEventArgs : ConvertEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellParsingEventArgs" /> class.
     /// </summary>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="desiredType">Type of the desired.
+    /// <param name="desiredType">
+    /// Type of the desired.
     /// </param>
-    /// <param name="inheritedCellStyle">The inherited cell style.
+    /// <param name="inheritedCellStyle">
+    /// The inherited cell style.
     /// </param>
     public DataGridViewCellParsingEventArgs(int rowIndex,
                                              int columnIndex,
@@ -39,25 +44,28 @@ public class DataGridViewCellParsingEventArgs : ConvertEventArgs
     /// <summary>
     /// Gets the index of the column.
     /// </summary>
-    /// <value>The index of the column.
+    /// <value>
+    /// The index of the column.
     /// </value>
     public int ColumnIndex { get; }
 
     /// <summary>
     /// Gets or sets the inherited cell style.
     /// </summary>
-    /// <value>The inherited cell style.
+    /// <value>
+    /// The inherited cell style.
     /// </value>
     public DataGridViewCellStyle InheritedCellStyle { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [parsing applied].
+    /// Gets or sets a value indicating whether parsing applied.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [parsing applied]; otherwise,
-    /// <c>false
+    /// </c> if parsing applied; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ParsingApplied { get; set; }
@@ -65,7 +73,8 @@ public class DataGridViewCellParsingEventArgs : ConvertEventArgs
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

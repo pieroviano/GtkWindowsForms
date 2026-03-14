@@ -38,11 +38,14 @@ public partial class PaperSize
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Printing.PaperSize" /> class.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="width">The width.
+    /// <param name="width">
+    /// The width.
     /// </param>
-    /// <param name="height">The height.
+    /// <param name="height">
+    /// The height.
     /// </param>
     public PaperSize(string name, int width, int height)
     {
@@ -70,7 +73,8 @@ public partial class PaperSize
     /// <value>
     /// The height.
     /// </value>
-    /// <exception cref="T:System.ArgumentException">PSizeNotCustom - value
+    /// <exception cref="T:System.ArgumentException">
+    /// PSizeNotCustom - value
     /// </exception>
     public int Height
     {
@@ -100,7 +104,8 @@ public partial class PaperSize
     /// <value>
     /// The name of the paper.
     /// </value>
-    /// <exception cref="T:System.ArgumentException">PSizeNotCustom - value
+    /// <exception cref="T:System.ArgumentException">
+    /// PSizeNotCustom - value
     /// </exception>
     public string PaperName
     {
@@ -134,7 +139,8 @@ public partial class PaperSize
     /// <value>
     /// The width.
     /// </value>
-    /// <exception cref="T:System.ArgumentException">PSizeNotCustom - value
+    /// <exception cref="T:System.ArgumentException">
+    /// PSizeNotCustom - value
     /// </exception>
     public int Width
     {

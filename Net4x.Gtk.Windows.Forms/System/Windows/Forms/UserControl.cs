@@ -68,14 +68,16 @@ public partial class UserControl : ContainerControl
     /// <summary>
     /// Gets or sets the design-time AutoScale dimensions for this control.
     /// </summary>
-    /// <value>The automatic scale dimensions.
+    /// <value>
+    /// The automatic scale dimensions.
     /// </value>
     public System.Drawing.SizeF AutoScaleDimensions { get; set; }
 
     /// <summary>
     /// Gets or sets the automatic scaling mode for this control.
     /// </summary>
-    /// <value>The automatic scale mode.
+    /// <value>
+    /// The automatic scale mode.
     /// </value>
     public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
 
@@ -83,7 +85,8 @@ public partial class UserControl : ContainerControl
     /// Gets the collection of child controls contained within this
     /// <see cref="T:System.Windows.Forms.UserControl" />.
     /// </summary>
-    /// <value>The controls.
+    /// <value>
+    /// The controls.
     /// </value>
     public override ControlCollection Controls => _controls;
 
@@ -91,14 +94,16 @@ public partial class UserControl : ContainerControl
     /// Gets the underlying GTK control used by this
     /// <see cref="T:System.Windows.Forms.UserControl" />.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the padding within the control. Setting this value updates the internal GTK overlay margins.
     /// </summary>
-    /// <value>The padding.
+    /// <value>
+    /// The padding.
     /// </value>
     public override Padding Padding
     {
@@ -116,7 +121,8 @@ public partial class UserControl : ContainerControl
     /// <summary>
     /// Resumes normal layout logic for the control.
     /// </summary>
-    /// <param name="performLayout">If true, forces an immediate layout after resuming.
+    /// <param name="performLayout">
+    /// If true, forces an immediate layout after resuming.
     /// </param>
     public override void ResumeLayout(bool performLayout)
     {
@@ -135,7 +141,8 @@ public partial class UserControl : ContainerControl
     /// Releases the unmanaged resources used by the
     /// <see cref="T:System.Windows.Forms.UserControl" /> and optionally releases the managed resources.
     /// </summary>
-    /// <param name="disposing">True to release both managed and unmanaged resources; false to release only unmanaged resources.
+    /// <param name="disposing">
+    /// True to release both managed and unmanaged resources; false to release only unmanaged resources.
     /// </param>
     protected override void Dispose(bool disposing)
     {
@@ -170,7 +177,8 @@ public partial class UserControl : ContainerControl
     /// <summary>
     /// Handles the Paint event of the Override control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -184,9 +192,11 @@ public partial class UserControl : ContainerControl
     /// <summary>
     /// Selfs the parent set.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void Self_ParentSet(object o, ParentSetArgs args)
     {

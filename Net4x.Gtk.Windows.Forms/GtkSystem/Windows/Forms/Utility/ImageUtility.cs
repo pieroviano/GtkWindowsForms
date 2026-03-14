@@ -16,11 +16,14 @@ public class ImageUtility
     /// <summary>
     /// Draws the background image.
     /// </summary>
-    /// <param name="ctx">The CTX.
+    /// <param name="ctx">
+    /// The CTX.
     /// </param>
-    /// <param name="img">The img.
+    /// <param name="img">
+    /// The img.
     /// </param>
-    /// <param name="rec">The record.
+    /// <param name="rec">
+    /// The record.
     /// </param>
     public static void DrawBackgroundImage(Cairo.Context ctx, Gdk.Pixbuf img, Gdk.Rectangle rec)
     {
@@ -44,13 +47,17 @@ public class ImageUtility
     /// <summary>
     /// Draws the image.
     /// </summary>
-    /// <param name="ctx">The CTX.
+    /// <param name="ctx">
+    /// The CTX.
     /// </param>
-    /// <param name="img">The img.
+    /// <param name="img">
+    /// The img.
     /// </param>
-    /// <param name="rec">The record.
+    /// <param name="rec">
+    /// The record.
     /// </param>
-    /// <param name="ImageAlign">The image align.
+    /// <param name="ImageAlign">
+    /// The image align.
     /// </param>
     public static void DrawImage(Cairo.Context ctx, Gdk.Pixbuf img, Gdk.Rectangle rec, ContentAlignment ImageAlign)
     {
@@ -91,17 +98,23 @@ public class ImageUtility
     /// <summary>
     /// Scales the image.
     /// </summary>
-    /// <param name="width">The width.
+    /// <param name="width">
+    /// The width.
     /// </param>
-    /// <param name="height">The height.
+    /// <param name="height">
+    /// The height.
     /// </param>
-    /// <param name="imagePixbuf">The image pixbuf.
+    /// <param name="imagePixbuf">
+    /// The image pixbuf.
     /// </param>
-    /// <param name="imagebytes">The imagebytes.
+    /// <param name="imagebytes">
+    /// The imagebytes.
     /// </param>
-    /// <param name="sizeMode">The size mode.
+    /// <param name="sizeMode">
+    /// The size mode.
     /// </param>
-    /// <param name="backgroundMode">The background mode.
+    /// <param name="backgroundMode">
+    /// The background mode.
     /// </param>
     public static void ScaleImage(int width, int height, ref Gdk.Pixbuf imagePixbuf, byte[] imagebytes, PictureBoxSizeMode sizeMode, ImageLayout backgroundMode)
     {

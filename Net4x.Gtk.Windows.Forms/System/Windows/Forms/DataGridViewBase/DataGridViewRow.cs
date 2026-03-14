@@ -90,7 +90,8 @@ public class DataGridViewRow
     /// <c>
     /// true
     /// </c> if displayed; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Displayed { get; }
@@ -119,7 +120,8 @@ public class DataGridViewRow
     /// <c>
     /// true
     /// </c> if frozen; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Frozen { get; set; }
@@ -163,7 +165,8 @@ public class DataGridViewRow
     /// <c>
     /// true
     /// </c> if this instance is new row; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool IsNewRow { get; }
@@ -177,13 +180,14 @@ public class DataGridViewRow
     public int MinimumHeight { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [read only].
+    /// Gets or sets a value indicating whether read only.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [read only]; otherwise,
-    /// <c>false
+    /// </c> if read only; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ReadOnly { get; set; }
@@ -204,7 +208,8 @@ public class DataGridViewRow
     /// <c>
     /// true
     /// </c> if selected; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Selected { get => DataGridView.NativeRowGetSelected(Index); set => DataGridView.NativeRowSetSelected(Index, value); }
@@ -234,7 +239,8 @@ public class DataGridViewRow
     /// <c>
     /// true
     /// </c> if visible; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Visible { get; set; }
@@ -242,7 +248,8 @@ public class DataGridViewRow
     /// <summary>
     /// Gets the height.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
     /// <returns>
     /// </returns>

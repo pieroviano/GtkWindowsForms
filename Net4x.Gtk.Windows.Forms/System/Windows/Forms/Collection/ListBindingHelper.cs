@@ -67,22 +67,10 @@ internal class ListBindingHelper
     }
 
     /// <summary>
-    /// Returns an object, typically a list, from the evaluation of a specified data source and optional data member.
+    /// Gets the list.
     /// </summary>
-    /// <returns>
-    /// An
-    /// <see cref="T:System.Object" /> representing the underlying list if it was found; otherwise,
-    /// <paramref name="dataSource" />.
-    /// </returns>
-    /// <param name="dataSource">
-    /// The data source from which to find the list.
-    /// </param>
-    /// <param name="dataMember">
-    /// The name of the data source property that contains the list. This can be null.
-    /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The specified data member name did not match any of the properties found for the data source.
-    /// </exception>
+    /// <param name="list">The list.</param>
+    /// <returns></returns>
     public static object? GetList(object? list)
     {
         if (!(list is IListSource))
@@ -94,27 +82,10 @@ internal class ListBindingHelper
     }
 
     /// <summary>
-    /// Returns the
-    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> that describes the properties of an item type contained in the specified data member of a data source. Uses the specified
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array to indicate which properties to examine.
+    /// Gets the list item properties.
     /// </summary>
-    /// <returns>
-    /// The
-    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> describing the properties of an item type contained in a collection property of the specified data source.
-    /// </returns>
-    /// <param name="dataSource">
-    /// The data source to be examined for property information.
-    /// </param>
-    /// <param name="dataMember">
-    /// The optional data member to be examined for property information. This can be null.
-    /// </param>
-    /// <param name="listAccessors">
-    /// The
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array describing which properties of the data member to examine. This can be null.
-    /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The specified data member could not be found in the specified data source.
-    /// </exception>
+    /// <param name="list">The list.</param>
+    /// <returns></returns>
     public static PropertyDescriptorCollection? GetListItemProperties(object? list)
     {
         PropertyDescriptorCollection? itemProperties;
@@ -169,10 +140,10 @@ internal class ListBindingHelper
         dataSource = GetList(dataSource);
         if (!string.IsNullOrEmpty(dataMember))
         {
-            var propertyDescriptor = GetListItemProperties(dataSource)?.Find(dataMember, true);
+            var propertyDescriptor = (GetListItemProperties(dataSource)?.Find(dataMember, true)) ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
             var num = listAccessors == null ? 1 : listAccessors.Length + 1;
             var propertyDescriptorArray = new PropertyDescriptor[num];
-            propertyDescriptorArray[0] = propertyDescriptor ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
+            propertyDescriptorArray[0] = propertyDescriptor;
             for (var i = 1; i < num; i++)
             {
                 if (listAccessors != null)
@@ -187,27 +158,11 @@ internal class ListBindingHelper
     }
 
     /// <summary>
-    /// Returns the
-    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> that describes the properties of an item type contained in the specified data member of a data source. Uses the specified
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array to indicate which properties to examine.
+    /// Gets the list item properties.
     /// </summary>
-    /// <returns>
-    /// The
-    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> describing the properties of an item type contained in a collection property of the specified data source.
-    /// </returns>
-    /// <param name="dataSource">
-    /// The data source to be examined for property information.
-    /// </param>
-    /// <param name="dataMember">
-    /// The optional data member to be examined for property information. This can be null.
-    /// </param>
-    /// <param name="listAccessors">
-    /// The
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> array describing which properties of the data member to examine. This can be null.
-    /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The specified data member could not be found in the specified data source.
-    /// </exception>
+    /// <param name="list">The list.</param>
+    /// <param name="listAccessors">The list accessors.</param>
+    /// <returns></returns>
     public static PropertyDescriptorCollection? GetListItemProperties(object? list, PropertyDescriptor?[]? listAccessors)
     {
         PropertyDescriptorCollection? listItemProperties;
@@ -275,20 +230,10 @@ internal class ListBindingHelper
     }
 
     /// <summary>
-    /// Returns the data type of the items in the specified data source.
+    /// Gets the type of the list item.
     /// </summary>
-    /// <returns>
-    /// For complex data binding, the
-    /// <see cref="T:System.Type" /> of the items represented by the
-    /// <paramref name="dataMember" /> in the data source; otherwise, the
-    /// <see cref="T:System.Type" /> of the item in the list itself.
-    /// </returns>
-    /// <param name="dataSource">
-    /// The data source to examine for items.
-    /// </param>
-    /// <param name="dataMember">
-    /// The optional name of the property on the data source that is to be used as the data member. This can be null.
-    /// </param>
+    /// <param name="list">The list.</param>
+    /// <returns></returns>
     public static Type? GetListItemType(object? list)
     {
         if (list == null)

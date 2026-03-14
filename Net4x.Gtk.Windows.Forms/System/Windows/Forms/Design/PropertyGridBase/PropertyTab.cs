@@ -21,7 +21,8 @@ public abstract class PropertyTab : IExtenderProvider
     /// <summary>
     /// Gets the bitmap.
     /// </summary>
-    /// <value>The bitmap.
+    /// <value>
+    /// The bitmap.
     /// </value>
     public virtual Bitmap? Bitmap
     {
@@ -40,21 +41,24 @@ public abstract class PropertyTab : IExtenderProvider
     /// <summary>
     /// Gets or sets the components.
     /// </summary>
-    /// <value>The components.
+    /// <value>
+    /// The components.
     /// </value>
     public virtual object[]? Components { get; set; }
 
     /// <summary>
     /// Gets the help keyword.
     /// </summary>
-    /// <value>The help keyword.
+    /// <value>
+    /// The help keyword.
     /// </value>
     public virtual string? HelpKeyword => TabName;
 
     /// <summary>
     /// Gets the name of the tab.
     /// </summary>
-    /// <value>The name of the tab.
+    /// <value>
+    /// The name of the tab.
     /// </value>
     public abstract string? TabName { get; }
 
@@ -66,7 +70,8 @@ public abstract class PropertyTab : IExtenderProvider
     /// <see cref="T:System.Object">
     /// </see> to receive the extender properties.
     /// </param>
-    /// <returns>true if this object can provide extender properties to the specified object; otherwise, false.
+    /// <returns>
+    /// true if this object can provide extender properties to the specified object; otherwise, false.
     /// </returns>
     public virtual bool CanExtend(object? extendee) => true;
 
@@ -82,9 +87,11 @@ public abstract class PropertyTab : IExtenderProvider
     /// <summary>
     /// Gets the default property.
     /// </summary>
-    /// <param name="component">The component.
+    /// <param name="component">
+    /// The component.
     /// </param>
-    /// <returns>System.Nullable{PropertyDescriptor}.
+    /// <returns>
+    /// System.Nullable{PropertyDescriptor}.
     /// </returns>
     public virtual PropertyDescriptor? GetDefaultProperty(object component)
                 => TypeDescriptor.GetDefaultProperty(component);
@@ -92,9 +99,11 @@ public abstract class PropertyTab : IExtenderProvider
     /// <summary>
     /// Gets the properties.
     /// </summary>
-    /// <param name="component">The component.
+    /// <param name="component">
+    /// The component.
     /// </param>
-    /// <returns>System.Nullable{PropertyDescriptorCollection}.
+    /// <returns>
+    /// System.Nullable{PropertyDescriptorCollection}.
     /// </returns>
     public virtual PropertyDescriptorCollection? GetProperties(object component)
                 => GetProperties(component, attributes: null);
@@ -102,24 +111,31 @@ public abstract class PropertyTab : IExtenderProvider
     /// <summary>
     /// Gets the properties.
     /// </summary>
-    /// <param name="component">The component.
+    /// <param name="component">
+    /// The component.
     /// </param>
-    /// <param name="attributes">The attributes.
+    /// <param name="attributes">
+    /// The attributes.
     /// </param>
-    /// <returns>System.Nullable{PropertyDescriptorCollection}.
+    /// <returns>
+    /// System.Nullable{PropertyDescriptorCollection}.
     /// </returns>
     public abstract PropertyDescriptorCollection? GetProperties(object component, Attribute[]? attributes);
 
     /// <summary>
     /// Gets the properties.
     /// </summary>
-    /// <param name="context">The context.
+    /// <param name="context">
+    /// The context.
     /// </param>
-    /// <param name="component">The component.
+    /// <param name="component">
+    /// The component.
     /// </param>
-    /// <param name="attributes">The attributes.
+    /// <param name="attributes">
+    /// The attributes.
     /// </param>
-    /// <returns>System.Nullable{PropertyDescriptorCollection}.
+    /// <returns>
+    /// System.Nullable{PropertyDescriptorCollection}.
     /// </returns>
     public virtual PropertyDescriptorCollection? GetProperties(
                 ITypeDescriptorContext? context,
@@ -133,7 +149,8 @@ public abstract class PropertyTab : IExtenderProvider
     /// <c>
     /// true
     /// </c> to release both managed and unmanaged resources;
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> to release only unmanaged resources.
     /// </param>
     protected virtual void Dispose(bool disposing)

@@ -88,7 +88,8 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// <summary>
     /// Adds the class.
     /// </summary>
-    /// <param name="cssClass">The CSS class.
+    /// <param name="cssClass">
+    /// The CSS class.
     /// </param>
     public void AddClass(string cssClass)
     {
@@ -98,14 +99,17 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// <summary>
     /// Packs the specified child.
     /// </summary>
-    /// <param name="child">The child.
+    /// <param name="child">
+    /// The child.
     /// </param>
-    /// <param name="align">The align.
+    /// <param name="align">
+    /// The align.
     /// </param>
     /// <param name="expand">
     /// if set to
-    /// <c>true
-    /// </c> [expand].
+    /// <c>
+    /// true
+    /// </c>expand.
     /// </param>
     public void Pack(Widget child, Align align, bool expand)
     {
@@ -118,7 +122,8 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// <summary>
     /// Called when the control is drawn.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
     /// <returns>
     /// </returns>

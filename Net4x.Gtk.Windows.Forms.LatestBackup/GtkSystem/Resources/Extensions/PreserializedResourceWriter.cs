@@ -114,9 +114,11 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Resources.Extensions.PreserializedResourceWriter" /> class.
     /// </summary>
-    /// <param name="fileName">Name of the file.
+    /// <param name="fileName">
+    /// Name of the file.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">fileName
+    /// <exception cref="T:System.ArgumentNullException">
+    /// fileName
     /// </exception>
     public PreserializedResourceWriter(string fileName)
     {
@@ -133,9 +135,11 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Resources.Extensions.PreserializedResourceWriter" /> class.
     /// </summary>
-    /// <param name="stream">The stream.
+    /// <param name="stream">
+    /// The stream.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">stream
+    /// <exception cref="T:System.ArgumentNullException">
+    /// stream
     /// </exception>
     /// <exception cref="T:System.ArgumentException">
     /// </exception>
@@ -183,16 +187,20 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// <summary>
     /// Adds the activator resource.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="typeName">Name of the type.
+    /// <param name="typeName">
+    /// Name of the type.
     /// </param>
     /// <param name="closeAfterWrite">
     /// if set to
-    /// <c>true
-    /// </c> [close after write].
+    /// <c>
+    /// true
+    /// </c>close after write.
     /// </param>
     /// <exception cref="T:System.ArgumentNullException">
     /// name
@@ -228,11 +236,14 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// <summary>
     /// Adds the binary formatted resource.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="typeName">Name of the type.
+    /// <param name="typeName">
+    /// Name of the type.
     /// </param>
     /// <exception cref="T:System.ArgumentNullException">
     /// name
@@ -262,11 +273,14 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// <see cref="T:System.String">
     /// </see> to the list of resources to be written.
     /// </summary>
-    /// <param name="name">The name of the resource.
+    /// <param name="name">
+    /// The name of the resource.
     /// </param>
-    /// <param name="value">The value of the resource.
+    /// <param name="value">
+    /// The value of the resource.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">name
+    /// <exception cref="T:System.ArgumentNullException">
+    /// name
     /// </exception>
     /// <exception cref="T:System.InvalidOperationException">
     /// </exception>
@@ -289,11 +303,14 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// <see cref="T:System.Object">
     /// </see> to the list of resources to be written.
     /// </summary>
-    /// <param name="name">The name of the resource.
+    /// <param name="name">
+    /// The name of the resource.
     /// </param>
-    /// <param name="value">The value of the resource.
+    /// <param name="value">
+    /// The value of the resource.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">name
+    /// <exception cref="T:System.ArgumentNullException">
+    /// name
     /// </exception>
     /// <exception cref="T:System.InvalidOperationException">
     /// </exception>
@@ -319,16 +336,20 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// <summary>
     /// Adds the resource.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
     /// <param name="closeAfterWrite">
     /// if set to
-    /// <c>true
-    /// </c> [close after write].
+    /// <c>
+    /// true
+    /// </c>close after write.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">name
+    /// <exception cref="T:System.ArgumentNullException">
+    /// name
     /// </exception>
     /// <exception cref="T:System.InvalidOperationException">
     /// </exception>
@@ -348,11 +369,14 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// <summary>
     /// Adds an 8-bit unsigned integer array as a named resource to the list of resources to be written.
     /// </summary>
-    /// <param name="name">Name of a resource.
+    /// <param name="name">
+    /// Name of a resource.
     /// </param>
-    /// <param name="value">Value of a resource as an 8-bit unsigned integer array.
+    /// <param name="value">
+    /// Value of a resource as an 8-bit unsigned integer array.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">name
+    /// <exception cref="T:System.ArgumentNullException">
+    /// name
     /// </exception>
     /// <exception cref="T:System.InvalidOperationException">
     /// </exception>
@@ -373,11 +397,14 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// <summary>
     /// Adds the resource.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="typeName">Name of the type.
+    /// <param name="typeName">
+    /// Name of the type.
     /// </param>
     /// <exception cref="T:System.ArgumentNullException">
     /// name
@@ -423,11 +450,14 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// <summary>
     /// Adds the type converter resource.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="typeName">Name of the type.
+    /// <param name="typeName">
+    /// Name of the type.
     /// </param>
     /// <exception cref="T:System.ArgumentNullException">
     /// name

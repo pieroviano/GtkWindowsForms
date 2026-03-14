@@ -14,9 +14,11 @@ public class DataGridViewCellContextMenuStripNeededEventArgs : DataGridViewCellE
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs" /> class.
     /// </summary>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
     public DataGridViewCellContextMenuStripNeededEventArgs(int columnIndex, int rowIndex) : base(columnIndex, rowIndex)
     {
@@ -26,11 +28,14 @@ public class DataGridViewCellContextMenuStripNeededEventArgs : DataGridViewCellE
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs" /> class.
     /// </summary>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="contextMenuStrip">The context menu strip.
+    /// <param name="contextMenuStrip">
+    /// The context menu strip.
     /// </param>
     internal DataGridViewCellContextMenuStripNeededEventArgs(int columnIndex, int rowIndex, ContextMenuStrip contextMenuStrip) : base(columnIndex, rowIndex)
     {
@@ -40,7 +45,8 @@ public class DataGridViewCellContextMenuStripNeededEventArgs : DataGridViewCellE
     /// <summary>
     /// Gets or sets the context menu strip.
     /// </summary>
-    /// <value>The context menu strip.
+    /// <value>
+    /// The context menu strip.
     /// </value>
     public ContextMenuStrip ContextMenuStrip { get; set; }
 

@@ -25,11 +25,14 @@ public class QueryAccessibilityHelpEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.QueryAccessibilityHelpEventArgs" /> class.
     /// </summary>
-    /// <param name="helpNamespace">The help namespace.
+    /// <param name="helpNamespace">
+    /// The help namespace.
     /// </param>
-    /// <param name="helpString">The help string.
+    /// <param name="helpString">
+    /// The help string.
     /// </param>
-    /// <param name="helpKeyword">The help keyword.
+    /// <param name="helpKeyword">
+    /// The help keyword.
     /// </param>
     public QueryAccessibilityHelpEventArgs(string helpNamespace, string helpString, string helpKeyword)
     {
@@ -41,21 +44,24 @@ public class QueryAccessibilityHelpEventArgs : EventArgs
     /// <summary>
     /// Gets or sets the help keyword.
     /// </summary>
-    /// <value>The help keyword.
+    /// <value>
+    /// The help keyword.
     /// </value>
     public string HelpKeyword { get; set; }
 
     /// <summary>
     /// Gets or sets the help namespace.
     /// </summary>
-    /// <value>The help namespace.
+    /// <value>
+    /// The help namespace.
     /// </value>
     public string HelpNamespace { get; set; }
 
     /// <summary>
     /// Gets or sets the help string.
     /// </summary>
-    /// <value>The help string.
+    /// <value>
+    /// The help string.
     /// </value>
     public string HelpString { get; set; }
 

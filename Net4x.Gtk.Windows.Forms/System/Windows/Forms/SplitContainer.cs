@@ -64,7 +64,8 @@ public partial class SplitContainer : ContainerControl
     /// <summary>
     /// Gets or sets the fixed panel.
     /// </summary>
-    /// <value>The fixed panel.
+    /// <value>
+    /// The fixed panel.
     /// </value>
     public FixedPanel FixedPanel
     {
@@ -81,14 +82,16 @@ public partial class SplitContainer : ContainerControl
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the orientation.
     /// </summary>
-    /// <value>The orientation.
+    /// <value>
+    /// The orientation.
     /// </value>
     public Orientation Orientation
     {
@@ -102,7 +105,8 @@ public partial class SplitContainer : ContainerControl
     /// <summary>
     /// Gets or sets the panel1.
     /// </summary>
-    /// <value>The panel1.
+    /// <value>
+    /// The panel1.
     /// </value>
     public SplitterPanel Panel1
     {
@@ -119,7 +123,8 @@ public partial class SplitContainer : ContainerControl
     /// <summary>
     /// Gets or sets the panel2.
     /// </summary>
-    /// <value>The panel2.
+    /// <value>
+    /// The panel2.
     /// </value>
     public SplitterPanel Panel2
     {
@@ -136,21 +141,24 @@ public partial class SplitContainer : ContainerControl
     /// <summary>
     /// Gets or sets the splitter distance.
     /// </summary>
-    /// <value>The splitter distance.
+    /// <value>
+    /// The splitter distance.
     /// </value>
     public int SplitterDistance { get => self.Position + 5; set { _SplitterDistance = Math.Max(1, value - 5); self.Position = _SplitterDistance; } }
 
     /// <summary>
     /// Gets or sets the splitter increment.
     /// </summary>
-    /// <value>The splitter increment.
+    /// <value>
+    /// The splitter increment.
     /// </value>
     public int SplitterIncrement { get; set; }
 
     /// <summary>
     /// Gets or sets the width of the splitter.
     /// </summary>
-    /// <value>The width of the splitter.
+    /// <value>
+    /// The width of the splitter.
     /// </value>
     public int SplitterWidth { get { return _SplitterWidth; } set { _SplitterWidth = value; self.WideHandle = value > 2; } }
 

@@ -18,7 +18,8 @@ public class ColumnStyle : TableLayoutStyle
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ColumnStyle" /> class.
     /// </summary>
-    /// <param name="sizeType">Type of the size.
+    /// <param name="sizeType">
+    /// Type of the size.
     /// </param>
     public ColumnStyle(SizeType sizeType)
     {
@@ -29,9 +30,11 @@ public class ColumnStyle : TableLayoutStyle
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ColumnStyle" /> class.
     /// </summary>
-    /// <param name="sizeType">Type of the size.
+    /// <param name="sizeType">
+    /// Type of the size.
     /// </param>
-    /// <param name="width">The width.
+    /// <param name="width">
+    /// The width.
     /// </param>
     public ColumnStyle(SizeType sizeType, float width)
     {
@@ -42,7 +45,8 @@ public class ColumnStyle : TableLayoutStyle
     /// <summary>
     /// Gets or sets the width.
     /// </summary>
-    /// <value>The width.
+    /// <value>
+    /// The width.
     /// </value>
     public float Width
     {

@@ -12,7 +12,8 @@ namespace System.Windows.Forms;
 /// listeners (for example a
 /// <see cref="T:System.Windows.Forms.BindingManagerBase"/>) can react to changes.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 [DefaultEvent("CollectionChanged")]
 public class BindingsCollection : BaseCollection
@@ -58,7 +59,8 @@ public class BindingsCollection : BaseCollection
     /// Gets the
     /// <see cref="T:System.Windows.Forms.Binding"/> at the specified index.
     /// </summary>
-    /// <param name = "index">Zero-based index of the binding to retrieve.
+    /// <param name = "index">
+    /// Zero-based index of the binding to retrieve.
     /// </param>
     /// <returns>
     /// The
@@ -70,7 +72,8 @@ public class BindingsCollection : BaseCollection
     /// Adds the specified binding to the collection and raises the appropriate changing/changed events.
     /// Intended for internal use by binding infrastructure.
     /// </summary>
-    /// <param name = "binding">The binding to add.
+    /// <param name = "binding">
+    /// The binding to add.
     /// </param>
     protected internal void Add(Binding binding)
     {
@@ -94,7 +97,8 @@ public class BindingsCollection : BaseCollection
     /// <summary>
     /// Removes the specified binding from the collection and raises the appropriate events.
     /// </summary>
-    /// <param name = "binding">The binding to remove.
+    /// <param name = "binding">
+    /// The binding to remove.
     /// </param>
     protected internal void Remove(Binding binding)
     {
@@ -107,7 +111,8 @@ public class BindingsCollection : BaseCollection
     /// <summary>
     /// Removes the binding at the specified index.
     /// </summary>
-    /// <param name = "index">Index of the binding to remove.
+    /// <param name = "index">
+    /// Index of the binding to remove.
     /// </param>
     protected internal void RemoveAt(int index) => Remove(this[index]);
 
@@ -119,7 +124,8 @@ public class BindingsCollection : BaseCollection
     /// <summary>
     /// Core virtual method that actually performs the add operation.  Derived classes can override.
     /// </summary>
-    /// <param name = "dataBinding">The binding to add.
+    /// <param name = "dataBinding">
+    /// The binding to add.
     /// </param>
     protected virtual void AddCore(Binding dataBinding)
     {
@@ -135,7 +141,8 @@ public class BindingsCollection : BaseCollection
     /// Raises the
     /// <see cref="T:System.Windows.Forms.BindingsCollection.CollectionChanged"/> event.
     /// </summary>
-    /// <param name = "ccevent">Event arguments describing the change.
+    /// <param name = "ccevent">
+    /// Event arguments describing the change.
     /// </param>
     protected virtual void OnCollectionChanged(CollectionChangeEventArgs ccevent)
     {
@@ -146,7 +153,8 @@ public class BindingsCollection : BaseCollection
     /// Raises the
     /// <see cref="T:System.Windows.Forms.BindingsCollection.CollectionChanging"/> event.
     /// </summary>
-    /// <param name = "e">Event arguments describing the impending change.
+    /// <param name = "e">
+    /// Event arguments describing the impending change.
     /// </param>
     protected virtual void OnCollectionChanging(CollectionChangeEventArgs e)
     {
@@ -156,7 +164,8 @@ public class BindingsCollection : BaseCollection
     /// <summary>
     /// Core virtual method that actually performs the remove operation.  Derived classes can override.
     /// </summary>
-    /// <param name = "dataBinding">The binding to remove.
+    /// <param name = "dataBinding">
+    /// The binding to remove.
     /// </param>
     protected virtual void RemoveCore(Binding dataBinding) => _list.Remove(dataBinding);
 

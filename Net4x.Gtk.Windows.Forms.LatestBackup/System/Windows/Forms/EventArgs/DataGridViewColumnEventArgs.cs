@@ -16,9 +16,11 @@ public class DataGridViewColumnEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumnEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridViewColumn">The data grid view column.
+    /// <param name="dataGridViewColumn">
+    /// The data grid view column.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">dataGridViewColumn
+    /// <exception cref="T:System.ArgumentNullException">
+    /// dataGridViewColumn
     /// </exception>
     public DataGridViewColumnEventArgs(DataGridViewColumn dataGridViewColumn)
     {
@@ -34,7 +36,8 @@ public class DataGridViewColumnEventArgs : EventArgs
     /// <summary>
     /// Gets the column.
     /// </summary>
-    /// <value>The column.
+    /// <value>
+    /// The column.
     /// </value>
     public DataGridViewColumn Column { get; }
 

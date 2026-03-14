@@ -14,9 +14,11 @@ public class DataGridViewRowsAddedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowsAddedEventArgs" /> class.
     /// </summary>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="rowCount">The row count.
+    /// <param name="rowCount">
+    /// The row count.
     /// </param>
     public DataGridViewRowsAddedEventArgs(int rowIndex, int rowCount)
     {
@@ -27,14 +29,16 @@ public class DataGridViewRowsAddedEventArgs : EventArgs
     /// <summary>
     /// Gets the row count.
     /// </summary>
-    /// <value>The row count.
+    /// <value>
+    /// The row count.
     /// </value>
     public int RowCount { get; }
 
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

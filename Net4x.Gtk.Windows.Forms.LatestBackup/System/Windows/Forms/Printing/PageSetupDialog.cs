@@ -43,52 +43,56 @@ public sealed class PageSetupDialog : CommonDialog
     public PageSetupDialog() => Reset();
 
     /// <summary>
-    /// Gets or sets a value indicating whether [allow margins].
+    /// Gets or sets a value indicating whether allow margins.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [allow margins]; otherwise,
-    /// <c>false
+    /// </c> if allow margins; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
     public bool AllowMargins { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [allow orientation].
+    /// Gets or sets a value indicating whether allow orientation.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [allow orientation]; otherwise,
-    /// <c>false
+    /// </c> if allow orientation; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
     public bool AllowOrientation { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [allow paper].
+    /// Gets or sets a value indicating whether allow paper.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [allow paper]; otherwise,
-    /// <c>false
+    /// </c> if allow paper; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
     public bool AllowPaper { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [allow printer].
+    /// Gets or sets a value indicating whether allow printer.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [allow printer]; otherwise,
-    /// <c>false
+    /// </c> if allow printer; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
@@ -97,7 +101,8 @@ public sealed class PageSetupDialog : CommonDialog
     /// <summary>
     /// Gets or sets the document.
     /// </summary>
-    /// <value>The document.
+    /// <value>
+    /// The document.
     /// </value>
     [DefaultValue(null)]
     public PrintDocument Document
@@ -115,13 +120,14 @@ public sealed class PageSetupDialog : CommonDialog
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [enable metric].
+    /// Gets or sets a value indicating whether enable metric.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [enable metric]; otherwise,
-    /// <c>false
+    /// </c> if enable metric; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -132,7 +138,8 @@ public sealed class PageSetupDialog : CommonDialog
     /// <summary>
     /// Gets or sets the minimum margins.
     /// </summary>
-    /// <value>The minimum margins.
+    /// <value>
+    /// The minimum margins.
     /// </value>
     public Margins MinMargins
     {
@@ -143,7 +150,8 @@ public sealed class PageSetupDialog : CommonDialog
     /// <summary>
     /// Gets or sets the page settings.
     /// </summary>
-    /// <value>The page settings.
+    /// <value>
+    /// The page settings.
     /// </value>
     [DefaultValue(null)]
     [Browsable(false)]
@@ -161,7 +169,8 @@ public sealed class PageSetupDialog : CommonDialog
     /// <summary>
     /// Gets or sets the printer settings.
     /// </summary>
-    /// <value>The printer settings.
+    /// <value>
+    /// The printer settings.
     /// </value>
     [DefaultValue(null)]
     [Browsable(false)]
@@ -177,26 +186,28 @@ public sealed class PageSetupDialog : CommonDialog
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show help].
+    /// Gets or sets a value indicating whether show help.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show help]; otherwise,
-    /// <c>false
+    /// </c> if show help; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
     public bool ShowHelp { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show network].
+    /// Gets or sets a value indicating whether show network.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show network]; otherwise,
-    /// <c>false
+    /// </c> if show network; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
@@ -222,13 +233,15 @@ public sealed class PageSetupDialog : CommonDialog
     /// <summary>
     /// Runs the dialog.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     protected override bool RunDialog(IWin32Window owner)

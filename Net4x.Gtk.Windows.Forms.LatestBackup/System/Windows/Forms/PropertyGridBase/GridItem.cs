@@ -16,7 +16,8 @@ public abstract class GridItem
     /// <c>
     /// true
     /// </c> if expandable; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public virtual bool Expandable => false;
@@ -29,7 +30,8 @@ public abstract class GridItem
     /// <c>
     /// true
     /// </c> if expanded; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public virtual bool Expanded
@@ -41,42 +43,48 @@ public abstract class GridItem
     /// <summary>
     /// Gets the grid items.
     /// </summary>
-    /// <value>The grid items.
+    /// <value>
+    /// The grid items.
     /// </value>
     public abstract GridItemCollection GridItems { get; }
 
     /// <summary>
     /// Gets the type of the grid item.
     /// </summary>
-    /// <value>The type of the grid item.
+    /// <value>
+    /// The type of the grid item.
     /// </value>
     public abstract GridItemType GridItemType { get; }
 
     /// <summary>
     /// Gets the label.
     /// </summary>
-    /// <value>The label.
+    /// <value>
+    /// The label.
     /// </value>
     public abstract string Label { get; }
 
     /// <summary>
     /// Gets the parent.
     /// </summary>
-    /// <value>The parent.
+    /// <value>
+    /// The parent.
     /// </value>
     public abstract GridItem Parent { get; }
 
     /// <summary>
     /// Gets the property descriptor.
     /// </summary>
-    /// <value>The property descriptor.
+    /// <value>
+    /// The property descriptor.
     /// </value>
     public abstract PropertyDescriptor PropertyDescriptor { get; }
 
     /// <summary>
     /// Gets or sets the tag.
     /// </summary>
-    /// <value>The tag.
+    /// <value>
+    /// The tag.
     /// </value>
     [Localizable(false)]
     [Bindable(true)]
@@ -87,7 +95,8 @@ public abstract class GridItem
     /// <summary>
     /// Gets the value.
     /// </summary>
-    /// <value>The value.
+    /// <value>
+    /// The value.
     /// </value>
     public abstract object Value { get; }
 
@@ -98,7 +107,8 @@ public abstract class GridItem
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     public abstract bool Select();

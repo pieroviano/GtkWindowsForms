@@ -30,14 +30,17 @@ public class TreeViewCancelEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeViewCancelEventArgs" /> class.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     /// <param name="cancel">
     /// if set to
-    /// <c>true
-    /// </c> [cancel].
+    /// <c>
+    /// true
+    /// </c>cancel.
     /// </param>
-    /// <param name="action">The action.
+    /// <param name="action">
+    /// The action.
     /// </param>
     public TreeViewCancelEventArgs(TreeNode node, bool cancel, TreeViewAction action)
             : base(cancel)
@@ -49,7 +52,8 @@ public class TreeViewCancelEventArgs : CancelEventArgs
     /// <summary>
     /// Gets the action.
     /// </summary>
-    /// <value>The action.
+    /// <value>
+    /// The action.
     /// </value>
     public TreeViewAction Action
     {
@@ -62,7 +66,8 @@ public class TreeViewCancelEventArgs : CancelEventArgs
     /// <summary>
     /// Gets the node.
     /// </summary>
-    /// <value>The node.
+    /// <value>
+    /// The node.
     /// </value>
     public TreeNode Node
     {

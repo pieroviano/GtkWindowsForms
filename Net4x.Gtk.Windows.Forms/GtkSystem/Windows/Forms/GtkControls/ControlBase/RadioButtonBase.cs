@@ -23,7 +23,8 @@ public sealed class RadioButtonBase : Gtk.RadioButton, IControlGtk
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.RadioButtonBase" /> class.
     /// </summary>
-    /// <param name="radio_group_member">The radio group member.
+    /// <param name="radio_group_member">
+    /// The radio group member.
     /// </param>
     public RadioButtonBase(Gtk.RadioButton radio_group_member) : base(radio_group_member)
     {
@@ -48,7 +49,8 @@ public sealed class RadioButtonBase : Gtk.RadioButton, IControlGtk
     /// <summary>
     /// Adds the class.
     /// </summary>
-    /// <param name="cssClass">The CSS class.
+    /// <param name="cssClass">
+    /// The CSS class.
     /// </param>
     public void AddClass(string cssClass)
     {
@@ -58,7 +60,8 @@ public sealed class RadioButtonBase : Gtk.RadioButton, IControlGtk
     /// <summary>
     /// Called when the control is drawn.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
     /// <returns>
     /// </returns>

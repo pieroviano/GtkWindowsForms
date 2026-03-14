@@ -93,7 +93,8 @@ public partial class Form : ContainerControl, IWin32Window
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Form" /> class with the specified title.
     /// </summary>
-    /// <param name="title">The initial text displayed in the form's title bar.
+    /// <param name="title">
+    /// The initial text displayed in the form's title bar.
     /// </param>
     public Form(string title) : this()
     {
@@ -270,7 +271,8 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Activates the form and gives it focus.
     /// </summary>
-    /// <returns>True if the activation succeeded; otherwise false.
+    /// <returns>
+    /// True if the activation succeeded; otherwise false.
     /// </returns>
     public bool Activate()
     {
@@ -328,7 +330,8 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Resumes layout logic for the form.
     /// </summary>
-    /// <param name="resume">If true, resume layout processing; otherwise adjust created flag.
+    /// <param name="resume">
+    /// If true, resume layout processing; otherwise adjust created flag.
     /// </param>
     public override void ResumeLayout(bool resume)
     {
@@ -346,7 +349,8 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Shows the form with an optional owner window.
     /// </summary>
-    /// <param name="owner">The owner window. May be null.
+    /// <param name="owner">
+    /// The owner window. May be null.
     /// </param>
     public void Show(IWin32Window owner)
     {
@@ -432,7 +436,8 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Shows the form as a modal dialog.
     /// </summary>
-    /// <returns>The dialog result produced by the form.
+    /// <returns>
+    /// The dialog result produced by the form.
     /// </returns>
     public DialogResult ShowDialog()
     {
@@ -442,9 +447,11 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Shows the form as a modal dialog with the specified owner.
     /// </summary>
-    /// <param name="owner">The owner window. May be null.
+    /// <param name="owner">
+    /// The owner window. May be null.
     /// </param>
-    /// <returns>The dialog result produced by the form.
+    /// <returns>
+    /// The dialog result produced by the form.
     /// </returns>
     public DialogResult ShowDialog(IWin32Window owner)
     {
@@ -602,9 +609,11 @@ public partial class Form : ContainerControl, IWin32Window
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.Form.ObjectCollection" /> class.
         /// </summary>
-        /// <param name="control">The parent control.
+        /// <param name="control">
+        /// The parent control.
         /// </param>
-        /// <param name="owner">The GTK container that will host child controls.
+        /// <param name="owner">
+        /// The GTK container that will host child controls.
         /// </param>
         public ObjectCollection(Control control, Gtk.Container owner) : base(control, owner)
         {

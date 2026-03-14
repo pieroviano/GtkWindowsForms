@@ -30,7 +30,8 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripProgressBar" /> class.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     public ToolStripProgressBar(string name) : this()
     {
@@ -40,28 +41,32 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Gets or sets the marquee animation speed.
     /// </summary>
-    /// <value>The marquee animation speed.
+    /// <value>
+    /// The marquee animation speed.
     /// </value>
     public int MarqueeAnimationSpeed { get; set; } = 100;
 
     /// <summary>
     /// Gets or sets the maximum.
     /// </summary>
-    /// <value>The maximum.
+    /// <value>
+    /// The maximum.
     /// </value>
     public int Maximum { get; set; } = 100;
 
     /// <summary>
     /// Gets or sets the minimum.
     /// </summary>
-    /// <value>The minimum.
+    /// <value>
+    /// The minimum.
     /// </value>
     public int Minimum { get; set; } = 0;
 
     /// <summary>
     /// Gets the progress bar.
     /// </summary>
-    /// <value>The progress bar.
+    /// <value>
+    /// The progress bar.
     /// </value>
     public ProgressBar ProgressBar
     {
@@ -74,7 +79,8 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     public override Size Size
     {
@@ -92,7 +98,8 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Gets or sets the step.
     /// </summary>
-    /// <value>The step.
+    /// <value>
+    /// The step.
     /// </value>
     [DefaultValue(10)]
     public int Step { get; set; }
@@ -100,14 +107,16 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Gets or sets the style.
     /// </summary>
-    /// <value>The style.
+    /// <value>
+    /// The style.
     /// </value>
     public ProgressBarStyle Style { get; set; }
 
     /// <summary>
     /// Gets or sets the value.
     /// </summary>
-    /// <value>The value.
+    /// <value>
+    /// The value.
     /// </value>
     public int Value
     {
@@ -121,7 +130,8 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Increments the specified value.
     /// </summary>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
     public void Increment(int value)
     {
@@ -139,7 +149,8 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Handles the Realized event of the Control control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

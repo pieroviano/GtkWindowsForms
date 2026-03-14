@@ -16,7 +16,8 @@ public class ItemCheckedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ItemCheckedEventArgs" /> class.
     /// </summary>
-    /// <param name="item">The item.
+    /// <param name="item">
+    /// The item.
     /// </param>
     public ItemCheckedEventArgs(ListViewItem item)
     {
@@ -26,7 +27,8 @@ public class ItemCheckedEventArgs : EventArgs
     /// <summary>
     /// The index of the item that is about to change.
     /// </summary>
-    /// <value>The item.
+    /// <value>
+    /// The item.
     /// </value>
     public ListViewItem Item { get; }
 

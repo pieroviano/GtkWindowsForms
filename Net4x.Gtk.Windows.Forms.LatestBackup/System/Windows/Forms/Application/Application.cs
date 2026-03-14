@@ -468,7 +468,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Runs the specified main form.
         /// </summary>
-        /// <param name="mainForm">The main form.
+        /// <param name="mainForm">
+        /// The main form.
         /// </param>
         public static void Run(Form mainForm)
         {
@@ -482,8 +483,9 @@ namespace System.Windows.Forms
         /// </summary>
         /// <param name="defaultValue">
         /// if set to
-        /// <c>true
-        /// </c> [default value].
+        /// <c>
+        /// true
+        /// </c>default value.
         /// </param>
         public static void SetCompatibleTextRenderingDefault(bool defaultValue)
         {
@@ -493,7 +495,8 @@ namespace System.Windows.Forms
         /// <summary>
         /// Sets the high dpi mode.
         /// </summary>
-        /// <param name="highDpiMode">The high dpi mode.
+        /// <param name="highDpiMode">
+        /// The high dpi mode.
         /// </param>
         /// <returns>
         /// </returns>

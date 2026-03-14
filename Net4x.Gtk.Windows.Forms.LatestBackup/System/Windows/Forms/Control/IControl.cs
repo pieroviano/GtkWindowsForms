@@ -401,7 +401,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if allows drop; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool AllowDrop { get; set; }
@@ -429,7 +430,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if automatic size; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool AutoSize { get; set; }
@@ -489,7 +491,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if this instance can focus; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool CanFocus { get; }
@@ -501,7 +504,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if this instance can select; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool CanSelect { get; }
@@ -513,7 +517,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if captured; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool Capture { get; set; }
@@ -525,7 +530,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if causes validation; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool CausesValidation { get; set; }
@@ -545,7 +551,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if contains focus; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool ContainsFocus { get; }
@@ -573,7 +580,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if created; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool Created { get; }
@@ -617,7 +625,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if disposing; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool Disposing { get; }
@@ -637,7 +646,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if enabled; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool Enabled { get; set; }
@@ -649,7 +659,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if focused; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool Focused { get; }
@@ -677,7 +688,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if this instance has children; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     // IntPtr Handle { get; }
@@ -706,7 +718,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if invoke required; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool InvokeRequired { get; }
@@ -718,7 +731,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if this instance is accessible; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool IsAccessible { get; set; }
@@ -730,7 +744,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if this instance is disposed; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool IsDisposed { get; }
@@ -742,7 +757,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if this instance is handle created; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool IsHandleCreated { get; }
@@ -754,7 +770,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if this instance is mirrored; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool IsMirrored { get; }
@@ -855,7 +872,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if recreating handle; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool RecreatingHandle { get; }
@@ -915,7 +933,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if tab stop; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool TabStop { get; set; }
@@ -953,13 +972,14 @@ public interface IControl
     Control TopLevelControl { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use visual style back color].
+    /// Gets or sets a value indicating whether use visual style back color.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use visual style back color]; otherwise,
-    /// <c>false
+    /// </c> if use visual style back color; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool UseVisualStyleBackColor { get; set; }
@@ -971,7 +991,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if use wait cursor; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool UseWaitCursor { get; set; }
@@ -983,7 +1004,8 @@ public interface IControl
     /// <c>
     /// true
     /// </c> if visible; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool Visible { get; set; }
@@ -1013,29 +1035,36 @@ public interface IControl
     /// <summary>
     /// Begins the invoke.
     /// </summary>
-    /// <param name="method">The delegate to invoke asynchronously.
+    /// <param name="method">
+    /// The delegate to invoke asynchronously.
     /// </param>
-    /// <returns>An IAsyncResult representing the asynchronous operation.
+    /// <returns>
+    /// An IAsyncResult representing the asynchronous operation.
     /// </returns>
     IAsyncResult BeginInvoke(Delegate method);
 
     /// <summary>
     /// Begins the invoke with arguments.
     /// </summary>
-    /// <param name="method">The delegate to invoke asynchronously.
+    /// <param name="method">
+    /// The delegate to invoke asynchronously.
     /// </param>
-    /// <param name="args">Arguments to pass to the delegate.
+    /// <param name="args">
+    /// Arguments to pass to the delegate.
     /// </param>
-    /// <returns>An IAsyncResult representing the asynchronous operation.
+    /// <returns>
+    /// An IAsyncResult representing the asynchronous operation.
     /// </returns>
     IAsyncResult BeginInvoke(Delegate method, params object[] args);
 
     /// <summary>
     /// Begins the invoke with an action.
     /// </summary>
-    /// <param name="method">The action to invoke asynchronously.
+    /// <param name="method">
+    /// The action to invoke asynchronously.
     /// </param>
-    /// <returns>An IAsyncResult representing the asynchronous operation.
+    /// <returns>
+    /// An IAsyncResult representing the asynchronous operation.
     /// </returns>
     IAsyncResult BeginInvoke(Action method);
 
@@ -1047,13 +1076,15 @@ public interface IControl
     /// <summary>
     /// Determines whether this instance contains the specified control.
     /// </summary>
-    /// <param name="ctl">The control to test for containment.
+    /// <param name="ctl">
+    /// The control to test for containment.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if the control is contained; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     bool Contains(Control ctl);
@@ -1066,97 +1097,118 @@ public interface IControl
     /// <summary>
     /// Creates a Graphics object for drawing to the control.
     /// </summary>
-    /// <returns>A Graphics object.
+    /// <returns>
+    /// A Graphics object.
     /// </returns>
     Graphics CreateGraphics();
 
     /// <summary>
     /// Initiates a drag-and-drop operation.
     /// </summary>
-    /// <param name="data">Data to drag.
+    /// <param name="data">
+    /// Data to drag.
     /// </param>
-    /// <param name="allowedEffects">Allowed drag-drop effects.
+    /// <param name="allowedEffects">
+    /// Allowed drag-drop effects.
     /// </param>
-    /// <returns>The resulting DragDropEffects.
+    /// <returns>
+    /// The resulting DragDropEffects.
     /// </returns>
     DragDropEffects DoDragDrop(object data, DragDropEffects allowedEffects);
 
     /// <summary>
     /// Draws the control into the specified bitmap.
     /// </summary>
-    /// <param name="bitmap">Bitmap to draw into.
+    /// <param name="bitmap">
+    /// Bitmap to draw into.
     /// </param>
-    /// <param name="targetBounds">Area within the bitmap to draw.
+    /// <param name="targetBounds">
+    /// Area within the bitmap to draw.
     /// </param>
     void DrawToBitmap(Bitmap bitmap, Rectangle targetBounds);
 
     /// <summary>
     /// Completes an asynchronous operation started with BeginInvoke.
     /// </summary>
-    /// <param name="asyncResult">The IAsyncResult returned from BeginInvoke.
+    /// <param name="asyncResult">
+    /// The IAsyncResult returned from BeginInvoke.
     /// </param>
-    /// <returns>The result of the asynchronous operation, if any.
+    /// <returns>
+    /// The result of the asynchronous operation, if any.
     /// </returns>
     object EndInvoke(IAsyncResult asyncResult);
 
     /// <summary>
     /// Retrieves the form that the control is on.
     /// </summary>
-    /// <returns>The parent Form, or null if none is found.
+    /// <returns>
+    /// The parent Form, or null if none is found.
     /// </returns>
     Form FindForm();
 
     /// <summary>
     /// Attempts to set input focus to the control.
     /// </summary>
-    /// <returns>True if the control received focus; otherwise false.
+    /// <returns>
+    /// True if the control received focus; otherwise false.
     /// </returns>
     bool Focus();
 
     /// <summary>
     /// Gets the child control at the specified point.
     /// </summary>
-    /// <param name="pt">Point to test, in client coordinates.
+    /// <param name="pt">
+    /// Point to test, in client coordinates.
     /// </param>
-    /// <returns>The child control at the specified point, or null if none.
+    /// <returns>
+    /// The child control at the specified point, or null if none.
     /// </returns>
     Control GetChildAtPoint(Point pt);
 
     /// <summary>
     /// Gets the child control at the specified point with skip options.
     /// </summary>
-    /// <param name="pt">Point to test, in client coordinates.
+    /// <param name="pt">
+    /// Point to test, in client coordinates.
     /// </param>
-    /// <param name="skipValue">Specifies which children to skip.
+    /// <param name="skipValue">
+    /// Specifies which children to skip.
     /// </param>
-    /// <returns>The child control at the specified point, or null if none.
+    /// <returns>
+    /// The child control at the specified point, or null if none.
     /// </returns>
     Control GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue);
 
     /// <summary>
     /// Returns the container control that the control is associated with.
     /// </summary>
-    /// <returns>An IContainerControl or null.
+    /// <returns>
+    /// An IContainerControl or null.
     /// </returns>
     IContainerControl GetContainerControl();
 
     /// <summary>
     /// Gets the next control in the tab order.
     /// </summary>
-    /// <param name="ctl">The starting control.
+    /// <param name="ctl">
+    /// The starting control.
     /// </param>
-    /// <param name="forward">True to move forward; false to move backward.
+    /// <param name="forward">
+    /// True to move forward; false to move backward.
     /// </param>
-    /// <returns>The next control in the tab order, or null if none.
+    /// <returns>
+    /// The next control in the tab order, or null if none.
     /// </returns>
     Control GetNextControl(Control ctl, bool forward);
 
     /// <summary>
     /// Returns the preferred size of the control given the proposed size.
     /// </summary>
-    /// <param name="proposedSize">The available size for the control.
+    /// <param name="proposedSize">
+    /// The available size for the control.
     /// </param>
-    /// <returns>The preferred size.
+    /// <returns>
+    /// The preferred size.
     /// </returns>
     Size GetPreferredSize(Size proposedSize);
 
@@ -1169,88 +1221,107 @@ public interface IControl
     /// <summary>
     /// Invalidates the control and optionally its children.
     /// </summary>
-    /// <param name="invalidateChildren">True to invalidate child controls as well.
+    /// <param name="invalidateChildren">
+    /// True to invalidate child controls as well.
     /// </param>
     void Invalidate(bool invalidateChildren);
 
     /// <summary>
     /// Invalidates the specified rectangle of the control.
     /// </summary>
-    /// <param name="rc">Rectangle to invalidate, in client coordinates.
+    /// <param name="rc">
+    /// Rectangle to invalidate, in client coordinates.
     /// </param>
     void Invalidate(Rectangle rc);
 
     /// <summary>
     /// Invalidates the specified rectangle of the control and optionally its children.
     /// </summary>
-    /// <param name="rc">Rectangle to invalidate, in client coordinates.
+    /// <param name="rc">
+    /// Rectangle to invalidate, in client coordinates.
     /// </param>
-    /// <param name="invalidateChildren">True to invalidate child controls as well.
+    /// <param name="invalidateChildren">
+    /// True to invalidate child controls as well.
     /// </param>
     void Invalidate(Rectangle rc, bool invalidateChildren);
 
     /// <summary>
     /// Invalidates the specified region of the control.
     /// </summary>
-    /// <param name="region">Region to invalidate.
+    /// <param name="region">
+    /// Region to invalidate.
     /// </param>
     void Invalidate(Region region);
 
     /// <summary>
     /// Invalidates the specified region of the control and optionally its children.
     /// </summary>
-    /// <param name="region">Region to invalidate.
+    /// <param name="region">
+    /// Region to invalidate.
     /// </param>
-    /// <param name="invalidateChildren">True to invalidate child controls as well.
+    /// <param name="invalidateChildren">
+    /// True to invalidate child controls as well.
     /// </param>
     void Invalidate(Region region, bool invalidateChildren);
 
     /// <summary>
     /// Invokes a delegate on the control's thread and returns its result.
     /// </summary>
-    /// <param name="method">Delegate to invoke.
+    /// <param name="method">
+    /// Delegate to invoke.
     /// </param>
-    /// <returns>The result returned by the delegate.
+    /// <returns>
+    /// The result returned by the delegate.
     /// </returns>
     object Invoke(Delegate method);
 
     /// <summary>
     /// Invokes a delegate on the control's thread with arguments and returns its result.
     /// </summary>
-    /// <param name="method">Delegate to invoke.
+    /// <param name="method">
+    /// Delegate to invoke.
     /// </param>
-    /// <param name="args">Arguments to pass to the delegate.
+    /// <param name="args">
+    /// Arguments to pass to the delegate.
     /// </param>
-    /// <returns>The result returned by the delegate.
+    /// <returns>
+    /// The result returned by the delegate.
     /// </returns>
     object Invoke(Delegate method, params object[] args);
 
     /// <summary>
     /// Invokes a function on the control's thread and returns typed result.
     /// </summary>
-    /// <typeparam name="TEntry">Return type.
+    /// <typeparam name="TEntry">
+    /// Return type.
     /// </typeparam>
-    /// <param name="method">Function to invoke.
+    /// <param name="method">
+    /// Function to invoke.
     /// </param>
-    /// <returns>Result of the function.
+    /// <returns>
+    /// Result of the function.
     /// </returns>
     TEntry Invoke<TEntry>(Func<TEntry> method);
 
     /// <summary>
     /// Converts a logical unit value to device units.
     /// </summary>
-    /// <param name="value">Value in logical units.
+    /// <param name="value">
+    /// Value in logical units.
     /// </param>
-    /// <returns>Value in device units.
+    /// <returns>
+    /// Value in device units.
     /// </returns>
     int LogicalToDeviceUnits(int value);
 
     /// <summary>
     /// Converts a logical size to device units.
     /// </summary>
-    /// <param name="value">Size in logical units.
+    /// <param name="value">
+    /// Size in logical units.
     /// </param>
-    /// <returns>Size in device units.
+    /// <returns>
+    /// Size in device units.
     /// </returns>
     Size LogicalToDeviceUnits(Size value);
 
@@ -1262,63 +1333,77 @@ public interface IControl
     /// <summary>
     /// Forces the control to perform layout logic for a specific affected control/property.
     /// </summary>
-    /// <param name="affectedControl">Control affected by the layout.
+    /// <param name="affectedControl">
+    /// Control affected by the layout.
     /// </param>
-    /// <param name="affectedProperty">Property name that changed.
+    /// <param name="affectedProperty">
+    /// Property name that changed.
     /// </param>
     void PerformLayout(Control affectedControl, string affectedProperty);
 
     /// <summary>
     /// Converts a screen point to client coordinates.
     /// </summary>
-    /// <param name="p">Point in screen coordinates.
+    /// <param name="p">
+    /// Point in screen coordinates.
     /// </param>
-    /// <returns>Point in client coordinates.
+    /// <returns>
+    /// Point in client coordinates.
     /// </returns>
     Point PointToClient(Point p);
 
     /// <summary>
     /// Converts a client point to screen coordinates.
     /// </summary>
-    /// <param name="p">Point in client coordinates.
+    /// <param name="p">
+    /// Point in client coordinates.
     /// </param>
-    /// <returns>Point in screen coordinates.
+    /// <returns>
+    /// Point in screen coordinates.
     /// </returns>
     Point PointToScreen(Point p);
 
     /// <summary>
     /// Preprocesses a Windows message for the control.
     /// </summary>
-    /// <param name="msg">Message to preprocess.
+    /// <param name="msg">
+    /// Message to preprocess.
     /// </param>
-    /// <returns>A PreProcessControlState value.
+    /// <returns>
+    /// A PreProcessControlState value.
     /// </returns>
     PreProcessControlState PreProcessControlMessage(ref Message msg);
 
     /// <summary>
     /// Preprocesses a message and returns whether it was handled.
     /// </summary>
-    /// <param name="msg">Message to preprocess.
+    /// <param name="msg">
+    /// Message to preprocess.
     /// </param>
-    /// <returns>True if the message was processed; otherwise false.
+    /// <returns>
+    /// True if the message was processed; otherwise false.
     /// </returns>
     bool PreProcessMessage(ref Message msg);
 
     /// <summary>
     /// Converts a rectangle from screen coordinates to client coordinates.
     /// </summary>
-    /// <param name="r">Rectangle in screen coordinates.
+    /// <param name="r">
+    /// Rectangle in screen coordinates.
     /// </param>
-    /// <returns>Rectangle in client coordinates.
+    /// <returns>
+    /// Rectangle in client coordinates.
     /// </returns>
     Rectangle RectangleToClient(Rectangle r);
 
     /// <summary>
     /// Converts a rectangle from client coordinates to screen coordinates.
     /// </summary>
-    /// <param name="r">Rectangle in client coordinates.
+    /// <param name="r">
+    /// Rectangle in client coordinates.
     /// </param>
-    /// <returns>Rectangle in screen coordinates.
+    /// <returns>
+    /// Rectangle in screen coordinates.
     /// </returns>
     Rectangle RectangleToScreen(Rectangle r);
 
@@ -1375,37 +1460,43 @@ public interface IControl
     /// <summary>
     /// Resumes layout logic and optionally forces an immediate layout.
     /// </summary>
-    /// <param name="performLayout">True to force a layout immediately.
+    /// <param name="performLayout">
+    /// True to force a layout immediately.
     /// </param>
     void ResumeLayout(bool performLayout);
 
     /// <summary>
     /// Scales the control by the specified ratio.
     /// </summary>
-    /// <param name="ratio">Scale ratio.
+    /// <param name="ratio">
+    /// Scale ratio.
     /// </param>
     void Scale(float ratio);
 
     /// <summary>
     /// Scales the control by the specified x and y factors.
     /// </summary>
-    /// <param name="dx">Horizontal scale factor.
+    /// <param name="dx">
+    /// Horizontal scale factor.
     /// </param>
-    /// <param name="dy">Vertical scale factor.
+    /// <param name="dy">
+    /// Vertical scale factor.
     /// </param>
     void Scale(float dx, float dy);
 
     /// <summary>
     /// Scales the control by the specified factor.
     /// </summary>
-    /// <param name="factor">Scale factor.
+    /// <param name="factor">
+    /// Scale factor.
     /// </param>
     void Scale(SizeF factor);
 
     /// <summary>
     /// Scales a logical bitmap to device pixels.
     /// </summary>
-    /// <param name="logicalBitmap">Bitmap to scale (in/out parameter).
+    /// <param name="logicalBitmap">
+    /// Bitmap to scale (in/out parameter).
     /// </param>
     void ScaleBitmapLogicalToDevice(ref Bitmap logicalBitmap);
 
@@ -1417,17 +1508,23 @@ public interface IControl
     /// <summary>
     /// Selects the next control in the tab order.
     /// </summary>
-    /// <param name="ctl">Starting control.
+    /// <param name="ctl">
+    /// Starting control.
     /// </param>
-    /// <param name="forward">True to move forward; false to move backward.
+    /// <param name="forward">
+    /// True to move forward; false to move backward.
     /// </param>
-    /// <param name="tabStopOnly">True to consider only tab stop controls.
+    /// <param name="tabStopOnly">
+    /// True to consider only tab stop controls.
     /// </param>
-    /// <param name="nested">True to include nested child controls.
+    /// <param name="nested">
+    /// True to include nested child controls.
     /// </param>
-    /// <param name="wrap">True to wrap to the first control when the end is reached.
+    /// <param name="wrap">
+    /// True to wrap to the first control when the end is reached.
     /// </param>
-    /// <returns>True if another control was selected; otherwise false.
+    /// <returns>
+    /// True if another control was selected; otherwise false.
     /// </returns>
     bool SelectNextControl(Control ctl, bool forward, bool tabStopOnly, bool nested, bool wrap);
 
@@ -1439,28 +1536,37 @@ public interface IControl
     /// <summary>
     /// Sets the bounds of the control.
     /// </summary>
-    /// <param name="x">Left coordinate.
+    /// <param name="x">
+    /// Left coordinate.
     /// </param>
-    /// <param name="y">Top coordinate.
+    /// <param name="y">
+    /// Top coordinate.
     /// </param>
-    /// <param name="width">Width.
+    /// <param name="width">
+    /// Width.
     /// </param>
-    /// <param name="height">Height.
+    /// <param name="height">
+    /// Height.
     /// </param>
     void SetBounds(int x, int y, int width, int height);
 
     /// <summary>
     /// Sets the bounds of the control with specified bounds flags.
     /// </summary>
-    /// <param name="x">Left coordinate.
+    /// <param name="x">
+    /// Left coordinate.
     /// </param>
-    /// <param name="y">Top coordinate.
+    /// <param name="y">
+    /// Top coordinate.
     /// </param>
-    /// <param name="width">Width.
+    /// <param name="width">
+    /// Width.
     /// </param>
-    /// <param name="height">Height.
+    /// <param name="height">
+    /// Height.
     /// </param>
-    /// <param name="specified">Which bounds components to set.
+    /// <param name="specified">
+    /// Which bounds components to set.
     /// </param>
     void SetBounds(int x, int y, int width, int height, BoundsSpecified specified);
 

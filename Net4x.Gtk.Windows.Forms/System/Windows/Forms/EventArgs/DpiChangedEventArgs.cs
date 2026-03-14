@@ -18,12 +18,15 @@ public sealed class DpiChangedEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DpiChangedEventArgs" /> class.
     /// </summary>
-    /// <param name="old">The old.
+    /// <param name="old">
+    /// The old.
     /// </param>
-    /// <param name="m">The m.
+    /// <param name="m">
+    /// The m.
     /// </param>
     /// &lt;devdov&gt;
     /// Parameter units are pixels(dots) per inch.
+    ///
     ///
     internal DpiChangedEventArgs(int old, Message m)
     {
@@ -33,21 +36,24 @@ public sealed class DpiChangedEventArgs : CancelEventArgs
     /// <summary>
     /// Gets the device dpi new.
     /// </summary>
-    /// <value>The device dpi new.
+    /// <value>
+    /// The device dpi new.
     /// </value>
     public int DeviceDpiNew { get; }
 
     /// <summary>
     /// Gets the device dpi old.
     /// </summary>
-    /// <value>The device dpi old.
+    /// <value>
+    /// The device dpi old.
     /// </value>
     public int DeviceDpiOld { get; }
 
     /// <summary>
     /// Gets the suggested rectangle.
     /// </summary>
-    /// <value>The suggested rectangle.
+    /// <value>
+    /// The suggested rectangle.
     /// </value>
     public Rectangle SuggestedRectangle { get; }
 

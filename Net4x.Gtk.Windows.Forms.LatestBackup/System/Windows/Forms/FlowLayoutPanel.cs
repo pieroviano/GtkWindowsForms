@@ -52,14 +52,16 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     /// <summary>
     /// Gets the controls.
     /// </summary>
-    /// <value>The controls.
+    /// <value>
+    /// The controls.
     /// </value>
     public override ControlCollection Controls => _controls;
 
     /// <summary>
     /// Gets or sets the flow direction.
     /// </summary>
-    /// <value>The flow direction.
+    /// <value>
+    /// The flow direction.
     /// </value>
     public FlowDirection FlowDirection
     {
@@ -74,18 +76,20 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
-    /// Gets or sets a value indicating whether [wrap contents].
+    /// Gets or sets a value indicating whether wrap contents.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [wrap contents]; otherwise,
-    /// <c>false
+    /// </c> if wrap contents; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool WrapContents { get; set; }
@@ -98,7 +102,8 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     /// <see cref="T:System.Object">
     /// </see> to receive the extender properties.
     /// </param>
-    /// <returns>true if this object can provide extender properties to the specified object; otherwise, false.
+    /// <returns>
+    /// true if this object can provide extender properties to the specified object; otherwise, false.
     /// </returns>
     public bool CanExtend(object extendee)
     {
@@ -108,13 +113,15 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     /// <summary>
     /// Gets the flow break.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     public bool GetFlowBreak(Control control)
@@ -125,12 +132,14 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     /// <summary>
     /// Sets the flow break.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
     /// <param name="value">
     /// if set to
-    /// <c>true
-    /// </c> [value].
+    /// <c>
+    /// true
+    /// </c>value.
     /// </param>
     public void SetFlowBreak(Control control, bool value)
     {
@@ -138,8 +147,7 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     }
 
     /// <summary>
-    /// Class ObjectCollection.
-    /// Implements the
+    /// Class ObjectCollection. Implements the
     /// <see cref="T:System.Windows.Forms.Control.ControlCollection" />
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.Control.ControlCollection" />
@@ -154,7 +162,8 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.FlowLayoutPanel.ObjectCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public ObjectCollection(FlowLayoutPanel owner) : base(owner)
         {
@@ -165,7 +174,8 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
         /// Adds a
         /// <see cref="T:System.Windows.Forms.Control" /> to the collection and to the underlying GTK container.
         /// </summary>
-        /// <param name="control">The control.
+        /// <param name="control">
+        /// The control.
         /// </param>
         public override void Add(Control control)
         {

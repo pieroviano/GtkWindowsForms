@@ -14,7 +14,8 @@ public class ItemChangedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ItemChangedEventArgs" /> class.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
     internal ItemChangedEventArgs(int index)
     {
@@ -24,7 +25,8 @@ public class ItemChangedEventArgs : EventArgs
     /// <summary>
     /// Gets the index.
     /// </summary>
-    /// <value>The index.
+    /// <value>
+    /// The index.
     /// </value>
     public int Index { get; }
 

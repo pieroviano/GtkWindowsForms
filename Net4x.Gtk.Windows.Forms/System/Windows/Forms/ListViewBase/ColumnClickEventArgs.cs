@@ -14,7 +14,8 @@ public class ColumnClickEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ColumnClickEventArgs" /> class.
     /// </summary>
-    /// <param name="column">The column.
+    /// <param name="column">
+    /// The column.
     /// </param>
     public ColumnClickEventArgs(int column)
     {
@@ -24,7 +25,8 @@ public class ColumnClickEventArgs : EventArgs
     /// <summary>
     /// Gets the column.
     /// </summary>
-    /// <value>The column.
+    /// <value>
+    /// The column.
     /// </value>
     public int Column { get; }
 

@@ -23,39 +23,56 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellPaintingEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridView">The data grid view.
+    /// <param name="dataGridView">
+    /// The data grid view.
     /// </param>
-    /// <param name="graphics">The graphics.
+    /// <param name="graphics">
+    /// The graphics.
     /// </param>
-    /// <param name="clipBounds">The clip bounds.
+    /// <param name="clipBounds">
+    /// The clip bounds.
     /// </param>
-    /// <param name="cellBounds">The cell bounds.
+    /// <param name="cellBounds">
+    /// The cell bounds.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="cellState">State of the cell.
+    /// <param name="cellState">
+    /// State of the cell.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="formattedValue">The formatted value.
+    /// <param name="formattedValue">
+    /// The formatted value.
     /// </param>
-    /// <param name="errorText">The error text.
+    /// <param name="errorText">
+    /// The error text.
     /// </param>
-    /// <param name="cellStyle">The cell style.
+    /// <param name="cellStyle">
+    /// The cell style.
     /// </param>
-    /// <param name="advancedBorderStyle">The advanced border style.
+    /// <param name="advancedBorderStyle">
+    /// The advanced border style.
     /// </param>
-    /// <param name="paintParts">The paint parts.
+    /// <param name="paintParts">
+    /// The paint parts.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">string.Format(SR.DataGridView_InvalidDataGridViewPaintPartsCombination, nameof(paintParts)), nameof(paintParts)
+    /// <exception cref="T:System.ArgumentException">
+    /// string.Format(SR.DataGridView_InvalidDataGridViewPaintPartsCombination, nameof(paintParts)), nameof(paintParts)
     /// </exception>
-    /// <exception cref="T:System.ArgumentNullException">dataGridView
+    /// <exception cref="T:System.ArgumentNullException">
+    /// dataGridView
     /// </exception>
-    /// <exception cref="T:System.ArgumentNullException">graphics
+    /// <exception cref="T:System.ArgumentNullException">
+    /// graphics
     /// </exception>
-    /// <exception cref="T:System.ArgumentNullException">cellStyle
+    /// <exception cref="T:System.ArgumentNullException">
+    /// cellStyle
     /// </exception>
     public DataGridViewCellPaintingEventArgs(DataGridView dataGridView,
                                                      Graphics graphics,
@@ -95,7 +112,8 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellPaintingEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridView">The data grid view.
+    /// <param name="dataGridView">
+    /// The data grid view.
     /// </param>
     internal DataGridViewCellPaintingEventArgs(DataGridView dataGridView)
     {
@@ -106,97 +124,113 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <summary>
     /// Gets the advanced border style.
     /// </summary>
-    /// <value>The advanced border style.
+    /// <value>
+    /// The advanced border style.
     /// </value>
     public DataGridViewAdvancedBorderStyle AdvancedBorderStyle { get; private set; }
 
     /// <summary>
     /// Gets the cell bounds.
     /// </summary>
-    /// <value>The cell bounds.
+    /// <value>
+    /// The cell bounds.
     /// </value>
     public Rectangle CellBounds { get; private set; }
 
     /// <summary>
     /// Gets the cell style.
     /// </summary>
-    /// <value>The cell style.
+    /// <value>
+    /// The cell style.
     /// </value>
     public DataGridViewCellStyle CellStyle { get; private set; }
 
     /// <summary>
     /// Gets the clip bounds.
     /// </summary>
-    /// <value>The clip bounds.
+    /// <value>
+    /// The clip bounds.
     /// </value>
     public Rectangle ClipBounds { get; private set; }
 
     /// <summary>
     /// Gets the index of the column.
     /// </summary>
-    /// <value>The index of the column.
+    /// <value>
+    /// The index of the column.
     /// </value>
     public int ColumnIndex { get; private set; }
 
     /// <summary>
     /// Gets the error text.
     /// </summary>
-    /// <value>The error text.
+    /// <value>
+    /// The error text.
     /// </value>
     public string ErrorText { get; private set; }
 
     /// <summary>
     /// Gets the formatted value.
     /// </summary>
-    /// <value>The formatted value.
+    /// <value>
+    /// The formatted value.
     /// </value>
     public object FormattedValue { get; private set; }
 
     /// <summary>
     /// Gets the graphics.
     /// </summary>
-    /// <value>The graphics.
+    /// <value>
+    /// The graphics.
     /// </value>
     public Graphics Graphics { get; private set; }
 
     /// <summary>
     /// Gets the paint parts.
     /// </summary>
-    /// <value>The paint parts.
+    /// <value>
+    /// The paint parts.
     /// </value>
     public DataGridViewPaintParts PaintParts { get; private set; }
 
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; private set; }
 
     /// <summary>
     /// Gets the state.
     /// </summary>
-    /// <value>The state.
+    /// <value>
+    /// The state.
     /// </value>
     public DataGridViewElementStates State { get; private set; }
 
     /// <summary>
     /// Gets the value.
     /// </summary>
-    /// <value>The value.
+    /// <value>
+    /// The value.
     /// </value>
     public object Value { get; private set; }
 
     /// <summary>
     /// Paints the specified clip bounds.
     /// </summary>
-    /// <param name="clipBounds">The clip bounds.
+    /// <param name="clipBounds">
+    /// The clip bounds.
     /// </param>
-    /// <param name="paintParts">The paint parts.
+    /// <param name="paintParts">
+    /// The paint parts.
     /// </param>
-    /// <exception cref="T:System.InvalidOperationException">SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange
+    /// <exception cref="T:System.InvalidOperationException">
+    /// SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange
     /// </exception>
-    /// <exception cref="T:System.InvalidOperationException">SR.DataGridViewElementPaintingEventArgs_ColumnIndexOutOfRange
+    /// <exception cref="T:System.InvalidOperationException">
+    /// SR.DataGridViewElementPaintingEventArgs_ColumnIndexOutOfRange
     /// </exception>
     public void Paint(Rectangle clipBounds, DataGridViewPaintParts paintParts)
     {
@@ -225,16 +259,20 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <summary>
     /// Paints the background.
     /// </summary>
-    /// <param name="clipBounds">The clip bounds.
+    /// <param name="clipBounds">
+    /// The clip bounds.
     /// </param>
     /// <param name="cellsPaintSelectionBackground">
     /// if set to
-    /// <c>true
-    /// </c> [cells paint selection background].
+    /// <c>
+    /// true
+    /// </c>cells paint selection background.
     /// </param>
-    /// <exception cref="T:System.InvalidOperationException">SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange
+    /// <exception cref="T:System.InvalidOperationException">
+    /// SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange
     /// </exception>
-    /// <exception cref="T:System.InvalidOperationException">SR.DataGridViewElementPaintingEventArgs_ColumnIndexOutOfRange
+    /// <exception cref="T:System.InvalidOperationException">
+    /// SR.DataGridViewElementPaintingEventArgs_ColumnIndexOutOfRange
     /// </exception>
     public void PaintBackground(Rectangle clipBounds, bool cellsPaintSelectionBackground)
     {
@@ -268,11 +306,14 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <summary>
     /// Paints the content.
     /// </summary>
-    /// <param name="clipBounds">The clip bounds.
+    /// <param name="clipBounds">
+    /// The clip bounds.
     /// </param>
-    /// <exception cref="T:System.InvalidOperationException">SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange
+    /// <exception cref="T:System.InvalidOperationException">
+    /// SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange
     /// </exception>
-    /// <exception cref="T:System.InvalidOperationException">SR.DataGridViewElementPaintingEventArgs_ColumnIndexOutOfRange
+    /// <exception cref="T:System.InvalidOperationException">
+    /// SR.DataGridViewElementPaintingEventArgs_ColumnIndexOutOfRange
     /// </exception>
     public void PaintContent(Rectangle clipBounds)
     {
@@ -301,29 +342,41 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <summary>
     /// Sets the properties.
     /// </summary>
-    /// <param name="graphics">The graphics.
+    /// <param name="graphics">
+    /// The graphics.
     /// </param>
-    /// <param name="clipBounds">The clip bounds.
+    /// <param name="clipBounds">
+    /// The clip bounds.
     /// </param>
-    /// <param name="cellBounds">The cell bounds.
+    /// <param name="cellBounds">
+    /// The cell bounds.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="cellState">State of the cell.
+    /// <param name="cellState">
+    /// State of the cell.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="formattedValue">The formatted value.
+    /// <param name="formattedValue">
+    /// The formatted value.
     /// </param>
-    /// <param name="errorText">The error text.
+    /// <param name="errorText">
+    /// The error text.
     /// </param>
-    /// <param name="cellStyle">The cell style.
+    /// <param name="cellStyle">
+    /// The cell style.
     /// </param>
-    /// <param name="advancedBorderStyle">The advanced border style.
+    /// <param name="advancedBorderStyle">
+    /// The advanced border style.
     /// </param>
-    /// <param name="paintParts">The paint parts.
+    /// <param name="paintParts">
+    /// The paint parts.
     /// </param>
     internal void SetProperties(Graphics graphics,
                                         Rectangle clipBounds,

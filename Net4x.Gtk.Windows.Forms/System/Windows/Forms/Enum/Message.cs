@@ -15,7 +15,8 @@ public struct Message
     /// <summary>
     /// Gets or sets the h WND.
     /// </summary>
-    /// <value>The h WND.
+    /// <value>
+    /// The h WND.
     /// </value>
 #if DEBUG
     private static readonly TraceSwitch s_allWinMessages = new TraceSwitch("AllWinMessages", "Output every received message");
@@ -27,21 +28,24 @@ public struct Message
     /// Specifies the
     /// <see cref="!:Message.lparam" /> of the message.
     /// </summary>
-    /// <value>The l parameter.
+    /// <value>
+    /// The l parameter.
     /// </value>
     public IntPtr LParam { get; set; }
 
     /// <summary>
     /// Gets or sets the MSG.
     /// </summary>
-    /// <value>The MSG.
+    /// <value>
+    /// The MSG.
     /// </value>
     public int Msg { get; set; }
 
     /// <summary>
     /// Gets or sets the result.
     /// </summary>
-    /// <value>The result.
+    /// <value>
+    /// The result.
     /// </value>
     public IntPtr Result { get; set; }
 
@@ -49,7 +53,8 @@ public struct Message
     /// Specifies the
     /// <see cref="!:Message.wparam" /> of the message.
     /// </summary>
-    /// <value>The w parameter.
+    /// <value>
+    /// The w parameter.
     /// </value>
     public IntPtr WParam { get; set; }
 
@@ -57,15 +62,20 @@ public struct Message
     /// Creates a new
     /// <see cref="T:System.Windows.Forms.Message" /> object.
     /// </summary>
-    /// <param name="hWnd">The h WND.
+    /// <param name="hWnd">
+    /// The h WND.
     /// </param>
-    /// <param name="msg">The MSG.
+    /// <param name="msg">
+    /// The MSG.
     /// </param>
-    /// <param name="wparam">The wparam.
+    /// <param name="wparam">
+    /// The wparam.
     /// </param>
-    /// <param name="lparam">The lparam.
+    /// <param name="lparam">
+    /// The lparam.
     /// </param>
-    /// <returns>Message.
+    /// <returns>
+    /// Message.
     /// </returns>
     public static Message Create(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
     {
@@ -100,7 +110,8 @@ public struct Message
     /// true
     /// </c> if the specified
     /// <see cref="T:System.Object" /> is equal to this instance; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public override bool Equals(object o)
@@ -120,7 +131,8 @@ public struct Message
     /// <summary>
     /// Returns a hash code for this instance.
     /// </summary>
-    /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
     /// </returns>
     public override int GetHashCode() => HashCode.Combine(HWnd, Msg);
 
@@ -128,9 +140,11 @@ public struct Message
     /// Gets the
     /// <see cref="!:Message.lparam" /> value, and converts the value to an object.
     /// </summary>
-    /// <param name="cls">The CLS.
+    /// <param name="cls">
+    /// The CLS.
     /// </param>
-    /// <returns>System.Object.
+    /// <returns>
+    /// System.Object.
     /// </returns>
     public object GetLParam(Type cls) => Marshal.PtrToStructure(LParam, cls);
 

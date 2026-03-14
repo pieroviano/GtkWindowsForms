@@ -17,9 +17,11 @@ public class DataGridViewRowErrorTextNeededEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowErrorTextNeededEventArgs" /> class.
     /// </summary>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="errorText">The error text.
+    /// <param name="errorText">
+    /// The error text.
     /// </param>
     internal DataGridViewRowErrorTextNeededEventArgs(int rowIndex, string errorText)
     {
@@ -31,14 +33,16 @@ public class DataGridViewRowErrorTextNeededEventArgs : EventArgs
     /// <summary>
     /// Gets or sets the error text.
     /// </summary>
-    /// <value>The error text.
+    /// <value>
+    /// The error text.
     /// </value>
     public string ErrorText { get; set; }
 
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

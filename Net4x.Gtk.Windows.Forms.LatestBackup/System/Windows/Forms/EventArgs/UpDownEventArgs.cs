@@ -14,7 +14,8 @@ public class UpDownEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.UpDownEventArgs" /> class.
     /// </summary>
-    /// <param name="buttonPushed">The button pushed.
+    /// <param name="buttonPushed">
+    /// The button pushed.
     /// </param>
     public UpDownEventArgs(int buttonPushed)
     {
@@ -24,7 +25,8 @@ public class UpDownEventArgs : EventArgs
     /// <summary>
     /// Gets the button identifier.
     /// </summary>
-    /// <value>The button identifier.
+    /// <value>
+    /// The button identifier.
     /// </value>
     public int ButtonID { get; }
 

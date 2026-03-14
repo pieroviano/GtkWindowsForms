@@ -22,7 +22,7 @@ public abstract class CommonDialog : Component
     private static readonly object s_helpRequestEvent = new object ();
 
     /// <summary>
-    /// Occurs when [help request].
+    /// Occurs when [help request.
     /// </summary>
     public event EventHandler HelpRequest { add => Events.AddHandler(s_helpRequestEvent, value); remove => Events.RemoveHandler(s_helpRequestEvent, value); }
 
@@ -37,7 +37,8 @@ public abstract class CommonDialog : Component
     /// <summary>
     /// Gets or sets the tag.
     /// </summary>
-    /// <value>The tag.
+    /// <value>
+    /// The tag.
     /// </value>
     public object Tag { get; set; }
 
@@ -49,16 +50,19 @@ public abstract class CommonDialog : Component
     /// <summary>
     /// Shows the dialog.
     /// </summary>
-    /// <returns>DialogResult.
+    /// <returns>
+    /// DialogResult.
     /// </returns>
     public virtual DialogResult ShowDialog() => ShowDialog(owner: null);
 
     /// <summary>
     /// Shows the dialog.
     /// </summary>
-    /// <param name = "owner">The owner.
+    /// <param name = "owner">
+    /// The owner.
     /// </param>
-    /// <returns>DialogResult.
+    /// <returns>
+    /// DialogResult.
     /// </returns>
     public virtual DialogResult ShowDialog(IWin32Window owner)
     {
@@ -74,7 +78,7 @@ public abstract class CommonDialog : Component
 
     /// <summary>
     /// Handles the
-    /// <see cref = "HelpRequest"/> event.
+    /// <see cref="T:System.Windows.Forms.CommonDialog.HelpRequest"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -89,13 +93,15 @@ public abstract class CommonDialog : Component
     /// <summary>
     /// Runs the dialog.
     /// </summary>
-    /// <param name = "owner">The owner.
+    /// <param name = "owner">
+    /// The owner.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     protected abstract bool RunDialog(IWin32Window owner);

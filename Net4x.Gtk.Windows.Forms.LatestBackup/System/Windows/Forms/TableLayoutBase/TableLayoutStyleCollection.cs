@@ -12,7 +12,8 @@ public abstract class TableLayoutStyleCollection : ArrayList
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TableLayoutStyleCollection" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     internal TableLayoutStyleCollection(IArrangedElement owner)
     {
@@ -23,7 +24,8 @@ public abstract class TableLayoutStyleCollection : ArrayList
     /// <summary>
     /// Gets the owner.
     /// </summary>
-    /// <value>The owner.
+    /// <value>
+    /// The owner.
     /// </value>
     internal IArrangedElement Owner
     {
@@ -35,9 +37,11 @@ public abstract class TableLayoutStyleCollection : ArrayList
     /// Gets or sets the
     /// <see cref="T:System.Windows.Forms.TableLayoutStyle" /> at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>TableLayoutStyle.
+    /// <returns>
+    /// TableLayoutStyle.
     /// </returns>
     public new TableLayoutStyle this[int index]
     {
@@ -54,9 +58,11 @@ public abstract class TableLayoutStyleCollection : ArrayList
     /// <summary>
     /// Adds the specified style.
     /// </summary>
-    /// <param name="style">The style.
+    /// <param name="style">
+    /// The style.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int Add(TableLayoutStyle style)
     {
@@ -66,7 +72,8 @@ public abstract class TableLayoutStyleCollection : ArrayList
     /// <summary>
     /// Ensures the ownership.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     internal void EnsureOwnership(IArrangedElement owner)
     {

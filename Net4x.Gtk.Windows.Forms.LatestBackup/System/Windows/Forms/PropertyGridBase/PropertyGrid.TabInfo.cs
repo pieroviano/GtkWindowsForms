@@ -7,10 +7,26 @@ using System.Windows.Forms.Design;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class PropertyGrid.
-/// Implements the
-/// <see cref="T:System.Windows.Forms.ContainerControl" />
-/// Implements the
+/// Class PropertyGrid. Implements the
+/// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
+/// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ContainerControl" />
+/// <seealso cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
+/// Class PropertyGrid. Implements the
+/// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
+/// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ContainerControl" />
+/// <seealso cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
+/// Class PropertyGrid. Implements the
+/// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
+/// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ContainerControl" />
+/// <seealso cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
+/// Class PropertyGrid. Implements the
+/// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
 /// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.ContainerControl" />

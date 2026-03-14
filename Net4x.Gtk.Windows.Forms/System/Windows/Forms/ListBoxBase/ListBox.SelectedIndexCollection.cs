@@ -7,16 +7,14 @@ using System.ComponentModel;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class ListBox.
-/// Implements the
+/// Class ListBox. Implements the
 /// <see cref="T:System.Windows.Forms.ListControl" />
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.ListControl" />
 public partial class ListBox
 {
     /// <summary>
-    /// Class SelectedIndexCollection.
-    /// Implements the
+    /// Class SelectedIndexCollection. Implements the
     /// <see cref="T:System.Collections.IList" />
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />
@@ -31,7 +29,8 @@ public partial class ListBox
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListBox.SelectedIndexCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public SelectedIndexCollection(ListBox owner)
         {
@@ -41,7 +40,8 @@ public partial class ListBox
         /// <summary>
         /// Number of current selected items.
         /// </summary>
-        /// <value>The count.
+        /// <value>
+        /// The count.
         /// </value>
         [Browsable(false)]
         public int Count
@@ -61,7 +61,8 @@ public partial class ListBox
         /// <c>
         /// true
         /// </c> if this instance is read only; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         public bool IsReadOnly
@@ -81,7 +82,8 @@ public partial class ListBox
         /// <c>
         /// true
         /// </c> if this instance is fixed size; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool IList.IsFixedSize
@@ -101,7 +103,8 @@ public partial class ListBox
         /// <c>
         /// true
         /// </c> if this instance is synchronized; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool ICollection.IsSynchronized
@@ -117,7 +120,8 @@ public partial class ListBox
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The synchronize root.
+        /// <value>
+        /// The synchronize root.
         /// </value>
         object ICollection.SyncRoot
         {
@@ -131,7 +135,8 @@ public partial class ListBox
         /// This is the item array that stores our data.  We share this backing store
         /// with the main object collection.
         /// </summary>
-        /// <value>The inner array.
+        /// <value>
+        /// The inner array.
         /// </value>
         private ItemArray InnerArray
         {
@@ -146,9 +151,11 @@ public partial class ListBox
         /// <summary>
         /// Retrieves the specified selected item.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int this[int index]
         {
@@ -163,11 +170,14 @@ public partial class ListBox
         /// <summary>
         /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>System.Nullable.
+        /// <returns>
+        /// System.Nullable.
         /// </returns>
-        /// <exception cref="T:System.NotSupportedException">SR.ListBoxSelectedIndexCollectionIsReadOnly
+        /// <exception cref="T:System.NotSupportedException">
+        /// SR.ListBoxSelectedIndexCollectionIsReadOnly
         /// </exception>
         object? IList.this[int index]
         {
@@ -184,7 +194,8 @@ public partial class ListBox
         /// <summary>
         /// Adds the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
         public void Add(int index)
         {
@@ -214,13 +225,15 @@ public partial class ListBox
         /// <summary>
         /// Determines whether this instance contains the object.
         /// </summary>
-        /// <param name="selectedIndex">Index of the selected.
+        /// <param name="selectedIndex">
+        /// Index of the selected.
         /// </param>
         /// <returns>
         /// <c>
         /// true
-        /// </c> if [contains] [the specified selected index]; otherwise,
-        /// <c>false
+        /// </c> if contains [the specified selected index]; otherwise,
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         public bool Contains(int selectedIndex)
@@ -231,9 +244,11 @@ public partial class ListBox
         /// <summary>
         /// Copies to.
         /// </summary>
-        /// <param name="destination">The destination.
+        /// <param name="destination">
+        /// The destination.
         /// </param>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
         public void CopyTo(Array destination, int index)
         {
@@ -260,9 +275,11 @@ public partial class ListBox
         /// <summary>
         /// Indexes the of.
         /// </summary>
-        /// <param name="selectedIndex">Index of the selected.
+        /// <param name="selectedIndex">
+        /// Index of the selected.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int IndexOf(int selectedIndex)
         {
@@ -283,7 +300,8 @@ public partial class ListBox
         /// <summary>
         /// Removes the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
         public void Remove(int index)
         {
@@ -310,9 +328,11 @@ public partial class ListBox
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </param>
-        /// <returns>The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
+        /// <returns>
+        /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
         /// </returns>
-        /// <exception cref="T:System.NotSupportedException">SR.ListBoxSelectedIndexCollectionIsReadOnly
+        /// <exception cref="T:System.NotSupportedException">
+        /// SR.ListBoxSelectedIndexCollectionIsReadOnly
         /// </exception>
         int IList.Add(object? value)
         {
@@ -324,7 +344,8 @@ public partial class ListBox
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </summary>
-        /// <exception cref="T:System.NotSupportedException">SR.ListBoxSelectedIndexCollectionIsReadOnly
+        /// <exception cref="T:System.NotSupportedException">
+        /// SR.ListBoxSelectedIndexCollectionIsReadOnly
         /// </exception>
         void IList.Clear()
         {
@@ -334,13 +355,15 @@ public partial class ListBox
         /// <summary>
         /// Determines whether this instance contains the object.
         /// </summary>
-        /// <param name="selectedIndex">Index of the selected.
+        /// <param name="selectedIndex">
+        /// Index of the selected.
         /// </param>
         /// <returns>
         /// <c>
         /// true
-        /// </c> if [contains] [the specified selected index]; otherwise,
-        /// <c>false
+        /// </c> if contains [the specified selected index]; otherwise,
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         bool IList.Contains(object? selectedIndex)
@@ -358,9 +381,11 @@ public partial class ListBox
         /// <summary>
         /// Indexes the of.
         /// </summary>
-        /// <param name="selectedIndex">Index of the selected.
+        /// <param name="selectedIndex">
+        /// Index of the selected.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         int IList.IndexOf(object? selectedIndex)
         {
@@ -379,14 +404,16 @@ public partial class ListBox
         /// <see cref="T:System.Collections.IList">
         /// </see> at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index at which value should be inserted.
+        /// <param name="index">
+        /// The zero-based index at which value should be inserted.
         /// </param>
         /// <param name="value">
         /// The object to insert into the
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </param>
-        /// <exception cref="T:System.NotSupportedException">SR.ListBoxSelectedIndexCollectionIsReadOnly
+        /// <exception cref="T:System.NotSupportedException">
+        /// SR.ListBoxSelectedIndexCollectionIsReadOnly
         /// </exception>
         void IList.Insert(int index, object? value)
         {
@@ -403,7 +430,8 @@ public partial class ListBox
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </param>
-        /// <exception cref="T:System.NotSupportedException">SR.ListBoxSelectedIndexCollectionIsReadOnly
+        /// <exception cref="T:System.NotSupportedException">
+        /// SR.ListBoxSelectedIndexCollectionIsReadOnly
         /// </exception>
         void IList.Remove(object? value)
         {
@@ -415,9 +443,11 @@ public partial class ListBox
         /// <see cref="T:System.Collections.IList">
         /// </see> item at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.
+        /// <param name="index">
+        /// The zero-based index of the item to remove.
         /// </param>
-        /// <exception cref="T:System.NotSupportedException">SR.ListBoxSelectedIndexCollectionIsReadOnly
+        /// <exception cref="T:System.NotSupportedException">
+        /// SR.ListBoxSelectedIndexCollectionIsReadOnly
         /// </exception>
         void IList.RemoveAt(int index)
         {

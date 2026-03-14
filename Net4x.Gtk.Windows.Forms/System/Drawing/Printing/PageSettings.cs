@@ -32,7 +32,8 @@ public unsafe class PageSettings : ICloneable
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Printing.PageSettings" /> class.
     /// </summary>
-    /// <param name="printerSettings">The printer settings.
+    /// <param name="printerSettings">
+    /// The printer settings.
     /// </param>
     public PageSettings(PrinterSettings printerSettings)
     {
@@ -59,7 +60,8 @@ public unsafe class PageSettings : ICloneable
     /// <c>
     /// true
     /// </c> if color; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Color
@@ -100,7 +102,8 @@ public unsafe class PageSettings : ICloneable
     /// <c>
     /// true
     /// </c> if landscape; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Landscape
@@ -198,7 +201,8 @@ public unsafe class PageSettings : ICloneable
     /// <summary>
     /// Copies to hdevmode.
     /// </summary>
-    /// <param name="hdevmode">The hdevmode.
+    /// <param name="hdevmode">
+    /// The hdevmode.
     /// </param>
     public void CopyToHdevmode(IntPtr hdevmode)
     {
@@ -208,7 +212,8 @@ public unsafe class PageSettings : ICloneable
     /// <summary>
     /// Sets the hdevmode.
     /// </summary>
-    /// <param name="hdevmode">The hdevmode.
+    /// <param name="hdevmode">
+    /// The hdevmode.
     /// </param>
     public void SetHdevmode(IntPtr hdevmode)
     {

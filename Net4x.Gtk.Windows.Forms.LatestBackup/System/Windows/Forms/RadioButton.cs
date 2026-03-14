@@ -27,7 +27,7 @@ public partial class RadioButton : Control
     private bool _Checked;
 
     /// <summary>
-    /// Occurs when [checked changed].
+    /// Occurs when [checked changed.
     /// </summary>
     public event EventHandler CheckedChanged;
 
@@ -48,7 +48,8 @@ public partial class RadioButton : Control
     /// <c>
     /// true
     /// </c> if checked; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Checked { get { return self.Active; } set { _Checked = true; self.Active = true; } }
@@ -56,23 +57,27 @@ public partial class RadioButton : Control
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text { get { return self.Label; } set { self.Label = value; } }
 
     /// <summary>
     /// Selfs the parent set.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void Self_ParentSet(object o, Gtk.ParentSetArgs args)
     {
@@ -94,7 +99,8 @@ public partial class RadioButton : Control
     /// <summary>
     /// Handles the Toggled event of the Self control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

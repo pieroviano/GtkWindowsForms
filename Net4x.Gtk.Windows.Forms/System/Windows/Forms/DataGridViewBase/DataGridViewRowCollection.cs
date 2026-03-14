@@ -41,7 +41,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowCollection"/> class.
     /// </summary>
-    /// <param name = "dataGridView">The data grid view.
+    /// <param name = "dataGridView">
+    /// The data grid view.
     /// </param>
     public DataGridViewRowCollection(DataGridView dataGridView)
     {
@@ -52,9 +53,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowCollection"/> class.
     /// </summary>
-    /// <param name = "dataGridView">The data grid view.
+    /// <param name = "dataGridView">
+    /// The data grid view.
     /// </param>
-    /// <param name = "parentRow">The parent row.
+    /// <param name = "parentRow">
+    /// The parent row.
     /// </param>
     public DataGridViewRowCollection(DataGridView dataGridView, DataGridViewRow parentRow)
     {
@@ -67,14 +70,16 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <see cref="T:System.Collections.ICollection">
     /// </see>.
     /// </summary>
-    /// <value>The count.
+    /// <value>
+    /// The count.
     /// </value>
     public int Count => items.Count;
 
     /// <summary>
     /// Gets the shared list.
     /// </summary>
-    /// <value>The shared list.
+    /// <value>
+    /// The shared list.
     /// </value>
     internal ArrayList SharedList => items;
 
@@ -87,7 +92,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <c>
     /// true
     /// </c> if this instance is fixed size; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool IList.IsFixedSize => false;
@@ -101,7 +107,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <c>
     /// true
     /// </c> if this instance is read only; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool IList.IsReadOnly => false;
@@ -115,7 +122,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <c>
     /// true
     /// </c> if this instance is synchronized; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool ICollection.IsSynchronized => false;
@@ -125,14 +133,16 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <see cref="T:System.Collections.ICollection">
     /// </see>.
     /// </summary>
-    /// <value>The synchronize root.
+    /// <value>
+    /// The synchronize root.
     /// </value>
     object ICollection.SyncRoot => this;
 
     /// <summary>
     /// Gets the data grid view.
     /// </summary>
-    /// <value>The data grid view.
+    /// <value>
+    /// The data grid view.
     /// </value>
     protected DataGridView DataGridView
     {
@@ -145,7 +155,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the list.
     /// </summary>
-    /// <value>The list.
+    /// <value>
+    /// The list.
     /// </value>
     protected ArrayList List
     {
@@ -159,9 +170,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// Gets the
     /// <see cref="T:System.Windows.Forms.DataGridViewRow"/> at the specified index.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
-    /// <returns>DataGridViewRow.
+    /// <returns>
+    /// DataGridViewRow.
     /// </returns>
     public DataGridViewRow this[int index]
     {
@@ -177,9 +190,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// Gets or sets the
     /// <see cref="T:System.Object"/> at the specified index.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
-    /// <returns>System.Object.
+    /// <returns>
+    /// System.Object.
     /// </returns>
     /// <exception cref="T:System.NotSupportedException">
     /// </exception>
@@ -188,7 +203,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds this instance.
     /// </summary>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual int Add()
@@ -202,9 +218,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the specified data grid view row.
     /// </summary>
-    /// <param name = "dataGridViewRow">The data grid view row.
+    /// <param name = "dataGridViewRow">
+    /// The data grid view row.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public virtual int Add(DataGridViewRow dataGridViewRow)
     {
@@ -220,9 +238,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the specified values.
     /// </summary>
-    /// <param name = "values">The values.
+    /// <param name = "values">
+    /// The values.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual int Add(params object[] values)
@@ -246,9 +266,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the specified count.
     /// </summary>
-    /// <param name = "count">The count.
+    /// <param name = "count">
+    /// The count.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual int Add(int count)
@@ -270,11 +292,14 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the copies.
     /// </summary>
-    /// <param name = "indexSource">The index source.
+    /// <param name = "indexSource">
+    /// The index source.
     /// </param>
-    /// <param name = "count">The count.
+    /// <param name = "count">
+    /// The count.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public virtual int AddCopies(int indexSource, int count)
     {
@@ -288,9 +313,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the copy.
     /// </summary>
-    /// <param name = "indexSource">The index source.
+    /// <param name = "indexSource">
+    /// The index source.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public virtual int AddCopy(int indexSource)
     {
@@ -300,7 +327,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the range.
     /// </summary>
-    /// <param name = "dataGridViewRows">The data grid view rows.
+    /// <param name = "dataGridViewRows">
+    /// The data grid view rows.
     /// </param>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual void AddRange(params DataGridViewRow[] dataGridViewRows)
@@ -333,13 +361,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Determines whether this instance contains the object.
     /// </summary>
-    /// <param name = "dataGridViewRow">The data grid view row.
+    /// <param name = "dataGridViewRow">
+    /// The data grid view row.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [contains] [the specified data grid view row]; otherwise,
-    /// <c>false
+    /// </c> if contains [the specified data grid view row]; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public virtual bool Contains(DataGridViewRow dataGridViewRow)
@@ -350,9 +380,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Copies to.
     /// </summary>
-    /// <param name = "array">The array.
+    /// <param name = "array">
+    /// The array.
     /// </param>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
     public void CopyTo(DataGridViewRow[] array, int index)
     {
@@ -362,9 +394,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the first row.
     /// </summary>
-    /// <param name = "includeFilter">The include filter.
+    /// <param name = "includeFilter">
+    /// The include filter.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int GetFirstRow(DataGridViewElementStates includeFilter)
     {
@@ -384,11 +418,14 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the first row.
     /// </summary>
-    /// <param name = "includeFilter">The include filter.
+    /// <param name = "includeFilter">
+    /// The include filter.
     /// </param>
-    /// <param name = "excludeFilter">The exclude filter.
+    /// <param name = "excludeFilter">
+    /// The exclude filter.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int GetFirstRow(DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
@@ -408,9 +445,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the last row.
     /// </summary>
-    /// <param name = "includeFilter">The include filter.
+    /// <param name = "includeFilter">
+    /// The include filter.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int GetLastRow(DataGridViewElementStates includeFilter)
     {
@@ -429,11 +468,14 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the next row.
     /// </summary>
-    /// <param name = "indexStart">The index start.
+    /// <param name = "indexStart">
+    /// The index start.
     /// </param>
-    /// <param name = "includeFilter">The include filter.
+    /// <param name = "includeFilter">
+    /// The include filter.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int GetNextRow(int indexStart, DataGridViewElementStates includeFilter)
     {
@@ -453,13 +495,17 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the next row.
     /// </summary>
-    /// <param name = "indexStart">The index start.
+    /// <param name = "indexStart">
+    /// The index start.
     /// </param>
-    /// <param name = "includeFilter">The include filter.
+    /// <param name = "includeFilter">
+    /// The include filter.
     /// </param>
-    /// <param name = "excludeFilter">The exclude filter.
+    /// <param name = "excludeFilter">
+    /// The exclude filter.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int GetNextRow(int indexStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
@@ -479,13 +525,17 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the previous row.
     /// </summary>
-    /// <param name = "indexStart">The index start.
+    /// <param name = "indexStart">
+    /// The index start.
     /// </param>
-    /// <param name = "includeFilter">The include filter.
+    /// <param name = "includeFilter">
+    /// The include filter.
     /// </param>
-    /// <param name = "excludeFilter">The exclude filter.
+    /// <param name = "excludeFilter">
+    /// The exclude filter.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int GetPreviousRow(int indexStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
@@ -505,11 +555,14 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the previous row.
     /// </summary>
-    /// <param name = "indexStart">The index start.
+    /// <param name = "indexStart">
+    /// The index start.
     /// </param>
-    /// <param name = "includeFilter">The include filter.
+    /// <param name = "includeFilter">
+    /// The include filter.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int GetPreviousRow(int indexStart, DataGridViewElementStates includeFilter)
     {
@@ -529,9 +582,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the row count.
     /// </summary>
-    /// <param name = "includeFilter">The include filter.
+    /// <param name = "includeFilter">
+    /// The include filter.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int GetRowCount(DataGridViewElementStates includeFilter)
     {
@@ -555,9 +610,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the height of the rows.
     /// </summary>
-    /// <param name = "includeFilter">The include filter.
+    /// <param name = "includeFilter">
+    /// The include filter.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int GetRowsHeight(DataGridViewElementStates includeFilter)
     {
@@ -576,9 +633,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Gets the state of the row.
     /// </summary>
-    /// <param name = "rowIndex">Index of the row.
+    /// <param name = "rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <returns>DataGridViewElementStates.
+    /// <returns>
+    /// DataGridViewElementStates.
     /// </returns>
     public virtual DataGridViewElementStates GetRowState(int rowIndex)
     {
@@ -588,9 +647,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Indexes the of.
     /// </summary>
-    /// <param name = "dataGridViewRow">The data grid view row.
+    /// <param name = "dataGridViewRow">
+    /// The data grid view row.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int IndexOf(DataGridViewRow dataGridViewRow)
     {
@@ -600,9 +661,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Inserts the specified row index.
     /// </summary>
-    /// <param name = "rowIndex">Index of the row.
+    /// <param name = "rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name = "values">The values.
+    /// <param name = "values">
+    /// The values.
     /// </param>
     public virtual void Insert(int rowIndex, params object[] values)
     {
@@ -625,9 +688,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Inserts the specified row index.
     /// </summary>
-    /// <param name = "rowIndex">Index of the row.
+    /// <param name = "rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name = "dataGridViewRow">The data grid view row.
+    /// <param name = "dataGridViewRow">
+    /// The data grid view row.
     /// </param>
     public virtual void Insert(int rowIndex, DataGridViewRow dataGridViewRow)
     {
@@ -637,9 +702,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Inserts the specified row index.
     /// </summary>
-    /// <param name = "rowIndex">Index of the row.
+    /// <param name = "rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name = "count">The count.
+    /// <param name = "count">
+    /// The count.
     /// </param>
     public virtual void Insert(int rowIndex, int count)
     {
@@ -659,11 +726,14 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Inserts the copies.
     /// </summary>
-    /// <param name = "indexSource">The index source.
+    /// <param name = "indexSource">
+    /// The index source.
     /// </param>
-    /// <param name = "indexDestination">The index destination.
+    /// <param name = "indexDestination">
+    /// The index destination.
     /// </param>
-    /// <param name = "count">The count.
+    /// <param name = "count">
+    /// The count.
     /// </param>
     public virtual void InsertCopies(int indexSource, int indexDestination, int count)
     {
@@ -672,9 +742,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Inserts the copy.
     /// </summary>
-    /// <param name = "indexSource">The index source.
+    /// <param name = "indexSource">
+    /// The index source.
     /// </param>
-    /// <param name = "indexDestination">The index destination.
+    /// <param name = "indexDestination">
+    /// The index destination.
     /// </param>
     public virtual void InsertCopy(int indexSource, int indexDestination)
     {
@@ -683,9 +755,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Inserts the range.
     /// </summary>
-    /// <param name = "rowIndex">Index of the row.
+    /// <param name = "rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name = "dataGridViewRows">The data grid view rows.
+    /// <param name = "dataGridViewRows">
+    /// The data grid view rows.
     /// </param>
     public virtual void InsertRange(int rowIndex, params DataGridViewRow[] dataGridViewRows)
     {
@@ -695,7 +769,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Removes the specified data grid view row.
     /// </summary>
-    /// <param name = "dataGridViewRow">The data grid view row.
+    /// <param name = "dataGridViewRow">
+    /// The data grid view row.
     /// </param>
     public virtual void Remove(DataGridViewRow dataGridViewRow)
     {
@@ -707,7 +782,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <see cref="T:System.Collections.IList">
     /// </see> item at the specified index.
     /// </summary>
-    /// <param name = "index">The zero-based index of the item to remove.
+    /// <param name = "index">
+    /// The zero-based index of the item to remove.
     /// </param>
     public virtual void RemoveAt(int index)
     {
@@ -727,9 +803,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Shareds the row.
     /// </summary>
-    /// <param name = "rowIndex">Index of the row.
+    /// <param name = "rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <returns>DataGridViewRow.
+    /// <returns>
+    /// DataGridViewRow.
     /// </returns>
     public DataGridViewRow SharedRow(int rowIndex)
     {
@@ -756,7 +834,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </param>
-    /// <returns>The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
+    /// <returns>
+    /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
     /// </returns>
     int IList.Add(object value)
     {
@@ -813,7 +892,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <see cref="T:System.Array">
     /// </see> must have zero-based indexing.
     /// </param>
-    /// <param name = "index">The zero-based index in array at which copying begins.
+    /// <param name = "index">
+    /// The zero-based index in array at which copying begins.
     /// </param>
     void ICollection.CopyTo(Array array, int index)
     {
@@ -845,7 +925,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </param>
     /// <returns>
     /// The index of
-    /// <paramref name = "value">value
+    /// <paramref name = "value">
+    /// value
     /// </paramref> if found in the list; otherwise, -1.
     /// </returns>
     int IList.IndexOf(object value)
@@ -858,7 +939,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <see cref="T:System.Collections.IList">
     /// </see> at the specified index.
     /// </summary>
-    /// <param name = "index">The zero-based index at which value should be inserted.
+    /// <param name = "index">
+    /// The zero-based index at which value should be inserted.
     /// </param>
     /// <param name = "value">
     /// The object to insert into the
@@ -890,7 +972,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <see cref="T:System.Collections.IList">
     /// </see> item at the specified index.
     /// </summary>
-    /// <param name = "index">The zero-based index of the item to remove.
+    /// <param name = "index">
+    /// The zero-based index of the item to remove.
     /// </param>
     void IList.RemoveAt(int index)
     {
@@ -899,7 +982,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
 
     /// <summary>
     /// Handles the
-    /// <see cref = "CollectionChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.DataGridViewRowCollection.CollectionChanged"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -914,9 +997,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the GTK store.
     /// </summary>
-    /// <param name = "cells">The cells.
+    /// <param name = "cells">
+    /// The cells.
     /// </param>
-    /// <returns>TreeIter.
+    /// <returns>
+    /// TreeIter.
     /// </returns>
     private TreeIter AddGtkStore(DataGridViewCellCollection cells)
     {
@@ -937,10 +1022,9 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the GTK store.
     /// </summary>
-    /// <param name = "cells">The cells.
-    /// </param>
-    /// <returns>TreeIter.
-    /// </returns>
+    /// <param name="parent">The parent.</param>
+    /// <param name="cells">The cells.</param>
+    /// <returns></returns>
     private TreeIter AddGtkStore(TreeIter parent, DataGridViewCellCollection cells)
     {
         int ncolumns = dataGridView.Store.NColumns;
@@ -960,7 +1044,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the GTK store.
     /// </summary>
-    /// <param name = "dataGridViewRows">The data grid view rows.
+    /// <param name = "dataGridViewRows">
+    /// The data grid view rows.
     /// </param>
     private void AddGtkStore(params DataGridViewRow[] dataGridViewRows)
     {
@@ -1008,10 +1093,9 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Adds the GTK store.
     /// </summary>
-    /// <param name = "cells">The cells.
-    /// </param>
-    /// <returns>TreeIter.
-    /// </returns>
+    /// <param name="parent">The parent.</param>
+    /// <param name="rowindex">The rowindex.</param>
+    /// <param name="row">The row.</param>
     private void AddGtkStore(TreeIter parent, ref int rowindex, DataGridViewRow row)
     {
         row.Index = rowindex;
@@ -1038,11 +1122,14 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Inserts the GTK store.
     /// </summary>
-    /// <param name = "rowIndex">Index of the row.
+    /// <param name = "rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name = "cells">The cells.
+    /// <param name = "cells">
+    /// The cells.
     /// </param>
-    /// <returns>TreeIter.
+    /// <returns>
+    /// TreeIter.
     /// </returns>
     private TreeIter InsertGtkStore(int rowIndex, DataGridViewCellCollection cells)
     {
@@ -1063,9 +1150,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// Inserts the GTK store.
     /// </summary>
-    /// <param name = "rowIndex">Index of the row.
+    /// <param name = "rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name = "dataGridViewRows">The data grid view rows.
+    /// <param name = "dataGridViewRows">
+    /// The data grid view rows.
     /// </param>
     private void InsertGtkStore(int rowIndex, params DataGridViewRow[] dataGridViewRows)
     {

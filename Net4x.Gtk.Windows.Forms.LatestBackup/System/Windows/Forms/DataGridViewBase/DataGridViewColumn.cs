@@ -16,7 +16,8 @@ namespace System.Windows.Forms;
 /// Hosts a collection of
 /// <see cref="T:System.Windows.Forms.DataGridViewButtonCell" /> objects.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 public class DataGridViewButtonColumn : DataGridViewColumn
 {
@@ -54,9 +55,11 @@ public class DataGridViewButtonColumn : DataGridViewColumn
     /// <summary>
     /// Creates a new cell instance for this column.
     /// </summary>
-    /// <param name="value">Initial cell value (optional).
+    /// <param name="value">
+    /// Initial cell value (optional).
     /// </param>
-    /// <param name="valueType">Cell value type (optional).
+    /// <param name="valueType">
+    /// Cell value type (optional).
     /// </param>
     /// <returns>
     /// A new
@@ -90,7 +93,8 @@ public class DataGridViewButtonColumn : DataGridViewColumn
 /// Hosts a collection of
 /// <see cref="T:System.Windows.Forms.DataGridViewCheckBoxCell" /> objects.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 public class DataGridViewCheckBoxColumn : DataGridViewColumn
 {
@@ -130,9 +134,11 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
     /// <summary>
     /// Creates a new checkbox cell instance for this column.
     /// </summary>
-    /// <param name="value">Initial cell value (optional).
+    /// <param name="value">
+    /// Initial cell value (optional).
     /// </param>
-    /// <param name="valueType">Cell value type (optional).
+    /// <param name="valueType">
+    /// Cell value type (optional).
     /// </param>
     /// <returns>
     /// A new
@@ -168,7 +174,8 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
 /// Represents a column in a
 /// <see cref="T:System.Windows.Forms.DataGridView" /> control.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 public class DataGridViewColumn : TreeViewColumn
 {
@@ -210,7 +217,8 @@ public class DataGridViewColumn : TreeViewColumn
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumn" /> class using the specified owner and a default cell template.
     /// </summary>
-    /// <param name="ownerGridView">The owning grid view.
+    /// <param name="ownerGridView">
+    /// The owning grid view.
     /// </param>
     public DataGridViewColumn(DataGridView ownerGridView) : this(ownerGridView, new DataGridViewTextBoxCell())
     {
@@ -228,7 +236,8 @@ public class DataGridViewColumn : TreeViewColumn
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumn" /> class using the provided cell template.
     /// </summary>
-    /// <param name="cellTemplate">The template cell to use for new cells.
+    /// <param name="cellTemplate">
+    /// The template cell to use for new cells.
     /// </param>
     public DataGridViewColumn(DataGridViewCell cellTemplate) : this(null, cellTemplate)
     {
@@ -238,9 +247,11 @@ public class DataGridViewColumn : TreeViewColumn
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumn" /> class with explicit column index, owner and cell template.
     /// </summary>
-    /// <param name="ownerGridView">Owning grid view.
+    /// <param name="ownerGridView">
+    /// Owning grid view.
     /// </param>
-    /// <param name="cellTemplate">Template cell to use.
+    /// <param name="cellTemplate">
+    /// Template cell to use.
     /// </param>
     public DataGridViewColumn(DataGridView ownerGridView, DataGridViewCell cellTemplate) : this(0, ownerGridView, cellTemplate)
     {
@@ -260,11 +271,14 @@ public class DataGridViewColumn : TreeViewColumn
     /// <summary>
     /// Protected constructor used by derived column implementations.
     /// </summary>
-    /// <param name="column">Column index.
+    /// <param name="column">
+    /// Column index.
     /// </param>
-    /// <param name="ownerGridView">Owning grid view.
+    /// <param name="ownerGridView">
+    /// Owning grid view.
     /// </param>
-    /// <param name="cellTemplate">Template cell.
+    /// <param name="cellTemplate">
+    /// Template cell.
     /// </param>
     protected DataGridViewColumn(int column, DataGridView ownerGridView, DataGridViewCell cellTemplate) : base()
     {
@@ -538,7 +552,8 @@ public class DataGridViewColumn : TreeViewColumn
     /// <summary>
     /// Creates a shallow clone of the column.
     /// </summary>
-    /// <returns>A cloned object (implementation returns null in this port).
+    /// <returns>
+    /// A cloned object (implementation returns null in this port).
     /// </returns>
     public object Clone()
     {
@@ -548,11 +563,14 @@ public class DataGridViewColumn : TreeViewColumn
     /// <summary>
     /// Returns an estimate of the preferred width for the column.
     /// </summary>
-    /// <param name="autoSizeColumnMode">The auto-size mode.
+    /// <param name="autoSizeColumnMode">
+    /// The auto-size mode.
     /// </param>
-    /// <param name="fixedHeight">True to compute for a fixed height; otherwise false.
+    /// <param name="fixedHeight">
+    /// True to compute for a fixed height; otherwise false.
     /// </param>
-    /// <returns>An integer representing the preferred width in pixels.
+    /// <returns>
+    /// An integer representing the preferred width in pixels.
     /// </returns>
     public virtual int GetPreferredWidth(DataGridViewAutoSizeColumnMode autoSizeColumnMode, bool fixedHeight)
     {
@@ -563,7 +581,8 @@ public class DataGridViewColumn : TreeViewColumn
     /// Applies the provided default
     /// <see cref="T:System.Windows.Forms.DataGridViewCellStyle" /> to the column renderer and updates wrapping/height behavior.
     /// </summary>
-    /// <param name="cellStyle">The default style to apply.
+    /// <param name="cellStyle">
+    /// The default style to apply.
     /// </param>
     public void SetGridViewDefaultStyle(DataGridViewCellStyle cellStyle)
     {
@@ -592,7 +611,8 @@ public class DataGridViewColumn : TreeViewColumn
     /// <summary>
     /// Returns the name of the type.
     /// </summary>
-    /// <returns>Type name string.
+    /// <returns>
+    /// Type name string.
     /// </returns>
     public override string ToString() { return this.GetType().Name; }
 
@@ -605,9 +625,11 @@ public class DataGridViewColumn : TreeViewColumn
     /// <summary>
     /// Creates a new default cell instance for this column (text cell).
     /// </summary>
-    /// <param name="value">Initial value (optional).
+    /// <param name="value">
+    /// Initial value (optional).
     /// </param>
-    /// <param name="valueType">Value type (optional).
+    /// <param name="valueType">
+    /// Value type (optional).
     /// </param>
     /// <returns>
     /// A new
@@ -642,7 +664,8 @@ public class DataGridViewColumn : TreeViewColumn
 /// Represents a column of
 /// <see cref="T:System.Windows.Forms.DataGridViewComboBoxCell" /> objects.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 public class DataGridViewComboBoxColumn : DataGridViewColumn
 {
@@ -692,9 +715,11 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
     /// <summary>
     /// Creates a new combo box cell instance for this column.
     /// </summary>
-    /// <param name="value">Initial cell value (optional).
+    /// <param name="value">
+    /// Initial cell value (optional).
     /// </param>
-    /// <param name="valueType">Cell value type (optional).
+    /// <param name="valueType">
+    /// Cell value type (optional).
     /// </param>
     /// <returns>
     /// A new
@@ -735,7 +760,8 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection" /> class.
         /// </summary>
-        /// <param name="owner">Owning combo box column.
+        /// <param name="owner">
+        /// Owning combo box column.
         /// </param>
         public ObjectCollection(DataGridViewComboBoxColumn owner)
         {
@@ -745,9 +771,11 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
         /// <summary>
         /// Adds an item to the collection and the underlying GTK model.
         /// </summary>
-        /// <param name="value">Item to add.
+        /// <param name="value">
+        /// Item to add.
         /// </param>
-        /// <returns>The index at which the item was added.
+        /// <returns>
+        /// The index at which the item was added.
         /// </returns>
         public override int Add(object value)
         {
@@ -759,7 +787,8 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
         /// <summary>
         /// Adds a range of items to the collection.
         /// </summary>
-        /// <param name="items">Array of items to add.
+        /// <param name="items">
+        /// Array of items to add.
         /// </param>
         public void AddRange(object[] items)
         {
@@ -774,7 +803,8 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
 /// Hosts a collection of
 /// <see cref="T:System.Windows.Forms.DataGridViewImageCell" /> objects.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 public class DataGridViewImageColumn : DataGridViewColumn
 {
@@ -810,9 +840,11 @@ public class DataGridViewImageColumn : DataGridViewColumn
     /// <summary>
     /// Creates a new image cell instance for this column.
     /// </summary>
-    /// <param name="value">Initial cell value (optional).
+    /// <param name="value">
+    /// Initial cell value (optional).
     /// </param>
-    /// <param name="valueType">Cell value type (optional).
+    /// <param name="valueType">
+    /// Cell value type (optional).
     /// </param>
     /// <returns>
     /// A new
@@ -834,7 +866,8 @@ public class DataGridViewImageColumn : DataGridViewColumn
 /// Represents a column of cells that contain links in a
 /// <see cref="T:System.Windows.Forms.DataGridView" /> control.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 public class DataGridViewLinkColumn : DataGridViewColumn
 {
@@ -862,9 +895,11 @@ public class DataGridViewLinkColumn : DataGridViewColumn
     /// <summary>
     /// Creates a new link cell instance for this column.
     /// </summary>
-    /// <param name="value">Initial cell value (optional).
+    /// <param name="value">
+    /// Initial cell value (optional).
     /// </param>
-    /// <param name="valueType">Cell value type (optional).
+    /// <param name="valueType">
+    /// Cell value type (optional).
     /// </param>
     /// <returns>
     /// A new
@@ -923,9 +958,11 @@ public class DataGridViewRadioColumn : DataGridViewColumn
     /// <summary>
     /// Creates a new radio cell instance for this column.
     /// </summary>
-    /// <param name="value">Initial cell value (optional).
+    /// <param name="value">
+    /// Initial cell value (optional).
     /// </param>
-    /// <param name="valueType">Cell value type (optional).
+    /// <param name="valueType">
+    /// Cell value type (optional).
     /// </param>
     /// <returns>
     /// A new
@@ -961,7 +998,8 @@ public class DataGridViewRadioColumn : DataGridViewColumn
 /// Hosts a collection of
 /// <see cref="T:System.Windows.Forms.DataGridViewTextBoxCell" /> cells.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 public class DataGridViewTextBoxColumn : DataGridViewColumn
 {

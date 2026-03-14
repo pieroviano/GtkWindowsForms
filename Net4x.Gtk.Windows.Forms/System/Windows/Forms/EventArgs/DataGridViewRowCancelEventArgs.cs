@@ -17,7 +17,8 @@ public class DataGridViewRowCancelEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowCancelEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridViewRow">The data grid view row.
+    /// <param name="dataGridViewRow">
+    /// The data grid view row.
     /// </param>
     public DataGridViewRowCancelEventArgs(DataGridViewRow dataGridViewRow)
     {
@@ -27,7 +28,8 @@ public class DataGridViewRowCancelEventArgs : CancelEventArgs
     /// <summary>
     /// Gets or sets the row.
     /// </summary>
-    /// <value>The row.
+    /// <value>
+    /// The row.
     /// </value>
     public DataGridViewRow Row { get; set; }
 

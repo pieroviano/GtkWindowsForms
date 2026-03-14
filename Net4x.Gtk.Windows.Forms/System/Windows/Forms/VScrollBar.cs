@@ -32,14 +32,16 @@ public class VScrollBar : ScrollBar
     /// <summary>
     /// Gets the adjustment.
     /// </summary>
-    /// <value>The adjustment.
+    /// <value>
+    /// The adjustment.
     /// </value>
     public override Gtk.Adjustment Adjustment { get => self.Adjustment; }
 
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 

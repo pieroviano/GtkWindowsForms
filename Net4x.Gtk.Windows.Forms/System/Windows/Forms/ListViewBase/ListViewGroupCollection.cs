@@ -21,7 +21,8 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewGroupCollection" /> class.
     /// </summary>
-    /// <param name="listView">The list view.
+    /// <param name="listView">
+    /// The list view.
     /// </param>
     internal ListViewGroupCollection(ListView listView)
     {
@@ -33,9 +34,11 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// Gets or sets the
     /// <see cref="T:System.Windows.Forms.ListViewGroup" /> with the specified key.
     /// </summary>
-    /// <param name="key">The key.
+    /// <param name="key">
+    /// The key.
     /// </param>
-    /// <returns>ListViewGroup.
+    /// <returns>
+    /// ListViewGroup.
     /// </returns>
     public ListViewGroup this[string key]
     {
@@ -55,9 +58,11 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// <summary>
     /// Adds the specified group.
     /// </summary>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public new int Add(ListViewGroup group)
     {
@@ -69,11 +74,14 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// <summary>
     /// Adds the specified key.
     /// </summary>
-    /// <param name="key">The key.
+    /// <param name="key">
+    /// The key.
     /// </param>
-    /// <param name="headerText">The header text.
+    /// <param name="headerText">
+    /// The header text.
     /// </param>
-    /// <returns>ListViewGroup.
+    /// <returns>
+    /// ListViewGroup.
     /// </returns>
     public ListViewGroup Add(string key, string headerText)
     {
@@ -86,7 +94,8 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// <summary>
     /// Adds the range.
     /// </summary>
-    /// <param name="groups">The groups.
+    /// <param name="groups">
+    /// The groups.
     /// </param>
     public void AddRange(ListViewGroup[] groups)
     {
@@ -99,7 +108,8 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// <summary>
     /// Adds the range.
     /// </summary>
-    /// <param name="groups">The groups.
+    /// <param name="groups">
+    /// The groups.
     /// </param>
     public void AddRange(ListViewGroupCollection groups)
     {
@@ -121,13 +131,15 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// <summary>
     /// Determines whether this instance contains the object.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [contains] [the specified name]; otherwise,
-    /// <c>false
+    /// </c> if contains [the specified name]; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public bool Contains(string name)
@@ -138,7 +150,8 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// <summary>
     /// Adds the core.
     /// </summary>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     private void AddCore(ListViewGroup group)
     {

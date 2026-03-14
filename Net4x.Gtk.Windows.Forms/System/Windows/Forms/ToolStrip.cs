@@ -26,12 +26,12 @@ public class ToolStrip : Control
     public ToolStripItemCollection toolStripItemCollection;
 
     /// <summary>
-    /// Occurs when [checked changed].
+    /// Occurs when [checked changed.
     /// </summary>
     public event EventHandler CheckedChanged;
 
     /// <summary>
-    /// Occurs when [check state changed].
+    /// Occurs when [check state changed.
     /// </summary>
     public event EventHandler CheckStateChanged;
 
@@ -41,7 +41,7 @@ public class ToolStrip : Control
     public override event EventHandler Click;
 
     /// <summary>
-    /// Occurs when [drop down item clicked].
+    /// Occurs when [drop down item clicked.
     /// </summary>
     public event ToolStripItemClickedEventHandler DropDownItemClicked;
 
@@ -59,7 +59,8 @@ public class ToolStrip : Control
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStrip" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     public ToolStrip(string owner) : base()
     {
@@ -74,21 +75,24 @@ public class ToolStrip : Control
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the size of the image scaling.
     /// </summary>
-    /// <value>The size of the image scaling.
+    /// <value>
+    /// The size of the image scaling.
     /// </value>
     public Size ImageScalingSize { get; set; }
 
     /// <summary>
     /// Gets the items.
     /// </summary>
-    /// <value>The items.
+    /// <value>
+    /// The items.
     /// </value>
     public ToolStripItemCollection Items
     {
@@ -101,23 +105,27 @@ public class ToolStrip : Control
     /// <summary>
     /// Gets or sets the layout style.
     /// </summary>
-    /// <value>The layout style.
+    /// <value>
+    /// The layout style.
     /// </value>
     public ToolStripLayoutStyle LayoutStyle { get; set; }
 
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, 30); }
 
     /// <summary>
     /// Tools the strip item activated.
     /// </summary>
-    /// <param name="sender">The sender.
+    /// <param name="sender">
+    /// The sender.
     /// </param>
-    /// <param name="e">The e.
+    /// <param name="e">
+    /// The e.
     /// </param>
     private void ToolStripItem_Activated(object sender, ActivateCurrentArgs e)
     {

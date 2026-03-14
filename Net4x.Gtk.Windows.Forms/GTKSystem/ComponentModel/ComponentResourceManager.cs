@@ -17,7 +17,8 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.ComponentModel.ComponentResourceManager" /> class.
     /// </summary>
-    /// <param name="form">The form.
+    /// <param name="form">
+    /// The form.
     /// </param>
     public ComponentResourceManager(Type form) : base(form)
     {
@@ -28,7 +29,8 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// <summary>
     /// Gets the value of the specified non-string resource localized for the specified culture.
     /// </summary>
-    /// <param name="name">The name of the resource to get.
+    /// <param name="name">
+    /// The name of the resource to get.
     /// </param>
     /// <param name="culture">
     /// The culture for which the resource is localized. If the resource is not localized for this culture, the resource manager uses fallback rules to locate an appropriate resource.   If this value is null, the
@@ -39,7 +41,8 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// </param>
     /// <returns>
     /// The value of the resource, localized for the specified culture. If an appropriate resource set exists but
-    /// <paramref name="name">name
+    /// <paramref name="name">
+    /// name
     /// </paramref> cannot be found, the method returns null.
     /// </returns>
     public override object GetObject(string name, CultureInfo culture)
@@ -50,11 +53,13 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// <summary>
     /// Returns the value of the specified non-string resource.
     /// </summary>
-    /// <param name="name">The name of the resource to get.
+    /// <param name="name">
+    /// The name of the resource to get.
     /// </param>
     /// <returns>
     /// The value of the resource localized for the caller's current culture settings. If an appropriate resource set exists but
-    /// <paramref name="name">name
+    /// <paramref name="name">
+    /// name
     /// </paramref> cannot be found, the method returns null.
     /// </returns>
     public override object GetObject(string name)
@@ -67,11 +72,13 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// <summary>
     /// Returns the value of the specified string resource.
     /// </summary>
-    /// <param name="name">The name of the resource to retrieve.
+    /// <param name="name">
+    /// The name of the resource to retrieve.
     /// </param>
     /// <returns>
     /// The value of the resource localized for the caller's current UI culture, or null if
-    /// <paramref name="name">name
+    /// <paramref name="name">
+    /// name
     /// </paramref> cannot be found in a resource set.
     /// </returns>
     public override string GetString(string name)

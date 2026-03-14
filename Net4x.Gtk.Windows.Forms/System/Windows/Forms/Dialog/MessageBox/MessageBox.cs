@@ -102,11 +102,9 @@ public class MessageBoxOld
         return ShowCore(owner, text, caption, buttons, icon, defaultButton, options);
     }
 
-    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //END ADD                                                                                                      //
-    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// <summary>
-    /// Displays a message box with specified text, caption, and style.
+    /// Displays a message box with specified text, caption, and style with Help Button.
+    /// </summary>
     public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
                                     MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
     {

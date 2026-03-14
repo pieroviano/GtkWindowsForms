@@ -7,16 +7,42 @@ using System.ComponentModel;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class ListBox.
-/// Implements the
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
 /// <see cref="T:System.Windows.Forms.ListControl" />
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.ListControl" />
 public partial class ListBox
 {
     /// <summary>
-    /// Class IntegerCollection.
-    /// Implements the
+    /// Class IntegerCollection. Implements the
+    /// <see cref="T:System.Collections.IList" />
+    /// </summary>
+    /// <seealso cref="T:System.Collections.IList" />
+    /// Class IntegerCollection. Implements the
     /// <see cref="T:System.Collections.IList" />
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />
@@ -41,7 +67,8 @@ public partial class ListBox
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListBox.IntegerCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public IntegerCollection(ListBox owner)
         {
@@ -51,7 +78,8 @@ public partial class ListBox
         /// <summary>
         /// Number of current selected items.
         /// </summary>
-        /// <value>The count.
+        /// <value>
+        /// The count.
         /// </value>
         [Browsable(false)]
         public int Count
@@ -71,7 +99,8 @@ public partial class ListBox
         /// <c>
         /// true
         /// </c> if this instance is fixed size; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool IList.IsFixedSize
@@ -91,7 +120,8 @@ public partial class ListBox
         /// <c>
         /// true
         /// </c> if this instance is read only; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool IList.IsReadOnly
@@ -111,7 +141,8 @@ public partial class ListBox
         /// <c>
         /// true
         /// </c> if this instance is synchronized; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool ICollection.IsSynchronized
@@ -127,7 +158,8 @@ public partial class ListBox
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The synchronize root.
+        /// <value>
+        /// The synchronize root.
         /// </value>
         object ICollection.SyncRoot
         {
@@ -140,9 +172,11 @@ public partial class ListBox
         /// <summary>
         /// Retrieves the specified selected item.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int this[int index]
         {
@@ -160,11 +194,14 @@ public partial class ListBox
         /// <summary>
         /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>System.Nullable.
+        /// <returns>
+        /// System.Nullable.
         /// </returns>
-        /// <exception cref="T:System.ArgumentException">value
+        /// <exception cref="T:System.ArgumentException">
+        /// value
         /// </exception>
         object? IList.this[int index]
         {
@@ -190,9 +227,11 @@ public partial class ListBox
         /// A SystemException occurs if there is insufficient space available to
         /// store the new item.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int Add(int item)
         {
@@ -204,7 +243,8 @@ public partial class ListBox
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
         public void AddRange(params int[] items)
         {
@@ -214,7 +254,8 @@ public partial class ListBox
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         public void AddRange(IntegerCollection value)
         {
@@ -235,13 +276,15 @@ public partial class ListBox
         /// <summary>
         /// Determines whether this instance contains the object.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
         /// <returns>
         /// <c>
         /// true
-        /// </c> if [contains] [the specified item]; otherwise,
-        /// <c>false
+        /// </c> if contains [the specified item]; otherwise,
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         public bool Contains(int item)
@@ -252,9 +295,11 @@ public partial class ListBox
         /// <summary>
         /// Copies to.
         /// </summary>
-        /// <param name="destination">The destination.
+        /// <param name="destination">
+        /// The destination.
         /// </param>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
         public void CopyTo(Array destination, int index)
         {
@@ -268,9 +313,11 @@ public partial class ListBox
         /// <summary>
         /// Indexes the of.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int IndexOf(int item)
         {
@@ -297,7 +344,8 @@ public partial class ListBox
         /// Removes the given item from the array.  If
         /// the item is not in the array, this does nothing.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
         public void Remove(int item)
         {
@@ -312,7 +360,8 @@ public partial class ListBox
         /// <summary>
         /// Removes the item at the given index.
         /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.
+        /// <param name="index">
+        /// The zero-based index of the item to remove.
         /// </param>
         public void RemoveAt(int index)
         {
@@ -326,11 +375,14 @@ public partial class ListBox
         /// <summary>
         /// Adds the specified item.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
-        /// <exception cref="T:System.ArgumentException">item
+        /// <exception cref="T:System.ArgumentException">
+        /// item
         /// </exception>
         int IList.Add(object? item)
         {
@@ -355,13 +407,15 @@ public partial class ListBox
         /// <summary>
         /// Determines whether this instance contains the object.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
         /// <returns>
         /// <c>
         /// true
-        /// </c> if [contains] [the specified item]; otherwise,
-        /// <c>false
+        /// </c> if contains [the specified item]; otherwise,
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         bool IList.Contains(object? item)
@@ -390,9 +444,11 @@ public partial class ListBox
         /// <summary>
         /// Indexes the of.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         int IList.IndexOf(object? item)
         {
@@ -409,14 +465,16 @@ public partial class ListBox
         /// <see cref="T:System.Collections.IList">
         /// </see> at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index at which value should be inserted.
+        /// <param name="index">
+        /// The zero-based index at which value should be inserted.
         /// </param>
         /// <param name="value">
         /// The object to insert into the
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </param>
-        /// <exception cref="T:System.NotSupportedException">SR.ListBoxCantInsertIntoIntegerCollection
+        /// <exception cref="T:System.NotSupportedException">
+        /// SR.ListBoxCantInsertIntoIntegerCollection
         /// </exception>
         void IList.Insert(int index, object? value)
         {
@@ -433,7 +491,8 @@ public partial class ListBox
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </param>
-        /// <exception cref="T:System.ArgumentException">value
+        /// <exception cref="T:System.ArgumentException">
+        /// value
         /// </exception>
         void IList.Remove(object? value)
         {
@@ -450,7 +509,8 @@ public partial class ListBox
         /// <see cref="T:System.Collections.IList">
         /// </see> item at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.
+        /// <param name="index">
+        /// The zero-based index of the item to remove.
         /// </param>
         void IList.RemoveAt(int index)
         {
@@ -462,9 +522,11 @@ public partial class ListBox
         /// A SystemException occurs if there is insufficient space available to
         /// store the new item.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         private int AddInternal(int item)
         {
@@ -484,9 +546,11 @@ public partial class ListBox
         /// <summary>
         /// Add range that bypasses the data source check.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
-        /// <exception cref="T:System.ArgumentException">item
+        /// <exception cref="T:System.ArgumentException">
+        /// item
         /// </exception>
         private void AddRangeInternal(ICollection items)
         {
@@ -516,7 +580,8 @@ public partial class ListBox
         /// <summary>
         /// Ensures that our internal array has space for the requested # of elements.
         /// </summary>
-        /// <param name="elements">The elements.
+        /// <param name="elements">
+        /// The elements.
         /// </param>
         private void EnsureSpace(int elements)
         {

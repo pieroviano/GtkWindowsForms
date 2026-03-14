@@ -34,7 +34,8 @@ public class ListViewItemConverter : ExpandableObjectConverter
     /// <see cref="T:System.Type">
     /// </see> that represents the type you want to convert to.
     /// </param>
-    /// <returns>true if this converter can perform the conversion; otherwise, false.
+    /// <returns>
+    /// true if this converter can perform the conversion; otherwise, false.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>

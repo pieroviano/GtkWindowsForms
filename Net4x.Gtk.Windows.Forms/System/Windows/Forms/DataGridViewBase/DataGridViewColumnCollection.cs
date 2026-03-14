@@ -15,7 +15,8 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.DataGridView"/>.
 /// Provides helpers for adding, removing and querying the set of columns and synchronizes with the underlying GTK tree view.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 public class DataGridViewColumnCollection : List<DataGridViewColumn>
 {
@@ -57,7 +58,8 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Gets the column with the specified name.
     /// </summary>
-    /// <param name = "columnName">The name of the column to locate.
+    /// <param name = "columnName">
+    /// The name of the column to locate.
     /// </param>
     /// <returns>
     /// The
@@ -74,9 +76,11 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Adds a new column with the specified name and header text.
     /// </summary>
-    /// <param name = "columnName">Column name.
+    /// <param name = "columnName">
+    /// Column name.
     /// </param>
-    /// <param name = "headerText">Header text to display.
+    /// <param name = "headerText">
+    /// Header text to display.
     /// </param>
     public void Add(string columnName, string headerText)
     {
@@ -166,7 +170,8 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// Adds the elements of the specified collection to the end of the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection"/>.
     /// </summary>
-    /// <param name = "columns">The collection whose elements should be added.
+    /// <param name = "columns">
+    /// The collection whose elements should be added.
     /// </param>
     public new void AddRange(IEnumerable<DataGridViewColumn> columns)
     {
@@ -194,7 +199,8 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// The
     /// <see cref="T:System.Windows.Forms.DataGridViewElementStates"/> to include.
     /// </param>
-    /// <returns>The count of matching columns.
+    /// <returns>
+    /// The count of matching columns.
     /// </returns>
     public int GetColumnCount(DataGridViewElementStates includeFilter)
     {
@@ -205,9 +211,11 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// Returns the width of the first column that matches the specified element state filter.
     /// If none found, returns the owner's row header width.
     /// </summary>
-    /// <param name = "includeFilter">The element state to include.
+    /// <param name = "includeFilter">
+    /// The element state to include.
     /// </param>
-    /// <returns>The width in pixels.
+    /// <returns>
+    /// The width in pixels.
     /// </returns>
     public int GetColumnsWidth(DataGridViewElementStates includeFilter)
     {
@@ -219,7 +227,8 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Gets the first column that matches the specified element state filter.
     /// </summary>
-    /// <param name = "includeFilter">The element state to include.
+    /// <param name = "includeFilter">
+    /// The element state to include.
     /// </param>
     /// <returns>
     /// The first matching
@@ -233,9 +242,11 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Gets the first column that matches both include and exclude filters.
     /// </summary>
-    /// <param name = "includeFilter">The element state to include.
+    /// <param name = "includeFilter">
+    /// The element state to include.
     /// </param>
-    /// <param name = "excludeFilter">The element state to exclude.
+    /// <param name = "excludeFilter">
+    /// The element state to exclude.
     /// </param>
     /// <returns>
     /// The first matching
@@ -249,9 +260,11 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Gets the last column that matches both include and exclude filters.
     /// </summary>
-    /// <param name = "includeFilter">The element state to include.
+    /// <param name = "includeFilter">
+    /// The element state to include.
     /// </param>
-    /// <param name = "excludeFilter">The element state to exclude.
+    /// <param name = "excludeFilter">
+    /// The element state to exclude.
     /// </param>
     /// <returns>
     /// The last matching
@@ -265,11 +278,14 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Returns the next column after the provided start column that matches the filters.
     /// </summary>
-    /// <param name = "dataGridViewColumnStart">Start column for search.
+    /// <param name = "dataGridViewColumnStart">
+    /// Start column for search.
     /// </param>
-    /// <param name = "includeFilter">Element state to include.
+    /// <param name = "includeFilter">
+    /// Element state to include.
     /// </param>
-    /// <param name = "excludeFilter">Element state to exclude.
+    /// <param name = "excludeFilter">
+    /// Element state to exclude.
     /// </param>
     /// <returns>
     /// The next matching
@@ -325,9 +341,11 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Removes the specified column from the collection and underlying GTK view.
     /// </summary>
-    /// <param name = "column">The column to remove.
+    /// <param name = "column">
+    /// The column to remove.
     /// </param>
-    /// <returns>True if the column was removed; otherwise false.
+    /// <returns>
+    /// True if the column was removed; otherwise false.
     /// </returns>
     public new bool Remove(DataGridViewColumn column)
     {
@@ -341,7 +359,8 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Removes the column at the specified index.
     /// </summary>
-    /// <param name = "index">Index of the column to remove.
+    /// <param name = "index">
+    /// Index of the column to remove.
     /// </param>
     public new void RemoveAt(int index)
     {
@@ -352,7 +371,8 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// Raises the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.CollectionChanged"/> event.
     /// </summary>
-    /// <param name = "e">The event arguments.
+    /// <param name = "e">
+    /// The event arguments.
     /// </param>
     protected virtual void OnCollectionChanged(CollectionChangeEventArgs e)
     {

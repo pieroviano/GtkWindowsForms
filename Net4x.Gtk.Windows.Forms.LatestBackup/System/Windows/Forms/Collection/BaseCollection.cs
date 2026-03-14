@@ -36,7 +36,8 @@ public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
     /// <c>
     /// true
     /// </c> if this instance is read only; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -74,9 +75,11 @@ public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
     /// <summary>
     /// Copies to.
     /// </summary>
-    /// <param name="ar">The ar.
+    /// <param name="ar">
+    /// The ar.
     /// </param>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]

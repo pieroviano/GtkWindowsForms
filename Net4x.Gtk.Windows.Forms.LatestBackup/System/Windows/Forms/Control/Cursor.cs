@@ -33,7 +33,8 @@ public sealed class Cursor : IDisposable, ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Cursor" /> class from a native handle.
     /// </summary>
-    /// <param name="handle">Native cursor handle.
+    /// <param name="handle">
+    /// Native cursor handle.
     /// </param>
     public Cursor(IntPtr handle)
     {
@@ -47,7 +48,8 @@ public sealed class Cursor : IDisposable, ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Cursor" /> class for a standard GDK cursor type.
     /// </summary>
-    /// <param name="cursorType">The GDK cursor type.
+    /// <param name="cursorType">
+    /// The GDK cursor type.
     /// </param>
     public Cursor(Gdk.CursorType cursorType)
     {
@@ -59,7 +61,8 @@ public sealed class Cursor : IDisposable, ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Cursor" /> class from a cursor file.
     /// </summary>
-    /// <param name="fileName">Path to the cursor file.
+    /// <param name="fileName">
+    /// Path to the cursor file.
     /// </param>
     public Cursor(string fileName)
     {
@@ -71,9 +74,11 @@ public sealed class Cursor : IDisposable, ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Cursor" /> class from an embedded resource.
     /// </summary>
-    /// <param name="type">Type used to locate the assembly containing the resource.
+    /// <param name="type">
+    /// Type used to locate the assembly containing the resource.
     /// </param>
-    /// <param name="resource">Resource name.
+    /// <param name="resource">
+    /// Resource name.
     /// </param>
     public Cursor(Type type, string resource) : this(type.Module.Assembly.GetManifestResourceStream(resource)!)
     {
@@ -83,7 +88,8 @@ public sealed class Cursor : IDisposable, ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Cursor" /> class from a stream.
     /// </summary>
-    /// <param name="stream">Stream containing cursor image data.
+    /// <param name="stream">
+    /// Stream containing cursor image data.
     /// </param>
     public Cursor(Stream stream)
     {
@@ -96,9 +102,11 @@ public sealed class Cursor : IDisposable, ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Cursor" /> class from an embedded resource.
     /// </summary>
-    /// <param name="type">Type used to locate the assembly containing the resource.
+    /// <param name="type">
+    /// Type used to locate the assembly containing the resource.
     /// </param>
-    /// <param name="resource">Resource name.
+    /// <param name="resource">
+    /// Resource name.
     /// </param>
     internal Cursor(string resource, string cursorsProperty)
                 : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
@@ -111,7 +119,8 @@ public sealed class Cursor : IDisposable, ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Cursor" /> class from a native handle.
     /// </summary>
-    /// <param name="handle">Native cursor handle.
+    /// <param name="handle">
+    /// Native cursor handle.
     /// </param>
     internal Cursor(string resource, int x, int y)
                 : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
@@ -209,7 +218,8 @@ public sealed class Cursor : IDisposable, ISerializable
     /// <summary>
     /// Returns a copy of the underlying native handle.
     /// </summary>
-    /// <returns>A copy of the native handle.
+    /// <returns>
+    /// A copy of the native handle.
     /// </returns>
     public IntPtr CopyHandle()
     {
@@ -227,9 +237,11 @@ public sealed class Cursor : IDisposable, ISerializable
     /// <summary>
     /// Draws the cursor into the specified graphics surface without scaling.
     /// </summary>
-    /// <param name="g">Graphics surface to draw into.
+    /// <param name="g">
+    /// Graphics surface to draw into.
     /// </param>
-    /// <param name="targetRect">Target rectangle in which to draw the cursor.
+    /// <param name="targetRect">
+    /// Target rectangle in which to draw the cursor.
     /// </param>
     public void Draw(Graphics g, Rectangle targetRect)
     {
@@ -239,9 +251,11 @@ public sealed class Cursor : IDisposable, ISerializable
     /// <summary>
     /// Draws the cursor stretched to fit the specified target rectangle.
     /// </summary>
-    /// <param name="g">Graphics surface to draw into.
+    /// <param name="g">
+    /// Graphics surface to draw into.
     /// </param>
-    /// <param name="targetRect">Target rectangle in which to draw the cursor.
+    /// <param name="targetRect">
+    /// Target rectangle in which to draw the cursor.
     /// </param>
     public void DrawStretched(Graphics g, Rectangle targetRect)
     {
@@ -251,16 +265,19 @@ public sealed class Cursor : IDisposable, ISerializable
     /// <summary>
     /// Compares this instance to another object for equality.
     /// </summary>
-    /// <param name="obj">Object to compare with.
+    /// <param name="obj">
+    /// Object to compare with.
     /// </param>
-    /// <returns>True when equal; otherwise false.
+    /// <returns>
+    /// True when equal; otherwise false.
     /// </returns>
     public override bool Equals(object? obj) => obj is Cursor cursor && this == cursor;
 
     /// <summary>
     /// Returns a hash code for the cursor instance.
     /// </summary>
-    /// <returns>An integer hash code.
+    /// <returns>
+    /// An integer hash code.
     /// </returns>
     public override int GetHashCode()
     {
@@ -290,14 +307,16 @@ public sealed class Cursor : IDisposable, ISerializable
     /// <summary>
     /// Returns a string that represents the current cursor.
     /// </summary>
-    /// <returns>A string representation.
+    /// <returns>
+    /// A string representation.
     /// </returns>
     public override string ToString() => $"[Cursor: {CursorsProperty ?? base.ToString()}]";
 
     /// <summary>
     /// Returns a copy of the raw cursor data bytes.
     /// </summary>
-    /// <returns>Raw cursor bytes.
+    /// <returns>
+    /// Raw cursor bytes.
     /// </returns>
     internal unsafe byte[] GetData()
     {
@@ -317,7 +336,8 @@ public sealed class Cursor : IDisposable, ISerializable
     /// <summary>
     /// Releases managed and unmanaged resources used by the cursor.
     /// </summary>
-    /// <param name="disposing">True to release managed resources as well as unmanaged.
+    /// <param name="disposing">
+    /// True to release managed resources as well as unmanaged.
     /// </param>
     private void Dispose(bool disposing)
     {

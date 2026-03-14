@@ -23,7 +23,7 @@ public class Timer : Component
     readonly System.Timers.Timer TimersTimer = new Timers.Timer();
 
     /// <summary>
-    /// Occurs when [tick].
+    /// Occurs when [tick.
     /// </summary>
     public event EventHandler Tick;
 
@@ -40,7 +40,8 @@ public class Timer : Component
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Timer" /> class.
     /// </summary>
-    /// <param name="container">The container.
+    /// <param name="container">
+    /// The container.
     /// </param>
     public Timer(IContainer container) : this()
     {
@@ -54,7 +55,8 @@ public class Timer : Component
     /// <c>
     /// true
     /// </c> if enabled; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -63,7 +65,8 @@ public class Timer : Component
     /// <summary>
     /// Gets or sets the interval.
     /// </summary>
-    /// <value>The interval.
+    /// <value>
+    /// The interval.
     /// </value>
     [DefaultValue(100)]
     public int Interval { get => (int)TimersTimer.Interval; set => TimersTimer.Interval = value; }
@@ -71,7 +74,8 @@ public class Timer : Component
     /// <summary>
     /// Gets or sets the tag.
     /// </summary>
-    /// <value>The tag.
+    /// <value>
+    /// The tag.
     /// </value>
     [Bindable(true)]
     [DefaultValue(null)]
@@ -110,7 +114,8 @@ public class Timer : Component
     /// <see cref="T:System.ComponentModel.Component">
     /// </see> and optionally releases the managed resources.
     /// </summary>
-    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
+    /// <param name="disposing">
+    /// true to release both managed and unmanaged resources; false to release only unmanaged resources.
     /// </param>
     protected override void Dispose(bool disposing)
     {
@@ -129,7 +134,8 @@ public class Timer : Component
     /// <summary>
     /// Handles the Elapsed event of the TimersTimer control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

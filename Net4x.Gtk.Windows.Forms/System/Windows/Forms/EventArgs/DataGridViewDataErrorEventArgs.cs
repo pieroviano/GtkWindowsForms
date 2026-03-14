@@ -19,13 +19,17 @@ public class DataGridViewDataErrorEventArgs : DataGridViewCellCancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewDataErrorEventArgs" /> class.
     /// </summary>
-    /// <param name="exception">The exception.
+    /// <param name="exception">
+    /// The exception.
     /// </param>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="context">The context.
+    /// <param name="context">
+    /// The context.
     /// </param>
     public DataGridViewDataErrorEventArgs(Exception exception, int columnIndex, int rowIndex, DataGridViewDataErrorContexts context) : base(columnIndex, rowIndex)
     {
@@ -36,28 +40,32 @@ public class DataGridViewDataErrorEventArgs : DataGridViewCellCancelEventArgs
     /// <summary>
     /// Gets the context.
     /// </summary>
-    /// <value>The context.
+    /// <value>
+    /// The context.
     /// </value>
     public DataGridViewDataErrorContexts Context { get; }
 
     /// <summary>
     /// Gets the exception.
     /// </summary>
-    /// <value>The exception.
+    /// <value>
+    /// The exception.
     /// </value>
     public Exception Exception { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [throw exception].
+    /// Gets or sets a value indicating whether throw exception.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [throw exception]; otherwise,
-    /// <c>false
+    /// </c> if throw exception; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
-    /// <exception cref="T:System.ArgumentException">SR.DataGridView_CannotThrowNullException
+    /// <exception cref="T:System.ArgumentException">
+    /// SR.DataGridView_CannotThrowNullException
     /// </exception>
     public bool ThrowException
     {

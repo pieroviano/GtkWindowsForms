@@ -162,7 +162,8 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Removes the item at the specified index from the underlying list.
     /// </summary>
-    /// <param name = "index">Zero-based index of the item to remove.
+    /// <param name = "index">
+    /// Zero-based index of the item to remove.
     /// </param>
     public abstract void RemoveAt(int index);
 
@@ -188,9 +189,11 @@ public abstract class BindingManagerBase
     /// Returns a collection of item properties for the specified data sources and accessors.
     /// This overload is used by complex related-currency-manager scenarios.
     /// </summary>
-    /// <param name = "dataSources">ArrayList of data source objects participating in the relation.
+    /// <param name = "dataSources">
+    /// ArrayList of data source objects participating in the relation.
     /// </param>
-    /// <param name = "listAccessors">ArrayList of accessors that describe navigation into related lists.
+    /// <param name = "listAccessors">
+    /// ArrayList of accessors that describe navigation into related lists.
     /// </param>
     protected internal virtual PropertyDescriptorCollection? GetItemProperties(ArrayList dataSources, ArrayList listAccessors)
     {
@@ -213,7 +216,8 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Gets the name of the list.
     /// </summary>
-    /// <param name = "listAccessors">The list accessors.
+    /// <param name = "listAccessors">
+    /// The list accessors.
     /// </param>
     /// <returns>
     /// </returns>
@@ -222,7 +226,8 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Gets the name of the list.
     /// </summary>
-    /// <param name = "listAccessors">The list accessors.
+    /// <param name = "listAccessors">
+    /// The list accessors.
     /// </param>
     /// <returns>
     /// </returns>
@@ -231,7 +236,8 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Raises the aggregated BindingComplete event for this manager.
     /// </summary>
-    /// <param name = "e">Event arguments describing the binding completion.
+    /// <param name = "e">
+    /// Event arguments describing the binding completion.
     /// </param>
     protected internal void OnBindingComplete(BindingCompleteEventArgs e)
     {
@@ -240,7 +246,7 @@ public abstract class BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref = "CurrentChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentChanged"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -250,7 +256,7 @@ public abstract class BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref = "CurrentItemChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentItemChanged"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -261,7 +267,8 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Raises the DataError event with the provided exception.
     /// </summary>
-    /// <param name = "e">The exception that occurred.
+    /// <param name = "e">
+    /// The exception that occurred.
     /// </param>
     protected internal void OnDataError(Exception e)
     {
@@ -296,13 +303,17 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Gets the item properties.
     /// </summary>
-    /// <param name = "listType">Type of the list.
+    /// <param name = "listType">
+    /// Type of the list.
     /// </param>
-    /// <param name = "offset">The offset.
+    /// <param name = "offset">
+    /// The offset.
     /// </param>
-    /// <param name = "dataSources">The data sources.
+    /// <param name = "dataSources">
+    /// The data sources.
     /// </param>
-    /// <param name = "listAccessors">The list accessors.
+    /// <param name = "listAccessors">
+    /// The list accessors.
     /// </param>
     /// <returns>
     /// </returns>

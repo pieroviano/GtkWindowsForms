@@ -21,7 +21,8 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public ToolStripDropDownButton(string text) : base(text, null) { }
 
@@ -29,7 +30,8 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownButton" /> class.
     /// </summary>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
     public ToolStripDropDownButton(Image image) : base("", image) { }
 
@@ -37,9 +39,11 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
     public ToolStripDropDownButton(string text, Image image) : base(text, image) { }
 
@@ -47,11 +51,14 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
     public ToolStripDropDownButton(string text, Image image, EventHandler onClick) : base(text, image, onClick) { }
 
@@ -59,11 +66,14 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="dropDownItems">The drop down items.
+    /// <param name="dropDownItems">
+    /// The drop down items.
     /// </param>
     public ToolStripDropDownButton(string text, Image image, params ToolStripItem[] dropDownItems) : base(text, image, dropDownItems) { }
 
@@ -71,13 +81,17 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     public ToolStripDropDownButton(string text, Image image, EventHandler onClick, string name) : base(text, image, onClick, name)
     {
@@ -85,13 +99,14 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show drop down arrow].
+    /// Gets or sets a value indicating whether show drop down arrow.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show drop down arrow]; otherwise,
-    /// <c>false
+    /// </c> if show drop down arrow; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     //[DefaultValue(true)]
@@ -100,20 +115,21 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     public bool ShowDropDownArrow { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether [default automatic tool tip].
+    /// Gets a value indicating whether default automatic tool tip.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [default automatic tool tip]; otherwise,
-    /// <c>false
+    /// </c> if default automatic tool tip; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     protected bool DefaultAutoToolTip { get; }
 
     /// <summary>
     /// Handles the
-    /// <see cref="MouseDown" /> event.
+    /// <see cref="!:MouseDown" /> event.
     /// </summary>
     /// <param name="e">
     /// The
@@ -129,7 +145,7 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
 
     /// <summary>
     /// Handles the
-    /// <see cref="MouseLeave" /> event.
+    /// <see cref="!:MouseLeave" /> event.
     /// </summary>
     /// <param name="e">
     /// The
@@ -139,7 +155,7 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
 
     /// <summary>
     /// Handles the
-    /// <see cref="MouseUp" /> event.
+    /// <see cref="!:MouseUp" /> event.
     /// </summary>
     /// <param name="e">
     /// The

@@ -19,7 +19,8 @@ public sealed class RelatedImageListAttribute : Attribute
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.RelatedImageListAttribute" /> class.
     /// </summary>
-    /// <param name="relatedImageList">The related image list.
+    /// <param name="relatedImageList">
+    /// The related image list.
     /// </param>
     public RelatedImageListAttribute(string? relatedImageList)
     {
@@ -29,7 +30,8 @@ public sealed class RelatedImageListAttribute : Attribute
     /// <summary>
     /// Gets the related image list.
     /// </summary>
-    /// <value>The related image list.
+    /// <value>
+    /// The related image list.
     /// </value>
     public string? RelatedImageList
     {

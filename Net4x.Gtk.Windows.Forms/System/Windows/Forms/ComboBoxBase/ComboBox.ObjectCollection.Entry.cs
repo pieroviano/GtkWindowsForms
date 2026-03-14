@@ -4,13 +4,9 @@
 namespace System.Windows.Forms;
 
 /// <summary>
-/// A drop-down list control that wraps a GTK combo box and provides WinForms-compatible API.
-/// Supports data binding via
-/// <see cref="T:System.Windows.Forms.ComboBox.DataSource" />, item collections and selection semantics.
+/// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
 /// </summary>
-/// ComboBox ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// <seealso cref="T:System.Collections.IList" />
 public partial class ComboBox
 {
     /// <summary>

@@ -110,7 +110,8 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// <summary>
     /// Adds the class.
     /// </summary>
-    /// <param name="cssClass">The CSS class.
+    /// <param name="cssClass">
+    /// The CSS class.
     /// </param>
     public void AddClass(string cssClass)
     {
@@ -130,7 +131,8 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// <summary>
     /// Called when the control is drawn.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
     /// <returns>
     /// </returns>

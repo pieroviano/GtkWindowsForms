@@ -19,7 +19,8 @@ public class DataGridViewCellErrorTextNeededEventArgs : DataGridViewCellEventArg
     /// <summary>
     /// Gets or sets the error text.
     /// </summary>
-    /// <value>The error text.
+    /// <value>
+    /// The error text.
     /// </value>
     public string ErrorText { get; set; }
 

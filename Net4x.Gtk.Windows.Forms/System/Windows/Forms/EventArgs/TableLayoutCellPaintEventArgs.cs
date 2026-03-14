@@ -17,15 +17,20 @@ public class TableLayoutCellPaintEventArgs : PaintEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TableLayoutCellPaintEventArgs" /> class.
     /// </summary>
-    /// <param name="g">The g.
+    /// <param name="g">
+    /// The g.
     /// </param>
-    /// <param name="clipRectangle">The clip rectangle.
+    /// <param name="clipRectangle">
+    /// The clip rectangle.
     /// </param>
-    /// <param name="cellBounds">The cell bounds.
+    /// <param name="cellBounds">
+    /// The cell bounds.
     /// </param>
-    /// <param name="column">The column.
+    /// <param name="column">
+    /// The column.
     /// </param>
-    /// <param name="row">The row.
+    /// <param name="row">
+    /// The row.
     /// </param>
     public TableLayoutCellPaintEventArgs(Graphics g, Rectangle clipRectangle, Rectangle cellBounds, int column, int row) : base(g, clipRectangle)
     {
@@ -37,21 +42,24 @@ public class TableLayoutCellPaintEventArgs : PaintEventArgs
     /// <summary>
     /// Gets the cell bounds.
     /// </summary>
-    /// <value>The cell bounds.
+    /// <value>
+    /// The cell bounds.
     /// </value>
     public Rectangle CellBounds { get; }
 
     /// <summary>
     /// Gets the column.
     /// </summary>
-    /// <value>The column.
+    /// <value>
+    /// The column.
     /// </value>
     public int Column { get; }
 
     /// <summary>
     /// Gets the row.
     /// </summary>
-    /// <value>The row.
+    /// <value>
+    /// The row.
     /// </value>
     public int Row { get; }
 

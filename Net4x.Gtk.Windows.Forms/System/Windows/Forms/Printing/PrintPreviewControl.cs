@@ -90,12 +90,12 @@ public partial class PrintPreviewControl : Control
     private const int ScrollSmallChange = 5;
 
     /// <summary>
-    /// Occurs when [start page changed].
+    /// Occurs when [start page changed.
     /// </summary>
     public event EventHandler StartPageChanged { add => Events.AddHandler(s_startPageChangedEvent, value); remove => Events.RemoveHandler(s_startPageChangedEvent, value); }
 
     /// <summary>
-    /// Occurs when [text changed].
+    /// Occurs when [text changed.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -127,13 +127,14 @@ public partial class PrintPreviewControl : Control
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [automatic zoom].
+    /// Gets or sets a value indicating whether automatic zoom.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [automatic zoom]; otherwise,
-    /// <c>false
+    /// </c> if automatic zoom; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
@@ -152,7 +153,8 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Gets or sets the columns.
     /// </summary>
-    /// <value>The columns.
+    /// <value>
+    /// The columns.
     /// </value>
     [DefaultValue(1)]
     public int Columns
@@ -167,7 +169,8 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Gets or sets the document.
     /// </summary>
-    /// <value>The document.
+    /// <value>
+    /// The document.
     /// </value>
     [DefaultValue(null)]
     public PrintDocument Document
@@ -187,14 +190,16 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the right to left.
     /// </summary>
-    /// <value>The right to left.
+    /// <value>
+    /// The right to left.
     /// </value>
     [Localizable(true)]
     [AmbientValue(RightToLeft.Inherit)]
@@ -211,7 +216,8 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Gets or sets the rows.
     /// </summary>
-    /// <value>The rows.
+    /// <value>
+    /// The rows.
     /// </value>
     [DefaultValue(1)]
     public int Rows
@@ -226,7 +232,8 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Gets or sets the start page.
     /// </summary>
-    /// <value>The start page.
+    /// <value>
+    /// The start page.
     /// </value>
     [DefaultValue(0)]
     public int StartPage
@@ -251,13 +258,14 @@ public partial class PrintPreviewControl : Control
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [tab stop].
+    /// Gets or sets a value indicating whether tab stop.
     /// </summary>
     /// <value>
     /// <c>
     /// true
     /// </c> if tab stop; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -266,7 +274,8 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -274,13 +283,14 @@ public partial class PrintPreviewControl : Control
     public override string Text { get => base.Text; set => base.Text = value; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use anti alias].
+    /// Gets or sets a value indicating whether use anti alias.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use anti alias]; otherwise,
-    /// <c>false
+    /// </c> if use anti alias; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -289,7 +299,8 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Gets or sets the zoom.
     /// </summary>
-    /// <value>The zoom.
+    /// <value>
+    /// The zoom.
     /// </value>
     [DefaultValue(DefaultZoom)]
     public double Zoom
@@ -324,7 +335,7 @@ public partial class PrintPreviewControl : Control
 
     /// <summary>
     /// Handles the
-    /// <see cref = "StartPageChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.PrintPreviewControl.StartPageChanged"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -338,9 +349,11 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Papers the drawn.
     /// </summary>
-    /// <param name = "o">The o.
+    /// <param name = "o">
+    /// The o.
     /// </param>
-    /// <param name = "args">The arguments.
+    /// <param name = "args">
+    /// The arguments.
     /// </param>
     private void paper_Drawn(object o, Gtk.DrawnArgs args)
     {
@@ -376,7 +389,8 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Handles the Realized event of the Self control.
     /// </summary>
-    /// <param name = "sender">The source of the event.
+    /// <param name = "sender">
+    /// The source of the event.
     /// </param>
     /// <param name = "e">
     /// The

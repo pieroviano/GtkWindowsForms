@@ -28,7 +28,8 @@ public sealed class SplitterPanel : Panel
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.SplitterPanel" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     public SplitterPanel(SplitContainer owner) : base()
     {
@@ -46,28 +47,32 @@ public sealed class SplitterPanel : Panel
     /// <summary>
     /// Gets or sets the dock.
     /// </summary>
-    /// <value>The dock.
+    /// <value>
+    /// The dock.
     /// </value>
     public override DockStyle Dock { get { return DockStyle.Fill; } set { } }
 
     /// <summary>
     /// Gets or sets the height.
     /// </summary>
-    /// <value>The height.
+    /// <value>
+    /// The height.
     /// </value>
     public override int Height { get; set; }
 
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     public override Size Size { get; set; }
 
     /// <summary>
     /// Gets or sets the width.
     /// </summary>
-    /// <value>The width.
+    /// <value>
+    /// The width.
     /// </value>
     public override int Width { get; set; }
 

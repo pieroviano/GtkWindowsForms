@@ -5,7 +5,8 @@
 /// <see cref="T:System.Windows.Forms.BindingManagerBase.DataError" /> event of a
 /// <see cref="T:System.Windows.Forms.BindingManagerBase" />
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The

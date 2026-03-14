@@ -28,19 +28,21 @@ public sealed class OpenFileDialog : FileDialog
     /// <c>
     /// true
     /// </c> if multiselect; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public new bool Multiselect { get => base.Multiselect; set => base.Multiselect = value; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [read only checked].
+    /// Gets or sets a value indicating whether read only checked.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [read only checked]; otherwise,
-    /// <c>false
+    /// </c> if read only checked; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ReadOnlyChecked { get; set; }
@@ -48,14 +50,16 @@ public sealed class OpenFileDialog : FileDialog
     /// <summary>
     /// Gets the name of the safe file.
     /// </summary>
-    /// <value>The name of the safe file.
+    /// <value>
+    /// The name of the safe file.
     /// </value>
     public string SafeFileName => Path.GetFileName(FileName) ?? string.Empty;
 
     /// <summary>
     /// Gets the safe file names.
     /// </summary>
-    /// <value>The safe file names.
+    /// <value>
+    /// The safe file names.
     /// </value>
     public string[] SafeFileNames
     {
@@ -78,13 +82,14 @@ public sealed class OpenFileDialog : FileDialog
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show read only].
+    /// Gets or sets a value indicating whether show read only.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show read only]; otherwise,
-    /// <c>false
+    /// </c> if show read only; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowReadOnly { get; set; }
@@ -92,14 +97,16 @@ public sealed class OpenFileDialog : FileDialog
     /// <summary>
     /// Gets the description.
     /// </summary>
-    /// <value>The description.
+    /// <value>
+    /// The description.
     /// </value>
     private new string Description => base.Description;
 
     /// <summary>
     /// Opens the file.
     /// </summary>
-    /// <returns>Stream.
+    /// <returns>
+    /// Stream.
     /// </returns>
     public Stream OpenFile()
     {
@@ -113,9 +120,11 @@ public sealed class OpenFileDialog : FileDialog
     /// <summary>
     /// Shows the dialog.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
-    /// <returns>DialogResult.
+    /// <returns>
+    /// DialogResult.
     /// </returns>
     public override DialogResult ShowDialog(IWin32Window owner)
     {

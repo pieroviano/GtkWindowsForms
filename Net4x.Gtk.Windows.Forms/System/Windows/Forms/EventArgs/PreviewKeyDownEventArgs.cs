@@ -14,7 +14,8 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.PreviewKeyDownEventArgs" /> class.
     /// </summary>
-    /// <param name="keyData">The key data.
+    /// <param name="keyData">
+    /// The key data.
     /// </param>
     public PreviewKeyDownEventArgs(Keys keyData)
     {
@@ -29,7 +30,8 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if alt; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Alt => (KeyData & Keys.Alt) == Keys.Alt;
@@ -41,7 +43,8 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if control; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Control => (KeyData & Keys.Control) == Keys.Control;
@@ -53,7 +56,8 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if this instance is input key; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool IsInputKey { get; set; }
@@ -63,7 +67,8 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// <see cref="T:System.Windows.Forms.Control.KeyDown" /> or
     /// <see cref="T:System.Windows.Forms.Control.KeyUp" /> event.
     /// </summary>
-    /// <value>The key code.
+    /// <value>
+    /// The key code.
     /// </value>
     public Keys KeyCode
     {
@@ -84,7 +89,8 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// <see cref="T:System.Windows.Forms.Control.KeyDown" /> or
     /// <see cref="T:System.Windows.Forms.Control.KeyUp" /> event.
     /// </summary>
-    /// <value>The key data.
+    /// <value>
+    /// The key data.
     /// </value>
     public Keys KeyData { get; }
 
@@ -93,7 +99,8 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// <see cref="T:System.Windows.Forms.Control.KeyDown" /> or
     /// <see cref="T:System.Windows.Forms.Control.KeyUp" /> event.
     /// </summary>
-    /// <value>The key value.
+    /// <value>
+    /// The key value.
     /// </value>
     public int KeyValue => (int)(KeyData & Keys.KeyCode);
 
@@ -103,7 +110,8 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// <see cref="T:System.Windows.Forms.Control.KeyUp" /> event.
     /// This indicates which modifier keys (CTRL, SHIFT, and/or ALT) were pressed.
     /// </summary>
-    /// <value>The modifiers.
+    /// <value>
+    /// The modifiers.
     /// </value>
     public Keys Modifiers => KeyData & Keys.Modifiers;
 
@@ -114,7 +122,8 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if shift; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Shift => (KeyData & Keys.Shift) == Keys.Shift;

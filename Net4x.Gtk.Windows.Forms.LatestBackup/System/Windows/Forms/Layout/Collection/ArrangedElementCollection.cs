@@ -29,7 +29,8 @@ public class ArrangedElementCollection : IList
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Layout.ArrangedElementCollection" /> class.
     /// </summary>
-    /// <param name="innerList">The inner list.
+    /// <param name="innerList">
+    /// The inner list.
     /// </param>
     internal ArrangedElementCollection(List<IArrangedElement> innerList)
     {
@@ -40,7 +41,8 @@ public class ArrangedElementCollection : IList
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Layout.ArrangedElementCollection" /> class.
     /// </summary>
-    /// <param name="size">The size.
+    /// <param name="size">
+    /// The size.
     /// </param>
     private ArrangedElementCollection(int size)
     {
@@ -52,7 +54,8 @@ public class ArrangedElementCollection : IList
     /// <see cref="T:System.Collections.ICollection">
     /// </see>.
     /// </summary>
-    /// <value>The count.
+    /// <value>
+    /// The count.
     /// </value>
     public virtual int Count => InnerList.Count;
 
@@ -65,7 +68,8 @@ public class ArrangedElementCollection : IList
     /// <c>
     /// true
     /// </c> if this instance is read only; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public virtual bool IsReadOnly => ((IList)InnerList).IsReadOnly;
@@ -79,7 +83,8 @@ public class ArrangedElementCollection : IList
     /// <c>
     /// true
     /// </c> if this instance is fixed size; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool IList.IsFixedSize => ((IList)InnerList).IsFixedSize;
@@ -93,7 +98,8 @@ public class ArrangedElementCollection : IList
     /// <c>
     /// true
     /// </c> if this instance is synchronized; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool ICollection.IsSynchronized => ((ICollection)InnerList).IsSynchronized;
@@ -103,14 +109,16 @@ public class ArrangedElementCollection : IList
     /// <see cref="T:System.Collections.ICollection">
     /// </see>.
     /// </summary>
-    /// <value>The synchronize root.
+    /// <value>
+    /// The synchronize root.
     /// </value>
     object ICollection.SyncRoot => ((ICollection)InnerList).SyncRoot;
 
     /// <summary>
     /// Gets the inner list.
     /// </summary>
-    /// <value>The inner list.
+    /// <value>
+    /// The inner list.
     /// </value>
     private protected List<IArrangedElement> InnerList { get; }
 
@@ -118,18 +126,22 @@ public class ArrangedElementCollection : IList
     /// Gets the
     /// <see cref="T:System.Windows.Forms.Layout.IArrangedElement" /> at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>IArrangedElement.
+    /// <returns>
+    /// IArrangedElement.
     /// </returns>
     internal virtual IArrangedElement this[int index] => InnerList[index];
 
     /// <summary>
     /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>System.Nullable.
+    /// <returns>
+    /// System.Nullable.
     /// </returns>
     /// <exception cref="T:System.NotSupportedException">
     /// </exception>
@@ -157,7 +169,8 @@ public class ArrangedElementCollection : IList
     /// <see cref="T:System.Array">
     /// </see> must have zero-based indexing.
     /// </param>
-    /// <param name="index">The zero-based index in array at which copying begins.
+    /// <param name="index">
+    /// The zero-based index in array at which copying begins.
     /// </param>
     public void CopyTo(Array array, int index) => ((ICollection)InnerList).CopyTo(array, index);
 
@@ -165,14 +178,16 @@ public class ArrangedElementCollection : IList
     /// Determines whether the specified
     /// <see cref="T:System.Object" /> is equal to this instance.
     /// </summary>
-    /// <param name="obj">The object to compare with the current object.
+    /// <param name="obj">
+    /// The object to compare with the current object.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if the specified
     /// <see cref="T:System.Object" /> is equal to this instance; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public override bool Equals(object? obj)
@@ -206,7 +221,8 @@ public class ArrangedElementCollection : IList
     /// <summary>
     /// Returns a hash code for this instance.
     /// </summary>
-    /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
     /// </returns>
     public override int GetHashCode()
     {
@@ -229,7 +245,8 @@ public class ArrangedElementCollection : IList
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </param>
-    /// <returns>The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
+    /// <returns>
+    /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
     /// </returns>
     int IList.Add(object? value) => ((IList)InnerList).Add(value);
 
@@ -271,7 +288,8 @@ public class ArrangedElementCollection : IList
     /// </param>
     /// <returns>
     /// The index of
-    /// <paramref name="value">value
+    /// <paramref name="value">
+    /// value
     /// </paramref> if found in the list; otherwise, -1.
     /// </returns>
     int IList.IndexOf(object? value) => ((IList)InnerList).IndexOf(value);
@@ -281,7 +299,8 @@ public class ArrangedElementCollection : IList
     /// <see cref="T:System.Collections.IList">
     /// </see> at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index at which value should be inserted.
+    /// <param name="index">
+    /// The zero-based index at which value should be inserted.
     /// </param>
     /// <param name="value">
     /// The object to insert into the
@@ -309,18 +328,22 @@ public class ArrangedElementCollection : IList
     /// <see cref="T:System.Collections.IList">
     /// </see> item at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index of the item to remove.
+    /// <param name="index">
+    /// The zero-based index of the item to remove.
     /// </param>
     void IList.RemoveAt(int index) => ((IList)InnerList).RemoveAt(index);
 
     /// <summary>
     /// Repositions a element in this list.
     /// </summary>
-    /// <param name="element">The element.
+    /// <param name="element">
+    /// The element.
     /// </param>
-    /// <param name="fromIndex">From index.
+    /// <param name="fromIndex">
+    /// From index.
     /// </param>
-    /// <param name="toIndex">To index.
+    /// <param name="toIndex">
+    /// To index.
     /// </param>
     private protected void MoveElement(IArrangedElement element, int fromIndex, int toIndex)
     {
@@ -365,15 +388,20 @@ public class ArrangedElementCollection : IList
     /// <summary>
     /// Copies the specified source list.
     /// </summary>
-    /// <param name="sourceList">The source list.
+    /// <param name="sourceList">
+    /// The source list.
     /// </param>
-    /// <param name="sourceIndex">Index of the source.
+    /// <param name="sourceIndex">
+    /// Index of the source.
     /// </param>
-    /// <param name="destinationList">The destination list.
+    /// <param name="destinationList">
+    /// The destination list.
     /// </param>
-    /// <param name="destinationIndex">Index of the destination.
+    /// <param name="destinationIndex">
+    /// Index of the destination.
     /// </param>
-    /// <param name="length">The length.
+    /// <param name="length">
+    /// The length.
     /// </param>
     private static void Copy(ArrangedElementCollection sourceList, int sourceIndex, ArrangedElementCollection destinationList, int destinationIndex, int length)
     {

@@ -19,12 +19,14 @@ public class FormClosingEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.FormClosingEventArgs" /> class.
     /// </summary>
-    /// <param name="closeReason">The close reason.
+    /// <param name="closeReason">
+    /// The close reason.
     /// </param>
     /// <param name="cancel">
     /// if set to
-    /// <c>true
-    /// </c> [cancel].
+    /// <c>
+    /// true
+    /// </c>cancel.
     /// </param>
     public FormClosingEventArgs(CloseReason closeReason, bool cancel) : base(cancel)
     {

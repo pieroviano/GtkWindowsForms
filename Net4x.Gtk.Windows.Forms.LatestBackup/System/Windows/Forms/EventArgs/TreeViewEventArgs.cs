@@ -28,7 +28,8 @@ public class TreeViewEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeViewEventArgs" /> class.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     public TreeViewEventArgs(TreeNode node)
     {
@@ -39,9 +40,11 @@ public class TreeViewEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeViewEventArgs" /> class.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <param name="action">The action.
+    /// <param name="action">
+    /// The action.
     /// </param>
     public TreeViewEventArgs(TreeNode node, TreeViewAction action)
     {
@@ -52,7 +55,8 @@ public class TreeViewEventArgs : EventArgs
     /// <summary>
     /// An event specific action-flag.
     /// </summary>
-    /// <value>The action.
+    /// <value>
+    /// The action.
     /// </value>
     public TreeViewAction Action
     {
@@ -65,7 +69,8 @@ public class TreeViewEventArgs : EventArgs
     /// <summary>
     /// Gets the node.
     /// </summary>
-    /// <value>The node.
+    /// <value>
+    /// The node.
     /// </value>
     public TreeNode Node
     {

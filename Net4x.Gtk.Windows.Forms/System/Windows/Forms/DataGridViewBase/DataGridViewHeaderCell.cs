@@ -25,7 +25,8 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <c>
     /// true
     /// </c> if displayed; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -37,7 +38,8 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <summary>
     /// Gets the type of the formatted value.
     /// </summary>
-    /// <value>The type of the formatted value.
+    /// <value>
+    /// The type of the formatted value.
     /// </value>
     public override Type FormattedValueType
     {
@@ -52,7 +54,8 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <c>
     /// true
     /// </c> if frozen; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -62,13 +65,14 @@ public class DataGridViewHeaderCell : DataGridViewCell
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [read only].
+    /// Gets or sets a value indicating whether read only.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [read only]; otherwise,
-    /// <c>false
+    /// </c> if read only; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -87,7 +91,8 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <c>
     /// true
     /// </c> if resizable; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -104,7 +109,8 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <c>
     /// true
     /// </c> if selected; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -118,7 +124,8 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <summary>
     /// Gets or sets the type of the value.
     /// </summary>
-    /// <value>The type of the value.
+    /// <value>
+    /// The type of the value.
     /// </value>
     public override Type ValueType
     {
@@ -134,7 +141,8 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <c>
     /// true
     /// </c> if visible; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -149,7 +157,8 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <summary>
     /// Gets or sets the flip xp themes bitmap.
     /// </summary>
-    /// <value>The flip xp themes bitmap.
+    /// <value>
+    /// The flip xp themes bitmap.
     /// </value>
     internal Bitmap FlipXPThemesBitmap
     {
@@ -160,7 +169,8 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <summary>
     /// Gets the state of the button.
     /// </summary>
-    /// <value>The state of the button.
+    /// <value>
+    /// The state of the button.
     /// </value>
     protected ButtonState ButtonState
     {

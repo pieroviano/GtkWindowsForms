@@ -1087,31 +1087,19 @@ public sealed class Metafile : Image
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Imaging.Metafile" /> class from the specified file name.
+    /// Initializes a new instance of the <see cref="Metafile"/> class.
     /// </summary>
-    /// <param name="filename">
-    /// A
-    /// <see cref="T:System.String" /> that represents the file name from which to create the new
-    /// <see cref="T:System.Drawing.Imaging.Metafile" />.
-    /// </param>
+    /// <param name="ptr">The PTR.</param>
     internal Metafile(IntPtr ptr)
     {
         SetNativeImage(ptr);
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Imaging.Metafile" /> class from the specified handle.
+    /// Initializes a new instance of the <see cref="Metafile"/> class.
     /// </summary>
-    /// <param name="henhmetafile">
-    /// A handle to an enhanced metafile.
-    /// </param>
-    /// <param name="deleteEmf">
-    /// <see langword="true" /> to delete the enhanced metafile handle when the
-    /// <see cref="T:System.Drawing.Imaging.Metafile" /> is deleted; otherwise,
-    /// <see langword="false" />.
-    /// </param>
+    /// <param name="info"></param>
+    /// <param name="context"></param>
     private Metafile(SerializationInfo info, StreamingContext context)
                 : base(info, context)
     {

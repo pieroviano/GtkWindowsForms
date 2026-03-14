@@ -41,9 +41,11 @@ public sealed class ListViewGroup : ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewGroup" /> class.
     /// </summary>
-    /// <param name="key">The key.
+    /// <param name="key">
+    /// The key.
     /// </param>
-    /// <param name="headerText">The header text.
+    /// <param name="headerText">
+    /// The header text.
     /// </param>
     public ListViewGroup(string key, string headerText)
     {
@@ -55,7 +57,8 @@ public sealed class ListViewGroup : ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewGroup" /> class.
     /// </summary>
-    /// <param name="header">The header.
+    /// <param name="header">
+    /// The header.
     /// </param>
     public ListViewGroup(string header) : this(header, header)
     {
@@ -66,9 +69,11 @@ public sealed class ListViewGroup : ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewGroup" /> class.
     /// </summary>
-    /// <param name="header">The header.
+    /// <param name="header">
+    /// The header.
     /// </param>
-    /// <param name="headerAlignment">The header alignment.
+    /// <param name="headerAlignment">
+    /// The header alignment.
     /// </param>
     public ListViewGroup(string header, HorizontalAlignment headerAlignment) : this(header, header)
     {
@@ -79,7 +84,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the state of the collapsed.
     /// </summary>
-    /// <value>The state of the collapsed.
+    /// <value>
+    /// The state of the collapsed.
     /// </value>
     public ListViewGroupCollapsedState CollapsedState
     {
@@ -90,7 +96,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the footer.
     /// </summary>
-    /// <value>The footer.
+    /// <value>
+    /// The footer.
     /// </value>
     public string Footer
     {
@@ -101,7 +108,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the footer alignment.
     /// </summary>
-    /// <value>The footer alignment.
+    /// <value>
+    /// The footer alignment.
     /// </value>
     public HorizontalAlignment FooterAlignment
     {
@@ -112,7 +120,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the header.
     /// </summary>
-    /// <value>The header.
+    /// <value>
+    /// The header.
     /// </value>
     public string Header
     {
@@ -123,7 +132,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the header alignment.
     /// </summary>
-    /// <value>The header alignment.
+    /// <value>
+    /// The header alignment.
     /// </value>
     public HorizontalAlignment HeaderAlignment
     {
@@ -134,7 +144,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets the items.
     /// </summary>
-    /// <value>The items.
+    /// <value>
+    /// The items.
     /// </value>
     public ListView.ListViewItemCollection Items
     {
@@ -151,7 +162,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets the ListView.
     /// </summary>
-    /// <value>The ListView.
+    /// <value>
+    /// The ListView.
     /// </value>
     public ListView ListView
     {
@@ -162,7 +174,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the name.
     /// </summary>
-    /// <value>The name.
+    /// <value>
+    /// The name.
     /// </value>
     public string Name
     {
@@ -173,7 +186,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the subtitle.
     /// </summary>
-    /// <value>The subtitle.
+    /// <value>
+    /// The subtitle.
     /// </value>
     public string Subtitle
     {
@@ -184,7 +198,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the tag.
     /// </summary>
-    /// <value>The tag.
+    /// <value>
+    /// The tag.
     /// </value>
     public object Tag
     {
@@ -195,7 +210,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the task link.
     /// </summary>
-    /// <value>The task link.
+    /// <value>
+    /// The task link.
     /// </value>
     public string TaskLink
     {
@@ -206,7 +222,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the index of the title image.
     /// </summary>
-    /// <value>The index of the title image.
+    /// <value>
+    /// The index of the title image.
     /// </value>
     public int TitleImageIndex
     {
@@ -217,7 +234,8 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the title image key.
     /// </summary>
-    /// <value>The title image key.
+    /// <value>
+    /// The title image key.
     /// </value>
     public string TitleImageKey
     {
@@ -228,14 +246,16 @@ public sealed class ListViewGroup : ISerializable
     /// <summary>
     /// Gets or sets the groupbox.
     /// </summary>
-    /// <value>The groupbox.
+    /// <value>
+    /// The groupbox.
     /// </value>
     internal Gtk.Box _groupbox { get; set; }
 
     /// <summary>
     /// Creates the default ListView group.
     /// </summary>
-    /// <returns>ListViewGroup.
+    /// <returns>
+    /// ListViewGroup.
     /// </returns>
     public static ListViewGroup CreateDefaultListViewGroup()
     {

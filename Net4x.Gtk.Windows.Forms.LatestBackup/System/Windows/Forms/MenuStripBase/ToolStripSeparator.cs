@@ -29,7 +29,8 @@ public class ToolStripSeparator : WidgetToolStrip<Gtk.SeparatorMenuItem>
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     public override Size Size
     {
@@ -46,7 +47,8 @@ public class ToolStripSeparator : WidgetToolStrip<Gtk.SeparatorMenuItem>
     /// <summary>
     /// Gets or sets the width.
     /// </summary>
-    /// <value>The width.
+    /// <value>
+    /// The width.
     /// </value>
     public override int Width { get; set; }
 

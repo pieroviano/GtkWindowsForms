@@ -28,33 +28,36 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// <summary>
     /// Gets or sets the layout style.
     /// </summary>
-    /// <value>The layout style.
+    /// <value>
+    /// The layout style.
     /// </value>
     //public Rectangle DisplayRectangle { get; }
     //public LayoutEngine LayoutEngine { get; }
     public ToolStripLayoutStyle LayoutStyle { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show check margin].
+    /// Gets or sets a value indicating whether show check margin.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show check margin]; otherwise,
-    /// <c>false
+    /// </c> if show check margin; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
     public bool ShowCheckMargin { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show image margin].
+    /// Gets or sets a value indicating whether show image margin.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show image margin]; otherwise,
-    /// <c>false
+    /// </c> if show image margin; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
@@ -63,33 +66,39 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// <summary>
     /// Gets the maximum size of the item.
     /// </summary>
-    /// <value>The maximum size of the item.
+    /// <value>
+    /// The maximum size of the item.
     /// </value>
     protected internal Size MaxItemSize { get; }
 
     /// <summary>
     /// Gets the default padding.
     /// </summary>
-    /// <value>The default padding.
+    /// <value>
+    /// The default padding.
     /// </value>
     protected Padding DefaultPadding { get; }
 
     /// <summary>
     /// Creates the default item.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <returns>ToolStripItem.
+    /// <returns>
+    /// ToolStripItem.
     /// </returns>
     protected internal ToolStripItem CreateDefaultItem(string text, Image image, EventHandler onClick) { return null; }
 
     /// <summary>
     /// Handles the
-    /// <see cref="FontChanged" /> event.
+    /// <see cref="!:FontChanged" /> event.
     /// </summary>
     /// <param name="e">
     /// The
@@ -99,7 +108,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
 
     /// <summary>
     /// Handles the
-    /// <see cref="Layout" /> event.
+    /// <see cref="T:System.Windows.Forms.Layout" /> event.
     /// </summary>
     /// <param name="e">
     /// The
@@ -109,7 +118,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
 
     /// <summary>
     /// Handles the
-    /// <see cref="PaintBackground" /> event.
+    /// <see cref="!:PaintBackground" /> event.
     /// </summary>
     /// <param name="e">
     /// The

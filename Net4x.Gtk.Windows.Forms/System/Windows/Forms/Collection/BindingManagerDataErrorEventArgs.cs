@@ -12,7 +12,8 @@ public class BindingManagerDataErrorEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.BindingManagerDataErrorEventArgs" /> class.
     /// </summary>
-    /// <param name="exception">The exception.
+    /// <param name="exception">
+    /// The exception.
     /// </param>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>

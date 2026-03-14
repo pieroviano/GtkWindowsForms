@@ -28,7 +28,8 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.LabelBase" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public LabelBase(string text) : base(text)
     {
@@ -58,7 +59,8 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
     /// <summary>
     /// Called when the control is drawn.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
     /// <returns>
     /// </returns>

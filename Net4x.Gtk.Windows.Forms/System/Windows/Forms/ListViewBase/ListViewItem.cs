@@ -62,7 +62,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public ListViewItem(string text)
     {
@@ -73,9 +74,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
     public ListViewItem(string text, int imageIndex)
     {
@@ -86,7 +89,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
     public ListViewItem(string[] items)
     {
@@ -97,9 +101,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
     public ListViewItem(string[] items, int imageIndex)
     {
@@ -110,15 +116,20 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
-    /// <param name="foreColor">Color of the fore.
+    /// <param name="foreColor">
+    /// Color of the fore.
     /// </param>
-    /// <param name="backColor">Color of the back.
+    /// <param name="backColor">
+    /// Color of the back.
     /// </param>
-    /// <param name="font">The font.
+    /// <param name="font">
+    /// The font.
     /// </param>
     public ListViewItem(string[] items, int imageIndex, Color foreColor, Color backColor, Font font)
     {
@@ -129,9 +140,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="subItems">The sub items.
+    /// <param name="subItems">
+    /// The sub items.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
     public ListViewItem(ListViewSubItem[] subItems, int imageIndex)
     {
@@ -142,7 +155,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(ListViewGroup group)
     {
@@ -153,9 +167,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(string text, ListViewGroup group)
     {
@@ -166,11 +182,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(string text, int imageIndex, ListViewGroup group)
     {
@@ -181,9 +200,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(string[] items, ListViewGroup group)
     {
@@ -194,11 +215,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(string[] items, int imageIndex, ListViewGroup group)
     {
@@ -209,17 +233,23 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
-    /// <param name="foreColor">Color of the fore.
+    /// <param name="foreColor">
+    /// Color of the fore.
     /// </param>
-    /// <param name="backColor">Color of the back.
+    /// <param name="backColor">
+    /// Color of the back.
     /// </param>
-    /// <param name="font">The font.
+    /// <param name="font">
+    /// The font.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(string[] items, int imageIndex, Color foreColor, Color backColor, Font font, ListViewGroup group)
     {
@@ -230,11 +260,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="subItems">The sub items.
+    /// <param name="subItems">
+    /// The sub items.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(ListViewSubItem[] subItems, int imageIndex, ListViewGroup group)
     {
@@ -245,9 +278,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
     public ListViewItem(string text, string imageKey)
     {
@@ -258,9 +293,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
     public ListViewItem(string[] items, string imageKey)
     {
@@ -271,15 +308,20 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
-    /// <param name="foreColor">Color of the fore.
+    /// <param name="foreColor">
+    /// Color of the fore.
     /// </param>
-    /// <param name="backColor">Color of the back.
+    /// <param name="backColor">
+    /// Color of the back.
     /// </param>
-    /// <param name="font">The font.
+    /// <param name="font">
+    /// The font.
     /// </param>
     public ListViewItem(string[] items, string imageKey, Color foreColor, Color backColor, Font font)
     {
@@ -290,9 +332,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="subItems">The sub items.
+    /// <param name="subItems">
+    /// The sub items.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
     public ListViewItem(ListViewSubItem[] subItems, string imageKey)
     {
@@ -303,11 +347,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(string text, string imageKey, ListViewGroup group)
     {
@@ -318,11 +365,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(string[] items, string imageKey, ListViewGroup group)
     {
@@ -333,17 +383,23 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
-    /// <param name="foreColor">Color of the fore.
+    /// <param name="foreColor">
+    /// Color of the fore.
     /// </param>
-    /// <param name="backColor">Color of the back.
+    /// <param name="backColor">
+    /// Color of the back.
     /// </param>
-    /// <param name="font">The font.
+    /// <param name="font">
+    /// The font.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(string[] items, string imageKey, Color foreColor, Color backColor, Font font, ListViewGroup group)
     {
@@ -354,11 +410,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="subItems">The sub items.
+    /// <param name="subItems">
+    /// The sub items.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     public ListViewItem(ListViewSubItem[] subItems, string imageKey, ListViewGroup group)
     {
@@ -369,9 +428,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> class.
     /// </summary>
-    /// <param name="info">The information.
+    /// <param name="info">
+    /// The information.
     /// </param>
-    /// <param name="context">The context.
+    /// <param name="context">
+    /// The context.
     /// </param>
     protected ListViewItem(SerializationInfo info, StreamingContext context)
     {
@@ -381,7 +442,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the color of the back.
     /// </summary>
-    /// <value>The color of the back.
+    /// <value>
+    /// The color of the back.
     /// </value>
     public Color? BackColor
     {
@@ -392,7 +454,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets the bounds.
     /// </summary>
-    /// <value>The bounds.
+    /// <value>
+    /// The bounds.
     /// </value>
     public Rectangle Bounds
     {
@@ -407,7 +470,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <c>
     /// true
     /// </c> if checked; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Checked
@@ -429,7 +493,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <c>
     /// true
     /// </c> if focused; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Focused
@@ -441,7 +506,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the font.
     /// </summary>
-    /// <value>The font.
+    /// <value>
+    /// The font.
     /// </value>
     public Font Font
     {
@@ -452,7 +518,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the color of the fore.
     /// </summary>
-    /// <value>The color of the fore.
+    /// <value>
+    /// The color of the fore.
     /// </value>
     public Color? ForeColor
     {
@@ -463,7 +530,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the group.
     /// </summary>
-    /// <value>The group.
+    /// <value>
+    /// The group.
     /// </value>
     public ListViewGroup Group
     {
@@ -474,7 +542,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the index of the image.
     /// </summary>
-    /// <value>The index of the image.
+    /// <value>
+    /// The index of the image.
     /// </value>
     public int ImageIndex
     {
@@ -485,7 +554,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the image key.
     /// </summary>
-    /// <value>The image key.
+    /// <value>
+    /// The image key.
     /// </value>
     public string ImageKey
     {
@@ -496,7 +566,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets the image list.
     /// </summary>
-    /// <value>The image list.
+    /// <value>
+    /// The image list.
     /// </value>
     public ImageList ImageList
     {
@@ -507,7 +578,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the indent count.
     /// </summary>
-    /// <value>The indent count.
+    /// <value>
+    /// The indent count.
     /// </value>
     public int IndentCount
     {
@@ -518,7 +590,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets the index.
     /// </summary>
-    /// <value>The index.
+    /// <value>
+    /// The index.
     /// </value>
     public int Index
     {
@@ -529,7 +602,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets the ListView.
     /// </summary>
-    /// <value>The ListView.
+    /// <value>
+    /// The ListView.
     /// </value>
     public ListView ListView
     {
@@ -540,7 +614,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the name.
     /// </summary>
-    /// <value>The name.
+    /// <value>
+    /// The name.
     /// </value>
     public string Name
     {
@@ -551,7 +626,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the position.
     /// </summary>
-    /// <value>The position.
+    /// <value>
+    /// The position.
     /// </value>
     public Point Position
     {
@@ -567,7 +643,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <c>
     /// true
     /// </c> if selected; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Selected
@@ -583,7 +660,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the index of the state image.
     /// </summary>
-    /// <value>The index of the state image.
+    /// <value>
+    /// The index of the state image.
     /// </value>
     public int StateImageIndex
     {
@@ -594,7 +672,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets the sub items.
     /// </summary>
-    /// <value>The sub items.
+    /// <value>
+    /// The sub items.
     /// </value>
     public ListViewSubItemCollection SubItems
     {
@@ -604,7 +683,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the tag.
     /// </summary>
-    /// <value>The tag.
+    /// <value>
+    /// The tag.
     /// </value>
     public object Tag
     {
@@ -615,7 +695,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public string Text
     {
@@ -631,7 +712,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the tool tip text.
     /// </summary>
-    /// <value>The tool tip text.
+    /// <value>
+    /// The tool tip text.
     /// </value>
     public string ToolTipText
     {
@@ -640,13 +722,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use item style for sub items].
+    /// Gets or sets a value indicating whether use item style for sub items.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use item style for sub items]; otherwise,
-    /// <c>false
+    /// </c> if use item style for sub items; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool UseItemStyleForSubItems
@@ -658,7 +741,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets the accessibility object.
     /// </summary>
-    /// <value>The accessibility object.
+    /// <value>
+    /// The accessibility object.
     /// </value>
     internal virtual AccessibleObject AccessibilityObject
     {
@@ -668,7 +752,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets the image indexer.
     /// </summary>
-    /// <value>The image indexer.
+    /// <value>
+    /// The image indexer.
     /// </value>
     internal ListViewItemImageIndexer ImageIndexer
     {
@@ -678,7 +763,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets or sets the type of the item.
     /// </summary>
-    /// <value>The type of the item.
+    /// <value>
+    /// The type of the item.
     /// </value>
     internal string ItemType
     {
@@ -687,13 +773,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     }
 
     /// <summary>
-    /// Gets a value indicating whether [state image set].
+    /// Gets a value indicating whether state image set.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [state image set]; otherwise,
-    /// <c>false
+    /// </c> if state image set; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     internal bool StateImageSet
@@ -702,13 +789,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [state selected].
+    /// Gets or sets a value indicating whether state selected.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [state selected]; otherwise,
-    /// <c>false
+    /// </c> if state selected; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     internal bool StateSelected
@@ -729,7 +817,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Creates a new object that is a copy of the current instance.
     /// </summary>
-    /// <returns>A new object that is a copy of this instance.
+    /// <returns>
+    /// A new object that is a copy of this instance.
     /// </returns>
     public virtual object Clone()
     {
@@ -767,11 +856,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Gets the sub item at.
     /// </summary>
-    /// <param name="x">The x.
+    /// <param name="x">
+    /// The x.
     /// </param>
-    /// <param name="y">The y.
+    /// <param name="y">
+    /// The y.
     /// </param>
-    /// <returns>ListViewSubItem.
+    /// <returns>
+    /// ListViewSubItem.
     /// </returns>
     public ListViewSubItem GetSubItemAt(int x, int y)
     {
@@ -802,11 +894,14 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Hosts the specified parent.
     /// </summary>
-    /// <param name="parent">The parent.
+    /// <param name="parent">
+    /// The parent.
     /// </param>
-    /// <param name="id">The identifier.
+    /// <param name="id">
+    /// The identifier.
     /// </param>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
     internal void Host(ListView parent, int id, int index)
     {
@@ -816,19 +911,26 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Initializes the ListView item.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
-    /// <param name="foreColor">Color of the fore.
+    /// <param name="foreColor">
+    /// Color of the fore.
     /// </param>
-    /// <param name="backColor">Color of the back.
+    /// <param name="backColor">
+    /// Color of the back.
     /// </param>
-    /// <param name="font">The font.
+    /// <param name="font">
+    /// The font.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     internal void InitListViewItem(string text, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
     {
@@ -848,19 +950,26 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Initializes the ListView item.
     /// </summary>
-    /// <param name="items">The items.
+    /// <param name="items">
+    /// The items.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
-    /// <param name="foreColor">Color of the fore.
+    /// <param name="foreColor">
+    /// Color of the fore.
     /// </param>
-    /// <param name="backColor">Color of the back.
+    /// <param name="backColor">
+    /// Color of the back.
     /// </param>
-    /// <param name="font">The font.
+    /// <param name="font">
+    /// The font.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     internal void InitListViewItem(string[] items, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
     {
@@ -873,19 +982,26 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <summary>
     /// Initializes the ListView item.
     /// </summary>
-    /// <param name="subItems">The sub items.
+    /// <param name="subItems">
+    /// The sub items.
     /// </param>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
-    /// <param name="foreColor">Color of the fore.
+    /// <param name="foreColor">
+    /// Color of the fore.
     /// </param>
-    /// <param name="backColor">Color of the back.
+    /// <param name="backColor">
+    /// Color of the back.
     /// </param>
-    /// <param name="font">The font.
+    /// <param name="font">
+    /// The font.
     /// </param>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
     internal void InitListViewItem(ListViewSubItem[] subItems, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
     {
@@ -922,9 +1038,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListViewItem.ListViewSubItem" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
         public ListViewSubItem(ListViewItem owner, string text)
         {
@@ -936,15 +1054,20 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListViewItem.ListViewSubItem" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="foreColor">Color of the fore.
+        /// <param name="foreColor">
+        /// Color of the fore.
         /// </param>
-        /// <param name="backColor">Color of the back.
+        /// <param name="backColor">
+        /// Color of the back.
         /// </param>
-        /// <param name="font">The font.
+        /// <param name="font">
+        /// The font.
         /// </param>
         public ListViewSubItem(ListViewItem owner, string text, Color foreColor, Color backColor, Font font)
         {
@@ -958,7 +1081,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Gets or sets the color of the back.
         /// </summary>
-        /// <value>The color of the back.
+        /// <value>
+        /// The color of the back.
         /// </value>
         public Color? BackColor
         {
@@ -969,7 +1093,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Gets or sets the bounds.
         /// </summary>
-        /// <value>The bounds.
+        /// <value>
+        /// The bounds.
         /// </value>
         public Rectangle Bounds
         {
@@ -980,7 +1105,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Gets or sets the font.
         /// </summary>
-        /// <value>The font.
+        /// <value>
+        /// The font.
         /// </value>
         public Font Font
         {
@@ -991,7 +1117,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Gets or sets the color of the fore.
         /// </summary>
-        /// <value>The color of the fore.
+        /// <value>
+        /// The color of the fore.
         /// </value>
         public Color? ForeColor
         {
@@ -1002,7 +1129,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Gets or sets the ListView item.
         /// </summary>
-        /// <value>The ListView item.
+        /// <value>
+        /// The ListView item.
         /// </value>
         public ListViewItem ListViewItem
         {
@@ -1013,7 +1141,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        /// <value>The name.
+        /// <value>
+        /// The name.
         /// </value>
         public string Name
         {
@@ -1024,7 +1153,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Gets or sets the tag.
         /// </summary>
-        /// <value>The tag.
+        /// <value>
+        /// The tag.
         /// </value>
         public object Tag
         {
@@ -1035,7 +1165,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Gets or sets the text.
         /// </summary>
-        /// <value>The text.
+        /// <value>
+        /// The text.
         /// </value>
         public string Text
         {
@@ -1072,7 +1203,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListViewItem.ListViewSubItemCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public ListViewSubItemCollection(ListViewItem owner)
         {
@@ -1083,9 +1215,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// Gets the
         /// <see cref="T:System.Windows.Forms.ListViewItem.ListViewSubItem" /> with the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>ListViewSubItem.
+        /// <returns>
+        /// ListViewSubItem.
         /// </returns>
         public virtual ListViewSubItem this[string key]
         {
@@ -1098,9 +1232,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Adds the specified text.
         /// </summary>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <returns>ListViewSubItem.
+        /// <returns>
+        /// ListViewSubItem.
         /// </returns>
         public ListViewSubItem Add(string text)
         {
@@ -1113,15 +1249,20 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Adds the specified text.
         /// </summary>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="foreColor">Color of the fore.
+        /// <param name="foreColor">
+        /// Color of the fore.
         /// </param>
-        /// <param name="backColor">Color of the back.
+        /// <param name="backColor">
+        /// Color of the back.
         /// </param>
-        /// <param name="font">The font.
+        /// <param name="font">
+        /// The font.
         /// </param>
-        /// <returns>ListViewSubItem.
+        /// <returns>
+        /// ListViewSubItem.
         /// </returns>
         public ListViewSubItem Add(string text, Color foreColor, Color backColor, Font font)
         {
@@ -1134,7 +1275,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
         public void AddRange(ListViewSubItem[] items)
         {
@@ -1145,7 +1287,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
         public void AddRange(string[] items)
         {
@@ -1156,13 +1299,17 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
-        /// <param name="foreColor">Color of the fore.
+        /// <param name="foreColor">
+        /// Color of the fore.
         /// </param>
-        /// <param name="backColor">Color of the back.
+        /// <param name="backColor">
+        /// Color of the back.
         /// </param>
-        /// <param name="font">The font.
+        /// <param name="font">
+        /// The font.
         /// </param>
         public void AddRange(string[] items, Color foreColor, Color backColor, Font font)
         {
@@ -1173,13 +1320,15 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Determines whether the specified key contains key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
         /// <c>
         /// true
         /// </c> if the specified key contains key; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         public virtual bool ContainsKey(string key)
@@ -1191,9 +1340,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Indexes the of key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public virtual int IndexOfKey(string key)
         {
@@ -1204,7 +1355,8 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <summary>
         /// Removes the by key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         public virtual void RemoveByKey(string key)
         {

@@ -34,14 +34,16 @@ public class ToolStripDropDown : ToolStripItem
     /// <summary>
     /// Gets or sets the size of the image scaling.
     /// </summary>
-    /// <value>The size of the image scaling.
+    /// <value>
+    /// The size of the image scaling.
     /// </value>
     public Size ImageScalingSize { get; set; }
 
     /// <summary>
     /// Gets the widget.
     /// </summary>
-    /// <value>The widget.
+    /// <value>
+    /// The widget.
     /// </value>
     public override Gtk.Widget Widget => self;
 

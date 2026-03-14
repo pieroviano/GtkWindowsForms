@@ -9,50 +9,8 @@ using static System.Windows.Forms.ItemArray;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// This is similar to ArrayList except that it also
-/// maintains a bit-flag based state element for each item in the array.
-/// The methods to enumerate, count and get data support
-/// virtualized indexes.  Indexes are virtualized according
-/// to the state mask passed in.  This allows ItemArray
-/// to be the backing store for one read-write "master"
-/// collection and several read-only collections based
-/// on masks.  ItemArray supports up to 31 masks.
+/// This is a single entry in our item array.
 /// </summary>
-/// This is similar to ArrayList except that it also
-/// maintains a bit-flag based state element for each item in the array.
-/// The methods to enumerate, count and get data support
-/// virtualized indexes.  Indexes are virtualized according
-/// to the state mask passed in.  This allows ItemArray
-/// to be the backing store for one read-write "master"
-/// collection and several read-only collections based
-/// on masks.  ItemArray supports up to 31 masks.
-/// This is similar to ArrayList except that it also
-/// maintains a bit-flag based state element for each item in the array.
-/// The methods to enumerate, count and get data support
-/// virtualized indexes.  Indexes are virtualized according
-/// to the state mask passed in.  This allows ItemArray
-/// to be the backing store for one read-write "master"
-/// collection and several read-only collections based
-/// on masks.  ItemArray supports up to 31 masks.
-/// </summary>
-/// This is similar to ArrayList except that it also
-/// maintains a bit-flag based state element for each item in the array.
-/// The methods to enumerate, count and get data support
-/// virtualized indexes.  Indexes are virtualized according
-/// to the state mask passed in.  This allows ItemArray
-/// to be the backing store for one read-write "master"
-/// collection and several read-only collections based
-/// on masks.  ItemArray supports up to 31 masks.
-/// </summary>
-/// This is similar to ArrayList except that it also
-/// maintains a bit-flag based state element for each item in the array.
-/// The methods to enumerate, count and get data support
-/// virtualized indexes.  Indexes are virtualized according
-/// to the state mask passed in.  This allows ItemArray
-/// to be the backing store for one read-write "master"
-/// collection and several read-only collections based
-/// on masks.  ItemArray supports up to 31 masks.
-///
 internal partial class ItemArray : IComparer<Entry>
 {
     private readonly List<Entry> _entries;

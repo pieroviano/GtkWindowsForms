@@ -14,7 +14,8 @@ public class FormClosedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.FormClosedEventArgs" /> class.
     /// </summary>
-    /// <param name="closeReason">The close reason.
+    /// <param name="closeReason">
+    /// The close reason.
     /// </param>
     public FormClosedEventArgs(CloseReason closeReason)
     {
@@ -24,7 +25,8 @@ public class FormClosedEventArgs : EventArgs
     /// <summary>
     /// Provides the reason for the Form Close.
     /// </summary>
-    /// <value>The close reason.
+    /// <value>
+    /// The close reason.
     /// </value>
     public CloseReason CloseReason { get; }
 

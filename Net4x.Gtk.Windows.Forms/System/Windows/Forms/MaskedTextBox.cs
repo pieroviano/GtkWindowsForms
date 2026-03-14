@@ -49,7 +49,8 @@ public class MaskedTextBox : TextBox
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.MaskedTextBox" /> class.
     /// </summary>
-    /// <param name="cssClass">The CSS class.
+    /// <param name="cssClass">
+    /// The CSS class.
     /// </param>
     internal MaskedTextBox(string cssClass) : base()
     {
@@ -62,35 +63,40 @@ public class MaskedTextBox : TextBox
     /// <summary>
     /// Gets or sets the mask.
     /// </summary>
-    /// <value>The mask.
+    /// <value>
+    /// The mask.
     /// </value>
     public string Mask { get; set; }
 
     /// <summary>
     /// Gets or sets the password character.
     /// </summary>
-    /// <value>The password character.
+    /// <value>
+    /// The password character.
     /// </value>
     public override char PasswordChar { get => _PasswordChar; set { _PasswordChar = value; self.InvisibleChar = value; } }
 
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text { get { return self.Text; } set { IsMasking = false; self.Text = value ?? ""; IsMasking = true; } }
 
     /// <summary>
     /// Gets or sets the text mask format.
     /// </summary>
-    /// <value>The text mask format.
+    /// <value>
+    /// The text mask format.
     /// </value>
     public MaskFormat TextMaskFormat { get; set; }
 
     /// <summary>
     /// Gets or sets the type of the validating.
     /// </summary>
-    /// <value>The type of the validating.
+    /// <value>
+    /// The type of the validating.
     /// </value>
     public Type ValidatingType { get; set; }
 
@@ -101,7 +107,8 @@ public class MaskedTextBox : TextBox
     /// <c>
     /// true
     /// </c> if this instance is mask password; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     private bool IsMaskPassword
@@ -112,7 +119,8 @@ public class MaskedTextBox : TextBox
     /// <summary>
     /// Handles the Backspace event of the Control control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -146,7 +154,8 @@ public class MaskedTextBox : TextBox
     /// <summary>
     /// Handles the Shown event of the Control control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -180,9 +189,11 @@ public class MaskedTextBox : TextBox
     /// <summary>
     /// Controls the text inserted.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void Control_TextInserted(object o, Gtk.TextInsertedArgs args)
     {
@@ -220,15 +231,17 @@ public class MaskedTextBox : TextBox
     }
 
     /// <summary>
-    /// Determines whether [is number character] [the specified w].
+    /// Determines whether is number character] [the specified w.
     /// </summary>
-    /// <param name="w">The w.
+    /// <param name="w">
+    /// The w.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [is number character] [the specified w]; otherwise,
-    /// <c>false
+    /// </c> if is number character the specified w; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     private bool IsNumberChar(char w)
@@ -237,15 +250,17 @@ public class MaskedTextBox : TextBox
     }
 
     /// <summary>
-    /// Determines whether [is number text] [the specified text].
+    /// Determines whether is number text] [the specified text.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [is number text] [the specified text]; otherwise,
-    /// <c>false
+    /// </c> if is number text the specified text; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     private bool IsNumberText(string text)

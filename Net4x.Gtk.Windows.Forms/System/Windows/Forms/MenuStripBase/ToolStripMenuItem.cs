@@ -34,7 +34,8 @@ public class ToolStripMenuItem : WidgetToolStrip<Gtk.MenuItem>
     /// <c>
     /// true
     /// </c> if checked; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public override bool Checked
@@ -69,7 +70,8 @@ public class ToolStripMenuItem : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Gets or sets the state of the check.
     /// </summary>
-    /// <value>The state of the check.
+    /// <value>
+    /// The state of the check.
     /// </value>
     public override CheckState CheckState
     {

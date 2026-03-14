@@ -16,9 +16,11 @@ public class MaskInputRejectedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.MaskInputRejectedEventArgs" /> class.
     /// </summary>
-    /// <param name="position">The position.
+    /// <param name="position">
+    /// The position.
     /// </param>
-    /// <param name="rejectionHint">The rejection hint.
+    /// <param name="rejectionHint">
+    /// The rejection hint.
     /// </param>
     public MaskInputRejectedEventArgs(int position, MaskedTextResultHint rejectionHint)
     {
@@ -29,14 +31,16 @@ public class MaskInputRejectedEventArgs : EventArgs
     /// <summary>
     /// The position where the test failed the mask constraint.
     /// </summary>
-    /// <value>The position.
+    /// <value>
+    /// The position.
     /// </value>
     public int Position { get; }
 
     /// <summary>
     /// Retreives a hint on why the input is rejected.
     /// </summary>
-    /// <value>The rejection hint.
+    /// <value>
+    /// The rejection hint.
     /// </value>
     public MaskedTextResultHint RejectionHint { get; }
 

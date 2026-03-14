@@ -280,47 +280,28 @@ public sealed class Bitmap : Image
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
+    /// Initializes a new instance of the <see cref="Bitmap"/> class.
     /// </summary>
-    /// <param name="filename">
-    /// The bitmap file name and path.
-    /// </param>
-    /// <exception cref="T:System.IO.FileNotFoundException">
-    /// The specified file is not found.
-    /// </exception>
+    /// <param name="pixbuf">The raw pixbuf bytes.</param>
     internal Bitmap(byte[] pixbuf) : base(pixbuf)
     {
 
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
+    /// Initializes a new instance of the <see cref="Bitmap"/> class.
     /// </summary>
-    /// <param name="filename">
-    /// The bitmap file name and path.
-    /// </param>
-    /// <exception cref="T:System.IO.FileNotFoundException">
-    /// The specified file is not found.
-    /// </exception>
+    /// <param name="ptr">The PTR.</param>
     internal Bitmap(IntPtr ptr)
     {
         SetNativeImage(ptr);
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
+    /// Initializes a new instance of the <see cref="Bitmap"/> class.
     /// </summary>
-    /// <param name="filename">
-    /// The name of the bitmap file.
-    /// </param>
-    /// <param name="useIcm">
-    /// <see langword="true" /> to use color correction for this
-    /// <see cref="T:System.Drawing.Bitmap" />; otherwise,
-    /// <see langword="false" />.
-    /// </param>
+    /// <param name="info"></param>
+    /// <param name="context"></param>
     private Bitmap(SerializationInfo info, StreamingContext context)
                 : base(info, context)
     {

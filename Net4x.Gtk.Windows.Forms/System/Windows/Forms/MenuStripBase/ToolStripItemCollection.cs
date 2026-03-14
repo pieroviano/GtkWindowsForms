@@ -59,7 +59,8 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     public ToolStripItemCollection(ToolStrip owner)
     {
@@ -71,9 +72,11 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
     /// </summary>
-    /// <param name="toolStrip">The tool strip.
+    /// <param name="toolStrip">
+    /// The tool strip.
     /// </param>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     public ToolStripItemCollection(ToolStrip toolStrip, string owner)
     {
@@ -85,7 +88,8 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     public ToolStripItemCollection(StatusStrip owner)
     {
@@ -97,7 +101,8 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     public ToolStripItemCollection(ToolStripDropDown owner)
     {
@@ -109,7 +114,8 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     public ToolStripItemCollection(ToolStripItem owner)
     {
@@ -125,9 +131,11 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
     public ToolStripItemCollection(ToolStripItem owner, ToolStripItem[] value)
     {
@@ -140,12 +148,14 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     /// <param name="itemsCollection">
     /// if set to
-    /// <c>true
-    /// </c> [items collection].
+    /// <c>
+    /// true
+    /// </c>items collection.
     /// </param>
     internal ToolStripItemCollection(ToolStripItem owner, bool itemsCollection)
                 : this(owner, itemsCollection, isReadOnly: false)
@@ -156,17 +166,20 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     /// <param name="itemsCollection">
     /// if set to
-    /// <c>true
-    /// </c> [items collection].
+    /// <c>
+    /// true
+    /// </c>items collection.
     /// </param>
     /// <param name="isReadOnly">
     /// if set to
-    /// <c>true
-    /// </c> [is read only].
+    /// <c>
+    /// true
+    /// </c>is read only.
     /// </param>
     internal ToolStripItemCollection(ToolStripItem owner, bool itemsCollection, bool isReadOnly)
     {
@@ -179,9 +192,11 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// Gets or sets the
     /// <see cref="T:System.Windows.Forms.ToolStripItem" /> at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>ToolStripItem.
+    /// <returns>
+    /// ToolStripItem.
     /// </returns>
     //-------------------
     public new ToolStripItem this[int index]
@@ -193,9 +208,11 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// <summary>
     /// Adds the specified text.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <returns>ToolStripItem.
+    /// <returns>
+    /// ToolStripItem.
     /// </returns>
     public ToolStripItem Add(string text)
     {
@@ -205,9 +222,11 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// <summary>
     /// Adds the specified image.
     /// </summary>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <returns>ToolStripItem.
+    /// <returns>
+    /// ToolStripItem.
     /// </returns>
     public ToolStripItem Add(Image image)
     {
@@ -217,11 +236,14 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// <summary>
     /// Adds the specified text.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <returns>ToolStripItem.
+    /// <returns>
+    /// ToolStripItem.
     /// </returns>
     public ToolStripItem Add(string text, Image image)
     {
@@ -231,13 +253,17 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// <summary>
     /// Adds the specified text.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <returns>ToolStripItem.
+    /// <returns>
+    /// ToolStripItem.
     /// </returns>
     public ToolStripItem Add(string text, Image image, EventHandler onClick)
     {
@@ -250,9 +276,11 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// <summary>
     /// Adds the memu.
     /// </summary>
-    /// <param name="item">The item.
+    /// <param name="item">
+    /// The item.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int AddMemu(ToolStripItem item)
     {
@@ -291,7 +319,8 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// <summary>
     /// Adds the range.
     /// </summary>
-    /// <param name="toolStripItems">The tool strip items.
+    /// <param name="toolStripItems">
+    /// The tool strip items.
     /// </param>
     public void AddRange(ToolStripItem[] toolStripItems)
     {
@@ -304,7 +333,8 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// <summary>
     /// Adds the range.
     /// </summary>
-    /// <param name="toolStripItems">The tool strip items.
+    /// <param name="toolStripItems">
+    /// The tool strip items.
     /// </param>
     public void AddRange(ToolStripItemCollection toolStripItems)
     {

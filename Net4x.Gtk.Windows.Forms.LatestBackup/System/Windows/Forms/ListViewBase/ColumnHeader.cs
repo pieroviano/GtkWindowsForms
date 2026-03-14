@@ -45,7 +45,8 @@ public class ColumnHeader : Component, ICloneable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ColumnHeader" /> class.
     /// </summary>
-    /// <param name="imageIndex">Index of the image.
+    /// <param name="imageIndex">
+    /// Index of the image.
     /// </param>
     public ColumnHeader(int imageIndex)
     {
@@ -56,7 +57,8 @@ public class ColumnHeader : Component, ICloneable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ColumnHeader" /> class.
     /// </summary>
-    /// <param name="imageKey">The image key.
+    /// <param name="imageKey">
+    /// The image key.
     /// </param>
     public ColumnHeader(string imageKey)
     {
@@ -67,9 +69,11 @@ public class ColumnHeader : Component, ICloneable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ColumnHeader" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="width">The width.
+    /// <param name="width">
+    /// The width.
     /// </param>
     public ColumnHeader(string text, int width)
     {
@@ -80,7 +84,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets or sets the display index.
     /// </summary>
-    /// <value>The display index.
+    /// <value>
+    /// The display index.
     /// </value>
     [Localizable(true)]
     public int DisplayIndex { get; set; }
@@ -88,7 +93,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets or sets the index of the image.
     /// </summary>
-    /// <value>The index of the image.
+    /// <value>
+    /// The index of the image.
     /// </value>
     [DefaultValue(-1)]
     public int ImageIndex { get; set; } = -1;
@@ -96,14 +102,16 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets or sets the image key.
     /// </summary>
-    /// <value>The image key.
+    /// <value>
+    /// The image key.
     /// </value>
     public string ImageKey { get; set; }
 
     /// <summary>
     /// Gets the image list.
     /// </summary>
-    /// <value>The image list.
+    /// <value>
+    /// The image list.
     /// </value>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -119,7 +127,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets the index.
     /// </summary>
-    /// <value>The index.
+    /// <value>
+    /// The index.
     /// </value>
     [Browsable(false)]
     public int Index
@@ -133,7 +142,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets the ListView.
     /// </summary>
-    /// <value>The ListView.
+    /// <value>
+    /// The ListView.
     /// </value>
     [Browsable(false)]
     public ListView ListView
@@ -145,7 +155,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets or sets the name.
     /// </summary>
-    /// <value>The name.
+    /// <value>
+    /// The name.
     /// </value>
     [Browsable(false)]
     public string Name
@@ -157,7 +168,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets or sets the tag.
     /// </summary>
-    /// <value>The tag.
+    /// <value>
+    /// The tag.
     /// </value>
     [Localizable(false)]
     [Bindable(true)]
@@ -171,7 +183,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     [Localizable(true)]
     public string Text
@@ -183,7 +196,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets or sets the text align.
     /// </summary>
-    /// <value>The text align.
+    /// <value>
+    /// The text align.
     /// </value>
     [Localizable(true)]
     [DefaultValue(HorizontalAlignment.Left)]
@@ -196,7 +210,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Gets or sets the width.
     /// </summary>
-    /// <value>The width.
+    /// <value>
+    /// The width.
     /// </value>
     [Localizable(true)]
     [DefaultValue(60)]
@@ -209,7 +224,8 @@ public class ColumnHeader : Component, ICloneable
     /// <summary>
     /// Creates a new object that is a copy of the current instance.
     /// </summary>
-    /// <returns>A new object that is a copy of this instance.
+    /// <returns>
+    /// A new object that is a copy of this instance.
     /// </returns>
     public object Clone()
     {
@@ -221,7 +237,8 @@ public class ColumnHeader : Component, ICloneable
     /// <see cref="T:System.ComponentModel.Component">
     /// </see> and optionally releases the managed resources.
     /// </summary>
-    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.
+    /// <param name="disposing">
+    /// true to release both managed and unmanaged resources; false to release only unmanaged resources.
     /// </param>
     protected override void Dispose(bool disposing)
     {

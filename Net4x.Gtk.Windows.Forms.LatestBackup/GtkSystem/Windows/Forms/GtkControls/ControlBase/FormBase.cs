@@ -35,7 +35,8 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.FormBase" /> class.
     /// </summary>
-    /// <param name="parent">The parent.
+    /// <param name="parent">
+    /// The parent.
     /// </param>
     public FormBase(Gtk.Window parent = null) : base("title", Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive), DialogFlags.UseHeaderBar)
     {
@@ -143,7 +144,8 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// <summary>
     /// Adds the specified child.
     /// </summary>
-    /// <param name="child">The child.
+    /// <param name="child">
+    /// The child.
     /// </param>
     public new void Add(Gtk.Widget child)
     {
@@ -153,7 +155,8 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// <summary>
     /// Adds the class.
     /// </summary>
-    /// <param name="cssClass">The CSS class.
+    /// <param name="cssClass">
+    /// The CSS class.
     /// </param>
     public void AddClass(string cssClass)
     {
@@ -219,7 +222,8 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// <summary>
     /// CloseWindowHandler delegate.
     /// </summary>
-    /// <param name="sender">The sender.
+    /// <param name="sender">
+    /// The sender.
     /// </param>
     /// <param name="e">
     /// The

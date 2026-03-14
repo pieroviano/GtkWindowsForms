@@ -5,7 +5,8 @@
 /// <see cref="T:System.Windows.Forms.Binding.BindingComplete" /> event of a
 /// <see cref="T:System.Windows.Forms.Binding" />.
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The

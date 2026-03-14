@@ -51,7 +51,8 @@ public partial class CheckBox : Control
     /// <c>
     /// true
     /// </c> if checked; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Checked

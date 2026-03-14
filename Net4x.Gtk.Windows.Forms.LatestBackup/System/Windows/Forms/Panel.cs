@@ -52,21 +52,24 @@ public partial class Panel : ScrollableControl
     /// <summary>
     /// Gets the controls.
     /// </summary>
-    /// <value>The controls.
+    /// <value>
+    /// The controls.
     /// </value>
     public override ControlCollection Controls => _controls;
 
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the padding.
     /// </summary>
-    /// <value>The padding.
+    /// <value>
+    /// The padding.
     /// </value>
     public override Padding Padding
     {

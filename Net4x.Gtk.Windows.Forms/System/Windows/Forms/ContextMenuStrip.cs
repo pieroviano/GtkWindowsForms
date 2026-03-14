@@ -26,7 +26,8 @@ public class ContextMenuStrip : ToolStripDropDownMenu
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ContextMenuStrip" /> class.
     /// </summary>
-    /// <param name="container">The container.
+    /// <param name="container">
+    /// The container.
     /// </param>
     public ContextMenuStrip(IContainer container)
     {
@@ -38,8 +39,9 @@ public class ContextMenuStrip : ToolStripDropDownMenu
     /// </summary>
     /// <param name="visible">
     /// if set to
-    /// <c>true
-    /// </c> [visible].
+    /// <c>
+    /// true
+    /// </c>visible.
     /// </param>
     protected void SetVisibleCore(bool visible) { }
 

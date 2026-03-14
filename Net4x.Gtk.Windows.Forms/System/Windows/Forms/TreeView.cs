@@ -60,22 +60,22 @@ public partial class TreeView : ScrollableControl
     private readonly CellRendererIcon rendererPixbuf;
 
     /// <summary>
-    /// Occurs when [after collapse].
+    /// Occurs when [after collapse.
     /// </summary>
     public event TreeViewEventHandler AfterCollapse;
 
     /// <summary>
-    /// Occurs when [after expand].
+    /// Occurs when [after expand.
     /// </summary>
     public event TreeViewEventHandler AfterExpand;
 
     /// <summary>
-    /// Occurs when [after select].
+    /// Occurs when [after select.
     /// </summary>
     public event TreeViewEventHandler AfterSelect;
 
     /// <summary>
-    /// Occurs when [before select].
+    /// Occurs when [before select.
     /// </summary>
     public event TreeViewCancelEventHandler BeforeSelect;
 
@@ -132,13 +132,14 @@ public partial class TreeView : ScrollableControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [check boxes].
+    /// Gets or sets a value indicating whether check boxes.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [check boxes]; otherwise,
-    /// <c>false
+    /// </c> if check boxes; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool CheckBoxes
@@ -154,28 +155,32 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the index of the image.
     /// </summary>
-    /// <value>The index of the image.
+    /// <value>
+    /// The index of the image.
     /// </value>
     public int ImageIndex { get; set; } = -1;
 
     /// <summary>
     /// Gets or sets the image key.
     /// </summary>
-    /// <value>The image key.
+    /// <value>
+    /// The image key.
     /// </value>
     public string ImageKey { get; set; }
 
     /// <summary>
     /// Gets or sets the image list.
     /// </summary>
-    /// <value>The image list.
+    /// <value>
+    /// The image list.
     /// </value>
     public ImageList ImageList
     {
@@ -196,7 +201,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets the nodes.
     /// </summary>
-    /// <value>The nodes.
+    /// <value>
+    /// The nodes.
     /// </value>
     public TreeNodeCollection Nodes
     {
@@ -209,7 +215,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets or sets the path separator.
     /// </summary>
-    /// <value>The path separator.
+    /// <value>
+    /// The path separator.
     /// </value>
     [DefaultValue("\\")]
     public string PathSeparator
@@ -221,21 +228,24 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets or sets the index of the selected image.
     /// </summary>
-    /// <value>The index of the selected image.
+    /// <value>
+    /// The index of the selected image.
     /// </value>
     public int SelectedImageIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the selected image key.
     /// </summary>
-    /// <value>The selected image key.
+    /// <value>
+    /// The selected image key.
     /// </value>
     public string SelectedImageKey { get; set; }
 
     /// <summary>
     /// Gets the selected item.
     /// </summary>
-    /// <value>The selected item.
+    /// <value>
+    /// The selected item.
     /// </value>
     public object SelectedItem
     {
@@ -248,7 +258,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets or sets the selected node.
     /// </summary>
-    /// <value>The selected node.
+    /// <value>
+    /// The selected node.
     /// </value>
     public TreeNode SelectedNode
     {
@@ -282,7 +293,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets the selected value.
     /// </summary>
-    /// <value>The selected value.
+    /// <value>
+    /// The selected value.
     /// </value>
     public object SelectedValue
     {
@@ -293,49 +305,53 @@ public partial class TreeView : ScrollableControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show lines].
+    /// Gets or sets a value indicating whether show lines.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show lines]; otherwise,
-    /// <c>false
+    /// </c> if show lines; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowLines { get => self.TreeView.EnableTreeLines; set { self.TreeView.EnableTreeLines = true; self.TreeView.EnableGridLines = Gtk.TreeViewGridLines.Horizontal; } }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show node tools tips].
+    /// Gets or sets a value indicating whether show node tools tips.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show node tools tips]; otherwise,
-    /// <c>false
+    /// </c> if show node tools tips; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowNodeToolsTips { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show plus minus].
+    /// Gets or sets a value indicating whether show plus minus.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show plus minus]; otherwise,
-    /// <c>false
+    /// </c> if show plus minus; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowPlusMinus { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show root lines].
+    /// Gets or sets a value indicating whether show root lines.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show root lines]; otherwise,
-    /// <c>false
+    /// </c> if show root lines; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowRootLines { get; set; } = true;
@@ -343,21 +359,24 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets or sets the index of the state image.
     /// </summary>
-    /// <value>The index of the state image.
+    /// <value>
+    /// The index of the state image.
     /// </value>
     public int StateImageIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the state image key.
     /// </summary>
-    /// <value>The state image key.
+    /// <value>
+    /// The state image key.
     /// </value>
     public string StateImageKey { get; set; }
 
     /// <summary>
     /// Gets or sets the top node.
     /// </summary>
-    /// <value>The top node.
+    /// <value>
+    /// The top node.
     /// </value>
     public TreeNode TopNode
     {
@@ -374,7 +393,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets the store.
     /// </summary>
-    /// <value>The store.
+    /// <value>
+    /// The store.
     /// </value>
     internal Gtk.TreeStore Store { get { return _store; } }
 
@@ -405,13 +425,15 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets the node checked.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     internal bool GetNodeChecked(TreeNode node)
@@ -424,13 +446,15 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets the node expanded.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     internal bool GetNodeExpanded(TreeNode node)
@@ -441,13 +465,15 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets the node selected.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     internal bool GetNodeSelected(TreeNode node)
@@ -468,11 +494,14 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Inserts the node.
     /// </summary>
-    /// <param name="position">The position.
+    /// <param name="position">
+    /// The position.
     /// </param>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <param name="parent">The parent.
+    /// <param name="parent">
+    /// The parent.
     /// </param>
     internal void InsertNode(int position, TreeNode node, TreeNode parent)
     {
@@ -490,9 +519,11 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Loads the node value.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <param name="parent">The parent.
+    /// <param name="parent">
+    /// The parent.
     /// </param>
     internal void LoadNodeValue(TreeNode node, TreeIter parent)
     {
@@ -509,12 +540,14 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Natives the node checked.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     /// <param name="isChecked">
     /// if set to
-    /// <c>true
-    /// </c> [is checked].
+    /// <c>
+    /// true
+    /// </c>is checked.
     /// </param>
     internal void NativeNodeChecked(TreeNode node, bool isChecked)
     {
@@ -527,9 +560,11 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Natives the node image.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
     internal void NativeNodeImage(TreeNode node, int index)
     {
@@ -542,9 +577,11 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Natives the node image.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <param name="key">The key.
+    /// <param name="key">
+    /// The key.
     /// </param>
     internal void NativeNodeImage(TreeNode node, string key)
     {
@@ -557,12 +594,14 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Natives the node selected.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     /// <param name="isSelected">
     /// if set to
-    /// <c>true
-    /// </c> [is selected].
+    /// <c>
+    /// true
+    /// </c>is selected.
     /// </param>
     internal void NativeNodeSelected(TreeNode node, bool isSelected)
     {
@@ -575,9 +614,11 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Natives the node text.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     internal void NativeNodeText(TreeNode node, string text)
     {
@@ -590,7 +631,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Removes the node.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     internal void RemoveNode(TreeNode node)
     {
@@ -600,7 +642,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Sets the collapse node.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     internal void SetCollapseNode(TreeNode node)
     {
@@ -611,12 +654,14 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Sets the expand node.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     /// <param name="all">
     /// if set to
-    /// <c>true
-    /// </c> [all].
+    /// <c>
+    /// true
+    /// </c>all.
     /// </param>
     internal void SetExpandNode(TreeNode node, bool all)
     {
@@ -626,7 +671,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.
     /// </summary>
-    /// <param name="widget">GTK widget to style.
+    /// <param name="widget">
+    /// GTK widget to style.
     /// </param>
     protected override void SetStyle(Widget widget)
     {
@@ -637,9 +683,11 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Cells the name toggled.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void CellName_Toggled(object o, ToggledArgs args)
     {
@@ -653,11 +701,14 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Gets the node child.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <param name="indices">The indices.
+    /// <param name="indices">
+    /// The indices.
     /// </param>
-    /// <param name="result">The result.
+    /// <param name="result">
+    /// The result.
     /// </param>
     private void GetNodeChild(TreeNode node, int[] indices, ref TreeNode result)
     {
@@ -679,7 +730,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Handles the Changed event of the Selection control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -714,7 +766,8 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Handles the Realized event of the TreeView control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -741,9 +794,11 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// TreeViews the row collapsed.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void TreeView_RowCollapsed(object o, RowCollapsedArgs args)
     {
@@ -758,9 +813,11 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// TreeViews the row expanded.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void TreeView_RowExpanded(object o, RowExpandedArgs args)
     {
@@ -773,8 +830,7 @@ public partial class TreeView : ScrollableControl
     }
 
     /// <summary>
-    /// Class CellRendererIcon.
-    /// Implements the
+    /// Class CellRendererIcon. Implements the
     /// <see cref="Gtk.CellRendererPixbuf" />
     /// </summary>
     /// <seealso cref="Gtk.CellRendererPixbuf" />
@@ -789,7 +845,8 @@ public partial class TreeView : ScrollableControl
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.TreeView.CellRendererIcon" /> class.
         /// </summary>
-        /// <param name="treeView">The tree view.
+        /// <param name="treeView">
+        /// The tree view.
         /// </param>
         public CellRendererIcon(TreeView treeView)
         {
@@ -799,7 +856,8 @@ public partial class TreeView : ScrollableControl
         /// <summary>
         /// Sets the index of the pixbuf.
         /// </summary>
-        /// <value>The index of the pixbuf.
+        /// <value>
+        /// The index of the pixbuf.
         /// </value>
         [Property("pixbufindex")]
         public int PixbufIndex
@@ -814,7 +872,8 @@ public partial class TreeView : ScrollableControl
         /// <summary>
         /// Sets the pixbuf key.
         /// </summary>
-        /// <value>The pixbuf key.
+        /// <value>
+        /// The pixbuf key.
         /// </value>
         [Property("pixbufkey")]
         public string PixbufKey

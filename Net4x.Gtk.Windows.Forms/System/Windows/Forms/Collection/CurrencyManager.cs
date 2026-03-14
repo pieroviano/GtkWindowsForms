@@ -455,17 +455,9 @@ public class CurrencyManager : BindingManagerBase
     }
 
     /// <summary>
-    /// Gets the name of the list supplying the data for the binding using the specified set of bound properties.
+    /// Gets the name of the list.
     /// </summary>
-    /// <returns>
-    /// If successful, a
-    /// <see cref="T:System.String"/> containing name of the list supplying the data for the binding; otherwise, an
-    /// <see cref="T:System.String.Empty"/> string.
-    /// </returns>
-    /// <param name = "listAccessors">
-    /// An
-    /// <see cref="T:System.Collections.ArrayList"/> of properties to be found in the data source.
-    /// </param>
+    /// <returns></returns>
     internal override string? GetListName()
     {
         if (!(_list is ITypedList))
@@ -624,7 +616,7 @@ public class CurrencyManager : BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref = "CurrencyChanged"/> event.
+    /// <see cref="!:CurrencyChanged"/> event.
     /// </summary>
     /// <param name = "e">
     /// The

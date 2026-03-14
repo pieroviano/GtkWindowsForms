@@ -26,7 +26,7 @@ public sealed class SelectionRange
     private DateTime start = DateTime.MinValue.Date;
 
     /// <summary>
-    /// Create a new SelectionRange object with the range [null, null].
+    /// Create a new SelectionRange object with the range [null, null.
     /// </summary>
     public SelectionRange()
     {

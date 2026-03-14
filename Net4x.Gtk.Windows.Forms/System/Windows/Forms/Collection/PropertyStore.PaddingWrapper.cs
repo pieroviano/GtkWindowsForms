@@ -3,42 +3,12 @@
 
 namespace System.Windows.Forms;
 /// <summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
+/// Stores the relationship between a key and a value.
+/// We do not want to be so inefficient that we require
+/// four bytes for each four byte property, so use an algorithm
+/// that uses the bottom two bits of the key to identify
+/// one of four elements in an entry.
 /// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-///
 internal partial class PropertyStore
 {
     private sealed class PaddingWrapper
@@ -46,12 +16,9 @@ internal partial class PropertyStore
         public Padding Padding;
 
         /// <summary>
-        /// Initializes a new instance of the System.Windows.Forms.Padding class using the
-        /// supplied padding size for all edges.
+        /// Initializes a new instance of the <see cref="PaddingWrapper"/> class.
         /// </summary>
-        /// <param name="all">
-        /// The number of pixels to be used for padding for all edges.
-        /// </param>
+        /// <param name="padding">The padding.</param>
         public PaddingWrapper(Padding padding)
         {
             Padding = padding;

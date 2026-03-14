@@ -17,7 +17,8 @@ public class TableLayoutControlCollection : Control.ControlCollection
     /// The owning
     /// <see cref="T:System.Windows.Forms.Control" />.
     /// </param>
-    /// <param name="ownerContainer">The underlying GTK container used to host children.
+    /// <param name="ownerContainer">
+    /// The underlying GTK container used to host children.
     /// </param>
     public TableLayoutControlCollection(Control owner, Gtk.Container ownerContainer) : base(owner, ownerContainer)
     {
@@ -28,7 +29,8 @@ public class TableLayoutControlCollection : Control.ControlCollection
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TableLayoutControlCollection" /> class.
     /// </summary>
-    /// <param name="container">The container.
+    /// <param name="container">
+    /// The container.
     /// </param>
     public TableLayoutControlCollection(TableLayoutPanel container) : base(container)
     {
@@ -38,18 +40,22 @@ public class TableLayoutControlCollection : Control.ControlCollection
     /// <summary>
     /// Gets the container.
     /// </summary>
-    /// <value>The container.
+    /// <value>
+    /// The container.
     /// </value>
     public TableLayoutPanel Container { get; }
 
     /// <summary>
     /// Adds the specified control.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <param name="column">The column.
+    /// <param name="column">
+    /// The column.
     /// </param>
-    /// <param name="row">The row.
+    /// <param name="row">
+    /// The row.
     /// </param>
     public virtual void Add(Control control, int column, int row)
     {

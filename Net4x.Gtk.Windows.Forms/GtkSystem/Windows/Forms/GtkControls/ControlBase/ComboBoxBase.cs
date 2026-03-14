@@ -25,8 +25,9 @@ public sealed class ComboBoxBase : Gtk.ComboBoxText, IControlGtk
     /// </summary>
     /// <param name="hasEntry">
     /// if set to
-    /// <c>true
-    /// </c> [has entry].
+    /// <c>
+    /// true
+    /// </c>has entry.
     /// </param>
     public ComboBoxBase(bool hasEntry) : base(hasEntry)
     {
@@ -51,7 +52,8 @@ public sealed class ComboBoxBase : Gtk.ComboBoxText, IControlGtk
     /// <summary>
     /// Called when the control is drawn.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
     /// <returns>
     /// </returns>

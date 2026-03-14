@@ -14,9 +14,11 @@ public class DataGridViewRowEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridViewRow">The data grid view row.
+    /// <param name="dataGridViewRow">
+    /// The data grid view row.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">dataGridViewRow
+    /// <exception cref="T:System.ArgumentNullException">
+    /// dataGridViewRow
     /// </exception>
     public DataGridViewRowEventArgs(DataGridViewRow dataGridViewRow)
     {
@@ -26,7 +28,8 @@ public class DataGridViewRowEventArgs : EventArgs
     /// <summary>
     /// Gets the row.
     /// </summary>
-    /// <value>The row.
+    /// <value>
+    /// The row.
     /// </value>
     public DataGridViewRow Row { get; }
 

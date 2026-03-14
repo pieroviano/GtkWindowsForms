@@ -6,10 +6,8 @@ using System.Windows.Forms.Design;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class PropertyGrid.
-/// Implements the
-/// <see cref="T:System.Windows.Forms.ContainerControl" />
-/// Implements the
+/// Class PropertyGrid. Implements the
+/// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
 /// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.ContainerControl" />
@@ -17,8 +15,7 @@ namespace System.Windows.Forms;
 public partial class PropertyGrid
 {
     /// <summary>
-    /// Class PropertyTabCollection.
-    /// Implements the
+    /// Class PropertyTabCollection. Implements the
     /// <see cref="T:System.Collections.ICollection" />
     /// </summary>
     /// <seealso cref="T:System.Collections.ICollection" />
@@ -33,7 +30,8 @@ public partial class PropertyGrid
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.PropertyGrid.PropertyTabCollection" /> class.
         /// </summary>
-        /// <param name="ownerPropertyGrid">The owner property grid.
+        /// <param name="ownerPropertyGrid">
+        /// The owner property grid.
         /// </param>
         internal PropertyTabCollection(PropertyGrid ownerPropertyGrid)
         {
@@ -45,7 +43,8 @@ public partial class PropertyGrid
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The count.
+        /// <value>
+        /// The count.
         /// </value>
         public int Count
         {
@@ -69,7 +68,8 @@ public partial class PropertyGrid
         /// <c>
         /// true
         /// </c> if this instance is synchronized; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool ICollection.IsSynchronized => false;
@@ -79,7 +79,8 @@ public partial class PropertyGrid
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The synchronize root.
+        /// <value>
+        /// The synchronize root.
         /// </value>
         object ICollection.SyncRoot => this;
 
@@ -87,9 +88,11 @@ public partial class PropertyGrid
         /// Gets the
         /// <see cref="T:System.Windows.Forms.Design.PropertyTab" /> at the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>PropertyTab.
+        /// <returns>
+        /// PropertyTab.
         /// </returns>
         public PropertyTab this[int index]
         {
@@ -102,7 +105,8 @@ public partial class PropertyGrid
         /// <summary>
         /// Adds the type of the tab.
         /// </summary>
-        /// <param name="propertyTabType">Type of the property tab.
+        /// <param name="propertyTabType">
+        /// Type of the property tab.
         /// </param>
         public void AddTabType(Type propertyTabType)
         {
@@ -112,9 +116,11 @@ public partial class PropertyGrid
         /// <summary>
         /// Adds the type of the tab.
         /// </summary>
-        /// <param name="propertyTabType">Type of the property tab.
+        /// <param name="propertyTabType">
+        /// Type of the property tab.
         /// </param>
-        /// <param name="tabScope">The tab scope.
+        /// <param name="tabScope">
+        /// The tab scope.
         /// </param>
         public void AddTabType(Type propertyTabType, PropertyTabScope tabScope)
         {
@@ -124,7 +130,8 @@ public partial class PropertyGrid
         /// <summary>
         /// Clears the specified tab scope.
         /// </summary>
-        /// <param name="tabScope">The tab scope.
+        /// <param name="tabScope">
+        /// The tab scope.
         /// </param>
         public void Clear(PropertyTabScope tabScope)
         {
@@ -152,7 +159,8 @@ public partial class PropertyGrid
         /// <summary>
         /// Removes the type of the tab.
         /// </summary>
-        /// <param name="propertyTabType">Type of the property tab.
+        /// <param name="propertyTabType">
+        /// Type of the property tab.
         /// </param>
         public void RemoveTabType(Type propertyTabType)
         {
@@ -162,9 +170,11 @@ public partial class PropertyGrid
         /// <summary>
         /// Copies to.
         /// </summary>
-        /// <param name="dest">The dest.
+        /// <param name="dest">
+        /// The dest.
         /// </param>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
         void ICollection.CopyTo(Array dest, int index)
         {

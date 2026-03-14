@@ -33,7 +33,8 @@ public sealed class ToolStripDropDownBase : Gtk.Menu, IControlGtk
     /// <summary>
     /// Adds the class.
     /// </summary>
-    /// <param name="cssClass">The CSS class.
+    /// <param name="cssClass">
+    /// The CSS class.
     /// </param>
     public void AddClass(string cssClass)
     {

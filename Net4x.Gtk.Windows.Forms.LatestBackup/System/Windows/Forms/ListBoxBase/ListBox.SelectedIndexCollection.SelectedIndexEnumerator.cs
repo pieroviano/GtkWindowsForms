@@ -6,16 +6,42 @@ using System.Collections;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class ListBox.
-/// Implements the
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
 /// <see cref="T:System.Windows.Forms.ListControl" />
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.ListControl" />
 public partial class ListBox
 {
     /// <summary>
-    /// Class SelectedIndexCollection.
-    /// Implements the
+    /// Class SelectedIndexCollection. Implements the
+    /// <see cref="T:System.Collections.IList" />
+    /// </summary>
+    /// <seealso cref="T:System.Collections.IList" />
+    /// Class SelectedIndexCollection. Implements the
     /// <see cref="T:System.Collections.IList" />
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />

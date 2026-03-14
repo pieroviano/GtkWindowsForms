@@ -19,9 +19,11 @@ public class DataGridViewEditingControlShowingEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewEditingControlShowingEventArgs" /> class.
     /// </summary>
-    /// <param name="control">The control.
+    /// <param name="control">
+    /// The control.
     /// </param>
-    /// <param name="cellStyle">The cell style.
+    /// <param name="cellStyle">
+    /// The cell style.
     /// </param>
     public DataGridViewEditingControlShowingEventArgs(Control control, DataGridViewCellStyle cellStyle)
     {
@@ -32,9 +34,11 @@ public class DataGridViewEditingControlShowingEventArgs : EventArgs
     /// <summary>
     /// Gets or sets the cell style.
     /// </summary>
-    /// <value>The cell style.
+    /// <value>
+    /// The cell style.
     /// </value>
-    /// <exception cref="T:System.ArgumentNullException">value
+    /// <exception cref="T:System.ArgumentNullException">
+    /// value
     /// </exception>
     public DataGridViewCellStyle CellStyle
     {
@@ -45,7 +49,8 @@ public class DataGridViewEditingControlShowingEventArgs : EventArgs
     /// <summary>
     /// Gets the control.
     /// </summary>
-    /// <value>The control.
+    /// <value>
+    /// The control.
     /// </value>
     public Control Control { get; }
 

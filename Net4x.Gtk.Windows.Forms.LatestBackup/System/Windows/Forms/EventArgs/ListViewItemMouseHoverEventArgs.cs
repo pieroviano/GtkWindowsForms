@@ -17,7 +17,8 @@ public class ListViewItemMouseHoverEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListViewItemMouseHoverEventArgs" /> class.
     /// </summary>
-    /// <param name="item">The item.
+    /// <param name="item">
+    /// The item.
     /// </param>
     public ListViewItemMouseHoverEventArgs(ListViewItem item)
     {
@@ -27,7 +28,8 @@ public class ListViewItemMouseHoverEventArgs : EventArgs
     /// <summary>
     /// Gets the item.
     /// </summary>
-    /// <value>The item.
+    /// <value>
+    /// The item.
     /// </value>
     public ListViewItem Item { get; }
 

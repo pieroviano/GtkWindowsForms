@@ -169,10 +169,10 @@ internal class ListBindingHelper
         dataSource = GetList(dataSource);
         if (!string.IsNullOrEmpty(dataMember))
         {
-            var propertyDescriptor = GetListItemProperties(dataSource)?.Find(dataMember, true);
+            var propertyDescriptor = (GetListItemProperties(dataSource)?.Find(dataMember, true)) ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
             var num = listAccessors == null ? 1 : listAccessors.Length + 1;
             var propertyDescriptorArray = new PropertyDescriptor[num];
-            propertyDescriptorArray[0] = propertyDescriptor ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
+            propertyDescriptorArray[0] = propertyDescriptor;
             for (var i = 1; i < num; i++)
             {
                 if (listAccessors != null)

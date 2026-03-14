@@ -31,7 +31,8 @@ public class DataGridViewCellStyle : ICloneable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellStyle" /> class.
     /// </summary>
-    /// <param name="dataGridViewCellStyle">The data grid view cell style.
+    /// <param name="dataGridViewCellStyle">
+    /// The data grid view cell style.
     /// </param>
     public DataGridViewCellStyle(DataGridViewCellStyle dataGridViewCellStyle) { }
 
@@ -104,7 +105,8 @@ public class DataGridViewCellStyle : ICloneable
     /// <c>
     /// true
     /// </c> if this instance is data source null value default; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -118,7 +120,8 @@ public class DataGridViewCellStyle : ICloneable
     /// <c>
     /// true
     /// </c> if this instance is format provider default; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -132,7 +135,8 @@ public class DataGridViewCellStyle : ICloneable
     /// <c>
     /// true
     /// </c> if this instance is null value default; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -207,7 +211,8 @@ public class DataGridViewCellStyle : ICloneable
     /// <summary>
     /// Applies the style.
     /// </summary>
-    /// <param name="dataGridViewCellStyle">The data grid view cell style.
+    /// <param name="dataGridViewCellStyle">
+    /// The data grid view cell style.
     /// </param>
     public virtual void ApplyStyle(DataGridViewCellStyle dataGridViewCellStyle) { }
 
@@ -241,7 +246,8 @@ public class DataGridViewCellStyle : ICloneable
     /// true
     /// </c> if the specified
     /// <see cref="T:System.Object" /> is equal to this instance; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public override bool Equals(object o) { return false; }

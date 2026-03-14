@@ -17,12 +17,12 @@ public abstract partial class ScrollBar : Control
     double _oldValue = 0;
 
     /// <summary>
-    /// Occurs when [scroll].
+    /// Occurs when [scroll.
     /// </summary>
     public event ScrollEventHandler Scroll;
 
     /// <summary>
-    /// Occurs when [value changed].
+    /// Occurs when [value changed.
     /// </summary>
     public event EventHandler ValueChanged;
 
@@ -38,49 +38,56 @@ public abstract partial class ScrollBar : Control
     /// <summary>
     /// Gets the adjustment.
     /// </summary>
-    /// <value>The adjustment.
+    /// <value>
+    /// The adjustment.
     /// </value>
     public virtual Gtk.Adjustment Adjustment { get; }
 
     /// <summary>
     /// Gets or sets the large change.
     /// </summary>
-    /// <value>The large change.
+    /// <value>
+    /// The large change.
     /// </value>
     public int LargeChange { get => (int)Adjustment.PageIncrement; set => Adjustment.PageIncrement = value; }
 
     /// <summary>
     /// Gets or sets the maximum.
     /// </summary>
-    /// <value>The maximum.
+    /// <value>
+    /// The maximum.
     /// </value>
     public int Maximum { get => (int)Adjustment.Upper; set => Adjustment.Upper = value; }
 
     /// <summary>
     /// Gets or sets the minimum.
     /// </summary>
-    /// <value>The minimum.
+    /// <value>
+    /// The minimum.
     /// </value>
     public int Minimum { get => (int)Adjustment.Lower; set => Adjustment.Lower = value; }
 
     /// <summary>
     /// Gets or sets the small change.
     /// </summary>
-    /// <value>The small change.
+    /// <value>
+    /// The small change.
     /// </value>
     public int SmallChange { get => (int)Adjustment.StepIncrement; set => Adjustment.StepIncrement = value; }
 
     /// <summary>
     /// Gets or sets the value.
     /// </summary>
-    /// <value>The value.
+    /// <value>
+    /// The value.
     /// </value>
     public int Value { get => (int)Adjustment.Value; set { Adjustment.Value = value; } }
 
     /// <summary>
     /// Handles the ValueChanged event of the Control control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

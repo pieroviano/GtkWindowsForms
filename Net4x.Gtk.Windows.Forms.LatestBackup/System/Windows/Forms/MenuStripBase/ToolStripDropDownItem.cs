@@ -8,7 +8,8 @@ namespace System.Windows.Forms;
 /// <summary>
 /// Delegate ToolStripItemClickedEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -25,17 +26,17 @@ public delegate void ToolStripItemClickedEventHandler(object sender, ToolStripIt
 public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
 {
     /// <summary>
-    /// Occurs when [drop down closed].
+    /// Occurs when [drop down closed.
     /// </summary>
     public event EventHandler DropDownClosed;
 
     /// <summary>
-    /// Occurs when [drop down opened].
+    /// Occurs when [drop down opened.
     /// </summary>
     public event EventHandler DropDownOpened;
 
     /// <summary>
-    /// Occurs when [drop down opening].
+    /// Occurs when [drop down opening.
     /// </summary>
     public event EventHandler DropDownOpening;
 
@@ -52,11 +53,14 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownItem" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
     protected ToolStripDropDownItem(string text, Image image, EventHandler onClick) : this(text, image, onClick, "")
     {
@@ -67,11 +71,14 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownItem" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="dropDownItems">The drop down items.
+    /// <param name="dropDownItems">
+    /// The drop down items.
     /// </param>
     protected ToolStripDropDownItem(string text, Image image, params ToolStripItem[] dropDownItems) : this(text, image, null, "")
     {
@@ -82,13 +89,17 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownItem" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     protected ToolStripDropDownItem(string text, Image image, EventHandler onClick, string name) : base("ToolStripDropDownItem", text, image, onClick, name)
     {
@@ -98,7 +109,8 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Gets or sets the drop down.
     /// </summary>
-    /// <value>The drop down.
+    /// <value>
+    /// The drop down.
     /// </value>
     [TypeConverter(typeof(ReferenceConverter))]
     public ToolStripDropDown DropDown { get; set; }
@@ -106,7 +118,8 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Gets or sets the drop down direction.
     /// </summary>
-    /// <value>The drop down direction.
+    /// <value>
+    /// The drop down direction.
     /// </value>
     //public ToolStripItemCollection DropDownItems { get; }
     [Browsable(false)]
@@ -119,7 +132,8 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <c>
     /// true
     /// </c> if this instance has drop down; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -132,7 +146,8 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <c>
     /// true
     /// </c> if this instance has drop down items; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -141,14 +156,16 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text { get => base.Text; set => base.Text = value; } //+ " ▼"
 
     /// <summary>
     /// Gets the drop down location.
     /// </summary>
-    /// <value>The drop down location.
+    /// <value>
+    /// The drop down location.
     /// </value>
     protected internal virtual Point DropDownLocation { get; }
 

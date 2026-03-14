@@ -157,9 +157,11 @@ public class ResXResourceWriter : IResourceWriter
     /// Initializes a new instance of the
     /// <see cref="T:System.Resources.ResXResourceWriter" /> class.
     /// </summary>
-    /// <param name="fileName">Name of the file.
+    /// <param name="fileName">
+    /// Name of the file.
     /// </param>
-    /// <param name="typeNameConverter">The type name converter.
+    /// <param name="typeNameConverter">
+    /// The type name converter.
     /// </param>
     public ResXResourceWriter(string fileName, Func<Type, string> typeNameConverter)
     {
@@ -176,9 +178,11 @@ public class ResXResourceWriter : IResourceWriter
     /// Initializes a new instance of the
     /// <see cref="T:System.Resources.ResXResourceWriter" /> class.
     /// </summary>
-    /// <param name="stream">The stream.
+    /// <param name="stream">
+    /// The stream.
     /// </param>
-    /// <param name="typeNameConverter">The type name converter.
+    /// <param name="typeNameConverter">
+    /// The type name converter.
     /// </param>
     public ResXResourceWriter(Stream stream, Func<Type, string> typeNameConverter)
     {
@@ -195,9 +199,11 @@ public class ResXResourceWriter : IResourceWriter
     /// Initializes a new instance of the
     /// <see cref="T:System.Resources.ResXResourceWriter" /> class.
     /// </summary>
-    /// <param name="textWriter">The text writer.
+    /// <param name="textWriter">
+    /// The text writer.
     /// </param>
-    /// <param name="typeNameConverter">The type name converter.
+    /// <param name="typeNameConverter">
+    /// The type name converter.
     /// </param>
     public ResXResourceWriter(TextWriter textWriter, Func<Type, string> typeNameConverter)
     {
@@ -352,7 +358,8 @@ public class ResXResourceWriter : IResourceWriter
     /// <c>
     /// true
     /// </c> to release both managed and unmanaged resources;
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> to release only unmanaged resources.
     /// </param>
     protected virtual void Dispose(bool disposing)

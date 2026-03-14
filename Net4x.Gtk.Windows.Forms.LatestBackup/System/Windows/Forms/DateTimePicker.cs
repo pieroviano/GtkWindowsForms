@@ -87,49 +87,56 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Gets or sets the calendar font.
     /// </summary>
-    /// <value>The calendar font.
+    /// <value>
+    /// The calendar font.
     /// </value>
     public Font CalendarFont { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the calendar fore.
     /// </summary>
-    /// <value>The color of the calendar fore.
+    /// <value>
+    /// The color of the calendar fore.
     /// </value>
     public Color CalendarForeColor { get; set; }
 
     /// <summary>
     /// Gets or sets the calendar month background.
     /// </summary>
-    /// <value>The calendar month background.
+    /// <value>
+    /// The calendar month background.
     /// </value>
     public Color CalendarMonthBackground { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the calendar title back.
     /// </summary>
-    /// <value>The color of the calendar title back.
+    /// <value>
+    /// The color of the calendar title back.
     /// </value>
     public Color CalendarTitleBackColor { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the calendar title fore.
     /// </summary>
-    /// <value>The color of the calendar title fore.
+    /// <value>
+    /// The color of the calendar title fore.
     /// </value>
     public Color CalendarTitleForeColor { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the calendar trailing fore.
     /// </summary>
-    /// <value>The color of the calendar trailing fore.
+    /// <value>
+    /// The color of the calendar trailing fore.
     /// </value>
     public Color CalendarTrailingForeColor { get; set; }
 
     /// <summary>
     /// Gets or sets the custom format.
     /// </summary>
-    /// <value>The custom format.
+    /// <value>
+    /// The custom format.
     /// </value>
     public string CustomFormat
     {
@@ -144,7 +151,8 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Gets or sets the format.
     /// </summary>
-    /// <value>The format.
+    /// <value>
+    /// The format.
     /// </value>
     public DateTimePickerFormat Format
     {
@@ -168,21 +176,24 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Gets or sets the maximum date.
     /// </summary>
-    /// <value>The maximum date.
+    /// <value>
+    /// The maximum date.
     /// </value>
     public DateTime MaxDate { get; set; } = DateTime.MaxValue;
 
     /// <summary>
     /// Gets or sets the minimum date.
     /// </summary>
-    /// <value>The minimum date.
+    /// <value>
+    /// The minimum date.
     /// </value>
     public DateTime MinDate { get; set; } = DateTime.MinValue;
 
     /// <summary>
     /// Gets or sets the value.
     /// </summary>
-    /// <value>The value.
+    /// <value>
+    /// The value.
     /// </value>
     public DateTime Value
     {
@@ -237,7 +248,8 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Handles the DaySelected event of the Calendar control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -262,7 +274,8 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Handles the NextMonth event of the Calendar control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -279,7 +292,8 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Handles the NextYear event of the Calendar control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -296,7 +310,8 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Handles the PrevMonth event of the Calendar control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -313,7 +328,8 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Handles the PrevYear event of the Calendar control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -330,9 +346,11 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Dates the time picker icon release.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void DateTimePicker_IconRelease(object o, Gtk.IconReleaseArgs args)
     {
@@ -355,7 +373,8 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Handles the Changed event of the Self control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -370,7 +389,8 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Handles the Shown event of the Self control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -384,7 +404,8 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Handles the Clicked event of the Todaybtn control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

@@ -290,26 +290,8 @@ public class Binding
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.Binding"/> class that simple-binds the indicated control property to the specified data member of the data source.
+    /// Prevents a default instance of the <see cref="Binding"/> class from being created.
     /// </summary>
-    /// <param name = "propertyName">
-    /// The name of the control property to bind.
-    /// </param>
-    /// <param name = "dataSource">
-    /// An
-    /// <see cref="T:System.Object"/> that represents the data source.
-    /// </param>
-    /// <param name = "dataMember">
-    /// The property or list to bind to.
-    /// </param>
-    /// <exception cref="T:System.Exception">
-    /// <paramref name = "propertyName"/> is neither a valid property of a control nor an empty string ("").
-    /// </exception>
-    /// <exception cref="T:System.ArgumentException">
-    /// The property given by
-    /// <paramref name = "propertyName"/> does not exist on the control.
-    /// </exception>
     private Binding()
     {
     }

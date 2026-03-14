@@ -15,9 +15,11 @@ public sealed class BoxBase : Gtk.Box, IControlGtk
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.BoxBase" /> class.
     /// </summary>
-    /// <param name="orientation">The orientation.
+    /// <param name="orientation">
+    /// The orientation.
     /// </param>
-    /// <param name="spacing">The spacing.
+    /// <param name="spacing">
+    /// The spacing.
     /// </param>
     public BoxBase(Orientation orientation, int spacing) : base(orientation, spacing)
     {
@@ -41,7 +43,8 @@ public sealed class BoxBase : Gtk.Box, IControlGtk
     /// <summary>
     /// Called when the control is drawn.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
     /// <returns>
     /// </returns>

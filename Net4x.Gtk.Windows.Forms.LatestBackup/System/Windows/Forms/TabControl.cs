@@ -36,12 +36,12 @@ public partial class TabControl : ContainerControl
     private readonly TabControl.TabPageCollection _tabPageControls;
 
     /// <summary>
-    /// Occurs when [draw item].
+    /// Occurs when [draw item.
     /// </summary>
     public event DrawItemEventHandler DrawItem;
 
     /// <summary>
-    /// Occurs when [selected index changed].
+    /// Occurs when [selected index changed.
     /// </summary>
     public event EventHandler SelectedIndexChanged;
 
@@ -59,7 +59,8 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// Gets or sets the alignment.
     /// </summary>
-    /// <value>The alignment.
+    /// <value>
+    /// The alignment.
     /// </value>
     public TabAlignment Alignment
     {
@@ -92,14 +93,16 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// Gets the controls.
     /// </summary>
-    /// <value>The controls.
+    /// <value>
+    /// The controls.
     /// </value>
     public new TabControl.ControlCollection Controls => _controls;
 
     /// <summary>
     /// Gets or sets the draw mode.
     /// </summary>
-    /// <value>The draw mode.
+    /// <value>
+    /// The draw mode.
     /// </value>
     public TabDrawMode DrawMode { get; set; }
 
@@ -109,8 +112,9 @@ public partial class TabControl : ContainerControl
     /// <value>
     /// <c>
     /// true
-    /// </c> if [enable popup]; otherwise,
-    /// <c>false
+    /// </c> if enable popup; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -122,14 +126,16 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the size of the item.
     /// </summary>
-    /// <value>The size of the item.
+    /// <value>
+    /// The size of the item.
     /// </value>
     public Size ItemSize { get; set; }
 
@@ -141,7 +147,8 @@ public partial class TabControl : ContainerControl
     /// <c>
     /// true
     /// </c> if multiline; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Multiline { get; set; }
@@ -149,37 +156,41 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// Gets or sets the index of the selected.
     /// </summary>
-    /// <value>The index of the selected.
+    /// <value>
+    /// The index of the selected.
     /// </value>
     public int SelectedIndex { get { return self.CurrentPage; } set { self.CurrentPage = value; } }
 
     /// <summary>
     /// Gets or sets the selected tab.
     /// </summary>
-    /// <value>The selected tab.
+    /// <value>
+    /// The selected tab.
     /// </value>
     public TabPage SelectedTab { get { return _controls[self.CurrentPage]; } set { } }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show tabs].
+    /// Gets or sets a value indicating whether show tabs.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show tabs]; otherwise,
-    /// <c>false
+    /// </c> if show tabs; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowTabs { get => self.ShowTabs; set => self.ShowTabs = value; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show tool tips].
+    /// Gets or sets a value indicating whether show tool tips.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show tool tips]; otherwise,
-    /// <c>false
+    /// </c> if show tool tips; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowToolTips { get; set; }
@@ -187,32 +198,38 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// Gets or sets the size mode.
     /// </summary>
-    /// <value>The size mode.
+    /// <value>
+    /// The size mode.
     /// </value>
     public TabSizeMode SizeMode { get; set; }
 
     /// <summary>
     /// Gets the tab count.
     /// </summary>
-    /// <value>The tab count.
+    /// <value>
+    /// The tab count.
     /// </value>
     public int TabCount { get => self.NPages; }
 
     /// <summary>
     /// Gets the tab pages.
     /// </summary>
-    /// <value>The tab pages.
+    /// <value>
+    /// The tab pages.
     /// </value>
     public TabPageCollection TabPages { get { return _tabPageControls; } }
 
     /// <summary>
     /// Gets the tab rect.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>Rectangle.
+    /// <returns>
+    /// Rectangle.
     /// </returns>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">index - SR.InvalidArgument
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// index - SR.InvalidArgument
     /// </exception>
     public Rectangle GetTabRect(int index)
     {
@@ -230,9 +247,11 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// Selfs the switch page.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void Self_SwitchPage(object o, SwitchPageArgs args)
     {
@@ -255,7 +274,8 @@ public partial class TabControl : ContainerControl
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.TabControl.ControlCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public ControlCollection(TabControl owner)
         {
@@ -266,9 +286,11 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Adds the specified item.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public new int Add(TabPage item)
         {
@@ -317,7 +339,8 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Removes the specified value.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         public new void Remove(TabPage value)
         {
@@ -328,7 +351,8 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Removes at.
         /// </summary>
-        /// <param name="index">The zero-based index of the element to remove.
+        /// <param name="index">
+        /// The zero-based index of the element to remove.
         /// </param>
         public new void RemoveAt(int index)
         {
@@ -339,7 +363,8 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Handles the Shown event of the Self control.
         /// </summary>
-        /// <param name="sender">The source of the event.
+        /// <param name="sender">
+        /// The source of the event.
         /// </param>
         /// <param name="e">
         /// The
@@ -359,8 +384,7 @@ public partial class TabControl : ContainerControl
     /// Class TabPageCollection. Implements the
     /// <see cref="T:System.Collections.IList" />
     /// Implements the
-    /// <see cref="T:System.Collections.ICollection" />
-    /// Implements the
+    /// <see cref="T:System.Collections.ICollection" /> Implements the
     /// <see cref="T:System.Collections.IEnumerable" />
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />
@@ -377,7 +401,8 @@ public partial class TabControl : ContainerControl
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.TabControl.TabPageCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public TabPageCollection(TabControl owner)
         {
@@ -389,7 +414,8 @@ public partial class TabControl : ContainerControl
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The count.
+        /// <value>
+        /// The count.
         /// </value>
         //[Browsable(false)]
         public int Count { get { return _owner.Controls.Count; } }
@@ -403,7 +429,8 @@ public partial class TabControl : ContainerControl
         /// <c>
         /// true
         /// </c> if this instance is read only; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         public bool IsReadOnly { get { return false; } }
@@ -417,7 +444,8 @@ public partial class TabControl : ContainerControl
         /// <c>
         /// true
         /// </c> if this instance is fixed size; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         /// <exception cref="T:System.NotImplementedException">
@@ -433,7 +461,8 @@ public partial class TabControl : ContainerControl
         /// <c>
         /// true
         /// </c> if this instance is synchronized; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         /// <exception cref="T:System.NotImplementedException">
@@ -445,7 +474,8 @@ public partial class TabControl : ContainerControl
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The synchronize root.
+        /// <value>
+        /// The synchronize root.
         /// </value>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
@@ -455,9 +485,11 @@ public partial class TabControl : ContainerControl
         /// Gets the
         /// <see cref="T:System.Windows.Forms.TabPage" /> with the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>TabPage.
+        /// <returns>
+        /// TabPage.
         /// </returns>
         public virtual TabPage this[string key] { get { return _owner.Controls.Find(p => p.Name == key); } }
 
@@ -465,9 +497,11 @@ public partial class TabControl : ContainerControl
         /// Gets or sets the
         /// <see cref="T:System.Windows.Forms.TabPage" /> at the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>TabPage.
+        /// <returns>
+        /// TabPage.
         /// </returns>
         public virtual TabPage this[int index] { get { return _owner.Controls[index]; } set { Add(value); } }
 
@@ -475,9 +509,11 @@ public partial class TabControl : ContainerControl
         /// Gets or sets the
         /// <see cref="T:System.Object" /> at the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>System.Object.
+        /// <returns>
+        /// System.Object.
         /// </returns>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
@@ -486,11 +522,14 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageKey">The image key.
+        /// <param name="imageKey">
+        /// The image key.
         /// </param>
         public void Add(string key, string text, string imageKey)
         {
@@ -505,7 +544,8 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Adds the specified value.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         public void Add(TabPage value)
         {
@@ -516,9 +556,11 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
         public void Add(string key, string text)
         {
@@ -528,7 +570,8 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Adds the specified text.
         /// </summary>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
         public void Add(string text)
         {
@@ -538,11 +581,14 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageIndex">Index of the image.
+        /// <param name="imageIndex">
+        /// Index of the image.
         /// </param>
         public void Add(string key, string text, int imageIndex)
         {
@@ -552,7 +598,8 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="pages">The pages.
+        /// <param name="pages">
+        /// The pages.
         /// </param>
         public void AddRange(TabPage[] pages)
         {
@@ -573,13 +620,15 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Determines whether this instance contains the object.
         /// </summary>
-        /// <param name="page">The page.
+        /// <param name="page">
+        /// The page.
         /// </param>
         /// <returns>
         /// <c>
         /// true
-        /// </c> if [contains] [the specified page]; otherwise,
-        /// <c>false
+        /// </c> if contains [the specified page]; otherwise,
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         public bool Contains(TabPage page)
@@ -590,13 +639,15 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Determines whether the specified key contains key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
         /// <c>
         /// true
         /// </c> if the specified key contains key; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         public virtual bool ContainsKey(string key)
@@ -630,7 +681,8 @@ public partial class TabControl : ContainerControl
         /// </param>
         /// <returns>
         /// The index of
-        /// <paramref name="value">value
+        /// <paramref name="value">
+        /// value
         /// </paramref> if found in the list; otherwise, -1.
         /// </returns>
         /// <exception cref="T:System.NotImplementedException">
@@ -643,9 +695,11 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Indexes the of.
         /// </summary>
-        /// <param name="page">The page.
+        /// <param name="page">
+        /// The page.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int IndexOf(TabPage page)
         {
@@ -655,9 +709,11 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Indexes the of key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public virtual int IndexOfKey(string key)
         {
@@ -667,13 +723,17 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageIndex">Index of the image.
+        /// <param name="imageIndex">
+        /// Index of the image.
         /// </param>
         public void Insert(int index, string key, string text, int imageIndex)
         {
@@ -683,11 +743,14 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
         public void Insert(int index, string key, string text)
         {
@@ -697,9 +760,11 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="tabPage">The tab page.
+        /// <param name="tabPage">
+        /// The tab page.
         /// </param>
         public void Insert(int index, TabPage tabPage)
         {
@@ -709,13 +774,17 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageKey">The image key.
+        /// <param name="imageKey">
+        /// The image key.
         /// </param>
         public void Insert(int index, string key, string text, string imageKey)
         {
@@ -725,9 +794,11 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
         public void Insert(int index, string text)
         {
@@ -739,7 +810,8 @@ public partial class TabControl : ContainerControl
         /// <see cref="T:System.Collections.IList">
         /// </see> at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index at which value should be inserted.
+        /// <param name="index">
+        /// The zero-based index at which value should be inserted.
         /// </param>
         /// <param name="value">
         /// The object to insert into the
@@ -756,7 +828,8 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Removes the specified value.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         public void Remove(TabPage value)
         {
@@ -768,7 +841,8 @@ public partial class TabControl : ContainerControl
         /// <see cref="T:System.Collections.IList">
         /// </see> item at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.
+        /// <param name="index">
+        /// The zero-based index of the item to remove.
         /// </param>
         public void RemoveAt(int index)
         {
@@ -778,7 +852,8 @@ public partial class TabControl : ContainerControl
         /// <summary>
         /// Removes the by key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         public virtual void RemoveByKey(string key)
         {
@@ -795,7 +870,8 @@ public partial class TabControl : ContainerControl
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </param>
-        /// <returns>The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
+        /// <returns>
+        /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
         /// </returns>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
@@ -846,7 +922,8 @@ public partial class TabControl : ContainerControl
         /// <see cref="T:System.Array">
         /// </see> must have zero-based indexing.
         /// </param>
-        /// <param name="index">The zero-based index in array at which copying begins.
+        /// <param name="index">
+        /// The zero-based index in array at which copying begins.
         /// </param>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
@@ -873,7 +950,8 @@ public partial class TabControl : ContainerControl
         /// <see cref="T:System.Array">
         /// </see> must have zero-based indexing.
         /// </param>
-        /// <param name="index">The zero-based index in array at which copying begins.
+        /// <param name="index">
+        /// The zero-based index in array at which copying begins.
         /// </param>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>

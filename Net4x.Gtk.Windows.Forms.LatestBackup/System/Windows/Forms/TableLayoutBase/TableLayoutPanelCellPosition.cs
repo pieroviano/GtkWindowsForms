@@ -13,9 +13,11 @@ public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosi
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TableLayoutPanelCellPosition" /> struct.
     /// </summary>
-    /// <param name="column">The column.
+    /// <param name="column">
+    /// The column.
     /// </param>
-    /// <param name="row">The row.
+    /// <param name="row">
+    /// The row.
     /// </param>
     public TableLayoutPanelCellPosition(int column, int row)
     {
@@ -26,7 +28,8 @@ public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosi
     /// <summary>
     /// Sets the column.
     /// </summary>
-    /// <value>The column.
+    /// <value>
+    /// The column.
     /// </value>
     public int Column
     {
@@ -39,7 +42,8 @@ public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosi
     /// <summary>
     /// Sets the row.
     /// </summary>
-    /// <value>The row.
+    /// <value>
+    /// The row.
     /// </value>
     public int Row
     {
@@ -62,7 +66,8 @@ public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosi
     /// true
     /// </c> if the specified
     /// <see cref="T:System.Object" /> is equal to this instance; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public override readonly bool Equals(object other)
@@ -78,11 +83,13 @@ public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosi
     /// <summary>
     /// Indicates whether the current object is equal to another object of the same type.
     /// </summary>
-    /// <param name="other">An object to compare with this object.
+    /// <param name="other">
+    /// An object to compare with this object.
     /// </param>
     /// <returns>
     /// true if the current object is equal to the
-    /// <paramref name="other">other
+    /// <paramref name="other">
+    /// other
     /// </paramref> parameter; otherwise, false.
     /// </returns>
     public readonly bool Equals(TableLayoutPanelCellPosition other)
@@ -93,7 +100,8 @@ public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosi
     /// <summary>
     /// Returns a hash code for this instance.
     /// </summary>
-    /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
     /// </returns>
     public override readonly int GetHashCode()
     {

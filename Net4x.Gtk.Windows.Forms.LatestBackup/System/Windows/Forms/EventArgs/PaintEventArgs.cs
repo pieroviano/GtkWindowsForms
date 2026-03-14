@@ -60,11 +60,14 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// <see cref="T:System.Windows.Forms.PaintEventArgs" />
     /// class with the specified graphics and clipping rectangle.
     /// </summary>
-    /// <param name="graphics">The graphics.
+    /// <param name="graphics">
+    /// The graphics.
     /// </param>
-    /// <param name="clipRect">The clip rect.
+    /// <param name="clipRect">
+    /// The clip rect.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">graphics
+    /// <exception cref="T:System.ArgumentNullException">
+    /// graphics
     /// </exception>
     public PaintEventArgs(Graphics graphics, Rectangle clipRect)
     {
@@ -76,9 +79,11 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// Internal version of constructor for performance
     /// We try to avoid getting the graphics object until needed
     /// </summary>
-    /// <param name="dc">The dc.
+    /// <param name="dc">
+    /// The dc.
     /// </param>
-    /// <param name="clipRect">The clip rect.
+    /// <param name="clipRect">
+    /// The clip rect.
     /// </param>
     internal PaintEventArgs(IntPtr dc, Rectangle clipRect)
     {
@@ -91,7 +96,8 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// <summary>
     /// Gets the rectangle in which to paint.
     /// </summary>
-    /// <value>The clip rectangle.
+    /// <value>
+    /// The clip rectangle.
     /// </value>
     public Rectangle ClipRectangle { get; }
 
@@ -99,7 +105,8 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// Gets the
     /// <see cref="T:System.Drawing.Graphics" /> object used to paint.
     /// </summary>
-    /// <value>The graphics.
+    /// <value>
+    /// The graphics.
     /// </value>
     public Graphics Graphics
     {
@@ -115,7 +122,8 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// HDC, or the GDI+ Graphics object has been created (meaning GDI+ now owns the
     /// HDC), 0 is returned.
     /// </summary>
-    /// <value>The HDC.
+    /// <value>
+    /// The HDC.
     /// </value>
     internal IntPtr HDC => _graphics == null ? _dc : IntPtr.Zero;
 
@@ -148,7 +156,8 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// <c>
     /// true
     /// </c> to release both managed and unmanaged resources;
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> to release only unmanaged resources.
     /// </param>
     protected virtual void Dispose(bool disposing)

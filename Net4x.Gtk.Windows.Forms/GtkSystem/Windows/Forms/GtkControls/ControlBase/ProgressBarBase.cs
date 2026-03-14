@@ -34,7 +34,8 @@ public sealed class ProgressBarBase : Gtk.LevelBar, IControlGtk
     /// <summary>
     /// Adds the class.
     /// </summary>
-    /// <param name="cssClass">The CSS class.
+    /// <param name="cssClass">
+    /// The CSS class.
     /// </param>
     public void AddClass(string cssClass)
     {
@@ -44,7 +45,8 @@ public sealed class ProgressBarBase : Gtk.LevelBar, IControlGtk
     /// <summary>
     /// Called when the control is drawn.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
     /// <returns>
     /// </returns>

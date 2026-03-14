@@ -17,11 +17,14 @@ public class DataGridViewCellValidatingEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellValidatingEventArgs" /> class.
     /// </summary>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="formattedValue">The formatted value.
+    /// <param name="formattedValue">
+    /// The formatted value.
     /// </param>
     internal DataGridViewCellValidatingEventArgs(int columnIndex, int rowIndex, object formattedValue)
     {
@@ -33,21 +36,24 @@ public class DataGridViewCellValidatingEventArgs : CancelEventArgs
     /// <summary>
     /// Gets the index of the column.
     /// </summary>
-    /// <value>The index of the column.
+    /// <value>
+    /// The index of the column.
     /// </value>
     public int ColumnIndex { get; }
 
     /// <summary>
     /// Gets the formatted value.
     /// </summary>
-    /// <value>The formatted value.
+    /// <value>
+    /// The formatted value.
     /// </value>
     public object FormattedValue { get; }
 
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

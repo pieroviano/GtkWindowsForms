@@ -39,7 +39,8 @@ public class ResourceManager : System.Resources.ResourceManager
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Resources.ResourceManager" /> class.
     /// </summary>
-    /// <param name="usingResourceSet">The using resource set.
+    /// <param name="usingResourceSet">
+    /// The using resource set.
     /// </param>
     public ResourceManager([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : this(null, null, usingResourceSet)
     {
@@ -50,9 +51,11 @@ public class ResourceManager : System.Resources.ResourceManager
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Resources.ResourceManager" /> class.
     /// </summary>
-    /// <param name="baseName">The root name of the resource file without its extension but including any fully qualified namespace name. For example, the root name for the resource file named MyApplication.MyResource.en-US.resources is MyApplication.MyResource.
+    /// <param name="baseName">
+    /// The root name of the resource file without its extension but including any fully qualified namespace name. For example, the root name for the resource file named MyApplication.MyResource.en-US.resources is MyApplication.MyResource.
     /// </param>
-    /// <param name="assembly">The main assembly for the resources.
+    /// <param name="assembly">
+    /// The main assembly for the resources.
     /// </param>
     public ResourceManager(string baseName, Assembly assembly) : this(baseName, assembly, null)
     {
@@ -63,9 +66,11 @@ public class ResourceManager : System.Resources.ResourceManager
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Resources.ResourceManager" /> class.
     /// </summary>
-    /// <param name="baseName">The root name of the resource file without its extension but including any fully qualified namespace name. For example, the root name for the resource file named MyApplication.MyResource.en-US.resources is MyApplication.MyResource.
+    /// <param name="baseName">
+    /// The root name of the resource file without its extension but including any fully qualified namespace name. For example, the root name for the resource file named MyApplication.MyResource.en-US.resources is MyApplication.MyResource.
     /// </param>
-    /// <param name="assembly">The main assembly for the resources.
+    /// <param name="assembly">
+    /// The main assembly for the resources.
     /// </param>
     /// <param name="usingResourceSet">
     /// The type of the custom
@@ -96,7 +101,8 @@ public class ResourceManager : System.Resources.ResourceManager
     /// <summary>
     /// Gets the value of the specified non-string resource localized for the specified culture.
     /// </summary>
-    /// <param name="name">The name of the resource to get.
+    /// <param name="name">
+    /// The name of the resource to get.
     /// </param>
     /// <param name="culture">
     /// The culture for which the resource is localized. If the resource is not localized for this culture, the resource manager uses fallback rules to locate an appropriate resource.   If this value is null, the
@@ -107,7 +113,8 @@ public class ResourceManager : System.Resources.ResourceManager
     /// </param>
     /// <returns>
     /// The value of the resource, localized for the specified culture. If an appropriate resource set exists but
-    /// <paramref name="name">name
+    /// <paramref name="name">
+    /// name
     /// </paramref> cannot be found, the method returns null.
     /// </returns>
     public override object GetObject(string name, CultureInfo culture)
@@ -129,11 +136,13 @@ public class ResourceManager : System.Resources.ResourceManager
     /// <summary>
     /// Returns the value of the specified non-string resource.
     /// </summary>
-    /// <param name="name">The name of the resource to get.
+    /// <param name="name">
+    /// The name of the resource to get.
     /// </param>
     /// <returns>
     /// The value of the resource localized for the caller's current culture settings. If an appropriate resource set exists but
-    /// <paramref name="name">name
+    /// <paramref name="name">
+    /// name
     /// </paramref> cannot be found, the method returns null.
     /// </returns>
     public override object GetObject(string name)
@@ -192,11 +201,13 @@ public class ResourceManager : System.Resources.ResourceManager
     /// <summary>
     /// Returns the value of the specified string resource.
     /// </summary>
-    /// <param name="name">The name of the resource to retrieve.
+    /// <param name="name">
+    /// The name of the resource to retrieve.
     /// </param>
     /// <returns>
     /// The value of the resource localized for the caller's current UI culture, or null if
-    /// <paramref name="name">name
+    /// <paramref name="name">
+    /// name
     /// </paramref> cannot be found in a resource set.
     /// </returns>
     public override string GetString(string name)
@@ -207,13 +218,16 @@ public class ResourceManager : System.Resources.ResourceManager
     /// <summary>
     /// Returns the value of the string resource localized for the specified culture.
     /// </summary>
-    /// <param name="name">The name of the resource to retrieve.
+    /// <param name="name">
+    /// The name of the resource to retrieve.
     /// </param>
-    /// <param name="culture">An object that represents the culture for which the resource is localized.
+    /// <param name="culture">
+    /// An object that represents the culture for which the resource is localized.
     /// </param>
     /// <returns>
     /// The value of the resource localized for the specified culture, or null if
-    /// <paramref name="name">name
+    /// <paramref name="name">
+    /// name
     /// </paramref> cannot be found in a resource set.
     /// </returns>
     public override string GetString(string name, CultureInfo culture)

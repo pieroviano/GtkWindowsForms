@@ -1120,9 +1120,11 @@ public partial class DataGridView : ScrollableControl
     /// <summary>
     /// Returns whether the native (GTK) row at the given index is selected.
     /// </summary>
-    /// <param name="rowindex">Row index to test.
+    /// <param name="rowindex">
+    /// Row index to test.
     /// </param>
-    /// <returns>True if the row is selected; otherwise false.
+    /// <returns>
+    /// True if the row is selected; otherwise false.
     /// </returns>
     public bool NativeRowGetSelected(int rowindex)
     {
@@ -1141,9 +1143,11 @@ public partial class DataGridView : ScrollableControl
     /// Selects or unselects the native GTK row at the specified index.
     /// Uses Gtk.Application.Invoke to ensure the selection change is performed on the UI thread.
     /// </summary>
-    /// <param name="rowindex">Row index to operate on.
+    /// <param name="rowindex">
+    /// Row index to operate on.
     /// </param>
-    /// <param name="selected">True to select, false to unselect.
+    /// <param name="selected">
+    /// True to select, false to unselect.
     /// </param>
     public void NativeRowSetSelected(int rowindex, bool selected)
     {
@@ -1159,9 +1163,11 @@ public partial class DataGridView : ScrollableControl
     /// <summary>
     /// Raises the CellPainting event (invoked internally).
     /// </summary>
-    /// <param name="sender">Event sender.
+    /// <param name="sender">
+    /// Event sender.
     /// </param>
-    /// <param name="e">Cell painting event args.
+    /// <param name="e">
+    /// Cell painting event args.
     /// </param>
     public void OnCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
     {
@@ -1171,7 +1177,8 @@ public partial class DataGridView : ScrollableControl
     /// <summary>
     /// Collapses the specified row in the tree view.
     /// </summary>
-    /// <param name="row">Row to collapse.
+    /// <param name="row">
+    /// Row to collapse.
     /// </param>
     public void SetCollapseRow(DataGridViewRow row)
     {
@@ -1181,9 +1188,11 @@ public partial class DataGridView : ScrollableControl
     /// <summary>
     /// Expands the specified row in the tree view.
     /// </summary>
-    /// <param name="row">Row to expand.
+    /// <param name="row">
+    /// Row to expand.
     /// </param>
-    /// <param name="all">True to expand all descendants.
+    /// <param name="all">
+    /// True to expand all descendants.
     /// </param>
     public void SetExpandRow(DataGridViewRow row, bool all)
     {
@@ -1191,13 +1200,14 @@ public partial class DataGridView : ScrollableControl
     }
 
     /// <summary>
-    /// Internal handler called to notify that a cell's value changed.
-    /// Raises the
+    /// Internal handler called to notify that a cell's value changed. Raises the
     /// <see cref="T:System.Windows.Forms.DataGridView.CellValueChanged" /> event.
     /// </summary>
-    /// <param name="column">Column index.
+    /// <param name="column">
+    /// Column index.
     /// </param>
-    /// <param name="row">Row index.
+    /// <param name="row">
+    /// Row index.
     /// </param>
     internal void CellValueChanagedHandler(int column, int row)
     {

@@ -12,7 +12,8 @@ public class TableLayoutRowStyleCollection : TableLayoutStyleCollection
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TableLayoutRowStyleCollection" /> class.
     /// </summary>
-    /// <param name="Owner">The owner.
+    /// <param name="Owner">
+    /// The owner.
     /// </param>
     internal TableLayoutRowStyleCollection(IArrangedElement Owner) : base(Owner)
     {
@@ -32,9 +33,11 @@ public class TableLayoutRowStyleCollection : TableLayoutStyleCollection
     /// Gets or sets the
     /// <see cref="T:System.Windows.Forms.RowStyle" /> at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>RowStyle.
+    /// <returns>
+    /// RowStyle.
     /// </returns>
     public new RowStyle this[int index]
     {
@@ -45,9 +48,11 @@ public class TableLayoutRowStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Adds the specified row style.
     /// </summary>
-    /// <param name="rowStyle">The row style.
+    /// <param name="rowStyle">
+    /// The row style.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int Add(RowStyle rowStyle)
     {
@@ -57,13 +62,15 @@ public class TableLayoutRowStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Determines whether this instance contains the object.
     /// </summary>
-    /// <param name="rowStyle">The row style.
+    /// <param name="rowStyle">
+    /// The row style.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [contains] [the specified row style]; otherwise,
-    /// <c>false
+    /// </c> if contains [the specified row style]; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public bool Contains(RowStyle rowStyle)
@@ -74,9 +81,11 @@ public class TableLayoutRowStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Indexes the of.
     /// </summary>
-    /// <param name="rowStyle">The row style.
+    /// <param name="rowStyle">
+    /// The row style.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int IndexOf(RowStyle rowStyle)
     {
@@ -86,9 +95,11 @@ public class TableLayoutRowStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Inserts the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <param name="rowStyle">The row style.
+    /// <param name="rowStyle">
+    /// The row style.
     /// </param>
     public void Insert(int index, RowStyle rowStyle)
     {
@@ -98,7 +109,8 @@ public class TableLayoutRowStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Removes the specified row style.
     /// </summary>
-    /// <param name="rowStyle">The row style.
+    /// <param name="rowStyle">
+    /// The row style.
     /// </param>
     public void Remove(RowStyle rowStyle)
     {

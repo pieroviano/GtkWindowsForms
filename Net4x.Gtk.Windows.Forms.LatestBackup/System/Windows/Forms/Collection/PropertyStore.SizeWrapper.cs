@@ -5,42 +5,12 @@ using System.Drawing;
 
 namespace System.Windows.Forms;
 /// <summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
+/// Stores the relationship between a key and a value.
+/// We do not want to be so inefficient that we require
+/// four bytes for each four byte property, so use an algorithm
+/// that uses the bottom two bits of the key to identify
+/// one of four elements in an entry.
 /// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-/// </summary>
-/// This is a small class that can efficiently store property values.
-/// It tries to optimize for size first, "get" access second, and
-/// "set" access third.
-///
 internal partial class PropertyStore
 {
     private sealed class SizeWrapper

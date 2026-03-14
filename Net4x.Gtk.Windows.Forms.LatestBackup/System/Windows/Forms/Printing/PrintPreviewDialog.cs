@@ -41,12 +41,12 @@ public partial class PrintPreviewDialog : ScrollableControl
     private Form previewForm;
 
     /// <summary>
-    /// Occurs when [maximum size changed].
+    /// Occurs when [maximum size changed.
     /// </summary>
     public event EventHandler MaximumSizeChanged;
 
     /// <summary>
-    /// Occurs when [minimum size changed].
+    /// Occurs when [minimum size changed.
     /// </summary>
     public event EventHandler MinimumSizeChanged;
 
@@ -62,7 +62,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Gets or sets the accept button.
     /// </summary>
-    /// <value>The accept button.
+    /// <value>
+    /// The accept button.
     /// </value>
     public IButtonControl AcceptButton
     {
@@ -71,13 +72,14 @@ public partial class PrintPreviewDialog : ScrollableControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [automatic scale].
+    /// Gets or sets a value indicating whether automatic scale.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [automatic scale]; otherwise,
-    /// <c>false
+    /// </c> if automatic scale; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool AutoScale
@@ -89,7 +91,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Gets or sets the cancel button.
     /// </summary>
-    /// <value>The cancel button.
+    /// <value>
+    /// The cancel button.
     /// </value>
     public IButtonControl CancelButton
     {
@@ -98,13 +101,14 @@ public partial class PrintPreviewDialog : ScrollableControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [control box].
+    /// Gets or sets a value indicating whether control box.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [control box]; otherwise,
-    /// <c>false
+    /// </c> if control box; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ControlBox
@@ -116,7 +120,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Gets or sets the document.
     /// </summary>
-    /// <value>The document.
+    /// <value>
+    /// The document.
     /// </value>
     public PrintDocument Document
     {
@@ -127,18 +132,20 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl { get => self; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [help button].
+    /// Gets or sets a value indicating whether help button.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [help button]; otherwise,
-    /// <c>false
+    /// </c> if help button; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool HelpButton
@@ -150,7 +157,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Gets or sets the icon.
     /// </summary>
-    /// <value>The icon.
+    /// <value>
+    /// The icon.
     /// </value>
     public System.Drawing.Icon Icon
     {
@@ -165,7 +173,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <c>
     /// true
     /// </c> if this instance is MDI container; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool IsMdiContainer
@@ -175,13 +184,14 @@ public partial class PrintPreviewDialog : ScrollableControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [key preview].
+    /// Gets or sets a value indicating whether key preview.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [key preview]; otherwise,
-    /// <c>false
+    /// </c> if key preview; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool KeyPreview
@@ -193,14 +203,16 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Gets the print preview control.
     /// </summary>
-    /// <value>The print preview control.
+    /// <value>
+    /// The print preview control.
     /// </value>
     public PrintPreviewControl PrintPreviewControl => _previewControl;
 
     /// <summary>
     /// Gets or sets the size grip style.
     /// </summary>
-    /// <value>The size grip style.
+    /// <value>
+    /// The size grip style.
     /// </value>
     public SizeGripStyle SizeGripStyle
     {
@@ -211,7 +223,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Gets or sets the start position.
     /// </summary>
-    /// <value>The start position.
+    /// <value>
+    /// The start position.
     /// </value>
     public FormStartPosition StartPosition
     {
@@ -220,13 +233,14 @@ public partial class PrintPreviewDialog : ScrollableControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [top most].
+    /// Gets or sets a value indicating whether top most.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [top most]; otherwise,
-    /// <c>false
+    /// </c> if top most; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool TopMost
@@ -236,13 +250,14 @@ public partial class PrintPreviewDialog : ScrollableControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use anti alias].
+    /// Gets or sets a value indicating whether use anti alias.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use anti alias]; otherwise,
-    /// <c>false
+    /// </c> if use anti alias; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool UseAntiAlias
@@ -262,9 +277,11 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Shows the specified owner.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
-    /// <exception cref="T:System.InvalidOperationException">OwnsSelfOrOwner
+    /// <exception cref="T:System.InvalidOperationException">
+    /// OwnsSelfOrOwner
     /// </exception>
     public void Show(IWin32Window owner)
     {
@@ -279,9 +296,11 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Shows the dialog.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
-    /// <returns>DialogResult.
+    /// <returns>
+    /// DialogResult.
     /// </returns>
     public DialogResult ShowDialog(IWin32Window owner)
     {
@@ -293,7 +312,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Shows the dialog.
     /// </summary>
-    /// <returns>DialogResult.
+    /// <returns>
+    /// DialogResult.
     /// </returns>
     public DialogResult ShowDialog()
     {
@@ -336,7 +356,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Handles the SizeChanged event of the PreviewForm control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -350,7 +371,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Handles the ButtonPressEvent event of the Printbutton control.
     /// </summary>
-    /// <param name="o">The source of the event.
+    /// <param name="o">
+    /// The source of the event.
     /// </param>
     /// <param name="args">
     /// The
@@ -371,7 +393,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Handles the ButtonReleaseEvent event of the Printbutton control.
     /// </summary>
-    /// <param name="o">The source of the event.
+    /// <param name="o">
+    /// The source of the event.
     /// </param>
     /// <param name="args">
     /// The

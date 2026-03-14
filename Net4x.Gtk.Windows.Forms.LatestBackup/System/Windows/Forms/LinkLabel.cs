@@ -28,7 +28,7 @@ public partial class LinkLabel : Control
     public override event EventHandler Click;
 
     /// <summary>
-    /// Occurs when [link clicked].
+    /// Occurs when [link clicked.
     /// </summary>
     public event LinkLabelLinkClickedEventHandler LinkClicked;
 
@@ -45,21 +45,24 @@ public partial class LinkLabel : Control
     /// <summary>
     /// Gets or sets the color of the active link.
     /// </summary>
-    /// <value>The color of the active link.
+    /// <value>
+    /// The color of the active link.
     /// </value>
     public Color ActiveLinkColor { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the disabled link.
     /// </summary>
-    /// <value>The color of the disabled link.
+    /// <value>
+    /// The color of the disabled link.
     /// </value>
     public Color DisabledLinkColor { get; set; }
 
     /// <summary>
     /// Gets or sets the flat style.
     /// </summary>
-    /// <value>The flat style.
+    /// <value>
+    /// The flat style.
     /// </value>
     //public LinkBehavior LinkBehavior { get; set; }
     //public LinkArea LinkArea { get; set; }
@@ -68,32 +71,36 @@ public partial class LinkLabel : Control
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the color of the link.
     /// </summary>
-    /// <value>The color of the link.
+    /// <value>
+    /// The color of the link.
     /// </value>
     public Color LinkColor { get; set; }
 
     /// <summary>
     /// Gets the links.
     /// </summary>
-    /// <value>The links.
+    /// <value>
+    /// The links.
     /// </value>
     public LinkCollection Links { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [link visited].
+    /// Gets or sets a value indicating whether link visited.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [link visited]; otherwise,
-    /// <c>false
+    /// </c> if link visited; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool LinkVisited { get; set; }
@@ -101,18 +108,20 @@ public partial class LinkLabel : Control
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text { get { return string.IsNullOrEmpty(self.Label) ? self.Uri : self.Label; } set { self.Label = value; self.Uri = value; } }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use compatible text rendering].
+    /// Gets or sets a value indicating whether use compatible text rendering.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use compatible text rendering]; otherwise,
-    /// <c>false
+    /// </c> if use compatible text rendering; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool UseCompatibleTextRendering { get; set; }
@@ -120,16 +129,19 @@ public partial class LinkLabel : Control
     /// <summary>
     /// Gets or sets the color of the visited link.
     /// </summary>
-    /// <value>The color of the visited link.
+    /// <value>
+    /// The color of the visited link.
     /// </value>
     public Color VisitedLinkColor { get; set; }
 
     /// <summary>
     /// Links the label activate link.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void LinkLabel_ActivateLink(object o, Gtk.ActivateLinkArgs args)
     {
@@ -139,7 +151,8 @@ public partial class LinkLabel : Control
     /// <summary>
     /// Handles the Click event of the LinkLabel control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -167,9 +180,11 @@ public partial class LinkLabel : Control
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.LinkLabel.Link" /> class.
         /// </summary>
-        /// <param name="start">The start.
+        /// <param name="start">
+        /// The start.
         /// </param>
-        /// <param name="length">The length.
+        /// <param name="length">
+        /// The length.
         /// </param>
         public Link(int start, int length)
         {
@@ -180,11 +195,14 @@ public partial class LinkLabel : Control
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.LinkLabel.Link" /> class.
         /// </summary>
-        /// <param name="start">The start.
+        /// <param name="start">
+        /// The start.
         /// </param>
-        /// <param name="length">The length.
+        /// <param name="length">
+        /// The length.
         /// </param>
-        /// <param name="linkData">The link data.
+        /// <param name="linkData">
+        /// The link data.
         /// </param>
         public Link(int start, int length, object linkData)
         {
@@ -194,14 +212,16 @@ public partial class LinkLabel : Control
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
-        /// <value>The description.
+        /// <value>
+        /// The description.
         /// </value>
         public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the link data.
         /// </summary>
-        /// <value>The link data.
+        /// <value>
+        /// The link data.
         /// </value>
         [DefaultValue(null)]
         public object LinkData { get; set; }
@@ -209,8 +229,7 @@ public partial class LinkLabel : Control
     }
 
     /// <summary>
-    /// Class LinkCollection.
-    /// Implements the
+    /// Class LinkCollection. Implements the
     /// <see cref="T:System.Collections.IList" />
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />
@@ -235,9 +254,11 @@ public partial class LinkLabel : Control
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.LinkLabel.LinkCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">owner
+        /// <exception cref="T:System.ArgumentNullException">
+        /// owner
         /// </exception>
         public LinkCollection(LinkLabel owner)
         {
@@ -249,7 +270,8 @@ public partial class LinkLabel : Control
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The count.
+        /// <value>
+        /// The count.
         /// </value>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
@@ -264,7 +286,8 @@ public partial class LinkLabel : Control
         /// <c>
         /// true
         /// </c> if this instance is fixed size; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         /// <exception cref="T:System.NotImplementedException">
@@ -280,7 +303,8 @@ public partial class LinkLabel : Control
         /// <c>
         /// true
         /// </c> if this instance is read only; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         /// <exception cref="T:System.NotImplementedException">
@@ -296,7 +320,8 @@ public partial class LinkLabel : Control
         /// <c>
         /// true
         /// </c> if this instance is synchronized; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         /// <exception cref="T:System.NotImplementedException">
@@ -308,7 +333,8 @@ public partial class LinkLabel : Control
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The synchronize root.
+        /// <value>
+        /// The synchronize root.
         /// </value>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
@@ -318,9 +344,11 @@ public partial class LinkLabel : Control
         /// Gets or sets the
         /// <see cref="T:System.Object" /> at the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>System.Object.
+        /// <returns>
+        /// System.Object.
         /// </returns>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
@@ -336,7 +364,8 @@ public partial class LinkLabel : Control
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </param>
-        /// <returns>The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
+        /// <returns>
+        /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
         /// </returns>
         public int Add(object value)
         {
@@ -402,7 +431,8 @@ public partial class LinkLabel : Control
         /// <see cref="T:System.Array">
         /// </see> must have zero-based indexing.
         /// </param>
-        /// <param name="index">The zero-based index in array at which copying begins.
+        /// <param name="index">
+        /// The zero-based index in array at which copying begins.
         /// </param>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
@@ -438,7 +468,8 @@ public partial class LinkLabel : Control
         /// </param>
         /// <returns>
         /// The index of
-        /// <paramref name="value">value
+        /// <paramref name="value">
+        /// value
         /// </paramref> if found in the list; otherwise, -1.
         /// </returns>
         /// <exception cref="T:System.NotImplementedException">
@@ -453,7 +484,8 @@ public partial class LinkLabel : Control
         /// <see cref="T:System.Collections.IList">
         /// </see> at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index at which value should be inserted.
+        /// <param name="index">
+        /// The zero-based index at which value should be inserted.
         /// </param>
         /// <param name="value">
         /// The object to insert into the
@@ -489,7 +521,8 @@ public partial class LinkLabel : Control
         /// <see cref="T:System.Collections.IList">
         /// </see> item at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.
+        /// <param name="index">
+        /// The zero-based index of the item to remove.
         /// </param>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>

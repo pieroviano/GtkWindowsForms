@@ -75,7 +75,8 @@ public class MarginsConverter : ExpandableObjectConverter
     /// <see cref="T:System.Object">
     /// </see> that represents the converted value.
     /// </returns>
-    /// <exception cref="T:System.ArgumentException">TextParseFailedFormat
+    /// <exception cref="T:System.ArgumentException">
+    /// TextParseFailedFormat
     /// </exception>
     public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
@@ -202,7 +203,8 @@ public class MarginsConverter : ExpandableObjectConverter
     /// <see cref="T:System.Collections.IDictionary">
     /// </see>, or null if the object cannot be created. This method always returns null.
     /// </returns>
-    /// <exception cref="T:System.ArgumentException">PropertyValueInvalidEntry
+    /// <exception cref="T:System.ArgumentException">
+    /// PropertyValueInvalidEntry
     /// </exception>
     public override object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
     {

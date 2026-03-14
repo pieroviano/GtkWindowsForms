@@ -59,9 +59,11 @@ public sealed class ResXDataNode : ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Resources.ResXDataNode" /> class.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
     public ResXDataNode(string name, object value) : this(name, value, null)
     {
@@ -71,13 +73,17 @@ public sealed class ResXDataNode : ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Resources.ResXDataNode" /> class.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="typeNameConverter">The type name converter.
+    /// <param name="typeNameConverter">
+    /// The type name converter.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">name
+    /// <exception cref="T:System.ArgumentException">
+    /// name
     /// </exception>
     /// <exception cref="T:System.InvalidOperationException">
     /// </exception>
@@ -110,9 +116,11 @@ public sealed class ResXDataNode : ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Resources.ResXDataNode" /> class.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="fileRef">The file reference.
+    /// <param name="fileRef">
+    /// The file reference.
     /// </param>
     public ResXDataNode(string name, ResXFileRef fileRef) : this(name, fileRef, null)
     {
@@ -122,11 +130,14 @@ public sealed class ResXDataNode : ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Resources.ResXDataNode" /> class.
     /// </summary>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="fileRef">The file reference.
+    /// <param name="fileRef">
+    /// The file reference.
     /// </param>
-    /// <param name="typeNameConverter">The type name converter.
+    /// <param name="typeNameConverter">
+    /// The type name converter.
     /// </param>
     public ResXDataNode(string name, ResXFileRef fileRef, Func<Type, string> typeNameConverter)
     {
@@ -136,13 +147,10 @@ public sealed class ResXDataNode : ISerializable
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXDataNode" /> class.
+    /// Initializes a new instance of the <see cref="ResXDataNode"/> class.
     /// </summary>
-    /// <param name="name">The name.
-    /// </param>
-    /// <param name="value">The value.
-    /// </param>
+    /// <param name="nodeInfo">The node information.</param>
+    /// <param name="basePath">The base path.</param>
     internal ResXDataNode(DataNodeInfo nodeInfo, string basePath)
     {
         _nodeInfo = nodeInfo;
@@ -150,13 +158,8 @@ public sealed class ResXDataNode : ISerializable
     }
 
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXDataNode" /> class.
+    /// Prevents a default instance of the <see cref="ResXDataNode"/> class from being created.
     /// </summary>
-    /// <param name="name">The name.
-    /// </param>
-    /// <param name="value">The value.
-    /// </param>
     private ResXDataNode()
     {
     }
@@ -218,7 +221,8 @@ public sealed class ResXDataNode : ISerializable
     /// <value>
     /// The name.
     /// </value>
-    /// <exception cref="T:System.ArgumentException">Name
+    /// <exception cref="T:System.ArgumentException">
+    /// Name
     /// </exception>
     public string Name
     {

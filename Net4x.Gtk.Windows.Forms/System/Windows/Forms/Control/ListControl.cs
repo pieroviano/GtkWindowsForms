@@ -67,8 +67,7 @@ public abstract class ListControl : ScrollableControl
     }
 
     /// <summary>
-    /// Occurs when the selected index changes.
-    /// Handlers are stored in the internal
+    /// Occurs when the selected index changes. Handlers are stored in the internal
     /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
     public event EventHandler SelectedIndexChanged
@@ -78,8 +77,7 @@ public abstract class ListControl : ScrollableControl
     }
 
     /// <summary>
-    /// Occurs when the selected item changes.
-    /// Handlers are stored in the internal
+    /// Occurs when the selected item changes. Handlers are stored in the internal
     /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
     public event EventHandler SelectedItemChanged
@@ -89,8 +87,7 @@ public abstract class ListControl : ScrollableControl
     }
 
     /// <summary>
-    /// Occurs when the selected value changes.
-    /// Handlers are stored in the internal
+    /// Occurs when the selected value changes. Handlers are stored in the internal
     /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
     public event EventHandler SelectedValueChanged
@@ -178,14 +175,15 @@ public abstract class ListControl : ScrollableControl
     }
 
     /// <summary>
-    /// Returns the textual representation for the given item.
-    /// By default this calls
+    /// Returns the textual representation for the given item. By default this calls
     /// <see cref="T:System.Object.ToString" /> on the item.
     /// Override to provide custom behavior.
     /// </summary>
-    /// <param name="item">Item to obtain text for.
+    /// <param name="item">
+    /// Item to obtain text for.
     /// </param>
-    /// <returns>Display text for the item.
+    /// <returns>
+    /// Display text for the item.
     /// </returns>
     public virtual string GetItemText(object item)
     {

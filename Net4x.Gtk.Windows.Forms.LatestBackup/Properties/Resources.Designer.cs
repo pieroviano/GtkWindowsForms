@@ -196,7 +196,7 @@ namespace System.Properties
         }
 
         /// <summary>
-        /// Looks up a localized resource of type System.Byte[].
+        /// Looks up a localized resource of type System.Byte[.
         /// </summary>
         internal static byte[] Gtk_DateTimePicker
         {

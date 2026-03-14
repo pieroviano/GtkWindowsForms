@@ -19,11 +19,14 @@ public class ItemCheckEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ItemCheckEventArgs" /> class.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <param name="newCheckValue">The new check value.
+    /// <param name="newCheckValue">
+    /// The new check value.
     /// </param>
-    /// <param name="currentValue">The current value.
+    /// <param name="currentValue">
+    /// The current value.
     /// </param>
     public ItemCheckEventArgs(int index, CheckState newCheckValue, CheckState currentValue)
     {
@@ -35,21 +38,24 @@ public class ItemCheckEventArgs : EventArgs
     /// <summary>
     /// The current state of the CheckBox.
     /// </summary>
-    /// <value>The current value.
+    /// <value>
+    /// The current value.
     /// </value>
     public CheckState CurrentValue { get; }
 
     /// <summary>
     /// The index of the item that is about to change.
     /// </summary>
-    /// <value>The index.
+    /// <value>
+    /// The index.
     /// </value>
     public int Index { get; }
 
     /// <summary>
     /// The proposed new value of the CheckBox.
     /// </summary>
-    /// <value>The new value.
+    /// <value>
+    /// The new value.
     /// </value>
     public CheckState NewValue { get; set; }
 

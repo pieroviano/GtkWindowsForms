@@ -9,7 +9,8 @@ namespace System.Windows.Forms;
 /// Instances contain the binding that completed, the completion state, the context in which
 /// the binding completed, optional error text and exception information, and an optional cancel flag.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 public class BindingCompleteEventArgs : CancelEventArgs
 {
@@ -30,13 +31,15 @@ public class BindingCompleteEventArgs : CancelEventArgs
     /// The
     /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteContext" /> that identifies the area in which the binding completed.
     /// </param>
-    /// <param name="errorText">Optional user-visible error text describing the completion result.
+    /// <param name="errorText">
+    /// Optional user-visible error text describing the completion result.
     /// </param>
     /// <param name="exception">
     /// Optional
     /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.Exception" /> that occurred during the operation.
     /// </param>
-    /// <param name="cancel">True to cancel the operation; otherwise false.
+    /// <param name="cancel">
+    /// True to cancel the operation; otherwise false.
     /// </param>
     public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText, Exception exception, bool cancel)
     {
@@ -60,7 +63,8 @@ public class BindingCompleteEventArgs : CancelEventArgs
     /// The
     /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteContext" /> that identifies the area in which the binding completed.
     /// </param>
-    /// <param name="errorText">Optional user-visible error text describing the completion result.
+    /// <param name="errorText">
+    /// Optional user-visible error text describing the completion result.
     /// </param>
     /// <param name="exception">
     /// Optional
@@ -88,7 +92,8 @@ public class BindingCompleteEventArgs : CancelEventArgs
     /// The
     /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteContext" /> that identifies the area in which the binding completed.
     /// </param>
-    /// <param name="errorText">Optional user-visible error text describing the completion result.
+    /// <param name="errorText">
+    /// Optional user-visible error text describing the completion result.
     /// </param>
     public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText)
     {

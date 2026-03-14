@@ -16,20 +16,13 @@ using GLib;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class WidgetToolStrip.
-/// Implements the
-/// <see cref="T:System.Windows.Forms.ToolStripItem" />
-/// Implements the
-/// <see cref="T:System.Windows.Forms.IDropTarget" />
-/// Implements the
-/// <see cref="T:System.Windows.Forms.ISupportOleDropSource" />
-/// Implements the
-/// <see cref="T:System.Windows.Forms.Layout.IArrangedElement" />
-/// Implements the
-/// <see cref="T:System.ComponentModel.IComponent" />
-/// Implements the
-/// <see cref="T:System.IDisposable" />
-/// Implements the
+/// Class WidgetToolStrip. Implements the
+/// <see cref="T:System.Windows.Forms.ToolStripItem" /> Implements the
+/// <see cref="T:System.Windows.Forms.IDropTarget" /> Implements the
+/// <see cref="T:System.Windows.Forms.ISupportOleDropSource" /> Implements the
+/// <see cref="T:System.Windows.Forms.Layout.IArrangedElement" /> Implements the
+/// <see cref="T:System.ComponentModel.IComponent" /> Implements the
+/// <see cref="T:System.IDisposable" /> Implements the
 /// <see cref="T:System.Windows.Forms.IKeyboardToolTip" />
 /// </summary>
 /// <typeparam name="T">
@@ -105,22 +98,22 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     private Color _ForeColor;
 
     /// <summary>
-    /// Occurs when [checked changed].
+    /// Occurs when [checked changed.
     /// </summary>
     public override event EventHandler CheckedChanged;
 
     /// <summary>
-    /// Occurs when [check state changed].
+    /// Occurs when [check state changed.
     /// </summary>
     public override event EventHandler CheckStateChanged;
 
     /// <summary>
-    /// Occurs when [click].
+    /// Occurs when [click.
     /// </summary>
     public override event EventHandler Click;
 
     /// <summary>
-    /// Occurs when [drop down item clicked].
+    /// Occurs when [drop down item clicked.
     /// </summary>
     public override event ToolStripItemClickedEventHandler DropDownItemClicked;
 
@@ -136,9 +129,11 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.WidgetToolStrip`1" /> class.
     /// </summary>
-    /// <param name="stripType">Type of the strip.
+    /// <param name="stripType">
+    /// Type of the strip.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     public WidgetToolStrip(string stripType, params object[] args) : this(stripType, "", null, null, "", args)
     {
@@ -149,11 +144,14 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.WidgetToolStrip`1" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
     public WidgetToolStrip(string text, System.Drawing.Image image, EventHandler onClick) : this(null, text, image, onClick, "")
     {
@@ -163,13 +161,17 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.WidgetToolStrip`1" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     public WidgetToolStrip(string text, System.Drawing.Image image, EventHandler onClick, string name) : this(null, text, image, onClick, "")
     {
@@ -179,17 +181,23 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.WidgetToolStrip`1" /> class.
     /// </summary>
-    /// <param name="stripType">Type of the strip.
+    /// <param name="stripType">
+    /// Type of the strip.
     /// </param>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     protected WidgetToolStrip(string stripType, string text, System.Drawing.Image image, EventHandler onClick, string name, params object[] args) : base(text, image, onClick, name)
     {
@@ -266,30 +274,33 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the alignment.
     /// </summary>
-    /// <value>The alignment.
+    /// <value>
+    /// The alignment.
     /// </value>
     public ToolStripItemAlignment Alignment { get => MenuItem.Halign == Gtk.Align.End ? ToolStripItemAlignment.Right : ToolStripItemAlignment.Left; set { MenuItem.Hexpand = true; MenuItem.Halign = Gtk.Align.End; MenuItem.RightJustified = value == ToolStripItemAlignment.Right; } }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [automatic size].
+    /// Gets or sets a value indicating whether automatic size.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [automatic size]; otherwise,
-    /// <c>false
+    /// </c> if automatic size; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public override bool AutoSize { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [automatic tool tip].
+    /// Gets or sets a value indicating whether automatic tool tip.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [automatic tool tip]; otherwise,
-    /// <c>false
+    /// </c> if automatic tool tip; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public override bool AutoToolTip { get; set; }
@@ -297,21 +308,24 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the color of the back.
     /// </summary>
-    /// <value>The color of the back.
+    /// <value>
+    /// The color of the back.
     /// </value>
     public override Color BackColor { get => _BackColor; set { _BackColor = value; UpdateStyle(); } }
 
     /// <summary>
     /// Gets or sets the background image.
     /// </summary>
-    /// <value>The background image.
+    /// <value>
+    /// The background image.
     /// </value>
     public override System.Drawing.Image BackgroundImage { get; set; }
 
     /// <summary>
     /// Gets or sets the background image layout.
     /// </summary>
-    /// <value>The background image layout.
+    /// <value>
+    /// The background image layout.
     /// </value>
     public override ImageLayout BackgroundImageLayout { get; set; }
 
@@ -323,7 +337,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <c>
     /// true
     /// </c> if checked; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public override bool Checked { get; set; }
@@ -331,14 +346,16 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the state of the check.
     /// </summary>
-    /// <value>The state of the check.
+    /// <value>
+    /// The state of the check.
     /// </value>
     public override CheckState CheckState { get; set; } = CheckState.Unchecked;
 
     /// <summary>
     /// Gets or sets the display style.
     /// </summary>
-    /// <value>The display style.
+    /// <value>
+    /// The display style.
     /// </value>
     public override ToolStripItemDisplayStyle DisplayStyle { get; set; }
 
@@ -350,7 +367,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <c>
     /// true
     /// </c> if enabled; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public override bool Enabled { get { return this.Widget.Sensitive; } set { this.Widget.Sensitive = value; } }
@@ -358,7 +376,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the font.
     /// </summary>
-    /// <value>The font.
+    /// <value>
+    /// The font.
     /// </value>
     public override Font Font
     {
@@ -379,7 +398,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the color of the fore.
     /// </summary>
-    /// <value>The color of the fore.
+    /// <value>
+    /// The color of the fore.
     /// </value>
     public override Color ForeColor { get => _ForeColor; set { _ForeColor = value; UpdateStyle(); } }
 
@@ -390,7 +410,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <c>
     /// true
     /// </c> if this instance has children; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public override bool HasChildren { get; }
@@ -398,14 +419,16 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the height.
     /// </summary>
-    /// <value>The height.
+    /// <value>
+    /// The height.
     /// </value>
     public override int Height { get { return this.Widget.HeightRequest; } set { this.Widget.HeightRequest = value; } }
 
     /// <summary>
     /// Gets or sets the image.
     /// </summary>
-    /// <value>The image.
+    /// <value>
+    /// The image.
     /// </value>
     public override System.Drawing.Image Image
     {
@@ -419,49 +442,56 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the image align.
     /// </summary>
-    /// <value>The image align.
+    /// <value>
+    /// The image align.
     /// </value>
     public override ContentAlignment ImageAlign { get; set; }
 
     /// <summary>
     /// Gets or sets the index of the image.
     /// </summary>
-    /// <value>The index of the image.
+    /// <value>
+    /// The index of the image.
     /// </value>
     public override int ImageIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the image key.
     /// </summary>
-    /// <value>The image key.
+    /// <value>
+    /// The image key.
     /// </value>
     public override string ImageKey { get; set; }
 
     /// <summary>
     /// Gets or sets the image scaling.
     /// </summary>
-    /// <value>The image scaling.
+    /// <value>
+    /// The image scaling.
     /// </value>
     public override ToolStripItemImageScaling ImageScaling { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the image transparent.
     /// </summary>
-    /// <value>The color of the image transparent.
+    /// <value>
+    /// The color of the image transparent.
     /// </value>
     public override Color ImageTransparentColor { get; set; }
 
     /// <summary>
     /// Gets or sets the IME mode.
     /// </summary>
-    /// <value>The IME mode.
+    /// <value>
+    /// The IME mode.
     /// </value>
     public override ImeMode ImeMode { get; set; }
 
     /// <summary>
     /// Gets or sets the left.
     /// </summary>
-    /// <value>The left.
+    /// <value>
+    /// The left.
     /// </value>
     public override int Left
     {
@@ -472,49 +502,56 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the menu item.
     /// </summary>
-    /// <value>The menu item.
+    /// <value>
+    /// The menu item.
     /// </value>
     public override Gtk.MenuItem MenuItem { get => base.MenuItem; set { base.MenuItem = value; } }
 
     /// <summary>
     /// Gets or sets the merge action.
     /// </summary>
-    /// <value>The merge action.
+    /// <value>
+    /// The merge action.
     /// </value>
     public override MergeAction MergeAction { get; set; }
 
     /// <summary>
     /// Gets or sets the index of the merge.
     /// </summary>
-    /// <value>The index of the merge.
+    /// <value>
+    /// The index of the merge.
     /// </value>
     public override int MergeIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the overflow.
     /// </summary>
-    /// <value>The overflow.
+    /// <value>
+    /// The overflow.
     /// </value>
     public override ToolStripItemOverflow Overflow { get; set; }
 
     /// <summary>
     /// Gets or sets the owner.
     /// </summary>
-    /// <value>The owner.
+    /// <value>
+    /// The owner.
     /// </value>
     public override ToolStrip Owner { get; set; }
 
     /// <summary>
     /// Gets the owner item.
     /// </summary>
-    /// <value>The owner item.
+    /// <value>
+    /// The owner item.
     /// </value>
     public override ToolStripItem OwnerItem { get; }
 
     /// <summary>
     /// Gets or sets the padding.
     /// </summary>
-    /// <value>The padding.
+    /// <value>
+    /// The padding.
     /// </value>
     //public override Padding Margin { get; set; }
     //public override Size MaximumSize { get; set; }
@@ -524,14 +561,16 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the parent.
     /// </summary>
-    /// <value>The parent.
+    /// <value>
+    /// The parent.
     /// </value>
     public override ToolStripItem Parent { get; set; }
 
     /// <summary>
     /// Gets the placement.
     /// </summary>
-    /// <value>The placement.
+    /// <value>
+    /// The placement.
     /// </value>
     public override ToolStripItemPlacement Placement { get; }
 
@@ -543,7 +582,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <c>
     /// true
     /// </c> if pressed; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public override bool Pressed { get; }
@@ -551,32 +591,36 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the region.
     /// </summary>
-    /// <value>The region.
+    /// <value>
+    /// The region.
     /// </value>
     public override System.Drawing.Region Region { get; set; }
 
     /// <summary>
     /// Gets the right.
     /// </summary>
-    /// <value>The right.
+    /// <value>
+    /// The right.
     /// </value>
     public override int Right { get; }
 
     /// <summary>
     /// Gets or sets the right to left.
     /// </summary>
-    /// <value>The right to left.
+    /// <value>
+    /// The right to left.
     /// </value>
     public override RightToLeft RightToLeft { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [right to left automatic mirror image].
+    /// Gets or sets a value indicating whether right to left automatic mirror image.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [right to left automatic mirror image]; otherwise,
-    /// <c>false
+    /// </c> if right to left automatic mirror image; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public override bool RightToLeftAutoMirrorImage { get; set; }
@@ -588,14 +632,16 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <see cref="T:System.ComponentModel.Component">
     /// </see>.
     /// </summary>
-    /// <value>The site.
+    /// <value>
+    /// The site.
     /// </value>
     public override ISite Site { get; set; }
 
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     public override Size Size
     {
@@ -612,21 +658,24 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the type of the strip.
     /// </summary>
-    /// <value>The type of the strip.
+    /// <value>
+    /// The type of the strip.
     /// </value>
     public string StripType { get; set; }
 
     /// <summary>
     /// Gets or sets the tag.
     /// </summary>
-    /// <value>The tag.
+    /// <value>
+    /// The tag.
     /// </value>
     public override object Tag { get; set; }
 
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text
     {
@@ -653,35 +702,40 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the text align.
     /// </summary>
-    /// <value>The text align.
+    /// <value>
+    /// The text align.
     /// </value>
     public override ContentAlignment TextAlign { get; set; }
 
     /// <summary>
     /// Gets or sets the text direction.
     /// </summary>
-    /// <value>The text direction.
+    /// <value>
+    /// The text direction.
     /// </value>
     public override ToolStripTextDirection TextDirection { get; set; }
 
     /// <summary>
     /// Gets or sets the text image relation.
     /// </summary>
-    /// <value>The text image relation.
+    /// <value>
+    /// The text image relation.
     /// </value>
     public override TextImageRelation TextImageRelation { get; set; }
 
     /// <summary>
     /// Gets or sets the tool tip text.
     /// </summary>
-    /// <value>The tool tip text.
+    /// <value>
+    /// The tool tip text.
     /// </value>
     public override string ToolTipText { get { return this.Widget.TooltipText; } set { this.Widget.TooltipText = value; } }
 
     /// <summary>
     /// Gets or sets the top.
     /// </summary>
-    /// <value>The top.
+    /// <value>
+    /// The top.
     /// </value>
     public override int Top
     {
@@ -692,18 +746,20 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets or sets the unique key.
     /// </summary>
-    /// <value>The unique key.
+    /// <value>
+    /// The unique key.
     /// </value>
     public override string unique_key { get; protected set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use wait cursor].
+    /// Gets or sets a value indicating whether use wait cursor.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use wait cursor]; otherwise,
-    /// <c>false
+    /// </c> if use wait cursor; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public override bool UseWaitCursor { get; set; }
@@ -716,7 +772,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <c>
     /// true
     /// </c> if visible; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public virtual bool Visible { get { return this.Widget.Visible; } set { this.Widget.Visible = value; this.Widget.NoShowAll = value == false; } }
@@ -724,14 +781,16 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Gets the widget.
     /// </summary>
-    /// <value>The widget.
+    /// <value>
+    /// The widget.
     /// </value>
     public override Gtk.Widget Widget => MenuItem;
 
     /// <summary>
     /// Gets or sets the width.
     /// </summary>
-    /// <value>The width.
+    /// <value>
+    /// The width.
     /// </value>
     public override int Width { get { return this.Widget.WidthRequest; } set { this.Widget.WidthRequest = value; } }
 
@@ -747,7 +806,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Sets the style.
     /// </summary>
-    /// <param name="widget">The widget.
+    /// <param name="widget">
+    /// The widget.
     /// </param>
     protected virtual void SetStyle(Gtk.Widget widget)
     {
@@ -824,7 +884,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Handles the Toggled event of the Checkbutton control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -838,7 +899,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Handles the Activated event of the MenuItem control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -867,7 +929,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Handles the ButtonReleaseEvent event of the MenuItem control.
     /// </summary>
-    /// <param name="o">The source of the event.
+    /// <param name="o">
+    /// The source of the event.
     /// </param>
     /// <param name="args">
     /// The
@@ -884,7 +947,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Handles the Realized event of the ToolStripItem control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

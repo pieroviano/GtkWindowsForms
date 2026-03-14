@@ -18,16 +18,20 @@ public class TabControlCancelEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TabControlCancelEventArgs" /> class.
     /// </summary>
-    /// <param name="tabPage">The tab page.
+    /// <param name="tabPage">
+    /// The tab page.
     /// </param>
-    /// <param name="tabPageIndex">Index of the tab page.
+    /// <param name="tabPageIndex">
+    /// Index of the tab page.
     /// </param>
     /// <param name="cancel">
     /// if set to
-    /// <c>true
-    /// </c> [cancel].
+    /// <c>
+    /// true
+    /// </c>cancel.
     /// </param>
-    /// <param name="action">The action.
+    /// <param name="action">
+    /// The action.
     /// </param>
     public TabControlCancelEventArgs(TabPage tabPage, int tabPageIndex, bool cancel, TabControlAction action) : base(cancel)
     {
@@ -39,21 +43,24 @@ public class TabControlCancelEventArgs : CancelEventArgs
     /// <summary>
     /// Stores the TabControl action which instigated the TabControl event.
     /// </summary>
-    /// <value>The action.
+    /// <value>
+    /// The action.
     /// </value>
     public TabControlAction Action { get; }
 
     /// <summary>
     /// Stores the referemce to the tabpage that is undergoing the TabControl event.
     /// </summary>
-    /// <value>The tab page.
+    /// <value>
+    /// The tab page.
     /// </value>
     public TabPage TabPage { get; }
 
     /// <summary>
     /// Stores the index to the tabpage that is undergoing the TabControl event.
     /// </summary>
-    /// <value>The index of the tab page.
+    /// <value>
+    /// The index of the tab page.
     /// </value>
     public int TabPageIndex { get; }
 

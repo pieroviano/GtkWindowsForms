@@ -75,7 +75,8 @@ public class AutoClosingMessageBox : IMessageBox
     /// Initialize the auto-closing behavior and optionally set the default timeout interval.
     /// This is a convenience to ensure the singleton and timeout are configured.
     /// </summary>
-    /// <param name="interval">Timeout in milliseconds for auto-disposal. Default is 5000 ms.
+    /// <param name="interval">
+    /// Timeout in milliseconds for auto-disposal. Default is 5000 ms.
     /// </param>
     public static void Init(int interval = 5000)
     {
@@ -296,9 +297,11 @@ public class AutoClosingMessageBox : IMessageBox
     /// <summary>
     /// Handles the DialogAvailable event from the underlying message box implementation and stores the GTK dialog instance.
     /// </summary>
-    /// <param name="sender">Event sender.
+    /// <param name="sender">
+    /// Event sender.
     /// </param>
-    /// <param name="e">Dialog event data containing the GTK dialog.
+    /// <param name="e">
+    /// Dialog event data containing the GTK dialog.
     /// </param>
     private void FormsMessageBox_DialogAvailable(object? sender, DialogEventArgs e)
     {
@@ -308,7 +311,8 @@ public class AutoClosingMessageBox : IMessageBox
     /// <summary>
     /// Internal initializer for the instance; sets the default timeout.
     /// </summary>
-    /// <param name="interval">Timeout interval in milliseconds.
+    /// <param name="interval">
+    /// Timeout interval in milliseconds.
     /// </param>
     private void Initialize(int interval = 5000)
     {
@@ -318,9 +322,11 @@ public class AutoClosingMessageBox : IMessageBox
     /// <summary>
     /// Invokes the supplied show function and arranges for automatic disposal of the dialog after the timeout.
     /// </summary>
-    /// <param name="invoke">A function that shows the dialog and returns the DialogResult.
+    /// <param name="invoke">
+    /// A function that shows the dialog and returns the DialogResult.
     /// </param>
-    /// <returns>The dialog result returned by the underlying message box.
+    /// <returns>
+    /// The dialog result returned by the underlying message box.
     /// </returns>
     private DialogResult InvokeAndAutoClose(Func<DialogResult> invoke)
     {

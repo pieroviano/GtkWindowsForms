@@ -23,15 +23,18 @@ public class BindingContext : ContextBoundObject
     /// <summary>
     /// Determines whether this instance contains the object.
     /// </summary>
-    /// <param name="dataSource">The data source.
+    /// <param name="dataSource">
+    /// The data source.
     /// </param>
-    /// <param name="dataMember">The data member.
+    /// <param name="dataMember">
+    /// The data member.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [contains] [the specified data source]; otherwise,
-    /// <c>false
+    /// </c> if contains the specified data source; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public bool Contains(object? dataSource, string? dataMember)
@@ -42,9 +45,11 @@ public class BindingContext : ContextBoundObject
     /// <summary>
     /// Updates the binding.
     /// </summary>
-    /// <param name="newBindingContext">The new binding context.
+    /// <param name="newBindingContext">
+    /// The new binding context.
     /// </param>
-    /// <param name="binding">The binding.
+    /// <param name="binding">
+    /// The binding.
     /// </param>
     public static void UpdateBinding(BindingContext? newBindingContext, Binding binding)
     {

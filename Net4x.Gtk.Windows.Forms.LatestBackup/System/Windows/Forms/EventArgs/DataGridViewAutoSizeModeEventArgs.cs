@@ -18,8 +18,9 @@ public class DataGridViewAutoSizeModeEventArgs : EventArgs
     /// </summary>
     /// <param name="previousModeAutoSized">
     /// if set to
-    /// <c>true
-    /// </c> [previous mode automatic sized].
+    /// <c>
+    /// true
+    /// </c>previous mode automatic sized.
     /// </param>
     public DataGridViewAutoSizeModeEventArgs(bool previousModeAutoSized)
     {
@@ -27,13 +28,14 @@ public class DataGridViewAutoSizeModeEventArgs : EventArgs
     }
 
     /// <summary>
-    /// Gets a value indicating whether [previous mode automatic sized].
+    /// Gets a value indicating whether previous mode automatic sized.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [previous mode automatic sized]; otherwise,
-    /// <c>false
+    /// </c> if previous mode automatic sized; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool PreviousModeAutoSized { get; }

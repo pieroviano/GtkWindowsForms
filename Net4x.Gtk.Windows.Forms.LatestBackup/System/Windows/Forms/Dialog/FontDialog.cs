@@ -29,13 +29,14 @@ public class FontDialog : CommonDialog
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [allow full open].
+    /// Gets or sets a value indicating whether allow full open.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [allow full open]; otherwise,
-    /// <c>false
+    /// </c> if allow full open; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
@@ -44,31 +45,34 @@ public class FontDialog : CommonDialog
     /// <summary>
     /// Gets or sets the font.
     /// </summary>
-    /// <value>The font.
+    /// <value>
+    /// The font.
     /// </value>
     public Font? Font { get => _font; set => _font = value; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [full open].
+    /// Gets or sets a value indicating whether full open.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [full open]; otherwise,
-    /// <c>false
+    /// </c> if full open; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
     public virtual bool FullOpen { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show help].
+    /// Gets or sets a value indicating whether show help.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show help]; otherwise,
-    /// <c>false
+    /// </c> if show help; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -77,14 +81,16 @@ public class FontDialog : CommonDialog
     /// <summary>
     /// Gets the instance.
     /// </summary>
-    /// <value>The instance.
+    /// <value>
+    /// The instance.
     /// </value>
     protected virtual IntPtr Instance { get; }
 
     /// <summary>
     /// Gets the options.
     /// </summary>
-    /// <value>The options.
+    /// <value>
+    /// The options.
     /// </value>
     protected virtual int Options { get; }
 
@@ -109,13 +115,15 @@ public class FontDialog : CommonDialog
     /// <summary>
     /// Runs the dialog.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     protected override bool RunDialog(IWin32Window owner)

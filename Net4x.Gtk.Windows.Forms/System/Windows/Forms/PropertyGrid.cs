@@ -16,10 +16,8 @@ using Microsoft.Win32;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class PropertyGrid.
-/// Implements the
-/// <see cref="T:System.Windows.Forms.ContainerControl" />
-/// Implements the
+/// Class PropertyGrid. Implements the
+/// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
 /// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.ContainerControl" />
@@ -84,7 +82,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public event ComponentRenameEventHandler ComComponentNameChanged;
 
     /// <summary>
-    /// Occurs when [mouse enter].
+    /// Occurs when [mouse enter.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -95,7 +93,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [mouse leave].
+    /// Occurs when [mouse leave.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -106,7 +104,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [property sort changed].
+    /// Occurs when [property sort changed.
     /// </summary>
     public event EventHandler PropertySortChanged
     {
@@ -115,7 +113,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [property tab changed].
+    /// Occurs when [property tab changed.
     /// </summary>
     public event PropertyTabChangedEventHandler PropertyTabChanged
     {
@@ -124,7 +122,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [property value changed].
+    /// Occurs when [property value changed.
     /// </summary>
     public event PropertyValueChangedEventHandler PropertyValueChanged
     {
@@ -133,7 +131,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [selected grid item changed].
+    /// Occurs when [selected grid item changed.
     /// </summary>
     public event SelectedGridItemChangedEventHandler SelectedGridItemChanged
     {
@@ -142,7 +140,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [selected objects changed].
+    /// Occurs when [selected objects changed.
     /// </summary>
     public event EventHandler SelectedObjectsChanged
     {
@@ -168,8 +166,9 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <value>
     /// <c>
     /// true
-    /// </c> if [automatic scroll]; otherwise,
-    /// <c>false
+    /// </c> if automatic scroll; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -179,14 +178,16 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the back.
     /// </summary>
-    /// <value>The color of the back.
+    /// <value>
+    /// The color of the back.
     /// </value>
     public override Color BackColor { get; set; }
 
     /// <summary>
     /// Gets or sets the background image.
     /// </summary>
-    /// <value>The background image.
+    /// <value>
+    /// The background image.
     /// </value>
 #nullable disable
     [Browsable(false)]
@@ -197,7 +198,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the background image layout.
     /// </summary>
-    /// <value>The background image layout.
+    /// <value>
+    /// The background image layout.
     /// </value>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -206,7 +208,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the browsable attributes.
     /// </summary>
-    /// <value>The browsable attributes.
+    /// <value>
+    /// The browsable attributes.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -220,7 +223,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <c>
     /// true
     /// </c> if this instance can show commands; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -234,7 +238,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <c>
     /// true
     /// </c> if this instance can show visual style glyphs; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
@@ -243,7 +248,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the category fore.
     /// </summary>
-    /// <value>The color of the category fore.
+    /// <value>
+    /// The color of the category fore.
     /// </value>
     [DefaultValue(typeof(Color), "ControlText")]
     public Color CategoryForeColor { get; set; }
@@ -251,7 +257,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the category splitter.
     /// </summary>
-    /// <value>The color of the category splitter.
+    /// <value>
+    /// The color of the category splitter.
     /// </value>
     [DefaultValue(typeof(Color), "Control")]
     public Color CategorySplitterColor { get; set; }
@@ -259,21 +266,24 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the commands active link.
     /// </summary>
-    /// <value>The color of the commands active link.
+    /// <value>
+    /// The color of the commands active link.
     /// </value>
     public Color CommandsActiveLinkColor { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the commands back.
     /// </summary>
-    /// <value>The color of the commands back.
+    /// <value>
+    /// The color of the commands back.
     /// </value>
     public Color CommandsBackColor { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the commands border.
     /// </summary>
-    /// <value>The color of the commands border.
+    /// <value>
+    /// The color of the commands border.
     /// </value>
     [DefaultValue(typeof(Color), "ControlDark")]
     public Color CommandsBorderColor { get; set; }
@@ -281,32 +291,36 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the commands disabled link.
     /// </summary>
-    /// <value>The color of the commands disabled link.
+    /// <value>
+    /// The color of the commands disabled link.
     /// </value>
     public Color CommandsDisabledLinkColor { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the commands fore.
     /// </summary>
-    /// <value>The color of the commands fore.
+    /// <value>
+    /// The color of the commands fore.
     /// </value>
     public Color CommandsForeColor { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the commands link.
     /// </summary>
-    /// <value>The color of the commands link.
+    /// <value>
+    /// The color of the commands link.
     /// </value>
     public Color CommandsLinkColor { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether [commands visible].
+    /// Gets a value indicating whether commands visible.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [commands visible]; otherwise,
-    /// <c>false
+    /// </c> if commands visible; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -314,13 +328,14 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public virtual bool CommandsVisible { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [commands visible if available].
+    /// Gets or sets a value indicating whether commands visible if available.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [commands visible if available]; otherwise,
-    /// <c>false
+    /// </c> if commands visible if available; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
@@ -329,7 +344,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets the context menu default location.
     /// </summary>
-    /// <value>The context menu default location.
+    /// <value>
+    /// The context menu default location.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -339,7 +355,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets the controls.
     /// </summary>
-    /// <value>The controls.
+    /// <value>
+    /// The controls.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -349,7 +366,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the disabled item fore.
     /// </summary>
-    /// <value>The color of the disabled item fore.
+    /// <value>
+    /// The color of the disabled item fore.
     /// </value>
     [DefaultValue(typeof(Color), "GrayText")]
     public Color DisabledItemForeColor { get; set; }
@@ -357,7 +375,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the fore.
     /// </summary>
-    /// <value>The color of the fore.
+    /// <value>
+    /// The color of the fore.
     /// </value>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -366,14 +385,16 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the color of the help back.
     /// </summary>
-    /// <value>The color of the help back.
+    /// <value>
+    /// The color of the help back.
     /// </value>
     [DefaultValue(typeof(Color), "Control")]
     public Color HelpBackColor { get; set; }
@@ -381,7 +402,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the help border.
     /// </summary>
-    /// <value>The color of the help border.
+    /// <value>
+    /// The color of the help border.
     /// </value>
     [DefaultValue(typeof(Color), "ControlDark")]
     public Color HelpBorderColor { get; set; }
@@ -389,19 +411,21 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the help fore.
     /// </summary>
-    /// <value>The color of the help fore.
+    /// <value>
+    /// The color of the help fore.
     /// </value>
     [DefaultValue(typeof(Color), "ControlText")]
     public Color HelpForeColor { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [help visible].
+    /// Gets or sets a value indicating whether help visible.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [help visible]; otherwise,
-    /// <c>false
+    /// </c> if help visible; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
@@ -415,20 +439,22 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <value>
     /// <c>
     /// true
-    /// </c> if [in property set]; otherwise,
-    /// <c>false
+    /// </c> if in property set; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool InPropertySet => true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether [large buttons].
+    /// Gets or sets a value indicating whether large buttons.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [large buttons]; otherwise,
-    /// <c>false
+    /// </c> if large buttons; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -437,7 +463,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the line.
     /// </summary>
-    /// <value>The color of the line.
+    /// <value>
+    /// The color of the line.
     /// </value>
     //[Browsable(false)]
     //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -449,7 +476,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the property sort.
     /// </summary>
-    /// <value>The property sort.
+    /// <value>
+    /// The property sort.
     /// </value>
     [DefaultValue(PropertySort.CategorizedAlphabetical)]
     public PropertySort PropertySort { get; set; }
@@ -457,7 +485,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets the property tabs.
     /// </summary>
-    /// <value>The property tabs.
+    /// <value>
+    /// The property tabs.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -467,7 +496,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the selected grid item.
     /// </summary>
-    /// <value>The selected grid item.
+    /// <value>
+    /// The selected grid item.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -477,7 +507,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the selected item with focus back.
     /// </summary>
-    /// <value>The color of the selected item with focus back.
+    /// <value>
+    /// The color of the selected item with focus back.
     /// </value>
     [DefaultValue(typeof(Color), "Highlight")]
     public Color SelectedItemWithFocusBackColor { get; set; }
@@ -485,7 +516,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the selected item with focus fore.
     /// </summary>
-    /// <value>The color of the selected item with focus fore.
+    /// <value>
+    /// The color of the selected item with focus fore.
     /// </value>
     [DefaultValue(typeof(Color), "HighlightText")]
     public Color SelectedItemWithFocusForeColor { get; set; }
@@ -493,7 +525,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the selected object.
     /// </summary>
-    /// <value>The selected object.
+    /// <value>
+    /// The selected object.
     /// </value>
     [DefaultValue(null)]
     public object SelectedObject
@@ -505,7 +538,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the selected objects.
     /// </summary>
-    /// <value>The selected objects.
+    /// <value>
+    /// The selected objects.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -523,7 +557,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets the selected tab.
     /// </summary>
-    /// <value>The selected tab.
+    /// <value>
+    /// The selected tab.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -537,14 +572,16 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <see cref="T:System.ComponentModel.Component">
     /// </see>.
     /// </summary>
-    /// <value>The site.
+    /// <value>
+    /// The site.
     /// </value>
     public override ISite Site { get; set; }
 
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     [Browsable(true)]
     [Description(" control size（ measured in pixels）。")]
@@ -553,33 +590,36 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [toolbar visible].
+    /// Gets or sets a value indicating whether toolbar visible.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [toolbar visible]; otherwise,
-    /// <c>false
+    /// </c> if toolbar visible; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
     public virtual bool ToolbarVisible { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use compatible text rendering].
+    /// Gets or sets a value indicating whether use compatible text rendering.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use compatible text rendering]; otherwise,
-    /// <c>false
+    /// </c> if use compatible text rendering; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -588,7 +628,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the view back.
     /// </summary>
-    /// <value>The color of the view back.
+    /// <value>
+    /// The color of the view back.
     /// </value>
     [DefaultValue(typeof(Color), "Window")]
     public Color ViewBackColor { get; set; }
@@ -596,7 +637,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the view border.
     /// </summary>
-    /// <value>The color of the view border.
+    /// <value>
+    /// The color of the view border.
     /// </value>
     [DefaultValue(typeof(Color), "ControlDark")]
     public Color ViewBorderColor { get; set; }
@@ -604,19 +646,21 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets or sets the color of the view fore.
     /// </summary>
-    /// <value>The color of the view fore.
+    /// <value>
+    /// The color of the view fore.
     /// </value>
     [DefaultValue(typeof(Color), "WindowText")]
     public Color ViewForeColor { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether [show focus cues].
+    /// Gets a value indicating whether show focus cues.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show focus cues]; otherwise,
-    /// <c>false
+    /// </c> if show focus cues; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     protected internal override bool ShowFocusCues { get; }
@@ -624,14 +668,16 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets the default size for the control.
     /// </summary>
-    /// <value>The default size.
+    /// <value>
+    /// The default size.
     /// </value>
     protected override Size DefaultSize { get; }
 
     /// <summary>
     /// Gets the default type of the tab.
     /// </summary>
-    /// <value>The default type of the tab.
+    /// <value>
+    /// The default type of the tab.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -639,13 +685,14 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     protected virtual Type DefaultTabType { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [draw flat toolbar].
+    /// Gets or sets a value indicating whether draw flat toolbar.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [draw flat toolbar]; otherwise,
-    /// <c>false
+    /// </c> if draw flat toolbar; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     protected bool DrawFlatToolbar { get; set; }
@@ -653,7 +700,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets the show property page image.
     /// </summary>
-    /// <value>The show property page image.
+    /// <value>
+    /// The show property page image.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -663,7 +711,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets the sort by category image.
     /// </summary>
-    /// <value>The sort by category image.
+    /// <value>
+    /// The sort by category image.
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -673,7 +722,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Gets the sort by property image.
     /// </summary>
-    /// <value>The sort by property image.
+    /// <value>
+    /// The sort by property image.
     /// </value>
     //protected ToolStripRenderer ToolStripRenderer { get; set; }
     [Browsable(false)]
@@ -698,7 +748,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Refreshes the tabs.
     /// </summary>
-    /// <param name="tabScope">The tab scope.
+    /// <param name="tabScope">
+    /// The tab scope.
     /// </param>
     public void RefreshTabs(PropertyTabScope tabScope)
     {
@@ -754,7 +805,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// Loads user states from the registry into the
     /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control.
     /// </summary>
-    /// <param name="key">The registry key that contains the user states.
+    /// <param name="key">
+    /// The registry key that contains the user states.
     /// </param>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -767,7 +819,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// Saves user states from the
     /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control to the registry.
     /// </summary>
-    /// <param name="key">The registry key that contains the user states.
+    /// <param name="key">
+    /// The registry key that contains the user states.
     /// </param>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -780,7 +833,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// Saves user states from the
     /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control to the registry.
     /// </summary>
-    /// <param name="key">The registry key that contains the user states.
+    /// <param name="key">
+    /// The registry key that contains the user states.
     /// </param>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -792,7 +846,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Handles the PropertyValueChanged event of the Self control.
     /// </summary>
-    /// <param name="s">The source of the event.
+    /// <param name="s">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -806,7 +861,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Handles the SelectedGridItemChanged event of the Self control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

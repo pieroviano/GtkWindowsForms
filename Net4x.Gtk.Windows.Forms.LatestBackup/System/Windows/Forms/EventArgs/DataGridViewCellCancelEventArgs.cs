@@ -17,13 +17,17 @@ public class DataGridViewCellCancelEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellCancelEventArgs" /> class.
     /// </summary>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">columnIndex
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// columnIndex
     /// </exception>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">rowIndex
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// rowIndex
     /// </exception>
     public DataGridViewCellCancelEventArgs(int columnIndex, int rowIndex)
     {
@@ -44,7 +48,8 @@ public class DataGridViewCellCancelEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellCancelEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridViewCell">The data grid view cell.
+    /// <param name="dataGridViewCell">
+    /// The data grid view cell.
     /// </param>
     internal DataGridViewCellCancelEventArgs(DataGridViewCell dataGridViewCell) : this(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex)
     {
@@ -53,14 +58,16 @@ public class DataGridViewCellCancelEventArgs : CancelEventArgs
     /// <summary>
     /// Gets the index of the column.
     /// </summary>
-    /// <value>The index of the column.
+    /// <value>
+    /// The index of the column.
     /// </value>
     public int ColumnIndex { get; }
 
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

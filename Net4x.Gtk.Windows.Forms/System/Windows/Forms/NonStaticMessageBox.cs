@@ -82,11 +82,18 @@ internal class NonStaticMessageBox : IMessageBox
         return ShowCore(owner, text, caption, buttons, icon);
     }
 
-    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-     //END ADD                                                                                                      //
-    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// <summary>
     /// Displays a message box with specified text, caption, and style.
+    /// </summary>
+    /// <param name="text">The text.</param>
+    /// <param name="caption">The caption.</param>
+    /// <param name="buttons">The buttons.</param>
+    /// <param name="icon">The icon.</param>
+    /// <param name="defaultButton">The default button.</param>
+    /// <param name="options">The options.</param>
+    /// <returns>
+    /// DialogResult.
+    /// </returns>
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
     {
         return ShowCore(null, text, caption, buttons, icon);

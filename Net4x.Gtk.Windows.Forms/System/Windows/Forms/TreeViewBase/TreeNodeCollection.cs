@@ -15,7 +15,8 @@ public class TreeNodeCollection : List<TreeNode>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeNodeCollection" /> class.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
     internal TreeNodeCollection(TreeNode owner)
     {
@@ -26,9 +27,11 @@ public class TreeNodeCollection : List<TreeNode>
     /// <summary>
     /// Adds the specified node.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">node
+    /// <exception cref="T:System.ArgumentNullException">
+    /// node
     /// </exception>
     public new void Add(TreeNode node)
     {
@@ -48,9 +51,11 @@ public class TreeNodeCollection : List<TreeNode>
     /// <summary>
     /// Adds the range.
     /// </summary>
-    /// <param name="nodes">The nodes.
+    /// <param name="nodes">
+    /// The nodes.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">nodes
+    /// <exception cref="T:System.ArgumentNullException">
+    /// nodes
     /// </exception>
     public void AddRange(TreeNode[] nodes)
     {
@@ -67,9 +72,11 @@ public class TreeNodeCollection : List<TreeNode>
     /// <summary>
     /// Adds the range.
     /// </summary>
-    /// <param name="nodes">The nodes.
+    /// <param name="nodes">
+    /// The nodes.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">nodes
+    /// <exception cref="T:System.ArgumentNullException">
+    /// nodes
     /// </exception>
     public new void AddRange(IEnumerable<TreeNode> nodes)
     {
@@ -99,13 +106,17 @@ public class TreeNodeCollection : List<TreeNode>
     /// <summary>
     /// Inserts the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">node
+    /// <exception cref="T:System.ArgumentNullException">
+    /// node
     /// </exception>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">index " + index.ToString()
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// index " + index.ToString()
     /// </exception>
     public new void Insert(int index, TreeNode node)
     {
@@ -127,7 +138,8 @@ public class TreeNodeCollection : List<TreeNode>
     /// <summary>
     /// Removes the specified node.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     public new void Remove(TreeNode node)
     {
@@ -139,7 +151,8 @@ public class TreeNodeCollection : List<TreeNode>
     /// <summary>
     /// Removes at.
     /// </summary>
-    /// <param name="index">The zero-based index of the element to remove.
+    /// <param name="index">
+    /// The zero-based index of the element to remove.
     /// </param>
     public new void RemoveAt(int index)
     {

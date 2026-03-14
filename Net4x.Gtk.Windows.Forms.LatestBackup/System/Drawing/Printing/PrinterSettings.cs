@@ -233,9 +233,11 @@ public partial class PrinterSettings : ICloneable
     /// <summary>
     /// Determines whether direct printing of the supplied image format is supported by this implementation.
     /// </summary>
-    /// <param name="image">The image to test.
+    /// <param name="image">
+    /// The image to test.
     /// </param>
-    /// <returns>True if the image format can be printed directly; otherwise false.
+    /// <returns>
+    /// True if the image format can be printed directly; otherwise false.
     /// </returns>
     public bool IsDirectPrintingSupported(Image image)
     {
@@ -253,7 +255,8 @@ public partial class PrinterSettings : ICloneable
     /// Sets the handle to a DEVMODE structure that contains device settings for the printer.
     /// Platform-specific; no-op in this implementation.
     /// </summary>
-    /// <param name="hdevmode">Pointer to a DEVMODE structure.
+    /// <param name="hdevmode">
+    /// Pointer to a DEVMODE structure.
     /// </param>
     public void SetHdevmode(IntPtr hdevmode)
     {
@@ -264,7 +267,8 @@ public partial class PrinterSettings : ICloneable
     /// Sets the handle to a DEVNAMES structure that contains device and driver names.
     /// Platform-specific; no-op in this implementation.
     /// </summary>
-    /// <param name="hdevnames">Pointer to a DEVNAMES structure.
+    /// <param name="hdevnames">
+    /// Pointer to a DEVNAMES structure.
     /// </param>
     public void SetHdevnames(IntPtr hdevnames)
     {
@@ -274,7 +278,8 @@ public partial class PrinterSettings : ICloneable
     /// <summary>
     /// Returns a string that represents the current printer settings.
     /// </summary>
-    /// <returns>A string with selected printer settings.
+    /// <returns>
+    /// A string with selected printer settings.
     /// </returns>
     public override string ToString() =>
                 $"[PrinterSettings {PrinterName} Copies={Copies} Collate={Collate} Duplex={Duplex} FromPage={FromPage} LandscapeAngle={LandscapeAngle} MaximumCopies={MaximumCopies} ToPage={ToPage}]";

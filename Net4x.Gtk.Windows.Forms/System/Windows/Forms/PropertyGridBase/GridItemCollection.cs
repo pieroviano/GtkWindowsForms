@@ -26,7 +26,8 @@ public class GridItemCollection : ICollection
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.GridItemCollection" /> class.
     /// </summary>
-    /// <param name="entries">The entries.
+    /// <param name="entries">
+    /// The entries.
     /// </param>
     internal GridItemCollection(GridItem[] entries)
     {
@@ -36,7 +37,8 @@ public class GridItemCollection : ICollection
     /// <summary>
     /// Retrieves the number of member attributes.
     /// </summary>
-    /// <value>The count.
+    /// <value>
+    /// The count.
     /// </value>
     public int Count => _entries.Length;
 
@@ -49,7 +51,8 @@ public class GridItemCollection : ICollection
     /// <c>
     /// true
     /// </c> if this instance is synchronized; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     bool ICollection.IsSynchronized => false;
@@ -59,16 +62,19 @@ public class GridItemCollection : ICollection
     /// <see cref="T:System.Collections.ICollection">
     /// </see>.
     /// </summary>
-    /// <value>The synchronize root.
+    /// <value>
+    /// The synchronize root.
     /// </value>
     object ICollection.SyncRoot => this;
 
     /// <summary>
     /// Retrieves the member attribute with the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>GridItem.
+    /// <returns>
+    /// GridItem.
     /// </returns>
     public GridItem this[int index] => _entries[index];
 
@@ -76,9 +82,11 @@ public class GridItemCollection : ICollection
     /// Gets the
     /// <see cref="T:System.Windows.Forms.GridItem" /> with the specified label.
     /// </summary>
-    /// <param name="label">The label.
+    /// <param name="label">
+    /// The label.
     /// </param>
-    /// <returns>GridItem.
+    /// <returns>
+    /// GridItem.
     /// </returns>
     public GridItem this[string label]
     {
@@ -109,9 +117,11 @@ public class GridItemCollection : ICollection
     /// <summary>
     /// Copies to.
     /// </summary>
-    /// <param name="dest">The dest.
+    /// <param name="dest">
+    /// The dest.
     /// </param>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
     void ICollection.CopyTo(Array dest, int index)
     {

@@ -354,11 +354,9 @@ public sealed class ImageAnimator
         private const int PropertyTagLoopCount = 20737;
 
         /// <summary>
-        /// Initializes a new instance of
-        /// <see cref="T:System.Drawing.Image"/> from a pixbuf byte buffer.
+        /// Initializes a new instance of the <see cref="ImageInfo"/> class.
         /// </summary>
-        /// <param name = "pixbuf">The raw pixbuf bytes.
-        /// </param>
+        /// <param name="image">The image.</param>
         public ImageInfo(Image image)
         {
             _image = image;

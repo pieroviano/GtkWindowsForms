@@ -16,9 +16,11 @@ public class DateRangeEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DateRangeEventArgs" /> class.
     /// </summary>
-    /// <param name="start">The start.
+    /// <param name="start">
+    /// The start.
     /// </param>
-    /// <param name="end">The end.
+    /// <param name="end">
+    /// The end.
     /// </param>
     public DateRangeEventArgs(DateTime start, DateTime end)
     {
@@ -29,14 +31,16 @@ public class DateRangeEventArgs : EventArgs
     /// <summary>
     /// Gets the end.
     /// </summary>
-    /// <value>The end.
+    /// <value>
+    /// The end.
     /// </value>
     public DateTime End { get; }
 
     /// <summary>
     /// Gets the start.
     /// </summary>
-    /// <value>The start.
+    /// <value>
+    /// The start.
     /// </value>
     public DateTime Start { get; }
 

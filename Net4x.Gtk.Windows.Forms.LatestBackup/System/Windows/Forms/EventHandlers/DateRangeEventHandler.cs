@@ -7,7 +7,8 @@ namespace System.Windows.Forms;
 /// <summary>
 /// Delegate DateRangeEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The

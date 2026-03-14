@@ -17,7 +17,8 @@ namespace System.Windows.Forms;
 /// This GTK-based implementation provides behavior similar to the WinForms
 /// <see cref="T:System.Windows.Forms.CheckedListBox" />.
 /// </summary>
-/// <filterpriority>2
+/// <filterpriority>
+/// 2
 /// </filterpriority>
 [DesignerCategory("Component")]
 public partial class CheckedListBox : ContainerControl
@@ -199,9 +200,11 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Sets the checked state of the item at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index of the item.
+    /// <param name="index">
+    /// The zero-based index of the item.
     /// </param>
-    /// <param name="value">True to check the item; otherwise false.
+    /// <param name="value">
+    /// True to check the item; otherwise false.
     /// </param>
     public void SetItemChecked(int index, bool value)
     {
@@ -212,9 +215,11 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Sets the check state for the item at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index of the item.
+    /// <param name="index">
+    /// The zero-based index of the item.
     /// </param>
-    /// <param name="value">The check state to set.
+    /// <param name="value">
+    /// The check state to set.
     /// </param>
     public void SetItemCheckState(int index, System.Windows.Forms.CheckState value)
     {
@@ -225,11 +230,14 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Adds a GTK-native item (checkbox) to the visual list at the given position.
     /// </summary>
-    /// <param name="checkbox">The checkbox control to add.
+    /// <param name="checkbox">
+    /// The checkbox control to add.
     /// </param>
-    /// <param name="isChecked">Initial checked state.
+    /// <param name="isChecked">
+    /// Initial checked state.
     /// </param>
-    /// <param name="position">Position index to insert; if negative the item is appended.
+    /// <param name="position">
+    /// Position index to insert; if negative the item is appended.
     /// </param>
     internal void NativeAdd(CheckBox checkbox, bool isChecked, int position)
     {
@@ -277,7 +285,8 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Removes the native item at the specified index.
     /// </summary>
-    /// <param name="index">Index of the item to remove.
+    /// <param name="index">
+    /// Index of the item to remove.
     /// </param>
     internal void NativeRemove(int index)
     {
@@ -326,7 +335,8 @@ public partial class CheckedListBox : ContainerControl
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.CheckedListBox.ObjectCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owning CheckedListBox.
+        /// <param name="owner">
+        /// The owning CheckedListBox.
         /// </param>
         public ObjectCollection(CheckedListBox owner)
         {
@@ -345,9 +355,11 @@ public partial class CheckedListBox : ContainerControl
         /// <summary>
         /// Adds an item to the collection and returns the index at which it was added.
         /// </summary>
-        /// <param name="value">Item value to add.
+        /// <param name="value">
+        /// Item value to add.
         /// </param>
-        /// <returns>The index of the added item.
+        /// <returns>
+        /// The index of the added item.
         /// </returns>
         public override int Add(object value)
         {
@@ -357,11 +369,14 @@ public partial class CheckedListBox : ContainerControl
         /// <summary>
         /// Adds an item and optionally sets its checked state.
         /// </summary>
-        /// <param name="item">Item to add.
+        /// <param name="item">
+        /// Item to add.
         /// </param>
-        /// <param name="isChecked">Initial checked state.
+        /// <param name="isChecked">
+        /// Initial checked state.
         /// </param>
-        /// <returns>The index of the added item.
+        /// <returns>
+        /// The index of the added item.
         /// </returns>
         public int Add(object item, bool isChecked)
         {
@@ -371,13 +386,17 @@ public partial class CheckedListBox : ContainerControl
         /// <summary>
         /// Core add implementation used by other add overloads.
         /// </summary>
-        /// <param name="item">Item to add.
+        /// <param name="item">
+        /// Item to add.
         /// </param>
-        /// <param name="isChecked">Initial checked state.
+        /// <param name="isChecked">
+        /// Initial checked state.
         /// </param>
-        /// <param name="position">Insert position; negative to append.
+        /// <param name="position">
+        /// Insert position; negative to append.
         /// </param>
-        /// <returns>Index of the item inserted.
+        /// <returns>
+        /// Index of the item inserted.
         /// </returns>
         public int AddCore(object item, bool isChecked, int position)
         {
@@ -401,7 +420,8 @@ public partial class CheckedListBox : ContainerControl
         /// <summary>
         /// Adds a range of items to the collection.
         /// </summary>
-        /// <param name="c">Collection of items to add.
+        /// <param name="c">
+        /// Collection of items to add.
         /// </param>
         public override void AddRange(ICollection c)
         {
@@ -422,9 +442,11 @@ public partial class CheckedListBox : ContainerControl
         /// Retrieves the
         /// <see cref="T:System.Windows.Forms.CheckBox" /> instance for the item at the specified index.
         /// </summary>
-        /// <param name="index">Index of the item.
+        /// <param name="index">
+        /// Index of the item.
         /// </param>
-        /// <returns>The CheckBox instance or null if out of range.
+        /// <returns>
+        /// The CheckBox instance or null if out of range.
         /// </returns>
         public CheckBox GetCheckedListBoxItem(int index)
         {
@@ -437,7 +459,8 @@ public partial class CheckedListBox : ContainerControl
         /// <summary>
         /// Removes the specified object from the collection if present.
         /// </summary>
-        /// <param name="obj">Object to remove.
+        /// <param name="obj">
+        /// Object to remove.
         /// </param>
         public override void Remove(object obj)
         {
@@ -451,7 +474,8 @@ public partial class CheckedListBox : ContainerControl
         /// <summary>
         /// Removes the item at the specified index from both the collection and the native control.
         /// </summary>
-        /// <param name="index">Index to remove.
+        /// <param name="index">
+        /// Index to remove.
         /// </param>
         public override void RemoveAt(int index)
         {

@@ -10,9 +10,11 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 /// <summary>
 /// PaintGraphicsEventHandler delegate.
 /// </summary>
-/// <param name="cr">The Cairo context.
+/// <param name="cr">
+/// The Cairo context.
 /// </param>
-/// <param name="rec">The record.
+/// <param name="rec">
+/// The record.
 /// </param>
 public delegate void PaintGraphicsEventHandler(Cairo.Context cr, Rectangle rec);
 /// <summary>
@@ -77,7 +79,8 @@ public sealed class GtkControlOverride : IControlOverride
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> class.
     /// </summary>
-    /// <param name="container">The container.
+    /// <param name="container">
+    /// The container.
     /// </param>
     public GtkControlOverride(Widget container)
     {
@@ -127,7 +130,8 @@ public sealed class GtkControlOverride : IControlOverride
     /// <summary>
     /// Adds the class.
     /// </summary>
-    /// <param name="cssClass">The CSS class.
+    /// <param name="cssClass">
+    /// The CSS class.
     /// </param>
     public void AddClass(string cssClass)
     {
@@ -144,9 +148,11 @@ public sealed class GtkControlOverride : IControlOverride
     /// <summary>
     /// Draws the color of the back.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
-    /// <param name="area">The area.
+    /// <param name="area">
+    /// The area.
     /// </param>
     public void DrawnBackColor(Cairo.Context cr, Gdk.Rectangle area)
     {
@@ -176,9 +182,11 @@ public sealed class GtkControlOverride : IControlOverride
     /// <summary>
     /// Called when drawn background.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
-    /// <param name="area">The area.
+    /// <param name="area">
+    /// The area.
     /// </param>
     public void OnDrawnBackground(Cairo.Context cr, Gdk.Rectangle area)
     {
@@ -208,9 +216,11 @@ public sealed class GtkControlOverride : IControlOverride
     /// <summary>
     /// Called when drawn image.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
-    /// <param name="area">The area.
+    /// <param name="area">
+    /// The area.
     /// </param>
     public void OnDrawnImage(Cairo.Context cr, Gdk.Rectangle area)
     {
@@ -228,9 +238,11 @@ public sealed class GtkControlOverride : IControlOverride
     /// <summary>
     /// Called when paint.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
-    /// <param name="area">The area.
+    /// <param name="area">
+    /// The area.
     /// </param>
     public void OnPaint(Cairo.Context cr, Gdk.Rectangle area)
     {
@@ -241,7 +253,8 @@ public sealed class GtkControlOverride : IControlOverride
     /// <summary>
     /// Removes the class.
     /// </summary>
-    /// <param name="cssClass">The CSS class.
+    /// <param name="cssClass">
+    /// The CSS class.
     /// </param>
     public void RemoveClass(string cssClass)
     {

@@ -27,12 +27,12 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     private readonly ObjectCollection __itemsData;
 
     /// <summary>
-    /// Occurs when [selected index changed].
+    /// Occurs when [selected index changed.
     /// </summary>
     public event EventHandler SelectedIndexChanged;
 
     /// <summary>
-    /// Occurs when [selected value changed].
+    /// Occurs when [selected value changed.
     /// </summary>
     public event EventHandler SelectedValueChanged;
 
@@ -47,13 +47,14 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [formatting enabled].
+    /// Gets or sets a value indicating whether formatting enabled.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [formatting enabled]; otherwise,
-    /// <c>false
+    /// </c> if formatting enabled; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool FormattingEnabled { get; set; }
@@ -61,35 +62,40 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Gets the items.
     /// </summary>
-    /// <value>The items.
+    /// <value>
+    /// The items.
     /// </value>
     public new ObjectCollection Items { get { return __itemsData; } }
 
     /// <summary>
     /// Gets the index of the selected.
     /// </summary>
-    /// <value>The index of the selected.
+    /// <value>
+    /// The index of the selected.
     /// </value>
     public int SelectedIndex { get { return base.comboBox.Active; } }
 
     /// <summary>
     /// Gets the selected item.
     /// </summary>
-    /// <value>The selected item.
+    /// <value>
+    /// The selected item.
     /// </value>
     public object SelectedItem { get { return __itemsData[SelectedIndex]; } }
 
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     public override Size Size { get => base.Size; set { this.comboBox.WidthRequest = value.Width; this.comboBox.HeightRequest = value.Height; base.Size = value; } }
 
     /// <summary>
     /// Handles the Changed event of the ComboBox control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -102,8 +108,7 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     }
 
     /// <summary>
-    /// Class ObjectCollection.
-    /// Implements the
+    /// Class ObjectCollection. Implements the
     /// <see cref="T:System.Collections.ArrayList" />
     /// </summary>
     /// <seealso cref="T:System.Collections.ArrayList" />
@@ -119,7 +124,8 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ToolStripComboBox.ObjectCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public ObjectCollection(Gtk.ComboBoxText owner)
         {
@@ -142,7 +148,8 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
         /// The
         /// <see cref="T:System.Collections.ArrayList">
         /// </see> index at which the
-        /// <paramref name="value">value
+        /// <paramref name="value">
+        /// value
         /// </paramref> has been added.
         /// </returns>
         public override int Add(object value)

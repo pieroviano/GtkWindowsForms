@@ -24,7 +24,8 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public ToolStripButton(string text) : this(text, null, null, "")
     {
@@ -35,7 +36,8 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripButton" /> class.
     /// </summary>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
     public ToolStripButton(Image image) : this("", image, null, "") { }
 
@@ -43,9 +45,11 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
     public ToolStripButton(string text, Image image) : this(text, image, null, "")
     {
@@ -56,11 +60,14 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
     public ToolStripButton(string text, Image image, EventHandler onClick) : this(text, image, onClick, "")
     {
@@ -71,13 +78,17 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripButton" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     public ToolStripButton(string text, Image image, EventHandler onClick, string name) : base(text, image, onClick, name)
     {
@@ -85,25 +96,27 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [check on click].
+    /// Gets or sets a value indicating whether check on click.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [check on click]; otherwise,
-    /// <c>false
+    /// </c> if check on click; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool CheckOnClick { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether [default automatic tool tip].
+    /// Gets a value indicating whether default automatic tool tip.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [default automatic tool tip]; otherwise,
-    /// <c>false
+    /// </c> if default automatic tool tip; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     protected bool DefaultAutoToolTip { get; }
@@ -111,7 +124,8 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Creates the accessibility instance.
     /// </summary>
-    /// <returns>AccessibleObject.
+    /// <returns>
+    /// AccessibleObject.
     /// </returns>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     protected AccessibleObject CreateAccessibilityInstance()
@@ -121,7 +135,7 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
 
     /// <summary>
     /// Handles the
-    /// <see cref="CheckedChanged" /> event.
+    /// <see cref="!:CheckedChanged" /> event.
     /// </summary>
     /// <param name="e">
     /// The
@@ -131,7 +145,7 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
 
     /// <summary>
     /// Handles the
-    /// <see cref="CheckStateChanged" /> event.
+    /// <see cref="!:CheckStateChanged" /> event.
     /// </summary>
     /// <param name="e">
     /// The

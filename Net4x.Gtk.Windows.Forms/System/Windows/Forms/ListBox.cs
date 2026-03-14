@@ -15,8 +15,7 @@ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class ListBox.
-/// Implements the
+/// Class ListBox. Implements the
 /// <see cref="T:System.Windows.Forms.ListControl"/>
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.ListControl"/>
@@ -98,7 +97,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets or sets the width of the column.
     /// </summary>
-    /// <value>The width of the column.
+    /// <value>
+    /// The width of the column.
     /// </value>
     [Localizable(true)]
     [DefaultValue(0)]
@@ -107,14 +107,16 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the custom tab offsets.
     /// </summary>
-    /// <value>The custom tab offsets.
+    /// <value>
+    /// The custom tab offsets.
     /// </value>
     public IntegerCollection CustomTabOffsets { get; }
 
     /// <summary>
     /// Gets the data bindings.
     /// </summary>
-    /// <value>The data bindings.
+    /// <value>
+    /// The data bindings.
     /// </value>
 
     public override ControlBindingsCollection DataBindings { get => _collect; }
@@ -122,7 +124,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets or sets the data source for the control. The data source can be any object that implements IList or IListSource.
     /// </summary>
-    /// <value>The data source.
+    /// <value>
+    /// The data source.
     /// </value>
     public override object DataSource
     {
@@ -140,7 +143,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets or sets the draw mode.
     /// </summary>
-    /// <value>The draw mode.
+    /// <value>
+    /// The draw mode.
     /// </value>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -161,27 +165,30 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the horizontal extent.
     /// </summary>
-    /// <value>The horizontal extent.
+    /// <value>
+    /// The horizontal extent.
     /// </value>
     [DefaultValue(0)]
     [Localizable(true)]
     public int HorizontalExtent { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [horizontal scrollbar].
+    /// Gets or sets a value indicating whether horizontal scrollbar.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [horizontal scrollbar]; otherwise,
-    /// <c>false
+    /// </c> if horizontal scrollbar; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -189,13 +196,14 @@ public partial class ListBox : ListControl
     public bool HorizontalScrollbar { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [integral height].
+    /// Gets or sets a value indicating whether integral height.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [integral height]; otherwise,
-    /// <c>false
+    /// </c> if integral height; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
@@ -205,14 +213,16 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the i self.
     /// </summary>
-    /// <value>The i self.
+    /// <value>
+    /// The i self.
     /// </value>
     public override IControlGtk ISelf { get => self; }
 
     /// <summary>
     /// Gets or sets the height of the item.
     /// </summary>
-    /// <value>The height of the item.
+    /// <value>
+    /// The height of the item.
     /// </value>
     [Localizable(true)]
     public virtual int ItemHeight { get; set; }
@@ -220,19 +230,21 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the items.
     /// </summary>
-    /// <value>The items.
+    /// <value>
+    /// The items.
     /// </value>
     [Localizable(true)]
     public ObjectCollection Items { get => _items; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [multi column].
+    /// Gets or sets a value indicating whether multi column.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [multi column]; otherwise,
-    /// <c>false
+    /// </c> if multi column; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -241,26 +253,29 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets or sets the padding.
     /// </summary>
-    /// <value>The padding.
+    /// <value>
+    /// The padding.
     /// </value>
     public new Padding Padding { get; set; }
 
     /// <summary>
     /// Gets the height of the preferred.
     /// </summary>
-    /// <value>The height of the preferred.
+    /// <value>
+    /// The height of the preferred.
     /// </value>
     [Browsable(false)]
     public int PreferredHeight { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [scroll always visible].
+    /// Gets or sets a value indicating whether scroll always visible.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [scroll always visible]; otherwise,
-    /// <c>false
+    /// </c> if scroll always visible; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -271,14 +286,16 @@ public partial class ListBox : ListControl
     /// Gets or sets the index of the currently selected item.
     /// Derived classes must implement selection indexing.
     /// </summary>
-    /// <value>The index of the selected.
+    /// <value>
+    /// The index of the selected.
     /// </value>
     public override int SelectedIndex { get => self.ListBox.SelectedRow == null ? -1 : self.ListBox.SelectedRow.Index; set => SelectedItems.SetSelected(value, true); }
 
     /// <summary>
     /// Gets the selected indices.
     /// </summary>
-    /// <value>The selected indices.
+    /// <value>
+    /// The selected indices.
     /// </value>
     [Browsable(false)]
     public SelectedIndexCollection SelectedIndices
@@ -294,7 +311,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets or sets the selected item.
     /// </summary>
-    /// <value>The selected item.
+    /// <value>
+    /// The selected item.
     /// </value>
     [Browsable(false)]
     [Bindable(true)]
@@ -318,7 +336,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the selected items.
     /// </summary>
-    /// <value>The selected items.
+    /// <value>
+    /// The selected items.
     /// </value>
     [Browsable(false)]
     public SelectedObjectCollection SelectedItems
@@ -335,7 +354,8 @@ public partial class ListBox : ListControl
     /// Gets or sets the value of the selected item, as determined by the
     /// <see cref="!:ValueMember"/>.
     /// </summary>
-    /// <value>The selected value.
+    /// <value>
+    /// The selected value.
     /// </value>
     [DefaultValue(null)]
     [Browsable(false)]
@@ -359,7 +379,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets or sets the selection mode.
     /// </summary>
-    /// <value>The selection mode.
+    /// <value>
+    /// The selection mode.
     /// </value>
     [DefaultValue(SelectionMode.One)]
     public virtual SelectionMode SelectionMode
@@ -398,7 +419,8 @@ public partial class ListBox : ListControl
     /// <c>
     /// true
     /// </c> if sorted; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -407,7 +429,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     [Browsable(false)]
     public override string Text
@@ -450,7 +473,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets or sets the index of the top.
     /// </summary>
-    /// <value>The index of the top.
+    /// <value>
+    /// The index of the top.
     /// </value>
     public int TopIndex
     {
@@ -477,13 +501,14 @@ public partial class ListBox : ListControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use custom tab offsets].
+    /// Gets or sets a value indicating whether use custom tab offsets.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use custom tab offsets]; otherwise,
-    /// <c>false
+    /// </c> if use custom tab offsets; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -491,38 +516,41 @@ public partial class ListBox : ListControl
     public bool UseCustomTabOffsets { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use tab stops].
+    /// Gets or sets a value indicating whether use tab stops.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use tab stops]; otherwise,
-    /// <c>false
+    /// </c> if use tab stops; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(true)]
     public bool UseTabStops { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show CheckBox].
+    /// Gets or sets a value indicating whether show CheckBox.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show CheckBox]; otherwise,
-    /// <c>false
+    /// </c> if show CheckBox; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     internal bool ShowCheckBox { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show image].
+    /// Gets or sets a value indicating whether show image.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show image]; otherwise,
-    /// <c>false
+    /// </c> if show image; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     internal bool ShowImage { get; set; }
@@ -555,9 +583,11 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Finds the string.
     /// </summary>
-    /// <param name = "s">The s.
+    /// <param name = "s">
+    /// The s.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -569,11 +599,14 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Finds the string.
     /// </summary>
-    /// <param name = "s">The s.
+    /// <param name = "s">
+    /// The s.
     /// </param>
-    /// <param name = "startIndex">The start index.
+    /// <param name = "startIndex">
+    /// The start index.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -585,9 +618,11 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Finds the string exact.
     /// </summary>
-    /// <param name = "s">The s.
+    /// <param name = "s">
+    /// The s.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -599,11 +634,14 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Finds the string exact.
     /// </summary>
-    /// <param name = "s">The s.
+    /// <param name = "s">
+    /// The s.
     /// </param>
-    /// <param name = "startIndex">The start index.
+    /// <param name = "startIndex">
+    /// The start index.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -615,9 +653,11 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the height of the item.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -629,9 +669,11 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the item rectangle.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
-    /// <returns>Drawing.Rectangle.
+    /// <returns>
+    /// Drawing.Rectangle.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -641,14 +683,15 @@ public partial class ListBox : ListControl
     }
 
     /// <summary>
-    /// Returns the textual representation for the given item.
-    /// By default this calls
+    /// Returns the textual representation for the given item. By default this calls
     /// <see cref="T:System.Object.ToString"/> on the item.
     /// Override to provide custom behavior.
     /// </summary>
-    /// <param name = "item">Item to obtain text for.
+    /// <param name = "item">
+    /// Item to obtain text for.
     /// </param>
-    /// <returns>Display text for the item.
+    /// <returns>
+    /// Display text for the item.
     /// </returns>
     public override string GetItemText(object item)
     {
@@ -663,13 +706,15 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the selected.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     public bool GetSelected(int index)
@@ -680,9 +725,11 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Indexes from point.
     /// </summary>
-    /// <param name = "p">The p.
+    /// <param name = "p">
+    /// The p.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -694,11 +741,14 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Indexes from point.
     /// </summary>
-    /// <param name = "x">The x.
+    /// <param name = "x">
+    /// The x.
     /// </param>
-    /// <param name = "y">The y.
+    /// <param name = "y">
+    /// The y.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -732,12 +782,14 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Sets the selected.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
     /// <param name = "value">
     /// if set to
-    /// <c>true
-    /// </c> [value].
+    /// <c>
+    /// true
+    /// </c>value.
     /// </param>
     public void SetSelected(int index, bool value)
     {
@@ -750,7 +802,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Natives the add.
     /// </summary>
-    /// <param name = "item">The item.
+    /// <param name = "item">
+    /// The item.
     /// </param>
     protected void NativeAdd(object item)
     {
@@ -783,9 +836,11 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Natives the get item text.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
-    /// <returns>System.String.
+    /// <returns>
+    /// System.String.
     /// </returns>
     protected string NativeGetItemText(int index)
     {
@@ -797,9 +852,11 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Natives the insert.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
-    /// <param name = "item">The item.
+    /// <param name = "item">
+    /// The item.
     /// </param>
     protected void NativeInsert(int index, object item)
     {
@@ -818,7 +875,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Natives the remove at.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
     protected void NativeRemoveAt(int index)
     {
@@ -827,7 +885,7 @@ public partial class ListBox : ListControl
 
     /// <summary>
     /// Handles the
-    /// <see cref = "SelectedIndexChanged"/> event.
+    /// <see cref="!:SelectedIndexChanged"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -842,7 +900,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.
     /// </summary>
-    /// <param name = "widget">GTK widget to style.
+    /// <param name = "widget">
+    /// GTK widget to style.
     /// </param>
     protected override void SetStyle(Widget widget)
     {
@@ -864,7 +923,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Handles the SelectedRowsChanged event of the ListBox control.
     /// </summary>
-    /// <param name = "sender">The source of the event.
+    /// <param name = "sender">
+    /// The source of the event.
     /// </param>
     /// <param name = "e">
     /// The
@@ -881,7 +941,7 @@ public partial class ListBox : ListControl
     }
 
     /// <summary>
-    /// Called when [set data source].
+    /// Called when [set data source.
     /// </summary>
     private void OnSetDataSource()
     {
@@ -902,9 +962,11 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Properties the notity.
     /// </summary>
-    /// <param name = "o">The o.
+    /// <param name = "o">
+    /// The o.
     /// </param>
-    /// <param name = "args">The arguments.
+    /// <param name = "args">
+    /// The arguments.
     /// </param>
     private void propertyNotity(object o, NotifyArgs args)
     {
@@ -915,7 +977,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Handles the Realized event of the Self control.
     /// </summary>
-    /// <param name = "sender">The source of the event.
+    /// <param name = "sender">
+    /// The source of the event.
     /// </param>
     /// <param name = "e">
     /// The
@@ -931,7 +994,8 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Sets the data source.
     /// </summary>
-    /// <param name = "enumerator">The enumerator.
+    /// <param name = "enumerator">
+    /// The enumerator.
     /// </param>
     private void SetDataSource(IEnumerator enumerator)
     {
@@ -964,8 +1028,7 @@ public partial class ListBox : ListControl
     }
 
     /// <summary>
-    /// Class ListBoxItem.
-    /// Implements the
+    /// Class ListBoxItem. Implements the
     /// <see cref="T:System.Windows.Forms.Label"/>
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.Label"/>
@@ -983,14 +1046,16 @@ public partial class ListBox : ListControl
         /// <summary>
         /// Gets or sets the check value.
         /// </summary>
-        /// <value>The check value.
+        /// <value>
+        /// The check value.
         /// </value>
         public object CheckValue { get; set; }
 
         /// <summary>
         /// Gets or sets the display text.
         /// </summary>
-        /// <value>The display text.
+        /// <value>
+        /// The display text.
         /// </value>
         public object DisplayText
         {
@@ -1008,7 +1073,8 @@ public partial class ListBox : ListControl
         /// <summary>
         /// Gets or sets the item value.
         /// </summary>
-        /// <value>The item value.
+        /// <value>
+        /// The item value.
         /// </value>
         public object ItemValue { get; set; }
 

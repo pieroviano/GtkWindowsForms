@@ -14,9 +14,11 @@ public class DateBoldEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DateBoldEventArgs" /> class.
     /// </summary>
-    /// <param name="start">The start.
+    /// <param name="start">
+    /// The start.
     /// </param>
-    /// <param name="size">The size.
+    /// <param name="size">
+    /// The size.
     /// </param>
     internal DateBoldEventArgs(DateTime start, int size)
     {
@@ -27,21 +29,24 @@ public class DateBoldEventArgs : EventArgs
     /// <summary>
     /// Gets or sets the days to bold.
     /// </summary>
-    /// <value>The days to bold.
+    /// <value>
+    /// The days to bold.
     /// </value>
     public int[] DaysToBold { get; set; }
 
     /// <summary>
     /// Gets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     public int Size { get; }
 
     /// <summary>
     /// Gets the start date.
     /// </summary>
-    /// <value>The start date.
+    /// <value>
+    /// The start date.
     /// </value>
     public DateTime StartDate { get; }
 

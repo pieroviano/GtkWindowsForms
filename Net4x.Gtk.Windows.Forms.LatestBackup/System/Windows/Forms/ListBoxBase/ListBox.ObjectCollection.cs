@@ -9,8 +9,31 @@ using static System.Windows.Forms.ItemArray;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class ListBox.
-/// Implements the
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
+/// <see cref="T:System.Windows.Forms.ListControl" />
+/// </summary>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// Class ListBox. Implements the
 /// <see cref="T:System.Windows.Forms.ListControl" />
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.ListControl" />
@@ -36,7 +59,8 @@ public partial class ListBox
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListBox.ObjectCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public ObjectCollection(ListBox owner)
         {
@@ -46,9 +70,11 @@ public partial class ListBox
         /// <summary>
         /// Initializes a new instance of ListBox.ObjectCollection based on another ListBox.ObjectCollection.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         public ObjectCollection(ListBox owner, ObjectCollection value)
             : this(owner)
@@ -59,9 +85,11 @@ public partial class ListBox
         /// <summary>
         /// Initializes a new instance of ListBox.ObjectCollection containing any array of objects.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         public ObjectCollection(ListBox owner, object[] value)
             : this(owner)
@@ -72,7 +100,8 @@ public partial class ListBox
         /// <summary>
         /// Retrieves the number of items.
         /// </summary>
-        /// <value>The count.
+        /// <value>
+        /// The count.
         /// </value>
         public int Count => InnerArray.Count;
 
@@ -85,7 +114,8 @@ public partial class ListBox
         /// <c>
         /// true
         /// </c> if this instance is read only; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         public bool IsReadOnly => false;
@@ -93,7 +123,8 @@ public partial class ListBox
         /// <summary>
         /// Internal access to the actual data store.
         /// </summary>
-        /// <value>The inner array.
+        /// <value>
+        /// The inner array.
         /// </value>
         internal ItemArray InnerArray
         {
@@ -114,7 +145,8 @@ public partial class ListBox
         /// <c>
         /// true
         /// </c> if this instance is fixed size; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool IList.IsFixedSize => false;
@@ -128,7 +160,8 @@ public partial class ListBox
         /// <c>
         /// true
         /// </c> if this instance is synchronized; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool ICollection.IsSynchronized => false;
@@ -138,16 +171,19 @@ public partial class ListBox
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The synchronize root.
+        /// <value>
+        /// The synchronize root.
         /// </value>
         object ICollection.SyncRoot => this;
 
         /// <summary>
         /// Retrieves the item with the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>System.Object.
+        /// <returns>
+        /// System.Object.
         /// </returns>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -167,9 +203,11 @@ public partial class ListBox
         /// <summary>
         /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>System.Nullable.
+        /// <returns>
+        /// System.Nullable.
         /// </returns>
         object? IList.this[int index]
         {
@@ -186,9 +224,11 @@ public partial class ListBox
         /// A SystemException occurs if there is insufficient space available to
         /// store the new item.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int Add(object item)
         {
@@ -201,7 +241,8 @@ public partial class ListBox
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         public void AddRange(ObjectCollection value)
         {
@@ -212,7 +253,8 @@ public partial class ListBox
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
         public void AddRange(params object[] items)
         {
@@ -254,9 +296,11 @@ public partial class ListBox
         /// <summary>
         /// Copies the ListBox Items collection to a destination array.
         /// </summary>
-        /// <param name="destination">The destination.
+        /// <param name="destination">
+        /// The destination.
         /// </param>
-        /// <param name="arrayIndex">Index of the array.
+        /// <param name="arrayIndex">
+        /// Index of the array.
         /// </param>
         public void CopyTo(object[] destination, int arrayIndex)
         {
@@ -289,7 +333,8 @@ public partial class ListBox
         /// </param>
         /// <returns>
         /// The index of
-        /// <paramref name="value">value
+        /// <paramref name="value">
+        /// value
         /// </paramref> if found in the list; otherwise, -1.
         /// </returns>
         public int IndexOf(object value)
@@ -306,9 +351,11 @@ public partial class ListBox
         /// A SystemException occurs if there is insufficient space available to
         /// store the new item.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
         public void Insert(int index, object item)
         {
@@ -365,7 +412,8 @@ public partial class ListBox
         /// <summary>
         /// Removes an item from the ListBox at the given index.
         /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.
+        /// <param name="index">
+        /// The zero-based index of the item to remove.
         /// </param>
         public void RemoveAt(int index)
         {
@@ -383,7 +431,8 @@ public partial class ListBox
         /// <summary>
         /// Adds the range internal.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
         internal void AddRangeInternal(ICollection items)
         {
@@ -418,9 +467,11 @@ public partial class ListBox
         /// <summary>
         /// Indexes the of identifier.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         internal int IndexOfIdentifier(object value)
         {
@@ -430,9 +481,11 @@ public partial class ListBox
         /// <summary>
         /// Sets the item internal.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         internal void SetItemInternal(int index, object value)
         {
@@ -468,9 +521,11 @@ public partial class ListBox
         /// <summary>
         /// Adds the specified item.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         int IList.Add(object? item) => Add(item!);
 
@@ -496,9 +551,11 @@ public partial class ListBox
         /// <summary>
         /// Copies to.
         /// </summary>
-        /// <param name="destination">The destination.
+        /// <param name="destination">
+        /// The destination.
         /// </param>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
         void ICollection.CopyTo(Array destination, int index)
         {
@@ -521,7 +578,8 @@ public partial class ListBox
         /// </param>
         /// <returns>
         /// The index of
-        /// <paramref name="value">value
+        /// <paramref name="value">
+        /// value
         /// </paramref> if found in the list; otherwise, -1.
         /// </returns>
         int IList.IndexOf(object? value) => IndexOf(value!);
@@ -529,9 +587,11 @@ public partial class ListBox
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
         void IList.Insert(int index, object? item) => Insert(index, item!);
 
@@ -550,9 +610,11 @@ public partial class ListBox
         /// <summary>
         /// Adds the internal.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         private int AddInternal(object item)
         {

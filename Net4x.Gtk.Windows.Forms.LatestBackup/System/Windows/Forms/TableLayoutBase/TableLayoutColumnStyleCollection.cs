@@ -12,7 +12,8 @@ public class TableLayoutColumnStyleCollection : TableLayoutStyleCollection
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TableLayoutColumnStyleCollection" /> class.
     /// </summary>
-    /// <param name="Owner">The owner.
+    /// <param name="Owner">
+    /// The owner.
     /// </param>
     internal TableLayoutColumnStyleCollection(IArrangedElement Owner) : base(Owner)
     {
@@ -32,9 +33,11 @@ public class TableLayoutColumnStyleCollection : TableLayoutStyleCollection
     /// Gets or sets the
     /// <see cref="T:System.Windows.Forms.ColumnStyle" /> at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>ColumnStyle.
+    /// <returns>
+    /// ColumnStyle.
     /// </returns>
     public new ColumnStyle this[int index]
     {
@@ -52,9 +55,11 @@ public class TableLayoutColumnStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Adds the specified column style.
     /// </summary>
-    /// <param name="columnStyle">The column style.
+    /// <param name="columnStyle">
+    /// The column style.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int Add(ColumnStyle columnStyle)
     {
@@ -64,13 +69,15 @@ public class TableLayoutColumnStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Determines whether this instance contains the object.
     /// </summary>
-    /// <param name="columnStyle">The column style.
+    /// <param name="columnStyle">
+    /// The column style.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [contains] [the specified column style]; otherwise,
-    /// <c>false
+    /// </c> if contains [the specified column style]; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public bool Contains(ColumnStyle columnStyle)
@@ -81,9 +88,11 @@ public class TableLayoutColumnStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Indexes the of.
     /// </summary>
-    /// <param name="columnStyle">The column style.
+    /// <param name="columnStyle">
+    /// The column style.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int IndexOf(ColumnStyle columnStyle)
     {
@@ -93,9 +102,11 @@ public class TableLayoutColumnStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Inserts the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <param name="columnStyle">The column style.
+    /// <param name="columnStyle">
+    /// The column style.
     /// </param>
     public void Insert(int index, ColumnStyle columnStyle)
     {
@@ -105,7 +116,8 @@ public class TableLayoutColumnStyleCollection : TableLayoutStyleCollection
     /// <summary>
     /// Removes the specified column style.
     /// </summary>
-    /// <param name="columnStyle">The column style.
+    /// <param name="columnStyle">
+    /// The column style.
     /// </param>
     public void Remove(ColumnStyle columnStyle)
     {

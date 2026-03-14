@@ -17,7 +17,8 @@ public class TreeNodeMouseHoverEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TreeNodeMouseHoverEventArgs" /> class.
     /// </summary>
-    /// <param name="node">The node.
+    /// <param name="node">
+    /// The node.
     /// </param>
     public TreeNodeMouseHoverEventArgs(TreeNode node)
     {
@@ -27,7 +28,8 @@ public class TreeNodeMouseHoverEventArgs : EventArgs
     /// <summary>
     /// Gets the node.
     /// </summary>
-    /// <value>The node.
+    /// <value>
+    /// The node.
     /// </value>
     public TreeNode Node { get; }
 

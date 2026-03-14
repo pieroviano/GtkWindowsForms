@@ -6,7 +6,8 @@ namespace System.Windows.Forms;
 /// <summary>
 /// Delegate PropertyTabChangedEventHandler
 /// </summary>
-/// <param name="s">The s.
+/// <param name="s">
+/// The s.
 /// </param>
 /// <param name="e">
 /// The

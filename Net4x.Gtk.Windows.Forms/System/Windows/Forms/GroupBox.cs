@@ -51,21 +51,24 @@ public partial class GroupBox : ContainerControl
     /// <summary>
     /// Gets the controls.
     /// </summary>
-    /// <value>The controls.
+    /// <value>
+    /// The controls.
     /// </value>
     public override ControlCollection Controls => _controls;
 
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the padding.
     /// </summary>
-    /// <value>The padding.
+    /// <value>
+    /// The padding.
     /// </value>
     public override Padding Padding
     {
@@ -83,7 +86,8 @@ public partial class GroupBox : ContainerControl
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text { get { return self.Label; } set { self.Label = value; } }
 
@@ -100,8 +104,9 @@ public partial class GroupBox : ContainerControl
     /// </summary>
     /// <param name="resume">
     /// if set to
-    /// <c>true
-    /// </c> [resume].
+    /// <c>
+    /// true
+    /// </c>resume.
     /// </param>
     public override void ResumeLayout(bool resume)
     {

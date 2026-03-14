@@ -27,7 +27,8 @@ namespace System.Resources
         /// Initializes a new instance of the
         /// <see cref="GtkSystem.Resources.ResourceManager" /> class.
         /// </summary>
-        /// <param name="usingResourceSet">The using resource set.
+        /// <param name="usingResourceSet">
+        /// The using resource set.
         /// </param>
         public ResourceManager(System.Type resourceSource) : base(null, null, resourceSource)
         {

@@ -14,16 +14,20 @@ public class TypeValidationEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TypeValidationEventArgs" /> class.
     /// </summary>
-    /// <param name="validatingType">Type of the validating.
+    /// <param name="validatingType">
+    /// Type of the validating.
     /// </param>
     /// <param name="isValidInput">
     /// if set to
-    /// <c>true
-    /// </c> [is valid input].
+    /// <c>
+    /// true
+    /// </c>is valid input.
     /// </param>
-    /// <param name="returnValue">The return value.
+    /// <param name="returnValue">
+    /// The return value.
     /// </param>
-    /// <param name="message">The message.
+    /// <param name="message">
+    /// The message.
     /// </param>
     public TypeValidationEventArgs(Type validatingType, bool isValidInput, object returnValue, string message)
     {
@@ -40,7 +44,8 @@ public class TypeValidationEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if cancel; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Cancel { get; set; }
@@ -52,7 +57,8 @@ public class TypeValidationEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if this instance is valid input; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool IsValidInput { get; }
@@ -61,21 +67,24 @@ public class TypeValidationEventArgs : EventArgs
     /// A message about the validation operation. Intended to be populated with
     /// an exception information if any thrown.
     /// </summary>
-    /// <value>The message.
+    /// <value>
+    /// The message.
     /// </value>
     public string Message { get; }
 
     /// <summary>
     /// The value returned from the Parse method.
     /// </summary>
-    /// <value>The return value.
+    /// <value>
+    /// The return value.
     /// </value>
     public object ReturnValue { get; }
 
     /// <summary>
     /// The position where the test failed the mask constraint.
     /// </summary>
-    /// <value>The type of the validating.
+    /// <value>
+    /// The type of the validating.
     /// </value>
     public Type ValidatingType { get; }
 

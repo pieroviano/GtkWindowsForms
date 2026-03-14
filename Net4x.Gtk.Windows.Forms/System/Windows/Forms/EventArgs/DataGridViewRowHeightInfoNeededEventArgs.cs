@@ -37,7 +37,8 @@ public class DataGridViewRowHeightInfoNeededEventArgs : EventArgs
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; private set; }
 

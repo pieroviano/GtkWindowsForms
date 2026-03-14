@@ -19,8 +19,9 @@ public class NavigateEventArgs : EventArgs
     /// </summary>
     /// <param name="isForward">
     /// if set to
-    /// <c>true
-    /// </c> [is forward].
+    /// <c>
+    /// true
+    /// </c>is forward.
     /// </param>
     public NavigateEventArgs(bool isForward)
     {
@@ -35,7 +36,8 @@ public class NavigateEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if forward; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Forward { get; }

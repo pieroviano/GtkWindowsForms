@@ -15,15 +15,20 @@ public class HandledMouseEventArgs : MouseEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.HandledMouseEventArgs" /> class.
     /// </summary>
-    /// <param name="button">The button.
+    /// <param name="button">
+    /// The button.
     /// </param>
-    /// <param name="clicks">The clicks.
+    /// <param name="clicks">
+    /// The clicks.
     /// </param>
-    /// <param name="x">The x.
+    /// <param name="x">
+    /// The x.
     /// </param>
-    /// <param name="y">The y.
+    /// <param name="y">
+    /// The y.
     /// </param>
-    /// <param name="delta">The delta.
+    /// <param name="delta">
+    /// The delta.
     /// </param>
     public HandledMouseEventArgs(MouseButtons button, int clicks, int x, int y, int delta) : this(button, clicks, x, y, delta, false)
     {
@@ -33,20 +38,26 @@ public class HandledMouseEventArgs : MouseEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.HandledMouseEventArgs" /> class.
     /// </summary>
-    /// <param name="button">The button.
+    /// <param name="button">
+    /// The button.
     /// </param>
-    /// <param name="clicks">The clicks.
+    /// <param name="clicks">
+    /// The clicks.
     /// </param>
-    /// <param name="x">The x.
+    /// <param name="x">
+    /// The x.
     /// </param>
-    /// <param name="y">The y.
+    /// <param name="y">
+    /// The y.
     /// </param>
-    /// <param name="delta">The delta.
+    /// <param name="delta">
+    /// The delta.
     /// </param>
     /// <param name="defaultHandledValue">
     /// if set to
-    /// <c>true
-    /// </c> [default handled value].
+    /// <c>
+    /// true
+    /// </c>default handled value.
     /// </param>
     public HandledMouseEventArgs(MouseButtons button, int clicks, int x, int y, int delta, bool defaultHandledValue) : base(button, clicks, x, y, delta)
     {
@@ -60,7 +71,8 @@ public class HandledMouseEventArgs : MouseEventArgs
     /// <c>
     /// true
     /// </c> if handled; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Handled { get; set; }

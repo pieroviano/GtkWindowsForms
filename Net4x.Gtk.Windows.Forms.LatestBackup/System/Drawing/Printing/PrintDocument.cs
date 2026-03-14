@@ -98,13 +98,14 @@ public class PrintDocument : Component
     public string DocumentName { get => _documentName; set => _documentName = value ?? ""; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [origin at margins].
+    /// Gets or sets a value indicating whether origin at margins.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [origin at margins]; otherwise,
-    /// <c>false
+    /// </c> if origin at margins; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]
@@ -180,7 +181,7 @@ public class PrintDocument : Component
 
     /// <summary>
     /// Raises the
-    /// <see cref = "BeginPrint"/> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.BeginPrint"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -190,7 +191,7 @@ public class PrintDocument : Component
 
     /// <summary>
     /// Raises the
-    /// <see cref = "EndPrint"/> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.EndPrint"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -200,7 +201,7 @@ public class PrintDocument : Component
 
     /// <summary>
     /// Raises the
-    /// <see cref = "PrintPage"/> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.PrintPage"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -210,7 +211,7 @@ public class PrintDocument : Component
 
     /// <summary>
     /// Raises the
-    /// <see cref = "QueryPageSettings"/> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.QueryPageSettings"/> event.
     /// </summary>
     /// <param name = "e">
     /// The

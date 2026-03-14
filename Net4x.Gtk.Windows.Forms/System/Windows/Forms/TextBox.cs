@@ -51,14 +51,16 @@ public partial class TextBox : Control
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the lines.
     /// </summary>
-    /// <value>The lines.
+    /// <value>
+    /// The lines.
     /// </value>
     public string[] Lines
     {
@@ -82,7 +84,8 @@ public partial class TextBox : Control
     /// <summary>
     /// Gets or sets the maximum length.
     /// </summary>
-    /// <value>The maximum length.
+    /// <value>
+    /// The maximum length.
     /// </value>
     public int MaxLength { get => self.MaxLength; set => self.MaxLength = value; }
 
@@ -94,7 +97,8 @@ public partial class TextBox : Control
     /// <c>
     /// true
     /// </c> if multiline; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Multiline { get; set; }
@@ -102,25 +106,28 @@ public partial class TextBox : Control
     /// <summary>
     /// Gets or sets the password character.
     /// </summary>
-    /// <value>The password character.
+    /// <value>
+    /// The password character.
     /// </value>
     public virtual char PasswordChar { get => self.InvisibleChar; set { self.InvisibleChar = value; self.Visibility = false; } }
 
     /// <summary>
     /// Gets or sets the placeholder text.
     /// </summary>
-    /// <value>The placeholder text.
+    /// <value>
+    /// The placeholder text.
     /// </value>
     public string PlaceholderText { get { return self.PlaceholderText; } set { self.PlaceholderText = value ?? ""; } }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [read only].
+    /// Gets or sets a value indicating whether read only.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [read only]; otherwise,
-    /// <c>false
+    /// </c> if read only; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public virtual bool ReadOnly { get { return self.IsEditable == false; } set { self.IsEditable = value == false; } }
@@ -128,7 +135,8 @@ public partial class TextBox : Control
     /// <summary>
     /// Gets or sets the length of the selection.
     /// </summary>
-    /// <value>The length of the selection.
+    /// <value>
+    /// The length of the selection.
     /// </value>
     [System.ComponentModel.Browsable(false)]
     public virtual int SelectionLength
@@ -148,7 +156,8 @@ public partial class TextBox : Control
     /// <summary>
     /// Gets or sets the selection start.
     /// </summary>
-    /// <value>The selection start.
+    /// <value>
+    /// The selection start.
     /// </value>
     public int SelectionStart
     {
@@ -164,14 +173,16 @@ public partial class TextBox : Control
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text { get { return self.Text; } set { self.Text = value ?? ""; } }
 
     /// <summary>
     /// Inserts the text at cursor.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public void InsertTextAtCursor(string text)
     {
@@ -183,9 +194,11 @@ public partial class TextBox : Control
     /// <summary>
     /// Selects the specified start.
     /// </summary>
-    /// <param name="start">The start.
+    /// <param name="start">
+    /// The start.
     /// </param>
-    /// <param name="length">The length.
+    /// <param name="length">
+    /// The length.
     /// </param>
     public void Select(int start, int length)
     {
@@ -195,7 +208,8 @@ public partial class TextBox : Control
     /// <summary>
     /// Handles the Changed event of the Self control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -209,7 +223,8 @@ public partial class TextBox : Control
     /// <summary>
     /// Handles the KeyPressEvent event of the Self control.
     /// </summary>
-    /// <param name="o">The source of the event.
+    /// <param name="o">
+    /// The source of the event.
     /// </param>
     /// <param name="args">
     /// The
@@ -230,9 +245,11 @@ public partial class TextBox : Control
     /// <summary>
     /// Selfs the text inserted.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void Self_TextInserted(object o, TextInsertedArgs args)
     {

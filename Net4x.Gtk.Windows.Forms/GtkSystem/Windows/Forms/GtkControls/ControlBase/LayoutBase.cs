@@ -13,9 +13,11 @@ public sealed class LayoutBase : Gtk.Layout, IControlGtk
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.LayoutBase" /> class.
     /// </summary>
-    /// <param name="hadjustment">The hadjustment.
+    /// <param name="hadjustment">
+    /// The hadjustment.
     /// </param>
-    /// <param name="vadjustment">The vadjustment.
+    /// <param name="vadjustment">
+    /// The vadjustment.
     /// </param>
     public LayoutBase(Adjustment hadjustment, Adjustment vadjustment) : base(hadjustment, vadjustment)
     {
@@ -39,7 +41,8 @@ public sealed class LayoutBase : Gtk.Layout, IControlGtk
     /// <summary>
     /// Called when the control is drawn.
     /// </summary>
-    /// <param name="cr">The Cairo context.
+    /// <param name="cr">
+    /// The Cairo context.
     /// </param>
     /// <returns>
     /// </returns>

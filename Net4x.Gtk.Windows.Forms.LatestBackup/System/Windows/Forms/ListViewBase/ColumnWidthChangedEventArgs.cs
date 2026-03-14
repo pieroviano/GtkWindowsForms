@@ -14,7 +14,8 @@ public class ColumnWidthChangedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ColumnWidthChangedEventArgs" /> class.
     /// </summary>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
     public ColumnWidthChangedEventArgs(int columnIndex)
     {
@@ -24,7 +25,8 @@ public class ColumnWidthChangedEventArgs : EventArgs
     /// <summary>
     /// Gets the index of the column.
     /// </summary>
-    /// <value>The index of the column.
+    /// <value>
+    /// The index of the column.
     /// </value>
     public int ColumnIndex { get; }
 

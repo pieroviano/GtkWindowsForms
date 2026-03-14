@@ -31,7 +31,7 @@ public class TrackBar : Control
     Gtk.Scale scale;
 
     /// <summary>
-    /// Occurs when [scroll].
+    /// Occurs when [scroll.
     /// </summary>
     public event EventHandler Scroll;
 
@@ -47,63 +47,72 @@ public class TrackBar : Control
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the large change.
     /// </summary>
-    /// <value>The large change.
+    /// <value>
+    /// The large change.
     /// </value>
     public int LargeChange { get; set; } = 5;
 
     /// <summary>
     /// Gets or sets the maximum.
     /// </summary>
-    /// <value>The maximum.
+    /// <value>
+    /// The maximum.
     /// </value>
     public int Maximum { get; set; }
 
     /// <summary>
     /// Gets or sets the minimum.
     /// </summary>
-    /// <value>The minimum.
+    /// <value>
+    /// The minimum.
     /// </value>
     public int Minimum { get; set; }
 
     /// <summary>
     /// Gets or sets the orientation.
     /// </summary>
-    /// <value>The orientation.
+    /// <value>
+    /// The orientation.
     /// </value>
     public System.Windows.Forms.Orientation Orientation { get; set; }
 
     /// <summary>
     /// Gets or sets the tick frequency.
     /// </summary>
-    /// <value>The tick frequency.
+    /// <value>
+    /// The tick frequency.
     /// </value>
     public int TickFrequency { get; set; }
 
     /// <summary>
     /// Gets or sets the tick style.
     /// </summary>
-    /// <value>The tick style.
+    /// <value>
+    /// The tick style.
     /// </value>
     public System.Windows.Forms.TickStyle TickStyle { get; set; }
 
     /// <summary>
     /// Gets or sets the value.
     /// </summary>
-    /// <value>The value.
+    /// <value>
+    /// The value.
     /// </value>
     public int Value { get => (int)adjustment.Value; set { adjustment.Value = value; } }
 
     /// <summary>
     /// Handles the Realized event of the Control control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -129,7 +138,8 @@ public class TrackBar : Control
     /// <summary>
     /// Handles the ValueChanged event of the Control control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

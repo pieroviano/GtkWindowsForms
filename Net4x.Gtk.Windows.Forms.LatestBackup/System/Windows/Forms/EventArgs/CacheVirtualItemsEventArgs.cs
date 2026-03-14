@@ -17,9 +17,11 @@ public class CacheVirtualItemsEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.CacheVirtualItemsEventArgs" /> class.
     /// </summary>
-    /// <param name="startIndex">The start index.
+    /// <param name="startIndex">
+    /// The start index.
     /// </param>
-    /// <param name="endIndex">The end index.
+    /// <param name="endIndex">
+    /// The end index.
     /// </param>
     public CacheVirtualItemsEventArgs(int startIndex, int endIndex)
     {
@@ -30,14 +32,16 @@ public class CacheVirtualItemsEventArgs : EventArgs
     /// <summary>
     /// Gets the end index.
     /// </summary>
-    /// <value>The end index.
+    /// <value>
+    /// The end index.
     /// </value>
     public int EndIndex { get; }
 
     /// <summary>
     /// Gets the start index.
     /// </summary>
-    /// <value>The start index.
+    /// <value>
+    /// The start index.
     /// </value>
     public int StartIndex { get; }
 

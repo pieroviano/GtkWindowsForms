@@ -15,16 +15,11 @@ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Partial definition of the
-/// <see cref="T:System.Windows.Forms.Control" /> class that contains the nested
-/// <see cref="T:System.Windows.Forms.Control.ControlCollection" />.
-/// The collection manages child controls/widgets for a parent
-/// <see cref="T:System.Windows.Forms.Control" /> and bridges WinForms semantics
-/// to the underlying GTK container.
+/// Represents the collection of data bindings for a control.
 /// </summary>
-/// Represents a Windows Forms control that is backed by a GTK widget.
-/// This class provides a compatibility layer so WinForms-style APIs can be used on GTK platforms.
-/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
 public partial class Control
 {
     /// <summary>
@@ -72,7 +67,8 @@ public partial class Control
         /// The owning
         /// <see cref="T:System.Windows.Forms.Control" />.
         /// </param>
-        /// <param name="ownerContainer">The underlying GTK container used to host children.
+        /// <param name="ownerContainer">
+        /// The underlying GTK container used to host children.
         /// </param>
         public ControlCollection(Control owner, Gtk.Container ownerContainer)
         {
@@ -91,7 +87,8 @@ public partial class Control
         /// <summary>
         /// Gets the child control at the specified index.
         /// </summary>
-        /// <param name="index">Zero-based index of the child.
+        /// <param name="index">
+        /// Zero-based index of the child.
         /// </param>
         public new virtual Control this[int index]
         {
@@ -106,7 +103,8 @@ public partial class Control
         /// <summary>
         /// Gets the child control with the specified key (name), or null if not found.
         /// </summary>
-        /// <param name="key">The name/key of the control to find.
+        /// <param name="key">
+        /// The name/key of the control to find.
         /// </param>
         public virtual Control? this[string? key]
         {
@@ -132,7 +130,8 @@ public partial class Control
         /// <summary>
         /// Adds a GTK widget to the owner control using native integration logic.
         /// </summary>
-        /// <param name="value">GTK widget to add.
+        /// <param name="value">
+        /// GTK widget to add.
         /// </param>
         public virtual void Add(Gtk.Widget value)
         {
@@ -143,9 +142,11 @@ public partial class Control
         /// Adds a control of the specified type to the collection. The current implementation forwards to
         /// <see cref="T:System.Windows.Forms.Control.ControlCollection.Add(System.Windows.Forms.Control)" />.
         /// </summary>
-        /// <param name="itemType">Type of the item to add (ignored).
+        /// <param name="itemType">
+        /// Type of the item to add (ignored).
         /// </param>
-        /// <param name="item">The control to add.
+        /// <param name="item">
+        /// The control to add.
         /// </param>
         public virtual void Add(Type itemType, Control item)
         {
@@ -157,7 +158,8 @@ public partial class Control
         /// Adds a
         /// <see cref="T:System.Windows.Forms.Control" /> to the collection and to the underlying GTK container.
         /// </summary>
-        /// <param name="value">Control to add.
+        /// <param name="value">
+        /// Control to add.
         /// </param>
         public virtual void Add(Control? value)
         {
@@ -172,7 +174,8 @@ public partial class Control
         /// <summary>
         /// Adds an array of controls to the collection.
         /// </summary>
-        /// <param name="controls">Controls to add.
+        /// <param name="controls">
+        /// Controls to add.
         /// </param>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual void AddRange(params Control[] controls)
@@ -195,7 +198,8 @@ public partial class Control
         /// Adds a GTK widget and registers the corresponding
         /// <see cref="T:System.Windows.Forms.Control" /> as a child of the owner.
         /// </summary>
-        /// <param name="item">GTK widget added.
+        /// <param name="item">
+        /// GTK widget added.
         /// </param>
         /// <param name="control">
         /// Associated
@@ -236,18 +240,22 @@ public partial class Control
         /// <summary>
         /// Determines whether the specified control is in the collection.
         /// </summary>
-        /// <param name="control">Control to test.
+        /// <param name="control">
+        /// Control to test.
         /// </param>
-        /// <returns>True if found; otherwise false.
+        /// <returns>
+        /// True if found; otherwise false.
         /// </returns>
         public bool Contains(Control? control) => ((IList)InnerList).Contains(control);
 
         /// <summary>
         /// Determines whether a control with the given key (name) exists in the collection.
         /// </summary>
-        /// <param name="key">Key/name to search for.
+        /// <param name="key">
+        /// Key/name to search for.
         /// </param>
-        /// <returns>True if a control with the key exists; otherwise false.
+        /// <returns>
+        /// True if a control with the key exists; otherwise false.
         /// </returns>
         public virtual bool ContainsKey(string? key)
         {
@@ -259,9 +267,11 @@ public partial class Control
         /// <paramref name="searchAllChildren" /> is true
         /// the search traverses internal arranged elements as well.
         /// </summary>
-        /// <param name="key">Name to search for.
+        /// <param name="key">
+        /// Name to search for.
         /// </param>
-        /// <param name="searchAllChildren">Whether to search nested children.
+        /// <param name="searchAllChildren">
+        /// Whether to search nested children.
         /// </param>
         /// <returns>
         /// Array of matching
@@ -290,20 +300,25 @@ public partial class Control
         /// <summary>
         /// Gets the child index for the specified control.
         /// </summary>
-        /// <param name="child">Child control.
+        /// <param name="child">
+        /// Child control.
         /// </param>
-        /// <returns>Index of the child.
+        /// <returns>
+        /// Index of the child.
         /// </returns>
         public int GetChildIndex(Control child) => GetChildIndex(child, true);
 
         /// <summary>
         /// Gets the child index for the specified control; optionally throw if not a child.
         /// </summary>
-        /// <param name="child">Child control.
+        /// <param name="child">
+        /// Child control.
         /// </param>
-        /// <param name="throwException">True to throw when control is not a child.
+        /// <param name="throwException">
+        /// True to throw when control is not a child.
         /// </param>
-        /// <returns>Index of the child.
+        /// <returns>
+        /// Index of the child.
         /// </returns>
         public virtual int GetChildIndex(Control child, bool throwException)
         {
@@ -327,18 +342,22 @@ public partial class Control
         /// <summary>
         /// Returns the index of the given control in this collection.
         /// </summary>
-        /// <param name="control">Control to locate.
+        /// <param name="control">
+        /// Control to locate.
         /// </param>
-        /// <returns>Zero-based index or -1 if not found.
+        /// <returns>
+        /// Zero-based index or -1 if not found.
         /// </returns>
         public int IndexOf(Control? control) => ((IList)InnerList).IndexOf(control);
 
         /// <summary>
         /// Returns the index of a child control by its key/name.
         /// </summary>
-        /// <param name="key">Key/name to find.
+        /// <param name="key">
+        /// Key/name to find.
         /// </param>
-        /// <returns>Index of the matching child or -1 if not found.
+        /// <returns>
+        /// Index of the matching child or -1 if not found.
         /// </returns>
         public virtual int IndexOfKey(string? key)
         {
@@ -364,7 +383,8 @@ public partial class Control
         /// <summary>
         /// Removes the specified child control from the collection and underlying GTK container.
         /// </summary>
-        /// <param name="value">Control to remove.
+        /// <param name="value">
+        /// Control to remove.
         /// </param>
         public virtual void Remove(Control? value)
         {
@@ -379,7 +399,8 @@ public partial class Control
         /// <summary>
         /// Removes the child at the specified index.
         /// </summary>
-        /// <param name="index">Index to remove.
+        /// <param name="index">
+        /// Index to remove.
         /// </param>
         public void RemoveAt(int index)
         {
@@ -396,7 +417,8 @@ public partial class Control
         /// <summary>
         /// Removes a child control identified by key (name).
         /// </summary>
-        /// <param name="key">Key/name of the child to remove.
+        /// <param name="key">
+        /// Key/name of the child to remove.
         /// </param>
         public virtual void RemoveByKey(string? key)
         {
@@ -410,9 +432,11 @@ public partial class Control
         /// <summary>
         /// Sets the child index (z-order) for the specified child control.
         /// </summary>
-        /// <param name="child">Child control to reposition.
+        /// <param name="child">
+        /// Child control to reposition.
         /// </param>
-        /// <param name="newIndex">New zero-based index.
+        /// <param name="newIndex">
+        /// New zero-based index.
         /// </param>
         public virtual void SetChildIndex(Control child, int newIndex) => SetChildIndexInternal(child, newIndex);
 

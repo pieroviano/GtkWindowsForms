@@ -10,8 +10,7 @@ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class SwitchBox.
-/// Implements the
+/// Class SwitchBox. Implements the
 /// <see cref="T:System.Windows.Forms.Control" />
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.Control" />
@@ -24,7 +23,7 @@ public partial class SwitchBox : Control
     public readonly SwitchBoxBase self = new SwitchBoxBase();
 
     /// <summary>
-    /// Occurs when [checked changed].
+    /// Occurs when [checked changed.
     /// </summary>
     public event EventHandler CheckedChanged;
 
@@ -45,7 +44,8 @@ public partial class SwitchBox : Control
     /// <c>
     /// true
     /// </c> if checked; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Checked
@@ -62,21 +62,24 @@ public partial class SwitchBox : Control
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text { get { return self.TooltipText; } set { self.TooltipText = value; } }
 
     /// <summary>
     /// Handles the ButtonReleaseEvent event of the Self control.
     /// </summary>
-    /// <param name="o">The source of the event.
+    /// <param name="o">
+    /// The source of the event.
     /// </param>
     /// <param name="args">
     /// The

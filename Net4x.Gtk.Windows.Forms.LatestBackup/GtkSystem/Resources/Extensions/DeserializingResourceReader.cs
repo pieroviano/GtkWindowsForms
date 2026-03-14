@@ -61,7 +61,8 @@ public sealed class DeserializingResourceReader : System.Resources.IResourceRead
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Resources.Extensions.DeserializingResourceReader" /> class.
     /// </summary>
-    /// <param name="fileName">Name of the file.
+    /// <param name="fileName">
+    /// Name of the file.
     /// </param>
     public DeserializingResourceReader(string fileName)
     {

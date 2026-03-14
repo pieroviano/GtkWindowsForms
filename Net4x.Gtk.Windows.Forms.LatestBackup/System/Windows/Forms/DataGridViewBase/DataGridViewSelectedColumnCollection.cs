@@ -42,7 +42,8 @@ public class DataGridViewSelectedColumnCollection : BaseCollection, IList
     /// <summary>
     /// Gets the list.
     /// </summary>
-    /// <value>The list.
+    /// <value>
+    /// The list.
     /// </value>
     protected override ArrayList List => ArrayList.Adapter(_items);
 
@@ -50,9 +51,11 @@ public class DataGridViewSelectedColumnCollection : BaseCollection, IList
     /// Gets the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumn" /> at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>DataGridViewColumn.
+    /// <returns>
+    /// DataGridViewColumn.
     /// </returns>
     public DataGridViewColumn this[int index] => _items[index];
 
@@ -67,7 +70,8 @@ public class DataGridViewSelectedColumnCollection : BaseCollection, IList
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </summary>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public void Clear()
@@ -83,20 +87,25 @@ public class DataGridViewSelectedColumnCollection : BaseCollection, IList
     /// <summary>
     /// Copies to.
     /// </summary>
-    /// <param name="array">The array.
+    /// <param name="array">
+    /// The array.
     /// </param>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
     public void CopyTo(DataGridViewColumn[] array, int index) => _items.CopyTo(array, index);
 
     /// <summary>
     /// Inserts the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <param name="dataGridViewColumn">The data grid view column.
+    /// <param name="dataGridViewColumn">
+    /// The data grid view column.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">SR.DataGridView_ReadOnlyCollection
+    /// <exception cref="T:System.NotSupportedException">
+    /// SR.DataGridView_ReadOnlyCollection
     /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public void Insert(int index, DataGridViewColumn dataGridViewColumn)

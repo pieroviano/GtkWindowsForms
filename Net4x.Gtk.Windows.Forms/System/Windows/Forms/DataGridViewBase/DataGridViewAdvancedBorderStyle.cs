@@ -77,7 +77,8 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
     /// <summary>
     /// Gets or sets all.
     /// </summary>
-    /// <value>All.
+    /// <value>
+    /// All.
     /// </value>
     public DataGridViewAdvancedCellBorderStyle All
     {
@@ -94,7 +95,8 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
     /// <summary>
     /// Gets or sets the bottom.
     /// </summary>
-    /// <value>The bottom.
+    /// <value>
+    /// The bottom.
     /// </value>
     public DataGridViewAdvancedCellBorderStyle Bottom
     {
@@ -116,7 +118,8 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
     /// <summary>
     /// Gets or sets the left.
     /// </summary>
-    /// <value>The left.
+    /// <value>
+    /// The left.
     /// </value>
     public DataGridViewAdvancedCellBorderStyle Left
     {
@@ -138,7 +141,8 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
     /// <summary>
     /// Gets or sets the right.
     /// </summary>
-    /// <value>The right.
+    /// <value>
+    /// The right.
     /// </value>
     public DataGridViewAdvancedCellBorderStyle Right
     {
@@ -160,7 +164,8 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
     /// <summary>
     /// Gets or sets the top.
     /// </summary>
-    /// <value>The top.
+    /// <value>
+    /// The top.
     /// </value>
     public DataGridViewAdvancedCellBorderStyle Top
     {
@@ -219,7 +224,8 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
     /// true
     /// </c> if the specified
     /// <see cref="T:System.Object" /> is equal to this instance; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public override bool Equals(object? other)
@@ -239,7 +245,8 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
     /// <summary>
     /// Returns a hash code for this instance.
     /// </summary>
-    /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
     /// </returns>
     public override int GetHashCode() => HashCode.Combine(_top, _left, _bottom, _right);
 

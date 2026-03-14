@@ -20,7 +20,8 @@ public abstract class TableLayoutStyle
     /// <summary>
     /// Gets or sets the type of the size.
     /// </summary>
-    /// <value>The type of the size.
+    /// <value>
+    /// The type of the size.
     /// </value>
     [DefaultValue(SizeType.AutoSize)]
     public SizeType SizeType
@@ -32,7 +33,8 @@ public abstract class TableLayoutStyle
     /// <summary>
     /// Gets or sets the owner.
     /// </summary>
-    /// <value>The owner.
+    /// <value>
+    /// The owner.
     /// </value>
     internal IArrangedElement Owner
     {
@@ -43,7 +45,8 @@ public abstract class TableLayoutStyle
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     internal float Size
     {
@@ -54,7 +57,8 @@ public abstract class TableLayoutStyle
     /// <summary>
     /// Sets the size.
     /// </summary>
-    /// <param name="size">The size.
+    /// <param name="size">
+    /// The size.
     /// </param>
     internal void SetSize(float size)
     {

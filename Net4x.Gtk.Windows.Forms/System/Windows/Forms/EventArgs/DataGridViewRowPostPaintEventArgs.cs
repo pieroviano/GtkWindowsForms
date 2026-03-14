@@ -22,37 +22,50 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowPostPaintEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridView">The data grid view.
+    /// <param name="dataGridView">
+    /// The data grid view.
     /// </param>
-    /// <param name="graphics">The graphics.
+    /// <param name="graphics">
+    /// The graphics.
     /// </param>
-    /// <param name="clipBounds">The clip bounds.
+    /// <param name="clipBounds">
+    /// The clip bounds.
     /// </param>
-    /// <param name="rowBounds">The row bounds.
+    /// <param name="rowBounds">
+    /// The row bounds.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="rowState">State of the row.
+    /// <param name="rowState">
+    /// State of the row.
     /// </param>
-    /// <param name="errorText">The error text.
+    /// <param name="errorText">
+    /// The error text.
     /// </param>
-    /// <param name="inheritedRowStyle">The inherited row style.
+    /// <param name="inheritedRowStyle">
+    /// The inherited row style.
     /// </param>
     /// <param name="isFirstDisplayedRow">
     /// if set to
-    /// <c>true
-    /// </c> [is first displayed row].
+    /// <c>
+    /// true
+    /// </c>is first displayed row.
     /// </param>
     /// <param name="isLastVisibleRow">
     /// if set to
-    /// <c>true
-    /// </c> [is last visible row].
+    /// <c>
+    /// true
+    /// </c>is last visible row.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">dataGridView
+    /// <exception cref="T:System.ArgumentNullException">
+    /// dataGridView
     /// </exception>
-    /// <exception cref="T:System.ArgumentNullException">graphics
+    /// <exception cref="T:System.ArgumentNullException">
+    /// graphics
     /// </exception>
-    /// <exception cref="T:System.ArgumentNullException">inheritedRowStyle
+    /// <exception cref="T:System.ArgumentNullException">
+    /// inheritedRowStyle
     /// </exception>
     public DataGridViewRowPostPaintEventArgs(DataGridView dataGridView,
                                                      Graphics graphics,
@@ -81,7 +94,8 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowPostPaintEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridView">The data grid view.
+    /// <param name="dataGridView">
+    /// The data grid view.
     /// </param>
     internal DataGridViewRowPostPaintEventArgs(DataGridView dataGridView)
     {
@@ -92,28 +106,32 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <summary>
     /// Gets or sets the clip bounds.
     /// </summary>
-    /// <value>The clip bounds.
+    /// <value>
+    /// The clip bounds.
     /// </value>
     public Rectangle ClipBounds { get; set; }
 
     /// <summary>
     /// Gets the error text.
     /// </summary>
-    /// <value>The error text.
+    /// <value>
+    /// The error text.
     /// </value>
     public string ErrorText { get; private set; }
 
     /// <summary>
     /// Gets the graphics.
     /// </summary>
-    /// <value>The graphics.
+    /// <value>
+    /// The graphics.
     /// </value>
     public Graphics Graphics { get; private set; }
 
     /// <summary>
     /// Gets the inherited row style.
     /// </summary>
-    /// <value>The inherited row style.
+    /// <value>
+    /// The inherited row style.
     /// </value>
     public DataGridViewCellStyle InheritedRowStyle { get; private set; }
 
@@ -124,7 +142,8 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if this instance is first displayed row; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool IsFirstDisplayedRow { get; private set; }
@@ -136,7 +155,8 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if this instance is last visible row; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool IsLastVisibleRow { get; private set; }
@@ -144,50 +164,62 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <summary>
     /// Gets the row bounds.
     /// </summary>
-    /// <value>The row bounds.
+    /// <value>
+    /// The row bounds.
     /// </value>
     public Rectangle RowBounds { get; private set; }
 
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; private set; }
 
     /// <summary>
     /// Gets the state.
     /// </summary>
-    /// <value>The state.
+    /// <value>
+    /// The state.
     /// </value>
     public DataGridViewElementStates State { get; private set; }
 
     /// <summary>
     /// Sets the properties.
     /// </summary>
-    /// <param name="graphics">The graphics.
+    /// <param name="graphics">
+    /// The graphics.
     /// </param>
-    /// <param name="clipBounds">The clip bounds.
+    /// <param name="clipBounds">
+    /// The clip bounds.
     /// </param>
-    /// <param name="rowBounds">The row bounds.
+    /// <param name="rowBounds">
+    /// The row bounds.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="rowState">State of the row.
+    /// <param name="rowState">
+    /// State of the row.
     /// </param>
-    /// <param name="errorText">The error text.
+    /// <param name="errorText">
+    /// The error text.
     /// </param>
-    /// <param name="inheritedRowStyle">The inherited row style.
+    /// <param name="inheritedRowStyle">
+    /// The inherited row style.
     /// </param>
     /// <param name="isFirstDisplayedRow">
     /// if set to
-    /// <c>true
-    /// </c> [is first displayed row].
+    /// <c>
+    /// true
+    /// </c>is first displayed row.
     /// </param>
     /// <param name="isLastVisibleRow">
     /// if set to
-    /// <c>true
-    /// </c> [is last visible row].
+    /// <c>
+    /// true
+    /// </c>is last visible row.
     /// </param>
     //    _dataGridView.Rows.SharedRow(RowIndex).DrawFocus(Graphics,
     //                                                     ClipBounds,

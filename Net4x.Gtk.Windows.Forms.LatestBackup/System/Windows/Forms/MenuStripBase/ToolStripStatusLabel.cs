@@ -22,7 +22,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripStatusLabel" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public ToolStripStatusLabel(string text)
     {
@@ -33,7 +34,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripStatusLabel" /> class.
     /// </summary>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
     public ToolStripStatusLabel(Image image)
     {
@@ -44,9 +46,11 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripStatusLabel" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
     public ToolStripStatusLabel(string text, Image image)
     {
@@ -57,11 +61,14 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripStatusLabel" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
     public ToolStripStatusLabel(string text, Image image, EventHandler onClick)
     {
@@ -72,13 +79,17 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripStatusLabel" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     public ToolStripStatusLabel(string text, Image image, EventHandler onClick, string name) : base(text, image, onClick, name)
     {
@@ -87,7 +98,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// <summary>
     /// Gets or sets the border sides.
     /// </summary>
-    /// <value>The border sides.
+    /// <value>
+    /// The border sides.
     /// </value>
     [DefaultValue(ToolStripStatusLabelBorderSides.None)]
     public ToolStripStatusLabelBorderSides BorderSides { get; set; }
@@ -95,7 +107,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// <summary>
     /// Gets or sets the border style.
     /// </summary>
-    /// <value>The border style.
+    /// <value>
+    /// The border style.
     /// </value>
     [DefaultValue(Border3DStyle.Flat)]
     public Border3DStyle BorderStyle { get; set; }
@@ -108,7 +121,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// <c>
     /// true
     /// </c> if spring; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [DefaultValue(false)]

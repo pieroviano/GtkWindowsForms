@@ -6,7 +6,8 @@ namespace System.Windows.Forms;
 /// <summary>
 /// Delegate SelectedGridItemChangedEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The

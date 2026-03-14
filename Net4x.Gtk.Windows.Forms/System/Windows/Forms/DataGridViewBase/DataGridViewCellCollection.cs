@@ -29,7 +29,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellCollection" /> class.
     /// </summary>
-    /// <param name="dataGridViewRow">The data grid view row.
+    /// <param name="dataGridViewRow">
+    /// The data grid view row.
     /// </param>
     public DataGridViewCellCollection(DataGridViewRow dataGridViewRow)
     {
@@ -39,7 +40,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Gets the total number of elements in a collection.
     /// </summary>
-    /// <value>The count.
+    /// <value>
+    /// The count.
     /// </value>
     public override int Count
     {
@@ -55,7 +57,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <c>
     /// true
     /// </c> if this instance is fixed size; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool IsFixedSize => false;
@@ -63,14 +66,16 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Gets or sets the row.
     /// </summary>
-    /// <value>The row.
+    /// <value>
+    /// The row.
     /// </value>
     public DataGridViewRow Row { set => owner = value; get => owner; }
 
     /// <summary>
     /// Gets the list.
     /// </summary>
-    /// <value>The list.
+    /// <value>
+    /// The list.
     /// </value>
     protected override ArrayList List => items;
 
@@ -78,11 +83,14 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// Gets or sets the
     /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>DataGridViewCell.
+    /// <returns>
+    /// DataGridViewCell.
     /// </returns>
-    /// <exception cref="T:System.ArgumentNullException">value
+    /// <exception cref="T:System.ArgumentNullException">
+    /// value
     /// </exception>
     public DataGridViewCell this[int index]
     {
@@ -100,11 +108,14 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// Gets or sets the
     /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> with the specified column name.
     /// </summary>
-    /// <param name="columnName">Name of the column.
+    /// <param name="columnName">
+    /// Name of the column.
     /// </param>
-    /// <returns>DataGridViewCell.
+    /// <returns>
+    /// DataGridViewCell.
     /// </returns>
-    /// <exception cref="T:System.ArgumentException">DataGridViewColumnCollection_ColumnNotFound - columnName
+    /// <exception cref="T:System.ArgumentException">
+    /// DataGridViewColumnCollection_ColumnNotFound - columnName
     /// </exception>
     public DataGridViewCell this[string columnName]
     {
@@ -144,9 +155,11 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// Gets or sets the
     /// <see cref="T:System.Object" /> at the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>System.Object.
+    /// <returns>
+    /// System.Object.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -155,13 +168,17 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Adds the specified data grid view cell.
     /// </summary>
-    /// <param name="dataGridViewCell">The data grid view cell.
+    /// <param name="dataGridViewCell">
+    /// The data grid view cell.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
-    /// <exception cref="T:System.InvalidOperationException">DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
+    /// <exception cref="T:System.InvalidOperationException">
+    /// DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
     /// </exception>
-    /// <exception cref="T:System.InvalidOperationException">DataGridViewCellCollection_CellAlreadyBelongsToDataGridViewRow
+    /// <exception cref="T:System.InvalidOperationException">
+    /// DataGridViewCellCollection_CellAlreadyBelongsToDataGridViewRow
     /// </exception>
     //*****************
     public virtual int Add(DataGridViewCell dataGridViewCell)
@@ -183,9 +200,11 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Adds the range.
     /// </summary>
-    /// <param name="dataGridViewCells">The data grid view cells.
+    /// <param name="dataGridViewCells">
+    /// The data grid view cells.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">dataGridViewCells
+    /// <exception cref="T:System.ArgumentNullException">
+    /// dataGridViewCells
     /// </exception>
     public virtual void AddRange(params DataGridViewCell[] dataGridViewCells)
     {
@@ -204,9 +223,11 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Adds the range.
     /// </summary>
-    /// <param name="dataGridViewCells">The data grid view cells.
+    /// <param name="dataGridViewCells">
+    /// The data grid view cells.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">dataGridViewCells
+    /// <exception cref="T:System.ArgumentNullException">
+    /// dataGridViewCells
     /// </exception>
     public void AddRange(IEnumerable<DataGridViewCell> dataGridViewCells)
     {
@@ -227,7 +248,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </summary>
-    /// <exception cref="T:System.InvalidOperationException">DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
+    /// <exception cref="T:System.InvalidOperationException">
+    /// DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
     /// </exception>
     public virtual void Clear()
     {
@@ -247,13 +269,15 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Determines whether this instance contains the object.
     /// </summary>
-    /// <param name="dataGridViewCell">The data grid view cell.
+    /// <param name="dataGridViewCell">
+    /// The data grid view cell.
     /// </param>
     /// <returns>
     /// <c>
     /// true
-    /// </c> if [contains] [the specified data grid view cell]; otherwise,
-    /// <c>false
+    /// </c> if contains [the specified data grid view cell]; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public virtual bool Contains(DataGridViewCell dataGridViewCell)
@@ -266,9 +290,11 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Copies to.
     /// </summary>
-    /// <param name="array">The array.
+    /// <param name="array">
+    /// The array.
     /// </param>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
     public void CopyTo(DataGridViewCell[] array, int index)
     {
@@ -278,7 +304,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Gets an IEnumerator for the collection.
     /// </summary>
-    /// <returns>IEnumerator.
+    /// <returns>
+    /// IEnumerator.
     /// </returns>
     public override IEnumerator GetEnumerator()
     {
@@ -288,9 +315,11 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Indexes the of.
     /// </summary>
-    /// <param name="dataGridViewCell">The data grid view cell.
+    /// <param name="dataGridViewCell">
+    /// The data grid view cell.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     public int IndexOf(DataGridViewCell dataGridViewCell)
     {
@@ -300,13 +329,17 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Inserts the specified index.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <param name="dataGridViewCell">The data grid view cell.
+    /// <param name="dataGridViewCell">
+    /// The data grid view cell.
     /// </param>
-    /// <exception cref="T:System.InvalidOperationException">DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
+    /// <exception cref="T:System.InvalidOperationException">
+    /// DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
     /// </exception>
-    /// <exception cref="T:System.InvalidOperationException">DataGridViewCellCollection_CellAlreadyBelongsToDataGridViewRow
+    /// <exception cref="T:System.InvalidOperationException">
+    /// DataGridViewCellCollection_CellAlreadyBelongsToDataGridViewRow
     /// </exception>
     public virtual void Insert(int index, DataGridViewCell dataGridViewCell)
     {
@@ -327,11 +360,14 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Removes the specified cell.
     /// </summary>
-    /// <param name="cell">The cell.
+    /// <param name="cell">
+    /// The cell.
     /// </param>
-    /// <exception cref="T:System.InvalidOperationException">DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
+    /// <exception cref="T:System.InvalidOperationException">
+    /// DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
     /// </exception>
-    /// <exception cref="T:System.ArgumentException">DataGridViewCellCollection_CellNotFound
+    /// <exception cref="T:System.ArgumentException">
+    /// DataGridViewCellCollection_CellNotFound
     /// </exception>
     public virtual void Remove(DataGridViewCell cell)
     {
@@ -364,9 +400,11 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <see cref="T:System.Collections.IList">
     /// </see> item at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index of the item to remove.
+    /// <param name="index">
+    /// The zero-based index of the item to remove.
     /// </param>
-    /// <exception cref="T:System.InvalidOperationException">DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
+    /// <exception cref="T:System.InvalidOperationException">
+    /// DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView
     /// </exception>
     public virtual void RemoveAt(int index)
     {
@@ -383,11 +421,14 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <summary>
     /// Converts all.
     /// </summary>
-    /// <typeparam name="TOutput">The type of the t output.
+    /// <typeparam name="TOutput">
+    /// The type of the t output.
     /// </typeparam>
-    /// <param name="converter">The converter.
+    /// <param name="converter">
+    /// The converter.
     /// </param>
-    /// <returns>List{TOutput}.
+    /// <returns>
+    /// List{TOutput}.
     /// </returns>
     internal List<TOutput> ConvertAll<TOutput>(Converter<DataGridViewCell, TOutput> converter)
     {
@@ -408,7 +449,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <see cref="T:System.Collections.IList">
     /// </see>.
     /// </param>
-    /// <returns>The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
+    /// <returns>
+    /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
     /// </returns>
     int IList.Add(object value)
     {
@@ -465,7 +507,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <see cref="T:System.Array">
     /// </see> must have zero-based indexing.
     /// </param>
-    /// <param name="index">The zero-based index in array at which copying begins.
+    /// <param name="index">
+    /// The zero-based index in array at which copying begins.
     /// </param>
     void ICollection.CopyTo(Array array, int index)
     {
@@ -484,7 +527,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// </param>
     /// <returns>
     /// The index of
-    /// <paramref name="value">value
+    /// <paramref name="value">
+    /// value
     /// </paramref> if found in the list; otherwise, -1.
     /// </returns>
     int IList.IndexOf(object value)
@@ -497,7 +541,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <see cref="T:System.Collections.IList">
     /// </see> at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index at which value should be inserted.
+    /// <param name="index">
+    /// The zero-based index at which value should be inserted.
     /// </param>
     /// <param name="value">
     /// The object to insert into the
@@ -529,7 +574,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <see cref="T:System.Collections.IList">
     /// </see> item at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index of the item to remove.
+    /// <param name="index">
+    /// The zero-based index of the item to remove.
     /// </param>
     void IList.RemoveAt(int index)
     {

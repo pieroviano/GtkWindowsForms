@@ -51,7 +51,8 @@ public struct Padding
     /// <param name="right">
     /// The padding size, in pixels, for the right edge.
     /// </param>
-    /// <param name="bottom">The padding size, in pixels, for the bottom edge.
+    /// <param name="bottom">
+    /// The padding size, in pixels, for the bottom edge.
     /// </param>
     public Padding(int left, int top, int right, int bottom)
     {

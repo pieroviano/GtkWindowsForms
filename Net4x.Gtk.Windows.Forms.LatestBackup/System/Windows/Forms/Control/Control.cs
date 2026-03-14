@@ -15,16 +15,11 @@ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Partial definition of the
-/// <see cref="T:System.Windows.Forms.Control"/> class that contains the nested
-/// <see cref="T:System.Windows.Forms.Control.ControlCollection"/>.
-/// The collection manages child controls/widgets for a parent
-/// <see cref="T:System.Windows.Forms.Control"/> and bridges WinForms semantics
-/// to the underlying GTK container.
+/// Represents the collection of data bindings for a control.
 /// </summary>
-/// Represents a Windows Forms control that is backed by a GTK widget.
-/// This class provides a compatibility layer so WinForms-style APIs can be used on GTK platforms.
-/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
 [DefaultEvent("Click")]
 [DefaultProperty("Text")]
 [Designer(typeof(ControlDesigner))]
@@ -1241,13 +1236,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual IWindowTarget WindowTarget { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether [show focus cues].
+    /// Gets a value indicating whether show focus cues.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show focus cues]; otherwise,
-    /// <c>false
+    /// </c> if show focus cues; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -1256,13 +1252,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     protected internal virtual bool ShowFocusCues { get; }
 
     /// <summary>
-    /// Gets a value indicating whether [show keyboard cues].
+    /// Gets a value indicating whether show keyboard cues.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show keyboard cues]; otherwise,
-    /// <c>false
+    /// </c> if show keyboard cues; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [Browsable(false)]
@@ -1354,13 +1351,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     protected bool ResizeRedraw { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether [scale children].
+    /// Gets a value indicating whether scale children.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [scale children]; otherwise,
-    /// <c>false
+    /// </c> if scale children; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1377,11 +1375,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Begins an asynchronous operation on the control's thread.
     /// </summary>
-    /// <param name = "method">Delegate to invoke asynchronously.
+    /// <param name = "method">
+    /// Delegate to invoke asynchronously.
     /// </param>
-    /// <param name = "args">Arguments to pass to the delegate.
+    /// <param name = "args">
+    /// Arguments to pass to the delegate.
     /// </param>
-    /// <returns>An IAsyncResult representing the asynchronous operation.
+    /// <returns>
+    /// An IAsyncResult representing the asynchronous operation.
     /// </returns>
     public virtual IAsyncResult BeginInvoke(Delegate method, params object[] args)
     {
@@ -1396,9 +1397,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Begins an asynchronous operation on the control's thread.
     /// </summary>
-    /// <param name = "method">Delegate to invoke asynchronously.
+    /// <param name = "method">
+    /// Delegate to invoke asynchronously.
     /// </param>
-    /// <returns>An IAsyncResult representing the asynchronous operation.
+    /// <returns>
+    /// An IAsyncResult representing the asynchronous operation.
     /// </returns>
     public virtual IAsyncResult BeginInvoke(Delegate method)
     {
@@ -1408,9 +1411,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Begins an asynchronous action on the control's thread.
     /// </summary>
-    /// <param name = "method">Action to invoke asynchronously.
+    /// <param name = "method">
+    /// Action to invoke asynchronously.
     /// </param>
-    /// <returns>An IAsyncResult representing the asynchronous operation.
+    /// <returns>
+    /// An IAsyncResult representing the asynchronous operation.
     /// </returns>
     public virtual IAsyncResult BeginInvoke(Action method)
     {
@@ -1429,9 +1434,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Determines whether the specified control is contained within the control's hierarchy.
     /// </summary>
-    /// <param name = "ctl">Control to locate.
+    /// <param name = "ctl">
+    /// Control to locate.
     /// </param>
-    /// <returns>True if the control is contained; otherwise false.
+    /// <returns>
+    /// True if the control is contained; otherwise false.
     /// </returns>
     public virtual bool Contains(Control ctl)
     {
@@ -1448,7 +1455,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Creates a Drawing.Graphics object for the control.
     /// </summary>
-    /// <returns>A Graphics object used to draw to the control.
+    /// <returns>
+    /// A Graphics object used to draw to the control.
     /// </returns>
     public virtual Drawing.Graphics CreateGraphics()
     {
@@ -1472,15 +1480,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Creates a Drawing.Graphics object limited to the specified rectangle.
     /// </summary>
-    /// <param name = "x">X coordinate of the target rectangle.
+    /// <param name = "x">
+    /// X coordinate of the target rectangle.
     /// </param>
-    /// <param name = "y">Y coordinate of the target rectangle.
+    /// <param name = "y">
+    /// Y coordinate of the target rectangle.
     /// </param>
-    /// <param name = "width">Width of the target rectangle.
+    /// <param name = "width">
+    /// Width of the target rectangle.
     /// </param>
-    /// <param name = "height">Height of the target rectangle.
+    /// <param name = "height">
+    /// Height of the target rectangle.
     /// </param>
-    /// <returns>A Graphics object used to draw to the specified region of the control.
+    /// <returns>
+    /// A Graphics object used to draw to the specified region of the control.
     /// </returns>
     public virtual Drawing.Graphics CreateGraphics(int x, int y, int width, int height)
     {
@@ -1513,11 +1526,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Initiates a drag-and-drop operation.
     /// </summary>
-    /// <param name = "data">Data to drag.
+    /// <param name = "data">
+    /// Data to drag.
     /// </param>
-    /// <param name = "allowedEffects">Allowed drag-drop effects.
+    /// <param name = "allowedEffects">
+    /// Allowed drag-drop effects.
     /// </param>
-    /// <returns>The result of the drag-and-drop operation.
+    /// <returns>
+    /// The result of the drag-and-drop operation.
     /// </returns>
     public virtual DragDropEffects DoDragDrop(object data, DragDropEffects allowedEffects)
     {
@@ -1527,9 +1543,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Draws the control into the specified bitmap.
     /// </summary>
-    /// <param name = "bitmap">Bitmap to draw into.
+    /// <param name = "bitmap">
+    /// Bitmap to draw into.
     /// </param>
-    /// <param name = "targetBounds">Area within the bitmap to draw.
+    /// <param name = "targetBounds">
+    /// Area within the bitmap to draw.
     /// </param>
     public virtual void DrawToBitmap(Bitmap bitmap, Rectangle targetBounds)
     {
@@ -1546,9 +1564,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Ends an asynchronous operation started by BeginInvoke.
     /// </summary>
-    /// <param name = "asyncResult">The IAsyncResult returned from BeginInvoke.
+    /// <param name = "asyncResult">
+    /// The IAsyncResult returned from BeginInvoke.
     /// </param>
-    /// <returns>The result from the asynchronous operation if any.
+    /// <returns>
+    /// The result from the asynchronous operation if any.
     /// </returns>
     public virtual object EndInvoke(IAsyncResult asyncResult)
     {
@@ -1564,7 +1584,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Retrieves the form that the control is on.
     /// </summary>
-    /// <returns>The parent Form, or null if none is found.
+    /// <returns>
+    /// The parent Form, or null if none is found.
     /// </returns>
     public virtual Form FindForm()
     {
@@ -1590,7 +1611,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Attempts to set focus to the control.
     /// </summary>
-    /// <returns>True if the control received focus; otherwise false.
+    /// <returns>
+    /// True if the control received focus; otherwise false.
     /// </returns>
     public virtual bool Focus()
     {
@@ -1608,9 +1630,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the child control at the specified point.
     /// </summary>
-    /// <param name = "pt">Point to test, in client coordinates.
+    /// <param name = "pt">
+    /// Point to test, in client coordinates.
     /// </param>
-    /// <returns>The child control at the point, or null if none.
+    /// <returns>
+    /// The child control at the point, or null if none.
     /// </returns>
     public virtual Control GetChildAtPoint(Point pt)
     {
@@ -1620,11 +1644,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the child control at the specified point, with skip options.
     /// </summary>
-    /// <param name = "pt">Point to test, in client coordinates.
+    /// <param name = "pt">
+    /// Point to test, in client coordinates.
     /// </param>
-    /// <param name = "skipValue">Specifies which children to skip.
+    /// <param name = "skipValue">
+    /// Specifies which children to skip.
     /// </param>
-    /// <returns>The child control at the point, or null if none.
+    /// <returns>
+    /// The child control at the point, or null if none.
     /// </returns>
     public virtual Control GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue)
     {
@@ -1634,7 +1661,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Returns the container control that the control is associated with.
     /// </summary>
-    /// <returns>An IContainerControl if the control implements it; otherwise the control itself.
+    /// <returns>
+    /// An IContainerControl if the control implements it; otherwise the control itself.
     /// </returns>
     public virtual IContainerControl GetContainerControl()
     {
@@ -1644,11 +1672,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the next control in the tab order.
     /// </summary>
-    /// <param name = "ctl">The starting control.
+    /// <param name = "ctl">
+    /// The starting control.
     /// </param>
-    /// <param name = "forward">True to move forward; false to move backward.
+    /// <param name = "forward">
+    /// True to move forward; false to move backward.
     /// </param>
-    /// <returns>The next control in the tab order, or null if none.
+    /// <returns>
+    /// The next control in the tab order, or null if none.
     /// </returns>
     public virtual Control GetNextControl(Control ctl, bool forward)
     {
@@ -1688,9 +1719,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Returns the preferred size for the control given the proposed size.
     /// </summary>
-    /// <param name = "proposedSize">The available size for the control.
+    /// <param name = "proposedSize">
+    /// The available size for the control.
     /// </param>
-    /// <returns>The preferred size of the control.
+    /// <returns>
+    /// The preferred size of the control.
     /// </returns>
     public virtual Size GetPreferredSize(Size proposedSize)
     {
@@ -1719,7 +1752,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invalidates the control and optionally its children.
     /// </summary>
-    /// <param name = "invalidateChildren">True to invalidate child controls as well.
+    /// <param name = "invalidateChildren">
+    /// True to invalidate child controls as well.
     /// </param>
     public virtual void Invalidate(bool invalidateChildren)
     {
@@ -1729,7 +1763,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invalidates the specified rectangle of the control.
     /// </summary>
-    /// <param name = "rc">Rectangle to invalidate, in client coordinates.
+    /// <param name = "rc">
+    /// Rectangle to invalidate, in client coordinates.
     /// </param>
     public virtual void Invalidate(Rectangle rc)
     {
@@ -1739,9 +1774,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invalidates the specified rectangle of the control and optionally its children.
     /// </summary>
-    /// <param name = "rc">Rectangle to invalidate, in client coordinates.
+    /// <param name = "rc">
+    /// Rectangle to invalidate, in client coordinates.
     /// </param>
-    /// <param name = "invalidateChildren">True to invalidate child controls as well.
+    /// <param name = "invalidateChildren">
+    /// True to invalidate child controls as well.
     /// </param>
     public virtual void Invalidate(Rectangle rc, bool invalidateChildren)
     {
@@ -1762,7 +1799,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invalidates the specified region of the control.
     /// </summary>
-    /// <param name = "region">Region to invalidate.
+    /// <param name = "region">
+    /// Region to invalidate.
     /// </param>
     public virtual void Invalidate(Drawing.Region region)
     {
@@ -1772,9 +1810,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invalidates the specified region of the control and optionally its children.
     /// </summary>
-    /// <param name = "region">Region to invalidate.
+    /// <param name = "region">
+    /// Region to invalidate.
     /// </param>
-    /// <param name = "invalidateChildren">True to invalidate child controls as well.
+    /// <param name = "invalidateChildren">
+    /// True to invalidate child controls as well.
     /// </param>
     public virtual void Invalidate(Drawing.Region region, bool invalidateChildren)
     {
@@ -1788,9 +1828,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invokes a delegate on the control's thread and returns its result.
     /// </summary>
-    /// <param name = "method">Delegate to invoke.
+    /// <param name = "method">
+    /// Delegate to invoke.
     /// </param>
-    /// <returns>The result returned by the delegate.
+    /// <returns>
+    /// The result returned by the delegate.
     /// </returns>
     public virtual object Invoke(Delegate method)
     {
@@ -1800,11 +1842,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invokes a delegate on the control's thread and returns its result.
     /// </summary>
-    /// <param name = "method">Delegate to invoke.
+    /// <param name = "method">
+    /// Delegate to invoke.
     /// </param>
-    /// <param name = "args">Arguments to pass to the delegate.
+    /// <param name = "args">
+    /// Arguments to pass to the delegate.
     /// </param>
-    /// <returns>The result returned by the delegate.
+    /// <returns>
+    /// The result returned by the delegate.
     /// </returns>
     public virtual object Invoke(Delegate method, params object[] args)
     {
@@ -1821,7 +1866,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invokes an action on the control's thread.
     /// </summary>
-    /// <param name = "method">Action to invoke.
+    /// <param name = "method">
+    /// Action to invoke.
     /// </param>
     public virtual void Invoke(Action method)
     {
@@ -1835,11 +1881,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invokes a function on the control's thread and returns typed result.
     /// </summary>
-    /// <typeparam name = "ENTRY">Return type.
+    /// <typeparam name = "ENTRY">
+    /// Return type.
     /// </typeparam>
-    /// <param name = "method">Function to invoke.
+    /// <param name = "method">
+    /// Function to invoke.
     /// </param>
-    /// <returns>Result of the function.
+    /// <returns>
+    /// Result of the function.
     /// </returns>
     public virtual ENTRY Invoke<ENTRY>(Func<ENTRY> method)
     {
@@ -1856,9 +1905,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Converts a logical unit value to device units.
     /// </summary>
-    /// <param name = "value">Value in logical units.
+    /// <param name = "value">
+    /// Value in logical units.
     /// </param>
-    /// <returns>Value in device units.
+    /// <returns>
+    /// Value in device units.
     /// </returns>
     public virtual int LogicalToDeviceUnits(int value)
     {
@@ -1868,9 +1919,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Converts a logical size to device units.
     /// </summary>
-    /// <param name = "value">Size in logical units.
+    /// <param name = "value">
+    /// Size in logical units.
     /// </param>
-    /// <returns>Size in device units.
+    /// <returns>
+    /// Size in device units.
     /// </returns>
     public virtual Size LogicalToDeviceUnits(Size value)
     {
@@ -1896,9 +1949,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Forces the control to perform layout logic for a specific affected control/property.
     /// </summary>
-    /// <param name = "affectedControl">Control affected by the layout.
+    /// <param name = "affectedControl">
+    /// Control affected by the layout.
     /// </param>
-    /// <param name = "affectedProperty">Property name that changed.
+    /// <param name = "affectedProperty">
+    /// Property name that changed.
     /// </param>
     public virtual void PerformLayout(Control affectedControl, string affectedProperty)
     {
@@ -1908,9 +1963,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Converts a screen point to client coordinates.
     /// </summary>
-    /// <param name = "p">Point in screen coordinates.
+    /// <param name = "p">
+    /// Point in screen coordinates.
     /// </param>
-    /// <returns>Point in client coordinates.
+    /// <returns>
+    /// Point in client coordinates.
     /// </returns>
     public virtual Point PointToClient(Point p)
     {
@@ -1927,9 +1984,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Converts a client point to screen coordinates.
     /// </summary>
-    /// <param name = "p">Point in client coordinates.
+    /// <param name = "p">
+    /// Point in client coordinates.
     /// </param>
-    /// <returns>Point in screen coordinates.
+    /// <returns>
+    /// Point in screen coordinates.
     /// </returns>
     public virtual Point PointToScreen(Point p)
     {
@@ -1946,9 +2005,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Allows preprocessing of Windows messages for the control.
     /// </summary>
-    /// <param name = "msg">Message to preprocess.
+    /// <param name = "msg">
+    /// Message to preprocess.
     /// </param>
-    /// <returns>A PreProcessControlState value.
+    /// <returns>
+    /// A PreProcessControlState value.
     /// </returns>
     public virtual PreProcessControlState PreProcessControlMessage(ref Message msg)
     {
@@ -1958,9 +2019,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Allows preprocessing of a message and returns whether it was handled.
     /// </summary>
-    /// <param name = "msg">Message to preprocess.
+    /// <param name = "msg">
+    /// Message to preprocess.
     /// </param>
-    /// <returns>True if the message was processed; otherwise false.
+    /// <returns>
+    /// True if the message was processed; otherwise false.
     /// </returns>
     public virtual bool PreProcessMessage(ref Message msg)
     {
@@ -1970,9 +2033,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Converts a rectangle from screen coordinates to client coordinates.
     /// </summary>
-    /// <param name = "r">Rectangle in screen coordinates.
+    /// <param name = "r">
+    /// Rectangle in screen coordinates.
     /// </param>
-    /// <returns>Rectangle in client coordinates.
+    /// <returns>
+    /// Rectangle in client coordinates.
     /// </returns>
     public virtual Rectangle RectangleToClient(Rectangle r)
     {
@@ -1989,9 +2054,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Converts a rectangle from client coordinates to screen coordinates.
     /// </summary>
-    /// <param name = "r">Rectangle in client coordinates.
+    /// <param name = "r">
+    /// Rectangle in client coordinates.
     /// </param>
-    /// <returns>Rectangle in screen coordinates.
+    /// <returns>
+    /// Rectangle in screen coordinates.
     /// </returns>
     public virtual Rectangle RectangleToScreen(Rectangle r)
     {
@@ -2089,7 +2156,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Resumes layout logic and optionally forces an immediate layout.
     /// </summary>
-    /// <param name = "performLayout">True to force a layout immediately.
+    /// <param name = "performLayout">
+    /// True to force a layout immediately.
     /// </param>
     public virtual void ResumeLayout(bool performLayout)
     {
@@ -2099,7 +2167,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Scales the control by the specified ratio.
     /// </summary>
-    /// <param name = "ratio">Scale ratio.
+    /// <param name = "ratio">
+    /// Scale ratio.
     /// </param>
     public virtual void Scale(float ratio)
     {
@@ -2108,9 +2177,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Scales the control by the specified x and y factors.
     /// </summary>
-    /// <param name = "dx">Horizontal scale factor.
+    /// <param name = "dx">
+    /// Horizontal scale factor.
     /// </param>
-    /// <param name = "dy">Vertical scale factor.
+    /// <param name = "dy">
+    /// Vertical scale factor.
     /// </param>
     public virtual void Scale(float dx, float dy)
     {
@@ -2119,7 +2190,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Scales the control by the specified factor.
     /// </summary>
-    /// <param name = "factor">Scale factor.
+    /// <param name = "factor">
+    /// Scale factor.
     /// </param>
     public virtual void Scale(SizeF factor)
     {
@@ -2128,7 +2200,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Scales a logical bitmap to device pixels.
     /// </summary>
-    /// <param name = "logicalBitmap">Bitmap to scale (in/out parameter).
+    /// <param name = "logicalBitmap">
+    /// Bitmap to scale (in/out parameter).
     /// </param>
     public virtual void ScaleBitmapLogicalToDevice(ref Bitmap logicalBitmap)
     {
@@ -2145,17 +2218,23 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Selects the next control in the tab order.
     /// </summary>
-    /// <param name = "ctl">Starting control.
+    /// <param name = "ctl">
+    /// Starting control.
     /// </param>
-    /// <param name = "forward">True to move forward; false to move backward.
+    /// <param name = "forward">
+    /// True to move forward; false to move backward.
     /// </param>
-    /// <param name = "tabStopOnly">True to consider only tab stop controls.
+    /// <param name = "tabStopOnly">
+    /// True to consider only tab stop controls.
     /// </param>
-    /// <param name = "nested">True to include nested child controls.
+    /// <param name = "nested">
+    /// True to include nested child controls.
     /// </param>
-    /// <param name = "wrap">True to wrap to the first control when the end is reached.
+    /// <param name = "wrap">
+    /// True to wrap to the first control when the end is reached.
     /// </param>
-    /// <returns>True if another control was selected; otherwise false.
+    /// <returns>
+    /// True if another control was selected; otherwise false.
     /// </returns>
     public virtual bool SelectNextControl(Control ctl, bool forward, bool tabStopOnly, bool nested, bool wrap)
     {
@@ -2172,13 +2251,17 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Sets the bounds of the control.
     /// </summary>
-    /// <param name = "x">Left coordinate.
+    /// <param name = "x">
+    /// Left coordinate.
     /// </param>
-    /// <param name = "y">Top coordinate.
+    /// <param name = "y">
+    /// Top coordinate.
     /// </param>
-    /// <param name = "width">Width.
+    /// <param name = "width">
+    /// Width.
     /// </param>
-    /// <param name = "height">Height.
+    /// <param name = "height">
+    /// Height.
     /// </param>
     public virtual void SetBounds(int x, int y, int width, int height)
     {
@@ -2188,15 +2271,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Sets the bounds of the control with specified bounds flags.
     /// </summary>
-    /// <param name = "x">Left coordinate.
+    /// <param name = "x">
+    /// Left coordinate.
     /// </param>
-    /// <param name = "y">Top coordinate.
+    /// <param name = "y">
+    /// Top coordinate.
     /// </param>
-    /// <param name = "width">Width.
+    /// <param name = "width">
+    /// Width.
     /// </param>
-    /// <param name = "height">Height.
+    /// <param name = "height">
+    /// Height.
     /// </param>
-    /// <param name = "specified">Which bounds components to set.
+    /// <param name = "specified">
+    /// Which bounds components to set.
     /// </param>
     public virtual void SetBounds(int x, int y, int width, int height, BoundsSpecified specified)
     {
@@ -2236,9 +2324,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Sets the bounds of the control using a rectangle and specified components.
     /// </summary>
-    /// <param name = "bounds">Bounds rectangle.
+    /// <param name = "bounds">
+    /// Bounds rectangle.
     /// </param>
-    /// <param name = "specified">Which bounds components to set.
+    /// <param name = "specified">
+    /// Which bounds components to set.
     /// </param>
     public void SetBounds(Rectangle bounds, BoundsSpecified specified)
     {
@@ -2281,7 +2371,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Releases unmanaged and optionally managed resources used by the control.
     /// </summary>
-    /// <param name = "disposing">True to dispose managed resources as well as unmanaged.
+    /// <param name = "disposing">
+    /// True to dispose managed resources as well as unmanaged.
     /// </param>
     protected override void Dispose(bool disposing)
     {
@@ -2306,7 +2397,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Initializes style information for the GTK widget.
     /// </summary>
-    /// <param name = "widget">GTK widget to initialize style for.
+    /// <param name = "widget">
+    /// GTK widget to initialize style for.
     /// </param>
 
     //===================
@@ -2381,7 +2473,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "Click"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.Click"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2539,7 +2631,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "GotFocus"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.GotFocus"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2592,7 +2684,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "KeyDown"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.KeyDown"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2613,7 +2705,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "KeyUp"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.KeyUp"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2642,7 +2734,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "Load"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.Load"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2688,7 +2780,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "MouseClick"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.MouseClick"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2702,7 +2794,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "MouseDoubleClick"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.MouseDoubleClick"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2716,7 +2808,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "MouseDown"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.MouseDown"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2730,7 +2822,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "MouseEnter"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.MouseEnter"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2744,7 +2836,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "MouseHover"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.MouseHover"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2758,7 +2850,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "MouseLeave"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.MouseLeave"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2772,7 +2864,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "MouseMove"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.MouseMove"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2786,7 +2878,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "MouseUp"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.MouseUp"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2800,7 +2892,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "MouseWheel"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.MouseWheel"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2814,7 +2906,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "Move"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.Move"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2837,7 +2929,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Handles painting logic for derived controls.
     /// </summary>
-    /// <param name = "e">Paint event arguments.
+    /// <param name = "e">
+    /// Paint event arguments.
     /// </param>
     protected virtual void OnPaint(System.Windows.Forms.PaintEventArgs e)
     {
@@ -2885,7 +2978,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "Resize"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.Resize"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2907,7 +3000,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "SizeChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.SizeChanged"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2960,7 +3053,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "Validated"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.Validated"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2974,7 +3067,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "Validating"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.Validating"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -2988,7 +3081,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     /// <summary>
     /// Raises the
-    /// <see cref = "VisibleChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.Control.VisibleChanged"/> event.
     /// </summary>
     /// <param name = "e">
     /// The
@@ -3002,9 +3095,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Selects the control in a specified direction.
     /// </summary>
-    /// <param name = "directed">If true, selection is directed.
+    /// <param name = "directed">
+    /// If true, selection is directed.
     /// </param>
-    /// <param name = "forward">Direction of selection.
+    /// <param name = "forward">
+    /// Direction of selection.
     /// </param>
     protected virtual void Select(bool directed, bool forward)
     {
@@ -3013,7 +3108,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.
     /// </summary>
-    /// <param name = "widget">GTK widget to style.
+    /// <param name = "widget">
+    /// GTK widget to style.
     /// </param>
     protected virtual void SetStyle(Gtk.Widget widget)
     {
@@ -3228,9 +3324,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Sets the value of a ControlStyles flag.
     /// </summary>
-    /// <param name = "styles">Styles to set.
+    /// <param name = "styles">
+    /// Styles to set.
     /// </param>
-    /// <param name = "value">True to enable; false to disable.
+    /// <param name = "value">
+    /// True to enable; false to disable.
     /// </param>
     protected virtual void SetStyle(ControlStyles styles, bool value)
     {
@@ -3257,7 +3355,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Processes a Windows message for the control (placeholder).
     /// </summary>
-    /// <param name = "m">Message to process.
+    /// <param name = "m">
+    /// Message to process.
     /// </param>
     protected virtual void WndProc(ref Message m)
     {

@@ -24,7 +24,8 @@ namespace System.ComponentModel
         /// Initializes a new instance of the
         /// <see cref="GtkSystem.ComponentModel.ComponentResourceManager" /> class.
         /// </summary>
-        /// <param name="form">The form.
+        /// <param name="form">
+        /// The form.
         /// </param>
         public ComponentResourceManager(Type form) : base(form)
         {

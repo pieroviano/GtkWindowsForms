@@ -41,14 +41,16 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the lines.
     /// </summary>
-    /// <value>The lines.
+    /// <value>
+    /// The lines.
     /// </value>
     public string[] Lines
     {
@@ -70,13 +72,14 @@ public partial class RichTextBox : ScrollableControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [read only].
+    /// Gets or sets a value indicating whether read only.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [read only]; otherwise,
-    /// <c>false
+    /// </c> if read only; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public virtual bool ReadOnly { get { return self.TextView.CanFocus; } set { self.TextView.CanFocus = value; } }
@@ -84,7 +87,8 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Gets or sets the length of the selection.
     /// </summary>
-    /// <value>The length of the selection.
+    /// <value>
+    /// The length of the selection.
     /// </value>
     [System.ComponentModel.Browsable(false)]
     public virtual int SelectionLength
@@ -104,7 +108,8 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Gets or sets the selection start.
     /// </summary>
-    /// <value>The selection start.
+    /// <value>
+    /// The selection start.
     /// </value>
     public int SelectionStart
     {
@@ -120,14 +125,16 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text { get => self.TextView.Buffer.Text; set => self.TextView.Buffer.Text = value; }
 
     /// <summary>
     /// Appends the text.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public void AppendText(string text)
     {
@@ -138,7 +145,8 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Inserts the text at cursor.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public void InsertTextAtCursor(string text)
     {
@@ -149,9 +157,11 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Selects the specified start.
     /// </summary>
-    /// <param name="start">The start.
+    /// <param name="start">
+    /// The start.
     /// </param>
-    /// <param name="length">The length.
+    /// <param name="length">
+    /// The length.
     /// </param>
     public void Select(int start, int length)
     {
@@ -163,7 +173,8 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.
     /// </summary>
-    /// <param name="widget">GTK widget to style.
+    /// <param name="widget">
+    /// GTK widget to style.
     /// </param>
     protected override void SetStyle(Widget widget)
     {
@@ -174,7 +185,8 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Handles the Changed event of the Buffer control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

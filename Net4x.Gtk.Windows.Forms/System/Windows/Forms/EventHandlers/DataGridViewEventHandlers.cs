@@ -7,7 +7,8 @@ namespace System.Windows.Forms;
 /// <summary>
 /// Delegate DataGridViewAutoSizeColumnModeEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -17,7 +18,8 @@ public delegate void DataGridViewAutoSizeColumnModeEventHandler(object sender, D
 /// <summary>
 /// Delegate DataGridViewAutoSizeColumnsModeEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -27,7 +29,8 @@ public delegate void DataGridViewAutoSizeColumnsModeEventHandler(object sender, 
 /// <summary>
 /// Delegate DataGridViewAutoSizeModeEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -37,7 +40,8 @@ public delegate void DataGridViewAutoSizeModeEventHandler(object sender, DataGri
 /// <summary>
 /// Delegate DataGridViewBindingCompleteEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -47,7 +51,8 @@ public delegate void DataGridViewBindingCompleteEventHandler(object sender, Data
 /// <summary>
 /// Delegate DataGridViewCellCancelEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -57,7 +62,8 @@ public delegate void DataGridViewCellCancelEventHandler(object sender, DataGridV
 /// <summary>
 /// Delegate DataGridViewCellContextMenuStripNeededEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -67,7 +73,8 @@ public delegate void DataGridViewCellContextMenuStripNeededEventHandler(object s
 /// <summary>
 /// Delegate DataGridViewCellErrorTextNeededEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -77,7 +84,8 @@ public delegate void DataGridViewCellErrorTextNeededEventHandler(object sender, 
 /// <summary>
 /// Delegate DataGridViewCellEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -87,7 +95,8 @@ public delegate void DataGridViewCellEventHandler(object sender, DataGridViewCel
 /// <summary>
 /// Delegate DataGridViewCellFormattingEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -97,7 +106,8 @@ public delegate void DataGridViewCellFormattingEventHandler(object sender, DataG
 /// <summary>
 /// Delegate DataGridViewCellMouseEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -107,7 +117,8 @@ public delegate void DataGridViewCellMouseEventHandler(object sender, DataGridVi
 /// <summary>
 /// Delegate DataGridViewCellPaintingEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -117,7 +128,8 @@ public delegate void DataGridViewCellPaintingEventHandler(object sender, DataGri
 /// <summary>
 /// Delegate DataGridViewCellParsingEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -127,7 +139,8 @@ public delegate void DataGridViewCellParsingEventHandler(object sender, DataGrid
 /// <summary>
 /// Delegate DataGridViewCellStateChangedEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -137,7 +150,8 @@ public delegate void DataGridViewCellStateChangedEventHandler(object sender, Dat
 /// <summary>
 /// Delegate DataGridViewCellStyleContentChangedEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -147,7 +161,8 @@ public delegate void DataGridViewCellStyleContentChangedEventHandler(object send
 /// <summary>
 /// Delegate DataGridViewCellToolTipTextNeededEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -157,7 +172,8 @@ public delegate void DataGridViewCellToolTipTextNeededEventHandler(object sender
 /// <summary>
 /// Delegate DataGridViewCellValidatingEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -167,7 +183,8 @@ public delegate void DataGridViewCellValidatingEventHandler(object sender, DataG
 /// <summary>
 /// Delegate DataGridViewCellValueEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -177,7 +194,8 @@ public delegate void DataGridViewCellValueEventHandler(object sender, DataGridVi
 /// <summary>
 /// Delegate DataGridViewColumnDividerDoubleClickEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -187,7 +205,8 @@ public delegate void DataGridViewColumnDividerDoubleClickEventHandler(object sen
 /// <summary>
 /// Delegate DataGridViewColumnEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -197,7 +216,8 @@ public delegate void DataGridViewColumnEventHandler(object sender, DataGridViewC
 /// <summary>
 /// Delegate DataGridViewColumnStateChangedEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -207,7 +227,8 @@ public delegate void DataGridViewColumnStateChangedEventHandler(object sender, D
 /// <summary>
 /// Delegate DataGridViewEditingControlShowingEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -217,7 +238,8 @@ public delegate void DataGridViewEditingControlShowingEventHandler(object sender
 /// <summary>
 /// Delegate DataGridViewDataErrorEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -227,7 +249,8 @@ public delegate void DataGridViewDataErrorEventHandler(object sender, DataGridVi
 /// <summary>
 /// Delegate DataGridViewRowCancelEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -237,7 +260,8 @@ public delegate void DataGridViewRowCancelEventHandler(object sender, DataGridVi
 /// <summary>
 /// Delegate DataGridViewRowContextMenuStripNeededEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -247,7 +271,8 @@ public delegate void DataGridViewRowContextMenuStripNeededEventHandler(object se
 /// <summary>
 /// Delegate DataGridViewRowDividerDoubleClickEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -257,7 +282,8 @@ public delegate void DataGridViewRowDividerDoubleClickEventHandler(object sender
 /// <summary>
 /// Delegate DataGridViewRowEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -267,7 +293,8 @@ public delegate void DataGridViewRowEventHandler(object sender, DataGridViewRowE
 /// <summary>
 /// Delegate DataGridViewRowErrorTextNeededEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -277,7 +304,8 @@ public delegate void DataGridViewRowErrorTextNeededEventHandler(object sender, D
 /// <summary>
 /// Delegate DataGridViewRowHeightInfoNeededEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -287,7 +315,8 @@ public delegate void DataGridViewRowHeightInfoNeededEventHandler(object sender, 
 /// <summary>
 /// Delegate DataGridViewRowHeightInfoPushedEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -297,7 +326,8 @@ public delegate void DataGridViewRowHeightInfoPushedEventHandler(object sender, 
 /// <summary>
 /// Delegate DataGridViewRowPostPaintEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -307,7 +337,8 @@ public delegate void DataGridViewRowPostPaintEventHandler(object sender, DataGri
 /// <summary>
 /// Delegate DataGridViewRowPrePaintEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -317,7 +348,8 @@ public delegate void DataGridViewRowPrePaintEventHandler(object sender, DataGrid
 /// <summary>
 /// Delegate DataGridViewRowsAddedEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -327,7 +359,8 @@ public delegate void DataGridViewRowsAddedEventHandler(object sender, DataGridVi
 /// <summary>
 /// Delegate DataGridViewRowsRemovedEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -337,7 +370,8 @@ public delegate void DataGridViewRowsRemovedEventHandler(object sender, DataGrid
 /// <summary>
 /// Delegate DataGridViewRowStateChangedEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The
@@ -347,7 +381,8 @@ public delegate void DataGridViewRowStateChangedEventHandler(object sender, Data
 /// <summary>
 /// Delegate DataGridViewSortCompareEventHandler
 /// </summary>
-/// <param name="sender">The sender.
+/// <param name="sender">
+/// The sender.
 /// </param>
 /// <param name="e">
 /// The

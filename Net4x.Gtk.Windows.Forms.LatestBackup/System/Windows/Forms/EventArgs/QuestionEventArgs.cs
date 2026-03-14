@@ -23,8 +23,9 @@ public class QuestionEventArgs : EventArgs
     /// </summary>
     /// <param name="response">
     /// if set to
-    /// <c>true
-    /// </c> [response].
+    /// <c>
+    /// true
+    /// </c>response.
     /// </param>
     public QuestionEventArgs(bool response)
     {
@@ -39,7 +40,8 @@ public class QuestionEventArgs : EventArgs
     /// <c>
     /// true
     /// </c> if response; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Response { get; set; }

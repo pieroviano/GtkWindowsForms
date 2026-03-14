@@ -14,11 +14,14 @@ public class DataGridViewCellStateChangedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellStateChangedEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridViewCell">The data grid view cell.
+    /// <param name="dataGridViewCell">
+    /// The data grid view cell.
     /// </param>
-    /// <param name="stateChanged">The state changed.
+    /// <param name="stateChanged">
+    /// The state changed.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">dataGridViewCell
+    /// <exception cref="T:System.ArgumentNullException">
+    /// dataGridViewCell
     /// </exception>
     public DataGridViewCellStateChangedEventArgs(DataGridViewCell dataGridViewCell, DataGridViewElementStates stateChanged)
     {
@@ -29,14 +32,16 @@ public class DataGridViewCellStateChangedEventArgs : EventArgs
     /// <summary>
     /// Gets the cell.
     /// </summary>
-    /// <value>The cell.
+    /// <value>
+    /// The cell.
     /// </value>
     public DataGridViewCell Cell { get; }
 
     /// <summary>
     /// Gets the state changed.
     /// </summary>
-    /// <value>The state changed.
+    /// <value>
+    /// The state changed.
     /// </value>
     public DataGridViewElementStates StateChanged { get; }
 

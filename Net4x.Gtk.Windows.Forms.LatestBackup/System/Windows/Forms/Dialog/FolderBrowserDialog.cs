@@ -24,14 +24,16 @@ public sealed class FolderBrowserDialog : FileDialog
     /// <summary>
     /// Gets or sets the root folder.
     /// </summary>
-    /// <value>The root folder.
+    /// <value>
+    /// The root folder.
     /// </value>
     public Environment.SpecialFolder RootFolder { get; set; } = Environment.SpecialFolder.Desktop;
 
     /// <summary>
     /// Gets or sets the selected path.
     /// </summary>
-    /// <value>The selected path.
+    /// <value>
+    /// The selected path.
     /// </value>
     public string SelectedPath
     {
@@ -40,13 +42,14 @@ public sealed class FolderBrowserDialog : FileDialog
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [selected path needs check].
+    /// Gets or sets a value indicating whether selected path needs check.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [selected path needs check]; otherwise,
-    /// <c>false
+    /// </c> if selected path needs check; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool SelectedPathNeedsCheck { get; set; }
@@ -54,18 +57,20 @@ public sealed class FolderBrowserDialog : FileDialog
     /// <summary>
     /// Gets the selected paths.
     /// </summary>
-    /// <value>The selected paths.
+    /// <value>
+    /// The selected paths.
     /// </value>
     public string[] SelectedPaths => base.FileNames;
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show new folder button].
+    /// Gets or sets a value indicating whether show new folder button.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show new folder button]; otherwise,
-    /// <c>false
+    /// </c> if show new folder button; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowNewFolderButton { get; set; }
@@ -78,7 +83,8 @@ public sealed class FolderBrowserDialog : FileDialog
     /// <c>
     /// true
     /// </c> if multiselect; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     private new bool Multiselect => base.Multiselect;
@@ -86,7 +92,8 @@ public sealed class FolderBrowserDialog : FileDialog
     /// <summary>
     /// Gets the title.
     /// </summary>
-    /// <value>The title.
+    /// <value>
+    /// The title.
     /// </value>
     private new string Title => base.Title;
 
@@ -106,9 +113,11 @@ public sealed class FolderBrowserDialog : FileDialog
     /// <summary>
     /// Shows the dialog.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
-    /// <returns>DialogResult.
+    /// <returns>
+    /// DialogResult.
     /// </returns>
     public override DialogResult ShowDialog(IWin32Window owner)
     {

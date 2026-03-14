@@ -15,19 +15,26 @@ public class DataGridViewCellFormattingEventArgs : ConvertEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellFormattingEventArgs" /> class.
     /// </summary>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="value">The value.
+    /// <param name="value">
+    /// The value.
     /// </param>
-    /// <param name="desiredType">Type of the desired.
+    /// <param name="desiredType">
+    /// Type of the desired.
     /// </param>
-    /// <param name="cellStyle">The cell style.
+    /// <param name="cellStyle">
+    /// The cell style.
     /// </param>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">columnIndex
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// columnIndex
     /// </exception>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">rowIndex
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// rowIndex
     /// </exception>
     public DataGridViewCellFormattingEventArgs(int columnIndex,
                                                        int rowIndex,
@@ -52,25 +59,28 @@ public class DataGridViewCellFormattingEventArgs : ConvertEventArgs
     /// <summary>
     /// Gets or sets the cell style.
     /// </summary>
-    /// <value>The cell style.
+    /// <value>
+    /// The cell style.
     /// </value>
     public DataGridViewCellStyle CellStyle { get; set; }
 
     /// <summary>
     /// Gets the index of the column.
     /// </summary>
-    /// <value>The index of the column.
+    /// <value>
+    /// The index of the column.
     /// </value>
     public int ColumnIndex { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [formatting applied].
+    /// Gets or sets a value indicating whether formatting applied.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [formatting applied]; otherwise,
-    /// <c>false
+    /// </c> if formatting applied; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool FormattingApplied { get; set; }
@@ -78,7 +88,8 @@ public class DataGridViewCellFormattingEventArgs : ConvertEventArgs
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

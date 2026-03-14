@@ -12,11 +12,9 @@ namespace System.Windows.Forms;
 public sealed partial class ImageList
 {
     /// <summary>
-    /// Class ImageCollection. This class cannot be inherited.
-    /// Implements the
+    /// Class ImageCollection. This class cannot be inherited. Implements the
     /// <see cref="T:System.Collections.IList" />
     /// </summary>
-    /// <seealso cref="T:System.Collections.IList" />
     public sealed partial class ImageCollection
     {
         internal class ImageInfo

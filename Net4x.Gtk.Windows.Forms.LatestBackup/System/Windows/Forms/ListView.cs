@@ -98,37 +98,37 @@ public class ListView : ContainerControl
     private int SortingColumnIndex = -1;
 
     /// <summary>
-    /// Occurs when [column click].
+    /// Occurs when [column click.
     /// </summary>
     public event ColumnClickEventHandler ColumnClick;
 
     /// <summary>
-    /// Occurs when [column reordered].
+    /// Occurs when [column reordered.
     /// </summary>
     public event ColumnReorderedEventHandler ColumnReordered;
 
     /// <summary>
-    /// Occurs when [item activate].
+    /// Occurs when [item activate.
     /// </summary>
     public event EventHandler ItemActivate;
 
     /// <summary>
-    /// Occurs when [item check].
+    /// Occurs when [item check.
     /// </summary>
     public event ItemCheckEventHandler ItemCheck;
 
     /// <summary>
-    /// Occurs when [item checked].
+    /// Occurs when [item checked.
     /// </summary>
     public event ItemCheckedEventHandler ItemChecked;
 
     /// <summary>
-    /// Occurs when [item selection changed].
+    /// Occurs when [item selection changed.
     /// </summary>
     public event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
 
     /// <summary>
-    /// Occurs when [selected index changed].
+    /// Occurs when [selected index changed.
     /// </summary>
     public event EventHandler SelectedIndexChanged;
 
@@ -175,37 +175,41 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets or sets the activation.
     /// </summary>
-    /// <value>The activation.
+    /// <value>
+    /// The activation.
     /// </value>
     public ItemActivation Activation { get; set; }
 
     /// <summary>
     /// Gets or sets the alignment.
     /// </summary>
-    /// <value>The alignment.
+    /// <value>
+    /// The alignment.
     /// </value>
     public System.Windows.Forms.ListViewAlignment Alignment { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [allow column reorder].
+    /// Gets or sets a value indicating whether allow column reorder.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [allow column reorder]; otherwise,
-    /// <c>false
+    /// </c> if allow column reorder; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool AllowColumnReorder { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [check boxes].
+    /// Gets or sets a value indicating whether check boxes are displayed.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [check boxes]; otherwise,
-    /// <c>false
+    /// </c> if check boxes; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool CheckBoxes { get; set; }
@@ -213,7 +217,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the checked indices.
     /// </summary>
-    /// <value>The checked indices.
+    /// <value>
+    /// The checked indices.
     /// </value>
     public CheckedIndexCollection CheckedIndices
     {
@@ -232,7 +237,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the checked items.
     /// </summary>
-    /// <value>The checked items.
+    /// <value>
+    /// The checked items.
     /// </value>
     public CheckedListViewItemCollection CheckedItems
     {
@@ -254,7 +260,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the columns.
     /// </summary>
-    /// <value>The columns.
+    /// <value>
+    /// The columns.
     /// </value>
     public ColumnHeaderCollection Columns
     {
@@ -265,25 +272,27 @@ public class ListView : ContainerControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [full row select].
+    /// Gets or sets a value indicating whether full row select.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [full row select]; otherwise,
-    /// <c>false
+    /// </c> if full row select; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool FullRowSelect { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [grid lines].
+    /// Gets or sets a value indicating whether grid lines.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [grid lines]; otherwise,
-    /// <c>false
+    /// </c> if grid lines; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool GridLines { get; set; } = true;
@@ -291,14 +300,16 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets or sets the group image list.
     /// </summary>
-    /// <value>The group image list.
+    /// <value>
+    /// The group image list.
     /// </value>
     public ImageList GroupImageList { get; set; }
 
     /// <summary>
     /// Gets the groups.
     /// </summary>
-    /// <value>The groups.
+    /// <value>
+    /// The groups.
     /// </value>
     public ListViewGroupCollection Groups
     {
@@ -311,37 +322,41 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the header style.
     /// </summary>
-    /// <value>The header style.
+    /// <value>
+    /// The header style.
     /// </value>
     public System.Windows.Forms.ColumnHeaderStyle HeaderStyle { get; set; } = ColumnHeaderStyle.Clickable;
 
     /// <summary>
-    /// Gets or sets a value indicating whether [hide selection].
+    /// Gets or sets a value indicating whether hide selection.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [hide selection]; otherwise,
-    /// <c>false
+    /// </c> if hide selection; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool HideSelection { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [hover selection].
+    /// Gets or sets a value indicating whether hover selection is enabled.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [hover selection]; otherwise,
-    /// <c>false
+    /// </c> if hover selection; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool HoverSelection { get; set; }
@@ -349,7 +364,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the items.
     /// </summary>
-    /// <value>The items.
+    /// <value>
+    /// The items.
     /// </value>
     public ListViewItemCollection Items
     {
@@ -360,25 +376,27 @@ public class ListView : ContainerControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [label edit].
+    /// Gets or sets a value indicating whether label edit.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [label edit]; otherwise,
-    /// <c>false
+    /// </c> if label edit; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool LabelEdit { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [label wrap].
+    /// Gets or sets a value indicating whether label wrap is enabled.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [label wrap]; otherwise,
-    /// <c>false
+    /// </c> if label wrap; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool LabelWrap { get; set; }
@@ -386,14 +404,16 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets or sets the large image list.
     /// </summary>
-    /// <value>The large image list.
+    /// <value>
+    /// The large image list.
     /// </value>
     public ImageList LargeImageList { get; set; }
 
     /// <summary>
     /// Gets or sets the ListView item sorter.
     /// </summary>
-    /// <value>The ListView item sorter.
+    /// <value>
+    /// The ListView item sorter.
     /// </value>
     public IComparer ListViewItemSorter
     {
@@ -402,13 +422,14 @@ public class ListView : ContainerControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [multi select].
+    /// Gets or sets a value indicating whether multi select.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [multi select]; otherwise,
-    /// <c>false
+    /// </c> if multi select; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public virtual bool MultiSelect
@@ -435,13 +456,14 @@ public class ListView : ContainerControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [owner draw].
+    /// Gets or sets a value indicating whether owner draw.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [owner draw]; otherwise,
-    /// <c>false
+    /// </c> if owner draw; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool OwnerDraw { get; set; }
@@ -454,7 +476,8 @@ public class ListView : ContainerControl
     /// <c>
     /// true
     /// </c> if scrollable; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Scrollable { get; set; }
@@ -462,7 +485,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the selected indices.
     /// </summary>
-    /// <value>The selected indices.
+    /// <value>
+    /// The selected indices.
     /// </value>
     public SelectedIndexCollection SelectedIndices
     {
@@ -481,7 +505,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the selected items.
     /// </summary>
-    /// <value>The selected items.
+    /// <value>
+    /// The selected items.
     /// </value>
     public SelectedListViewItemCollection SelectedItems
     {
@@ -501,25 +526,27 @@ public class ListView : ContainerControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show groups].
+    /// Gets or sets a value indicating whether show groups.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show groups]; otherwise,
-    /// <c>false
+    /// </c> if show groups; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowGroups { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show item tool tips].
+    /// Gets or sets a value indicating whether show item tool tips.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show item tool tips]; otherwise,
-    /// <c>false
+    /// </c> if show item tool tips; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowItemToolTips { get; set; }
@@ -527,7 +554,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets or sets the small image list.
     /// </summary>
-    /// <value>The small image list.
+    /// <value>
+    /// The small image list.
     /// </value>
     public ImageList SmallImageList { get; set; }
 
@@ -539,7 +567,8 @@ public class ListView : ContainerControl
     /// <c>
     /// true
     /// </c> if sorted; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool Sorted { get; set; }
@@ -547,25 +576,28 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets or sets the sorting.
     /// </summary>
-    /// <value>The sorting.
+    /// <value>
+    /// The sorting.
     /// </value>
     public System.Windows.Forms.SortOrder Sorting { get; set; }
 
     /// <summary>
     /// Gets or sets the state image list.
     /// </summary>
-    /// <value>The state image list.
+    /// <value>
+    /// The state image list.
     /// </value>
     public ImageList StateImageList { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [use compatible state image behavior].
+    /// Gets or sets a value indicating whether use compatible state image behavior.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use compatible state image behavior]; otherwise,
-    /// <c>false
+    /// </c> if use compatible state image behavior; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool UseCompatibleStateImageBehavior { get; set; }
@@ -573,14 +605,16 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets or sets the view.
     /// </summary>
-    /// <value>The view.
+    /// <value>
+    /// The view.
     /// </value>
     public System.Windows.Forms.View View { get; set; }
 
     /// <summary>
     /// Gets the default group.
     /// </summary>
-    /// <value>The default group.
+    /// <value>
+    /// The default group.
     /// </value>
     internal ListViewGroup DefaultGroup
     {
@@ -598,7 +632,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the size of the font.
     /// </summary>
-    /// <value>The size of the font.
+    /// <value>
+    /// The size of the font.
     /// </value>
     internal int FontSize
     {
@@ -649,9 +684,11 @@ public class ListView : ContainerControl
     /// <summary>
     /// Finds the item with text.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <returns>ListViewItem.
+    /// <returns>
+    /// ListViewItem.
     /// </returns>
     public ListViewItem FindItemWithText(string text)
     {
@@ -661,16 +698,20 @@ public class ListView : ContainerControl
     /// <summary>
     /// Finds the item with text.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     /// <param name="includeSubItemsInSearch">
     /// if set to
-    /// <c>true
-    /// </c> [include sub items in search].
+    /// <c>
+    /// true
+    /// </c>include sub items in search.
     /// </param>
-    /// <param name="startIndex">The start index.
+    /// <param name="startIndex">
+    /// The start index.
     /// </param>
-    /// <returns>ListViewItem.
+    /// <returns>
+    /// ListViewItem.
     /// </returns>
     public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
     {
@@ -682,21 +723,26 @@ public class ListView : ContainerControl
     /// <summary>
     /// Finds the item with text.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     /// <param name="includeSubItemsInSearch">
     /// if set to
-    /// <c>true
-    /// </c> [include sub items in search].
+    /// <c>
+    /// true
+    /// </c>include sub items in search.
     /// </param>
-    /// <param name="startIndex">The start index.
+    /// <param name="startIndex">
+    /// The start index.
     /// </param>
     /// <param name="isPrefixSearch">
     /// if set to
-    /// <c>true
-    /// </c> [is prefix search].
+    /// <c>
+    /// true
+    /// </c>is prefix search.
     /// </param>
-    /// <returns>ListViewItem.
+    /// <returns>
+    /// ListViewItem.
     /// </returns>
     public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
     {
@@ -708,11 +754,14 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the item at.
     /// </summary>
-    /// <param name="x">The x.
+    /// <param name="x">
+    /// The x.
     /// </param>
-    /// <param name="y">The y.
+    /// <param name="y">
+    /// The y.
     /// </param>
-    /// <returns>ListViewItem.
+    /// <returns>
+    /// ListViewItem.
     /// </returns>
     public ListViewItem GetItemAt(int x, int y)
     {
@@ -738,9 +787,11 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the item rect.
     /// </summary>
-    /// <param name="index">The index.
+    /// <param name="index">
+    /// The index.
     /// </param>
-    /// <returns>Drawing.Rectangle.
+    /// <returns>
+    /// Drawing.Rectangle.
     /// </returns>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
@@ -763,13 +814,17 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets the sub item at.
     /// </summary>
-    /// <param name="x">The x.
+    /// <param name="x">
+    /// The x.
     /// </param>
-    /// <param name="y">The y.
+    /// <param name="y">
+    /// The y.
     /// </param>
-    /// <param name="iItem">The i item.
+    /// <param name="iItem">
+    /// The i item.
     /// </param>
-    /// <param name="iSubItem">The i sub item.
+    /// <param name="iSubItem">
+    /// The i sub item.
     /// </param>
     internal void GetSubItemAt(int x, int y, out int iItem, out int iSubItem)
     {
@@ -790,9 +845,11 @@ public class ListView : ContainerControl
     /// <summary>
     /// Natives the add.
     /// </summary>
-    /// <param name="item">The item.
+    /// <param name="item">
+    /// The item.
     /// </param>
-    /// <param name="position">The position.
+    /// <param name="position">
+    /// The position.
     /// </param>
     internal void NativeAdd(ListViewItem item, int position)
     {
@@ -1117,12 +1174,14 @@ public class ListView : ContainerControl
     /// <summary>
     /// Natives the check item.
     /// </summary>
-    /// <param name="item">The item.
+    /// <param name="item">
+    /// The item.
     /// </param>
     /// <param name="ischecked">
     /// if set to
-    /// <c>true
-    /// </c> [ischecked].
+    /// <c>
+    /// true
+    /// </c>ischecked.
     /// </param>
     internal void NativeCheckItem(ListViewItem item, bool ischecked)
     {
@@ -1159,9 +1218,11 @@ public class ListView : ContainerControl
     /// <summary>
     /// Natives the group add.
     /// </summary>
-    /// <param name="group">The group.
+    /// <param name="group">
+    /// The group.
     /// </param>
-    /// <param name="position">The position.
+    /// <param name="position">
+    /// The position.
     /// </param>
     internal void NativeGroupAdd(ListViewGroup group, int position)
     {
@@ -1317,7 +1378,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Natives the header add.
     /// </summary>
-    /// <param name="col">The col.
+    /// <param name="col">
+    /// The col.
     /// </param>
     internal void NativeHeaderAdd(ColumnHeader col)
     {
@@ -1370,7 +1432,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Natives the header remove.
     /// </summary>
-    /// <param name="column">The column.
+    /// <param name="column">
+    /// The column.
     /// </param>
     internal void NativeHeaderRemove(ColumnHeader column)
     {
@@ -1398,12 +1461,14 @@ public class ListView : ContainerControl
     /// <summary>
     /// Natives the select item.
     /// </summary>
-    /// <param name="item">The item.
+    /// <param name="item">
+    /// The item.
     /// </param>
     /// <param name="isselected">
     /// if set to
-    /// <c>true
-    /// </c> [isselected].
+    /// <c>
+    /// true
+    /// </c>isselected.
     /// </param>
     internal void NativeSelectItem(ListViewItem item, bool isselected)
     {
@@ -1419,9 +1484,11 @@ public class ListView : ContainerControl
     /// <summary>
     /// Natives the update text.
     /// </summary>
-    /// <param name="item">The item.
+    /// <param name="item">
+    /// The item.
     /// </param>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     internal void NativeUpdateText(ListViewItem item, string text)
     {
@@ -1481,9 +1548,11 @@ public class ListView : ContainerControl
     /// <summary>
     /// Flows the child activated.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void _flow_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {
@@ -1507,7 +1576,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Handles the SelectedChildrenChanged event of the _flow control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -1556,7 +1626,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Handles the Clicked event of the Columbt control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -1597,7 +1668,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Handles the Realized event of the Control control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -1632,7 +1704,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Gets all groups.
     /// </summary>
-    /// <returns>IEnumerable{ListViewGroup}.
+    /// <returns>
+    /// IEnumerable{ListViewGroup}.
     /// </returns>
     private IEnumerable<ListViewGroup> GetAllGroups()
     {
@@ -1645,7 +1718,8 @@ public class ListView : ContainerControl
     /// <summary>
     /// Handles the ValueChanged event of the Hadjustment control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The
@@ -1659,9 +1733,11 @@ public class ListView : ContainerControl
     /// <summary>
     /// Overrides the drawn background.
     /// </summary>
-    /// <param name="o">The o.
+    /// <param name="o">
+    /// The o.
     /// </param>
-    /// <param name="args">The arguments.
+    /// <param name="args">
+    /// The arguments.
     /// </param>
     private void Override_DrawnBackground(object o, DrawnArgs args)
     {
@@ -1702,13 +1778,15 @@ public class ListView : ContainerControl
     /// </summary>
     /// System.Collections.Generic.List&lt;System.Int32&gt;
     ///
+    ///
     public class CheckedIndexCollection : List<int>
     {
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListView.CheckedIndexCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public CheckedIndexCollection(ListView owner)
         {
@@ -1728,7 +1806,8 @@ public class ListView : ContainerControl
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListView.CheckedListViewItemCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public CheckedListViewItemCollection(ListView owner)
         {
@@ -1739,9 +1818,11 @@ public class ListView : ContainerControl
         /// Gets the
         /// <see cref="T:System.Windows.Forms.ListViewItem" /> with the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public virtual ListViewItem this[string key]
         {
@@ -1769,7 +1850,8 @@ public class ListView : ContainerControl
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListView.ColumnHeaderCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public ColumnHeaderCollection(ListView owner)
         {
@@ -1785,7 +1867,8 @@ public class ListView : ContainerControl
         /// <c>
         /// true
         /// </c> if this instance is read only; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         public bool IsReadOnly
@@ -1800,9 +1883,11 @@ public class ListView : ContainerControl
         /// Gets the
         /// <see cref="T:System.Windows.Forms.ColumnHeader" /> with the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>ColumnHeader.
+        /// <returns>
+        /// ColumnHeader.
         /// </returns>
         public virtual ColumnHeader this[string key]
         {
@@ -1815,9 +1900,11 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified header.
         /// </summary>
-        /// <param name="header">The header.
+        /// <param name="header">
+        /// The header.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public new virtual int Add(ColumnHeader header)
         {
@@ -1833,13 +1920,17 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified text.
         /// </summary>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <param name="textAlign">The text align.
+        /// <param name="textAlign">
+        /// The text align.
         /// </param>
-        /// <returns>ColumnHeader.
+        /// <returns>
+        /// ColumnHeader.
         /// </returns>
         public virtual ColumnHeader Add(string text, int width, HorizontalAlignment textAlign)
         {
@@ -1849,9 +1940,11 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified text.
         /// </summary>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <returns>ColumnHeader.
+        /// <returns>
+        /// ColumnHeader.
         /// </returns>
         public virtual ColumnHeader Add(string text)
         {
@@ -1861,11 +1954,14 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified text.
         /// </summary>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <returns>ColumnHeader.
+        /// <returns>
+        /// ColumnHeader.
         /// </returns>
         public virtual ColumnHeader Add(string text, int width)
         {
@@ -1875,11 +1971,14 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <returns>ColumnHeader.
+        /// <returns>
+        /// ColumnHeader.
         /// </returns>
         public virtual ColumnHeader Add(string key, string text)
         {
@@ -1889,13 +1988,17 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <returns>ColumnHeader.
+        /// <returns>
+        /// ColumnHeader.
         /// </returns>
         public virtual ColumnHeader Add(string key, string text, int width)
         {
@@ -1905,17 +2008,23 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <param name="textAlign">The text align.
+        /// <param name="textAlign">
+        /// The text align.
         /// </param>
-        /// <param name="imageKey">The image key.
+        /// <param name="imageKey">
+        /// The image key.
         /// </param>
-        /// <returns>ColumnHeader.
+        /// <returns>
+        /// ColumnHeader.
         /// </returns>
         public virtual ColumnHeader Add(string key, string text, int width, HorizontalAlignment textAlign, string imageKey)
         {
@@ -1936,17 +2045,23 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <param name="textAlign">The text align.
+        /// <param name="textAlign">
+        /// The text align.
         /// </param>
-        /// <param name="imageIndex">Index of the image.
+        /// <param name="imageIndex">
+        /// Index of the image.
         /// </param>
-        /// <returns>ColumnHeader.
+        /// <returns>
+        /// ColumnHeader.
         /// </returns>
         public virtual ColumnHeader Add(string key, string text, int width, HorizontalAlignment textAlign, int imageIndex)
         {
@@ -1966,7 +2081,8 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="values">The values.
+        /// <param name="values">
+        /// The values.
         /// </param>
         public virtual void AddRange(ColumnHeader[] values)
         {
@@ -1988,13 +2104,15 @@ public class ListView : ContainerControl
         /// <summary>
         /// Determines whether the specified key contains key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
         /// <c>
         /// true
         /// </c> if the specified key contains key; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         public virtual bool ContainsKey(string key)
@@ -2005,9 +2123,11 @@ public class ListView : ContainerControl
         /// <summary>
         /// Indexes the of key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public virtual int IndexOfKey(string key)
         {
@@ -2017,9 +2137,11 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="header">The header.
+        /// <param name="header">
+        /// The header.
         /// </param>
         public new void Insert(int index, ColumnHeader header)
         {
@@ -2042,13 +2164,17 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <param name="textAlign">The text align.
+        /// <param name="textAlign">
+        /// The text align.
         /// </param>
         public void Insert(int index, string text, int width, HorizontalAlignment textAlign)
         {
@@ -2058,9 +2184,11 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
         public void Insert(int index, string text)
         {
@@ -2070,11 +2198,14 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
         public void Insert(int index, string text, int width)
         {
@@ -2084,11 +2215,14 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
         public void Insert(int index, string key, string text)
         {
@@ -2099,13 +2233,17 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
         public void Insert(int index, string key, string text, int width)
         {
@@ -2115,17 +2253,23 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <param name="textAlign">The text align.
+        /// <param name="textAlign">
+        /// The text align.
         /// </param>
-        /// <param name="imageKey">The image key.
+        /// <param name="imageKey">
+        /// The image key.
         /// </param>
         public void Insert(int index, string key, string text, int width, HorizontalAlignment textAlign, string imageKey)
         {
@@ -2145,17 +2289,23 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="width">The width.
+        /// <param name="width">
+        /// The width.
         /// </param>
-        /// <param name="textAlign">The text align.
+        /// <param name="textAlign">
+        /// The text align.
         /// </param>
-        /// <param name="imageIndex">Index of the image.
+        /// <param name="imageIndex">
+        /// Index of the image.
         /// </param>
         public void Insert(int index, string key, string text, int width, HorizontalAlignment textAlign, int imageIndex)
         {
@@ -2175,7 +2325,8 @@ public class ListView : ContainerControl
         /// <summary>
         /// Removes the by key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         public virtual void RemoveByKey(string key)
         {
@@ -2205,7 +2356,8 @@ public class ListView : ContainerControl
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ListView.ListViewItemCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         public ListViewItemCollection(ListView owner)
         {
@@ -2216,9 +2368,11 @@ public class ListView : ContainerControl
         /// Gets the
         /// <see cref="T:System.Windows.Forms.ListViewItem" /> with the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public virtual ListViewItem this[string key]
         {
@@ -2244,9 +2398,11 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified text.
         /// </summary>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public virtual ListViewItem Add(string text)
         {
@@ -2256,11 +2412,14 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified text.
         /// </summary>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageIndex">Index of the image.
+        /// <param name="imageIndex">
+        /// Index of the image.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public virtual ListViewItem Add(string text, int imageIndex)
         {
@@ -2270,11 +2429,14 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified text.
         /// </summary>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageKey">The image key.
+        /// <param name="imageKey">
+        /// The image key.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public virtual ListViewItem Add(string text, string imageKey)
         {
@@ -2284,13 +2446,17 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageKey">The image key.
+        /// <param name="imageKey">
+        /// The image key.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public virtual ListViewItem Add(string key, string text, string imageKey)
         {
@@ -2307,13 +2473,17 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageIndex">Index of the image.
+        /// <param name="imageIndex">
+        /// Index of the image.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public virtual ListViewItem Add(string key, string text, int imageIndex)
         {
@@ -2329,7 +2499,8 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
         public void AddRange(ListViewItem[] items)
         {
@@ -2342,7 +2513,8 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="items">The items.
+        /// <param name="items">
+        /// The items.
         /// </param>
         public void AddRange(ListViewItemCollection items)
         {
@@ -2367,13 +2539,15 @@ public class ListView : ContainerControl
         /// <summary>
         /// Determines whether the specified key contains key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
         /// <c>
         /// true
         /// </c> if the specified key contains key; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         public virtual bool ContainsKey(string key)
@@ -2384,9 +2558,11 @@ public class ListView : ContainerControl
         /// <summary>
         /// Copies to.
         /// </summary>
-        /// <param name="dest">The dest.
+        /// <param name="dest">
+        /// The dest.
         /// </param>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
@@ -2398,14 +2574,17 @@ public class ListView : ContainerControl
         /// <summary>
         /// Finds the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <param name="searchAllSubItems">
         /// if set to
-        /// <c>true
-        /// </c> [search all sub items].
+        /// <c>
+        /// true
+        /// </c>search all sub items.
         /// </param>
-        /// <returns>ListViewItem[].
+        /// <returns>
+        /// ListViewItem[.
         /// </returns>
         public ListViewItem[] Find(string key, bool searchAllSubItems)
         {
@@ -2418,9 +2597,11 @@ public class ListView : ContainerControl
         /// <summary>
         /// Indexes the of key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public virtual int IndexOfKey(string key)
         {
@@ -2430,11 +2611,14 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public ListViewItem Insert(int index, string text)
         {
@@ -2444,13 +2628,17 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageIndex">Index of the image.
+        /// <param name="imageIndex">
+        /// Index of the image.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public ListViewItem Insert(int index, string text, int imageIndex)
         {
@@ -2460,13 +2648,17 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageKey">The image key.
+        /// <param name="imageKey">
+        /// The image key.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public ListViewItem Insert(int index, string text, string imageKey)
         {
@@ -2476,15 +2668,20 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageKey">The image key.
+        /// <param name="imageKey">
+        /// The image key.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public virtual ListViewItem Insert(int index, string key, string text, string imageKey)
         {
@@ -2500,15 +2697,20 @@ public class ListView : ContainerControl
         /// <summary>
         /// Inserts the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="text">The text.
+        /// <param name="text">
+        /// The text.
         /// </param>
-        /// <param name="imageIndex">Index of the image.
+        /// <param name="imageIndex">
+        /// Index of the image.
         /// </param>
-        /// <returns>ListViewItem.
+        /// <returns>
+        /// ListViewItem.
         /// </returns>
         public virtual ListViewItem Insert(int index, string key, string text, int imageIndex)
         {
@@ -2524,7 +2726,8 @@ public class ListView : ContainerControl
         /// <summary>
         /// Removes the by key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         public virtual void RemoveByKey(string key)
         {
@@ -2534,9 +2737,11 @@ public class ListView : ContainerControl
         /// <summary>
         /// Adds the core.
         /// </summary>
-        /// <param name="item">The item.
+        /// <param name="item">
+        /// The item.
         /// </param>
-        /// <param name="position">The position.
+        /// <param name="position">
+        /// The position.
         /// </param>
         private void AddCore(ListViewItem item, int position)
         {
@@ -2556,6 +2761,7 @@ public class ListView : ContainerControl
     /// Implements the System.Collections.Generic.List&lt;System.Int32&gt;
     /// </summary>
     /// System.Collections.Generic.List&lt;System.Int32&gt;
+    ///
     ///
     [ListBindable(false)]
     public class SelectedIndexCollection : List<int>

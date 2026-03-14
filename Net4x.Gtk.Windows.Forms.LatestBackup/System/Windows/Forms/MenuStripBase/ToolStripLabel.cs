@@ -28,7 +28,8 @@ public class ToolStripLabel : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripLabel" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public ToolStripLabel(string text) : this(text, null, null, "")
     {
@@ -39,9 +40,11 @@ public class ToolStripLabel : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripLabel" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
     public ToolStripLabel(string text, Image image) : this(text, image, null, "")
     {
@@ -51,11 +54,14 @@ public class ToolStripLabel : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripLabel" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
     public ToolStripLabel(string text, Image image, EventHandler onClick) : this(text, image, onClick, "")
     {
@@ -66,13 +72,17 @@ public class ToolStripLabel : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripLabel" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
-    /// <param name="image">The image.
+    /// <param name="image">
+    /// The image.
     /// </param>
-    /// <param name="onClick">The on click.
+    /// <param name="onClick">
+    /// The on click.
     /// </param>
-    /// <param name="name">The name.
+    /// <param name="name">
+    /// The name.
     /// </param>
     public ToolStripLabel(string text, Image image, EventHandler onClick, string name) : base(null, text, image, onClick, name)
     {

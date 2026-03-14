@@ -94,12 +94,12 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     private static readonly int s_maxImageWidth;
 
     /// <summary>
-    /// Occurs when [recreate handle].
+    /// Occurs when [recreate handle.
     /// </summary>
     public event EventHandler? RecreateHandle { add => _recreateHandler += value; remove => _recreateHandler -= value; }
 
     /// <summary>
-    /// Occurs when [change handle].
+    /// Occurs when [change handle.
     /// </summary>
     internal event EventHandler? ChangeHandle { add => _changeHandler += value; remove => _changeHandler -= value; }
 
@@ -114,7 +114,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// Creates a new ImageList Control with a default image size of 16x16
     /// pixels and adds the ImageList to the passed in container.
     /// </summary>
-    /// <param name = "container">The container.
+    /// <param name = "container">
+    /// The container.
     /// </param>
     public ImageList(IContainer container) : this()
     {
@@ -124,7 +125,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Gets or sets the color depth.
     /// </summary>
-    /// <value>The color depth.
+    /// <value>
+    /// The color depth.
     /// </value>
     public ColorDepth ColorDepth
     {
@@ -143,7 +145,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Gets the handle.
     /// </summary>
-    /// <value>The handle.
+    /// <value>
+    /// The handle.
     /// </value>
     public IntPtr Handle
     {
@@ -154,13 +157,14 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     }
 
     /// <summary>
-    /// Gets a value indicating whether [handle created].
+    /// Gets a value indicating whether handle created.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [handle created]; otherwise,
-    /// <c>false
+    /// </c> if handle created; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool HandleCreated => !(_nativeImageList is null);
@@ -168,14 +172,16 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Gets the images.
     /// </summary>
-    /// <value>The images.
+    /// <value>
+    /// The images.
     /// </value>
     public ImageCollection Images => _imageCollection ??= new ImageCollection(this);
 
     /// <summary>
     /// Gets or sets the size of the image.
     /// </summary>
-    /// <value>The size of the image.
+    /// <value>
+    /// The size of the image.
     /// </value>
     public Size ImageSize
     {
@@ -192,7 +198,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Gets or sets the image stream.
     /// </summary>
-    /// <value>The image stream.
+    /// <value>
+    /// The image stream.
     /// </value>
     public ImageListStreamer? ImageStream
     {
@@ -214,7 +221,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Gets or sets the tag.
     /// </summary>
-    /// <value>The tag.
+    /// <value>
+    /// The tag.
     /// </value>
 
 #if DEBUG
@@ -226,18 +234,20 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Gets or sets the color of the transparent.
     /// </summary>
-    /// <value>The color of the transparent.
+    /// <value>
+    /// The color of the transparent.
     /// </value>
     public Color TransparentColor { get; set; } = Color.Transparent;
 
     /// <summary>
-    /// Gets a value indicating whether [use transparent color].
+    /// Gets a value indicating whether use transparent color.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [use transparent color]; otherwise,
-    /// <c>false
+    /// </c> if use transparent color; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     private bool UseTransparentColor => TransparentColor.A > 0;
@@ -246,11 +256,14 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// Draw the image indicated by the given index on the given Graphics
     /// at the given location.
     /// </summary>
-    /// <param name = "g">The g.
+    /// <param name = "g">
+    /// The g.
     /// </param>
-    /// <param name = "pt">The pt.
+    /// <param name = "pt">
+    /// The pt.
     /// </param>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
     public void Draw(Graphics g, Point pt, int index) => Draw(g, pt.X, pt.Y, index);
 
@@ -258,13 +271,17 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// Draw the image indicated by the given index on the given Graphics
     /// at the given location.
     /// </summary>
-    /// <param name = "g">The g.
+    /// <param name = "g">
+    /// The g.
     /// </param>
-    /// <param name = "x">The x.
+    /// <param name = "x">
+    /// The x.
     /// </param>
-    /// <param name = "y">The y.
+    /// <param name = "y">
+    /// The y.
     /// </param>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
     public void Draw(Graphics g, int x, int y, int index) => Draw(g, x, y, _imageSize.Width, _imageSize.Height, index);
 
@@ -273,17 +290,23 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// and raster op code specified. The image is stretched or compressed as
     /// necessary to fit the bounds provided.
     /// </summary>
-    /// <param name = "g">The g.
+    /// <param name = "g">
+    /// The g.
     /// </param>
-    /// <param name = "x">The x.
+    /// <param name = "x">
+    /// The x.
     /// </param>
-    /// <param name = "y">The y.
+    /// <param name = "y">
+    /// The y.
     /// </param>
-    /// <param name = "width">The width.
+    /// <param name = "width">
+    /// The width.
     /// </param>
-    /// <param name = "height">The height.
+    /// <param name = "height">
+    /// The height.
     /// </param>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
     public void Draw(Graphics g, int x, int y, int width, int height, int index)
     {
@@ -312,11 +335,14 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// Returns the image specified by the given index. The bitmap returned is a
     /// copy of the original image.
     /// </summary>
-    /// <param name = "index">The index.
+    /// <param name = "index">
+    /// The index.
     /// </param>
-    /// <returns>Bitmap.
+    /// <returns>
+    /// Bitmap.
     /// </returns>
-    /// <exception cref="T:System.IndexOutOfRangeException">index out of range， please check whether the index is within the valid rangeImageList within the data range， save the related images toResources under the directory。
+    /// <exception cref="T:System.IndexOutOfRangeException">
+    /// index out of range， please check whether the index is within the valid rangeImageList within the data range， save the related images toResources under the directory。
     /// </exception>
      // NOTE: forces handle creation, so doesn't return things from the original list
     public Bitmap GetBitmap(int index)
@@ -338,11 +364,14 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Gets the bitmap.
     /// </summary>
-    /// <param name = "name">The name.
+    /// <param name = "name">
+    /// The name.
     /// </param>
-    /// <returns>Bitmap.
+    /// <returns>
+    /// Bitmap.
     /// </returns>
-    /// <exception cref="T:System.IO.FileNotFoundException">“{name}” not loaded， please save the related images toResources under the directory。
+    /// <exception cref="T:System.IO.FileNotFoundException">
+    /// “{name}” not loaded， please save the related images toResources under the directory。
     /// </exception>
     public Bitmap GetBitmap(string name)
     {
@@ -368,9 +397,11 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Gets the original image.
     /// </summary>
-    /// <param name = "name">The name.
+    /// <param name = "name">
+    /// The name.
     /// </param>
-    /// <returns>Image.
+    /// <returns>
+    /// Image.
     /// </returns>
     internal Image GetOriginalImage(string name)
     {
@@ -438,11 +469,14 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Adds the icon to handle.
     /// </summary>
-    /// <param name = "original">The original.
+    /// <param name = "original">
+    /// The original.
     /// </param>
-    /// <param name = "icon">The icon.
+    /// <param name = "icon">
+    /// The icon.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     private int AddIconToHandle(Original original, Icon icon)
     {
@@ -458,9 +492,11 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Adds to handle.
     /// </summary>
-    /// <param name = "bitmap">The bitmap.
+    /// <param name = "bitmap">
+    /// The bitmap.
     /// </param>
-    /// <returns>System.Int32.
+    /// <returns>
+    /// System.Int32.
     /// </returns>
     private int AddToHandle(Bitmap bitmap)
     {
@@ -470,13 +506,15 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Bitmaps the has alpha.
     /// </summary>
-    /// <param name = "bmpData">The BMP data.
+    /// <param name = "bmpData">
+    /// The BMP data.
     /// </param>
     /// <returns>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     private static unsafe bool BitmapHasAlpha(BitmapData bmpData)
@@ -505,9 +543,11 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Copies the bitmap data.
     /// </summary>
-    /// <param name = "sourceData">The source data.
+    /// <param name = "sourceData">
+    /// The source data.
     /// </param>
-    /// <param name = "targetData">The target data.
+    /// <param name = "targetData">
+    /// The target data.
     /// </param>
     private static unsafe void CopyBitmapData(BitmapData sourceData, BitmapData targetData)
     {
@@ -533,14 +573,17 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Creates the bitmap.
     /// </summary>
-    /// <param name = "original">The original.
+    /// <param name = "original">
+    /// The original.
     /// </param>
     /// <param name = "ownsBitmap">
     /// if set to
-    /// <c>true
-    /// </c> [owns bitmap].
+    /// <c>
+    /// true
+    /// </c>owns bitmap.
     /// </param>
-    /// <returns>Bitmap.
+    /// <returns>
+    /// Bitmap.
     /// </returns>
     private Bitmap CreateBitmap(Original original, out bool ownsBitmap)
     {
@@ -581,7 +624,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
 
     /// <summary>
     /// Handles the
-    /// <see cref = "ChangeHandle"/> event.
+    /// <see cref="T:System.Windows.Forms.ImageList.ChangeHandle"/> event.
     /// </summary>
     /// <param name = "eventargs">
     /// The
@@ -606,9 +649,11 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Scales the simple bitmap.
     /// </summary>
-    /// <param name = "bitmp">The bitmp.
+    /// <param name = "bitmp">
+    /// The bitmp.
     /// </param>
-    /// <returns>Bitmap.
+    /// <returns>
+    /// Bitmap.
     /// </returns>
     private Bitmap ScaleSimpleBitmap(Image bitmp)
     {
@@ -630,7 +675,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     private bool ShouldSerializeColorDepth() => Images.Count == 0;
@@ -642,7 +688,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <c>
     /// true
     /// </c> if XXXX,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c> otherwise.
     /// </returns>
     private bool ShouldSerializeImageSize() => Images.Count == 0;

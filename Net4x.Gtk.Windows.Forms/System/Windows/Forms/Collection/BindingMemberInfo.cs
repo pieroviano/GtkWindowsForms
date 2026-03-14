@@ -19,7 +19,8 @@ public readonly struct BindingMemberInfo : IEquatable<BindingMemberInfo>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.BindingMemberInfo" /> struct.
     /// </summary>
-    /// <param name="dataMember">The data member.
+    /// <param name="dataMember">
+    /// The data member.
     /// </param>
     public BindingMemberInfo(string dataMember)
     {
@@ -76,7 +77,8 @@ public readonly struct BindingMemberInfo : IEquatable<BindingMemberInfo>
     /// true
     /// </c> if the specified
     /// <see cref="T:System.Object" /> is equal to this instance; otherwise,
-    /// <c>false
+    /// <c>
+    /// false
     /// </c>.
     /// </returns>
     public override bool Equals(object otherObject)
@@ -93,11 +95,13 @@ public readonly struct BindingMemberInfo : IEquatable<BindingMemberInfo>
     /// <summary>
     /// Indicates whether the current object is equal to another object of the same type.
     /// </summary>
-    /// <param name="other">An object to compare with this object.
+    /// <param name="other">
+    /// An object to compare with this object.
     /// </param>
     /// <returns>
     /// true if the current object is equal to the
-    /// <paramref name="other">other
+    /// <paramref name="other">
+    /// other
     /// </paramref> parameter; otherwise, false.
     /// </returns>
     public bool Equals(BindingMemberInfo other)

@@ -14,9 +14,11 @@ public class DataGridViewColumnStateChangedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumnStateChangedEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridViewColumn">The data grid view column.
+    /// <param name="dataGridViewColumn">
+    /// The data grid view column.
     /// </param>
-    /// <param name="stateChanged">The state changed.
+    /// <param name="stateChanged">
+    /// The state changed.
     /// </param>
     public DataGridViewColumnStateChangedEventArgs(DataGridViewColumn dataGridViewColumn, DataGridViewElementStates stateChanged)
     {
@@ -27,14 +29,16 @@ public class DataGridViewColumnStateChangedEventArgs : EventArgs
     /// <summary>
     /// Gets the column.
     /// </summary>
-    /// <value>The column.
+    /// <value>
+    /// The column.
     /// </value>
     public DataGridViewColumn Column { get; }
 
     /// <summary>
     /// Gets the state changed.
     /// </summary>
-    /// <value>The state changed.
+    /// <value>
+    /// The state changed.
     /// </value>
     public DataGridViewElementStates StateChanged { get; }
 

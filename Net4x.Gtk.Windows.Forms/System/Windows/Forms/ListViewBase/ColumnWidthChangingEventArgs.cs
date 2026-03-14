@@ -16,9 +16,11 @@ public class ColumnWidthChangingEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ColumnWidthChangingEventArgs" /> class.
     /// </summary>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="newWidth">The new width.
+    /// <param name="newWidth">
+    /// The new width.
     /// </param>
     public ColumnWidthChangingEventArgs(int columnIndex, int newWidth) : this(columnIndex, newWidth, false)
     {
@@ -28,14 +30,17 @@ public class ColumnWidthChangingEventArgs : CancelEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ColumnWidthChangingEventArgs" /> class.
     /// </summary>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="newWidth">The new width.
+    /// <param name="newWidth">
+    /// The new width.
     /// </param>
     /// <param name="cancel">
     /// if set to
-    /// <c>true
-    /// </c> [cancel].
+    /// <c>
+    /// true
+    /// </c>cancel.
     /// </param>
     public ColumnWidthChangingEventArgs(int columnIndex, int newWidth, bool cancel) : base(cancel)
     {
@@ -46,14 +51,16 @@ public class ColumnWidthChangingEventArgs : CancelEventArgs
     /// <summary>
     /// Returns the index of the column header whose width is changing
     /// </summary>
-    /// <value>The index of the column.
+    /// <value>
+    /// The index of the column.
     /// </value>
     public int ColumnIndex { get; }
 
     /// <summary>
     /// Returns the new width for the column header who is changing
     /// </summary>
-    /// <value>The new width.
+    /// <value>
+    /// The new width.
     /// </value>
     public int NewWidth { get; set; }
 

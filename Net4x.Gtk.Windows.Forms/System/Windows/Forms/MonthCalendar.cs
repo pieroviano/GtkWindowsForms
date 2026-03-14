@@ -21,12 +21,12 @@ public partial class MonthCalendar : Control
     public readonly MonthCalendarBase self = new MonthCalendarBase();
 
     /// <summary>
-    /// Occurs when [date changed].
+    /// Occurs when [date changed.
     /// </summary>
     public event DateRangeEventHandler DateChanged;
 
     /// <summary>
-    /// Occurs when [date selected].
+    /// Occurs when [date selected.
     /// </summary>
     public event DateRangeEventHandler DateSelected;
 
@@ -42,7 +42,8 @@ public partial class MonthCalendar : Control
     /// <summary>
     /// Gets or sets the first day of week.
     /// </summary>
-    /// <value>The first day of week.
+    /// <value>
+    /// The first day of week.
     /// </value>
     public Day FirstDayOfWeek
     {
@@ -52,14 +53,16 @@ public partial class MonthCalendar : Control
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the maximum date.
     /// </summary>
-    /// <value>The maximum date.
+    /// <value>
+    /// The maximum date.
     /// </value>
     public DateTime MaxDate
     {
@@ -69,7 +72,8 @@ public partial class MonthCalendar : Control
     /// <summary>
     /// Gets or sets the minimum date.
     /// </summary>
-    /// <value>The minimum date.
+    /// <value>
+    /// The minimum date.
     /// </value>
     public DateTime MinDate
     {
@@ -79,42 +83,46 @@ public partial class MonthCalendar : Control
     /// <summary>
     /// Gets or sets the selection range.
     /// </summary>
-    /// <value>The selection range.
+    /// <value>
+    /// The selection range.
     /// </value>
     public SelectionRange SelectionRange { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show today].
+    /// Gets or sets a value indicating whether show today.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show today]; otherwise,
-    /// <c>false
+    /// </c> if show today; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowToday { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show today circle].
+    /// Gets or sets a value indicating whether show today circle.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show today circle]; otherwise,
-    /// <c>false
+    /// </c> if show today circle; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowTodayCircle { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [show week numbers].
+    /// Gets or sets a value indicating whether show week numbers.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [show week numbers]; otherwise,
-    /// <c>false
+    /// </c> if show week numbers; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool ShowWeekNumbers { get; set; }
@@ -122,7 +130,8 @@ public partial class MonthCalendar : Control
     /// <summary>
     /// Gets or sets the today date.
     /// </summary>
-    /// <value>The today date.
+    /// <value>
+    /// The today date.
     /// </value>
     public DateTime TodayDate
     {
@@ -133,7 +142,8 @@ public partial class MonthCalendar : Control
     /// <summary>
     /// Handles the DaySelected event of the MonthCalendar control.
     /// </summary>
-    /// <param name="sender">The source of the event.
+    /// <param name="sender">
+    /// The source of the event.
     /// </param>
     /// <param name="e">
     /// The

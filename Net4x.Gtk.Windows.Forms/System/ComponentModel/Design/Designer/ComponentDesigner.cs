@@ -70,7 +70,8 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
     /// <summary>
     /// Initializes the designer with the specified component.
     /// </summary>
-    /// <param name="component">The component to associate with this designer.
+    /// <param name="component">
+    /// The component to associate with this designer.
     /// </param>
     public void Initialize(IComponent component)
     {
@@ -80,7 +81,8 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
     /// <summary>
     /// Restores an instance of a component to its default state.
     /// </summary>
-    /// <param name="defaultValues">A dictionary of default property values, which are name/value pairs, with which to reset the component's state.
+    /// <param name="defaultValues">
+    /// A dictionary of default property values, which are name/value pairs, with which to reset the component's state.
     /// </param>
     public void InitializeExistingComponent(IDictionary defaultValues)
     {
@@ -90,7 +92,8 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
     /// <summary>
     /// Initializes a new component using a set of recommended values.
     /// </summary>
-    /// <param name="defaultValues">A dictionary of default property values, which are name/value pairs, with which to initialize the component's state.
+    /// <param name="defaultValues">
+    /// A dictionary of default property values, which are name/value pairs, with which to initialize the component's state.
     /// </param>
     public void InitializeNewComponent(IDictionary defaultValues)
     {

@@ -21,8 +21,7 @@ namespace System.Windows.Forms;
 public sealed partial class ImageList
 {
     /// <summary>
-    /// Class ImageCollection. This class cannot be inherited.
-    /// Implements the
+    /// Class ImageCollection. This class cannot be inherited. Implements the
     /// <see cref="T:System.Collections.IList" />
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />
@@ -46,6 +45,7 @@ public sealed partial class ImageList
         /// We use an index here rather than control so that we don't have lifetime
         /// issues by holding on to extra references.
         ///
+        ///
         private readonly int _lastAccessedIndex = -1;
 
         /// <summary>
@@ -57,7 +57,8 @@ public sealed partial class ImageList
         /// Initializes a new instance of the
         /// <see cref="T:System.Windows.Forms.ImageList.ImageCollection" /> class.
         /// </summary>
-        /// <param name="owner">The owner.
+        /// <param name="owner">
+        /// The owner.
         /// </param>
         internal ImageCollection(ImageList owner)
         {
@@ -69,7 +70,8 @@ public sealed partial class ImageList
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The count.
+        /// <value>
+        /// The count.
         /// </value>
         [Browsable(false)]
         public int Count
@@ -87,7 +89,8 @@ public sealed partial class ImageList
         /// <c>
         /// true
         /// </c> if empty; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         public bool Empty => Count == 0;
@@ -101,7 +104,8 @@ public sealed partial class ImageList
         /// <c>
         /// true
         /// </c> if this instance is read only; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         public bool IsReadOnly => false;
@@ -109,7 +113,8 @@ public sealed partial class ImageList
         /// <summary>
         /// Returns the keys in the image list - images without keys return String.Empty.
         /// </summary>
-        /// <value>The keys.
+        /// <value>
+        /// The keys.
         /// </value>
         public StringCollection Keys
         {
@@ -143,7 +148,8 @@ public sealed partial class ImageList
         /// <c>
         /// true
         /// </c> if this instance is fixed size; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool IList.IsFixedSize => false;
@@ -157,7 +163,8 @@ public sealed partial class ImageList
         /// <c>
         /// true
         /// </c> if this instance is synchronized; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </value>
         bool ICollection.IsSynchronized => false;
@@ -167,7 +174,8 @@ public sealed partial class ImageList
         /// <see cref="T:System.Collections.ICollection">
         /// </see>.
         /// </summary>
-        /// <value>The synchronize root.
+        /// <value>
+        /// The synchronize root.
         /// </value>
         object ICollection.SyncRoot => this;
 
@@ -175,9 +183,11 @@ public sealed partial class ImageList
         /// Gets or sets the
         /// <see cref="T:System.Drawing.Image" /> at the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>Image.
+        /// <returns>
+        /// Image.
         /// </returns>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -200,9 +210,11 @@ public sealed partial class ImageList
         /// <summary>
         /// Retrieves the child control with the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>System.Nullable{Image}.
+        /// <returns>
+        /// System.Nullable{Image}.
         /// </returns>
         public Image? this[string key]
         {
@@ -225,9 +237,11 @@ public sealed partial class ImageList
         /// <summary>
         /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <returns>System.Nullable.
+        /// <returns>
+        /// System.Nullable.
         /// </returns>
         object? IList.this[int index]
         {
@@ -241,9 +255,11 @@ public sealed partial class ImageList
         /// <summary>
         /// Adds an image to the end of the image list with a key accessor.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="image">The image.
+        /// <param name="image">
+        /// The image.
         /// </param>
         public void Add(string key, Image image)
         {
@@ -260,9 +276,11 @@ public sealed partial class ImageList
         /// <summary>
         /// Adds an icon to the end of the image list with a key accessor.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <param name="icon">The icon.
+        /// <param name="icon">
+        /// The icon.
         /// </param>
         public void Add(string key, Icon icon)
         {
@@ -280,7 +298,8 @@ public sealed partial class ImageList
         /// <summary>
         /// Adds the specified value.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         public void Add(Icon value)
         {
@@ -291,7 +310,8 @@ public sealed partial class ImageList
         /// <summary>
         /// Add the given image to the ImageList.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
         public void Add(Image value)
         {
@@ -305,11 +325,14 @@ public sealed partial class ImageList
         /// to generate the mask. The number of images to add is inferred from
         /// the width of the given image.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
-        /// <param name="transparentColor">Color of the transparent.
+        /// <param name="transparentColor">
+        /// Color of the transparent.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int Add(Image value, Color transparentColor)
         {
@@ -322,7 +345,8 @@ public sealed partial class ImageList
         /// <summary>
         /// Adds the range.
         /// </summary>
-        /// <param name="images">The images.
+        /// <param name="images">
+        /// The images.
         /// </param>
         public void AddRange(params Image[] images)
         {
@@ -336,9 +360,11 @@ public sealed partial class ImageList
         /// Add an image strip the given image to the ImageList. A strip is a single Image
         /// which is treated as multiple images arranged side-by-side.
         /// </summary>
-        /// <param name="value">The value.
+        /// <param name="value">
+        /// The value.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int AddStrip(Image value)
         {
@@ -362,13 +388,15 @@ public sealed partial class ImageList
         /// <summary>
         /// Determines whether this instance contains the object.
         /// </summary>
-        /// <param name="image">The image.
+        /// <param name="image">
+        /// The image.
         /// </param>
         /// <returns>
         /// <c>
         /// true
-        /// </c> if [contains] [the specified image]; otherwise,
-        /// <c>false
+        /// </c> if contains [the specified image]; otherwise,
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         /// <exception cref="T:System.NotSupportedException">
@@ -379,13 +407,15 @@ public sealed partial class ImageList
         /// <summary>
         /// Returns true if the collection contains an item with the specified key, false otherwise.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
         /// <c>
         /// true
         /// </c> if the specified key contains key; otherwise,
-        /// <c>false
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         public bool ContainsKey(string key) => IsValidIndex(IndexOfKey(key));
@@ -412,9 +442,11 @@ public sealed partial class ImageList
         /// <summary>
         /// Indexes the of.
         /// </summary>
-        /// <param name="image">The image.
+        /// <param name="image">
+        /// The image.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         /// <exception cref="T:System.NotSupportedException">
         /// </exception>
@@ -425,9 +457,11 @@ public sealed partial class ImageList
         /// The zero-based index of the first occurrence of value within the entire CollectionBase,
         /// if found; otherwise, -1.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         public int IndexOfKey(string key)
         {
@@ -443,7 +477,8 @@ public sealed partial class ImageList
         /// <summary>
         /// Removes the specified image.
         /// </summary>
-        /// <param name="image">The image.
+        /// <param name="image">
+        /// The image.
         /// </param>
         /// <exception cref="T:System.NotSupportedException">
         /// </exception>
@@ -455,7 +490,8 @@ public sealed partial class ImageList
         /// <see cref="T:System.Collections.IList">
         /// </see> item at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.
+        /// <param name="index">
+        /// The zero-based index of the item to remove.
         /// </param>
         public void RemoveAt(int index)
         {
@@ -472,7 +508,8 @@ public sealed partial class ImageList
         /// <summary>
         /// Removes the child control with the specified key.
         /// </summary>
-        /// <param name="key">The key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         public void RemoveByKey(string key)
         {
@@ -486,9 +523,11 @@ public sealed partial class ImageList
         /// <summary>
         /// Please make sure to copy the related images into the directoryResources下， keep the file name consistent withname一致
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
-        /// <param name="name">The name.
+        /// <param name="name">
+        /// The name.
         /// </param>
         public void SetKeyName(int index, string name)
         {
@@ -530,7 +569,8 @@ public sealed partial class ImageList
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </param>
-        /// <returns>The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
+        /// <returns>
+        /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
         /// </returns>
         int IList.Add(object? value)
         {
@@ -571,9 +611,11 @@ public sealed partial class ImageList
         /// <summary>
         /// Copies to.
         /// </summary>
-        /// <param name="dest">The dest.
+        /// <param name="dest">
+        /// The dest.
         /// </param>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
         void ICollection.CopyTo(Array dest, int index)
         {
@@ -595,7 +637,8 @@ public sealed partial class ImageList
         /// </param>
         /// <returns>
         /// The index of
-        /// <paramref name="value">value
+        /// <paramref name="value">
+        /// value
         /// </paramref> if found in the list; otherwise, -1.
         /// </returns>
         int IList.IndexOf(object? value)
@@ -614,7 +657,8 @@ public sealed partial class ImageList
         /// <see cref="T:System.Collections.IList">
         /// </see> at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index at which value should be inserted.
+        /// <param name="index">
+        /// The zero-based index at which value should be inserted.
         /// </param>
         /// <param name="value">
         /// The object to insert into the
@@ -648,11 +692,14 @@ public sealed partial class ImageList
         /// <summary>
         /// Adds the specified original.
         /// </summary>
-        /// <param name="original">The original.
+        /// <param name="original">
+        /// The original.
         /// </param>
-        /// <param name="imageInfo">The image information.
+        /// <param name="imageInfo">
+        /// The image information.
         /// </param>
-        /// <returns>System.Int32.
+        /// <returns>
+        /// System.Int32.
         /// </returns>
         private int Add(Original original, ImageInfo? imageInfo)
         {
@@ -666,13 +713,15 @@ public sealed partial class ImageList
         /// <summary>
         /// Determines if the index is valid for the collection.
         /// </summary>
-        /// <param name="index">The index.
+        /// <param name="index">
+        /// The index.
         /// </param>
         /// <returns>
         /// <c>
         /// true
-        /// </c> if [is valid index] [the specified index]; otherwise,
-        /// <c>false
+        /// </c> if is valid index the specified index; otherwise,
+        /// <c>
+        /// false
         /// </c>.
         /// </returns>
         private bool IsValidIndex(int index) => index >= 0 && index < Count;

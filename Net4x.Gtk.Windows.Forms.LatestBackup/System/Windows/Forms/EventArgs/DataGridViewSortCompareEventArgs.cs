@@ -42,15 +42,20 @@ public class DataGridViewSortCompareEventArgs : HandledEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewSortCompareEventArgs" /> class.
     /// </summary>
-    /// <param name="dataGridViewColumn">The data grid view column.
+    /// <param name="dataGridViewColumn">
+    /// The data grid view column.
     /// </param>
-    /// <param name="cellValue1">The cell value1.
+    /// <param name="cellValue1">
+    /// The cell value1.
     /// </param>
-    /// <param name="cellValue2">The cell value2.
+    /// <param name="cellValue2">
+    /// The cell value2.
     /// </param>
-    /// <param name="rowIndex1">The row index1.
+    /// <param name="rowIndex1">
+    /// The row index1.
     /// </param>
-    /// <param name="rowIndex2">The row index2.
+    /// <param name="rowIndex2">
+    /// The row index2.
     /// </param>
     public DataGridViewSortCompareEventArgs(DataGridViewColumn dataGridViewColumn,
                 object cellValue1,
@@ -69,7 +74,8 @@ public class DataGridViewSortCompareEventArgs : HandledEventArgs
     /// <summary>
     /// Gets the cell value1.
     /// </summary>
-    /// <value>The cell value1.
+    /// <value>
+    /// The cell value1.
     /// </value>
     public object CellValue1
     {
@@ -82,7 +88,8 @@ public class DataGridViewSortCompareEventArgs : HandledEventArgs
     /// <summary>
     /// Gets the cell value2.
     /// </summary>
-    /// <value>The cell value2.
+    /// <value>
+    /// The cell value2.
     /// </value>
     public object CellValue2
     {
@@ -95,7 +102,8 @@ public class DataGridViewSortCompareEventArgs : HandledEventArgs
     /// <summary>
     /// Gets the column.
     /// </summary>
-    /// <value>The column.
+    /// <value>
+    /// The column.
     /// </value>
     public DataGridViewColumn Column
     {
@@ -108,7 +116,8 @@ public class DataGridViewSortCompareEventArgs : HandledEventArgs
     /// <summary>
     /// Gets the row index1.
     /// </summary>
-    /// <value>The row index1.
+    /// <value>
+    /// The row index1.
     /// </value>
     public int RowIndex1
     {
@@ -121,7 +130,8 @@ public class DataGridViewSortCompareEventArgs : HandledEventArgs
     /// <summary>
     /// Gets the row index2.
     /// </summary>
-    /// <value>The row index2.
+    /// <value>
+    /// The row index2.
     /// </value>
     public int RowIndex2
     {
@@ -134,7 +144,8 @@ public class DataGridViewSortCompareEventArgs : HandledEventArgs
     /// <summary>
     /// Gets or sets the sort result.
     /// </summary>
-    /// <value>The sort result.
+    /// <value>
+    /// The sort result.
     /// </value>
     public int SortResult
     {

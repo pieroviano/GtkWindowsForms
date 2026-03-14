@@ -19,23 +19,30 @@ public class DataGridViewCellMouseEventArgs : MouseEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewCellMouseEventArgs" /> class.
     /// </summary>
-    /// <param name="columnIndex">Index of the column.
+    /// <param name="columnIndex">
+    /// Index of the column.
     /// </param>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
-    /// <param name="localX">The local x.
+    /// <param name="localX">
+    /// The local x.
     /// </param>
-    /// <param name="localY">The local y.
+    /// <param name="localY">
+    /// The local y.
     /// </param>
     /// <param name="e">
     /// The
     /// <see cref="T:System.Windows.Forms.MouseEventArgs" /> instance containing the event data.
     /// </param>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">columnIndex
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// columnIndex
     /// </exception>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">rowIndex
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// rowIndex
     /// </exception>
-    /// <exception cref="T:System.ArgumentNullException">e
+    /// <exception cref="T:System.ArgumentNullException">
+    /// e
     /// </exception>
     public DataGridViewCellMouseEventArgs(int columnIndex,
                 int rowIndex,
@@ -63,14 +70,16 @@ public class DataGridViewCellMouseEventArgs : MouseEventArgs
     /// <summary>
     /// Gets the index of the column.
     /// </summary>
-    /// <value>The index of the column.
+    /// <value>
+    /// The index of the column.
     /// </value>
     public int ColumnIndex { get; }
 
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

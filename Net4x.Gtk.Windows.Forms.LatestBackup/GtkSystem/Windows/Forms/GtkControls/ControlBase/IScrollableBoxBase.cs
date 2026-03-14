@@ -92,7 +92,8 @@ public interface IScrollableBoxBase
     /// <summary>
     /// Adds the specified child.
     /// </summary>
-    /// <param name="child">The child.
+    /// <param name="child">
+    /// The child.
     /// </param>
     void Add(Widget child);
 

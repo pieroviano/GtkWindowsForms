@@ -179,13 +179,10 @@ public class PropertyManager : BindingManagerBase
         return ListBindingHelper.GetListItemProperties(_dataSource, listAccessors);
     }
 
-    /// <returns>
-    /// The name of the list supplying the data for the binding.
-    /// </returns>
-    /// <param name = "listAccessors">
-    /// An
-    /// <see cref="T:System.Collections.ArrayList"/> containing the table's bound properties.
-    /// </param>
+    /// <summary>
+    /// Gets the name of the list.
+    /// </summary>
+    /// <returns></returns>
     internal override string? GetListName()
     {
         if (_dataSource != null)

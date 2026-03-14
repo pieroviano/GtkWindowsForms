@@ -14,7 +14,8 @@ public class RetrieveVirtualItemEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.RetrieveVirtualItemEventArgs" /> class.
     /// </summary>
-    /// <param name="itemIndex">Index of the item.
+    /// <param name="itemIndex">
+    /// Index of the item.
     /// </param>
     public RetrieveVirtualItemEventArgs(int itemIndex)
     {
@@ -24,14 +25,16 @@ public class RetrieveVirtualItemEventArgs : EventArgs
     /// <summary>
     /// Gets or sets the item.
     /// </summary>
-    /// <value>The item.
+    /// <value>
+    /// The item.
     /// </value>
     public ListViewItem Item { get; set; }
 
     /// <summary>
     /// Gets the index of the item.
     /// </summary>
-    /// <value>The index of the item.
+    /// <value>
+    /// The index of the item.
     /// </value>
     public int ItemIndex { get; }
 

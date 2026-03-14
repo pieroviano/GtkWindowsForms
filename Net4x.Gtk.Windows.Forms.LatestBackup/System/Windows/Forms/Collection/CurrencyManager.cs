@@ -624,7 +624,7 @@ public class CurrencyManager : BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref = "CurrencyChanged"/> event.
+    /// <see cref="!:CurrencyChanged"/> event.
     /// </summary>
     /// <param name = "e">
     /// The

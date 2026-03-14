@@ -15,13 +15,15 @@ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// A drop-down list control that wraps a GTK combo box and provides WinForms-compatible API.
-/// Supports data binding via
-/// <see cref="T:System.Windows.Forms.ComboBox.DataSource" />, item collections and selection semantics.
+/// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
 /// </summary>
-/// ComboBox ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+/// <seealso cref="T:System.Collections.IList" />
+/// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
 /// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl" />
+/// <seealso cref="T:System.Collections.IList" />
+/// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
+/// </summary>
+/// <seealso cref="T:System.Collections.IList" />
 [DesignerCategory("Component")]
 public partial class ComboBox : ListControl
 {
@@ -149,9 +151,11 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Returns the display text for the specified item. The method respects DataRow and primitive types when bound.
     /// </summary>
-    /// <param name="item">The item to retrieve text for.
+    /// <param name="item">
+    /// The item to retrieve text for.
     /// </param>
-    /// <returns>String representation to display for the item.
+    /// <returns>
+    /// String representation to display for the item.
     /// </returns>
     public override string GetItemText(object item)
     {
@@ -172,11 +176,14 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Adds an item to the underlying GTK model at the given index with value and display text.
     /// </summary>
-    /// <param name="index">Index at which to insert; ignored when sorted is true.
+    /// <param name="index">
+    /// Index at which to insert; ignored when sorted is true.
     /// </param>
-    /// <param name="value">Internal value identifier for the item.
+    /// <param name="value">
+    /// Internal value identifier for the item.
     /// </param>
-    /// <param name="text">Display text for the item.
+    /// <param name="text">
+    /// Display text for the item.
     /// </param>
     public void NativeAdd(int index, string value, string text)
     {
@@ -194,9 +201,11 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Retrieves the display text for the item at the specified index from the native GTK model.
     /// </summary>
-    /// <param name="index">Zero-based item index.
+    /// <param name="index">
+    /// Zero-based item index.
     /// </param>
-    /// <returns>Display text, or null as string if unavailable.
+    /// <returns>
+    /// Display text, or null as string if unavailable.
     /// </returns>
     public string NativeGetItemText(int index)
     {

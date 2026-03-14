@@ -16,15 +16,18 @@ public class DataGridViewRowDividerDoubleClickEventArgs : HandledMouseEventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRowDividerDoubleClickEventArgs" /> class.
     /// </summary>
-    /// <param name="rowIndex">Index of the row.
+    /// <param name="rowIndex">
+    /// Index of the row.
     /// </param>
     /// <param name="e">
     /// The
     /// <see cref="T:System.Windows.Forms.HandledMouseEventArgs" /> instance containing the event data.
     /// </param>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">rowIndex
+    /// <exception cref="T:System.ArgumentOutOfRangeException">
+    /// rowIndex
     /// </exception>
-    /// <exception cref="T:System.ArgumentNullException">e
+    /// <exception cref="T:System.ArgumentNullException">
+    /// e
     /// </exception>
     public DataGridViewRowDividerDoubleClickEventArgs(int rowIndex, HandledMouseEventArgs e) : base(e?.Button ?? MouseButtons.None, e?.Clicks ?? 0, e?.X ?? 0, e?.Y ?? 0, e?.Delta ?? 0, e?.Handled ?? false)
     {
@@ -43,7 +46,8 @@ public class DataGridViewRowDividerDoubleClickEventArgs : HandledMouseEventArgs
     /// <summary>
     /// Gets the index of the row.
     /// </summary>
-    /// <value>The index of the row.
+    /// <value>
+    /// The index of the row.
     /// </value>
     public int RowIndex { get; }
 

@@ -22,7 +22,8 @@ public class ControlBindingsCollection : BindingsCollection
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ControlBindingsCollection" /> class for the specified bindable component.
     /// </summary>
-    /// <param name="control">The control (or component) that will own bindings added to this collection.
+    /// <param name="control">
+    /// The control (or component) that will own bindings added to this collection.
     /// </param>
     public ControlBindingsCollection(IBindableComponent? control)
     {
@@ -53,7 +54,8 @@ public class ControlBindingsCollection : BindingsCollection
     /// or null if no binding for that property is present.
     /// Comparison is case-insensitive.
     /// </summary>
-    /// <param name="propertyName">The name of the property on the control to find the binding for.
+    /// <param name="propertyName">
+    /// The name of the property on the control to find the binding for.
     /// </param>
     public Binding? this[string propertyName]
     {
@@ -73,11 +75,11 @@ public class ControlBindingsCollection : BindingsCollection
 
     /// <summary>
     /// Adds the specified
-    /// <see cref="T:System.Windows.Forms.Binding" /> to the collection.
-    /// Throws if
+    /// <see cref="T:System.Windows.Forms.Binding" /> to the collection. Throws if
     /// <paramref name="binding" /> is null or invalid for this control.
     /// </summary>
-    /// <param name="binding">The binding to add.
+    /// <param name="binding">
+    /// The binding to add.
     /// </param>
     public new void Add(Binding binding) => base.Add(binding);
 
@@ -86,11 +88,14 @@ public class ControlBindingsCollection : BindingsCollection
     /// <see cref="T:System.Windows.Forms.Binding" /> that binds the specified property to the given data source and adds it to the collection.
     /// Uses the default formatting and update mode.
     /// </summary>
-    /// <param name="propertyName">The property on the control to bind.
+    /// <param name="propertyName">
+    /// The property on the control to bind.
     /// </param>
-    /// <param name="dataSource">The data source object.
+    /// <param name="dataSource">
+    /// The data source object.
     /// </param>
-    /// <param name="dataMember">The data member (column/property) on the data source to bind to.
+    /// <param name="dataMember">
+    /// The data member (column/property) on the data source to bind to.
     /// </param>
     /// <returns>
     /// The created and added
@@ -228,14 +233,16 @@ public class ControlBindingsCollection : BindingsCollection
     /// Removes the specified binding from the collection.
     /// Throws if the binding is null or does not belong to this collection.
     /// </summary>
-    /// <param name="binding">The binding to remove.
+    /// <param name="binding">
+    /// The binding to remove.
     /// </param>
     public new void Remove(Binding binding) => base.Remove(binding);
 
     /// <summary>
     /// Removes the binding at the specified index.
     /// </summary>
-    /// <param name="index">Zero-based index of the binding to remove.
+    /// <param name="index">
+    /// Zero-based index of the binding to remove.
     /// </param>
     public new void RemoveAt(int index) => base.RemoveAt(index);
 
@@ -244,7 +251,8 @@ public class ControlBindingsCollection : BindingsCollection
     /// Throws
     /// <see cref="T:System.ArgumentException" /> when a duplicate is detected.
     /// </summary>
-    /// <param name="binding">Binding to check for duplicates.
+    /// <param name="binding">
+    /// Binding to check for duplicates.
     /// </param>
     internal void CheckDuplicates(Binding binding)
     {
@@ -266,13 +274,15 @@ public class ControlBindingsCollection : BindingsCollection
     /// Core add implementation. Validates and associates the binding with this collection's component,
     /// then delegates to the base implementation to insert it.
     /// </summary>
-    /// <param name="dataBinding">The binding to add.
+    /// <param name="dataBinding">
+    /// The binding to add.
     /// </param>
     /// <exception cref="T:System.ArgumentNullException">
     /// If
     /// <paramref name="dataBinding" /> is null.
     /// </exception>
-    /// <exception cref="T:System.ArgumentException">If the binding is already associated with another component.
+    /// <exception cref="T:System.ArgumentException">
+    /// If the binding is already associated with another component.
     /// </exception>
     protected override void AddCore(Binding dataBinding)
     {
@@ -312,13 +322,15 @@ public class ControlBindingsCollection : BindingsCollection
     /// <summary>
     /// Core remove implementation. Validates and disassociates the binding before removing it from the collection.
     /// </summary>
-    /// <param name="dataBinding">The binding to remove.
+    /// <param name="dataBinding">
+    /// The binding to remove.
     /// </param>
     /// <exception cref="T:System.ArgumentNullException">
     /// If
     /// <paramref name="dataBinding" /> is null.
     /// </exception>
-    /// <exception cref="T:System.ArgumentException">If the binding does not belong to this collection.
+    /// <exception cref="T:System.ArgumentException">
+    /// If the binding does not belong to this collection.
     /// </exception>
     protected override void RemoveCore(Binding dataBinding)
     {

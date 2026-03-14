@@ -20,13 +20,14 @@ public sealed class SaveFileDialog : FileDialog
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether [check write access].
+    /// Gets or sets a value indicating whether check write access.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if [check write access]; otherwise,
-    /// <c>false
+    /// </c> if check write access; otherwise,
+    /// <c>
+    /// false
     /// </c>.
     /// </value>
     public bool CheckWriteAccess
@@ -38,16 +39,19 @@ public sealed class SaveFileDialog : FileDialog
     /// <summary>
     /// Gets the description.
     /// </summary>
-    /// <value>The description.
+    /// <value>
+    /// The description.
     /// </value>
     private new string Description => base.Description;
 
     /// <summary>
     /// Opens the file.
     /// </summary>
-    /// <returns>Stream.
+    /// <returns>
+    /// Stream.
     /// </returns>
-    /// <exception cref="T:System.ArgumentNullException">filename
+    /// <exception cref="T:System.ArgumentNullException">
+    /// filename
     /// </exception>
     public Stream OpenFile()
     {
@@ -63,9 +67,11 @@ public sealed class SaveFileDialog : FileDialog
     /// <summary>
     /// Shows the dialog.
     /// </summary>
-    /// <param name="owner">The owner.
+    /// <param name="owner">
+    /// The owner.
     /// </param>
-    /// <returns>DialogResult.
+    /// <returns>
+    /// DialogResult.
     /// </returns>
     public override DialogResult ShowDialog(IWin32Window owner)
     {

@@ -19,9 +19,11 @@ public class PropertyValueChangedEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.PropertyValueChangedEventArgs" /> class.
     /// </summary>
-    /// <param name="changedItem">The changed item.
+    /// <param name="changedItem">
+    /// The changed item.
     /// </param>
-    /// <param name="oldValue">The old value.
+    /// <param name="oldValue">
+    /// The old value.
     /// </param>
     public PropertyValueChangedEventArgs(GridItem changedItem, object oldValue)
     {
@@ -32,14 +34,16 @@ public class PropertyValueChangedEventArgs : EventArgs
     /// <summary>
     /// Gets the changed item.
     /// </summary>
-    /// <value>The changed item.
+    /// <value>
+    /// The changed item.
     /// </value>
     public GridItem ChangedItem { get; }
 
     /// <summary>
     /// Gets the old value.
     /// </summary>
-    /// <value>The old value.
+    /// <value>
+    /// The old value.
     /// </value>
     public object OldValue { get; }
 

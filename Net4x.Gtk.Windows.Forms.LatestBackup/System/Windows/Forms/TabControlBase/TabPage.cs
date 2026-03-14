@@ -53,7 +53,8 @@ public class TabPage : ContainerControl
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TabPage" /> class.
     /// </summary>
-    /// <param name="text">The text.
+    /// <param name="text">
+    /// The text.
     /// </param>
     public TabPage(string text) : this()
     {
@@ -63,14 +64,16 @@ public class TabPage : ContainerControl
     /// <summary>
     /// Gets the controls.
     /// </summary>
-    /// <value>The controls.
+    /// <value>
+    /// The controls.
     /// </value>
     public new ControlCollection Controls => _controls;
 
     /// <summary>
     /// Gets or sets the dock.
     /// </summary>
-    /// <value>The dock.
+    /// <value>
+    /// The dock.
     /// </value>
     public new DockStyle Dock
     {
@@ -84,35 +87,40 @@ public class TabPage : ContainerControl
     /// <summary>
     /// Gets the GTK control.
     /// </summary>
-    /// <value>The GTK control.
+    /// <value>
+    /// The GTK control.
     /// </value>
     public override object GtkControl => self;
 
     /// <summary>
     /// Gets or sets the index of the image.
     /// </summary>
-    /// <value>The index of the image.
+    /// <value>
+    /// The index of the image.
     /// </value>
     public int ImageIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the image key.
     /// </summary>
-    /// <value>The image key.
+    /// <value>
+    /// The image key.
     /// </value>
     public string ImageKey { get; set; }
 
     /// <summary>
     /// Gets or sets the image list.
     /// </summary>
-    /// <value>The image list.
+    /// <value>
+    /// The image list.
     /// </value>
     public List<object> ImageList { get; set; }
 
     /// <summary>
     /// Gets or sets the location.
     /// </summary>
-    /// <value>The location.
+    /// <value>
+    /// The location.
     /// </value>
     public override Point Location
     {
@@ -128,7 +136,8 @@ public class TabPage : ContainerControl
     /// <summary>
     /// Gets or sets the padding.
     /// </summary>
-    /// <value>The padding.
+    /// <value>
+    /// The padding.
     /// </value>
     public override Padding Padding
     {
@@ -146,21 +155,24 @@ public class TabPage : ContainerControl
     /// <summary>
     /// Gets or sets the size.
     /// </summary>
-    /// <value>The size.
+    /// <value>
+    /// The size.
     /// </value>
     public override Size Size { get => _size; set { _size = value; } }
 
     /// <summary>
     /// Gets the tab label.
     /// </summary>
-    /// <value>The tab label.
+    /// <value>
+    /// The tab label.
     /// </value>
     public Gtk.Label TabLabel { get { return _tabLabel; } }
 
     /// <summary>
     /// Gets or sets the text.
     /// </summary>
-    /// <value>The text.
+    /// <value>
+    /// The text.
     /// </value>
     public override string Text { get { return _tabLabel.Text; } set { _tabLabel.Text = value; } }
 

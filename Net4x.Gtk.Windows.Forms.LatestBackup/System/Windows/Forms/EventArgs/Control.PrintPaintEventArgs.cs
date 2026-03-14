@@ -7,16 +7,11 @@ using System.Drawing;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Partial definition of the
-/// <see cref="T:System.Windows.Forms.Control" /> class that contains the nested
-/// <see cref="T:System.Windows.Forms.Control.ControlCollection" />.
-/// The collection manages child controls/widgets for a parent
-/// <see cref="T:System.Windows.Forms.Control" /> and bridges WinForms semantics
-/// to the underlying GTK container.
+/// Represents the collection of data bindings for a control.
 /// </summary>
-/// Represents a Windows Forms control that is backed by a GTK widget.
-/// This class provides a compatibility layer so WinForms-style APIs can be used on GTK platforms.
-/// </summary>
+/// <filterpriority>
+/// 2
+/// </filterpriority>
 public partial class Control
 {
     private sealed class PrintPaintEventArgs : PaintEventArgs
