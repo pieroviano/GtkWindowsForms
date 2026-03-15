@@ -25,19 +25,10 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// </summary>
     public ViewportBase self = new ViewportBase();
 
-    /// <summary>
-    /// The preview control
-    /// </summary>
     private PrintPreviewControl _previewControl;
 
-    /// <summary>
-    /// The box
-    /// </summary>
     private Gtk.Box box;
 
-    /// <summary>
-    /// The preview form
-    /// </summary>
     private Form previewForm;
 
     /// <summary>
@@ -320,9 +311,6 @@ public partial class PrintPreviewDialog : ScrollableControl
         return ShowDialog(null);
     }
 
-    /// <summary>
-    /// Initializes this instance.
-    /// </summary>
     private void Init()
     {
         previewForm = new Form
@@ -353,31 +341,11 @@ public partial class PrintPreviewDialog : ScrollableControl
         previewForm.SizeChanged += PreviewForm_SizeChanged;
     }
 
-    /// <summary>
-    /// Handles the SizeChanged event of the PreviewForm control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void PreviewForm_SizeChanged(object sender, EventArgs e)
     {
         box.MarginStart = (previewForm.Width - _previewControl.Width) / 2;
     }
 
-    /// <summary>
-    /// Handles the ButtonPressEvent event of the Printbutton control.
-    /// </summary>
-    /// <param name="o">
-    /// The source of the event.
-    /// </param>
-    /// <param name="args">
-    /// The
-    /// <see cref="Gtk.ButtonPressEventArgs" /> instance containing the event data.
-    /// </param>
     private void Printbutton_ButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
     {
         PrintDialog printDialog = new PrintDialog
@@ -390,16 +358,6 @@ public partial class PrintPreviewDialog : ScrollableControl
         printDialog.ShowDialog(previewForm);
     }
 
-    /// <summary>
-    /// Handles the ButtonReleaseEvent event of the Printbutton control.
-    /// </summary>
-    /// <param name="o">
-    /// The source of the event.
-    /// </param>
-    /// <param name="args">
-    /// The
-    /// <see cref="Gtk.ButtonReleaseEventArgs" /> instance containing the event data.
-    /// </param>
     private void Printbutton_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
     {
         PrintDialog printDialog = new PrintDialog

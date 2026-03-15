@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Drawing2D;
+namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Contains the graphical data that makes up a

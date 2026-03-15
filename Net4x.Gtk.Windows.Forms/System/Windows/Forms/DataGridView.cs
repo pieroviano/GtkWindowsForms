@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -1199,16 +1199,6 @@ public partial class DataGridView : ScrollableControl
         GridView.ExpandRow(Store.GetPath(row.TreeIter), all);
     }
 
-    /// <summary>
-    /// Internal handler called to notify that a cell's value changed. Raises the
-    /// <see cref="T:System.Windows.Forms.DataGridView.CellValueChanged" /> event.
-    /// </summary>
-    /// <param name="column">
-    /// Column index.
-    /// </param>
-    /// <param name="row">
-    /// Row index.
-    /// </param>
     internal void CellValueChanagedHandler(int column, int row)
     {
         CellValueChanged?.Invoke(this, new DataGridViewCellEventArgs(column, row));
@@ -1303,10 +1293,6 @@ public partial class DataGridView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Loads the data from the current DataSource into the grid.
-    /// Supports DataTable, DataSet, DataView and IEnumerable lists.
-    /// </summary>
     private void OnSetDataSource()
     {
         _Created = false;

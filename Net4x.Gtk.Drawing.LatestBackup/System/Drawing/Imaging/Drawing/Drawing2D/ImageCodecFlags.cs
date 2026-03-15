@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Imaging;
+namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Provides attributes of an image encoder/decoder (codec).

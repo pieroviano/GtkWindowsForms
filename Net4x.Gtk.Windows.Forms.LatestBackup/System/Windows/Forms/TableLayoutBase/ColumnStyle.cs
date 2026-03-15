@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 
 /// <summary>
 /// Represents the look and feel of a column in a table layout.

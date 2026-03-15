@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;

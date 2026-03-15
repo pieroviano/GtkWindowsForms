@@ -1,4 +1,4 @@
-﻿namespace GtkSystem.Resources.Extensions;
+namespace GtkSystem.Resources.Extensions;
 
 internal enum SerializationFormat
 {

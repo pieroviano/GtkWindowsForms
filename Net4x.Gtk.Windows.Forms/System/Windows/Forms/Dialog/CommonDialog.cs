@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -16,9 +16,6 @@ namespace System.Windows.Forms;
 [ToolboxItemFilter("System.Windows.Forms")]
 public abstract class CommonDialog : Component
 {
-    /// <summary>
-    /// The s help request event
-    /// </summary>
     private static readonly object s_helpRequestEvent = new object ();
 
     /// <summary>

@@ -16,14 +16,9 @@ namespace System.Windows.Forms;
 /// </summary>
 public abstract class FileDialog : CommonDialog
 {
-    /// <summary>
-    /// The filter
-    /// </summary>
+
     private string _filter;
 
-    /// <summary>
-    /// The MIME mapping
-    /// </summary>
     static readonly Dictionary<string, string> MimeMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
@@ -40,10 +35,6 @@ public abstract class FileDialog : CommonDialog
 
     }
 
-    /// <summary>
-    /// Initializes static members of the
-    /// <see cref="T:System.Windows.Forms.FileDialog" /> class.
-    /// </summary>
     static FileDialog()
     {
         MimeMapping.Clear();
@@ -611,34 +602,10 @@ public abstract class FileDialog : CommonDialog
     /// </value>
     public bool ValidateNames { get; set; }
 
-    /// <summary>
-    /// Gets or sets the type of the action.
-    /// </summary>
-    /// <value>
-    /// The type of the action.
-    /// </value>
     internal Gtk.FileChooserAction ActionType { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether this
-    /// <see cref="T:System.Windows.Forms.FileDialog" /> is multiselect.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if multiselect; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     internal bool Multiselect { get; set; }
 
-    /// <summary>
-    /// Gets or sets the selected directory.
-    /// </summary>
-    /// <value>
-    /// The selected directory.
-    /// </value>
     internal string SelectedDirectory { get; set; }
 
     /// <summary>

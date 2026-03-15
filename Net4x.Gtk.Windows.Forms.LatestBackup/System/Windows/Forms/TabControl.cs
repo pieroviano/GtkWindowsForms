@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -25,14 +25,8 @@ public partial class TabControl : ContainerControl
     /// </summary>
     public readonly TabControlBase self = new TabControlBase();
 
-    /// <summary>
-    /// The controls
-    /// </summary>
     private readonly TabControl.ControlCollection _controls;
 
-    /// <summary>
-    /// The tab page controls
-    /// </summary>
     private readonly TabControl.TabPageCollection _tabPageControls;
 
     /// <summary>
@@ -244,15 +238,6 @@ public partial class TabControl : ContainerControl
         return new Rectangle(0, 0, rect.Width, rect.Height);
     }
 
-    /// <summary>
-    /// Selfs the switch page.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void Self_SwitchPage(object o, SwitchPageArgs args)
     {
         if (SelectedIndexChanged != null && self.IsMapped)
@@ -265,9 +250,6 @@ public partial class TabControl : ContainerControl
     /// </summary>
     public new class ControlCollection : List<TabPage>
     {
-        /// <summary>
-        /// The owner
-        /// </summary>
         readonly TabControl _owner;
 
         /// <summary>
@@ -360,16 +342,6 @@ public partial class TabControl : ContainerControl
             _owner.self.RemovePage(index);
         }
 
-        /// <summary>
-        /// Handles the Shown event of the Self control.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event.
-        /// </param>
-        /// <param name="e">
-        /// The
-        /// <see cref="T:System.EventArgs" /> instance containing the event data.
-        /// </param>
         private void Self_Shown(object sender, EventArgs e)
         {
             foreach (TabPage item in this)
@@ -392,9 +364,7 @@ public partial class TabControl : ContainerControl
     /// <seealso cref="T:System.Collections.IEnumerable" />
     public class TabPageCollection : IList, ICollection, IEnumerable
     {
-        /// <summary>
-        /// The owner
-        /// </summary>
+
         private readonly TabControl _owner;
 
         /// <summary>
@@ -435,50 +405,10 @@ public partial class TabControl : ContainerControl
         /// </value>
         public bool IsReadOnly { get { return false; } }
 
-        /// <summary>
-        /// Gets a value indicating whether the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> has a fixed size.
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is fixed size; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
         bool IList.IsFixedSize => throw new NotImplementedException();
 
-        /// <summary>
-        /// Gets a value indicating whether access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see> is synchronized (thread safe).
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is synchronized; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
         bool ICollection.IsSynchronized => throw new NotImplementedException();
 
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see>.
-        /// </summary>
-        /// <value>
-        /// The synchronize root.
-        /// </value>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
         object ICollection.SyncRoot => throw new NotImplementedException();
 
         /// <summary>
@@ -505,18 +435,6 @@ public partial class TabControl : ContainerControl
         /// </returns>
         public virtual TabPage this[int index] { get { return _owner.Controls[index]; } set { Add(value); } }
 
-        /// <summary>
-        /// Gets or sets the
-        /// <see cref="T:System.Object" /> at the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <returns>
-        /// System.Object.
-        /// </returns>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
         object IList.this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
@@ -860,118 +778,26 @@ public partial class TabControl : ContainerControl
             _owner.Controls.RemoveAt(_owner.Controls.FindIndex(p => p.Name == key));
         }
 
-        /// <summary>
-        /// Adds an item to the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to add to the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <returns>
-        /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
-        /// </returns>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
         int IList.Add(object value)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Determines whether the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> contains a specific value.
-        /// </summary>
-        /// <param name="value">
-        /// The object to locate in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <returns>
-        /// true if the
-        /// <see cref="T:System.Object">
-        /// </see> is found in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>; otherwise, false.
-        /// </returns>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
         bool IList.Contains(object value)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Copies the elements of the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see> to an
-        /// <see cref="T:System.Array">
-        /// </see>, starting at a particular
-        /// <see cref="T:System.Array">
-        /// </see> index.
-        /// </summary>
-        /// <param name="array">
-        /// The one-dimensional
-        /// <see cref="T:System.Array">
-        /// </see> that is the destination of the elements copied from
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see>. The
-        /// <see cref="T:System.Array">
-        /// </see> must have zero-based indexing.
-        /// </param>
-        /// <param name="index">
-        /// The zero-based index in array at which copying begins.
-        /// </param>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
         void CopyTo(Array array, int index)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Copies the elements of the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see> to an
-        /// <see cref="T:System.Array">
-        /// </see>, starting at a particular
-        /// <see cref="T:System.Array">
-        /// </see> index.
-        /// </summary>
-        /// <param name="array">
-        /// The one-dimensional
-        /// <see cref="T:System.Array">
-        /// </see> that is the destination of the elements copied from
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see>. The
-        /// <see cref="T:System.Array">
-        /// </see> must have zero-based indexing.
-        /// </param>
-        /// <param name="index">
-        /// The zero-based index in array at which copying begins.
-        /// </param>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
         void ICollection.CopyTo(Array array, int index)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to remove from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
         void IList.Remove(object value)
         {
             throw new NotImplementedException();

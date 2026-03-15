@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 
 /// <summary>
 /// Specifies how list items are displayed in a

@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 
 /// <summary>
 /// Contains information that enables a

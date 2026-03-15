@@ -1,4 +1,4 @@
-﻿namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
 /// ViewportBase class is a base class for GTK viewport controls, providing common functionality and properties for derived classes. It inherits from Gtk.Viewport and implements the IControlGtk interface. The class includes a constructor that initializes the viewport and sets various properties such as alignment. It also provides an Override property of type GtkControlOverride, which allows for custom styling and behavior of the control. By using ViewportBase, developers can easily create custom viewport controls that are compatible with the GTK system and provide consistent behavior across different platforms.

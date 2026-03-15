@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -118,15 +118,6 @@ public class ToolStrip : Control
     /// </value>
     public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, 30); }
 
-    /// <summary>
-    /// Tools the strip item activated.
-    /// </summary>
-    /// <param name="sender">
-    /// The sender.
-    /// </param>
-    /// <param name="e">
-    /// The e.
-    /// </param>
     private void ToolStripItem_Activated(object sender, ActivateCurrentArgs e)
     {
         DropDownItemClicked?.Invoke(this, new ToolStripItemClickedEventArgs(new ToolStripItem()));

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -27,24 +27,12 @@ public partial class SplitContainer : ContainerControl
     /// </summary>
     public readonly SplitContainerBase self = new SplitContainerBase();
 
-    /// <summary>
-    /// The fixed panel
-    /// </summary>
     private FixedPanel _fixedPanel = FixedPanel.Panel1;
 
-    /// <summary>
-    /// The panel1
-    /// </summary>
     private SplitterPanel _panel1;
 
-    /// <summary>
-    /// The panel2
-    /// </summary>
     private SplitterPanel _panel2;
 
-    /// <summary>
-    /// The splitter width
-    /// </summary>
     private int _SplitterWidth;
 
     /// <summary>

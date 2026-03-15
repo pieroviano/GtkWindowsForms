@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -205,31 +205,11 @@ public partial class TextBox : Control
         self.SelectRegion(start, start + length);
     }
 
-    /// <summary>
-    /// Handles the Changed event of the Self control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_Changed(object sender, EventArgs e)
     {
         if (TextChanged != null && self.IsVisible) { TextChanged(this, EventArgs.Empty); }
     }
 
-    /// <summary>
-    /// Handles the KeyPressEvent event of the Self control.
-    /// </summary>
-    /// <param name="o">
-    /// The source of the event.
-    /// </param>
-    /// <param name="args">
-    /// The
-    /// <see cref="Gtk.KeyPressEventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)
     {
         if (KeyDown != null)
@@ -242,15 +222,6 @@ public partial class TextBox : Control
         }
     }
 
-    /// <summary>
-    /// Selfs the text inserted.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void Self_TextInserted(object o, TextInsertedArgs args)
     {
         if (KeyDown != null && this.GetType().Name == "TextBox")

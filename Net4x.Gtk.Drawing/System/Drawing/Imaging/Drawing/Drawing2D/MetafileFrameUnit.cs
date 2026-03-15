@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Imaging;
+namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Specifies the unit of measurement for the rectangle used to size and position a metafile. This is specified during the creation of the

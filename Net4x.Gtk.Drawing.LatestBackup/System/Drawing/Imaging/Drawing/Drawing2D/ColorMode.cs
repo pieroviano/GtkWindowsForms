@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Imaging;
+namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Specifies two modes for color component values.

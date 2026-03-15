@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 
 /// <summary>
 /// Represents a collection of
@@ -6,18 +6,8 @@
 /// </summary>
 public class TreeNodeCollection : List<TreeNode>
 {
-    /// <summary>
-    /// The owner
-    /// </summary>
     private readonly TreeNode owner;
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.TreeNodeCollection" /> class.
-    /// </summary>
-    /// <param name="owner">
-    /// The owner.
-    /// </param>
     internal TreeNodeCollection(TreeNode owner)
     {
         this.owner = owner;

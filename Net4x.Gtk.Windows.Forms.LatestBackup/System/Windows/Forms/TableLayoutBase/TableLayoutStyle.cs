@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Windows.Forms.Layout;
 
 namespace System.Windows.Forms;
@@ -30,36 +30,18 @@ public abstract class TableLayoutStyle
         set;
     }
 
-    /// <summary>
-    /// Gets or sets the owner.
-    /// </summary>
-    /// <value>
-    /// The owner.
-    /// </value>
     internal IArrangedElement Owner
     {
         get;
         set;
     }
 
-    /// <summary>
-    /// Gets or sets the size.
-    /// </summary>
-    /// <value>
-    /// The size.
-    /// </value>
     internal float Size
     {
         get;
         set;
     }
 
-    /// <summary>
-    /// Sets the size.
-    /// </summary>
-    /// <param name="size">
-    /// The size.
-    /// </param>
     internal void SetSize(float size)
     {
         this.Size = size;

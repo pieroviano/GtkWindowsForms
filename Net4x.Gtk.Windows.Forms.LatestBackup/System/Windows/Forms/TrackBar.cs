@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -20,14 +20,8 @@ public class TrackBar : Control
     /// </summary>
     public readonly TrackBarBase self = new TrackBarBase();
 
-    /// <summary>
-    /// The adjustment
-    /// </summary>
     readonly Gtk.Adjustment adjustment = new Gtk.Adjustment(10, 0, 100, 1, 1, 0);
 
-    /// <summary>
-    /// The scale
-    /// </summary>
     Gtk.Scale scale;
 
     /// <summary>
@@ -108,16 +102,6 @@ public class TrackBar : Control
     /// </value>
     public int Value { get => (int)adjustment.Value; set { adjustment.Value = value; } }
 
-    /// <summary>
-    /// Handles the Realized event of the Control control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Control_Realized(object sender, EventArgs e)
     {
         scale = new Gtk.Scale(Orientation == Orientation.Horizontal ? Gtk.Orientation.Horizontal : Gtk.Orientation.Vertical, adjustment)
@@ -135,16 +119,6 @@ public class TrackBar : Control
         self.Child = scale;
     }
 
-    /// <summary>
-    /// Handles the ValueChanged event of the Control control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Control_ValueChanged(object sender, EventArgs e)
     {
         Value = (int)adjustment.Value;

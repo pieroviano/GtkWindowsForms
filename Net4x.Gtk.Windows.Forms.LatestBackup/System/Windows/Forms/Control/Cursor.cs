@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -98,32 +98,15 @@ public sealed class Cursor : IDisposable, ISerializable
         CursorPixbuf = new Gdk.Pixbuf(stream).ScaleSimple(48, 48, Gdk.InterpType.Tiles);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.Cursor" /> class from an embedded resource.
-    /// </summary>
-    /// <param name="type">
-    /// Type used to locate the assembly containing the resource.
-    /// </param>
-    /// <param name="resource">
-    /// Resource name.
-    /// </param>
     internal Cursor(string resource, string cursorsProperty)
-                : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
+        : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
     {
         CursorsProperty = cursorsProperty;
         _freeHandle = false;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.Cursor" /> class from a native handle.
-    /// </summary>
-    /// <param name="handle">
-    /// Native cursor handle.
-    /// </param>
     internal Cursor(string resource, int x, int y)
-                : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
+        : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
     {
         CursorsXY = new Point(x, y);
         _freeHandle = false;
@@ -194,25 +177,12 @@ public sealed class Cursor : IDisposable, ISerializable
     /// </summary>
     public object? Tag { get; set; }
 
-    /// <summary>
-    /// Backing pixbuf used for custom cursors.
-    /// </summary>
     internal Gdk.Pixbuf CursorPixbuf { get; set; }
 
-    /// <summary>
-    /// Optional property name used when this cursor is created from a resource.
-    /// </summary>
     internal string? CursorsProperty { get; }
 
-    /// <summary>
-    /// Optional hotspot coordinates when the cursor is created from a resource.
-    /// </summary>
     internal Point CursorsXY { get; }
 
-    /// <summary>
-    /// The GDK cursor type for system cursors or
-    /// <see cref="Gdk.CursorType.CursorIsPixmap" /> for custom pixbuf cursors.
-    /// </summary>
     internal Gdk.CursorType CursorType { get; set; }
 
     /// <summary>
@@ -312,33 +282,16 @@ public sealed class Cursor : IDisposable, ISerializable
     /// </returns>
     public override string ToString() => $"[Cursor: {CursorsProperty ?? base.ToString()}]";
 
-    /// <summary>
-    /// Returns a copy of the raw cursor data bytes.
-    /// </summary>
-    /// <returns>
-    /// Raw cursor bytes.
-    /// </returns>
     internal unsafe byte[] GetData()
     {
         return (byte[])_cursorData.Clone();
     }
 
-    /// <summary>
-    /// Populates a
-    /// <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the cursor.
-    /// This platform does not support cursor serialization.
-    /// </summary>
     void ISerializable.GetObjectData(SerializationInfo si, StreamingContext context)
     {
         throw new PlatformNotSupportedException();
     }
 
-    /// <summary>
-    /// Releases managed and unmanaged resources used by the cursor.
-    /// </summary>
-    /// <param name="disposing">
-    /// True to release managed resources as well as unmanaged.
-    /// </param>
     private void Dispose(bool disposing)
     {
 

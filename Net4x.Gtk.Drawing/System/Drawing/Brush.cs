@@ -1,4 +1,4 @@
-﻿namespace System.Drawing;
+namespace System.Drawing;
 
 /// <summary>
 /// Defines objects used to fill the interiors of graphical shapes such as rectangles, ellipses, pies, polygons, and paths.

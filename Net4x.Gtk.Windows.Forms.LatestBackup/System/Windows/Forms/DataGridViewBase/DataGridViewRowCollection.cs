@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -17,19 +17,10 @@ namespace System.Windows.Forms;
 [ListBindable(false)]
 public class DataGridViewRowCollection : ICollection, IEnumerable, IList
 {
-    /// <summary>
-    /// The data grid view
-    /// </summary>
     private readonly DataGridView dataGridView;
 
-    /// <summary>
-    /// The items
-    /// </summary>
     private readonly ArrayList items = new ArrayList();
 
-    /// <summary>
-    /// The parent row
-    /// </summary>
     private readonly DataGridViewRow parentRow;
 
     /// <summary>
@@ -75,67 +66,14 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </value>
     public int Count => items.Count;
 
-    /// <summary>
-    /// Gets the shared list.
-    /// </summary>
-    /// <value>
-    /// The shared list.
-    /// </value>
     internal ArrayList SharedList => items;
 
-    /// <summary>
-    /// Gets a value indicating whether the
-    /// <see cref="T:System.Collections.IList">
-    /// </see> has a fixed size.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if this instance is fixed size; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     bool IList.IsFixedSize => false;
 
-    /// <summary>
-    /// Gets a value indicating whether the
-    /// <see cref="T:System.Collections.IList">
-    /// </see> is read-only.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if this instance is read only; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     bool IList.IsReadOnly => false;
 
-    /// <summary>
-    /// Gets a value indicating whether access to the
-    /// <see cref="T:System.Collections.ICollection">
-    /// </see> is synchronized (thread safe).
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if this instance is synchronized; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     bool ICollection.IsSynchronized => false;
 
-    /// <summary>
-    /// Gets an object that can be used to synchronize access to the
-    /// <see cref="T:System.Collections.ICollection">
-    /// </see>.
-    /// </summary>
-    /// <value>
-    /// The synchronize root.
-    /// </value>
     object ICollection.SyncRoot => this;
 
     /// <summary>
@@ -186,18 +124,6 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         }
     }
 
-    /// <summary>
-    /// Gets or sets the
-    /// <see cref="T:System.Object"/> at the specified index.
-    /// </summary>
-    /// <param name = "index">
-    /// The index.
-    /// </param>
-    /// <returns>
-    /// System.Object.
-    /// </returns>
-    /// <exception cref="T:System.NotSupportedException">
-    /// </exception>
     object IList.this[int index] { get => items[index]; set => throw new NotSupportedException(); }
 
     /// <summary>
@@ -824,157 +750,46 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         return (DataGridViewRow)SharedList[rowIndex];
     }
 
-    /// <summary>
-    /// Adds an item to the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>.
-    /// </summary>
-    /// <param name = "value">
-    /// The object to add to the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>.
-    /// </param>
-    /// <returns>
-    /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
-    /// </returns>
     int IList.Add(object value)
     {
         return Add((DataGridViewRow)value);
     }
 
-    /// <summary>
-    /// Removes all items from the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>.
-    /// </summary>
     void IList.Clear()
     {
         Clear();
     }
 
-    /// <summary>
-    /// Determines whether the
-    /// <see cref="T:System.Collections.IList">
-    /// </see> contains a specific value.
-    /// </summary>
-    /// <param name = "value">
-    /// The object to locate in the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>.
-    /// </param>
-    /// <returns>
-    /// true if the
-    /// <see cref="T:System.Object">
-    /// </see> is found in the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>; otherwise, false.
-    /// </returns>
     bool IList.Contains(object value)
     {
         return items.Contains(value);
     }
 
-    /// <summary>
-    /// Copies the elements of the
-    /// <see cref="T:System.Collections.ICollection">
-    /// </see> to an
-    /// <see cref="T:System.Array">
-    /// </see>, starting at a particular
-    /// <see cref="T:System.Array">
-    /// </see> index.
-    /// </summary>
-    /// <param name = "array">
-    /// The one-dimensional
-    /// <see cref="T:System.Array">
-    /// </see> that is the destination of the elements copied from
-    /// <see cref="T:System.Collections.ICollection">
-    /// </see>. The
-    /// <see cref="T:System.Array">
-    /// </see> must have zero-based indexing.
-    /// </param>
-    /// <param name = "index">
-    /// The zero-based index in array at which copying begins.
-    /// </param>
     void ICollection.CopyTo(Array array, int index)
     {
         items.CopyTo(array, index);
     }
 
-    /// <summary>
-    /// Returns an enumerator that iterates through a collection.
-    /// </summary>
-    /// <returns>
-    /// An
-    /// <see cref="T:System.Collections.IEnumerator">
-    /// </see> object that can be used to iterate through the collection.
-    /// </returns>
     IEnumerator IEnumerable.GetEnumerator()
     {
         return items.GetEnumerator();
     }
 
-    /// <summary>
-    /// Determines the index of a specific item in the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>.
-    /// </summary>
-    /// <param name = "value">
-    /// The object to locate in the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>.
-    /// </param>
-    /// <returns>
-    /// The index of
-    /// <paramref name = "value">
-    /// value
-    /// </paramref> if found in the list; otherwise, -1.
-    /// </returns>
     int IList.IndexOf(object value)
     {
         return items.IndexOf(value);
     }
 
-    /// <summary>
-    /// Inserts an item to the
-    /// <see cref="T:System.Collections.IList">
-    /// </see> at the specified index.
-    /// </summary>
-    /// <param name = "index">
-    /// The zero-based index at which value should be inserted.
-    /// </param>
-    /// <param name = "value">
-    /// The object to insert into the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>.
-    /// </param>
     void IList.Insert(int index, object value)
     {
         Insert(index, (DataGridViewRow)value);
     }
 
-    /// <summary>
-    /// Removes the first occurrence of a specific object from the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>.
-    /// </summary>
-    /// <param name = "value">
-    /// The object to remove from the
-    /// <see cref="T:System.Collections.IList">
-    /// </see>.
-    /// </param>
     void IList.Remove(object value)
     {
         Remove((DataGridViewRow)value);
     }
 
-    /// <summary>
-    /// Removes the
-    /// <see cref="T:System.Collections.IList">
-    /// </see> item at the specified index.
-    /// </summary>
-    /// <param name = "index">
-    /// The zero-based index of the item to remove.
-    /// </param>
     void IList.RemoveAt(int index)
     {
         RemoveAt(index);
@@ -994,15 +809,6 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         CollectionChanged?.Invoke(dataGridView, e);
     }
 
-    /// <summary>
-    /// Adds the GTK store.
-    /// </summary>
-    /// <param name = "cells">
-    /// The cells.
-    /// </param>
-    /// <returns>
-    /// TreeIter.
-    /// </returns>
     private TreeIter AddGtkStore(DataGridViewCellCollection cells)
     {
         int ncolumns = dataGridView.Store.NColumns;
@@ -1019,15 +825,6 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
             return dataGridView.Store.AppendValues(cells.ConvertAll(o => o).Take(ncolumns).ToArray());
     }
 
-    /// <summary>
-    /// Adds the GTK store.
-    /// </summary>
-    /// <param name = "cells">
-    /// The cells.
-    /// </param>
-    /// <returns>
-    /// TreeIter.
-    /// </returns>
     private TreeIter AddGtkStore(TreeIter parent, DataGridViewCellCollection cells)
     {
         int ncolumns = dataGridView.Store.NColumns;
@@ -1044,12 +841,6 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
             return dataGridView.Store.AppendValues(parent, cells.ConvertAll(o => o).Take(ncolumns).ToArray());
     }
 
-    /// <summary>
-    /// Adds the GTK store.
-    /// </summary>
-    /// <param name = "dataGridViewRows">
-    /// The data grid view rows.
-    /// </param>
     private void AddGtkStore(params DataGridViewRow[] dataGridViewRows)
     {
         int rowindex = items.Count;
@@ -1093,15 +884,6 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         }
     }
 
-    /// <summary>
-    /// Adds the GTK store.
-    /// </summary>
-    /// <param name = "cells">
-    /// The cells.
-    /// </param>
-    /// <returns>
-    /// TreeIter.
-    /// </returns>
     private void AddGtkStore(TreeIter parent, ref int rowindex, DataGridViewRow row)
     {
         row.Index = rowindex;
@@ -1125,18 +907,6 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         }
     }
 
-    /// <summary>
-    /// Inserts the GTK store.
-    /// </summary>
-    /// <param name = "rowIndex">
-    /// Index of the row.
-    /// </param>
-    /// <param name = "cells">
-    /// The cells.
-    /// </param>
-    /// <returns>
-    /// TreeIter.
-    /// </returns>
     private TreeIter InsertGtkStore(int rowIndex, DataGridViewCellCollection cells)
     {
         int ncolumns = dataGridView.Store.NColumns;
@@ -1153,15 +923,6 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
             return dataGridView.Store.InsertWithValues(rowIndex, cells.ConvertAll(o => o).Take(ncolumns).ToArray());
     }
 
-    /// <summary>
-    /// Inserts the GTK store.
-    /// </summary>
-    /// <param name = "rowIndex">
-    /// Index of the row.
-    /// </param>
-    /// <param name = "dataGridViewRows">
-    /// The data grid view rows.
-    /// </param>
     private void InsertGtkStore(int rowIndex, params DataGridViewRow[] dataGridViewRows)
     {
         int idx = rowIndex;

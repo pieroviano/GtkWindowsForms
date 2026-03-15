@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -1086,22 +1086,13 @@ public sealed class Metafile : Image
 
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Metafile"/> class.
-    /// </summary>
-    /// <param name="ptr">The PTR.</param>
     internal Metafile(IntPtr ptr)
     {
         SetNativeImage(ptr);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Metafile"/> class.
-    /// </summary>
-    /// <param name="info"></param>
-    /// <param name="context"></param>
     private Metafile(SerializationInfo info, StreamingContext context)
-                : base(info, context)
+        : base(info, context)
     {
     }
 

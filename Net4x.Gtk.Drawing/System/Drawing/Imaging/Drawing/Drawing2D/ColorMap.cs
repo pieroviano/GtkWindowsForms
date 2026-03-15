@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Imaging;
+namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Defines a map for converting colors. Several methods of the

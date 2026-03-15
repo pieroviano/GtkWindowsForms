@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -13,9 +13,6 @@ namespace System.Windows.Forms;
 /// </summary>
 public class DataGridViewRowPostPaintEventArgs : EventArgs
 {
-    /// <summary>
-    /// The data grid view
-    /// </summary>
     private readonly DataGridView _dataGridView;
 
     /// <summary>
@@ -90,13 +87,6 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
         IsLastVisibleRow = isLastVisibleRow;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.DataGridViewRowPostPaintEventArgs" /> class.
-    /// </summary>
-    /// <param name="dataGridView">
-    /// The data grid view.
-    /// </param>
     internal DataGridViewRowPostPaintEventArgs(DataGridView dataGridView)
     {
         Debug.Assert(dataGridView != null);
@@ -185,42 +175,6 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// </value>
     public DataGridViewElementStates State { get; private set; }
 
-    /// <summary>
-    /// Sets the properties.
-    /// </summary>
-    /// <param name="graphics">
-    /// The graphics.
-    /// </param>
-    /// <param name="clipBounds">
-    /// The clip bounds.
-    /// </param>
-    /// <param name="rowBounds">
-    /// The row bounds.
-    /// </param>
-    /// <param name="rowIndex">
-    /// Index of the row.
-    /// </param>
-    /// <param name="rowState">
-    /// State of the row.
-    /// </param>
-    /// <param name="errorText">
-    /// The error text.
-    /// </param>
-    /// <param name="inheritedRowStyle">
-    /// The inherited row style.
-    /// </param>
-    /// <param name="isFirstDisplayedRow">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>is first displayed row.
-    /// </param>
-    /// <param name="isLastVisibleRow">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>is last visible row.
-    /// </param>
     //    _dataGridView.Rows.SharedRow(RowIndex).DrawFocus(Graphics,
     //                                                     ClipBounds,
     //                                                     bounds,
@@ -229,6 +183,7 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     //                                                     InheritedRowStyle,
     //                                                     cellsPaintSelectionBackground);
     //}
+
     //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
     //                                                      clipBounds,
     //                                                      RowBounds,
@@ -238,6 +193,7 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     //                                                      IsLastVisibleRow,
     //                                                      paintParts);
     //}
+
     //    DataGridViewPaintParts paintParts = DataGridViewPaintParts.Background | DataGridViewPaintParts.Border;
     //    if (cellsPaintSelectionBackground)
     //    {
@@ -252,6 +208,7 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     //                                                      IsLastVisibleRow,
     //                                                      paintParts);
     //}
+
     //    _dataGridView.Rows.SharedRow(RowIndex).PaintCells(Graphics,
     //                                                      clipBounds,
     //                                                      RowBounds,
@@ -261,6 +218,7 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     //                                                      IsLastVisibleRow,
     //                                                      DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ErrorIcon);
     //}
+
     //    _dataGridView.Rows.SharedRow(RowIndex).PaintHeader(Graphics,
     //                                                       ClipBounds,
     //                                                       RowBounds,
@@ -270,15 +228,16 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     //                                                       IsLastVisibleRow,
     //                                                       paintParts);
     //}
+
     internal void SetProperties(Graphics graphics,
-                                        Rectangle clipBounds,
-                                        Rectangle rowBounds,
-                                        int rowIndex,
-                                        DataGridViewElementStates rowState,
-                                        string errorText,
-                                        DataGridViewCellStyle inheritedRowStyle,
-                                        bool isFirstDisplayedRow,
-                                        bool isLastVisibleRow)
+                                Rectangle clipBounds,
+                                Rectangle rowBounds,
+                                int rowIndex,
+                                DataGridViewElementStates rowState,
+                                string errorText,
+                                DataGridViewCellStyle inheritedRowStyle,
+                                bool isFirstDisplayedRow,
+                                bool isLastVisibleRow)
     {
         Debug.Assert(graphics != null);
 

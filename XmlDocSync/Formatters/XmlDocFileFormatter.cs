@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis.Text;
+using XmlDocSync.Cleaning;
 
 namespace XmlDocSync.Formatters;
 
@@ -41,7 +43,8 @@ public static class XmlDocFileFormatter
         if (insideDoc)
             result.Append(ProcessBlock(block.ToString()));
 
-        return result.ToString().Replace("cref=\"System.", "cref=\"T:System.").Replace("cref = \"System.", "cref=\"T:System.").Replace(Environment.NewLine, "\n");
+        var formatFile = result.ToString().Replace("cref=\"System.", "cref=\"T:System.").Replace("cref = \"System.", "cref=\"T:System.").Replace(Environment.NewLine, "\n");
+        return formatFile;
     }
 
     private static bool IsDocLine(string line)

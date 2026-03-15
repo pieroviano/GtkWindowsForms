@@ -1,4 +1,4 @@
-﻿namespace System.Drawing;
+namespace System.Drawing;
 
 /// <summary>
 /// Specifies how to trim characters from a string that does not completely fit into a layout shape.

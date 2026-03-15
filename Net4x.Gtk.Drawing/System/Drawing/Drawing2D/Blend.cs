@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Drawing2D;
+namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Defines a blend pattern for a

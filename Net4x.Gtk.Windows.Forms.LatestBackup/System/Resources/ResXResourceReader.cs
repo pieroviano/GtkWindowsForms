@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -16,8 +16,6 @@ using System.Xml;
 namespace System.Resources;
 
 /// <summary>
-/// ResX resource reader.
-/// </summary>
 /// ResX resource reader.
 /// </summary>
 public partial class ResXResourceReader : IResourceReader
@@ -171,13 +169,6 @@ public partial class ResXResourceReader : IResourceReader
     {
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXResourceReader" /> class.
-    /// </summary>
-    /// <param name="fileName">
-    /// Name of the file.
-    /// </param>
     internal ResXResourceReader(string fileName, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
     {
         _fileName = fileName;
@@ -185,13 +176,6 @@ public partial class ResXResourceReader : IResourceReader
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXResourceReader" /> class.
-    /// </summary>
-    /// <param name="fileName">
-    /// Name of the file.
-    /// </param>
     internal ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
     {
         _reader = reader;
@@ -199,13 +183,6 @@ public partial class ResXResourceReader : IResourceReader
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXResourceReader" /> class.
-    /// </summary>
-    /// <param name="fileName">
-    /// Name of the file.
-    /// </param>
     internal ResXResourceReader(Stream stream, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
     {
         _stream = stream;
@@ -213,13 +190,6 @@ public partial class ResXResourceReader : IResourceReader
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXResourceReader" /> class.
-    /// </summary>
-    /// <param name="fileName">
-    /// Name of the file.
-    /// </param>
     internal ResXResourceReader(Stream stream, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
     {
         _stream = stream;
@@ -227,13 +197,6 @@ public partial class ResXResourceReader : IResourceReader
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXResourceReader" /> class.
-    /// </summary>
-    /// <param name="fileName">
-    /// Name of the file.
-    /// </param>
     internal ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
     {
         _reader = reader;
@@ -241,13 +204,6 @@ public partial class ResXResourceReader : IResourceReader
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXResourceReader" /> class.
-    /// </summary>
-    /// <param name="fileName">
-    /// Name of the file.
-    /// </param>
     internal ResXResourceReader(string fileName, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
     {
         _fileName = fileName;
@@ -255,26 +211,12 @@ public partial class ResXResourceReader : IResourceReader
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXResourceReader" /> class.
-    /// </summary>
-    /// <param name="fileName">
-    /// Name of the file.
-    /// </param>
     private ResXResourceReader(ITypeResolutionService typeResolver)
     {
         _typeResolver = typeResolver;
         _aliasResolver = new ReaderAliasResolver();
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Resources.ResXResourceReader" /> class.
-    /// </summary>
-    /// <param name="fileName">
-    /// Name of the file.
-    /// </param>
     private ResXResourceReader(AssemblyName[] assemblyNames)
     {
         _assemblyNames = assemblyNames;

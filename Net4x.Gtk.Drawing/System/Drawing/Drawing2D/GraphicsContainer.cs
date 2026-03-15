@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Drawing2D;
+namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Represents the internal data of a graphics container. This class is used when saving the state of a

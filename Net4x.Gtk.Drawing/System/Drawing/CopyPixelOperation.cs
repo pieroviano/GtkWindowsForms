@@ -1,4 +1,4 @@
-﻿namespace System.Drawing;
+namespace System.Drawing;
 
 /// <summary>
 /// Determines how the source color in a copy pixel operation is combined with the destination color to result in a final color.

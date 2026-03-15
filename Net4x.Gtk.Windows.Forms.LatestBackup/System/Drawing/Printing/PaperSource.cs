@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Drawing.Printing;
@@ -23,10 +23,6 @@ public partial class PaperSource
         _name = string.Empty;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Printing.PaperSource" /> class.
-    /// </summary>
     internal PaperSource(PaperSourceKind kind, string name)
     {
         _kind = kind;

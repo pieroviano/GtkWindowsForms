@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Windows.Forms.Layout;
 
 namespace System.Windows.Forms;
@@ -8,25 +8,12 @@ namespace System.Windows.Forms;
 /// </summary>
 public abstract class TableLayoutStyleCollection : ArrayList
 {
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.TableLayoutStyleCollection" /> class.
-    /// </summary>
-    /// <param name="owner">
-    /// The owner.
-    /// </param>
     internal TableLayoutStyleCollection(IArrangedElement owner)
     {
         Owner = owner;
 
     }
 
-    /// <summary>
-    /// Gets the owner.
-    /// </summary>
-    /// <value>
-    /// The owner.
-    /// </value>
     internal IArrangedElement Owner
     {
         get;
@@ -69,12 +56,6 @@ public abstract class TableLayoutStyleCollection : ArrayList
         return base.Add(style);
     }
 
-    /// <summary>
-    /// Ensures the ownership.
-    /// </summary>
-    /// <param name="owner">
-    /// The owner.
-    /// </param>
     internal void EnsureOwnership(IArrangedElement owner)
     {
         Owner = owner;

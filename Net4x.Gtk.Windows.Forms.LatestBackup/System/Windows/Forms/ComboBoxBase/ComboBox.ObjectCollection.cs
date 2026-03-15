@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -11,21 +11,9 @@ namespace System.Windows.Forms;
 /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
 /// </summary>
 /// <seealso cref="T:System.Collections.IList" />
-/// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
-/// </summary>
-/// <seealso cref="T:System.Collections.IList" />
-/// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
-/// </summary>
-/// <seealso cref="T:System.Collections.IList" />
 public partial class ComboBox
 {
     /// <summary>
-    /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
-    /// </summary>
-    /// <seealso cref="T:System.Collections.IList" />
-    /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
-    /// </summary>
-    /// <seealso cref="T:System.Collections.IList" />
     /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />
@@ -286,15 +274,6 @@ public partial class ComboBox
             }
         }
 
-        /// <summary>
-        /// Adds an item to the combo box. For an unsorted combo box, the item is
-        /// added to the end of the existing list of items. For a sorted combo box,
-        /// the item is inserted into the list according to its sorted position.
-        /// The item's toString() method is called to obtain the string that is
-        /// displayed in the combo box.
-        /// A SystemException occurs if there is insufficient space available to
-        /// store the new item.
-        /// </summary>
         internal int Add(string value, string text, object item)
         {
             int index = AddInternal(item);

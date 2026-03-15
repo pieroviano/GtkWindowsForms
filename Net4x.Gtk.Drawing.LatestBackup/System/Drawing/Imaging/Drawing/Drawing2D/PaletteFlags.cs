@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Imaging;
+namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Specifies the type of color data in the system palette. The data can be color data with alpha, grayscale data only, or halftone data.

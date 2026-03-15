@@ -1,4 +1,4 @@
-﻿namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
 /// RadioButtonBase class

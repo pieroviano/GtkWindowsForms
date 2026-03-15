@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 
 /// <summary>
 /// Specifies the location of tick marks in a

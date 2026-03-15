@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -154,12 +154,6 @@ public class DataGridViewHeaderCell : DataGridViewCell
         }
     }
 
-    /// <summary>
-    /// Gets or sets the flip xp themes bitmap.
-    /// </summary>
-    /// <value>
-    /// The flip xp themes bitmap.
-    /// </value>
     internal Bitmap FlipXPThemesBitmap
     {
         get;

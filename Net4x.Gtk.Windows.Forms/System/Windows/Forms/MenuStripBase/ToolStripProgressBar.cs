@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using Gtk;
@@ -12,9 +12,7 @@ namespace System.Windows.Forms;
 [DefaultProperty("Value")]
 public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
 {
-    /// <summary>
-    /// The step
-    /// </summary>
+
     private readonly int _step;
 
     /// <summary>
@@ -146,16 +144,6 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
 
     }
 
-    /// <summary>
-    /// Handles the Realized event of the Control control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Control_Realized(object sender, EventArgs e)
     {
         progressBar.MaxValue = Maximum;

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
 
@@ -11,14 +11,9 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
 {
-    /// <summary>
-    /// The default image
-    /// </summary>
+
     internal Gtk.Image DefaultImage = new Gtk.Image("image-missing", Gtk.IconSize.Menu);
 
-    /// <summary>
-    /// The drop down items
-    /// </summary>
     private readonly ToolStripItemCollection dropDownItems;
 
     /// <summary>
@@ -629,30 +624,8 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     public virtual int Width { get; set; }
 
-    /// <summary>
-    /// Gets the
-    /// <see cref="T:System.ComponentModel.IContainer">
-    /// </see> that contains the
-    /// <see cref="T:System.ComponentModel.Component">
-    /// </see>.
-    /// </summary>
-    /// <value>
-    /// The container.
-    /// </value>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     IArrangedElement IArrangedElement.Container => throw new NotImplementedException();
 
-    /// <summary>
-    /// Internally, layout engines will get properties from the
-    /// property store on this interface.  In Orcas, this will be
-    /// replaced with a global PropertyManager for DPs.
-    /// </summary>
-    /// <value>
-    /// The properties.
-    /// </value>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     PropertyStore IArrangedElement.Properties => throw new NotImplementedException();
 
     /// <summary>
@@ -747,19 +720,6 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     }
 
-    /// <summary>
-    /// When an extender provided property is changed, we call this
-    /// method to update the layout on the element. In Orcas, we
-    /// will sync the DPs changed event.
-    /// </summary>
-    /// <param name="affectedElement">
-    /// The affected element.
-    /// </param>
-    /// <param name="propertyName">
-    /// Name of the property.
-    /// </param>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string propertyName)
     {
         throw new NotImplementedException();

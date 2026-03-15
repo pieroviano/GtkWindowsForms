@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -12,24 +12,12 @@ namespace System.Windows.Forms;
 [DefaultProperty("Text")]
 public class ColumnHeader : Component, ICloneable
 {
-    /// <summary>
-    /// The index
-    /// </summary>
     internal int _index;
 
-    /// <summary>
-    /// The name
-    /// </summary>
     internal string _name;
 
-    /// <summary>
-    /// The text
-    /// </summary>
     internal string _text;
 
-    /// <summary>
-    /// The width
-    /// </summary>
     internal int _width = 120;
 
     /// <summary>

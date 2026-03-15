@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -27,14 +27,8 @@ public partial class UserControl : ContainerControl
     /// </summary>
     public readonly UserControlBase self = new UserControlBase();
 
-    /// <summary>
-    /// The controls
-    /// </summary>
     private readonly ControlCollection _controls;
 
-    /// <summary>
-    /// The contaner
-    /// </summary>
     private readonly Gtk.Overlay contaner;
 
     /// <summary>
@@ -174,30 +168,11 @@ public partial class UserControl : ContainerControl
     {
     }
 
-    /// <summary>
-    /// Handles the Paint event of the Override control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.Windows.Forms.PaintEventArgs" /> instance containing the event data.
-    /// </param>
     private void Override_Paint(object sender, PaintEventArgs e)
     {
         OnPaint(e);
     }
 
-    /// <summary>
-    /// Selfs the parent set.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void Self_ParentSet(object o, ParentSetArgs args)
     {
         OnParentChanged(EventArgs.Empty);

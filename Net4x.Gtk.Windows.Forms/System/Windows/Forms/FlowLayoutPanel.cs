@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -23,14 +23,8 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     /// </summary>
     public readonly FlowLayoutPanelBase self = new FlowLayoutPanelBase();
 
-    /// <summary>
-    /// The controls
-    /// </summary>
     private readonly ObjectCollection _controls;
 
-    /// <summary>
-    /// The flow direction
-    /// </summary>
     private readonly FlowDirection _FlowDirection;
 
     /// <summary>
@@ -153,9 +147,7 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     /// <seealso cref="T:System.Windows.Forms.Control.ControlCollection" />
     public class ObjectCollection : ControlCollection
     {
-        /// <summary>
-        /// The owner
-        /// </summary>
+
         private readonly FlowLayoutPanel _owner;
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -21,9 +21,7 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
 {
-    /// <summary>
-    /// The items data
-    /// </summary>
+
     private readonly ObjectCollection __itemsData;
 
     /// <summary>
@@ -91,16 +89,6 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     /// </value>
     public override Size Size { get => base.Size; set { this.comboBox.WidthRequest = value.Width; this.comboBox.HeightRequest = value.Height; base.Size = value; } }
 
-    /// <summary>
-    /// Handles the Changed event of the ComboBox control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void ComboBox_Changed(object sender, EventArgs e)
     {
         SelectedIndexChanged?.Invoke(this, e);
@@ -115,9 +103,6 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     [ListBindable(false)]
     public class ObjectCollection : ArrayList
     {
-        /// <summary>
-        /// The owner
-        /// </summary>
         readonly Gtk.ComboBoxText __owner;
 
         /// <summary>

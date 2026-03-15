@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace System.Drawing.Imaging;
 
@@ -18,10 +18,6 @@ public sealed class MetaHeader
     {
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see langword="MetaHeader" /> class.
-    /// </summary>
     internal MetaHeader(WmfMetaHeader header)
     {
         _data._type = header._type;

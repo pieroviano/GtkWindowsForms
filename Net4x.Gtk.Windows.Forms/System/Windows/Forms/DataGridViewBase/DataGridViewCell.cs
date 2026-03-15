@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -352,12 +352,6 @@ public abstract class DataGridViewCell
     /// </value>
     public virtual bool Visible { get; }
 
-    /// <summary>
-    /// Gets or sets the owning row internal.
-    /// </summary>
-    /// <value>
-    /// The owning row internal.
-    /// </value>
     internal DataGridViewRow OwningRowInternal { get; set; }
 
     internal DataGridViewCellStyle RowStyle { get; set; }

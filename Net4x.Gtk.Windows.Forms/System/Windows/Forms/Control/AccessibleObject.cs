@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 
 /// <summary>
 /// Provides information that accessibility applications use to adjust an application's user interface (UI) for users with impairments.

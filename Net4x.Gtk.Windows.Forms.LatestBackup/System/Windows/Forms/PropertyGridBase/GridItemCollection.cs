@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -17,18 +17,8 @@ public class GridItemCollection : ICollection
     /// </summary>
     public static GridItemCollection Empty = new GridItemCollection(Array.Empty<GridItem>());
 
-    /// <summary>
-    /// The entries
-    /// </summary>
     private protected GridItem[] _entries;
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.GridItemCollection" /> class.
-    /// </summary>
-    /// <param name="entries">
-    /// The entries.
-    /// </param>
     internal GridItemCollection(GridItem[] entries)
     {
         _entries = entries ?? Array.Empty<GridItem>();
@@ -42,29 +32,8 @@ public class GridItemCollection : ICollection
     /// </value>
     public int Count => _entries.Length;
 
-    /// <summary>
-    /// Gets a value indicating whether access to the
-    /// <see cref="T:System.Collections.ICollection">
-    /// </see> is synchronized (thread safe).
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if this instance is synchronized; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     bool ICollection.IsSynchronized => false;
 
-    /// <summary>
-    /// Gets an object that can be used to synchronize access to the
-    /// <see cref="T:System.Collections.ICollection">
-    /// </see>.
-    /// </summary>
-    /// <value>
-    /// The synchronize root.
-    /// </value>
     object ICollection.SyncRoot => this;
 
     /// <summary>
@@ -114,15 +83,6 @@ public class GridItemCollection : ICollection
     /// </returns>
     public IEnumerator GetEnumerator() => _entries.GetEnumerator();
 
-    /// <summary>
-    /// Copies to.
-    /// </summary>
-    /// <param name="dest">
-    /// The dest.
-    /// </param>
-    /// <param name="index">
-    /// The index.
-    /// </param>
     void ICollection.CopyTo(Array dest, int index)
     {
         if (_entries.Length > 0)

@@ -1,4 +1,4 @@
-﻿namespace System.Drawing;
+namespace System.Drawing;
 
 /// <summary>
 /// Specifies the display and layout information for text strings.

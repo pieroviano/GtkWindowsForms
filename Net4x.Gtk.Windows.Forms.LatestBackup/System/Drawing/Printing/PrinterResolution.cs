@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -22,10 +22,6 @@ public partial class PrinterResolution
         _kind = PrinterResolutionKind.Custom;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Printing.PrinterResolution" /> class with default properties.
-    /// </summary>
     internal PrinterResolution(PrinterResolutionKind kind, int x, int y)
     {
         _kind = kind;

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -279,50 +279,18 @@ public sealed class Bitmap : Image
         this.PixbufData = original.PixbufData;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
-    /// </summary>
-    /// <param name="filename">
-    /// The bitmap file name and path.
-    /// </param>
-    /// <exception cref="T:System.IO.FileNotFoundException">
-    /// The specified file is not found.
-    /// </exception>
     internal Bitmap(byte[] pixbuf) : base(pixbuf)
     {
 
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
-    /// </summary>
-    /// <param name="filename">
-    /// The bitmap file name and path.
-    /// </param>
-    /// <exception cref="T:System.IO.FileNotFoundException">
-    /// The specified file is not found.
-    /// </exception>
     internal Bitmap(IntPtr ptr)
     {
         SetNativeImage(ptr);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Bitmap" /> class from the specified file.
-    /// </summary>
-    /// <param name="filename">
-    /// The name of the bitmap file.
-    /// </param>
-    /// <param name="useIcm">
-    /// <see langword="true" /> to use color correction for this
-    /// <see cref="T:System.Drawing.Bitmap" />; otherwise,
-    /// <see langword="false" />.
-    /// </param>
     private Bitmap(SerializationInfo info, StreamingContext context)
-                : base(info, context)
+        : base(info, context)
     {
     }
 

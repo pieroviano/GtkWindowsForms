@@ -1,4 +1,4 @@
-﻿namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
 /// ProgressBarBase is a base class for ProgressBar controls in the GtkSystem.Windows.Forms library. It provides a foundation for creating progress bar UI elements within the framework. The ProgressBarBase class inherits from Gtk.LevelBar, which is a widget that displays a level bar and allows users to visualize progress. This class also implements the IControlGtk interface, which provides additional functionality for integrating with the GtkSystem.Windows.Forms framework. The ProgressBarBase class can be extended to create more specific progress bar controls that can be used in applications built with the GtkSystem.Windows.Forms library.

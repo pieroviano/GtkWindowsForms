@@ -1,4 +1,4 @@
-﻿namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
 /// NumericUpDownBase is a base class for NumericUpDown controls in the GtkSystem.Windows.Forms library. It provides a foundation for creating numeric input controls that allow users to select a value from a range by clicking up and down buttons. The NumericUpDownBase class inherits from Gtk.SpinButton, which is a widget that provides this functionality, and it implements the IControlGtk interface for integration with the GtkSystem.Windows.Forms framework. This class can be extended to create more specific numeric up-down controls that can be used in applications built with the GtkSystem.Windows.Forms library.

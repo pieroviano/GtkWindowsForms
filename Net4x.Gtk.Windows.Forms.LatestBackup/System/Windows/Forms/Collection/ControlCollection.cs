@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -29,9 +29,7 @@ public partial class Control
     /// </summary>
     public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable
     {
-        /// <summary>
-        /// Offset applied to child widget placement when the underlying GTK container uses absolute positioning.
-        /// </summary>
+
         internal Drawing.Point Offset = new Drawing.Point(0, 0);
 
         readonly Type __itemType;
@@ -739,9 +737,6 @@ public partial class Control
 
     }
 
-    /// <summary>
-    /// Adapts a raw GTK widget into the arranged-element layout system used by WinForms layout APIs.
-    /// </summary>
     internal class ArrangedElementWidget : IArrangedElement
     {
         Gtk.Widget _widget;

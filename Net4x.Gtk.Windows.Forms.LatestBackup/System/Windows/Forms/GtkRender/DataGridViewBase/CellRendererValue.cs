@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -17,18 +17,6 @@ namespace System.Windows.Forms.GtkRender;
 /// </summary>
 public class CellReandererUtility
 {
-    /// <summary>
-    /// Gets the format text.
-    /// </summary>
-    /// <param name="text">
-    /// The text.
-    /// </param>
-    /// <param name="cellstyle">
-    /// The cellstyle.
-    /// </param>
-    /// <returns>
-    /// System.String.
-    /// </returns>
     internal string GetFormatText(object text, DataGridViewCellStyle cellstyle)
     {
         if (text == null && cellstyle != null)
@@ -39,15 +27,6 @@ public class CellReandererUtility
             return text?.ToString();
     }
 
-    /// <summary>
-    /// Sets the control with style.
-    /// </summary>
-    /// <param name="cell">
-    /// The cell.
-    /// </param>
-    /// <param name="cellstyle">
-    /// The cellstyle.
-    /// </param>
     internal void SetControlWithStyle(CellRenderer cell, DataGridViewCellStyle cellstyle)
     {
         if (cellstyle != null)
@@ -75,36 +54,12 @@ public class CellReandererUtility
         }
     }
 
-    /// <summary>
-    /// Sets the text with style.
-    /// </summary>
-    /// <param name="cell">
-    /// The cell.
-    /// </param>
-    /// <param name="cellstyle">
-    /// The cellstyle.
-    /// </param>
-    /// <param name="value">
-    /// The value.
-    /// </param>
     internal void SetTextWithStyle(CellRendererText cell, DataGridViewCellStyle cellstyle, object value)
     {
         SetTextWithStyle(cell, cellstyle);
         cell.Text = GetFormatText(value, cellstyle);
     }
 
-    /// <summary>
-    /// Sets the text with style.
-    /// </summary>
-    /// <param name="cell">
-    /// The cell.
-    /// </param>
-    /// <param name="cellstyle">
-    /// The cellstyle.
-    /// </param>
-    /// <param name="value">
-    /// The value.
-    /// </param>
     internal void SetTextWithStyle(CellRendererText cell, DataGridViewCellStyle cellstyle)
     {
         if (cellstyle != null)
@@ -154,14 +109,8 @@ public class CellReandererUtility
 /// <seealso cref="T:System.Windows.Forms.GtkRender.ICellRenderer" />
 public class CellRendererButtonValue : CellRendererText, ICellRenderer
 {
-    /// <summary>
-    /// The column
-    /// </summary>
     readonly DataGridViewColumn Column;
 
-    /// <summary>
-    /// The utility
-    /// </summary>
     private readonly CellReandererUtility utility;
 
     /// <summary>
@@ -223,12 +172,6 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
     /// </value>
     public DataGridViewCellStyle ColumnStyle { get; set; }
 
-    /// <summary>
-    /// Gets or sets the markup.
-    /// </summary>
-    /// <value>
-    /// The markup.
-    /// </value>
     string ICellRenderer.Markup { get; set; }
 
     /// <summary>
@@ -277,14 +220,8 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
 /// <seealso cref="T:System.Windows.Forms.GtkRender.ICellRenderer" />
 public class CellRendererComboValue : CellRendererCombo, ICellRenderer
 {
-    /// <summary>
-    /// The column
-    /// </summary>
     readonly DataGridViewColumn Column;
 
-    /// <summary>
-    /// The utility
-    /// </summary>
     private readonly CellReandererUtility utility;
 
     /// <summary>
@@ -343,12 +280,6 @@ public class CellRendererComboValue : CellRendererCombo, ICellRenderer
     /// </value>
     public DataGridViewCellStyle ColumnStyle { get; set; }
 
-    /// <summary>
-    /// Gets or sets the markup.
-    /// </summary>
-    /// <value>
-    /// The markup.
-    /// </value>
     string ICellRenderer.Markup { get; set; }
 
 }
@@ -362,14 +293,8 @@ public class CellRendererComboValue : CellRendererCombo, ICellRenderer
 /// <seealso cref="T:System.Windows.Forms.GtkRender.ICellRenderer" />
 public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
 {
-    /// <summary>
-    /// The column
-    /// </summary>
     readonly DataGridViewColumn Column;
 
-    /// <summary>
-    /// The utility
-    /// </summary>
     private readonly CellReandererUtility utility;
 
     /// <summary>
@@ -504,14 +429,8 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
 /// <seealso cref="T:System.Windows.Forms.GtkRender.ICellRenderer" />
 public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
 {
-    /// <summary>
-    /// The column
-    /// </summary>
     readonly DataGridViewColumn Column;
 
-    /// <summary>
-    /// The utility
-    /// </summary>
     private readonly CellReandererUtility utility;
 
     /// <summary>
@@ -615,14 +534,9 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
 /// <seealso cref="T:System.Windows.Forms.GtkRender.ICellRenderer" />
 public class CellRendererValue : CellRendererText, ICellRenderer
 {
-    /// <summary>
-    /// The column
-    /// </summary>
+
     private readonly DataGridViewColumn Column;
 
-    /// <summary>
-    /// The utility
-    /// </summary>
     private readonly CellReandererUtility utility;
 
     /// <summary>
@@ -682,12 +596,6 @@ public class CellRendererValue : CellRendererText, ICellRenderer
     /// </value>
     public DataGridViewCellStyle ColumnStyle { get; set; }
 
-    /// <summary>
-    /// Gets or sets the markup.
-    /// </summary>
-    /// <value>
-    /// The markup.
-    /// </value>
     string ICellRenderer.Markup { get; set; }
 
 }

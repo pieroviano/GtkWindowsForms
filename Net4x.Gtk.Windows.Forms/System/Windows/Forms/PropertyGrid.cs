@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -30,49 +30,22 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </summary>
     public readonly PropertyGridBase self = new PropertyGridBase();
 
-    /// <summary>
-    /// The property view
-    /// </summary>
     private readonly PropertyGridView _propertyView;
 
-    /// <summary>
-    /// The selected objects
-    /// </summary>
     private object[] _selectedObjects;
 
-    /// <summary>
-    /// The tabs
-    /// </summary>
     private readonly List<TabInfo> _tabs = new List<TabInfo>();
 
-    /// <summary>
-    /// The s COM component name changed event
-    /// </summary>
     private static readonly object s_comComponentNameChangedEvent = new();
 
-    /// <summary>
-    /// The s property sort changed event
-    /// </summary>
     private static readonly object s_propertySortChangedEvent = new();
 
-    /// <summary>
-    /// The s property tab changed event
-    /// </summary>
     private static readonly object s_propertyTabChangedEvent = new();
 
-    /// <summary>
-    /// The s property value changed event
-    /// </summary>
     private static readonly object s_propertyValueChangedEvent = new();
 
-    /// <summary>
-    /// The s selected grid item changed event
-    /// </summary>
     private static readonly object s_selectedGridItemChangedEvent = new();
 
-    /// <summary>
-    /// The s selected objects changed event
-    /// </summary>
     private static readonly object s_selectedObjectsChangedEvent = new();
 
     /// <summary>
@@ -762,112 +735,41 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     {
     }
 
-    /// <summary>
-    /// Closes andy open drop-down controls on the
-    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control.
-    /// </summary>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     void IComPropertyBrowser.DropDownDone()
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    /// Commits all pending changes to the
-    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control.
-    /// </summary>
-    /// <returns>
-    /// <see langword="true" /> if the
-    /// <see cref="T:System.Windows.Forms.PropertyGrid" />
-    /// successfully commits changes; otherwise,
-    /// <see langword="false" />
-    /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     bool IComPropertyBrowser.EnsurePendingChangesCommitted()
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    /// Activates the
-    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control when the user chooses Properties for a control in Design view.
-    /// </summary>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     void IComPropertyBrowser.HandleF4()
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    /// Loads user states from the registry into the
-    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control.
-    /// </summary>
-    /// <param name="key">
-    /// The registry key that contains the user states.
-    /// </param>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     void IComPropertyBrowser.LoadState(RegistryKey key)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    /// Saves user states from the
-    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control to the registry.
-    /// </summary>
-    /// <param name="key">
-    /// The registry key that contains the user states.
-    /// </param>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     void SaveState(RegistryKey key)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    /// Saves user states from the
-    /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control to the registry.
-    /// </summary>
-    /// <param name="key">
-    /// The registry key that contains the user states.
-    /// </param>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     void IComPropertyBrowser.SaveState(RegistryKey key)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    /// Handles the PropertyValueChanged event of the Self control.
-    /// </summary>
-    /// <param name="s">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.Windows.Forms.PropertyValueChangedEventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
     {
         Events[s_propertyValueChangedEvent]?.DynamicInvoke(this, e);
     }
 
-    /// <summary>
-    /// Handles the SelectedGridItemChanged event of the Self control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.Windows.Forms.SelectedGridItemChangedEventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
     {
         Events[s_selectedGridItemChangedEvent]?.DynamicInvoke(this, e);

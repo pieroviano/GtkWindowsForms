@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -21,14 +21,8 @@ public partial class ListBox
     [ListBindable(false)]
     public class ObjectCollection : IList
     {
-        /// <summary>
-        /// The items
-        /// </summary>
         private ItemArray _items = null!;
 
-        /// <summary>
-        /// The owner
-        /// </summary>
         private readonly ListBox _owner;
 
         /// <summary>
@@ -99,9 +93,6 @@ public partial class ListBox
         /// <summary>
         /// Internal access to the actual data store.
         /// </summary>
-        /// <value>
-        /// The inner array.
-        /// </value>
         internal ItemArray InnerArray
         {
             get
@@ -112,44 +103,10 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> has a fixed size.
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is fixed size; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool IList.IsFixedSize => false;
 
-        /// <summary>
-        /// Gets a value indicating whether access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see> is synchronized (thread safe).
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is synchronized; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool ICollection.IsSynchronized => false;
 
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see>.
-        /// </summary>
-        /// <value>
-        /// The synchronize root.
-        /// </value>
         object ICollection.SyncRoot => this;
 
         /// <summary>
@@ -176,15 +133,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <returns>
-        /// System.Nullable.
-        /// </returns>
         object? IList.this[int index]
         {
             get => this[index];
@@ -404,12 +352,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Adds the range internal.
-        /// </summary>
-        /// <param name="items">
-        /// The items.
-        /// </param>
         internal void AddRangeInternal(ICollection items)
         {
             _owner.BeginUpdate();
@@ -440,29 +382,11 @@ public partial class ListBox
             InnerArray.Clear();
         }
 
-        /// <summary>
-        /// Indexes the of identifier.
-        /// </summary>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// System.Int32.
-        /// </returns>
         internal int IndexOfIdentifier(object value)
         {
             return InnerArray.IndexOf(value);
         }
 
-        /// <summary>
-        /// Sets the item internal.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
         internal void SetItemInternal(int index, object value)
         {
             InnerArray.SetItem(index, value);
@@ -494,45 +418,10 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Adds the specified item.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <returns>
-        /// System.Int32.
-        /// </returns>
         int IList.Add(object? item) => Add(item!);
 
-        /// <summary>
-        /// Determines whether the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> contains a specific value.
-        /// </summary>
-        /// <param name="value">
-        /// The object to locate in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <returns>
-        /// true if the
-        /// <see cref="T:System.Object">
-        /// </see> is found in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>; otherwise, false.
-        /// </returns>
         bool IList.Contains(object? value) => Contains(value!);
 
-        /// <summary>
-        /// Copies to.
-        /// </summary>
-        /// <param name="destination">
-        /// The destination.
-        /// </param>
-        /// <param name="index">
-        /// The index.
-        /// </param>
         void ICollection.CopyTo(Array destination, int index)
         {
             int count = InnerArray.Count;
@@ -542,56 +431,12 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Determines the index of a specific item in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to locate in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <returns>
-        /// The index of
-        /// <paramref name="value">
-        /// value
-        /// </paramref> if found in the list; otherwise, -1.
-        /// </returns>
         int IList.IndexOf(object? value) => IndexOf(value!);
 
-        /// <summary>
-        /// Inserts the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <param name="item">
-        /// The item.
-        /// </param>
         void IList.Insert(int index, object? item) => Insert(index, item!);
 
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to remove from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
         void IList.Remove(object? value) => Remove(value!);
 
-        /// <summary>
-        /// Adds the internal.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <returns>
-        /// System.Int32.
-        /// </returns>
         private int AddInternal(object item)
         {
             item ??= "";

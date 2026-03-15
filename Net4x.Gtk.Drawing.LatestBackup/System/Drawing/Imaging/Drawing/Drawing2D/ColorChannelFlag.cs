@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Imaging;
+namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Specifies individual channels in the CMYK (cyan, magenta, yellow, black) color space. This enumeration is used by the

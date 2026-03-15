@@ -500,25 +500,6 @@
             The operation failed.
             </exception>
         </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Byte[])">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap"/> class.
-            </summary>
-            <param name="pixbuf">The raw pixbuf bytes.</param>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.IntPtr)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap"/> class.
-            </summary>
-            <param name="ptr">The PTR.</param>
-        </member>
-        <member name="M:System.Drawing.Bitmap.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Bitmap"/> class.
-            </summary>
-            <param name="info"></param>
-            <param name="context"></param>
-        </member>
         <member name="M:System.Drawing.Bitmap.Clone(System.Drawing.RectangleF,System.Drawing.Imaging.PixelFormat)">
             <summary>
             Creates a copy of the section of this
@@ -5232,22 +5213,6 @@
             <filterpriority>1
             </filterpriority>
         </member>
-        <member name="M:System.Drawing.Image.#ctor(System.Byte[])">
-            <summary>
-            Initializes a new instance of
-            <see cref="T:System.Drawing.Image" /> from a pixbuf byte buffer.
-            </summary>
-            <param name="pixbuf">The raw pixbuf bytes.
-            </param>
-        </member>
-        <member name="M:System.Drawing.Image.#ctor(System.IntPtr)">
-            <summary>
-            Initializes a new instance of
-            <see cref="T:System.Drawing.Image" /> that wraps an existing native image handle.
-            </summary>
-            <param name="nativeImage">Native image handle.
-            </param>
-        </member>
         <member name="M:System.Drawing.Image.#ctor">
             <summary>
             Protected parameterless ctor for derived classes.
@@ -5501,68 +5466,12 @@
             Sets a property item on the image.
             </summary>
         </member>
-        <member name="M:System.Drawing.Image.CreateImageObject(System.IntPtr)">
-            <summary>
-            Factory for constructing an
-            <see cref="T:System.Drawing.Image" /> wrapper from a native handle.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Image.EnsureSave(System.Drawing.Image,System.String,System.IO.Stream)">
-            <summary>
-            Ensures image data is saved to disk. Platform-specific helper (no-op).
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Image.SetNativeImage(System.IntPtr)">
-            <summary>
-            Sets the native image handle and updates internal pixbuf if the handle maps to a Gdk.Pixbuf.
-            </summary>
-            <param name="handle">Native image handle.
-            </param>
-        </member>
-        <member name="M:System.Drawing.Image.ValidateImage(System.IntPtr)">
-            <summary>
-            Validates a native image handle. No-op placeholder.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Image.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Serializes this image into
-            <see cref="T:System.Runtime.Serialization.SerializationInfo" />.
-            </summary>
-        </member>
         <member name="M:System.Drawing.Image.Dispose(System.Boolean)">
             <summary>
             Releases resources used by this image.
             </summary>
             <param name="disposing">True when called from Dispose; false from finalizer.
             </param>
-        </member>
-        <member name="M:System.Drawing.Image.GetImageFormat(System.String)">
-            <summary>
-            Determines image format from file extension and returns the resolved ImageFormat.
-            </summary>
-            <param name="extension">File extension (including the dot), e.g. ".png".
-            </param>
-        </member>
-        <member name="M:System.Drawing.Image.InitializeFromStream(System.IO.Stream)">
-            <summary>
-            Initializes the internal native image from a stream by creating a
-            <see cref="T:Gdk.Pixbuf" />.
-            </summary>
-            <param name="stream">Stream containing image data.
-            </param>
-            <returns>Native handle for the created pixbuf.
-            </returns>
-        </member>
-        <member name="M:System.Drawing.Image.Save(System.IO.MemoryStream)">
-            <summary>
-            Saves the image to the specified filename. The image format is inferred from the extension.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Image.ThrowIfDirectoryDoesntExist(System.String)">
-            <summary>
-            Throws if directory for the specified filename doesn't exist. Placeholder.
-            </summary>
         </member>
         <member name="T:System.Drawing.Image.GetThumbnailImageAbort">
             <summary>
@@ -5633,9 +5542,11 @@
         </member>
         <member name="M:System.Drawing.ImageAnimator.ImageInfo.#ctor(System.Drawing.Image)">
             <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.ImageAnimator.ImageInfo"/> class.
+            Initializes a new instance of
+            <see cref="T:System.Drawing.Image"/> from a pixbuf byte buffer.
             </summary>
-            <param name="image">The image.</param>
+            <param name = "image">The image to use.
+            </param>
         </member>
         <member name="T:System.Drawing.ImageConverter">
             <summary>
@@ -6865,28 +6776,6 @@
             Global/static current Cairo context for convenience in some operations.
             </summary>
         </member>
-        <member name="M:System.Drawing.Graphics.#ctor(Gtk.Widget,Cairo.Context,Gdk.Rectangle)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Drawing.Graphics" /> class for the specified widget and context.
-            </summary>
-            <param name="widget">The GTK widget associated with this graphics.
-            </param>
-            <param name="context">The Cairo context to draw with.
-            </param>
-            <param name="rectangle">The drawing rectangle bounds.
-            </param>
-        </member>
-        <member name="M:System.Drawing.Graphics.#ctor(Cairo.Context,Gdk.Rectangle)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Drawing.Graphics" /> class for the specified context.
-            </summary>
-            <param name="context">The Cairo context to draw with.
-            </param>
-            <param name="rectangle">The drawing rectangle bounds.
-            </param>
-        </member>
         <member name="P:System.Drawing.Graphics.Clip">
             <summary>
             Gets or sets the clipping region for this Graphics object.
@@ -8111,40 +8000,24 @@
             Translates the drawing origin by the specified amounts with matrix order.
             </summary>
         </member>
-        <member name="M:System.Drawing.Graphics.SetSourcePen(System.Drawing.Pen,System.Boolean)">
-            <summary>
-            Sets the source (brush/pen) on the Cairo context based on the given pen.
-            Internal use only.
-            </summary>
-            <param name="pen">Pen to convert to Cairo source.
-            </param>
-            <param name="isfill">Whether the source is used for fills.
-            </param>
-        </member>
-        <member name="M:System.Drawing.Graphics.SetTranslateWithDifference(System.Double,System.Double)">
-            <summary>
-            Translates the Cairo context by the given coordinates plus any stored differences.
-            Internal use only.
-            </summary>
-        </member>
         <member name="M:System.Drawing.Graphics.CalculateBezier(System.Collections.Generic.List{System.Drawing.PointF},System.Single)">
             <summary>
-            Calculate the position of a single coordinate point on the Bézier curve.
+            Calculate the position of a single coordinate point on the Bézier curve
             </summary>
-            <param name="points">List of control points.
+            <param name="points">贝塞尔条件坐标集合
             </param>
-            <param name="time">Interpolation parameter, between 0 and 1.
+            <param name="time">Time factor
             </param>
-            <returns>A list containing the calculated point(s) for the specified time.
+            <returns>
             </returns>
         </member>
         <member name="M:System.Drawing.Graphics.GetBezierPoints(System.Collections.Generic.List{System.Drawing.PointF})">
             <summary>
-            Collect the positions of all coordinate points on the Bézier curve.
+            Collect the positions of all coordinate points on the Bézier curve
             </summary>
-            <param name="points">Control points for the Bezier curve.
+            <param name="points">
             </param>
-            <returns>List of points along the Bezier curve.
+            <returns>
             </returns>
         </member>
         <member name="T:System.Drawing.Graphics.DrawImageAbort">
@@ -8530,12 +8403,10 @@
             Populates a
             <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data that is required to serialize the target object.
             </summary>
-            <param name="info">
-            The
+            <param name="info">The
             <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object to populate with data.
             </param>
-            <param name="context">
-            The destination (see
+            <param name="context">The destination (see
             <see cref="T:System.Runtime.Serialization.StreamingContext" />) for this serialization.
             </param>
         </member>
@@ -10991,12 +10862,6 @@
             <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
             </summary>
         </member>
-        <member name="M:System.Drawing.Imaging.EncoderParameter.Dispose(System.Boolean)">
-            <summary>
-            Releases all resources used by this
-            <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-            </summary>
-        </member>
         <member name="T:System.Drawing.Imaging.EncoderParameters">
             <summary>
             Encapsulates an array of
@@ -11315,12 +11180,6 @@
             </summary>
         </member>
         <member name="M:System.Drawing.Imaging.ImageAttributes.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Drawing.Imaging.ImageAttributes" /> class.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Imaging.ImageAttributes.#ctor(System.IntPtr)">
             <summary>
             Initializes a new instance of the
             <see cref="T:System.Drawing.Imaging.ImageAttributes" /> class.
@@ -11755,12 +11614,6 @@
             This parameter has no effect. Set it to
             <see langword="false" />.
             </param>
-        </member>
-        <member name="M:System.Drawing.Imaging.ImageAttributes.Dispose(System.Boolean)">
-            <summary>
-            Releases all resources used by this
-            <see cref="T:System.Drawing.Imaging.ImageAttributes" /> object.
-            </summary>
         </member>
         <member name="T:System.Drawing.Imaging.ImageCodecFlags">
             <summary>
@@ -13167,19 +13020,6 @@
             <see cref="T:System.Drawing.Imaging.Metafile" />.
             </param>
         </member>
-        <member name="M:System.Drawing.Imaging.Metafile.#ctor(System.IntPtr)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Imaging.Metafile"/> class.
-            </summary>
-            <param name="ptr">The PTR.</param>
-        </member>
-        <member name="M:System.Drawing.Imaging.Metafile.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Drawing.Imaging.Metafile"/> class.
-            </summary>
-            <param name="info"></param>
-            <param name="context"></param>
-        </member>
         <member name="M:System.Drawing.Imaging.Metafile.GetHenhmetafile">
             <summary>
             Returns a Windows handle to an enhanced
@@ -13564,12 +13404,6 @@
             </summary>
         </member>
         <member name="M:System.Drawing.Imaging.MetaHeader.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see langword="MetaHeader" /> class.
-            </summary>
-        </member>
-        <member name="M:System.Drawing.Imaging.MetaHeader.#ctor(System.Drawing.Imaging.WmfMetaHeader)">
             <summary>
             Initializes a new instance of the
             <see langword="MetaHeader" /> class.

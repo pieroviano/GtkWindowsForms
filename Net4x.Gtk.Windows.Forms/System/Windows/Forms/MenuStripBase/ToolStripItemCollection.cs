@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,44 +15,21 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumerable
 {
-    /// <summary>
-    /// The is menu strip
-    /// </summary>
+
     private readonly bool isMenuStrip;
 
-    /// <summary>
-    /// The is status strip
-    /// </summary>
     private readonly bool isStatusStrip;
 
-    /// <summary>
-    /// The is tool strip
-    /// </summary>
     private readonly bool isToolStrip;
 
-    /// <summary>
-    /// The is tool strip drop down
-    /// </summary>
     private readonly bool isToolStripDropDown;
 
-    /// <summary>
-    /// The menu
-    /// </summary>
     private Gtk.Menu menu;
 
-    /// <summary>
-    /// The owner
-    /// </summary>
     private readonly ToolStripItem owner;
 
-    /// <summary>
-    /// The status strip
-    /// </summary>
     private readonly StatusStrip statusStrip;
 
-    /// <summary>
-    /// The tool strip
-    /// </summary>
     private readonly ToolStrip toolStrip;
 
     /// <summary>
@@ -144,43 +121,11 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         AddRange(value);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
-    /// </summary>
-    /// <param name="owner">
-    /// The owner.
-    /// </param>
-    /// <param name="itemsCollection">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>items collection.
-    /// </param>
     internal ToolStripItemCollection(ToolStripItem owner, bool itemsCollection)
-                : this(owner, itemsCollection, isReadOnly: false)
+        : this(owner, itemsCollection, isReadOnly: false)
     {
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.ToolStripItemCollection" /> class.
-    /// </summary>
-    /// <param name="owner">
-    /// The owner.
-    /// </param>
-    /// <param name="itemsCollection">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>items collection.
-    /// </param>
-    /// <param name="isReadOnly">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>is read only.
-    /// </param>
     internal ToolStripItemCollection(ToolStripItem owner, bool itemsCollection, bool isReadOnly)
     {
         this.owner = owner;

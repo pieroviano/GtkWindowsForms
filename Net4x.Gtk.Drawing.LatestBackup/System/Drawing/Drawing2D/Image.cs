@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -105,23 +105,11 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 
     private int _width;
 
-    /// <summary>
-    /// Initializes a new instance of
-    /// <see cref="T:System.Drawing.Image" /> from a pixbuf byte buffer.
-    /// </summary>
-    /// <param name="pixbuf">The raw pixbuf bytes.
-    /// </param>
     internal Image(byte[] pixbuf)
     {
         PixbufData = pixbuf;
     }
 
-    /// <summary>
-    /// Initializes a new instance of
-    /// <see cref="T:System.Drawing.Image" /> that wraps an existing native image handle.
-    /// </summary>
-    /// <param name="nativeImage">Native image handle.
-    /// </param>
     internal Image(IntPtr nativeImage)
     {
         SetNativeImage(nativeImage);
@@ -624,46 +612,27 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 
     }
 
-    /// <summary>
-    /// Factory for constructing an
-    /// <see cref="T:System.Drawing.Image" /> wrapper from a native handle.
-    /// </summary>
     internal static Image CreateImageObject(IntPtr nativeImage)
     {
         return new Bitmap(nativeImage);
     }
 
-    /// <summary>
-    /// Ensures image data is saved to disk. Platform-specific helper (no-op).
-    /// </summary>
     internal static void EnsureSave(Image image, string filename, Stream dataStream)
     {
 
     }
 
-    /// <summary>
-    /// Sets the native image handle and updates internal pixbuf if the handle maps to a Gdk.Pixbuf.
-    /// </summary>
-    /// <param name="handle">Native image handle.
-    /// </param>
     internal void SetNativeImage(IntPtr handle)
     {
         if (GLib.Object.TryGetObject(handle) is Gdk.Pixbuf pixbuf)
             _Pixbuf = pixbuf;
     }
 
-    /// <summary>
-    /// Validates a native image handle. No-op placeholder.
-    /// </summary>
     internal static void ValidateImage(IntPtr image)
     {
 
     }
 
-    /// <summary>
-    /// Serializes this image into
-    /// <see cref="T:System.Runtime.Serialization.SerializationInfo" />.
-    /// </summary>
     void ISerializable.GetObjectData(SerializationInfo si, StreamingContext context)
     {
         using MemoryStream memoryStream = new MemoryStream();
@@ -684,11 +653,6 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         base.Dispose(disposing);
     }
 
-    /// <summary>
-    /// Determines image format from file extension and returns the resolved ImageFormat.
-    /// </summary>
-    /// <param name="extension">File extension (including the dot), e.g. ".png".
-    /// </param>
     private ImageFormat GetImageFormat(string extension)
     {
         if (extension == ".memorybmp")
@@ -743,14 +707,6 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         return RawFormat;
     }
 
-    /// <summary>
-    /// Initializes the internal native image from a stream by creating a
-    /// <see cref="Gdk.Pixbuf" />.
-    /// </summary>
-    /// <param name="stream">Stream containing image data.
-    /// </param>
-    /// <returns>Native handle for the created pixbuf.
-    /// </returns>
     private IntPtr InitializeFromStream(Stream stream)
     {
         Pixbuf = new Gdk.Pixbuf(stream);
@@ -758,17 +714,11 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         return Pixbuf.Handle;
     }
 
-    /// <summary>
-    /// Saves the image to the specified filename. The image format is inferred from the extension.
-    /// </summary>
     private void Save(MemoryStream stream)
     {
         Save(stream, null, null);
     }
 
-    /// <summary>
-    /// Throws if directory for the specified filename doesn't exist. Placeholder.
-    /// </summary>
     private static void ThrowIfDirectoryDoesntExist(string filename)
     {
 

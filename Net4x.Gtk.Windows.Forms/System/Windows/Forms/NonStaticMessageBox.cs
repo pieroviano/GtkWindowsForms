@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -85,12 +85,18 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, and style.
     /// </summary>
-    /// <param name="text">The text.</param>
-    /// <param name="caption">The caption.</param>
-    /// <param name="buttons">The buttons.</param>
-    /// <param name="icon">The icon.</param>
-    /// <param name="defaultButton">The default button.</param>
-    /// <param name="options">The options.</param>
+    /// <param name = "text">The text.
+    /// </param>
+    /// <param name = "caption">The caption.
+    /// </param>
+    /// <param name = "buttons">The buttons.
+    /// </param>
+    /// <param name = "icon">The icon.
+    /// </param>
+    /// <param name = "defaultButton">The default button.
+    /// </param>
+    /// <param name = "options">The options.
+    /// </param>
     /// <returns>
     /// DialogResult.
     /// </returns>

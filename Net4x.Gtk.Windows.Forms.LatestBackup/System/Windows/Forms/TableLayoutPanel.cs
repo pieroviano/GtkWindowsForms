@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -33,29 +33,14 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// </summary>
     public readonly TableLayoutPanelBase self = new TableLayoutPanelBase();
 
-    /// <summary>
-    /// The column count
-    /// </summary>
     private int _ColumnCount;
 
-    /// <summary>
-    /// The column styles
-    /// </summary>
     private readonly TableLayoutColumnStyleCollection _columnStyles;
 
-    /// <summary>
-    /// The controls
-    /// </summary>
     private readonly TableLayoutControlCollection _controls;
 
-    /// <summary>
-    /// The row count
-    /// </summary>
     private int _RowCount;
 
-    /// <summary>
-    /// The row styles
-    /// </summary>
     private readonly TableLayoutRowStyleCollection _rowStyles;
 
     /// <summary>
@@ -491,30 +476,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
         control.Widget.MarginBottom = value;
     }
 
-    /// <summary>
-    /// Determines whether this instance can extend the specified object.
-    /// </summary>
-    /// <param name="obj">
-    /// The object.
-    /// </param>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if this instance can extend the specified object; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     bool IExtenderProvider.CanExtend(object obj)
     {
         throw new System.NotImplementedException();
     }
 
-    /// <summary>
-    /// Sets the columns styles.
-    /// </summary>
     private void SetColumnsStyles()
     {
         Size size = this.Size;
@@ -540,9 +506,6 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
         }
     }
 
-    /// <summary>
-    /// Sets the rows styles.
-    /// </summary>
     private void SetRowsStyles()
     {
         Size size = this.Size;

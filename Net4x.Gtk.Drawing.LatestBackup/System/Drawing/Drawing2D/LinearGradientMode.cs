@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Drawing2D;
+namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Specifies the direction of a linear gradient.

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms.Design;
@@ -6,24 +6,6 @@ using System.Windows.Forms.Design;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Class PropertyGrid. Implements the
-/// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
-/// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ContainerControl" />
-/// <seealso cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
-/// Class PropertyGrid. Implements the
-/// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
-/// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ContainerControl" />
-/// <seealso cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
-/// Class PropertyGrid. Implements the
-/// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
-/// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ContainerControl" />
-/// <seealso cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
 /// Class PropertyGrid. Implements the
 /// <see cref="T:System.Windows.Forms.ContainerControl" /> Implements the
 /// <see cref="T:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser" />
@@ -39,18 +21,8 @@ public partial class PropertyGrid
     /// <seealso cref="T:System.Collections.ICollection" />
     public class PropertyTabCollection : ICollection
     {
-        /// <summary>
-        /// The owner property grid
-        /// </summary>
         private readonly PropertyGrid _ownerPropertyGrid;
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Windows.Forms.PropertyGrid.PropertyTabCollection" /> class.
-        /// </summary>
-        /// <param name="ownerPropertyGrid">
-        /// The owner property grid.
-        /// </param>
         internal PropertyTabCollection(PropertyGrid ownerPropertyGrid)
         {
             _ownerPropertyGrid = ownerPropertyGrid;
@@ -77,29 +49,8 @@ public partial class PropertyGrid
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see> is synchronized (thread safe).
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is synchronized; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool ICollection.IsSynchronized => false;
 
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see>.
-        /// </summary>
-        /// <value>
-        /// The synchronize root.
-        /// </value>
         object ICollection.SyncRoot => this;
 
         /// <summary>
@@ -185,15 +136,6 @@ public partial class PropertyGrid
 
         }
 
-        /// <summary>
-        /// Copies to.
-        /// </summary>
-        /// <param name="dest">
-        /// The dest.
-        /// </param>
-        /// <param name="index">
-        /// The index.
-        /// </param>
         void ICollection.CopyTo(Array dest, int index)
         {
             if (_ownerPropertyGrid is null)

@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -44,13 +44,6 @@ public class DataGridViewCellCancelEventArgs : CancelEventArgs
         RowIndex = rowIndex;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.DataGridViewCellCancelEventArgs" /> class.
-    /// </summary>
-    /// <param name="dataGridViewCell">
-    /// The data grid view cell.
-    /// </param>
     internal DataGridViewCellCancelEventArgs(DataGridViewCell dataGridViewCell) : this(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex)
     {
     }

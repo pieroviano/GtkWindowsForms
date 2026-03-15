@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Drawing2D;
+namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Encapsulates a 3-by-3 affine matrix that represents a geometric transform. This class cannot be inherited.

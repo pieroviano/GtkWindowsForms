@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace System.Drawing.Imaging;
 
@@ -543,10 +543,6 @@ public sealed class EncoderParameter : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    /// <summary>
-    /// Releases all resources used by this
-    /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> object.
-    /// </summary>
     private void Dispose(bool disposing)
     {
         if (_parameterValue != IntPtr.Zero)

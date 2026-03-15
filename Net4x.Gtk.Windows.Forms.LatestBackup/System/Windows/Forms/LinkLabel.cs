@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -134,30 +134,11 @@ public partial class LinkLabel : Control
     /// </value>
     public Color VisitedLinkColor { get; set; }
 
-    /// <summary>
-    /// Links the label activate link.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void LinkLabel_ActivateLink(object o, Gtk.ActivateLinkArgs args)
     {
         LinkClicked?.Invoke(this, new LinkLabelLinkClickedEventArgs(new Link() { Description = self.Label, LinkData = self.Uri }));
     }
 
-    /// <summary>
-    /// Handles the Click event of the LinkLabel control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void LinkLabel_Click(object sender, EventArgs e)
     {
         Click?.Invoke(this, e);
@@ -235,19 +216,10 @@ public partial class LinkLabel : Control
     /// <seealso cref="T:System.Collections.IList" />
     public class LinkCollection : IList
     {
-        /// <summary>
-        /// The last accessed index
-        /// </summary>
         private readonly int lastAccessedIndex = -1;
 
-        /// <summary>
-        /// The links added
-        /// </summary>
         private readonly bool linksAdded = false;
 
-        /// <summary>
-        /// The owner
-        /// </summary>
         private readonly LinkLabel owner;
 
         /// <summary>

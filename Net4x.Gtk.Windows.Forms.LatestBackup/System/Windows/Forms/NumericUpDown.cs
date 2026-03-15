@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -86,16 +86,6 @@ public partial class NumericUpDown : Control
     /// </value>
     public decimal Value { get { return Convert.ToDecimal(self.Value); } set { self.Value = Convert.ToDouble(value); } }
 
-    /// <summary>
-    /// Handles the ValueChanged event of the Self control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_ValueChanged(object sender, EventArgs e)
     {
         if (ValueChanged != null && self.IsVisible)

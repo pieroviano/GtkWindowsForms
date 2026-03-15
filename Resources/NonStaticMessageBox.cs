@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -88,9 +88,6 @@ internal class NonStaticMessageBox : IMessageBox
         return ShowCore(owner, text, caption, buttons, icon);
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //END ADD                                                                                                      //
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// <summary>
     ///  Displays a message box with specified text, caption, and style.
     /// </summary>

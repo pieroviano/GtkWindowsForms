@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -20,30 +20,15 @@ public partial class ListBox
     /// <seealso cref="T:System.Collections.IList" />
     public class SelectedObjectCollection : IList
     {
-        /// <summary>
-        /// The selected object mask
-        /// </summary>
         // This is the bitmask used within ItemArray to identify selected objects.
         internal static int SelectedObjectMask = ItemArray.CreateMask();
 
-        /// <summary>
-        /// The count
-        /// </summary>
         private int _count;
 
-        /// <summary>
-        /// The last version
-        /// </summary>
         private int _lastVersion;
 
-        /// <summary>
-        /// The owner
-        /// </summary>
         private readonly ListBox _owner;
 
-        /// <summary>
-        /// The state dirty
-        /// </summary>
         private bool _stateDirty;
 
         /// <summary>
@@ -126,19 +111,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> has a fixed size.
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is fixed size; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool IList.IsFixedSize
         {
             get
@@ -147,19 +119,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see> is synchronized (thread safe).
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is synchronized; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool ICollection.IsSynchronized
         {
             get
@@ -168,14 +127,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see>.
-        /// </summary>
-        /// <value>
-        /// The synchronize root.
-        /// </value>
         object ICollection.SyncRoot
         {
             get
@@ -188,9 +139,6 @@ public partial class ListBox
         /// This is the item array that stores our data.  We share this backing store
         /// with the main object collection.
         /// </summary>
-        /// <value>
-        /// The inner array.
-        /// </value>
         private ItemArray InnerArray
         {
             get
@@ -365,15 +313,6 @@ public partial class ListBox
         {
         }
 
-        /// <summary>
-        /// Gets the object at.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <returns>
-        /// System.Object.
-        /// </returns>
         // A new internal method used in SelectedIndex getter...
         // For a Multi select ListBox there can be two items with the same name ...
         // and hence a object comparison is required...
@@ -384,31 +323,11 @@ public partial class ListBox
             return InnerArray.GetEntryObject(index, SelectedObjectMask);
         }
 
-        /// <summary>
-        /// Gets the selected.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <returns>
-        /// <c>
-        /// true
-        /// </c> if XXXX,
-        /// <c>
-        /// false
-        /// </c> otherwise.
-        /// </returns>
         internal bool GetSelected(int index)
         {
             return InnerArray.GetState(index, SelectedObjectMask);
         }
 
-        /// <summary>
-        /// Pushes the selection into native ListBox.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
         internal void PushSelectionIntoNativeListBox(int index)
         {
         }
@@ -416,15 +335,6 @@ public partial class ListBox
         /// <summary>
         /// Same thing for GetSelected.
         /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <param name="value">
-        /// if set to
-        /// <c>
-        /// true
-        /// </c>value.
-        /// </param>
         internal void SetSelected(int index, bool value)
         {
             if (index > -1 && index < InnerArray.Count)
@@ -434,90 +344,26 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Adds an item to the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to add to the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <returns>
-        /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
-        /// </returns>
-        /// <exception cref="T:System.NotSupportedException">
-        /// SR.ListBoxSelectedObjectCollectionIsReadOnly
-        /// </exception>
         int IList.Add(object? value)
         {
             throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
         }
 
-        /// <summary>
-        /// Removes all items from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <exception cref="T:System.NotSupportedException">
-        /// SR.ListBoxSelectedObjectCollectionIsReadOnly
-        /// </exception>
         void IList.Clear()
         {
             throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
         }
 
-        /// <summary>
-        /// Inserts an item to the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> at the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The zero-based index at which value should be inserted.
-        /// </param>
-        /// <param name="value">
-        /// The object to insert into the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <exception cref="T:System.NotSupportedException">
-        /// SR.ListBoxSelectedObjectCollectionIsReadOnly
-        /// </exception>
         void IList.Insert(int index, object? value)
         {
             throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
         }
 
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to remove from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <exception cref="T:System.NotSupportedException">
-        /// SR.ListBoxSelectedObjectCollectionIsReadOnly
-        /// </exception>
         void IList.Remove(object? value)
         {
             throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
         }
 
-        /// <summary>
-        /// Removes the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> item at the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The zero-based index of the item to remove.
-        /// </param>
-        /// <exception cref="T:System.NotSupportedException">
-        /// SR.ListBoxSelectedObjectCollectionIsReadOnly
-        /// </exception>
         void IList.RemoveAt(int index)
         {
             throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");

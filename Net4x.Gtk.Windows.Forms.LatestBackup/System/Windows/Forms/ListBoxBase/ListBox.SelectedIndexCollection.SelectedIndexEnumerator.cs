@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -10,30 +10,6 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.ListControl" />
 /// </summary>
 /// <seealso cref="T:System.Windows.Forms.ListControl" />
-/// Class ListBox. Implements the
-/// <see cref="T:System.Windows.Forms.ListControl" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl" />
-/// Class ListBox. Implements the
-/// <see cref="T:System.Windows.Forms.ListControl" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl" />
-/// Class ListBox. Implements the
-/// <see cref="T:System.Windows.Forms.ListControl" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl" />
-/// Class ListBox. Implements the
-/// <see cref="T:System.Windows.Forms.ListControl" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl" />
-/// Class ListBox. Implements the
-/// <see cref="T:System.Windows.Forms.ListControl" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl" />
-/// Class ListBox. Implements the
-/// <see cref="T:System.Windows.Forms.ListControl" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl" />
 public partial class ListBox
 {
     /// <summary>
@@ -41,14 +17,11 @@ public partial class ListBox
     /// <see cref="T:System.Collections.IList" />
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />
-    /// Class SelectedIndexCollection. Implements the
-    /// <see cref="T:System.Collections.IList" />
-    /// </summary>
-    /// <seealso cref="T:System.Collections.IList" />
     public partial class SelectedIndexCollection : IList
     {
         /// <summary>
-        /// EntryEnumerator is an enumerator that will enumerate over a given state mask.
+        /// EntryEnumerator is an enumerator that will enumerate over
+        /// a given state mask.
         /// </summary>
         private class SelectedIndexEnumerator : IEnumerator
         {

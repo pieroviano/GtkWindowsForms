@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -27,74 +27,32 @@ public class ListView : ContainerControl
     /// </summary>
     public readonly ListViewBase self = new ListViewBase();
 
-    /// <summary>
-    /// The flow box container
-    /// </summary>
     internal Gtk.Box flowBoxContainer = new Gtk.Box(Gtk.Orientation.Vertical, 0);
 
-    /// <summary>
-    /// The header
-    /// </summary>
     internal Gtk.Box header = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
 
-    /// <summary>
-    /// The header view
-    /// </summary>
     internal Gtk.Layout headerView;
 
-    /// <summary>
-    /// The scrolled window
-    /// </summary>
     internal Gtk.ScrolledWindow scrolledWindow = new Gtk.ScrolledWindow();
 
-    /// <summary>
-    /// The headerheight
-    /// </summary>
     private readonly int __headerheight = 30;
 
-    /// <summary>
-    /// The columns
-    /// </summary>
     private readonly ColumnHeaderCollection _columns;
 
-    /// <summary>
-    /// The default group
-    /// </summary>
     private ListViewGroup _defaultGroup;
 
-    /// <summary>
-    /// The font size
-    /// </summary>
     private int _fontSize;
 
-    /// <summary>
-    /// The groups
-    /// </summary>
     private readonly ListViewGroupCollection _groups;
 
-    /// <summary>
-    /// The items
-    /// </summary>
     private readonly ListViewItemCollection _items;
 
-    /// <summary>
-    /// The multi select
-    /// </summary>
     private bool _MultiSelect = true;
 
-    /// <summary>
-    /// The control realized
-    /// </summary>
     private readonly bool ControlRealized = false;
 
-    /// <summary>
-    /// The is cache update
-    /// </summary>
     private bool IsCacheUpdate;
 
-    /// <summary>
-    /// The sorting column index
-    /// </summary>
     private int SortingColumnIndex = -1;
 
     /// <summary>
@@ -610,12 +568,6 @@ public class ListView : ContainerControl
     /// </value>
     public System.Windows.Forms.View View { get; set; }
 
-    /// <summary>
-    /// Gets the default group.
-    /// </summary>
-    /// <value>
-    /// The default group.
-    /// </value>
     internal ListViewGroup DefaultGroup
     {
         get
@@ -629,12 +581,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Gets the size of the font.
-    /// </summary>
-    /// <value>
-    /// The size of the font.
-    /// </value>
     internal int FontSize
     {
         get
@@ -811,21 +757,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Gets the sub item at.
-    /// </summary>
-    /// <param name="x">
-    /// The x.
-    /// </param>
-    /// <param name="y">
-    /// The y.
-    /// </param>
-    /// <param name="iItem">
-    /// The i item.
-    /// </param>
-    /// <param name="iSubItem">
-    /// The i sub item.
-    /// </param>
     internal void GetSubItemAt(int x, int y, out int iItem, out int iSubItem)
     {
         iItem = -1;
@@ -842,15 +773,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Natives the add.
-    /// </summary>
-    /// <param name="item">
-    /// The item.
-    /// </param>
-    /// <param name="position">
-    /// The position.
-    /// </param>
     internal void NativeAdd(ListViewItem item, int position)
     {
         if (self.IsRealized)
@@ -1171,18 +1093,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Natives the check item.
-    /// </summary>
-    /// <param name="item">
-    /// The item.
-    /// </param>
-    /// <param name="ischecked">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>ischecked.
-    /// </param>
     internal void NativeCheckItem(ListViewItem item, bool ischecked)
     {
         if (item._flowBoxChild != null && item._flowBoxChild.IsRealized && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
@@ -1215,15 +1125,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Natives the group add.
-    /// </summary>
-    /// <param name="group">
-    /// The group.
-    /// </param>
-    /// <param name="position">
-    /// The position.
-    /// </param>
     internal void NativeGroupAdd(ListViewGroup group, int position)
     {
         if (self.IsRealized)
@@ -1361,9 +1262,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Natives the groups clear.
-    /// </summary>
     internal void NativeGroupsClear()
     {
         foreach (var group in flowBoxContainer.Children)
@@ -1375,12 +1273,6 @@ public class ListView : ContainerControl
         _defaultGroup = null;
     }
 
-    /// <summary>
-    /// Natives the header add.
-    /// </summary>
-    /// <param name="col">
-    /// The col.
-    /// </param>
     internal void NativeHeaderAdd(ColumnHeader col)
     {
         if (self.IsRealized)
@@ -1415,9 +1307,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Natives the header clear.
-    /// </summary>
     internal void NativeHeaderClear()
     {
         Clear();
@@ -1429,12 +1318,6 @@ public class ListView : ContainerControl
         header.Hide();
     }
 
-    /// <summary>
-    /// Natives the header remove.
-    /// </summary>
-    /// <param name="column">
-    /// The column.
-    /// </param>
     internal void NativeHeaderRemove(ColumnHeader column)
     {
         Clear();
@@ -1446,9 +1329,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Natives the items clear.
-    /// </summary>
     internal void NativeItemsClear()
     {
         foreach (var group in GetAllGroups())
@@ -1458,18 +1338,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Natives the select item.
-    /// </summary>
-    /// <param name="item">
-    /// The item.
-    /// </param>
-    /// <param name="isselected">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>isselected.
-    /// </param>
     internal void NativeSelectItem(ListViewItem item, bool isselected)
     {
         if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
@@ -1481,15 +1349,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Natives the update text.
-    /// </summary>
-    /// <param name="item">
-    /// The item.
-    /// </param>
-    /// <param name="text">
-    /// The text.
-    /// </param>
     internal void NativeUpdateText(ListViewItem item, string text)
     {
         if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
@@ -1545,15 +1404,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Flows the child activated.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void _flow_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {
         Gtk.FlowBox widget = (Gtk.FlowBox)o;
@@ -1573,16 +1423,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Handles the SelectedChildrenChanged event of the _flow control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void _flow_SelectedChildrenChanged(object sender, EventArgs e)
     {
         Gtk.FlowBox widget = (Gtk.FlowBox)sender;
@@ -1623,16 +1463,6 @@ public class ListView : ContainerControl
         SelectedIndexChanged?.Invoke(this, e);
     }
 
-    /// <summary>
-    /// Handles the Clicked event of the Columbt control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Columbt_Clicked(object sender, EventArgs e)
     {
         Gtk.Button btn = (Gtk.Button)sender;
@@ -1665,16 +1495,6 @@ public class ListView : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Handles the Realized event of the Control control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Control_Realized(object sender, EventArgs e)
     {
         if (this.View == View.Details)
@@ -1701,12 +1521,6 @@ public class ListView : ContainerControl
         self.ShowAll();
     }
 
-    /// <summary>
-    /// Gets all groups.
-    /// </summary>
-    /// <returns>
-    /// IEnumerable{ListViewGroup}.
-    /// </returns>
     private IEnumerable<ListViewGroup> GetAllGroups()
     {
         if (_defaultGroup == null)
@@ -1715,30 +1529,11 @@ public class ListView : ContainerControl
             return Groups.Union(new ListViewGroup[] { _defaultGroup });
     }
 
-    /// <summary>
-    /// Handles the ValueChanged event of the Hadjustment control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Hadjustment_ValueChanged(object sender, EventArgs e)
     {
         headerView.Hadjustment.Value = scrolledWindow.Hadjustment.Value;
     }
 
-    /// <summary>
-    /// Overrides the drawn background.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void Override_DrawnBackground(object o, DrawnArgs args)
     {
         Cairo.Rectangle rec = args.Cr.ClipExtents();
@@ -1777,6 +1572,7 @@ public class ListView : ContainerControl
     /// Implements the System.Collections.Generic.List&lt;System.Int32&gt;
     /// </summary>
     /// System.Collections.Generic.List&lt;System.Int32&gt;
+    ///
     ///
     ///
     public class CheckedIndexCollection : List<int>
@@ -1841,9 +1637,6 @@ public class ListView : ContainerControl
     [ListBindable(false)]
     public class ColumnHeaderCollection : List<ColumnHeader>
     {
-        /// <summary>
-        /// The owner
-        /// </summary>
         readonly ListView _owner;
 
         /// <summary>
@@ -2347,9 +2140,6 @@ public class ListView : ContainerControl
     [ListBindable(false)]
     public class ListViewItemCollection : List<ListViewItem>, IList
     {
-        /// <summary>
-        /// The owner
-        /// </summary>
         readonly ListView _owner;
 
         /// <summary>
@@ -2734,15 +2524,6 @@ public class ListView : ContainerControl
             base.Remove(base.Find(w => w.Name == key));
         }
 
-        /// <summary>
-        /// Adds the core.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <param name="position">
-        /// The position.
-        /// </param>
         private void AddCore(ListViewItem item, int position)
         {
             item._listView = _owner;
@@ -2761,6 +2542,7 @@ public class ListView : ContainerControl
     /// Implements the System.Collections.Generic.List&lt;System.Int32&gt;
     /// </summary>
     /// System.Collections.Generic.List&lt;System.Int32&gt;
+    ///
     ///
     ///
     [ListBindable(false)]

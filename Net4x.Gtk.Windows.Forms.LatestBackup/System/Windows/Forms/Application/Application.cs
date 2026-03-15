@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -531,10 +531,6 @@ namespace System.Windows.Forms
 
         private static readonly Gtk.Application app = Application.Init();
 
-        /// <summary>
-        /// Initializes the
-        /// <see cref="T:System.Windows.Forms.InitAppliction" /> class.
-        /// </summary>
         static InitAppliction()
         {
 

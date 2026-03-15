@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -13,24 +13,13 @@ namespace System.Windows.Forms;
 /// </summary>
 public class MaskedTextBox : TextBox
 {
-    /// <summary>
-    /// The is masking
-    /// </summary>
+
     internal bool IsMasking = true;
 
-    /// <summary>
-    /// The correct text
-    /// </summary>
     string correctText;
 
-    /// <summary>
-    /// The is backspace
-    /// </summary>
     bool isBackspace = false;
 
-    /// <summary>
-    /// The password character
-    /// </summary>
     private char _PasswordChar;
 
     /// <summary>
@@ -45,13 +34,6 @@ public class MaskedTextBox : TextBox
         self.Shown += Control_Shown;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.MaskedTextBox" /> class.
-    /// </summary>
-    /// <param name="cssClass">
-    /// The CSS class.
-    /// </param>
     internal MaskedTextBox(string cssClass) : base()
     {
         self.AddClass(cssClass);
@@ -100,32 +82,11 @@ public class MaskedTextBox : TextBox
     /// </value>
     public Type ValidatingType { get; set; }
 
-    /// <summary>
-    /// Gets a value indicating whether this instance is mask password.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if this instance is mask password; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     private bool IsMaskPassword
     {
         get { return !string.IsNullOrWhiteSpace(Mask) && IsMasking; }
     }
 
-    /// <summary>
-    /// Handles the Backspace event of the Control control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Control_Backspace(object sender, EventArgs e)
     {
         if (IsMaskPassword == true)
@@ -151,16 +112,6 @@ public class MaskedTextBox : TextBox
         }
     }
 
-    /// <summary>
-    /// Handles the Shown event of the Control control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Control_Shown(object sender, EventArgs e)
     {
         if (_PasswordChar != '\0')
@@ -186,15 +137,6 @@ public class MaskedTextBox : TextBox
         }
     }
 
-    /// <summary>
-    /// Controls the text inserted.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void Control_TextInserted(object o, Gtk.TextInsertedArgs args)
     {
         if (self.IsRealized && isBackspace == false)
@@ -230,39 +172,11 @@ public class MaskedTextBox : TextBox
         correctText = self.Text;
     }
 
-    /// <summary>
-    /// Determines whether is number character] [the specified w.
-    /// </summary>
-    /// <param name="w">
-    /// The w.
-    /// </param>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if is number character the specified w; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </returns>
     private bool IsNumberChar(char w)
     {
         return (char.IsNumber(w) || w == '_');
     }
 
-    /// <summary>
-    /// Determines whether is number text] [the specified text.
-    /// </summary>
-    /// <param name="text">
-    /// The text.
-    /// </param>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if is number text the specified text; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </returns>
     private bool IsNumberText(string text)
     {
         foreach (char w in text)

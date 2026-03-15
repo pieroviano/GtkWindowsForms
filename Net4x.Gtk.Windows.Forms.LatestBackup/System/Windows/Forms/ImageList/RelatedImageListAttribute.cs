@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Windows.Forms;
@@ -10,9 +10,6 @@ namespace System.Windows.Forms;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
 public sealed class RelatedImageListAttribute : Attribute
 {
-    /// <summary>
-    /// The related image list
-    /// </summary>
     private readonly string? _relatedImageList;
 
     /// <summary>

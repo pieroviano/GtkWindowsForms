@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -75,26 +75,8 @@ public sealed class FolderBrowserDialog : FileDialog
     /// </value>
     public bool ShowNewFolderButton { get; set; }
 
-    /// <summary>
-    /// Gets a value indicating whether this
-    /// <see cref="T:System.Windows.Forms.FolderBrowserDialog" /> is multiselect.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if multiselect; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     private new bool Multiselect => base.Multiselect;
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
-    /// <value>
-    /// The title.
-    /// </value>
     private new string Title => base.Title;
 
     /// <summary>

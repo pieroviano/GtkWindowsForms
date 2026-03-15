@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 using Gtk;
 
 namespace System.Windows.Forms;
@@ -19,14 +19,8 @@ public sealed class ListViewGroup : ISerializable
     /// </summary>
     public readonly string SerialGuid = Guid.NewGuid().ToString();
 
-    /// <summary>
-    /// The flow box
-    /// </summary>
     internal readonly Gtk.FlowBox FlowBox = new Gtk.FlowBox() { Orientation = Gtk.Orientation.Horizontal, Name = Guid.NewGuid().ToString() };
 
-    /// <summary>
-    /// The items
-    /// </summary>
     readonly ListView.ListViewItemCollection _items;
 
     /// <summary>
@@ -243,12 +237,6 @@ public sealed class ListViewGroup : ISerializable
         set;
     }
 
-    /// <summary>
-    /// Gets or sets the groupbox.
-    /// </summary>
-    /// <value>
-    /// The groupbox.
-    /// </value>
     internal Gtk.Box _groupbox { get; set; }
 
     /// <summary>
@@ -269,21 +257,6 @@ public sealed class ListViewGroup : ISerializable
         return _defaultGroup;
     }
 
-    /// <summary>
-    /// Populates a
-    /// <see cref="T:System.Runtime.Serialization.SerializationInfo">
-    /// </see> with the data needed to serialize the target object.
-    /// </summary>
-    /// <param name="info">
-    /// The
-    /// <see cref="T:System.Runtime.Serialization.SerializationInfo">
-    /// </see> to populate with data.
-    /// </param>
-    /// <param name="context">
-    /// The destination (see
-    /// <see cref="T:System.Runtime.Serialization.StreamingContext">
-    /// </see>) for this serialization.
-    /// </param>
     void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
     {
 

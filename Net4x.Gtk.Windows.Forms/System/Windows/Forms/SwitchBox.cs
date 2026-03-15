@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -75,16 +75,6 @@ public partial class SwitchBox : Control
     /// </value>
     public override string Text { get { return self.TooltipText; } set { self.TooltipText = value; } }
 
-    /// <summary>
-    /// Handles the ButtonReleaseEvent event of the Self control.
-    /// </summary>
-    /// <param name="o">
-    /// The source of the event.
-    /// </param>
-    /// <param name="args">
-    /// The
-    /// <see cref="Gtk.ButtonReleaseEventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {
         if (CheckedChanged != null && self.IsVisible)

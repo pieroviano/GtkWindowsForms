@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -11,9 +11,6 @@ namespace System.Windows.Forms;
 [DefaultEvent(nameof(Scroll))]
 public abstract partial class ScrollBar : Control
 {
-    /// <summary>
-    /// The old value
-    /// </summary>
     double _oldValue = 0;
 
     /// <summary>
@@ -83,16 +80,6 @@ public abstract partial class ScrollBar : Control
     /// </value>
     public int Value { get => (int)Adjustment.Value; set { Adjustment.Value = value; } }
 
-    /// <summary>
-    /// Handles the ValueChanged event of the Control control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Control_ValueChanged(object sender, EventArgs e)
     {
         double newValue = Adjustment.Value;

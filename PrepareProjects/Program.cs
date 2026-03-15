@@ -98,6 +98,7 @@ public class Program
 
         ConsoleColor.Green.Write(@"Merging Xml documentation", true);
         await PrepareWorker.MergeXmlDocumentationAsync();
+        ConsoleColor.White.Write("Xml comments merged.");
 
         ConsoleColor.DarkMagenta.Write("Ensuring On....(...EventArgs) are raising event.", true);
         PrepareWorker.EnsureOnEventRaisesEvent();
@@ -107,8 +108,7 @@ public class Program
         DotnetFormatter.Format(csprojPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
         ConsoleColor.DarkMagenta.Write("Formatting Net4x.Gtk.Drawing.csproj", true);
         var net4xGtkDrawingPath = "..\\..\\..\\..\\Net4x.Gtk.Drawing\\Net4x.Gtk.Drawing.csproj";
-        DotnetFormatter.Format(net4xGtkDrawingPath,
-            Path.GetFullPath(@"..\..\..\..\.editorconfig"));
+        DotnetFormatter.Format(net4xGtkDrawingPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
 
         ConsoleColor.Green.Write(@"Applying files latest post processings", true);
         postprocessingXml = PrepareWorker.GetSubsequentPostprocessingXml(true);
@@ -118,6 +118,14 @@ public class Program
 
         await PrepareWorker.PatchFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Dialog\FileDialog.cs");
         await PrepareWorker.PatchFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintPreviewDialog.cs");
+        await PrepareWorker.PatchCommentsInFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Dialog\MessageBox\MessageBox.cs");
+        await PrepareWorker.PatchCommentsInFile(@"..\..\..\..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\ImageAnimator.cs");
+        await PrepareWorker.PatchCommentsInFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintDialog.cs");
+
+#pragma warning disable CS8604 // Possible null reference argument.
+        LineEndingNormalizer.NormalizeCsFiles(Path.GetDirectoryName(net4xGtkDrawingPath));
+        LineEndingNormalizer.NormalizeCsFiles(Path.GetDirectoryName(csprojPath));
+#pragma warning restore CS8604 // Possible null reference argument.
 
         ConsoleColor.Green.Write(@"Persisting latest project files", true);
         projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);

@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,73 +24,34 @@ namespace System.Windows.Forms;
 [TypeConverter(typeof(ImageListConverter))]
 public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
 {
-    /// <summary>
-    /// The change handler
-    /// </summary>
     private EventHandler? _changeHandler;
 
-    /// <summary>
-    /// The color depth
-    /// </summary>
     private ColorDepth _colorDepth = ColorDepth.Depth32Bit;
 
-    /// <summary>
-    /// The image collection
-    /// </summary>
     private ImageCollection? _imageCollection;
 
-    /// <summary>
-    /// The image size
-    /// </summary>
     private Size _imageSize = s_defaultImageSize;
 
-    /// <summary>
-    /// The image stream
-    /// </summary>
     private ImageListStreamer? _ImageStream;
 
-    /// <summary>
-    /// The native image list
-    /// </summary>
     private NativeImageList? _nativeImageList;
 
-    /// <summary>
-    /// The originals
-    /// </summary>
-     // The usual handle virtualization problem, with a new twist: image
+    // The usual handle virtualization problem, with a new twist: image
     // lists are lossy. At runtime, we delay handle creation as long as possible, and store
     // away the original images until handle creation (and hope no one disposes of the images!). At design time, we keep the originals around indefinitely.
     // This variable will become null when the original images are lost.
     private List<Original>? _originals = new List<Original>();
 
-    /// <summary>
-    /// The recreate handler
-    /// </summary>
     private EventHandler? _recreateHandler;
 
-    /// <summary>
-    /// The s default image size
-    /// </summary>
     private static readonly Size s_defaultImageSize = new Size(16, 16);
 
-    /// <summary>
-    /// The s fake transparency color
-    /// </summary>
     private static readonly Color s_fakeTransparencyColor = Color.FromArgb(0x0d, 0x0b, 0x0c);
 
-    /// <summary>
-    /// The s is scaling initialized
-    /// </summary>
     private static readonly bool s_isScalingInitialized;
 
-    /// <summary>
-    /// The s maximum image height
-    /// </summary>
     private static readonly int s_maxImageHeight;
 
-    /// <summary>
-    /// The s maximum image width
-    /// </summary>
     private static readonly int s_maxImageWidth;
 
     /// <summary>
@@ -98,9 +59,6 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// </summary>
     public event EventHandler? RecreateHandle { add => _recreateHandler += value; remove => _recreateHandler -= value; }
 
-    /// <summary>
-    /// Occurs when [change handle.
-    /// </summary>
     internal event EventHandler? ChangeHandle { add => _changeHandler += value; remove => _changeHandler -= value; }
 
     /// <summary>
@@ -218,13 +176,6 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         }
     }
 
-    /// <summary>
-    /// Gets or sets the tag.
-    /// </summary>
-    /// <value>
-    /// The tag.
-    /// </value>
-
 #if DEBUG
 
     internal bool IsDisposed { get; private set; }
@@ -239,17 +190,6 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// </value>
     public Color TransparentColor { get; set; } = Color.Transparent;
 
-    /// <summary>
-    /// Gets a value indicating whether use transparent color.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if use transparent color; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     private bool UseTransparentColor => TransparentColor.A > 0;
 
     /// <summary>
@@ -394,15 +334,6 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// </returns>
     public override string ToString() => Images is null ? base.ToString() : $"{base.ToString()} Images.Count: {Images.Count}, ImageSize: {ImageSize}";
 
-    /// <summary>
-    /// Gets the original image.
-    /// </summary>
-    /// <param name = "name">
-    /// The name.
-    /// </param>
-    /// <returns>
-    /// Image.
-    /// </returns>
     internal Image GetOriginalImage(string name)
     {
         string path1 = $"./Resources";
@@ -466,18 +397,6 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         base.Dispose(disposing);
     }
 
-    /// <summary>
-    /// Adds the icon to handle.
-    /// </summary>
-    /// <param name = "original">
-    /// The original.
-    /// </param>
-    /// <param name = "icon">
-    /// The icon.
-    /// </param>
-    /// <returns>
-    /// System.Int32.
-    /// </returns>
     private int AddIconToHandle(Original original, Icon icon)
     {
         try
@@ -489,34 +408,11 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         }
     }
 
-    /// <summary>
-    /// Adds to handle.
-    /// </summary>
-    /// <param name = "bitmap">
-    /// The bitmap.
-    /// </param>
-    /// <returns>
-    /// System.Int32.
-    /// </returns>
     private int AddToHandle(Bitmap bitmap)
     {
         return 0;
     }
 
-    /// <summary>
-    /// Bitmaps the has alpha.
-    /// </summary>
-    /// <param name = "bmpData">
-    /// The BMP data.
-    /// </param>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if XXXX,
-    /// <c>
-    /// false
-    /// </c> otherwise.
-    /// </returns>
     private static unsafe bool BitmapHasAlpha(BitmapData bmpData)
     {
         if (bmpData.PixelFormat != PixelFormat.Format32bppArgb && bmpData.PixelFormat != PixelFormat.Format32bppRgb)
@@ -540,15 +436,6 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         return false;
     }
 
-    /// <summary>
-    /// Copies the bitmap data.
-    /// </summary>
-    /// <param name = "sourceData">
-    /// The source data.
-    /// </param>
-    /// <param name = "targetData">
-    /// The target data.
-    /// </param>
     private static unsafe void CopyBitmapData(BitmapData sourceData, BitmapData targetData)
     {
         Debug.Assert(Image.GetPixelFormatSize(sourceData.PixelFormat) == 32);
@@ -570,21 +457,6 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         }
     }
 
-    /// <summary>
-    /// Creates the bitmap.
-    /// </summary>
-    /// <param name = "original">
-    /// The original.
-    /// </param>
-    /// <param name = "ownsBitmap">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>owns bitmap.
-    /// </param>
-    /// <returns>
-    /// Bitmap.
-    /// </returns>
     private Bitmap CreateBitmap(Original original, out bool ownsBitmap)
     {
         ownsBitmap = false;
@@ -601,17 +473,11 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         };
     }
 
-    /// <summary>
-    /// Creates the handle.
-    /// </summary>
     private void CreateHandle()
     {
     }
 
-    /// <summary>
-    /// Destroys the handle.
-    /// </summary>
-     // Don't merge this function into Dispose() -- that base.Dispose() will damage the design time experience
+    // Don't merge this function into Dispose() -- that base.Dispose() will damage the design time experience
     private void DestroyHandle()
     {
         if (HandleCreated)
@@ -622,39 +488,15 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         }
     }
 
-    /// <summary>
-    /// Handles the
-    /// <see cref="T:System.Windows.Forms.ImageList.ChangeHandle"/> event.
-    /// </summary>
-    /// <param name = "eventargs">
-    /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
-    /// </param>
     private void OnChangeHandle(EventArgs eventargs) => _changeHandler?.Invoke(this, eventargs);
 
     /// <summary>
     /// Called when the Handle property changes.
     /// </summary>
-    /// <param name = "eventargs">
-    /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
-    /// </param>
     private void OnRecreateHandle(EventArgs eventargs) => _recreateHandler?.Invoke(this, eventargs);
 
-    /// <summary>
-    /// Resets the color depth.
-    /// </summary>
     private void ResetColorDepth() => ColorDepth = ColorDepth.Depth32Bit;
 
-    /// <summary>
-    /// Scales the simple bitmap.
-    /// </summary>
-    /// <param name = "bitmp">
-    /// The bitmp.
-    /// </param>
-    /// <returns>
-    /// Bitmap.
-    /// </returns>
     private Bitmap ScaleSimpleBitmap(Image bitmp)
     {
         Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(bitmp.PixbufData);
@@ -668,30 +510,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         };
     }
 
-    /// <summary>
-    /// Shoulds the serialize color depth.
-    /// </summary>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if XXXX,
-    /// <c>
-    /// false
-    /// </c> otherwise.
-    /// </returns>
     private bool ShouldSerializeColorDepth() => Images.Count == 0;
 
-    /// <summary>
-    /// Shoulds the size of the serialize image.
-    /// </summary>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if XXXX,
-    /// <c>
-    /// false
-    /// </c> otherwise.
-    /// </returns>
     private bool ShouldSerializeImageSize() => Images.Count == 0;
 
 }

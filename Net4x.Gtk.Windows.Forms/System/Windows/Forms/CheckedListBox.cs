@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -28,9 +28,6 @@ public partial class CheckedListBox : ContainerControl
     /// </summary>
     public readonly CheckedListBoxBase self = new CheckedListBoxBase();
 
-    /// <summary>
-    /// Internal GTK FlowBox used to host each checkable item.
-    /// </summary>
     internal Gtk.FlowBox _flow = new Gtk.FlowBox();
 
     private readonly ObjectCollection _items;
@@ -227,18 +224,6 @@ public partial class CheckedListBox : ContainerControl
         item?.Checked = value == System.Windows.Forms.CheckState.Checked;
     }
 
-    /// <summary>
-    /// Adds a GTK-native item (checkbox) to the visual list at the given position.
-    /// </summary>
-    /// <param name="checkbox">
-    /// The checkbox control to add.
-    /// </param>
-    /// <param name="isChecked">
-    /// Initial checked state.
-    /// </param>
-    /// <param name="position">
-    /// Position index to insert; if negative the item is appended.
-    /// </param>
     internal void NativeAdd(CheckBox checkbox, bool isChecked, int position)
     {
         checkbox.self.Toggled += (object sender, EventArgs e) =>
@@ -273,21 +258,12 @@ public partial class CheckedListBox : ContainerControl
         }
     }
 
-    /// <summary>
-    /// Removes all native items from the control.
-    /// </summary>
     internal void NativeClear()
     {
         foreach (var item in _flow.Children)
             _flow.Remove(item);
     }
 
-    /// <summary>
-    /// Removes the native item at the specified index.
-    /// </summary>
-    /// <param name="index">
-    /// Index of the item to remove.
-    /// </param>
     internal void NativeRemove(int index)
     {
         if (_flow.Children.Length > index)

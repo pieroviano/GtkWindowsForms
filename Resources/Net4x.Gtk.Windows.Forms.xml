@@ -43735,12 +43735,12 @@
         </member>
         <member name="P:System.Windows.Forms.PrintDialog.UseEXDialog">
             <summary>
-                Gets or sets a value indicating whether use ex dialog.
+                Gets or sets a value indicating if we use ex dialog.
             </summary>
             <value>
                 <c>
                     true
-                </c> if use ex dialog; otherwise,
+                </c> if we use ex dialog; otherwise,
                 <c>
                     false
                 </c>.

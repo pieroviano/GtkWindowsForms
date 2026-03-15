@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -776,9 +776,6 @@ public sealed class DeserializingResourceReader : System.Resources.IResourceRead
         return obj;
     }
 
-    /// <summary>
-    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-    /// </summary>
     private unsafe void Dispose(bool disposing)
     {
         if (_store != null)

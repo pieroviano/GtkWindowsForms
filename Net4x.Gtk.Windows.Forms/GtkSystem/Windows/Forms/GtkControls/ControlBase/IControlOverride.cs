@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 using Gtk;
 using static GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride;

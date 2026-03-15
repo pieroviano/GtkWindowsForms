@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
@@ -27,18 +27,10 @@ public class PropertyManager : BindingManagerBase
     {
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.PropertyManager"/> class.
-    /// </summary>
     internal PropertyManager(object? dataSource) : base(dataSource)
     {
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.PropertyManager"/> class.
-    /// </summary>
     internal PropertyManager(object? dataSource, string? propName)
     {
         Init(dataSource, propName);
@@ -179,10 +171,6 @@ public class PropertyManager : BindingManagerBase
         return ListBindingHelper.GetListItemProperties(_dataSource, listAccessors);
     }
 
-    /// <summary>
-    /// Gets the name of the list.
-    /// </summary>
-    /// <returns></returns>
     internal override string? GetListName()
     {
         if (_dataSource != null)

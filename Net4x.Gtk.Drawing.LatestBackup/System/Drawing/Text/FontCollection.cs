@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Text;
+namespace System.Drawing.Text;
 
 /// <summary>
 /// Provides a base class for installed and private font collections.

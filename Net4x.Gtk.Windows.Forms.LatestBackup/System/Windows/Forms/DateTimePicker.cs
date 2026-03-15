@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -24,19 +24,10 @@ public partial class DateTimePicker : MaskedTextBox
     /// </summary>
     public DateTimePickerFormat _Format;
 
-    /// <summary>
-    /// The calendar
-    /// </summary>
     readonly Gtk.Calendar calendar = new Gtk.Calendar();
 
-    /// <summary>
-    /// The popver
-    /// </summary>
     readonly Gtk.Popover popver;
 
-    /// <summary>
-    /// The custom format
-    /// </summary>
     private string _CustomFormat= System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd;
 
     /// <summary>
@@ -245,16 +236,6 @@ public partial class DateTimePicker : MaskedTextBox
         }
     }
 
-    /// <summary>
-    /// Handles the DaySelected event of the Calendar control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Calendar_DaySelected(object sender, EventArgs e)
     {
         Gtk.Calendar calendar = sender as Gtk.Calendar;
@@ -271,16 +252,6 @@ public partial class DateTimePicker : MaskedTextBox
         }
     }
 
-    /// <summary>
-    /// Handles the NextMonth event of the Calendar control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Calendar_NextMonth(object sender, EventArgs e)
     {
         if (calendar.GetDate() > MaxDate)
@@ -289,16 +260,6 @@ public partial class DateTimePicker : MaskedTextBox
         }
     }
 
-    /// <summary>
-    /// Handles the NextYear event of the Calendar control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Calendar_NextYear(object sender, EventArgs e)
     {
         if (calendar.GetDate() > MaxDate)
@@ -307,16 +268,6 @@ public partial class DateTimePicker : MaskedTextBox
         }
     }
 
-    /// <summary>
-    /// Handles the PrevMonth event of the Calendar control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Calendar_PrevMonth(object sender, EventArgs e)
     {
         if (calendar.GetDate() < MinDate)
@@ -325,16 +276,6 @@ public partial class DateTimePicker : MaskedTextBox
         }
     }
 
-    /// <summary>
-    /// Handles the PrevYear event of the Calendar control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Calendar_PrevYear(object sender, EventArgs e)
     {
         if (calendar.GetDate() < MinDate)
@@ -343,15 +284,6 @@ public partial class DateTimePicker : MaskedTextBox
         }
     }
 
-    /// <summary>
-    /// Dates the time picker icon release.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void DateTimePicker_IconRelease(object o, Gtk.IconReleaseArgs args)
     {
         DateTime current = Value;
@@ -370,47 +302,17 @@ public partial class DateTimePicker : MaskedTextBox
         popver.ShowAll();
     }
 
-    /// <summary>
-    /// Handles the Changed event of the Self control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_Changed(object sender, EventArgs e)
     {
         if (ValueChanged != null && self.IsMapped)
             ValueChanged(this, e);
     }
 
-    /// <summary>
-    /// Handles the Shown event of the Self control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_Shown(object sender, EventArgs e)
     {
         this.Value = DateTime.Now;
     }
 
-    /// <summary>
-    /// Handles the Clicked event of the Todaybtn control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Todaybtn_Clicked(object sender, EventArgs e)
     {
         this.Value = DateTime.Now;

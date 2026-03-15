@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 using Gtk;
 
@@ -9,14 +9,9 @@ namespace System.Windows.Forms;
 /// </summary>
 public class FontDialog : CommonDialog
 {
-    /// <summary>
-    /// The font
-    /// </summary>
+
     private Font? _font;
 
-    /// <summary>
-    /// The active window
-    /// </summary>
     private static readonly Gtk.Window ActiveWindow = null;
 
     /// <summary>

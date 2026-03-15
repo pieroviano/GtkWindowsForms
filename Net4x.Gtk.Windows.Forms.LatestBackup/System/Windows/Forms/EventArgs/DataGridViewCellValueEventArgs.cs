@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -45,10 +45,6 @@ public class DataGridViewCellValueEventArgs : EventArgs
         RowIndex = rowIndex;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.DataGridViewCellValueEventArgs" /> class.
-    /// </summary>
     internal DataGridViewCellValueEventArgs()
     {
         ColumnIndex = -1;
@@ -79,18 +75,6 @@ public class DataGridViewCellValueEventArgs : EventArgs
     /// </value>
     public object Value { get; set; }
 
-    /// <summary>
-    /// Sets the properties.
-    /// </summary>
-    /// <param name="columnIndex">
-    /// Index of the column.
-    /// </param>
-    /// <param name="rowIndex">
-    /// Index of the row.
-    /// </param>
-    /// <param name="value">
-    /// The value.
-    /// </param>
     internal void SetProperties(int columnIndex, int rowIndex, object value)
     {
         Debug.Assert(columnIndex >= -1);

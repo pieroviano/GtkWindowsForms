@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -9,7 +9,16 @@ using static System.Windows.Forms.ItemArray;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// This is a single entry in our item array.
+/// This is similar to ArrayList except that it also
+/// maintains a bit-flag based state element for each item
+/// in the array.
+///
+/// The methods to enumerate, count and get data support
+/// virtualized indexes.  Indexes are virtualized according
+/// to the state mask passed in.  This allows ItemArray
+/// to be the backing store for one read-write "master"
+/// collection and several read-only collections based
+/// on masks.  ItemArray supports up to 31 masks.
 /// </summary>
 internal partial class ItemArray : IComparer<Entry>
 {

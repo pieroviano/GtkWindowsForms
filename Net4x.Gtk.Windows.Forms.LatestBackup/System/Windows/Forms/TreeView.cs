@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -24,39 +24,18 @@ public partial class TreeView : ScrollableControl
     /// </summary>
     public readonly TreeViewBase self = new TreeViewBase();
 
-    /// <summary>
-    /// The root
-    /// </summary>
     internal TreeNode root;
 
-    /// <summary>
-    /// The check boxs
-    /// </summary>
     private bool _checkBoxs;
 
-    /// <summary>
-    /// The image list
-    /// </summary>
     private ImageList _imageList;
 
-    /// <summary>
-    /// The store
-    /// </summary>
     private readonly Gtk.TreeStore _store;
 
-    /// <summary>
-    /// The cancel event arguments
-    /// </summary>
     private TreeViewCancelEventArgs cancelEventArgs = null;
 
-    /// <summary>
-    /// The renderercheckbox
-    /// </summary>
     private readonly CellRendererToggle renderercheckbox;
 
-    /// <summary>
-    /// The renderer pixbuf
-    /// </summary>
     private readonly CellRendererIcon rendererPixbuf;
 
     /// <summary>
@@ -390,12 +369,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Gets the store.
-    /// </summary>
-    /// <value>
-    /// The store.
-    /// </value>
     internal Gtk.TreeStore Store { get { return _store; } }
 
     /// <summary>
@@ -422,20 +395,6 @@ public partial class TreeView : ScrollableControl
         self.TreeView.ExpandAll();
     }
 
-    /// <summary>
-    /// Gets the node checked.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if XXXX,
-    /// <c>
-    /// false
-    /// </c> otherwise.
-    /// </returns>
     internal bool GetNodeChecked(TreeNode node)
     {
         var val = Store.GetValue(node.TreeIter, 1);
@@ -443,39 +402,11 @@ public partial class TreeView : ScrollableControl
         return val == null ? false : (bool)val;
     }
 
-    /// <summary>
-    /// Gets the node expanded.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if XXXX,
-    /// <c>
-    /// false
-    /// </c> otherwise.
-    /// </returns>
     internal bool GetNodeExpanded(TreeNode node)
     {
         return self.TreeView.GetRowExpanded(_store.GetPath(node.TreeIter));
     }
 
-    /// <summary>
-    /// Gets the node selected.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if XXXX,
-    /// <c>
-    /// false
-    /// </c> otherwise.
-    /// </returns>
     internal bool GetNodeSelected(TreeNode node)
     {
         Gtk.TreePath[] treePaths = self.TreeView.Selection.GetSelectedRows();
@@ -491,18 +422,6 @@ public partial class TreeView : ScrollableControl
         return false;
     }
 
-    /// <summary>
-    /// Inserts the node.
-    /// </summary>
-    /// <param name="position">
-    /// The position.
-    /// </param>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <param name="parent">
-    /// The parent.
-    /// </param>
     internal void InsertNode(int position, TreeNode node, TreeNode parent)
     {
         if (node != null && parent != null)
@@ -516,15 +435,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Loads the node value.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <param name="parent">
-    /// The parent.
-    /// </param>
     internal void LoadNodeValue(TreeNode node, TreeIter parent)
     {
         TreeIter iter = parent.Equals(TreeIter.Zero) ? Store.AppendValues(node.Text, node.Checked, node.ImageIndex, node.ImageKey) : Store.AppendValues(parent, node.Text, node.Checked, node.ImageIndex, node.ImageKey);
@@ -537,18 +447,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Natives the node checked.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <param name="isChecked">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>is checked.
-    /// </param>
     internal void NativeNodeChecked(TreeNode node, bool isChecked)
     {
         if (node != null)
@@ -557,15 +455,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Natives the node image.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <param name="index">
-    /// The index.
-    /// </param>
     internal void NativeNodeImage(TreeNode node, int index)
     {
         if (node != null)
@@ -574,15 +463,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Natives the node image.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <param name="key">
-    /// The key.
-    /// </param>
     internal void NativeNodeImage(TreeNode node, string key)
     {
         if (node != null)
@@ -591,18 +471,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Natives the node selected.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <param name="isSelected">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>is selected.
-    /// </param>
     internal void NativeNodeSelected(TreeNode node, bool isSelected)
     {
         if (node != null)
@@ -611,15 +479,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Natives the node text.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <param name="text">
-    /// The text.
-    /// </param>
     internal void NativeNodeText(TreeNode node, string text)
     {
         if (node != null)
@@ -628,41 +487,17 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Removes the node.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
     internal void RemoveNode(TreeNode node)
     {
         _store.Remove(ref node.TreeIter);
     }
 
-    /// <summary>
-    /// Sets the collapse node.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
     internal void SetCollapseNode(TreeNode node)
     {
 
         self.TreeView.CollapseRow(_store.GetPath(node.TreeIter));
     }
 
-    /// <summary>
-    /// Sets the expand node.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <param name="all">
-    /// if set to
-    /// <c>
-    /// true
-    /// </c>all.
-    /// </param>
     internal void SetExpandNode(TreeNode node, bool all)
     {
         self.TreeView.ExpandRow(_store.GetPath(node.TreeIter), all);
@@ -680,15 +515,6 @@ public partial class TreeView : ScrollableControl
         base.SetStyle(self.TreeView);
     }
 
-    /// <summary>
-    /// Cells the name toggled.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void CellName_Toggled(object o, ToggledArgs args)
     {
         TreePath path = new TreePath(args.Path);
@@ -698,18 +524,6 @@ public partial class TreeView : ScrollableControl
         model.SetValue(iter, 1, val == false);
     }
 
-    /// <summary>
-    /// Gets the node child.
-    /// </summary>
-    /// <param name="node">
-    /// The node.
-    /// </param>
-    /// <param name="indices">
-    /// The indices.
-    /// </param>
-    /// <param name="result">
-    /// The result.
-    /// </param>
     private void GetNodeChild(TreeNode node, int[] indices, ref TreeNode result)
     {
         string nodeIndex= string.Join(",", indices);
@@ -727,16 +541,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Handles the Changed event of the Selection control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Selection_Changed(object sender, EventArgs e)
     {
         if (BeforeSelect != null || AfterSelect != null)
@@ -763,16 +567,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Handles the Realized event of the TreeView control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void TreeView_Realized(object sender, EventArgs e)
     {
         if (ImageList != null)
@@ -791,15 +585,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// TreeViews the row collapsed.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void TreeView_RowCollapsed(object o, RowCollapsedArgs args)
     {
         if (AfterCollapse != null && ((Gtk.TreeView)o).IsVisible)
@@ -810,15 +595,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// TreeViews the row expanded.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void TreeView_RowExpanded(object o, RowExpandedArgs args)
     {
         if (AfterExpand != null && ((Gtk.TreeView)o).IsVisible)
@@ -829,11 +605,6 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    /// <summary>
-    /// Class CellRendererIcon. Implements the
-    /// <see cref="Gtk.CellRendererPixbuf" />
-    /// </summary>
-    /// <seealso cref="Gtk.CellRendererPixbuf" />
     private class CellRendererIcon : Gtk.CellRendererPixbuf
     {
         /// <summary>

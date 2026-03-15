@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Drawing.Printing;
@@ -59,7 +59,7 @@ public class PrintPageEventArgs : EventArgs
 
     /// <summary>
     /// Disposes of the resources (other than memory) used by the
-    /// <see cref="T:System.Drawing.Printing.PrintPageEventArgs" />.
+    /// <see cref="PrintPageEventArgs" />.
     /// </summary>
     internal void Dispose() => Graphics?.Dispose();
 

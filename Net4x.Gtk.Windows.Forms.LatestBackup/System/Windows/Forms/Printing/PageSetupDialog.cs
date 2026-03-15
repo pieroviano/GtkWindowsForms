@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -16,24 +16,13 @@ namespace System.Windows.Forms;
 [DefaultProperty(nameof(Document))]
 public sealed class PageSetupDialog : CommonDialog
 {
-    /// <summary>
-    /// The minimum margins
-    /// </summary>
+
     private Margins _minMargins;
 
-    /// <summary>
-    /// The page settings
-    /// </summary>
     private PageSettings _pageSettings;
 
-    /// <summary>
-    /// The print document
-    /// </summary>
     private PrintDocument _printDocument;
 
-    /// <summary>
-    /// The printer settings
-    /// </summary>
     private PrinterSettings _printerSettings;
 
     /// <summary>

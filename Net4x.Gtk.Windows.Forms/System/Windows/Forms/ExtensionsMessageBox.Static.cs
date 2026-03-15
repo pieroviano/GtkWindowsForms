@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 /// <summary>
 /// Displays a message box that can contain text, buttons, and symbols that inform and instruct the user.
 /// </summary>
@@ -6,14 +6,12 @@ public class MessageBox
 {
     /// <summary>
     /// The active
-    /// <see cref="T:System.Windows.Forms.IMessageBox" /> implementation used by the static
-    /// <see cref="T:System.Windows.Forms.MessageBox" /> helpers. By default this is a
-    /// <see cref="T:System.Windows.Forms.NonStaticMessageBox" />; callers may replace it using
-    /// <see cref="T:System.Windows.Forms.MessageBox.ReplaceInstance(System.Int32)" />.
+    /// <see cref="IMessageBox" /> implementation used by the static
+    /// <see cref="MessageBox" /> helpers.
+    /// By default this is a
+    /// <see cref="NonStaticMessageBox" />; callers may replace it using
+    /// <see cref="ReplaceInstance(int)" />.
     /// </summary>
-    /// <value>
-    /// The instance.
-    /// </value>
     internal static IMessageBox Instance { get; set; } = new NonStaticMessageBox();
 
     /// <summary>

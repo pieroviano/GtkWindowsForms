@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms.Design;
@@ -8,14 +8,9 @@ namespace System.Windows.Forms.Design;
 /// </summary>
 public abstract class PropertyTab : IExtenderProvider
 {
-    /// <summary>
-    /// The bitmap
-    /// </summary>
+
     private Bitmap? _bitmap;
 
-    /// <summary>
-    /// The checked bitmap
-    /// </summary>
     private bool _checkedBitmap;
 
     /// <summary>

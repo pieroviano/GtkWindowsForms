@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Gtk;
@@ -34,10 +34,6 @@ public class BindingsCollection : BaseCollection
     /// </summary>
     public event CollectionChangeEventHandler? CollectionChanging { add => _onCollectionChanging += value; remove => _onCollectionChanging -= value; }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingsCollection"/> class.
-    /// </summary>
     internal BindingsCollection()
     {
     }

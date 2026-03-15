@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 using System.ComponentModel;
 using System.Drawing;
@@ -23,70 +23,31 @@ public partial class PrintPreviewControl : Control
     /// </summary>
     public readonly ViewportBase self = new ViewportBase();
 
-    /// <summary>
-    /// The automatic zoom
-    /// </summary>
     private bool _autoZoom = true;
 
-    /// <summary>
-    /// The columns
-    /// </summary>
     private int _columns = 1;
 
-    /// <summary>
-    /// The document
-    /// </summary>
     private PrintDocument _document;
 
-    /// <summary>
-    /// The rows
-    /// </summary>
     private int _rows = 1;
 
-    /// <summary>
-    /// The start page
-    /// </summary>
     private int _startPage; // 0-based
 
-    /// <summary>
-    /// The zoom
-    /// </summary>
     private double _zoom = DefaultZoom;
 
-    /// <summary>
-    /// The border
-    /// </summary>
-     // Spacing per page, in mm
+    // Spacing per page, in mm
     private const int Border = 10;
 
-    /// <summary>
-    /// The default zoom
-    /// </summary>
     private const double DefaultZoom = .3;
 
-    /// <summary>
-    /// The paper
-    /// </summary>
     private readonly ViewportBase paper;
 
-    /// <summary>
-    /// The pxscale
-    /// </summary>
     private const double pxscale = 0.75;
 
-    /// <summary>
-    /// The s start page changed event
-    /// </summary>
     private static readonly object s_startPageChangedEvent = new object ();
 
-    /// <summary>
-    /// The scroll
-    /// </summary>
     private readonly Gtk.ScrolledWindow scroll;
 
-    /// <summary>
-    /// The scroll small change
-    /// </summary>
     private const int ScrollSmallChange = 5;
 
     /// <summary>
@@ -346,15 +307,6 @@ public partial class PrintPreviewControl : Control
         ((EventHandler)Events[s_startPageChangedEvent])?.Invoke(this, e);
     }
 
-    /// <summary>
-    /// Papers the drawn.
-    /// </summary>
-    /// <param name = "o">
-    /// The o.
-    /// </param>
-    /// <param name = "args">
-    /// The arguments.
-    /// </param>
     private void paper_Drawn(object o, Gtk.DrawnArgs args)
     {
         if (_document != null)
@@ -386,16 +338,6 @@ public partial class PrintPreviewControl : Control
         }
     }
 
-    /// <summary>
-    /// Handles the Realized event of the Self control.
-    /// </summary>
-    /// <param name = "sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name = "e">
-    /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
-    /// </param>
     private void Self_Realized(object? sender, EventArgs e)
     {
         if (AutoZoom == false)

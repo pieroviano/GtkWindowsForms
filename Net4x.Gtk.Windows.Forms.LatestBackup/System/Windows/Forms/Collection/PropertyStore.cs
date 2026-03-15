@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
@@ -7,11 +7,9 @@ using System.Drawing;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Stores the relationship between a key and a value.
-/// We do not want to be so inefficient that we require
-/// four bytes for each four byte property, so use an algorithm
-/// that uses the bottom two bits of the key to identify
-/// one of four elements in an entry.
+/// This is a small class that can efficiently store property values.
+/// It tries to optimize for size first, "get" access second, and
+/// "set" access third.
 /// </summary>
 internal partial class PropertyStore
 {

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -17,9 +17,7 @@ namespace System.Windows.Forms;
 [ToolboxItemFilter("System.Windows.Forms")]
 public class Timer : Component
 {
-    /// <summary>
-    /// The timers timer
-    /// </summary>
+
     readonly System.Timers.Timer TimersTimer = new Timers.Timer();
 
     /// <summary>
@@ -131,16 +129,6 @@ public class Timer : Component
         Dispose(true);
     }
 
-    /// <summary>
-    /// Handles the Elapsed event of the TimersTimer control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.Timers.ElapsedEventArgs" /> instance containing the event data.
-    /// </param>
     private void TimersTimer_Elapsed(object sender, Timers.ElapsedEventArgs e)
     {
         if (Tick != null)

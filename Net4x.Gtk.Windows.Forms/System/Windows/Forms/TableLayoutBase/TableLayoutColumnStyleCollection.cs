@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms.Layout;
+using System.Windows.Forms.Layout;
 
 namespace System.Windows.Forms;
 
@@ -8,22 +8,12 @@ namespace System.Windows.Forms;
 /// </summary>
 public class TableLayoutColumnStyleCollection : TableLayoutStyleCollection
 {
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.TableLayoutColumnStyleCollection" /> class.
-    /// </summary>
-    /// <param name="Owner">
-    /// The owner.
-    /// </param>
+
     internal TableLayoutColumnStyleCollection(IArrangedElement Owner) : base(Owner)
     {
 
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.TableLayoutColumnStyleCollection" /> class.
-    /// </summary>
     internal TableLayoutColumnStyleCollection() : base(null)
     {
 

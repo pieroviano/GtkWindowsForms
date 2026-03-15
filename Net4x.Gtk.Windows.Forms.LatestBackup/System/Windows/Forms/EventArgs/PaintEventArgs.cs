@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -33,9 +33,6 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// </summary>
     private readonly GraphicsState _savedGraphicsState;
 
-    /// <summary>
-    /// The old pal
-    /// </summary>
     private IntPtr oldPal = IntPtr.Zero;
 
 #if DEBUG
@@ -79,12 +76,6 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// Internal version of constructor for performance
     /// We try to avoid getting the graphics object until needed
     /// </summary>
-    /// <param name="dc">
-    /// The dc.
-    /// </param>
-    /// <param name="clipRect">
-    /// The clip rect.
-    /// </param>
     internal PaintEventArgs(IntPtr dc, Rectangle clipRect)
     {
         Debug.Assert(dc != IntPtr.Zero, "dc is not initialized.");
@@ -122,9 +113,6 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// HDC, or the GDI+ Graphics object has been created (meaning GDI+ now owns the
     /// HDC), 0 is returned.
     /// </summary>
-    /// <value>
-    /// The HDC.
-    /// </value>
     internal IntPtr HDC => _graphics == null ? _dc : IntPtr.Zero;
 
     /// <summary>

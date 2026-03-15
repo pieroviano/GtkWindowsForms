@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -13,55 +13,27 @@ namespace System.Windows.Forms;
 /// </summary>
 public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
 {
-    /// <summary>
-    /// The tree iter
-    /// </summary>
+
     internal Gtk.TreeIter TreeIter = Gtk.TreeIter.Zero;
 
-    /// <summary>
-    /// The tree view
-    /// </summary>
     internal TreeView treeView;
 
-    /// <summary>
-    /// The image index
-    /// </summary>
     private int _imageIndex;
 
-    /// <summary>
-    /// The image key
-    /// </summary>
     private string _imageKey;
 
-    /// <summary>
-    /// The is checked
-    /// </summary>
     private bool _IsChecked;
 
-    /// <summary>
-    /// The is selected
-    /// </summary>
     private bool _IsSelected;
 
-    /// <summary>
-    /// The text
-    /// </summary>
     private string _text;
 
-    /// <summary>
-    /// The index
-    /// </summary>
     // format， union of indexes at all levels：0,1,2,3....
+
     private string index = "";
 
-    /// <summary>
-    /// The nodes
-    /// </summary>
     private readonly TreeNodeCollection nodes;
 
-    /// <summary>
-    /// The parent
-    /// </summary>
     private TreeNode parent;
 
     /// <summary>
@@ -392,12 +364,6 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
         get; set;
     }
 
-    /// <summary>
-    /// Gets the TreeView.
-    /// </summary>
-    /// <value>
-    /// The TreeView.
-    /// </value>
     internal TreeView TreeView
     {
         get

@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -146,20 +146,12 @@ public sealed class ResXDataNode : ISerializable
         _typeNameConverter = typeNameConverter;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ResXDataNode"/> class.
-    /// </summary>
-    /// <param name="nodeInfo">The node information.</param>
-    /// <param name="basePath">The base path.</param>
     internal ResXDataNode(DataNodeInfo nodeInfo, string basePath)
     {
         _nodeInfo = nodeInfo;
         InitializeDataNode(basePath);
     }
 
-    /// <summary>
-    /// Prevents a default instance of the <see cref="ResXDataNode"/> class from being created.
-    /// </summary>
     private ResXDataNode()
     {
     }

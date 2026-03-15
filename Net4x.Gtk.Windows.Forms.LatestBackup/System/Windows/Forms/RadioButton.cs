@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -21,9 +21,6 @@ public partial class RadioButton : Control
     /// </summary>
     public readonly RadioButtonBase self = new RadioButtonBase();
 
-    /// <summary>
-    /// The checked
-    /// </summary>
     private bool _Checked;
 
     /// <summary>
@@ -70,15 +67,6 @@ public partial class RadioButton : Control
     /// </value>
     public override string Text { get { return self.Label; } set { self.Label = value; } }
 
-    /// <summary>
-    /// Selfs the parent set.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void Self_ParentSet(object o, Gtk.ParentSetArgs args)
     {
         Gtk.Container con = self.Parent as Gtk.Container;
@@ -96,16 +84,6 @@ public partial class RadioButton : Control
         self.Toggled += Self_Toggled;
     }
 
-    /// <summary>
-    /// Handles the Toggled event of the Self control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_Toggled(object sender, EventArgs e)
     {
         if (CheckedChanged != null && self.IsVisible)

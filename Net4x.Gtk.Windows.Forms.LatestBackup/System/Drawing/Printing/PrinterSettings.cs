@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.Specialized;
@@ -208,9 +208,6 @@ public partial class PrinterSettings : ICloneable
         }
     }
 
-    /// <summary>
-    /// Gets the printer driver name associated with these settings (internal use).
-    /// </summary>
     // As far as I can tell, Windows no longer pays attention to driver names and output ports.
     // But I'm leaving this code in place in case I'm wrong.
     internal string DriverName => _driverName;

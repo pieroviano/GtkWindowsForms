@@ -1,4 +1,4 @@
-﻿namespace System.Drawing;
+namespace System.Drawing;
 
 /// <summary>
 /// Specifies a range of character positions within a string.

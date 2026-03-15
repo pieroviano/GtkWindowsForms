@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -19,19 +19,10 @@ public partial class ListBox
     /// </summary>
     public partial class IntegerCollection : IList
     {
-        /// <summary>
-        /// The count
-        /// </summary>
         private int _count;
 
-        /// <summary>
-        /// The inner array
-        /// </summary>
         private int[]? _innerArray;
 
-        /// <summary>
-        /// The owner
-        /// </summary>
         private readonly ListBox _owner;
 
         /// <summary>
@@ -61,19 +52,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> has a fixed size.
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is fixed size; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool IList.IsFixedSize
         {
             get
@@ -82,19 +60,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> is read-only.
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is read only; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool IList.IsReadOnly
         {
             get
@@ -103,19 +68,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see> is synchronized (thread safe).
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is synchronized; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool ICollection.IsSynchronized
         {
             get
@@ -124,14 +76,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see>.
-        /// </summary>
-        /// <value>
-        /// The synchronize root.
-        /// </value>
         object ICollection.SyncRoot
         {
             get
@@ -162,18 +106,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <returns>
-        /// System.Nullable.
-        /// </returns>
-        /// <exception cref="T:System.ArgumentException">
-        /// value
-        /// </exception>
         object? IList.this[int index]
         {
             get
@@ -343,18 +275,6 @@ public partial class ListBox
             }
         }
 
-        /// <summary>
-        /// Adds the specified item.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <returns>
-        /// System.Int32.
-        /// </returns>
-        /// <exception cref="T:System.ArgumentException">
-        /// item
-        /// </exception>
         int IList.Add(object? item)
         {
             if (!(item is int))
@@ -365,30 +285,11 @@ public partial class ListBox
             return Add((int)item);
         }
 
-        /// <summary>
-        /// Removes all items from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
         void IList.Clear()
         {
             Clear();
         }
 
-        /// <summary>
-        /// Determines whether this instance contains the object.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <returns>
-        /// <c>
-        /// true
-        /// </c> if contains [the specified item]; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </returns>
         bool IList.Contains(object? item)
         {
             if (item is int itemAsInt)
@@ -399,28 +300,11 @@ public partial class ListBox
             return false;
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An
-        /// <see cref="T:System.Collections.IEnumerator">
-        /// </see> object that can be used to iterate through the collection.
-        /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return new CustomTabOffsetsEnumerator(this);
         }
 
-        /// <summary>
-        /// Indexes the of.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <returns>
-        /// System.Int32.
-        /// </returns>
         int IList.IndexOf(object? item)
         {
             if (item is int itemAsInt)
@@ -431,40 +315,11 @@ public partial class ListBox
             return -1;
         }
 
-        /// <summary>
-        /// Inserts an item to the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> at the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The zero-based index at which value should be inserted.
-        /// </param>
-        /// <param name="value">
-        /// The object to insert into the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <exception cref="T:System.NotSupportedException">
-        /// SR.ListBoxCantInsertIntoIntegerCollection
-        /// </exception>
         void IList.Insert(int index, object? value)
         {
             throw new NotSupportedException("SR.ListBoxCantInsertIntoIntegerCollection");
         }
 
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to remove from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <exception cref="T:System.ArgumentException">
-        /// value
-        /// </exception>
         void IList.Remove(object? value)
         {
             if (!(value is int))
@@ -475,14 +330,6 @@ public partial class ListBox
             Remove((int)value);
         }
 
-        /// <summary>
-        /// Removes the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> item at the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The zero-based index of the item to remove.
-        /// </param>
         void IList.RemoveAt(int index)
         {
             RemoveAt(index);
@@ -493,12 +340,6 @@ public partial class ListBox
         /// A SystemException occurs if there is insufficient space available to
         /// store the new item.
         /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <returns>
-        /// System.Int32.
-        /// </returns>
         private int AddInternal(int item)
         {
             EnsureSpace(1);
@@ -517,12 +358,6 @@ public partial class ListBox
         /// <summary>
         /// Add range that bypasses the data source check.
         /// </summary>
-        /// <param name="items">
-        /// The items.
-        /// </param>
-        /// <exception cref="T:System.ArgumentException">
-        /// item
-        /// </exception>
         private void AddRangeInternal(ICollection items)
         {
             _owner.BeginUpdate();
@@ -549,11 +384,9 @@ public partial class ListBox
         }
 
         /// <summary>
-        /// Ensures that our internal array has space for the requested # of elements.
+        /// Ensures that our internal array has space for
+        /// the requested # of elements.
         /// </summary>
-        /// <param name="elements">
-        /// The elements.
-        /// </param>
         private void EnsureSpace(int elements)
         {
             if (_innerArray is null)

@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Globalization;
@@ -55,10 +55,6 @@ public partial class PaperSize
         _height = height;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Printing.PaperSize" /> class.
-    /// </summary>
     internal PaperSize(PaperKind kind, string name, int width, int height)
     {
         _kind = kind;

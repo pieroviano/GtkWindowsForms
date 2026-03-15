@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -279,31 +279,18 @@ public sealed class Bitmap : Image
         this.PixbufData = original.PixbufData;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Bitmap"/> class.
-    /// </summary>
-    /// <param name="pixbuf">The raw pixbuf bytes.</param>
     internal Bitmap(byte[] pixbuf) : base(pixbuf)
     {
 
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Bitmap"/> class.
-    /// </summary>
-    /// <param name="ptr">The PTR.</param>
     internal Bitmap(IntPtr ptr)
     {
         SetNativeImage(ptr);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Bitmap"/> class.
-    /// </summary>
-    /// <param name="info"></param>
-    /// <param name="context"></param>
     private Bitmap(SerializationInfo info, StreamingContext context)
-                : base(info, context)
+        : base(info, context)
     {
     }
 

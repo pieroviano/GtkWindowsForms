@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -52,19 +52,6 @@ public class DataGridViewButtonColumn : DataGridViewColumn
         _cellRenderer = renderer;
     }
 
-    /// <summary>
-    /// Creates a new cell instance for this column.
-    /// </summary>
-    /// <param name="value">
-    /// Initial cell value (optional).
-    /// </param>
-    /// <param name="valueType">
-    /// Cell value type (optional).
-    /// </param>
-    /// <returns>
-    /// A new
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> appropriate for this column.
-    /// </returns>
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
         DataGridViewButtonCell newcell = new DataGridViewButtonCell();
@@ -131,19 +118,6 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
         _cellRenderer = renderer;
     }
 
-    /// <summary>
-    /// Creates a new checkbox cell instance for this column.
-    /// </summary>
-    /// <param name="value">
-    /// Initial cell value (optional).
-    /// </param>
-    /// <param name="valueType">
-    /// Cell value type (optional).
-    /// </param>
-    /// <returns>
-    /// A new
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> appropriate for this column.
-    /// </returns>
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
         DataGridViewCheckBoxCell newcell = new DataGridViewCheckBoxCell();
@@ -622,19 +596,6 @@ public class DataGridViewColumn : TreeViewColumn
         newcell.ReadOnly = _cellTemplate.ReadOnly;
     }
 
-    /// <summary>
-    /// Creates a new default cell instance for this column (text cell).
-    /// </summary>
-    /// <param name="value">
-    /// Initial value (optional).
-    /// </param>
-    /// <param name="valueType">
-    /// Value type (optional).
-    /// </param>
-    /// <returns>
-    /// A new
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> instance.
-    /// </returns>
     internal virtual DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
         DataGridViewTextBoxCell newcell = new DataGridViewTextBoxCell();
@@ -712,19 +673,6 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
     /// </summary>
     public ObjectCollection Items => _items;
 
-    /// <summary>
-    /// Creates a new combo box cell instance for this column.
-    /// </summary>
-    /// <param name="value">
-    /// Initial cell value (optional).
-    /// </param>
-    /// <param name="valueType">
-    /// Cell value type (optional).
-    /// </param>
-    /// <returns>
-    /// A new
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> appropriate for this column.
-    /// </returns>
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
         DataGridViewComboBoxCell newcell = new DataGridViewComboBoxCell();
@@ -837,19 +785,6 @@ public class DataGridViewImageColumn : DataGridViewColumn
         _cellRenderer = renderer;
     }
 
-    /// <summary>
-    /// Creates a new image cell instance for this column.
-    /// </summary>
-    /// <param name="value">
-    /// Initial cell value (optional).
-    /// </param>
-    /// <param name="valueType">
-    /// Cell value type (optional).
-    /// </param>
-    /// <returns>
-    /// A new
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> appropriate for this column.
-    /// </returns>
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
         DataGridViewImageCell newcell = new DataGridViewImageCell();
@@ -892,19 +827,6 @@ public class DataGridViewLinkColumn : DataGridViewColumn
 
     }
 
-    /// <summary>
-    /// Creates a new link cell instance for this column.
-    /// </summary>
-    /// <param name="value">
-    /// Initial cell value (optional).
-    /// </param>
-    /// <param name="valueType">
-    /// Cell value type (optional).
-    /// </param>
-    /// <returns>
-    /// A new
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> appropriate for this column.
-    /// </returns>
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
         DataGridViewLinkCell newcell = new DataGridViewLinkCell();
@@ -955,19 +877,6 @@ public class DataGridViewRadioColumn : DataGridViewColumn
         _cellRenderer = renderer;
     }
 
-    /// <summary>
-    /// Creates a new radio cell instance for this column.
-    /// </summary>
-    /// <param name="value">
-    /// Initial cell value (optional).
-    /// </param>
-    /// <param name="valueType">
-    /// Cell value type (optional).
-    /// </param>
-    /// <returns>
-    /// A new
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> appropriate for this column.
-    /// </returns>
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
         DataGridViewRadioCell newcell = new DataGridViewRadioCell();

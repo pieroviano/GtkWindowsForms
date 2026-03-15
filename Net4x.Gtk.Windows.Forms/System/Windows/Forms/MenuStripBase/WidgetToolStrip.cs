@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -36,65 +36,31 @@ namespace System.Windows.Forms;
 /// <seealso cref="T:System.Windows.Forms.IKeyboardToolTip" />
 public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
 {
-    /// <summary>
-    /// The button
-    /// </summary>
+
     internal Gtk.Button button = new Gtk.Button();
 
-    /// <summary>
-    /// The combo box
-    /// </summary>
     internal Gtk.ComboBoxText comboBox = new Gtk.ComboBoxText() { HasFrame = false };
 
-    /// <summary>
-    /// The entry
-    /// </summary>
     internal Gtk.Entry entry = new Gtk.Entry();
 
-    /// <summary>
-    /// The flag box
-    /// </summary>
     internal Gtk.Viewport flagBox = new Gtk.Viewport();
 
-    /// <summary>
-    /// The groupradio
-    /// </summary>
     internal Gtk.RadioButton groupradio = new Gtk.RadioButton("");
 
-    /// <summary>
-    /// The item box
-    /// </summary>
     internal Gtk.Box itemBox = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
 
-    /// <summary>
-    /// The label
-    /// </summary>
     internal Gtk.Label label = new Gtk.Label();
 
-    /// <summary>
-    /// The progress bar
-    /// </summary>
     // internal Gtk.ProgressBar progressBar = new Gtk.ProgressBar();
+
     internal Gtk.LevelBar progressBar = new Gtk.LevelBar();
 
-    /// <summary>
-    /// The provider
-    /// </summary>
     readonly Gtk.CssProvider provider = new Gtk.CssProvider();
 
-    /// <summary>
-    /// The back color
-    /// </summary>
     private Color _BackColor;
 
-    /// <summary>
-    /// The font
-    /// </summary>
     private Font _Font;
 
-    /// <summary>
-    /// The fore color
-    /// </summary>
     private Color _ForeColor;
 
     /// <summary>
@@ -794,9 +760,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// </value>
     public override int Width { get { return this.Widget.WidthRequest; } set { this.Widget.WidthRequest = value; } }
 
-    /// <summary>
-    /// Updates the style.
-    /// </summary>
     internal void UpdateStyle()
     {
         if (this.Widget.IsMapped)
@@ -881,31 +844,11 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
         }
     }
 
-    /// <summary>
-    /// Handles the Toggled event of the Checkbutton control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Checkbutton_Toggled(object sender, EventArgs e)
     {
         CheckedChanged?.Invoke(this, e);
     }
 
-    /// <summary>
-    /// Handles the Activated event of the MenuItem control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void MenuItem_Activated(object sender, EventArgs e)
     {
         if (this.CheckState != CheckState.Unchecked)
@@ -926,16 +869,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
         }
     }
 
-    /// <summary>
-    /// Handles the ButtonReleaseEvent event of the MenuItem control.
-    /// </summary>
-    /// <param name="o">
-    /// The source of the event.
-    /// </param>
-    /// <param name="args">
-    /// The
-    /// <see cref="Gtk.ButtonReleaseEventArgs" /> instance containing the event data.
-    /// </param>
     private void MenuItem_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {
         DropDownItemClicked?.Invoke(this, new ToolStripItemClickedEventArgs(this));
@@ -944,16 +877,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
 
     }
 
-    /// <summary>
-    /// Handles the Realized event of the ToolStripItem control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void ToolStripItem_Realized(object sender, EventArgs e)
     {
         SetStyle((Gtk.MenuItem)sender);

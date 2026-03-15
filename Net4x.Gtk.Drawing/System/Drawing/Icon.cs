@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using Gdk;
@@ -464,12 +464,10 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// Populates a
     /// <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data that is required to serialize the target object.
     /// </summary>
-    /// <param name="info">
-    /// The
+    /// <param name="info">The
     /// <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object to populate with data.
     /// </param>
-    /// <param name="context">
-    /// The destination (see
+    /// <param name="context">The destination (see
     /// <see cref="T:System.Runtime.Serialization.StreamingContext" />) for this serialization.
     /// </param>
     void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

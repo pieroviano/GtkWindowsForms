@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -1086,34 +1086,13 @@ public sealed class Metafile : Image
 
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Imaging.Metafile" /> class from the specified file name.
-    /// </summary>
-    /// <param name="filename">
-    /// A
-    /// <see cref="T:System.String" /> that represents the file name from which to create the new
-    /// <see cref="T:System.Drawing.Imaging.Metafile" />.
-    /// </param>
     internal Metafile(IntPtr ptr)
     {
         SetNativeImage(ptr);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Imaging.Metafile" /> class from the specified handle.
-    /// </summary>
-    /// <param name="henhmetafile">
-    /// A handle to an enhanced metafile.
-    /// </param>
-    /// <param name="deleteEmf">
-    /// <see langword="true" /> to delete the enhanced metafile handle when the
-    /// <see cref="T:System.Drawing.Imaging.Metafile" /> is deleted; otherwise,
-    /// <see langword="false" />.
-    /// </param>
     private Metafile(SerializationInfo info, StreamingContext context)
-                : base(info, context)
+        : base(info, context)
     {
     }
 

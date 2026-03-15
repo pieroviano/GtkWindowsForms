@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Imaging;
@@ -354,9 +354,11 @@ public sealed class ImageAnimator
         private const int PropertyTagLoopCount = 20737;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ImageInfo"/> class.
+        /// Initializes a new instance of
+        /// <see cref="T:System.Drawing.Image"/> from a pixbuf byte buffer.
         /// </summary>
-        /// <param name="image">The image.</param>
+        /// <param name = "image">The image to use.
+        /// </param>
         public ImageInfo(Image image)
         {
             _image = image;

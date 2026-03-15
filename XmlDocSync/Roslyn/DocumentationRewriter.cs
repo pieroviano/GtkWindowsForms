@@ -197,10 +197,7 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         var trivia = node.GetLeadingTrivia()
             .FirstOrDefault(t => t.GetStructure() is DocumentationCommentTriviaSyntax);
 
-        if (trivia.GetStructure() is DocumentationCommentTriviaSyntax docTrivia)
-        {
-            return docTrivia.ToFullString();
-        }
+        if (trivia.GetStructure() is DocumentationCommentTriviaSyntax docTrivia) return docTrivia.ToFullString();
 
         return "";
     }
@@ -253,28 +250,20 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         }
         catch (Exception e)
         {
-            if (e.GetType() != typeof(ArgumentException))
-            {
-                RedConsole.Write(e.ToString());
-            }
+            if (e.GetType() != typeof(ArgumentException)) RedConsole.Write(e.ToString());
         }
 
         // If we couldn't get the symbol from the (possibly modified) node,
         // try getting it from the original node before children were visited
         if (symbol == null && originalNode != null && !ReferenceEquals(originalNode, node))
-        {
             try
             {
                 symbol = _semanticModel.GetDeclaredSymbol(originalNode);
             }
             catch (Exception e)
             {
-                if (e.GetType() != typeof(ArgumentException))
-                {
-                    YellowConsole.Write(e.ToString());
-                }
+                if (e.GetType() != typeof(ArgumentException)) YellowConsole.Write(e.ToString());
             }
-        }
 
         // Special-case fields: GetDeclaredSymbol on FieldDeclarationSyntax may return null.
         // Try to resolve symbol from the first VariableDeclarator when needed.
@@ -282,19 +271,14 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         {
             var variable = fieldDecl.Declaration?.Variables.FirstOrDefault();
             if (variable != null)
-            {
                 try
                 {
                     symbol = _semanticModel.GetDeclaredSymbol(variable);
                 }
                 catch (Exception e)
                 {
-                    if (e.GetType() != typeof(ArgumentException))
-                    {
-                        YellowConsole.Write(e.ToString());
-                    }
+                    if (e.GetType() != typeof(ArgumentException)) YellowConsole.Write(e.ToString());
                 }
-            }
         }
 
         // Special-case event fields: GetDeclaredSymbol on EventFieldDeclarationSyntax may return null.
@@ -303,31 +287,25 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         {
             var variable = eventFieldDecl.Declaration?.Variables.FirstOrDefault();
             if (variable != null)
-            {
                 try
                 {
                     symbol = _semanticModel.GetDeclaredSymbol(variable);
                 }
                 catch (Exception e)
                 {
-                    if (e.GetType() != typeof(ArgumentException))
-                    {
-                        RedConsole.Write(e.ToString());
-                    }
+                    if (e.GetType() != typeof(ArgumentException)) RedConsole.Write(e.ToString());
                 }
-            }
         }
 
         // Special-case constructors: sometimes GetDeclaredSymbol returns null (missing references / binding),
         // so try to resolve via the containing type and match constructor symbols by parameter count / syntax location.
         if (symbol == null && node is ConstructorDeclarationSyntax ctorDecl)
-        {
             try
             {
                 var typeNode = ctorDecl.Parent as TypeDeclarationSyntax;
                 if (typeNode != null)
                 {
-                    var typeSymbol = _semanticModel.GetDeclaredSymbol(typeNode) as INamedTypeSymbol;
+                    var typeSymbol = _semanticModel.GetDeclaredSymbol(typeNode);
                     if (typeSymbol != null)
                     {
                         var candidates = typeSymbol.InstanceConstructors
@@ -346,12 +324,14 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
                                 foreach (var r in cand.DeclaringSyntaxReferences)
                                 {
                                     var syntax = r.GetSyntax();
-                                    if (syntax is ConstructorDeclarationSyntax cds && cds.SpanStart == ctorDecl.SpanStart)
+                                    if (syntax is ConstructorDeclarationSyntax cds &&
+                                        cds.SpanStart == ctorDecl.SpanStart)
                                     {
                                         symbol = cand;
                                         break;
                                     }
                                 }
+
                                 if (symbol != null) break;
                             }
 
@@ -366,18 +346,14 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
             {
                 Trace.WriteLine(e);
             }
-        }
 
-        if (symbol == null)
-        {
-            return node;
-        }
+        if (symbol == null) return node;
+
+        // Only process public/protected members
+        if (!ShouldProcess(symbol)) return node;
 
         var docId = symbol.GetDocumentationCommentId();
-        if (docId == null)
-        {
-            return node;
-        }
+        if (docId == null) return node;
 
         if (!_xmlDocs.TryGetValue(docId, out var externalXml))
         {
@@ -390,14 +366,15 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
                 if (!string.IsNullOrEmpty(containingTypeName))
                 {
                     var ctorPrefix = $"M:{containingTypeName}.#ctor";
-                    var candidates = _xmlDocs.Keys.Where(k => k.StartsWith(ctorPrefix, StringComparison.Ordinal)).ToList();
+                    var candidates = _xmlDocs.Keys.Where(k => k.StartsWith(ctorPrefix, StringComparison.Ordinal))
+                        .ToList();
                     if (candidates.Count > 0)
                     {
                         foreach (var cand in candidates)
                         {
                             var start = cand.IndexOf('(');
                             var end = cand.LastIndexOf(')');
-                            int paramCount = 0;
+                            var paramCount = 0;
                             if (start >= 0 && end > start)
                             {
                                 var inside = cand.Substring(start + 1, end - start - 1).Trim();
@@ -415,10 +392,7 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
                         }
 
                         // if still not found, take first candidate (best-effort)
-                        if (externalXml == null && candidates.Count > 0)
-                        {
-                            externalXml = _xmlDocs[candidates[0]];
-                        }
+                        if (externalXml == null && candidates.Count > 0) externalXml = _xmlDocs[candidates[0]];
                     }
 
                     // If still not found, try fuzzy matching by looking for .#ctor with similar type name
@@ -436,11 +410,9 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
 
                             // Filter by namespace if available
                             if (!string.IsNullOrEmpty(containingNamespace))
-                            {
                                 ctorCandidates = ctorCandidates
                                     .Where(k => k.Contains(containingNamespace))
                                     .ToList();
-                            }
 
                             // Now find the best match based on type name similarity
                             var bestMatch = ctorCandidates
@@ -458,7 +430,7 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
                                 var cand = bestMatch.Key;
                                 var start = cand.IndexOf('(');
                                 var end = cand.LastIndexOf(')');
-                                int paramCount = 0;
+                                var paramCount = 0;
                                 if (start >= 0 && end > start)
                                 {
                                     var inside = cand.Substring(start + 1, end - start - 1).Trim();
@@ -472,10 +444,7 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
                                     paramCount = 0;
                                 }
 
-                                if (paramCount == methodSymbol.Parameters.Length)
-                                {
-                                    externalXml = _xmlDocs[cand];
-                                }
+                                if (paramCount == methodSymbol.Parameters.Length) externalXml = _xmlDocs[cand];
                             }
                         }
                     }
@@ -490,16 +459,10 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
                 var parenIndex = docId.IndexOf('(');
                 var prefix = parenIndex > 0 ? docId.Substring(0, parenIndex) : docId;
                 var match = _xmlDocs.Keys.FirstOrDefault(k => k.StartsWith(prefix, StringComparison.Ordinal));
-                if (match != null)
-                {
-                    externalXml = _xmlDocs[match];
-                }
+                if (match != null) externalXml = _xmlDocs[match];
             }
 
-            if (externalXml == null)
-            {
-                return node;
-            }
+            if (externalXml == null) return node;
         }
 
         // Compute indentation and the new documentation trivia early so we can compare with existing doc trivia
@@ -510,23 +473,15 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         // If existing documentation trivia exists and is already identical to the generated one, skip replacement.
         var existingDocTrivia = leadingTrivia.FirstOrDefault(t => t.GetStructure() is DocumentationCommentTriviaSyntax);
         if (existingDocTrivia != default && existingDocTrivia.ToFullString() == newDocTrivia.ToFullString())
-        {
             return node;
-        }
 
         var rebuiltTrivia = new SyntaxTriviaList();
 
         foreach (var trivia in leadingTrivia)
-        {
             if (trivia.GetStructure() is DocumentationCommentTriviaSyntax)
-            {
                 rebuiltTrivia = rebuiltTrivia.AddRange(newDocTrivia);
-            }
             else
-            {
                 rebuiltTrivia = rebuiltTrivia.Add(trivia);
-            }
-        }
 
         // No existing doc → insert before first non-whitespace trivia
         if (!leadingTrivia.Any(t => t.GetStructure() is DocumentationCommentTriviaSyntax))
@@ -572,8 +527,8 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
     }
 
     /// <summary>
-    /// Extracts the type name from a constructor documentation key.
-    /// For example: "M:GtkSystem.Windows.Forms.GtkControls.ControlBase.RichTextBoxBae.#ctor" returns "RichTextBoxBae"
+    ///     Extracts the type name from a constructor documentation key.
+    ///     For example: "M:GtkSystem.Windows.Forms.GtkControls.ControlBase.RichTextBoxBae.#ctor" returns "RichTextBoxBae"
     /// </summary>
     private static string? ExtractTypeNameFromConstructorKey(string key)
     {
@@ -588,8 +543,8 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
     }
 
     /// <summary>
-    /// Checks if two type names are similar enough to be considered a match.
-    /// Uses Levenshtein distance or simple prefix matching for fuzzy comparison.
+    ///     Checks if two type names are similar enough to be considered a match.
+    ///     Uses Levenshtein distance or simple prefix matching for fuzzy comparison.
     /// </summary>
     private static bool IsSimilarTypeName(string name1, string name2)
     {
@@ -605,12 +560,10 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         {
             var commonPrefix = 0;
             for (var i = 0; i < minLen; i++)
-            {
                 if (char.ToLowerInvariant(name1[i]) == char.ToLowerInvariant(name2[i]))
                     commonPrefix++;
                 else
                     break;
-            }
 
             // If 80% or more of the shorter name matches as prefix, consider it similar
             if (commonPrefix >= minLen * 0.8)
@@ -622,11 +575,11 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         var maxLen = Math.Max(name1.Length, name2.Length);
 
         // Allow up to 2 character differences or 15% difference
-        return distance <= 2 || (maxLen > 0 && distance <= maxLen * 0.15);
+        return distance <= 2 || maxLen > 0 && distance <= maxLen * 0.15;
     }
 
     /// <summary>
-    /// Calculates the Levenshtein distance between two strings (edit distance).
+    ///     Calculates the Levenshtein distance between two strings (edit distance).
     /// </summary>
     private static int LevenshteinDistance(string s1, string s2)
     {
@@ -641,17 +594,26 @@ public class DocumentationRewriter : CSharpSyntaxRewriter
         for (var j = 0; j <= len2; j++) d[0, j] = j;
 
         for (var i = 1; i <= len1; i++)
+        for (var j = 1; j <= len2; j++)
         {
-            for (var j = 1; j <= len2; j++)
-            {
-                var cost = s1[i - 1] == s2[j - 1] ? 0 : 1;
-                d[i, j] = Math.Min(
-                    Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
-                    d[i - 1, j - 1] + cost
-                );
-            }
+            var cost = s1[i - 1] == s2[j - 1] ? 0 : 1;
+            d[i, j] = Math.Min(
+                Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
+                d[i - 1, j - 1] + cost
+            );
         }
 
         return d[len1, len2];
+    }
+
+    private static bool ShouldProcess(ISymbol symbol)
+    {
+        return symbol.DeclaredAccessibility switch
+        {
+            Accessibility.Public => true,
+            Accessibility.Protected => true,
+            Accessibility.ProtectedOrInternal => true,
+            _ => false
+        };
     }
 }

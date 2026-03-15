@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -31,9 +31,6 @@ public partial class ComboBox : ListControl
     /// </summary>
     public readonly ComboBoxBase self = new ComboBoxBase();
 
-    /// <summary>
-    /// Index of the currently selected item (internal tracking).
-    /// </summary>
     internal int _selectedIndex;
 
     private readonly ObjectCollection __itemsData;
@@ -241,11 +238,6 @@ public partial class ComboBox : ListControl
         }
     }
 
-    /// <summary>
-    /// Populates the combo box items based on the currently assigned
-    /// <see cref="T:System.Windows.Forms.ComboBox.DataSource" />.
-    /// Supports DataTable, DataView and IList sources.
-    /// </summary>
     private void OnSetDataSource()
     {
         if (_DataSource != null)

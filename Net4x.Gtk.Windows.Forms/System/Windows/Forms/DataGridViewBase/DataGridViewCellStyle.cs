@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -275,14 +275,6 @@ public class DataGridViewCellStyle : ICloneable
         return "DataGridViewCellStyle";
     }
 
-    /// <summary>
-    /// Creates a new object that is a copy of the current instance.
-    /// </summary>
-    /// <returns>
-    /// A new object that is a copy of this instance.
-    /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     object ICloneable.Clone()
     {
         throw new NotImplementedException();

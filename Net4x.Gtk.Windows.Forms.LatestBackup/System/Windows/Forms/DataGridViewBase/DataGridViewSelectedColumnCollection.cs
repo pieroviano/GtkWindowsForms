@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -20,11 +20,6 @@ public class DataGridViewSelectedColumnCollection : BaseCollection, IList
 {
     private readonly List<DataGridViewColumn> _items = new List<DataGridViewColumn>();
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.DataGridView" /> class.
-    /// Configures the underlying GTK TreeView and prepares columns/rows collections.
-    /// </summary>
     internal DataGridViewSelectedColumnCollection()
     {
     }
@@ -115,7 +110,7 @@ public class DataGridViewSelectedColumnCollection : BaseCollection, IList
 
     /// <summary>
     /// Adds a
-    /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> to this collection.
+    /// <see cref="DataGridViewCell" /> to this collection.
     /// </summary>
     internal int Add(DataGridViewColumn dataGridViewColumn) => ((IList)_items).Add(dataGridViewColumn);
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
@@ -439,25 +439,11 @@ public class CurrencyManager : BindingManagerBase
         return -1;
     }
 
-    /// <summary>
-    /// Gets the property descriptor collection for the underlying list.
-    /// </summary>
-    /// <returns>
-    /// A
-    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection"/> for the list.
-    /// </returns>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
     internal override PropertyDescriptorCollection? GetItemProperties(PropertyDescriptor?[]? listAccessors)
     {
         return ListBindingHelper.GetListItemProperties(_list, listAccessors);
     }
 
-    /// <summary>
-    /// Gets the name of the list.
-    /// </summary>
-    /// <returns></returns>
     internal override string? GetListName()
     {
         if (!(_list is ITypedList))
@@ -1046,9 +1032,6 @@ public class CurrencyManager : BindingManagerBase
         _listChanged?.Invoke(this, e);
     }
 
-    /// <summary>
-    /// Updates the status of the binding.
-    /// </summary>
     private void UpdateIsBinding(bool raiseItemChangedEvent)
     {
         var flag = _list == null || _list.Count <= 0 || !_shouldBind ? false : ListPosition != -1;

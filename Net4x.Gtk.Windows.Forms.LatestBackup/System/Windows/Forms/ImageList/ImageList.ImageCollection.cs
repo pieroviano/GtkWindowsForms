@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -18,36 +18,6 @@ namespace System.Windows.Forms;
 /// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
 /// other controls will be able to use the Images as they desire.
 /// </summary>
-/// The ImageList is an object that stores a collection of Images, most
-/// commonly used by other controls, such as the ListView, TreeView, or
-/// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
-/// other controls will be able to use the Images as they desire.
-/// </summary>
-/// The ImageList is an object that stores a collection of Images, most
-/// commonly used by other controls, such as the ListView, TreeView, or
-/// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
-/// other controls will be able to use the Images as they desire.
-/// </summary>
-/// The ImageList is an object that stores a collection of Images, most
-/// commonly used by other controls, such as the ListView, TreeView, or
-/// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
-/// other controls will be able to use the Images as they desire.
-/// </summary>
-/// The ImageList is an object that stores a collection of Images, most
-/// commonly used by other controls, such as the ListView, TreeView, or
-/// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
-/// other controls will be able to use the Images as they desire.
-/// </summary>
-/// The ImageList is an object that stores a collection of Images, most
-/// commonly used by other controls, such as the ListView, TreeView, or
-/// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
-/// other controls will be able to use the Images as they desire.
-/// </summary>
-/// The ImageList is an object that stores a collection of Images, most
-/// commonly used by other controls, such as the ListView, TreeView, or
-/// Toolbar. You can add either bitmaps or Icons to the ImageList, and the
-/// other controls will be able to use the Images as they desire.
-/// </summary>
 public sealed partial class ImageList
 {
     /// <summary>
@@ -55,45 +25,20 @@ public sealed partial class ImageList
     /// <see cref="T:System.Collections.IList" />
     /// </summary>
     /// <seealso cref="T:System.Collections.IList" />
-    /// Class ImageCollection. This class cannot be inherited. Implements the
-    /// <see cref="T:System.Collections.IList" />
-    /// </summary>
-    /// <seealso cref="T:System.Collections.IList" />
     public sealed partial class ImageCollection : IList
     {
-        /// <summary>
-        /// The image information collection
-        /// </summary>
         private readonly List<ImageInfo> _imageInfoCollection = new List<ImageInfo>();
 
-        /// <summary>
-        /// The is batch add
-        /// </summary>
         // Indicates whether images are added in a batch.
         private readonly bool _isBatchAdd;
 
-        /// <summary>
-        /// The last accessed index
-        /// </summary>
         /// A caching mechanism for key accessor
         /// We use an index here rather than control so that we don't have lifetime
         /// issues by holding on to extra references.
-        ///
-        ///
         private readonly int _lastAccessedIndex = -1;
 
-        /// <summary>
-        /// The owner
-        /// </summary>
         private readonly ImageList _owner;
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Windows.Forms.ImageList.ImageCollection" /> class.
-        /// </summary>
-        /// <param name="owner">
-        /// The owner.
-        /// </param>
         internal ImageCollection(ImageList owner)
         {
             _owner = owner;
@@ -173,44 +118,10 @@ public sealed partial class ImageList
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> has a fixed size.
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is fixed size; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool IList.IsFixedSize => false;
 
-        /// <summary>
-        /// Gets a value indicating whether access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see> is synchronized (thread safe).
-        /// </summary>
-        /// <value>
-        /// <c>
-        /// true
-        /// </c> if this instance is synchronized; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </value>
         bool ICollection.IsSynchronized => false;
 
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the
-        /// <see cref="T:System.Collections.ICollection">
-        /// </see>.
-        /// </summary>
-        /// <value>
-        /// The synchronize root.
-        /// </value>
         object ICollection.SyncRoot => this;
 
         /// <summary>
@@ -268,15 +179,6 @@ public sealed partial class ImageList
             }
         }
 
-        /// <summary>
-        /// Gets or sets the System.Nullable&lt;object&gt; at the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <returns>
-        /// System.Nullable.
-        /// </returns>
         object? IList.this[int index]
         {
             get => this[index];
@@ -580,9 +482,6 @@ public sealed partial class ImageList
             }
         }
 
-        /// <summary>
-        /// Resets the keys.
-        /// </summary>
         internal void ResetKeys()
         {
             _imageInfoCollection.Clear();
@@ -593,19 +492,6 @@ public sealed partial class ImageList
             }
         }
 
-        /// <summary>
-        /// Adds an item to the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to add to the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <returns>
-        /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into the collection.
-        /// </returns>
         int IList.Add(object? value)
         {
             Add((Image)value);
@@ -613,23 +499,6 @@ public sealed partial class ImageList
             return Count - 1;
         }
 
-        /// <summary>
-        /// Determines whether the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> contains a specific value.
-        /// </summary>
-        /// <param name="value">
-        /// The object to locate in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <returns>
-        /// true if the
-        /// <see cref="T:System.Object">
-        /// </see> is found in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>; otherwise, false.
-        /// </returns>
         bool IList.Contains(object? value)
         {
             if (value is Image image)
@@ -642,15 +511,6 @@ public sealed partial class ImageList
             }
         }
 
-        /// <summary>
-        /// Copies to.
-        /// </summary>
-        /// <param name="dest">
-        /// The dest.
-        /// </param>
-        /// <param name="index">
-        /// The index.
-        /// </param>
         void ICollection.CopyTo(Array dest, int index)
         {
             for (int i = 0; i < Count; ++i)
@@ -659,22 +519,6 @@ public sealed partial class ImageList
             }
         }
 
-        /// <summary>
-        /// Determines the index of a specific item in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to locate in the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <returns>
-        /// The index of
-        /// <paramref name="value">
-        /// value
-        /// </paramref> if found in the list; otherwise, -1.
-        /// </returns>
         int IList.IndexOf(object? value)
         {
             if (value is Image image)
@@ -686,33 +530,8 @@ public sealed partial class ImageList
             return -1;
         }
 
-        /// <summary>
-        /// Inserts an item to the
-        /// <see cref="T:System.Collections.IList">
-        /// </see> at the specified index.
-        /// </summary>
-        /// <param name="index">
-        /// The zero-based index at which value should be inserted.
-        /// </param>
-        /// <param name="value">
-        /// The object to insert into the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
-        /// <exception cref="T:System.NotSupportedException">
-        /// </exception>
         void IList.Insert(int index, object? value) => throw new NotSupportedException();
 
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </summary>
-        /// <param name="value">
-        /// The object to remove from the
-        /// <see cref="T:System.Collections.IList">
-        /// </see>.
-        /// </param>
         void IList.Remove(object? value)
         {
             if (value is Image image)
@@ -723,18 +542,6 @@ public sealed partial class ImageList
             }
         }
 
-        /// <summary>
-        /// Adds the specified original.
-        /// </summary>
-        /// <param name="original">
-        /// The original.
-        /// </param>
-        /// <param name="imageInfo">
-        /// The image information.
-        /// </param>
-        /// <returns>
-        /// System.Int32.
-        /// </returns>
         private int Add(Original original, ImageInfo? imageInfo)
         {
             _imageInfoCollection.Add(imageInfo ?? new ImageInfo());
@@ -747,17 +554,6 @@ public sealed partial class ImageList
         /// <summary>
         /// Determines if the index is valid for the collection.
         /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <returns>
-        /// <c>
-        /// true
-        /// </c> if is valid index the specified index; otherwise,
-        /// <c>
-        /// false
-        /// </c>.
-        /// </returns>
         private bool IsValidIndex(int index) => index >= 0 && index < Count;
 
     }

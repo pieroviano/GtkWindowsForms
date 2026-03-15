@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.IO;
@@ -15,44 +15,19 @@ namespace System.Windows.Forms;
 [Serializable] // This type is participating in resx serialization scenarios.
 public sealed class ImageListStreamer : ISerializable, IDisposable
 {
-    /// <summary>
-    /// The image list
-    /// </summary>
+
     private readonly ImageList? _imageList;
 
-    /// <summary>
-    /// The native image list
-    /// </summary>
     private ImageList.NativeImageList? _nativeImageList;
 
-    /// <summary>
-    /// The header magic
-    /// </summary>
     private static readonly byte[] HEADER_MAGIC = new byte[] { 0x4D, 0x53, 0x46, 0X74 };
 
-    /// <summary>
-    /// The s synchronize object
-    /// </summary>
     // Compressed magic header. If we see this, the image stream is compressed.
     //private static ReadOnlySpan<byte> HeaderMagic => "MSFt"u8;
     private static readonly object s_syncObject = new object();
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.ImageListStreamer" /> class.
-    /// </summary>
-    /// <param name="imageList">
-    /// The image list.
-    /// </param>
     internal ImageListStreamer(ImageList imageList) => _imageList = imageList;
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.ImageListStreamer" /> class.
-    /// </summary>
-    /// <param name="stream">
-    /// The stream.
-    /// </param>
     internal ImageListStreamer(Stream stream)
     {
         if (stream is MemoryStream ms
@@ -70,25 +45,8 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
         }
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.ImageListStreamer" /> class.
-    /// </summary>
-    /// <param name="data">
-    /// The data.
-    /// </param>
     internal ImageListStreamer(byte[] data) => Deserialize(data);
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.ImageListStreamer" /> class.
-    /// </summary>
-    /// <param name="info">
-    /// The information.
-    /// </param>
-    /// <param name="context">
-    /// The context.
-    /// </param>
     // Used by binary serialization
     private ImageListStreamer(SerializationInfo info, StreamingContext context)
     {
@@ -127,30 +85,12 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
     public void GetObjectData(SerializationInfo si, StreamingContext context) =>
                 si.AddValue("Data", Serialize());
 
-    /// <summary>
-    /// Gets the native image list.
-    /// </summary>
-    /// <returns>
-    /// System.Nullable{ImageList.NativeImageList}.
-    /// </returns>
     internal ImageList.NativeImageList? GetNativeImageList() => _nativeImageList;
 
-    /// <summary>
-    /// Gets the object data.
-    /// </summary>
-    /// <param name="stream">
-    /// The stream.
-    /// </param>
     internal void GetObjectData(Stream stream)
     {
     }
 
-    /// <summary>
-    /// Serializes this instance.
-    /// </summary>
-    /// <returns>
-    /// System.Byte[.
-    /// </returns>
     internal byte[] Serialize()
     {
         using MemoryStream stream = new MemoryStream();
@@ -163,26 +103,11 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
     /// <summary>
     /// Compresses the given input, returning a new array that represents the compressed data.
     /// </summary>
-    /// <param name="input">
-    /// The input.
-    /// </param>
-    /// <returns>
-    /// System.Byte[.
-    /// </returns>
     private static byte[] Compress(ReadOnlySpan<byte> input)
     {
         return input.ToArray();
     }
 
-    /// <summary>
-    /// Decompresses the specified input.
-    /// </summary>
-    /// <param name="input">
-    /// The input.
-    /// </param>
-    /// <returns>
-    /// System.Byte[.
-    /// </returns>
     private static byte[] Decompress(byte[] input)
     {
         int finalLength = 0;
@@ -239,43 +164,17 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
     /// <summary>
     /// Decompresses the given input, returning a new array that represents the uncompressed data.
     /// </summary>
-    /// <param name="input">
-    /// The input.
-    /// </param>
-    /// <returns>
-    /// System.Byte[.
-    /// </returns>
     private static byte[] Decompress1(byte[] input)
     {
         return input;
 
     }
 
-    /// <summary>
-    /// Deserializes the specified data.
-    /// </summary>
-    /// <param name="data">
-    /// The data.
-    /// </param>
     private void Deserialize(byte[] data)
     {
 
     }
 
-    /// <summary>
-    /// Writes the image list.
-    /// </summary>
-    /// <param name="stream">
-    /// The stream.
-    /// </param>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if XXXX,
-    /// <c>
-    /// false
-    /// </c> otherwise.
-    /// </returns>
     private bool WriteImageList(Stream stream)
     {
         return true;

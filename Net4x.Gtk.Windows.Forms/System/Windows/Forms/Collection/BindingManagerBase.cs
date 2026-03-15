@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 using System.Collections;
 using System.ComponentModel;
@@ -77,10 +77,6 @@ public abstract class BindingManagerBase
     {
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase"/> class.
-    /// </summary>
     internal BindingManagerBase(object? dataSource) => Init(dataSource);
 
     /// <summary>
@@ -130,10 +126,6 @@ public abstract class BindingManagerBase
 
     internal abstract object? DataSource { get; }
 
-    /// <summary>
-    /// Gets a value indicating whether binding operations are suspended.
-    /// True when binding is suspended, false otherwise.
-    /// </summary>
     internal abstract bool IsBinding { get; }
 
     /// <summary>
@@ -178,11 +170,6 @@ public abstract class BindingManagerBase
     /// </summary>
     public abstract void SuspendBinding();
 
-    /// <summary>
-    /// Returns a collection of properties for items in the managed list.
-    /// Calls through to
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase.GetItemProperties(System.ComponentModel.PropertyDescriptor[])"/>.
-    /// </summary>
     internal abstract PropertyDescriptorCollection? GetItemProperties(PropertyDescriptor?[]? listAccessors);
 
     /// <summary>
@@ -213,10 +200,6 @@ public abstract class BindingManagerBase
         return GetItemProperties(BindType, 0, dataSources, listAccessors);
     }
 
-    /// <summary>
-    /// Gets the name of the list.
-    /// </summary>
-    /// <returns></returns>
     internal abstract string? GetListName();
 
     /// <summary>
@@ -271,9 +254,6 @@ public abstract class BindingManagerBase
         _dataError?.Invoke(this, new BindingManagerDataErrorEventArgs(e));
     }
 
-    /// <summary>
-    /// Convenience wrapper around PullData that discards the success output.
-    /// </summary>
     internal void PullData(out bool success)
     {
         success = true;
@@ -456,8 +436,10 @@ public abstract class BindingManagerBase
     /// BindingComplete events on individual Bindings are propagated up through the BindingComplete event on
     /// the owning BindingManagerBase. To do this, we have to track changes to the bindings collection, adding
     /// or removing handlers on items in the collection as appropriate.
+    ///
     /// For the Add and Remove cases, we hook the collection 'changed' event, and add or remove handler for
     /// specific binding.
+    ///
     /// For the Refresh case, we hook both the 'changing' and 'changed' events, removing handlers for all
     /// items that were in the collection before the change, then adding handlers for whatever items are
     /// in the collection after the change.

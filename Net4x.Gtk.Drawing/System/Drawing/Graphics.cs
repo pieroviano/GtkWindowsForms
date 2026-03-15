@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
@@ -38,16 +38,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
     private readonly Gtk.Widget widget;
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Graphics" /> class for the specified widget and context.
-    /// </summary>
-    /// <param name="widget">The GTK widget associated with this graphics.
-    /// </param>
-    /// <param name="context">The Cairo context to draw with.
-    /// </param>
-    /// <param name="rectangle">The drawing rectangle bounds.
-    /// </param>
     internal Graphics(Gtk.Widget widget, Cairo.Context context, Gdk.Rectangle rectangle)
     {
         Graphics.Context = context;
@@ -58,14 +48,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         this.Clip = new Region(new Rectangle(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height));
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Graphics" /> class for the specified context.
-    /// </summary>
-    /// <param name="context">The Cairo context to draw with.
-    /// </param>
-    /// <param name="rectangle">The drawing rectangle bounds.
-    /// </param>
     internal Graphics(Cairo.Context context, Gdk.Rectangle rectangle)
     {
         this.context = context;
@@ -2105,14 +2087,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         this.SetTranslateWithDifference(dx, dy);
     }
 
-    /// <summary>
-    /// Sets the source (brush/pen) on the Cairo context based on the given pen.
-    /// Internal use only.
-    /// </summary>
-    /// <param name="pen">Pen to convert to Cairo source.
-    /// </param>
-    /// <param name="isfill">Whether the source is used for fills.
-    /// </param>
     internal void SetSourcePen(Pen pen, bool isfill)
     {
         if (pen.Brush is SolidBrush sbrush)
@@ -2188,23 +2162,19 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
     }
 
-    /// <summary>
-    /// Translates the Cairo context by the given coordinates plus any stored differences.
-    /// Internal use only.
-    /// </summary>
     internal void SetTranslateWithDifference(double x, double y)
     {
         this.context.Translate(diff_left + x, diff_top + y);
     }
 
     /// <summary>
-    /// Calculate the position of a single coordinate point on the Bézier curve.
+    /// Calculate the position of a single coordinate point on the Bézier curve
     /// </summary>
-    /// <param name="points">List of control points.
+    /// <param name="points">贝塞尔条件坐标集合
     /// </param>
-    /// <param name="time">Interpolation parameter, between 0 and 1.
+    /// <param name="time">Time factor
     /// </param>
-    /// <returns>A list containing the calculated point(s) for the specified time.
+    /// <returns>
     /// </returns>
     private List<PointF> CalculateBezier(List<PointF> points, float time)
     {
@@ -2665,11 +2635,11 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     }
 
     /// <summary>
-    /// Collect the positions of all coordinate points on the Bézier curve.
+    /// Collect the positions of all coordinate points on the Bézier curve
     /// </summary>
-    /// <param name="points">Control points for the Bezier curve.
+    /// <param name="points">
     /// </param>
-    /// <returns>List of points along the Bezier curve.
+    /// <returns>
     /// </returns>
     private List<PointF> GetBezierPoints(List<PointF> points)
     {

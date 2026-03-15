@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -46,35 +46,16 @@ public partial class ListBox : ListControl
     /// </summary>
     public readonly ListBoxBase self = new ListBoxBase();
 
-    /// <summary>
-    /// The is updateing
-    /// </summary>
     internal bool IsUpdateing = false;
 
-    /// <summary>
-    /// The collect
-    /// </summary>
     private readonly ControlBindingsCollection _collect;
-
-    /// <summary>
-    /// The data source
-    /// </summary>
 
     private object _DataSource;
 
-    /// <summary>
-    /// The items
-    /// </summary>
     private readonly ObjectCollection _items;
 
-    /// <summary>
-    /// The sorted
-    /// </summary>
     private bool _sorted;
 
-    /// <summary>
-    /// The top index
-    /// </summary>
     private int _topIndex;
 
     /// <summary>
@@ -529,30 +510,8 @@ public partial class ListBox : ListControl
     [DefaultValue(true)]
     public bool UseTabStops { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether show CheckBox.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if show CheckBox; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     internal bool ShowCheckBox { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether show image.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if show image; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     internal bool ShowImage { get; set; }
 
     /// <summary>
@@ -909,9 +868,6 @@ public partial class ListBox : ListControl
         base.SetStyle(self.ListBox);
     }
 
-    /// <summary>
-    /// Checks the no data source.
-    /// </summary>
     private void CheckNoDataSource()
     {
         //if (DataSource != null)
@@ -920,16 +876,6 @@ public partial class ListBox : ListControl
         //}
     }
 
-    /// <summary>
-    /// Handles the SelectedRowsChanged event of the ListBox control.
-    /// </summary>
-    /// <param name = "sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name = "e">
-    /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
-    /// </param>
     private void ListBox_SelectedRowsChanged(object sender, EventArgs e)
     {
         if (self.ListBox.IsVisible)
@@ -940,9 +886,6 @@ public partial class ListBox : ListControl
         }
     }
 
-    /// <summary>
-    /// Called when [set data source.
-    /// </summary>
     private void OnSetDataSource()
     {
         if (_DataSource != null)
@@ -959,31 +902,12 @@ public partial class ListBox : ListControl
         }
     }
 
-    /// <summary>
-    /// Properties the notity.
-    /// </summary>
-    /// <param name = "o">
-    /// The o.
-    /// </param>
-    /// <param name = "args">
-    /// The arguments.
-    /// </param>
     private void propertyNotity(object o, NotifyArgs args)
     {
         Binding binding = DataBindings[args.Property];
         binding.WriteValue();
     }
 
-    /// <summary>
-    /// Handles the Realized event of the Self control.
-    /// </summary>
-    /// <param name = "sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name = "e">
-    /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
-    /// </param>
     private void Self_Realized(object sender, EventArgs e)
     {
         OnSetDataSource();
@@ -991,12 +915,6 @@ public partial class ListBox : ListControl
             self.ListBox.AddNotification(binding.PropertyName, propertyNotity);
     }
 
-    /// <summary>
-    /// Sets the data source.
-    /// </summary>
-    /// <param name = "enumerator">
-    /// The enumerator.
-    /// </param>
     private void SetDataSource(IEnumerator enumerator)
     {
         _items.Clear();

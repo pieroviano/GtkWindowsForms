@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -20,19 +20,11 @@ namespace System.Windows.Forms;
 [DesignerCategory("Component")]
 public partial class PictureBox : Control
 {
-    /// <summary>
-    /// The image
-    /// </summary>
+
     private System.Drawing.Image _image;
 
-    /// <summary>
-    /// The image location
-    /// </summary>
     private string _ImageLocation;
 
-    /// <summary>
-    /// The self
-    /// </summary>
     private readonly PictureBoxBase self = new PictureBoxBase();
 
     /// <summary>
@@ -199,16 +191,6 @@ public partial class PictureBox : Control
         })));
     }
 
-    /// <summary>
-    /// Handles the Shown event of the Self control.
-    /// </summary>
-    /// <param name="sender">
-    /// The source of the event.
-    /// </param>
-    /// <param name="e">
-    /// The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
     private void Self_Shown(object sender, EventArgs e)
     {
         int width = Width;

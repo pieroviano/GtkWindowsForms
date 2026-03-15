@@ -1,4 +1,4 @@
-﻿namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
 /// TextBoxBase class is a base class for GTK text box controls, providing common functionality and properties for derived classes. It inherits from Gtk.Entry and implements the IControlGtk interface. The class includes a constructor that initializes the text box and sets various properties such as alignment and CSS class. It also provides an Override property of type GtkControlOverride, which allows for custom styling and behavior of the control. By using TextBoxBase, developers can easily create custom text box controls that are compatible with the GTK system and provide consistent behavior across different platforms.

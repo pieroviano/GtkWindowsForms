@@ -1,4 +1,4 @@
-﻿using System.Drawing.Drawing2D;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -21,10 +21,6 @@ public sealed class ImageAttributes : ICloneable, IDisposable
 
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Imaging.ImageAttributes" /> class.
-    /// </summary>
     internal ImageAttributes(IntPtr newNativeImageAttributes)
     {
         SetNativeImageAttributes(newNativeImageAttributes);
@@ -599,10 +595,6 @@ public sealed class ImageAttributes : ICloneable, IDisposable
 
     }
 
-    /// <summary>
-    /// Releases all resources used by this
-    /// <see cref="T:System.Drawing.Imaging.ImageAttributes" /> object.
-    /// </summary>
     private void Dispose(bool disposing)
     {
 

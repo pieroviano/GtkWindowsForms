@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Drawing;
 using System.Runtime.Serialization;
 namespace System.Windows.Forms;
@@ -9,44 +9,23 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
 {
-    /// <summary>
-    /// The checked
-    /// </summary>
+
+
+
     internal bool _checked;
 
-    /// <summary>
-    /// The flow box child
-    /// </summary>
     internal Gtk.FlowBoxChild _flowBoxChild;
 
-    /// <summary>
-    /// The group
-    /// </summary>
     internal ListViewGroup _group;
 
-    /// <summary>
-    /// The list view
-    /// </summary>
     internal ListView _listView;
 
-    /// <summary>
-    /// The selected
-    /// </summary>
     internal bool _selected;
 
-    /// <summary>
-    /// The text
-    /// </summary>
     internal string _text = string.Empty;
 
-    /// <summary>
-    /// The identifier
-    /// </summary>
     internal int ID;
 
-    /// <summary>
-    /// The subitems
-    /// </summary>
     private ListViewSubItemCollection _subitems;
 
     /// <summary>
@@ -738,67 +717,27 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         set;
     }
 
-    /// <summary>
-    /// Gets the accessibility object.
-    /// </summary>
-    /// <value>
-    /// The accessibility object.
-    /// </value>
     internal virtual AccessibleObject AccessibilityObject
     {
         get;
     }
 
-    /// <summary>
-    /// Gets the image indexer.
-    /// </summary>
-    /// <value>
-    /// The image indexer.
-    /// </value>
     internal ListViewItemImageIndexer ImageIndexer
     {
         get;
     }
 
-    /// <summary>
-    /// Gets or sets the type of the item.
-    /// </summary>
-    /// <value>
-    /// The type of the item.
-    /// </value>
     internal string ItemType
     {
         get;
         set;
     }
 
-    /// <summary>
-    /// Gets a value indicating whether state image set.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if state image set; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     internal bool StateImageSet
     {
         get;
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether state selected.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if state selected; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
     internal bool StateSelected
     {
         get;
@@ -891,47 +830,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
 
     }
 
-    /// <summary>
-    /// Hosts the specified parent.
-    /// </summary>
-    /// <param name="parent">
-    /// The parent.
-    /// </param>
-    /// <param name="id">
-    /// The identifier.
-    /// </param>
-    /// <param name="index">
-    /// The index.
-    /// </param>
     internal void Host(ListView parent, int id, int index)
     {
 
     }
 
-    /// <summary>
-    /// Initializes the ListView item.
-    /// </summary>
-    /// <param name="text">
-    /// The text.
-    /// </param>
-    /// <param name="imageIndex">
-    /// Index of the image.
-    /// </param>
-    /// <param name="imageKey">
-    /// The image key.
-    /// </param>
-    /// <param name="foreColor">
-    /// Color of the fore.
-    /// </param>
-    /// <param name="backColor">
-    /// Color of the back.
-    /// </param>
-    /// <param name="font">
-    /// The font.
-    /// </param>
-    /// <param name="group">
-    /// The group.
-    /// </param>
     internal void InitListViewItem(string text, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
     {
         _subitems = new ListViewSubItemCollection(this)
@@ -947,30 +850,6 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         this.Group = group;
     }
 
-    /// <summary>
-    /// Initializes the ListView item.
-    /// </summary>
-    /// <param name="items">
-    /// The items.
-    /// </param>
-    /// <param name="imageIndex">
-    /// Index of the image.
-    /// </param>
-    /// <param name="imageKey">
-    /// The image key.
-    /// </param>
-    /// <param name="foreColor">
-    /// Color of the fore.
-    /// </param>
-    /// <param name="backColor">
-    /// Color of the back.
-    /// </param>
-    /// <param name="font">
-    /// The font.
-    /// </param>
-    /// <param name="group">
-    /// The group.
-    /// </param>
     internal void InitListViewItem(string[] items, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
     {
         InitListViewItem(items.Length > 0 ? items[0] : "", imageIndex, imageKey, foreColor, backColor, font, group);
@@ -979,30 +858,6 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
 
     }
 
-    /// <summary>
-    /// Initializes the ListView item.
-    /// </summary>
-    /// <param name="subItems">
-    /// The sub items.
-    /// </param>
-    /// <param name="imageIndex">
-    /// Index of the image.
-    /// </param>
-    /// <param name="imageKey">
-    /// The image key.
-    /// </param>
-    /// <param name="foreColor">
-    /// Color of the fore.
-    /// </param>
-    /// <param name="backColor">
-    /// Color of the back.
-    /// </param>
-    /// <param name="font">
-    /// The font.
-    /// </param>
-    /// <param name="group">
-    /// The group.
-    /// </param>
     internal void InitListViewItem(ListViewSubItem[] subItems, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
     {
         InitListViewItem(subItems.Length > 0 ? subItems[0].Text : "", imageIndex, imageKey, foreColor, backColor, font, group);
@@ -1015,14 +870,9 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// </summary>
     public class ListViewSubItem
     {
-        /// <summary>
-        /// The label
-        /// </summary>
+
         internal Gtk.Label _label;
 
-        /// <summary>
-        /// The text
-        /// </summary>
         internal string _text = string.Empty;
 
         /// <summary>
@@ -1194,9 +1044,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// </summary>
     public class ListViewSubItemCollection : List<ListViewSubItem>
     {
-        /// <summary>
-        /// The owner
-        /// </summary>
+
         private readonly ListViewItem _owner;
 
         /// <summary>

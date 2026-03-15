@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing.Printing;
 using System.Linq;
 using Gtk;
@@ -12,14 +12,8 @@ namespace System.Windows.Forms;
 [DefaultProperty(nameof(Document))]
 public sealed class PrintDialog : CommonDialog
 {
-    /// <summary>
-    /// The print document
-    /// </summary>
     private PrintDocument _printDocument;
 
-    /// <summary>
-    /// The printer settings
-    /// </summary>
     private PrinterSettings _printerSettings;
 
     /// <summary>
@@ -166,12 +160,12 @@ public sealed class PrintDialog : CommonDialog
     public bool ShowNetwork { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether use ex dialog.
+    /// Gets or sets a value indicating if we use ex dialog.
     /// </summary>
     /// <value>
     /// <c>
     /// true
-    /// </c> if use ex dialog; otherwise,
+    /// </c> if we use ex dialog; otherwise,
     /// <c>
     /// false
     /// </c>.
@@ -179,15 +173,9 @@ public sealed class PrintDialog : CommonDialog
     [DefaultValue(false)]
     public bool UseEXDialog { get; set; }
 
-    /// <summary>
-    /// Gets the page settings.
-    /// </summary>
-    /// <value>
-    /// The page settings.
-    /// </value>
     private PageSettings PageSettings => Document is null
-                ? PrinterSettings.DefaultPageSettings
-                : Document.DefaultPageSettings;
+        ? PrinterSettings.DefaultPageSettings
+        : Document.DefaultPageSettings;
 
     /// <summary>
     /// Resets this instance.
@@ -295,30 +283,12 @@ public sealed class PrintDialog : CommonDialog
         return RunPrint(owner, true);
     }
 
-    /// <summary>
-    /// Messages the dialog response.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void MessageDialog_Response(object o, ResponseArgs args)
     {
         Gtk.MessageDialog messageDialog = (Gtk.MessageDialog)o;
         messageDialog.Destroy();
     }
 
-    /// <summary>
-    /// Prints the operation begin print.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void PrintOperation_BeginPrint(object o, BeginPrintArgs args)
     {
         _printDocument?.OnBeginPrint(new PrintEventArgs());
@@ -326,15 +296,6 @@ public sealed class PrintDialog : CommonDialog
         oper.RenderPage(0);
     }
 
-    /// <summary>
-    /// Prints the operation draw page.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void PrintOperation_DrawPage(object o, DrawPageArgs args)
     {
         Gtk.PrintOperation oper = (Gtk.PrintOperation)o;
@@ -356,43 +317,16 @@ public sealed class PrintDialog : CommonDialog
         }
     }
 
-    /// <summary>
-    /// Prints the operation end print.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void PrintOperation_EndPrint(object o, EndPrintArgs args)
     {
         _printDocument?.OnEndPrint(new PrintEventArgs());
     }
 
-    /// <summary>
-    /// Prints the operation preview.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void PrintOperation_Preview(object o, PreviewArgs args)
     {
         args.Preview.RenderPage(0);
     }
 
-    /// <summary>
-    /// Prints the operation request page setup.
-    /// </summary>
-    /// <param name="o">
-    /// The o.
-    /// </param>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
     private void PrintOperation_RequestPageSetup(object o, RequestPageSetupArgs args)
     {
         _printDocument?.OnQueryPageSettings(new QueryPageSettingsEventArgs(PageSettings));

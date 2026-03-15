@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
@@ -771,8 +771,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// Gets a value indicating whether the
     /// <see cref="T:System.Windows.Forms.BindingSource"/> is initialized.
     /// </summary>
-    /// <returns>
-    /// true to indicate the
+    /// <returns>true to indicate the
     /// <see cref="T:System.Windows.Forms.BindingSource"/> is initialized; otherwise, false.
     /// </returns>
     bool ISupportInitializeNotification.IsInitialized => !_initializing;
@@ -1509,12 +1508,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// Adds the
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to the indexes used for searching.
     /// </summary>
-    /// <param name = "property">
-    /// The
+    /// <param name = "property">The
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to add to the indexes used for searching.
     /// </param>
-    /// <exception cref="T:System.NotSupportedException">
-    /// The underlying list is not an
+    /// <exception cref="T:System.NotSupportedException">The underlying list is not an
     /// <see cref="T:System.ComponentModel.IBindingList"/>.
     /// </exception>
     void IBindingList.AddIndex(PropertyDescriptor property)
@@ -1539,8 +1536,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Discards a pending new item from the collection.
     /// </summary>
-    /// <param name = "position">
-    /// The index of the item that was added to the collection.
+    /// <param name = "position">The index of the item that was added to the collection.
     /// </param>
     void ICancelAddNew.CancelNew(int position)
     {
@@ -1575,8 +1571,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Commits a pending new item to the collection.
     /// </summary>
-    /// <param name = "position">
-    /// The index of the item that was added to the collection.
+    /// <param name = "position">The index of the item that was added to the collection.
     /// </param>
     void ICancelAddNew.EndNew(int position)
     {
@@ -1596,8 +1591,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// Removes the
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> from the indexes used for searching.
     /// </summary>
-    /// <param name = "prop">
-    /// The
+    /// <param name = "prop">The
     /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to remove from the indexes used for searching.
     /// </param>
     void IBindingList.RemoveIndex(PropertyDescriptor prop)

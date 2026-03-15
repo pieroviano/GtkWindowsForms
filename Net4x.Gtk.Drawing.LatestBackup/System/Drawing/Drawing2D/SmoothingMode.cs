@@ -1,4 +1,4 @@
-﻿namespace System.Drawing.Drawing2D;
+namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Specifies whether smoothing (antialiasing) is applied to lines and curves and the edges of filled areas.

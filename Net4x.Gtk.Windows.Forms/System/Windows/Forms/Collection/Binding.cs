@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -289,9 +289,6 @@ public class Binding
         CheckBinding();
     }
 
-    /// <summary>
-    /// Prevents a default instance of the <see cref="Binding"/> class from being created.
-    /// </summary>
     private Binding()
     {
     }

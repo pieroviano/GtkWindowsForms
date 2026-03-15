@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,18 +12,8 @@ namespace System.Windows.Forms;
 [ListBindable(false)]
 public class ListViewGroupCollection : List<ListViewGroup>
 {
-    /// <summary>
-    /// The list view
-    /// </summary>
     readonly ListView _listView;
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.ListViewGroupCollection" /> class.
-    /// </summary>
-    /// <param name="listView">
-    /// The list view.
-    /// </param>
     internal ListViewGroupCollection(ListView listView)
     {
         _listView = listView;
@@ -147,12 +137,6 @@ public class ListViewGroupCollection : List<ListViewGroup>
         return base.FindIndex(w => w.Name == name) > -1;
     }
 
-    /// <summary>
-    /// Adds the core.
-    /// </summary>
-    /// <param name="group">
-    /// The group.
-    /// </param>
     private void AddCore(ListViewGroup group)
     {
         if (this.Exists(m => m.Name == group.Name))

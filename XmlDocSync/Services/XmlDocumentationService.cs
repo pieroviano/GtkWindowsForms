@@ -24,13 +24,17 @@ public static class XmlDocumentationService
         if (!File.Exists(xmlPath))
         {
             RedConsole.Write("XML documentation file not found.");
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
             return (1, null);
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         }
 
         if (!Directory.Exists(sourceDir))
         {
             RedConsole.Write("Source directory not found.");
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
             return (1, null);
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         }
 
         var xmlDocumentation = LoadXmlDocumentation(xmlPath);
@@ -144,7 +148,10 @@ public static class XmlDocumentationService
         var removeTextBeforeNonOpenedSummary = XmlDocCleaner.RemoveTextBeforeNonOpenedSummary(source);
         var fixIndentationAndRemoveBlanks =
             XmlDocIndentFormatter.FixIndentationAndRemoveBlanks(removeTextBeforeNonOpenedSummary);
-        return XmlDocumentationFormatter.Format(fixIndentationAndRemoveBlanks, fixes)?.TrimEnd('\n', '\r', ' ', '\t');
+        var normalizeXmlDocBlockIndentation = XmlDocumentationFormatter.Format(fixIndentationAndRemoveBlanks, fixes)?.TrimEnd('\n', '\r', ' ', '\t');
+        var cleaned = XmlDocDuplicateCleaner.RemoveRepeatedXmlDocBlocks(normalizeXmlDocBlockIndentation??string.Empty);
+
+        return cleaned;
     }
 
     private static async Task<List<SyntaxTree>> ParseAllSyntaxTrees(string[] files, bool noParallel)
@@ -171,7 +178,7 @@ public static class XmlDocumentationService
 
     private static async Task<string?> ProcessFile(CSharpCompilation compilation,
         Dictionary<string, string> xmlDocumentation, SyntaxTree syntaxTree,
-        (string ToReplace, string DestinationValue)[] valueTuples, bool writeToDisk)
+        (string ToReplace, string DestinationValue)[] fixes, bool writeToDisk)
     {
         ConsoleColor.DarkGray.Write($"Processing {syntaxTree.FilePath}");
 
@@ -207,7 +214,7 @@ public static class XmlDocumentationService
                 .Replace("///              ", "/// ")
                 .Replace("///             ", "/// ")
                 .Replace("\r\n", "\n")
-                .TrimEnd('\n'), valueTuples);
+                .TrimEnd('\n'), fixes);
             contents = XmlDocFileFormatter.FormatFile(contents)?.Replace("\r\n", "\n");
             var normalizedOriginalText = await GetNormalizedOriginalText(syntaxTree.FilePath);
 
@@ -231,7 +238,7 @@ public static class XmlDocumentationService
                 .Replace("///              ", "/// ")
                 .Replace("///             ", "/// ")
                 .Replace("\r\n", "\n")
-                .TrimEnd('\n'), valueTuples);
+                .TrimEnd('\n'), fixes);
             contents = XmlDocFileFormatter.FormatFile(contents)?.Replace("\r\n", "\n");
             var normalizedOriginalText = root.ToFullString();
 

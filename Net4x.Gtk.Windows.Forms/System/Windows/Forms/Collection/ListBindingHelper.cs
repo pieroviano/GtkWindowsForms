@@ -1,11 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
 
 namespace System.Windows.Forms;
-/// <summary>
-/// Provides functionality to discover a bindable list and the properties of the items contained in the list when they differ from the public properties of the object to which they bind.
-/// </summary>
+
 internal class ListBindingHelper
 {
     private static Attribute[]? _browsableAttribute;
@@ -69,8 +67,10 @@ internal class ListBindingHelper
     /// <summary>
     /// Gets the list.
     /// </summary>
-    /// <param name="list">The list.</param>
-    /// <returns></returns>
+    /// <param name="list">The list.
+    /// </param>
+    /// <returns>
+    /// </returns>
     public static object? GetList(object? list)
     {
         if (!(list is IListSource))
@@ -84,8 +84,10 @@ internal class ListBindingHelper
     /// <summary>
     /// Gets the list item properties.
     /// </summary>
-    /// <param name="list">The list.</param>
-    /// <returns></returns>
+    /// <param name="list">The list.
+    /// </param>
+    /// <returns>
+    /// </returns>
     public static PropertyDescriptorCollection? GetListItemProperties(object? list)
     {
         PropertyDescriptorCollection? itemProperties;
@@ -160,9 +162,12 @@ internal class ListBindingHelper
     /// <summary>
     /// Gets the list item properties.
     /// </summary>
-    /// <param name="list">The list.</param>
-    /// <param name="listAccessors">The list accessors.</param>
-    /// <returns></returns>
+    /// <param name="list">The list.
+    /// </param>
+    /// <param name="listAccessors">The list accessors.
+    /// </param>
+    /// <returns>
+    /// </returns>
     public static PropertyDescriptorCollection? GetListItemProperties(object? list, PropertyDescriptor?[]? listAccessors)
     {
         PropertyDescriptorCollection? listItemProperties;
@@ -232,8 +237,10 @@ internal class ListBindingHelper
     /// <summary>
     /// Gets the type of the list item.
     /// </summary>
-    /// <param name="list">The list.</param>
-    /// <returns></returns>
+    /// <param name="list">The list.
+    /// </param>
+    /// <returns>
+    /// </returns>
     public static Type? GetListItemType(object? list)
     {
         if (list == null)

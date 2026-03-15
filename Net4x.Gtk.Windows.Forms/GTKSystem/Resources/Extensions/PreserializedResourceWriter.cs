@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -641,9 +641,6 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
         _resourceList.Add(name, new StreamWrapper(value, closeAfterWrite));
     }
 
-    /// <summary>
-    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-    /// </summary>
     private void Dispose(bool disposing)
     {
         if (disposing)

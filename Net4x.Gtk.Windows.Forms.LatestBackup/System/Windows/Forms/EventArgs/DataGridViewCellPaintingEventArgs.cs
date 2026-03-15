@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -14,9 +14,6 @@ namespace System.Windows.Forms;
 /// </summary>
 public class DataGridViewCellPaintingEventArgs : HandledEventArgs
 {
-    /// <summary>
-    /// The data grid view
-    /// </summary>
     private readonly DataGridView _dataGridView;
 
     /// <summary>
@@ -108,13 +105,6 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
         PaintParts = paintParts;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.DataGridViewCellPaintingEventArgs" /> class.
-    /// </summary>
-    /// <param name="dataGridView">
-    /// The data grid view.
-    /// </param>
     internal DataGridViewCellPaintingEventArgs(DataGridView dataGridView)
     {
         Debug.Assert(dataGridView != null);
@@ -339,57 +329,18 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
         //                                                                   DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ErrorIcon);
     }
 
-    /// <summary>
-    /// Sets the properties.
-    /// </summary>
-    /// <param name="graphics">
-    /// The graphics.
-    /// </param>
-    /// <param name="clipBounds">
-    /// The clip bounds.
-    /// </param>
-    /// <param name="cellBounds">
-    /// The cell bounds.
-    /// </param>
-    /// <param name="rowIndex">
-    /// Index of the row.
-    /// </param>
-    /// <param name="columnIndex">
-    /// Index of the column.
-    /// </param>
-    /// <param name="cellState">
-    /// State of the cell.
-    /// </param>
-    /// <param name="value">
-    /// The value.
-    /// </param>
-    /// <param name="formattedValue">
-    /// The formatted value.
-    /// </param>
-    /// <param name="errorText">
-    /// The error text.
-    /// </param>
-    /// <param name="cellStyle">
-    /// The cell style.
-    /// </param>
-    /// <param name="advancedBorderStyle">
-    /// The advanced border style.
-    /// </param>
-    /// <param name="paintParts">
-    /// The paint parts.
-    /// </param>
     internal void SetProperties(Graphics graphics,
-                                        Rectangle clipBounds,
-                                        Rectangle cellBounds,
-                                        int rowIndex,
-                                        int columnIndex,
-                                        DataGridViewElementStates cellState,
-                                        object value,
-                                        object formattedValue,
-                                        string errorText,
-                                        DataGridViewCellStyle cellStyle,
-                                        DataGridViewAdvancedBorderStyle advancedBorderStyle,
-                                        DataGridViewPaintParts paintParts)
+                                Rectangle clipBounds,
+                                Rectangle cellBounds,
+                                int rowIndex,
+                                int columnIndex,
+                                DataGridViewElementStates cellState,
+                                object value,
+                                object formattedValue,
+                                string errorText,
+                                DataGridViewCellStyle cellStyle,
+                                DataGridViewAdvancedBorderStyle advancedBorderStyle,
+                                DataGridViewPaintParts paintParts)
     {
         Debug.Assert(graphics != null);
 

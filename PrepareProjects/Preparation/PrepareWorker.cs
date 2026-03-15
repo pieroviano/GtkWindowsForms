@@ -86,7 +86,9 @@ public static class PrepareWorker
     {
         var fixes = new (string ToReplace, string DestinationValue)[]
         {
+            ("Gets or sets a value indicating whether use ex dialog.", "<summary>Gets or sets a value indicating whether use ex dialog."),
             ("supplied padding size for all edges.", "supplied padding size for all edges.</summary>"),
+            ("Gets or sets a value indicating if we use ex dialog.", "<summary>Gets or sets a value indicating if we use ex dialog."),
             ("</summary></param>", "</param>"),
             ("Gets or sets a value indicating whether the dialog should be shown",
                 "<summary>Gets or sets a value indicating whether the dialog should be shown"),
@@ -183,6 +185,27 @@ public static class PrepareWorker
                 @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem1");
             Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem1", newPath);
         }
+    }
+
+    public static async Task PatchCommentsInFile(string path)
+    {
+        var text=await File.ReadAllTextAsync(path);
+        text = text.Replace("\n    //END ADD                                                                                                      //", 
+            "");
+        text = text.Replace("Displays a message box with specified text, caption, and style with Help Button.",
+            "Displays a message box with specified text, caption, and style with Help Button.\n    /// <summary>");
+        text = text.Replace(
+            "\n    /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+            "");
+        text = text.Replace("\n   /// <summary>\n   /// </summary>", "\n   /// </summary>");
+        text = text.Replace("/// Displays a message box with specified text, caption, and style with Help Button.\n    /// <summary>", 
+            "/// Displays a message box with specified text, caption, and style with Help Button.\n    /// </summary>");
+        text = text.Replace("    /// </summary>\n    /// </summary>", "    /// </summary>");
+        text = text.Replace("/// <param name = \"pixbuf\">The raw pixbuf bytes.",
+            "/// <param name = \"image\">The image to use.");
+        text = text.Replace("<summary>Gets or sets a value indicating if we use ex dialog.",
+            "Gets or sets a value indicating if we use ex dialog.");
+        await CsFile.WriteAllTextAsync(path, text);
     }
 
     public static async Task PatchFile(string path)
