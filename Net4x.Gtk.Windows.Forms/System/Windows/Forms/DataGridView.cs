@@ -7,8 +7,6 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Net.Sockets;
 using System.Reflection;
 using GLib;
 using Gtk;

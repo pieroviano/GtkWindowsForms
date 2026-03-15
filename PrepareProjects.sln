@@ -73,6 +73,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		Resources\TestData1.en.json = Resources\TestData1.en.json
 		Resources\TestData1.json = Resources\TestData1.json
 		Resources\Translations.xml = Resources\Translations.xml
+		Resources\using-differences.json = Resources\using-differences.json
 	EndProjectSection
 EndProject
 Global

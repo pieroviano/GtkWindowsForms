@@ -1,4 +1,3 @@
-using System;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 

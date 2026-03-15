@@ -4,7 +4,6 @@
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
-using System.Windows.Forms;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 

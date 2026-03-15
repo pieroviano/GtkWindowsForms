@@ -4,11 +4,8 @@
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  */
 
-using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
-using System.Globalization;
-using System.Runtime.CompilerServices;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 

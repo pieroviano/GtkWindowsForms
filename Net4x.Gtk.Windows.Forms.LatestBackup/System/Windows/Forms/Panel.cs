@@ -5,7 +5,6 @@
  * author:chenhongjin
  */
 using System.ComponentModel;
-using System.Xml.Linq;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 

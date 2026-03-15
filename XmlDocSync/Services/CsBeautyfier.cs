@@ -5,20 +5,26 @@ using XmlDocSync.Roslyn;
 
 namespace XmlDocSync.Services;
 
-public static class VarUsageProcessor
+public static class CsBeautyfier
 {
-    public static void ProcessFolder(string folder, string[] toExclude)
+    public static void ProcessFolder(string folder, string[] toExclude, bool removeUnusedUsings)
     {
         var files = Directory.GetFiles(folder, "*.cs", SearchOption.AllDirectories);
 
-        foreach (var file in files)
+        foreach (var file in files.Select(Path.GetFullPath))
         {
+            ConsoleColor.White.Write($"Using var when possible on {file}");
             ProcessFile(file);
-            if (toExclude.Any(i=>Path.GetFullPath(file).EndsWith(i)))
+            if (!toExclude.Any(i => Path.GetFullPath(file).EndsWith(i)))
             {
-                continue;
+                ConsoleColor.White.Write($"Removing unused prefixes on {file}");
+                RemoveUnusedPrefixesService.ProcessFile(file);
+                if (removeUnusedUsings)
+                {
+                    ConsoleColor.White.Write($"Removing unused usings on {file}");
+                    RemoveUnusedUsingsService.ProcessFile(file);
+                }
             }
-            RemoveUnusedPrefixesService.ProcessFile(file);
         }
     }
 

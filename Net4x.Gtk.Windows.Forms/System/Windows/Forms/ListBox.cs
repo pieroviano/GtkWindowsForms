@@ -7,7 +7,6 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
 using GLib;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;

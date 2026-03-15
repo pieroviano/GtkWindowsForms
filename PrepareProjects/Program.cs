@@ -134,12 +134,13 @@ public class Program
         await PrepareWorker.PatchCommentsInFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintDialog.cs");
 
 
-        ConsoleColor.Green.Write(@"Using var when possible on project files", true);
+        ConsoleColor.Green.Write(@"Beautifying on project files", true);
 #pragma warning disable CS8604 // Possible null reference argument.
         var gtkDrawingDirectory = Path.GetDirectoryName(net4xGtkDrawingPath);
         var exclude = new string[]{"GtkSystem\\Resources\\ResourceManager.cs"};
-        VarUsageProcessor.ProcessFolder(gtkDrawingDirectory, exclude);
-        VarUsageProcessor.ProcessFolder(csProjectDirectory, exclude);
+        var removeUnusedUsings = true;
+        CsBeautyfier.ProcessFolder(gtkDrawingDirectory, exclude, removeUnusedUsings);
+        CsBeautyfier.ProcessFolder(csProjectDirectory, exclude, removeUnusedUsings);
 #pragma warning restore CS8604 // Possible null reference argument.
 
         ConsoleColor.Green.Write(@"Normalizing end of line on project files", true);

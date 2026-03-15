@@ -7,11 +7,8 @@ using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 using GtkSystem.IO;
 
 namespace GtkSystem.Resources.Extensions;

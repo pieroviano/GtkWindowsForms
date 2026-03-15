@@ -4,7 +4,7 @@ namespace Prepare.Tests
 {
     public class XmlDocumentationServiceTests
     {
-        private const string RoslynFolder = "..\\..\\..\\Roslyn";
+        private const string RoslynFolder = @"..\..\..\Roslyn";
         private const string XmlFile = "Net4x.Gtk.Windows.Forms.xml";
 
         [Theory]

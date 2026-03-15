@@ -8,7 +8,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using GtkSystem.Windows.Forms.Utility;
 

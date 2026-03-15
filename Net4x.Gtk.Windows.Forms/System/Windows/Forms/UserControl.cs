@@ -6,7 +6,6 @@
  */
 using System.ComponentModel;
 using System.Drawing;
-using System.Xml.Linq;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 

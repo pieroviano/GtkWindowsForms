@@ -1,10 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Xunit;
-using XmlDocSync.Cleaning;
+﻿using XmlDocSync.Cleaning;
 
-namespace XmlDocSync.Tests;
+namespace Prepare.Tests;
 
 public class XmlDocDuplicateCleanerTests
 {

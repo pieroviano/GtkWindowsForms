@@ -12,12 +12,14 @@
   <ItemGroup>
     <Compile Remove="Resources\*.cs" />
     <Compile Remove="Roslyn\*.cs" />
+    <Compile Remove="UnusedUsings\*.cs" />
     <Compile Remove="XmlDocDuplicateClean\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Resources\*.cs" />
     <Content Include="Roslyn\*.cs" />
+    <Content Include="UnusedUsings\*.cs" />
     <Content Include="XmlDocDuplicateClean\*.cs" />
   </ItemGroup>
 

@@ -3,8 +3,6 @@
 
 using System.ComponentModel;
 using System.Drawing.Printing;
-using System.Globalization;
-using System.Linq;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 

@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Drawing.Printing;
-using System.Linq;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 

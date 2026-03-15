@@ -1,5 +1,4 @@
 using System.Drawing.Text;
-using System.Linq;
 using Gdk;
 
 namespace System.Drawing;
