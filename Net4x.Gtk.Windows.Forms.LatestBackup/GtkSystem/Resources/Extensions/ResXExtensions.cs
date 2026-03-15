@@ -13,7 +13,7 @@ internal static class ResXExtensions
     {
         if (value == null)
         {
-            throw new System.Exception("string Is Null Or Empty");
+            throw new Exception("string Is Null Or Empty");
         }
         else
             return value;
@@ -23,7 +23,7 @@ internal static class ResXExtensions
     {
         if (value == null)
         {
-            throw new System.Exception("string is null");
+            throw new Exception("string is null");
         }
         else
             return value;
@@ -33,7 +33,7 @@ internal static class ResXExtensions
     {
         if (string.IsNullOrEmpty(value))
         {
-            throw new System.Exception("string Is Null Or Empty");
+            throw new Exception("string Is Null Or Empty");
         }
         else
             return value;

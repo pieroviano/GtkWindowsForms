@@ -137,8 +137,9 @@ public class Program
         ConsoleColor.Green.Write(@"Using var when possible on project files", true);
 #pragma warning disable CS8604 // Possible null reference argument.
         var gtkDrawingDirectory = Path.GetDirectoryName(net4xGtkDrawingPath);
-        VarUsageProcessor.ProcessFolder(gtkDrawingDirectory);
-        VarUsageProcessor.ProcessFolder(csProjectDirectory);
+        var exclude = new string[]{"GtkSystem\\Resources\\ResourceManager.cs"};
+        VarUsageProcessor.ProcessFolder(gtkDrawingDirectory, exclude);
+        VarUsageProcessor.ProcessFolder(csProjectDirectory, exclude);
 #pragma warning restore CS8604 // Possible null reference argument.
 
         ConsoleColor.Green.Write(@"Normalizing end of line on project files", true);

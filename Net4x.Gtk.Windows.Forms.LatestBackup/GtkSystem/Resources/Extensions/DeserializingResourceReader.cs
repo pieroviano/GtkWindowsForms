@@ -22,7 +22,7 @@ namespace GtkSystem.Resources.Extensions;
 /// <seealso cref="T:System.Resources.IResourceReader" />
 /// <seealso cref="T:System.Collections.IEnumerable" />
 /// <seealso cref="T:System.IDisposable" />
-public sealed class DeserializingResourceReader : System.Resources.IResourceReader, IEnumerable, IDisposable
+public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, IDisposable
 {
 
     internal Dictionary<string, ResourceLocator> _resCache;

@@ -7,13 +7,18 @@ namespace XmlDocSync.Services;
 
 public static class VarUsageProcessor
 {
-    public static void ProcessFolder(string folder)
+    public static void ProcessFolder(string folder, string[] toExclude)
     {
         var files = Directory.GetFiles(folder, "*.cs", SearchOption.AllDirectories);
 
         foreach (var file in files)
         {
             ProcessFile(file);
+            if (toExclude.Any(i=>Path.GetFullPath(file).EndsWith(i)))
+            {
+                continue;
+            }
+            RemoveUnusedPrefixesService.ProcessFile(file);
         }
     }
 
