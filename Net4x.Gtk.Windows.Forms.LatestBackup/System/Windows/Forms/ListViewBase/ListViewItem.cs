@@ -722,7 +722,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         get;
     }
 
-    internal ListViewItemImageIndexer ImageIndexer
+    internal object ImageIndexer
     {
         get;
     }

@@ -1,3 +1,35 @@
+//
+// System.Windows.Drawing.CharacterRange.cs
+//
+// Authors:
+//	Dennis Hayes (dennish@raytek.com)
+//	Sebastien Pouliot  <sebastien@ximian.com>
+//
+// Copyright (C) 2002 Ximian, Inc http://www.ximian.com
+// Copyright (C) 2004, 2008 Novell, Inc (http://www.novell.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
+
 namespace System.Drawing;
 
 /// <summary>
@@ -5,7 +37,9 @@ namespace System.Drawing;
 /// </summary>
 public struct CharacterRange
 {
-    private readonly int _dummyPrimitive;
+    private int first;
+
+    private int length;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -20,7 +54,8 @@ public struct CharacterRange
     /// </param>
     public CharacterRange(int First, int Length)
     {
-        throw new System.NotImplementedException();
+        this.first = First;
+        this.length = Length;
     }
 
     /// <summary>
@@ -35,10 +70,11 @@ public struct CharacterRange
     {
         get
         {
-            throw new System.NotImplementedException();
+            return first;
         }
         set
         {
+            first = value;
         }
     }
 
@@ -54,10 +90,11 @@ public struct CharacterRange
     {
         get
         {
-            throw new System.NotImplementedException();
+            return length;
         }
         set
         {
+            length = value;
         }
     }
 
@@ -75,7 +112,12 @@ public struct CharacterRange
     /// </returns>
     public override bool Equals(object obj)
     {
-        throw new System.NotImplementedException();
+        if (!(obj is CharacterRange))
+            return false;
+
+        var cr = (CharacterRange) obj;
+
+        return Equals(this, cr);
     }
 
     /// <summary>
@@ -86,7 +128,7 @@ public struct CharacterRange
     /// </returns>
     public override int GetHashCode()
     {
-        throw new System.NotImplementedException();
+        return (first ^ length);
     }
 
 }

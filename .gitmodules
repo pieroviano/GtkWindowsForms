@@ -1,3 +1,6 @@
 [submodule "gtksystem-windows-forms"]
 	path = gtksystem-windows-forms
 	url = https://github.com/piero-viano/gtksystem-windows-forms.git
+[submodule "mono"]
+	path = mono
+	url = https://github.com/mono/mono.git

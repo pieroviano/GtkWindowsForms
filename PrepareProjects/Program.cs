@@ -53,7 +53,7 @@ public class Program
 #pragma warning disable CS8604 // Possible null reference argument.
             Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"..\..\..\..\Resources\", BackupUtility.PostProcessing));
 #pragma warning restore CS8604 // Possible null reference argument.
-        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" }, fullPath);
+        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms", "mono" }, fullPath);
 
         ConsoleColor.Green.Write(@"Normalyzing comments", true);
         SummaryCommentTransformer.TransformFolder(targetDir);
@@ -81,9 +81,19 @@ public class Program
         DrawingService.SeparateDrawing(PrepareWorker.net4xGtkDrawing);
         PrepareWorker.OptimizeNet4xGtkDrawingFileSystem(csProjectDirectory);
 
-        ConsoleColor.Green.Write(@"Applying files first post processings", true);
+        ConsoleColor.Green.Write($@"Replacing unimplemented classes with mono equivalent", true);
+        FileContentReplacer.ReplaceContent(
+            @"..\..\..\..\mono\mcs\class\System.Drawing\System.Drawing\CharacterRange.cs",
+            @"..\..\..\..\Net4x.Gtk.Drawing\System\Drawing\CharacterRange.cs"
+        );
+        //FileContentReplacer.ReplaceContent(
+        //    @"..\..\..\..\mono\mcs\class\System.Drawing\System.Drawing\Region.cs",
+        //    @"..\..\..\..\Net4x.Gtk.Drawing\System\Drawing\Region.cs"
+        //);
+
+        ConsoleColor.Green.Write(@"Applying files first post processing", true);
         var postprocessingXml = PrepareWorker.GetSubsequentPostprocessingXml(false);
-        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
+        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms", "mono" },
             postprocessingXml);
 
         ConsoleColor.Green.Write(@"Regenerating SR.Designer.cs", true);
@@ -111,9 +121,9 @@ public class Program
         var net4xGtkDrawingPath = "..\\..\\..\\..\\Net4x.Gtk.Drawing\\Net4x.Gtk.Drawing.csproj";
         DotnetFormatter.Format(net4xGtkDrawingPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
 
-        ConsoleColor.Green.Write(@"Applying files latest post processings", true);
+        ConsoleColor.Green.Write(@"Applying files latest post processing", true);
         postprocessingXml = PrepareWorker.GetSubsequentPostprocessingXml(true);
-        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
+        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms", "mono" },
             postprocessingXml);
         BackupUtility.CleanBackup(csProjectDirectory, BackupUtility.LatestBackup, "Net4x.Gtk.Windows.Forms");
 
@@ -126,19 +136,19 @@ public class Program
 
         ConsoleColor.Green.Write(@"Using var when possible on project files", true);
 #pragma warning disable CS8604 // Possible null reference argument.
-        var net4xGtkDrawingDirectory = Path.GetDirectoryName(net4xGtkDrawingPath);
-        VarUsageProcessor.ProcessFolder(net4xGtkDrawingDirectory);
+        var gtkDrawingDirectory = Path.GetDirectoryName(net4xGtkDrawingPath);
+        VarUsageProcessor.ProcessFolder(gtkDrawingDirectory);
         VarUsageProcessor.ProcessFolder(csProjectDirectory);
 #pragma warning restore CS8604 // Possible null reference argument.
 
         ConsoleColor.Green.Write(@"Normalizing end of line on project files", true);
-        LineEndingNormalizer.NormalizeCsFiles(net4xGtkDrawingDirectory);
+        LineEndingNormalizer.NormalizeCsFiles(gtkDrawingDirectory);
         LineEndingNormalizer.NormalizeCsFiles(csProjectDirectory);
 
         ConsoleColor.Green.Write(@"Persisting latest project files", true);
         projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, csProjectDirectory, BackupUtility.LatestBackup);
-        var directoryName = net4xGtkDrawingDirectory ?? string.Empty;
+        var directoryName = gtkDrawingDirectory ?? string.Empty;
         projectFiles = ProjectUtility.GetProjectFiles(net4xGtkDrawingPath, out _);
         ProjectUtility.PersistProjectFiles(net4xGtkDrawingPath, projectFiles, directoryName, BackupUtility.LatestBackup);
         BackupUtility.DeleteBackupFolders("..\\..\\..\\..\\");

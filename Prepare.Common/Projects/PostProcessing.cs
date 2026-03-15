@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Prepare.Common.Content;
@@ -44,6 +44,7 @@ public static class PostProcessing
 
             foreach (var path in fileNames)
             {
+                ConsoleColor.White.Write($"Applying post processiong on {path}");
                 applied = ProcessFile(path, replacement, applied);
             }
         }

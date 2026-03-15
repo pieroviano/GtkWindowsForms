@@ -23,7 +23,7 @@ public class PrintDocument : Component
 
     private PrintEventHandler _endPrintHandler;
 
-    //private PrintController _printController;
+    
     private bool _originAtMargins;
 
     private PageSetup _pageSetup;

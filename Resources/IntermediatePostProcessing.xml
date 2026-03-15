@@ -75,6 +75,11 @@
     <TargetString></TargetString>
   </Item>
   <Item>
+    <FileName>System\Windows\Forms\ListViewBase\ListViewItemImageIndexer.cs</FileName>
+    <SourceString></SourceString>
+    <TargetString></TargetString>
+  </Item>
+  <Item>
     <FileName>..\Net4x.Gtk.Drawing\System\Drawing\Icon.cs</FileName>
     <SourceString>using GtkSystem.Resources;</SourceString>
     <TargetString></TargetString>
@@ -84,6 +89,11 @@
     <SourceString>
 using System.Windows.Forms;</SourceString>
     <TargetString></TargetString>
+  </Item>
+  <Item>
+    <FileName>..\Net4x.Gtk.Drawing\System\Drawing\CharacterRange.cs</FileName>
+    <SourceString>return this == cr;</SourceString>
+    <TargetString>return Equals(this, cr);</TargetString>
   </Item>
   <Item>
     <FileName>..\GtkWinFormsApp\GTKWinFormsApp.xml</FileName>
