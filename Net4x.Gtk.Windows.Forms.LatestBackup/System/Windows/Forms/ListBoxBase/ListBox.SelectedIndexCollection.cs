@@ -200,7 +200,7 @@ public partial class ListBox
         /// </param>
         public void CopyTo(Array destination, int index)
         {
-            int cnt = Count;
+            var cnt = Count;
             for (int i = 0; i < cnt; i++)
             {
                 destination.SetValue(this[i], i + index);

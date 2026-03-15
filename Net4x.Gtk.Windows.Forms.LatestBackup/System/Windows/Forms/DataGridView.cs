@@ -947,7 +947,7 @@ public partial class DataGridView : ScrollableControl
     {
         get
         {
-            DataGridViewSelectedCellCollection stcc = new DataGridViewSelectedCellCollection();
+            var stcc = new DataGridViewSelectedCellCollection();
             switch (SelectionMode)
             {
                 case DataGridViewSelectionMode.CellSelect:
@@ -957,7 +957,7 @@ public partial class DataGridView : ScrollableControl
                         {
                             for (int i = 0; i < cols; i++)
                             {
-                                DataGridViewCell cell = (DataGridViewCell)model.GetValue(iter, i);
+                                var cell = (DataGridViewCell)model.GetValue(iter, i);
                                 if (cell.Selected)
                                     stcc.Add(cell);
                             }
@@ -984,7 +984,7 @@ public partial class DataGridView : ScrollableControl
                     {
                         foreach (int rowIndex in _selectedBandIndexes)
                         {
-                            DataGridViewRow dataGridViewRow = (DataGridViewRow)Rows[rowIndex];
+                            var dataGridViewRow = (DataGridViewRow)Rows[rowIndex];
                             foreach (DataGridViewCell dataGridViewCell in dataGridViewRow.Cells)
                             {
                                 stcc.Add(dataGridViewCell);
@@ -1007,7 +1007,7 @@ public partial class DataGridView : ScrollableControl
     {
         get
         {
-            DataGridViewSelectedColumnCollection strc = new DataGridViewSelectedColumnCollection();
+            var strc = new DataGridViewSelectedColumnCollection();
             switch (SelectionMode)
             {
                 case DataGridViewSelectionMode.CellSelect:
@@ -1037,7 +1037,7 @@ public partial class DataGridView : ScrollableControl
     {
         get
         {
-            DataGridViewSelectedRowCollection strc = new DataGridViewSelectedRowCollection();
+            var strc = new DataGridViewSelectedRowCollection();
             switch (SelectionMode)
             {
                 case DataGridViewSelectionMode.CellSelect:
@@ -1217,7 +1217,7 @@ public partial class DataGridView : ScrollableControl
         // single-line selection is effective
         if (CellClick != null)
         {
-            DataGridViewColumn column = args.Column as DataGridViewColumn;
+            var column = args.Column as DataGridViewColumn;
             CellClick(this, new DataGridViewCellEventArgs(column.Index, args.Path.Indices.Last()));
         }
     }
@@ -1242,7 +1242,7 @@ public partial class DataGridView : ScrollableControl
         {
             foreach (DataRow dr in dt.Rows)
             {
-                DataGridViewRow newRow = new DataGridViewRow();
+                var newRow = new DataGridViewRow();
                 foreach (DataGridViewColumn col in _columns)
                 {
                     object cellvalue = dt.Columns.Contains(col.DataPropertyName) ? dr[col.DataPropertyName] : null;
@@ -1255,11 +1255,11 @@ public partial class DataGridView : ScrollableControl
 
     private void LoadListSource()
     {
-        Type _type = _DataSource.GetType();
-        Type[] _entityType = _type.GetGenericArguments();
+        var _type = _DataSource.GetType();
+        var _entityType = _type.GetGenericArguments();
         if (_entityType.Length == 1)
         {
-            PropertyInfo[] pros = _entityType[0].GetProperties(BindingFlags.Public|BindingFlags.Instance);
+            var pros = _entityType[0].GetProperties(BindingFlags.Public|BindingFlags.Instance);
             foreach (PropertyInfo pro in pros)
             {
                 if (_columns.Exists(m => m.DataPropertyName == pro.Name) == false)
@@ -1276,12 +1276,12 @@ public partial class DataGridView : ScrollableControl
 
             if (_columns.Count > 0)
             {
-                IEnumerator reader = ((IEnumerable)_DataSource).GetEnumerator();
+                var reader = ((IEnumerable)_DataSource).GetEnumerator();
                 while (reader.MoveNext())
                 {
-                    object obj = reader.Current;
-                    Type type = obj.GetType();
-                    DataGridViewRow newRow = new DataGridViewRow();
+                    var obj = reader.Current;
+                    var type = obj.GetType();
+                    var newRow = new DataGridViewRow();
                     foreach (DataGridViewColumn col in _columns)
                     {
                         object cellvalue = type.GetProperty(col.DataPropertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)?.GetValue(obj);

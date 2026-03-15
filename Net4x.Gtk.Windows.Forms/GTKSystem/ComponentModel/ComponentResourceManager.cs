@@ -64,7 +64,7 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// </returns>
     public override object GetObject(string name)
     {
-        GtkSystem.Resources.ResourceManager temp = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
+        var temp = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
 
         return temp.GetObject(name);
     }
@@ -83,7 +83,7 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// </returns>
     public override string GetString(string name)
     {
-        GtkSystem.Resources.ResourceManager temp = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
+        var temp = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
 
         return temp.GetString(name);
     }

@@ -92,7 +92,7 @@ public partial class Control
         {
             get
             {
-                Control control = (Control)InnerList[index]!;
+                var control = (Control)InnerList[index]!;
 
                 return control;
             }
@@ -113,7 +113,7 @@ public partial class Control
                     return null;
                 }
 
-                int index = IndexOfKey(key);
+                var index = IndexOfKey(key);
                 if (IsValidIndex(index))
                 {
                     return this[index];
@@ -229,7 +229,7 @@ public partial class Control
         /// </returns>
         public object Clone()
         {
-            ControlCollection ccOther = new ControlCollection(__owner, __ownerControl);
+            var ccOther = new ControlCollection(__owner, __ownerControl);
             ccOther.InnerList.AddRange(InnerList);
 
             return ccOther;
@@ -320,7 +320,7 @@ public partial class Control
         /// </returns>
         public virtual int GetChildIndex(Control child, bool throwException)
         {
-            int index = IndexOf(child);
+            var index = IndexOf(child);
             if (index == -1 && throwException)
             {
                 throw new ArgumentException("ControlNotChild");
@@ -420,7 +420,7 @@ public partial class Control
         /// </param>
         public virtual void RemoveByKey(string? key)
         {
-            int index = IndexOfKey(key);
+            var index = IndexOfKey(key);
             if (IsValidIndex(index))
             {
                 RemoveAt(index);
@@ -458,7 +458,7 @@ public partial class Control
 
         object ICloneable.Clone()
         {
-            ControlCollection ccOther = new ControlCollection(__owner, __ownerControl);
+            var ccOther = new ControlCollection(__owner, __ownerControl);
             ccOther.InnerList.AddRange(InnerList);
 
             return ccOther;
@@ -471,7 +471,7 @@ public partial class Control
             else if (element is Gtk.Widget widget)
             {
                 __ownerControl.Remove(widget);
-                int index = this.IndexOfKey(widget.Name);
+                var index = this.IndexOfKey(widget.Name);
                 if (index >= 0)
                     InnerList.RemoveAt(index);
             }
@@ -500,7 +500,7 @@ public partial class Control
 
         private void Control_AnchorChanged(object sender, EventArgs e)
         {
-            Control control = sender as Control;
+            var control = sender as Control;
             if (control.Widget.Parent is Gtk.Overlay lay)
             {
                 SetMarginEnd(lay, control);
@@ -509,7 +509,7 @@ public partial class Control
 
         private void Control_DockChanged(object sender, EventArgs e)
         {
-            Control control = sender as Control;
+            var control = sender as Control;
             if (control.Widget.Parent is Gtk.Overlay lay)
             {
                 SetMarginEnd(lay, control);
@@ -558,7 +558,7 @@ public partial class Control
                             statusbar.self.MarginTop = 0;
                             statusbar.self.MarginEnd = 0;
                             statusbar.self.MarginBottom = 0;
-                            Gtk.Overlay overlay = new Gtk.Overlay
+                            var overlay = new Gtk.Overlay
                             {
                                 HeightRequest = statusbar.Height
                             };

@@ -78,7 +78,7 @@ public partial class CheckedListBox : ContainerControl
     {
         get
         {
-            CheckedIndexCollection items = new CheckedIndexCollection();
+            var items = new CheckedIndexCollection();
             foreach (Gtk.FlowBoxChild child in _flow.Children)
             {
                 if ((bool)child.Child.GetProperty("active") == true)
@@ -96,7 +96,7 @@ public partial class CheckedListBox : ContainerControl
     {
         get
         {
-            CheckedItemCollection items = new CheckedItemCollection();
+            var items = new CheckedItemCollection();
             foreach (Gtk.FlowBoxChild child in _flow.Children)
             {
                 if ((bool)child.Child.GetProperty("active") == true)
@@ -161,7 +161,7 @@ public partial class CheckedListBox : ContainerControl
     {
         get
         {
-            SelectedItemCollection items = new SelectedItemCollection();
+            var items = new SelectedItemCollection();
             foreach (Gtk.FlowBoxChild child in _flow.Children)
             {
                 if (child.IsSelected == true)
@@ -205,7 +205,7 @@ public partial class CheckedListBox : ContainerControl
     /// </param>
     public void SetItemChecked(int index, bool value)
     {
-        CheckBox item = _items.GetCheckedListBoxItem(index);
+        var item = _items.GetCheckedListBoxItem(index);
         item?.Checked = value;
     }
 
@@ -220,7 +220,7 @@ public partial class CheckedListBox : ContainerControl
     /// </param>
     public void SetItemCheckState(int index, System.Windows.Forms.CheckState value)
     {
-        CheckBox item = _items.GetCheckedListBoxItem(index);
+        var item = _items.GetCheckedListBoxItem(index);
         item?.Checked = value == System.Windows.Forms.CheckState.Checked;
     }
 
@@ -228,15 +228,15 @@ public partial class CheckedListBox : ContainerControl
     {
         checkbox.self.Toggled += (object sender, EventArgs e) =>
         {
-            Gtk.CheckButton box = (Gtk.CheckButton)sender;
-            Gtk.FlowBoxChild item = box.Parent as Gtk.FlowBoxChild;
+            var box = (Gtk.CheckButton)sender;
+            var item = box.Parent as Gtk.FlowBoxChild;
             if (this.ItemCheck != null)
             {
-                CheckBox checkBox = _items.GetCheckedListBoxItem(item.Index);
+                var checkBox = _items.GetCheckedListBoxItem(item.Index);
                 this.ItemCheck(checkBox, new ItemCheckEventArgs(item.Index, box.Active == true ? CheckState.Checked : CheckState.Unchecked, box.Active == false ? CheckState.Checked : CheckState.Unchecked));
             }
         };
-        Gtk.FlowBoxChild boxitem = new Gtk.FlowBoxChild
+        var boxitem = new Gtk.FlowBoxChild
         {
             HeightRequest = this.ItemHeight
         };
@@ -376,7 +376,7 @@ public partial class CheckedListBox : ContainerControl
         /// </returns>
         public int AddCore(object item, bool isChecked, int position)
         {
-            CheckBox listBoxItem = new CheckBox
+            var listBoxItem = new CheckBox
             {
                 Text = item.ToString(),
                 Checked = isChecked
@@ -440,7 +440,7 @@ public partial class CheckedListBox : ContainerControl
         /// </param>
         public override void Remove(object obj)
         {
-            int index = base.IndexOf(obj);
+            var index = base.IndexOf(obj);
             if (index > -1)
             {
                 RemoveAt(index);

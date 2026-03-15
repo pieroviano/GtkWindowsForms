@@ -145,7 +145,7 @@ public sealed class ListViewGroup : ISerializable
     {
         get
         {
-            ListView.ListViewItemCollection coll = new ListView.ListViewItemCollection(ListView);
+            var coll = new ListView.ListViewItemCollection(ListView);
             var all = ListView.Items.FindAll(m => m.Group.SerialGuid == this.SerialGuid);
             coll.AddRange(all);
 
@@ -247,7 +247,7 @@ public sealed class ListViewGroup : ISerializable
     /// </returns>
     public static ListViewGroup CreateDefaultListViewGroup()
     {
-        ListViewGroup _defaultGroup = new ListViewGroup("default", HorizontalAlignment.Left)
+        var _defaultGroup = new ListViewGroup("default", HorizontalAlignment.Left)
         {
             Header = "default",
             Name = ListViewGroup.defaultListViewGroupKey,

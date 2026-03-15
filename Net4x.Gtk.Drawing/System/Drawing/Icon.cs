@@ -139,7 +139,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         this.Height = height;
         using (BinaryReader reader = new BinaryReader(stream))
         {
-            byte[] bytes = reader.ReadBytes((int)stream.Length);
+            var bytes = reader.ReadBytes((int)stream.Length);
             this.PixbufData = bytes;
             this.Pixbuf = new Gdk.Pixbuf(bytes);
             if (width < 1)
@@ -208,7 +208,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         this.Height = height;
         if (System.IO.File.Exists(fileName))
         {
-            byte[] bytes = System.IO.File.ReadAllBytes(fileName);
+            var bytes = System.IO.File.ReadAllBytes(fileName);
             this.PixbufData = bytes;
             this.Pixbuf = new Gdk.Pixbuf(bytes);
             if (width < 1)
@@ -218,7 +218,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         }
         else if (System.IO.File.Exists($"Resources\\{fileName}.ico"))
         {
-            byte[] bytes = System.IO.File.ReadAllBytes($"Resources\\{fileName}.ico");
+            var bytes = System.IO.File.ReadAllBytes($"Resources\\{fileName}.ico");
             this.PixbufData = bytes;
             this.Pixbuf = new Gdk.Pixbuf(bytes);
             if (width < 1)

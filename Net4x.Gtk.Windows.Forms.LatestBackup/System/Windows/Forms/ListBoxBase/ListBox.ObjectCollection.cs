@@ -157,7 +157,7 @@ public partial class ListBox
         public int Add(object item)
         {
             _owner.CheckNoDataSource();
-            int index = AddInternal(item);
+            var index = AddInternal(item);
 
             return index;
         }
@@ -295,7 +295,7 @@ public partial class ListBox
                 InnerArray.Insert(index, item);
                 if (_owner.IsHandleCreated)
                 {
-                    bool successful = false;
+                    var successful = false;
 
                     try
                     {
@@ -326,7 +326,7 @@ public partial class ListBox
         {
             _owner.CheckNoDataSource();
 
-            int index = InnerArray.IndexOf(value);
+            var index = InnerArray.IndexOf(value);
             if (index != -1)
             {
                 RemoveAt(index);
@@ -395,7 +395,7 @@ public partial class ListBox
             // is different to the current text in the native list item, recreate the native list item...
             if (_owner.IsHandleCreated)
             {
-                bool selected = (_owner.SelectedIndex == index);
+                var selected = (_owner.SelectedIndex == index);
                 if (string.Compare(_owner.GetItemText(value), _owner.NativeGetItemText(index), true, CultureInfo.CurrentCulture) != 0)
                 {
                     _owner.NativeRemoveAt(index);
@@ -440,7 +440,7 @@ public partial class ListBox
         private int AddInternal(object item)
         {
             item ??= "";
-            int index = -1;
+            var index = -1;
             if (!_owner._sorted)
             {
                 InnerArray.Add(item);
@@ -466,7 +466,7 @@ public partial class ListBox
                 InnerArray.InsertEntry(index, entry);
             }
 
-            bool successful = false;
+            var successful = false;
 
             try
             {

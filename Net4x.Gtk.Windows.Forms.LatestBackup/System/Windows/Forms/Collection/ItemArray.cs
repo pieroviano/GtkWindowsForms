@@ -52,7 +52,7 @@ internal partial class ItemArray : IComparer<Entry>
     /// </summary>
     public object? Add(object item)
     {
-        Entry entry = new Entry(item);
+        var entry = new Entry(item);
         _entries.Add(entry);
         Version++;
 
@@ -81,7 +81,7 @@ internal partial class ItemArray : IComparer<Entry>
     /// </summary>
     public static int CreateMask()
     {
-        int mask = s_lastMask;
+        var mask = s_lastMask;
         s_lastMask <<= 1;
 
         return mask;
@@ -98,7 +98,7 @@ internal partial class ItemArray : IComparer<Entry>
         }
 
         // More complex; we must compute this index.
-        int calcIndex = -1;
+        var calcIndex = -1;
 
         for (int i = 0; i < Count; i++)
         {
@@ -128,7 +128,7 @@ internal partial class ItemArray : IComparer<Entry>
 
         // more complex:  must provide a count of items
         // based on a mask.
-        int filteredCount = 0;
+        var filteredCount = 0;
 
         foreach (Entry entry in _entries)
         {
@@ -172,7 +172,7 @@ internal partial class ItemArray : IComparer<Entry>
     /// </summary>
     public object GetItem(int virtualIndex, int stateMask = 0)
     {
-        int actualIndex = GetActualIndex(virtualIndex, stateMask);
+        var actualIndex = GetActualIndex(virtualIndex, stateMask);
         if (actualIndex == -1)
         {
             throw new IndexOutOfRangeException();
@@ -195,7 +195,7 @@ internal partial class ItemArray : IComparer<Entry>
     /// </summary>
     public int IndexOf(object? item, int stateMask = 0)
     {
-        int virtualIndex = -1;
+        var virtualIndex = -1;
 
         foreach (Entry entry in _entries)
         {
@@ -232,7 +232,7 @@ internal partial class ItemArray : IComparer<Entry>
     /// </summary>
     public void Remove(object item)
     {
-        int index = IndexOf(item);
+        var index = IndexOf(item);
         if (index != -1)
         {
             RemoveAt(index);
@@ -287,7 +287,7 @@ internal partial class ItemArray : IComparer<Entry>
     /// </summary>
     internal Entry GetEntryObject(int virtualIndex, int stateMask = 0)
     {
-        int actualIndex = GetActualIndex(virtualIndex, stateMask);
+        var actualIndex = GetActualIndex(virtualIndex, stateMask);
         if (actualIndex == -1)
         {
             throw new IndexOutOfRangeException();

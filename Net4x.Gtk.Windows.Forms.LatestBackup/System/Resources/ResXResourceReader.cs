@@ -415,7 +415,7 @@ public partial class ResXResourceReader : IResourceReader
 
     private static string GetAliasFromTypeName(string typeName)
     {
-        int indexStart = typeName.IndexOf(',');
+        var indexStart = typeName.IndexOf(',');
 
         return typeName.Substring(indexStart + 2);
     }
@@ -425,7 +425,7 @@ public partial class ResXResourceReader : IResourceReader
     /// </summary>
     private static Point GetPosition(XmlReader reader)
     {
-        Point pt = new Point(0, 0);
+        var pt = new Point(0, 0);
 
         if (reader is IXmlLineInfo lineInfo)
         {
@@ -438,7 +438,7 @@ public partial class ResXResourceReader : IResourceReader
 
     private static string GetTypeFromTypeName(string typeName)
     {
-        int indexStart = typeName.IndexOf(',');
+        var indexStart = typeName.IndexOf(',');
 
         return typeName.Substring(0, indexStart);
     }
@@ -448,7 +448,7 @@ public partial class ResXResourceReader : IResourceReader
         string alias = reader[ResXResourceWriter.AliasStr];
         string typeName = reader[ResXResourceWriter.NameStr];
 
-        AssemblyName assemblyName = new AssemblyName(typeName);
+        var assemblyName = new AssemblyName(typeName);
 
         if (string.IsNullOrEmpty(alias))
         {
@@ -460,7 +460,7 @@ public partial class ResXResourceReader : IResourceReader
 
     private void ParseDataNode(XmlTextReader reader, bool isMetaData)
     {
-        DataNodeInfo nodeInfo = new DataNodeInfo
+        var nodeInfo = new DataNodeInfo
         {
             Name = reader[ResXResourceWriter.NameStr]
         };
@@ -491,7 +491,7 @@ public partial class ResXResourceReader : IResourceReader
 
         nodeInfo.MimeType = reader[ResXResourceWriter.MimeTypeStr];
 
-        bool finishedReadingDataNode = false;
+        var finishedReadingDataNode = false;
         nodeInfo.ReaderPosition = GetPosition(reader);
         while (!finishedReadingDataNode && reader.Read())
         {
@@ -545,7 +545,7 @@ public partial class ResXResourceReader : IResourceReader
             throw new ArgumentException(string.Format("SR.InvalidResXResourceNoName,{0}", nodeInfo.ValueData));
         }
 
-        ResXDataNode dataNode = new ResXDataNode(nodeInfo, BasePath);
+        var dataNode = new ResXDataNode(nodeInfo, BasePath);
 
         if (UseResXDataNodes)
         {
@@ -676,7 +676,7 @@ public partial class ResXResourceReader : IResourceReader
 
     private void ParseXml(XmlTextReader reader)
     {
-        bool success = false;
+        var success = false;
         try
         {
             try
@@ -710,19 +710,19 @@ public partial class ResXResourceReader : IResourceReader
             }
             catch (SerializationException se)
             {
-                Point pt = GetPosition(reader);
-                string newMessage = string.Format("SR.SerializationException,{0},{1},{2},{3}", reader[ResXResourceWriter.TypeStr], pt.Y, pt.X, se.Message);
-                XmlException xml = new XmlException(newMessage, se, pt.Y, pt.X);
-                SerializationException newSe = new SerializationException(newMessage, xml);
+                var pt = GetPosition(reader);
+                var newMessage = string.Format("SR.SerializationException,{0},{1},{2},{3}", reader[ResXResourceWriter.TypeStr], pt.Y, pt.X, se.Message);
+                var xml = new XmlException(newMessage, se, pt.Y, pt.X);
+                var newSe = new SerializationException(newMessage, xml);
 
                 throw newSe;
             }
             catch (TargetInvocationException tie)
             {
-                Point pt = GetPosition(reader);
-                string newMessage = string.Format("SR.InvocationException,{0},{1},{2},{3}", reader[ResXResourceWriter.TypeStr], pt.Y, pt.X, tie.InnerException.Message);
-                XmlException xml = new XmlException(newMessage, tie.InnerException, pt.Y, pt.X);
-                TargetInvocationException newTie = new TargetInvocationException(newMessage, xml);
+                var pt = GetPosition(reader);
+                var newMessage = string.Format("SR.InvocationException,{0},{1},{2},{3}", reader[ResXResourceWriter.TypeStr], pt.Y, pt.X, tie.InnerException.Message);
+                var xml = new XmlException(newMessage, tie.InnerException, pt.Y, pt.X);
+                var newTie = new TargetInvocationException(newMessage, xml);
 
                 throw newTie;
             }
@@ -738,8 +738,8 @@ public partial class ResXResourceReader : IResourceReader
                 }
                 else
                 {
-                    Point pt = GetPosition(reader);
-                    XmlException xmlEx = new XmlException(e.Message, e, pt.Y, pt.X);
+                    var pt = GetPosition(reader);
+                    var xmlEx = new XmlException(e.Message, e, pt.Y, pt.X);
                     throw new ArgumentException(string.Format("SR.InvalidResXFile,{0}", xmlEx.Message), xmlEx);
                 }
             }
@@ -753,15 +753,15 @@ public partial class ResXResourceReader : IResourceReader
             }
         }
 
-        bool validFile = false;
+        var validFile = false;
 
         if (_resHeaderMimeType == ResXResourceWriter.ResMimeType)
         {
-            Type readerType = typeof(ResXResourceReader);
-            Type writerType = typeof(ResXResourceWriter);
+            var readerType = typeof(ResXResourceReader);
+            var writerType = typeof(ResXResourceWriter);
 
-            string readerTypeName = _resHeaderReaderType;
-            string writerTypeName = _resHeaderWriterType;
+            var readerTypeName = _resHeaderReaderType;
+            var writerTypeName = _resHeaderWriterType;
             if (readerTypeName != null && readerTypeName.IndexOf(',') != -1)
             {
                 readerTypeName = readerTypeName.Split(',')[0].Trim();

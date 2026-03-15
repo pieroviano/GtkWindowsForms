@@ -39,7 +39,7 @@ public class GtkMenuItem : Gtk.MenuItem
     {
         get
         {
-            IntPtr val = gtk_image_menu_item_get_type();
+            var val = gtk_image_menu_item_get_type();
 
             return new GLib.GType(val);
         }

@@ -164,7 +164,7 @@ internal class GLibrary
 
     public static IntPtr Load(Library library)
     {
-        IntPtr value = IntPtr.Zero;
+        var value = IntPtr.Zero;
         if (_libraries.TryGetValue(library, out value))
         {
             return value;

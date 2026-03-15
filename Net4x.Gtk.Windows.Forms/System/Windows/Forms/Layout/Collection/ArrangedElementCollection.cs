@@ -172,7 +172,7 @@ public class ArrangedElementCollection : IList
     /// </summary>
     private protected void MoveElement(IArrangedElement element, int fromIndex, int toIndex)
     {
-        int delta = toIndex - fromIndex;
+        var delta = toIndex - fromIndex;
 
         switch (delta)
         {

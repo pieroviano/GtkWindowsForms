@@ -283,7 +283,7 @@ public partial class ListBox : ListControl
     {
         get
         {
-            SelectedIndexCollection indexs = new SelectedIndexCollection(this);
+            var indexs = new SelectedIndexCollection(this);
 
             return indexs;
         }
@@ -301,7 +301,7 @@ public partial class ListBox : ListControl
     {
         get
         {
-            int index = SelectedIndex;
+            var index = SelectedIndex;
 
             return index == -1 ? null : _items[SelectedIndex];
         }
@@ -309,7 +309,7 @@ public partial class ListBox : ListControl
         set
         {
             ClearSelected();
-            int index = _items.IndexOf(value);
+            var index = _items.IndexOf(value);
             SelectedItems.SetSelected(index, true);
         }
     }
@@ -325,7 +325,7 @@ public partial class ListBox : ListControl
     {
         get
         {
-            SelectedObjectCollection indexs = new SelectedObjectCollection(this);
+            var indexs = new SelectedObjectCollection(this);
 
             return indexs;
         }
@@ -344,7 +344,7 @@ public partial class ListBox : ListControl
     {
         get
         {
-            int index = SelectedIndex;
+            var index = SelectedIndex;
 
             return index == -1 ? null : _items[SelectedIndex];
         }
@@ -352,7 +352,7 @@ public partial class ListBox : ListControl
         set
         {
             ClearSelected();
-            int index = _items.IndexOf(value);
+            var index = _items.IndexOf(value);
             SelectedItems.SetSelected(index, true);
         }
     }
@@ -465,7 +465,7 @@ public partial class ListBox : ListControl
             _topIndex = value;
             GLib.Timeout.Add(100, new TimeoutHandler(() =>
             {
-                int rowheight = ItemHeight;
+                var rowheight = ItemHeight;
                 if (rowheight < 14)
                 {
                     if (self.ListBox.Children.Length > 0)
@@ -766,7 +766,7 @@ public partial class ListBox : ListControl
     /// </param>
     protected void NativeAdd(object item)
     {
-        Gtk.ListBoxRow row = new Gtk.ListBoxRow
+        var row = new Gtk.ListBoxRow
         {
             HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight
         };
@@ -803,7 +803,7 @@ public partial class ListBox : ListControl
     /// </returns>
     protected string NativeGetItemText(int index)
     {
-        Gtk.Label row = self.ListBox.GetRowAtIndex(index).Child as Gtk.Label;
+        var row = self.ListBox.GetRowAtIndex(index).Child as Gtk.Label;
 
         return row?.Text;
     }
@@ -819,7 +819,7 @@ public partial class ListBox : ListControl
     /// </param>
     protected void NativeInsert(int index, object item)
     {
-        Gtk.ListBoxRow row = new Gtk.ListBoxRow
+        var row = new Gtk.ListBoxRow
         {
             HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight
         };

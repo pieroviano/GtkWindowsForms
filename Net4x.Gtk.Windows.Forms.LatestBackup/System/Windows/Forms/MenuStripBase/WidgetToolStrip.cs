@@ -352,7 +352,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
             if (_Font == null)
             {
                 var fontdes = Widget.PangoContext.FontDescription;
-                int size = Convert.ToInt32(fontdes.Size / Pango.Scale.PangoScale);
+                var size = Convert.ToInt32(fontdes.Size / Pango.Scale.PangoScale);
                 return new Drawing.Font(new Drawing.FontFamily(fontdes.Family), size);
             }
             else
@@ -775,21 +775,21 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     protected virtual void SetStyle(Gtk.Widget widget)
     {
 
-        StringBuilder style = new StringBuilder();
+        var style = new StringBuilder();
         if (this.BackColor.Name != "0")
         {
-            string color = $"rgba({this.BackColor.R},{this.BackColor.G},{this.BackColor.B},{this.BackColor.A})";
+            var color = $"rgba({this.BackColor.R},{this.BackColor.G},{this.BackColor.B},{this.BackColor.A})";
             style.AppendFormat("background-color:{0};background:{0};", color);
         }
         if (this.ForeColor.Name != "0")
         {
-            string color = $"rgba({this.ForeColor.R},{this.ForeColor.G},{this.ForeColor.B},{this.ForeColor.A})";
+            var color = $"rgba({this.ForeColor.R},{this.ForeColor.G},{this.ForeColor.B},{this.ForeColor.A})";
             style.AppendFormat("color:{0};", color);
         }
 
         if (this.Font != null)
         {
-            Font font = this.Font;
+            var font = this.Font;
             if (font.Unit == GraphicsUnit.Pixel)
                 style.AppendFormat("font-size:{0}px;", font.Size);
             else if (font.Unit == GraphicsUnit.Inch)
@@ -827,8 +827,8 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
             }
         }
 
-        string stylename = $"s{unique_key}";
-        StringBuilder css = new StringBuilder();
+        var stylename = $"s{unique_key}";
+        var css = new StringBuilder();
         css.AppendLine($".{stylename}{{{style.ToString()}}}");
         if (widget is Gtk.TextView)
         {
@@ -880,7 +880,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     private void ToolStripItem_Realized(object sender, EventArgs e)
     {
         SetStyle((Gtk.MenuItem)sender);
-        Gtk.MenuItem menuItem = (Gtk.MenuItem)sender;
+        var menuItem = (Gtk.MenuItem)sender;
         if (menuItem.Parent is Gtk.Menu)
         {
             flagBox.Vexpand = true;
@@ -890,7 +890,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
         }
         if (this.CheckState == CheckState.Checked)
         {
-            Gtk.CheckButton checkbutton = new Gtk.CheckButton();
+            var checkbutton = new Gtk.CheckButton();
             checkbutton.StyleContext.AddClass("MenuCheck");
             checkbutton.BorderWidth = 0;
             checkbutton.Margin = 0;
@@ -902,7 +902,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
         }
         else if (this.CheckState == CheckState.Indeterminate)
         {
-            Gtk.RadioButton checkbutton = new Gtk.RadioButton(((WidgetToolStrip<Gtk.MenuItem>)this.Parent).groupradio);
+            var checkbutton = new Gtk.RadioButton(((WidgetToolStrip<Gtk.MenuItem>)this.Parent).groupradio);
             checkbutton.StyleContext.AddClass("MenuCheck");
             checkbutton.BorderWidth = 0;
             checkbutton.Margin = 0;
@@ -927,7 +927,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
                     label.NoShowAll = true;
                     if (Image != null && Image.PixbufData != null)
                     {
-                        Gtk.Image ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles))
+                        var ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles))
                         {
                             Halign = Gtk.Align.Center,
                             Valign = Gtk.Align.Center
@@ -940,7 +940,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
 
                     if (Image != null && Image.PixbufData != null)
                     {
-                        Gtk.Image ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles))
+                        var ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles))
                         {
                             Halign = Gtk.Align.Center,
                             Valign = Gtk.Align.Center

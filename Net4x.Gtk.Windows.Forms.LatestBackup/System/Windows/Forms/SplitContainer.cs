@@ -61,7 +61,7 @@ public partial class SplitContainer : ContainerControl
         set
         {
             _fixedPanel = value;
-            bool resize = value == FixedPanel.Panel2;
+            var resize = value == FixedPanel.Panel2;
             ((Paned.PanedChild)self[_panel1.Widget]).Resize = resize;
             ((Paned.PanedChild)self[_panel2.Widget]).Resize = !resize;
         }

@@ -138,7 +138,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// </returns>
     protected override bool OnDrawn(Cairo.Context cr)
     {
-        Gdk.Rectangle rec = GetDrawRectangle();
+        var rec = GetDrawRectangle();
         Override.OnPaint(cr, rec);
 
         return base.OnDrawn(cr);
@@ -157,7 +157,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     {
         if (Scroll != null)
         {
-            Gtk.Adjustment adj = (Gtk.Adjustment)sender;
+            var adj = (Gtk.Adjustment)sender;
             Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
         }
     }
@@ -166,7 +166,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     {
         if (Scroll != null)
         {
-            Gtk.Adjustment adj = (Gtk.Adjustment)sender;
+            var adj = (Gtk.Adjustment)sender;
             Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
         }
     }

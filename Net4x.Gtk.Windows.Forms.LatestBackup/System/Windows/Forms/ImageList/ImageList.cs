@@ -336,13 +336,13 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
 
     internal Image GetOriginalImage(string name)
     {
-        string path1 = $"./Resources";
+        var path1 = $"./Resources";
         var value = this.ImageStream;
         if (value.ResourceInfo != null && value.ResourceInfo.BaseName != null)
         {
             // load image data here
-            string dir = $"{path1}/{Path.GetExtension(value.ResourceInfo.BaseName).TrimStart('.')}";
-            string path2 = $"{dir}/{name}";
+            var dir = $"{path1}/{Path.GetExtension(value.ResourceInfo.BaseName).TrimStart('.')}";
+            var path2 = $"{dir}/{name}";
             if (IO.File.Exists(path2))
             {
                 if (!Directory.Exists(dir))
@@ -444,8 +444,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         Debug.Assert(targetData.Height == sourceData.Height);
         Debug.Assert(targetData.Stride == targetData.Width * 4);
         // do the actual copy
-        int offsetSrc = 0;
-        int offsetDest = 0;
+        var offsetSrc = 0;
+        var offsetDest = 0;
         for (int i = 0; i < targetData.Height; i++)
         {
             IntPtr srcPtr = sourceData.Scan0 + offsetSrc;
@@ -460,8 +460,8 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     private Bitmap CreateBitmap(Original original, out bool ownsBitmap)
     {
         ownsBitmap = false;
-        Bitmap bitmp = original._image as Bitmap;
-        Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(bitmp.PixbufData);
+        var bitmp = original._image as Bitmap;
+        var pixbuf = new Gdk.Pixbuf(bitmp.PixbufData);
         int w = Math.Max(16, Math.Min(ImageSize.Width, 200));
         int h = Math.Max(16, Math.Min(ImageSize.Height, 200));
         Gdk.Pixbuf newpixbuf = pixbuf.ScaleSimple(w, h, Gdk.InterpType.Bilinear);
@@ -499,7 +499,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
 
     private Bitmap ScaleSimpleBitmap(Image bitmp)
     {
-        Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(bitmp.PixbufData);
+        var pixbuf = new Gdk.Pixbuf(bitmp.PixbufData);
         int w = Math.Max(16, Math.Min(ImageSize.Width, 200));
         int h = Math.Max(16, Math.Min(ImageSize.Height, 200));
         Gdk.Pixbuf newpixbuf = pixbuf.ScaleSimple(w, h, Gdk.InterpType.Bilinear);

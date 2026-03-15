@@ -40,7 +40,7 @@ internal abstract class ArrangedElement : Component, IArrangedElement
     {
         get
         {
-            Rectangle displayRectangle = Bounds;
+            var displayRectangle = Bounds;
 
             return displayRectangle;
         }
@@ -162,7 +162,7 @@ internal abstract class ArrangedElement : Component, IArrangedElement
     {
         if (bounds != _bounds)
         {
-            Rectangle oldBounds = _bounds;
+            var oldBounds = _bounds;
 
             _bounds = bounds;
             OnBoundsChanged(oldBounds, bounds);

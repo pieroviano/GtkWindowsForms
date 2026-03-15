@@ -126,10 +126,10 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
             // If the type is assembly qualified name, we sort the assembly names
             // to put assemblies with same name in the front so that they can
             // be searched first.
-            int pos = name.IndexOf(',');
+            var pos = name.IndexOf(',');
             if (pos > 0 && pos < name.Length - 1)
             {
-                string fullName = name.Substring(pos + 1).Trim();
+                var fullName = name.Substring(pos + 1).Trim();
                 AssemblyName assemblyName = null;
                 try
                 {
@@ -141,7 +141,7 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
 
                 if (assemblyName != null)
                 {
-                    List<AssemblyName> assemblyList = new List<AssemblyName>(_names.Length);
+                    var assemblyList = new List<AssemblyName>(_names.Length);
                     foreach (AssemblyName asmName in _names)
                     {
                         if (string.Equals(assemblyName.Name, asmName.Name, StringComparison.OrdinalIgnoreCase))
@@ -161,16 +161,16 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
             // Search each reference assembly
             foreach (AssemblyName asmName in _names)
             {
-                Assembly asm = GetAssembly(asmName, false);
+                var asm = GetAssembly(asmName, false);
                 if (asm != null)
                 {
                     result = asm.GetType(name, false, ignoreCase);
                     if (result is null)
                     {
-                        int indexOfComma = name.IndexOf(',');
+                        var indexOfComma = name.IndexOf(',');
                         if (indexOfComma != -1)
                         {
-                            string shortName = name.Substring(0, indexOfComma);
+                            var shortName = name.Substring(0, indexOfComma);
                             result = asm.GetType(shortName, false, ignoreCase);
                         }
                     }

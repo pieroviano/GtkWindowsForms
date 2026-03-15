@@ -231,7 +231,7 @@ public partial class TabControl : ContainerControl
         {
             throw new ArgumentOutOfRangeException(nameof(index), index, "SR.InvalidArgument");
         }
-        TabPage page = TabPages[index];
+        var page = TabPages[index];
         Gtk.Label tab = page.TabLabel;
         Gdk.Rectangle rect = tab.Allocation;
 
@@ -295,7 +295,7 @@ public partial class TabControl : ContainerControl
                 {
                     if (_owner.DrawMode == TabDrawMode.OwnerDrawFixed && _owner.DrawItem != null)
                     {
-                        Gtk.Label tab = (Gtk.Label)sender;
+                        var tab = (Gtk.Label)sender;
                         Gdk.Rectangle allocation= tab.Allocation;
                         args.Cr.ResetClip();
                         int width = allocation.Width + 24;
@@ -451,7 +451,7 @@ public partial class TabControl : ContainerControl
         /// </param>
         public void Add(string key, string text, string imageKey)
         {
-            TabPage tp = new TabPage
+            var tp = new TabPage
             {
                 Name = key,
                 Text = text

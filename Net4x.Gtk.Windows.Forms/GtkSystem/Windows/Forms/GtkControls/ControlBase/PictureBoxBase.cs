@@ -50,7 +50,7 @@ public sealed class PictureBoxBase : Gtk.Image, IControlGtk
         {
             cr.Scale(this.AllocatedWidth * 1f / this.Pixbuf.Width * 1f, this.AllocatedHeight * 1f / this.Pixbuf.Height * 1f);
         }
-        Gdk.Rectangle rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
+        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
         Override.OnDrawnBackground(cr, rec);
         Override.OnPaint(cr, rec);
         base.OnDrawn(cr);

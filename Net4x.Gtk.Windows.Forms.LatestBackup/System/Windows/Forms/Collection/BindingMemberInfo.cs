@@ -25,7 +25,7 @@ public readonly struct BindingMemberInfo : IEquatable<BindingMemberInfo>
     public BindingMemberInfo(string dataMember)
     {
         dataMember ??= string.Empty;
-        int lastDot = dataMember.LastIndexOf('.');
+        var lastDot = dataMember.LastIndexOf('.');
         if (lastDot != -1)
         {
             _dataList = dataMember.Substring(0, lastDot);

@@ -208,7 +208,7 @@ public sealed class GtkControlOverride : IControlOverride
 
         if (DrawnBackground != null)
         {
-            DrawnArgs args = new DrawnArgs() { Args = new object[] { cr } };
+            var args = new DrawnArgs() { Args = new object[] { cr } };
             DrawnBackground(this.container, args);
         }
     }
@@ -228,7 +228,7 @@ public sealed class GtkControlOverride : IControlOverride
         {
             if (imagePixbuf == null || imagePixbuf.Width != area.Width || imagePixbuf.Height != area.Height)
             {
-                Gdk.Pixbuf imagepixbuf = new Gdk.Pixbuf(Image.PixbufData);
+                var imagepixbuf = new Gdk.Pixbuf(Image.PixbufData);
                 imagePixbuf = imagepixbuf.ScaleSimple(area.Width, area.Height, Gdk.InterpType.Nearest);
             }
             ImageUtility.DrawImage(cr, imagePixbuf, area, ImageAlign);

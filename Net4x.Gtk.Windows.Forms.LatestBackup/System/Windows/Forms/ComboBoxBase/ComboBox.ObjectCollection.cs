@@ -114,7 +114,7 @@ public partial class ComboBox
         /// </summary>
         public int Add(object item)
         {
-            int index = AddInternal(item);
+            var index = AddInternal(item);
             NativeAdd(-1, item.ToString(), item.ToString());
 
             return index;
@@ -202,7 +202,7 @@ public partial class ComboBox
         /// </returns>
         public int IndexOf(object? value)
         {
-            int virtualIndex = -1;
+            var virtualIndex = -1;
 
             foreach (Entry entry in InnerList)
             {
@@ -245,7 +245,7 @@ public partial class ComboBox
         /// </summary>
         public void Remove(object? value)
         {
-            int index = IndexOf(value);
+            var index = IndexOf(value);
 
             if (index != -1)
             {
@@ -276,7 +276,7 @@ public partial class ComboBox
 
         internal int Add(string value, string text, object item)
         {
-            int index = AddInternal(item);
+            var index = AddInternal(item);
             NativeAdd(-1, value, text);
 
             return index;
@@ -298,7 +298,7 @@ public partial class ComboBox
                 return;
             }
 
-            bool selected = (index == _owner.SelectedIndex);
+            var selected = (index == _owner.SelectedIndex);
 
             if (string.Compare(_owner.GetItemText(value), _owner.NativeGetItemText(index), true, CultureInfo.CurrentCulture) != 0)
             {
@@ -351,7 +351,7 @@ public partial class ComboBox
         private int AddInternal(object item)
         {
             item ??= "";
-            int index = -1;
+            var index = -1;
             if (!_owner._sorted)
             {
                 InnerList.Add(new Entry(item));
@@ -359,7 +359,7 @@ public partial class ComboBox
             }
             else
             {
-                Entry entry = item is Entry entryItem ? entryItem : new Entry(item);
+                var entry = item is Entry entryItem ? entryItem : new Entry(item);
                 index = InnerList.BinarySearch(index: 0, Count, entry, this);
                 if (index < 0)
                 {

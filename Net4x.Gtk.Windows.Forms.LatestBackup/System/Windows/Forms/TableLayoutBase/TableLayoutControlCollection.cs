@@ -72,7 +72,7 @@ public class TableLayoutControlCollection : Control.ControlCollection
         }
         else
         {
-            Gtk.Viewport viewport = new Gtk.Viewport
+            var viewport = new Gtk.Viewport
             {
                 Vexpand = false, Hexpand = false, Valign = Align.Fill,
                 Halign = Align.Fill,

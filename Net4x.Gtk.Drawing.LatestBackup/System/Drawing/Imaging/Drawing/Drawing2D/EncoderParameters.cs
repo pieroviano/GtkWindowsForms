@@ -61,7 +61,7 @@ public sealed class EncoderParameters : IDisposable
     /// </summary>
     public void Dispose()
     {
-        EncoderParameter[] param = _param;
+        var param = _param;
         for (int i = 0; i < param.Length; i++)
         {
             param[i]?.Dispose();
@@ -72,7 +72,7 @@ public sealed class EncoderParameters : IDisposable
     internal static EncoderParameters ConvertFromMemory(IntPtr memory)
     {
 
-        EncoderParameters encoderParameters = new EncoderParameters(1);
+        var encoderParameters = new EncoderParameters(1);
 
         return encoderParameters;
     }

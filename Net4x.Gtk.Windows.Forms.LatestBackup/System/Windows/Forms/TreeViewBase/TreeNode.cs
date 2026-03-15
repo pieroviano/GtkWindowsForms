@@ -153,7 +153,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     {
         get
         {
-            List<string> paths=new List<string>();
+            var paths=new List<string>();
             GetFullPath(this, paths);
 
             return string.Join("/", paths);

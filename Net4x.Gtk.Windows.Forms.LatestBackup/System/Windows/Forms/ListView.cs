@@ -182,7 +182,7 @@ public class ListView : ContainerControl
     {
         get
         {
-            CheckedIndexCollection selecteditems = new CheckedIndexCollection(this);
+            var selecteditems = new CheckedIndexCollection(this);
             foreach (ListViewItem item in CheckedItems)
             {
                 selecteditems.Add(item.Index);
@@ -202,7 +202,7 @@ public class ListView : ContainerControl
     {
         get
         {
-            CheckedListViewItemCollection selecteditems = new CheckedListViewItemCollection(this);
+            var selecteditems = new CheckedListViewItemCollection(this);
             foreach (ListViewItem item in this.Items)
             {
                 if (item.Checked)
@@ -450,7 +450,7 @@ public class ListView : ContainerControl
     {
         get
         {
-            SelectedIndexCollection selecteditems = new SelectedIndexCollection();
+            var selecteditems = new SelectedIndexCollection();
             foreach (ListViewItem item in SelectedItems)
             {
                 selecteditems.Add(item.Index);
@@ -470,7 +470,7 @@ public class ListView : ContainerControl
     {
         get
         {
-            SelectedListViewItemCollection selecteditems = new SelectedListViewItemCollection();
+            var selecteditems = new SelectedListViewItemCollection();
             foreach (ListViewItem item in this.Items)
             {
                 if (item.Selected)
@@ -661,7 +661,7 @@ public class ListView : ContainerControl
     /// </returns>
     public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
     {
-        int idx = Items.FindIndex(startIndex, w => w.Text == text);
+        var idx = Items.FindIndex(startIndex, w => w.Text == text);
 
         return idx == -1 ? null : Items[idx];
     }
@@ -692,7 +692,7 @@ public class ListView : ContainerControl
     /// </returns>
     public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
     {
-        int idx = Items.FindIndex(startIndex, w => w.Text == text);
+        var idx = Items.FindIndex(startIndex, w => w.Text == text);
 
         return idx == -1 ? null : Items[idx];
     }
@@ -761,7 +761,7 @@ public class ListView : ContainerControl
     {
         iItem = -1;
         iSubItem = -1;
-        int position = -(int)headerView.Hadjustment.Value;
+        var position = -(int)headerView.Hadjustment.Value;
         for (int i = 0; i < Columns.Count; i++)
         {
             if (position < x && position + Columns[i].Width > x)
@@ -777,7 +777,7 @@ public class ListView : ContainerControl
     {
         if (self.IsRealized)
         {
-            Gtk.FlowBoxChild boxitem = new Gtk.FlowBoxChild
+            var boxitem = new Gtk.FlowBoxChild
             {
                 TooltipText = item.Text
             };
@@ -788,7 +788,7 @@ public class ListView : ContainerControl
             boxitem.Margin = 0;
             boxitem.HeightRequest = FontSize + 10;
             item._flowBoxChild = boxitem;
-            BoxBase hBox = new BoxBase(Gtk.Orientation.Horizontal, 0);
+            var hBox = new BoxBase(Gtk.Orientation.Horizontal, 0);
             if (item.BackColor.HasValue)
             {
                 hBox.Override.BackColor = Drawing.Color.FromArgb(180, item.BackColor.Value);
@@ -834,7 +834,7 @@ public class ListView : ContainerControl
                 header.Visible = true;
                 flowBox.MinChildrenPerLine = 1;
                 flowBox.MaxChildrenPerLine = 1;
-                Gtk.Layout fistcell = new Gtk.Layout(new Adjustment(IntPtr.Zero), new Adjustment(IntPtr.Zero))
+                var fistcell = new Gtk.Layout(new Adjustment(IntPtr.Zero), new Adjustment(IntPtr.Zero))
                 {
                     Halign = Gtk.Align.Start,
                     Valign = Gtk.Align.Fill,
@@ -844,11 +844,11 @@ public class ListView : ContainerControl
                     HeightRequest = boxitem.HeightRequest
                 };
 
-                int x_position = 5;
-                int padding = 2;
+                var x_position = 5;
+                var padding = 2;
                 if (this.CheckBoxes == true)
                 {
-                    CheckBox checkBox = new CheckBox();
+                    var checkBox = new CheckBox();
                     checkBox.self.Halign = Gtk.Align.Start;
                     checkBox.self.Valign = Gtk.Align.Center;
                     checkBox.Width = 20;
@@ -856,9 +856,9 @@ public class ListView : ContainerControl
                     checkBox.Checked = item.Checked;
                     checkBox.CheckedChanged += (object sender, EventArgs e) =>
                     {
-                        CheckBox box = sender as CheckBox;
-                        Gtk.FlowBoxChild checkitem = box.self.Parent.Parent.Parent.Parent as Gtk.FlowBoxChild;
-                        ListViewItem thisitem = this.Items.Find(m => m.Index == Convert.ToInt32(checkitem.Data["ItemId"]));
+                        var box = sender as CheckBox;
+                        var checkitem = box.self.Parent.Parent.Parent.Parent as Gtk.FlowBoxChild;
+                        var thisitem = this.Items.Find(m => m.Index == Convert.ToInt32(checkitem.Data["ItemId"]));
                         if (thisitem != null)
                         {
                             thisitem.Checked = box.self.Active;
@@ -873,7 +873,7 @@ public class ListView : ContainerControl
 
                 if (this.SmallImageList != null)
                 {
-                    int imgsize = FontSize + 2;
+                    var imgsize = FontSize + 2;
                     this.SmallImageList.ImageSize = new Size(imgsize, imgsize);
                     if (!string.IsNullOrWhiteSpace(item.ImageKey))
                     {
@@ -890,11 +890,11 @@ public class ListView : ContainerControl
                         x_position += imgsize + 5;
                     }
                 }
-                Gtk.Label lab = new Gtk.Label();
-                Pango.AttrList attributes = new Pango.AttrList();
+                var lab = new Gtk.Label();
+                var attributes = new Pango.AttrList();
                 if (item.ForeColor.HasValue)
                 {
-                    Pango.AttrForeground fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
+                    var fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
                     attributes.Insert(fg);
                 }
                 lab.Attributes = attributes;
@@ -915,12 +915,12 @@ public class ListView : ContainerControl
                 viewport.Add(fistcell);
                 hBox.PackStart(viewport, false, true, 0);
 
-                int index = 0;
+                var index = 0;
                 foreach (ColumnHeader col in Columns)
                 {
                     if (index > 0)
                     {
-                        Gtk.Layout sublayout = new Gtk.Layout(new Adjustment(IntPtr.Zero), new Adjustment(IntPtr.Zero))
+                        var sublayout = new Gtk.Layout(new Adjustment(IntPtr.Zero), new Adjustment(IntPtr.Zero))
                         {
                             Halign = Gtk.Align.Start,
                             Valign = Gtk.Align.Fill,
@@ -929,12 +929,12 @@ public class ListView : ContainerControl
                         if (item.SubItems != null && item.SubItems.Count > index)
                         {
                             ListViewItem.ListViewSubItem subitem = item.SubItems[index];
-                            Gtk.Label sublabel = new Gtk.Label();
+                            var sublabel = new Gtk.Label();
                             subitem._label = sublabel;
-                            Pango.AttrList subattributes = new Pango.AttrList();
+                            var subattributes = new Pango.AttrList();
                             if (subitem.ForeColor.HasValue)
                             {
-                                Pango.AttrForeground fg = new Pango.AttrForeground(Convert.ToUInt16(subitem.ForeColor.Value.R * 257), Convert.ToUInt16(subitem.ForeColor.Value.G * 257), Convert.ToUInt16(subitem.ForeColor.Value.B * 257));
+                                var fg = new Pango.AttrForeground(Convert.ToUInt16(subitem.ForeColor.Value.R * 257), Convert.ToUInt16(subitem.ForeColor.Value.G * 257), Convert.ToUInt16(subitem.ForeColor.Value.B * 257));
                                 subattributes.Insert(fg);
                                 sublabel.Attributes = subattributes;
                             }
@@ -963,7 +963,7 @@ public class ListView : ContainerControl
             {
                 if (this.CheckBoxes == true)
                 {
-                    CheckBox checkBox = new CheckBox();
+                    var checkBox = new CheckBox();
                     checkBox.self.Halign = Gtk.Align.Start;
                     checkBox.self.Valign = Gtk.Align.Center;
                     checkBox.Width = 20;
@@ -971,9 +971,9 @@ public class ListView : ContainerControl
                     checkBox.Checked = item.Checked;
                     checkBox.CheckedChanged += (object sender, EventArgs e) =>
                     {
-                        CheckBox box = sender as CheckBox;
-                        Gtk.FlowBoxChild checkitem = box.self.Parent.Parent as Gtk.FlowBoxChild;
-                        ListViewItem thisitem = this.Items.Find(m => m.Index == Convert.ToInt32(checkitem.Data["ItemId"]));
+                        var box = sender as CheckBox;
+                        var checkitem = box.self.Parent.Parent as Gtk.FlowBoxChild;
+                        var thisitem = this.Items.Find(m => m.Index == Convert.ToInt32(checkitem.Data["ItemId"]));
                         if (thisitem != null)
                         {
                             thisitem.Checked = box.self.Active;
@@ -1005,11 +1005,11 @@ public class ListView : ContainerControl
                         }
 
                     }
-                    Gtk.Label lab = new Gtk.Label();
-                    Pango.AttrList attributes = new Pango.AttrList();
+                    var lab = new Gtk.Label();
+                    var attributes = new Pango.AttrList();
                     if (item.ForeColor.HasValue)
                     {
-                        Pango.AttrForeground fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
+                        var fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
                         attributes.Insert(fg);
                     }
                     lab.Attributes = attributes;
@@ -1025,7 +1025,7 @@ public class ListView : ContainerControl
                 {
                     flowBox.MinChildrenPerLine = 1;
                     flowBox.MaxChildrenPerLine = 999;
-                    Gtk.Box vBox = new Gtk.Box(Gtk.Orientation.Vertical, 5);
+                    var vBox = new Gtk.Box(Gtk.Orientation.Vertical, 5);
                     if (this.LargeImageList != null)
                     {
                         this.SmallImageList.ImageSize = new Size(100, 100);
@@ -1050,11 +1050,11 @@ public class ListView : ContainerControl
                             }
                         }
                     }
-                    Gtk.Label lab = new Gtk.Label();
-                    Pango.AttrList attributes = new Pango.AttrList();
+                    var lab = new Gtk.Label();
+                    var attributes = new Pango.AttrList();
                     if (item.ForeColor.HasValue)
                     {
-                        Pango.AttrForeground fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
+                        var fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
                         attributes.Insert(fg);
 
                     }
@@ -1073,11 +1073,11 @@ public class ListView : ContainerControl
                     header.Visible = false;
                     boxitem.Halign = Gtk.Align.Fill;
 
-                    Gtk.Label lab = new Gtk.Label();
-                    Pango.AttrList attributes = new Pango.AttrList();
+                    var lab = new Gtk.Label();
+                    var attributes = new Pango.AttrList();
                     if (item.ForeColor.HasValue)
                     {
-                        Pango.AttrForeground fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
+                        var fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
                         attributes.Insert(fg);
 
                     }
@@ -1097,11 +1097,11 @@ public class ListView : ContainerControl
     {
         if (item._flowBoxChild != null && item._flowBoxChild.IsRealized && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
         {
-            Gtk.Box box = item._flowBoxChild.Child as Gtk.Box;
+            var box = item._flowBoxChild.Child as Gtk.Box;
             if (this.View == View.Details)
             {
-                Gtk.Viewport viewport = box.Children[0] as Gtk.Viewport;
-                Gtk.Layout layout = viewport.Child as Gtk.Layout;
+                var viewport = box.Children[0] as Gtk.Viewport;
+                var layout = viewport.Child as Gtk.Layout;
                 foreach (var chk in layout.Children)
                 {
                     if (chk is Gtk.CheckButton chkbutton)
@@ -1148,7 +1148,7 @@ public class ListView : ContainerControl
             }
 
             Gtk.FlowBox _flow = DefaultGroup.FlowBox;
-            Gtk.Box hBox = new Gtk.Box(Gtk.Orientation.Vertical, 0)
+            var hBox = new Gtk.Box(Gtk.Orientation.Vertical, 0)
             {
                 Valign = Gtk.Align.Start,
                 Halign = Gtk.Align.Fill
@@ -1164,7 +1164,7 @@ public class ListView : ContainerControl
                 groupbox.MarginStart = 3;
                 var title = new Gtk.Label(group.Header) { Xalign = 0, Halign = Gtk.Align.Start, Valign = Gtk.Align.Center, Ellipsize = Pango.EllipsizeMode.End };
                 groupbox.PackStart(title, false, false, 0);
-                Gtk.Viewport groupline = new Gtk.Viewport();
+                var groupline = new Gtk.Viewport();
                 groupline.StyleContext.AddClass("GroupLine");
                 groupline.HeightRequest = 1;
                 groupline.Halign = Gtk.Align.Fill;
@@ -1277,7 +1277,7 @@ public class ListView : ContainerControl
     {
         if (self.IsRealized)
         {
-            LabelBase label = new LabelBase(col.Text)
+            var label = new LabelBase(col.Text)
             {
                 Xalign = 0, Xpad = 5, WidthRequest = col.Width, MaxWidthChars = 0, Halign = Gtk.Align.Start, Valign = Gtk.Align.End, Ellipsize = Pango.EllipsizeMode.End, Wrap = false, LineWrap = false, TooltipText = col.Text,
                 Markup = col.Text
@@ -1353,11 +1353,11 @@ public class ListView : ContainerControl
     {
         if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
         {
-            Gtk.Box box = item._flowBoxChild.Child as Gtk.Box;
+            var box = item._flowBoxChild.Child as Gtk.Box;
             if (this.View == View.Details)
             {
-                Gtk.Viewport viewport = box.Children[0] as Gtk.Viewport;
-                Gtk.Layout layout = viewport.Child as Gtk.Layout;
+                var viewport = box.Children[0] as Gtk.Viewport;
+                var layout = viewport.Child as Gtk.Layout;
                 foreach (var lab in layout.Children)
                 {
                     if (lab is Gtk.Label label)
@@ -1380,7 +1380,7 @@ public class ListView : ContainerControl
             }
             else if (this.View == View.LargeIcon)
             {
-                Gtk.Box vbox = box.Children[0] as Gtk.Box;
+                var vbox = box.Children[0] as Gtk.Box;
                 foreach (var lab in vbox.Children)
                 {
                     if (lab is Gtk.Label label)
@@ -1406,8 +1406,8 @@ public class ListView : ContainerControl
 
     private void _flow_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {
-        Gtk.FlowBox widget = (Gtk.FlowBox)o;
-        ListViewItem item = this.Items.Find(m => m.Index == Convert.ToInt32(args.Child.Data["ItemId"]));
+        var widget = (Gtk.FlowBox)o;
+        var item = this.Items.Find(m => m.Index == Convert.ToInt32(args.Child.Data["ItemId"]));
         if (item != null)
         {
             item._selected = args.Child.IsSelected;
@@ -1425,19 +1425,19 @@ public class ListView : ContainerControl
 
     private void _flow_SelectedChildrenChanged(object sender, EventArgs e)
     {
-        Gtk.FlowBox widget = (Gtk.FlowBox)sender;
+        var widget = (Gtk.FlowBox)sender;
         if (MultiSelect == true)
         {
             ItemActivate?.Invoke(this, e);
 
-            List<int> selecteds = new List<int>();
+            var selecteds = new List<int>();
             foreach (var group in GetAllGroups())
             {
                 foreach (FlowBoxChild o in group.FlowBox.SelectedChildren)
                 {
                     if (o.IsSelected)
                     {
-                        int id = Convert.ToInt32(o.Data["ItemId"]);
+                        var id = Convert.ToInt32(o.Data["ItemId"]);
                         selecteds.Add(id);
                     }
                 }
@@ -1465,11 +1465,11 @@ public class ListView : ContainerControl
 
     private void Columbt_Clicked(object sender, EventArgs e)
     {
-        Gtk.Button btn = (Gtk.Button)sender;
+        var btn = (Gtk.Button)sender;
 
         if (this.HeaderStyle == ColumnHeaderStyle.Clickable)
         {
-            int actioncolumn = (int)btn.ActionTargetValue;
+            var actioncolumn = (int)btn.ActionTargetValue;
             if (this.Sorted == true)
             {
                 if (SortingColumnIndex == actioncolumn)
@@ -1539,7 +1539,7 @@ public class ListView : ContainerControl
         Cairo.Rectangle rec = args.Cr.ClipExtents();
         if (rec.Width > 10 && SortingColumnIndex > -1)
         {
-            LabelBase ws = (LabelBase)o;
+            var ws = (LabelBase)o;
             if (ws.Data["ColumnIndex"].ToString() == SortingColumnIndex.ToString())
             {
                 if (Sorting != SortOrder.None)
@@ -1704,7 +1704,7 @@ public class ListView : ContainerControl
             header._index = Count;
             if (header.DisplayIndex == 0)
                 header.DisplayIndex = header._index;
-            int index= ((IList)this).Add(header);
+            var index= ((IList)this).Add(header);
             _owner.NativeHeaderAdd(header);
 
             return index;
@@ -1821,7 +1821,7 @@ public class ListView : ContainerControl
         /// </returns>
         public virtual ColumnHeader Add(string key, string text, int width, HorizontalAlignment textAlign, string imageKey)
         {
-            ColumnHeader header = new ColumnHeader
+            var header = new ColumnHeader
             {
                 Name = key,
                 Text = text,
@@ -1858,7 +1858,7 @@ public class ListView : ContainerControl
         /// </returns>
         public virtual ColumnHeader Add(string key, string text, int width, HorizontalAlignment textAlign, int imageIndex)
         {
-            ColumnHeader header = new ColumnHeader
+            var header = new ColumnHeader
             {
                 Name = key,
                 Text = text,
@@ -1943,7 +1943,7 @@ public class ListView : ContainerControl
                 header.DisplayIndex = header._index;
 
             base.Insert(index, header);
-            int idx = 0;
+            var idx = 0;
             foreach (var item in this)
             {
                 header._index = idx;
@@ -2066,7 +2066,7 @@ public class ListView : ContainerControl
         /// </param>
         public void Insert(int index, string key, string text, int width, HorizontalAlignment textAlign, string imageKey)
         {
-            ColumnHeader header = new ColumnHeader
+            var header = new ColumnHeader
             {
                 _index = index,
                 DisplayIndex = index,
@@ -2102,7 +2102,7 @@ public class ListView : ContainerControl
         /// </param>
         public void Insert(int index, string key, string text, int width, HorizontalAlignment textAlign, int imageIndex)
         {
-            ColumnHeader header = new ColumnHeader
+            var header = new ColumnHeader
             {
                 _index = index,
                 DisplayIndex = index,
@@ -2123,7 +2123,7 @@ public class ListView : ContainerControl
         /// </param>
         public virtual void RemoveByKey(string key)
         {
-            ColumnHeader column = base.Find(o => o.Name == key);
+            var column = base.Find(o => o.Name == key);
             base.Remove(column);
             _owner.NativeHeaderRemove(column);
         }
@@ -2250,7 +2250,7 @@ public class ListView : ContainerControl
         /// </returns>
         public virtual ListViewItem Add(string key, string text, string imageKey)
         {
-            ListViewItem item = new ListViewItem(text, imageKey)
+            var item = new ListViewItem(text, imageKey)
             {
                 Name = key,
                 Text = text
@@ -2277,7 +2277,7 @@ public class ListView : ContainerControl
         /// </returns>
         public virtual ListViewItem Add(string key, string text, int imageIndex)
         {
-            ListViewItem item = new ListViewItem(text, imageIndex)
+            var item = new ListViewItem(text, imageIndex)
             {
                 Name = key
             };
@@ -2475,7 +2475,7 @@ public class ListView : ContainerControl
         /// </returns>
         public virtual ListViewItem Insert(int index, string key, string text, string imageKey)
         {
-            ListViewItem item = new ListViewItem(text, imageKey)
+            var item = new ListViewItem(text, imageKey)
             {
                 Name = key
             };
@@ -2504,7 +2504,7 @@ public class ListView : ContainerControl
         /// </returns>
         public virtual ListViewItem Insert(int index, string key, string text, int imageIndex)
         {
-            ListViewItem item = new ListViewItem(text, imageIndex)
+            var item = new ListViewItem(text, imageIndex)
             {
                 Name = key
             };

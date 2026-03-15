@@ -608,7 +608,7 @@ public sealed class ColorMatrix
         }
         set
         {
-            float[][] matrix = GetMatrix();
+            var matrix = GetMatrix();
             matrix[row][column] = value;
             SetMatrix(matrix);
         }
@@ -616,7 +616,7 @@ public sealed class ColorMatrix
 
     internal float[][] GetMatrix()
     {
-        float[][] array = new float[5][];
+        var array = new float[5][];
         for (int i = 0; i < 5; i++)
         {
             array[i] = new float[5];

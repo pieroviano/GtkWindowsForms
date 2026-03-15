@@ -201,7 +201,7 @@ public partial class PrintPreviewControl : Control
     {
         get
         {
-            int value = _startPage;
+            var value = _startPage;
             value = Math.Max(value, 0);
 
             return value;
@@ -209,7 +209,7 @@ public partial class PrintPreviewControl : Control
 
         set
         {
-            int oldValue = StartPage;
+            var oldValue = StartPage;
             _startPage = value;
             if (oldValue != _startPage)
             {
@@ -314,12 +314,12 @@ public partial class PrintPreviewControl : Control
             PageSetup setup = _document.PageSetup;
             _document.OnBeginPrint(new PrintEventArgs());
             var cr = args.Cr;
-            int top = (int)Math.Round(setup.GetTopMargin(Unit.Points) / pxscale, 0);
-            int left = (int)Math.Round(setup.GetLeftMargin(Unit.Points) / pxscale, 0);
-            int right = (int)Math.Round(setup.GetRightMargin(Unit.Points) / pxscale, 0);
-            int bottom = (int)Math.Round(setup.GetBottomMargin(Unit.Points) / pxscale, 0);
-            int width = (int)Math.Round(setup.GetPaperWidth(Unit.Points) / pxscale, 0); //page<paper
-            int height = (int)Math.Round(setup.GetPaperHeight(Unit.Points) / pxscale, 0);
+            var top = (int)Math.Round(setup.GetTopMargin(Unit.Points) / pxscale, 0);
+            var left = (int)Math.Round(setup.GetLeftMargin(Unit.Points) / pxscale, 0);
+            var right = (int)Math.Round(setup.GetRightMargin(Unit.Points) / pxscale, 0);
+            var bottom = (int)Math.Round(setup.GetBottomMargin(Unit.Points) / pxscale, 0);
+            var width = (int)Math.Round(setup.GetPaperWidth(Unit.Points) / pxscale, 0); //page<paper
+            var height = (int)Math.Round(setup.GetPaperHeight(Unit.Points) / pxscale, 0);
             if (AutoZoom == false)
             {
                 paper.WidthRequest = (int)Math.Round(width * _zoom, 0);

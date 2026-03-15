@@ -93,7 +93,7 @@ public sealed class Bitmap : Image
     public Bitmap(Stream stream, bool useIcm)
     {
         stream.Position = 0;
-        BinaryReader binaryReader = new BinaryReader(stream);
+        var binaryReader = new BinaryReader(stream);
         PixbufData = binaryReader.ReadBytes((int)stream.Length);
     }
 
@@ -398,7 +398,7 @@ public sealed class Bitmap : Image
     /// </returns>
     public static Bitmap FromResource(IntPtr hinstance, string bitmapName)
     {
-        IntPtr intPtr = Marshal.StringToHGlobalUni(bitmapName);
+        var intPtr = Marshal.StringToHGlobalUni(bitmapName);
         try
         {
 
@@ -448,7 +448,7 @@ public sealed class Bitmap : Image
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public IntPtr GetHicon()
     {
-        IntPtr hicon=IntPtr.Zero;
+        var hicon=IntPtr.Zero;
 
         return hicon;
     }
@@ -575,7 +575,7 @@ public sealed class Bitmap : Image
     /// </exception>
     public void MakeTransparent()
     {
-        Color pixel = s_defaultTransparentColor;
+        var pixel = s_defaultTransparentColor;
         if (base.Height > 0 && base.Width > 0)
         {
             pixel = GetPixel(0, base.Size.Height - 1);
@@ -667,7 +667,7 @@ public sealed class Bitmap : Image
     private static Stream GetResourceStream(Type type, string resource)
     {
 
-        Stream manifestResourceStream = type.Module.Assembly.GetManifestResourceStream(type, resource);
+        var manifestResourceStream = type.Module.Assembly.GetManifestResourceStream(type, resource);
 
         return manifestResourceStream;
     }

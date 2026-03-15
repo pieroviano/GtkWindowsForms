@@ -235,7 +235,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     [DisplayName("Cell")]
     public TableLayoutPanelCellPosition GetCellPosition(Control control)
     {
-        TableLayoutPanelCellPosition cellPosition = new TableLayoutPanelCellPosition(-1, -1);
+        var cellPosition = new TableLayoutPanelCellPosition(-1, -1);
         GridCell cell=control.GetGridCell(grid);
         if (cell != null)
         {
@@ -288,7 +288,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     [EditorBrowsable(EditorBrowsableState.Never)]
     public int[] GetColumnWidths()
     {
-        List<int> list = new List<int>();
+        var list = new List<int>();
         if (RowCount > 0)
         {
             for (int c = 0; c < ColumnCount; c++)
@@ -326,7 +326,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// </returns>
     public TableLayoutPanelCellPosition GetPositionFromControl(Control control)
     {
-        TableLayoutPanelCellPosition cellPosition = new TableLayoutPanelCellPosition(-1, -1);
+        var cellPosition = new TableLayoutPanelCellPosition(-1, -1);
         GridCell cell=control.GetGridCell(grid);
         if (cell != null)
         {
@@ -362,7 +362,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     [Browsable(false)]
     public int[] GetRowHeights()
     {
-        List<int> list = new List<int>();
+        var list = new List<int>();
         if (ColumnCount > 0)
         {
             for (int r = 0; r < RowCount; r++)
@@ -483,8 +483,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
 
     private void SetColumnsStyles()
     {
-        Size size = this.Size;
-        int cidx = 0;
+        var size = this.Size;
+        var cidx = 0;
         foreach (ColumnStyle cs in ColumnStyles)
         {
             if (cidx < ColumnCount)
@@ -508,8 +508,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
 
     private void SetRowsStyles()
     {
-        Size size = this.Size;
-        int ridx = 0;
+        var size = this.Size;
+        var ridx = 0;
         foreach (RowStyle rs in RowStyles)
         {
             if (ridx < RowCount)

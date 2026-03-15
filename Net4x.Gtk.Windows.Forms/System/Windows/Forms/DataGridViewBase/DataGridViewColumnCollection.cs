@@ -84,7 +84,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </param>
     public void Add(string columnName, string headerText)
     {
-        DataGridViewColumn column = new DataGridViewColumn()
+        var column = new DataGridViewColumn()
         {
             Name = columnName,
             HeaderText = headerText
@@ -110,25 +110,25 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
             _cellStyle = __owner.ColumnHeadersDefaultCellStyle;
         if (_cellStyle != null)
         {
-            Gtk.Button header = ((Gtk.Button)column.Button);
-            string style = "";
+            var header = ((Gtk.Button)column.Button);
+            var style = "";
             if (_cellStyle.BackColor.Name != "0")
             {
-                string backcolor = $"rgba({_cellStyle.BackColor.R},{_cellStyle.BackColor.G},{_cellStyle.BackColor.B},{_cellStyle.BackColor.A})";
+                var backcolor = $"rgba({_cellStyle.BackColor.R},{_cellStyle.BackColor.G},{_cellStyle.BackColor.B},{_cellStyle.BackColor.A})";
                 style += $".columnheaderbackcolor{{background-color:{backcolor};}} ";
                 header.StyleContext.AddClass("columnheaderbackcolor");
             }
 
             if (_cellStyle.ForeColor.Name != "0")
             {
-                string forecolor = $"rgba({_cellStyle.ForeColor.R},{_cellStyle.ForeColor.G},{_cellStyle.ForeColor.B},{_cellStyle.ForeColor.A})";
+                var forecolor = $"rgba({_cellStyle.ForeColor.R},{_cellStyle.ForeColor.G},{_cellStyle.ForeColor.B},{_cellStyle.ForeColor.A})";
                 style += $".columnheaderforecolor{{color:{forecolor};}} ";
                 header.StyleContext.AddClass("columnheaderforecolor");
             }
 
             if (style.Length > 9)
             {
-                Gtk.CssProvider css = new Gtk.CssProvider();
+                var css = new Gtk.CssProvider();
                 css.LoadFromData(style);
                 header.StyleContext.AddProvider(css, 800);
             }
@@ -305,7 +305,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     {
         if (Count > __owner.Store.NColumns)
         {
-            object[] columnTypes = new object[Count];
+            var columnTypes = new object[Count];
             __owner.Store.Clear();
             __owner.Store = new Gtk.TreeStore(Array.ConvertAll(columnTypes, o => typeof(DataGridViewCell)));
             __owner.GridView.Model = __owner.Store;
@@ -324,8 +324,8 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
             __owner.Store.SetSortFunc(i, new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) =>
             {
                 ((Gtk.TreeStore)m).GetSortColumnId(out int sortid, out Gtk.SortType order);
-                DataGridViewCell v1 = m.GetValue(t1, sortid) as DataGridViewCell;
-                DataGridViewCell v2 = m.GetValue(t2, sortid) as DataGridViewCell;
+                var v1 = m.GetValue(t1, sortid) as DataGridViewCell;
+                var v2 = m.GetValue(t2, sortid) as DataGridViewCell;
                 if (v1?.Value == null || v2?.Value == null)
                     return 0;
                 else if (int.TryParse(v1.Value.ToString(), out int rv1) && int.TryParse(v2.Value.ToString(), out int rv2))

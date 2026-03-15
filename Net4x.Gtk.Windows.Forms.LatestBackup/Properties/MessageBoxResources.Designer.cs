@@ -117,7 +117,7 @@ namespace System.Windows.Forms.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.MessageBoxResources", typeof(MessageBoxResources).Assembly);
+                    var temp = new global::System.Resources.ResourceManager("Properties.MessageBoxResources", typeof(MessageBoxResources).Assembly);
                     resourceMan = temp;
                 }
 

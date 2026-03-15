@@ -41,11 +41,11 @@ internal class ResXSerializationBinder : SerializationBinder
             string assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
             if (!string.IsNullOrEmpty(assemblyQualifiedTypeName))
             {
-                int pos = assemblyQualifiedTypeName.IndexOf(',');
+                var pos = assemblyQualifiedTypeName.IndexOf(',');
                 if (pos > 0 && pos < assemblyQualifiedTypeName.Length - 1)
                 {
                     assemblyName = assemblyQualifiedTypeName.Substring(pos + 1).TrimStart();
-                    string newTypeName = assemblyQualifiedTypeName.Substring(0, pos);
+                    var newTypeName = assemblyQualifiedTypeName.Substring(0, pos);
                     if (!string.Equals(newTypeName, serializedType.FullName, StringComparison.InvariantCulture))
                     {
                         typeName = newTypeName;
@@ -71,7 +71,7 @@ internal class ResXSerializationBinder : SerializationBinder
         Type type = _typeResolver.GetType(typeName);
         if (type is null)
         {
-            string[] typeParts = typeName.Split(',');
+            var typeParts = typeName.Split(',');
 
             // Break up the assembly name from the rest of the assembly strong name.
             // we try 1) FQN 2) FQN without a version 3) just the short name
@@ -81,11 +81,11 @@ internal class ResXSerializationBinder : SerializationBinder
             }
             else if (typeParts.Length > 2)
             {
-                string partialName = typeParts[0].Trim();
+                var partialName = typeParts[0].Trim();
 
                 for (int i = 1; i < typeParts.Length; ++i)
                 {
-                    string typePart = typeParts[i].Trim();
+                    var typePart = typeParts[i].Trim();
                     if (!typePart.StartsWith("Version=") && !typePart.StartsWith("version="))
                     {
                         partialName = partialName + ", " + typePart;

@@ -265,7 +265,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// </returns>
     public virtual bool Contains(DataGridViewCell dataGridViewCell)
     {
-        int num = items.IndexOf(dataGridViewCell);
+        var num = items.IndexOf(dataGridViewCell);
 
         return num != -1;
     }
@@ -359,8 +359,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
             throw new InvalidOperationException("DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView");
         }
 
-        int num = -1;
-        int count = items.Count;
+        var num = -1;
+        var count = items.Count;
         for (int i = 0; i < count; i++)
         {
             if (items[i] == cell)
@@ -396,14 +396,14 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
             throw new InvalidOperationException("DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView");
         }
 
-        DataGridViewCell dataGridViewCell = (DataGridViewCell)items[index];
+        var dataGridViewCell = (DataGridViewCell)items[index];
         dataGridViewCell.OwningRowInternal = null;
         items.RemoveAt(index);
     }
 
     internal List<TOutput> ConvertAll<TOutput>(Converter<DataGridViewCell, TOutput> converter)
     {
-        List <TOutput> data = new List<TOutput>();
+        var data = new List<TOutput>();
         foreach (DataGridViewCell cell in items)
             data.Add(converter(cell));
 

@@ -54,7 +54,7 @@ public class DataGridViewButtonColumn : DataGridViewColumn
 
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
-        DataGridViewButtonCell newcell = new DataGridViewButtonCell();
+        var newcell = new DataGridViewButtonCell();
         AtrributesClone(newcell);
         newcell.Value = value;
         newcell.ValueType = valueType;
@@ -120,7 +120,7 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
 
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
-        DataGridViewCheckBoxCell newcell = new DataGridViewCheckBoxCell();
+        var newcell = new DataGridViewCheckBoxCell();
         AtrributesClone(newcell);
         newcell.Value = value;
         newcell.ValueType = valueType;
@@ -130,13 +130,13 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
 
     private void CellName_Toggled(object o, ToggledArgs args)
     {
-        TreePath path = new TreePath(args.Path);
+        var path = new TreePath(args.Path);
         var model = _treeView.Model;
         model.GetIter(out TreeIter iter, path);
         object cell = model.GetValue(iter, this.Index);
         if (cell is DataGridViewCell val)
         {
-            CellRendererToggleValue tggle = (CellRendererToggleValue)o;
+            var tggle = (CellRendererToggleValue)o;
             val.Value = tggle.Active == false;
             _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
         }
@@ -598,7 +598,7 @@ public class DataGridViewColumn : TreeViewColumn
 
     internal virtual DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
-        DataGridViewTextBoxCell newcell = new DataGridViewTextBoxCell();
+        var newcell = new DataGridViewTextBoxCell();
         AtrributesClone(newcell);
         newcell.Value = value;
         newcell.ValueType = valueType;
@@ -608,7 +608,7 @@ public class DataGridViewColumn : TreeViewColumn
 
     private void Renderer_Edited(object o, EditedArgs args)
     {
-        TreePath path = new TreePath(args.Path);
+        var path = new TreePath(args.Path);
         var model = _treeView.Model;
         model.GetIter(out TreeIter iter, path);
         object cell = model.GetValue(iter, this.Index);
@@ -654,7 +654,7 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
     public DataGridViewComboBoxColumn(DataGridView ownerGridView) : base(0, ownerGridView, new DataGridViewComboBoxCell())
     {
         _items = new ObjectCollection(this);
-        CellRendererComboValue renderer = new CellRendererComboValue(this)
+        var renderer = new CellRendererComboValue(this)
         {
             Editable = true
         };
@@ -675,7 +675,7 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
 
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
-        DataGridViewComboBoxCell newcell = new DataGridViewComboBoxCell();
+        var newcell = new DataGridViewComboBoxCell();
         AtrributesClone(newcell);
         newcell.Value = value;
         newcell.ValueType = valueType;
@@ -685,7 +685,7 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
 
     private void Renderer_Edited(object o, EditedArgs args)
     {
-        TreePath path = new TreePath(args.Path);
+        var path = new TreePath(args.Path);
         var model = _treeView.Model;
         model.GetIter(out TreeIter iter, path);
         object cell = model.GetValue(iter, this.Index);
@@ -787,7 +787,7 @@ public class DataGridViewImageColumn : DataGridViewColumn
 
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
-        DataGridViewImageCell newcell = new DataGridViewImageCell();
+        var newcell = new DataGridViewImageCell();
         AtrributesClone(newcell);
         newcell.Value = value;
         newcell.ValueType = valueType;
@@ -829,7 +829,7 @@ public class DataGridViewLinkColumn : DataGridViewColumn
 
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
-        DataGridViewLinkCell newcell = new DataGridViewLinkCell();
+        var newcell = new DataGridViewLinkCell();
         AtrributesClone(newcell);
         newcell.Value = value;
         newcell.ValueType = valueType;
@@ -879,7 +879,7 @@ public class DataGridViewRadioColumn : DataGridViewColumn
 
     internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
     {
-        DataGridViewRadioCell newcell = new DataGridViewRadioCell();
+        var newcell = new DataGridViewRadioCell();
         AtrributesClone(newcell);
         newcell.Value = value;
         newcell.ValueType = valueType;
@@ -889,13 +889,13 @@ public class DataGridViewRadioColumn : DataGridViewColumn
 
     private void CellName_Toggled(object o, ToggledArgs args)
     {
-        TreePath path = new TreePath(args.Path);
+        var path = new TreePath(args.Path);
         var model = _treeView.Model;
         model.GetIter(out TreeIter iter, path);
         object cell = model.GetValue(iter, this.Index);
         if (cell is DataGridViewCell val)
         {
-            CellRendererToggleValue tggle = (CellRendererToggleValue)o;
+            var tggle = (CellRendererToggleValue)o;
             val.Value = tggle.Active == false;
             _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
         }

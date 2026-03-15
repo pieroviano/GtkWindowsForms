@@ -93,7 +93,7 @@ public class ImageConverter : TypeConverter
     {
         if (value is byte[] array)
         {
-            Stream stream = GetBitmapStream(array) ?? new MemoryStream(array);
+            var stream = GetBitmapStream(array) ?? new MemoryStream(array);
             return Image.FromStream(stream);
         }
 
@@ -214,7 +214,7 @@ public class ImageConverter : TypeConverter
     private static ImageCodecInfo FindEncoder(ImageFormat imageformat)
     {
         ImageCodecInfo[] imageEncoders = ImageCodecInfo.GetImageEncoders();
-        ImageCodecInfo[] array = imageEncoders;
+        var array = imageEncoders;
         foreach (ImageCodecInfo imageCodecInfo in array)
         {
             if (imageCodecInfo.FormatID.Equals(imageformat.Guid))
@@ -230,12 +230,12 @@ public class ImageConverter : TypeConverter
     {
         try
         {
-            short num = BinaryPrimitives.ReadInt16LittleEndian(rawData);
+            var num = BinaryPrimitives.ReadInt16LittleEndian(rawData);
             if (num != 7189)
             {
                 return null;
             }
-            short num2 = BinaryPrimitives.ReadInt16LittleEndian(rawData.Slice(2, 2));
+            var num2 = BinaryPrimitives.ReadInt16LittleEndian(rawData.Slice(2, 2));
             if (rawData.Length <= num2 + 18 || !rawData.Slice(num2 + 12, 6).SequenceEqual(new byte[6] { 80, 66, 114, 117, 115, 104 }))
             {
                 return null;

@@ -100,7 +100,7 @@ public sealed partial class ImageList
             get
             {
                 // pass back a copy of the current state.
-                StringCollection keysCollection = new StringCollection();
+                var keysCollection = new StringCollection();
 
                 for (int i = 0; i < _imageInfoCollection.Count; i++)
                 {
@@ -146,7 +146,7 @@ public sealed partial class ImageList
             {
                 if ((_imageInfoCollection.Count > index))
                 {
-                    Bitmap bitmap = value as Bitmap;
+                    var bitmap = value as Bitmap;
                     _owner._originals[index] = new Original(bitmap.Clone(), OriginalOptions.OwnsImage);
                 }
             }
@@ -169,7 +169,7 @@ public sealed partial class ImageList
                 {
                     return null;
                 }
-                int index = IndexOfKey(key);
+                var index = IndexOfKey(key);
                 if (!IsValidIndex(index))
                 {
                     return null;
@@ -200,12 +200,12 @@ public sealed partial class ImageList
         public void Add(string key, Image image)
         {
             // Store off the name.
-            ImageInfo imageInfo = new ImageInfo()
+            var imageInfo = new ImageInfo()
             {
                 Name = key
             };
             // Add the image to the IList
-            Original original = new Original(image, OriginalOptions.Default);
+            var original = new Original(image, OriginalOptions.Default);
             Add(original, imageInfo);
         }
 
@@ -221,13 +221,13 @@ public sealed partial class ImageList
         public void Add(string key, Icon icon)
         {
             // Store off the name.
-            ImageInfo imageInfo = new ImageInfo()
+            var imageInfo = new ImageInfo()
             {
                 Name = key
             };
 
             // Add the image to the IList
-            Original original = new Original(icon, OriginalOptions.Default);
+            var original = new Original(icon, OriginalOptions.Default);
             Add(original, imageInfo);
         }
 
@@ -252,7 +252,7 @@ public sealed partial class ImageList
         public void Add(Image value)
         {
 
-            Original original = new Original(value, OriginalOptions.Default);
+            var original = new Original(value, OriginalOptions.Default);
             Add(original, null);
         }
 
@@ -273,7 +273,7 @@ public sealed partial class ImageList
         public int Add(Image value, Color transparentColor)
         {
 
-            Original original = new Original(value, OriginalOptions.CustomTransparentColor, transparentColor);
+            var original = new Original(value, OriginalOptions.CustomTransparentColor, transparentColor);
 
             return Add(original, null);
         }
@@ -306,7 +306,7 @@ public sealed partial class ImageList
         {
             int nImages = value.Width / _owner.ImageSize.Width;
 
-            Original original = new Original(value, OriginalOptions.ImageStrip, nImages);
+            var original = new Original(value, OriginalOptions.ImageStrip, nImages);
 
             return Add(original, null);
         }
@@ -366,7 +366,7 @@ public sealed partial class ImageList
         /// </returns>
         public IEnumerator GetEnumerator()
         {
-            Image[] images = new Image[Count];
+            var images = new Image[Count];
             for (int i = 0; i < images.Length; ++i)
             {
                 images[i] = _owner.GetBitmap(i);
@@ -449,7 +449,7 @@ public sealed partial class ImageList
         /// </param>
         public void RemoveByKey(string key)
         {
-            int index = IndexOfKey(key);
+            var index = IndexOfKey(key);
             if (IsValidIndex(index))
             {
                 RemoveAt(index);
@@ -467,7 +467,7 @@ public sealed partial class ImageList
         /// </param>
         public void SetKeyName(int index, string name)
         {
-            int len = _imageInfoCollection.Count;
+            var len = _imageInfoCollection.Count;
             if (len > index)
             {
                 _imageInfoCollection[index].Name = name;

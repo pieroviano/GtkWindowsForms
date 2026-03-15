@@ -39,7 +39,7 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
         else
         {
             stream.Position = 0;
-            using MemoryStream copyStream = new MemoryStream(checked((int)stream.Length));
+            using var copyStream = new MemoryStream(checked((int)stream.Length));
             stream.CopyTo(copyStream);
             Deserialize(copyStream.GetBuffer());
         }
@@ -93,7 +93,7 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
 
     internal byte[] Serialize()
     {
-        using MemoryStream stream = new MemoryStream();
+        using var stream = new MemoryStream();
 
         ReadOnlySpan<byte> buffer = stream.GetBuffer().AsSpan(0, (int)stream.Length);
 
@@ -110,9 +110,9 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
 
     private static byte[] Decompress(byte[] input)
     {
-        int finalLength = 0;
-        int idx = 0;
-        int outputIdx = 0;
+        var finalLength = 0;
+        var idx = 0;
+        var outputIdx = 0;
 
         // Check for our header. If we don't have one,
         // we're not actually decompressed, so just return
@@ -138,17 +138,17 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
             finalLength += input[idx];
         }
 
-        byte[] output = new byte[finalLength];
+        var output = new byte[finalLength];
 
         idx = HEADER_MAGIC.Length;
 
         while (idx < input.Length)
         {
-            byte runLength = input[idx++];
-            byte current = input[idx++];
+            var runLength = input[idx++];
+            var current = input[idx++];
 
-            int startIdx = outputIdx;
-            int endIdx = outputIdx + runLength;
+            var startIdx = outputIdx;
+            var endIdx = outputIdx + runLength;
 
             while (startIdx < endIdx)
             {

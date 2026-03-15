@@ -117,7 +117,7 @@ public class KeysConverter : TypeConverter, IComparer
         if (value is string)
         {
 
-            string text = ((string)value).Trim();
+            var text = ((string)value).Trim();
 
             if (text.Length == 0)
             {
@@ -128,7 +128,7 @@ public class KeysConverter : TypeConverter, IComparer
 
                 // Parse an array of key tokens.
                 //
-                string[] tokens = text.Split(new char[] { '+' });
+                var tokens = text.Split(new char[] { '+' });
                 for (int i = 0; i < tokens.Length; i++)
                 {
                     tokens[i] = tokens[i].Trim();
@@ -136,15 +136,15 @@ public class KeysConverter : TypeConverter, IComparer
 
                 // Now lookup each key token in our key hashtable.
                 //
-                Keys key = (Keys)0;
-                bool foundKeyCode = false;
+                var key = (Keys)0;
+                var foundKeyCode = false;
 
                 for (int i = 0; i < tokens.Length; i++)
                 {
                     object obj = KeyNames[tokens[i]] ?? Enum.Parse(typeof(Keys), tokens[i]);
                     if (obj != null)
                     {
-                        Keys currentKey = (Keys)obj;
+                        var currentKey = (Keys)obj;
 
                         if ((currentKey & Keys.KeyCode) != 0)
                         {
@@ -207,8 +207,8 @@ public class KeysConverter : TypeConverter, IComparer
 
         if (value is Keys || value is int)
         {
-            bool asString = destinationType == typeof(string);
-            bool asEnum = false;
+            var asString = destinationType == typeof(string);
+            var asEnum = false;
             if (!asString)
             {
                 asEnum = destinationType == typeof(Enum[]);
@@ -216,9 +216,9 @@ public class KeysConverter : TypeConverter, IComparer
 
             if (asString || asEnum)
             {
-                Keys key = (Keys)value;
-                bool added = false;
-                ArrayList terms = new ArrayList();
+                var key = (Keys)value;
+                var added = false;
+                var terms = new ArrayList();
                 Keys modifiers = (key & Keys.Modifiers);
 
                 // First, iterate through and do the modifiers. These are
@@ -226,8 +226,8 @@ public class KeysConverter : TypeConverter, IComparer
                 //
                 for (int i = 0; i < DisplayOrder.Count; i++)
                 {
-                    string keyString = (string)DisplayOrder[i];
-                    Keys keyValue = (Keys)keyNames[keyString];
+                    var keyString = (string)DisplayOrder[i];
+                    var keyValue = (Keys)keyNames[keyString];
                     if (((int)(keyValue) & (int)modifiers) != 0)
                     {
 
@@ -253,7 +253,7 @@ public class KeysConverter : TypeConverter, IComparer
                 // we find a match.
                 //
                 Keys keyOnly = (key & Keys.KeyCode);
-                bool foundKey = false;
+                var foundKey = false;
 
                 if (added && asString)
                 {
@@ -262,8 +262,8 @@ public class KeysConverter : TypeConverter, IComparer
 
                 for (int i = 0; i < DisplayOrder.Count; i++)
                 {
-                    string keyString = (string)DisplayOrder[i];
-                    Keys keyValue = (Keys)keyNames[keyString];
+                    var keyString = (string)DisplayOrder[i];
+                    var keyValue = (Keys)keyNames[keyString];
                     if (keyValue.Equals(keyOnly))
                     {
 
@@ -299,7 +299,7 @@ public class KeysConverter : TypeConverter, IComparer
 
                 if (asString)
                 {
-                    StringBuilder b = new StringBuilder(32);
+                    var b = new StringBuilder(32);
                     foreach (string t in terms)
                     {
                         b.Append(t);
@@ -325,9 +325,9 @@ public class KeysConverter : TypeConverter, IComparer
     {
         if (values == null)
         {
-            ArrayList list = new ArrayList();
+            var list = new ArrayList();
 
-            ICollection keys = KeyNames.Values;
+            var keys = KeyNames.Values;
 
             foreach (object o in keys)
             {

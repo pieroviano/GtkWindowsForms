@@ -64,11 +64,11 @@ public partial class DateTimePicker : MaskedTextBox
         calendar.PrevMonth += Calendar_PrevMonth;
         calendar.NextMonth += Calendar_NextMonth;
 
-        Gtk.Box popbody= new Gtk.Box(Gtk.Orientation.Vertical, 6)
+        var popbody= new Gtk.Box(Gtk.Orientation.Vertical, 6)
         {
             calendar
         };
-        Gtk.Button todaybtn = new Gtk.Button() { Label = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Choose_Today+DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") };
+        var todaybtn = new Gtk.Button() { Label = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Choose_Today+DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") };
         todaybtn.Clicked += Todaybtn_Clicked;
         popbody.Add(todaybtn);
         popver.Add(popbody);
@@ -190,8 +190,8 @@ public partial class DateTimePicker : MaskedTextBox
     {
         get
         {
-            DateTime result = DateTime.Now;
-            CultureInfo provider = CultureInfo.InvariantCulture;
+            var result = DateTime.Now;
+            var provider = CultureInfo.InvariantCulture;
             if (string.IsNullOrWhiteSpace(Text))
             { }
             else if (Format == DateTimePickerFormat.Custom && DateTime.TryParseExact(Text, CustomFormat, provider, Globalization.DateTimeStyles.AllowWhiteSpaces, out result))
@@ -238,7 +238,7 @@ public partial class DateTimePicker : MaskedTextBox
 
     private void Calendar_DaySelected(object sender, EventArgs e)
     {
-        Gtk.Calendar calendar = sender as Gtk.Calendar;
+        var calendar = sender as Gtk.Calendar;
         DateTime dt = calendar.GetDate();
         if (dt > MaxDate || dt < MinDate)
         {
@@ -247,7 +247,7 @@ public partial class DateTimePicker : MaskedTextBox
         }
         else
         {
-            DateTime current = Value;
+            var current = Value;
             this.Value = dt.AddHours(current.Hour).AddMinutes(current.Minute).AddSeconds(current.Second);
         }
     }
@@ -286,7 +286,7 @@ public partial class DateTimePicker : MaskedTextBox
 
     private void DateTimePicker_IconRelease(object o, Gtk.IconReleaseArgs args)
     {
-        DateTime current = Value;
+        var current = Value;
         if (current >= MaxDate)
         {
             calendar.Date = MaxDate.Date.AddDays(-1);

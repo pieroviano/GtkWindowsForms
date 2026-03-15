@@ -188,7 +188,7 @@ public partial class ListBox
                 ObjectCollection items = _owner.Items;
                 if (items != null && value != null)
                 {
-                    int index = items.IndexOf(value);
+                    var index = items.IndexOf(value);
                     if (index != -1 && !GetSelected(index))
                     {
                         _owner.SelectedIndex = index;
@@ -288,7 +288,7 @@ public partial class ListBox
                 ObjectCollection items = _owner.Items;
                 if (items != null && value != null)
                 {
-                    int index = items.IndexOf(value);
+                    var index = items.IndexOf(value);
                     if (index != -1 && GetSelected(index))
                     {
                         _owner.SetSelected(index, false);

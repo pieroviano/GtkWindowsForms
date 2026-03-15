@@ -204,7 +204,7 @@ public class MessageBoxOld
 
     private static void Dia_Response(object o, Gtk.ResponseArgs args)
     {
-        Gtk.Dialog dia = o as Gtk.Dialog;
+        var dia = o as Gtk.Dialog;
         dia.PangoContext.Dispose();
         dia.Dispose();
         dia.Destroy();
@@ -232,7 +232,7 @@ public class MessageBoxOld
                                          MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,
                                          MessageBoxOptions options, bool showHelp)
     {
-        int irun = 0;
+        var irun = 0;
         if (owner is System.Windows.Forms.Form control)
         {
             irun = ShowCore((Gtk.Window)control.Widget, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
@@ -247,7 +247,7 @@ public class MessageBoxOld
             irun = ShowCore(ActiveWindow, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
         }
 
-        Gtk.ResponseType resp = (Gtk.ResponseType)Enum.Parse(typeof(Gtk.ResponseType), irun.ToString());
+        var resp = (Gtk.ResponseType)Enum.Parse(typeof(Gtk.ResponseType), irun.ToString());
         if (resp == Gtk.ResponseType.Yes)
             return DialogResult.Yes;
         else if (resp == Gtk.ResponseType.No)
@@ -272,7 +272,7 @@ public class MessageBoxOld
 
     private static int ShowCore(Gtk.Window owner, Gtk.WindowPosition position, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
     {
-        Gtk.Dialog dia = new Gtk.Dialog(caption, owner, Gtk.DialogFlags.DestroyWithParent)
+        var dia = new Gtk.Dialog(caption, owner, Gtk.DialogFlags.DestroyWithParent)
         {
             KeepAbove = true,
             KeepBelow = false,
@@ -310,7 +310,7 @@ public class MessageBoxOld
             MarginEnd = 30, Halign = Align.Fill,
             Valign = Align.Start
         };
-        int maxwidth = 300;
+        var maxwidth = 300;
         if (Gdk.Screen.Default.Display.NMonitors > 0)
         {
             Gdk.Rectangle rectangle = Gdk.Screen.Default.Display.GetMonitor(0).Workarea;
@@ -382,7 +382,7 @@ public class MessageBoxOld
         else if (buttons == MessageBoxButtons.RetryCancel)
             buttonsType = Gtk.ButtonsType.OkCancel;
 
-        Gtk.MessageDialog dia = new Gtk.MessageDialog(owner, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, buttonsType, text);
+        var dia = new Gtk.MessageDialog(owner, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, buttonsType, text);
         dia.SetPosition(position);
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");

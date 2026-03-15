@@ -222,7 +222,7 @@ public partial class PrinterSettings : ICloneable
     /// </returns>
     public object Clone()
     {
-        PrinterSettings clone = (PrinterSettings)MemberwiseClone();
+        var clone = (PrinterSettings)MemberwiseClone();
 
         return clone;
     }

@@ -42,7 +42,7 @@ public sealed class LinkLabelBase : Gtk.LinkButton, IControlGtk
     /// </returns>
     protected override bool OnDrawn(Cairo.Context cr)
     {
-        Gdk.Rectangle rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
+        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
         Override.OnPaint(cr, rec);
 
         return base.OnDrawn(cr);

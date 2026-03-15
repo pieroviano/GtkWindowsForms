@@ -299,7 +299,7 @@ public class ResXResourceWriter : IResourceWriter
         ResXDataNode nodeClone = node.DeepClone();
 
         ResXFileRef fileRef = nodeClone.FileRef;
-        string modifiedBasePath = BasePath;
+        var modifiedBasePath = BasePath;
 
         if (!string.IsNullOrEmpty(modifiedBasePath))
         {
@@ -424,7 +424,7 @@ public class ResXResourceWriter : IResourceWriter
                 break;
             case ResXFileRef fileRef:
                 {
-                    ResXDataNode node = new ResXDataNode(name, fileRef, _typeNameConverter);
+                    var node = new ResXDataNode(name, fileRef, _typeNameConverter);
                     DataNodeInfo info = node.GetDataNodeInfo();
                     AddDataRow(elementName, info.Name, info.ValueData, info.TypeName, info.MimeType, info.Comment);
                     break;
@@ -432,7 +432,7 @@ public class ResXResourceWriter : IResourceWriter
 
             default:
                 {
-                    ResXDataNode node = new ResXDataNode(name, value, _typeNameConverter);
+                    var node = new ResXDataNode(name, value, _typeNameConverter);
                     DataNodeInfo info = node.GetDataNodeInfo();
                     AddDataRow(elementName, info.Name, info.ValueData, info.TypeName, info.MimeType, info.Comment);
                     break;
@@ -467,12 +467,12 @@ public class ResXResourceWriter : IResourceWriter
         string alias = null;
         if (!string.IsNullOrEmpty(type) && elementName == DataStr)
         {
-            string assemblyName = GetFullName(type);
+            var assemblyName = GetFullName(type);
             if (string.IsNullOrEmpty(assemblyName))
             {
                 try
                 {
-                    Type typeObject = Type.GetType(type);
+                    var typeObject = Type.GetType(type);
                     if (typeObject == typeof(string))
                     {
                         type = null;
@@ -501,8 +501,8 @@ public class ResXResourceWriter : IResourceWriter
             {
                 // CHANGE: we still output version information. This might have
                 // to change in 3.2
-                string typeName = GetTypeName(type);
-                string typeValue = typeName + ", " + alias;
+                var typeName = GetTypeName(type);
+                var typeValue = typeName + ", " + alias;
                 Writer.WriteAttributeString(TypeStr, typeValue);
             }
             else
@@ -554,7 +554,7 @@ public class ResXResourceWriter : IResourceWriter
             _cachedAliases = new Hashtable();
         }
 
-        string alias = (string)_cachedAliases[assemblyName.FullName];
+        var alias = (string)_cachedAliases[assemblyName.FullName];
 
         if (string.IsNullOrEmpty(alias))
         {
@@ -568,7 +568,7 @@ public class ResXResourceWriter : IResourceWriter
 
     private static string GetFullName(string typeName)
     {
-        int indexStart = typeName.IndexOf(',');
+        var indexStart = typeName.IndexOf(',');
         if (indexStart == -1)
         {
             return null;
@@ -579,7 +579,7 @@ public class ResXResourceWriter : IResourceWriter
 
     private static string GetTypeName(string typeName)
     {
-        int indexStart = typeName.IndexOf(',');
+        var indexStart = typeName.IndexOf(',');
 
         return ((indexStart == -1) ? typeName : typeName.Substring(0, indexStart));
     }
@@ -588,7 +588,7 @@ public class ResXResourceWriter : IResourceWriter
     {
         if (_xmlTextWriter is null)
         {
-            bool writeHeaderRequired = false;
+            var writeHeaderRequired = false;
 
             if (_textWriter != null)
             {
@@ -621,7 +621,7 @@ public class ResXResourceWriter : IResourceWriter
         }
 
         _xmlTextWriter.WriteStartElement("root");
-        XmlTextReader reader = new XmlTextReader(new StringReader(ResourceSchema))
+        var reader = new XmlTextReader(new StringReader(ResourceSchema))
         {
             WhitespaceHandling = WhitespaceHandling.None
         };
@@ -694,11 +694,11 @@ public class ResXResourceWriter : IResourceWriter
         const int lineWrap = 80;
         const string crlf = "\r\n";
         const string prefix = "        ";
-        string raw = Convert.ToBase64String(data);
+        var raw = Convert.ToBase64String(data);
         if (raw.Length > lineWrap)
         {
-            StringBuilder output = new StringBuilder(raw.Length + (raw.Length / lineWrap) * 3); // word wrap on lineWrap chars, \r\n
-            int current = 0;
+            var output = new StringBuilder(raw.Length + (raw.Length / lineWrap) * 3); // word wrap on lineWrap chars, \r\n
+            var current = 0;
             for (; current < raw.Length - lineWrap; current += lineWrap)
             {
                 output.Append(crlf);

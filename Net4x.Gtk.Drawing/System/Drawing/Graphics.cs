@@ -1029,7 +1029,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             this.context.Save();
             string family = font?.Name;
-            float textSize = 14f;
+            var textSize = 14f;
             if (font != null)
             {
                 textSize = font.Size;
@@ -1842,7 +1842,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public SizeF MeasureString(string text, Font font, int width, StringFormat format)
     {
-        float textSize = 14f;
+        var textSize = 14f;
         string family = font?.Name;
         if (font != null)
         {
@@ -2097,13 +2097,13 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         else if (pen.Brush is LinearGradientBrush lbrush)
         {
             double maxsize = Math.Max(diff_left + lbrush.Rectangle.Right, diff_top + lbrush.Rectangle.Bottom); //渐变角度定为方形45度
-            using Cairo.LinearGradient gradient = new Cairo.LinearGradient(diff_left + lbrush.Rectangle.Left, diff_top + lbrush.Rectangle.Top, maxsize, maxsize);
+            using var gradient = new Cairo.LinearGradient(diff_left + lbrush.Rectangle.Left, diff_top + lbrush.Rectangle.Top, maxsize, maxsize);
             int linearcount = lbrush.LinearColors.Length;
-            int idx = 0;
+            var idx = 0;
             foreach (Color color in lbrush.LinearColors)
                 gradient.AddColorStop((++idx) / linearcount, new Cairo.Color(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
 
-            Cairo.Matrix matrix = new Cairo.Matrix(1, 0, 0, 1, 0, 0);
+            var matrix = new Cairo.Matrix(1, 0, 0, 1, 0, 0);
             matrix.Rotate(Math.PI * 45 / 180);//弧度
             gradient.Matrix = matrix;
             using Cairo.Pattern pattern = Cairo.Pattern.Lookup(gradient.Handle, false);
@@ -2118,10 +2118,10 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         else if (pen.Brush is PathGradientBrush pbrush)
         {
             double maxsize = Math.Max(diff_left + pbrush.Rectangle.Right, diff_top + pbrush.Rectangle.Bottom); //渐变角度定为方形45度
-            using Cairo.LinearGradient gradient = new Cairo.LinearGradient(diff_left + pbrush.Rectangle.Left, diff_top + pbrush.Rectangle.Top, maxsize, maxsize);
+            using var gradient = new Cairo.LinearGradient(diff_left + pbrush.Rectangle.Left, diff_top + pbrush.Rectangle.Top, maxsize, maxsize);
             int linearcount = pbrush.SurroundColors.Length;
-            double centeridx = Math.Floor((double)linearcount / 2);
-            int idx = 0;
+            var centeridx = Math.Floor((double)linearcount / 2);
+            var idx = 0;
             foreach (Color color in pbrush.SurroundColors)
             {
                 if (idx == centeridx)
@@ -2130,7 +2130,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                     gradient.AddColorStop((++idx) / linearcount, new Cairo.Color(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
             }
 
-            Cairo.Matrix matrix = new Cairo.Matrix(1, 0, 0, 1, 0, 0);
+            var matrix = new Cairo.Matrix(1, 0, 0, 1, 0, 0);
             matrix.Rotate(Math.PI * 45 / 180);//弧度
             gradient.Matrix = matrix;
             using Cairo.Pattern pattern = Cairo.Pattern.Lookup(gradient.Handle, false);
@@ -2178,7 +2178,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </returns>
     private List<PointF> CalculateBezier(List<PointF> points, float time)
     {
-        List<PointF> nList = new List<PointF> { };
+        var nList = new List<PointF> { };
         int listNum = points.Count;
         if (listNum < 2)
         {
@@ -2189,18 +2189,18 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             float nowX = (points[n].X - points[n - 1].X) * time + points[n - 1].X;
             float nowY = (points[n].Y - points[n - 1].Y) * time + points[n - 1].Y;
-            PointF nowP = new PointF(nowX, nowY);
+            var nowP = new PointF(nowX, nowY);
             nList.Add(nowP);
         }
 
-        List<PointF> p = CalculateBezier(nList, time);
+        var p = CalculateBezier(nList, time);
 
         return p;
     }
 
     private Cairo.Matrix ConvertToMatrix(Drawing2D.Matrix matrix)
     {
-        Cairo.Matrix CairoMatrix = new Cairo.Matrix(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
+        var CairoMatrix = new Cairo.Matrix(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
         CairoMatrix.Init(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
 
         CairoMatrix.Translate(matrix.OffsetX, matrix.OffsetY);
@@ -2227,7 +2227,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
     private void DrawBeziersCore(Pen pen, PointF[] points)
     {
-        List<PointF> data = GetBezierPoints(points.ToList());
+        var data = GetBezierPoints(points.ToList());
         DrawLinesCore(pen, data.ToArray());
     }
 
@@ -2262,12 +2262,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         this.SetTranslateWithDifference(x + width / 2, y + height / 2);
         this.SetSourcePen(pen, isfill);
         this.context.NewPath();
-        float r = (width + height) / 4;
-        double rs = Math.Min(0.1, 2 / r);
+        var r = (width + height) / 4;
+        var rs = Math.Min(0.1, 2 / r);
         for (double t = 0; t < 2 * Math.PI; t += rs)
         {
-            double x2_1 = width * Math.Cos(t) / 2;
-            double y2_1 = height * Math.Sin(t) / 2;
+            var x2_1 = width * Math.Cos(t) / 2;
+            var y2_1 = height * Math.Sin(t) / 2;
             this.context.LineTo(x2_1, y2_1);
         }
 
@@ -2289,7 +2289,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
     private void DrawImageScaledCore(Image image, Rectangle destRect, float srcX, float srcY, float srcWidth, float srcHeight, GraphicsUnit srcUnit, ImageAttributes imageAttrs, DrawImageAbort callback, IntPtr callbackData)
     {
-        Gdk.Pixbuf img = new Gdk.Pixbuf(image.PixbufData);
+        var img = new Gdk.Pixbuf(image.PixbufData);
         if (srcWidth == 0)
             srcWidth = img.Width;
         if (srcHeight == 0)
@@ -2300,7 +2300,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             destRect.Height = img.Height;
         using (var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, destRect.Width, destRect.Height))
         {
-            Gdk.Pixbuf scaleimg = new Gdk.Pixbuf(surface, 0, 0, destRect.Width, destRect.Height);
+            var scaleimg = new Gdk.Pixbuf(surface, 0, 0, destRect.Width, destRect.Height);
 
             img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, srcX, srcY, destRect.Width / srcWidth, destRect.Height / srcHeight, Gdk.InterpType.Tiles);
             this.context.Save();
@@ -2335,14 +2335,14 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
     private void DrawImageUnscaledCore(Image image, int x, int y, int width, int height, bool clipped = false)
     {
-        Gdk.Pixbuf img = new Gdk.Pixbuf(image.PixbufData);
+        var img = new Gdk.Pixbuf(image.PixbufData);
         if (width == 0)
             width = img.Width;
         if (height == 0)
             height = img.Height;
         using (var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height))
         {
-            Gdk.Pixbuf newimg = new Gdk.Pixbuf(surface, 0, 0, width, height);
+            var newimg = new Gdk.Pixbuf(surface, 0, 0, width, height);
             img.CopyArea(x, y, width, height, newimg, 0, 0);
             this.context.Save();
             this.SetTranslateWithDifference(x, y);
@@ -2412,14 +2412,14 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             {
                 double rw = arc.rect.Width / 2;
                 double rh = arc.rect.Height / 2;
-                double ra = Math.Min(rw, rh);
+                var ra = Math.Min(rw, rh);
                 this.context.Arc(arc.rect.X + rw, arc.rect.Y + rh, ra, Math.PI * arc.startAngle / 180, Math.PI * (arc.startAngle + arc.sweepAngle) / 180);
             }
 
             else if (o is GraphicsPath.BezierMode bezier)
             {
                 this.context.MoveTo(bezier.pt1.X, bezier.pt1.Y);
-                List<PointF> data = GetBezierPoints(new List<PointF>() { bezier.pt1, bezier.pt2, bezier.pt3, bezier.pt4 });
+                var data = GetBezierPoints(new List<PointF>() { bezier.pt1, bezier.pt2, bezier.pt3, bezier.pt4 });
                 foreach (PointF point in data)
                 {
                     this.context.LineTo(point.X, point.Y);
@@ -2429,7 +2429,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
             else if (o is GraphicsPath.BeziersMode beziers)
             {
-                List<PointF> data = GetBezierPoints(beziers.points.ToList());
+                var data = GetBezierPoints(beziers.points.ToList());
                 foreach (PointF point in data)
                 {
                     this.context.LineTo(point.X, point.Y);
@@ -2454,7 +2454,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             {
                 this.context.NewSubPath();
                 float r = (ellipse.rect.Width + ellipse.rect.Height) / 4;
-                double rs = Math.Min(0.1, 2 / r);
+                var rs = Math.Min(0.1, 2 / r);
                 for (double t = 0; t < 2 * Math.PI; t += rs)
                 {
                     double x2_1 = ellipse.rect.Width * Math.Cos(t) / 2;
@@ -2487,7 +2487,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                 this.context.NewSubPath();
                 double rw = pie.rect.Width / 2;
                 double rh = pie.rect.Height / 2;
-                double ra = Math.Min(rw, rh);
+                var ra = Math.Min(rw, rh);
                 this.context.Arc(pie.rect.X + rw, pie.rect.Y + rh, ra, Math.PI * pie.startAngle / 180, Math.PI * (pie.startAngle + pie.sweepAngle) / 180);
                 this.context.LineTo(pie.rect.X + rw, pie.rect.Y + rh);
                 this.context.ClosePath();
@@ -2650,11 +2650,11 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         }
 
         seedNum += seedNum * 0.2f;
-        float pStep = 1 / seedNum;
-        List<PointF> rpoint = new List<PointF>();
+        var pStep = 1 / seedNum;
+        var rpoint = new List<PointF>();
         for (float pTime = 0; pTime <= 1; pTime += pStep)
         {
-            List<PointF> lfpr = CalculateBezier(points, pTime);
+            var lfpr = CalculateBezier(points, pTime);
             PointF fpr = lfpr[0];
             rpoint.Add(fpr);
         }

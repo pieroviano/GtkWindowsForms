@@ -283,7 +283,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// </param>
     public void AddRange(ToolStripItemCollection toolStripItems)
     {
-        int count = toolStripItems.Count;
+        var count = toolStripItems.Count;
         for (int i = 0; i < count; i++)
         {
             AddMemu(toolStripItems[i]);

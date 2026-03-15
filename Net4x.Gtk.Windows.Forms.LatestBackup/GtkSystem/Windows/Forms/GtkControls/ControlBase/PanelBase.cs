@@ -29,7 +29,7 @@ public sealed class PanelBase : ScrollableBoxBase
     /// </returns>
     protected override bool OnDrawn(Cairo.Context cr)
     {
-        Gdk.Rectangle rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
+        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
         Override.OnDrawnBackground(cr, rec);
 
         return base.OnDrawn(cr);

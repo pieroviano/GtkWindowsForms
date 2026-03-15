@@ -75,7 +75,7 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// </returns>
     public ListViewGroup Add(string key, string headerText)
     {
-        ListViewGroup group = new ListViewGroup(key, headerText);
+        var group = new ListViewGroup(key, headerText);
         this.Add(group);
 
         return group;

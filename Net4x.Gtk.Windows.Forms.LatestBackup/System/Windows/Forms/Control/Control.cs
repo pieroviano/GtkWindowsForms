@@ -441,7 +441,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public Control()
     {
         this.unique_key = Guid.NewGuid().ToString().ToLower();
-        Gtk.Widget widget = this.Widget;
+        var widget = this.Widget;
         if (widget != null)
         {
             if (widget is Gtk.Window win)
@@ -851,7 +851,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             if (_Font == null)
             {
                 var fontdes = this.Widget.PangoContext.FontDescription;
-                int size = Convert.ToInt32(fontdes.Size / Pango.Scale.PangoScale);
+                var size = Convert.ToInt32(fontdes.Size / Pango.Scale.PangoScale);
                 return new Drawing.Font(new Drawing.FontFamily(fontdes.Family), size);
             }
             else
@@ -1288,7 +1288,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            CreateParams createParams = new CreateParams();
+            var createParams = new CreateParams();
             createParams.ExStyle |= 32;
 
             return createParams;
@@ -1386,7 +1386,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual IAsyncResult BeginInvoke(Delegate method, params object[] args)
     {
-        System.Threading.Tasks.Task task = System.Threading.Tasks.Task.Factory.StartNew(state =>
+        var task = System.Threading.Tasks.Task.Factory.StartNew(state =>
         {
             method.DynamicInvoke((object[])state);
         }, args);
@@ -1419,7 +1419,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual IAsyncResult BeginInvoke(Action method)
     {
-        System.Threading.Tasks.Task task = System.Threading.Tasks.Task.Factory.StartNew(method);
+        var task = System.Threading.Tasks.Task.Factory.StartNew(method);
 
         return task;
     }
@@ -1595,7 +1595,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         }
         else
         {
-            Control control = this.Parent;
+            var control = this.Parent;
             while (control != null)
             {
                 if (control is Form)
@@ -1685,7 +1685,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         Control prev = null;
         Control next = null;
-        bool finded = false;
+        var finded = false;
         foreach (var obj in this.Controls)
         {
             if (obj is Control control)
@@ -1892,7 +1892,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual ENTRY Invoke<ENTRY>(Func<ENTRY> method)
     {
-        ENTRY result = default(ENTRY);
+        var result = default(ENTRY);
         GLib.Idle.Add(() =>
         {
             result = method.Invoke();
@@ -3113,7 +3113,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     protected virtual void SetStyle(Gtk.Widget widget)
     {
-        StringBuilder style = new StringBuilder();
+        var style = new StringBuilder();
         if (widget is Gtk.Image)
         {
         }
@@ -3121,13 +3121,13 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             if (this.Image != null && this.Image.PixbufData != null)
             {
-                string imgdir = $"Resources/{widget.WidgetPath.IterGetName(0)}";
-                string imguri = $"{imgdir}/{widget.Name}_image.png";
+                var imgdir = $"Resources/{widget.WidgetPath.IterGetName(0)}";
+                var imguri = $"{imgdir}/{widget.Name}_image.png";
                 if (!File.Exists(imguri))
                 {
                     if (!Directory.Exists(imgdir))
                         Directory.CreateDirectory(imgdir);
-                    Gdk.Pixbuf imagepixbuf = new Gdk.Pixbuf(this.Image.PixbufData);
+                    var imagepixbuf = new Gdk.Pixbuf(this.Image.PixbufData);
                     imagepixbuf.Save(imguri, "png");
                 }
 
@@ -3176,10 +3176,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
                 if (this.BackgroundImage != null && this.BackgroundImage.PixbufData != null)
                 {
-                    string bgimguri = $"{imgdir}/{widget.Name}_bgimage.png";
+                    var bgimguri = $"{imgdir}/{widget.Name}_bgimage.png";
                     if (!File.Exists(bgimguri))
                     {
-                        Gdk.Pixbuf bgpixbuf = new Gdk.Pixbuf(this.BackgroundImage.PixbufData);
+                        var bgpixbuf = new Gdk.Pixbuf(this.BackgroundImage.PixbufData);
                         bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });
                     }
 
@@ -3192,9 +3192,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             }
             else if (this.BackgroundImage != null && this.BackgroundImage.PixbufData != null)
             {
-                string bgimgdir = $"Resources/{widget.WidgetPath.IterGetName(0)}";
-                string bgimguri = $"{bgimgdir}/{widget.Name}_bgimage.png";
-                Gdk.Pixbuf bgpixbuf = new Gdk.Pixbuf(this.BackgroundImage.PixbufData);
+                var bgimgdir = $"Resources/{widget.WidgetPath.IterGetName(0)}";
+                var bgimguri = $"{bgimgdir}/{widget.Name}_bgimage.png";
+                var bgpixbuf = new Gdk.Pixbuf(this.BackgroundImage.PixbufData);
                 if (!File.Exists(bgimguri))
                 {
                     if (!Directory.Exists(bgimgdir))
@@ -3236,28 +3236,28 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 style.Append("background-clip: padding-box;");
                 if (this.BackColor.Name != "0")
                 {
-                    Color backColor = this.BackColor;
-                    string color = $"rgba({backColor.R},{backColor.G},{backColor.B},{backColor.A})";
+                    var backColor = this.BackColor;
+                    var color = $"rgba({backColor.R},{backColor.G},{backColor.B},{backColor.A})";
                     style.AppendFormat("background-color:{0};", color);
                 }
             }
             else if (this.BackColor.Name != "0")
             {
-                Color backColor = this.BackColor;
-                string color = $"rgba({backColor.R},{backColor.G},{backColor.B},{backColor.A})";
+                var backColor = this.BackColor;
+                var color = $"rgba({backColor.R},{backColor.G},{backColor.B},{backColor.A})";
                 style.AppendFormat("background-color:{0};background:{0};", color);
             }
 
             if (this.ForeColor.Name != "0")
             {
-                Color foreColor = this.ForeColor;
-                string color = $"rgba({foreColor.R},{foreColor.G},{foreColor.B},{foreColor.A})";
+                var foreColor = this.ForeColor;
+                var color = $"rgba({foreColor.R},{foreColor.G},{foreColor.B},{foreColor.A})";
                 style.AppendFormat("color:{0};", color);
             }
 
             if (this.Font != null)
             {
-                Font font = this.Font;
+                var font = this.Font;
                 if (font.Unit == GraphicsUnit.Pixel)
                     style.AppendFormat("font-size:{0}px;", font.Size);
                 else if (font.Unit == GraphicsUnit.Inch)
@@ -3300,8 +3300,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
             if (style.Length > 10)
             {
-                string styleClassName = $"s{unique_key}";
-                StringBuilder css = new StringBuilder();
+                var styleClassName = $"s{unique_key}";
+                var css = new StringBuilder();
                 css.AppendLine($".{styleClassName}{{{style.ToString()}}}");
                 if (widget is Gtk.TextView)
                 {
@@ -3309,7 +3309,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                     css.AppendLine($".{styleClassName} .view{{{style.ToString()}}}");
                 }
 
-                CssProvider provider = new CssProvider();
+                var provider = new CssProvider();
                 if (provider.LoadFromData(css.ToString()))
                 {
                     if (widget.StyleContext.HasClass(styleClassName))
@@ -3423,7 +3423,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             else if (args.Event.Button == 3)
                 result = MouseButtons.Right;
             owidget.Window.GetOrigin(out int x, out int y); // avoid event penetration errors
-            MouseEventArgs mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
+            var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
             OnMouseDown(mouseArgs);
             MouseDown?.Invoke(this, mouseArgs);
         }
@@ -3441,12 +3441,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             else if (args.Event.Button == 3)
                 result = MouseButtons.Right;
             owidget.Window.GetOrigin(out int x, out int y);
-            MouseEventArgs mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
+            var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
             OnMouseUp(mouseArgs);
             MouseUp?.Invoke(this, mouseArgs);
             if (args.Event.Type == Gdk.EventType.TwoButtonPress || args.Event.Type == Gdk.EventType.DoubleButtonPress)
             {
-                MouseEventArgs mouseArgs2 = new MouseEventArgs(result, 2, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
+                var mouseArgs2 = new MouseEventArgs(result, 2, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
                 OnMouseDoubleClick(mouseArgs2);
                 MouseDoubleClick?.Invoke(this, mouseArgs2);
                 DoubleClick?.Invoke(this, EventArgs.Empty);
@@ -3454,7 +3454,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             else
             {
                 OnClick(EventArgs.Empty);
-                MouseEventArgs mouseArgs3 = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
+                var mouseArgs3 = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
                 OnMouseClick(mouseArgs3);
                 Click?.Invoke(this, EventArgs.Empty);
                 MouseClick?.Invoke(this, mouseArgs3);
@@ -3505,7 +3505,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private void Widget_FocusOutEvent(object o, FocusOutEventArgs args)
     {
-        CancelEventArgs cancelEventArgs = new CancelEventArgs(false);
+        var cancelEventArgs = new CancelEventArgs(false);
         LostFocus?.Invoke(this, args);
         OnValidating(cancelEventArgs);
         Validating?.Invoke(this, cancelEventArgs);
@@ -3522,7 +3522,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             if (args.Event is Gdk.EventKey eventkey)
             {
-                Keys keys = (Keys)eventkey.HardwareKeycode;
+                var keys = (Keys)eventkey.HardwareKeycode;
                 if (eventkey.State.HasFlag(Gdk.ModifierType.Mod1Mask))
                     keys |= Keys.Alt;
                 if (eventkey.State.HasFlag(Gdk.ModifierType.ControlMask))
@@ -3539,7 +3539,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private void Widget_KeyReleaseEvent(object o, KeyReleaseEventArgs args)
     {
-        Keys keys = (Keys)args.Event.HardwareKeycode;
+        var keys = (Keys)args.Event.HardwareKeycode;
         OnKeyUp(new KeyEventArgs(keys));
         KeyUp?.Invoke(this, new KeyEventArgs(keys));
         KeyPress?.Invoke(this, new KeyPressEventArgs(Convert.ToChar(keys)));
@@ -3570,7 +3570,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             else if (args.Event.State.HasFlag(Gdk.ModifierType.Button3Mask))
                 result = MouseButtons.Right;
             owidget.Window.GetOrigin(out int x, out int y);
-            MouseEventArgs mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 1);
+            var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 1);
             OnMouseMove(mouseArgs);
             MouseMove?.Invoke(this, mouseArgs);
         }
@@ -3589,7 +3589,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private void Widget_ScrollEvent(object o, Gtk.ScrollEventArgs args)
     {
-        MouseEventArgs mouseArgs = new MouseEventArgs(MouseButtons.None, 0, (int)args.Event.X, (int)args.Event.Y, (int)args.Event.DeltaY);
+        var mouseArgs = new MouseEventArgs(MouseButtons.None, 0, (int)args.Event.X, (int)args.Event.Y, (int)args.Event.DeltaY);
         OnMouseWheel(mouseArgs);
         MouseWheel?.Invoke(this, mouseArgs);
     }

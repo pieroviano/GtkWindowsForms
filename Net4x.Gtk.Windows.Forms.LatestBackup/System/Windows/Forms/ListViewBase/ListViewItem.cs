@@ -1088,7 +1088,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// </returns>
         public ListViewSubItem Add(string text)
         {
-            ListViewSubItem sub = new ListViewSubItem(_owner, text);
+            var sub = new ListViewSubItem(_owner, text);
             Add(sub);
 
             return sub;
@@ -1114,7 +1114,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// </returns>
         public ListViewSubItem Add(string text, Color foreColor, Color backColor, Font font)
         {
-            ListViewSubItem sub = new ListViewSubItem(_owner, text, foreColor, backColor, font);
+            var sub = new ListViewSubItem(_owner, text, foreColor, backColor, font);
             Add(sub);
 
             return sub;

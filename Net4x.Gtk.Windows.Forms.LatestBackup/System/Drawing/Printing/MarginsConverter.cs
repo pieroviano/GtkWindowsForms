@@ -88,7 +88,7 @@ public class MarginsConverter : ExpandableObjectConverter
             return base.ConvertFrom(context, culture, value);
         }
 
-        string text = strValue.Trim();
+        var text = strValue.Trim();
 
         if (text.Length == 0)
         {
@@ -98,10 +98,10 @@ public class MarginsConverter : ExpandableObjectConverter
         {
             // Parse 4 integer values.
             culture ??= CultureInfo.CurrentCulture;
-            char sep = culture.TextInfo.ListSeparator[0];
-            string[] tokens = text.Split(sep);
-            int[] values = new int[tokens.Length];
-            TypeConverter intConverter = GetIntConverter();
+            var sep = culture.TextInfo.ListSeparator[0];
+            var tokens = text.Split(sep);
+            var values = new int[tokens.Length];
+            var intConverter = GetIntConverter();
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -153,10 +153,10 @@ public class MarginsConverter : ExpandableObjectConverter
             if (destinationType == typeof(string))
             {
                 culture ??= CultureInfo.CurrentCulture;
-                string sep = culture.TextInfo.ListSeparator + " ";
-                TypeConverter intConverter = GetIntConverter();
-                string?[] args = new string[4];
-                int nArg = 0;
+                var sep = culture.TextInfo.ListSeparator + " ";
+                var intConverter = GetIntConverter();
+                var args = new string[4];
+                var nArg = 0;
 
                 // Note: ConvertToString will raise exception if value cannot be converted.
                 args[nArg++] = intConverter.ConvertToString(context, culture, margins.Left);
@@ -208,10 +208,10 @@ public class MarginsConverter : ExpandableObjectConverter
     /// </exception>
     public override object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
     {
-        object left = propertyValues["Left"];
-        object right = propertyValues["Right"];
-        object top = propertyValues["Top"];
-        object bottom = propertyValues["Bottom"];
+        var left = propertyValues["Left"];
+        var right = propertyValues["Right"];
+        var top = propertyValues["Top"];
+        var bottom = propertyValues["Bottom"];
 
         return left is int && right is int && bottom is int && top is int ? (object)new Margins((int)left, (int)right, (int)top, (int)bottom) : throw new ArgumentException("PropertyValueInvalidEntry");
     }

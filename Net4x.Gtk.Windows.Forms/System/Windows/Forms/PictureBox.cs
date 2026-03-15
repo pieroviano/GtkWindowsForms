@@ -131,7 +131,7 @@ public partial class PictureBox : Control
         {
             GLib.IFile file = GLib.FileFactory.NewForUri(result);
             GLib.FileInputStream stream = file.Read(new GLib.Cancellable());
-            Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(stream, new GLib.Cancellable());
+            var pixbuf = new Gdk.Pixbuf(stream, new GLib.Cancellable());
             _image = new Bitmap(0, 0)
             {
                 Pixbuf = pixbuf
@@ -139,7 +139,7 @@ public partial class PictureBox : Control
         }
         else
         {
-            Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(url.Replace("\\\\", "/").Replace("\\", "/"));
+            var pixbuf = new Gdk.Pixbuf(url.Replace("\\\\", "/").Replace("\\", "/"));
             _image = new Bitmap(0, 0)
             {
                 Pixbuf = pixbuf

@@ -216,7 +216,7 @@ public partial class TextBox : Control
         {
             if (args.Event is Gdk.EventKey eventkey)
             {
-                Keys keys = (Keys)eventkey.HardwareKeycode;
+                var keys = (Keys)eventkey.HardwareKeycode;
                 KeyDown(this, new KeyEventArgs(keys));
             }
         }

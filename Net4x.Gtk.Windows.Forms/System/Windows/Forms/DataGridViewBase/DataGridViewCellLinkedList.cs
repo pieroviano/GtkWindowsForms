@@ -71,7 +71,7 @@ internal class DataGridViewCellLinkedList : IEnumerable
 
     public int RemoveAllCellsAtBand(bool column, int bandIndex)
     {
-        int removedCount = 0;
+        var removedCount = 0;
 
         return removedCount;
     }

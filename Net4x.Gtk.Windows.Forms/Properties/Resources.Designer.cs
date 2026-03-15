@@ -202,7 +202,7 @@ namespace System.Properties
         {
             get
             {
-                object obj = ResourceManager.GetObject("Gtk_DateTimePicker", resourceCulture);
+                var obj = ResourceManager.GetObject("Gtk_DateTimePicker", resourceCulture);
 
                 return ((byte[])(obj));
             }
@@ -449,7 +449,7 @@ namespace System.Properties
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);
+                    var temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
 

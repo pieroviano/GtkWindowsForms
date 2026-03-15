@@ -503,8 +503,8 @@ public abstract class FileDialog : CommonDialog
             }
             if (!string.IsNullOrEmpty(value))
             {
-                string[] filters = value.Split('|');
-                int pipeCount = filters.Length;
+                var filters = value.Split('|');
+                var pipeCount = filters.Length;
                 if (pipeCount == 1 || pipeCount % 2 == 1)
                 {
                     throw new ArgumentException("FileDialog Invalid Filter", value);
@@ -669,14 +669,14 @@ public abstract class FileDialog : CommonDialog
 
         if (_filter != null)
         {
-            string[] filters = _filter.Split('|');
+            var filters = _filter.Split('|');
             for (int i = 1; i < filters.Length; i += 2)
             {
-                string[] patterns = filters[i].Split(';');
+                var patterns = filters[i].Split(';');
                 foreach (string pattern in patterns)
                 {
-                    Gtk.FileFilter ffilter = new Gtk.FileFilter();
-                    string extand = pattern.TrimStart(new char[] { '*', ' ' });
+                    var ffilter = new Gtk.FileFilter();
+                    var extand = pattern.TrimStart(new char[] { '*', ' ' });
                     if (MimeMapping.ContainsKey(extand))
                     {
                         ffilter.AddMimeType(MimeMapping[extand]);

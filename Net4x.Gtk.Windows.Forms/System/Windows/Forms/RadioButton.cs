@@ -69,7 +69,7 @@ public partial class RadioButton : Control
 
     private void Self_ParentSet(object o, Gtk.ParentSetArgs args)
     {
-        Gtk.Container con = self.Parent as Gtk.Container;
+        var con = self.Parent as Gtk.Container;
         foreach (var widget in con.Children)
         {
             if (widget is Gtk.RadioButton group)

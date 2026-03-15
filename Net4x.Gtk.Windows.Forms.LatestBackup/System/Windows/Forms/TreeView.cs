@@ -78,7 +78,7 @@ public partial class TreeView : ScrollableControl
         self.TreeView.RowExpanded += TreeView_RowExpanded;
         this.BorderStyle = BorderStyle.Fixed3D;
 
-        Gtk.TreeViewColumn column = new Gtk.TreeViewColumn
+        var column = new Gtk.TreeViewColumn
         {
             Title = System.Properties.Resources.Gtk_Tree_directory
         };
@@ -100,7 +100,7 @@ public partial class TreeView : ScrollableControl
             Visible = false
         };
         column.PackStart(rendererPixbuf, false);
-        Gtk.CellRendererText renderertext = new Gtk.CellRendererText
+        var renderertext = new Gtk.CellRendererText
         {
             IsExpanded = true,
             PlaceholderText = "---"
@@ -517,16 +517,16 @@ public partial class TreeView : ScrollableControl
 
     private void CellName_Toggled(object o, ToggledArgs args)
     {
-        TreePath path = new TreePath(args.Path);
+        var path = new TreePath(args.Path);
         var model = _store;
         model.GetIter(out TreeIter iter, path);
-        bool val = (bool)(model.GetValue(iter, 1));
+        var val = (bool)(model.GetValue(iter, 1));
         model.SetValue(iter, 1, val == false);
     }
 
     private void GetNodeChild(TreeNode node, int[] indices, ref TreeNode result)
     {
-        string nodeIndex= string.Join(",", indices);
+        var nodeIndex= string.Join(",", indices);
         foreach (TreeNode child in node.Nodes)
         {
             if (child.Index == nodeIndex)
@@ -545,7 +545,7 @@ public partial class TreeView : ScrollableControl
     {
         if (BeforeSelect != null || AfterSelect != null)
         {
-            Gtk.TreeSelection selection = sender as Gtk.TreeSelection;
+            var selection = sender as Gtk.TreeSelection;
             TreePath[] paths = selection.GetSelectedRows();
             if (paths.Length > 0)
             {

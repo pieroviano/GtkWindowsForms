@@ -1130,7 +1130,7 @@ public sealed class Metafile : Image
     /// </returns>
     public static MetafileHeader GetMetafileHeader(IntPtr hmetafile, WmfPlaceableFileHeader wmfHeader)
     {
-        MetafileHeader metafileHeader = new MetafileHeader
+        var metafileHeader = new MetafileHeader
         {
             wmf = new MetafileHeaderWmf()
         };
@@ -1154,7 +1154,7 @@ public sealed class Metafile : Image
     /// </returns>
     public static MetafileHeader GetMetafileHeader(IntPtr henhmetafile)
     {
-        MetafileHeader metafileHeader = new MetafileHeader
+        var metafileHeader = new MetafileHeader
         {
             emf = new MetafileHeaderEmf()
         };
@@ -1180,14 +1180,14 @@ public sealed class Metafile : Image
     public static MetafileHeader GetMetafileHeader(string fileName)
     {
         System.IO.Path.GetFullPath(fileName);
-        MetafileHeader metafileHeader = new MetafileHeader();
-        IntPtr intPtr = Marshal.AllocHGlobal(Marshal.SizeOf<MetafileHeaderEmf>());
+        var metafileHeader = new MetafileHeader();
+        var intPtr = Marshal.AllocHGlobal(Marshal.SizeOf<MetafileHeaderEmf>());
         try
         {
 
-            int[] array = new int[1];
+            var array = new int[1];
             Marshal.Copy(intPtr, array, 0, 1);
-            MetafileType metafileType = (MetafileType)array[0];
+            var metafileType = (MetafileType)array[0];
             if (metafileType == MetafileType.Wmf || metafileType == MetafileType.WmfPlaceable)
             {
                 metafileHeader.wmf = Marshal.PtrToStructure<MetafileHeaderWmf>(intPtr);
@@ -1221,17 +1221,17 @@ public sealed class Metafile : Image
     /// </returns>
     public static MetafileHeader GetMetafileHeader(Stream stream)
     {
-        IntPtr intPtr = Marshal.AllocHGlobal(Marshal.SizeOf<MetafileHeaderEmf>());
+        var intPtr = Marshal.AllocHGlobal(Marshal.SizeOf<MetafileHeaderEmf>());
         try
         {
 
             try
             {
 
-                int[] array = new int[1];
+                var array = new int[1];
                 Marshal.Copy(intPtr, array, 0, 1);
-                MetafileType metafileType = (MetafileType)array[0];
-                MetafileHeader metafileHeader = new MetafileHeader();
+                var metafileType = (MetafileType)array[0];
+                var metafileHeader = new MetafileHeader();
                 if (metafileType == MetafileType.Wmf || metafileType == MetafileType.WmfPlaceable)
                 {
                     metafileHeader.wmf = Marshal.PtrToStructure<MetafileHeaderWmf>(intPtr);
@@ -1265,14 +1265,14 @@ public sealed class Metafile : Image
     /// </returns>
     public MetafileHeader GetMetafileHeader()
     {
-        IntPtr intPtr = Marshal.AllocHGlobal(Marshal.SizeOf<MetafileHeaderEmf>());
+        var intPtr = Marshal.AllocHGlobal(Marshal.SizeOf<MetafileHeaderEmf>());
         try
         {
 
-            int[] array = new int[1];
+            var array = new int[1];
             Marshal.Copy(intPtr, array, 0, 1);
-            MetafileType metafileType = (MetafileType)array[0];
-            MetafileHeader metafileHeader = new MetafileHeader();
+            var metafileType = (MetafileType)array[0];
+            var metafileHeader = new MetafileHeader();
             if (metafileType == MetafileType.Wmf || metafileType == MetafileType.WmfPlaceable)
             {
                 metafileHeader.wmf = Marshal.PtrToStructure<MetafileHeaderWmf>(intPtr);

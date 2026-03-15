@@ -101,15 +101,15 @@ public partial class ResXFileRef
         {
             if (value is string stringValue)
             {
-                string[] parts = ParseResxFileRefString(stringValue);
-                string fileName = parts[0];
-                Type toCreate = Type.GetType(parts[1], true);
+                var parts = ParseResxFileRefString(stringValue);
+                var fileName = parts[0];
+                var toCreate = Type.GetType(parts[1], true);
 
                 // special case string and byte[]
                 if (toCreate == typeof(string))
                 {
                     // we have a string, now we need to check the encoding
-                    Encoding textFileEncoding =
+                    var textFileEncoding =
                         parts.Length > 2
                             ? Encoding.GetEncoding(parts[2])
                             : Encoding.Default;
@@ -135,7 +135,7 @@ public partial class ResXFileRef
                     return temp;
                 }
 
-                MemoryStream memStream = new MemoryStream(temp);
+                var memStream = new MemoryStream(temp);
                 if (toCreate == typeof(MemoryStream))
                 {
                     return memStream;
@@ -145,7 +145,7 @@ public partial class ResXFileRef
                 {
                     // we special case the .ico bitmaps because GDI+ destroy the alpha channel component and
                     // we don't want that to happen
-                    Icon ico = new Icon(memStream);
+                    var ico = new Icon(memStream);
                     return ico.ToBitmap();
                 }
 
@@ -209,7 +209,7 @@ public partial class ResXFileRef
                 string remainingString;
                 if (stringValue.StartsWith("\""))
                 {
-                    int lastIndexOfQuote = stringValue.LastIndexOf('\"');
+                    var lastIndexOfQuote = stringValue.LastIndexOf('\"');
                     if (lastIndexOfQuote - 1 < 0)
                     {
                         throw new ArgumentException(nameof(stringValue));
@@ -225,7 +225,7 @@ public partial class ResXFileRef
                 }
                 else
                 {
-                    int nextSemiColumn = stringValue.IndexOf(';');
+                    var nextSemiColumn = stringValue.IndexOf(';');
                     if (nextSemiColumn == -1)
                     {
                         throw new ArgumentException(nameof(stringValue));
@@ -240,7 +240,7 @@ public partial class ResXFileRef
                     remainingString = stringValue.Substring(nextSemiColumn + 1);
                 }
 
-                string[] parts = remainingString.Split(';');
+                var parts = remainingString.Split(';');
                 if (parts.Length > 1)
                 {
                     result = new string[] { fileName, parts[0], parts[1] };

@@ -120,12 +120,12 @@ public class ImageUtility
     {
         if (imagebytes != null)
         {
-            Gdk.Pixbuf pix = new Gdk.Pixbuf(imagebytes);
+            var pix = new Gdk.Pixbuf(imagebytes);
             if (width > 0 && height > 0)
             {
                 using (var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
                 {
-                    Gdk.Pixbuf showpix = new Gdk.Pixbuf(surface, 0, 0, width, height);
+                    var showpix = new Gdk.Pixbuf(surface, 0, 0, width, height);
                     if (sizeMode == PictureBoxSizeMode.Normal && backgroundMode == ImageLayout.None)
                     {
                         pix.CopyArea(0, 0, Math.Min(pix.Width, showpix.Width), Math.Min(pix.Height, showpix.Height), showpix, 0, 0);
@@ -168,7 +168,7 @@ public class ImageUtility
                         {
                             using (var surface2 = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
                             {
-                                Gdk.Pixbuf backgroundpix = new Gdk.Pixbuf(surface2, 0, 0, width, height);
+                                var backgroundpix = new Gdk.Pixbuf(surface2, 0, 0, width, height);
                                 for (int y = 0; y < height; y += pix.Height)
                                 {
                                     for (int x = 0; x < width; x += pix.Width)
@@ -208,7 +208,7 @@ public class ImageUtility
     /// </param>
     public static void ScaleImageByImageLayout(byte[] srcImageBytes, int width, int height, out Gdk.Pixbuf destImage, ImageLayout layoutMode)
     {
-        Gdk.Pixbuf srcPixbuf = new Gdk.Pixbuf(srcImageBytes);
+        var srcPixbuf = new Gdk.Pixbuf(srcImageBytes);
         ScaleImageByImageLayout(srcPixbuf, width, height, out destImage, layoutMode);
     }
 
@@ -252,7 +252,7 @@ public class ImageUtility
                 // scale original image proportionally， display full image
                 double scaleX = destImage.Width * 1f / srcPixbuf.Width;
                 double scaleY = destImage.Height * 1f / srcPixbuf.Height;
-                double scaleR = Math.Min(scaleX, scaleY);
+                var scaleR = Math.Min(scaleX, scaleY);
                 // scale by minimum ratio
                 double srcWidth = scaleX > scaleY ? srcPixbuf.Width * scaleY : srcPixbuf.Width * scaleX;
                 double srcHeight = scaleX > scaleY ? srcPixbuf.Height * scaleY : srcPixbuf.Height * scaleX;
@@ -270,7 +270,7 @@ public class ImageUtility
                 {
                     using (var surface2 = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
                     {
-                        Gdk.Pixbuf backgroundpix = new Gdk.Pixbuf(surface2, 0, 0, width, height);
+                        var backgroundpix = new Gdk.Pixbuf(surface2, 0, 0, width, height);
                         for (int y = 0; y < height; y += srcPixbuf.Height)
                         {
                             for (int x = 0; x < width; x += srcPixbuf.Width)
@@ -304,7 +304,7 @@ public class ImageUtility
     /// </param>
     public static void ScaleImageByPictureBoxSizeMode(byte[] srcImageBytes, int width, int height, out Gdk.Pixbuf destImage, PictureBoxSizeMode sizeMode)
     {
-        Gdk.Pixbuf srcPixbuf = new Gdk.Pixbuf(srcImageBytes);
+        var srcPixbuf = new Gdk.Pixbuf(srcImageBytes);
         ScaleImageByPictureBoxSizeMode(srcPixbuf, width, height, out destImage, sizeMode);
 
     }
@@ -349,7 +349,7 @@ public class ImageUtility
                 // scale original image proportionally， display full image
                 double scaleX = destImage.Width * 1f / srcPixbuf.Width;
                 double scaleY = destImage.Height * 1f / srcPixbuf.Height;
-                double scaleR = Math.Min(scaleX, scaleY);
+                var scaleR = Math.Min(scaleX, scaleY);
                 // scale by minimum ratio
                 double srcWidth = scaleX > scaleY ? srcPixbuf.Width * scaleY : srcPixbuf.Width * scaleX;
                 double srcHeight = scaleX > scaleY ? srcPixbuf.Height * scaleY : srcPixbuf.Height * scaleX;

@@ -121,7 +121,7 @@ public class MaskedTextBox : TextBox
         else if (!string.IsNullOrWhiteSpace(Mask))
         {//按 format formatted assignment
             string txt = Regex.Match(Text, "\\d").Value;
-            int windex = -1;
+            var windex = -1;
             Text = Regex.Replace(Mask, "\\d", (Match m) =>
             {
                 windex++;

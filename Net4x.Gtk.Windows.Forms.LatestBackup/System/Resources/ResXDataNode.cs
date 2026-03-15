@@ -96,7 +96,7 @@ public sealed class ResXDataNode : ISerializable
 
         _typeNameConverter = typeNameConverter;
 
-        Type valueType = (value is null) ? typeof(object) : value.GetType();
+        var valueType = (value is null) ? typeof(object) : value.GetType();
 
         if (value != null && !valueType.IsSerializable)
         {
@@ -166,7 +166,7 @@ public sealed class ResXDataNode : ISerializable
     {
         get
         {
-            string result = _comment;
+            var result = _comment;
             if (result is null && _nodeInfo != null)
             {
                 result = _nodeInfo.Comment;
@@ -220,7 +220,7 @@ public sealed class ResXDataNode : ISerializable
     {
         get
         {
-            string result = _name;
+            var result = _name;
             if (result is null && _nodeInfo != null)
             {
                 result = _nodeInfo.Name;
@@ -285,7 +285,7 @@ public sealed class ResXDataNode : ISerializable
         object result = null;
         if (FileRefFullPath != null)
         {
-            Type objectType = ResolveType(FileRefType, typeResolver);
+            var objectType = ResolveType(FileRefType, typeResolver);
             if (objectType != null)
             {
                 // we have the FQN for this type
@@ -298,8 +298,8 @@ public sealed class ResXDataNode : ISerializable
             }
             else
             {
-                string newMessage = string.Format("R.TypeLoadExceptionShort,{0}", FileRefType);
-                TypeLoadException newTle = new TypeLoadException(newMessage);
+                var newMessage = string.Format("R.TypeLoadExceptionShort,{0}", FileRefType);
+                var newTle = new TypeLoadException(newMessage);
                 throw (newTle);
             }
         }
@@ -342,7 +342,7 @@ public sealed class ResXDataNode : ISerializable
                     : _typeName;
         }
 
-        string result = FileRefType;
+        var result = FileRefType;
         Type objectType = null;
         // do we have a fileref?
         if (result != null)
@@ -442,7 +442,7 @@ public sealed class ResXDataNode : ISerializable
 
     internal DataNodeInfo GetDataNodeInfo()
     {
-        bool shouldSerialize = true;
+        var shouldSerialize = true;
         if (_nodeInfo != null)
         {
             shouldSerialize = false;
@@ -504,7 +504,7 @@ public sealed class ResXDataNode : ISerializable
         }
         else
         {
-            Type valueType = (value is null) ? typeof(object) : value.GetType();
+            var valueType = (value is null) ? typeof(object) : value.GetType();
             if (value != null && !valueType.IsSerializable)
             {
                 throw new InvalidOperationException(string.Format("SR.NotSerializableType,{0},{1}", _name, valueType.FullName));
@@ -538,7 +538,7 @@ public sealed class ResXDataNode : ISerializable
             bool fromByteArray = tc.CanConvertFrom(typeof(byte[]));
             if (toByteArray && fromByteArray)
             {
-                byte[] data = (byte[])tc.ConvertTo(value, typeof(byte[]));
+                var data = (byte[])tc.ConvertTo(value, typeof(byte[]));
                 nodeInfo.ValueData = ToBase64WrappedString(data);
                 nodeInfo.MimeType = ResXResourceWriter.ByteArraySerializedObjectMimeType;
                 nodeInfo.TypeName = MultitargetUtil.GetAssemblyQualifiedName(valueType, _typeNameConverter);
@@ -574,7 +574,7 @@ public sealed class ResXDataNode : ISerializable
     {
         if (text.IndexOfAny(s_specialChars) != -1)
         {
-            StringBuilder sb = new StringBuilder(text.Length);
+            var sb = new StringBuilder(text.Length);
             foreach (var ch in text)
             {
                 switch (ch)
@@ -610,7 +610,7 @@ public sealed class ResXDataNode : ISerializable
             if (string.Equals(mimeTypeName, ResXResourceWriter.BinSerializedObjectMimeType))
             {
                 string text = dataNodeInfo.ValueData;
-                byte[] serializedData = FromBase64WrappedString(text);
+                var serializedData = FromBase64WrappedString(text);
 
                 if (_binaryFormatter is null)
                 {
@@ -632,14 +632,14 @@ public sealed class ResXDataNode : ISerializable
             {
                 if (!string.IsNullOrEmpty(typeName))
                 {
-                    Type type = ResolveType(typeName, typeResolver);
+                    var type = ResolveType(typeName, typeResolver);
                     if (type != null)
                     {
                         TypeConverter tc = TypeDescriptor.GetConverter(type);
                         if (tc.CanConvertFrom(typeof(byte[])))
                         {
                             string text = dataNodeInfo.ValueData;
-                            byte[] serializedData = FromBase64WrappedString(text);
+                            var serializedData = FromBase64WrappedString(text);
 
                             if (serializedData != null)
                             {
@@ -649,9 +649,9 @@ public sealed class ResXDataNode : ISerializable
                     }
                     else
                     {
-                        string newMessage = string.Format("SR.TypeLoadException,{0},{1},{2}", typeName, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
-                        XmlException xml = new XmlException(newMessage, null, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
-                        TypeLoadException newTle = new TypeLoadException(newMessage, xml);
+                        var newMessage = string.Format("SR.TypeLoadException,{0},{1},{2}", typeName, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
+                        var xml = new XmlException(newMessage, null, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
+                        var newTle = new TypeLoadException(newMessage, xml);
 
                         throw newTle;
                     }
@@ -660,7 +660,7 @@ public sealed class ResXDataNode : ISerializable
         }
         else if (!string.IsNullOrEmpty(typeName))
         {
-            Type type = ResolveType(typeName, typeResolver);
+            var type = ResolveType(typeName, typeResolver);
             if (type != null)
             {
                 if (type == typeof(ResXNullRef))
@@ -687,9 +687,9 @@ public sealed class ResXDataNode : ISerializable
                         }
                         catch (NotSupportedException nse)
                         {
-                            string newMessage = string.Format("SR.NotSupported,{0},{1},{2},{3}", typeName, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X, nse.Message);
-                            XmlException xml = new XmlException(newMessage, nse, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
-                            NotSupportedException newNse = new NotSupportedException(newMessage, xml);
+                            var newMessage = string.Format("SR.NotSupported,{0},{1},{2},{3}", typeName, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X, nse.Message);
+                            var xml = new XmlException(newMessage, nse, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
+                            var newNse = new NotSupportedException(newMessage, xml);
                             throw newNse;
                         }
                     }
@@ -701,9 +701,9 @@ public sealed class ResXDataNode : ISerializable
             }
             else
             {
-                string newMessage = string.Format("SR.TypeLoadException,{0},{1},{2}", typeName, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
-                XmlException xml = new XmlException(newMessage, null, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
-                TypeLoadException newTle = new TypeLoadException(newMessage, xml);
+                var newMessage = string.Format("SR.TypeLoadException,{0},{1},{2}", typeName, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
+                var xml = new XmlException(newMessage, null, dataNodeInfo.ReaderPosition.Y, dataNodeInfo.ReaderPosition.X);
+                var newTle = new TypeLoadException(newMessage, xml);
 
                 throw newTle;
             }
@@ -766,13 +766,13 @@ public sealed class ResXDataNode : ISerializable
             resolvedType = typeResolver.GetType(typeName, false);
             if (resolvedType is null)
             {
-                string[] typeParts = typeName.Split(',');
+                var typeParts = typeName.Split(',');
 
                 // Break up the type name from the rest of the assembly strong name.
                 if (typeParts != null && typeParts.Length >= 2)
                 {
-                    string partialName = typeParts[0].Trim();
-                    string assemblyName = typeParts[1].Trim();
+                    var partialName = typeParts[0].Trim();
+                    var assemblyName = typeParts[1].Trim();
                     partialName = partialName + ", " + assemblyName;
                     resolvedType = typeResolver.GetType(partialName, false);
                 }
@@ -792,11 +792,11 @@ public sealed class ResXDataNode : ISerializable
         const int lineWrap = 80;
         const string crlf = "\r\n";
         const string prefix = "        ";
-        string raw = Convert.ToBase64String(data);
+        var raw = Convert.ToBase64String(data);
         if (raw.Length > lineWrap)
         {
-            StringBuilder output = new StringBuilder(raw.Length + (raw.Length / lineWrap) * 3); // word wrap on lineWrap chars, \r\n
-            int current = 0;
+            var output = new StringBuilder(raw.Length + (raw.Length / lineWrap) * 3); // word wrap on lineWrap chars, \r\n
+            var current = 0;
             for (; current < raw.Length - lineWrap; current += lineWrap)
             {
                 output.Append(crlf);

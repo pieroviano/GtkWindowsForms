@@ -74,7 +74,7 @@ public class FormCollection : ReadOnlyCollectionBase
     /// </summary>
     internal bool Contains(Form form)
     {
-        bool inCollection = false;
+        var inCollection = false;
         lock (CollectionSyncRoot)
         {
             inCollection = InnerList.Contains(form);

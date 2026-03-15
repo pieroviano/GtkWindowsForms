@@ -58,7 +58,7 @@ public sealed class ImageAnimator
 
         StopAnimate(image, onFrameChangedHandler);
         bool isReaderLockHeld = s_rwImgListLock.IsReaderLockHeld;
-        LockCookie lockCookie = default(LockCookie);
+        var lockCookie = default(LockCookie);
         t_threadWriterLockWaitCount++;
         try
         {
@@ -133,10 +133,10 @@ public sealed class ImageAnimator
         lock (image)
         {
             Guid[] frameDimensionsList = image!.FrameDimensionsList;
-            Guid[] array = frameDimensionsList;
+            var array = frameDimensionsList;
             foreach (Guid guid in array)
             {
-                FrameDimension frameDimension = new FrameDimension(guid);
+                var frameDimension = new FrameDimension(guid);
                 if (frameDimension.Equals(FrameDimension.Time))
                 {
                     return image!.GetFrameCount(FrameDimension.Time) > 1;
@@ -166,7 +166,7 @@ public sealed class ImageAnimator
         }
 
         bool isReaderLockHeld = s_rwImgListLock.IsReaderLockHeld;
-        LockCookie lockCookie = default(LockCookie);
+        var lockCookie = default(LockCookie);
         t_threadWriterLockWaitCount++;
         try
         {
@@ -188,7 +188,7 @@ public sealed class ImageAnimator
         {
             for (int i = 0; i < s_imageInfoList.Count; i++)
             {
-                ImageInfo imageInfo = s_imageInfoList[i];
+                var imageInfo = s_imageInfoList[i];
                 if (image == imageInfo.Image)
                 {
                     if ((Delegate?)onFrameChangedHandler == (Delegate?)imageInfo.FrameChangedHandler || (onFrameChangedHandler != null && onFrameChangedHandler.Equals(imageInfo.FrameChangedHandler)))
@@ -230,8 +230,8 @@ public sealed class ImageAnimator
         s_rwImgListLock.AcquireReaderLock(-1);
         try
         {
-            bool flag = false;
-            bool flag2 = false;
+            var flag = false;
+            var flag2 = false;
             foreach (ImageInfo s_imageInfo in s_imageInfoList)
             {
                 if (s_imageInfo.Image == image)
@@ -296,18 +296,18 @@ public sealed class ImageAnimator
 
     private static void AnimateImages()
     {
-        Stopwatch stopwatch = Stopwatch.StartNew();
+        var stopwatch = Stopwatch.StartNew();
         while (true)
         {
             Thread.Sleep(40);
-            long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+            var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
             stopwatch.Restart();
             s_rwImgListLock.AcquireReaderLock(-1);
             try
             {
                 for (int i = 0; i < s_imageInfoList.Count; i++)
                 {
-                    ImageInfo imageInfo = s_imageInfoList[i];
+                    var imageInfo = s_imageInfoList[i];
                     if (imageInfo.Animated)
                     {
                         imageInfo.AdvanceAnimationBy(elapsedMilliseconds);
@@ -372,9 +372,9 @@ public sealed class ImageAnimator
                 {
                     byte[] value = propertyItem.Value;
                     _frameEndTimes = new long[_frameCount];
-                    long num = 0L;
-                    int num2 = 0;
-                    int num3 = 0;
+                    var num = 0L;
+                    var num2 = 0;
+                    var num3 = 0;
                     while (num2 < _frameCount)
                     {
                         if (num3 >= value.Length)
@@ -382,7 +382,7 @@ public sealed class ImageAnimator
                             num3 = 0;
                         }
 
-                        int num4 = BitConverter.ToInt32(value, num3) * 10;
+                        var num4 = BitConverter.ToInt32(value, num3) * 10;
                         num += ((num4 > 0) ? num4 : 40);
                         if (num < _totalAnimationTime)
                         {
@@ -473,7 +473,7 @@ public sealed class ImageAnimator
                 return;
             }
 
-            int frame = _frame;
+            var frame = _frame;
             _frameTimer += milliseconds;
             if (_frameTimer > TotalAnimationTime)
             {

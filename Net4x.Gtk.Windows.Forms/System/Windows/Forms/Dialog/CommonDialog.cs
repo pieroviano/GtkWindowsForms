@@ -64,7 +64,7 @@ public abstract class CommonDialog : Component
     public virtual DialogResult ShowDialog(IWin32Window owner)
     {
         DialogResult result = DialogResult.Cancel;
-        bool runresult = RunDialog(owner);
+        var runresult = RunDialog(owner);
         if (runresult)
         {
             result = DialogResult.OK;
@@ -83,7 +83,7 @@ public abstract class CommonDialog : Component
     /// </param>
     protected virtual void OnHelpRequest(EventArgs e)
     {
-        EventHandler handler = (EventHandler)Events[s_helpRequestEvent];
+        var handler = (EventHandler)Events[s_helpRequestEvent];
         handler?.Invoke(this, e);
     }
 

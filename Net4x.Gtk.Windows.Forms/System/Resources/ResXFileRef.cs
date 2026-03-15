@@ -71,7 +71,7 @@ public partial class ResXFileRef
     /// </returns>
     public override string ToString()
     {
-        string result = string.Empty;
+        var result = string.Empty;
 
         if (FileName.IndexOf(';') != -1 || FileName.IndexOf('\"') != -1)
         {
@@ -115,7 +115,7 @@ public partial class ResXFileRef
     private static string PathDifference(string path1, string path2, bool compareCase)
     {
         int i;
-        int si = -1;
+        var si = -1;
 
         for (i = 0; (i < path1.Length) && (i < path2.Length); ++i)
         {
@@ -140,7 +140,7 @@ public partial class ResXFileRef
             return string.Empty;
         }
 
-        StringBuilder relPath = new StringBuilder();
+        var relPath = new StringBuilder();
 
         for (; i < path1.Length; ++i)
         {

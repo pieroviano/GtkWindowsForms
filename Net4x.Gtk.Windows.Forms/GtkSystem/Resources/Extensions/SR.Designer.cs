@@ -348,7 +348,7 @@ namespace GtkSystem
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GtkSystem.SR", typeof(SR).Assembly);
+                    var temp = new global::System.Resources.ResourceManager("GtkSystem.SR", typeof(SR).Assembly);
                     resourceMan = temp;
                 }
 

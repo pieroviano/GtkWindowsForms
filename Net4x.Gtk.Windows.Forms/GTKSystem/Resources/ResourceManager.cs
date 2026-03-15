@@ -119,9 +119,9 @@ public class ResourceManager : System.Resources.ResourceManager
     /// </returns>
     public override object GetObject(string name, CultureInfo culture)
     {
-        object result = GetObject(name);
+        var result = GetObject(name);
         var stack = new StackTrace(true);
-        System.Reflection.MethodInfo method = (System.Reflection.MethodInfo)stack.GetFrame(1).GetMethod();
+        var method = (System.Reflection.MethodInfo)stack.GetFrame(1).GetMethod();
         if (method.ReturnType.Name == "Object" || method.ReturnType.Name.Equals(result.GetType().Name))
         {
             return result;
@@ -148,7 +148,7 @@ public class ResourceManager : System.Resources.ResourceManager
     public override object GetObject(string name)
     {
         GetResourceInfo.ResourceName = name;
-        object obj = ReadResourceData(name);
+        var obj = ReadResourceData(name);
         if (obj == null)
         {
             if (name.EndsWith(".ImageStream"))
@@ -157,12 +157,12 @@ public class ResourceManager : System.Resources.ResourceManager
             }
             else
             {
-                string fileName = name;
-                byte[] filebytes = ReadResourceFile(name);
+                var fileName = name;
+                var filebytes = ReadResourceFile(name);
                 if (filebytes == null)
                 {
-                    string _formName = Path.GetExtension(this.BaseName).TrimStart('.');
-                    string[] files = Directory.GetFiles($"./Resources/{_formName}", $"{fileName}.*", SearchOption.AllDirectories);
+                    var _formName = Path.GetExtension(this.BaseName).TrimStart('.');
+                    var files = Directory.GetFiles($"./Resources/{_formName}", $"{fileName}.*", SearchOption.AllDirectories);
                     if (files != null && files.Length > 0)
                     {
                         fileName = files[0];
@@ -243,8 +243,8 @@ public class ResourceManager : System.Resources.ResourceManager
         {
             try
             {
-                Stream stream = _assembly.GetManifestResourceStream(_baseName + ResFileExtension);
-                GtkSystem.Resources.Extensions.DeserializingResourceReader reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
+                var stream = _assembly.GetManifestResourceStream(_baseName + ResFileExtension);
+                var reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
                 IDictionaryEnumerator dict = reader.GetEnumerator();
                 while (dict.MoveNext())
                 {
@@ -282,13 +282,13 @@ public class ResourceManager : System.Resources.ResourceManager
         byte[] result = null;
         try
         {
-            string filepath = $"./{ReadResourceData("this_FileName")}"; //linux the path must use/
+            var filepath = $"./{ReadResourceData("this_FileName")}"; //linux the path must use/
             if (System.IO.File.Exists(filepath))
             {
                 try
                 {
-                    XmlDocument doc = new XmlDocument();
-                    XmlReaderSettings xmlReaderSettings = new XmlReaderSettings { CheckCharacters = false };
+                    var doc = new XmlDocument();
+                    var xmlReaderSettings = new XmlReaderSettings { CheckCharacters = false };
                     doc.Load(filepath);
                     var docElem = doc.DocumentElement;
                     XmlNodeList nodes = docElem.SelectNodes("data");
@@ -323,8 +323,8 @@ public class ResourceManager : System.Resources.ResourceManager
             throw new FileNotFoundException();
         else
         {
-            Stream stream = _assembly.GetManifestResourceStream(_baseName + ".resources");
-            GtkSystem.Resources.Extensions.DeserializingResourceReader reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
+            var stream = _assembly.GetManifestResourceStream(_baseName + ".resources");
+            var reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
             IDictionaryEnumerator dict = reader.GetEnumerator();
             while (dict.MoveNext())
             {

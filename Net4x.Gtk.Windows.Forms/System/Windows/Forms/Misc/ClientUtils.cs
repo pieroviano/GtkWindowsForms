@@ -19,18 +19,18 @@ static internal class ClientUtils
     /// </summary>
     public static int GetWordBoundaryStart(string text, int endIndex)
     {
-        bool seenWord = false;
-        CharType lastSeen = CharType.None;
-        int index = endIndex - 1;
+        var seenWord = false;
+        var lastSeen = CharType.None;
+        var index = endIndex - 1;
         for (; index >= 0; index--)
         {
-            char character = text[index];
+            var character = text[index];
             if (char.IsSurrogate(character))
             {
                 break;
             }
 
-            bool isWord = char.IsLetterOrDigit(character) ||
+            var isWord = char.IsLetterOrDigit(character) ||
                 CharUnicodeInfo.GetUnicodeCategory(character) == UnicodeCategory.NonSpacingMark;
             if ((isWord && lastSeen == CharType.NonWord && seenWord) ||
                 (!isWord && lastSeen == CharType.Word && index != 0))

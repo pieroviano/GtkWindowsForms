@@ -121,7 +121,7 @@ public partial class ComboBox : ListControl
     public object SelectedItem
     {
         get { return SelectedIndex == -1 ? null : __itemsData[SelectedIndex]; }
-        set { int _index = __itemsData.IndexOf(value); if (_index != -1) { SelectedIndex = _index; } }
+        set { var _index = __itemsData.IndexOf(value); if (_index != -1) { SelectedIndex = _index; } }
     }
 
     /// <summary>
@@ -230,9 +230,9 @@ public partial class ComboBox : ListControl
         __itemsData.Clear();
         if (list.Count > 0)
         {
-            Type type = list[0].GetType();
-            PropertyInfo valproperty = type.GetProperty(ValueMember);
-            PropertyInfo disproperty = type.GetProperty(DisplayMember);
+            var type = list[0].GetType();
+            var valproperty = type.GetProperty(ValueMember);
+            var disproperty = type.GetProperty(DisplayMember);
             foreach (var entry in list)
                 __itemsData.Add(valproperty?.GetValue(entry)?.ToString(), disproperty?.GetValue(entry)?.ToString(), entry);
         }
@@ -296,7 +296,7 @@ public partial class ComboBox : ListControl
     private void Ws_Drawn(object o, Gtk.DrawnArgs args)
     {
         self.Entry.Visible = false;
-        Gtk.ToggleButton ws = (Gtk.ToggleButton)o;
+        var ws = (Gtk.ToggleButton)o;
         ws.WidthRequest = -1;
         Pango.Context pangocontext = ws.PangoContext;
         string family = pangocontext.FontDescription.Family;

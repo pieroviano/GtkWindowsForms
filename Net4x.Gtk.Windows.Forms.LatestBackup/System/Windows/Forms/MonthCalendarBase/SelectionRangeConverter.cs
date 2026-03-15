@@ -52,7 +52,7 @@ public class SelectionRangeConverter : TypeConverter
     {
         if (value is string)
         {
-            string text = ((string)value).Trim();
+            var text = ((string)value).Trim();
             if (text.Length == 0)
             {
                 return new SelectionRange(DateTime.Now.Date, DateTime.Now.Date);
@@ -64,14 +64,14 @@ public class SelectionRangeConverter : TypeConverter
             {
                 culture = CultureInfo.CurrentCulture;
             }
-            char separator = culture.TextInfo.ListSeparator[0];
-            string[] tokens = text.Split(new char[] { separator });
+            var separator = culture.TextInfo.ListSeparator[0];
+            var tokens = text.Split(new char[] { separator });
 
             if (tokens.Length == 2)
             {
                 TypeConverter dateTimeConverter = TypeDescriptor.GetConverter(typeof(DateTime));
-                DateTime start = (DateTime)dateTimeConverter.ConvertFromString(context, culture, tokens[0]);
-                DateTime end = (DateTime)dateTimeConverter.ConvertFromString(context, culture, tokens[1]);
+                var start = (DateTime)dateTimeConverter.ConvertFromString(context, culture, tokens[0]);
+                var end = (DateTime)dateTimeConverter.ConvertFromString(context, culture, tokens[1]);
                 return new SelectionRange(start, end);
             }
             else
@@ -111,9 +111,9 @@ public class SelectionRangeConverter : TypeConverter
                 {
                     culture = CultureInfo.CurrentCulture;
                 }
-                string sep = culture.TextInfo.ListSeparator + " ";
-                PropertyDescriptorCollection props = GetProperties(value);
-                string[] args = new string[props.Count];
+                var sep = culture.TextInfo.ListSeparator + " ";
+                var props = GetProperties(value);
+                var args = new string[props.Count];
 
                 for (int i = 0; i < props.Count; i++)
                 {
@@ -129,7 +129,7 @@ public class SelectionRangeConverter : TypeConverter
             }
             if (destinationType == typeof(InstanceDescriptor))
             {
-                ConstructorInfo ctor = typeof(SelectionRange).GetConstructor(new Type[] {
+                var ctor = typeof(SelectionRange).GetConstructor(new Type[] {
                     typeof(DateTime), typeof(DateTime)});
                 if (ctor != null)
                 {

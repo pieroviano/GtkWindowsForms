@@ -138,7 +138,7 @@ public partial class ListBox
         /// </returns>
         public int Add(int item)
         {
-            int index = AddInternal(item);
+            var index = AddInternal(item);
 
             return index;
         }
@@ -206,7 +206,7 @@ public partial class ListBox
         /// </param>
         public void CopyTo(Array destination, int index)
         {
-            int cnt = Count;
+            var cnt = Count;
             for (int i = 0; i < cnt; i++)
             {
                 destination.SetValue(this[i], i + index);
@@ -224,7 +224,7 @@ public partial class ListBox
         /// </returns>
         public int IndexOf(int item)
         {
-            int index = -1;
+            var index = -1;
 
             if (_innerArray != null)
             {
@@ -252,7 +252,7 @@ public partial class ListBox
         /// </param>
         public void Remove(int item)
         {
-            int index = IndexOf(item);
+            var index = IndexOf(item);
 
             if (index != -1)
             {
@@ -344,7 +344,7 @@ public partial class ListBox
         {
             EnsureSpace(1);
 
-            int index = IndexOf(item);
+            var index = IndexOf(item);
             if (index == -1)
             {
                 _innerArray![_count++] = item;
@@ -395,8 +395,8 @@ public partial class ListBox
             }
             else if (_count + elements >= _innerArray.Length)
             {
-                int newLength = Math.Max(_innerArray.Length * 2, _innerArray.Length + elements);
-                int[] newEntries = new int[newLength];
+                var newLength = Math.Max(_innerArray.Length * 2, _innerArray.Length + elements);
+                var newEntries = new int[newLength];
                 _innerArray.CopyTo(newEntries, 0);
                 _innerArray = newEntries;
             }

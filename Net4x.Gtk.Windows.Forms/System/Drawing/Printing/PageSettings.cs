@@ -192,7 +192,7 @@ public unsafe class PageSettings : ICloneable
     /// </returns>
     public object Clone()
     {
-        PageSettings result = (PageSettings)MemberwiseClone();
+        var result = (PageSettings)MemberwiseClone();
         result._margins = (Margins)_margins.Clone();
 
         return result;

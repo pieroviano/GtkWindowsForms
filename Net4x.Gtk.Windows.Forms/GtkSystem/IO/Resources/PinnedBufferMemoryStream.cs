@@ -13,7 +13,7 @@ internal sealed class PinnedBufferMemoryStream : UnmanagedMemoryStream
     {
         _array = array;
         _pinningHandle = GCHandle.Alloc(array, GCHandleType.Pinned);
-        int num = array.Length;
+        var num = array.Length;
         fixed (byte* pointer = &MemoryMarshal.GetReference<byte>(array))
         {
             Initialize(pointer, num, num, FileAccess.Read);

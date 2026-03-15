@@ -47,14 +47,14 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
 
     public override string GetString(string key)
     {
-        object @object = GetObject(key, ignoreCase: false, isString: true);
+        var @object = GetObject(key, ignoreCase: false, isString: true);
 
         return (string)@object;
     }
 
     public override string GetString(string key, bool ignoreCase)
     {
-        object @object = GetObject(key, ignoreCase, isString: true);
+        var @object = GetObject(key, ignoreCase, isString: true);
 
         return (string)@object;
     }
@@ -92,7 +92,7 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
 
     private IDictionaryEnumerator GetEnumeratorHelper()
     {
-        IResourceReader reader = Reader;
+        var reader = Reader;
         if (reader == null || _resCache == null)
         {
             throw new ObjectDisposedException(null, SR.ObjectDisposed_ResourceSet);
@@ -121,7 +121,7 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
             ResourceLocator value;
             if (_defaultReader != null)
             {
-                int num = -1;
+                var num = -1;
                 if (_resCache.TryGetValue(key, out value))
                 {
                     obj = value.Value;
@@ -162,12 +162,12 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
                 }
                 if (_defaultReader == null)
                 {
-                    IDictionaryEnumerator enumerator = Reader.GetEnumerator();
+                    var enumerator = Reader.GetEnumerator();
                     while (enumerator.MoveNext())
                     {
-                        DictionaryEntry entry = enumerator.Entry;
-                        string key2 = (string)entry.Key;
-                        ResourceLocator value2 = new ResourceLocator(-1, entry.Value);
+                        var entry = enumerator.Entry;
+                        var key2 = (string)entry.Key;
+                        var value2 = new ResourceLocator(-1, entry.Value);
                         _resCache.Add(key2, value2);
                         if (ignoreCase)
                         {
@@ -184,17 +184,17 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
                     DeserializingResourceReader.ResourceEnumerator enumeratorInternal = _defaultReader.GetEnumeratorInternal();
                     while (enumeratorInternal.MoveNext())
                     {
-                        string key3 = (string)enumeratorInternal.Key;
+                        var key3 = (string)enumeratorInternal.Key;
                         int dataPosition = enumeratorInternal.DataPosition;
-                        ResourceLocator value3 = new ResourceLocator(dataPosition, null);
+                        var value3 = new ResourceLocator(dataPosition, null);
                         _caseInsensitiveTable.Add(key3, value3);
                     }
                 }
                 _haveReadFromReader = true;
             }
             object result = null;
-            bool flag = false;
-            bool keyInWrongCase = false;
+            var flag = false;
+            var keyInWrongCase = false;
             if (_defaultReader != null && _resCache.TryGetValue(key, out value))
             {
                 flag = true;

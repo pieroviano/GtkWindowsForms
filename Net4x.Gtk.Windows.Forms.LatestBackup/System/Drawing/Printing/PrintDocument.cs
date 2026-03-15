@@ -123,7 +123,7 @@ public class PrintDocument : Component
         set
         {
             _pageSetup = value;
-            PageSettings pageSettings = DefaultPageSettings;
+            var pageSettings = DefaultPageSettings;
             pageSettings.Landscape = value.Orientation == Gtk.PageOrientation.Landscape || value.Orientation == Gtk.PageOrientation.ReverseLandscape;
             pageSettings.Margins = new Margins((int)value.GetLeftMargin(Unit.Points), (int)value.GetTopMargin(Unit.Points), (int)value.GetRightMargin(Unit.Points), (int)value.GetBottomMargin(Unit.Points));
             Enum.TryParse(value.PaperSize.DisplayName, out PaperKind paperKind);
@@ -160,7 +160,7 @@ public class PrintDocument : Component
     /// </summary>
     public void Print()
     {
-        PrintDialog printDialog = new PrintDialog
+        var printDialog = new PrintDialog
         {
             Document = this,
             AllowPrintToFile = false,

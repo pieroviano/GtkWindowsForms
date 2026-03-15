@@ -25,18 +25,18 @@ internal sealed class TypeNameComparer : IEqualityComparer<string>
         {
             return true;
         }
-        ReadOnlySpan<char> readOnlySpan = assemblyQualifiedTypeName1.AsSpan().TrimStart(s_whiteSpaceChars);
-        ReadOnlySpan<char> readOnlySpan2 = assemblyQualifiedTypeName2.AsSpan().TrimStart(s_whiteSpaceChars);
-        ReadOnlySpan<char> span = ReadTypeName(readOnlySpan);
-        ReadOnlySpan<char> other = ReadTypeName(readOnlySpan2);
+        var readOnlySpan = assemblyQualifiedTypeName1.AsSpan().TrimStart(s_whiteSpaceChars);
+        var readOnlySpan2 = assemblyQualifiedTypeName2.AsSpan().TrimStart(s_whiteSpaceChars);
+        var span = ReadTypeName(readOnlySpan);
+        var other = ReadTypeName(readOnlySpan2);
         if (!MemoryExtensions.Equals(span, other, StringComparison.Ordinal))
         {
             return false;
         }
         readOnlySpan = ((readOnlySpan.Length > span.Length) ? readOnlySpan.Slice(span.Length + 1).TrimStart(s_whiteSpaceChars) : ReadOnlySpan<char>.Empty);
         readOnlySpan2 = ((readOnlySpan2.Length > other.Length) ? readOnlySpan2.Slice(other.Length + 1).TrimStart(s_whiteSpaceChars) : ReadOnlySpan<char>.Empty);
-        ReadOnlySpan<char> readOnlySpan3 = ReadAssemblySimpleName(readOnlySpan);
-        ReadOnlySpan<char> readOnlySpan4 = ReadAssemblySimpleName(readOnlySpan2);
+        var readOnlySpan3 = ReadAssemblySimpleName(readOnlySpan);
+        var readOnlySpan4 = ReadAssemblySimpleName(readOnlySpan2);
         if ((readOnlySpan3.IsEmpty && !readOnlySpan.IsEmpty) || (readOnlySpan4.IsEmpty && !readOnlySpan2.IsEmpty))
         {
             return false;
@@ -61,27 +61,27 @@ internal sealed class TypeNameComparer : IEqualityComparer<string>
         {
             return true;
         }
-        AssemblyName assemblyName = new AssemblyName(readOnlySpan.ToString());
-        AssemblyName assemblyName2 = new AssemblyName(readOnlySpan2.ToString());
+        var assemblyName = new AssemblyName(readOnlySpan.ToString());
+        var assemblyName2 = new AssemblyName(readOnlySpan2.ToString());
         if (assemblyName.CultureInfo?.LCID != assemblyName2.CultureInfo?.LCID)
         {
             return false;
         }
-        byte[] publicKeyToken = assemblyName.GetPublicKeyToken();
-        byte[] publicKeyToken2 = assemblyName2.GetPublicKeyToken();
+        var publicKeyToken = assemblyName.GetPublicKeyToken();
+        var publicKeyToken2 = assemblyName2.GetPublicKeyToken();
 
         return publicKeyToken.AsSpan().SequenceEqual(publicKeyToken2);
     }
 
     public int GetHashCode(string assemblyQualifiedTypeName)
     {
-        ReadOnlySpan<char> assemblyQualifiedTypeName2 = assemblyQualifiedTypeName.AsSpan().TrimStart(s_whiteSpaceChars);
-        ReadOnlySpan<char> readOnlySpan = ReadTypeName(assemblyQualifiedTypeName2);
-        int num = 0;
+        var assemblyQualifiedTypeName2 = assemblyQualifiedTypeName.AsSpan().TrimStart(s_whiteSpaceChars);
+        var readOnlySpan = ReadTypeName(assemblyQualifiedTypeName2);
+        var num = 0;
         for (int i = 0; i < readOnlySpan.Length; i++)
         {
-            int h = num;
-            char c = readOnlySpan[i];
+            var h = num;
+            var c = readOnlySpan[i];
             num = GtkSystem.Numerics.Hashing.HashHelpers.Combine(h, c.GetHashCode());
         }
 
@@ -96,7 +96,7 @@ internal sealed class TypeNameComparer : IEqualityComparer<string>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static ReadOnlySpan<char> ReadAssemblySimpleName(ReadOnlySpan<char> assemblyName)
     {
-        int num = assemblyName.IndexOf(',');
+        var num = assemblyName.IndexOf(',');
         if (num != -1)
         {
             return assemblyName.Slice(0, num).TrimEnd(s_whiteSpaceChars);
@@ -108,7 +108,7 @@ internal sealed class TypeNameComparer : IEqualityComparer<string>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static ReadOnlySpan<char> ReadTypeName(ReadOnlySpan<char> assemblyQualifiedTypeName)
     {
-        int num = assemblyQualifiedTypeName.IndexOf(',');
+        var num = assemblyQualifiedTypeName.IndexOf(',');
         if (num != -1)
         {
             return assemblyQualifiedTypeName.Slice(0, num);

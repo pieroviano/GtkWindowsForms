@@ -240,7 +240,7 @@ public class ImageFormatConverter : TypeConverter
                 {
                     return new InstanceDescriptor(typeof(ImageFormat).GetProperty(text), null);
                 }
-                ConstructorInfo constructor = typeof(ImageFormat).GetConstructor(new Type[1] { typeof(Guid) });
+                var constructor = typeof(ImageFormat).GetConstructor(new Type[1] { typeof(Guid) });
                 return new InstanceDescriptor(constructor, new object[1] { imageFormat.Guid });
             }
         }

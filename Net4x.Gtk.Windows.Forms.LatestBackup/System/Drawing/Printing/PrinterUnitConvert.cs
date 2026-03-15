@@ -20,8 +20,8 @@ public sealed class PrinterUnitConvert
     /// </summary>
     public static double Convert(double value, PrinterUnit fromUnit, PrinterUnit toUnit)
     {
-        double fromUnitsPerDisplay = UnitsPerDisplay(fromUnit);
-        double toUnitsPerDisplay = UnitsPerDisplay(toUnit);
+        var fromUnitsPerDisplay = UnitsPerDisplay(fromUnit);
+        var toUnitsPerDisplay = UnitsPerDisplay(toUnit);
 
         return value * toUnitsPerDisplay / fromUnitsPerDisplay;
     }

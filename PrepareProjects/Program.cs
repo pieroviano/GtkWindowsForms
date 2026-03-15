@@ -11,6 +11,7 @@ using PrepareProjects.Preparation.Compilation;
 using PrepareProjects.Preparation.Directories;
 using PrepareProjects.Preparation.Source;
 using PrepareProjects.ProjectHandling;
+using XmlDocSync.Services;
 
 namespace PrepareProjects;
 
@@ -72,13 +73,13 @@ public class Program
         ConsoleColor.Green.Write(@"Normalizing Gtk folders", true);
         GtkFoldersService.NormalizeGtkFolders(csprojPath);
         FixService.FixClasses(csprojPath);
-        var projectDirectory = Path.GetDirectoryName(csprojPath)!;
-        GtkFoldersService.RenameFolder(Path.Combine(projectDirectory, "GtkSystem", "Windows", "Forms"),
+        var csProjectDirectory = Path.GetDirectoryName(csprojPath)??string.Empty;
+        GtkFoldersService.RenameFolder(Path.Combine(csProjectDirectory, "GtkSystem", "Windows", "Forms"),
             "GTKControls", "GtkControls", csprojPath);
 
         ConsoleColor.Green.Write($@"Separating {PrepareWorker.net4xGtkDrawing} from {net4xGtkWindowsForms}", true);
         DrawingService.SeparateDrawing(PrepareWorker.net4xGtkDrawing);
-        PrepareWorker.OptimizeNet4xGtkDrawingFileSystem(projectDirectory);
+        PrepareWorker.OptimizeNet4xGtkDrawingFileSystem(csProjectDirectory);
 
         ConsoleColor.Green.Write(@"Applying files first post processings", true);
         var postprocessingXml = PrepareWorker.GetSubsequentPostprocessingXml(false);
@@ -86,15 +87,15 @@ public class Program
             postprocessingXml);
 
         ConsoleColor.Green.Write(@"Regenerating SR.Designer.cs", true);
-        ResGenService.RegenerateSrDesigner(projectDirectory, csprojPath);
+        ResGenService.RegenerateSrDesigner(csProjectDirectory, csprojPath);
 
         ConsoleColor.Green.Write(@"Cleaning IntermediateBackup", true);
-        BackupUtility.CleanEmptyFolders(projectDirectory);
-        BackupUtility.CleanBackup(projectDirectory, BackupUtility.IntermediateBackup, "Net4x.Gtk.Windows.Forms");
+        BackupUtility.CleanEmptyFolders(csProjectDirectory);
+        BackupUtility.CleanBackup(csProjectDirectory, BackupUtility.IntermediateBackup, "Net4x.Gtk.Windows.Forms");
 
         ConsoleColor.Green.Write(@"Persisting IntermediateBackup", true);
         var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
-        ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.IntermediateBackup);
+        ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, csProjectDirectory, BackupUtility.IntermediateBackup);
 
         ConsoleColor.Green.Write(@"Merging Xml documentation", true);
         await PrepareWorker.MergeXmlDocumentationAsync();
@@ -114,7 +115,7 @@ public class Program
         postprocessingXml = PrepareWorker.GetSubsequentPostprocessingXml(true);
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms" },
             postprocessingXml);
-        BackupUtility.CleanBackup(projectDirectory, BackupUtility.LatestBackup, "Net4x.Gtk.Windows.Forms");
+        BackupUtility.CleanBackup(csProjectDirectory, BackupUtility.LatestBackup, "Net4x.Gtk.Windows.Forms");
 
         await PrepareWorker.PatchFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Dialog\FileDialog.cs");
         await PrepareWorker.PatchFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintPreviewDialog.cs");
@@ -122,22 +123,29 @@ public class Program
         await PrepareWorker.PatchCommentsInFile(@"..\..\..\..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\ImageAnimator.cs");
         await PrepareWorker.PatchCommentsInFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintDialog.cs");
 
+
+        ConsoleColor.Green.Write(@"Using var when possible on project files", true);
 #pragma warning disable CS8604 // Possible null reference argument.
-        LineEndingNormalizer.NormalizeCsFiles(Path.GetDirectoryName(net4xGtkDrawingPath));
-        LineEndingNormalizer.NormalizeCsFiles(Path.GetDirectoryName(csprojPath));
+        var net4xGtkDrawingDirectory = Path.GetDirectoryName(net4xGtkDrawingPath);
+        VarUsageProcessor.ProcessFolder(net4xGtkDrawingDirectory);
+        VarUsageProcessor.ProcessFolder(csProjectDirectory);
 #pragma warning restore CS8604 // Possible null reference argument.
+
+        ConsoleColor.Green.Write(@"Normalizing end of line on project files", true);
+        LineEndingNormalizer.NormalizeCsFiles(net4xGtkDrawingDirectory);
+        LineEndingNormalizer.NormalizeCsFiles(csProjectDirectory);
 
         ConsoleColor.Green.Write(@"Persisting latest project files", true);
         projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
-        ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, projectDirectory, BackupUtility.LatestBackup);
-        var directoryName = Path.GetDirectoryName(net4xGtkDrawingPath) ?? string.Empty;
+        ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, csProjectDirectory, BackupUtility.LatestBackup);
+        var directoryName = net4xGtkDrawingDirectory ?? string.Empty;
         projectFiles = ProjectUtility.GetProjectFiles(net4xGtkDrawingPath, out _);
         ProjectUtility.PersistProjectFiles(net4xGtkDrawingPath, projectFiles, directoryName, BackupUtility.LatestBackup);
         BackupUtility.DeleteBackupFolders("..\\..\\..\\..\\");
 
         ConsoleColor.Green.Write(@"Building the solution", true);
         updatePropsFiles.Invoke();
-        var solutionPath = PrepareWorker.GetSolutionPath(projectDirectory);
+        var solutionPath = PrepareWorker.GetSolutionPath(csProjectDirectory);
         ProjectCompilation.RestoreSolution(solutionPath);
         ProjectCompilation.BuildSolution(solutionPath);
         ProjectCompilation.BuildSolution(Path.GetFullPath("..\\..\\..\\..\\Prepare.Common\\Prepare.Common.csproj"));

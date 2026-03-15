@@ -411,8 +411,8 @@ public partial class Form : ContainerControl, IWin32Window
                             else if (this.Icon.FileName != null && System.IO.File.Exists("Resources\\" + this.Icon.FileName))
                                 self.SetIconFromFile("Resources\\" + this.Icon.FileName);
                         }
-                        Gtk.HeaderBar titlebar = (Gtk.HeaderBar)self.Titlebar;
-                        Gtk.Image flag = new Gtk.Image(self.Icon)
+                        var titlebar = (Gtk.HeaderBar)self.Titlebar;
+                        var flag = new Gtk.Image(self.Icon)
                         {
                             Visible = true
                         };
@@ -503,7 +503,7 @@ public partial class Form : ContainerControl, IWin32Window
                 {
                     if (MaximizeBox == true)
                     {
-                        Gtk.Button maximize = new Gtk.Button("window-maximize-symbolic", IconSize.SmallToolbar) { Name = "maximize", Visible = true, Relief = ReliefStyle.None, Valign = Align.Center, Halign = Align.Center };
+                        var maximize = new Gtk.Button("window-maximize-symbolic", IconSize.SmallToolbar) { Name = "maximize", Visible = true, Relief = ReliefStyle.None, Valign = Align.Center, Halign = Align.Center };
                         maximize.StyleContext.AddClass("maximize");
                         maximize.StyleContext.AddClass("titlebutton");
                         maximize.Clicked += Maximize_Clicked;
@@ -511,7 +511,7 @@ public partial class Form : ContainerControl, IWin32Window
                     }
                     if (MinimizeBox == true)
                     {
-                        Gtk.Button minimize = new Gtk.Button("window-minimize-symbolic", IconSize.SmallToolbar) { Name = "minimize", Visible = true, Relief = ReliefStyle.None, Valign = Align.Center, Halign = Align.Center };
+                        var minimize = new Gtk.Button("window-minimize-symbolic", IconSize.SmallToolbar) { Name = "minimize", Visible = true, Relief = ReliefStyle.None, Valign = Align.Center, Halign = Align.Center };
                         minimize.StyleContext.AddClass("minimize");
                         minimize.StyleContext.AddClass("titlebutton");
                         minimize.Clicked += Minimize_Clicked;
@@ -543,7 +543,7 @@ public partial class Form : ContainerControl, IWin32Window
 
     private void Maximize_Clicked(object sender, EventArgs e)
     {
-        Gtk.Button maximize = (Gtk.Button)sender;
+        var maximize = (Gtk.Button)sender;
         if (maximize.Name == "restore")
         {
             self.Unmaximize();
@@ -575,7 +575,7 @@ public partial class Form : ContainerControl, IWin32Window
 
     private bool Self_CloseWindowEvent(object sender, EventArgs e)
     {
-        FormClosingEventArgs closing = new FormClosingEventArgs(CloseReason.UserClosing, false);
+        var closing = new FormClosingEventArgs(CloseReason.UserClosing, false);
         FormClosing?.Invoke(this, closing);
 
         if (closing.Cancel == false)

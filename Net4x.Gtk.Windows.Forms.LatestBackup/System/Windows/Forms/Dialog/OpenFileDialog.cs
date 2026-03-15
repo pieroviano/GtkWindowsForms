@@ -71,7 +71,7 @@ public sealed class OpenFileDialog : FileDialog
                 return Array.Empty<string>();
             }
 
-            string[] safePaths = new string[fullPaths.Length];
+            var safePaths = new string[fullPaths.Length];
             for (int i = 0; i < safePaths.Length; ++i)
             {
                 safePaths[i] = Path.GetFileName(fullPaths[i]);

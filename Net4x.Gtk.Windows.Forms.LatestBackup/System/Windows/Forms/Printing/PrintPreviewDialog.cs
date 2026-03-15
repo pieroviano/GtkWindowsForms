@@ -328,9 +328,9 @@ public partial class PrintPreviewDialog : ScrollableControl
         int formheight = _previewControl.Height + 100;
         previewForm.ClientSize = new Size(formwidth, formheight);
         box = new Gtk.Box(Gtk.Orientation.Vertical, 15);
-        Gtk.Box header = new Gtk.Box(Gtk.Orientation.Horizontal, 20);
+        var header = new Gtk.Box(Gtk.Orientation.Horizontal, 20);
         header.PackStart(new Gtk.Label(System.Properties.Resources.Gtk_Print_preview), false, false, 0);
-        Gtk.Button printbutton = new Gtk.Button(System.Properties.Resources.Gtk_Print) { WidthRequest = 200 };
+        var printbutton = new Gtk.Button(System.Properties.Resources.Gtk_Print) { WidthRequest = 200 };
         printbutton.ButtonReleaseEvent += Printbutton_ButtonReleaseEvent;
         header.PackEnd(printbutton, false, false, 0);
         box.PackStart(header, false, true, 0);
@@ -348,7 +348,7 @@ public partial class PrintPreviewDialog : ScrollableControl
 
     private void Printbutton_ButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
     {
-        PrintDialog printDialog = new PrintDialog
+        var printDialog = new PrintDialog
         {
             Document = _previewControl.Document,
             AllowPrintToFile = false,
@@ -360,7 +360,7 @@ public partial class PrintPreviewDialog : ScrollableControl
 
     private void Printbutton_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
     {
-        PrintDialog printDialog = new PrintDialog
+        var printDialog = new PrintDialog
         {
             Document = _previewControl.Document,
             AllowPrintToFile = false,

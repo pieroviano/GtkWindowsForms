@@ -76,8 +76,8 @@ public sealed class InputLanguage
     {
         get
         {
-            int size = 1;
-            InputLanguage[] ils = new InputLanguage[size];
+            var size = 1;
+            var ils = new InputLanguage[size];
 
             for (int i = 0; i < size; i++)
             {
@@ -120,7 +120,7 @@ public sealed class InputLanguage
         }
         // KeyboardLayoutId is the LCID for built-in cultures, but it
         // is the CU-preferred keyboard language for custom cultures.
-        int lcid = culture.KeyboardLayoutId;
+        var lcid = culture.KeyboardLayoutId;
 
         foreach (InputLanguage lang in InstalledInputLanguages)
         {

@@ -160,7 +160,7 @@ public sealed class PrintDialog : CommonDialog
     public bool ShowNetwork { get; set; }
 
     /// <summary>
-    /// <summary>Gets or sets a value indicating if we use ex dialog.
+    /// Gets or sets a value indicating if we use ex dialog.
     /// </summary>
     /// <value>
     /// <c>
@@ -217,7 +217,7 @@ public sealed class PrintDialog : CommonDialog
     {
         try
         {
-            Gtk.PrintOperation printOperation = new Gtk.PrintOperation
+            var printOperation = new Gtk.PrintOperation
             {
                 DefaultPageSetup = Document.PageSetup,
                 Unit = Unit.Points,
@@ -285,31 +285,31 @@ public sealed class PrintDialog : CommonDialog
 
     private void MessageDialog_Response(object o, ResponseArgs args)
     {
-        Gtk.MessageDialog messageDialog = (Gtk.MessageDialog)o;
+        var messageDialog = (Gtk.MessageDialog)o;
         messageDialog.Destroy();
     }
 
     private void PrintOperation_BeginPrint(object o, BeginPrintArgs args)
     {
         _printDocument?.OnBeginPrint(new PrintEventArgs());
-        Gtk.PrintOperation oper = (Gtk.PrintOperation)o;
+        var oper = (Gtk.PrintOperation)o;
         oper.RenderPage(0);
     }
 
     private void PrintOperation_DrawPage(object o, DrawPageArgs args)
     {
-        Gtk.PrintOperation oper = (Gtk.PrintOperation)o;
+        var oper = (Gtk.PrintOperation)o;
         PageSetup setup = args.Context.PageSetup;
         using (var cr = args.Context.CairoContext)
         {
             //document size(794,1123)px
-            double pxscale = 0.75;
-            int top = (int)Math.Round(setup.GetTopMargin(oper.Unit) / pxscale, 0);
-            int left = (int)Math.Round(setup.GetLeftMargin(oper.Unit) / pxscale, 0);
-            int right = (int)Math.Round(setup.GetRightMargin(oper.Unit) / pxscale, 0);
-            int bottom = (int)Math.Round(setup.GetBottomMargin(oper.Unit) / pxscale, 0);
-            int width = (int)Math.Round(setup.GetPaperWidth(oper.Unit) / pxscale, 0); //page<paper
-            int height = (int)Math.Round(setup.GetPaperHeight(oper.Unit) / pxscale, 0);
+            var pxscale = 0.75;
+            var top = (int)Math.Round(setup.GetTopMargin(oper.Unit) / pxscale, 0);
+            var left = (int)Math.Round(setup.GetLeftMargin(oper.Unit) / pxscale, 0);
+            var right = (int)Math.Round(setup.GetRightMargin(oper.Unit) / pxscale, 0);
+            var bottom = (int)Math.Round(setup.GetBottomMargin(oper.Unit) / pxscale, 0);
+            var width = (int)Math.Round(setup.GetPaperWidth(oper.Unit) / pxscale, 0); //page<paper
+            var height = (int)Math.Round(setup.GetPaperHeight(oper.Unit) / pxscale, 0);
 
             cr.Scale(pxscale, pxscale);
             cr.Translate(0, 0);

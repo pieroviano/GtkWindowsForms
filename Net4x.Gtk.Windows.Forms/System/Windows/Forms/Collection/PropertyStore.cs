@@ -46,7 +46,7 @@ internal partial class PropertyStore
 
     public bool ContainsObjectThatIsNotNull(int key)
     {
-        object? entry = GetObject(key, out bool found);
+        var entry = GetObject(key, out bool found);
 
         return found && entry is not null;
     }
@@ -71,7 +71,7 @@ internal partial class PropertyStore
     /// </summary>
     public Color GetColor(int key, out bool found)
     {
-        object? storedObject = GetObject(key, out found);
+        var storedObject = GetObject(key, out found);
         if (found)
         {
             if (storedObject is ColorWrapper wrapper)
@@ -101,7 +101,7 @@ internal partial class PropertyStore
     /// </summary>
     public int GetInteger(int key, out bool found)
     {
-        short keyIndex = SplitKey(key, out short element);
+        var keyIndex = SplitKey(key, out short element);
         if (!LocateIntegerEntry(keyIndex, out int index))
         {
             found = false;
@@ -147,7 +147,7 @@ internal partial class PropertyStore
     /// </summary>
     public object? GetObject(int key, out bool found)
     {
-        short keyIndex = SplitKey(key, out short element);
+        var keyIndex = SplitKey(key, out short element);
         if (!LocateObjectEntry(keyIndex, out int index))
         {
             found = false;
@@ -184,7 +184,7 @@ internal partial class PropertyStore
     /// </summary>
     public Padding GetPadding(int key, out bool found)
     {
-        object? storedObject = GetObject(key, out found);
+        var storedObject = GetObject(key, out found);
         if (found)
         {
             if (storedObject is PaddingWrapper wrapper)
@@ -205,7 +205,7 @@ internal partial class PropertyStore
     /// </summary>
     public Rectangle GetRectangle(int key, out bool found)
     {
-        object? storedObject = GetObject(key, out found);
+        var storedObject = GetObject(key, out found);
         if (found)
         {
             if (storedObject is RectangleWrapper wrapper)
@@ -226,7 +226,7 @@ internal partial class PropertyStore
     /// </summary>
     public Size GetSize(int key, out bool found)
     {
-        object? storedObject = GetObject(key, out found);
+        var storedObject = GetObject(key, out found);
         if (found)
         {
             if (storedObject is SizeWrapper wrapper)
@@ -255,7 +255,7 @@ internal partial class PropertyStore
     /// </summary>
     public void RemoveObject(int key)
     {
-        short entryKey = SplitKey(key, out short element);
+        var entryKey = SplitKey(key, out short element);
         if (!LocateObjectEntry(entryKey, out int index))
         {
             return;
@@ -281,7 +281,7 @@ internal partial class PropertyStore
             }
             else
             {
-                ObjectEntry[] newEntries = new ObjectEntry[_objEntries.Length - 1];
+                var newEntries = new ObjectEntry[_objEntries.Length - 1];
                 if (index > 0)
                 {
                     Array.Copy(_objEntries, 0, newEntries, 0, index);
@@ -326,7 +326,7 @@ internal partial class PropertyStore
 
     public void SetColor(int key, Color value)
     {
-        object? storedObject = GetObject(key, out bool found);
+        var storedObject = GetObject(key, out bool found);
         if (!found)
         {
             SetObject(key, new ColorWrapper(value));
@@ -351,13 +351,13 @@ internal partial class PropertyStore
     /// </summary>
     public void SetInteger(int key, int value)
     {
-        short entryKey = SplitKey(key, out short element);
+        var entryKey = SplitKey(key, out short element);
         if (!LocateIntegerEntry(entryKey, out int index))
         {
             // We must allocate a new entry.
             if (_intEntries is not null)
             {
-                IntegerEntry[] newEntries = new IntegerEntry[_intEntries.Length + 1];
+                var newEntries = new IntegerEntry[_intEntries.Length + 1];
 
                 if (index > 0)
                 {
@@ -412,13 +412,13 @@ internal partial class PropertyStore
     /// </summary>
     public void SetObject(int key, object? value)
     {
-        short entryKey = SplitKey(key, out short element);
+        var entryKey = SplitKey(key, out short element);
         if (!LocateObjectEntry(entryKey, out int index))
         {
             // We must allocate a new entry.
             if (_objEntries is not null)
             {
-                ObjectEntry[] newEntries = new ObjectEntry[_objEntries.Length + 1];
+                var newEntries = new ObjectEntry[_objEntries.Length + 1];
 
                 if (index > 0)
                 {
@@ -470,7 +470,7 @@ internal partial class PropertyStore
 
     public void SetPadding(int key, Padding value)
     {
-        object? storedObject = GetObject(key, out bool found);
+        var storedObject = GetObject(key, out bool found);
         if (!found)
         {
             SetObject(key, new PaddingWrapper(value));
@@ -492,7 +492,7 @@ internal partial class PropertyStore
 
     public void SetRectangle(int key, Rectangle value)
     {
-        object? storedObject = GetObject(key, out bool found);
+        var storedObject = GetObject(key, out bool found);
         if (!found)
         {
             SetObject(key, new RectangleWrapper(value));
@@ -514,7 +514,7 @@ internal partial class PropertyStore
 
     public void SetSize(int key, Size value)
     {
-        object? storedObject = GetObject(key, out bool found);
+        var storedObject = GetObject(key, out bool found);
         if (!found)
         {
             SetObject(key, new SizeWrapper(value));
@@ -559,7 +559,7 @@ internal partial class PropertyStore
     /// </returns>
     public bool TryGetObject<T>(int key, out T? value)
     {
-        object? entry = GetObject(key, out bool found);
+        var entry = GetObject(key, out bool found);
         Debug.Assert(!found || entry is null || entry is T, $"Entry is not of type {typeof(T)}, but of type {entry?.GetType()}");
         if (typeof(T).IsValueType || typeof(T).IsEnum || typeof(T).IsPrimitive)
         {

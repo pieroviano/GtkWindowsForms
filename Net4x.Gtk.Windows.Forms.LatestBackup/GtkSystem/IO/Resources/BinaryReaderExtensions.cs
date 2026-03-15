@@ -4,8 +4,8 @@ internal static class BinaryReaderExtensions
 {
     public static int Read7BitEncodedInt(this BinaryReader reader)
     {
-        int num = 0;
-        int num2 = 0;
+        var num = 0;
+        var num2 = 0;
         byte b;
         do
         {

@@ -182,7 +182,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
 
     private void FormBase_Drawn(object o, DrawnArgs args)
     {
-        Gdk.Rectangle rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
+        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
         Override.OnPaint(args.Cr, rec);
     }
 
@@ -205,7 +205,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     {
         if (Scroll != null)
         {
-            Gtk.Adjustment adj = (Gtk.Adjustment)sender;
+            var adj = (Gtk.Adjustment)sender;
             Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
         }
     }
@@ -214,7 +214,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     {
         if (Scroll != null)
         {
-            Gtk.Adjustment adj = (Gtk.Adjustment)sender;
+            var adj = (Gtk.Adjustment)sender;
             Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
         }
     }

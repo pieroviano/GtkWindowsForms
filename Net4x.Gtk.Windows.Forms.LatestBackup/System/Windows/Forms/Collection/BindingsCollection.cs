@@ -73,7 +73,7 @@ public class BindingsCollection : BaseCollection
     /// </param>
     protected internal void Add(Binding binding)
     {
-        CollectionChangeEventArgs eventArgs = new CollectionChangeEventArgs(CollectionChangeAction.Add, binding);
+        var eventArgs = new CollectionChangeEventArgs(CollectionChangeAction.Add, binding);
         OnCollectionChanging(eventArgs);
         AddCore(binding);
         OnCollectionChanged(eventArgs);
@@ -84,7 +84,7 @@ public class BindingsCollection : BaseCollection
     /// </summary>
     protected internal void Clear()
     {
-        CollectionChangeEventArgs eventArgs = new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null);
+        var eventArgs = new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null);
         OnCollectionChanging(eventArgs);
         ClearCore();
         OnCollectionChanged(eventArgs);
@@ -98,7 +98,7 @@ public class BindingsCollection : BaseCollection
     /// </param>
     protected internal void Remove(Binding binding)
     {
-        CollectionChangeEventArgs eventArgs = new CollectionChangeEventArgs(CollectionChangeAction.Remove, binding);
+        var eventArgs = new CollectionChangeEventArgs(CollectionChangeAction.Remove, binding);
         OnCollectionChanging(eventArgs);
         RemoveCore(binding);
         OnCollectionChanged(eventArgs);

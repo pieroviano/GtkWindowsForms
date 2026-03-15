@@ -127,7 +127,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// </summary>
     protected Image(SerializationInfo info, StreamingContext context)
     {
-        byte[] buffer = (byte[])info.GetValue("Data", typeof(byte[]));
+        var buffer = (byte[])info.GetValue("Data", typeof(byte[]));
         try
         {
             SetNativeImage(InitializeFromStream(new MemoryStream(buffer)));
@@ -165,7 +165,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     {
         get
         {
-            int flags = 10;
+            var flags = 10;
 
             return flags;
         }
@@ -383,9 +383,9 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
             throw new FileNotFoundException(filename);
         }
         filename = System.IO.Path.GetFullPath(filename);
-        string extension = IO.Path.GetExtension(filename)?.ToLower();
+        var extension = IO.Path.GetExtension(filename)?.ToLower();
         byte[] filebytes =File.ReadAllBytes(filename);
-        Bitmap bitmap = new Bitmap(filebytes);
+        var bitmap = new Bitmap(filebytes);
         bitmap.GetImageFormat(extension);
 
         return bitmap;
@@ -538,7 +538,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// </summary>
     public void Save(string filename)
     {
-        string extension = IO.Path.GetExtension(filename)?.ToLower();
+        var extension = IO.Path.GetExtension(filename)?.ToLower();
         GetImageFormat(extension);
         Save(filename, RawFormat);
     }
@@ -635,7 +635,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 
     void ISerializable.GetObjectData(SerializationInfo si, StreamingContext context)
     {
-        using MemoryStream memoryStream = new MemoryStream();
+        using var memoryStream = new MemoryStream();
         Save(memoryStream);
         si.AddValue("Data", memoryStream.ToArray(), typeof(byte[]));
     }

@@ -223,8 +223,8 @@ public class DataGridViewCellStyle : ICloneable
     /// </returns>
     public virtual DataGridViewCellStyle Clone()
     {
-        Type celltype = this.GetType();
-        DataGridViewCellStyle newobj = new DataGridViewCellStyle();
+        var celltype = this.GetType();
+        var newobj = new DataGridViewCellStyle();
         var propertys = celltype.GetProperties(Reflection.BindingFlags.Public | Reflection.BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.SetProperty);
         foreach (PropertyInfo property in propertys)
             if (property.CanRead && property.CanWrite)
