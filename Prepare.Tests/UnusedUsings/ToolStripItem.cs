@@ -18,22 +18,22 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     private readonly ToolStripItemCollection dropDownItems;
 
     /// <summary>
-    /// Occurs when [checked changed.
+    /// Occurs when checked changed.
     /// </summary>
     public virtual event EventHandler CheckedChanged;
 
     /// <summary>
-    /// Occurs when [check state changed.
+    /// Occurs when check state changed.
     /// </summary>
     public virtual event EventHandler CheckStateChanged;
 
     /// <summary>
-    /// Occurs when [click.
+    /// Occurs when click.
     /// </summary>
     public virtual event EventHandler Click;
 
     /// <summary>
-    /// Occurs when [drop down item clicked.
+    /// Occurs when drop down item clicked.
     /// </summary>
     public virtual event ToolStripItemClickedEventHandler DropDownItemClicked;
 

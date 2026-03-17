@@ -19387,7 +19387,7 @@
         </member>
         <member name="E:System.Windows.Forms.CommonDialog.HelpRequest">
             <summary>
-                Occurs when [help request.
+                Occurs when help request.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.CommonDialog.#ctor">
@@ -19520,7 +19520,7 @@
         </member>
         <member name="E:System.Windows.Forms.FileDialog.FileOk">
             <summary>
-                Occurs when [file ok.
+                Occurs when file ok.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.FileDialog.#ctor">
@@ -30381,7 +30381,7 @@
         </member>
         <member name="M:System.Windows.Forms.GtkRender.CellRendererButtonValue.OnRender(Cairo.Context,Gtk.Widget,Gdk.Rectangle,Gdk.Rectangle,Gtk.CellRendererState)">
             <summary>
-                Called when [render.
+                Called when render.
             </summary>
             <param name="cr">
                 The cr.
@@ -30997,12 +30997,12 @@
         </member>
         <member name="E:System.Windows.Forms.ImageList.RecreateHandle">
             <summary>
-                Occurs when [recreate handle.
+                Occurs when recreate handle.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ImageList.ChangeHandle">
             <summary>
-                Occurs when [change handle.
+                Occurs when change handle.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ImageList.#ctor">
@@ -32067,7 +32067,7 @@
         </member>
         <member name="E:System.Windows.Forms.IMessageBox.DialogAvailable">
             <summary>
-                Occurs when [dialog available.
+                Occurs when dialog available.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.IMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
@@ -33058,7 +33058,7 @@
         </member>
         <member name="E:System.Windows.Forms.LinkLabel.LinkClicked">
             <summary>
-                Occurs when [link clicked.
+                Occurs when link clicked.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.LinkLabel.#ctor">
@@ -34139,7 +34139,7 @@
         </member>
         <member name="M:System.Windows.Forms.ListBox.OnSetDataSource">
             <summary>
-                Called when [set data source.
+                Called when set data source.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ListBox.propertyNotity(System.Object,GLib.NotifyArgs)">
@@ -35728,37 +35728,37 @@
         </member>
         <member name="E:System.Windows.Forms.ListView.ColumnClick">
             <summary>
-                Occurs when [column click.
+                Occurs when column click.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ListView.ColumnReordered">
             <summary>
-                Occurs when [column reordered.
+                Occurs when column reordered.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ListView.ItemActivate">
             <summary>
-                Occurs when [item activate.
+                Occurs when item activate.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ListView.ItemCheck">
             <summary>
-                Occurs when [item check.
+                Occurs when item check.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ListView.ItemChecked">
             <summary>
-                Occurs when [item checked.
+                Occurs when item checked.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ListView.ItemSelectionChanged">
             <summary>
-                Occurs when [item selection changed.
+                Occurs when item selection changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ListView.SelectedIndexChanged">
             <summary>
-                Occurs when [selected index changed.
+                Occurs when selected index changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ListView.#ctor">
@@ -39670,12 +39670,12 @@
         </member>
         <member name="E:System.Windows.Forms.ToolStripComboBox.SelectedIndexChanged">
             <summary>
-                Occurs when [selected index changed.
+                Occurs when selected index changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ToolStripComboBox.SelectedValueChanged">
             <summary>
-                Occurs when [selected value changed.
+                Occurs when selected value changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ToolStripComboBox.#ctor">
@@ -40066,17 +40066,17 @@
         </member>
         <member name="E:System.Windows.Forms.ToolStripDropDownItem.DropDownClosed">
             <summary>
-                Occurs when [drop down closed.
+                Occurs when drop down closed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ToolStripDropDownItem.DropDownOpened">
             <summary>
-                Occurs when [drop down opened.
+                Occurs when drop down opened.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ToolStripDropDownItem.DropDownOpening">
             <summary>
-                Occurs when [drop down opening.
+                Occurs when drop down opening.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ToolStripDropDownItem.#ctor">
@@ -40341,22 +40341,22 @@
         </member>
         <member name="E:System.Windows.Forms.ToolStripItem.CheckedChanged">
             <summary>
-                Occurs when [checked changed.
+                Occurs when checked changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ToolStripItem.CheckStateChanged">
             <summary>
-                Occurs when [check state changed.
+                Occurs when check state changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ToolStripItem.Click">
             <summary>
-                Occurs when [click.
+                Occurs when click.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ToolStripItem.DropDownItemClicked">
             <summary>
-                Occurs when [drop down item clicked.
+                Occurs when drop down item clicked.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ToolStripItem.#ctor">
@@ -42204,22 +42204,22 @@
         </member>
         <member name="E:System.Windows.Forms.WidgetToolStrip`1.CheckedChanged">
             <summary>
-                Occurs when [checked changed.
+                Occurs when checked changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.WidgetToolStrip`1.CheckStateChanged">
             <summary>
-                Occurs when [check state changed.
+                Occurs when check state changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.WidgetToolStrip`1.Click">
             <summary>
-                Occurs when [click.
+                Occurs when click.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.WidgetToolStrip`1.DropDownItemClicked">
             <summary>
-                Occurs when [drop down item clicked.
+                Occurs when drop down item clicked.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.WidgetToolStrip`1.#ctor">
@@ -42839,12 +42839,12 @@
         </member>
         <member name="E:System.Windows.Forms.MonthCalendar.DateChanged">
             <summary>
-                Occurs when [date changed.
+                Occurs when date changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.MonthCalendar.DateSelected">
             <summary>
-                Occurs when [date selected.
+                Occurs when date selected.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.MonthCalendar.#ctor">
@@ -43181,7 +43181,7 @@
         </member>
         <member name="E:System.Windows.Forms.NumericUpDown.ValueChanged">
             <summary>
-                Occurs when [value changed.
+                Occurs when value changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.NumericUpDown.#ctor">
@@ -43943,12 +43943,12 @@
         </member>
         <member name="E:System.Windows.Forms.PrintPreviewControl.StartPageChanged">
             <summary>
-                Occurs when [start page changed.
+                Occurs when start page changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.PrintPreviewControl.TextChanged">
             <summary>
-                Occurs when [text changed.
+                Occurs when text changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.PrintPreviewControl.#ctor">
@@ -44137,12 +44137,12 @@
         </member>
         <member name="E:System.Windows.Forms.PrintPreviewDialog.MaximumSizeChanged">
             <summary>
-                Occurs when [maximum size changed.
+                Occurs when maximum size changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.PrintPreviewDialog.MinimumSizeChanged">
             <summary>
-                Occurs when [minimum size changed.
+                Occurs when minimum size changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.PrintPreviewDialog.#ctor">
@@ -44599,37 +44599,37 @@
         </member>
         <member name="E:System.Windows.Forms.PropertyGrid.MouseEnter">
             <summary>
-                Occurs when [mouse enter.
+                Occurs when mouse enter.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.PropertyGrid.MouseLeave">
             <summary>
-                Occurs when [mouse leave.
+                Occurs when mouse leave.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.PropertyGrid.PropertySortChanged">
             <summary>
-                Occurs when [property sort changed.
+                Occurs when property sort changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.PropertyGrid.PropertyTabChanged">
             <summary>
-                Occurs when [property tab changed.
+                Occurs when property tab changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.PropertyGrid.PropertyValueChanged">
             <summary>
-                Occurs when [property value changed.
+                Occurs when property value changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.PropertyGrid.SelectedGridItemChanged">
             <summary>
-                Occurs when [selected grid item changed.
+                Occurs when selected grid item changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.PropertyGrid.SelectedObjectsChanged">
             <summary>
-                Occurs when [selected objects changed.
+                Occurs when selected objects changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.PropertyGrid.#ctor">
@@ -45773,7 +45773,7 @@
         </member>
         <member name="E:System.Windows.Forms.RadioButton.CheckedChanged">
             <summary>
-                Occurs when [checked changed.
+                Occurs when checked changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.RadioButton.#ctor">
@@ -45968,12 +45968,12 @@
         </member>
         <member name="E:System.Windows.Forms.ScrollBar.Scroll">
             <summary>
-                Occurs when [scroll.
+                Occurs when scroll.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ScrollBar.ValueChanged">
             <summary>
-                Occurs when [value changed.
+                Occurs when value changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ScrollBar.#ctor">
@@ -46280,7 +46280,7 @@
         </member>
         <member name="E:System.Windows.Forms.SwitchBox.CheckedChanged">
             <summary>
-                Occurs when [checked changed.
+                Occurs when checked changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.SwitchBox.#ctor">
@@ -46353,12 +46353,12 @@
         </member>
         <member name="E:System.Windows.Forms.TabControl.DrawItem">
             <summary>
-                Occurs when [draw item.
+                Occurs when draw item.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.TabControl.SelectedIndexChanged">
             <summary>
-                Occurs when [selected index changed.
+                Occurs when selected index changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.TabControl.#ctor">
@@ -48592,7 +48592,7 @@
         </member>
         <member name="E:System.Windows.Forms.Timer.Tick">
             <summary>
-                Occurs when [tick.
+                Occurs when tick.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.Timer.#ctor">
@@ -48704,12 +48704,12 @@
         </member>
         <member name="E:System.Windows.Forms.ToolStrip.CheckedChanged">
             <summary>
-                Occurs when [checked changed.
+                Occurs when checked changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ToolStrip.CheckStateChanged">
             <summary>
-                Occurs when [check state changed.
+                Occurs when check state changed.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.ToolStrip.Click">
@@ -48719,7 +48719,7 @@
         </member>
         <member name="E:System.Windows.Forms.ToolStrip.DropDownItemClicked">
             <summary>
-                Occurs when [drop down item clicked.
+                Occurs when drop down item clicked.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ToolStrip.#ctor">
@@ -48810,7 +48810,7 @@
         </member>
         <member name="E:System.Windows.Forms.TrackBar.Scroll">
             <summary>
-                Occurs when [scroll.
+                Occurs when scroll.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.TrackBar.#ctor">
@@ -48955,22 +48955,22 @@
         </member>
         <member name="E:System.Windows.Forms.TreeView.AfterCollapse">
             <summary>
-                Occurs when [after collapse.
+                Occurs after collapse.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.TreeView.AfterExpand">
             <summary>
-                Occurs when [after expand.
+                Occurs after expand.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.TreeView.AfterSelect">
             <summary>
-                Occurs when [after select.
+                Occurs after select.
             </summary>
         </member>
         <member name="E:System.Windows.Forms.TreeView.BeforeSelect">
             <summary>
-                Occurs when [before select.
+                Occurs before select.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.TreeView.#ctor">

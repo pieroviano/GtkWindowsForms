@@ -26,12 +26,12 @@ public class ToolStrip : Control
     public ToolStripItemCollection toolStripItemCollection;
 
     /// <summary>
-    /// Occurs when [checked changed.
+    /// Occurs when checked changed.
     /// </summary>
     public event EventHandler CheckedChanged;
 
     /// <summary>
-    /// Occurs when [check state changed.
+    /// Occurs when check state changed.
     /// </summary>
     public event EventHandler CheckStateChanged;
 
@@ -41,7 +41,7 @@ public class ToolStrip : Control
     public override event EventHandler Click;
 
     /// <summary>
-    /// Occurs when [drop down item clicked.
+    /// Occurs when drop down item clicked.
     /// </summary>
     public event ToolStripItemClickedEventHandler DropDownItemClicked;
 
