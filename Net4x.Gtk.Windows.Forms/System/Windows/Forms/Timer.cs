@@ -21,9 +21,9 @@ public class Timer : Component
     readonly System.Timers.Timer TimersTimer = new Timers.Timer();
 
     /// <summary>
-    /// Occurs when [tick.
+    /// Occurs when tick.
     /// </summary>
-    public event EventHandler Tick;
+    public virtual event EventHandler Tick;
 
     /// <summary>
     /// Initializes a new instance of the

@@ -24,14 +24,14 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     private readonly ObjectCollection __itemsData;
 
     /// <summary>
-    /// Occurs when [selected index changed.
+    /// Occurs when selected index changed.
     /// </summary>
-    public event EventHandler SelectedIndexChanged;
+    public virtual event EventHandler SelectedIndexChanged;
 
     /// <summary>
-    /// Occurs when [selected value changed.
+    /// Occurs when selected value changed.
     /// </summary>
-    public event EventHandler SelectedValueChanged;
+    public virtual event EventHandler SelectedValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the

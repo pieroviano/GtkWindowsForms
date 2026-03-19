@@ -46,12 +46,12 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Occurs after the form has been closed.
     /// </summary>
-    public event FormClosedEventHandler FormClosed;
+    public virtual event FormClosedEventHandler FormClosed;
 
     /// <summary>
     /// Occurs as the form is being closed. Handlers can cancel the close.
     /// </summary>
-    public event FormClosingEventHandler FormClosing;
+    public virtual event FormClosingEventHandler FormClosing;
 
     /// <summary>
     /// Occurs when the form is loaded.
@@ -61,7 +61,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Occurs the first time the form is shown.
     /// </summary>
-    public event EventHandler Shown;
+    public virtual event EventHandler Shown;
 
     /// <summary>
     /// Occurs when the form's size changes.

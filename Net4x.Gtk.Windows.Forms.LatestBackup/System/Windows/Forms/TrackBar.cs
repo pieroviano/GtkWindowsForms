@@ -25,9 +25,9 @@ public class TrackBar : Control
     Gtk.Scale scale;
 
     /// <summary>
-    /// Occurs when [scroll.
+    /// Occurs when scroll.
     /// </summary>
-    public event EventHandler Scroll;
+    public virtual event EventHandler Scroll;
 
     /// <summary>
     /// Initializes a new instance of the

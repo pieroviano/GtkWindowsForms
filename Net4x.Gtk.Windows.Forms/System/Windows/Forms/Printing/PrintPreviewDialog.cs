@@ -32,14 +32,14 @@ public partial class PrintPreviewDialog : ScrollableControl
     private Form previewForm;
 
     /// <summary>
-    /// Occurs when [maximum size changed.
+    /// Occurs when maximum size changed.
     /// </summary>
-    public event EventHandler MaximumSizeChanged;
+    public virtual event EventHandler MaximumSizeChanged;
 
     /// <summary>
-    /// Occurs when [minimum size changed.
+    /// Occurs when minimum size changed.
     /// </summary>
-    public event EventHandler MinimumSizeChanged;
+    public virtual event EventHandler MinimumSizeChanged;
 
     /// <summary>
     /// Initializes a new instance of the

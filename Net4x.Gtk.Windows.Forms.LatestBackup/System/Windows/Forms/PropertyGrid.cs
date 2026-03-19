@@ -52,10 +52,10 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control is browsing a COM object and the user renames the object.
     /// </summary>
-    public event ComponentRenameEventHandler ComComponentNameChanged;
+    public virtual event ComponentRenameEventHandler ComComponentNameChanged;
 
     /// <summary>
-    /// Occurs when [mouse enter.
+    /// Occurs when mouse enter.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -66,7 +66,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [mouse leave.
+    /// Occurs when mouse leave.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -77,7 +77,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [property sort changed.
+    /// Occurs when property sort changed.
     /// </summary>
     public event EventHandler PropertySortChanged
     {
@@ -86,7 +86,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [property tab changed.
+    /// Occurs when property tab changed.
     /// </summary>
     public event PropertyTabChangedEventHandler PropertyTabChanged
     {
@@ -95,7 +95,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [property value changed.
+    /// Occurs when property value changed.
     /// </summary>
     public event PropertyValueChangedEventHandler PropertyValueChanged
     {
@@ -104,7 +104,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [selected grid item changed.
+    /// Occurs when selected grid item changed.
     /// </summary>
     public event SelectedGridItemChangedEventHandler SelectedGridItemChanged
     {
@@ -113,7 +113,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     }
 
     /// <summary>
-    /// Occurs when [selected objects changed.
+    /// Occurs when selected objects changed.
     /// </summary>
     public event EventHandler SelectedObjectsChanged
     {

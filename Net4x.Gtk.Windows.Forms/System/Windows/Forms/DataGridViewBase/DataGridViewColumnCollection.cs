@@ -26,7 +26,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Occurs when the collection changes.
     /// </summary>
-    public event CollectionChangeEventHandler CollectionChanged;
+    public virtual event CollectionChangeEventHandler CollectionChanged;
 
     /// <summary>
     /// Initializes a new instance of the

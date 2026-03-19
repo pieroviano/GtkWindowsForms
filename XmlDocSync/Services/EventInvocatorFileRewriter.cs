@@ -3,8 +3,9 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using Prepare.Common.Content;
+using XmlDocSync.Roslyn;
 
-namespace XmlDocSync.Roslyn;
+namespace XmlDocSync.Services;
 
 public static class EventInvocatorFileRewriter
 {

@@ -30,14 +30,14 @@ public partial class TabControl : ContainerControl
     private readonly TabControl.TabPageCollection _tabPageControls;
 
     /// <summary>
-    /// Occurs when [draw item.
+    /// Occurs when draw item.
     /// </summary>
-    public event DrawItemEventHandler DrawItem;
+    public virtual event DrawItemEventHandler DrawItem;
 
     /// <summary>
-    /// Occurs when [selected index changed.
+    /// Occurs when selected index changed.
     /// </summary>
-    public event EventHandler SelectedIndexChanged;
+    public virtual event EventHandler SelectedIndexChanged;
 
     /// <summary>
     /// Initializes a new instance of the

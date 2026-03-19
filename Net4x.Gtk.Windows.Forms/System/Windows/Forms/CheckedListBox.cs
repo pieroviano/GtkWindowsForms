@@ -35,22 +35,22 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Occurs when an item's check state is changed.
     /// </summary>
-    public event ItemCheckEventHandler ItemCheck;
+    public virtual event ItemCheckEventHandler ItemCheck;
 
     /// <summary>
     /// Occurs when the selected index changes.
     /// </summary>
-    public event EventHandler SelectedIndexChanged;
+    public virtual event EventHandler SelectedIndexChanged;
 
     /// <summary>
     /// Occurs when the selected item changes.
     /// </summary>
-    public event EventHandler SelectedItemChanged;
+    public virtual event EventHandler SelectedItemChanged;
 
     /// <summary>
     /// Occurs when the selected value changes.
     /// </summary>
-    public event EventHandler SelectedValueChanged;
+    public virtual event EventHandler SelectedValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the

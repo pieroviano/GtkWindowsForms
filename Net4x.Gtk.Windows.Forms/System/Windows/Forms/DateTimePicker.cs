@@ -33,7 +33,7 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// ValueChanged event is raised when the Value property is changed, either by user action or programmatically.
     /// </summary>
-    public event EventHandler ValueChanged;
+    public virtual event EventHandler ValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the

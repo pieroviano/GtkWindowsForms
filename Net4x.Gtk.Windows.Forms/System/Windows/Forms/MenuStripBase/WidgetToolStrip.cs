@@ -64,22 +64,22 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     private Color _ForeColor;
 
     /// <summary>
-    /// Occurs when [checked changed.
+    /// Occurs when checked changed.
     /// </summary>
     public override event EventHandler CheckedChanged;
 
     /// <summary>
-    /// Occurs when [check state changed.
+    /// Occurs when check state changed.
     /// </summary>
     public override event EventHandler CheckStateChanged;
 
     /// <summary>
-    /// Occurs when [click.
+    /// Occurs when click.
     /// </summary>
     public override event EventHandler Click;
 
     /// <summary>
-    /// Occurs when [drop down item clicked.
+    /// Occurs when drop down item clicked.
     /// </summary>
     public override event ToolStripItemClickedEventHandler DropDownItemClicked;
 

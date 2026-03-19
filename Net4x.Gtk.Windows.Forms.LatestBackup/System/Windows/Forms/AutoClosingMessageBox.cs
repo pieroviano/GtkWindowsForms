@@ -33,7 +33,7 @@ public class AutoClosingMessageBox : IMessageBox
     /// <summary>
     /// Raised when the underlying dialog becomes available. Subscribers can inspect or modify the dialog.
     /// </summary>
-    public event EventHandler<DialogEventArgs>? DialogAvailable;
+    public virtual event EventHandler<DialogEventArgs>? DialogAvailable;
 
     private AutoClosingMessageBox()
     {

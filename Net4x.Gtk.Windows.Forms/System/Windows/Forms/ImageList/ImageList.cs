@@ -55,7 +55,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     private static readonly int s_maxImageWidth;
 
     /// <summary>
-    /// Occurs when [recreate handle.
+    /// Occurs when recreate handle.
     /// </summary>
     public event EventHandler? RecreateHandle { add => _recreateHandler += value; remove => _recreateHandler -= value; }
 

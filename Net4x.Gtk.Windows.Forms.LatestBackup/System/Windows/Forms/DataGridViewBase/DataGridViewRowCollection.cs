@@ -26,7 +26,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <summary>
     /// CollectionChanged event
     /// </summary>
-    public event CollectionChangeEventHandler CollectionChanged;
+    public virtual event CollectionChangeEventHandler CollectionChanged;
 
     /// <summary>
     /// Initializes a new instance of the

@@ -56,39 +56,39 @@ public class ListView : ContainerControl
     private int SortingColumnIndex = -1;
 
     /// <summary>
-    /// Occurs when [column click.
+    /// Occurs when column click.
     /// </summary>
-    public event ColumnClickEventHandler ColumnClick;
+    public virtual event ColumnClickEventHandler ColumnClick;
 
     /// <summary>
-    /// Occurs when [column reordered.
+    /// Occurs when column reordered.
     /// </summary>
-    public event ColumnReorderedEventHandler ColumnReordered;
+    public virtual event ColumnReorderedEventHandler ColumnReordered;
 
     /// <summary>
-    /// Occurs when [item activate.
+    /// Occurs when item activate.
     /// </summary>
-    public event EventHandler ItemActivate;
+    public virtual event EventHandler ItemActivate;
 
     /// <summary>
-    /// Occurs when [item check.
+    /// Occurs when item check.
     /// </summary>
-    public event ItemCheckEventHandler ItemCheck;
+    public virtual event ItemCheckEventHandler ItemCheck;
 
     /// <summary>
-    /// Occurs when [item checked.
+    /// Occurs when item checked.
     /// </summary>
-    public event ItemCheckedEventHandler ItemChecked;
+    public virtual event ItemCheckedEventHandler ItemChecked;
 
     /// <summary>
-    /// Occurs when [item selection changed.
+    /// Occurs when item selection changed.
     /// </summary>
-    public event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
+    public virtual event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
 
     /// <summary>
-    /// Occurs when [selected index changed.
+    /// Occurs when selected index changed.
     /// </summary>
-    public event EventHandler SelectedIndexChanged;
+    public virtual event EventHandler SelectedIndexChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -1575,6 +1575,7 @@ public class ListView : ContainerControl
     ///
     ///
     ///
+    ///
     public class CheckedIndexCollection : List<int>
     {
         /// <summary>
@@ -2542,6 +2543,7 @@ public class ListView : ContainerControl
     /// Implements the System.Collections.Generic.List&lt;System.Int32&gt;
     /// </summary>
     /// System.Collections.Generic.List&lt;System.Int32&gt;
+    ///
     ///
     ///
     ///

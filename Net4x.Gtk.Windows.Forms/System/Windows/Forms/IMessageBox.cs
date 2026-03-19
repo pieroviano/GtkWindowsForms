@@ -5,7 +5,7 @@ namespace System.Windows.Forms;
 public interface IMessageBox
 {
     /// <summary>
-    /// Occurs when [dialog available.
+    /// Occurs when dialog available.
     /// </summary>
     event EventHandler<DialogEventArgs>? DialogAvailable;
 

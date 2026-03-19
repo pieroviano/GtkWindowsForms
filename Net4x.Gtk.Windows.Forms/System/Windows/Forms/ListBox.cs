@@ -58,6 +58,57 @@ public partial class ListBox : ListControl
     private int _topIndex;
 
     /// <summary>
+    /// Occurs when the selected index changes. Handlers are stored in the internal
+    /// <see cref="T:System.Windows.Forms.ListControl.Events"/> list.
+    /// </summary>
+    public override event EventHandler SelectedIndexChanged
+    {
+        add
+        {
+            _selectedIndexChanged += value;
+        }
+
+        remove
+        {
+            _selectedIndexChanged -= value;
+        }
+    }
+
+    /// <summary>
+    /// Occurs when the selected item changes. Handlers are stored in the internal
+    /// <see cref="T:System.Windows.Forms.ListControl.Events"/> list.
+    /// </summary>
+    public override event EventHandler SelectedItemChanged
+    {
+        add
+        {
+            _selectedItemChanged += value;
+        }
+
+        remove
+        {
+            _selectedItemChanged -= value;
+        }
+    }
+
+    /// <summary>
+    /// Occurs when the selected value changes. Handlers are stored in the internal
+    /// <see cref="T:System.Windows.Forms.ListControl.Events"/> list.
+    /// </summary>
+    public override event EventHandler SelectedValueChanged
+    {
+        add
+        {
+            _selectedValueChanged += value;
+        }
+
+        remove
+        {
+            _selectedValueChanged -= value;
+        }
+    }
+
+    /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ListBox"/> class.
     /// </summary>
@@ -513,6 +564,45 @@ public partial class ListBox : ListControl
 
     internal bool ShowImage { get; set; }
 
+    private EventHandler _selectedIndexChanged
+    {
+        get
+        {
+            return ((EventHandler)Events["SelectedIndexChanged"]);
+        }
+
+        set
+        {
+            Events["SelectedIndexChanged"] = value;
+        }
+    }
+
+    private EventHandler _selectedItemChanged
+    {
+        get
+        {
+            return ((EventHandler)Events["SelectedItemChanged"]);
+        }
+
+        set
+        {
+            Events["SelectedItemChanged"] = value;
+        }
+    }
+
+    private EventHandler _selectedValueChanged
+    {
+        get
+        {
+            return ((EventHandler)Events["SelectedValueChanged"]);
+        }
+
+        set
+        {
+            Events["SelectedValueChanged"] = value;
+        }
+    }
+
     /// <summary>
     /// Begins the update.
     /// </summary>
@@ -853,7 +943,26 @@ public partial class ListBox : ListControl
     {
         if (self.ListBox.SelectedRow != null)
             self.ListBox.SelectRow(self.ListBox.SelectedRow);
+        _selectedIndexChanged?.Invoke(this, e);
     }
+
+    /// <summary>
+    /// Raises the
+    /// <see cref = "SelectedItemChanged"/> event.
+    /// </summary>
+    /// <param name = "e">The
+    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// </param>
+    protected void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the
+    /// <see cref = "SelectedValueChanged"/> event.
+    /// </summary>
+    /// <param name = "e">The
+    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// </param>
+    protected void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
 
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.
@@ -879,9 +988,9 @@ public partial class ListBox : ListControl
     {
         if (self.ListBox.IsVisible)
         {
-            ((EventHandler)Events["SelectedIndexChanged"])?.Invoke(this, e);
-            ((EventHandler)Events["SelectedValueChanged"])?.Invoke(this, e);
-            ((EventHandler)Events["SelectedItemChanged"])?.Invoke(this, e);
+            OnSelectedIndexChanged(e);
+            OnSelectedValueChanged(e);
+            OnSelectedItemChanged(e);
         }
     }
 

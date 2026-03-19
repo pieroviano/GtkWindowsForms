@@ -175,7 +175,7 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
     string ICellRenderer.Markup { get; set; }
 
     /// <summary>
-    /// Called when [render.
+    /// Called when render.
     /// </summary>
     /// <param name="cr">
     /// The cr.

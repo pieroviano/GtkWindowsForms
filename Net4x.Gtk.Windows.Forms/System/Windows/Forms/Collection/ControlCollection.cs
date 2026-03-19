@@ -741,7 +741,7 @@ public partial class Control
     {
         Gtk.Widget _widget;
 
-        public event EventHandler Disposed;
+        public virtual event EventHandler Disposed;
 
         internal ArrangedElementWidget(Gtk.Widget widget)
         {

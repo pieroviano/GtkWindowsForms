@@ -21,14 +21,14 @@ public partial class MonthCalendar : Control
     public readonly MonthCalendarBase self = new MonthCalendarBase();
 
     /// <summary>
-    /// Occurs when [date changed.
+    /// Occurs when date changed.
     /// </summary>
-    public event DateRangeEventHandler DateChanged;
+    public virtual event DateRangeEventHandler DateChanged;
 
     /// <summary>
-    /// Occurs when [date selected.
+    /// Occurs when date selected.
     /// </summary>
-    public event DateRangeEventHandler DateSelected;
+    public virtual event DateRangeEventHandler DateSelected;
 
     /// <summary>
     /// Initializes a new instance of the

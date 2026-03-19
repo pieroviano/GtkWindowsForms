@@ -13,14 +13,14 @@ public abstract partial class ScrollBar : Control
     double _oldValue = 0;
 
     /// <summary>
-    /// Occurs when [scroll.
+    /// Occurs when scroll.
     /// </summary>
-    public event ScrollEventHandler Scroll;
+    public virtual event ScrollEventHandler Scroll;
 
     /// <summary>
-    /// Occurs when [value changed.
+    /// Occurs when value changed.
     /// </summary>
-    public event EventHandler ValueChanged;
+    public virtual event EventHandler ValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the

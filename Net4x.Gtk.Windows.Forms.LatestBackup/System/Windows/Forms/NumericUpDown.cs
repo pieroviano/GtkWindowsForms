@@ -21,9 +21,9 @@ public partial class NumericUpDown : Control
     public readonly NumericUpDownBase self = new NumericUpDownBase();
 
     /// <summary>
-    /// Occurs when [value changed.
+    /// Occurs when value changed.
     /// </summary>
-    public event EventHandler ValueChanged;
+    public virtual event EventHandler ValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the

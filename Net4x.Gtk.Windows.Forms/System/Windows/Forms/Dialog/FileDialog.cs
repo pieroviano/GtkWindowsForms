@@ -22,9 +22,9 @@ public abstract class FileDialog : CommonDialog
     static readonly Dictionary<string, string> MimeMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
-    /// Occurs when [file ok.
+    /// Occurs when file ok.
     /// </summary>
-    public event CancelEventHandler FileOk;
+    public virtual event CancelEventHandler FileOk;
 
     /// <summary>
     /// Initializes a new instance of the

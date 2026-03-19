@@ -1,5 +1,5 @@
 ﻿using Prepare.Common.Content;
-using XmlDocSync.Roslyn;
+using XmlDocSync.Services;
 
 namespace Prepare.Tests;
 

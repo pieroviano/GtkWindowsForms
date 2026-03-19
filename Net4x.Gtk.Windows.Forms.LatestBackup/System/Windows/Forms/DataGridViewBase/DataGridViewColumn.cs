@@ -185,7 +185,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public event EventHandler Disposed;
+    public virtual event EventHandler Disposed;
 
     /// <summary>
     /// Initializes a new instance of the

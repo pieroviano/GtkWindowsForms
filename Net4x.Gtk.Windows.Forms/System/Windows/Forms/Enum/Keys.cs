@@ -80,9 +80,6 @@ public enum Keys
     LineFeed = 0x0A,
 
     ///
-    ///
-    ///
-    /// The CLEAR key.
     Clear = 0x0C,
 
     /// <summary>

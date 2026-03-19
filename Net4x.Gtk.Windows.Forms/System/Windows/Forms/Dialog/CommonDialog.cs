@@ -17,7 +17,7 @@ public abstract class CommonDialog : Component
     private static readonly object s_helpRequestEvent = new object ();
 
     /// <summary>
-    /// Occurs when [help request.
+    /// Occurs when help request.
     /// </summary>
     public event EventHandler HelpRequest { add => Events.AddHandler(s_helpRequestEvent, value); remove => Events.RemoveHandler(s_helpRequestEvent, value); }
 

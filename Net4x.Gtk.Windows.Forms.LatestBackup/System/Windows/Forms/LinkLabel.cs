@@ -28,9 +28,9 @@ public partial class LinkLabel : Control
     public override event EventHandler Click;
 
     /// <summary>
-    /// Occurs when [link clicked.
+    /// Occurs when link clicked.
     /// </summary>
-    public event LinkLabelLinkClickedEventHandler LinkClicked;
+    public virtual event LinkLabelLinkClickedEventHandler LinkClicked;
 
     /// <summary>
     /// Initializes a new instance of the

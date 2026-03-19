@@ -7,8 +7,9 @@ namespace XmlDocSync.Services;
 
 public static class CsBeautyfier
 {
-    public static void ProcessFolder(string folder, string[] toExclude, bool removeUnusedUsings)
+    public static async Task ProcessFolderAsync(string folder, string[] toExclude, bool removeUnusedUsings)
     {
+        await EventVirtualizer.ProcessDirectoryAsync(folder);
         var files = Directory.GetFiles(folder, "*.cs", SearchOption.AllDirectories);
 
         foreach (var file in files.Select(Path.GetFullPath))

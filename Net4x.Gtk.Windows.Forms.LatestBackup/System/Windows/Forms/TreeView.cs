@@ -39,24 +39,24 @@ public partial class TreeView : ScrollableControl
     private readonly CellRendererIcon rendererPixbuf;
 
     /// <summary>
-    /// Occurs when [after collapse.
+    /// Occurs after collapse.
     /// </summary>
-    public event TreeViewEventHandler AfterCollapse;
+    public virtual event TreeViewEventHandler AfterCollapse;
 
     /// <summary>
-    /// Occurs when [after expand.
+    /// Occurs after expand.
     /// </summary>
-    public event TreeViewEventHandler AfterExpand;
+    public virtual event TreeViewEventHandler AfterExpand;
 
     /// <summary>
-    /// Occurs when [after select.
+    /// Occurs after select.
     /// </summary>
-    public event TreeViewEventHandler AfterSelect;
+    public virtual event TreeViewEventHandler AfterSelect;
 
     /// <summary>
-    /// Occurs when [before select.
+    /// Occurs before select.
     /// </summary>
-    public event TreeViewCancelEventHandler BeforeSelect;
+    public virtual event TreeViewCancelEventHandler BeforeSelect;
 
     /// <summary>
     /// Initializes a new instance of the

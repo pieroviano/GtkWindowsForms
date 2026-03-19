@@ -8,7 +8,7 @@ internal class NonStaticMessageBox : IMessageBox
 
     private Window? activeWindow; // Caching significance
 
-    public event EventHandler<DialogEventArgs>? DialogAvailable;
+    public virtual event EventHandler<DialogEventArgs>? DialogAvailable;
 
     /// <summary>
     /// Displays a message box with specified text, caption, and style with Help Button.

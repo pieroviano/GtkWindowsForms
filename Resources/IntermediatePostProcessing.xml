@@ -914,4 +914,142 @@ using System.Globalization;
         OnFormat(convertEventArgs);
         var obj = convertEventArgs</TargetString>
   </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ComboBox.cs</FileName>
+    <SourceString>private void Self_Changed(object sender, EventArgs e)</SourceString>
+    <TargetString>private EventHandler _selectedIndexChanged
+    {
+        get { return ((EventHandler)Events["SelectedIndexChanged"]); }
+        set { Events["SelectedIndexChanged"] = value; }
+    }
+    
+    private EventHandler _selectedValueChanged
+    {
+        get { return ((EventHandler)Events["SelectedValueChanged"]); }
+        set { Events["SelectedValueChanged"] = value; }
+    }
+    
+    private EventHandler _selectedItemChanged
+    {
+        get { return ((EventHandler)Events["SelectedItemChanged"]); }
+        set { Events["SelectedItemChanged"] = value; }
+    }
+    
+    public override event EventHandler SelectedIndexChanged
+    {
+        add { _selectedIndexChanged += value; }
+        remove { _selectedIndexChanged -= value; }
+    }
+    
+    public override event EventHandler SelectedValueChanged
+    {
+        add { _selectedValueChanged += value; }
+        remove { _selectedValueChanged -= value; }
+    }
+    
+    public override event EventHandler SelectedItemChanged
+    {
+        add { _selectedItemChanged += value; }
+        remove { _selectedItemChanged -= value; }
+    }
+    
+    protected void OnSelectedIndexChanged(EventArgs e) => _selectedIndexChanged?.Invoke(this, e);
+    
+    protected void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
+    
+    protected void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
+
+	private void Self_Changed(object sender, EventArgs e)</TargetString>
+    </Item>
+	<Item>
+        <FileName>System\Windows\Forms\ComboBox.cs</FileName>
+        <SourceString>((EventHandler)Events["SelectedIndexChanged"])?.Invoke(this, e);</SourceString>
+        <TargetString>OnSelectedIndexChanged(e);</TargetString>
+    </Item>           
+	<Item>            
+        <FileName>System\Windows\Forms\ComboBox.cs</FileName>
+        <SourceString>((EventHandler)Events["SelectedValueChanged"])?.Invoke(this, e);</SourceString>
+        <TargetString>OnSelectedValueChanged(e);</TargetString>
+    </Item>
+	<Item>
+        <FileName>System\Windows\Forms\ComboBox.cs</FileName>
+        <SourceString>((EventHandler)Events["SelectedItemChanged"])?.Invoke(this, e);</SourceString>
+        <TargetString>OnSelectedItemChanged(e);</TargetString>
+    </Item>
+  <Item>
+    <FileName>System\Windows\Forms\ListBox.cs</FileName>
+    <SourceString>private void ListBox_SelectedRowsChanged(object sender, EventArgs e)</SourceString>
+    <TargetString>private EventHandler _selectedIndexChanged
+    {
+        get { return ((EventHandler)Events["SelectedIndexChanged"]); }
+        set { Events["SelectedIndexChanged"] = value; }
+    }
+    
+    private EventHandler _selectedValueChanged
+    {
+        get { return ((EventHandler)Events["SelectedValueChanged"]); }
+        set { Events["SelectedValueChanged"] = value; }
+    }
+    
+    private EventHandler _selectedItemChanged
+    {
+        get { return ((EventHandler)Events["SelectedItemChanged"]); }
+        set { Events["SelectedItemChanged"] = value; }
+    }
+    
+    public override event EventHandler SelectedIndexChanged
+    {
+        add { _selectedIndexChanged += value; }
+        remove { _selectedIndexChanged -= value; }
+    }
+    
+    public override event EventHandler SelectedValueChanged
+    {
+        add { _selectedValueChanged += value; }
+        remove { _selectedValueChanged -= value; }
+    }
+    
+    public override event EventHandler SelectedItemChanged
+    {
+        add { _selectedItemChanged += value; }
+        remove { _selectedItemChanged -= value; }
+    }
+    
+    protected void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
+    
+    protected void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
+
+	private void ListBox_SelectedRowsChanged(object sender, EventArgs e)</TargetString>
+    </Item>
+	<Item>
+        <FileName>System\Windows\Forms\ListBox.cs</FileName>
+        <SourceString>self.ListBox.SelectRow(self.ListBox.SelectedRow);</SourceString>
+        <TargetString>self.ListBox.SelectRow(self.ListBox.SelectedRow);
+        _selectedIndexChanged?.Invoke(this, e);</TargetString>
+    </Item>           
+	<Item>
+        <FileName>System\Windows\Forms\ListBox.cs</FileName>
+        <SourceString>((EventHandler)Events["SelectedIndexChanged"])?.Invoke(this, e);</SourceString>
+        <TargetString>OnSelectedIndexChanged(e);</TargetString>
+    </Item>           
+	<Item>
+        <FileName>System\Windows\Forms\ListBox.cs</FileName>
+        <SourceString>((EventHandler)Events["SelectedIndexChanged"])?.Invoke(this, e);</SourceString>
+        <TargetString>OnSelectedIndexChanged(e);</TargetString>
+    </Item>           
+	<Item>            
+        <FileName>System\Windows\Forms\ListBox.cs</FileName>
+        <SourceString>((EventHandler)Events["SelectedValueChanged"])?.Invoke(this, e);</SourceString>
+        <TargetString>OnSelectedValueChanged(e);</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\ListBox.cs</FileName>
+        <SourceString>((EventHandler)Events["SelectedItemChanged"])?.Invoke(this, e);</SourceString>
+        <TargetString>OnSelectedItemChanged(e);</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Control\ListControl.cs</FileName>
+        <SourceString>public event </SourceString>
+        <TargetString>public virtual event </TargetString>
+    </Item>
 </Items>

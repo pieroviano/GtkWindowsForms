@@ -24,9 +24,9 @@ public partial class RadioButton : Control
     private bool _Checked;
 
     /// <summary>
-    /// Occurs when [checked changed.
+    /// Occurs when checked changed.
     /// </summary>
-    public event EventHandler CheckedChanged;
+    public virtual event EventHandler CheckedChanged;
 
     /// <summary>
     /// Initializes a new instance of the

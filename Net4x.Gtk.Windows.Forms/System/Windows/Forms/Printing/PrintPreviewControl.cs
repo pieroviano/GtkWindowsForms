@@ -50,12 +50,12 @@ public partial class PrintPreviewControl : Control
     private const int ScrollSmallChange = 5;
 
     /// <summary>
-    /// Occurs when [start page changed.
+    /// Occurs when start page changed.
     /// </summary>
     public event EventHandler StartPageChanged { add => Events.AddHandler(s_startPageChangedEvent, value); remove => Events.RemoveHandler(s_startPageChangedEvent, value); }
 
     /// <summary>
-    /// Occurs when [text changed.
+    /// Occurs when text changed.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]

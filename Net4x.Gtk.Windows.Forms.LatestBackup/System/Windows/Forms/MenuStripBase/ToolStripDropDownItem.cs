@@ -25,19 +25,19 @@ public delegate void ToolStripItemClickedEventHandler(object sender, ToolStripIt
 public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
 {
     /// <summary>
-    /// Occurs when [drop down closed.
+    /// Occurs when drop down closed.
     /// </summary>
-    public event EventHandler DropDownClosed;
+    public virtual event EventHandler DropDownClosed;
 
     /// <summary>
-    /// Occurs when [drop down opened.
+    /// Occurs when drop down opened.
     /// </summary>
-    public event EventHandler DropDownOpened;
+    public virtual event EventHandler DropDownOpened;
 
     /// <summary>
-    /// Occurs when [drop down opening.
+    /// Occurs when drop down opening.
     /// </summary>
-    public event EventHandler DropDownOpening;
+    public virtual event EventHandler DropDownOpening;
 
     /// <summary>
     /// Initializes a new instance of the

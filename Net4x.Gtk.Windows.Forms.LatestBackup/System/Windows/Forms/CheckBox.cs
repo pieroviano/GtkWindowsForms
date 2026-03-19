@@ -26,7 +26,7 @@ public partial class CheckBox : Control
     /// <summary>
     /// Occurs when checked is changed.
     /// </summary>
-    public event EventHandler CheckedChanged;
+    public virtual event EventHandler CheckedChanged;
 
     /// <summary>
     /// Occurs when the check state is changed.

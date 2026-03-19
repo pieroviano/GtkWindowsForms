@@ -49,6 +49,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemMenuStart = 0x0004,
 
     /// <summary>
@@ -58,6 +59,7 @@ public enum AccessibleEvents
     /// Sent when leaving from menu mode (system, app bar, and track popups).
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.AccessibleEvents.SystemMenuStart" />.
+    ///
     ///
     ///
     ///
@@ -73,6 +75,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemMenuPopupStart = 0x0006,
 
     /// <summary>
@@ -82,6 +85,7 @@ public enum AccessibleEvents
     /// Sent when a menu popup just before it is taken down.
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.AccessibleEvents.SystemMenuPopupStart" />.
+    ///
     ///
     ///
     ///
@@ -97,6 +101,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemCaptureStart = 0x0008,
 
     /// <summary>
@@ -106,6 +111,7 @@ public enum AccessibleEvents
     /// Sent when a window releases the capture.
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.AccessibleEvents.SystemCaptureStart" />.
+    ///
     ///
     ///
     ///
@@ -121,6 +127,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemMoveSizeStart = 0x000A,
 
     /// <summary>
@@ -130,6 +137,7 @@ public enum AccessibleEvents
     /// Sent when a window leaves move-size dragging mode.
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.AccessibleEvents.SystemMoveSizeStart" />.
+    ///
     ///
     ///
     ///
@@ -145,6 +153,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemContextHelpStart = 0x000C,
 
     /// <summary>
@@ -157,6 +166,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemContextHelpEnd = 0x000D,
 
     /// <summary>
@@ -166,6 +176,7 @@ public enum AccessibleEvents
     /// Sent when a window enters drag drop mode.
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.AccessibleEvents.SystemDragDropEnd" />.
+    ///
     ///
     ///
     ///
@@ -183,6 +194,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     //  Note that it is up to apps and OLE to generate this, since the system doesn't know. 
     //  Like <c>EVENT_SYSTEM_SOUND</c>, it will be a while before this is prevalent.
     SystemDragDropEnd = 0x000F,
@@ -194,6 +206,7 @@ public enum AccessibleEvents
     /// Sent when a dialog comes up.
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.AccessibleEvents.SystemDialogEnd" />.
+    ///
     ///
     ///
     ///
@@ -209,6 +222,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemDialogEnd = 0x0011,
 
     /// <summary>
@@ -218,6 +232,7 @@ public enum AccessibleEvents
     /// Sent when beginning the tracking of a scrollbar in a window, and also for scrollbar controls.
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.AccessibleEvents.SystemScrollingEnd" />.
+    ///
     ///
     ///
     ///
@@ -233,6 +248,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemScrollingEnd = 0x0013,
 
     /// <summary>
@@ -242,6 +258,7 @@ public enum AccessibleEvents
     /// Sent when beginning alt-tab mode with the switch window.
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.AccessibleEvents.SystemSwitchEnd" />.
+    ///
     ///
     ///
     ///
@@ -257,6 +274,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemSwitchEnd = 0x0015,
 
     /// <summary>
@@ -269,6 +287,7 @@ public enum AccessibleEvents
     ///
     ///
     ///
+    ///
     SystemMinimizeStart = 0x0016,
 
     /// <summary>
@@ -278,6 +297,7 @@ public enum AccessibleEvents
     /// Sent when a window minimizes and just before it restores.
     /// </summary>
     /// <seealso cref="T:System.Windows.Forms.AccessibleEvents.SystemMinimizeStart" />.
+    ///
     ///
     ///
     ///

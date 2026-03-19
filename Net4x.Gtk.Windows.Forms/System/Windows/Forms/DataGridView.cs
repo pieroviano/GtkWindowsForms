@@ -51,13 +51,13 @@ public partial class DataGridView : ScrollableControl
     /// Not implemented in this GTK-backed control. Placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler AllowUserToAddRowsChanged;
+    public virtual event EventHandler AllowUserToAddRowsChanged;
 
     /// <summary>
     /// Not implemented in this GTK-backed control. Placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler AllowUserToDeleteRowsChanged;
+    public virtual event EventHandler AllowUserToDeleteRowsChanged;
 
     /// <summary>
     /// Not implemented in this GTK-backed control. Placeholder for compatibility.
@@ -65,43 +65,43 @@ public partial class DataGridView : ScrollableControl
     //[Obsolete(" this event is not implemented， develop independently")]
     //public event EventHandler SelectionChanged;
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler AllowUserToOrderColumnsChanged;
+    public virtual event EventHandler AllowUserToOrderColumnsChanged;
 
     /// <summary>
     /// Not implemented in this GTK-backed control. Placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler AllowUserToResizeColumnsChanged;
+    public virtual event EventHandler AllowUserToResizeColumnsChanged;
 
     /// <summary>
     /// Not implemented in this GTK-backed control. Placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler AllowUserToResizeRowsChanged;
+    public virtual event EventHandler AllowUserToResizeRowsChanged;
 
     /// <summary>
     /// Not implemented - placeholder for alternating rows default cell style change notifications.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler AlternatingRowsDefaultCellStyleChanged;
+    public virtual event EventHandler AlternatingRowsDefaultCellStyleChanged;
 
     /// <summary>
     /// Raised when AutoGenerateColumns setting changes - not implemented here.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler AutoGenerateColumnsChanged;
+    public virtual event EventHandler AutoGenerateColumnsChanged;
 
     /// <summary>
     /// Raised when the AutoSizeColumnMode changes - not implemented here.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewAutoSizeColumnModeEventHandler AutoSizeColumnModeChanged;
+    public virtual event DataGridViewAutoSizeColumnModeEventHandler AutoSizeColumnModeChanged;
 
     /// <summary>
     /// Raised when the AutoSizeColumnsMode changes - not implemented here.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewAutoSizeColumnsModeEventHandler AutoSizeColumnsModeChanged;
+    public virtual event DataGridViewAutoSizeColumnsModeEventHandler AutoSizeColumnsModeChanged;
 
     /// <summary>
     /// Raised when AutoSizeRowsMode changes - not implemented here.
@@ -109,7 +109,7 @@ public partial class DataGridView : ScrollableControl
     //[Obsolete(" this event is not implemented， develop independently")]
     //public event EventHandler BackColorChanged;
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewAutoSizeModeEventHandler AutoSizeRowsModeChanged;
+    public virtual event DataGridViewAutoSizeModeEventHandler AutoSizeRowsModeChanged;
 
     /// <summary>
     /// Raised when the background color changes - not implemented here.
@@ -117,19 +117,19 @@ public partial class DataGridView : ScrollableControl
     //[Obsolete(" this event is not implemented， develop independently")]
     //public event EventHandler BackgroundImageChanged;
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler BackgroundColorChanged;
+    public virtual event EventHandler BackgroundColorChanged;
 
     /// <summary>
     /// Raised when the border style changes - not implemented here.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler BorderStyleChanged;
+    public virtual event EventHandler BorderStyleChanged;
 
     /// <summary>
     /// Raised to cancel a row edit - not implemented here.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event QuestionEventHandler CancelRowEdit;
+    public virtual event QuestionEventHandler CancelRowEdit;
 
     /// <summary>
     /// Raised when a cell begins edit. Placeholder for compatibility.
@@ -137,7 +137,7 @@ public partial class DataGridView : ScrollableControl
     //[Obsolete(" this event is not implemented， develop independently")]
     //public event EventHandler PaddingChanged;
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellCancelEventHandler CellBeginEdit;
+    public virtual event DataGridViewCellCancelEventHandler CellBeginEdit;
 
     /// <summary>
     /// Raised when the cell border style changes - not implemented here.
@@ -147,12 +147,12 @@ public partial class DataGridView : ScrollableControl
     //[Obsolete(" this event is not implemented， develop independently")]
     //public event EventHandler BackgroundImageLayoutChanged;
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler CellBorderStyleChanged;
+    public virtual event EventHandler CellBorderStyleChanged;
 
     /// <summary>
     /// Raised when a cell is clicked.
     /// </summary>
-    public event DataGridViewCellEventHandler CellClick;
+    public virtual event DataGridViewCellEventHandler CellClick;
 
     /// <summary>
     /// Raised when a cell content is clicked - placeholder for compatibility.
@@ -160,156 +160,156 @@ public partial class DataGridView : ScrollableControl
     //[Obsolete(" this event is not implemented， develop independently")]
     //public event DataGridViewCellEventHandler CellClick;
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellContentClick;
+    public virtual event DataGridViewCellEventHandler CellContentClick;
 
     /// <summary>
     /// Raised when a cell content is double-clicked - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellContentDoubleClick;
+    public virtual event DataGridViewCellEventHandler CellContentDoubleClick;
 
     /// <summary>
     /// Raised when a cell's context menu strip is changed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellContextMenuStripChanged;
+    public virtual event DataGridViewCellEventHandler CellContextMenuStripChanged;
 
     /// <summary>
     /// Raised when a context menu strip is needed for a cell - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellContextMenuStripNeededEventHandler CellContextMenuStripNeeded;
+    public virtual event DataGridViewCellContextMenuStripNeededEventHandler CellContextMenuStripNeeded;
 
     /// <summary>
     /// Raised when a cell is double-clicked - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellDoubleClick;
+    public virtual event DataGridViewCellEventHandler CellDoubleClick;
 
     /// <summary>
     /// Raised when a cell edit ends - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellEndEdit;
+    public virtual event DataGridViewCellEventHandler CellEndEdit;
 
     /// <summary>
     /// Raised when a cell receives focus - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellEnter;
+    public virtual event DataGridViewCellEventHandler CellEnter;
 
     /// <summary>
     /// Raised when a cell's error text is changed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellErrorTextChanged;
+    public virtual event DataGridViewCellEventHandler CellErrorTextChanged;
 
     /// <summary>
     /// Raised when a cell's error text is needed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellErrorTextNeededEventHandler CellErrorTextNeeded;
+    public virtual event DataGridViewCellErrorTextNeededEventHandler CellErrorTextNeeded;
 
     /// <summary>
     /// Raised when a cell requires formatting - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellFormattingEventHandler CellFormatting;
+    public virtual event DataGridViewCellFormattingEventHandler CellFormatting;
 
     /// <summary>
     /// Raised when a cell loses focus - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellLeave;
+    public virtual event DataGridViewCellEventHandler CellLeave;
 
     /// <summary>
     /// Raised for cell mouse click events - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellMouseEventHandler CellMouseClick;
+    public virtual event DataGridViewCellMouseEventHandler CellMouseClick;
 
     /// <summary>
     /// Raised for cell mouse double-click events - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellMouseEventHandler CellMouseDoubleClick;
+    public virtual event DataGridViewCellMouseEventHandler CellMouseDoubleClick;
 
     /// <summary>
     /// Raised for cell mouse down events - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellMouseEventHandler CellMouseDown;
+    public virtual event DataGridViewCellMouseEventHandler CellMouseDown;
 
     /// <summary>
     /// Raised when mouse enters a cell - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellMouseEnter;
+    public virtual event DataGridViewCellEventHandler CellMouseEnter;
 
     /// <summary>
     /// Raised when mouse leaves a cell - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellMouseLeave;
+    public virtual event DataGridViewCellEventHandler CellMouseLeave;
 
     /// <summary>
     /// Raised for cell mouse move events - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellMouseEventHandler CellMouseMove;
+    public virtual event DataGridViewCellMouseEventHandler CellMouseMove;
 
     /// <summary>
     /// Raised for cell mouse up events - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellMouseEventHandler CellMouseUp;
+    public virtual event DataGridViewCellMouseEventHandler CellMouseUp;
 
     /// <summary>
     /// Raised when a cell needs custom painting. Use this to customize cell rendering.
     /// </summary>
-    public event DataGridViewCellPaintingEventHandler CellPainting;
+    public virtual event DataGridViewCellPaintingEventHandler CellPainting;
 
     /// <summary>
     /// Raised when a cell parsing event occurs - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellParsingEventHandler CellParsing;
+    public virtual event DataGridViewCellParsingEventHandler CellParsing;
 
     /// <summary>
     /// Raised when cell state changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellStateChangedEventHandler CellStateChanged;
+    public virtual event DataGridViewCellStateChangedEventHandler CellStateChanged;
 
     /// <summary>
     /// Raised when a cell's style changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellStyleChanged;
+    public virtual event DataGridViewCellEventHandler CellStyleChanged;
 
     /// <summary>
     /// Raised when the cell style content changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellStyleContentChangedEventHandler CellStyleContentChanged;
+    public virtual event DataGridViewCellStyleContentChangedEventHandler CellStyleContentChanged;
 
     /// <summary>
     /// Raised when cell tooltip text changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellToolTipTextChanged;
+    public virtual event DataGridViewCellEventHandler CellToolTipTextChanged;
 
     /// <summary>
     /// Raised when a cell tooltip is needed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellToolTipTextNeededEventHandler CellToolTipTextNeeded;
+    public virtual event DataGridViewCellToolTipTextNeededEventHandler CellToolTipTextNeeded;
 
     /// <summary>
     /// Raised when a cell is validated - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler CellValidated;
+    public virtual event DataGridViewCellEventHandler CellValidated;
 
     /// <summary>
     /// Raised when a cell is validating - placeholder for compatibility.
@@ -317,204 +317,204 @@ public partial class DataGridView : ScrollableControl
     //[Obsolete(" this event is not implemented， develop independently")]
     //public event DataGridViewCellEventHandler CellValueChanged;
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellValidatingEventHandler CellValidating;
+    public virtual event DataGridViewCellValidatingEventHandler CellValidating;
 
     /// <summary>
     /// Raised when a cell value changes.
     /// </summary>
-    public event DataGridViewCellEventHandler CellValueChanged;
+    public virtual event DataGridViewCellEventHandler CellValueChanged;
 
     /// <summary>
     /// Raised when a cell value is required - placeholder for virtual-mode support.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellValueEventHandler CellValueNeeded;
+    public virtual event DataGridViewCellValueEventHandler CellValueNeeded;
 
     /// <summary>
     /// Raised when a cell value is pushed back to the data cache - placeholder for virtual-mode support.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellValueEventHandler CellValuePushed;
+    public virtual event DataGridViewCellValueEventHandler CellValuePushed;
 
     /// <summary>
     /// Raised when a column is added - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnAdded;
+    public virtual event DataGridViewColumnEventHandler ColumnAdded;
 
     /// <summary>
     /// Raised when a column's context menu strip changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnContextMenuStripChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnContextMenuStripChanged;
 
     /// <summary>
     /// Raised when a column's data property name changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnDataPropertyNameChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnDataPropertyNameChanged;
 
     /// <summary>
     /// Raised when a column's default cell style changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnDefaultCellStyleChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnDefaultCellStyleChanged;
 
     /// <summary>
     /// Raised when a column's display index changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnDisplayIndexChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnDisplayIndexChanged;
 
     /// <summary>
     /// Raised when a column divider is double-clicked - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnDividerDoubleClickEventHandler ColumnDividerDoubleClick;
+    public virtual event DataGridViewColumnDividerDoubleClickEventHandler ColumnDividerDoubleClick;
 
     /// <summary>
     /// Raised when a column divider width changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnDividerWidthChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnDividerWidthChanged;
 
     /// <summary>
     /// Raised when a column header cell changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnHeaderCellChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnHeaderCellChanged;
 
     /// <summary>
     /// Raised for column header mouse click events - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellMouseEventHandler ColumnHeaderMouseClick;
+    public virtual event DataGridViewCellMouseEventHandler ColumnHeaderMouseClick;
 
     /// <summary>
     /// Raised for column header mouse double-click events - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellMouseEventHandler ColumnHeaderMouseDoubleClick;
+    public virtual event DataGridViewCellMouseEventHandler ColumnHeaderMouseDoubleClick;
 
     /// <summary>
     /// Raised when column headers border style changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler ColumnHeadersBorderStyleChanged;
+    public virtual event EventHandler ColumnHeadersBorderStyleChanged;
 
     /// <summary>
     /// Raised when column headers default cell style changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler ColumnHeadersDefaultCellStyleChanged;
+    public virtual event EventHandler ColumnHeadersDefaultCellStyleChanged;
 
     /// <summary>
     /// Raised when column headers height changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler ColumnHeadersHeightChanged;
+    public virtual event EventHandler ColumnHeadersHeightChanged;
 
     /// <summary>
     /// Raised when the column headers height size mode changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewAutoSizeModeEventHandler ColumnHeadersHeightSizeModeChanged;
+    public virtual event DataGridViewAutoSizeModeEventHandler ColumnHeadersHeightSizeModeChanged;
 
     /// <summary>
     /// Raised when a column's minimum width changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnMinimumWidthChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnMinimumWidthChanged;
 
     /// <summary>
     /// Raised when a column's name changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnNameChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnNameChanged;
 
     /// <summary>
     /// Raised when a column is removed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnRemoved;
+    public virtual event DataGridViewColumnEventHandler ColumnRemoved;
 
     /// <summary>
     /// Raised when a column's sort mode changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnSortModeChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnSortModeChanged;
 
     /// <summary>
     /// Raised when a column state changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnStateChangedEventHandler ColumnStateChanged;
+    public virtual event DataGridViewColumnStateChangedEventHandler ColumnStateChanged;
 
     /// <summary>
     /// Raised when a column's tooltip text changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnToolTipTextChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnToolTipTextChanged;
 
     /// <summary>
     /// Raised when a column width changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewColumnEventHandler ColumnWidthChanged;
+    public virtual event DataGridViewColumnEventHandler ColumnWidthChanged;
 
     /// <summary>
     /// Raised when the current cell changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler CurrentCellChanged;
+    public virtual event EventHandler CurrentCellChanged;
 
     /// <summary>
     /// Raised when the current cell dirty state changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler CurrentCellDirtyStateChanged;
+    public virtual event EventHandler CurrentCellDirtyStateChanged;
 
     /// <summary>
     /// Raised when data binding completes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewBindingCompleteEventHandler DataBindingComplete;
+    public virtual event DataGridViewBindingCompleteEventHandler DataBindingComplete;
 
     /// <summary>
     /// Raised when a data error occurs - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewDataErrorEventHandler DataError;
+    public virtual event DataGridViewDataErrorEventHandler DataError;
 
     /// <summary>
     /// Raised when DataMember changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler DataMemberChanged;
+    public virtual event EventHandler DataMemberChanged;
 
     /// <summary>
     /// Raised when DataSource changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler DataSourceChanged;
+    public virtual event EventHandler DataSourceChanged;
 
     /// <summary>
     /// Raised when default cell style changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler DefaultCellStyleChanged;
+    public virtual event EventHandler DefaultCellStyleChanged;
 
     /// <summary>
     /// Raised when default values are needed for new rows - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler DefaultValuesNeeded;
+    public virtual event DataGridViewRowEventHandler DefaultValuesNeeded;
 
     /// <summary>
     /// Raised when an editing control is shown - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewEditingControlShowingEventHandler EditingControlShowing;
+    public virtual event DataGridViewEditingControlShowingEventHandler EditingControlShowing;
 
     /// <summary>
     /// Raised when edit mode changes - placeholder for compatibility.
@@ -524,175 +524,175 @@ public partial class DataGridView : ScrollableControl
     //[Obsolete(" this event is not implemented， develop independently")]
     //public event EventHandler ForeColorChanged;
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler EditModeChanged;
+    public virtual event EventHandler EditModeChanged;
 
     /// <summary>
     /// Raised when grid color changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler GridColorChanged;
+    public virtual event EventHandler GridColorChanged;
 
     /// <summary>
     /// Raised when MultiSelect changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， this event is not implemented， develop independently")]
-    public event EventHandler MultiSelectChanged;
+    public virtual event EventHandler MultiSelectChanged;
 
     /// <summary>
     /// Raised when new rows are required - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler NewRowNeeded;
+    public virtual event DataGridViewRowEventHandler NewRowNeeded;
 
     /// <summary>
     /// Raised when ReadOnly mode changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler ReadOnlyChanged;
+    public virtual event EventHandler ReadOnlyChanged;
 
     /// <summary>
     /// Raised when row context menu strip changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler RowContextMenuStripChanged;
+    public virtual event DataGridViewRowEventHandler RowContextMenuStripChanged;
 
     /// <summary>
     /// Raised when a row context menu strip is needed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowContextMenuStripNeededEventHandler RowContextMenuStripNeeded;
+    public virtual event DataGridViewRowContextMenuStripNeededEventHandler RowContextMenuStripNeeded;
 
     /// <summary>
     /// Raised when a row's default style changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler RowDefaultCellStyleChanged;
+    public virtual event DataGridViewRowEventHandler RowDefaultCellStyleChanged;
 
     /// <summary>
     /// Raised when a row's dirty state is needed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event QuestionEventHandler RowDirtyStateNeeded;
+    public virtual event QuestionEventHandler RowDirtyStateNeeded;
 
     /// <summary>
     /// Raised when a row divider is double-clicked - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowDividerDoubleClickEventHandler RowDividerDoubleClick;
+    public virtual event DataGridViewRowDividerDoubleClickEventHandler RowDividerDoubleClick;
 
     /// <summary>
     /// Raised when a row divider height changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler RowDividerHeightChanged;
+    public virtual event DataGridViewRowEventHandler RowDividerHeightChanged;
 
     /// <summary>
     /// Raised when entering a row - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler RowEnter;
+    public virtual event DataGridViewCellEventHandler RowEnter;
 
     /// <summary>
     /// Raised when a row error text changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler RowErrorTextChanged;
+    public virtual event DataGridViewRowEventHandler RowErrorTextChanged;
 
     /// <summary>
     /// Raised when a row's error text is needed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowErrorTextNeededEventHandler RowErrorTextNeeded;
+    public virtual event DataGridViewRowErrorTextNeededEventHandler RowErrorTextNeeded;
 
     /// <summary>
     /// Raised when the row header cell changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler RowHeaderCellChanged;
+    public virtual event DataGridViewRowEventHandler RowHeaderCellChanged;
 
     /// <summary>
     /// Raised for row header mouse click events - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellMouseEventHandler RowHeaderMouseClick;
+    public virtual event DataGridViewCellMouseEventHandler RowHeaderMouseClick;
 
     /// <summary>
     /// Raised for row header mouse double-click events - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellMouseEventHandler RowHeaderMouseDoubleClick;
+    public virtual event DataGridViewCellMouseEventHandler RowHeaderMouseDoubleClick;
 
     /// <summary>
     /// Raised when row headers border style changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler RowHeadersBorderStyleChanged;
+    public virtual event EventHandler RowHeadersBorderStyleChanged;
 
     /// <summary>
     /// Raised when row headers default cell style changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler RowHeadersDefaultCellStyleChanged;
+    public virtual event EventHandler RowHeadersDefaultCellStyleChanged;
 
     /// <summary>
     /// Raised when row headers width changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler RowHeadersWidthChanged;
+    public virtual event EventHandler RowHeadersWidthChanged;
 
     /// <summary>
     /// Raised when row headers width size mode changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewAutoSizeModeEventHandler RowHeadersWidthSizeModeChanged;
+    public virtual event DataGridViewAutoSizeModeEventHandler RowHeadersWidthSizeModeChanged;
 
     /// <summary>
     /// Raised when row height changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler RowHeightChanged;
+    public virtual event DataGridViewRowEventHandler RowHeightChanged;
 
     /// <summary>
     /// Raised when row height info is needed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowHeightInfoNeededEventHandler RowHeightInfoNeeded;
+    public virtual event DataGridViewRowHeightInfoNeededEventHandler RowHeightInfoNeeded;
 
     /// <summary>
     /// Raised when row height info is pushed - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowHeightInfoPushedEventHandler RowHeightInfoPushed;
+    public virtual event DataGridViewRowHeightInfoPushedEventHandler RowHeightInfoPushed;
 
     /// <summary>
     /// Raised when a row loses focus - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler RowLeave;
+    public virtual event DataGridViewCellEventHandler RowLeave;
 
     /// <summary>
     /// Raised when the minimum height of a row changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler RowMinimumHeightChanged;
+    public virtual event DataGridViewRowEventHandler RowMinimumHeightChanged;
 
     /// <summary>
     /// Raised after painting a row - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowPostPaintEventHandler RowPostPaint;
+    public virtual event DataGridViewRowPostPaintEventHandler RowPostPaint;
 
     /// <summary>
     /// Raised before painting a row - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowPrePaintEventHandler RowPrePaint;
+    public virtual event DataGridViewRowPrePaintEventHandler RowPrePaint;
 
     /// <summary>
     /// Raised when rows are added.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowsAddedEventHandler RowsAdded;
+    public virtual event DataGridViewRowsAddedEventHandler RowsAdded;
 
     /// <summary>
     /// Raised when rows default cell style changes - placeholder for compatibility.
@@ -700,72 +700,72 @@ public partial class DataGridView : ScrollableControl
     //[Obsolete(" this event is not implemented， develop independently")]
     //public event EventHandler TextChanged;
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler RowsDefaultCellStyleChanged;
+    public virtual event EventHandler RowsDefaultCellStyleChanged;
 
     /// <summary>
     /// Raised when rows are removed.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowsRemovedEventHandler RowsRemoved;
+    public virtual event DataGridViewRowsRemovedEventHandler RowsRemoved;
 
     /// <summary>
     /// Raised when the row state changes - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowStateChangedEventHandler RowStateChanged;
+    public virtual event DataGridViewRowStateChangedEventHandler RowStateChanged;
 
     /// <summary>
     /// Raised when a row is unshared - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler RowUnshared;
+    public virtual event DataGridViewRowEventHandler RowUnshared;
 
     /// <summary>
     /// Raised when a row is validated - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellEventHandler RowValidated;
+    public virtual event DataGridViewCellEventHandler RowValidated;
 
     /// <summary>
     /// Raised when a row is validating - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewCellCancelEventHandler RowValidating;
+    public virtual event DataGridViewCellCancelEventHandler RowValidating;
 
     /// <summary>
     /// Raised when selection changes.
     /// </summary>
-    public event EventHandler SelectionChanged;
+    public virtual event EventHandler SelectionChanged;
 
     /// <summary>
     /// Raised when sort comparison is requested - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewSortCompareEventHandler SortCompare;
+    public virtual event DataGridViewSortCompareEventHandler SortCompare;
 
     /// <summary>
     /// Raised when the grid is sorted - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event EventHandler Sorted;
+    public virtual event EventHandler Sorted;
 
     /// <summary>
     /// Raised when the user adds a row - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler UserAddedRow;
+    public virtual event DataGridViewRowEventHandler UserAddedRow;
 
     /// <summary>
     /// Raised when the user deletes a row - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowEventHandler UserDeletedRow;
+    public virtual event DataGridViewRowEventHandler UserDeletedRow;
 
     /// <summary>
     /// Raised when a user is deleting a row - placeholder for compatibility.
     /// </summary>
     [Obsolete(" this event is not implemented， develop independently")]
-    public event DataGridViewRowCancelEventHandler UserDeletingRow;
+    public virtual event DataGridViewRowCancelEventHandler UserDeletingRow;
 
     /// <summary>
     /// Initializes a new instance of the

@@ -139,8 +139,8 @@ public class Program
         var gtkDrawingDirectory = Path.GetDirectoryName(net4xGtkDrawingPath);
         var exclude = new string[]{"GtkSystem\\Resources\\ResourceManager.cs"};
         var removeUnusedUsings = true;
-        CsBeautyfier.ProcessFolder(gtkDrawingDirectory, exclude, removeUnusedUsings);
-        CsBeautyfier.ProcessFolder(csProjectDirectory, exclude, removeUnusedUsings);
+        await CsBeautyfier.ProcessFolderAsync(gtkDrawingDirectory, exclude, removeUnusedUsings);
+        await CsBeautyfier.ProcessFolderAsync(csProjectDirectory, exclude, removeUnusedUsings);
 #pragma warning restore CS8604 // Possible null reference argument.
 
         ConsoleColor.Green.Write(@"Normalizing end of line on project files", true);

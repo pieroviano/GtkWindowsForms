@@ -22,44 +22,44 @@ public abstract class ListControl : ScrollableControl
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.ListControl.DisplayMember" /> property changes.
     /// </summary>
-    public event EventHandler DisplayMemberChanged;
+    public virtual event EventHandler DisplayMemberChanged;
 
     /// <summary>
     /// Occurs when formatting of list items is required.
     /// </summary>
-    public event ListControlConvertEventHandler Format;
+    public virtual event ListControlConvertEventHandler Format;
 
     /// <summary>
     /// Occurs when the formatting provider information changes.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public event EventHandler FormatInfoChanged;
+    public virtual event EventHandler FormatInfoChanged;
 
     /// <summary>
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.ListControl.FormatString" /> property changes.
     /// </summary>
-    public event EventHandler FormatStringChanged;
+    public virtual event EventHandler FormatStringChanged;
 
     /// <summary>
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.ListControl.FormattingEnabled" /> property changes.
     /// </summary>
-    public event EventHandler FormattingEnabledChanged;
+    public virtual event EventHandler FormattingEnabledChanged;
 
     /// <summary>
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.ListControl.ValueMember" /> property changes.
     /// </summary>
-    public event EventHandler ValueMemberChanged;
+    public virtual event EventHandler ValueMemberChanged;
 
     /// <summary>
     /// Occurs when the data source for the control changes.
     /// Handlers are stored in the internal
     /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
-    public event EventHandler DataSourceChanged
+    public virtual event EventHandler DataSourceChanged
     {
         add { Events.AddHandler("DataSourceChanged", value); }
         remove { Events.RemoveHandler("DataSourceChanged", value); }
@@ -69,7 +69,7 @@ public abstract class ListControl : ScrollableControl
     /// Occurs when the selected index changes. Handlers are stored in the internal
     /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
-    public event EventHandler SelectedIndexChanged
+    public virtual event EventHandler SelectedIndexChanged
     {
         add { Events.AddHandler("SelectedIndexChanged", value); }
         remove { Events.RemoveHandler("SelectedIndexChanged", value); }
@@ -79,7 +79,7 @@ public abstract class ListControl : ScrollableControl
     /// Occurs when the selected item changes. Handlers are stored in the internal
     /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
-    public event EventHandler SelectedItemChanged
+    public virtual event EventHandler SelectedItemChanged
     {
         add { Events.AddHandler("SelectedItemChanged", value); }
         remove { Events.RemoveHandler("SelectedItemChanged", value); }
@@ -89,7 +89,7 @@ public abstract class ListControl : ScrollableControl
     /// Occurs when the selected value changes. Handlers are stored in the internal
     /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
-    public event EventHandler SelectedValueChanged
+    public virtual event EventHandler SelectedValueChanged
     {
         add { Events.AddHandler("SelectedValueChanged", value); }
         remove { Events.RemoveHandler("SelectedValueChanged", value); }
