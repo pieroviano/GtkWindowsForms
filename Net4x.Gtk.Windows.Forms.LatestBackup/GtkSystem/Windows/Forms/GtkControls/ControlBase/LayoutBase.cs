@@ -36,7 +36,11 @@ public sealed class LayoutBase : Gtk.Layout, IControlGtk
     /// The active
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> used by the control.
     /// </value>
-    public GtkControlOverride Override { get; set; }
+    public GtkControlOverride Override
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Called when the control is drawn.

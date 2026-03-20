@@ -21,6 +21,10 @@ public class DataGridViewCellToolTipTextNeededEventArgs : DataGridViewCellEventA
     /// <value>
     /// The tool tip text.
     /// </value>
-    public string ToolTipText { get; set; }
+    public string ToolTipText
+    {
+        get;
+        set;
+    }
 
 }

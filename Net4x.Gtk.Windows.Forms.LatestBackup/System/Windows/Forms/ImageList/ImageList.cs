@@ -1,5 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
+
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
@@ -22,7 +23,7 @@ namespace System.Windows.Forms;
 [ToolboxItemFilter("System.Windows.Forms")]
 [DefaultProperty(nameof(Images))]
 [TypeConverter(typeof(ImageListConverter))]
-public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
+public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
 {
     private EventHandler? _changeHandler;
 
@@ -40,6 +41,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     // lists are lossy. At runtime, we delay handle creation as long as possible, and store
     // away the original images until handle creation (and hope no one disposes of the images!). At design time, we keep the originals around indefinitely.
     // This variable will become null when the original images are lost.
+
     private List<Original>? _originals = new List<Original>();
 
     private EventHandler? _recreateHandler;
@@ -57,26 +59,36 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Occurs when recreate handle.
     /// </summary>
-    public event EventHandler? RecreateHandle { add => _recreateHandler += value; remove => _recreateHandler -= value; }
+    public event EventHandler? RecreateHandle
+    {
+        add => _recreateHandler += value;
+        remove => _recreateHandler -= value;
+    }
 
-    internal event EventHandler? ChangeHandle { add => _changeHandler += value; remove => _changeHandler -= value; }
+    internal event EventHandler? ChangeHandle
+    {
+        add => _changeHandler += value;
+        remove => _changeHandler -= value;
+    }
 
     /// <summary>
     /// Creates a new ImageList Control with a default image size of 16x16 pixels
     /// </summary>
     public ImageList()
     {
+
     }
 
     /// <summary>
     /// Creates a new ImageList Control with a default image size of 16x16
     /// pixels and adds the ImageList to the passed in container.
     /// </summary>
-    /// <param name = "container">
+    /// <param name="container">
     /// The container.
     /// </param>
     public ImageList(IContainer container) : this()
     {
+
         container.Add(this);
     }
 
@@ -89,6 +101,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     public ColorDepth ColorDepth
     {
         get => _colorDepth;
+
         set
         {
             if (_colorDepth == value)
@@ -144,8 +157,10 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     public Size ImageSize
     {
         get => _imageSize;
+
         set
         {
+
             if (_imageSize.Width != value.Width || _imageSize.Height != value.Height)
             {
                 _imageSize = new Size(value.Width, value.Height);
@@ -180,7 +195,12 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
 
     internal bool IsDisposed { get; private set; }
 #endif
-    public object? Tag { get; set; }
+
+    public object? Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the transparent.
@@ -188,7 +208,11 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <value>
     /// The color of the transparent.
     /// </value>
-    public Color TransparentColor { get; set; } = Color.Transparent;
+    public Color TransparentColor
+    {
+        get;
+        set;
+    } = Color.Transparent;
 
     private bool UseTransparentColor => TransparentColor.A > 0;
 
@@ -196,13 +220,13 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// Draw the image indicated by the given index on the given Graphics
     /// at the given location.
     /// </summary>
-    /// <param name = "g">
+    /// <param name="g">
     /// The g.
     /// </param>
-    /// <param name = "pt">
+    /// <param name="pt">
     /// The pt.
     /// </param>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
     public void Draw(Graphics g, Point pt, int index) => Draw(g, pt.X, pt.Y, index);
@@ -211,16 +235,16 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// Draw the image indicated by the given index on the given Graphics
     /// at the given location.
     /// </summary>
-    /// <param name = "g">
+    /// <param name="g">
     /// The g.
     /// </param>
-    /// <param name = "x">
+    /// <param name="x">
     /// The x.
     /// </param>
-    /// <param name = "y">
+    /// <param name="y">
     /// The y.
     /// </param>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
     public void Draw(Graphics g, int x, int y, int index) => Draw(g, x, y, _imageSize.Width, _imageSize.Height, index);
@@ -230,26 +254,27 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// and raster op code specified. The image is stretched or compressed as
     /// necessary to fit the bounds provided.
     /// </summary>
-    /// <param name = "g">
+    /// <param name="g">
     /// The g.
     /// </param>
-    /// <param name = "x">
+    /// <param name="x">
     /// The x.
     /// </param>
-    /// <param name = "y">
+    /// <param name="y">
     /// The y.
     /// </param>
-    /// <param name = "width">
+    /// <param name="width">
     /// The width.
     /// </param>
-    /// <param name = "height">
+    /// <param name="height">
     /// The height.
     /// </param>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
     public void Draw(Graphics g, int x, int y, int width, int height, int index)
     {
+
         //HDC dc = (HDC)g.GetHdc();
         //try
         //{
@@ -275,7 +300,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// Returns the image specified by the given index. The bitmap returned is a
     /// copy of the original image.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
     /// <returns>
@@ -284,7 +309,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <exception cref="T:System.IndexOutOfRangeException">
     /// index out of range， please check whether the index is within the valid rangeImageList within the data range， save the related images toResources under the directory。
     /// </exception>
-     // NOTE: forces handle creation, so doesn't return things from the original list
+    // NOTE: forces handle creation, so doesn't return things from the original list
     public Bitmap GetBitmap(int index)
     {
         try
@@ -304,7 +329,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
     /// <summary>
     /// Gets the bitmap.
     /// </summary>
-    /// <param name = "name">
+    /// <param name="name">
     /// The name.
     /// </param>
     /// <returns>
@@ -326,13 +351,16 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
 
     /// <summary>
     /// Returns a
-    /// <see cref="T:System.String"/> that represents this instance.
+    /// <see cref="T:System.String" /> that represents this instance.
     /// </summary>
     /// <returns>
     /// A
-    /// <see cref="T:System.String"/> that represents this instance.
+    /// <see cref="T:System.String" /> that represents this instance.
     /// </returns>
-    public override string ToString() => Images is null ? base.ToString() : $"{base.ToString()} Images.Count: {Images.Count}, ImageSize: {ImageSize}";
+    public override string ToString()
+                => Images is null
+                   ? base.ToString()
+                   : $"{base.ToString()} Images.Count: {Images.Count}, ImageSize: {ImageSize}";
 
     internal Image GetOriginalImage(string name)
     {
@@ -350,7 +378,6 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
                 return ScaleSimpleBitmap(Bitmap.FromFile(path2));
             }
         }
-
         if (IO.File.Exists($"{path1}/{name}"))
         {
             return ScaleSimpleBitmap(Bitmap.FromFile($"{path1}/{name}"));
@@ -361,12 +388,12 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
 
     /// <summary>
     /// Releases the unmanaged resources used by the
-    /// <see cref="T:System.Windows.Forms.ImageList"/>
+    /// <see cref="T:System.Windows.Forms.ImageList" />
     /// and optionally releases the managed resources.
     /// </summary>
-    /// <param name = "disposing">
-    /// <see langword="true"/> to release both managed and unmanaged resources;
-    /// <see langword="false"/> to release only unmanaged resources.
+    /// <param name="disposing">
+    /// <see langword="true" /> to release both managed and unmanaged resources;
+    /// <see langword="false" /> to release only unmanaged resources.
     /// </param>
     protected override void Dispose(bool disposing)
     {
@@ -382,7 +409,6 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
                         ((IDisposable)original._image).Dispose();
                     }
                 }
-
                 _originals.Clear();
                 _imageCollection.Clear();
             }
@@ -394,6 +420,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         // At this stage we've released all resources, and the component is essentially disposed
         IsDisposed = true;
 #endif
+
         base.Dispose(disposing);
     }
 
@@ -405,6 +432,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         }
         finally
         {
+
         }
     }
 
@@ -443,6 +471,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         Debug.Assert(targetData.Width == sourceData.Width);
         Debug.Assert(targetData.Height == sourceData.Height);
         Debug.Assert(targetData.Stride == targetData.Width * 4);
+
         // do the actual copy
         var offsetSrc = 0;
         var offsetDest = 0;
@@ -467,14 +496,12 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         Gdk.Pixbuf newpixbuf = pixbuf.ScaleSimple(w, h, Gdk.InterpType.Bilinear);
         ownsBitmap = true;
 
-        return new Bitmap(w, h)
-        {
-            Pixbuf = newpixbuf
-        };
+        return new Bitmap(w, h) { Pixbuf = newpixbuf };
     }
 
     private void CreateHandle()
     {
+
     }
 
     // Don't merge this function into Dispose() -- that base.Dispose() will damage the design time experience
@@ -504,10 +531,7 @@ public sealed partial class ImageList : Component //, IHandle<HIMAGELIST>
         int h = Math.Max(16, Math.Min(ImageSize.Height, 200));
         Gdk.Pixbuf newpixbuf = pixbuf.ScaleSimple(w, h, Gdk.InterpType.Bilinear);
 
-        return new Bitmap(w, h)
-        {
-            Pixbuf = newpixbuf
-        };
+        return new Bitmap(w, h) { Pixbuf = newpixbuf };
     }
 
     private bool ShouldSerializeColorDepth() => Images.Count == 0;

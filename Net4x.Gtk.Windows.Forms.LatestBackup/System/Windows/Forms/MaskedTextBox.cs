@@ -48,7 +48,11 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The mask.
     /// </value>
-    public string Mask { get; set; }
+    public string Mask
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the password character.
@@ -56,7 +60,11 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The password character.
     /// </value>
-    public override char PasswordChar { get => _PasswordChar; set { _PasswordChar = value; self.InvisibleChar = value; } }
+    public override char PasswordChar
+    {
+        get => _PasswordChar;
+        set { _PasswordChar = value; self.InvisibleChar = value; }
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -64,7 +72,11 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get { return self.Text; } set { IsMasking = false; self.Text = value ?? ""; IsMasking = true; } }
+    public override string Text
+    {
+        get { return self.Text; }
+        set { IsMasking = false; self.Text = value ?? ""; IsMasking = true; }
+    }
 
     /// <summary>
     /// Gets or sets the text mask format.
@@ -72,7 +84,11 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The text mask format.
     /// </value>
-    public MaskFormat TextMaskFormat { get; set; }
+    public MaskFormat TextMaskFormat
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the type of the validating.
@@ -80,7 +96,11 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The type of the validating.
     /// </value>
-    public Type ValidatingType { get; set; }
+    public Type ValidatingType
+    {
+        get;
+        set;
+    }
 
     private bool IsMaskPassword
     {

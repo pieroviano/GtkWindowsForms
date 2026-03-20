@@ -102,7 +102,11 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// The border sides.
     /// </value>
     [DefaultValue(ToolStripStatusLabelBorderSides.None)]
-    public ToolStripStatusLabelBorderSides BorderSides { get; set; }
+    public ToolStripStatusLabelBorderSides BorderSides
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the border style.
@@ -111,7 +115,11 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// The border style.
     /// </value>
     [DefaultValue(Border3DStyle.Flat)]
-    public Border3DStyle BorderStyle { get; set; }
+    public Border3DStyle BorderStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -126,6 +134,10 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool Spring { get; set; }
+    public bool Spring
+    {
+        get;
+        set;
+    }
 
 }

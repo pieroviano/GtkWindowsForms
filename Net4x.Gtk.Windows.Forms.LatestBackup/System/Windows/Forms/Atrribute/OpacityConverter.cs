@@ -3,7 +3,6 @@ using System.Globalization;
 
 namespace System.Windows.Forms;
 
-
 /// <summary>
 /// Provides a type converter to convert opacity values to and from a string.
 /// </summary>

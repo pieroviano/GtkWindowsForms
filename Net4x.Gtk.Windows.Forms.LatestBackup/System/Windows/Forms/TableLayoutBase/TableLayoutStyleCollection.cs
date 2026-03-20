@@ -17,6 +17,7 @@ public abstract class TableLayoutStyleCollection : ArrayList
     internal IArrangedElement Owner
     {
         get;
+
         private set;
     }
 

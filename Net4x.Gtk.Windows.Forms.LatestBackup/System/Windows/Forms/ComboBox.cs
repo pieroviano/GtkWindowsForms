@@ -4,6 +4,7 @@
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
+
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -16,11 +17,10 @@ namespace System.Windows.Forms;
 /// <summary>
 /// ObjectCollection is the collection of items in the ComboBox. It is used when you want to add items to the ComboBox or retrieve items from it.
 /// </summary>
-/// <seealso cref="T:System.Collections.IList"/>
+/// <seealso cref="T:System.Collections.IList" />
 [DesignerCategory("Component")]
 public partial class ComboBox : ListControl
 {
-
     /// <summary>
     /// Backing storage for the data source assigned to the combo box.
     /// </summary>
@@ -46,64 +46,44 @@ public partial class ComboBox : ListControl
 
     /// <summary>
     /// Occurs when the selected index changes. Handlers are stored in the internal
-    /// <see cref="T:System.Windows.Forms.ListControl.Events"/> list.
+    /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
     public override event EventHandler SelectedIndexChanged
     {
-        add
-        {
-            _selectedIndexChanged += value;
-        }
-
-        remove
-        {
-            _selectedIndexChanged -= value;
-        }
+        add { _selectedIndexChanged += value; }
+        remove { _selectedIndexChanged -= value; }
     }
 
     /// <summary>
     /// Occurs when the selected item changes. Handlers are stored in the internal
-    /// <see cref="T:System.Windows.Forms.ListControl.Events"/> list.
+    /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
     public override event EventHandler SelectedItemChanged
     {
-        add
-        {
-            _selectedItemChanged += value;
-        }
-
-        remove
-        {
-            _selectedItemChanged -= value;
-        }
+        add { _selectedItemChanged += value; }
+        remove { _selectedItemChanged -= value; }
     }
 
     /// <summary>
     /// Occurs when the selected value changes. Handlers are stored in the internal
-    /// <see cref="T:System.Windows.Forms.ListControl.Events"/> list.
+    /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
     public override event EventHandler SelectedValueChanged
     {
-        add
-        {
-            _selectedValueChanged += value;
-        }
-
-        remove
-        {
-            _selectedValueChanged -= value;
-        }
+        add { _selectedValueChanged += value; }
+        remove { _selectedValueChanged -= value; }
     }
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.ComboBox"/> class.
+    /// <see cref="T:System.Windows.Forms.ComboBox" /> class.
     /// Sets up the underlying GTK widget and prepares the items collection.
     /// </summary>
     public ComboBox() : base()
     {
         self.Entry.HasFrame = false;
         self.Entry.WidthChars = 0;
+
         __itemsData = new ObjectCollection(this);
         self.Realized += Self_Realized;
         self.Changed += Self_Changed;
@@ -116,6 +96,7 @@ public partial class ComboBox : ListControl
     public override object DataSource
     {
         get => _DataSource;
+
         set
         {
             _DataSource = value;
@@ -133,6 +114,7 @@ public partial class ComboBox : ListControl
     public ComboBoxStyle DropDownStyle
     {
         get => _DropDownStyle;
+
         set
         {
             _DropDownStyle = value;
@@ -157,13 +139,7 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Gets the collection of items in the combo box.
     /// </summary>
-    public ObjectCollection Items
-    {
-        get
-        {
-            return __itemsData;
-        }
-    }
+    public ObjectCollection Items { get { return __itemsData; } }
 
     /// <summary>
     /// Gets or sets the zero-based index of the currently selected item.
@@ -171,20 +147,8 @@ public partial class ComboBox : ListControl
     /// </summary>
     public override int SelectedIndex
     {
-        get
-        {
-            return self.Active;
-        }
-
-        set
-        {
-            self.Active = value;
-            _selectedIndex = value;
-            if (value == -1)
-            {
-                Text = "";
-            }
-        }
+        get { return self.Active; }
+        set { self.Active = value; _selectedIndex = value; if (value == -1) { Text = ""; } }
     }
 
     /// <summary>
@@ -192,19 +156,9 @@ public partial class ComboBox : ListControl
     /// </summary>
     public object SelectedItem
     {
-        get
-        {
-            return SelectedIndex == -1 ? null : __itemsData[SelectedIndex];
-        }
+        get { return SelectedIndex == -1 ? null : __itemsData[SelectedIndex]; }
 
-        set
-        {
-            var _index = __itemsData.IndexOf(value);
-            if (_index != -1)
-            {
-                SelectedIndex = _index;
-            }
-        }
+        set { var _index = __itemsData.IndexOf(value); if (_index != -1) { SelectedIndex = _index; } }
     }
 
     /// <summary>
@@ -212,18 +166,18 @@ public partial class ComboBox : ListControl
     /// </summary>
     public override object SelectedValue
     {
-        get
-        {
-            return self.ActiveId;
-        }
-
+        get { return self.ActiveId; }
         set => self.ActiveId = value?.ToString();
     }
 
     /// <summary>
     /// Gets or sets a value indicating whether the items are sorted.
     /// </summary>
-    public bool Sorted { get => _sorted; set => _sorted = value; }
+    public bool Sorted
+    {
+        get => _sorted;
+        set => _sorted = value;
+    }
 
     /// <summary>
     /// Gets or sets the text associated with the combo box's editable portion.
@@ -231,55 +185,34 @@ public partial class ComboBox : ListControl
     public override string Text
     {
         get => self.Entry.Text;
-        set
-        {
-            self.Entry.Text = value;
-        }
+        set { self.Entry.Text = value; }
     }
 
     private EventHandler _selectedIndexChanged
     {
-        get
-        {
-            return ((EventHandler)Events["SelectedIndexChanged"]);
-        }
+        get { return ((EventHandler)Events["SelectedIndexChanged"]); }
 
-        set
-        {
-            Events["SelectedIndexChanged"] = value;
-        }
+        set { Events["SelectedIndexChanged"] = value; }
     }
 
     private EventHandler _selectedItemChanged
     {
-        get
-        {
-            return ((EventHandler)Events["SelectedItemChanged"]);
-        }
+        get { return ((EventHandler)Events["SelectedItemChanged"]); }
 
-        set
-        {
-            Events["SelectedItemChanged"] = value;
-        }
+        set { Events["SelectedItemChanged"] = value; }
     }
 
     private EventHandler _selectedValueChanged
     {
-        get
-        {
-            return ((EventHandler)Events["SelectedValueChanged"]);
-        }
+        get { return ((EventHandler)Events["SelectedValueChanged"]); }
 
-        set
-        {
-            Events["SelectedValueChanged"] = value;
-        }
+        set { Events["SelectedValueChanged"] = value; }
     }
 
     /// <summary>
     /// Returns the display text for the specified item. The method respects DataRow and primitive types when bound.
     /// </summary>
-    /// <param name = "item">
+    /// <param name="item">
     /// The item to retrieve text for.
     /// </param>
     /// <returns>
@@ -304,13 +237,13 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Adds an item to the underlying GTK model at the given index with value and display text.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// Index at which to insert; ignored when sorted is true.
     /// </param>
-    /// <param name = "value">
+    /// <param name="value">
     /// Internal value identifier for the item.
     /// </param>
-    /// <param name = "text">
+    /// <param name="text">
     /// Display text for the item.
     /// </param>
     public void NativeAdd(int index, string value, string text)
@@ -321,6 +254,7 @@ public partial class ComboBox : ListControl
         }
         else
         {
+
             self.Append(value, text);
         }
     }
@@ -328,7 +262,7 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Retrieves the display text for the item at the specified index from the native GTK model.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// Zero-based item index.
     /// </param>
     /// <returns>
@@ -345,35 +279,32 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Raises the DropDown event.
     /// </summary>
-    protected virtual void OnDropDown(System.EventArgs e)
-    {
-        DropDown?.Invoke(this, e);
-    }
+    protected virtual void OnDropDown(System.EventArgs e) { DropDown?.Invoke(this, e); }
 
     /// <summary>
     /// Raises the
-    /// <see cref = "SelectedIndexChanged"/> event.
+    /// <see cref="SelectedIndexChanged" /> event.
     /// </summary>
-    /// <param name = "e">The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <param name="e">The
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected void OnSelectedIndexChanged(EventArgs e) => _selectedIndexChanged?.Invoke(this, e);
 
     /// <summary>
     /// Raises the
-    /// <see cref = "SelectedItemChanged"/> event.
+    /// <see cref="SelectedItemChanged" /> event.
     /// </summary>
-    /// <param name = "e">The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <param name="e">The
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
 
     /// <summary>
     /// Raises the
-    /// <see cref = "SelectedValueChanged"/> event.
+    /// <see cref="SelectedValueChanged" /> event.
     /// </summary>
-    /// <param name = "e">The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <param name="e">The
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
 
@@ -490,6 +421,7 @@ public partial class ComboBox : ListControl
         string text = self.Entry.Text;
         while (text.Length > 1 && args.Cr.TextExtents(text).Width > ws.AllocatedWidth - 40)
             text = text.Substring(0, text.Length - 1);
+
         args.Cr.ShowText(text);
         args.Cr.Restore();
     }

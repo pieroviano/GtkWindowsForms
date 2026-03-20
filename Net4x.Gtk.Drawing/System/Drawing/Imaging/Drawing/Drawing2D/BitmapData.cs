@@ -49,6 +49,7 @@ public sealed class BitmapData
         {
             return _height;
         }
+
         set
         {
             _height = value;
@@ -71,6 +72,7 @@ public sealed class BitmapData
         {
             return _pixelFormat;
         }
+
         set
         {
             switch (value)
@@ -117,6 +119,7 @@ public sealed class BitmapData
         {
             return _reserved;
         }
+
         set
         {
             _reserved = value;
@@ -135,6 +138,7 @@ public sealed class BitmapData
         {
             return _scan0;
         }
+
         set
         {
             _scan0 = value;
@@ -155,6 +159,7 @@ public sealed class BitmapData
         {
             return _stride;
         }
+
         set
         {
             _stride = value;
@@ -175,6 +180,7 @@ public sealed class BitmapData
         {
             return _width;
         }
+
         set
         {
             _width = value;

@@ -61,6 +61,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public Region Clip
     {
         get;
+
         set;
     }
 
@@ -82,6 +83,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public CompositingMode CompositingMode
     {
         get;
+
         set;
     }
 
@@ -91,6 +93,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public CompositingQuality CompositingQuality
     {
         get;
+
         set;
     }
 
@@ -116,6 +119,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public InterpolationMode InterpolationMode
     {
         get;
+
         set;
     }
 
@@ -145,6 +149,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public float PageScale
     {
         get;
+
         set;
     }
 
@@ -154,6 +159,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public GraphicsUnit PageUnit
     {
         get;
+
         set;
     }
 
@@ -163,6 +169,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public PixelOffsetMode PixelOffsetMode
     {
         get;
+
         set;
     }
 
@@ -172,6 +179,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public Point RenderingOrigin
     {
         get;
+
         set;
     }
 
@@ -181,6 +189,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public SmoothingMode SmoothingMode
     {
         get;
+
         set;
     }
 
@@ -246,9 +255,17 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
     }
 
-    internal double diff_left { get; set; }
+    internal double diff_left
+    {
+        get;
+        set;
+    }
 
-    internal double diff_top { get; set; }
+    internal double diff_top
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Adds a comment to a metafile. Not implemented.

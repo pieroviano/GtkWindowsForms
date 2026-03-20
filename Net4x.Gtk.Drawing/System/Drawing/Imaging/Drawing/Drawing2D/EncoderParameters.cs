@@ -48,6 +48,7 @@ public sealed class EncoderParameters : IDisposable
         {
             return _param;
         }
+
         set
         {
             _param = value;

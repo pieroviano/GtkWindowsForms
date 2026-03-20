@@ -2,7 +2,6 @@ using System;
 
 namespace System.Drawing.Drawing2D;
 
-
 /// <summary>
 /// The System.Drawing.Drawing2D.InterpolationMode enumeration specifies the algorithm
 /// that is used when images are scaled or rotated.

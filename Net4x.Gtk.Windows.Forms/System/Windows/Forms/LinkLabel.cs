@@ -48,7 +48,11 @@ public partial class LinkLabel : Control
     /// <value>
     /// The color of the active link.
     /// </value>
-    public Color ActiveLinkColor { get; set; }
+    public Color ActiveLinkColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the disabled link.
@@ -56,7 +60,11 @@ public partial class LinkLabel : Control
     /// <value>
     /// The color of the disabled link.
     /// </value>
-    public Color DisabledLinkColor { get; set; }
+    public Color DisabledLinkColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the flat style.
@@ -66,7 +74,11 @@ public partial class LinkLabel : Control
     /// </value>
     //public LinkBehavior LinkBehavior { get; set; }
     //public LinkArea LinkArea { get; set; }
-    public FlatStyle FlatStyle { get; set; }
+    public FlatStyle FlatStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the GTK control.
@@ -82,7 +94,11 @@ public partial class LinkLabel : Control
     /// <value>
     /// The color of the link.
     /// </value>
-    public Color LinkColor { get; set; }
+    public Color LinkColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the links.
@@ -103,7 +119,11 @@ public partial class LinkLabel : Control
     /// false
     /// </c>.
     /// </value>
-    public bool LinkVisited { get; set; }
+    public bool LinkVisited
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -111,7 +131,11 @@ public partial class LinkLabel : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get { return string.IsNullOrEmpty(self.Label) ? self.Uri : self.Label; } set { self.Label = value; self.Uri = value; } }
+    public override string Text
+    {
+        get { return string.IsNullOrEmpty(self.Label) ? self.Uri : self.Label; }
+        set { self.Label = value; self.Uri = value; }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether use compatible text rendering.
@@ -124,7 +148,11 @@ public partial class LinkLabel : Control
     /// false
     /// </c>.
     /// </value>
-    public bool UseCompatibleTextRendering { get; set; }
+    public bool UseCompatibleTextRendering
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the visited link.
@@ -132,7 +160,21 @@ public partial class LinkLabel : Control
     /// <value>
     /// The color of the visited link.
     /// </value>
-    public Color VisitedLinkColor { get; set; }
+    public Color VisitedLinkColor
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Raises the Click event.
+    /// </summary>
+    protected virtual void OnClick(System.EventArgs e) { Click?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the LinkClicked event.
+    /// </summary>
+    protected virtual void OnLinkClicked(System.Windows.Forms.LinkLabelLinkClickedEventArgs e) { LinkClicked?.Invoke(this, e); }
 
     private void LinkLabel_ActivateLink(object o, Gtk.ActivateLinkArgs args)
     {
@@ -196,7 +238,11 @@ public partial class LinkLabel : Control
         /// <value>
         /// The description.
         /// </value>
-        public string Description { get; set; }
+        public string Description
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the link data.
@@ -205,7 +251,11 @@ public partial class LinkLabel : Control
         /// The link data.
         /// </value>
         [DefaultValue(null)]
-        public object LinkData { get; set; }
+        public object LinkData
+        {
+            get;
+            set;
+        }
 
     }
 

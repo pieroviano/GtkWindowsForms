@@ -40,6 +40,7 @@ public sealed class Blend
         {
             throw new System.NotImplementedException();
         }
+
         set
         {
         }
@@ -57,6 +58,7 @@ public sealed class Blend
         {
             throw new System.NotImplementedException();
         }
+
         set
         {
         }

@@ -12,7 +12,11 @@ public class MessageBox
     /// <see cref="NonStaticMessageBox" />; callers may replace it using
     /// <see cref="ReplaceInstance(int)" />.
     /// </summary>
-    internal static IMessageBox Instance { get; set; } = new NonStaticMessageBox();
+    internal static IMessageBox Instance
+    {
+        get;
+        set;
+    } = new NonStaticMessageBox();
 
     /// <summary>
     /// Replaces the current

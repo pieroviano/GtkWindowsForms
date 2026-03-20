@@ -47,7 +47,11 @@ public class QueryAccessibilityHelpEventArgs : EventArgs
     /// <value>
     /// The help keyword.
     /// </value>
-    public string HelpKeyword { get; set; }
+    public string HelpKeyword
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the help namespace.
@@ -55,7 +59,11 @@ public class QueryAccessibilityHelpEventArgs : EventArgs
     /// <value>
     /// The help namespace.
     /// </value>
-    public string HelpNamespace { get; set; }
+    public string HelpNamespace
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the help string.
@@ -63,6 +71,10 @@ public class QueryAccessibilityHelpEventArgs : EventArgs
     /// <value>
     /// The help string.
     /// </value>
-    public string HelpString { get; set; }
+    public string HelpString
+    {
+        get;
+        set;
+    }
 
 }

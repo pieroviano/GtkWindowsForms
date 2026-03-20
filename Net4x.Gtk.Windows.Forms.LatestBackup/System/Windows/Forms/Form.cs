@@ -101,12 +101,20 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets the design-time autoscale dimensions for the form.
     /// </summary>
-    public SizeF AutoScaleDimensions { get; set; }
+    public SizeF AutoScaleDimensions
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the automatic scaling mode of the form.
     /// </summary>
-    public AutoScaleMode AutoScaleMode { get; set; }
+    public AutoScaleMode AutoScaleMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the height and width of the client area of the form.
@@ -117,6 +125,7 @@ public partial class Form : ContainerControl, IWin32Window
         {
             return new Size(self.AllocatedWidth, self.AllocatedHeight);
         }
+
         set
         {
             self.WidthRequest = -1;
@@ -133,7 +142,11 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets the dialog result produced by the form.
     /// </summary>
-    public DialogResult DialogResult { get; set; }
+    public DialogResult DialogResult
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the border style of the form.
@@ -141,6 +154,7 @@ public partial class Form : ContainerControl, IWin32Window
     public FormBorderStyle FormBorderStyle
     {
         get { return formBorderStyle; }
+
         set
         {
             formBorderStyle = value;
@@ -180,27 +194,47 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets the icon associated with this form.
     /// </summary>
-    public System.Drawing.Icon Icon { get; set; }
+    public System.Drawing.Icon Icon
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the primary menu strip for the form.
     /// </summary>
-    public MenuStrip MainMenuStrip { get; set; }
+    public MenuStrip MainMenuStrip
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the Maximize button is displayed.
     /// </summary>
-    public bool MaximizeBox { get; set; } = true;
+    public bool MaximizeBox
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether the Minimize button is displayed.
     /// </summary>
-    public bool MinimizeBox { get; set; } = true;
+    public bool MinimizeBox
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets or sets the form's opacity (0.0 - fully transparent, 1.0 - fully opaque).
     /// </summary>
-    public double Opacity { get { return self.Opacity; } set { self.Opacity = value; } }
+    public double Opacity
+    {
+        get { return self.Opacity; }
+        set { self.Opacity = value; }
+    }
 
     /// <summary>
     /// Gets or sets the padding within the form. Padding is applied to the internal GTK overlay margins.
@@ -208,6 +242,7 @@ public partial class Form : ContainerControl, IWin32Window
     public override Padding Padding
     {
         get => base.Padding;
+
         set
         {
             base.Padding = value;
@@ -221,22 +256,38 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets a value indicating whether the form's icon is shown.
     /// </summary>
-    public bool ShowIcon { get; set; } = true;
+    public bool ShowIcon
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether the form is displayed in the taskbar.
     /// </summary>
-    public bool ShowInTaskbar { get { return self.SkipTaskbarHint == false; } set { self.SkipTaskbarHint = value == false; } }
+    public bool ShowInTaskbar
+    {
+        get { return self.SkipTaskbarHint == false; }
+        set { self.SkipTaskbarHint = value == false; }
+    }
 
     /// <summary>
     /// Gets or sets the starting position of the form when first shown.
     /// </summary>
-    public FormStartPosition StartPosition { get; set; }
+    public FormStartPosition StartPosition
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the text associated with the form (displayed in the title bar).
     /// </summary>
-    public override string Text { get { return self.Title; } set { self.Title = value; } }
+    public override string Text
+    {
+        get { return self.Title; }
+        set { self.Title = value; }
+    }
 
     /// <summary>
     /// Gets or sets the state (normal, minimized, maximized) of the form.
@@ -248,6 +299,7 @@ public partial class Form : ContainerControl, IWin32Window
         {
             return _WindowState;
         }
+
         set
         {
             _WindowState = value;
@@ -479,6 +531,31 @@ public partial class Form : ContainerControl, IWin32Window
     {
         _Created = false;
     }
+
+    /// <summary>
+    /// Raises the FormClosed event.
+    /// </summary>
+    protected virtual void OnFormClosed(System.Windows.Forms.FormClosedEventArgs e) { FormClosed?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the FormClosing event.
+    /// </summary>
+    protected virtual void OnFormClosing(System.Windows.Forms.FormClosingEventArgs e) { FormClosing?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the Load event.
+    /// </summary>
+    protected virtual void OnLoad(System.EventArgs e) { Load?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the Shown event.
+    /// </summary>
+    protected virtual void OnShown(System.EventArgs e) { Shown?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the SizeChanged event.
+    /// </summary>
+    protected virtual void OnSizeChanged(System.EventArgs e) { SizeChanged?.Invoke(this, e); }
 
     private void Close_Clicked(object sender, EventArgs e)
     {

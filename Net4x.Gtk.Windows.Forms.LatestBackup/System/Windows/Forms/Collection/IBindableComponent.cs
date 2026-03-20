@@ -21,7 +21,11 @@ public interface IBindableComponent : IComponent, IDisposable
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    BindingContext BindingContext { get; set; }
+    BindingContext BindingContext
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the collection of data-binding objects for this

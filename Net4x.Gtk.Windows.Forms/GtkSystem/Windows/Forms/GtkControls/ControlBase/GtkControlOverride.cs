@@ -93,7 +93,11 @@ public sealed class GtkControlOverride : IControlOverride
     /// <value>
     /// The color of the back.
     /// </value>
-    public System.Drawing.Color? BackColor { get; set; }
+    public System.Drawing.Color? BackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the background image.
@@ -101,7 +105,11 @@ public sealed class GtkControlOverride : IControlOverride
     /// <value>
     /// The background image.
     /// </value>
-    public System.Drawing.Image BackgroundImage { get { return _BackgroundImage; } set { _BackgroundImage = value; backgroundPixbuf = null; } }
+    public System.Drawing.Image BackgroundImage
+    {
+        get { return _BackgroundImage; }
+        set { _BackgroundImage = value; backgroundPixbuf = null; }
+    }
 
     /// <summary>
     /// Gets or sets the background image layout.
@@ -109,7 +117,11 @@ public sealed class GtkControlOverride : IControlOverride
     /// <value>
     /// The background image layout.
     /// </value>
-    public ImageLayout BackgroundImageLayout { get; set; }
+    public ImageLayout BackgroundImageLayout
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the image.
@@ -117,7 +129,11 @@ public sealed class GtkControlOverride : IControlOverride
     /// <value>
     /// The image.
     /// </value>
-    public System.Drawing.Image Image { get; set; }
+    public System.Drawing.Image Image
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the image align.
@@ -125,7 +141,11 @@ public sealed class GtkControlOverride : IControlOverride
     /// <value>
     /// The image align.
     /// </value>
-    public System.Drawing.ContentAlignment ImageAlign { get; set; }
+    public System.Drawing.ContentAlignment ImageAlign
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Adds the class.
@@ -260,5 +280,10 @@ public sealed class GtkControlOverride : IControlOverride
     {
         cssList.Remove(cssClass);
     }
+
+    /// <summary>
+    /// Raises the PaintGraphics event.
+    /// </summary>
+    private void OnPaintGraphics(EventArgs e) {; }
 
 }

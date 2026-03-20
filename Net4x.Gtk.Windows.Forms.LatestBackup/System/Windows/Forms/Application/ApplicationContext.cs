@@ -48,20 +48,15 @@ public class ApplicationContext : IDisposable
     public Form MainForm
     {
         get => _mainForm;
+
         set
         {
             EventHandler onClose = OnMainFormDestroy;
-            if (_mainForm != null)
-            {
-                _mainForm.HandleDestroyed -= onClose;
-            }
+            _mainForm?.HandleDestroyed -= onClose;
 
             _mainForm = value;
 
-            if (_mainForm != null)
-            {
-                _mainForm.HandleDestroyed += onClose;
-            }
+            _mainForm?.HandleDestroyed += onClose;
         }
     }
 
@@ -75,7 +70,11 @@ public class ApplicationContext : IDisposable
     [Bindable(true)]
     [DefaultValue(null)]
     [TypeConverter(typeof(StringConverter))]
-    public object Tag { get; set; }
+    public object Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Disposes the context. This should dispose the mainForm. This is
@@ -130,6 +129,11 @@ public class ApplicationContext : IDisposable
     /// of this will call ExitThreadCore.
     /// </summary>
     protected virtual void OnMainFormClosed(object sender, EventArgs e) => ExitThreadCore();
+
+    /// <summary>
+    /// Raises the ThreadExit event.
+    /// </summary>
+    protected virtual void OnThreadExit(System.EventArgs e) { ThreadExit?.Invoke(this, e); }
 
     /// <summary>
     /// Called when the mainForm is closed. The default implementation

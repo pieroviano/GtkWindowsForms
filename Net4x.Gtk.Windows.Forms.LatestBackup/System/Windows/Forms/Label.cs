@@ -46,7 +46,11 @@ public partial class Label : Control
     /// <value>
     /// The right to left.
     /// </value>
-    public override RightToLeft RightToLeft { get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; } set { self.Direction = value == RightToLeft.Yes ? Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; } }
+    public override RightToLeft RightToLeft
+    {
+        get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; }
+        set { self.Direction = value == RightToLeft.Yes ? Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; }
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -54,7 +58,11 @@ public partial class Label : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get => self.Text; set { self.Text = value; } }
+    public override string Text
+    {
+        get => self.Text;
+        set { self.Text = value; }
+    }
 
     /// <summary>
     /// Gets or sets the text align.
@@ -65,6 +73,7 @@ public partial class Label : Control
     public System.Drawing.ContentAlignment TextAlign
     {
         get { return textAlign; }
+
         set
         {
             textAlign = value;

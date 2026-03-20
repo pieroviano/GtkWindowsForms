@@ -57,6 +57,10 @@ public class ItemCheckEventArgs : EventArgs
     /// <value>
     /// The new value.
     /// </value>
-    public CheckState NewValue { get; set; }
+    public CheckState NewValue
+    {
+        get;
+        set;
+    }
 
 }

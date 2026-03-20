@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace System.Drawing;
 
-
 /// <summary>
 /// Defines a particular format for text, including font face, size, and style attributes. This class cannot be inherited.
 /// </summary>

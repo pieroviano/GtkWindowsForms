@@ -31,6 +31,10 @@ public class DataGridViewRowCancelEventArgs : CancelEventArgs
     /// <value>
     /// The row.
     /// </value>
-    public DataGridViewRow Row { get; set; }
+    public DataGridViewRow Row
+    {
+        get;
+        set;
+    }
 
 }

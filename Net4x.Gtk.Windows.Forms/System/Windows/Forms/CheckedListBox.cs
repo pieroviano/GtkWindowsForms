@@ -110,18 +110,30 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Gets or sets a value indicating whether items should be checked when clicked.
     /// </summary>
-    public bool CheckOnClick { get; set; }
+    public bool CheckOnClick
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the column width used when
     /// <see cref="T:System.Windows.Forms.CheckedListBox.MultiColumn" /> is enabled.
     /// </summary>
-    public int ColumnWidth { get; set; }
+    public int ColumnWidth
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether formatting is enabled for the display of items.
     /// </summary>
-    public bool FormattingEnabled { get; set; }
+    public bool FormattingEnabled
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the underlying GTK container exposed as a generic control object.
@@ -131,12 +143,20 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Gets or sets a value indicating whether a horizontal scrollbar is shown.
     /// </summary>
-    public bool HorizontalScrollbar { get; set; }
+    public bool HorizontalScrollbar
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the height, in pixels, of each item.
     /// </summary>
-    public int ItemHeight { get; set; }
+    public int ItemHeight
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the collection of items contained in the control.
@@ -152,7 +172,11 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Gets or sets a value indicating whether the control displays items in multiple columns.
     /// </summary>
-    public bool MultiColumn { get { return _flow.Orientation == Gtk.Orientation.Vertical; } set { if (value == false) { _flow.Orientation = Gtk.Orientation.Horizontal; } else { _flow.Orientation = Gtk.Orientation.Vertical; } } }
+    public bool MultiColumn
+    {
+        get { return _flow.Orientation == Gtk.Orientation.Vertical; }
+        set { if (value == false) { _flow.Orientation = Gtk.Orientation.Horizontal; } else { _flow.Orientation = Gtk.Orientation.Vertical; } }
+    }
 
     /// <summary>
     /// Gets a collection containing the currently selected items.
@@ -175,7 +199,11 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Gets or sets the selection mode that determines how many items can be selected.
     /// </summary>
-    public SelectionMode SelectionMode { get; set; }
+    public SelectionMode SelectionMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Clears the selection of all items.
@@ -269,6 +297,26 @@ public partial class CheckedListBox : ContainerControl
         if (_flow.Children.Length > index)
             _flow.Remove(_flow.Children[index]);
     }
+
+    /// <summary>
+    /// Raises the ItemCheck event.
+    /// </summary>
+    protected virtual void OnItemCheck(System.Windows.Forms.ItemCheckEventArgs e) { ItemCheck?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the SelectedIndexChanged event.
+    /// </summary>
+    protected virtual void OnSelectedIndexChanged(System.EventArgs e) { SelectedIndexChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the SelectedItemChanged event.
+    /// </summary>
+    protected virtual void OnSelectedItemChanged(System.EventArgs e) { SelectedItemChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the SelectedValueChanged event.
+    /// </summary>
+    protected virtual void OnSelectedValueChanged(System.EventArgs e) { SelectedValueChanged?.Invoke(this, e); }
 
     private void Control_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {

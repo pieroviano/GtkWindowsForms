@@ -34,6 +34,7 @@ public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosi
     {
         [CompilerGenerated]
         readonly get;
+
         [CompilerGenerated]
         set;
     }
@@ -48,6 +49,7 @@ public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosi
     {
         [CompilerGenerated]
         readonly get;
+
         [CompilerGenerated]
         set;
     }

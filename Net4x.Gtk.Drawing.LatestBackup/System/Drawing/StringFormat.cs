@@ -81,6 +81,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
         {
             throw new System.NotImplementedException();
         }
+
         set
         {
         }
@@ -137,6 +138,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
         {
             throw new System.NotImplementedException();
         }
+
         set
         {
         }
@@ -191,6 +193,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
         {
             throw new System.NotImplementedException();
         }
+
         set
         {
         }
@@ -209,6 +212,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
         {
             throw new System.NotImplementedException();
         }
+
         set
         {
         }
@@ -230,6 +234,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
         {
             throw new System.NotImplementedException();
         }
+
         set
         {
         }

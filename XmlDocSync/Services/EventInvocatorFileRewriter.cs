@@ -9,7 +9,7 @@ namespace XmlDocSync.Services;
 
 public static class EventInvocatorFileRewriter
 {
-    public static void RewriteEventInvocations(string filePath)
+    public static void RewriteEventInvocations(string filePath, string[] ignoredEventNames)
     {
         if (!File.Exists(filePath)) return;
 
@@ -19,7 +19,7 @@ public static class EventInvocatorFileRewriter
         var root = (CompilationUnitSyntax)tree.GetRoot();
 
         // Rewrite the syntax
-        var rewriter = new EventInvocatorRewriter(new[] { "Paint" });
+        var rewriter = new EventInvocatorRewriter(ignoredEventNames);
         var newRoot = rewriter.Visit(root);
 
         // Save back to disk if changes were made

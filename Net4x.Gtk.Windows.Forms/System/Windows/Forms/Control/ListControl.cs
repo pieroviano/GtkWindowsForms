@@ -103,7 +103,8 @@ public abstract class ListControl : ScrollableControl
     [AttributeProvider(typeof(IListSource))]
     public virtual object DataSource
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -112,7 +113,8 @@ public abstract class ListControl : ScrollableControl
     [DefaultValue("")]
     public virtual string DisplayMember
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -123,7 +125,8 @@ public abstract class ListControl : ScrollableControl
     [DefaultValue(null)]
     public virtual IFormatProvider FormatInfo
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -133,7 +136,8 @@ public abstract class ListControl : ScrollableControl
     [MergableProperty(false)]
     public virtual string FormatString
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -142,14 +146,19 @@ public abstract class ListControl : ScrollableControl
     [DefaultValue(false)]
     public virtual bool FormattingEnabled
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
     /// Gets or sets the index of the currently selected item.
     /// Derived classes must implement selection indexing.
     /// </summary>
-    public abstract int SelectedIndex { get; set; }
+    public abstract int SelectedIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the value of the selected item, as determined by the
@@ -161,7 +170,8 @@ public abstract class ListControl : ScrollableControl
     [Bindable(true)]
     public virtual object SelectedValue
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -170,7 +180,8 @@ public abstract class ListControl : ScrollableControl
     [DefaultValue("")]
     public virtual string ValueMember
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -188,5 +199,35 @@ public abstract class ListControl : ScrollableControl
     {
         return item?.ToString();
     }
+
+    /// <summary>
+    /// Raises the DisplayMemberChanged event.
+    /// </summary>
+    protected virtual void OnDisplayMemberChanged(System.EventArgs e) { DisplayMemberChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the Format event.
+    /// </summary>
+    protected virtual void OnFormat(System.Windows.Forms.ListControlConvertEventArgs e) { Format?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the FormatInfoChanged event.
+    /// </summary>
+    protected virtual void OnFormatInfoChanged(System.EventArgs e) { FormatInfoChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the FormatStringChanged event.
+    /// </summary>
+    protected virtual void OnFormatStringChanged(System.EventArgs e) { FormatStringChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the FormattingEnabledChanged event.
+    /// </summary>
+    protected virtual void OnFormattingEnabledChanged(System.EventArgs e) { FormattingEnabledChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the ValueMemberChanged event.
+    /// </summary>
+    protected virtual void OnValueMemberChanged(System.EventArgs e) { ValueMemberChanged?.Invoke(this, e); }
 
 }

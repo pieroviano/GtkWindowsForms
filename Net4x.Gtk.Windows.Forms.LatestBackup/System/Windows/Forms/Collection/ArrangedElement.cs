@@ -21,6 +21,8 @@ internal abstract class ArrangedElement : Component, IArrangedElement
 
     private static readonly int s_stateVisible = BitVector32.CreateMask();
 
+    public virtual event LayoutEventHandler? Layout;
+
     internal ArrangedElement()
     {
         Padding = DefaultPadding;
@@ -56,12 +58,14 @@ internal abstract class ArrangedElement : Component, IArrangedElement
     public Padding Margin
     {
         get;
+
         set;
     }
 
     public virtual Padding Padding
     {
         get;
+
         set;
     }
 
@@ -71,6 +75,7 @@ internal abstract class ArrangedElement : Component, IArrangedElement
         {
             return _parent;
         }
+
         set
         {
             _parent = value;
@@ -88,6 +93,7 @@ internal abstract class ArrangedElement : Component, IArrangedElement
     public virtual bool Visible
     {
         get;
+
         set;
     }
 
@@ -133,6 +139,7 @@ internal abstract class ArrangedElement : Component, IArrangedElement
     }
 
     public virtual void PerformLayout(IArrangedElement container, string? propertyName)
+
     {
         OnLayout(new LayoutEventArgs(container, propertyName));
     }
@@ -155,7 +162,7 @@ internal abstract class ArrangedElement : Component, IArrangedElement
 
     protected virtual void OnLayout(LayoutEventArgs e)
     {
-
+        Layout?.Invoke(this, e);
     }
 
     protected virtual void SetBoundsCore(Rectangle bounds, BoundsSpecified specified)

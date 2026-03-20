@@ -48,7 +48,11 @@ public class TypeValidationEventArgs : EventArgs
     /// false
     /// </c>.
     /// </value>
-    public bool Cancel { get; set; }
+    public bool Cancel
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// The exception thrown by the validating object while performing the data validation.

@@ -29,11 +29,19 @@ public class KeyPressEventArgs : EventArgs
     /// Gets or sets a value indicating whether the
     /// <see cref="T:System.Windows.Forms.Control.KeyPress" /> event was handled.
     /// </summary>
-    public bool Handled { get; set; }
+    public bool Handled
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the character corresponding to the key pressed.
     /// </summary>
-    public char KeyChar { get; set; }
+    public char KeyChar
+    {
+        get;
+        set;
+    }
 
 }

@@ -136,7 +136,11 @@ public class ListView : ContainerControl
     /// <value>
     /// The activation.
     /// </value>
-    public ItemActivation Activation { get; set; }
+    public ItemActivation Activation
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the alignment.
@@ -144,7 +148,11 @@ public class ListView : ContainerControl
     /// <value>
     /// The alignment.
     /// </value>
-    public System.Windows.Forms.ListViewAlignment Alignment { get; set; }
+    public System.Windows.Forms.ListViewAlignment Alignment
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether allow column reorder.
@@ -157,7 +165,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool AllowColumnReorder { get; set; }
+    public bool AllowColumnReorder
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether check boxes are displayed.
@@ -170,7 +182,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool CheckBoxes { get; set; }
+    public bool CheckBoxes
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the checked indices.
@@ -240,7 +256,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool FullRowSelect { get; set; }
+    public bool FullRowSelect
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether grid lines.
@@ -253,7 +273,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool GridLines { get; set; } = true;
+    public bool GridLines
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets or sets the group image list.
@@ -261,7 +285,11 @@ public class ListView : ContainerControl
     /// <value>
     /// The group image list.
     /// </value>
-    public ImageList GroupImageList { get; set; }
+    public ImageList GroupImageList
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the groups.
@@ -291,7 +319,11 @@ public class ListView : ContainerControl
     /// <value>
     /// The header style.
     /// </value>
-    public System.Windows.Forms.ColumnHeaderStyle HeaderStyle { get; set; } = ColumnHeaderStyle.Clickable;
+    public System.Windows.Forms.ColumnHeaderStyle HeaderStyle
+    {
+        get;
+        set;
+    } = ColumnHeaderStyle.Clickable;
 
     /// <summary>
     /// Gets or sets a value indicating whether hide selection.
@@ -304,7 +336,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool HideSelection { get; set; }
+    public bool HideSelection
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether hover selection is enabled.
@@ -317,7 +353,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool HoverSelection { get; set; }
+    public bool HoverSelection
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the items.
@@ -344,7 +384,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool LabelEdit { get; set; }
+    public bool LabelEdit
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether label wrap is enabled.
@@ -357,7 +401,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool LabelWrap { get; set; }
+    public bool LabelWrap
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the large image list.
@@ -365,7 +413,11 @@ public class ListView : ContainerControl
     /// <value>
     /// The large image list.
     /// </value>
-    public ImageList LargeImageList { get; set; }
+    public ImageList LargeImageList
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the ListView item sorter.
@@ -376,6 +428,7 @@ public class ListView : ContainerControl
     public IComparer ListViewItemSorter
     {
         get;
+
         set;
     }
 
@@ -396,6 +449,7 @@ public class ListView : ContainerControl
         {
             return _MultiSelect;
         }
+
         set
         {
             _MultiSelect = value;
@@ -424,7 +478,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool OwnerDraw { get; set; }
+    public bool OwnerDraw
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -438,7 +496,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool Scrollable { get; set; }
+    public bool Scrollable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the selected indices.
@@ -494,7 +556,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool ShowGroups { get; set; } = true;
+    public bool ShowGroups
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether show item tool tips.
@@ -507,7 +573,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool ShowItemToolTips { get; set; }
+    public bool ShowItemToolTips
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the small image list.
@@ -515,7 +585,11 @@ public class ListView : ContainerControl
     /// <value>
     /// The small image list.
     /// </value>
-    public ImageList SmallImageList { get; set; }
+    public ImageList SmallImageList
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -529,7 +603,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool Sorted { get; set; }
+    public bool Sorted
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the sorting.
@@ -537,7 +615,11 @@ public class ListView : ContainerControl
     /// <value>
     /// The sorting.
     /// </value>
-    public System.Windows.Forms.SortOrder Sorting { get; set; }
+    public System.Windows.Forms.SortOrder Sorting
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the state image list.
@@ -545,7 +627,11 @@ public class ListView : ContainerControl
     /// <value>
     /// The state image list.
     /// </value>
-    public ImageList StateImageList { get; set; }
+    public ImageList StateImageList
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether use compatible state image behavior.
@@ -558,7 +644,11 @@ public class ListView : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool UseCompatibleStateImageBehavior { get; set; }
+    public bool UseCompatibleStateImageBehavior
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the view.
@@ -566,7 +656,11 @@ public class ListView : ContainerControl
     /// <value>
     /// The view.
     /// </value>
-    public System.Windows.Forms.View View { get; set; }
+    public System.Windows.Forms.View View
+    {
+        get;
+        set;
+    }
 
     internal ListViewGroup DefaultGroup
     {
@@ -1403,6 +1497,41 @@ public class ListView : ContainerControl
             }
         }
     }
+
+    /// <summary>
+    /// Raises the ColumnClick event.
+    /// </summary>
+    protected virtual void OnColumnClick(System.Windows.Forms.ColumnClickEventArgs e) { ColumnClick?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the ColumnReordered event.
+    /// </summary>
+    protected virtual void OnColumnReordered(System.Windows.Forms.ColumnReorderedEventArgs e) { ColumnReordered?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the ItemActivate event.
+    /// </summary>
+    protected virtual void OnItemActivate(System.EventArgs e) { ItemActivate?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the ItemCheck event.
+    /// </summary>
+    protected virtual void OnItemCheck(System.Windows.Forms.ItemCheckEventArgs e) { ItemCheck?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the ItemChecked event.
+    /// </summary>
+    protected virtual void OnItemChecked(System.Windows.Forms.ItemCheckedEventArgs e) { ItemChecked?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the ItemSelectionChanged event.
+    /// </summary>
+    protected virtual void OnItemSelectionChanged(System.Windows.Forms.ListViewItemSelectionChangedEventArgs e) { ItemSelectionChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the SelectedIndexChanged event.
+    /// </summary>
+    protected virtual void OnSelectedIndexChanged(System.EventArgs e) { SelectedIndexChanged?.Invoke(this, e); }
 
     private void _flow_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {

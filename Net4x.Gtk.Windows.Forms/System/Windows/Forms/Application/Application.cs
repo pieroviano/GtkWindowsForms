@@ -32,7 +32,11 @@ namespace System.Windows.Forms
         /// <value>
         /// The application.
         /// </value>
-        public static Gtk.Application App { get; private set; }
+        public static Gtk.Application App
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets the common application data path.
@@ -60,6 +64,7 @@ namespace System.Windows.Forms
             {
                 return Thread.CurrentThread.CurrentCulture;
             }
+
             set
             {
                 Thread.CurrentThread.CurrentCulture = value;
@@ -78,6 +83,7 @@ namespace System.Windows.Forms
             {
                 return InputLanguage.CurrentInputLanguage;
             }
+
             set
             {
                 InputLanguage.CurrentInputLanguage = value;

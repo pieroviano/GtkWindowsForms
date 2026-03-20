@@ -356,7 +356,11 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The assembly.
         /// </value>
-        public Assembly Assembly { get; set; }
+        public Assembly Assembly
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the name of the base.
@@ -364,7 +368,11 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The name of the base.
         /// </value>
-        public string BaseName { get; set; }
+        public string BaseName
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the image bytes.
@@ -372,7 +380,11 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The image bytes.
         /// </value>
-        public byte[] ImageBytes { get; set; }
+        public byte[] ImageBytes
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the name of the resource.
@@ -380,7 +392,11 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The name of the resource.
         /// </value>
-        public string ResourceName { get; set; }
+        public string ResourceName
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the type of the source.
@@ -388,7 +404,11 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The type of the source.
         /// </value>
-        public System.Type SourceType { get; set; }
+        public System.Type SourceType
+        {
+            get;
+            set;
+        }
 
     }
 }

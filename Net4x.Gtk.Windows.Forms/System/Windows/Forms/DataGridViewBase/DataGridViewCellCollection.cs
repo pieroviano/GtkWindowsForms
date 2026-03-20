@@ -64,7 +64,11 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// <value>
     /// The row.
     /// </value>
-    public DataGridViewRow Row { set => owner = value; get => owner; }
+    public DataGridViewRow Row
+    {
+        set => owner = value;
+        get => owner;
+    }
 
     /// <summary>
     /// Gets the list.

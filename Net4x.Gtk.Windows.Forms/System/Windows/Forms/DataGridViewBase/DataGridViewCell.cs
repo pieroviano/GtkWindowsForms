@@ -49,7 +49,11 @@ public abstract class DataGridViewCell
     /// <value>
     /// The index of the column.
     /// </value>
-    public int ColumnIndex { get; internal set; }
+    public int ColumnIndex
+    {
+        get;
+        internal set;
+    }
 
     /// <summary>
     /// Gets the content bounds.
@@ -66,7 +70,11 @@ public abstract class DataGridViewCell
     /// The context menu strip.
     /// </value>
     [DefaultValue(null)]
-    public virtual ContextMenuStrip ContextMenuStrip { get; set; }
+    public virtual ContextMenuStrip ContextMenuStrip
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the data grid view.
@@ -74,7 +82,11 @@ public abstract class DataGridViewCell
     /// <value>
     /// The data grid view.
     /// </value>
-    public DataGridView DataGridView { get; set; }
+    public DataGridView DataGridView
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the default new row value.
@@ -131,7 +143,11 @@ public abstract class DataGridViewCell
     /// <value>
     /// The error text.
     /// </value>
-    public string ErrorText { get; set; }
+    public string ErrorText
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the formatted value.
@@ -243,7 +259,11 @@ public abstract class DataGridViewCell
     /// </c>.
     /// </value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual bool ReadOnly { get; set; }
+    public virtual bool ReadOnly
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this
@@ -265,7 +285,11 @@ public abstract class DataGridViewCell
     /// <value>
     /// The index of the row.
     /// </value>
-    public int RowIndex { get; internal set; }
+    public int RowIndex
+    {
+        get;
+        internal set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -280,7 +304,11 @@ public abstract class DataGridViewCell
     /// </c>.
     /// </value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual bool Selected { get => _Selected; set { _Selected = value; DataGridView?.GridView.QueueDraw(); } }
+    public virtual bool Selected
+    {
+        get => _Selected;
+        set { _Selected = value; DataGridView?.GridView.QueueDraw(); }
+    }
 
     /// <summary>
     /// Gets the size.
@@ -297,7 +325,11 @@ public abstract class DataGridViewCell
     /// The style.
     /// </value>
     [Browsable(true)]
-    public DataGridViewCellStyle Style { get; set; }
+    public DataGridViewCellStyle Style
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the tag.
@@ -309,7 +341,11 @@ public abstract class DataGridViewCell
     [DefaultValue(null)]
     [Localizable(false)]
     [TypeConverter(typeof(StringConverter))]
-    public object Tag { get; set; }
+    public object Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the tool tip text.
@@ -318,7 +354,11 @@ public abstract class DataGridViewCell
     /// The tool tip text.
     /// </value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string ToolTipText { get; set; }
+    public string ToolTipText
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the value.
@@ -326,7 +366,11 @@ public abstract class DataGridViewCell
     /// <value>
     /// The value.
     /// </value>
-    public object Value { get; set; }
+    public object Value
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the type of the value.
@@ -334,7 +378,11 @@ public abstract class DataGridViewCell
     /// <value>
     /// The type of the value.
     /// </value>
-    public virtual Type ValueType { get { return _valueType ?? (Value?.GetType()); } set { _valueType = value; } }
+    public virtual Type ValueType
+    {
+        get { return _valueType ?? (Value?.GetType()); }
+        set { _valueType = value; }
+    }
 
     /// <summary>
     /// Gets a value indicating whether this
@@ -350,9 +398,17 @@ public abstract class DataGridViewCell
     /// </value>
     public virtual bool Visible { get; }
 
-    internal DataGridViewRow OwningRowInternal { get; set; }
+    internal DataGridViewRow OwningRowInternal
+    {
+        get;
+        set;
+    }
 
-    internal DataGridViewCellStyle RowStyle { get; set; }
+    internal DataGridViewCellStyle RowStyle
+    {
+        get;
+        set;
+    }
 
 }
 

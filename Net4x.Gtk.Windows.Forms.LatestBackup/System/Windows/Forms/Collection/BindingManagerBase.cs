@@ -1,5 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
+
 using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -7,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Windows.Forms;
 /// <summary>
 /// Manages all
-/// <see cref="T:System.Windows.Forms.Binding"/>
+/// <see cref="T:System.Windows.Forms.Binding" />
 /// objects that are bound to the same data source and data member. This class is abstract.
 /// </summary>
 /// <filterpriority>
@@ -47,41 +48,59 @@ public abstract class BindingManagerBase
     /// Occurs when a binding operation has completed. Individual binding objects raise BindingComplete,
     /// and this event aggregates those notifications for bindings managed by this manager.
     /// </summary>
-    public event BindingCompleteEventHandler? BindingComplete { add => _bindingCompleteEventHandler += value; remove => _bindingCompleteEventHandler -= value; }
+    public event BindingCompleteEventHandler? BindingComplete
+    {
+        add => _bindingCompleteEventHandler += value;
+        remove => _bindingCompleteEventHandler -= value;
+    }
 
     /// <summary>
     /// Occurs when the current item has changed.
     /// </summary>
-    public event EventHandler? CurrentChanged { add => OnCurrentChangedHandler += value; remove => OnCurrentChangedHandler -= value; }
+    public event EventHandler? CurrentChanged
+    {
+        add => OnCurrentChangedHandler += value;
+        remove => OnCurrentChangedHandler -= value;
+    }
 
     /// <summary>
     /// Occurs after the current item has changed; provided for compatibility with existing patterns.
     /// </summary>
-    public event EventHandler? CurrentItemChanged { add => OnCurrentItemChangedValueHandler += value; remove => OnCurrentItemChangedValueHandler -= value; }
+    public event EventHandler? CurrentItemChanged
+    {
+        add => OnCurrentItemChangedValueHandler += value;
+        remove => OnCurrentItemChangedValueHandler -= value;
+    }
 
     /// <summary>
     /// Occurs when a data error is detected while synchronizing values between source and bound controls.
     /// </summary>
-    public event BindingManagerDataErrorEventHandler? DataError { add => _dataError += value; remove => _dataError -= value; }
+    public event BindingManagerDataErrorEventHandler? DataError
+    {
+        add => _dataError += value;
+        remove => _dataError -= value;
+    }
 
     /// <summary>
     /// Occurs when the position within the managed list changes.
     /// </summary>
-    public event EventHandler? PositionChanged { add => OnPositionChangedHandler += value; remove => OnPositionChangedHandler -= value; }
+    public event EventHandler? PositionChanged
+    {
+        add => OnPositionChangedHandler += value;
+        remove => OnPositionChangedHandler -= value;
+    }
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase"/> class.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase" /> class.
     /// </summary>
-    public BindingManagerBase()
-    {
-    }
+    public BindingManagerBase() { }
 
     internal BindingManagerBase(object? dataSource) => Init(dataSource);
 
     /// <summary>
     /// Gets the collection of
-    /// <see cref="T:System.Windows.Forms.Binding"/> objects managed by this instance.
+    /// <see cref="T:System.Windows.Forms.Binding" /> objects managed by this instance.
     /// The collection is lazily created on first access and hooks collection change events
     /// to allow propagation of BindingComplete events from individual bindings.
     /// </summary>
@@ -92,6 +111,7 @@ public abstract class BindingManagerBase
             if (_bindings is null)
             {
                 _bindings = new ListManagerBindingsCollection(this);
+
                 // Hook collection change events on collection, so we can hook or unhook the BindingComplete events on individual bindings
                 _bindings.CollectionChanging += OnBindingsCollectionChanging;
                 _bindings.CollectionChanged += OnBindingsCollectionChanged;
@@ -120,7 +140,11 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Gets or sets the current position (zero-based index) within the underlying list.
     /// </summary>
-    public abstract int Position { get; set; }
+    public abstract int Position
+    {
+        get;
+        set;
+    }
 
     internal abstract Type? BindType { get; }
 
@@ -147,21 +171,21 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Returns a collection of properties for items in the managed list.
     /// Calls through to
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase.GetItemProperties(System.ComponentModel.PropertyDescriptor[])"/>.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.GetItemProperties(System.ComponentModel.PropertyDescriptor[])" />.
     /// </summary>
     public virtual PropertyDescriptorCollection? GetItemProperties() => GetItemProperties(listAccessors: null);
 
     /// <summary>
     /// Removes the item at the specified index from the underlying list.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// Zero-based index of the item to remove.
     /// </param>
     public abstract void RemoveAt(int index);
 
     /// <summary>
     /// Resumes data binding after a previous
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase.SuspendBinding"/> call.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.SuspendBinding" /> call.
     /// </summary>
     public abstract void ResumeBinding();
 
@@ -176,10 +200,10 @@ public abstract class BindingManagerBase
     /// Returns a collection of item properties for the specified data sources and accessors.
     /// This overload is used by complex related-currency-manager scenarios.
     /// </summary>
-    /// <param name = "dataSources">
+    /// <param name="dataSources">
     /// ArrayList of data source objects participating in the relation.
     /// </param>
-    /// <param name = "listAccessors">
+    /// <param name="listAccessors">
     /// ArrayList of accessors that describe navigation into related lists.
     /// </param>
     protected internal virtual PropertyDescriptorCollection? GetItemProperties(ArrayList dataSources, ArrayList listAccessors)
@@ -205,7 +229,7 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Gets the name of the list.
     /// </summary>
-    /// <param name = "listAccessors">
+    /// <param name="listAccessors">
     /// The list accessors.
     /// </param>
     /// <returns>
@@ -215,7 +239,7 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Raises the aggregated BindingComplete event for this manager.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// Event arguments describing the binding completion.
     /// </param>
     protected internal void OnBindingComplete(BindingCompleteEventArgs e)
@@ -225,28 +249,28 @@ public abstract class BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected internal abstract void OnCurrentChanged(EventArgs e);
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentItemChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentItemChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected internal abstract void OnCurrentItemChanged(EventArgs e);
 
     /// <summary>
     /// Raises the DataError event with the provided exception.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The exception that occurred.
     /// </param>
     protected internal void OnDataError(Exception e)
@@ -258,9 +282,11 @@ public abstract class BindingManagerBase
     {
         success = true;
         _pullingData = true;
+
         try
         {
             UpdateIsBinding();
+
             var numLinks = Bindings.Count;
             for (var i = 0; i < numLinks; i++)
             {
@@ -279,21 +305,25 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Gets the item properties.
     /// </summary>
-    /// <param name = "listType">
+    /// <param name="listType">
     /// Type of the list.
     /// </param>
-    /// <param name = "offset">
+    /// <param name="offset">
     /// The offset.
     /// </param>
-    /// <param name = "dataSources">
+    /// <param name="dataSources">
     /// The data sources.
     /// </param>
-    /// <param name = "listAccessors">
+    /// <param name="listAccessors">
     /// The list accessors.
     /// </param>
     /// <returns>
     /// </returns>
-    protected virtual PropertyDescriptorCollection? GetItemProperties([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type? listType, int offset, ArrayList dataSources, ArrayList listAccessors)
+    protected virtual PropertyDescriptorCollection? GetItemProperties(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type? listType,
+            int offset,
+            ArrayList dataSources,
+            ArrayList listAccessors)
     {
         if (listAccessors.Count < offset)
         {
@@ -408,6 +438,7 @@ public abstract class BindingManagerBase
         }
 
         UpdateIsBinding();
+
         var numLinks = Bindings.Count;
         for (var i = 0; i < numLinks; i++)
         {

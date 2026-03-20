@@ -65,7 +65,11 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
     /// <value>
     /// The resource information.
     /// </value>
-    public ResourceInfo ResourceInfo { get; set; }
+    public ResourceInfo ResourceInfo
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

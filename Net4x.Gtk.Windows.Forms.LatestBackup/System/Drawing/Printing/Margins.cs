@@ -6,7 +6,6 @@ using System.Runtime.Serialization;
 
 namespace System.Drawing.Printing;
 
-
 /// <summary>
 /// Specifies the margins of a printed page.
 /// </summary>
@@ -73,6 +72,7 @@ public partial class Margins : ICloneable
     public int Bottom
     {
         get => _bottom;
+
         set
         {
             CheckMargin(value, nameof(value));
@@ -87,6 +87,7 @@ public partial class Margins : ICloneable
     public int Left
     {
         get => _left;
+
         set
         {
             CheckMargin(value, nameof(value));
@@ -101,6 +102,7 @@ public partial class Margins : ICloneable
     public int Right
     {
         get => _right;
+
         set
         {
             CheckMargin(value, nameof(value));
@@ -115,6 +117,7 @@ public partial class Margins : ICloneable
     public int Top
     {
         get => _top;
+
         set
         {
             CheckMargin(value, nameof(value));
@@ -129,6 +132,7 @@ public partial class Margins : ICloneable
     internal double DoubleBottom
     {
         get => _doubleBottom;
+
         set
         {
             Bottom = (int)Math.Round(value);
@@ -142,6 +146,7 @@ public partial class Margins : ICloneable
     internal double DoubleLeft
     {
         get => _doubleLeft;
+
         set
         {
             Left = (int)Math.Round(value);
@@ -155,6 +160,7 @@ public partial class Margins : ICloneable
     internal double DoubleRight
     {
         get => _doubleRight;
+
         set
         {
             Right = (int)Math.Round(value);
@@ -168,6 +174,7 @@ public partial class Margins : ICloneable
     internal double DoubleTop
     {
         get => _doubleTop;
+
         set
         {
             Top = (int)Math.Round(value);

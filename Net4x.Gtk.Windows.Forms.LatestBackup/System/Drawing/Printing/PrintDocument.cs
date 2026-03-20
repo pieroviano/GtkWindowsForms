@@ -1,5 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
+
 using System.ComponentModel;
 using System.Windows.Forms;
 using Gtk;
@@ -8,13 +9,14 @@ namespace System.Drawing.Printing;
 
 /// <summary>
 /// PrintDocument defines a reusable object that sends output to a printer. It is used in conjunction with the
-/// <see cref="T:System.Windows.Forms.PrintDialog"/> class to display a dialog box that allows the user to select a printer and choose which sections of the document to print. The
-/// <see cref="T:System.Drawing.Printing.PrintDocument"/> class raises events that you can handle to specify what to print, how to format the printed pages, and so on.
+/// <see cref="T:System.Windows.Forms.PrintDialog" /> class to display a dialog box that allows the user to select a printer and choose which sections of the document to print. The
+/// <see cref="T:System.Drawing.Printing.PrintDocument" /> class raises events that you can handle to specify what to print, how to format the printed pages, and so on.
 /// </summary>
-/// <seealso cref="T:System.ComponentModel.Component"/>
+/// <seealso cref="T:System.ComponentModel.Component" />
 [DefaultProperty("DocumentName"), DefaultEvent("PrintPage")]
 public class PrintDocument : Component
 {
+
     private PrintEventHandler _beginPrintHandler;
 
     private PageSettings _defaultPageSettings;
@@ -24,6 +26,7 @@ public class PrintDocument : Component
     private PrintEventHandler _endPrintHandler;
 
     
+
     private bool _originAtMargins;
 
     private PageSetup _pageSetup;
@@ -39,26 +42,42 @@ public class PrintDocument : Component
     /// <summary>
     /// Occurs when begin print.
     /// </summary>
-    public event PrintEventHandler BeginPrint { add => _beginPrintHandler += value; remove => _beginPrintHandler -= value; }
+    public event PrintEventHandler BeginPrint
+    {
+        add => _beginPrintHandler += value;
+        remove => _beginPrintHandler -= value;
+    }
 
     /// <summary>
     /// Occurs when end print.
     /// </summary>
-    public event PrintEventHandler EndPrint { add => _endPrintHandler += value; remove => _endPrintHandler -= value; }
+    public event PrintEventHandler EndPrint
+    {
+        add => _endPrintHandler += value;
+        remove => _endPrintHandler -= value;
+    }
 
     /// <summary>
     /// Occurs when print page.
     /// </summary>
-    public event PrintPageEventHandler PrintPage { add => _printPageHandler += value; remove => _printPageHandler -= value; }
+    public event PrintPageEventHandler PrintPage
+    {
+        add => _printPageHandler += value;
+        remove => _printPageHandler -= value;
+    }
 
     /// <summary>
     /// Occurs when query page settings.
     /// </summary>
-    public event QueryPageSettingsEventHandler QueryPageSettings { add => _queryHandler += value; remove => _queryHandler -= value; }
+    public event QueryPageSettingsEventHandler QueryPageSettings
+    {
+        add => _queryHandler += value;
+        remove => _queryHandler -= value;
+    }
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Printing.PrintDocument"/> class.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument" /> class.
     /// </summary>
     public PrintDocument()
     {
@@ -76,10 +95,7 @@ public class PrintDocument : Component
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public PageSettings DefaultPageSettings
     {
-        get
-        {
-            return _defaultPageSettings;
-        }
+        get { return _defaultPageSettings; }
 
         set
         {
@@ -95,7 +111,12 @@ public class PrintDocument : Component
     /// The name of the document.
     /// </value>
     [DefaultValue("document")]
-    public string DocumentName { get => _documentName; set => _documentName = value ?? ""; }
+    public string DocumentName
+    {
+        get => _documentName;
+
+        set => _documentName = value ?? "";
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether origin at margins.
@@ -109,7 +130,12 @@ public class PrintDocument : Component
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool OriginAtMargins { get => _originAtMargins; set => _originAtMargins = value; }
+    public bool OriginAtMargins
+    {
+        get => _originAtMargins;
+
+        set => _originAtMargins = value;
+    }
 
     /// <summary>
     /// Gets or sets the page setup.
@@ -120,6 +146,7 @@ public class PrintDocument : Component
     public PageSetup PageSetup
     {
         get => _pageSetup;
+
         set
         {
             _pageSetup = value;
@@ -143,10 +170,12 @@ public class PrintDocument : Component
     public PrinterSettings PrinterSettings
     {
         get => _printerSettings;
+
         set
         {
             value ??= new PrinterSettings();
             _printerSettings = value;
+
             // Reset the PageSettings that match the PrinterSettings only if we have created the defaultPageSettings.
             if (!_userSetPageSettings)
             {
@@ -175,47 +204,47 @@ public class PrintDocument : Component
     /// </summary>
     /// <returns>
     /// A
-    /// <see cref="T:System.String"/> that represents this instance.
+    /// <see cref="T:System.String" /> that represents this instance.
     /// </returns>
     public override string ToString() => $"[PrintDocument {DocumentName}]";
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Drawing.Printing.PrintDocument.BeginPrint"/> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.BeginPrint" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.Drawing.Printing.PrintEventArgs"/> instance containing the event data.
+    /// <see cref="T:System.Drawing.Printing.PrintEventArgs" /> instance containing the event data.
     /// </param>
     protected internal virtual void OnBeginPrint(PrintEventArgs e) => _beginPrintHandler?.Invoke(this, e);
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Drawing.Printing.PrintDocument.EndPrint"/> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.EndPrint" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.Drawing.Printing.PrintEventArgs"/> instance containing the event data.
+    /// <see cref="T:System.Drawing.Printing.PrintEventArgs" /> instance containing the event data.
     /// </param>
     protected internal virtual void OnEndPrint(PrintEventArgs e) => _endPrintHandler?.Invoke(this, e);
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Drawing.Printing.PrintDocument.PrintPage"/> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.PrintPage" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.Drawing.Printing.PrintPageEventArgs"/> instance containing the event data.
+    /// <see cref="T:System.Drawing.Printing.PrintPageEventArgs" /> instance containing the event data.
     /// </param>
     protected internal virtual void OnPrintPage(PrintPageEventArgs e) => _printPageHandler?.Invoke(this, e);
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Drawing.Printing.PrintDocument.QueryPageSettings"/> event.
+    /// <see cref="T:System.Drawing.Printing.PrintDocument.QueryPageSettings" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.Drawing.Printing.QueryPageSettingsEventArgs"/> instance containing the event data.
+    /// <see cref="T:System.Drawing.Printing.QueryPageSettingsEventArgs" /> instance containing the event data.
     /// </param>
     protected internal virtual void OnQueryPageSettings(QueryPageSettingsEventArgs e) => _queryHandler?.Invoke(this, e);
 

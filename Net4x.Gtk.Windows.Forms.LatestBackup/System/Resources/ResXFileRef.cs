@@ -44,7 +44,11 @@ public partial class ResXFileRef
     /// <value>
     /// The name of the file.
     /// </value>
-    public string FileName { get; private set; }
+    public string FileName
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the text file encoding.

@@ -55,7 +55,11 @@ public class DataGridViewRow
     /// <value>
     /// The context menu strip.
     /// </value>
-    public ContextMenuStrip ContextMenuStrip { get; set; }
+    public ContextMenuStrip ContextMenuStrip
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the data bound item.
@@ -71,7 +75,11 @@ public class DataGridViewRow
     /// <value>
     /// The data grid view.
     /// </value>
-    public DataGridView DataGridView { get; set; }
+    public DataGridView DataGridView
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the default cell style.
@@ -79,7 +87,11 @@ public class DataGridViewRow
     /// <value>
     /// The default cell style.
     /// </value>
-    public DataGridViewCellStyle DefaultCellStyle { get; set; }
+    public DataGridViewCellStyle DefaultCellStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this
@@ -101,7 +113,11 @@ public class DataGridViewRow
     /// <value>
     /// The height of the divider.
     /// </value>
-    public int DividerHeight { get; set; }
+    public int DividerHeight
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the error text.
@@ -109,7 +125,11 @@ public class DataGridViewRow
     /// <value>
     /// The error text.
     /// </value>
-    public string ErrorText { get; set; }
+    public string ErrorText
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -123,7 +143,11 @@ public class DataGridViewRow
     /// false
     /// </c>.
     /// </value>
-    public bool Frozen { get; set; }
+    public bool Frozen
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the header cell.
@@ -131,7 +155,11 @@ public class DataGridViewRow
     /// <value>
     /// The header cell.
     /// </value>
-    public DataGridViewRowHeaderCell HeaderCell { get; set; }
+    public DataGridViewRowHeaderCell HeaderCell
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the height.
@@ -139,7 +167,11 @@ public class DataGridViewRow
     /// <value>
     /// The height.
     /// </value>
-    public int Height { get; set; } = 28;
+    public int Height
+    {
+        get;
+        set;
+    } = 28;
 
     /// <summary>
     /// Gets the index.
@@ -147,7 +179,11 @@ public class DataGridViewRow
     /// <value>
     /// The index.
     /// </value>
-    public int Index { get; internal set; }
+    public int Index
+    {
+        get;
+        internal set;
+    }
 
     /// <summary>
     /// Gets the inherited style.
@@ -176,7 +212,11 @@ public class DataGridViewRow
     /// <value>
     /// The minimum height.
     /// </value>
-    public int MinimumHeight { get; set; }
+    public int MinimumHeight
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether read only.
@@ -189,7 +229,11 @@ public class DataGridViewRow
     /// false
     /// </c>.
     /// </value>
-    public bool ReadOnly { get; set; }
+    public bool ReadOnly
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the resizable.
@@ -197,7 +241,11 @@ public class DataGridViewRow
     /// <value>
     /// The resizable.
     /// </value>
-    public DataGridViewTriState Resizable { get; set; }
+    public DataGridViewTriState Resizable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -211,7 +259,11 @@ public class DataGridViewRow
     /// false
     /// </c>.
     /// </value>
-    public bool Selected { get => DataGridView.NativeRowGetSelected(Index); set => DataGridView.NativeRowSetSelected(Index, value); }
+    public bool Selected
+    {
+        get => DataGridView.NativeRowGetSelected(Index);
+        set => DataGridView.NativeRowSetSelected(Index, value);
+    }
 
     /// <summary>
     /// Gets the state.
@@ -228,7 +280,11 @@ public class DataGridViewRow
     /// <value>
     /// The tree iter.
     /// </value>
-    public TreeIter TreeIter { get; internal set; }
+    public TreeIter TreeIter
+    {
+        get;
+        internal set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -242,7 +298,11 @@ public class DataGridViewRow
     /// false
     /// </c>.
     /// </value>
-    public bool Visible { get; set; }
+    public bool Visible
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the height.

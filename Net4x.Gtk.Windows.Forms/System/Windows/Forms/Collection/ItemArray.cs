@@ -43,7 +43,11 @@ internal partial class ItemArray : IComparer<Entry>
     /// The version of this array.  This number changes with each
     /// change to the item list.
     /// </summary>
-    public int Version { get; private set; }
+    public int Version
+    {
+        get;
+        private set;
+    }
 
     internal IReadOnlyList<Entry?> Entries => _entries;
 

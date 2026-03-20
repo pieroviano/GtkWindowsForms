@@ -26,6 +26,7 @@ public sealed class PathData
     public PointF[] Points
     {
         get;
+
         set;
     }
 
@@ -38,6 +39,7 @@ public sealed class PathData
     public byte[] Types
     {
         get;
+
         set;
     }
 

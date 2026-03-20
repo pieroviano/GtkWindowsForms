@@ -15,6 +15,10 @@ internal class DataGridViewCellStyleChangedEventArgs : EventArgs
     {
     }
 
-    public bool ChangeAffectsPreferredSize { get; set; }
+    public bool ChangeAffectsPreferredSize
+    {
+        get;
+        set;
+    }
 
 }

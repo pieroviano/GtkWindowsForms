@@ -60,6 +60,7 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     public FlowDirection FlowDirection
     {
         get { return _FlowDirection; }
+
         set
         {
             if (value == FlowDirection.LeftToRight || value == FlowDirection.RightToLeft) { self.Orientation = Gtk.Orientation.Horizontal; }
@@ -86,7 +87,11 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
     /// false
     /// </c>.
     /// </value>
-    public bool WrapContents { get; set; }
+    public bool WrapContents
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Specifies whether this object can provide its extender properties to the specified object.

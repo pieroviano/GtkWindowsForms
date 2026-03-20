@@ -40,7 +40,11 @@ public partial class NumericUpDown : Control
     /// <value>
     /// The decimal places.
     /// </value>
-    public int DecimalPlaces { get => Convert.ToInt32(self.Digits); set => self.Digits = Convert.ToUInt32(value); }
+    public int DecimalPlaces
+    {
+        get => Convert.ToInt32(self.Digits);
+        set => self.Digits = Convert.ToUInt32(value);
+    }
 
     /// <summary>
     /// Gets the GTK control.
@@ -59,6 +63,7 @@ public partial class NumericUpDown : Control
     public decimal Increment
     {
         get => Convert.ToDecimal(self.Adjustment.StepIncrement);
+
         set => self.Adjustment.StepIncrement = Convert.ToDouble(value);
     }
 
@@ -68,7 +73,11 @@ public partial class NumericUpDown : Control
     /// <value>
     /// The maximum.
     /// </value>
-    public decimal Maximum { get => Convert.ToDecimal(self.Adjustment.Upper); set => self.Adjustment.Upper = Convert.ToDouble(value); }
+    public decimal Maximum
+    {
+        get => Convert.ToDecimal(self.Adjustment.Upper);
+        set => self.Adjustment.Upper = Convert.ToDouble(value);
+    }
 
     /// <summary>
     /// Gets or sets the minimum.
@@ -76,7 +85,11 @@ public partial class NumericUpDown : Control
     /// <value>
     /// The minimum.
     /// </value>
-    public decimal Minimum { get => Convert.ToDecimal(self.Adjustment.Lower); set => self.Adjustment.Lower = Convert.ToDouble(value); }
+    public decimal Minimum
+    {
+        get => Convert.ToDecimal(self.Adjustment.Lower);
+        set => self.Adjustment.Lower = Convert.ToDouble(value);
+    }
 
     /// <summary>
     /// Gets or sets the value.
@@ -84,7 +97,16 @@ public partial class NumericUpDown : Control
     /// <value>
     /// The value.
     /// </value>
-    public decimal Value { get { return Convert.ToDecimal(self.Value); } set { self.Value = Convert.ToDouble(value); } }
+    public decimal Value
+    {
+        get { return Convert.ToDecimal(self.Value); }
+        set { self.Value = Convert.ToDouble(value); }
+    }
+
+    /// <summary>
+    /// Raises the ValueChanged event.
+    /// </summary>
+    protected virtual void OnValueChanged(System.EventArgs e) { ValueChanged?.Invoke(this, e); }
 
     private void Self_ValueChanged(object sender, EventArgs e)
     {

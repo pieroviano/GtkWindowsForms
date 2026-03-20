@@ -18,6 +18,10 @@ public interface IControlGtk : IDisposable
     /// The active
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> used by the control.
     /// </value>
-    GtkControlOverride Override { get; set; }
+    GtkControlOverride Override
+    {
+        get;
+        set;
+    }
 
 }

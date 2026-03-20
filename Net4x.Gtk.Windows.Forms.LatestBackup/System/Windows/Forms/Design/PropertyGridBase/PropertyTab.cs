@@ -39,7 +39,11 @@ public abstract class PropertyTab : IExtenderProvider
     /// <value>
     /// The components.
     /// </value>
-    public virtual object[]? Components { get; set; }
+    public virtual object[]? Components
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the help keyword.

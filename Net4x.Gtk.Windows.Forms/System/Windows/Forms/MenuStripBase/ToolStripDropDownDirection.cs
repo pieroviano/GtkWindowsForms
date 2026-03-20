@@ -1,7 +1,6 @@
 using System;
 namespace System.Windows.Forms;
 
-
 /// <summary>
 /// Specifies the direction in which a System.Windows.Forms.ToolStripDropDown control
 /// is displayed relative to its parent control.

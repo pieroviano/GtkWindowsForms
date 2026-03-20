@@ -65,6 +65,7 @@ public sealed class HatchBrush : Brush
     public Color BackgroundColor
     {
         get;
+
         private set;
     }
 
@@ -80,6 +81,7 @@ public sealed class HatchBrush : Brush
     public Color ForegroundColor
     {
         get;
+
         private set;
     }
 
@@ -95,6 +97,7 @@ public sealed class HatchBrush : Brush
     public HatchStyle HatchStyle
     {
         get;
+
         private set;
     }
 

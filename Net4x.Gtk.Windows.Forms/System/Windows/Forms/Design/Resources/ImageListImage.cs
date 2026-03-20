@@ -59,7 +59,11 @@ public class ImageListImage
     /// <see cref="T:System.Windows.Forms.Design.ImageListImage.Image" /> instance.
     /// </summary>
     [Browsable(false)]
-    public Image Image { get; set; }
+    public Image Image
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the optional name associated with this image.
@@ -68,6 +72,7 @@ public class ImageListImage
     public string Name
     {
         get => _name ?? string.Empty;
+
         set => _name = value;
     }
 

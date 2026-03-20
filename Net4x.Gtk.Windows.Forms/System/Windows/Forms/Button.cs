@@ -54,7 +54,11 @@ public partial class Button : Control
     /// <value>
     /// The right to left.
     /// </value>
-    public override RightToLeft RightToLeft { get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; } set { self.Direction = value == RightToLeft.Yes ? Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; } }
+    public override RightToLeft RightToLeft
+    {
+        get { return self.Direction == Gtk.TextDirection.Rtl ? RightToLeft.Yes : RightToLeft.No; }
+        set { self.Direction = value == RightToLeft.Yes ? Gtk.TextDirection.Rtl : Gtk.TextDirection.Ltr; }
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -62,7 +66,11 @@ public partial class Button : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get => ((Gtk.Label)self.Child).Text; set => ((Gtk.Label)self.Child).Text = value; }
+    public override string Text
+    {
+        get => ((Gtk.Label)self.Child).Text;
+        set => ((Gtk.Label)self.Child).Text = value;
+    }
 
     /// <summary>
     /// Gets or sets the text align.
@@ -73,6 +81,7 @@ public partial class Button : Control
     public System.Drawing.ContentAlignment TextAlign
     {
         get { return textAlign; }
+
         set
         {
             textAlign = value;
@@ -124,6 +133,11 @@ public partial class Button : Control
 
         }
     }
+
+    /// <summary>
+    /// Raises the Click event.
+    /// </summary>
+    protected virtual void OnClick(System.EventArgs e) { Click?.Invoke(this, e); }
 
     private void Self_Clicked(object sender, EventArgs e)
     {

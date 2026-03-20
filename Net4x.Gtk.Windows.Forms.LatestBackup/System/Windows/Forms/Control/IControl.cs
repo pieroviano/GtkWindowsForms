@@ -368,7 +368,11 @@ public interface IControl
     /// <value>
     /// The accessible default action description.
     /// </value>
-    string AccessibleDefaultActionDescription { get; set; }
+    string AccessibleDefaultActionDescription
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the accessible description.
@@ -376,7 +380,11 @@ public interface IControl
     /// <value>
     /// The accessible description.
     /// </value>
-    string AccessibleDescription { get; set; }
+    string AccessibleDescription
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the name of the accessible.
@@ -384,7 +392,11 @@ public interface IControl
     /// <value>
     /// The name of the accessible.
     /// </value>
-    string AccessibleName { get; set; }
+    string AccessibleName
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the accessible role.
@@ -392,7 +404,11 @@ public interface IControl
     /// <value>
     /// The accessible role.
     /// </value>
-    AccessibleRole AccessibleRole { get; set; }
+    AccessibleRole AccessibleRole
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether allows drop.
@@ -405,7 +421,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool AllowDrop { get; set; }
+    bool AllowDrop
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the anchor.
@@ -413,7 +433,11 @@ public interface IControl
     /// <value>
     /// The anchor.
     /// </value>
-    AnchorStyles Anchor { get; set; }
+    AnchorStyles Anchor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the automatic scroll offset.
@@ -421,7 +445,11 @@ public interface IControl
     /// <value>
     /// The automatic scroll offset.
     /// </value>
-    Point AutoScrollOffset { get; set; }
+    Point AutoScrollOffset
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether automatic size.
@@ -434,7 +462,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool AutoSize { get; set; }
+    bool AutoSize
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the back.
@@ -442,7 +474,11 @@ public interface IControl
     /// <value>
     /// The color of the back.
     /// </value>
-    Color BackColor { get; set; }
+    Color BackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the background image.
@@ -450,7 +486,11 @@ public interface IControl
     /// <value>
     /// The background image.
     /// </value>
-    Image BackgroundImage { get; set; }
+    Image BackgroundImage
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the background image layout.
@@ -458,7 +498,11 @@ public interface IControl
     /// <value>
     /// The background image layout.
     /// </value>
-    ImageLayout BackgroundImageLayout { get; set; }
+    ImageLayout BackgroundImageLayout
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the binding context.
@@ -466,7 +510,11 @@ public interface IControl
     /// <value>
     /// The binding context.
     /// </value>
-    BindingContext BindingContext { get; set; }
+    BindingContext BindingContext
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the bottom.
@@ -482,7 +530,11 @@ public interface IControl
     /// <value>
     /// The bounds.
     /// </value>
-    Rectangle Bounds { get; set; }
+    Rectangle Bounds
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance can focus.
@@ -521,7 +573,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool Capture { get; set; }
+    bool Capture
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether causes validation.
@@ -534,7 +590,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool CausesValidation { get; set; }
+    bool CausesValidation
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the name of the company.
@@ -563,7 +623,11 @@ public interface IControl
     /// <value>
     /// The context menu strip.
     /// </value>
-    ContextMenuStrip ContextMenuStrip { get; set; }
+    ContextMenuStrip ContextMenuStrip
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the controls.
@@ -592,7 +656,11 @@ public interface IControl
     /// <value>
     /// The cursor.
     /// </value>
-    Cursor Cursor { get; set; }
+    Cursor Cursor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the data bindings.
@@ -637,7 +705,11 @@ public interface IControl
     /// <value>
     /// The dock.
     /// </value>
-    DockStyle Dock { get; set; }
+    DockStyle Dock
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this IControl is enabled.
@@ -650,7 +722,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool Enabled { get; set; }
+    bool Enabled
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this IControl is focused.
@@ -671,7 +747,11 @@ public interface IControl
     /// <value>
     /// The font.
     /// </value>
-    Font Font { get; set; }
+    Font Font
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the fore.
@@ -679,7 +759,11 @@ public interface IControl
     /// <value>
     /// The color of the fore.
     /// </value>
-    Color ForeColor { get; set; }
+    Color ForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance has children.
@@ -701,7 +785,11 @@ public interface IControl
     /// <value>
     /// The height.
     /// </value>
-    int Height { get; set; }
+    int Height
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the IME mode.
@@ -709,7 +797,11 @@ public interface IControl
     /// <value>
     /// The IME mode.
     /// </value>
-    ImeMode ImeMode { get; set; }
+    ImeMode ImeMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether invoke required.
@@ -735,7 +827,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool IsAccessible { get; set; }
+    bool IsAccessible
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance is disposed.
@@ -790,7 +886,11 @@ public interface IControl
     /// <value>
     /// The left.
     /// </value>
-    int Left { get; set; }
+    int Left
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the location.
@@ -798,7 +898,11 @@ public interface IControl
     /// <value>
     /// The location.
     /// </value>
-    Point Location { get; set; }
+    Point Location
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the margin.
@@ -806,7 +910,11 @@ public interface IControl
     /// <value>
     /// The margin.
     /// </value>
-    Padding Margin { get; set; }
+    Padding Margin
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the maximum size.
@@ -814,7 +922,11 @@ public interface IControl
     /// <value>
     /// The maximum size.
     /// </value>
-    Size MaximumSize { get; set; }
+    Size MaximumSize
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the minimum size.
@@ -822,7 +934,11 @@ public interface IControl
     /// <value>
     /// The minimum size.
     /// </value>
-    Size MinimumSize { get; set; }
+    Size MinimumSize
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the padding.
@@ -831,7 +947,11 @@ public interface IControl
     /// The padding.
     /// </value>
     //string Name { get; set; }
-    Padding Padding { get; set; }
+    Padding Padding
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the parent.
@@ -839,7 +959,11 @@ public interface IControl
     /// <value>
     /// The parent.
     /// </value>
-    Control Parent { get; set; }
+    Control Parent
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the size of the preferred.
@@ -884,7 +1008,11 @@ public interface IControl
     /// <value>
     /// The region.
     /// </value>
-    Region Region { get; set; }
+    Region Region
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the right.
@@ -900,7 +1028,11 @@ public interface IControl
     /// <value>
     /// The right to left.
     /// </value>
-    RightToLeft RightToLeft { get; set; }
+    RightToLeft RightToLeft
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the site.
@@ -908,7 +1040,11 @@ public interface IControl
     /// <value>
     /// The site.
     /// </value>
-    ISite Site { get; set; }
+    ISite Site
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the size.
@@ -916,7 +1052,11 @@ public interface IControl
     /// <value>
     /// The size.
     /// </value>
-    Size Size { get; set; }
+    Size Size
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the index of the tab.
@@ -924,7 +1064,11 @@ public interface IControl
     /// <value>
     /// The index of the tab.
     /// </value>
-    int TabIndex { get; set; }
+    int TabIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether tab stop.
@@ -937,7 +1081,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool TabStop { get; set; }
+    bool TabStop
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the tag.
@@ -945,7 +1093,11 @@ public interface IControl
     /// <value>
     /// The tag.
     /// </value>
-    object Tag { get; set; }
+    object Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -953,7 +1105,11 @@ public interface IControl
     /// <value>
     /// The text.
     /// </value>
-    string Text { get; set; }
+    string Text
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the top.
@@ -961,7 +1117,11 @@ public interface IControl
     /// <value>
     /// The top.
     /// </value>
-    int Top { get; set; }
+    int Top
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the top level control.
@@ -982,7 +1142,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool UseVisualStyleBackColor { get; set; }
+    bool UseVisualStyleBackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether use wait cursor.
@@ -995,7 +1159,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool UseWaitCursor { get; set; }
+    bool UseWaitCursor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this IControl is visible.
@@ -1008,7 +1176,11 @@ public interface IControl
     /// false
     /// </c>.
     /// </value>
-    bool Visible { get; set; }
+    bool Visible
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the underlying Gtk.Widget associated with the control.
@@ -1022,7 +1194,11 @@ public interface IControl
     /// <value>
     /// The width.
     /// </value>
-    int Width { get; set; }
+    int Width
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the window target.
@@ -1030,7 +1206,11 @@ public interface IControl
     /// <value>
     /// The window target.
     /// </value>
-    IWindowTarget WindowTarget { get; set; }
+    IWindowTarget WindowTarget
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Begins the invoke.

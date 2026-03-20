@@ -214,7 +214,11 @@ public class ResXResourceWriter : IResourceWriter
     /// <summary>
     /// Base Path for ResXFileRefs.
     /// </summary>
-    public string BasePath { get; set; }
+    public string BasePath
+    {
+        get;
+        set;
+    }
 
     private XmlWriter Writer
     {

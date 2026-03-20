@@ -139,6 +139,7 @@ public class DataGridViewSortCompareEventArgs : HandledEventArgs
         {
             return sortResult;
         }
+
         set
         {
             sortResult = value;

@@ -62,7 +62,11 @@ public class DataGridViewCellFormattingEventArgs : ConvertEventArgs
     /// <value>
     /// The cell style.
     /// </value>
-    public DataGridViewCellStyle CellStyle { get; set; }
+    public DataGridViewCellStyle CellStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the index of the column.
@@ -83,7 +87,11 @@ public class DataGridViewCellFormattingEventArgs : ConvertEventArgs
     /// false
     /// </c>.
     /// </value>
-    public bool FormattingApplied { get; set; }
+    public bool FormattingApplied
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the index of the row.

@@ -41,7 +41,11 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The marquee animation speed.
     /// </value>
-    public int MarqueeAnimationSpeed { get; set; } = 100;
+    public int MarqueeAnimationSpeed
+    {
+        get;
+        set;
+    } = 100;
 
     /// <summary>
     /// Gets or sets the maximum.
@@ -49,7 +53,11 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The maximum.
     /// </value>
-    public int Maximum { get; set; } = 100;
+    public int Maximum
+    {
+        get;
+        set;
+    } = 100;
 
     /// <summary>
     /// Gets or sets the minimum.
@@ -57,7 +65,11 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The minimum.
     /// </value>
-    public int Minimum { get; set; } = 0;
+    public int Minimum
+    {
+        get;
+        set;
+    } = 0;
 
     /// <summary>
     /// Gets the progress bar.
@@ -85,6 +97,7 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
         {
             return base.Size;
         }
+
         set
         {
             base.Size = value;
@@ -99,7 +112,11 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// The step.
     /// </value>
     [DefaultValue(10)]
-    public int Step { get; set; }
+    public int Step
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the style.
@@ -107,7 +124,11 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The style.
     /// </value>
-    public ProgressBarStyle Style { get; set; }
+    public ProgressBarStyle Style
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the value.
@@ -118,6 +139,7 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     public int Value
     {
         get { return (int)Math.Round(progressBar.Value, 0); }
+
         set
         {
             progressBar.Value = value;

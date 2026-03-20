@@ -81,7 +81,11 @@ public partial class DateTimePicker : MaskedTextBox
     /// <value>
     /// The calendar font.
     /// </value>
-    public Font CalendarFont { get; set; }
+    public Font CalendarFont
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the calendar fore.
@@ -89,7 +93,11 @@ public partial class DateTimePicker : MaskedTextBox
     /// <value>
     /// The color of the calendar fore.
     /// </value>
-    public Color CalendarForeColor { get; set; }
+    public Color CalendarForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the calendar month background.
@@ -97,7 +105,11 @@ public partial class DateTimePicker : MaskedTextBox
     /// <value>
     /// The calendar month background.
     /// </value>
-    public Color CalendarMonthBackground { get; set; }
+    public Color CalendarMonthBackground
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the calendar title back.
@@ -105,7 +117,11 @@ public partial class DateTimePicker : MaskedTextBox
     /// <value>
     /// The color of the calendar title back.
     /// </value>
-    public Color CalendarTitleBackColor { get; set; }
+    public Color CalendarTitleBackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the calendar title fore.
@@ -113,7 +129,11 @@ public partial class DateTimePicker : MaskedTextBox
     /// <value>
     /// The color of the calendar title fore.
     /// </value>
-    public Color CalendarTitleForeColor { get; set; }
+    public Color CalendarTitleForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the calendar trailing fore.
@@ -121,7 +141,11 @@ public partial class DateTimePicker : MaskedTextBox
     /// <value>
     /// The color of the calendar trailing fore.
     /// </value>
-    public Color CalendarTrailingForeColor { get; set; }
+    public Color CalendarTrailingForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the custom format.
@@ -132,6 +156,7 @@ public partial class DateTimePicker : MaskedTextBox
     public string CustomFormat
     {
         get => _CustomFormat;
+
         set
         {
             _CustomFormat = value;
@@ -148,6 +173,7 @@ public partial class DateTimePicker : MaskedTextBox
     public DateTimePickerFormat Format
     {
         get => _Format;
+
         set
         {
             _Format = value;
@@ -170,7 +196,11 @@ public partial class DateTimePicker : MaskedTextBox
     /// <value>
     /// The maximum date.
     /// </value>
-    public DateTime MaxDate { get; set; } = DateTime.MaxValue;
+    public DateTime MaxDate
+    {
+        get;
+        set;
+    } = DateTime.MaxValue;
 
     /// <summary>
     /// Gets or sets the minimum date.
@@ -178,7 +208,11 @@ public partial class DateTimePicker : MaskedTextBox
     /// <value>
     /// The minimum date.
     /// </value>
-    public DateTime MinDate { get; set; } = DateTime.MinValue;
+    public DateTime MinDate
+    {
+        get;
+        set;
+    } = DateTime.MinValue;
 
     /// <summary>
     /// Gets or sets the value.
@@ -213,6 +247,7 @@ public partial class DateTimePicker : MaskedTextBox
 
             return result;
         }
+
         set
         {
             if (value > MaxDate)
@@ -235,6 +270,11 @@ public partial class DateTimePicker : MaskedTextBox
                 base.Text = value.ToString(System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd);
         }
     }
+
+    /// <summary>
+    /// Raises the ValueChanged event.
+    /// </summary>
+    protected virtual void OnValueChanged(System.EventArgs e) { ValueChanged?.Invoke(this, e); }
 
     private void Calendar_DaySelected(object sender, EventArgs e)
     {

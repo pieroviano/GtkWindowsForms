@@ -15,16 +15,15 @@ namespace System.Windows.Forms;
 
 /// <summary>
 /// Class ListBox. Implements the
-/// <see cref="T:System.Windows.Forms.ListControl"/>
+/// <see cref="T:System.Windows.Forms.ListControl" />
 /// </summary>
-/// <seealso cref="T:System.Windows.Forms.ListControl"/>
+/// <seealso cref="T:System.Windows.Forms.ListControl" />
 [DesignerCategory("Component")]
 [DefaultEvent("SelectedIndexChanged")]
 [DefaultProperty("Items")]
 [DefaultBindingProperty("SelectedValue")]
 public partial class ListBox : ListControl
 {
-
     /// <summary>
     /// The selection mode
     /// </summary>
@@ -59,58 +58,37 @@ public partial class ListBox : ListControl
 
     /// <summary>
     /// Occurs when the selected index changes. Handlers are stored in the internal
-    /// <see cref="T:System.Windows.Forms.ListControl.Events"/> list.
+    /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
     public override event EventHandler SelectedIndexChanged
     {
-        add
-        {
-            _selectedIndexChanged += value;
-        }
-
-        remove
-        {
-            _selectedIndexChanged -= value;
-        }
+        add { _selectedIndexChanged += value; }
+        remove { _selectedIndexChanged -= value; }
     }
 
     /// <summary>
     /// Occurs when the selected item changes. Handlers are stored in the internal
-    /// <see cref="T:System.Windows.Forms.ListControl.Events"/> list.
+    /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
     public override event EventHandler SelectedItemChanged
     {
-        add
-        {
-            _selectedItemChanged += value;
-        }
-
-        remove
-        {
-            _selectedItemChanged -= value;
-        }
+        add { _selectedItemChanged += value; }
+        remove { _selectedItemChanged -= value; }
     }
 
     /// <summary>
     /// Occurs when the selected value changes. Handlers are stored in the internal
-    /// <see cref="T:System.Windows.Forms.ListControl.Events"/> list.
+    /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
     /// </summary>
     public override event EventHandler SelectedValueChanged
     {
-        add
-        {
-            _selectedValueChanged += value;
-        }
-
-        remove
-        {
-            _selectedValueChanged -= value;
-        }
+        add { _selectedValueChanged += value; }
+        remove { _selectedValueChanged -= value; }
     }
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.ListBox"/> class.
+    /// <see cref="T:System.Windows.Forms.ListBox" /> class.
     /// </summary>
     public ListBox() : base()
     {
@@ -133,7 +111,11 @@ public partial class ListBox : ListControl
     /// </value>
     [Localizable(true)]
     [DefaultValue(0)]
-    public int ColumnWidth { get; set; }
+    public int ColumnWidth
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the custom tab offsets.
@@ -141,7 +123,10 @@ public partial class ListBox : ListControl
     /// <value>
     /// The custom tab offsets.
     /// </value>
-    public IntegerCollection CustomTabOffsets { get; }
+    public IntegerCollection CustomTabOffsets
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets the data bindings.
@@ -161,6 +146,7 @@ public partial class ListBox : ListControl
     public override object DataSource
     {
         get => _DataSource;
+
         set
         {
             _DataSource = value;
@@ -209,7 +195,11 @@ public partial class ListBox : ListControl
     /// </value>
     [DefaultValue(0)]
     [Localizable(true)]
-    public int HorizontalExtent { get; set; }
+    public int HorizontalExtent
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether horizontal scrollbar.
@@ -224,7 +214,11 @@ public partial class ListBox : ListControl
     /// </value>
     [DefaultValue(false)]
     [Localizable(true)]
-    public bool HorizontalScrollbar { get; set; }
+    public bool HorizontalScrollbar
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether integral height.
@@ -239,7 +233,11 @@ public partial class ListBox : ListControl
     /// </value>
     [DefaultValue(true)]
     [Localizable(true)]
-    public bool IntegralHeight { get; set; }
+    public bool IntegralHeight
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the i self.
@@ -256,7 +254,11 @@ public partial class ListBox : ListControl
     /// The height of the item.
     /// </value>
     [Localizable(true)]
-    public virtual int ItemHeight { get; set; }
+    public virtual int ItemHeight
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the items.
@@ -265,7 +267,10 @@ public partial class ListBox : ListControl
     /// The items.
     /// </value>
     [Localizable(true)]
-    public ObjectCollection Items { get => _items; }
+    public ObjectCollection Items
+    {
+        get => _items;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether multi column.
@@ -279,7 +284,11 @@ public partial class ListBox : ListControl
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool MultiColumn { get; set; }
+    public bool MultiColumn
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the padding.
@@ -287,7 +296,11 @@ public partial class ListBox : ListControl
     /// <value>
     /// The padding.
     /// </value>
-    public new Padding Padding { get; set; }
+    public new Padding Padding
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the height of the preferred.
@@ -296,7 +309,10 @@ public partial class ListBox : ListControl
     /// The height of the preferred.
     /// </value>
     [Browsable(false)]
-    public int PreferredHeight { get; }
+    public int PreferredHeight
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether scroll always visible.
@@ -311,7 +327,11 @@ public partial class ListBox : ListControl
     /// </value>
     [DefaultValue(false)]
     [Localizable(true)]
-    public bool ScrollAlwaysVisible { get; set; }
+    public bool ScrollAlwaysVisible
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the index of the currently selected item.
@@ -320,7 +340,11 @@ public partial class ListBox : ListControl
     /// <value>
     /// The index of the selected.
     /// </value>
-    public override int SelectedIndex { get => self.ListBox.SelectedRow == null ? -1 : self.ListBox.SelectedRow.Index; set => SelectedItems.SetSelected(value, true); }
+    public override int SelectedIndex
+    {
+        get => self.ListBox.SelectedRow == null ? -1 : self.ListBox.SelectedRow.Index;
+        set => SelectedItems.SetSelected(value, true);
+    }
 
     /// <summary>
     /// Gets the selected indices.
@@ -383,7 +407,7 @@ public partial class ListBox : ListControl
 
     /// <summary>
     /// Gets or sets the value of the selected item, as determined by the
-    /// <see cref="!:ValueMember"/>.
+    /// <see cref="!:ValueMember" />.
     /// </summary>
     /// <value>
     /// The selected value.
@@ -444,7 +468,7 @@ public partial class ListBox : ListControl
 
     /// <summary>
     /// Gets or sets a value indicating whether this
-    /// <see cref="T:System.Windows.Forms.ListBox"/> is sorted.
+    /// <see cref="T:System.Windows.Forms.ListBox" /> is sorted.
     /// </summary>
     /// <value>
     /// <c>
@@ -455,7 +479,11 @@ public partial class ListBox : ListControl
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool Sorted { get => _sorted; set => _sorted = value; }
+    public bool Sorted
+    {
+        get => _sorted;
+        set => _sorted = value;
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -475,7 +503,6 @@ public partial class ListBox : ListControl
                 {
                     texts.Add(((Gtk.Label)row.Child).Text);
                 }
-
                 return string.Join(",", texts);
             }
             else
@@ -510,6 +537,7 @@ public partial class ListBox : ListControl
     public int TopIndex
     {
         get => _topIndex;
+
         set
         {
             _topIndex = value;
@@ -523,7 +551,6 @@ public partial class ListBox : ListControl
                     else
                         rowheight = 18;
                 }
-
                 var adjustment = self.Vadjustment;
                 adjustment.Value = value * rowheight - Height + 5;
                 return false;
@@ -544,7 +571,11 @@ public partial class ListBox : ListControl
     /// </value>
     [DefaultValue(false)]
     [Browsable(false)]
-    public bool UseCustomTabOffsets { get; set; }
+    public bool UseCustomTabOffsets
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether use tab stops.
@@ -558,49 +589,43 @@ public partial class ListBox : ListControl
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool UseTabStops { get; set; }
+    public bool UseTabStops
+    {
+        get;
+        set;
+    }
 
-    internal bool ShowCheckBox { get; set; }
+    internal bool ShowCheckBox
+    {
+        get;
+        set;
+    }
 
-    internal bool ShowImage { get; set; }
+    internal bool ShowImage
+    {
+        get;
+        set;
+    }
 
     private EventHandler _selectedIndexChanged
     {
-        get
-        {
-            return ((EventHandler)Events["SelectedIndexChanged"]);
-        }
+        get { return ((EventHandler)Events["SelectedIndexChanged"]); }
 
-        set
-        {
-            Events["SelectedIndexChanged"] = value;
-        }
+        set { Events["SelectedIndexChanged"] = value; }
     }
 
     private EventHandler _selectedItemChanged
     {
-        get
-        {
-            return ((EventHandler)Events["SelectedItemChanged"]);
-        }
+        get { return ((EventHandler)Events["SelectedItemChanged"]); }
 
-        set
-        {
-            Events["SelectedItemChanged"] = value;
-        }
+        set { Events["SelectedItemChanged"] = value; }
     }
 
     private EventHandler _selectedValueChanged
     {
-        get
-        {
-            return ((EventHandler)Events["SelectedValueChanged"]);
-        }
+        get { return ((EventHandler)Events["SelectedValueChanged"]); }
 
-        set
-        {
-            Events["SelectedValueChanged"] = value;
-        }
+        set { Events["SelectedValueChanged"] = value; }
     }
 
     /// <summary>
@@ -631,7 +656,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Finds the string.
     /// </summary>
-    /// <param name = "s">
+    /// <param name="s">
     /// The s.
     /// </param>
     /// <returns>
@@ -647,10 +672,10 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Finds the string.
     /// </summary>
-    /// <param name = "s">
+    /// <param name="s">
     /// The s.
     /// </param>
-    /// <param name = "startIndex">
+    /// <param name="startIndex">
     /// The start index.
     /// </param>
     /// <returns>
@@ -666,7 +691,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Finds the string exact.
     /// </summary>
-    /// <param name = "s">
+    /// <param name="s">
     /// The s.
     /// </param>
     /// <returns>
@@ -682,10 +707,10 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Finds the string exact.
     /// </summary>
-    /// <param name = "s">
+    /// <param name="s">
     /// The s.
     /// </param>
-    /// <param name = "startIndex">
+    /// <param name="startIndex">
     /// The start index.
     /// </param>
     /// <returns>
@@ -701,7 +726,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the height of the item.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
     /// <returns>
@@ -717,7 +742,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the item rectangle.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
     /// <returns>
@@ -732,10 +757,10 @@ public partial class ListBox : ListControl
 
     /// <summary>
     /// Returns the textual representation for the given item. By default this calls
-    /// <see cref="T:System.Object.ToString"/> on the item.
+    /// <see cref="T:System.Object.ToString" /> on the item.
     /// Override to provide custom behavior.
     /// </summary>
-    /// <param name = "item">
+    /// <param name="item">
     /// Item to obtain text for.
     /// </param>
     /// <returns>
@@ -754,7 +779,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Gets the selected.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
     /// <returns>
@@ -773,7 +798,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Indexes from point.
     /// </summary>
-    /// <param name = "p">
+    /// <param name="p">
     /// The p.
     /// </param>
     /// <returns>
@@ -789,10 +814,10 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Indexes from point.
     /// </summary>
-    /// <param name = "x">
+    /// <param name="x">
     /// The x.
     /// </param>
-    /// <param name = "y">
+    /// <param name="y">
     /// The y.
     /// </param>
     /// <returns>
@@ -818,6 +843,7 @@ public partial class ListBox : ListControl
     /// </summary>
     public override void ResetBackColor()
     {
+
     }
 
     /// <summary>
@@ -825,15 +851,16 @@ public partial class ListBox : ListControl
     /// </summary>
     public override void ResetForeColor()
     {
+
     }
 
     /// <summary>
     /// Sets the selected.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
-    /// <param name = "value">
+    /// <param name="value">
     /// if set to
     /// <c>
     /// true
@@ -850,7 +877,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Natives the add.
     /// </summary>
-    /// <param name = "item">
+    /// <param name="item">
     /// The item.
     /// </param>
     protected void NativeAdd(object item)
@@ -884,7 +911,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Natives the get item text.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
     /// <returns>
@@ -900,10 +927,10 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Natives the insert.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
-    /// <param name = "item">
+    /// <param name="item">
     /// The item.
     /// </param>
     protected void NativeInsert(int index, object item)
@@ -923,7 +950,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// Natives the remove at.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index.
     /// </param>
     protected void NativeRemoveAt(int index)
@@ -933,11 +960,11 @@ public partial class ListBox : ListControl
 
     /// <summary>
     /// Handles the
-    /// <see cref="!:SelectedIndexChanged"/> event.
+    /// <see cref="!:SelectedIndexChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected void OnSelectedIndexChanged(EventArgs e)
     {
@@ -948,26 +975,26 @@ public partial class ListBox : ListControl
 
     /// <summary>
     /// Raises the
-    /// <see cref = "SelectedItemChanged"/> event.
+    /// <see cref="SelectedItemChanged" /> event.
     /// </summary>
-    /// <param name = "e">The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <param name="e">The
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
 
     /// <summary>
     /// Raises the
-    /// <see cref = "SelectedValueChanged"/> event.
+    /// <see cref="SelectedValueChanged" /> event.
     /// </summary>
-    /// <param name = "e">The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <param name="e">The
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
 
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.
     /// </summary>
-    /// <param name = "widget">
+    /// <param name="widget">
     /// GTK widget to style.
     /// </param>
     protected override void SetStyle(Widget widget)
@@ -1055,14 +1082,14 @@ public partial class ListBox : ListControl
 
     /// <summary>
     /// Class ListBoxItem. Implements the
-    /// <see cref="T:System.Windows.Forms.Label"/>
+    /// <see cref="T:System.Windows.Forms.Label" />
     /// </summary>
-    /// <seealso cref="T:System.Windows.Forms.Label"/>
+    /// <seealso cref="T:System.Windows.Forms.Label" />
     public class ListBoxItem : Gtk.Label
     {
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="T:System.Windows.Forms.ListBox.ListBoxItem"/> class.
+        /// <see cref="T:System.Windows.Forms.ListBox.ListBoxItem" /> class.
         /// </summary>
         public ListBoxItem()
         {
@@ -1075,7 +1102,11 @@ public partial class ListBox : ListControl
         /// <value>
         /// The check value.
         /// </value>
-        public object CheckValue { get; set; }
+        public object CheckValue
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the display text.
@@ -1085,15 +1116,8 @@ public partial class ListBox : ListControl
         /// </value>
         public object DisplayText
         {
-            get
-            {
-                return base.Text;
-            }
-
-            set
-            {
-                base.Text = value?.ToString();
-            }
+            get { return base.Text; }
+            set { base.Text = value?.ToString(); }
         }
 
         /// <summary>
@@ -1102,15 +1126,19 @@ public partial class ListBox : ListControl
         /// <value>
         /// The item value.
         /// </value>
-        public object ItemValue { get; set; }
+        public object ItemValue
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Returns a
-        /// <see cref="T:System.String"/> that represents this instance.
+        /// <see cref="T:System.String" /> that represents this instance.
         /// </summary>
         /// <returns>
         /// A
-        /// <see cref="T:System.String"/> that represents this instance.
+        /// <see cref="T:System.String" /> that represents this instance.
         /// </returns>
         public override string ToString()
         {

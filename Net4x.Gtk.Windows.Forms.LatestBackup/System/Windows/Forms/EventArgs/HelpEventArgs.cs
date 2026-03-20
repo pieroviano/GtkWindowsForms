@@ -29,7 +29,11 @@ public class HelpEventArgs : EventArgs
     /// <summary>
     /// Gets or sets a value indicating whether the Help event was handled.
     /// </summary>
-    public bool Handled { get; set; }
+    public bool Handled
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the screen coordinates of the mouse pointer.

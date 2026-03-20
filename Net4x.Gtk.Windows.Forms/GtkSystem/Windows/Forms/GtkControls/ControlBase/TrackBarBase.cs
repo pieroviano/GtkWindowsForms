@@ -29,7 +29,11 @@ public sealed class TrackBarBase : Gtk.Viewport, IControlGtk
     /// The active
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> used by the control.
     /// </value>
-    public GtkControlOverride Override { get; set; }
+    public GtkControlOverride Override
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Adds the class.

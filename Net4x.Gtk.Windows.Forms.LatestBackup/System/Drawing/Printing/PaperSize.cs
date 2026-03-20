@@ -75,6 +75,7 @@ public partial class PaperSize
     public int Height
     {
         get => _height;
+
         set
         {
             if (_kind != PaperKind.Custom && !_createdByDefaultConstructor)
@@ -106,6 +107,7 @@ public partial class PaperSize
     public string PaperName
     {
         get => _name;
+
         set
         {
             if (_kind != PaperKind.Custom && !_createdByDefaultConstructor)
@@ -126,6 +128,7 @@ public partial class PaperSize
     public int RawKind
     {
         get => (int)_kind;
+
         set => _kind = (PaperKind)value;
     }
 
@@ -141,6 +144,7 @@ public partial class PaperSize
     public int Width
     {
         get => _width;
+
         set
         {
             if (_kind != PaperKind.Custom && !_createdByDefaultConstructor)

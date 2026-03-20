@@ -174,6 +174,7 @@ public sealed class ResXDataNode : ISerializable
 
             return result ?? string.Empty;
         }
+
         set
         {
             _comment = value;
@@ -228,6 +229,7 @@ public sealed class ResXDataNode : ISerializable
 
             return result;
         }
+
         set
         {
             if (value.Length == 0)

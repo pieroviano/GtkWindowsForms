@@ -3,7 +3,6 @@ using Gdk;
 
 namespace System.Drawing;
 
-
 /// <summary>
 /// Defines a group of type faces having a similar basic design and certain variations in styles. This class cannot be inherited.
 /// </summary>
@@ -85,7 +84,11 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <returns>
     /// A System.String that represents the name of this System.Drawing.FontFamily.
     /// </returns>
-    public string Name { get; set; }
+    public string Name
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Releases all resources used by this System.Drawing.FontFamily.

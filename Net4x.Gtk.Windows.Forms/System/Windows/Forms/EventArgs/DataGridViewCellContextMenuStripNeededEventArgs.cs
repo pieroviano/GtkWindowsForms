@@ -35,6 +35,10 @@ public class DataGridViewCellContextMenuStripNeededEventArgs : DataGridViewCellE
     /// <value>
     /// The context menu strip.
     /// </value>
-    public ContextMenuStrip ContextMenuStrip { get; set; }
+    public ContextMenuStrip ContextMenuStrip
+    {
+        get;
+        set;
+    }
 
 }

@@ -33,7 +33,11 @@ public sealed class PrintDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool AllowCurrentPage { get; set; }
+    public bool AllowCurrentPage
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether allow print to file.
@@ -47,7 +51,11 @@ public sealed class PrintDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool AllowPrintToFile { get; set; }
+    public bool AllowPrintToFile
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether allow selection.
@@ -61,7 +69,11 @@ public sealed class PrintDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool AllowSelection { get; set; }
+    public bool AllowSelection
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether allow some pages.
@@ -75,7 +87,11 @@ public sealed class PrintDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool AllowSomePages { get; set; }
+    public bool AllowSomePages
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the document.
@@ -87,6 +103,7 @@ public sealed class PrintDialog : CommonDialog
     public PrintDocument Document
     {
         get => _printDocument;
+
         set
         {
             _printDocument = value;
@@ -106,6 +123,7 @@ public sealed class PrintDialog : CommonDialog
     public PrinterSettings PrinterSettings
     {
         get => _printerSettings ??= new PrinterSettings();
+
         set
         {
             if (value != PrinterSettings)
@@ -128,7 +146,11 @@ public sealed class PrintDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool PrintToFile { get; set; }
+    public bool PrintToFile
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show help.
@@ -142,7 +164,11 @@ public sealed class PrintDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool ShowHelp { get; set; }
+    public bool ShowHelp
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show network.
@@ -156,7 +182,11 @@ public sealed class PrintDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool ShowNetwork { get; set; }
+    public bool ShowNetwork
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating if we use ex dialog.
@@ -170,7 +200,11 @@ public sealed class PrintDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool UseEXDialog { get; set; }
+    public bool UseEXDialog
+    {
+        get;
+        set;
+    }
 
     private PageSettings PageSettings => Document is null
         ? PrinterSettings.DefaultPageSettings

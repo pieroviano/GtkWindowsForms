@@ -54,7 +54,11 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     /// false
     /// </c>.
     /// </value>
-    public bool FormattingEnabled { get; set; }
+    public bool FormattingEnabled
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the items.
@@ -86,7 +90,21 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The size.
     /// </value>
-    public override Size Size { get => base.Size; set { this.comboBox.WidthRequest = value.Width; this.comboBox.HeightRequest = value.Height; base.Size = value; } }
+    public override Size Size
+    {
+        get => base.Size;
+        set { this.comboBox.WidthRequest = value.Width; this.comboBox.HeightRequest = value.Height; base.Size = value; }
+    }
+
+    /// <summary>
+    /// Raises the SelectedIndexChanged event.
+    /// </summary>
+    protected virtual void OnSelectedIndexChanged(EventArgs e) { SelectedIndexChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the SelectedValueChanged event.
+    /// </summary>
+    protected virtual void OnSelectedValueChanged(EventArgs e) { SelectedValueChanged?.Invoke(this, e); }
 
     private void ComboBox_Changed(object sender, EventArgs e)
     {

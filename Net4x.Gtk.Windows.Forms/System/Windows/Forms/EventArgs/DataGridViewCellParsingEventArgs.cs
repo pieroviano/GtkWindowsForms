@@ -55,7 +55,11 @@ public class DataGridViewCellParsingEventArgs : ConvertEventArgs
     /// <value>
     /// The inherited cell style.
     /// </value>
-    public DataGridViewCellStyle InheritedCellStyle { get; set; }
+    public DataGridViewCellStyle InheritedCellStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether parsing applied.
@@ -68,7 +72,11 @@ public class DataGridViewCellParsingEventArgs : ConvertEventArgs
     /// false
     /// </c>.
     /// </value>
-    public bool ParsingApplied { get; set; }
+    public bool ParsingApplied
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the index of the row.

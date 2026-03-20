@@ -41,7 +41,11 @@ public class DataGridViewRowContextMenuStripNeededEventArgs : EventArgs
     /// <value>
     /// The context menu strip.
     /// </value>
-    public ContextMenuStrip ContextMenuStrip { get; set; }
+    public ContextMenuStrip ContextMenuStrip
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the index of the row.

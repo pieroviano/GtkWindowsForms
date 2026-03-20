@@ -73,7 +73,11 @@ public class MeasureItemEventArgs : EventArgs
     /// <value>
     /// The height of the item.
     /// </value>
-    public int ItemHeight { get; set; }
+    public int ItemHeight
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Where the recipient of the event should put the width of the item specified by
@@ -82,6 +86,10 @@ public class MeasureItemEventArgs : EventArgs
     /// <value>
     /// The width of the item.
     /// </value>
-    public int ItemWidth { get; set; }
+    public int ItemWidth
+    {
+        get;
+        set;
+    }
 
 }

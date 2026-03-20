@@ -39,6 +39,7 @@ public sealed class InputLanguage
         {
             return new InputLanguage(PangoHelper.ContextGet().Language.Handle);
         }
+
         set
         {
             if (value == null)

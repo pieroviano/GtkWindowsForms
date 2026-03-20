@@ -36,7 +36,11 @@ public class ToolStripDropDown : ToolStripItem
     /// <value>
     /// The size of the image scaling.
     /// </value>
-    public Size ImageScalingSize { get; set; }
+    public Size ImageScalingSize
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the widget.

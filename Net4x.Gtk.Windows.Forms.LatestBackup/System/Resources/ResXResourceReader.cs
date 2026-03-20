@@ -232,6 +232,7 @@ public partial class ResXResourceReader : IResourceReader
         {
             return _basePath;
         }
+
         set
         {
             if (_isReaderDirty)
@@ -255,6 +256,7 @@ public partial class ResXResourceReader : IResourceReader
         {
             return _useResXDataNodes;
         }
+
         set
         {
             if (_isReaderDirty)

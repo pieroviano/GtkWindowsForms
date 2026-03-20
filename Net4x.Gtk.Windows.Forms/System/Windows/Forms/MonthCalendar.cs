@@ -47,7 +47,8 @@ public partial class MonthCalendar : Control
     /// </value>
     public Day FirstDayOfWeek
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -66,7 +67,8 @@ public partial class MonthCalendar : Control
     /// </value>
     public DateTime MaxDate
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -77,7 +79,8 @@ public partial class MonthCalendar : Control
     /// </value>
     public DateTime MinDate
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -86,7 +89,11 @@ public partial class MonthCalendar : Control
     /// <value>
     /// The selection range.
     /// </value>
-    public SelectionRange SelectionRange { get; set; }
+    public SelectionRange SelectionRange
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show today.
@@ -99,7 +106,11 @@ public partial class MonthCalendar : Control
     /// false
     /// </c>.
     /// </value>
-    public bool ShowToday { get; set; }
+    public bool ShowToday
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show today circle.
@@ -112,7 +123,11 @@ public partial class MonthCalendar : Control
     /// false
     /// </c>.
     /// </value>
-    public bool ShowTodayCircle { get; set; }
+    public bool ShowTodayCircle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show week numbers.
@@ -125,7 +140,11 @@ public partial class MonthCalendar : Control
     /// false
     /// </c>.
     /// </value>
-    public bool ShowWeekNumbers { get; set; }
+    public bool ShowWeekNumbers
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the today date.
@@ -136,8 +155,19 @@ public partial class MonthCalendar : Control
     public DateTime TodayDate
     {
         get { return self.Date; }
+
         set { self.Date = value; }
     }
+
+    /// <summary>
+    /// Raises the DateChanged event.
+    /// </summary>
+    protected virtual void OnDateChanged(System.Windows.Forms.DateRangeEventArgs e) { DateChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the DateSelected event.
+    /// </summary>
+    protected virtual void OnDateSelected(System.Windows.Forms.DateRangeEventArgs e) { DateSelected?.Invoke(this, e); }
 
     private void MonthCalendar_DaySelected(object sender, EventArgs e)
     {

@@ -45,6 +45,10 @@ public class PopupEventArgs : CancelEventArgs
     /// <summary>
     /// The rectangle outlining the area in which the painting should be done.
     /// </summary>
-    public Size ToolTipSize { get; set; }
+    public Size ToolTipSize
+    {
+        get;
+        set;
+    }
 
 }

@@ -2,7 +2,6 @@ using System;
 
 namespace System.Windows.Forms;
 
-
 /// <summary>
 /// Specifies how tabs in a tab control are sized.
 /// </summary>

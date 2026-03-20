@@ -11,6 +11,12 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripDropDownButton : ToolStripDropDownItem
 {
+    public virtual event EventHandler<MouseEventArgs> MouseDown;
+
+    public virtual event EventHandler<EventArgs> MouseLeave;
+
+    public virtual event EventHandler<MouseEventArgs> MouseUp;
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownButton" /> class.
@@ -112,7 +118,11 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     //[DefaultValue(true)]
     //public bool AutoToolTip { get; set; }
     [DefaultValue(true)]
-    public bool ShowDropDownArrow { get; set; }
+    public bool ShowDropDownArrow
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether default automatic tool tip.
@@ -141,7 +151,10 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     //protected  ToolStripDropDown CreateDefaultDropDown()
     //{
     //}
-    protected void OnMouseDown(MouseEventArgs e) { }
+    protected void OnMouseDown(MouseEventArgs e)
+    {
+        MouseDown?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Handles the
@@ -151,7 +164,10 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnMouseLeave(EventArgs e) { }
+    protected void OnMouseLeave(EventArgs e)
+    {
+        MouseLeave?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Handles the
@@ -163,7 +179,7 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// </param>
     protected void OnMouseUp(MouseEventArgs e)
     {
-
+        MouseUp?.Invoke(this, e);
     }
 
 }

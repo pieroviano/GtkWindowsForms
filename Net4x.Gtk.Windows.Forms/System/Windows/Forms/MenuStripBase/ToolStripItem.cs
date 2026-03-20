@@ -100,7 +100,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// false
     /// </c>.
     /// </value>
-    public virtual bool AutoSize { get; set; }
+    public virtual bool AutoSize
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether automatic tool tip.
@@ -114,7 +118,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </c>.
     /// </value>
     //public virtual Size Size { get; set; }
-    public virtual bool AutoToolTip { get; set; }
+    public virtual bool AutoToolTip
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the back.
@@ -122,7 +130,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The color of the back.
     /// </value>
-    public virtual Color BackColor { get; set; }
+    public virtual Color BackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the background image.
@@ -130,7 +142,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The background image.
     /// </value>
-    public virtual Image BackgroundImage { get; set; }
+    public virtual Image BackgroundImage
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the background image layout.
@@ -138,7 +154,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The background image layout.
     /// </value>
-    public virtual ImageLayout BackgroundImageLayout { get; set; }
+    public virtual ImageLayout BackgroundImageLayout
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Bounding rectangle of the element.
@@ -162,7 +182,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// false
     /// </c>.
     /// </value>
-    public virtual bool Checked { get; set; }
+    public virtual bool Checked
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the state of the check.
@@ -170,7 +194,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The state of the check.
     /// </value>
-    public virtual CheckState CheckState { get; set; }
+    public virtual CheckState CheckState
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Returns the element's children (on a control, this forwards to Controls)
@@ -194,7 +222,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// false
     /// </c>.
     /// </value>
-    public virtual bool Created { get; set; }
+    public virtual bool Created
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// DisplayRectangle is the client area of a container element.
@@ -214,7 +246,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The display style.
     /// </value>
-    public virtual ToolStripItemDisplayStyle DisplayStyle { get; set; }
+    public virtual ToolStripItemDisplayStyle DisplayStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the drop down items.
@@ -243,7 +279,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// false
     /// </c>.
     /// </value>
-    public virtual bool Enabled { get; set; }
+    public virtual bool Enabled
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the font.
@@ -252,7 +292,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// The font.
     /// </value>
     //  public virtual bool Focused { get { return this.IsFocus; } }
-    public virtual Font Font { get; set; }
+    public virtual Font Font
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the fore.
@@ -260,7 +304,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The color of the fore.
     /// </value>
-    public virtual Color ForeColor { get; set; }
+    public virtual Color ForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance has children.
@@ -281,7 +329,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The height.
     /// </value>
-    public virtual int Height { get; set; }
+    public virtual int Height
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the image.
@@ -289,7 +341,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The image.
     /// </value>
-    public virtual System.Drawing.Image Image { get; set; }
+    public virtual System.Drawing.Image Image
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the image align.
@@ -297,7 +353,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The image align.
     /// </value>
-    public virtual ContentAlignment ImageAlign { get; set; }
+    public virtual ContentAlignment ImageAlign
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the index of the image.
@@ -305,7 +365,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The index of the image.
     /// </value>
-    public virtual int ImageIndex { get; set; }
+    public virtual int ImageIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the image key.
@@ -313,7 +377,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The image key.
     /// </value>
-    public virtual string ImageKey { get; set; }
+    public virtual string ImageKey
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the image scaling.
@@ -321,7 +389,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The image scaling.
     /// </value>
-    public virtual ToolStripItemImageScaling ImageScaling { get; set; }
+    public virtual ToolStripItemImageScaling ImageScaling
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the image transparent.
@@ -329,7 +401,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The color of the image transparent.
     /// </value>
-    public virtual Color ImageTransparentColor { get; set; }
+    public virtual Color ImageTransparentColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the IME mode.
@@ -337,7 +413,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The IME mode.
     /// </value>
-    public virtual ImeMode ImeMode { get; set; }
+    public virtual ImeMode ImeMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the items.
@@ -362,6 +442,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     public virtual int Left
     {
         get;
+
         set;
     }
 
@@ -371,7 +452,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The menu item.
     /// </value>
-    public virtual Gtk.MenuItem MenuItem { get; set; }
+    public virtual Gtk.MenuItem MenuItem
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the merge action.
@@ -379,7 +464,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The merge action.
     /// </value>
-    public virtual MergeAction MergeAction { get; set; }
+    public virtual MergeAction MergeAction
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the index of the merge.
@@ -387,7 +476,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The index of the merge.
     /// </value>
-    public virtual int MergeIndex { get; set; }
+    public virtual int MergeIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the name.
@@ -395,7 +488,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The name.
     /// </value>
-    public virtual string Name { get; set; }
+    public virtual string Name
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the overflow.
@@ -403,7 +500,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The overflow.
     /// </value>
-    public virtual ToolStripItemOverflow Overflow { get; set; }
+    public virtual ToolStripItemOverflow Overflow
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the owner.
@@ -411,7 +512,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The owner.
     /// </value>
-    public virtual ToolStrip Owner { get; set; }
+    public virtual ToolStrip Owner
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the owner item.
@@ -430,7 +535,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     //public override Padding Margin { get; set; }
     //public override Size MaximumSize { get; set; }
     //public override Size MinimumSize { get; set; }
-    public virtual Padding Padding { get; set; }
+    public virtual Padding Padding
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the parent.
@@ -438,7 +547,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The parent.
     /// </value>
-    public virtual ToolStripItem Parent { get; set; }
+    public virtual ToolStripItem Parent
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// True if the element is currently visible (some layouts, like
@@ -484,7 +597,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The region.
     /// </value>
-    public virtual System.Drawing.Region Region { get; set; }
+    public virtual System.Drawing.Region Region
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the right.
@@ -500,7 +617,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The right to left.
     /// </value>
-    public virtual RightToLeft RightToLeft { get; set; }
+    public virtual RightToLeft RightToLeft
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether right to left automatic mirror image.
@@ -514,7 +635,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </c>.
     /// </value>
     // public virtual bool Selected { get; }
-    public virtual bool RightToLeftAutoMirrorImage { get; set; }
+    public virtual bool RightToLeftAutoMirrorImage
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the size.
@@ -523,7 +648,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// The size.
     /// </value>
     //public virtual ISite Site { get; set; }
-    public virtual Size Size { get; set; }
+    public virtual Size Size
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the tag.
@@ -531,7 +660,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The tag.
     /// </value>
-    public virtual object Tag { get; set; }
+    public virtual object Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -540,7 +673,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// The text.
     /// </value>
     //public virtual string Text { get { return base.Label; } set { base.Label = value; } }
-    public virtual string Text { get; set; }
+    public virtual string Text
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the text align.
@@ -548,7 +685,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The text align.
     /// </value>
-    public virtual ContentAlignment TextAlign { get; set; }
+    public virtual ContentAlignment TextAlign
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the text direction.
@@ -556,7 +697,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The text direction.
     /// </value>
-    public virtual ToolStripTextDirection TextDirection { get; set; }
+    public virtual ToolStripTextDirection TextDirection
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the text image relation.
@@ -564,7 +709,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The text image relation.
     /// </value>
-    public virtual TextImageRelation TextImageRelation { get; set; }
+    public virtual TextImageRelation TextImageRelation
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the tool tip text.
@@ -573,7 +722,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// The tool tip text.
     /// </value>
     //public virtual bool Enabled { get; set; }
-    public virtual string ToolTipText { get; set; }
+    public virtual string ToolTipText
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the top.
@@ -584,6 +737,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     public virtual int Top
     {
         get;
+
         set;
     }
 
@@ -593,7 +747,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The unique key.
     /// </value>
-    public virtual string unique_key { get; protected set; }
+    public virtual string unique_key
+    {
+        get;
+        protected set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether use wait cursor.
@@ -606,7 +764,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// false
     /// </c>.
     /// </value>
-    public virtual bool UseWaitCursor { get; set; }
+    public virtual bool UseWaitCursor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the widget.
@@ -622,7 +784,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The width.
     /// </value>
-    public virtual int Width { get; set; }
+    public virtual int Width
+    {
+        get;
+        set;
+    }
 
     IArrangedElement IArrangedElement.Container => throw new NotImplementedException();
 
@@ -724,5 +890,25 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         throw new NotImplementedException();
     }
+
+    /// <summary>
+    /// Raises the CheckedChanged event.
+    /// </summary>
+    protected virtual void OnCheckedChanged(System.EventArgs e) { CheckedChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the CheckStateChanged event.
+    /// </summary>
+    protected virtual void OnCheckStateChanged(System.EventArgs e) {; }
+
+    /// <summary>
+    /// Raises the Click event.
+    /// </summary>
+    protected virtual void OnClick(System.EventArgs e) { Click?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the DropDownItemClicked event.
+    /// </summary>
+    protected virtual void OnDropDownItemClicked(System.Windows.Forms.ToolStripItemClickedEventArgs e) { DropDownItemClicked?.Invoke(this, e); }
 
 }

@@ -41,7 +41,11 @@ public sealed class PageSetupDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool AllowMargins { get; set; }
+    public bool AllowMargins
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether allow orientation.
@@ -55,7 +59,11 @@ public sealed class PageSetupDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool AllowOrientation { get; set; }
+    public bool AllowOrientation
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether allow paper.
@@ -69,7 +77,11 @@ public sealed class PageSetupDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool AllowPaper { get; set; }
+    public bool AllowPaper
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether allow printer.
@@ -83,7 +95,11 @@ public sealed class PageSetupDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool AllowPrinter { get; set; }
+    public bool AllowPrinter
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the document.
@@ -95,6 +111,7 @@ public sealed class PageSetupDialog : CommonDialog
     public PrintDocument Document
     {
         get => _printDocument;
+
         set
         {
             _printDocument = value;
@@ -120,7 +137,11 @@ public sealed class PageSetupDialog : CommonDialog
     [DefaultValue(false)]
     [Browsable(true)]
     [EditorBrowsable(EditorBrowsableState.Always)]
-    public bool EnableMetric { get; set; }
+    public bool EnableMetric
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the minimum margins.
@@ -131,6 +152,7 @@ public sealed class PageSetupDialog : CommonDialog
     public Margins MinMargins
     {
         get => _minMargins;
+
         set => _minMargins = value ?? new Margins(0, 0, 0, 0);
     }
 
@@ -146,6 +168,7 @@ public sealed class PageSetupDialog : CommonDialog
     public PageSettings PageSettings
     {
         get => _pageSettings;
+
         set
         {
             _pageSettings = value;
@@ -165,6 +188,7 @@ public sealed class PageSetupDialog : CommonDialog
     public PrinterSettings PrinterSettings
     {
         get => _printerSettings;
+
         set
         {
             _printerSettings = value;
@@ -184,7 +208,11 @@ public sealed class PageSetupDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool ShowHelp { get; set; }
+    public bool ShowHelp
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show network.
@@ -198,7 +226,11 @@ public sealed class PageSetupDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool ShowNetwork { get; set; }
+    public bool ShowNetwork
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Resets this instance.

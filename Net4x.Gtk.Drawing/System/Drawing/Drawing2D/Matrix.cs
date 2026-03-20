@@ -85,7 +85,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The angle.
     /// </value>
-    public float angle { get; set; }
+    public float angle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the dx.
@@ -93,7 +97,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The dx.
     /// </value>
-    public float dx { get; set; } = 0;
+    public float dx
+    {
+        get;
+        set;
+    } = 0;
 
     /// <summary>
     /// Gets or sets the dy.
@@ -101,7 +109,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The dy.
     /// </value>
-    public float dy { get; set; } = 0;
+    public float dy
+    {
+        get;
+        set;
+    } = 0;
 
     /// <summary>
     /// Gets an array of floating-point values that represents the elements of this
@@ -125,7 +137,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The initialize matrix.
     /// </value>
-    public Matrix initMatrix { get; set; }
+    public Matrix initMatrix
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the initialize point f.
@@ -133,7 +149,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The initialize point f.
     /// </value>
-    public PointF[] initPointF { get; set; }
+    public PointF[] initPointF
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the initialize rectangle.
@@ -141,7 +161,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The initialize rectangle.
     /// </value>
-    public RectangleF initRectangle { get; set; }
+    public RectangleF initRectangle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -154,7 +178,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <c>false
     /// </c>.
     /// </value>
-    public bool invert { get; set; }
+    public bool invert
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this
@@ -198,7 +226,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The M11.
     /// </value>
-    public float m11 { get; set; } = 1;
+    public float m11
+    {
+        get;
+        set;
+    } = 1;
 
     /// <summary>
     /// Gets or sets the M12.
@@ -206,7 +238,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The M12.
     /// </value>
-    public float m12 { get; set; } = 0;
+    public float m12
+    {
+        get;
+        set;
+    } = 0;
 
     /// <summary>
     /// Gets or sets the M21.
@@ -214,7 +250,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The M21.
     /// </value>
-    public float m21 { get; set; } = 0;
+    public float m21
+    {
+        get;
+        set;
+    } = 0;
 
     /// <summary>
     /// Gets or sets the M22.
@@ -222,7 +262,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The M22.
     /// </value>
-    public float m22 { get; set; } = 1;
+    public float m22
+    {
+        get;
+        set;
+    } = 1;
 
     /// <summary>
     /// Gets or sets the multiply.
@@ -230,7 +274,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The multiply.
     /// </value>
-    public Matrix multiply { get; set; }
+    public Matrix multiply
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the x translation value (the dx value, or the element in the third row and first column) of this
@@ -243,6 +291,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     public float OffsetX
     {
         get;
+
         internal set;
     }
 
@@ -257,6 +306,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     public float OffsetY
     {
         get;
+
         internal set;
     }
 
@@ -266,7 +316,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The order.
     /// </value>
-    public MatrixOrder order { get; set; } = MatrixOrder.Prepend;
+    public MatrixOrder order
+    {
+        get;
+        set;
+    } = MatrixOrder.Prepend;
 
     /// <summary>
     /// Gets or sets the rotate at point.
@@ -274,7 +328,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The rotate at point.
     /// </value>
-    public PointF rotateAtPoint { get; set; }
+    public PointF rotateAtPoint
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the scale x.
@@ -282,7 +340,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The scale x.
     /// </value>
-    public float scaleX { get; set; }
+    public float scaleX
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the scale y.
@@ -290,7 +352,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The scale y.
     /// </value>
-    public float scaleY { get; set; }
+    public float scaleY
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the shear x.
@@ -298,7 +364,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The shear x.
     /// </value>
-    public float shearX { get; set; }
+    public float shearX
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the shear y.
@@ -306,7 +376,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The shear y.
     /// </value>
-    public float shearY { get; set; }
+    public float shearY
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the transform points.
@@ -314,7 +388,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The transform points.
     /// </value>
-    public PointF[] transformPoints { get; set; }
+    public PointF[] transformPoints
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the transform vectors.
@@ -322,7 +400,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The transform vectors.
     /// </value>
-    public PointF[] transformVectors { get; set; }
+    public PointF[] transformVectors
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the vector transform points.
@@ -330,7 +412,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The vector transform points.
     /// </value>
-    public Point[] vectorTransformPoints { get; set; }
+    public Point[] vectorTransformPoints
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Creates an exact copy of this

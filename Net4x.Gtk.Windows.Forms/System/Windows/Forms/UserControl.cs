@@ -35,6 +35,10 @@ public partial class UserControl : ContainerControl
     /// </summary>
     public override event EventHandler Load;
 
+    public virtual event EventHandler<System.Windows.Forms.PaintEventArgs> Paint;
+
+    public virtual event EventHandler<EventArgs> ParentChanged;
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.UserControl" /> class.
@@ -64,7 +68,11 @@ public partial class UserControl : ContainerControl
     /// <value>
     /// The automatic scale dimensions.
     /// </value>
-    public System.Drawing.SizeF AutoScaleDimensions { get; set; }
+    public System.Drawing.SizeF AutoScaleDimensions
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the automatic scaling mode for this control.
@@ -72,7 +80,11 @@ public partial class UserControl : ContainerControl
     /// <value>
     /// The automatic scale mode.
     /// </value>
-    public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
+    public System.Windows.Forms.AutoScaleMode AutoScaleMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the collection of child controls contained within this
@@ -101,6 +113,7 @@ public partial class UserControl : ContainerControl
     public override Padding Padding
     {
         get => base.Padding;
+
         set
         {
             base.Padding = value;
@@ -143,6 +156,11 @@ public partial class UserControl : ContainerControl
     }
 
     /// <summary>
+    /// Raises the Load event.
+    /// </summary>
+    protected virtual void OnLoad(System.EventArgs e) { Load?.Invoke(this, e); }
+
+    /// <summary>
     /// Raises the
     /// <see cref="T:System.Windows.Forms.Control.Paint" /> event.
     /// Override to perform custom painting for the control.
@@ -165,6 +183,7 @@ public partial class UserControl : ContainerControl
     /// </param>
     protected override void OnParentChanged(EventArgs e)
     {
+        ParentChanged?.Invoke(this, e);
     }
 
     private void Override_Paint(object sender, PaintEventArgs e)

@@ -16,7 +16,11 @@ public struct Message
     private static readonly TraceSwitch s_allWinMessages = new TraceSwitch("AllWinMessages", "Output every received message");
 #endif
 
-    public IntPtr HWnd { get; set; }
+    public IntPtr HWnd
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Specifies the
@@ -25,7 +29,11 @@ public struct Message
     /// <value>
     /// The l parameter.
     /// </value>
-    public IntPtr LParam { get; set; }
+    public IntPtr LParam
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the MSG.
@@ -33,7 +41,11 @@ public struct Message
     /// <value>
     /// The MSG.
     /// </value>
-    public int Msg { get; set; }
+    public int Msg
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the result.
@@ -41,7 +53,11 @@ public struct Message
     /// <value>
     /// The result.
     /// </value>
-    public IntPtr Result { get; set; }
+    public IntPtr Result
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Specifies the
@@ -50,7 +66,11 @@ public struct Message
     /// <value>
     /// The w parameter.
     /// </value>
-    public IntPtr WParam { get; set; }
+    public IntPtr WParam
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Creates a new

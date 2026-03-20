@@ -42,7 +42,11 @@ public partial class PictureBox : Control
     /// The border style.
     /// </value>
     [DefaultValue(BorderStyle.None)]
-    public override BorderStyle BorderStyle { get; set; }
+    public override BorderStyle BorderStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the error image.
@@ -50,7 +54,11 @@ public partial class PictureBox : Control
     /// <value>
     /// The error image.
     /// </value>
-    public System.Drawing.Image ErrorImage { get; set; }
+    public System.Drawing.Image ErrorImage
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the GTK control.
@@ -69,6 +77,7 @@ public partial class PictureBox : Control
     public override System.Drawing.Image Image
     {
         get { return _image; }
+
         set
         {
             _image = value;
@@ -85,7 +94,11 @@ public partial class PictureBox : Control
     /// <value>
     /// The image location.
     /// </value>
-    public string ImageLocation { get { return _ImageLocation; } set { _ImageLocation = value; Load(value); } }
+    public string ImageLocation
+    {
+        get { return _ImageLocation; }
+        set { _ImageLocation = value; Load(value); }
+    }
 
     /// <summary>
     /// Gets or sets the initial image.
@@ -93,7 +106,11 @@ public partial class PictureBox : Control
     /// <value>
     /// The initial image.
     /// </value>
-    public System.Drawing.Image InitialImage { get; set; }
+    public System.Drawing.Image InitialImage
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the size mode.
@@ -101,7 +118,11 @@ public partial class PictureBox : Control
     /// <value>
     /// The size mode.
     /// </value>
-    public PictureBoxSizeMode SizeMode { get; set; }
+    public PictureBoxSizeMode SizeMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Cancels the asynchronous.

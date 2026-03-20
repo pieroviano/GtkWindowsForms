@@ -118,6 +118,7 @@ public sealed class Cursor : IDisposable, ISerializable
         {
             return new Rectangle(0, 0, 16, 16);
         }
+
         set
         {
 
@@ -130,6 +131,7 @@ public sealed class Cursor : IDisposable, ISerializable
     public static Cursor? Current
     {
         get;
+
         set;
     }
 
@@ -158,6 +160,7 @@ public sealed class Cursor : IDisposable, ISerializable
     public static Point Position
     {
         get;
+
         set;
     }
 
@@ -172,15 +175,27 @@ public sealed class Cursor : IDisposable, ISerializable
     /// <summary>
     /// Gets or sets optional user data associated with the cursor.
     /// </summary>
-    public object? Tag { get; set; }
+    public object? Tag
+    {
+        get;
+        set;
+    }
 
-    internal Gdk.Pixbuf CursorPixbuf { get; set; }
+    internal Gdk.Pixbuf CursorPixbuf
+    {
+        get;
+        set;
+    }
 
     internal string? CursorsProperty { get; }
 
     internal Point CursorsXY { get; }
 
-    internal Gdk.CursorType CursorType { get; set; }
+    internal Gdk.CursorType CursorType
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Returns a copy of the underlying native handle.

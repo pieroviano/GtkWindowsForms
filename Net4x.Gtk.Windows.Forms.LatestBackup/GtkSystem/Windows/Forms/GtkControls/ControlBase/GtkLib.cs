@@ -6,7 +6,6 @@ using GLib;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
-
 internal class FuncLoader
 {
 

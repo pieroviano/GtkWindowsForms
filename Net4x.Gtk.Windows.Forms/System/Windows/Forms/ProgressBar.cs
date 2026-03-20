@@ -43,7 +43,11 @@ public class ProgressBar : Control
     /// The marquee animation speed.
     /// </value>
     [DefaultValue(100)]
-    public int MarqueeAnimationSpeed { get; set; } = 100;
+    public int MarqueeAnimationSpeed
+    {
+        get;
+        set;
+    } = 100;
 
     /// <summary>
     /// Gets or sets the maximum.
@@ -52,7 +56,11 @@ public class ProgressBar : Control
     /// The maximum.
     /// </value>
     [DefaultValue(100)]
-    public int Maximum { get; set; } = 100;
+    public int Maximum
+    {
+        get;
+        set;
+    } = 100;
 
     /// <summary>
     /// Gets or sets the minimum.
@@ -61,7 +69,11 @@ public class ProgressBar : Control
     /// The minimum.
     /// </value>
     [DefaultValue(0)]
-    public int Minimum { get; set; } = 0;
+    public int Minimum
+    {
+        get;
+        set;
+    } = 0;
 
     /// <summary>
     /// Gets or sets the padding.
@@ -69,7 +81,11 @@ public class ProgressBar : Control
     /// <value>
     /// The padding.
     /// </value>
-    public new Padding Padding { get; set; }
+    public new Padding Padding
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the step.
@@ -78,7 +94,11 @@ public class ProgressBar : Control
     /// The step.
     /// </value>
     [DefaultValue(10)]
-    public int Step { get; set; }
+    public int Step
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the style.
@@ -86,7 +106,11 @@ public class ProgressBar : Control
     /// <value>
     /// The style.
     /// </value>
-    public ProgressBarStyle Style { get; set; }
+    public ProgressBarStyle Style
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the value.
@@ -95,7 +119,11 @@ public class ProgressBar : Control
     /// The value.
     /// </value>
     [DefaultValue(0)]
-    public int Value { get => (int)self.Value; set => self.Value = value; }
+    public int Value
+    {
+        get => (int)self.Value;
+        set => self.Value = value;
+    }
 
     /// <summary>
     /// Increments the specified value.

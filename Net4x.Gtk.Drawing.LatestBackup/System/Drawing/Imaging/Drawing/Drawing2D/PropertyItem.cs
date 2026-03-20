@@ -16,7 +16,11 @@ public sealed class PropertyItem
     /// <returns>
     /// The integer that represents the ID of the property.
     /// </returns>
-    public int Id { get; set; }
+    public int Id
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the length (in bytes) of the
@@ -26,7 +30,11 @@ public sealed class PropertyItem
     /// An integer that represents the length (in bytes) of the
     /// <see cref="T:System.Drawing.Imaging.PropertyItem.Value" /> byte array.
     /// </returns>
-    public int Len { get; set; }
+    public int Len
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets an integer that defines the type of data contained in the
@@ -36,7 +44,11 @@ public sealed class PropertyItem
     /// An integer that defines the type of data contained in
     /// <see cref="T:System.Drawing.Imaging.PropertyItem.Value" />.
     /// </returns>
-    public short Type { get; set; }
+    public short Type
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the value of the property item.
@@ -44,6 +56,10 @@ public sealed class PropertyItem
     /// <returns>
     /// A byte array that represents the value of the property item.
     /// </returns>
-    public byte[] Value { get; set; }
+    public byte[] Value
+    {
+        get;
+        set;
+    }
 
 }

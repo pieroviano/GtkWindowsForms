@@ -16,10 +16,18 @@ internal partial class ItemArray
             State = 0;
         }
 
-        public object Item { get; set; }
+        public object Item
+        {
+            get;
+            set;
+        }
 
         // This field is used by a CheckList to store data that an item is checked or indeterminate
-        public int State { get; set; }
+        public int State
+        {
+            get;
+            set;
+        }
 
     }
 }

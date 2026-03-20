@@ -14,19 +14,25 @@ namespace System.Windows.Forms;
 [ToolboxItemFilter("System.Windows.Forms")]
 public abstract class CommonDialog : Component
 {
-    private static readonly object s_helpRequestEvent = new object ();
+
+    private static readonly object s_helpRequestEvent = new object();
 
     /// <summary>
     /// Occurs when help request.
     /// </summary>
-    public event EventHandler HelpRequest { add => Events.AddHandler(s_helpRequestEvent, value); remove => Events.RemoveHandler(s_helpRequestEvent, value); }
+    public event EventHandler HelpRequest
+    {
+        add => Events.AddHandler(s_helpRequestEvent, value);
+        remove => Events.RemoveHandler(s_helpRequestEvent, value);
+    }
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.CommonDialog"/> class.
+    /// <see cref="T:System.Windows.Forms.CommonDialog" /> class.
     /// </summary>
     public CommonDialog()
     {
+
     }
 
     /// <summary>
@@ -35,7 +41,11 @@ public abstract class CommonDialog : Component
     /// <value>
     /// The tag.
     /// </value>
-    public object Tag { get; set; }
+    public object Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Resets this instance.
@@ -53,7 +63,7 @@ public abstract class CommonDialog : Component
     /// <summary>
     /// Shows the dialog.
     /// </summary>
-    /// <param name = "owner">
+    /// <param name="owner">
     /// The owner.
     /// </param>
     /// <returns>
@@ -73,11 +83,11 @@ public abstract class CommonDialog : Component
 
     /// <summary>
     /// Handles the
-    /// <see cref="T:System.Windows.Forms.CommonDialog.HelpRequest"/> event.
+    /// <see cref="T:System.Windows.Forms.CommonDialog.HelpRequest" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected virtual void OnHelpRequest(EventArgs e)
     {
@@ -88,7 +98,7 @@ public abstract class CommonDialog : Component
     /// <summary>
     /// Runs the dialog.
     /// </summary>
-    /// <param name = "owner">
+    /// <param name="owner">
     /// The owner.
     /// </param>
     /// <returns>

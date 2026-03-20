@@ -245,6 +245,7 @@ public sealed class LinearGradientBrush : Brush
     public float Angle
     {
         get;
+
         set;
     }
 
@@ -259,6 +260,7 @@ public sealed class LinearGradientBrush : Brush
     public Blend Blend
     {
         get;
+
         set;
     }
 
@@ -275,6 +277,7 @@ public sealed class LinearGradientBrush : Brush
     public bool GammaCorrection
     {
         get;
+
         set;
     }
 
@@ -289,6 +292,7 @@ public sealed class LinearGradientBrush : Brush
     public ColorBlend InterpolationColors
     {
         get;
+
         set;
     }
 
@@ -302,6 +306,7 @@ public sealed class LinearGradientBrush : Brush
     public Color[] LinearColors
     {
         get;
+
         set;
     }
 
@@ -314,6 +319,7 @@ public sealed class LinearGradientBrush : Brush
     public LinearGradientMode LinearGradientMode
     {
         get;
+
         set;
     }
 
@@ -327,6 +333,7 @@ public sealed class LinearGradientBrush : Brush
     public RectangleF Rectangle
     {
         get;
+
         private set;
     }
 
@@ -343,6 +350,7 @@ public sealed class LinearGradientBrush : Brush
     public Matrix Transform
     {
         get;
+
         set;
     }
 
@@ -359,6 +367,7 @@ public sealed class LinearGradientBrush : Brush
     public WrapMode WrapMode
     {
         get;
+
         set;
     } = WrapMode.Tile;
 

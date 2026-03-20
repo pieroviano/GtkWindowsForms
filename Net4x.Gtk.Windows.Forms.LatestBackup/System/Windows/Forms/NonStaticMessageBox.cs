@@ -13,7 +13,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, and style with Help Button.
     /// </summary>
-    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton)
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton)
     {
         return ShowCore(null, text, caption, buttons, icon);
     }
@@ -21,7 +22,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, style and Help file Path .
     /// </summary>
-    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
     {
         return ShowCore(null, text, caption, buttons, icon);
     }
@@ -29,7 +31,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, style and Help file Path for a IWin32Window.
     /// </summary>
-    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
     {
         return ShowCore(owner, text, caption, buttons, icon);
     }
@@ -37,7 +40,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, style, Help file Path and keyword.
     /// </summary>
-    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
     {
         return ShowCore(null, text, caption, buttons, icon);
     }
@@ -45,7 +49,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, style, Help file Path and keyword for a IWin32Window.
     /// </summary>
-    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
     {
         return ShowCore(owner, text, caption, buttons, icon);
     }
@@ -53,7 +58,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, style, Help file Path and HelpNavigator.
     /// </summary>
-    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
     {
         return ShowCore(null, text, caption, buttons, icon);
     }
@@ -61,7 +67,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, style, Help file Path and HelpNavigator for IWin32Window.
     /// </summary>
-    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
     {
         return ShowCore(owner, text, caption, buttons, icon);
     }
@@ -69,7 +76,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object.
     /// </summary>
-    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
     {
         return ShowCore(null, text, caption, buttons, icon);
     }
@@ -77,7 +85,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object for a IWin32Window.
     /// </summary>
-    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
     {
         return ShowCore(owner, text, caption, buttons, icon);
     }
@@ -85,22 +94,23 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, and style.
     /// </summary>
-    /// <param name = "text">The text.
+    /// <param name="text">The text.
     /// </param>
-    /// <param name = "caption">The caption.
+    /// <param name="caption">The caption.
     /// </param>
-    /// <param name = "buttons">The buttons.
+    /// <param name="buttons">The buttons.
     /// </param>
-    /// <param name = "icon">The icon.
+    /// <param name="icon">The icon.
     /// </param>
-    /// <param name = "defaultButton">The default button.
+    /// <param name="defaultButton">The default button.
     /// </param>
-    /// <param name = "options">The options.
+    /// <param name="options">The options.
     /// </param>
     /// <returns>
     /// DialogResult.
     /// </returns>
-    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
     {
         return ShowCore(null, text, caption, buttons, icon);
     }
@@ -108,7 +118,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, and style.
     /// </summary>
-    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton)
     {
         return ShowCore(null, text, caption, buttons, icon);
     }
@@ -148,7 +159,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, and style.
     /// </summary>
-    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
     {
         return ShowCore(owner, text, caption, buttons, icon);
     }
@@ -156,7 +168,8 @@ internal class NonStaticMessageBox : IMessageBox
     /// <summary>
     /// Displays a message box with specified text, caption, and style.
     /// </summary>
-    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton)
     {
         return ShowCore(owner, text, caption, buttons, icon);
     }
@@ -193,7 +206,8 @@ internal class NonStaticMessageBox : IMessageBox
         return ShowCore(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None);
     }
 
-    internal DialogResult ShowCore(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+    internal DialogResult ShowCore(IWin32Window? owner, string? text, string caption,
+        MessageBoxButtons buttons, MessageBoxIcon icon)
     {
         int irun;
         if (owner is Form control)
@@ -207,7 +221,6 @@ internal class NonStaticMessageBox : IMessageBox
             {
                 activeWindow = window;
             }
-
             irun = ShowCore(activeWindow, WindowPosition.CenterOnParent, text, caption, buttons, icon);
         }
 
@@ -241,7 +254,7 @@ internal class NonStaticMessageBox : IMessageBox
 
     private void Dia_Response(object o, ResponseArgs args)
     {
-        var dia = (Dialog? )o;
+        var dia = (Dialog?)o;
         if (dia != null)
         {
             dia.PangoContext.Dispose();
@@ -249,7 +262,8 @@ internal class NonStaticMessageBox : IMessageBox
         }
     }
 
-    private int ShowCore(Window? owner, WindowPosition position, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
+    private int ShowCore(Window? owner, WindowPosition position, string text, string caption,
+        MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
     {
         var dia = new Dialog(caption, owner, DialogFlags.DestroyWithParent);
         OnDialogAvailable(new DialogEventArgs(dia));
@@ -274,6 +288,7 @@ internal class NonStaticMessageBox : IMessageBox
             Valign = Align.Start,
             Halign = Align.Fill
         };
+
         if (icon == MessageBoxIcon.Question)
             msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-question.png"), false, false, 5);
         else if (icon == MessageBoxIcon.Warning || icon == MessageBoxIcon.Exclamation)
@@ -284,8 +299,7 @@ internal class NonStaticMessageBox : IMessageBox
             msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-error.png"), false, false, 5);
         var content = new Gtk.Label(text)
         {
-            MarginEnd = 30,
-            Halign = Align.Fill,
+            MarginEnd = 30, Halign = Align.Fill,
             Valign = Align.Start
         };
         var maxwidth = 300;
@@ -294,7 +308,6 @@ internal class NonStaticMessageBox : IMessageBox
             var rectangle = Gdk.Screen.Default.Display.GetMonitor(0).Workarea;
             maxwidth = rectangle.Width / 2;
         }
-
         var pag = content.CreatePangoLayout(text);
         pag.GetPixelSize(out var width, out var height);
         if (width > maxwidth)
@@ -305,9 +318,9 @@ internal class NonStaticMessageBox : IMessageBox
             content.LineWrap = true;
             content.LineWrapMode = Pango.WrapMode.Word;
         }
-
         msgbox.PackStart(content, false, true, 5);
         dia.ContentArea?.PackStart(msgbox, false, true, 0);
+
         dia.Icon = new Gdk.Pixbuf(typeof(MessageBox).Assembly, "Resources.System.help-faq.png");
         if (buttons == MessageBoxButtons.OK)
         {
@@ -316,7 +329,8 @@ internal class NonStaticMessageBox : IMessageBox
         else if (buttons == MessageBoxButtons.OKCancel)
         {
             dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_OK, ResponseType.Ok);
-            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel, ResponseType.Cancel);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel,
+                ResponseType.Cancel);
         }
         else if (buttons == MessageBoxButtons.YesNo)
         {
@@ -327,20 +341,22 @@ internal class NonStaticMessageBox : IMessageBox
         {
             dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Yes, ResponseType.Yes);
             dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_No, ResponseType.No);
-            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel, ResponseType.Cancel);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel,
+                ResponseType.Cancel);
         }
         else if (buttons == MessageBoxButtons.AbortRetryIgnore)
         {
-            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Reject, ResponseType.Reject);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Reject,
+                ResponseType.Reject);
             dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Help, ResponseType.Help);
             dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Close, ResponseType.Close);
         }
         else if (buttons == MessageBoxButtons.RetryCancel)
         {
             dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Help, ResponseType.Help);
-            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel, ResponseType.Cancel);
+            dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel,
+                ResponseType.Cancel);
         }
-
         dia.ShowAll();
 
         return dia.Run();
@@ -361,6 +377,7 @@ internal class NonStaticMessageBox : IMessageBox
             buttonsType = ButtonsType.OkCancel;
         else if (buttons == MessageBoxButtons.RetryCancel)
             buttonsType = ButtonsType.OkCancel;
+
         var dia = new MessageDialog(owner, DialogFlags.DestroyWithParent, MessageType.Info, buttonsType, text);
         dia.SetPosition(position);
         dia.StyleContext.AddClass("DefaultThemeStyle");

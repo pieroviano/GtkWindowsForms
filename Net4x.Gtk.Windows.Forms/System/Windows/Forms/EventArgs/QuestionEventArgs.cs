@@ -44,6 +44,10 @@ public class QuestionEventArgs : EventArgs
     /// false
     /// </c>.
     /// </value>
-    public bool Response { get; set; }
+    public bool Response
+    {
+        get;
+        set;
+    }
 
 }

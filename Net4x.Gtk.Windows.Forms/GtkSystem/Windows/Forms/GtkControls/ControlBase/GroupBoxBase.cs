@@ -40,7 +40,11 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// false
     /// </c>.
     /// </value>
-    public bool AutoScroll { get; set; }
+    public bool AutoScroll
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether  horizontal scroll.
@@ -53,7 +57,11 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// false
     /// </c>.
     /// </value>
-    public bool HScroll { get; set; } = false;
+    public bool HScroll
+    {
+        get;
+        set;
+    } = false;
 
     /// <summary>
     /// Gets or sets the
@@ -65,7 +73,11 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// The active
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> used by the control.
     /// </value>
-    public GtkControlOverride Override { get; set; }
+    public GtkControlOverride Override
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether vertical scroll.
@@ -78,7 +90,11 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// false
     /// </c>.
     /// </value>
-    public bool VScroll { get; set; } = false;
+    public bool VScroll
+    {
+        get;
+        set;
+    } = false;
 
     /// <summary>
     /// Adds the class.
@@ -138,5 +154,10 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
         Override.OnAddClass();
         base.OnShown();
     }
+
+    /// <summary>
+    /// Raises the Scroll event.
+    /// </summary>
+    private void OnScroll(System.Windows.Forms.ScrollEventArgs e) { Scroll?.Invoke(this, e); }
 
 }

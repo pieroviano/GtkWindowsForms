@@ -67,6 +67,7 @@ public partial class GroupBox : ContainerControl
     public override Padding Padding
     {
         get => base.Padding;
+
         set
         {
             base.Padding = value;
@@ -83,7 +84,11 @@ public partial class GroupBox : ContainerControl
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get { return self.Label; } set { self.Label = value; } }
+    public override string Text
+    {
+        get { return self.Label; }
+        set { self.Label = value; }
+    }
 
     /// <summary>
     /// Forces the control to perform layout logic.

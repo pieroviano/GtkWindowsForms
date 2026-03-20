@@ -1052,4 +1052,12 @@ using System.Globalization;
         <SourceString>public event </SourceString>
         <TargetString>public virtual event </TargetString>
     </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Collection\ArrangedElement.cs</FileName>
+        <SourceString>public virtual void PerformLayout(IArrangedElement container, string? propertyName)</SourceString>
+        <TargetString>public event LayoutEventHandler? Layout;
+
+            public virtual void PerformLayout(IArrangedElement container, string? propertyName)
+        </TargetString>
+    </Item>
 </Items>

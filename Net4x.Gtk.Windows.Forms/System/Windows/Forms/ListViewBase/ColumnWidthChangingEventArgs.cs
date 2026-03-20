@@ -62,6 +62,10 @@ public class ColumnWidthChangingEventArgs : CancelEventArgs
     /// <value>
     /// The new width.
     /// </value>
-    public int NewWidth { get; set; }
+    public int NewWidth
+    {
+        get;
+        set;
+    }
 
 }

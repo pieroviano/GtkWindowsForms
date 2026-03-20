@@ -28,6 +28,7 @@ public class QueryPageSettingsEventArgs : PrintEventArgs
 
             return _pageSettings;
         }
+
         set
         {
             value ??= new PageSettings();
@@ -42,6 +43,10 @@ public class QueryPageSettingsEventArgs : PrintEventArgs
     /// if PageSettings property was accessed. It will return a false positive when the user is reading property values,
     /// but we'll take a perf hit in this case assuming this event is not used often.
     /// </summary>
-    internal bool PageSettingsChanged { get; set; }
+    internal bool PageSettingsChanged
+    {
+        get;
+        set;
+    }
 
 }

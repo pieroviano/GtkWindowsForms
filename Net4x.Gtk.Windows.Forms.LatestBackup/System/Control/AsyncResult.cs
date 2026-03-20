@@ -16,7 +16,11 @@ public class AsyncResult : IAsyncResult
     /// <summary>
     /// Gets a user-defined object that qualifies or contains information about an asynchronous operation.
     /// </summary>
-    public object AsyncState { get; set; }
+    public object AsyncState
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a
@@ -28,11 +32,19 @@ public class AsyncResult : IAsyncResult
     /// <summary>
     /// Gets a value that indicates whether the asynchronous operation completed synchronously.
     /// </summary>
-    public bool CompletedSynchronously { get; set; }
+    public bool CompletedSynchronously
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value that indicates whether the asynchronous operation has completed.
     /// </summary>
-    public bool IsCompleted { get; set; }
+    public bool IsCompleted
+    {
+        get;
+        set;
+    }
 
 }

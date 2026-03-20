@@ -42,12 +42,20 @@ public class SplitterCancelEventArgs : CancelEventArgs
     /// Gets the x-coordinate of the upper-left corner of the
     /// <see cref="T:System.Windows.Forms.SplitContainer" /> (in client coordinates).
     /// </summary>
-    public int SplitX { get; set; }
+    public int SplitX
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the y-coordinate of the upper-left corner of the
     /// <see cref="T:System.Windows.Forms.SplitContainer" /> (in client coordinates).
     /// </summary>
-    public int SplitY { get; set; }
+    public int SplitY
+    {
+        get;
+        set;
+    }
 
 }

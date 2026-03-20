@@ -39,7 +39,11 @@ public class DataGridViewCellStyle : ICloneable
     /// <value>
     /// The alignment.
     /// </value>
-    public DataGridViewContentAlignment Alignment { get; set; }
+    public DataGridViewContentAlignment Alignment
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the back.
@@ -47,7 +51,11 @@ public class DataGridViewCellStyle : ICloneable
     /// <value>
     /// The color of the back.
     /// </value>
-    public Color BackColor { get; set; }
+    public Color BackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the data source null value.
@@ -58,7 +66,11 @@ public class DataGridViewCellStyle : ICloneable
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public object DataSourceNullValue { get; set; }
+    public object DataSourceNullValue
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the font.
@@ -66,7 +78,11 @@ public class DataGridViewCellStyle : ICloneable
     /// <value>
     /// The font.
     /// </value>
-    public Font Font { get; set; }
+    public Font Font
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the fore.
@@ -74,7 +90,11 @@ public class DataGridViewCellStyle : ICloneable
     /// <value>
     /// The color of the fore.
     /// </value>
-    public Color ForeColor { get; set; }
+    public Color ForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the format.
@@ -83,7 +103,11 @@ public class DataGridViewCellStyle : ICloneable
     /// The format.
     /// </value>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public string Format { get; set; }
+    public string Format
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the format provider.
@@ -93,7 +117,11 @@ public class DataGridViewCellStyle : ICloneable
     /// </value>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public IFormatProvider FormatProvider { get; set; }
+    public IFormatProvider FormatProvider
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance is data source null value default.
@@ -148,7 +176,11 @@ public class DataGridViewCellStyle : ICloneable
     /// </value>
     [DefaultValue("")]
     [TypeConverter(typeof(StringConverter))]
-    public object NullValue { get; set; }
+    public object NullValue
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the padding.
@@ -156,7 +188,11 @@ public class DataGridViewCellStyle : ICloneable
     /// <value>
     /// The padding.
     /// </value>
-    public Padding Padding { get; set; }
+    public Padding Padding
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the selection back.
@@ -164,7 +200,11 @@ public class DataGridViewCellStyle : ICloneable
     /// <value>
     /// The color of the selection back.
     /// </value>
-    public Color SelectionBackColor { get; set; }
+    public Color SelectionBackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the selection fore.
@@ -172,7 +212,11 @@ public class DataGridViewCellStyle : ICloneable
     /// <value>
     /// The color of the selection fore.
     /// </value>
-    public Color SelectionForeColor { get; set; }
+    public Color SelectionForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the tag.
@@ -182,7 +226,11 @@ public class DataGridViewCellStyle : ICloneable
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public object Tag { get; set; }
+    public object Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the wrap mode.
@@ -191,7 +239,11 @@ public class DataGridViewCellStyle : ICloneable
     /// The wrap mode.
     /// </value>
     [DefaultValue(DataGridViewTriState.NotSet)]
-    public DataGridViewTriState WrapMode { get; set; }
+    public DataGridViewTriState WrapMode
+    {
+        get;
+        set;
+    }
 
     internal DataGridViewCellStyleScopes Scope
     {
@@ -199,6 +251,7 @@ public class DataGridViewCellStyle : ICloneable
         {
             return scope;
         }
+
         set
         {
             scope = value;

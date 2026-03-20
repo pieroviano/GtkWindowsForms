@@ -1,5 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
+
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -10,8 +11,8 @@ namespace System.Windows.Forms;
 
 /// <summary>
 /// Represents the raw preview part of print previewing from a Windows Forms application, without any dialog boxes or buttons. Most
-/// <see cref="T:System.Windows.Forms.PrintPreviewControl"/> objects are found on
-/// <see cref="T:System.Windows.Forms.PrintPreviewDialog"/>
+/// <see cref="T:System.Windows.Forms.PrintPreviewControl" /> objects are found on
+/// <see cref="T:System.Windows.Forms.PrintPreviewDialog" />
 /// objects, but they do not have to be.
 /// </summary>
 [DefaultProperty(nameof(Document))]
@@ -30,11 +31,12 @@ public partial class PrintPreviewControl : Control
 
     private int _rows = 1;
 
-    private int _startPage; // 0-based
+    private int _startPage;  // 0-based
 
     private double _zoom = DefaultZoom;
 
     // Spacing per page, in mm
+
     private const int Border = 10;
 
     private const double DefaultZoom = .3;
@@ -43,7 +45,7 @@ public partial class PrintPreviewControl : Control
 
     private const double pxscale = 0.75;
 
-    private static readonly object s_startPageChangedEvent = new object ();
+    private static readonly object s_startPageChangedEvent = new object();
 
     private readonly Gtk.ScrolledWindow scroll;
 
@@ -52,23 +54,32 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// Occurs when start page changed.
     /// </summary>
-    public event EventHandler StartPageChanged { add => Events.AddHandler(s_startPageChangedEvent, value); remove => Events.RemoveHandler(s_startPageChangedEvent, value); }
+    public event EventHandler StartPageChanged
+    {
+        add => Events.AddHandler(s_startPageChangedEvent, value);
+        remove => Events.RemoveHandler(s_startPageChangedEvent, value);
+    }
 
     /// <summary>
     /// Occurs when text changed.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public new event EventHandler TextChanged { add => base.TextChanged += value; remove => base.TextChanged -= value; }
+    public new event EventHandler TextChanged
+    {
+        add => base.TextChanged += value;
+        remove => base.TextChanged -= value;
+    }
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.PrintPreviewControl"/> class.
+    /// <see cref="T:System.Windows.Forms.PrintPreviewControl" /> class.
     /// </summary>
     public PrintPreviewControl()
     {
         Size = new Size(600, 500);
         self.StyleContext.AddClass("PrintPreviewBack");
+
         paper = new ViewportBase
         {
             Valign = Align.Center,
@@ -101,6 +112,7 @@ public partial class PrintPreviewControl : Control
     public bool AutoZoom
     {
         get => _autoZoom;
+
         set
         {
             if (_autoZoom != value)
@@ -120,6 +132,7 @@ public partial class PrintPreviewControl : Control
     public int Columns
     {
         get => _columns;
+
         set
         {
             _columns = value;
@@ -136,6 +149,7 @@ public partial class PrintPreviewControl : Control
     public PrintDocument Document
     {
         get => _document;
+
         set
         {
             _document = value;
@@ -166,6 +180,7 @@ public partial class PrintPreviewControl : Control
     public override RightToLeft RightToLeft
     {
         get => base.RightToLeft;
+
         set
         {
             base.RightToLeft = value;
@@ -183,6 +198,7 @@ public partial class PrintPreviewControl : Control
     public int Rows
     {
         get => _rows;
+
         set
         {
             _rows = value;
@@ -229,7 +245,12 @@ public partial class PrintPreviewControl : Control
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public new bool TabStop { get => base.TabStop; set => base.TabStop = value; }
+    public new bool TabStop
+    {
+        get => base.TabStop;
+
+        set => base.TabStop = value;
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -240,7 +261,12 @@ public partial class PrintPreviewControl : Control
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Bindable(false)]
-    public override string Text { get => base.Text; set => base.Text = value; }
+    public override string Text
+    {
+        get => base.Text;
+
+        set => base.Text = value;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether use anti alias.
@@ -254,7 +280,11 @@ public partial class PrintPreviewControl : Control
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool UseAntiAlias { get; set; }
+    public bool UseAntiAlias
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the zoom.
@@ -266,6 +296,7 @@ public partial class PrintPreviewControl : Control
     public double Zoom
     {
         get => _zoom;
+
         set
         {
             _autoZoom = false;
@@ -295,11 +326,11 @@ public partial class PrintPreviewControl : Control
 
     /// <summary>
     /// Handles the
-    /// <see cref="T:System.Windows.Forms.PrintPreviewControl.StartPageChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.PrintPreviewControl.StartPageChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected virtual void OnStartPageChanged(EventArgs e)
     {
@@ -319,15 +350,16 @@ public partial class PrintPreviewControl : Control
             var bottom = (int)Math.Round(setup.GetBottomMargin(Unit.Points) / pxscale, 0);
             var width = (int)Math.Round(setup.GetPaperWidth(Unit.Points) / pxscale, 0); //page<paper
             var height = (int)Math.Round(setup.GetPaperHeight(Unit.Points) / pxscale, 0);
+
             if (AutoZoom == false)
             {
+
                 paper.WidthRequest = (int)Math.Round(width * _zoom, 0);
                 paper.HeightRequest = (int)Math.Round(height * _zoom, 0);
                 self.WidthRequest = paper.WidthRequest + 100;
                 self.HeightRequest = paper.HeightRequest + 100;
                 cr.Scale(_zoom, _zoom);
             }
-
             cr.Translate(0, 0);
             cr.Rectangle(0, 0, width, height);
             cr.SetSourceRGBA(ForeColor.R / 255, ForeColor.G / 255, ForeColor.B / 255, ForeColor.A / 255);

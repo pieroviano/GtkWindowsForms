@@ -58,6 +58,7 @@ public partial class CheckBox : Control
     public bool Checked
     {
         get { return self.Active; }
+
         set { self.Active = value; if (self.IsRealized) { self.Inconsistent = false; } }
     }
 
@@ -70,6 +71,7 @@ public partial class CheckBox : Control
     public CheckState CheckState
     {
         get { if (self.Inconsistent == true) { return CheckState.Indeterminate; } else { return self.Active ? CheckState.Checked : CheckState.Unchecked; } }
+
         set { self.Inconsistent = value == CheckState.Indeterminate; self.Active = value == CheckState.Checked; }
     }
 
@@ -87,7 +89,21 @@ public partial class CheckBox : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get { return self.Label; } set { self.Label = value; } }
+    public override string Text
+    {
+        get { return self.Label; }
+        set { self.Label = value; }
+    }
+
+    /// <summary>
+    /// Raises the CheckedChanged event.
+    /// </summary>
+    protected virtual void OnCheckedChanged(System.EventArgs e) { CheckedChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the CheckStateChanged event.
+    /// </summary>
+    protected virtual void OnCheckStateChanged(System.EventArgs e) {; }
 
     private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {

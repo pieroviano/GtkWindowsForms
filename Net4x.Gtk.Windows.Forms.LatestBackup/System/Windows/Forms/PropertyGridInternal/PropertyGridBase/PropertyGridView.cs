@@ -131,7 +131,11 @@ internal sealed partial class PropertyGridView
         tree.Model = store;
     }
 
-    public PropertyGrid OwnerGrid { get; private set; }
+    public PropertyGrid OwnerGrid
+    {
+        get;
+        private set;
+    }
 
     public void LoadPropertyInfo(object entryobj)
     {
@@ -258,6 +262,16 @@ internal sealed partial class PropertyGridView
         }
     }
 
+    /// <summary>
+    /// Raises the PropertyValueChanged event.
+    /// </summary>
+    private void OnPropertyValueChanged(System.Windows.Forms.PropertyValueChangedEventArgs e) { PropertyValueChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the SelectedGridItemChanged event.
+    /// </summary>
+    private void OnSelectedGridItemChanged(System.Windows.Forms.SelectedGridItemChangedEventArgs e) { SelectedGridItemChanged?.Invoke(this, e); }
+
     private void Selection_Changed(object sender, EventArgs e)
     {
         if (tree.Selection.GetSelected(out ITreeModel model, out Gtk.TreeIter oiter))
@@ -369,6 +383,7 @@ internal sealed partial class PropertyGridView
                 }
 
             }
+
             get { return _value; }
         }
 
@@ -385,6 +400,7 @@ internal sealed partial class PropertyGridView
                     base.Weight = value.Level == 0 ? 900 : 200;
                 }
             }
+
             get { return _value; }
         }
 

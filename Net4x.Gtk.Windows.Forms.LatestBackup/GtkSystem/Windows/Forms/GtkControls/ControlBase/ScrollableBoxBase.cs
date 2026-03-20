@@ -52,6 +52,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     public virtual bool AutoScroll
     {
         get => base.VscrollbarPolicy == Gtk.PolicyType.Automatic;
+
         set
         {
             if (value == true)
@@ -80,7 +81,11 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// false
     /// </c>.
     /// </value>
-    public bool HScroll { get; set; } = true;
+    public bool HScroll
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets or sets the
@@ -92,7 +97,11 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// The active
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> used by the control.
     /// </value>
-    public GtkControlOverride Override { get; set; }
+    public GtkControlOverride Override
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether vertical scroll.
@@ -105,7 +114,11 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// false
     /// </c>.
     /// </value>
-    public bool VScroll { get; set; } = true;
+    public bool VScroll
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Adds the class.
@@ -143,6 +156,11 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
 
         return base.OnDrawn(cr);
     }
+
+    /// <summary>
+    /// Raises the Scroll event.
+    /// </summary>
+    protected virtual void OnScroll(System.Windows.Forms.ScrollEventArgs e) { Scroll?.Invoke(this, e); }
 
     /// <summary>
     /// Called when the control is shown.

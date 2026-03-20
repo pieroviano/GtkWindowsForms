@@ -2,7 +2,6 @@ using System;
 
 namespace System.Windows.Forms;
 
-
 /// <summary>
 /// Describes how cells of a DataGridView control can be selected.
 /// </summary>

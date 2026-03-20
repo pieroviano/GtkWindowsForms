@@ -28,7 +28,11 @@ public class RetrieveVirtualItemEventArgs : EventArgs
     /// <value>
     /// The item.
     /// </value>
-    public ListViewItem Item { get; set; }
+    public ListViewItem Item
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the index of the item.

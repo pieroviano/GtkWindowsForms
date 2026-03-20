@@ -48,8 +48,8 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     /// </summary>
     public virtual event ScrollEventHandler Scroll
     {
-        add { if (scrollbase != null) { scrollbase.Scroll += value; } }
-        remove { if (scrollbase != null) { scrollbase.Scroll -= value; } }
+        add { scrollbase?.Scroll += value; }
+        remove { scrollbase?.Scroll -= value; }
     }
 
     /// <summary>
@@ -67,6 +67,7 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     public virtual bool AutoScroll
     {
         get => _AutoScroll;
+
         set
         {
             _AutoScroll = value;
@@ -78,17 +79,29 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     /// <summary>
     /// Gets or sets the margin around the auto-scroll area.
     /// </summary>
-    public Size AutoScrollMargin { get; set; }
+    public Size AutoScrollMargin
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the minimum size of the auto-scroll area.
     /// </summary>
-    public Size AutoScrollMinSize { get; set; }
+    public Size AutoScrollMinSize
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the current scroll position of the auto-scrollable control.
     /// </summary>
-    public Point AutoScrollPosition { get; set; }
+    public Point AutoScrollPosition
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the control is automatically resized to fit its contents.
@@ -97,6 +110,7 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     public override bool AutoSize
     {
         get => base.AutoSize;
+
         set
         {
             base.AutoSize = value;
@@ -119,7 +133,11 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     /// <summary>
     /// Gets or sets whether the horizontal scrollbar is visible.
     /// </summary>
-    protected bool HScroll { get => scrollbase.HScroll; set => scrollbase.HScroll = value; }
+    protected bool HScroll
+    {
+        get => scrollbase.HScroll;
+        set => scrollbase.HScroll = value;
+    }
 
     /// <summary>
     /// Gets or sets whether the vertical scrollbar is visible.
@@ -127,7 +145,11 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     //public VScrollProperties VerticalScroll { get; }
     //public DockPaddingEdges DockPadding { get; }
     //public HScrollProperties HorizontalScroll { get; }
-    protected bool VScroll { get => scrollbase.VScroll; set => scrollbase.VScroll = value; }
+    protected bool VScroll
+    {
+        get => scrollbase.VScroll;
+        set => scrollbase.VScroll = value;
+    }
 
     /// <summary>
     /// Associates an external scrollable window implementation with this control.

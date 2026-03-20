@@ -39,6 +39,7 @@ public sealed class SolidBrush : Brush
     public Color Color
     {
         get;
+
         set;
     }
 

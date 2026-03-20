@@ -97,7 +97,12 @@ public static class CsFileOrganizer
         var newRoot = root.WithMembers(SyntaxFactory.List(newMembers));
 
         var rewriter = new ReturnBlankLineRewriter();
-        return (CompilationUnitSyntax)rewriter.Visit(newRoot);
+        newRoot = (CompilationUnitSyntax)rewriter.Visit(newRoot);
+
+        var accessorRewriter = new PropertyAccessorRewriter();
+        newRoot = (CompilationUnitSyntax)accessorRewriter.Visit(newRoot);
+
+        return newRoot;
     }
 
     private static NamespaceDeclarationSyntax ProcessNamespace(NamespaceDeclarationSyntax ns)

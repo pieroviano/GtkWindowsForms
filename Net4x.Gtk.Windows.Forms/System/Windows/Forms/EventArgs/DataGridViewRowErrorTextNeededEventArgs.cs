@@ -26,7 +26,11 @@ public class DataGridViewRowErrorTextNeededEventArgs : EventArgs
     /// <value>
     /// The error text.
     /// </value>
-    public string ErrorText { get; set; }
+    public string ErrorText
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the index of the row.

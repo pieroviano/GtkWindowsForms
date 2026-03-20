@@ -117,7 +117,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The advanced border style.
     /// </value>
-    public DataGridViewAdvancedBorderStyle AdvancedBorderStyle { get; private set; }
+    public DataGridViewAdvancedBorderStyle AdvancedBorderStyle
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the cell bounds.
@@ -125,7 +129,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The cell bounds.
     /// </value>
-    public Rectangle CellBounds { get; private set; }
+    public Rectangle CellBounds
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the cell style.
@@ -133,7 +141,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The cell style.
     /// </value>
-    public DataGridViewCellStyle CellStyle { get; private set; }
+    public DataGridViewCellStyle CellStyle
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the clip bounds.
@@ -141,7 +153,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The clip bounds.
     /// </value>
-    public Rectangle ClipBounds { get; private set; }
+    public Rectangle ClipBounds
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the index of the column.
@@ -149,7 +165,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The index of the column.
     /// </value>
-    public int ColumnIndex { get; private set; }
+    public int ColumnIndex
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the error text.
@@ -157,7 +177,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The error text.
     /// </value>
-    public string ErrorText { get; private set; }
+    public string ErrorText
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the formatted value.
@@ -165,7 +189,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The formatted value.
     /// </value>
-    public object FormattedValue { get; private set; }
+    public object FormattedValue
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the graphics.
@@ -173,7 +201,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The graphics.
     /// </value>
-    public Graphics Graphics { get; private set; }
+    public Graphics Graphics
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the paint parts.
@@ -181,7 +213,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The paint parts.
     /// </value>
-    public DataGridViewPaintParts PaintParts { get; private set; }
+    public DataGridViewPaintParts PaintParts
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the index of the row.
@@ -189,7 +225,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The index of the row.
     /// </value>
-    public int RowIndex { get; private set; }
+    public int RowIndex
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the state.
@@ -197,7 +237,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The state.
     /// </value>
-    public DataGridViewElementStates State { get; private set; }
+    public DataGridViewElementStates State
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the value.
@@ -205,7 +249,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The value.
     /// </value>
-    public object Value { get; private set; }
+    public object Value
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Paints the specified clip bounds.

@@ -494,6 +494,7 @@ public sealed class EncoderParameter : IDisposable
         {
             return new Encoder(_parameterGuid);
         }
+
         set
         {
             _parameterGuid = value.Guid;

@@ -80,6 +80,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     public bool AutoScroll
     {
         get => ScrollView.VscrollbarPolicy == Gtk.PolicyType.Automatic;
+
         set
         {
             if (value == true)
@@ -108,7 +109,11 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// false
     /// </c>.
     /// </value>
-    public bool HScroll { get; set; } = true;
+    public bool HScroll
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets or sets the
@@ -123,7 +128,11 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// The active
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> used by the control.
     /// </value>
-    public GtkControlOverride Override { get; set; }
+    public GtkControlOverride Override
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether vertical scroll.
@@ -136,7 +145,11 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// false
     /// </c>.
     /// </value>
-    public bool VScroll { get; set; } = true;
+    public bool VScroll
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Adds the specified child.
@@ -206,6 +219,16 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
         }
     }
+
+    /// <summary>
+    /// Raises the CloseWindowEvent event.
+    /// </summary>
+    private void OnCloseWindowEvent(EventArgs e) { CloseWindowEvent?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the Scroll event.
+    /// </summary>
+    private void OnScroll(System.Windows.Forms.ScrollEventArgs e) { Scroll?.Invoke(this, e); }
 
     private void Vadjustment_ValueChanged(object sender, EventArgs e)
     {

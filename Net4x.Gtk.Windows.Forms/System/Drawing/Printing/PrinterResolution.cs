@@ -1,9 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-
 namespace System.Drawing.Printing;
-
 
 /// <summary>
 /// Retrieves the resolution supported by a printer.
@@ -34,6 +32,7 @@ public partial class PrinterResolution
     public PrinterResolutionKind Kind
     {
         get => _kind;
+
         set
         {
             _kind = value;
@@ -43,12 +42,20 @@ public partial class PrinterResolution
     /// <summary>
     /// Gets the printer resolution in the horizontal direction, in dots per inch.
     /// </summary>
-    public int X { get; set; }
+    public int X
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the printer resolution in the vertical direction, in dots per inch.
     /// </summary>
-    public int Y { get; set; }
+    public int Y
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Converts to string.

@@ -35,13 +35,21 @@ public class SplitterEventArgs : EventArgs
     /// Gets the x-coordinate of the upper-left corner of the
     /// <see cref="!:Splitter" /> (in client coordinates).
     /// </summary>
-    public int SplitX { get; set; }
+    public int SplitX
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the y-coordinate of the upper-left corner of the
     /// <see cref="!:Splitter" /> (in client coordinates).
     /// </summary>
-    public int SplitY { get; set; }
+    public int SplitY
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the x-coordinate of the mouse pointer (in client coordinates).

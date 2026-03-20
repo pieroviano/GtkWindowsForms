@@ -32,7 +32,11 @@ public sealed class OpenFileDialog : FileDialog
     /// false
     /// </c>.
     /// </value>
-    public new bool Multiselect { get => base.Multiselect; set => base.Multiselect = value; }
+    public new bool Multiselect
+    {
+        get => base.Multiselect;
+        set => base.Multiselect = value;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether read only checked.
@@ -45,7 +49,11 @@ public sealed class OpenFileDialog : FileDialog
     /// false
     /// </c>.
     /// </value>
-    public bool ReadOnlyChecked { get; set; }
+    public bool ReadOnlyChecked
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the name of the safe file.
@@ -92,7 +100,11 @@ public sealed class OpenFileDialog : FileDialog
     /// false
     /// </c>.
     /// </value>
-    public bool ShowReadOnly { get; set; }
+    public bool ShowReadOnly
+    {
+        get;
+        set;
+    }
 
     private new string Description => base.Description;
 

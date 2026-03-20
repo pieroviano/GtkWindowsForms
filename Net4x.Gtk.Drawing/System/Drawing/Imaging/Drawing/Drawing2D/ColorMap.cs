@@ -34,6 +34,7 @@ public sealed class ColorMap
         {
             return _newColor;
         }
+
         set
         {
             _newColor = value;
@@ -54,6 +55,7 @@ public sealed class ColorMap
         {
             return _oldColor;
         }
+
         set
         {
             _oldColor = value;

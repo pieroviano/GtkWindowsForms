@@ -68,6 +68,7 @@ public partial class TextBox : Control
         {
             return [self.Text];
         }
+
         set
         {
             if (value is null || value.Length == 0)
@@ -87,7 +88,11 @@ public partial class TextBox : Control
     /// <value>
     /// The maximum length.
     /// </value>
-    public int MaxLength { get => self.MaxLength; set => self.MaxLength = value; }
+    public int MaxLength
+    {
+        get => self.MaxLength;
+        set => self.MaxLength = value;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -101,7 +106,11 @@ public partial class TextBox : Control
     /// false
     /// </c>.
     /// </value>
-    public bool Multiline { get; set; }
+    public bool Multiline
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the password character.
@@ -109,7 +118,11 @@ public partial class TextBox : Control
     /// <value>
     /// The password character.
     /// </value>
-    public virtual char PasswordChar { get => self.InvisibleChar; set { self.InvisibleChar = value; self.Visibility = false; } }
+    public virtual char PasswordChar
+    {
+        get => self.InvisibleChar;
+        set { self.InvisibleChar = value; self.Visibility = false; }
+    }
 
     /// <summary>
     /// Gets or sets the placeholder text.
@@ -117,7 +130,11 @@ public partial class TextBox : Control
     /// <value>
     /// The placeholder text.
     /// </value>
-    public string PlaceholderText { get { return self.PlaceholderText; } set { self.PlaceholderText = value ?? ""; } }
+    public string PlaceholderText
+    {
+        get { return self.PlaceholderText; }
+        set { self.PlaceholderText = value ?? ""; }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether read only.
@@ -130,7 +147,11 @@ public partial class TextBox : Control
     /// false
     /// </c>.
     /// </value>
-    public virtual bool ReadOnly { get { return self.IsEditable == false; } set { self.IsEditable = value == false; } }
+    public virtual bool ReadOnly
+    {
+        get { return self.IsEditable == false; }
+        set { self.IsEditable = value == false; }
+    }
 
     /// <summary>
     /// Gets or sets the length of the selection.
@@ -147,6 +168,7 @@ public partial class TextBox : Control
 
             return end - start;
         }
+
         set
         {
             Select(SelectionStart, value);
@@ -167,6 +189,7 @@ public partial class TextBox : Control
 
             return start;
         }
+
         set { Select(value, SelectionLength); }
     }
 
@@ -176,7 +199,11 @@ public partial class TextBox : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get { return self.Text; } set { self.Text = value ?? ""; } }
+    public override string Text
+    {
+        get { return self.Text; }
+        set { self.Text = value ?? ""; }
+    }
 
     /// <summary>
     /// Inserts the text at cursor.
@@ -204,6 +231,16 @@ public partial class TextBox : Control
     {
         self.SelectRegion(start, start + length);
     }
+
+    /// <summary>
+    /// Raises the KeyDown event.
+    /// </summary>
+    protected virtual void OnKeyDown(System.Windows.Forms.KeyEventArgs e) { KeyDown?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the TextChanged event.
+    /// </summary>
+    protected virtual void OnTextChanged(System.EventArgs e) { TextChanged?.Invoke(this, e); }
 
     private void Self_Changed(object sender, EventArgs e)
     {

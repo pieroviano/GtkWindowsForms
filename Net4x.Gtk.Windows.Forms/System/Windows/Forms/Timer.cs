@@ -58,7 +58,11 @@ public class Timer : Component
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public virtual bool Enabled { get => TimersTimer.Enabled; set => TimersTimer.Enabled = value; }
+    public virtual bool Enabled
+    {
+        get => TimersTimer.Enabled;
+        set => TimersTimer.Enabled = value;
+    }
 
     /// <summary>
     /// Gets or sets the interval.
@@ -67,7 +71,11 @@ public class Timer : Component
     /// The interval.
     /// </value>
     [DefaultValue(100)]
-    public int Interval { get => (int)TimersTimer.Interval; set => TimersTimer.Interval = value; }
+    public int Interval
+    {
+        get => (int)TimersTimer.Interval;
+        set => TimersTimer.Interval = value;
+    }
 
     /// <summary>
     /// Gets or sets the tag.
@@ -79,7 +87,11 @@ public class Timer : Component
     [DefaultValue(null)]
     [Localizable(false)]
     [TypeConverter(typeof(StringConverter))]
-    public object Tag { get; set; }
+    public object Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Starts this instance.
@@ -128,6 +140,11 @@ public class Timer : Component
     {
         Dispose(true);
     }
+
+    /// <summary>
+    /// Raises the Tick event.
+    /// </summary>
+    protected virtual void OnTick(System.EventArgs e) { Tick?.Invoke(this, e); }
 
     private void TimersTimer_Elapsed(object sender, Timers.ElapsedEventArgs e)
     {

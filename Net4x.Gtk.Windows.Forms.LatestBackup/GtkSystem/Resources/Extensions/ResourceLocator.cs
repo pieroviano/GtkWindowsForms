@@ -21,6 +21,7 @@ internal struct ResourceLocator
         {
             return _value;
         }
+
         set
         {
             _value = value;

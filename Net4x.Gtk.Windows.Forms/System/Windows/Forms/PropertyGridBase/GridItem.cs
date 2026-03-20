@@ -37,6 +37,7 @@ public abstract class GridItem
     public virtual bool Expanded
     {
         get;
+
         set;
     }
 
@@ -90,7 +91,11 @@ public abstract class GridItem
     [Bindable(true)]
     [DefaultValue(null)]
     [TypeConverter(typeof(StringConverter))]
-    public object Tag { get; set; }
+    public object Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the value.

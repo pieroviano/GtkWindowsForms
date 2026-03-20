@@ -51,6 +51,7 @@ public partial class SwitchBox : Control
     public bool Checked
     {
         get { return self.Active; }
+
         set
         {
             self.Active = value;
@@ -73,7 +74,16 @@ public partial class SwitchBox : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get { return self.TooltipText; } set { self.TooltipText = value; } }
+    public override string Text
+    {
+        get { return self.TooltipText; }
+        set { self.TooltipText = value; }
+    }
+
+    /// <summary>
+    /// Raises the CheckedChanged event.
+    /// </summary>
+    protected virtual void OnCheckedChanged(System.EventArgs e) { CheckedChanged?.Invoke(this, e); }
 
     private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {

@@ -150,6 +150,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     public FillMode FillMode
     {
         get;
+
         set;
     }
 
@@ -166,6 +167,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     public PathData PathData
     {
         get;
+
         private set;
     }
 
@@ -179,6 +181,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     public PointF[] PathPoints
     {
         get;
+
         private set;
     }
 
@@ -192,6 +195,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     public byte[] PathTypes
     {
         get;
+
         private set;
     }
 
@@ -208,24 +212,57 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     public int PointCount
     {
         get;
+
         private set;
     }
 
-    internal Cairo.Context Context { get; set; }
+    internal Cairo.Context Context
+    {
+        get;
+        set;
+    }
 
-    internal PointF[] destPoints { get; set; }
+    internal PointF[] destPoints
+    {
+        get;
+        set;
+    }
 
-    internal float flatness { get; set; }
+    internal float flatness
+    {
+        get;
+        set;
+    }
 
-    internal bool IsCloseAllFigures { get; set; }
+    internal bool IsCloseAllFigures
+    {
+        get;
+        set;
+    }
 
-    internal Matrix matrix { get; set; }
+    internal Matrix matrix
+    {
+        get;
+        set;
+    }
 
-    internal Pen pen { get; set; }
+    internal Pen pen
+    {
+        get;
+        set;
+    }
 
-    internal RectangleF srcRect { get; set; }
+    internal RectangleF srcRect
+    {
+        get;
+        set;
+    }
 
-    internal WarpMode warpMode { get; set; }
+    internal WarpMode warpMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Appends an elliptical arc to the current figure.
@@ -1896,7 +1933,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <value>
         /// The rect.
         /// </value>
-        public RectangleF rect { get; set; }
+        public RectangleF rect
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the start angle.
@@ -1904,7 +1945,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <value>
         /// The start angle.
         /// </value>
-        public float startAngle { get; set; }
+        public float startAngle
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the sweep angle.
@@ -1912,7 +1957,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <value>
         /// The sweep angle.
         /// </value>
-        public float sweepAngle { get; set; }
+        public float sweepAngle
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -1924,22 +1973,38 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the first control/starting point.
         /// </summary>
-        public PointF pt1 { get; set; }
+        public PointF pt1
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the second control point.
         /// </summary>
-        public PointF pt2 { get; set; }
+        public PointF pt2
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the third control point.
         /// </summary>
-        public PointF pt3 { get; set; }
+        public PointF pt3
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the endpoint of the bezier curve.
         /// </summary>
-        public PointF pt4 { get; set; }
+        public PointF pt4
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -1951,7 +2016,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the points that define the Bézier curves.
         /// </summary>
-        public PointF[] points { get; set; }
+        public PointF[] points
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -1963,17 +2032,29 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the fill mode used for closed curve filling.
         /// </summary>
-        public FillMode fillmode { get; set; }
+        public FillMode fillmode
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the points that define the closed curve.
         /// </summary>
-        public PointF[] points { get; set; }
+        public PointF[] points
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the tension of the closed curve.
         /// </summary>
-        public float tension { get; set; }
+        public float tension
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -1985,22 +2066,38 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the number of segments to use when drawing the curve.
         /// </summary>
-        public int numberOfSegments { get; set; }
+        public int numberOfSegments
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the offset index in the points array.
         /// </summary>
-        public int offset { get; set; }
+        public int offset
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the points that define the spline.
         /// </summary>
-        public PointF[] points { get; set; }
+        public PointF[] points
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the tension for the spline.
         /// </summary>
-        public float tension { get; set; }
+        public float tension
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2012,7 +2109,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the bounding rectangle for the ellipse.
         /// </summary>
-        public RectangleF rect { get; set; }
+        public RectangleF rect
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2024,12 +2125,20 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets a value indicating whether this figure is closed.
         /// </summary>
-        public bool close { get; set; }
+        public bool close
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this figure is a start marker.
         /// </summary>
-        public bool start { get; set; }
+        public bool start
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2041,12 +2150,20 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the starting point of the line.
         /// </summary>
-        public PointF pt1 { get; set; }
+        public PointF pt1
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the endpoint of the line.
         /// </summary>
-        public PointF pt2 { get; set; }
+        public PointF pt2
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2058,7 +2175,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the points that define the connected lines.
         /// </summary>
-        public PointF[] points { get; set; }
+        public PointF[] points
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2070,12 +2191,20 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets whether the path should be connected to the previous figure.
         /// </summary>
-        public bool connect { get; set; }
+        public bool connect
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the path to add.
         /// </summary>
-        public GraphicsPath path { get; set; }
+        public GraphicsPath path
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2087,17 +2216,29 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the bounding rectangle for the pie.
         /// </summary>
-        public RectangleF rect { get; set; }
+        public RectangleF rect
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the starting angle for the pie.
         /// </summary>
-        public float startAngle { get; set; }
+        public float startAngle
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the sweep angle for the pie.
         /// </summary>
-        public float sweepAngle { get; set; }
+        public float sweepAngle
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2109,7 +2250,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the points that define the polygon.
         /// </summary>
-        public PointF[] points { get; set; }
+        public PointF[] points
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2121,7 +2266,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the rectangle.
         /// </summary>
-        public RectangleF rect { get; set; }
+        public RectangleF rect
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2133,7 +2282,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the rectangles.
         /// </summary>
-        public RectangleF[] rects { get; set; }
+        public RectangleF[] rects
+        {
+            get;
+            set;
+        }
 
     }
 
@@ -2145,32 +2298,56 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the em size (font em height) used for the string.
         /// </summary>
-        public float emSize { get; set; }
+        public float emSize
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the font family for the string.
         /// </summary>
-        public FontFamily family { get; set; }
+        public FontFamily family
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the optional string format for layout.
         /// </summary>
-        public StringFormat? format { get; set; }
+        public StringFormat? format
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the layout rectangle for the string.
         /// </summary>
-        public RectangleF layoutRect { get; set; }
+        public RectangleF layoutRect
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the style (FontStyle value encoded as int) for the string.
         /// </summary>
-        public int style { get; set; }
+        public int style
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the string text.
         /// </summary>
-        public string text { get; set; }
+        public string text
+        {
+            get;
+            set;
+        }
 
     }
 }

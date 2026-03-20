@@ -140,7 +140,11 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
     /// false
     /// </c>.
     /// </value>
-    public bool Activatable { get; set; }
+    public bool Activatable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Sets the cell value.
@@ -170,9 +174,17 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
     /// <value>
     /// The column style.
     /// </value>
-    public DataGridViewCellStyle ColumnStyle { get; set; }
+    public DataGridViewCellStyle ColumnStyle
+    {
+        get;
+        set;
+    }
 
-    string ICellRenderer.Markup { get; set; }
+    string ICellRenderer.Markup
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Called when render.
@@ -249,7 +261,11 @@ public class CellRendererComboValue : CellRendererCombo, ICellRenderer
     /// false
     /// </c>.
     /// </value>
-    public bool Activatable { get; set; }
+    public bool Activatable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Sets the cell value.
@@ -278,9 +294,17 @@ public class CellRendererComboValue : CellRendererCombo, ICellRenderer
     /// <value>
     /// The column style.
     /// </value>
-    public DataGridViewCellStyle ColumnStyle { get; set; }
+    public DataGridViewCellStyle ColumnStyle
+    {
+        get;
+        set;
+    }
 
-    string ICellRenderer.Markup { get; set; }
+    string ICellRenderer.Markup
+    {
+        get;
+        set;
+    }
 
 }
 
@@ -322,7 +346,11 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// false
     /// </c>.
     /// </value>
-    public bool Activatable { get; set; }
+    public bool Activatable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Sets the cell value.
@@ -370,7 +398,11 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// <value>
     /// The column style.
     /// </value>
-    public DataGridViewCellStyle ColumnStyle { get; set; }
+    public DataGridViewCellStyle ColumnStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -384,7 +416,11 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// false
     /// </c>.
     /// </value>
-    public bool Editable { get; set; }
+    public bool Editable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the markup.
@@ -392,7 +428,11 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// <value>
     /// The markup.
     /// </value>
-    public string Markup { get; set; }
+    public string Markup
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the width chars.
@@ -400,7 +440,11 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// <value>
     /// The width chars.
     /// </value>
-    public int WidthChars { get; set; }
+    public int WidthChars
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the wrap mode.
@@ -408,7 +452,11 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// <value>
     /// The wrap mode.
     /// </value>
-    public Pango.WrapMode WrapMode { get; set; }
+    public Pango.WrapMode WrapMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the width of the wrap.
@@ -416,7 +464,11 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// <value>
     /// The width of the wrap.
     /// </value>
-    public int WrapWidth { get; set; }
+    public int WrapWidth
+    {
+        get;
+        set;
+    }
 
 }
 
@@ -474,7 +526,11 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     /// <value>
     /// The column style.
     /// </value>
-    public DataGridViewCellStyle ColumnStyle { get; set; }
+    public DataGridViewCellStyle ColumnStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -488,7 +544,11 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     /// false
     /// </c>.
     /// </value>
-    public bool Editable { get; set; }
+    public bool Editable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the markup.
@@ -496,7 +556,11 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     /// <value>
     /// The markup.
     /// </value>
-    public string Markup { get; set; }
+    public string Markup
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the width chars.
@@ -504,7 +568,11 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     /// <value>
     /// The width chars.
     /// </value>
-    public int WidthChars { get; set; }
+    public int WidthChars
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the wrap mode.
@@ -512,7 +580,11 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     /// <value>
     /// The wrap mode.
     /// </value>
-    public Pango.WrapMode WrapMode { get; set; }
+    public Pango.WrapMode WrapMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the width of the wrap.
@@ -520,7 +592,11 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     /// <value>
     /// The width of the wrap.
     /// </value>
-    public int WrapWidth { get; set; }
+    public int WrapWidth
+    {
+        get;
+        set;
+    }
 
 }
 
@@ -564,7 +640,11 @@ public class CellRendererValue : CellRendererText, ICellRenderer
     /// false
     /// </c>.
     /// </value>
-    public bool Activatable { get; set; }
+    public bool Activatable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Sets the cell value.
@@ -594,9 +674,17 @@ public class CellRendererValue : CellRendererText, ICellRenderer
     /// <value>
     /// The column style.
     /// </value>
-    public DataGridViewCellStyle ColumnStyle { get; set; }
+    public DataGridViewCellStyle ColumnStyle
+    {
+        get;
+        set;
+    }
 
-    string ICellRenderer.Markup { get; set; }
+    string ICellRenderer.Markup
+    {
+        get;
+        set;
+    }
 
 }
 
@@ -617,7 +705,11 @@ public interface ICellRenderer
     /// false
     /// </c>.
     /// </value>
-    bool Activatable { get; set; }
+    bool Activatable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Sets the cell value.
@@ -647,7 +739,11 @@ public interface ICellRenderer
     /// false
     /// </c>.
     /// </value>
-    bool Editable { get; set; }
+    bool Editable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the height.
@@ -655,7 +751,11 @@ public interface ICellRenderer
     /// <value>
     /// The height.
     /// </value>
-    int Height { get; set; }
+    int Height
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the markup.
@@ -663,7 +763,11 @@ public interface ICellRenderer
     /// <value>
     /// The markup.
     /// </value>
-    string Markup { get; set; }
+    string Markup
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the mode.
@@ -671,7 +775,11 @@ public interface ICellRenderer
     /// <value>
     /// The mode.
     /// </value>
-    Gtk.CellRendererMode Mode { get; set; }
+    Gtk.CellRendererMode Mode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the width chars.
@@ -679,7 +787,11 @@ public interface ICellRenderer
     /// <value>
     /// The width chars.
     /// </value>
-    int WidthChars { get; set; }
+    int WidthChars
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the wrap mode.
@@ -687,7 +799,11 @@ public interface ICellRenderer
     /// <value>
     /// The wrap mode.
     /// </value>
-    Pango.WrapMode WrapMode { get; set; }
+    Pango.WrapMode WrapMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the width of the wrap.
@@ -695,6 +811,10 @@ public interface ICellRenderer
     /// <value>
     /// The width of the wrap.
     /// </value>
-    int WrapWidth { get; set; }
+    int WrapWidth
+    {
+        get;
+        set;
+    }
 
 }

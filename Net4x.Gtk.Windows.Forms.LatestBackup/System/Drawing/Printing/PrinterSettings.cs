@@ -53,6 +53,7 @@ public partial class PrinterSettings : ICloneable
     public bool CanDuplex
     {
         get;
+
         set;
     }
 
@@ -62,6 +63,7 @@ public partial class PrinterSettings : ICloneable
     public bool Collate
     {
         get;
+
         set;
     }
 
@@ -71,6 +73,7 @@ public partial class PrinterSettings : ICloneable
     public short Copies
     {
         get;
+
         set;
     }
 
@@ -85,6 +88,7 @@ public partial class PrinterSettings : ICloneable
     public Duplex Duplex
     {
         get;
+
         set;
     }
 
@@ -94,6 +98,7 @@ public partial class PrinterSettings : ICloneable
     public int FromPage
     {
         get => _fromPage;
+
         set
         {
             _fromPage = value;
@@ -106,6 +111,7 @@ public partial class PrinterSettings : ICloneable
     public static StringCollection InstalledPrinters
     {
         get;
+
         set;
     }
 
@@ -140,6 +146,7 @@ public partial class PrinterSettings : ICloneable
     public int MaximumPage
     {
         get => _maxPage;
+
         set
         {
             _maxPage = value;
@@ -152,6 +159,7 @@ public partial class PrinterSettings : ICloneable
     public int MinimumPage
     {
         get => _minPage;
+
         set
         {
             _minPage = value;
@@ -164,6 +172,7 @@ public partial class PrinterSettings : ICloneable
     public string PrinterName
     {
         get;
+
         set;
     }
 
@@ -173,6 +182,7 @@ public partial class PrinterSettings : ICloneable
     public string PrintFileName
     {
         get;
+
         set;
     }
 
@@ -182,6 +192,7 @@ public partial class PrinterSettings : ICloneable
     public PrintRange PrintRange
     {
         get => _printRange;
+
         set
         {
             _printRange = value;
@@ -191,7 +202,11 @@ public partial class PrinterSettings : ICloneable
     /// <summary>
     /// Gets or sets a value indicating whether output should be printed to a file.
     /// </summary>
-    public bool PrintToFile { get; set; }
+    public bool PrintToFile
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the last page to print in a range.
@@ -199,6 +214,7 @@ public partial class PrinterSettings : ICloneable
     public int ToPage
     {
         get => _toPage;
+
         set
         {
             _toPage = value;

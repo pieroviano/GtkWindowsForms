@@ -22,7 +22,11 @@ public class DateBoldEventArgs : EventArgs
     /// <value>
     /// The days to bold.
     /// </value>
-    public int[] DaysToBold { get; set; }
+    public int[] DaysToBold
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the size.

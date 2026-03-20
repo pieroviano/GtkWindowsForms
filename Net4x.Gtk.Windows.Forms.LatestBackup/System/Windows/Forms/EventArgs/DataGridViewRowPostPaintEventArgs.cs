@@ -99,7 +99,11 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The clip bounds.
     /// </value>
-    public Rectangle ClipBounds { get; set; }
+    public Rectangle ClipBounds
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the error text.
@@ -107,7 +111,11 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The error text.
     /// </value>
-    public string ErrorText { get; private set; }
+    public string ErrorText
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the graphics.
@@ -115,7 +123,11 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The graphics.
     /// </value>
-    public Graphics Graphics { get; private set; }
+    public Graphics Graphics
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the inherited row style.
@@ -123,7 +135,11 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The inherited row style.
     /// </value>
-    public DataGridViewCellStyle InheritedRowStyle { get; private set; }
+    public DataGridViewCellStyle InheritedRowStyle
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance is first displayed row.
@@ -136,7 +152,11 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// false
     /// </c>.
     /// </value>
-    public bool IsFirstDisplayedRow { get; private set; }
+    public bool IsFirstDisplayedRow
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance is last visible row.
@@ -149,7 +169,11 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// false
     /// </c>.
     /// </value>
-    public bool IsLastVisibleRow { get; private set; }
+    public bool IsLastVisibleRow
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the row bounds.
@@ -157,7 +181,11 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The row bounds.
     /// </value>
-    public Rectangle RowBounds { get; private set; }
+    public Rectangle RowBounds
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the index of the row.
@@ -165,7 +193,11 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The index of the row.
     /// </value>
-    public int RowIndex { get; private set; }
+    public int RowIndex
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the state.
@@ -173,7 +205,11 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The state.
     /// </value>
-    public DataGridViewElementStates State { get; private set; }
+    public DataGridViewElementStates State
+    {
+        get;
+        private set;
+    }
 
     //    _dataGridView.Rows.SharedRow(RowIndex).DrawFocus(Graphics,
     //                                                     ClipBounds,

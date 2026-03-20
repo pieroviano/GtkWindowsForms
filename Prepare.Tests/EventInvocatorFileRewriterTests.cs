@@ -25,7 +25,7 @@ public class TestClass {
         CsFile.WriteAllText(_tempFilePath, originalCode);
 
         // Act
-        EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath);
+        EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath, new[] { "Paint" });
 
         // Assert
         var updatedCode = File.ReadAllText(_tempFilePath);
@@ -44,7 +44,7 @@ public class TestClass {
         CsFile.WriteAllText(_tempFilePath, originalCode);
 
         // Act
-        EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath);
+        EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath, new[] { "Paint" });
 
         // Assert
         var updatedCode = File.ReadAllText(_tempFilePath);
@@ -56,7 +56,7 @@ public class TestClass {
     {
         // Act & Assert
         var nonExistentPath = "non_existent_file.cs";
-        var exception = Record.Exception(() => EventInvocatorFileRewriter.RewriteEventInvocations(nonExistentPath));
+        var exception = Record.Exception(() => EventInvocatorFileRewriter.RewriteEventInvocations(nonExistentPath, new[] { "PaintGraphics" }));
         Assert.Null(exception);
     }
 
@@ -72,7 +72,7 @@ public class MyControl {
         CsFile.WriteAllText(_tempFilePath, originalCode);
 
         // Act
-        EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath);
+        EventInvocatorFileRewriter.RewriteEventInvocations(_tempFilePath, new[] { "Paint" });
 
         // Assert
         var updatedCode = File.ReadAllText(_tempFilePath);

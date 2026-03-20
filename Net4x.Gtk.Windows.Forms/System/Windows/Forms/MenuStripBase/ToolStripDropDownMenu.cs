@@ -16,6 +16,12 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripDropDownMenu : ToolStripDropDown
 {
+    public virtual event EventHandler<EventArgs> FontChanged;
+
+    public virtual event EventHandler<LayoutEventArgs> Layout;
+
+    public virtual event EventHandler<PaintEventArgs> PaintBackground;
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripDropDownMenu" /> class.
@@ -33,7 +39,11 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// </value>
     //public Rectangle DisplayRectangle { get; }
     //public LayoutEngine LayoutEngine { get; }
-    public ToolStripLayoutStyle LayoutStyle { get; set; }
+    public ToolStripLayoutStyle LayoutStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show check margin.
@@ -47,7 +57,11 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool ShowCheckMargin { get; set; }
+    public bool ShowCheckMargin
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show image margin.
@@ -61,7 +75,11 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool ShowImageMargin { get; set; } = true;
+    public bool ShowImageMargin
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets the maximum size of the item.
@@ -104,7 +122,10 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnFontChanged(EventArgs e) { }
+    protected void OnFontChanged(EventArgs e)
+    {
+        FontChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Handles the
@@ -114,7 +135,10 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// The
     /// <see cref="T:System.Windows.Forms.LayoutEventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnLayout(LayoutEventArgs e) { }
+    protected void OnLayout(LayoutEventArgs e)
+    {
+        Layout?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Handles the
@@ -124,7 +148,10 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// The
     /// <see cref="T:System.Windows.Forms.PaintEventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnPaintBackground(PaintEventArgs e) { }
+    protected void OnPaintBackground(PaintEventArgs e)
+    {
+        PaintBackground?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Sets the displayed items.

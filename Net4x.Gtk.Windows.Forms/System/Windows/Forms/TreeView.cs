@@ -124,6 +124,7 @@ public partial class TreeView : ScrollableControl
     public bool CheckBoxes
     {
         get => _checkBoxs;
+
         set
         {
             _checkBoxs = value;
@@ -145,7 +146,11 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The index of the image.
     /// </value>
-    public int ImageIndex { get; set; } = -1;
+    public int ImageIndex
+    {
+        get;
+        set;
+    } = -1;
 
     /// <summary>
     /// Gets or sets the image key.
@@ -153,7 +158,11 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The image key.
     /// </value>
-    public string ImageKey { get; set; }
+    public string ImageKey
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the image list.
@@ -164,6 +173,7 @@ public partial class TreeView : ScrollableControl
     public ImageList ImageList
     {
         get => _imageList;
+
         set
         {
             _imageList = value;
@@ -201,6 +211,7 @@ public partial class TreeView : ScrollableControl
     public string PathSeparator
     {
         get;
+
         set;
     } = "\\";
 
@@ -210,7 +221,11 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The index of the selected image.
     /// </value>
-    public int SelectedImageIndex { get; set; }
+    public int SelectedImageIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the selected image key.
@@ -218,7 +233,11 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The selected image key.
     /// </value>
-    public string SelectedImageKey { get; set; }
+    public string SelectedImageKey
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the selected item.
@@ -253,6 +272,7 @@ public partial class TreeView : ScrollableControl
             }
             else { return null; }
         }
+
         set
         {
             if (value == null)
@@ -294,7 +314,11 @@ public partial class TreeView : ScrollableControl
     /// false
     /// </c>.
     /// </value>
-    public bool ShowLines { get => self.TreeView.EnableTreeLines; set { self.TreeView.EnableTreeLines = true; self.TreeView.EnableGridLines = Gtk.TreeViewGridLines.Horizontal; } }
+    public bool ShowLines
+    {
+        get => self.TreeView.EnableTreeLines;
+        set { self.TreeView.EnableTreeLines = true; self.TreeView.EnableGridLines = Gtk.TreeViewGridLines.Horizontal; }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show node tools tips.
@@ -307,7 +331,11 @@ public partial class TreeView : ScrollableControl
     /// false
     /// </c>.
     /// </value>
-    public bool ShowNodeToolsTips { get; set; }
+    public bool ShowNodeToolsTips
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show plus minus.
@@ -320,7 +348,11 @@ public partial class TreeView : ScrollableControl
     /// false
     /// </c>.
     /// </value>
-    public bool ShowPlusMinus { get; set; } = true;
+    public bool ShowPlusMinus
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether show root lines.
@@ -333,7 +365,11 @@ public partial class TreeView : ScrollableControl
     /// false
     /// </c>.
     /// </value>
-    public bool ShowRootLines { get; set; } = true;
+    public bool ShowRootLines
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Gets or sets the index of the state image.
@@ -341,7 +377,11 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The index of the state image.
     /// </value>
-    public int StateImageIndex { get; set; }
+    public int StateImageIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the state image key.
@@ -349,7 +389,11 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The state image key.
     /// </value>
-    public string StateImageKey { get; set; }
+    public string StateImageKey
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the top node.
@@ -363,6 +407,7 @@ public partial class TreeView : ScrollableControl
         {
             return root;
         }
+
         set
         {
 
@@ -502,6 +547,26 @@ public partial class TreeView : ScrollableControl
     {
         self.TreeView.ExpandRow(_store.GetPath(node.TreeIter), all);
     }
+
+    /// <summary>
+    /// Raises the AfterCollapse event.
+    /// </summary>
+    protected virtual void OnAfterCollapse(System.Windows.Forms.TreeViewEventArgs e) { AfterCollapse?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the AfterExpand event.
+    /// </summary>
+    protected virtual void OnAfterExpand(System.Windows.Forms.TreeViewEventArgs e) { AfterExpand?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the AfterSelect event.
+    /// </summary>
+    protected virtual void OnAfterSelect(System.Windows.Forms.TreeViewEventArgs e) { AfterSelect?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the BeforeSelect event.
+    /// </summary>
+    protected virtual void OnBeforeSelect(System.Windows.Forms.TreeViewCancelEventArgs e) { BeforeSelect?.Invoke(this, e); }
 
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.

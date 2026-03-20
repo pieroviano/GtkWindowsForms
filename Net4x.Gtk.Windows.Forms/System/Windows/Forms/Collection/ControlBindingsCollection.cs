@@ -46,7 +46,11 @@ public class ControlBindingsCollection : BindingsCollection
     /// Gets or sets the default data source update mode used when creating new
     /// <see cref="T:System.Windows.Forms.Binding" /> instances.
     /// </summary>
-    public DataSourceUpdateMode DefaultDataSourceUpdateMode { get; set; } = DataSourceUpdateMode.OnValidation;
+    public DataSourceUpdateMode DefaultDataSourceUpdateMode
+    {
+        get;
+        set;
+    } = DataSourceUpdateMode.OnValidation;
 
     /// <summary>
     /// Gets the first

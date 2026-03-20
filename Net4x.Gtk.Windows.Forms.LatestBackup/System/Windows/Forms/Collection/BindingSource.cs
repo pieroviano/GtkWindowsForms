@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 
 namespace System.Windows.Forms;
+
 /// <summary>
 /// Encapsulates the data source for a form.
 /// </summary>
@@ -93,83 +94,123 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// Occurs before an item is added to the underlying list.
     /// </summary>
     /// <exception cref="T:System.InvalidOperationException">
-    /// <see cref="T:System.ComponentModel.AddingNewEventArgs.NewObject"/> is not the same type as the type contained in the list.
+    /// <see cref="T:System.ComponentModel.AddingNewEventArgs.NewObject" /> is not the same type as the type contained in the list.
     /// </exception>
     [Category("CatData")]
     [Description("BindingSourceAddingNewEventHandlerDescr")]
-    public event AddingNewEventHandler AddingNew { add => Events.AddHandler(EventAddingNew, value); remove => Events.RemoveHandler(EventAddingNew, value); }
+    public event AddingNewEventHandler AddingNew
+    {
+        add => Events.AddHandler(EventAddingNew, value);
+        remove => Events.RemoveHandler(EventAddingNew, value);
+    }
 
     /// <summary>
     /// Occurs when all the clients have been bound to this
-    /// <see cref="T:System.Windows.Forms.BindingSource"/>.
+    /// <see cref="T:System.Windows.Forms.BindingSource" />.
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceBindingCompleteEventHandlerDescr")]
-    public event BindingCompleteEventHandler BindingComplete { add => Events.AddHandler(EventBindingComplete, value); remove => Events.RemoveHandler(EventBindingComplete, value); }
+    public event BindingCompleteEventHandler BindingComplete
+    {
+        add => Events.AddHandler(EventBindingComplete, value);
+        remove => Events.RemoveHandler(EventBindingComplete, value);
+    }
 
     /// <summary>
     /// Occurs when the currently bound item changes.
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceCurrentChangedEventHandlerDescr")]
-    public event EventHandler CurrentChanged { add => Events.AddHandler(EventCurrentChanged, value); remove => Events.RemoveHandler(EventCurrentChanged, value); }
+    public event EventHandler CurrentChanged
+    {
+        add => Events.AddHandler(EventCurrentChanged, value);
+        remove => Events.RemoveHandler(EventCurrentChanged, value);
+    }
 
     /// <summary>
     /// Occurs when a property value of the
-    /// <see cref="T:System.Windows.Forms.BindingSource.Current"/> property has changed.
+    /// <see cref="T:System.Windows.Forms.BindingSource.Current" /> property has changed.
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceCurrentItemChangedEventHandlerDescr")]
-    public event EventHandler CurrentItemChanged { add => Events.AddHandler(EventCurrentItemChanged, value); remove => Events.RemoveHandler(EventCurrentItemChanged, value); }
+    public event EventHandler CurrentItemChanged
+    {
+        add => Events.AddHandler(EventCurrentItemChanged, value);
+        remove => Events.RemoveHandler(EventCurrentItemChanged, value);
+    }
 
     /// <summary>
     /// Occurs when a currency-related exception is silently handled by the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/>.
+    /// <see cref="T:System.Windows.Forms.BindingSource" />.
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceDataErrorEventHandlerDescr")]
-    public event BindingManagerDataErrorEventHandler DataError { add => Events.AddHandler(EventDataError, value); remove => Events.RemoveHandler(EventDataError, value); }
+    public event BindingManagerDataErrorEventHandler DataError
+    {
+        add => Events.AddHandler(EventDataError, value);
+        remove => Events.RemoveHandler(EventDataError, value);
+    }
 
     /// <summary>
     /// Occurs when the
-    /// <see cref="T:System.Windows.Forms.BindingSource.DataMember"/> property value has changed.
+    /// <see cref="T:System.Windows.Forms.BindingSource.DataMember" /> property value has changed.
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceDataMemberChangedEventHandlerDescr")]
-    public event EventHandler DataMemberChanged { add => Events.AddHandler(EventDataMemberChanged, value); remove => Events.RemoveHandler(EventDataMemberChanged, value); }
+    public event EventHandler DataMemberChanged
+    {
+        add => Events.AddHandler(EventDataMemberChanged, value);
+        remove => Events.RemoveHandler(EventDataMemberChanged, value);
+    }
 
     /// <summary>
     /// Occurs when the
-    /// <see cref="T:System.Windows.Forms.BindingSource.DataSource"/> property value has changed.
+    /// <see cref="T:System.Windows.Forms.BindingSource.DataSource" /> property value has changed.
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceDataSourceChangedEventHandlerDescr")]
-    public event EventHandler DataSourceChanged { add => Events.AddHandler(EventDataSourceChanged, value); remove => Events.RemoveHandler(EventDataSourceChanged, value); }
+    public event EventHandler DataSourceChanged
+    {
+        add => Events.AddHandler(EventDataSourceChanged, value);
+        remove => Events.RemoveHandler(EventDataSourceChanged, value);
+    }
 
     /// <summary>
     /// Occurs when the underlying list changes or an item in the list changes.
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceListChangedEventHandlerDescr")]
-    public event ListChangedEventHandler ListChanged { add => Events.AddHandler(EventListChanged, value); remove => Events.RemoveHandler(EventListChanged, value); }
+    public event ListChangedEventHandler ListChanged
+    {
+        add => Events.AddHandler(EventListChanged, value);
+        remove => Events.RemoveHandler(EventListChanged, value);
+    }
 
     /// <summary>
     /// Occurs after the value of the
-    /// <see cref="T:System.Windows.Forms.BindingSource.Position"/> property has changed.
+    /// <see cref="T:System.Windows.Forms.BindingSource.Position" /> property has changed.
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourcePositionChangedEventHandlerDescr")]
-    public event EventHandler PositionChanged { add => Events.AddHandler(EventPositionChanged, value); remove => Events.RemoveHandler(EventPositionChanged, value); }
+    public event EventHandler PositionChanged
+    {
+        add => Events.AddHandler(EventPositionChanged, value);
+        remove => Events.RemoveHandler(EventPositionChanged, value);
+    }
 
     /// <summary>
     /// Occurs when the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> is initialized.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> is initialized.
     /// </summary>
-    event EventHandler ISupportInitializeNotification.Initialized { add => Events.AddHandler(EventInitialized, value); remove => Events.RemoveHandler(EventInitialized, value); }
+    event EventHandler ISupportInitializeNotification.Initialized
+    {
+        add => Events.AddHandler(EventInitialized, value);
+        remove => Events.RemoveHandler(EventInitialized, value);
+    }
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> class to the default property values.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> class to the default property values.
     /// </summary>
     public BindingSource() : this(null, string.Empty)
     {
@@ -177,13 +218,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> class with the specified data source and data member.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> class with the specified data source and data member.
     /// </summary>
-    /// <param name = "dataSource">
+    /// <param name="dataSource">
     /// The data source for the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/>.
+    /// <see cref="T:System.Windows.Forms.BindingSource" />.
     /// </param>
-    /// <param name = "dataMember">
+    /// <param name="dataMember">
     /// The specific column or list name within the data source to bind to.
     /// </param>
     public BindingSource(object? dataSource, string? dataMember)
@@ -200,13 +241,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> class and adds the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> to the specified container.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> class and adds the
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> to the specified container.
     /// </summary>
-    /// <param name = "container">
+    /// <param name="container">
     /// The
-    /// <see cref="T:System.ComponentModel.IContainer"/> to add the current
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> to.
+    /// <see cref="T:System.ComponentModel.IContainer" /> to add the current
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> to.
     /// </param>
     public BindingSource(IContainer container) : this()
     {
@@ -214,7 +255,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             throw new ArgumentNullException("container");
         }
-
         container.Add(this);
     }
 
@@ -254,37 +294,36 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Gets or sets a value indicating whether the
-    /// <see cref="T:System.Windows.Forms.BindingSource.AddNew"/> method can be used to add items to the list.
+    /// <see cref="T:System.Windows.Forms.BindingSource.AddNew" /> method can be used to add items to the list.
     /// </summary>
     /// <returns>
     /// true if
-    /// <see cref="T:System.Windows.Forms.BindingSource.AddNew"/> can be used to add items to the list; otherwise, false.
+    /// <see cref="T:System.Windows.Forms.BindingSource.AddNew" /> can be used to add items to the list; otherwise, false.
     /// </returns>
     /// <exception cref="T:System.InvalidOperationException">
     /// This property is set to true when the underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property has a fixed size or is read-only.
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" /> property has a fixed size or is read-only.
     /// </exception>
     /// <exception cref="T:System.MissingMethodException">
     /// The property is set to true and the
-    /// <see cref="T:System.Windows.Forms.BindingSource.AddingNew"/> event is not handled when the underlying list type does not have a default constructor.
+    /// <see cref="T:System.Windows.Forms.BindingSource.AddingNew" /> event is not handled when the underlying list type does not have a default constructor.
     /// </exception>
     [Category("CatBehavior")]
     [Description("BindingSourceAllowNewDescr")]
     public virtual bool AllowNew
     {
         get => AllowNewInternal(true);
+
         set
         {
             if (_allowNewIsSet && value == _allowNewSetValue)
             {
                 return;
             }
-
             if (value && !_isBindingList && !IsListWriteable(false))
             {
                 throw new InvalidOperationException("NoAllowNewOnReadOnlyList");
             }
-
             _allowNewIsSet = true;
             _allowNewSetValue = value;
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
@@ -306,7 +345,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             {
                 return ((IBindingList)List).AllowRemove;
             }
-
             if (List.IsReadOnly)
             {
                 return false;
@@ -318,7 +356,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Gets the total number of items in the underlying list, taking the current
-    /// <see cref="T:System.Windows.Forms.BindingSource.Filter"/> value into consideration.
+    /// <see cref="T:System.Windows.Forms.BindingSource.Filter" /> value into consideration.
     /// </summary>
     /// <returns>
     /// The total number of filtered items in the underlying list.
@@ -337,7 +375,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                     {
                         throw new InvalidOperationException("BindingSourceRecursionDetected");
                     }
-
                     _recursionDetectionFlag = true;
                     count = List.Count;
                 }
@@ -357,12 +394,12 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Gets the currency manager associated with this
-    /// <see cref="T:System.Windows.Forms.BindingSource"/>.
+    /// <see cref="T:System.Windows.Forms.BindingSource" />.
     /// </summary>
     /// <returns>
     /// The
-    /// <see cref="T:System.Windows.Forms.CurrencyManager"/> associated with this
-    /// <see cref="T:System.Windows.Forms.BindingSource"/>.
+    /// <see cref="T:System.Windows.Forms.CurrencyManager" /> associated with this
+    /// <see cref="T:System.Windows.Forms.BindingSource" />.
     /// </returns>
     [Browsable(false)]
     public virtual CurrencyManager? CurrencyManager => ((ICurrencyManagerProvider)this).GetRelatedCurrencyManager(null);
@@ -372,8 +409,8 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// An
-    /// <see cref="T:System.Object"/> that represents the current item in the underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property, or null if the list has no items.
+    /// <see cref="T:System.Object" /> that represents the current item in the underlying list represented by the
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" /> property, or null if the list has no items.
     /// </returns>
     [Browsable(false)]
     public object? Current
@@ -394,7 +431,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// The name of a list (or row) in the
-    /// <see cref="T:System.Windows.Forms.BindingSource.DataSource"/>. The default is an empty string ("").
+    /// <see cref="T:System.Windows.Forms.BindingSource.DataSource" />. The default is an empty string ("").
     /// </returns>
     [DefaultValue("")]
     [RefreshProperties(RefreshProperties.Repaint)]
@@ -403,13 +440,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public string? DataMember
     {
         get => _dataMember;
+
         set
         {
             if (value == null)
             {
                 value = string.Empty;
             }
-
             if (_dataMember == null || !_dataMember.Equals(value))
             {
                 _dataMember = value;
@@ -424,7 +461,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// An
-    /// <see cref="T:System.Object"/> that acts as a data source. The default is null.
+    /// <see cref="T:System.Object" /> that acts as a data source. The default is null.
     /// </returns>
     [AttributeProvider(typeof(IListSource))]
     [DefaultValue(null)]
@@ -434,6 +471,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public object? DataSource
     {
         get => _dataSource;
+
         set
         {
             if (_dataSource != value)
@@ -461,6 +499,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public virtual string? Filter
     {
         get => _filter;
+
         set
         {
             _filter = value;
@@ -500,7 +539,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// true if the list is an
-    /// <see cref="T:System.ComponentModel.IBindingList"/> and is sorted; otherwise, false.
+    /// <see cref="T:System.ComponentModel.IBindingList" /> and is sorted; otherwise, false.
     /// </returns>
     [Browsable(false)]
     public virtual bool IsSorted
@@ -530,8 +569,8 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// An
-    /// <see cref="T:System.Collections.IList"/> that represents the list, or null if there is no underlying list associated with this
-    /// <see cref="T:System.Windows.Forms.BindingSource"/>.
+    /// <see cref="T:System.Collections.IList" /> that represents the list, or null if there is no underlying list associated with this
+    /// <see cref="T:System.Windows.Forms.BindingSource" />.
     /// </returns>
     [Browsable(false)]
     public IList List
@@ -555,6 +594,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public int Position
     {
         get => _currencyManager?.Position ?? 0;
+
         set
         {
             if (_currencyManager != null && _currencyManager.Position != value)
@@ -566,15 +606,20 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Gets or sets a value indicating whether
-    /// <see cref="T:System.Windows.Forms.BindingSource.ListChanged"/> events should be raised.
+    /// <see cref="T:System.Windows.Forms.BindingSource.ListChanged" /> events should be raised.
     /// </summary>
     /// <returns>
     /// true if
-    /// <see cref="T:System.Windows.Forms.BindingSource.ListChanged"/> events should be raised; otherwise, false. The default is true.
+    /// <see cref="T:System.Windows.Forms.BindingSource.ListChanged" /> events should be raised; otherwise, false. The default is true.
     /// </returns>
     [Browsable(false)]
     [DefaultValue(true)]
-    public bool RaiseListChangedEvents { get => _raiseListChangedEvents; set => _raiseListChangedEvents = value; }
+    public bool RaiseListChangedEvents
+    {
+        get => _raiseListChangedEvents;
+
+        set => _raiseListChangedEvents = value;
+    }
 
     /// <summary>
     /// Gets or sets the column names used for sorting, and the sort order for viewing the rows in the data source.
@@ -588,6 +633,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public string? Sort
     {
         get => _sort;
+
         set
         {
             _sort = value;
@@ -600,8 +646,8 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// If the data source is an
-    /// <see cref="T:System.ComponentModel.IBindingListView"/>, a
-    /// <see cref="T:System.ComponentModel.ListSortDescriptionCollection"/> that contains the sort descriptions applied to the list; otherwise, null.
+    /// <see cref="T:System.ComponentModel.IBindingListView" />, a
+    /// <see cref="T:System.ComponentModel.ListSortDescriptionCollection" /> that contains the sort descriptions applied to the list; otherwise, null.
     /// </returns>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -623,7 +669,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// One of the
-    /// <see cref="T:System.ComponentModel.ListSortDirection"/> values indicating the direction the list is sorted.
+    /// <see cref="T:System.ComponentModel.ListSortDirection" /> values indicating the direction the list is sorted.
     /// </returns>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -642,12 +688,12 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Gets the
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> that is being used for sorting the list.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> that is being used for sorting the list.
     /// </summary>
     /// <returns>
     /// If the list is an
-    /// <see cref="T:System.ComponentModel.IBindingList"/>, the
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> that is being used for sorting; otherwise, null.
+    /// <see cref="T:System.ComponentModel.IBindingList" />, the
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> that is being used for sorting; otherwise, null.
     /// </returns>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -669,7 +715,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// true if the list is an
-    /// <see cref="T:System.ComponentModel.IBindingListView"/> and supports multi-column sorting; otherwise, false.
+    /// <see cref="T:System.ComponentModel.IBindingListView" /> and supports multi-column sorting; otherwise, false.
     /// </returns>
     [Browsable(false)]
     public virtual bool SupportsAdvancedSorting
@@ -699,7 +745,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// true if the list is an
-    /// <see cref="T:System.ComponentModel.IBindingListView"/> and supports filtering; otherwise, false.
+    /// <see cref="T:System.ComponentModel.IBindingListView" /> and supports filtering; otherwise, false.
     /// </returns>
     [Browsable(false)]
     public virtual bool SupportsFiltering
@@ -717,11 +763,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Gets a value indicating whether the data source supports searching with the
-    /// <see cref="T:System.Windows.Forms.BindingSource.Find(System.ComponentModel.PropertyDescriptor,System.Object)"/> method.
+    /// <see cref="T:System.Windows.Forms.BindingSource.Find(System.ComponentModel.PropertyDescriptor,System.Object)" /> method.
     /// </summary>
     /// <returns>
     /// true if the list is a
-    /// <see cref="T:System.ComponentModel.IBindingList"/> and supports the searching with the System.Windows.Forms.BindingSource.Find method; otherwise, false.
+    /// <see cref="T:System.ComponentModel.IBindingList" /> and supports the searching with the System.Windows.Forms.BindingSource.Find method; otherwise, false.
     /// </returns>
     [Browsable(false)]
     public virtual bool SupportsSearching
@@ -742,7 +788,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// true if the data source is an
-    /// <see cref="T:System.ComponentModel.IBindingList"/> and supports sorting; otherwise, false.
+    /// <see cref="T:System.ComponentModel.IBindingList" /> and supports sorting; otherwise, false.
     /// </returns>
     [Browsable(false)]
     public virtual bool SupportsSorting
@@ -769,10 +815,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Gets a value indicating whether the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> is initialized.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> is initialized.
     /// </summary>
     /// <returns>true to indicate the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> is initialized; otherwise, false.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> is initialized; otherwise, false.
     /// </returns>
     bool ISupportInitializeNotification.IsInitialized => !_initializing;
 
@@ -794,7 +840,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             {
                 return;
             }
-
             if (string.Equals(value, InnerListFilter, StringComparison.Ordinal))
             {
                 return;
@@ -818,7 +863,8 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             }
             else if (List is IBindingList { SupportsSorting: true, IsSorted: true } bindingLists)
             {
-                ListSortDescription[] listSortDescription = [new(bindingLists.SortProperty, bindingLists.SortDirection)];
+                ListSortDescription[] listSortDescription = [new(bindingLists.SortProperty, bindingLists.SortDirection)
+                ];
                 sortDescriptions = new ListSortDescriptionCollection(listSortDescription);
             }
 
@@ -831,12 +877,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             {
                 return;
             }
-
             if (string.Compare(value, InnerListSort, false, CultureInfo.InvariantCulture) == 0)
             {
                 return;
             }
-
             var listSortDescriptionCollections = ParseSortString(value);
             var bindingLists = List as IBindingList;
             if (List is IBindingListView { SupportsAdvancedSorting: true } list)
@@ -846,11 +890,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                     list.RemoveSort();
                     return;
                 }
-
                 list.ApplySort(listSortDescriptionCollections);
                 return;
             }
-
             if (bindingLists is { SupportsSorting: true })
             {
                 if (listSortDescriptionCollections.Count == 0)
@@ -858,7 +900,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                     bindingLists.RemoveSort();
                     return;
                 }
-
                 if (listSortDescriptionCollections.Count == 1)
                 {
                     bindingLists.ApplySort(listSortDescriptionCollections[0].PropertyDescriptor, listSortDescriptionCollections[0].SortDirection);
@@ -873,12 +914,12 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <returns>
     /// The element at the specified index.
     /// </returns>
-    /// <param name = "index">
+    /// <param name="index">
     /// The zero-based index of the element to retrieve.
     /// </param>
     /// <exception cref="T:System.ArgumentOutOfRangeException">
-    /// <paramref name = "index"/> is less than zero or is equal to or greater than
-    /// <see cref="T:System.Windows.Forms.BindingSource.Count"/>.
+    /// <paramref name="index" /> is less than zero or is equal to or greater than
+    /// <see cref="T:System.Windows.Forms.BindingSource.Count" />.
     /// </exception>
     [Browsable(false)]
     public virtual object this[int index]
@@ -899,15 +940,15 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// The zero-based index at which
-    /// <paramref name = "value"/> was added to the underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property.
+    /// <paramref name="value" /> was added to the underlying list represented by the
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" /> property.
     /// </returns>
-    /// <param name = "value">
+    /// <param name="value">
     /// An
-    /// <see cref="T:System.Object"/> to be added to the internal list.
+    /// <see cref="T:System.Object" /> to be added to the internal list.
     /// </param>
     /// <exception cref="T:System.InvalidOperationException">
-    /// <paramref name = "value"/> differs in type from the existing items in the underlying list.
+    /// <paramref name="value" /> differs in type from the existing items in the underlying list.
     /// </exception>
     public virtual int Add(object? value)
     {
@@ -915,17 +956,14 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             SetList(CreateBindingList(value == null ? typeof(object) : value.GetType()), true, true);
         }
-
         if (value != null && _itemType != null && !_itemType.IsInstanceOfType(value))
         {
             throw new InvalidOperationException("BindingSourceItemTypeMismatchOnAdd");
         }
-
         if (value == null && _itemType is { IsValueType: true })
         {
             throw new InvalidOperationException("BindingSourceItemTypeIsValueType");
         }
-
         var num = List.Add(value);
         OnSimpleListChanged(ListChangedType.ItemAdded, num);
 
@@ -937,11 +975,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// The
-    /// <see cref="T:System.Object"/> that was created and added to the list.
+    /// <see cref="T:System.Object" /> that was created and added to the list.
     /// </returns>
     /// <exception cref="T:System.InvalidOperationException">
     /// The
-    /// <see cref="T:System.Windows.Forms.BindingSource.AllowNew"/> property is set to false. -or-A public default constructor could not be found for the current item type.
+    /// <see cref="T:System.Windows.Forms.BindingSource.AllowNew" /> property is set to false. -or-A public default constructor could not be found for the current item type.
     /// </exception>
     public virtual object? AddNew()
     {
@@ -949,19 +987,16 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             throw new InvalidOperationException("BindingSourceBindingListWrapperAddToReadOnlyList");
         }
-
         if (!AllowNewInternal(true))
         {
             throw new InvalidOperationException(string.Format("BindingSourceBindingListWrapperNeedToSetAllowNew {0}", _itemType == null ? "(null)" : _itemType.FullName));
         }
-
         var num = _addNewPos;
         EndEdit();
         if (num != -1)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.ItemAdded, num));
         }
-
         var addingNewEventArg = new AddingNewEventArgs();
         var count = List.Count;
         OnAddingNew(addingNewEventArg);
@@ -974,15 +1009,12 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                 Position = Count - 1;
                 return newObject;
             }
-
             if (_itemConstructor == null)
             {
                 throw new InvalidOperationException(string.Format("BindingSourceBindingListWrapperNeedAParameterlessConstructor {0}", _itemType == null ? "(null)" : _itemType.FullName));
             }
-
             newObject = _itemConstructor.Invoke(null);
         }
-
         if (List.Count <= count)
         {
             _addNewPos = Add(newObject);
@@ -999,17 +1031,17 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Sorts the data source using the specified property descriptor and sort direction.
     /// </summary>
-    /// <param name = "property">
+    /// <param name="property">
     /// A
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> that describes the property by which to sort the data source.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> that describes the property by which to sort the data source.
     /// </param>
-    /// <param name = "sortDirection">
+    /// <param name="sortDirection">
     /// A
-    /// <see cref="T:System.ComponentModel.ListSortDirection"/> indicating how the list should be sorted.
+    /// <see cref="T:System.ComponentModel.ListSortDirection" /> indicating how the list should be sorted.
     /// </param>
     /// <exception cref="T:System.NotSupportedException">
     /// The data source is not an
-    /// <see cref="T:System.ComponentModel.IBindingList"/>.
+    /// <see cref="T:System.ComponentModel.IBindingList" />.
     /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public virtual void ApplySort(PropertyDescriptor property, ListSortDirection sortDirection)
@@ -1018,20 +1050,19 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             throw new NotSupportedException("OperationRequiresIBindingList");
         }
-
         ((IBindingList)List).ApplySort(property, sortDirection);
     }
 
     /// <summary>
     /// Sorts the data source with the specified sort descriptions.
     /// </summary>
-    /// <param name = "sorts">
+    /// <param name="sorts">
     /// A
-    /// <see cref="T:System.ComponentModel.ListSortDescriptionCollection"/> containing the sort descriptions to apply to the data source.
+    /// <see cref="T:System.ComponentModel.ListSortDescriptionCollection" /> containing the sort descriptions to apply to the data source.
     /// </param>
     /// <exception cref="T:System.NotSupportedException">
     /// The data source is not an
-    /// <see cref="T:System.ComponentModel.IBindingListView"/>.
+    /// <see cref="T:System.ComponentModel.IBindingListView" />.
     /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public virtual void ApplySort(ListSortDescriptionCollection sorts)
@@ -1040,7 +1071,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             throw new NotSupportedException("OperationRequiresIBindingListView");
         }
-
         list.ApplySort(sorts);
     }
 
@@ -1067,13 +1097,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// true if the
-    /// <paramref name = "value"/> parameter is found in the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/>; otherwise, false.
+    /// <paramref name="value" /> parameter is found in the
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" />; otherwise, false.
     /// </returns>
-    /// <param name = "value">
+    /// <param name="value">
     /// The
-    /// <see cref="T:System.Object"/> to locate in the underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
+    /// <see cref="T:System.Object" /> to locate in the underlying list represented by the
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" /> property. The value can be null.
     /// </param>
     public virtual bool Contains(object? value)
     {
@@ -1082,12 +1112,12 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Copies the contents of the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> to the specified array, starting at the specified index value.
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" /> to the specified array, starting at the specified index value.
     /// </summary>
-    /// <param name = "arr">
+    /// <param name="arr">
     /// The destination array.
     /// </param>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index in the destination array at which to start the copy operation.
     /// </param>
     public virtual void CopyTo(Array arr, int index)
@@ -1104,7 +1134,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             return;
         }
-
         try
         {
             _endingEdit = true;
@@ -1122,19 +1151,19 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <returns>
     /// The zero-based index of the item with the specified property name and value.
     /// </returns>
-    /// <param name = "propertyName">
+    /// <param name="propertyName">
     /// The name of the property to search for.
     /// </param>
-    /// <param name = "key">
+    /// <param name="key">
     /// The value of the item with the specified
-    /// <paramref name = "propertyName"/> to find.
+    /// <paramref name="propertyName" /> to find.
     /// </param>
     /// <exception cref="T:System.InvalidOperationException">
     /// The underlying list is not a
-    /// <see cref="T:System.ComponentModel.IBindingList"/> with searching functionality implemented.
+    /// <see cref="T:System.ComponentModel.IBindingList" /> with searching functionality implemented.
     /// </exception>
     /// <exception cref="T:System.ArgumentException">
-    /// <paramref name = "propertyName"/> does not match a property in the list.
+    /// <paramref name="propertyName" /> does not match a property in the list.
     /// </exception>
     public int Find(string propertyName, object key)
     {
@@ -1147,7 +1176,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             propertyDescriptor = _itemShape.Find(propertyName, true);
         }
-
         var propertyDescriptor1 = propertyDescriptor ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", propertyName));
         return ((IBindingList)this).Find(propertyDescriptor1, key);
     }
@@ -1157,19 +1185,19 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// The zero-based index of the item that has the given value for
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/>.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" />.
     /// </returns>
-    /// <param name = "prop">
+    /// <param name="prop">
     /// The
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to search for.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> to search for.
     /// </param>
-    /// <param name = "key">
+    /// <param name="key">
     /// The value of
-    /// <paramref name = "prop"/> to match.
+    /// <paramref name="prop" /> to match.
     /// </param>
     /// <exception cref="T:System.NotSupportedException">
     /// The underlying list is not of type
-    /// <see cref="T:System.ComponentModel.IBindingList"/>.
+    /// <see cref="T:System.ComponentModel.IBindingList" />.
     /// </exception>
     public virtual int Find(PropertyDescriptor prop, object key)
     {
@@ -1183,12 +1211,12 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Retrieves an enumerator for the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/>.
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" />.
     /// </summary>
     /// <returns>
     /// An
-    /// <see cref="T:System.Collections.IEnumerator"/> for the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/>.
+    /// <see cref="T:System.Collections.IEnumerator" /> for the
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" />.
     /// </returns>
     public virtual IEnumerator GetEnumerator()
     {
@@ -1197,15 +1225,15 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Retrieves an array of
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects representing the bindable properties of the data source list type.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> objects representing the bindable properties of the data source list type.
     /// </summary>
     /// <returns>
     /// An array of
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects that represents the properties on this list type used to bind data.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> objects that represents the properties on this list type used to bind data.
     /// </returns>
-    /// <param name = "listAccessors">
+    /// <param name="listAccessors">
     /// An array of
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects to find in the list as bindable.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> objects to find in the list as bindable.
     /// </param>
     public virtual PropertyDescriptorCollection? GetItemProperties(PropertyDescriptor[]? listAccessors)
     {
@@ -1224,9 +1252,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <returns>
     /// The name of the list supplying the data for binding.
     /// </returns>
-    /// <param name = "listAccessors">
+    /// <param name="listAccessors">
     /// An array of
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> objects to find in the list as bindable.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> objects to find in the list as bindable.
     /// </param>
     public virtual string? GetListName(PropertyDescriptor[] listAccessors)
     {
@@ -1238,9 +1266,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// The related
-    /// <see cref="T:System.Windows.Forms.CurrencyManager"/> for the specified data member.
+    /// <see cref="T:System.Windows.Forms.CurrencyManager" /> for the specified data member.
     /// </returns>
-    /// <param name = "member">
+    /// <param name="member">
     /// The name of column or list, within the data source to retrieve the currency manager for.
     /// </param>
     public virtual CurrencyManager? GetRelatedCurrencyManager(string? member)
@@ -1250,7 +1278,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             return _currencyManager;
         }
-
         if ((member?.IndexOf(".", StringComparison.Ordinal) ?? -1) != -1)
         {
             return null;
@@ -1264,13 +1291,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <returns>
     /// The zero-based index of the first occurrence of the
-    /// <paramref name = "value"/> parameter; otherwise, -1 if
-    /// <paramref name = "value"/> is not in the list.
+    /// <paramref name="value" /> parameter; otherwise, -1 if
+    /// <paramref name="value" /> is not in the list.
     /// </returns>
-    /// <param name = "value">
+    /// <param name="value">
     /// The
-    /// <see cref="T:System.Object"/> to locate in the underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property. The value can be null.
+    /// <see cref="T:System.Object" /> to locate in the underlying list represented by the
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" /> property. The value can be null.
     /// </param>
     public virtual int IndexOf(object value)
     {
@@ -1280,17 +1307,17 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Inserts an item into the list at the specified index.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The zero-based index at which
-    /// <paramref name = "value"/> should be inserted.
+    /// <paramref name="value" /> should be inserted.
     /// </param>
-    /// <param name = "value">
+    /// <param name="value">
     /// The
-    /// <see cref="T:System.Object"/> to insert. The value can be null.
+    /// <see cref="T:System.Object" /> to insert. The value can be null.
     /// </param>
     /// <exception cref="T:System.ArgumentOutOfRangeException">
-    /// <paramref name = "index"/> is less than zero or greater than
-    /// <see cref="T:System.Windows.Forms.BindingSource.Count"/>.
+    /// <paramref name="index" /> is less than zero or greater than
+    /// <see cref="T:System.Windows.Forms.BindingSource.Count" />.
     /// </exception>
     /// <exception cref="T:System.NotSupportedException">
     /// The list is read-only or has a fixed size.
@@ -1336,9 +1363,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Removes the specified item from the list.
     /// </summary>
-    /// <param name = "value">
+    /// <param name="value">
     /// The item to remove from the underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property.
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" /> property.
     /// </param>
     /// <exception cref="T:System.NotSupportedException">
     /// The underlying list has a fixed size or is read-only.
@@ -1356,16 +1383,16 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Removes the item at the specified index in the list.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The zero-based index of the item to remove.
     /// </param>
     /// <exception cref="T:System.ArgumentOutOfRangeException">
-    /// <paramref name = "index"/> is less than zero or greater than the value of the
-    /// <see cref="T:System.Windows.Forms.BindingSource.Count"/> property.
+    /// <paramref name="index" /> is less than zero or greater than the value of the
+    /// <see cref="T:System.Windows.Forms.BindingSource.Count" /> property.
     /// </exception>
     /// <exception cref="T:System.NotSupportedException">
     /// The underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property is read-only or has a fixed size.
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" /> property is read-only or has a fixed size.
     /// </exception>
     public virtual void RemoveAt(int index)
     {
@@ -1378,13 +1405,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     /// <exception cref="T:System.InvalidOperationException">
     /// The
-    /// <see cref="T:System.Windows.Forms.BindingSource.AllowRemove"/> property is false.-or-
-    /// <see cref="T:System.Windows.Forms.BindingSource.Position"/> is less than zero or greater than
-    /// <see cref="T:System.Windows.Forms.BindingSource.Count"/>.
+    /// <see cref="T:System.Windows.Forms.BindingSource.AllowRemove" /> property is false.-or-
+    /// <see cref="T:System.Windows.Forms.BindingSource.Position" /> is less than zero or greater than
+    /// <see cref="T:System.Windows.Forms.BindingSource.Count" />.
     /// </exception>
     /// <exception cref="T:System.NotSupportedException">
     /// The underlying list represented by the
-    /// <see cref="T:System.Windows.Forms.BindingSource.List"/> property is read-only or has a fixed size.
+    /// <see cref="T:System.Windows.Forms.BindingSource.List" /> property is read-only or has a fixed size.
     /// </exception>
     public void RemoveCurrent()
     {
@@ -1392,18 +1419,16 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             throw new InvalidOperationException("BindingSourceRemoveCurrentNotAllowed");
         }
-
         if (Position < 0 || Position >= Count)
         {
             throw new InvalidOperationException("BindingSourceRemoveCurrentNoCurrentItem");
         }
-
         RemoveAt(Position);
     }
 
     /// <summary>
     /// Removes the filter associated with the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/>.
+    /// <see cref="T:System.Windows.Forms.BindingSource" />.
     /// </summary>
     /// <exception cref="T:System.NotSupportedException">
     /// The underlying list does not support filtering.
@@ -1419,7 +1444,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Removes the sort associated with the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/>.
+    /// <see cref="T:System.Windows.Forms.BindingSource" />.
     /// </summary>
     /// <exception cref="T:System.NotSupportedException">
     /// The underlying list does not support sorting.
@@ -1435,7 +1460,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Reinitializes the
-    /// <see cref="T:System.Windows.Forms.BindingSource.AllowNew"/> property.
+    /// <see cref="T:System.Windows.Forms.BindingSource.AllowNew" /> property.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public virtual void ResetAllowNew()
@@ -1446,9 +1471,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Causes a control bound to the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> to reread all the items in the list and refresh their displayed values.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> to reread all the items in the list and refresh their displayed values.
     /// </summary>
-    /// <param name = "metadataChanged">
+    /// <param name="metadataChanged">
     /// true if the data schema has changed; false if only values have changed.
     /// </param>
     public void ResetBindings(bool metadataChanged)
@@ -1457,13 +1482,12 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.PropertyDescriptorChanged, null));
         }
-
         OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
     }
 
     /// <summary>
     /// Causes a control bound to the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> to reread the currently selected item and refresh its displayed value.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> to reread the currently selected item and refresh its displayed value.
     /// </summary>
     public void ResetCurrentItem()
     {
@@ -1472,9 +1496,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Causes a control bound to the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> to reread the item at the specified index, and refresh its displayed value.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> to reread the item at the specified index, and refresh its displayed value.
     /// </summary>
-    /// <param name = "itemIndex">
+    /// <param name="itemIndex">
     /// The zero-based index of the item that has changed.
     /// </param>
     public void ResetItem(int itemIndex)
@@ -1506,13 +1530,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Adds the
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to the indexes used for searching.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> to the indexes used for searching.
     /// </summary>
-    /// <param name = "property">The
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to add to the indexes used for searching.
+    /// <param name="property">The
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> to add to the indexes used for searching.
     /// </param>
     /// <exception cref="T:System.NotSupportedException">The underlying list is not an
-    /// <see cref="T:System.ComponentModel.IBindingList"/>.
+    /// <see cref="T:System.ComponentModel.IBindingList" />.
     /// </exception>
     void IBindingList.AddIndex(PropertyDescriptor property)
     {
@@ -1520,13 +1544,12 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             throw new NotSupportedException("OperationRequiresIBindingList");
         }
-
         ((IBindingList)List).AddIndex(property);
     }
 
     /// <summary>
     /// Signals the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> that initialization is starting.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> that initialization is starting.
     /// </summary>
     void ISupportInitialize.BeginInit()
     {
@@ -1536,7 +1559,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// <summary>
     /// Discards a pending new item from the collection.
     /// </summary>
-    /// <param name = "position">The index of the item that was added to the collection.
+    /// <param name="position">The index of the item that was added to the collection.
     /// </param>
     void ICancelAddNew.CancelNew(int position)
     {
@@ -1555,7 +1578,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Signals the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> that initialization is complete.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> that initialization is complete.
     /// </summary>
     void ISupportInitialize.EndInit()
     {
@@ -1564,14 +1587,13 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             EndInitCore();
             return;
         }
-
         source.Initialized += DataSource_Initialized;
     }
 
     /// <summary>
     /// Commits a pending new item to the collection.
     /// </summary>
-    /// <param name = "position">The index of the item that was added to the collection.
+    /// <param name="position">The index of the item that was added to the collection.
     /// </param>
     void ICancelAddNew.EndNew(int position)
     {
@@ -1589,10 +1611,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Removes the
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> from the indexes used for searching.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> from the indexes used for searching.
     /// </summary>
-    /// <param name = "prop">The
-    /// <see cref="T:System.ComponentModel.PropertyDescriptor"/> to remove from the indexes used for searching.
+    /// <param name="prop">The
+    /// <see cref="T:System.ComponentModel.PropertyDescriptor" /> to remove from the indexes used for searching.
     /// </param>
     void IBindingList.RemoveIndex(PropertyDescriptor prop)
     {
@@ -1600,15 +1622,14 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             throw new NotSupportedException("OperationRequiresIBindingList");
         }
-
         ((IBindingList)List).RemoveIndex(prop);
     }
 
     /// <summary>
     /// Releases the unmanaged resources used by the
-    /// <see cref="T:System.Windows.Forms.BindingSource"/> and optionally releases the managed resources.
+    /// <see cref="T:System.Windows.Forms.BindingSource" /> and optionally releases the managed resources.
     /// </summary>
-    /// <param name = "disposing">
+    /// <param name="disposing">
     /// true to release both managed and unmanaged resources; false to release only unmanaged resources.
     /// </param>
     protected override void Dispose(bool disposing)
@@ -1627,18 +1648,17 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             _needToSetList = true;
             _raiseListChangedEvents = false;
         }
-
         _disposedOrFinalized = true;
         base.Dispose(disposing);
     }
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingSource.AddingNew"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingSource.AddingNew" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnAddingNew(AddingNewEventArgs e)
     {
@@ -1647,11 +1667,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingSource.BindingComplete"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingSource.BindingComplete" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// A
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs"/>  that contains the event data.
+    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" />  that contains the event data.
     /// </param>
     protected virtual void OnBindingComplete(BindingCompleteEventArgs e)
     {
@@ -1660,11 +1680,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingSource.CurrentChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingSource.CurrentChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnCurrentChanged(EventArgs e)
     {
@@ -1675,11 +1695,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingSource.CurrentItemChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingSource.CurrentItemChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnCurrentItemChanged(EventArgs e)
     {
@@ -1688,11 +1708,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingSource.DataError"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingSource.DataError" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// A
-    /// <see cref="T:System.Windows.Forms.BindingManagerDataErrorEventArgs"/> that contains the event data.
+    /// <see cref="T:System.Windows.Forms.BindingManagerDataErrorEventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnDataError(BindingManagerDataErrorEventArgs e)
     {
@@ -1704,11 +1724,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingSource.DataMemberChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingSource.DataMemberChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnDataMemberChanged(EventArgs e)
     {
@@ -1720,11 +1740,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingSource.DataSourceChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingSource.DataSourceChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnDataSourceChanged(EventArgs e)
     {
@@ -1736,27 +1756,29 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingSource.ListChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingSource.ListChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnListChanged(ListChangedEventArgs e)
     {
         if (!_raiseListChangedEvents || _initializing)
         {
             return;
-        } ((ListChangedEventHandler)Events[EventListChanged])?.Invoke(this, e);
+        }
+
+        ((ListChangedEventHandler)Events[EventListChanged])?.Invoke(this, e);
     }
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingSource.PositionChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingSource.PositionChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// A
-    /// <see cref="T:System.ComponentModel.ListChangedEventArgs"/> that contains the event data.
+    /// <see cref="T:System.ComponentModel.ListChangedEventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnPositionChanged(EventArgs e)
     {
@@ -1769,17 +1791,14 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             return false;
         }
-
         if (_allowNewIsSet)
         {
             return _allowNewSetValue;
         }
-
         if (_listExtractedFromEnumerable)
         {
             return false;
         }
-
         if (!_isBindingList)
         {
             return IsListWriteable(checkconstructor);
@@ -1794,7 +1813,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             return string.Empty;
         }
-
         var stringBuilder = new StringBuilder(sortsColln.Count);
         for (var i = 0; i < sortsColln.Count; i++)
         {
@@ -1840,7 +1858,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             exception = missingMethodException;
         }
-
         if (exception != null)
         {
             throw new NotSupportedException("BindingSourceInstanceError", exception);
@@ -1880,7 +1897,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             source.Initialized -= DataSource_Initialized;
         }
-
         EndInitCore();
     }
 
@@ -1909,7 +1925,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             {
                 lists = CreateBindingList(obj.GetType());
             }
-
             lists!.Add(obj);
         }
 
@@ -1938,7 +1953,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             _relatedBindingSources = new Dictionary<string, BindingSource>();
         }
-
         var enumerator = _relatedBindingSources.Keys.GetEnumerator();
         try
         {
@@ -1949,11 +1963,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                 {
                     continue;
                 }
-
                 item = _relatedBindingSources[current];
                 return item;
             }
-
             var bindingSources = new BindingSource(this, member);
             if (member != null)
             {
@@ -1978,7 +1990,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                 WirePropertyChangedEvents(_currentItemHookedForItemChange);
                 return;
             }
-
             _currentItemHookedForItemChange = null;
         }
     }
@@ -2005,12 +2016,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             return true;
         }
-
         if (string.IsNullOrEmpty(_dataMember))
         {
             return true;
         }
-
         if (_dataMember != null && ListBindingHelper.GetListItemProperties(_dataSource)?[_dataMember] != null)
         {
             return true;
@@ -2025,7 +2034,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             return false;
         }
-
         if (!checkconstructor)
         {
             return true;
@@ -2060,12 +2068,10 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             return;
         }
-
         if (_parentsCurrentItemChanging)
         {
             return;
         }
-
         try
         {
             _parentsCurrentItemChanging = true;
@@ -2075,8 +2081,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             _parentsCurrentItemChanging = false;
         }
-
-        var manager = (CurrencyManager? )sender;
+        var manager = (CurrencyManager?)sender;
         if (!string.IsNullOrEmpty(_dataMember))
         {
             object? list = null;
@@ -2098,7 +2103,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                     }
                 }
             }
-
             if (lists != null)
             {
                 SetList(lists, false, true);
@@ -2111,7 +2115,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             {
                 SetList(WrapObjectInBindingList(list), false, false);
             }
-
             var flag1 = _lastCurrentItem == null || manager.Count == 0 || _lastCurrentItem != manager.Current ? true : Position >= Count;
             _lastCurrentItem = manager.Count > 0 ? manager.Current : null;
             if (flag1)
@@ -2119,7 +2122,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                 Position = Count > 0 ? 0 : -1;
             }
         }
-
         OnCurrentItemChanged(EventArgs.Empty);
     }
 
@@ -2135,7 +2137,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             return new ListSortDescriptionCollection();
         }
-
         var arrayLists = new ArrayList();
         var itemProperties = _currencyManager?.GetItemProperties();
         var strArrays = sortString?.Split(',') ?? [];
@@ -2153,21 +2154,17 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                 flag = false;
                 str = str.Substring(0, length - 5).Trim();
             }
-
             if (str.StartsWith("["))
             {
                 if (!str.EndsWith("]"))
                 {
                     throw new ArgumentException("BindingSourceBadSortString");
                 }
-
                 str = str.Substring(1, str.Length - 2);
             }
-
             var propertyDescriptor = (itemProperties?.Find(str, true)) ?? throw new ArgumentException("BindingSourceSortStringPropertyNotInIBindingList");
             arrayLists.Add(new ListSortDescription(propertyDescriptor, flag ? ListSortDirection.Ascending : ListSortDirection.Descending));
         }
-
         var listSortDescriptionArray = new ListSortDescription[arrayLists.Count];
         arrayLists.CopyTo(listSortDescriptionArray);
 
@@ -2182,7 +2179,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             _needToSetList = true;
             return;
         }
-
         _needToSetList = false;
         if (_dataSource is Type)
         {
@@ -2192,7 +2188,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             listFromType = _dataSource;
         }
-
         var list = ListBindingHelper.GetList(listFromType, _dataMember);
         _listExtractedFromEnumerable = false;
         IList? listFromEnumerable = null;
@@ -2210,7 +2205,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                     _listExtractedFromEnumerable = true;
                 }
             }
-
             if (listFromEnumerable == null)
             {
                 if (list == null)
@@ -2228,7 +2222,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             listFromEnumerable = list as IList;
         }
-
         SetList(listFromEnumerable, true, true);
     }
 
@@ -2247,7 +2240,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             _itemShape = ListBindingHelper.GetListItemProperties(List);
             _itemConstructor = _itemType?.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.CreateInstance, null, [], null);
         }
-
         WireInnerList();
         HookItemChangedEventsForNewCurrent();
         ResetBindings(metaDataChanged);
@@ -2257,7 +2249,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             {
                 InnerListSort = Sort;
             }
-
             if (Filter != null)
             {
                 InnerListFilter = Filter;

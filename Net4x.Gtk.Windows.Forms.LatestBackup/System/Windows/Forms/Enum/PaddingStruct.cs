@@ -4,7 +4,6 @@ using System.Drawing;
 
 namespace System.Windows.Forms;
 
-
 /// <summary>
 /// Represents padding or margin information associated with a user interface (UI) element.
 /// </summary>
@@ -70,7 +69,11 @@ public struct Padding
     /// The padding, in pixels, for all edges if the same; otherwise, -1.
     /// </returns>
     [RefreshProperties(RefreshProperties.All)]
-    public int All { get; set; }
+    public int All
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the padding value for the bottom edge.
@@ -79,7 +82,11 @@ public struct Padding
     /// The padding, in pixels, for the bottom edge.
     /// </returns>
     [RefreshProperties(RefreshProperties.All)]
-    public int Bottom { get; set; }
+    public int Bottom
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the combined padding for the right and left edges.
@@ -97,7 +104,11 @@ public struct Padding
     /// The padding, in pixels, for the left edge.
     /// </returns>
     [RefreshProperties(RefreshProperties.All)]
-    public int Left { get; set; }
+    public int Left
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the padding value for the right edge.
@@ -106,7 +117,11 @@ public struct Padding
     /// The padding, in pixels, for the right edge.
     /// </returns>
     [RefreshProperties(RefreshProperties.All)]
-    public int Right { get; set; }
+    public int Right
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the padding information in the form of a System.Drawing.Size.
@@ -124,7 +139,11 @@ public struct Padding
     /// The padding, in pixels, for the top edge.
     /// </returns>
     [RefreshProperties(RefreshProperties.All)]
-    public int Top { get; set; }
+    public int Top
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the combined padding for the top and bottom edges.

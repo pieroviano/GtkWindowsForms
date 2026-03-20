@@ -2,15 +2,17 @@ using System.Collections;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
+
 /// <summary>
 /// Manages a list of
-/// <see cref="T:System.Windows.Forms.Binding"/> objects.
+/// <see cref="T:System.Windows.Forms.Binding" /> objects.
 /// </summary>
 /// <filterpriority>
 /// 2
 /// </filterpriority>
 public class CurrencyManager : BindingManagerBase
 {
+
     /// <summary>
     /// Specifies the data type of the list.
     /// </summary>
@@ -18,7 +20,7 @@ public class CurrencyManager : BindingManagerBase
 
     /// <summary>
     /// Specifies the current position of the
-    /// <see cref="T:System.Windows.Forms.CurrencyManager"/> in the list.
+    /// <see cref="T:System.Windows.Forms.CurrencyManager" /> in the list.
     /// </summary>
     protected int ListPosition = -1;
 
@@ -46,13 +48,25 @@ public class CurrencyManager : BindingManagerBase
 
     private bool _suspendPushDataInCurrentChanged;
 
+    public virtual event EventHandler<EventArgs> CurrencyChanged;
+
+    public virtual event EventHandler<EventArgs> CurrentChanged;
+
+    public virtual event EventHandler<EventArgs> CurrentItemChanged;
+
+    public virtual event EventHandler<EventArgs> PositionChanged;
+
     /// <summary>
     /// Occurs when the current item has been altered.
     /// </summary>
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    public event ItemChangedEventHandler? ItemChanged { add => _itemChanged += value; remove => _itemChanged -= value; }
+    public event ItemChangedEventHandler? ItemChanged
+    {
+        add => _itemChanged += value;
+        remove => _itemChanged -= value;
+    }
 
     /// <summary>
     /// Occurs when the list changes or an item in the list changes.
@@ -60,16 +74,24 @@ public class CurrencyManager : BindingManagerBase
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    public event ListChangedEventHandler? ListChanged { add => _listChanged += value; remove => _listChanged -= value; }
+    public event ListChangedEventHandler? ListChanged
+    {
+        add => _listChanged += value;
+        remove => _listChanged -= value;
+    }
 
     /// <summary>
     /// Occurs when the metadata of the
-    /// <see cref="T:System.Windows.Forms.CurrencyManager.List"/> has changed.
+    /// <see cref="T:System.Windows.Forms.CurrencyManager.List" /> has changed.
     /// </summary>
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    public event EventHandler? MetaDataChanged { add => _metaDataChanged += value; remove => _metaDataChanged -= value; }
+    public event EventHandler? MetaDataChanged
+    {
+        add => _metaDataChanged += value;
+        remove => _metaDataChanged -= value;
+    }
 
     internal CurrencyManager(object? dataSource)
     {
@@ -103,7 +125,7 @@ public class CurrencyManager : BindingManagerBase
     /// </summary>
     /// <returns>
     /// A list item of type
-    /// <see cref="T:System.Object"/>.
+    /// <see cref="T:System.Object" />.
     /// </returns>
     /// <filterpriority>
     /// 1
@@ -112,11 +134,11 @@ public class CurrencyManager : BindingManagerBase
 
     /// <summary>
     /// Gets the list for this
-    /// <see cref="T:System.Windows.Forms.CurrencyManager"/>.
+    /// <see cref="T:System.Windows.Forms.CurrencyManager" />.
     /// </summary>
     /// <returns>
     /// An
-    /// <see cref="T:System.Collections.IList"/> that contains the list.
+    /// <see cref="T:System.Collections.IList" /> that contains the list.
     /// </returns>
     /// <filterpriority>
     /// 1
@@ -128,7 +150,7 @@ public class CurrencyManager : BindingManagerBase
     /// </summary>
     /// <returns>
     /// A number between 0 and
-    /// <see cref="T:System.Windows.Forms.CurrencyManager.Count"/> minus 1.
+    /// <see cref="T:System.Windows.Forms.CurrencyManager.Count" /> minus 1.
     /// </returns>
     /// <filterpriority>
     /// 1
@@ -136,24 +158,22 @@ public class CurrencyManager : BindingManagerBase
     public override int Position
     {
         get => ListPosition;
+
         set
         {
             if (ListPosition == -1)
             {
                 return;
             }
-
             if (value < 0)
             {
                 value = 0;
             }
-
             var count = _list?.Count ?? 0;
             if (value >= count)
             {
                 value = count - 1;
             }
-
             ChangeRecordState(value, ListPosition != value, true, true, false);
         }
     }
@@ -166,12 +186,10 @@ public class CurrencyManager : BindingManagerBase
             {
                 return ((IBindingList)_list).AllowNew;
             }
-
             if (_list == null)
             {
                 return false;
             }
-
             if (_list.IsReadOnly)
             {
                 return false;
@@ -189,7 +207,6 @@ public class CurrencyManager : BindingManagerBase
             {
                 return ((IBindingList)_list).AllowEdit;
             }
-
             if (_list == null)
             {
                 return false;
@@ -207,12 +224,10 @@ public class CurrencyManager : BindingManagerBase
             {
                 return ((IBindingList)_list).AllowRemove;
             }
-
             if (_list == null)
             {
                 return false;
             }
-
             if (_list.IsReadOnly)
             {
                 return false;
@@ -241,7 +256,6 @@ public class CurrencyManager : BindingManagerBase
 
             return _list?[index];
         }
-
         set
         {
             if (index < 0 || index >= _list?.Count)
@@ -258,8 +272,8 @@ public class CurrencyManager : BindingManagerBase
     /// </summary>
     /// <exception cref="T:System.NotSupportedException">
     /// The underlying data source does not implement
-    /// <see cref="T:System.ComponentModel.IBindingList"/>, or the data source has thrown an exception because the user has attempted to add a row to a read-only or fixed-size
-    /// <see cref="T:System.Data.DataView"/>.
+    /// <see cref="T:System.ComponentModel.IBindingList" />, or the data source has thrown an exception because the user has attempted to add a row to a read-only or fixed-size
+    /// <see cref="T:System.Data.DataView" />.
     /// </exception>
     /// <filterpriority>
     /// 1
@@ -270,7 +284,6 @@ public class CurrencyManager : BindingManagerBase
         {
             throw new NotSupportedException("CurrencyManagerCantAddNew");
         }
-
         bindingLists.AddNew();
         if (_list != null)
         {
@@ -322,7 +335,7 @@ public class CurrencyManager : BindingManagerBase
     /// </summary>
     /// <returns>
     /// A
-    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection"/> for the list.
+    /// <see cref="T:System.ComponentModel.PropertyDescriptorCollection" /> for the list.
     /// </returns>
     /// <filterpriority>
     /// 1
@@ -349,19 +362,18 @@ public class CurrencyManager : BindingManagerBase
             _lastGoodKnownRow = -1;
             ListPosition = 0;
         }
-
         List_ListChanged(_list, new ListChangedEventArgs(ListChangedType.Reset, -1));
     }
 
     /// <summary>
     /// Removes the item at the specified index.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// The index of the item to remove from the list.
     /// </param>
     /// <exception cref="T:System.IndexOutOfRangeException">
     /// There is no row at the specified
-    /// <paramref name = "index"/>.
+    /// <paramref name="index" />.
     /// </exception>
     /// <filterpriority>
     /// 1
@@ -419,12 +431,10 @@ public class CurrencyManager : BindingManagerBase
         {
             throw new ArgumentNullException("key");
         }
-
         if (property != null && _list is IBindingList && ((IBindingList)_list).SupportsSearching)
         {
             return ((IBindingList)_list).Find(property, key);
         }
-
         if (property != null)
         {
             for (var i = 0; i < _list?.Count; i++)
@@ -459,12 +469,12 @@ public class CurrencyManager : BindingManagerBase
     /// </summary>
     /// <returns>
     /// If successful, a
-    /// <see cref="T:System.String"/> containing name of the list supplying the data for the binding; otherwise, an
-    /// <see cref="T:System.String.Empty"/> string.
+    /// <see cref="T:System.String" /> containing name of the list supplying the data for the binding; otherwise, an
+    /// <see cref="T:System.String.Empty" /> string.
     /// </returns>
-    /// <param name = "listAccessors">
+    /// <param name="listAccessors">
     /// An
-    /// <see cref="T:System.Collections.ArrayList"/> of properties to be found in the data source.
+    /// <see cref="T:System.Collections.ArrayList" /> of properties to be found in the data source.
     /// </param>
     protected internal override string? GetListName(ArrayList? listAccessors)
     {
@@ -472,7 +482,6 @@ public class CurrencyManager : BindingManagerBase
         {
             return "";
         }
-
         var propertyDescriptorArray = new PropertyDescriptor[listAccessors?.Count ?? 0];
         listAccessors?.CopyTo(propertyDescriptorArray, 0);
 
@@ -499,9 +508,9 @@ public class CurrencyManager : BindingManagerBase
         return ((IBindingList)_list).SortProperty;
     }
 
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected internal override void OnCurrentChanged(EventArgs e)
     {
@@ -513,13 +522,11 @@ public class CurrencyManager : BindingManagerBase
             {
                 flag = CurrencyManager_PushData();
             }
-
             if (Count > 0)
             {
                 var item = _list?[Position];
                 (item as IEditableObject)?.BeginEdit();
             }
-
             try
             {
                 if (!flag || flag && num != -1)
@@ -535,9 +542,9 @@ public class CurrencyManager : BindingManagerBase
         }
     }
 
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected internal override void OnCurrentItemChanged(EventArgs e)
     {
@@ -546,11 +553,11 @@ public class CurrencyManager : BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.CurrencyManager.MetaDataChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.CurrencyManager.MetaDataChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected internal void OnMetaDataChanged(EventArgs e)
     {
@@ -602,11 +609,11 @@ public class CurrencyManager : BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref="!:CurrencyChanged"/> event.
+    /// <see cref="!:CurrencyChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.EventArgs"/> instance containing the event data.
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     protected virtual void OnCurrencyChanged(EventArgs e)
     {
@@ -615,11 +622,11 @@ public class CurrencyManager : BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.CurrencyManager.ItemChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.CurrencyManager.ItemChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.Windows.Forms.ItemChangedEventArgs"/> that contains the event data.
+    /// <see cref="T:System.Windows.Forms.ItemChangedEventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnItemChanged(ItemChangedEventArgs e)
     {
@@ -628,7 +635,6 @@ public class CurrencyManager : BindingManagerBase
         {
             flag = CurrencyManager_PushData();
         }
-
         try
         {
             _itemChanged?.Invoke(this, e);
@@ -637,7 +643,6 @@ public class CurrencyManager : BindingManagerBase
         {
             OnDataError(exception);
         }
-
         if (flag)
         {
             OnPositionChanged(EventArgs.Empty);
@@ -646,11 +651,11 @@ public class CurrencyManager : BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase.PositionChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.PositionChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected virtual void OnPositionChanged(EventArgs e)
     {
@@ -670,7 +675,6 @@ public class CurrencyManager : BindingManagerBase
         {
             return;
         }
-
         Release();
         _dataSource = source;
         _list = null;
@@ -681,27 +685,22 @@ public class CurrencyManager : BindingManagerBase
             FinalType = listValue.GetType();
             listValue = (Array)listValue;
         }
-
         if (listValue is IListSource)
         {
             listValue = ((IListSource)listValue).GetList();
         }
-
         if (!(listValue is IList))
         {
             if (listValue != null)
             {
                 throw new ArgumentException("ListManagerSetDataSource");
             }
-
             throw new ArgumentNullException("source");
         }
-
         if (FinalType == null)
         {
             FinalType = listValue.GetType();
         }
-
         _list = (IList)listValue;
         WireEvents(_list);
         if (_list.Count <= 0)
@@ -712,7 +711,6 @@ public class CurrencyManager : BindingManagerBase
         {
             ListPosition = 0;
         }
-
         OnItemChanged(_resetEvent);
         OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1, -1));
         UpdateIsBinding();
@@ -735,15 +733,12 @@ public class CurrencyManager : BindingManagerBase
                 ListPosition = -1;
                 OnPositionChanged(EventArgs.Empty);
             }
-
             return;
         }
-
         if ((newPosition < 0 || newPosition >= Count) && IsBinding)
         {
             throw new IndexOutOfRangeException("ListManagerBadPosition");
         }
-
         var num = ListPosition;
         if (endCurrentEdit)
         {
@@ -757,18 +752,15 @@ public class CurrencyManager : BindingManagerBase
                 _inChangeRecordState = false;
             }
         }
-
         if (validating & pullData)
         {
             CurrencyManager_PullData();
         }
-
         ListPosition = Math.Min(newPosition, Count - 1);
         if (validating)
         {
             OnCurrentChanged(EventArgs.Empty);
         }
-
         if (num != ListPosition & firePositionChange)
         {
             OnPositionChanged(EventArgs.Empty);
@@ -797,7 +789,6 @@ public class CurrencyManager : BindingManagerBase
         {
             return false;
         }
-
         var num = ListPosition;
         if (_lastGoodKnownRow != -1)
         {
@@ -811,7 +802,6 @@ public class CurrencyManager : BindingManagerBase
                 ListPosition = _lastGoodKnownRow;
                 PushData();
             }
-
             _lastGoodKnownRow = ListPosition;
         }
         else
@@ -825,7 +815,6 @@ public class CurrencyManager : BindingManagerBase
                 OnDataError(exception1);
                 FindGoodRow();
             }
-
             _lastGoodKnownRow = ListPosition;
         }
 
@@ -849,7 +838,6 @@ public class CurrencyManager : BindingManagerBase
                 OnDataError(exception);
             }
         }
-
         SuspendBinding();
         throw new InvalidOperationException("DataBindingPushDataException");
     }
@@ -870,7 +858,6 @@ public class CurrencyManager : BindingManagerBase
         {
             listChangedEventArg = new ListChangedEventArgs(ListChangedType.ItemAdded, e.NewIndex, e.OldIndex);
         }
-
         var num = ListPosition;
         UpdateLastGoodKnownRow(listChangedEventArg);
         UpdateIsBinding();
@@ -882,26 +869,21 @@ public class CurrencyManager : BindingManagerBase
                 OnPositionChanged(EventArgs.Empty);
                 OnCurrentChanged(EventArgs.Empty);
             }
-
             if (listChangedEventArg.ListChangedType == ListChangedType.Reset && e.NewIndex == -1)
             {
                 OnItemChanged(_resetEvent);
             }
-
             if (listChangedEventArg.ListChangedType == ListChangedType.ItemDeleted)
             {
                 OnItemChanged(_resetEvent);
             }
-
             if (e.ListChangedType == ListChangedType.PropertyDescriptorAdded || e.ListChangedType == ListChangedType.PropertyDescriptorDeleted || e.ListChangedType == ListChangedType.PropertyDescriptorChanged)
             {
                 OnMetaDataChanged(EventArgs.Empty);
             }
-
             OnListChanged(listChangedEventArg);
             return;
         }
-
         _suspendPushDataInCurrentChanged = true;
         try
         {
@@ -917,12 +899,10 @@ public class CurrencyManager : BindingManagerBase
                         {
                             ChangeRecordState(0, true, false, true, false);
                         }
-
                         UpdateIsBinding(false);
                         OnItemChanged(_resetEvent);
                         break;
                     }
-
                 case ListChangedType.ItemAdded:
                     {
                         if (listChangedEventArg.NewIndex > ListPosition || ListPosition >= (_list?.Count ?? 0) - 1)
@@ -931,12 +911,10 @@ public class CurrencyManager : BindingManagerBase
                             {
                                 OnCurrentItemChanged(EventArgs.Empty);
                             }
-
                             if (ListPosition == -1)
                             {
                                 ChangeRecordState(0, false, false, true, false);
                             }
-
                             UpdateIsBinding();
                             OnItemChanged(_resetEvent);
                             break;
@@ -949,11 +927,9 @@ public class CurrencyManager : BindingManagerBase
                         {
                             break;
                         }
-
                         OnPositionChanged(EventArgs.Empty);
                         break;
                     }
-
                 case ListChangedType.ItemDeleted:
                     {
                         if (listChangedEventArg.NewIndex == ListPosition)
@@ -968,12 +944,10 @@ public class CurrencyManager : BindingManagerBase
                             OnItemChanged(_resetEvent);
                             break;
                         }
-
                         ChangeRecordState(ListPosition - 1, true, false, true, false);
                         OnItemChanged(_resetEvent);
                         break;
                     }
-
                 case ListChangedType.ItemMoved:
                     {
                         if (listChangedEventArg.OldIndex == ListPosition)
@@ -984,22 +958,18 @@ public class CurrencyManager : BindingManagerBase
                         {
                             ChangeRecordState(listChangedEventArg.OldIndex, true, Position > -1 && Position < (_list?.Count ?? 0), true, false);
                         }
-
                         OnItemChanged(_resetEvent);
                         break;
                     }
-
                 case ListChangedType.ItemChanged:
                     {
                         if (listChangedEventArg.NewIndex == ListPosition)
                         {
                             OnCurrentItemChanged(EventArgs.Empty);
                         }
-
                         OnItemChanged(new ItemChangedEventArgs(listChangedEventArg.NewIndex));
                         break;
                     }
-
                 case ListChangedType.PropertyDescriptorAdded:
                 case ListChangedType.PropertyDescriptorDeleted:
                 case ListChangedType.PropertyDescriptorChanged:
@@ -1013,12 +983,10 @@ public class CurrencyManager : BindingManagerBase
                         {
                             ChangeRecordState((_list?.Count ?? 0) - 1, true, false, true, false);
                         }
-
                         OnMetaDataChanged(EventArgs.Empty);
                         break;
                     }
             }
-
             OnListChanged(listChangedEventArg);
         }
         finally
@@ -1045,7 +1013,6 @@ public class CurrencyManager : BindingManagerBase
             {
                 Bindings[i].UpdateIsBinding();
             }
-
             if (raiseItemChangedEvent)
             {
                 OnItemChanged(_resetEvent);
@@ -1062,51 +1029,42 @@ public class CurrencyManager : BindingManagerBase
                     _lastGoodKnownRow = -1;
                     return;
                 }
-
             case ListChangedType.ItemAdded:
                 {
                     if (e.NewIndex > _lastGoodKnownRow || _lastGoodKnownRow >= (List?.Count ?? 0) - 1)
                     {
                         break;
                     }
-
                     _lastGoodKnownRow++;
                     return;
                 }
-
             case ListChangedType.ItemDeleted:
                 {
                     if (e.NewIndex != _lastGoodKnownRow)
                     {
                         break;
                     }
-
                     _lastGoodKnownRow = -1;
                     return;
                 }
-
             case ListChangedType.ItemMoved:
                 {
                     if (e.OldIndex != _lastGoodKnownRow)
                     {
                         break;
                     }
-
                     _lastGoodKnownRow = e.NewIndex;
                     return;
                 }
-
             case ListChangedType.ItemChanged:
                 {
                     if (e.NewIndex != _lastGoodKnownRow)
                     {
                         break;
                     }
-
                     _lastGoodKnownRow = -1;
                     break;
                 }
-
             default:
                 {
                     return;

@@ -36,7 +36,11 @@ public class ColorDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public virtual bool AllowFullOpen { get; set; }
+    public virtual bool AllowFullOpen
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether any color.
@@ -50,7 +54,11 @@ public class ColorDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public virtual bool AnyColor { get; set; }
+    public virtual bool AnyColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color.
@@ -58,7 +66,11 @@ public class ColorDialog : CommonDialog
     /// <value>
     /// The color.
     /// </value>
-    public Color Color { get; set; }
+    public Color Color
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the custom colors.
@@ -68,7 +80,11 @@ public class ColorDialog : CommonDialog
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int[] CustomColors { get; set; }
+    public int[] CustomColors
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether full open.
@@ -82,7 +98,11 @@ public class ColorDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public virtual bool FullOpen { get; set; }
+    public virtual bool FullOpen
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show help.
@@ -96,7 +116,11 @@ public class ColorDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public virtual bool ShowHelp { get; set; }
+    public virtual bool ShowHelp
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether solid color only.
@@ -110,7 +134,11 @@ public class ColorDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public virtual bool SolidColorOnly { get; set; }
+    public virtual bool SolidColorOnly
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the instance.

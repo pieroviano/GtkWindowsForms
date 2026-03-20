@@ -40,6 +40,7 @@ public class DataGridViewEditingControlShowingEventArgs : EventArgs
     public DataGridViewCellStyle CellStyle
     {
         get => _cellStyle;
+
         set => _cellStyle = value ?? throw new ArgumentNullException(nameof(value));
     }
 

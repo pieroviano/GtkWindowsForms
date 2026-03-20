@@ -75,6 +75,10 @@ public class HandledMouseEventArgs : MouseEventArgs
     /// false
     /// </c>.
     /// </value>
-    public bool Handled { get; set; }
+    public bool Handled
+    {
+        get;
+        set;
+    }
 
 }

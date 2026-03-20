@@ -1,7 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-
 namespace System.Drawing.Printing;
 
 /// <summary>
@@ -48,6 +47,7 @@ public unsafe class PageSettings : ICloneable
     public Rectangle Bounds
     {
         get;
+
         internal set;
     }
 
@@ -66,6 +66,7 @@ public unsafe class PageSettings : ICloneable
     public bool Color
     {
         get;
+
         set;
     }
 
@@ -78,6 +79,7 @@ public unsafe class PageSettings : ICloneable
     public float HardMarginX
     {
         get;
+
         internal set;
     }
 
@@ -90,6 +92,7 @@ public unsafe class PageSettings : ICloneable
     public float HardMarginY
     {
         get;
+
         internal set;
     }
 
@@ -108,6 +111,7 @@ public unsafe class PageSettings : ICloneable
     public bool Landscape
     {
         get;
+
         set;
     }
 
@@ -120,6 +124,7 @@ public unsafe class PageSettings : ICloneable
     public Margins Margins
     {
         get => _margins;
+
         set => _margins = value;
     }
 
@@ -132,6 +137,7 @@ public unsafe class PageSettings : ICloneable
     public PaperSize PaperSize
     {
         get;
+
         set;
     }
 
@@ -144,6 +150,7 @@ public unsafe class PageSettings : ICloneable
     public PaperSource PaperSource
     {
         get;
+
         set;
     }
 
@@ -156,6 +163,7 @@ public unsafe class PageSettings : ICloneable
     public RectangleF PrintableArea
     {
         get;
+
         internal set;
     }
 
@@ -168,6 +176,7 @@ public unsafe class PageSettings : ICloneable
     public PrinterResolution PrinterResolution
     {
         get;
+
         set;
     }
 
@@ -180,6 +189,7 @@ public unsafe class PageSettings : ICloneable
     public PrinterSettings PrinterSettings
     {
         get => _printerSettings;
+
         set => _printerSettings = value ?? new PrinterSettings();
     }
 

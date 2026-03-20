@@ -44,6 +44,10 @@ public class ConvertEventArgs : EventArgs
     /// <value>
     /// The value.
     /// </value>
-    public object Value { get; set; }
+    public object Value
+    {
+        get;
+        set;
+    }
 
 }

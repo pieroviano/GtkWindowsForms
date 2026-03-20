@@ -35,6 +35,10 @@ public class GiveFeedbackEventArgs : EventArgs
     /// <summary>
     /// Gets or sets a value indicating whether a default pointer is used.
     /// </summary>
-    public bool UseDefaultCursors { get; set; }
+    public bool UseDefaultCursors
+    {
+        get;
+        set;
+    }
 
 }

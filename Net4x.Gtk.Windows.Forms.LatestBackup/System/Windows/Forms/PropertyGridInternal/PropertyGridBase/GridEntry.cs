@@ -31,9 +31,17 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
 
     public IContainer Container => throw new NotImplementedException();
 
-    public string Description { get; set; }
+    public string Description
+    {
+        get;
+        set;
+    }
 
-    public bool Editable { get; set; }
+    public bool Editable
+    {
+        get;
+        set;
+    }
 
     public override GridItemCollection GridItems { get; }
 
@@ -43,9 +51,17 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
 
     public override string Label { get; }
 
-    public int Level { get; set; }
+    public int Level
+    {
+        get;
+        set;
+    }
 
-    public PropertyGrid OwnerGrid { get; set; }
+    public PropertyGrid OwnerGrid
+    {
+        get;
+        set;
+    }
 
     public override GridItem Parent { get; }
 
@@ -53,9 +69,17 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
 
     public override object Value { get => value; }
 
-    public Type ValueType { get; set; }
+    public Type ValueType
+    {
+        get;
+        set;
+    }
 
-    internal System.Reflection.PropertyInfo PropertyInfo { get; set; }
+    internal System.Reflection.PropertyInfo PropertyInfo
+    {
+        get;
+        set;
+    }
 
     public object GetService(Type serviceType)
     {

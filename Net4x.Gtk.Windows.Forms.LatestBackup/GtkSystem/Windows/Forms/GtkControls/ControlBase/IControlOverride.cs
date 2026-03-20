@@ -31,7 +31,11 @@ public interface IControlOverride
     /// <value>
     /// The color of the back.
     /// </value>
-    Color? BackColor { get; set; }
+    Color? BackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the background image.
@@ -39,7 +43,11 @@ public interface IControlOverride
     /// <value>
     /// The background image.
     /// </value>
-    System.Drawing.Image BackgroundImage { get; set; }
+    System.Drawing.Image BackgroundImage
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the background image layout.
@@ -47,7 +55,11 @@ public interface IControlOverride
     /// <value>
     /// The background image layout.
     /// </value>
-    ImageLayout BackgroundImageLayout { get; set; }
+    ImageLayout BackgroundImageLayout
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Adds the class.

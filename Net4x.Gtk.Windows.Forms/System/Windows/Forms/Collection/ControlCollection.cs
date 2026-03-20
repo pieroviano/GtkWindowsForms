@@ -765,7 +765,11 @@ public partial class Control
 
         public PropertyStore Properties => throw new NotImplementedException();
 
-        public ISite Site { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ISite Site
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Disposes the wrapped GTK widget when the arranged-element wrapper is disposed.

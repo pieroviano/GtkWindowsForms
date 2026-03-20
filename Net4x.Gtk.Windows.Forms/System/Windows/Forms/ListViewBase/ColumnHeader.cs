@@ -74,7 +74,11 @@ public class ColumnHeader : Component, ICloneable
     /// The display index.
     /// </value>
     [Localizable(true)]
-    public int DisplayIndex { get; set; }
+    public int DisplayIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the index of the image.
@@ -83,7 +87,11 @@ public class ColumnHeader : Component, ICloneable
     /// The index of the image.
     /// </value>
     [DefaultValue(-1)]
-    public int ImageIndex { get; set; } = -1;
+    public int ImageIndex
+    {
+        get;
+        set;
+    } = -1;
 
     /// <summary>
     /// Gets or sets the image key.
@@ -91,7 +99,11 @@ public class ColumnHeader : Component, ICloneable
     /// <value>
     /// The image key.
     /// </value>
-    public string ImageKey { get; set; }
+    public string ImageKey
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the image list.
@@ -148,6 +160,7 @@ public class ColumnHeader : Component, ICloneable
     public string Name
     {
         get;
+
         set;
     }
 
@@ -163,6 +176,7 @@ public class ColumnHeader : Component, ICloneable
     public object Tag
     {
         get;
+
         set;
     }
 
@@ -176,6 +190,7 @@ public class ColumnHeader : Component, ICloneable
     public string Text
     {
         get;
+
         set;
     }
 
@@ -190,6 +205,7 @@ public class ColumnHeader : Component, ICloneable
     public HorizontalAlignment TextAlign
     {
         get;
+
         set;
     }
 
@@ -204,6 +220,7 @@ public class ColumnHeader : Component, ICloneable
     public int Width
     {
         get;
+
         set;
     } = 100;
 

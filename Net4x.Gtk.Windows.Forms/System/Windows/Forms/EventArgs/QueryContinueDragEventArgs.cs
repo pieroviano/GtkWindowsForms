@@ -30,7 +30,11 @@ public class QueryContinueDragEventArgs : EventArgs
     /// <summary>
     /// Gets or sets the status of a drag-and-drop operation.
     /// </summary>
-    public DragAction Action { get; set; }
+    public DragAction Action
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether the user pressed the ESC key.

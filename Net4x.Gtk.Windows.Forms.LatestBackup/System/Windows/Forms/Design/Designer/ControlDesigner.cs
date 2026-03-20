@@ -84,6 +84,10 @@ public partial class ControlDesigner : ComponentDesigner
 
     private event EventHandler DisposingHandler;
 
-    internal bool ForceVisible { get; set; } = true;
+    internal bool ForceVisible
+    {
+        get;
+        set;
+    } = true;
 
 }

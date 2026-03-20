@@ -86,7 +86,11 @@ public class ToolStrip : Control
     /// <value>
     /// The size of the image scaling.
     /// </value>
-    public Size ImageScalingSize { get; set; }
+    public Size ImageScalingSize
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the items.
@@ -108,7 +112,11 @@ public class ToolStrip : Control
     /// <value>
     /// The layout style.
     /// </value>
-    public ToolStripLayoutStyle LayoutStyle { get; set; }
+    public ToolStripLayoutStyle LayoutStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the size.
@@ -116,7 +124,31 @@ public class ToolStrip : Control
     /// <value>
     /// The size.
     /// </value>
-    public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, 30); }
+    public override Size Size
+    {
+        get => base.Size;
+        set => base.Size = new Size(value.Width, 30);
+    }
+
+    /// <summary>
+    /// Raises the CheckedChanged event.
+    /// </summary>
+    protected virtual void OnCheckedChanged(System.EventArgs e) { CheckedChanged?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the CheckStateChanged event.
+    /// </summary>
+    protected virtual void OnCheckStateChanged(System.EventArgs e) {; }
+
+    /// <summary>
+    /// Raises the Click event.
+    /// </summary>
+    protected virtual void OnClick(System.EventArgs e) { Click?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the DropDownItemClicked event.
+    /// </summary>
+    protected virtual void OnDropDownItemClicked(System.Windows.Forms.ToolStripItemClickedEventArgs e) { DropDownItemClicked?.Invoke(this, e); }
 
     private void ToolStripItem_Activated(object sender, ActivateCurrentArgs e)
     {

@@ -112,7 +112,11 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// The drop down.
     /// </value>
     [TypeConverter(typeof(ReferenceConverter))]
-    public ToolStripDropDown DropDown { get; set; }
+    public ToolStripDropDown DropDown
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the drop down direction.
@@ -122,7 +126,11 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// </value>
     //public ToolStripItemCollection DropDownItems { get; }
     [Browsable(false)]
-    public ToolStripDropDownDirection DropDownDirection { get; set; }
+    public ToolStripDropDownDirection DropDownDirection
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance has drop down.
@@ -158,7 +166,11 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get => base.Text; set => base.Text = value; } //+ " ▼"
+    public override string Text
+    {
+        get => base.Text;
+        set => base.Text = value;
+    } //+ " ▼"
 
     /// <summary>
     /// Gets the drop down location.
@@ -178,5 +190,20 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// Shows the drop down.
     /// </summary>
     public void ShowDropDown() { }
+
+    /// <summary>
+    /// Raises the DropDownClosed event.
+    /// </summary>
+    protected virtual void OnDropDownClosed(EventArgs e) { DropDownClosed?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the DropDownOpened event.
+    /// </summary>
+    protected virtual void OnDropDownOpened(EventArgs e) { DropDownOpened?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the DropDownOpening event.
+    /// </summary>
+    protected virtual void OnDropDownOpening(EventArgs e) { DropDownOpening?.Invoke(this, e); }
 
 }

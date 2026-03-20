@@ -2,15 +2,17 @@ using System.Collections;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
+
 /// <summary>
 /// Maintains a
-/// <see cref="T:System.Windows.Forms.Binding"/> between an object's property and a data-bound control property.
+/// <see cref="T:System.Windows.Forms.Binding" /> between an object's property and a data-bound control property.
 /// </summary>
 /// <filterpriority>
 /// 2
 /// </filterpriority>
 public class PropertyManager : BindingManagerBase
 {
+
     private bool _bound;
 
     private object? _dataSource;
@@ -19,9 +21,13 @@ public class PropertyManager : BindingManagerBase
 
     private string? _propName;
 
+    public virtual event EventHandler<EventArgs> CurrentChanged;
+
+    public virtual event EventHandler<EventArgs> CurrentItemChanged;
+
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.PropertyManager"/> class.
+    /// <see cref="T:System.Windows.Forms.PropertyManager" /> class.
     /// </summary>
     public PropertyManager()
     {
@@ -38,7 +44,7 @@ public class PropertyManager : BindingManagerBase
 
     /// <returns>
     /// The number of rows managed by the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase"/>.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase" />.
     /// </returns>
     /// <filterpriority>
     /// 1
@@ -50,7 +56,7 @@ public class PropertyManager : BindingManagerBase
     /// </summary>
     /// <returns>
     /// An
-    /// <see cref="T:System.Object"/> that represents the object to which the property belongs.
+    /// <see cref="T:System.Object" /> that represents the object to which the property belongs.
     /// </returns>
     /// <filterpriority>
     /// 1
@@ -66,6 +72,7 @@ public class PropertyManager : BindingManagerBase
     public override int Position
     {
         get => 0;
+
         set
         {
         }
@@ -108,7 +115,7 @@ public class PropertyManager : BindingManagerBase
         }
     }
 
-    /// <param name = "index">
+    /// <param name="index">
     /// The index of the row to delete.
     /// </param>
     /// <filterpriority>
@@ -184,9 +191,9 @@ public class PropertyManager : BindingManagerBase
     /// <returns>
     /// The name of the list supplying the data for the binding.
     /// </returns>
-    /// <param name = "listAccessors">
+    /// <param name="listAccessors">
     /// An
-    /// <see cref="T:System.Collections.ArrayList"/> containing the table's bound properties.
+    /// <see cref="T:System.Collections.ArrayList" /> containing the table's bound properties.
     /// </param>
     protected internal override string? GetListName(ArrayList? listAccessors)
     {
@@ -195,11 +202,11 @@ public class PropertyManager : BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The
-    /// <see cref="T:System.EventArgs"/> that contains the event data.
+    /// <see cref="T:System.EventArgs" /> that contains the event data.
     /// </param>
     protected internal override void OnCurrentChanged(EventArgs e)
     {
@@ -210,11 +217,11 @@ public class PropertyManager : BindingManagerBase
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentItemChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.CurrentItemChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// An
-    /// <see cref="T:System.EventArgs"/> containing the event data.
+    /// <see cref="T:System.EventArgs" /> containing the event data.
     /// </param>
     protected internal override void OnCurrentItemChanged(EventArgs e)
     {
@@ -229,23 +236,17 @@ public class PropertyManager : BindingManagerBase
             _propInfo?.RemoveValueChanged(_dataSource, PropertyChanged);
             _propInfo = null;
         }
-
         _dataSource = source;
         if (_dataSource != null && !string.IsNullOrEmpty(_propName))
         {
-            _propInfo = TypeDescriptor.GetProperties(source).Find(_propName ?? string.Empty, true);
-            if (_propInfo == null)
-            {
-                throw new ArgumentException("PropertyManagerPropDoesNotExist");
-            }
-
+            _propInfo = TypeDescriptor.GetProperties(source).Find(_propName ?? string.Empty, true) ?? throw new ArgumentException("PropertyManagerPropDoesNotExist");
             _propInfo.AddValueChanged(source!, PropertyChanged);
         }
     }
 
     /// <summary>
     /// Updates the current
-    /// <see cref="T:System.Windows.Forms.Binding"/> between a data binding and a data-bound property.
+    /// <see cref="T:System.Windows.Forms.Binding" /> between a data binding and a data-bound property.
     /// </summary>
     protected override void UpdateIsBinding()
     {

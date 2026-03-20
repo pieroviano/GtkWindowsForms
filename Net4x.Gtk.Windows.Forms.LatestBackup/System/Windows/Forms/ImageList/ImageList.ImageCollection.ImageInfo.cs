@@ -20,7 +20,11 @@ public sealed partial class ImageList
     {
         internal class ImageInfo
         {
-            public string? Name { get; set; }
+            public string? Name
+            {
+                get;
+                set;
+            }
 
         }
     }

@@ -70,6 +70,7 @@ public partial class Panel : ScrollableControl
     public override Padding Padding
     {
         get => base.Padding;
+
         set
         {
             base.Padding = value;

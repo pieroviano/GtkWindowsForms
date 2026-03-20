@@ -114,6 +114,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public PenAlignment Alignment
     {
         get;
+
         set;
     }
 
@@ -136,6 +137,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public Brush Brush
     {
         get;
+
         set;
     }
 
@@ -157,6 +159,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public Color Color
     {
         get;
+
         set;
     }
 
@@ -175,6 +178,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public float[] CompoundArray
     {
         get;
+
         set;
     }
 
@@ -196,6 +200,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public CustomLineCap CustomEndCap
     {
         get;
+
         set;
     }
 
@@ -217,6 +222,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public CustomLineCap CustomStartCap
     {
         get;
+
         set;
     }
 
@@ -242,6 +248,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public DashCap DashCap
     {
         get;
+
         set;
     }
 
@@ -260,6 +267,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public float DashOffset
     {
         get;
+
         set;
     }
 
@@ -278,6 +286,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public float[] DashPattern
     {
         get;
+
         set;
     }
 
@@ -299,6 +308,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public DashStyle DashStyle
     {
         get;
+
         set;
     }
 
@@ -324,6 +334,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public LineCap EndCap
     {
         get;
+
         set;
     }
 
@@ -345,6 +356,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public LineJoin LineJoin
     {
         get;
+
         set;
     }
 
@@ -363,6 +375,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public float MiterLimit
     {
         get;
+
         set;
     }
 
@@ -405,6 +418,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public LineCap StartCap
     {
         get;
+
         set;
     }
 
@@ -426,6 +440,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public Matrix Transform
     {
         get;
+
         set;
     }
 
@@ -447,6 +462,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     public float Width
     {
         get;
+
         set;
     }
 

@@ -57,6 +57,7 @@ public partial class RichTextBox : ScrollableControl
         {
             return self.TextView.Buffer.Text.Split([Environment.NewLine], StringSplitOptions.None);
         }
+
         set
         {
             if (value is null || value.Length == 0)
@@ -81,7 +82,11 @@ public partial class RichTextBox : ScrollableControl
     /// false
     /// </c>.
     /// </value>
-    public virtual bool ReadOnly { get { return self.TextView.CanFocus; } set { self.TextView.CanFocus = value; } }
+    public virtual bool ReadOnly
+    {
+        get { return self.TextView.CanFocus; }
+        set { self.TextView.CanFocus = value; }
+    }
 
     /// <summary>
     /// Gets or sets the length of the selection.
@@ -98,6 +103,7 @@ public partial class RichTextBox : ScrollableControl
 
             return end.Offset - start.Offset;
         }
+
         set
         {
             Select(SelectionStart, value);
@@ -118,6 +124,7 @@ public partial class RichTextBox : ScrollableControl
 
             return start.Offset;
         }
+
         set { Select(value, SelectionLength); }
     }
 
@@ -127,7 +134,11 @@ public partial class RichTextBox : ScrollableControl
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get => self.TextView.Buffer.Text; set => self.TextView.Buffer.Text = value; }
+    public override string Text
+    {
+        get => self.TextView.Buffer.Text;
+        set => self.TextView.Buffer.Text = value;
+    }
 
     /// <summary>
     /// Appends the text.
@@ -168,6 +179,11 @@ public partial class RichTextBox : ScrollableControl
         TextIter enditer = self.TextView.Buffer.GetIterAtOffset(start + length);
         self.TextView.Buffer.SelectRange(startiter, enditer);
     }
+
+    /// <summary>
+    /// Raises the TextChanged event.
+    /// </summary>
+    protected virtual void OnTextChanged(System.EventArgs e) { TextChanged?.Invoke(this, e); }
 
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.

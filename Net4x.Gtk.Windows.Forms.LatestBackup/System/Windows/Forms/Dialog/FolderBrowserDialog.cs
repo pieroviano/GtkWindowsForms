@@ -27,7 +27,11 @@ public sealed class FolderBrowserDialog : FileDialog
     /// <value>
     /// The root folder.
     /// </value>
-    public Environment.SpecialFolder RootFolder { get; set; } = Environment.SpecialFolder.Desktop;
+    public Environment.SpecialFolder RootFolder
+    {
+        get;
+        set;
+    } = Environment.SpecialFolder.Desktop;
 
     /// <summary>
     /// Gets or sets the selected path.
@@ -38,6 +42,7 @@ public sealed class FolderBrowserDialog : FileDialog
     public string SelectedPath
     {
         get => SelectedDirectory;
+
         set => SelectedDirectory = value;
     }
 
@@ -52,7 +57,11 @@ public sealed class FolderBrowserDialog : FileDialog
     /// false
     /// </c>.
     /// </value>
-    public bool SelectedPathNeedsCheck { get; set; }
+    public bool SelectedPathNeedsCheck
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the selected paths.
@@ -73,7 +82,11 @@ public sealed class FolderBrowserDialog : FileDialog
     /// false
     /// </c>.
     /// </value>
-    public bool ShowNewFolderButton { get; set; }
+    public bool ShowNewFolderButton
+    {
+        get;
+        set;
+    }
 
     private new bool Multiselect => base.Multiselect;
 

@@ -42,7 +42,11 @@ public class LabelEditEventArgs : EventArgs
     /// Gets or sets a value indicating whether changes made to the label of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" /> should be canceled.
     /// </summary>
-    public bool CancelEdit { get; set; }
+    public bool CancelEdit
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the zero-based index of the

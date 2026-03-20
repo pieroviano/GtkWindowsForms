@@ -71,6 +71,7 @@ public class TabPage : ContainerControl
         {
             return DockStyle.Fill;
         }
+
         set { base.Dock = DockStyle.Fill; }
     }
 
@@ -88,7 +89,11 @@ public class TabPage : ContainerControl
     /// <value>
     /// The index of the image.
     /// </value>
-    public int ImageIndex { get; set; }
+    public int ImageIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the image key.
@@ -96,7 +101,11 @@ public class TabPage : ContainerControl
     /// <value>
     /// The image key.
     /// </value>
-    public string ImageKey { get; set; }
+    public string ImageKey
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the image list.
@@ -104,7 +113,11 @@ public class TabPage : ContainerControl
     /// <value>
     /// The image list.
     /// </value>
-    public List<object> ImageList { get; set; }
+    public List<object> ImageList
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the location.
@@ -118,6 +131,7 @@ public class TabPage : ContainerControl
         {
             return new Point(0, 0);
         }
+
         set
         {
         }
@@ -132,6 +146,7 @@ public class TabPage : ContainerControl
     public override Padding Padding
     {
         get => base.Padding;
+
         set
         {
             base.Padding = value;
@@ -148,7 +163,11 @@ public class TabPage : ContainerControl
     /// <value>
     /// The size.
     /// </value>
-    public override Size Size { get => _size; set { _size = value; } }
+    public override Size Size
+    {
+        get => _size;
+        set { _size = value; }
+    }
 
     /// <summary>
     /// Gets the tab label.
@@ -164,6 +183,10 @@ public class TabPage : ContainerControl
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get { return _tabLabel.Text; } set { _tabLabel.Text = value; } }
+    public override string Text
+    {
+        get { return _tabLabel.Text; }
+        set { _tabLabel.Text = value; }
+    }
 
 }

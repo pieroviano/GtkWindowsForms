@@ -7,7 +7,6 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms;
 
-
 /// <summary>
 /// Represents a collection of selected
 /// <see cref="T:System.Windows.Forms.DataGridViewCell" /> objects in the

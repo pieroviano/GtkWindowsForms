@@ -86,10 +86,6 @@ public class Program
             @"..\..\..\..\mono\mcs\class\System.Drawing\System.Drawing\CharacterRange.cs",
             @"..\..\..\..\Net4x.Gtk.Drawing\System\Drawing\CharacterRange.cs"
         );
-        //FileContentReplacer.ReplaceContent(
-        //    @"..\..\..\..\mono\mcs\class\System.Drawing\System.Drawing\Region.cs",
-        //    @"..\..\..\..\Net4x.Gtk.Drawing\System\Drawing\Region.cs"
-        //);
 
         ConsoleColor.Green.Write(@"Applying files first post processing", true);
         var postprocessingXml = PrepareWorker.GetSubsequentPostprocessingXml(false);

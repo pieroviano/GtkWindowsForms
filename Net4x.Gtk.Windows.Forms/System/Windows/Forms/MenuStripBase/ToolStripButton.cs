@@ -11,6 +11,10 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
 {
+    public virtual event EventHandler<EventArgs> CheckedChanged;
+
+    public virtual event EventHandler<EventArgs> CheckStateChanged;
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripButton" /> class.
@@ -106,7 +110,11 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// false
     /// </c>.
     /// </value>
-    public bool CheckOnClick { get; set; }
+    public bool CheckOnClick
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether default automatic tool tip.
@@ -141,7 +149,10 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected virtual void OnCheckedChanged(EventArgs e) { }
+    protected virtual void OnCheckedChanged(EventArgs e)
+    {
+        CheckedChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Handles the
@@ -153,7 +164,7 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// </param>
     protected virtual void OnCheckStateChanged(EventArgs e)
     {
-
+        CheckStateChanged?.Invoke(this, e);
     }
 
 }

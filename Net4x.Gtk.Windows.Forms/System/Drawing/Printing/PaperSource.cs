@@ -46,6 +46,7 @@ public partial class PaperSource
     public int RawKind
     {
         get => (int)_kind;
+
         set => _kind = (PaperSourceKind)value;
     }
 
@@ -58,6 +59,7 @@ public partial class PaperSource
     public string SourceName
     {
         get => _name;
+
         set => _name = value;
     }
 

@@ -19,7 +19,11 @@ public interface IContainerControl
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    Control ActiveControl { get; set; }
+    Control ActiveControl
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Activates a specified control.

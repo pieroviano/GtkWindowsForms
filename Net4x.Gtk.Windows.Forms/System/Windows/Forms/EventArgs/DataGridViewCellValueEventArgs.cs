@@ -57,7 +57,11 @@ public class DataGridViewCellValueEventArgs : EventArgs
     /// <value>
     /// The index of the column.
     /// </value>
-    public int ColumnIndex { get; private set; }
+    public int ColumnIndex
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets the index of the row.
@@ -65,7 +69,11 @@ public class DataGridViewCellValueEventArgs : EventArgs
     /// <value>
     /// The index of the row.
     /// </value>
-    public int RowIndex { get; private set; }
+    public int RowIndex
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets or sets the value.
@@ -73,7 +81,11 @@ public class DataGridViewCellValueEventArgs : EventArgs
     /// <value>
     /// The value.
     /// </value>
-    public object Value { get; set; }
+    public object Value
+    {
+        get;
+        set;
+    }
 
     internal void SetProperties(int columnIndex, int rowIndex, object value)
     {

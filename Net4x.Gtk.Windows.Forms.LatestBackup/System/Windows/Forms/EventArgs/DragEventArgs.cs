@@ -48,7 +48,11 @@ public class DragEventArgs : EventArgs
     /// <summary>
     /// Gets or sets which drag-and-drop operations are allowed by the target of the drag event.
     /// </summary>
-    public DragDropEffects Effect { get; set; }
+    public DragDropEffects Effect
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the current state of the SHIFT, CTRL, and ALT keys.

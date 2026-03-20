@@ -65,7 +65,11 @@ public class KeyEventArgs : EventArgs
     /// false
     /// </c>.
     /// </value>
-    public bool Handled { get; set; }
+    public bool Handled
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the keyboard code for a
@@ -149,6 +153,7 @@ public class KeyEventArgs : EventArgs
     public bool SuppressKeyPress
     {
         get => _suppressKeyPress;
+
         set
         {
             _suppressKeyPress = value;

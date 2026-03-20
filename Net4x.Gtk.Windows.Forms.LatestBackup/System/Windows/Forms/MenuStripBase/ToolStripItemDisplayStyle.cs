@@ -1,7 +1,6 @@
 using System;
 namespace System.Windows.Forms;
 
-
 /// <summary>
 /// Specifies what to render (image or text) for this
 /// <see cref="T:System.Windows.Forms.ToolStripItem" /> .

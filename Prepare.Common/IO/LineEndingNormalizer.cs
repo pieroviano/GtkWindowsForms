@@ -15,6 +15,7 @@ public static class LineEndingNormalizer
             // Normalize line endings
             content = content.Replace("\r\n", "\n");
             content = content.Replace("\n", "\r\n");
+            content = content.Replace("\r\n\r\n\r\n", "\r\n\r\n");
 
             // Save using UTF8 (without BOM if you prefer)
             File.WriteAllText(file, content, new UTF8Encoding(false));

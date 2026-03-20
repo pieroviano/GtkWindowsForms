@@ -41,6 +41,7 @@ public sealed class MetaHeader
         {
             return _data._headerSize;
         }
+
         set
         {
             _data._headerSize = value;
@@ -61,6 +62,7 @@ public sealed class MetaHeader
         {
             return _data._maxRecord;
         }
+
         set
         {
             _data._maxRecord = value;
@@ -81,6 +83,7 @@ public sealed class MetaHeader
         {
             return _data._noObjects;
         }
+
         set
         {
             _data._noObjects = value;
@@ -99,6 +102,7 @@ public sealed class MetaHeader
         {
             return _data._noParameters;
         }
+
         set
         {
             _data._noParameters = value;
@@ -119,6 +123,7 @@ public sealed class MetaHeader
         {
             return _data._size;
         }
+
         set
         {
             _data._size = value;
@@ -139,6 +144,7 @@ public sealed class MetaHeader
         {
             return _data._type;
         }
+
         set
         {
             _data._type = value;
@@ -157,6 +163,7 @@ public sealed class MetaHeader
         {
             return _data._version;
         }
+
         set
         {
             _data._version = value;

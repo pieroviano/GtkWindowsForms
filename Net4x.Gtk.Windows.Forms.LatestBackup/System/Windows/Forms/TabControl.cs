@@ -71,6 +71,7 @@ public partial class TabControl : ContainerControl
             else
                 return TabAlignment.Top;
         }
+
         set
         {
             if (value == TabAlignment.Left)
@@ -98,7 +99,11 @@ public partial class TabControl : ContainerControl
     /// <value>
     /// The draw mode.
     /// </value>
-    public TabDrawMode DrawMode { get; set; }
+    public TabDrawMode DrawMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// gtk unique menu functionality， provided for those who need it use
@@ -131,7 +136,11 @@ public partial class TabControl : ContainerControl
     /// <value>
     /// The size of the item.
     /// </value>
-    public Size ItemSize { get; set; }
+    public Size ItemSize
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -145,7 +154,11 @@ public partial class TabControl : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool Multiline { get; set; }
+    public bool Multiline
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the index of the selected.
@@ -153,7 +166,11 @@ public partial class TabControl : ContainerControl
     /// <value>
     /// The index of the selected.
     /// </value>
-    public int SelectedIndex { get { return self.CurrentPage; } set { self.CurrentPage = value; } }
+    public int SelectedIndex
+    {
+        get { return self.CurrentPage; }
+        set { self.CurrentPage = value; }
+    }
 
     /// <summary>
     /// Gets or sets the selected tab.
@@ -161,7 +178,11 @@ public partial class TabControl : ContainerControl
     /// <value>
     /// The selected tab.
     /// </value>
-    public TabPage SelectedTab { get { return _controls[self.CurrentPage]; } set { } }
+    public TabPage SelectedTab
+    {
+        get { return _controls[self.CurrentPage]; }
+        set { }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show tabs.
@@ -174,7 +195,11 @@ public partial class TabControl : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool ShowTabs { get => self.ShowTabs; set => self.ShowTabs = value; }
+    public bool ShowTabs
+    {
+        get => self.ShowTabs;
+        set => self.ShowTabs = value;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show tool tips.
@@ -187,7 +212,11 @@ public partial class TabControl : ContainerControl
     /// false
     /// </c>.
     /// </value>
-    public bool ShowToolTips { get; set; }
+    public bool ShowToolTips
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the size mode.
@@ -195,7 +224,11 @@ public partial class TabControl : ContainerControl
     /// <value>
     /// The size mode.
     /// </value>
-    public TabSizeMode SizeMode { get; set; }
+    public TabSizeMode SizeMode
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the tab count.
@@ -237,6 +270,16 @@ public partial class TabControl : ContainerControl
 
         return new Rectangle(0, 0, rect.Width, rect.Height);
     }
+
+    /// <summary>
+    /// Raises the DrawItem event.
+    /// </summary>
+    protected virtual void OnDrawItem(System.Windows.Forms.DrawItemEventArgs e) { DrawItem?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the SelectedIndexChanged event.
+    /// </summary>
+    protected virtual void OnSelectedIndexChanged(EventArgs e) { SelectedIndexChanged?.Invoke(this, e); }
 
     private void Self_SwitchPage(object o, SwitchPageArgs args)
     {

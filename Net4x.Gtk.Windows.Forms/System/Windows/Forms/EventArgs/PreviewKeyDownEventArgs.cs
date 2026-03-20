@@ -60,7 +60,11 @@ public class PreviewKeyDownEventArgs : EventArgs
     /// false
     /// </c>.
     /// </value>
-    public bool IsInputKey { get; set; }
+    public bool IsInputKey
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the keyboard code for a

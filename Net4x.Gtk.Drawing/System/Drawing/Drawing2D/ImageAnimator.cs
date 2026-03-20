@@ -35,13 +35,13 @@ public sealed class ImageAnimator
     /// <summary>
     /// Displays a multiple-frame image as an animation.
     /// </summary>
-    /// <param name = "image">
+    /// <param name="image">
     /// The
-    /// <see cref="T:System.Drawing.Image"/> object to animate.
+    /// <see cref="T:System.Drawing.Image" /> object to animate.
     /// </param>
-    /// <param name = "onFrameChangedHandler">
+    /// <param name="onFrameChangedHandler">
     /// An
-    /// <see langword="EventHandler"/> object that specifies the method that is called when the animation frame changes.
+    /// <see langword="EventHandler" /> object that specifies the method that is called when the animation frame changes.
     /// </param>
     public static void Animate(Image image, EventHandler onFrameChangedHandler)
     {
@@ -49,13 +49,11 @@ public sealed class ImageAnimator
         {
             return;
         }
-
         ImageInfo imageInfo = null;
         lock (image)
         {
             imageInfo = new ImageInfo(image);
         }
-
         StopAnimate(image, onFrameChangedHandler);
         bool isReaderLockHeld = s_rwImgListLock.IsReaderLockHeld;
         var lockCookie = default(LockCookie);
@@ -75,7 +73,6 @@ public sealed class ImageAnimator
         {
             t_threadWriterLockWaitCount--;
         }
-
         try
         {
             if (imageInfo.Animated)
@@ -84,7 +81,6 @@ public sealed class ImageAnimator
                 {
                     s_imageInfoList = new List<ImageInfo>();
                 }
-
                 imageInfo.FrameChangedHandler = onFrameChangedHandler;
                 s_imageInfoList.Add(imageInfo);
                 if (s_animationThread == null)
@@ -114,14 +110,14 @@ public sealed class ImageAnimator
     /// <summary>
     /// Returns a Boolean value indicating whether the specified image contains time-based frames.
     /// </summary>
-    /// <param name = "image">
+    /// <param name="image">
     /// The
-    /// <see cref="T:System.Drawing.Image"/> object to test.
+    /// <see cref="T:System.Drawing.Image" /> object to test.
     /// </param>
     /// <returns>
     /// This method returns
-    /// <see langword="true"/> if the specified image contains time-based frames; otherwise,
-    /// <see langword="false"/>.
+    /// <see langword="true" /> if the specified image contains time-based frames; otherwise,
+    /// <see langword="false" />.
     /// </returns>
     public static bool CanAnimate([NotNullWhen(true)] Image image)
     {
@@ -129,7 +125,6 @@ public sealed class ImageAnimator
         {
             return false;
         }
-
         lock (image)
         {
             Guid[] frameDimensionsList = image!.FrameDimensionsList;
@@ -150,13 +145,13 @@ public sealed class ImageAnimator
     /// <summary>
     /// Terminates a running animation.
     /// </summary>
-    /// <param name = "image">
+    /// <param name="image">
     /// The
-    /// <see cref="T:System.Drawing.Image"/> object to stop animating.
+    /// <see cref="T:System.Drawing.Image" /> object to stop animating.
     /// </param>
-    /// <param name = "onFrameChangedHandler">
+    /// <param name="onFrameChangedHandler">
     /// An
-    /// <see langword="EventHandler"/> object that specifies the method that is called when the animation frame changes.
+    /// <see langword="EventHandler" /> object that specifies the method that is called when the animation frame changes.
     /// </param>
     public static void StopAnimate(Image image, EventHandler onFrameChangedHandler)
     {
@@ -164,7 +159,6 @@ public sealed class ImageAnimator
         {
             return;
         }
-
         bool isReaderLockHeld = s_rwImgListLock.IsReaderLockHeld;
         var lockCookie = default(LockCookie);
         t_threadWriterLockWaitCount++;
@@ -183,7 +177,6 @@ public sealed class ImageAnimator
         {
             t_threadWriterLockWaitCount--;
         }
-
         try
         {
             for (int i = 0; i < s_imageInfoList.Count; i++)
@@ -195,7 +188,6 @@ public sealed class ImageAnimator
                     {
                         s_imageInfoList.Remove(imageInfo);
                     }
-
                     break;
                 }
             }
@@ -216,9 +208,9 @@ public sealed class ImageAnimator
     /// <summary>
     /// Advances the frame in the specified image. The new frame is drawn the next time the image is rendered. This method applies only to images with time-based frames.
     /// </summary>
-    /// <param name = "image">
+    /// <param name="image">
     /// The
-    /// <see cref="T:System.Drawing.Image"/> object for which to update frames.
+    /// <see cref="T:System.Drawing.Image" /> object for which to update frames.
     /// </param>
     public static void UpdateFrames(Image image)
     {
@@ -226,7 +218,6 @@ public sealed class ImageAnimator
         {
             return;
         }
-
         s_rwImgListLock.AcquireReaderLock(-1);
         try
         {
@@ -243,20 +234,17 @@ public sealed class ImageAnimator
                             s_imageInfo.UpdateFrame();
                         }
                     }
-
                     flag2 = true;
                 }
                 else if (s_imageInfo.FrameDirty)
                 {
                     flag = true;
                 }
-
                 if (flag && flag2)
                 {
                     break;
                 }
             }
-
             s_anyFrameDirty = flag;
         }
         finally
@@ -274,7 +262,6 @@ public sealed class ImageAnimator
         {
             return;
         }
-
         s_rwImgListLock.AcquireReaderLock(-1);
         try
         {
@@ -285,7 +272,6 @@ public sealed class ImageAnimator
                     s_imageInfo.UpdateFrame();
                 }
             }
-
             s_anyFrameDirty = false;
         }
         finally
@@ -327,6 +313,7 @@ public sealed class ImageAnimator
 
     private sealed class ImageInfo
     {
+
         private readonly bool _animated;
 
         private int _frame;
@@ -355,9 +342,9 @@ public sealed class ImageAnimator
 
         /// <summary>
         /// Initializes a new instance of
-        /// <see cref="T:System.Drawing.Image"/> from a pixbuf byte buffer.
+        /// <see cref="T:System.Drawing.Image" /> from a pixbuf byte buffer.
         /// </summary>
-        /// <param name = "image">The image to use.
+        /// <param name="pixbuf">The raw pixbuf bytes.
         /// </param>
         public ImageInfo(Image image)
         {
@@ -381,7 +368,6 @@ public sealed class ImageAnimator
                         {
                             num3 = 0;
                         }
-
                         var num4 = BitConverter.ToInt32(value, num3) * 10;
                         num += ((num4 > 0) ? num4 : 40);
                         if (num < _totalAnimationTime)
@@ -392,13 +378,11 @@ public sealed class ImageAnimator
                         {
                             _totalAnimationTime = num;
                         }
-
                         _frameEndTimes[num2] = num;
                         num2++;
                         num3 += 4;
                     }
                 }
-
                 PropertyItem propertyItem2 = image.GetPropertyItem(20737);
                 if (propertyItem2 != null)
                 {
@@ -443,7 +427,6 @@ public sealed class ImageAnimator
                 {
                     return false;
                 }
-
                 if (_loopCount != 0)
                 {
                     return _loop <= _loopCount;
@@ -472,7 +455,6 @@ public sealed class ImageAnimator
             {
                 return;
             }
-
             var frame = _frame;
             _frameTimer += milliseconds;
             if (_frameTimer > TotalAnimationTime)
@@ -489,12 +471,10 @@ public sealed class ImageAnimator
                     _frame = 0;
                 }
             }
-
             while (_frameTimer > _frameEndTimes[_frame])
             {
                 _frame++;
             }
-
             if (_frame != frame)
             {
                 _frameDirty = true;

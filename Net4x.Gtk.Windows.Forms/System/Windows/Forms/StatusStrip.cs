@@ -31,7 +31,11 @@ public class StatusStrip : ToolStrip
     /// <value>
     /// The location.
     /// </value>
-    public override Point Location { get => base.Location; set => base.Location = new Point(value.X, value.Y - 12); }
+    public override Point Location
+    {
+        get => base.Location;
+        set => base.Location = new Point(value.X, value.Y - 12);
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show item tool tips.
@@ -45,7 +49,11 @@ public class StatusStrip : ToolStrip
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool ShowItemToolTips { get; set; }
+    public bool ShowItemToolTips
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the size.
@@ -53,7 +61,11 @@ public class StatusStrip : ToolStrip
     /// <value>
     /// The size.
     /// </value>
-    public override Size Size { get => base.Size; set => base.Size = new Size(value.Width, value.Height + 12); }
+    public override Size Size
+    {
+        get => base.Size;
+        set => base.Size = new Size(value.Width, value.Height + 12);
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether sizing grip.
@@ -67,7 +79,11 @@ public class StatusStrip : ToolStrip
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool SizingGrip { get; set; }
+    public bool SizingGrip
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -82,6 +98,10 @@ public class StatusStrip : ToolStrip
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool Stretch { get; set; }
+    public bool Stretch
+    {
+        get;
+        set;
+    }
 
 }

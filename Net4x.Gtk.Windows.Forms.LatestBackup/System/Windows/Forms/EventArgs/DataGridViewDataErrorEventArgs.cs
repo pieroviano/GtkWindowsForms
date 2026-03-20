@@ -67,6 +67,7 @@ public class DataGridViewDataErrorEventArgs : DataGridViewCellCancelEventArgs
     public bool ThrowException
     {
         get => _throwException;
+
         set
         {
             if (value && Exception == null)

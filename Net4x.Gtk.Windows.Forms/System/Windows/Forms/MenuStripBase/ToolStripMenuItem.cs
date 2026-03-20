@@ -51,6 +51,7 @@ public class ToolStripMenuItem : WidgetToolStrip<Gtk.MenuItem>
 
             return base.Checked;
         }
+
         set
         {
             base.Checked = value;
@@ -74,6 +75,7 @@ public class ToolStripMenuItem : WidgetToolStrip<Gtk.MenuItem>
     public override CheckState CheckState
     {
         get => base.CheckState;
+
         set
         {
             base.CheckState = value;

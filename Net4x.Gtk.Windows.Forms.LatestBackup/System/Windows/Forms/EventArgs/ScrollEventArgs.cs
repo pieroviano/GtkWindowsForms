@@ -97,7 +97,11 @@ public class ScrollEventArgs : EventArgs
     /// <value>
     /// The new value.
     /// </value>
-    public int NewValue { get; set; }
+    public int NewValue
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Specifies the last position  within the scroll bar.

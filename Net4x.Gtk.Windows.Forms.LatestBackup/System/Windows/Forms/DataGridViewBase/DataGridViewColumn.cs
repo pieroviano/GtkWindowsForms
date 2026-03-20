@@ -272,6 +272,7 @@ public class DataGridViewColumn : TreeViewColumn
     public DataGridViewAutoSizeColumnMode AutoSizeMode
     {
         get => _AutoSizeMode;
+
         set
         {
             if (value == DataGridViewAutoSizeColumnMode.None) { _AutoSizeMode = value; base.Resizable = false; base.Sizing = TreeViewColumnSizing.Fixed; } else { base.Resizable = true; base.Sizing = TreeViewColumnSizing.GrowOnly; }
@@ -287,6 +288,7 @@ public class DataGridViewColumn : TreeViewColumn
     public virtual DataGridViewCell CellTemplate
     {
         get => _cellTemplate;
+
         set => _cellTemplate = value;
     }
 
@@ -301,20 +303,32 @@ public class DataGridViewColumn : TreeViewColumn
     /// Gets or sets the context menu strip for the column header and cells.
     /// </summary>
     [DefaultValue(null)]
-    public ContextMenuStrip ContextMenuStrip { get; set; }
+    public ContextMenuStrip ContextMenuStrip
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumn.DataGridView" /> that contains this column.
     /// </summary>
-    public DataGridView DataGridView { get { return _gridview; } set { _gridview = value; _treeView = value.GridView; } }
+    public DataGridView DataGridView
+    {
+        get { return _gridview; }
+        set { _gridview = value; _treeView = value.GridView; }
+    }
 
     /// <summary>
     /// Gets or sets the name of the data property bound to the column.
     /// </summary>
     [Browsable(true)]
     [DefaultValue("")]
-    public string DataPropertyName { get => _DataPropertyName; set => _DataPropertyName = value; }
+    public string DataPropertyName
+    {
+        get => _DataPropertyName;
+        set => _DataPropertyName = value;
+    }
 
     /// <summary>
     /// Gets or sets the default cell style applied to cells in this column.
@@ -323,6 +337,7 @@ public class DataGridViewColumn : TreeViewColumn
     public DataGridViewCellStyle DefaultCellStyle
     {
         get => _DefaultCellStyle;
+
         set { _DefaultCellStyle = value; _cellRenderer.ColumnStyle = value; }
     }
 
@@ -330,39 +345,63 @@ public class DataGridViewColumn : TreeViewColumn
     /// Gets or sets the display index of the column.
     /// </summary>
     [Browsable(false)]
-    public int DisplayIndex { get => _DisplayIndex; set { _DisplayIndex = value; } }
+    public int DisplayIndex
+    {
+        get => _DisplayIndex;
+        set { _DisplayIndex = value; }
+    }
 
     /// <summary>
     /// Gets or sets the width of the divider that follows the column.
     /// </summary>
     [DefaultValue(0)]
-    public int DividerWidth { get; set; }
+    public int DividerWidth
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the relative fill weight for column sizing when using fill mode.
     /// </summary>
     [DefaultValue(100)]
-    public float FillWeight { get; set; }
+    public float FillWeight
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the column is frozen.
     /// </summary>
     [DefaultValue(false)]
     [RefreshProperties(RefreshProperties.All)]
-    public bool Frozen { get; set; }
+    public bool Frozen
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the header cell for the column.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public DataGridViewColumnHeaderCell HeaderCell { get; set; }
+    public DataGridViewColumnHeaderCell HeaderCell
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the header text displayed for the column.
     /// </summary>
     [DefaultValue("")]
-    public string HeaderText { get { return this.Title; } set { this.Title = value; } }
+    public string HeaderText
+    {
+        get { return this.Title; }
+        set { this.Title = value; }
+    }
 
     /// <summary>
     /// Gets or sets the runtime index of the column in the grid.
@@ -370,6 +409,7 @@ public class DataGridViewColumn : TreeViewColumn
     public int Index
     {
         get => _index;
+
         internal set
         {
             _index = value; if (_SortMode != DataGridViewColumnSortMode.NotSortable) { base.SortColumnId = value; }
@@ -401,7 +441,11 @@ public class DataGridViewColumn : TreeViewColumn
     /// <summary>
     /// Gets or sets the Pango markup used for rendering text in this column.
     /// </summary>
-    public string Markup { get => _markup; set { _markup = value; _cellRenderer.Markup = value; } }
+    public string Markup
+    {
+        get => _markup;
+        set { _markup = value; _cellRenderer.Markup = value; }
+    }
 
     /// <summary>
     /// Gets or sets the minimum width for the column.
@@ -409,13 +453,21 @@ public class DataGridViewColumn : TreeViewColumn
     [DefaultValue(5)]
     [Localizable(true)]
     [RefreshProperties(RefreshProperties.Repaint)]
-    public int MinimumWidth { get => base.MinWidth; set { base.MinWidth = value; } }
+    public int MinimumWidth
+    {
+        get => base.MinWidth;
+        set { base.MinWidth = value; }
+    }
 
     /// <summary>
     /// Gets or sets the name associated with the column.
     /// </summary>
     [DefaultValue("")]
-    public string Name { get => base.Button.Name; set { base.Button.Name = value; } }
+    public string Name
+    {
+        get => base.Button.Name;
+        set { base.Button.Name = value; }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the column is read-only.
@@ -423,6 +475,7 @@ public class DataGridViewColumn : TreeViewColumn
     public bool ReadOnly
     {
         get => _ReadOnly;
+
         set
         {
             _ReadOnly = value;
@@ -437,6 +490,7 @@ public class DataGridViewColumn : TreeViewColumn
     public new DataGridViewTriState Resizable
     {
         get { return base.Resizable == true ? DataGridViewTriState.True : DataGridViewTriState.False; }
+
         set { base.Resizable = value == DataGridViewTriState.True; }
     }
 
@@ -461,7 +515,11 @@ public class DataGridViewColumn : TreeViewColumn
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public ISite Site { get; set; }
+    public ISite Site
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the sort mode for the column.
@@ -469,6 +527,7 @@ public class DataGridViewColumn : TreeViewColumn
     public DataGridViewColumnSortMode SortMode
     {
         get => _SortMode;
+
         set
         {
             _SortMode = value;
@@ -482,14 +541,22 @@ public class DataGridViewColumn : TreeViewColumn
     /// <summary>
     /// Gets the current element state for the column.
     /// </summary>
-    public DataGridViewElementStates State { get { return DataGridViewElementStates.None; } internal set { } }
+    public DataGridViewElementStates State
+    {
+        get { return DataGridViewElementStates.None; }
+        internal set { }
+    }
 
     /// <summary>
     /// Gets or sets the tooltip text for the column header.
     /// </summary>
     [DefaultValue("")]
     [Localizable(true)]
-    public string ToolTipText { get; set; }
+    public string ToolTipText
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the type of values stored in the column's cells.
@@ -500,14 +567,22 @@ public class DataGridViewColumn : TreeViewColumn
     [Browsable(false)]
     [DefaultValue(null)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Type ValueType { get; set; } = typeof(string);
+    public Type ValueType
+    {
+        get;
+        set;
+    } = typeof(string);
 
     /// <summary>
     /// Gets or sets the width of the column in pixels.
     /// </summary>
     [Localizable(true)]
     [RefreshProperties(RefreshProperties.Repaint)]
-    public new int Width { get { return base.FixedWidth; } set { base.FixedWidth = value; } }
+    public new int Width
+    {
+        get { return base.FixedWidth; }
+        set { base.FixedWidth = value; }
+    }
 
     private int DefaultHeight
     {
@@ -605,6 +680,11 @@ public class DataGridViewColumn : TreeViewColumn
 
         return newcell;
     }
+
+    /// <summary>
+    /// Raises the Disposed event.
+    /// </summary>
+    protected virtual void OnDisposed(System.EventArgs e) { Disposed?.Invoke(this, e); }
 
     private void Renderer_Edited(object o, EditedArgs args)
     {

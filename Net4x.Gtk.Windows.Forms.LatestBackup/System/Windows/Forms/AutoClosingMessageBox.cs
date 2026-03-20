@@ -68,7 +68,11 @@ public class AutoClosingMessageBox : IMessageBox
     /// Default value is configured via
     /// <see cref="T:System.Windows.Forms.AutoClosingMessageBox.Init(System.Int32)" />.
     /// </summary>
-    public int MessageBoxTimeout { get; set; }
+    public int MessageBoxTimeout
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Initialize the auto-closing behavior and optionally set the default timeout interval.
@@ -266,6 +270,11 @@ public class AutoClosingMessageBox : IMessageBox
     {
         return InvokeAndAutoClose(() => MessageBox!.Show(owner, text));
     }
+
+    /// <summary>
+    /// Raises the DialogAvailable event.
+    /// </summary>
+    protected virtual void OnDialogAvailable(System.Windows.Forms.DialogEventArgs e) { DialogAvailable?.Invoke(this, e); }
 
     /// <summary>
     /// Runs an asynchronous task that waits for the configured timeout then disposes the current GTK dialog if still present.

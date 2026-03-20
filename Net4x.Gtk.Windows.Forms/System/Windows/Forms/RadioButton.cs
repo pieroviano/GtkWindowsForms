@@ -49,7 +49,11 @@ public partial class RadioButton : Control
     /// false
     /// </c>.
     /// </value>
-    public bool Checked { get { return self.Active; } set { _Checked = true; self.Active = true; } }
+    public bool Checked
+    {
+        get { return self.Active; }
+        set { _Checked = true; self.Active = true; }
+    }
 
     /// <summary>
     /// Gets the GTK control.
@@ -65,7 +69,16 @@ public partial class RadioButton : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text { get { return self.Label; } set { self.Label = value; } }
+    public override string Text
+    {
+        get { return self.Label; }
+        set { self.Label = value; }
+    }
+
+    /// <summary>
+    /// Raises the CheckedChanged event.
+    /// </summary>
+    protected virtual void OnCheckedChanged(System.EventArgs e) { CheckedChanged?.Invoke(this, e); }
 
     private void Self_ParentSet(object o, Gtk.ParentSetArgs args)
     {

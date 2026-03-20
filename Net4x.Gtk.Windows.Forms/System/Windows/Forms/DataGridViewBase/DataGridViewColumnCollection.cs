@@ -10,8 +10,8 @@ namespace System.Windows.Forms;
 
 /// <summary>
 /// Represents a collection of
-/// <see cref="T:System.Windows.Forms.DataGridViewColumn"/> objects that belong to a
-/// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.DataGridView"/>.
+/// <see cref="T:System.Windows.Forms.DataGridViewColumn" /> objects that belong to a
+/// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.DataGridView" />.
 /// Provides helpers for adding, removing and querying the set of columns and synchronizes with the underlying GTK tree view.
 /// </summary>
 /// <filterpriority>
@@ -19,6 +19,7 @@ namespace System.Windows.Forms;
 /// </filterpriority>
 public class DataGridViewColumnCollection : List<DataGridViewColumn>
 {
+
     private readonly DataGridView __owner;
 
     private readonly Gtk.TreeView GridView;
@@ -30,11 +31,11 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection"/> class for the specified grid.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection" /> class for the specified grid.
     /// </summary>
-    /// <param name = "dataGridView">
+    /// <param name="dataGridView">
     /// The owning
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.DataGridView"/>.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.DataGridView" />.
     /// </param>
     public DataGridViewColumnCollection(DataGridView dataGridView)
     {
@@ -44,59 +45,43 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
 
     /// <summary>
     /// Gets the owning
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.DataGridView"/>.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.DataGridView" />.
     /// </summary>
-    protected DataGridView DataGridView
-    {
-        get
-        {
-            return __owner;
-        }
-    }
+    protected DataGridView DataGridView { get { return __owner; } }
 
     /// <summary>
     /// Gets the column with the specified name.
     /// </summary>
-    /// <param name = "columnName">
+    /// <param name="columnName">
     /// The name of the column to locate.
     /// </param>
     /// <returns>
     /// The
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumn"/> with the specified name, or null if not found.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumn" /> with the specified name, or null if not found.
     /// </returns>
-    public virtual DataGridViewColumn this[string columnName]
-    {
-        get
-        {
-            return base.Find(m => m.Name == columnName);
-        }
-    }
+    public virtual DataGridViewColumn this[string columnName] { get { return base.Find(m => m.Name == columnName); } }
 
     /// <summary>
     /// Adds a new column with the specified name and header text.
     /// </summary>
-    /// <param name = "columnName">
+    /// <param name="columnName">
     /// Column name.
     /// </param>
-    /// <param name = "headerText">
+    /// <param name="headerText">
     /// Header text to display.
     /// </param>
     public void Add(string columnName, string headerText)
     {
-        var column = new DataGridViewColumn()
-        {
-            Name = columnName,
-            HeaderText = headerText
-        };
+        var column = new DataGridViewColumn() { Name = columnName, HeaderText = headerText };
         Add(column);
     }
 
     /// <summary>
     /// Adds the specified column to the collection and synchronizes it with the underlying GTK tree view.
     /// </summary>
-    /// <param name = "column">
+    /// <param name="column">
     /// The
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumn"/> to add.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumn" /> to add.
     /// </param>
     public new void Add(DataGridViewColumn column)
     {
@@ -104,9 +89,11 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
         column.Index = Count;
         column.DisplayIndex = column.Index;
         column.SetGridViewDefaultStyle(__owner.DefaultCellStyle);
+
         DataGridViewCellStyle _cellStyle = column.DefaultCellStyle;
         if (__owner.ColumnHeadersDefaultCellStyle != null)
             _cellStyle = __owner.ColumnHeadersDefaultCellStyle;
+
         if (_cellStyle != null)
         {
             var header = ((Gtk.Button)column.Button);
@@ -117,21 +104,18 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
                 style += $".columnheaderbackcolor{{background-color:{backcolor};}} ";
                 header.StyleContext.AddClass("columnheaderbackcolor");
             }
-
             if (_cellStyle.ForeColor.Name != "0")
             {
                 var forecolor = $"rgba({_cellStyle.ForeColor.R},{_cellStyle.ForeColor.G},{_cellStyle.ForeColor.B},{_cellStyle.ForeColor.A})";
                 style += $".columnheaderforecolor{{color:{forecolor};}} ";
                 header.StyleContext.AddClass("columnheaderforecolor");
             }
-
             if (style.Length > 9)
             {
                 var css = new Gtk.CssProvider();
                 css.LoadFromData(style);
                 header.StyleContext.AddProvider(css, 800);
             }
-
             switch (_cellStyle.Alignment)
             {
                 case DataGridViewContentAlignment.TopLeft:
@@ -139,16 +123,19 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
                 case DataGridViewContentAlignment.BottomLeft:
                     column.Alignment = 0f;
                     break;
+
                 case DataGridViewContentAlignment.TopCenter:
                 case DataGridViewContentAlignment.MiddleCenter:
                 case DataGridViewContentAlignment.BottomCenter:
                     column.Alignment = 0.5f;
                     break;
+
                 case DataGridViewContentAlignment.TopRight:
                 case DataGridViewContentAlignment.MiddleRight:
                 case DataGridViewContentAlignment.BottomRight:
                     column.Alignment = 1.0f;
                     break;
+
                 default:
                     column.Alignment = 0f;
                     break;
@@ -160,16 +147,15 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
         {
             Invalidate();
         }
-
         GridView.AppendColumn(column);
         OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Add, column));
     }
 
     /// <summary>
     /// Adds the elements of the specified collection to the end of the
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection"/>.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection" />.
     /// </summary>
-    /// <param name = "columns">
+    /// <param name="columns">
     /// The collection whose elements should be added.
     /// </param>
     public new void AddRange(IEnumerable<DataGridViewColumn> columns)
@@ -188,15 +174,16 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
         base.Clear();
         foreach (var wik in GridView.Columns)
             GridView.RemoveColumn(wik);
+
         OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Add, __owner));
     }
 
     /// <summary>
     /// Returns the number of columns that match the specified element state filter.
     /// </summary>
-    /// <param name = "includeFilter">
+    /// <param name="includeFilter">
     /// The
-    /// <see cref="T:System.Windows.Forms.DataGridViewElementStates"/> to include.
+    /// <see cref="T:System.Windows.Forms.DataGridViewElementStates" /> to include.
     /// </param>
     /// <returns>
     /// The count of matching columns.
@@ -210,7 +197,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// Returns the width of the first column that matches the specified element state filter.
     /// If none found, returns the owner's row header width.
     /// </summary>
-    /// <param name = "includeFilter">
+    /// <param name="includeFilter">
     /// The element state to include.
     /// </param>
     /// <returns>
@@ -226,12 +213,12 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Gets the first column that matches the specified element state filter.
     /// </summary>
-    /// <param name = "includeFilter">
+    /// <param name="includeFilter">
     /// The element state to include.
     /// </param>
     /// <returns>
     /// The first matching
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumn"/>, or null.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumn" />, or null.
     /// </returns>
     public DataGridViewColumn GetFirstColumn(DataGridViewElementStates includeFilter)
     {
@@ -241,15 +228,15 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Gets the first column that matches both include and exclude filters.
     /// </summary>
-    /// <param name = "includeFilter">
+    /// <param name="includeFilter">
     /// The element state to include.
     /// </param>
-    /// <param name = "excludeFilter">
+    /// <param name="excludeFilter">
     /// The element state to exclude.
     /// </param>
     /// <returns>
     /// The first matching
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumn"/>, or null.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumn" />, or null.
     /// </returns>
     public DataGridViewColumn GetFirstColumn(DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
@@ -259,15 +246,15 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Gets the last column that matches both include and exclude filters.
     /// </summary>
-    /// <param name = "includeFilter">
+    /// <param name="includeFilter">
     /// The element state to include.
     /// </param>
-    /// <param name = "excludeFilter">
+    /// <param name="excludeFilter">
     /// The element state to exclude.
     /// </param>
     /// <returns>
     /// The last matching
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumn"/>, or null.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumn" />, or null.
     /// </returns>
     public DataGridViewColumn GetLastColumn(DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
@@ -277,18 +264,18 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Returns the next column after the provided start column that matches the filters.
     /// </summary>
-    /// <param name = "dataGridViewColumnStart">
+    /// <param name="dataGridViewColumnStart">
     /// Start column for search.
     /// </param>
-    /// <param name = "includeFilter">
+    /// <param name="includeFilter">
     /// Element state to include.
     /// </param>
-    /// <param name = "excludeFilter">
+    /// <param name="excludeFilter">
     /// Element state to exclude.
     /// </param>
     /// <returns>
     /// The next matching
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumn"/> or null.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumn" /> or null.
     /// </returns>
     public DataGridViewColumn GetNextColumn(DataGridViewColumn dataGridViewColumnStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
@@ -313,11 +300,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
         {
             __owner.GridView.Model = __owner.Store;
         }
-
-        __owner.Store.DefaultSortFunc = new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) =>
-        {
-            return 0;
-        });
+        __owner.Store.DefaultSortFunc = new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) => { return 0; });
         for (int i = 0; i < __owner.Store.NColumns; i++)
         {
             __owner.Store.SetSortFunc(i, new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) =>
@@ -340,7 +323,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Removes the specified column from the collection and underlying GTK view.
     /// </summary>
-    /// <param name = "column">
+    /// <param name="column">
     /// The column to remove.
     /// </param>
     /// <returns>
@@ -349,7 +332,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     public new bool Remove(DataGridViewColumn column)
     {
         __owner.GridView.RemoveColumn(column);
-        bool ir = base.Remove(column);
+        bool ir= base.Remove(column);
         OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Remove, column));
 
         return ir;
@@ -358,7 +341,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// <summary>
     /// Removes the column at the specified index.
     /// </summary>
-    /// <param name = "index">
+    /// <param name="index">
     /// Index of the column to remove.
     /// </param>
     public new void RemoveAt(int index)
@@ -368,9 +351,9 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
 
     /// <summary>
     /// Raises the
-    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.CollectionChanged"/> event.
+    /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.CollectionChanged" /> event.
     /// </summary>
-    /// <param name = "e">
+    /// <param name="e">
     /// The event arguments.
     /// </param>
     protected virtual void OnCollectionChanged(CollectionChangeEventArgs e)

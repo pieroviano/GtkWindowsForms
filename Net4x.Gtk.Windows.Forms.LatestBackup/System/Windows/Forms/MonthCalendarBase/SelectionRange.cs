@@ -73,6 +73,7 @@ public sealed class SelectionRange
         {
             return end;
         }
+
         set
         {
             end = value.Date;
@@ -88,6 +89,7 @@ public sealed class SelectionRange
         {
             return start;
         }
+
         set
         {
             start = value.Date;

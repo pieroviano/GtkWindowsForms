@@ -80,6 +80,7 @@ public class DataGridViewHeaderCell : DataGridViewCell
     public override bool ReadOnly
     {
         get;
+
         set;
     }
 
@@ -118,6 +119,7 @@ public class DataGridViewHeaderCell : DataGridViewCell
     public override bool Selected
     {
         get;
+
         set;
     }
 
@@ -130,6 +132,7 @@ public class DataGridViewHeaderCell : DataGridViewCell
     public override Type ValueType
     {
         get;
+
         set;
     }
 
@@ -157,6 +160,7 @@ public class DataGridViewHeaderCell : DataGridViewCell
     internal Bitmap FlipXPThemesBitmap
     {
         get;
+
         set;
     }
 

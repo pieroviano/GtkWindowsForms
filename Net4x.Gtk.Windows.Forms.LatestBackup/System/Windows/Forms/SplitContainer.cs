@@ -58,6 +58,7 @@ public partial class SplitContainer : ContainerControl
     public FixedPanel FixedPanel
     {
         get => _fixedPanel;
+
         set
         {
             _fixedPanel = value;
@@ -84,6 +85,7 @@ public partial class SplitContainer : ContainerControl
     public Orientation Orientation
     {
         get { return self.Orientation == Gtk.Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal; }
+
         set
         {
             self.Orientation = value == Orientation.Horizontal ? Gtk.Orientation.Vertical : Gtk.Orientation.Horizontal;
@@ -102,6 +104,7 @@ public partial class SplitContainer : ContainerControl
         {
             return _panel1;
         }
+
         set
         {
             _panel1 = value;
@@ -120,6 +123,7 @@ public partial class SplitContainer : ContainerControl
         {
             return _panel2;
         }
+
         set
         {
             _panel2 = value;
@@ -132,7 +136,11 @@ public partial class SplitContainer : ContainerControl
     /// <value>
     /// The splitter distance.
     /// </value>
-    public int SplitterDistance { get => self.Position + 5; set { _SplitterDistance = Math.Max(1, value - 5); self.Position = _SplitterDistance; } }
+    public int SplitterDistance
+    {
+        get => self.Position + 5;
+        set { _SplitterDistance = Math.Max(1, value - 5); self.Position = _SplitterDistance; }
+    }
 
     /// <summary>
     /// Gets or sets the splitter increment.
@@ -140,7 +148,11 @@ public partial class SplitContainer : ContainerControl
     /// <value>
     /// The splitter increment.
     /// </value>
-    public int SplitterIncrement { get; set; }
+    public int SplitterIncrement
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the width of the splitter.
@@ -148,6 +160,10 @@ public partial class SplitContainer : ContainerControl
     /// <value>
     /// The width of the splitter.
     /// </value>
-    public int SplitterWidth { get { return _SplitterWidth; } set { _SplitterWidth = value; self.WideHandle = value > 2; } }
+    public int SplitterWidth
+    {
+        get { return _SplitterWidth; }
+        set { _SplitterWidth = value; self.WideHandle = value > 2; }
+    }
 
 }

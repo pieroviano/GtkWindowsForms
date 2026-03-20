@@ -45,7 +45,11 @@ public abstract partial class ScrollBar : Control
     /// <value>
     /// The large change.
     /// </value>
-    public int LargeChange { get => (int)Adjustment.PageIncrement; set => Adjustment.PageIncrement = value; }
+    public int LargeChange
+    {
+        get => (int)Adjustment.PageIncrement;
+        set => Adjustment.PageIncrement = value;
+    }
 
     /// <summary>
     /// Gets or sets the maximum.
@@ -53,7 +57,11 @@ public abstract partial class ScrollBar : Control
     /// <value>
     /// The maximum.
     /// </value>
-    public int Maximum { get => (int)Adjustment.Upper; set => Adjustment.Upper = value; }
+    public int Maximum
+    {
+        get => (int)Adjustment.Upper;
+        set => Adjustment.Upper = value;
+    }
 
     /// <summary>
     /// Gets or sets the minimum.
@@ -61,7 +69,11 @@ public abstract partial class ScrollBar : Control
     /// <value>
     /// The minimum.
     /// </value>
-    public int Minimum { get => (int)Adjustment.Lower; set => Adjustment.Lower = value; }
+    public int Minimum
+    {
+        get => (int)Adjustment.Lower;
+        set => Adjustment.Lower = value;
+    }
 
     /// <summary>
     /// Gets or sets the small change.
@@ -69,7 +81,11 @@ public abstract partial class ScrollBar : Control
     /// <value>
     /// The small change.
     /// </value>
-    public int SmallChange { get => (int)Adjustment.StepIncrement; set => Adjustment.StepIncrement = value; }
+    public int SmallChange
+    {
+        get => (int)Adjustment.StepIncrement;
+        set => Adjustment.StepIncrement = value;
+    }
 
     /// <summary>
     /// Gets or sets the value.
@@ -77,7 +93,21 @@ public abstract partial class ScrollBar : Control
     /// <value>
     /// The value.
     /// </value>
-    public int Value { get => (int)Adjustment.Value; set { Adjustment.Value = value; } }
+    public int Value
+    {
+        get => (int)Adjustment.Value;
+        set { Adjustment.Value = value; }
+    }
+
+    /// <summary>
+    /// Raises the Scroll event.
+    /// </summary>
+    protected virtual void OnScroll(System.Windows.Forms.ScrollEventArgs e) { Scroll?.Invoke(this, e); }
+
+    /// <summary>
+    /// Raises the ValueChanged event.
+    /// </summary>
+    protected virtual void OnValueChanged(EventArgs e) { ValueChanged?.Invoke(this, e); }
 
     private void Control_ValueChanged(object sender, EventArgs e)
     {

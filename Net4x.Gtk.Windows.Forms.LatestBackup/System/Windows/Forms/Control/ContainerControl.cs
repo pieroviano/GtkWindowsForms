@@ -38,6 +38,7 @@ public class ContainerControl : ScrollableControl, IContainerControl
 
             return _ActiveControl;
         }
+
         set { ActivateControl(value); }
     }
 
@@ -47,7 +48,11 @@ public class ContainerControl : ScrollableControl, IContainerControl
     /// <value>
     /// The status strip.
     /// </value>
-    public virtual StatusStrip StatusStrip { get; set; }
+    public virtual StatusStrip StatusStrip
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Activates a specified control.

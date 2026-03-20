@@ -142,7 +142,11 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// </value>
     [Browsable(false)]
     [DefaultValue(null)]
-    public ToolStripItem DefaultItem { get; set; }
+    public ToolStripItem DefaultItem
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the drop down button bounds.
@@ -190,7 +194,11 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     //[DefaultValue(true)]
     //public bool AutoToolTip { get; set; }
     //
-    public int DropDownButtonWidth { get; set; }
+    public int DropDownButtonWidth
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the splitter bounds.

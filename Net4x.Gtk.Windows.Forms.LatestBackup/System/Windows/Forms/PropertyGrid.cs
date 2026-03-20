@@ -146,7 +146,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </value>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public override bool AutoScroll { get; set; }
+    public override bool AutoScroll
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the back.
@@ -154,7 +158,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <value>
     /// The color of the back.
     /// </value>
-    public override Color BackColor { get; set; }
+    public override Color BackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the background image.
@@ -166,7 +174,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
 
-    public override Image BackgroundImage { get; set; }
+    public override Image BackgroundImage
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the background image layout.
@@ -176,7 +188,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </value>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public override ImageLayout BackgroundImageLayout { get; set; }
+    public override ImageLayout BackgroundImageLayout
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the browsable attributes.
@@ -187,7 +203,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public AttributeCollection BrowsableAttributes { get; set; }
+    public AttributeCollection BrowsableAttributes
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance can show commands.
@@ -216,7 +236,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public bool CanShowVisualStyleGlyphs { get; set; }
+    public bool CanShowVisualStyleGlyphs
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the category fore.
@@ -225,7 +249,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the category fore.
     /// </value>
     [DefaultValue(typeof(Color), "ControlText")]
-    public Color CategoryForeColor { get; set; }
+    public Color CategoryForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the category splitter.
@@ -234,7 +262,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the category splitter.
     /// </value>
     [DefaultValue(typeof(Color), "Control")]
-    public Color CategorySplitterColor { get; set; }
+    public Color CategorySplitterColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the commands active link.
@@ -242,7 +274,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <value>
     /// The color of the commands active link.
     /// </value>
-    public Color CommandsActiveLinkColor { get; set; }
+    public Color CommandsActiveLinkColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the commands back.
@@ -250,7 +286,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <value>
     /// The color of the commands back.
     /// </value>
-    public Color CommandsBackColor { get; set; }
+    public Color CommandsBackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the commands border.
@@ -259,7 +299,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the commands border.
     /// </value>
     [DefaultValue(typeof(Color), "ControlDark")]
-    public Color CommandsBorderColor { get; set; }
+    public Color CommandsBorderColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the commands disabled link.
@@ -267,7 +311,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <value>
     /// The color of the commands disabled link.
     /// </value>
-    public Color CommandsDisabledLinkColor { get; set; }
+    public Color CommandsDisabledLinkColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the commands fore.
@@ -275,7 +323,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <value>
     /// The color of the commands fore.
     /// </value>
-    public Color CommandsForeColor { get; set; }
+    public Color CommandsForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the commands link.
@@ -283,7 +335,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <value>
     /// The color of the commands link.
     /// </value>
-    public Color CommandsLinkColor { get; set; }
+    public Color CommandsLinkColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether commands visible.
@@ -312,7 +368,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public virtual bool CommandsVisibleIfAvailable { get; set; }
+    public virtual bool CommandsVisibleIfAvailable
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the context menu default location.
@@ -343,7 +403,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the disabled item fore.
     /// </value>
     [DefaultValue(typeof(Color), "GrayText")]
-    public Color DisabledItemForeColor { get; set; }
+    public Color DisabledItemForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the fore.
@@ -353,7 +417,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </value>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public override Color ForeColor { get; set; }
+    public override Color ForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the GTK control.
@@ -370,7 +438,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the help back.
     /// </value>
     [DefaultValue(typeof(Color), "Control")]
-    public Color HelpBackColor { get; set; }
+    public Color HelpBackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the help border.
@@ -379,7 +451,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the help border.
     /// </value>
     [DefaultValue(typeof(Color), "ControlDark")]
-    public Color HelpBorderColor { get; set; }
+    public Color HelpBorderColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the help fore.
@@ -388,7 +464,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the help fore.
     /// </value>
     [DefaultValue(typeof(Color), "ControlText")]
-    public Color HelpForeColor { get; set; }
+    public Color HelpForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether help visible.
@@ -403,7 +483,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </value>
     [DefaultValue(true)]
     [Localizable(true)]
-    public virtual bool HelpVisible { get; set; }
+    public virtual bool HelpVisible
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether the
@@ -431,7 +515,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool LargeButtons { get; set; }
+    public bool LargeButtons
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the line.
@@ -444,7 +532,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     //[EditorBrowsable(EditorBrowsableState.Never)]
     //public Padding Padding { get; set; }
     [DefaultValue(typeof(Color), "InactiveBorder")]
-    public Color LineColor { get; set; }
+    public Color LineColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the property sort.
@@ -453,7 +545,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The property sort.
     /// </value>
     [DefaultValue(PropertySort.CategorizedAlphabetical)]
-    public PropertySort PropertySort { get; set; }
+    public PropertySort PropertySort
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the property tabs.
@@ -475,7 +571,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public GridItem SelectedGridItem { get; set; }
+    public GridItem SelectedGridItem
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the selected item with focus back.
@@ -484,7 +584,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the selected item with focus back.
     /// </value>
     [DefaultValue(typeof(Color), "Highlight")]
-    public Color SelectedItemWithFocusBackColor { get; set; }
+    public Color SelectedItemWithFocusBackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the selected item with focus fore.
@@ -493,7 +597,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the selected item with focus fore.
     /// </value>
     [DefaultValue(typeof(Color), "HighlightText")]
-    public Color SelectedItemWithFocusForeColor { get; set; }
+    public Color SelectedItemWithFocusForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the selected object.
@@ -505,6 +613,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public object SelectedObject
     {
         get => _selectedObjects is null || _selectedObjects.Length == 0 ? null : _selectedObjects[0];
+
         set => SelectedObjects = value is null ? Array.Empty<object>() : (new object[] { value });
     }
 
@@ -519,6 +628,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public object[] SelectedObjects
     {
         get => _selectedObjects is null ? Array.Empty<object>() : (object[])_selectedObjects.Clone();
+
         set
         {
             _selectedObjects = value is null ? Array.Empty<object>() : (object[])value.Clone();
@@ -548,7 +658,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <value>
     /// The site.
     /// </value>
-    public override ISite Site { get; set; }
+    public override ISite Site
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the size.
@@ -558,7 +672,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </value>
     [Browsable(true)]
     [Description(" control size（ measured in pixels）。")]
-    public override Size Size { get => base.Size; set { base.Size = value; self.Position = value.Height - 60; } }
+    public override Size Size
+    {
+        get => base.Size;
+        set { base.Size = value; self.Position = value.Height - 60; }
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -568,7 +686,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override string Text { get; set; }
+    public override string Text
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether toolbar visible.
@@ -582,7 +704,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public virtual bool ToolbarVisible { get; set; }
+    public virtual bool ToolbarVisible
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether use compatible text rendering.
@@ -596,7 +722,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public bool UseCompatibleTextRendering { get; set; }
+    public bool UseCompatibleTextRendering
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the view back.
@@ -605,7 +735,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the view back.
     /// </value>
     [DefaultValue(typeof(Color), "Window")]
-    public Color ViewBackColor { get; set; }
+    public Color ViewBackColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the view border.
@@ -614,7 +748,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the view border.
     /// </value>
     [DefaultValue(typeof(Color), "ControlDark")]
-    public Color ViewBorderColor { get; set; }
+    public Color ViewBorderColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the color of the view fore.
@@ -623,7 +761,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// The color of the view fore.
     /// </value>
     [DefaultValue(typeof(Color), "WindowText")]
-    public Color ViewForeColor { get; set; }
+    public Color ViewForeColor
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets a value indicating whether show focus cues.
@@ -668,7 +810,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// false
     /// </c>.
     /// </value>
-    protected bool DrawFlatToolbar { get; set; }
+    protected bool DrawFlatToolbar
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the show property page image.
@@ -764,6 +910,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     {
         throw new NotImplementedException();
     }
+
+    /// <summary>
+    /// Raises the ComComponentNameChanged event.
+    /// </summary>
+    protected virtual void OnComComponentNameChanged(ComponentRenameEventArgs e) { ComComponentNameChanged?.Invoke(this, e); }
 
     private void Self_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
     {

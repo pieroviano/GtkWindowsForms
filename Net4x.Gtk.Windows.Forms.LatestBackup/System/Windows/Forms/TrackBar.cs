@@ -52,7 +52,11 @@ public class TrackBar : Control
     /// <value>
     /// The large change.
     /// </value>
-    public int LargeChange { get; set; } = 5;
+    public int LargeChange
+    {
+        get;
+        set;
+    } = 5;
 
     /// <summary>
     /// Gets or sets the maximum.
@@ -60,7 +64,11 @@ public class TrackBar : Control
     /// <value>
     /// The maximum.
     /// </value>
-    public int Maximum { get; set; }
+    public int Maximum
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the minimum.
@@ -68,7 +76,11 @@ public class TrackBar : Control
     /// <value>
     /// The minimum.
     /// </value>
-    public int Minimum { get; set; }
+    public int Minimum
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the orientation.
@@ -76,7 +88,11 @@ public class TrackBar : Control
     /// <value>
     /// The orientation.
     /// </value>
-    public System.Windows.Forms.Orientation Orientation { get; set; }
+    public System.Windows.Forms.Orientation Orientation
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the tick frequency.
@@ -84,7 +100,11 @@ public class TrackBar : Control
     /// <value>
     /// The tick frequency.
     /// </value>
-    public int TickFrequency { get; set; }
+    public int TickFrequency
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the tick style.
@@ -92,7 +112,11 @@ public class TrackBar : Control
     /// <value>
     /// The tick style.
     /// </value>
-    public System.Windows.Forms.TickStyle TickStyle { get; set; }
+    public System.Windows.Forms.TickStyle TickStyle
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the value.
@@ -100,7 +124,16 @@ public class TrackBar : Control
     /// <value>
     /// The value.
     /// </value>
-    public int Value { get => (int)adjustment.Value; set { adjustment.Value = value; } }
+    public int Value
+    {
+        get => (int)adjustment.Value;
+        set { adjustment.Value = value; }
+    }
+
+    /// <summary>
+    /// Raises the Scroll event.
+    /// </summary>
+    protected virtual void OnScroll(System.EventArgs e) { Scroll?.Invoke(this, e); }
 
     private void Control_Realized(object sender, EventArgs e)
     {

@@ -10,7 +10,6 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
 {
 
 
-
     internal bool _checked;
 
     internal Gtk.FlowBoxChild _flowBoxChild;
@@ -426,6 +425,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public Color? BackColor
     {
         get;
+
         set;
     }
 
@@ -478,6 +478,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public bool Focused
     {
         get;
+
         set;
     }
 
@@ -490,6 +491,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public Font Font
     {
         get;
+
         set;
     }
 
@@ -502,6 +504,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public Color? ForeColor
     {
         get;
+
         set;
     }
 
@@ -514,6 +517,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public ListViewGroup Group
     {
         get { return _group; }
+
         set { _group = value; }
     }
 
@@ -526,6 +530,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public int ImageIndex
     {
         get;
+
         set;
     }
 
@@ -538,6 +543,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public string ImageKey
     {
         get;
+
         set;
     }
 
@@ -550,6 +556,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public ImageList ImageList
     {
         get;
+
         internal set;
     }
 
@@ -562,6 +569,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public int IndentCount
     {
         get;
+
         set;
     }
 
@@ -574,6 +582,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public int Index
     {
         get;
+
         internal set;
     }
 
@@ -586,6 +595,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public ListView ListView
     {
         get;
+
         internal set;
     }
 
@@ -598,6 +608,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public string Name
     {
         get;
+
         set;
     }
 
@@ -610,6 +621,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public Point Position
     {
         get;
+
         set;
     }
 
@@ -628,6 +640,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public bool Selected
     {
         get => _selected;
+
         set
         {
             _selected = value;
@@ -644,6 +657,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public int StateImageIndex
     {
         get;
+
         set;
     }
 
@@ -667,6 +681,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public object Tag
     {
         get;
+
         set;
     }
 
@@ -679,6 +694,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public string Text
     {
         get => _text;
+
         set
         {
             _text = value;
@@ -696,6 +712,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public string ToolTipText
     {
         get;
+
         set;
     }
 
@@ -713,6 +730,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public bool UseItemStyleForSubItems
     {
         get;
+
         set;
     }
 
@@ -729,6 +747,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     internal string ItemType
     {
         get;
+
         set;
     }
 
@@ -740,6 +759,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     internal bool StateSelected
     {
         get;
+
         set;
     }
 
@@ -936,6 +956,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         public Color? BackColor
         {
             get;
+
             set;
         }
 
@@ -948,6 +969,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         public Rectangle Bounds
         {
             get;
+
             set;
         }
 
@@ -960,6 +982,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         public Font Font
         {
             get;
+
             set;
         }
 
@@ -972,6 +995,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         public Color? ForeColor
         {
             get;
+
             set;
         }
 
@@ -984,6 +1008,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         public ListViewItem ListViewItem
         {
             get;
+
             set;
         }
 
@@ -996,6 +1021,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         public string Name
         {
             get;
+
             set;
         }
 
@@ -1008,6 +1034,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         public object Tag
         {
             get;
+
             set;
         }
 
@@ -1020,6 +1047,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         public string Text
         {
             get => _text;
+
             set
             {
                 _text = value;

@@ -155,7 +155,11 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// <summary>
     /// Gets or sets the file name associated with this image. Setting the filename loads the image.
     /// </summary>
-    public string FileName { get => _fileName; set { _fileName = value; Pixbuf = new Gdk.Pixbuf(value); } }
+    public string FileName
+    {
+        get => _fileName;
+        set { _fileName = value; Pixbuf = new Gdk.Pixbuf(value); }
+    }
 
     /// <summary>
     /// Gets image-related flags. Implementation-specific.
@@ -178,6 +182,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     public Guid[] FrameDimensionsList
     {
         get;
+
         internal set;
     }
 
@@ -187,6 +192,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     public int Height
     {
         get => Pixbuf == null ? _height : Pixbuf.Height;
+
         internal set { _height = value; }
     }
 
@@ -210,6 +216,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     public ColorPalette Palette
     {
         get;
+
         internal set;
     }
 
@@ -241,6 +248,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 
             return _Pixbuf;
         }
+
         set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
     }
 
@@ -256,6 +264,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 
             return _PixbufData;
         }
+
         set { _PixbufData = value; _Pixbuf = new Gdk.Pixbuf(value); }
     }
 
@@ -265,6 +274,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     public PixelFormat PixelFormat
     {
         get;
+
         internal set;
     }
 
@@ -275,6 +285,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     public int[] PropertyIdList
     {
         get;
+
         internal set;
     }
 
@@ -285,6 +296,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     public PropertyItem[] PropertyItems
     {
         get;
+
         internal set;
     }
 
@@ -294,6 +306,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     public ImageFormat RawFormat
     {
         get => _rawFormat ?? ImageFormat.Bmp;
+
         internal set => _rawFormat = value;
     }
 
@@ -313,6 +326,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         {
             return _userData;
         }
+
         set
         {
             _userData = value;
@@ -338,6 +352,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     public int Width
     {
         get => Pixbuf == null ? _width : Pixbuf.Width;
+
         internal set { _width = value; }
     }
 

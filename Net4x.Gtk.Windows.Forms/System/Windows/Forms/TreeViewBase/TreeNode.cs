@@ -140,6 +140,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
                 return this.TreeView.GetNodeChecked(this);
             }
         }
+
         set { _IsChecked = value; TreeView?.NativeNodeChecked(this, value); }
     }
 
@@ -158,6 +159,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
 
             return string.Join("/", paths);
         }
+
         set { }
     }
 
@@ -170,6 +172,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     public int ImageIndex
     {
         get => _imageIndex;
+
         set { _imageIndex = value; TreeView?.NativeNodeImage(this, value); }
     }
 
@@ -182,6 +185,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     public string ImageKey
     {
         get => _imageKey;
+
         set { _imageKey = value; TreeView?.NativeNodeImage(this, value); }
     }
 
@@ -191,7 +195,11 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The index.
     /// </value>
-    public string Index { get { return index; } internal set { index = value ?? ""; } }
+    public string Index
+    {
+        get { return index; }
+        internal set { index = value ?? ""; }
+    }
 
     /// <summary>
     /// Gets a value indicating whether this instance is expanded.
@@ -234,6 +242,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
                 return this.TreeView.GetNodeSelected(this);
             }
         }
+
         set
         {
             _IsSelected = value;
@@ -268,7 +277,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// </value>
     public string Name
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
@@ -294,6 +304,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     public TreeNode Parent
     {
         get { return parent; }
+
         internal set { parent = value; }
     }
 
@@ -303,7 +314,11 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The index of the selected image.
     /// </value>
-    public int SelectedImageIndex { get; set; }
+    public int SelectedImageIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the selected image key.
@@ -311,7 +326,11 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The selected image key.
     /// </value>
-    public string SelectedImageKey { get; set; }
+    public string SelectedImageKey
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the index of the state image.
@@ -319,7 +338,11 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The index of the state image.
     /// </value>
-    public int StateImageIndex { get; set; }
+    public int StateImageIndex
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the state image key.
@@ -327,7 +350,11 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The state image key.
     /// </value>
-    public string StateImageKey { get; set; }
+    public string StateImageKey
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the tag.
@@ -335,7 +362,11 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The tag.
     /// </value>
-    public object Tag { get; set; }
+    public object Tag
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -346,6 +377,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     public string Text
     {
         get => _text;
+
         set
         {
             _text = value;
@@ -361,7 +393,8 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// </value>
     public string ToolTipText
     {
-        get; set;
+        get;
+        set;
     }
 
     internal TreeView TreeView

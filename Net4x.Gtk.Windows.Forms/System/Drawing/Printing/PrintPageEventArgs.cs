@@ -24,18 +24,30 @@ public class PrintPageEventArgs : EventArgs
     /// <summary>
     /// Gets or sets a value indicating whether the print job should be canceled.
     /// </summary>
-    public bool Cancel { get; set; }
+    public bool Cancel
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the
     /// <see cref="T:System.Drawing.Graphics" /> used to paint the item.
     /// </summary>
-    public Graphics Graphics { get; private set; }
+    public Graphics Graphics
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether an additional page should be printed.
     /// </summary>
-    public bool HasMorePages { get; set; }
+    public bool HasMorePages
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the rectangular area that represents the portion of the page between the margins.
@@ -55,7 +67,11 @@ public class PrintPageEventArgs : EventArgs
     /// <summary>
     /// Apply page settings to the printer.
     /// </summary>
-    internal bool CopySettingsToDevMode { get; set; } = true;
+    internal bool CopySettingsToDevMode
+    {
+        get;
+        set;
+    } = true;
 
     /// <summary>
     /// Disposes of the resources (other than memory) used by the

@@ -42,6 +42,10 @@ public sealed class ScrollbarBase<T> : Gtk.Scrollbar, IControlGtk
     /// The active
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> used by the control.
     /// </value>
-    public GtkControlOverride Override { get; set; }
+    public GtkControlOverride Override
+    {
+        get;
+        set;
+    }
 
 }

@@ -48,7 +48,11 @@ public sealed class SplitterPanel : Panel
     /// <value>
     /// The dock.
     /// </value>
-    public override DockStyle Dock { get { return DockStyle.Fill; } set { } }
+    public override DockStyle Dock
+    {
+        get { return DockStyle.Fill; }
+        set { }
+    }
 
     /// <summary>
     /// Gets or sets the height.
@@ -56,7 +60,11 @@ public sealed class SplitterPanel : Panel
     /// <value>
     /// The height.
     /// </value>
-    public override int Height { get; set; }
+    public override int Height
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the size.
@@ -64,7 +72,11 @@ public sealed class SplitterPanel : Panel
     /// <value>
     /// The size.
     /// </value>
-    public override Size Size { get; set; }
+    public override Size Size
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the width.
@@ -72,6 +84,10 @@ public sealed class SplitterPanel : Panel
     /// <value>
     /// The width.
     /// </value>
-    public override int Width { get; set; }
+    public override int Width
+    {
+        get;
+        set;
+    }
 
 }

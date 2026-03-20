@@ -54,11 +54,16 @@ public sealed partial class ImageList
             }
         }
 
-        public virtual ImageList? ImageList { get; set; }
+        public virtual ImageList? ImageList
+        {
+            get;
+            set;
+        }
 
         public virtual int Index
         {
             get => _index;
+
             set
             {
                 _key = DefaultKey;
@@ -70,6 +75,7 @@ public sealed partial class ImageList
         public virtual string Key
         {
             get => _key;
+
             set
             {
                 _index = DefaultIndex;

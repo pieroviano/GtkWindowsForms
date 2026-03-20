@@ -25,7 +25,11 @@ public interface IScrollableBoxBase
     /// false
     /// </c>.
     /// </value>
-    bool AutoScroll { get; set; }
+    bool AutoScroll
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the child.
@@ -41,7 +45,11 @@ public interface IScrollableBoxBase
     /// <value>
     /// The height request.
     /// </value>
-    int HeightRequest { get; set; }
+    int HeightRequest
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether  horizontal scroll.
@@ -54,7 +62,11 @@ public interface IScrollableBoxBase
     /// false
     /// </c>.
     /// </value>
-    bool HScroll { get; set; }
+    bool HScroll
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the
@@ -66,7 +78,11 @@ public interface IScrollableBoxBase
     /// The active
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> used by the control.
     /// </value>
-    GtkControlOverride Override { get; set; }
+    GtkControlOverride Override
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether vertical scroll.
@@ -79,7 +95,11 @@ public interface IScrollableBoxBase
     /// false
     /// </c>.
     /// </value>
-    bool VScroll { get; set; }
+    bool VScroll
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the width request.
@@ -87,7 +107,11 @@ public interface IScrollableBoxBase
     /// <value>
     /// The width request.
     /// </value>
-    int WidthRequest { get; set; }
+    int WidthRequest
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Adds the specified child.

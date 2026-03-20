@@ -35,7 +35,11 @@ public class FontDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(true)]
-    public virtual bool AllowFullOpen { get; set; }
+    public virtual bool AllowFullOpen
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the font.
@@ -43,7 +47,11 @@ public class FontDialog : CommonDialog
     /// <value>
     /// The font.
     /// </value>
-    public Font? Font { get => _font; set => _font = value; }
+    public Font? Font
+    {
+        get => _font;
+        set => _font = value;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether full open.
@@ -57,7 +65,11 @@ public class FontDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public virtual bool FullOpen { get; set; }
+    public virtual bool FullOpen
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show help.
@@ -71,7 +83,11 @@ public class FontDialog : CommonDialog
     /// </c>.
     /// </value>
     [DefaultValue(false)]
-    public virtual bool ShowHelp { get; set; }
+    public virtual bool ShowHelp
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the instance.

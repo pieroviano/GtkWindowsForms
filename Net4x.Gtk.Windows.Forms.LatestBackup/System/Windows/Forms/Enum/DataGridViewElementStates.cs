@@ -2,7 +2,6 @@ using System;
 
 namespace System.Windows.Forms;
 
-
 /// <summary>
 /// Specifies the user interface (UI) state of a element within a System.Windows.Forms.DataGridView
 /// control.

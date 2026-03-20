@@ -19,6 +19,10 @@ public sealed class RegionData
     /// An array of bytes that specify the
     /// <see cref="T:System.Drawing.Region" /> object.
     /// </returns>
-    public byte[] Data { get; set; }
+    public byte[] Data
+    {
+        get;
+        set;
+    }
 
 }

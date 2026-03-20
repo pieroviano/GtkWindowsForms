@@ -255,7 +255,11 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <value>
     /// The name of the file.
     /// </value>
-    public string FileName { get; set; }
+    public string FileName
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets the handle.
@@ -267,6 +271,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     public IntPtr Handle
     {
         get;
+
         private set;
     }
 
@@ -282,6 +287,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     public int Height
     {
         get;
+
         private set;
     }
 
@@ -299,6 +305,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
 
             return _Pixbuf;
         }
+
         set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
     }
 
@@ -316,6 +323,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
 
             return _PixbufData;
         }
+
         set { _PixbufData = value; _Pixbuf = new Gdk.Pixbuf((byte[])value.Clone()); }
     }
 
@@ -331,6 +339,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     public Size Size
     {
         get;
+
         private set;
     }
 
@@ -346,6 +355,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     public int Width
     {
         get;
+
         private set;
     }
 
