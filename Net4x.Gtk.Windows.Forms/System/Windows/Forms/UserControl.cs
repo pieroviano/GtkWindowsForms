@@ -35,9 +35,9 @@ public partial class UserControl : ContainerControl
     /// </summary>
     public override event EventHandler Load;
 
-    public virtual event EventHandler<System.Windows.Forms.PaintEventArgs> Paint;
+    public override event PaintEventHandler Paint;
 
-    public virtual event EventHandler<EventArgs> ParentChanged;
+    public override event EventHandler ParentChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -158,7 +158,10 @@ public partial class UserControl : ContainerControl
     /// <summary>
     /// Raises the Load event.
     /// </summary>
-    protected virtual void OnLoad(System.EventArgs e) { Load?.Invoke(this, e); }
+    protected override void OnLoad(System.EventArgs e)
+    {
+        Load?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the

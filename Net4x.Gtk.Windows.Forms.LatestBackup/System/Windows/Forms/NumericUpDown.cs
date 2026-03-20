@@ -106,7 +106,10 @@ public partial class NumericUpDown : Control
     /// <summary>
     /// Raises the ValueChanged event.
     /// </summary>
-    protected virtual void OnValueChanged(System.EventArgs e) { ValueChanged?.Invoke(this, e); }
+    protected virtual void OnValueChanged(System.EventArgs e)
+    {
+        ValueChanged?.Invoke(this, e);
+    }
 
     private void Self_ValueChanged(object sender, EventArgs e)
     {

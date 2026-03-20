@@ -160,7 +160,10 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// <summary>
     /// Raises the Scroll event.
     /// </summary>
-    protected virtual void OnScroll(System.Windows.Forms.ScrollEventArgs e) { Scroll?.Invoke(this, e); }
+    protected virtual void OnScroll(System.Windows.Forms.ScrollEventArgs e)
+    {
+        Scroll?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Called when the control is shown.

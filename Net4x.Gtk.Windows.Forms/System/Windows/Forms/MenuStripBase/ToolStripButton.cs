@@ -11,9 +11,9 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
 {
-    public virtual event EventHandler<EventArgs> CheckedChanged;
+    public override event EventHandler CheckedChanged;
 
-    public virtual event EventHandler<EventArgs> CheckStateChanged;
+    public override event EventHandler CheckStateChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -149,7 +149,7 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected virtual void OnCheckedChanged(EventArgs e)
+    protected override void OnCheckedChanged(EventArgs e)
     {
         CheckedChanged?.Invoke(this, e);
     }
@@ -162,7 +162,7 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected virtual void OnCheckStateChanged(EventArgs e)
+    protected override void OnCheckStateChanged(EventArgs e)
     {
         CheckStateChanged?.Invoke(this, e);
     }

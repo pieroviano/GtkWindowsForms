@@ -116,46 +116,61 @@ public class EventOnRewriter(string[]? eventsToExclude, Dictionary<string, strin
         bool isSealed)
     {
         var xmlComment = SyntaxFactory.ParseLeadingTrivia(
-            $@"/// <summary>
-/// Raises the {eventName} event.
-/// </summary>
-");
+        $@"/// <summary>
+    /// Raises the {eventName} event.
+    /// </summary>
+    ");
 
         var modifiers = isSealed
-            ? new[] { SyntaxFactory.Token(SyntaxFactory.TriviaList(), SyntaxKind.PrivateKeyword, SyntaxFactory.TriviaList(SyntaxFactory.Space)) }
-            : new[] 
-            { 
-                SyntaxFactory.Token(SyntaxFactory.TriviaList(), SyntaxKind.ProtectedKeyword, SyntaxFactory.TriviaList(SyntaxFactory.Space)), 
-                SyntaxFactory.Token(SyntaxFactory.TriviaList(), SyntaxKind.VirtualKeyword, SyntaxFactory.TriviaList(SyntaxFactory.Space)) 
-            };
+        ? new[]
+        {
+            SyntaxFactory.Token(
+                SyntaxFactory.TriviaList(),
+                SyntaxKind.PrivateKeyword,
+                SyntaxFactory.TriviaList(SyntaxFactory.Space))
+        }
+        : new[]
+        {
+            SyntaxFactory.Token(
+                SyntaxFactory.TriviaList(),
+                SyntaxKind.ProtectedKeyword,
+                SyntaxFactory.TriviaList(SyntaxFactory.Space)),
+            SyntaxFactory.Token(
+                SyntaxFactory.TriviaList(),
+                SyntaxKind.VirtualKeyword,
+                SyntaxFactory.TriviaList(SyntaxFactory.Space))
+        };
 
         var method = SyntaxFactory.MethodDeclaration(
-                SyntaxFactory.PredefinedType(SyntaxFactory.Token(
-                    SyntaxFactory.TriviaList(),
-                    SyntaxKind.VoidKeyword,
-                    SyntaxFactory.TriviaList(SyntaxFactory.Space))),
-                methodName)
-            .AddModifiers(modifiers)
-            .AddParameterListParameters(
-                SyntaxFactory.Parameter(SyntaxFactory.Identifier("e"))
-                    .WithType(SyntaxFactory.ParseTypeName(eventArgsType)
-                        .WithTrailingTrivia(SyntaxFactory.Space)))
-            .WithLeadingTrivia(xmlComment);
+            SyntaxFactory.PredefinedType(SyntaxFactory.Token(
+                SyntaxFactory.TriviaList(),
+                SyntaxKind.VoidKeyword,
+                SyntaxFactory.TriviaList(SyntaxFactory.Space))),
+            methodName)
+        .AddModifiers(modifiers)
+        .AddParameterListParameters(
+            SyntaxFactory.Parameter(SyntaxFactory.Identifier("e"))
+                .WithType(SyntaxFactory.ParseTypeName(eventArgsType)
+                    .WithTrailingTrivia(SyntaxFactory.Space)))
+        .WithLeadingTrivia(xmlComment);
 
-        if (!_eventsToExclude.Contains(eventName))
-        {
-            method = method.WithBody(
-                SyntaxFactory.Block(
-                    SyntaxFactory.ParseStatement($"{eventName}?.Invoke(this, e);")));
-        }
-        else
-        {
-            method = method.WithBody(SyntaxFactory.Block(SyntaxFactory.EmptyStatement()));
-        }
+        // Create statements depending on exclusion
+        var statements = !_eventsToExclude.Contains(eventName)
+        ? SyntaxFactory.SingletonList<StatementSyntax>(
+            SyntaxFactory.ParseStatement($"{eventName}?.Invoke(this, e);"))
+        : default; // empty block
 
-        return method;
+        var body = SyntaxFactory.Block(statements)
+        .WithOpenBraceToken(
+            SyntaxFactory.Token(SyntaxKind.OpenBraceToken)
+                .WithLeadingTrivia(SyntaxFactory.Space)
+                .WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed))
+        .WithCloseBraceToken(
+            SyntaxFactory.Token(SyntaxKind.CloseBraceToken)
+                .WithLeadingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed));
+
+        return method.WithBody(body);
     }
-
     private EventFieldDeclarationSyntax CreateEventHandlerEvent(string eventName, string eventArgsType)
     {
         return SyntaxFactory.EventFieldDeclaration(

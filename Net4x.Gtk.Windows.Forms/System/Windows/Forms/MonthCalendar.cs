@@ -162,12 +162,18 @@ public partial class MonthCalendar : Control
     /// <summary>
     /// Raises the DateChanged event.
     /// </summary>
-    protected virtual void OnDateChanged(System.Windows.Forms.DateRangeEventArgs e) { DateChanged?.Invoke(this, e); }
+    protected virtual void OnDateChanged(System.Windows.Forms.DateRangeEventArgs e)
+    {
+        DateChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DateSelected event.
     /// </summary>
-    protected virtual void OnDateSelected(System.Windows.Forms.DateRangeEventArgs e) { DateSelected?.Invoke(this, e); }
+    protected virtual void OnDateSelected(System.Windows.Forms.DateRangeEventArgs e)
+    {
+        DateSelected?.Invoke(this, e);
+    }
 
     private void MonthCalendar_DaySelected(object sender, EventArgs e)
     {

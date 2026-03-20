@@ -274,7 +274,10 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// Raises the ValueChanged event.
     /// </summary>
-    protected virtual void OnValueChanged(System.EventArgs e) { ValueChanged?.Invoke(this, e); }
+    protected virtual void OnValueChanged(System.EventArgs e)
+    {
+        ValueChanged?.Invoke(this, e);
+    }
 
     private void Calendar_DaySelected(object sender, EventArgs e)
     {

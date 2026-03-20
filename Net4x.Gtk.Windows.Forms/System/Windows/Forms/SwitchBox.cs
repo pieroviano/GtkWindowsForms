@@ -83,7 +83,10 @@ public partial class SwitchBox : Control
     /// <summary>
     /// Raises the CheckedChanged event.
     /// </summary>
-    protected virtual void OnCheckedChanged(System.EventArgs e) { CheckedChanged?.Invoke(this, e); }
+    protected virtual void OnCheckedChanged(System.EventArgs e)
+    {
+        CheckedChanged?.Invoke(this, e);
+    }
 
     private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {

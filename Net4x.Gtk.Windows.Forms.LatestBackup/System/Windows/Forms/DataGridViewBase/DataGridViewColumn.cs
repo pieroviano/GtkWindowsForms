@@ -684,7 +684,10 @@ public class DataGridViewColumn : TreeViewColumn
     /// <summary>
     /// Raises the Disposed event.
     /// </summary>
-    protected virtual void OnDisposed(System.EventArgs e) { Disposed?.Invoke(this, e); }
+    protected virtual void OnDisposed(System.EventArgs e)
+    {
+        Disposed?.Invoke(this, e);
+    }
 
     private void Renderer_Edited(object o, EditedArgs args)
     {

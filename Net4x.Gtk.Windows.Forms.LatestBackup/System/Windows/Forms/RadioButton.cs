@@ -78,7 +78,10 @@ public partial class RadioButton : Control
     /// <summary>
     /// Raises the CheckedChanged event.
     /// </summary>
-    protected virtual void OnCheckedChanged(System.EventArgs e) { CheckedChanged?.Invoke(this, e); }
+    protected virtual void OnCheckedChanged(System.EventArgs e)
+    {
+        CheckedChanged?.Invoke(this, e);
+    }
 
     private void Self_ParentSet(object o, Gtk.ParentSetArgs args)
     {

@@ -1501,37 +1501,58 @@ public class ListView : ContainerControl
     /// <summary>
     /// Raises the ColumnClick event.
     /// </summary>
-    protected virtual void OnColumnClick(System.Windows.Forms.ColumnClickEventArgs e) { ColumnClick?.Invoke(this, e); }
+    protected virtual void OnColumnClick(System.Windows.Forms.ColumnClickEventArgs e)
+    {
+        ColumnClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnReordered event.
     /// </summary>
-    protected virtual void OnColumnReordered(System.Windows.Forms.ColumnReorderedEventArgs e) { ColumnReordered?.Invoke(this, e); }
+    protected virtual void OnColumnReordered(System.Windows.Forms.ColumnReorderedEventArgs e)
+    {
+        ColumnReordered?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ItemActivate event.
     /// </summary>
-    protected virtual void OnItemActivate(System.EventArgs e) { ItemActivate?.Invoke(this, e); }
+    protected virtual void OnItemActivate(System.EventArgs e)
+    {
+        ItemActivate?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ItemCheck event.
     /// </summary>
-    protected virtual void OnItemCheck(System.Windows.Forms.ItemCheckEventArgs e) { ItemCheck?.Invoke(this, e); }
+    protected virtual void OnItemCheck(System.Windows.Forms.ItemCheckEventArgs e)
+    {
+        ItemCheck?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ItemChecked event.
     /// </summary>
-    protected virtual void OnItemChecked(System.Windows.Forms.ItemCheckedEventArgs e) { ItemChecked?.Invoke(this, e); }
+    protected virtual void OnItemChecked(System.Windows.Forms.ItemCheckedEventArgs e)
+    {
+        ItemChecked?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ItemSelectionChanged event.
     /// </summary>
-    protected virtual void OnItemSelectionChanged(System.Windows.Forms.ListViewItemSelectionChangedEventArgs e) { ItemSelectionChanged?.Invoke(this, e); }
+    protected virtual void OnItemSelectionChanged(System.Windows.Forms.ListViewItemSelectionChangedEventArgs e)
+    {
+        ItemSelectionChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SelectedIndexChanged event.
     /// </summary>
-    protected virtual void OnSelectedIndexChanged(System.EventArgs e) { SelectedIndexChanged?.Invoke(this, e); }
+    protected virtual void OnSelectedIndexChanged(System.EventArgs e)
+    {
+        SelectedIndexChanged?.Invoke(this, e);
+    }
 
     private void _flow_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {

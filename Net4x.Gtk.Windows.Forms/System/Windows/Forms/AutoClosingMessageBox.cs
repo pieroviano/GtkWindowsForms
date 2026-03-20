@@ -274,7 +274,10 @@ public class AutoClosingMessageBox : IMessageBox
     /// <summary>
     /// Raises the DialogAvailable event.
     /// </summary>
-    protected virtual void OnDialogAvailable(System.Windows.Forms.DialogEventArgs e) { DialogAvailable?.Invoke(this, e); }
+    protected virtual void OnDialogAvailable(System.Windows.Forms.DialogEventArgs e)
+    {
+        DialogAvailable?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Runs an asynchronous task that waits for the configured timeout then disposes the current GTK dialog if still present.

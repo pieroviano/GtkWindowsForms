@@ -144,7 +144,10 @@ public class Timer : Component
     /// <summary>
     /// Raises the Tick event.
     /// </summary>
-    protected virtual void OnTick(System.EventArgs e) { Tick?.Invoke(this, e); }
+    protected virtual void OnTick(System.EventArgs e)
+    {
+        Tick?.Invoke(this, e);
+    }
 
     private void TimersTimer_Elapsed(object sender, Timers.ElapsedEventArgs e)
     {

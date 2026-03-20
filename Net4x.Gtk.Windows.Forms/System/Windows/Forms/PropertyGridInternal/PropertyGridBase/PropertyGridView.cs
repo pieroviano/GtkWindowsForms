@@ -265,12 +265,18 @@ internal sealed partial class PropertyGridView
     /// <summary>
     /// Raises the PropertyValueChanged event.
     /// </summary>
-    private void OnPropertyValueChanged(System.Windows.Forms.PropertyValueChangedEventArgs e) { PropertyValueChanged?.Invoke(this, e); }
+    private void OnPropertyValueChanged(System.Windows.Forms.PropertyValueChangedEventArgs e)
+    {
+        PropertyValueChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SelectedGridItemChanged event.
     /// </summary>
-    private void OnSelectedGridItemChanged(System.Windows.Forms.SelectedGridItemChangedEventArgs e) { SelectedGridItemChanged?.Invoke(this, e); }
+    private void OnSelectedGridItemChanged(System.Windows.Forms.SelectedGridItemChangedEventArgs e)
+    {
+        SelectedGridItemChanged?.Invoke(this, e);
+    }
 
     private void Selection_Changed(object sender, EventArgs e)
     {

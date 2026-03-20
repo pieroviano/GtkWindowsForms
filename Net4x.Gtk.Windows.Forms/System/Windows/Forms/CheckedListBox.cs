@@ -301,22 +301,34 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Raises the ItemCheck event.
     /// </summary>
-    protected virtual void OnItemCheck(System.Windows.Forms.ItemCheckEventArgs e) { ItemCheck?.Invoke(this, e); }
+    protected virtual void OnItemCheck(System.Windows.Forms.ItemCheckEventArgs e)
+    {
+        ItemCheck?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SelectedIndexChanged event.
     /// </summary>
-    protected virtual void OnSelectedIndexChanged(System.EventArgs e) { SelectedIndexChanged?.Invoke(this, e); }
+    protected virtual void OnSelectedIndexChanged(System.EventArgs e)
+    {
+        SelectedIndexChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SelectedItemChanged event.
     /// </summary>
-    protected virtual void OnSelectedItemChanged(System.EventArgs e) { SelectedItemChanged?.Invoke(this, e); }
+    protected virtual void OnSelectedItemChanged(System.EventArgs e)
+    {
+        SelectedItemChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SelectedValueChanged event.
     /// </summary>
-    protected virtual void OnSelectedValueChanged(System.EventArgs e) { SelectedValueChanged?.Invoke(this, e); }
+    protected virtual void OnSelectedValueChanged(System.EventArgs e)
+    {
+        SelectedValueChanged?.Invoke(this, e);
+    }
 
     private void Control_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {

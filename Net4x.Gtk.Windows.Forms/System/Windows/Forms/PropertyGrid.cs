@@ -79,7 +79,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Occurs when property sort changed.
     /// </summary>
-    public event EventHandler PropertySortChanged
+    public virtual event EventHandler PropertySortChanged
     {
         add => Events.AddHandler(s_propertySortChangedEvent, value);
         remove => Events.RemoveHandler(s_propertySortChangedEvent, value);
@@ -88,7 +88,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Occurs when property tab changed.
     /// </summary>
-    public event PropertyTabChangedEventHandler PropertyTabChanged
+    public virtual event PropertyTabChangedEventHandler PropertyTabChanged
     {
         add => Events.AddHandler(s_propertyTabChangedEvent, value);
         remove => Events.RemoveHandler(s_propertyTabChangedEvent, value);
@@ -97,7 +97,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Occurs when property value changed.
     /// </summary>
-    public event PropertyValueChangedEventHandler PropertyValueChanged
+    public virtual event PropertyValueChangedEventHandler PropertyValueChanged
     {
         add => Events.AddHandler(s_propertyValueChangedEvent, value);
         remove => Events.RemoveHandler(s_propertyValueChangedEvent, value);
@@ -106,7 +106,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Occurs when selected grid item changed.
     /// </summary>
-    public event SelectedGridItemChangedEventHandler SelectedGridItemChanged
+    public virtual event SelectedGridItemChangedEventHandler SelectedGridItemChanged
     {
         add => Events.AddHandler(s_selectedGridItemChangedEvent, value);
         remove => Events.RemoveHandler(s_selectedGridItemChangedEvent, value);
@@ -115,7 +115,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Occurs when selected objects changed.
     /// </summary>
-    public event EventHandler SelectedObjectsChanged
+    public virtual event EventHandler SelectedObjectsChanged
     {
         add => Events.AddHandler(s_selectedObjectsChangedEvent, value);
         remove => Events.RemoveHandler(s_selectedObjectsChangedEvent, value);
@@ -914,7 +914,10 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// Raises the ComComponentNameChanged event.
     /// </summary>
-    protected virtual void OnComComponentNameChanged(ComponentRenameEventArgs e) { ComComponentNameChanged?.Invoke(this, e); }
+    protected virtual void OnComComponentNameChanged(ComponentRenameEventArgs e)
+    {
+        ComComponentNameChanged?.Invoke(this, e);
+    }
 
     private void Self_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
     {

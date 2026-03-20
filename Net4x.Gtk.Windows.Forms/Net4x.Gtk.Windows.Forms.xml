@@ -44563,12 +44563,12 @@
         </member>
         <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicEvents">
             <summary>
-            Specifies all public events.
+            Specifies all public virtual events.
             </summary>
         </member>
         <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicEvents">
             <summary>
-            Specifies all non-public events.
+            Specifies all non-public virtual events.
             </summary>
         </member>
         <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.Interfaces">

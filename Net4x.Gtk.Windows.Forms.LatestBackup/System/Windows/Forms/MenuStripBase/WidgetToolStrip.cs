@@ -931,22 +931,34 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// <summary>
     /// Raises the CheckedChanged event.
     /// </summary>
-    protected virtual void OnCheckedChanged(EventArgs e) { CheckedChanged?.Invoke(this, e); }
+    protected override void OnCheckedChanged(EventArgs e)
+    {
+        CheckedChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CheckStateChanged event.
     /// </summary>
-    protected virtual void OnCheckStateChanged(EventArgs e) {; }
+    protected override void OnCheckStateChanged(EventArgs e)
+    {
+
+    }
 
     /// <summary>
     /// Raises the Click event.
     /// </summary>
-    protected virtual void OnClick(EventArgs e) { Click?.Invoke(this, e); }
+    protected override void OnClick(EventArgs e)
+    {
+        Click?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DropDownItemClicked event.
     /// </summary>
-    protected virtual void OnDropDownItemClicked(System.Windows.Forms.ToolStripItemClickedEventArgs e) { DropDownItemClicked?.Invoke(this, e); }
+    protected override void OnDropDownItemClicked(System.Windows.Forms.ToolStripItemClickedEventArgs e)
+    {
+        DropDownItemClicked?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Sets the style.

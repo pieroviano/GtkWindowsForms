@@ -137,11 +137,14 @@ public partial class Button : Control
     /// <summary>
     /// Raises the Click event.
     /// </summary>
-    protected virtual void OnClick(System.EventArgs e) { Click?.Invoke(this, e); }
+    protected override void OnClick(System.EventArgs e)
+    {
+        Click?.Invoke(this, e);
+    }
 
     private void Self_Clicked(object sender, EventArgs e)
     {
-        if (Click != null && self.IsVisible) { Click(this, EventArgs.Empty); }
+        
     }
 
 }

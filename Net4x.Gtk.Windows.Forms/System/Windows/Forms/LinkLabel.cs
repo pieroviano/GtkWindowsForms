@@ -169,12 +169,18 @@ public partial class LinkLabel : Control
     /// <summary>
     /// Raises the Click event.
     /// </summary>
-    protected virtual void OnClick(System.EventArgs e) { Click?.Invoke(this, e); }
+    protected override void OnClick(System.EventArgs e)
+    {
+        Click?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the LinkClicked event.
     /// </summary>
-    protected virtual void OnLinkClicked(System.Windows.Forms.LinkLabelLinkClickedEventArgs e) { LinkClicked?.Invoke(this, e); }
+    protected virtual void OnLinkClicked(System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+    {
+        LinkClicked?.Invoke(this, e);
+    }
 
     private void LinkLabel_ActivateLink(object o, Gtk.ActivateLinkArgs args)
     {

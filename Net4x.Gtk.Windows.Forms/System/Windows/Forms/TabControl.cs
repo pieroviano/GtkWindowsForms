@@ -274,12 +274,18 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// Raises the DrawItem event.
     /// </summary>
-    protected virtual void OnDrawItem(System.Windows.Forms.DrawItemEventArgs e) { DrawItem?.Invoke(this, e); }
+    protected virtual void OnDrawItem(System.Windows.Forms.DrawItemEventArgs e)
+    {
+        DrawItem?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SelectedIndexChanged event.
     /// </summary>
-    protected virtual void OnSelectedIndexChanged(EventArgs e) { SelectedIndexChanged?.Invoke(this, e); }
+    protected virtual void OnSelectedIndexChanged(EventArgs e)
+    {
+        SelectedIndexChanged?.Invoke(this, e);
+    }
 
     private void Self_SwitchPage(object o, SwitchPageArgs args)
     {

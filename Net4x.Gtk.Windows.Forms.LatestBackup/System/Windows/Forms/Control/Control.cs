@@ -258,7 +258,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Occurs when the control is loaded (realized).
     /// </summary>
-    //public event EventHandler Disposed;
+    //public virtual event EventHandler Disposed;
     public virtual event EventHandler Load;
 
     /// <summary>
@@ -2491,42 +2491,66 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the AnchorChanged event.
     /// </summary>
-    protected virtual void OnAnchorChanged(System.EventArgs e) { AnchorChanged?.Invoke(this, e); }
+    protected virtual void OnAnchorChanged(System.EventArgs e)
+    {
+        AnchorChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AutoSizeChanged event.
     /// </summary>
-    protected virtual void OnAutoSizeChanged(System.EventArgs e) { AutoSizeChanged?.Invoke(this, e); }
+    protected virtual void OnAutoSizeChanged(System.EventArgs e)
+    {
+        AutoSizeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the BackColorChanged event.
     /// </summary>
-    protected virtual void OnBackColorChanged(System.EventArgs e) { BackColorChanged?.Invoke(this, e); }
+    protected virtual void OnBackColorChanged(System.EventArgs e)
+    {
+        BackColorChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the BackgroundImageChanged event.
     /// </summary>
-    protected virtual void OnBackgroundImageChanged(System.EventArgs e) { BackgroundImageChanged?.Invoke(this, e); }
+    protected virtual void OnBackgroundImageChanged(System.EventArgs e)
+    {
+        BackgroundImageChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the BackgroundImageLayoutChanged event.
     /// </summary>
-    protected virtual void OnBackgroundImageLayoutChanged(System.EventArgs e) { BackgroundImageLayoutChanged?.Invoke(this, e); }
+    protected virtual void OnBackgroundImageLayoutChanged(System.EventArgs e)
+    {
+        BackgroundImageLayoutChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the BindingContextChanged event.
     /// </summary>
-    protected virtual void OnBindingContextChanged(System.EventArgs e) { BindingContextChanged?.Invoke(this, e); }
+    protected virtual void OnBindingContextChanged(System.EventArgs e)
+    {
+        BindingContextChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CausesValidationChanged event.
     /// </summary>
-    protected virtual void OnCausesValidationChanged(System.EventArgs e) { CausesValidationChanged?.Invoke(this, e); }
+    protected virtual void OnCausesValidationChanged(System.EventArgs e)
+    {
+        CausesValidationChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ChangeUICues event.
     /// </summary>
-    protected virtual void OnChangeUICues(System.Windows.Forms.UICuesEventArgs e) { ChangeUICues?.Invoke(this, e); }
+    protected virtual void OnChangeUICues(System.Windows.Forms.UICuesEventArgs e)
+    {
+        ChangeUICues?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the
@@ -2545,92 +2569,146 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the ClientSizeChanged event.
     /// </summary>
-    protected virtual void OnClientSizeChanged(System.EventArgs e) { ClientSizeChanged?.Invoke(this, e); }
+    protected virtual void OnClientSizeChanged(System.EventArgs e)
+    {
+        ClientSizeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ContextMenuStripChanged event.
     /// </summary>
-    protected virtual void OnContextMenuStripChanged(System.EventArgs e) { ContextMenuStripChanged?.Invoke(this, e); }
+    protected virtual void OnContextMenuStripChanged(System.EventArgs e)
+    {
+        ContextMenuStripChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ControlAdded event.
     /// </summary>
-    protected virtual void OnControlAdded(System.Windows.Forms.ControlEventArgs e) { ControlAdded?.Invoke(this, e); }
+    protected virtual void OnControlAdded(System.Windows.Forms.ControlEventArgs e)
+    {
+        ControlAdded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ControlRemoved event.
     /// </summary>
-    protected virtual void OnControlRemoved(System.Windows.Forms.ControlEventArgs e) { ControlRemoved?.Invoke(this, e); }
+    protected virtual void OnControlRemoved(System.Windows.Forms.ControlEventArgs e)
+    {
+        ControlRemoved?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CursorChanged event.
     /// </summary>
-    protected virtual void OnCursorChanged(System.EventArgs e) { CursorChanged?.Invoke(this, e); }
+    protected virtual void OnCursorChanged(System.EventArgs e)
+    {
+        CursorChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DockChanged event.
     /// </summary>
-    protected virtual void OnDockChanged(System.EventArgs e) { DockChanged?.Invoke(this, e); }
+    protected virtual void OnDockChanged(System.EventArgs e)
+    {
+        DockChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DoubleClick event.
     /// </summary>
-    protected virtual void OnDoubleClick(System.EventArgs e) { DoubleClick?.Invoke(this, e); }
+    protected virtual void OnDoubleClick(System.EventArgs e)
+    {
+        DoubleClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DpiChangedAfterParent event.
     /// </summary>
-    protected virtual void OnDpiChangedAfterParent(System.EventArgs e) { DpiChangedAfterParent?.Invoke(this, e); }
+    protected virtual void OnDpiChangedAfterParent(System.EventArgs e)
+    {
+        DpiChangedAfterParent?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DpiChangedBeforeParent event.
     /// </summary>
-    protected virtual void OnDpiChangedBeforeParent(System.EventArgs e) { DpiChangedBeforeParent?.Invoke(this, e); }
+    protected virtual void OnDpiChangedBeforeParent(System.EventArgs e)
+    {
+        DpiChangedBeforeParent?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DragDrop event.
     /// </summary>
-    protected virtual void OnDragDrop(System.Windows.Forms.DragEventArgs e) { DragDrop?.Invoke(this, e); }
+    protected virtual void OnDragDrop(System.Windows.Forms.DragEventArgs e)
+    {
+        DragDrop?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DragEnter event.
     /// </summary>
-    protected virtual void OnDragEnter(System.Windows.Forms.DragEventArgs e) { DragEnter?.Invoke(this, e); }
+    protected virtual void OnDragEnter(System.Windows.Forms.DragEventArgs e)
+    {
+        DragEnter?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DragLeave event.
     /// </summary>
-    protected virtual void OnDragLeave(System.EventArgs e) { DragLeave?.Invoke(this, e); }
+    protected virtual void OnDragLeave(System.EventArgs e)
+    {
+        DragLeave?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DragOver event.
     /// </summary>
-    protected virtual void OnDragOver(System.Windows.Forms.DragEventArgs e) { DragOver?.Invoke(this, e); }
+    protected virtual void OnDragOver(System.Windows.Forms.DragEventArgs e)
+    {
+        DragOver?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the EnabledChanged event.
     /// </summary>
-    protected virtual void OnEnabledChanged(System.EventArgs e) { EnabledChanged?.Invoke(this, e); }
+    protected virtual void OnEnabledChanged(System.EventArgs e)
+    {
+        EnabledChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the Enter event.
     /// </summary>
-    protected virtual void OnEnter(System.EventArgs e) { Enter?.Invoke(this, e); }
+    protected virtual void OnEnter(System.EventArgs e)
+    {
+        Enter?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the FontChanged event.
     /// </summary>
-    protected virtual void OnFontChanged(System.EventArgs e) { FontChanged?.Invoke(this, e); }
+    protected virtual void OnFontChanged(System.EventArgs e)
+    {
+        FontChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ForeColorChanged event.
     /// </summary>
-    protected virtual void OnForeColorChanged(System.EventArgs e) { ForeColorChanged?.Invoke(this, e); }
+    protected virtual void OnForeColorChanged(System.EventArgs e)
+    {
+        ForeColorChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the GiveFeedback event.
     /// </summary>
-    protected virtual void OnGiveFeedback(System.Windows.Forms.GiveFeedbackEventArgs e) { GiveFeedback?.Invoke(this, e); }
+    protected virtual void OnGiveFeedback(System.Windows.Forms.GiveFeedbackEventArgs e)
+    {
+        GiveFeedback?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the
@@ -2648,27 +2726,42 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
-    protected virtual void OnHandleCreated(System.EventArgs e) { HandleCreated?.Invoke(this, e); }
+    protected virtual void OnHandleCreated(System.EventArgs e)
+    {
+        HandleCreated?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the HandleDestroyed event.
     /// </summary>
-    protected virtual void OnHandleDestroyed(System.EventArgs e) { HandleDestroyed?.Invoke(this, e); }
+    protected virtual void OnHandleDestroyed(System.EventArgs e)
+    {
+        HandleDestroyed?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the HelpRequested event.
     /// </summary>
-    protected virtual void OnHelpRequested(System.Windows.Forms.HelpEventArgs e) { HelpRequested?.Invoke(this, e); }
+    protected virtual void OnHelpRequested(System.Windows.Forms.HelpEventArgs e)
+    {
+        HelpRequested?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ImeModeChanged event.
     /// </summary>
-    protected virtual void OnImeModeChanged(System.EventArgs e) { ImeModeChanged?.Invoke(this, e); }
+    protected virtual void OnImeModeChanged(System.EventArgs e)
+    {
+        ImeModeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the Invalidated event.
     /// </summary>
-    protected virtual void OnInvalidated(System.Windows.Forms.InvalidateEventArgs e) { Invalidated?.Invoke(this, e); }
+    protected virtual void OnInvalidated(System.Windows.Forms.InvalidateEventArgs e)
+    {
+        Invalidated?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the
@@ -2686,7 +2779,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the KeyPress event.
     /// </summary>
-    protected virtual void OnKeyPress(System.Windows.Forms.KeyPressEventArgs e) { KeyPress?.Invoke(this, e); }
+    protected virtual void OnKeyPress(System.Windows.Forms.KeyPressEventArgs e)
+    {
+        KeyPress?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the
@@ -2704,12 +2800,18 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the Layout event.
     /// </summary>
-    protected virtual void OnLayout(System.Windows.Forms.LayoutEventArgs e) { Layout?.Invoke(this, e); }
+    protected virtual void OnLayout(System.Windows.Forms.LayoutEventArgs e)
+    {
+        Layout?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the Leave event.
     /// </summary>
-    protected virtual void OnLeave(System.EventArgs e) { Leave?.Invoke(this, e); }
+    protected virtual void OnLeave(System.EventArgs e)
+    {
+        Leave?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the
@@ -2728,22 +2830,34 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the LocationChanged event.
     /// </summary>
-    protected virtual void OnLocationChanged(System.EventArgs e) { LocationChanged?.Invoke(this, e); }
+    protected virtual void OnLocationChanged(System.EventArgs e)
+    {
+        LocationChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the LostFocus event.
     /// </summary>
-    protected virtual void OnLostFocus(System.EventArgs e) { LostFocus?.Invoke(this, e); }
+    protected virtual void OnLostFocus(System.EventArgs e)
+    {
+        LostFocus?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the MarginChanged event.
     /// </summary>
-    protected virtual void OnMarginChanged(System.EventArgs e) { MarginChanged?.Invoke(this, e); }
+    protected virtual void OnMarginChanged(System.EventArgs e)
+    {
+        MarginChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the MouseCaptureChanged event.
     /// </summary>
-    protected virtual void OnMouseCaptureChanged(System.EventArgs e) { MouseCaptureChanged?.Invoke(this, e); }
+    protected virtual void OnMouseCaptureChanged(System.EventArgs e)
+    {
+        MouseCaptureChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the
@@ -2888,7 +3002,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the PaddingChanged event.
     /// </summary>
-    protected virtual void OnPaddingChanged(System.EventArgs e) { PaddingChanged?.Invoke(this, e); }
+    protected virtual void OnPaddingChanged(System.EventArgs e)
+    {
+        PaddingChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Handles painting logic for derived controls.
@@ -2912,22 +3029,34 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the PreviewKeyDown event.
     /// </summary>
-    protected virtual void OnPreviewKeyDown(System.Windows.Forms.PreviewKeyDownEventArgs e) { PreviewKeyDown?.Invoke(this, e); }
+    protected virtual void OnPreviewKeyDown(System.Windows.Forms.PreviewKeyDownEventArgs e)
+    {
+        PreviewKeyDown?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the QueryAccessibilityHelp event.
     /// </summary>
-    protected virtual void OnQueryAccessibilityHelp(System.Windows.Forms.QueryAccessibilityHelpEventArgs e) { QueryAccessibilityHelp?.Invoke(this, e); }
+    protected virtual void OnQueryAccessibilityHelp(System.Windows.Forms.QueryAccessibilityHelpEventArgs e)
+    {
+        QueryAccessibilityHelp?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the QueryContinueDrag event.
     /// </summary>
-    protected virtual void OnQueryContinueDrag(System.Windows.Forms.QueryContinueDragEventArgs e) { QueryContinueDrag?.Invoke(this, e); }
+    protected virtual void OnQueryContinueDrag(System.Windows.Forms.QueryContinueDragEventArgs e)
+    {
+        QueryContinueDrag?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RegionChanged event.
     /// </summary>
-    protected virtual void OnRegionChanged(System.EventArgs e) { RegionChanged?.Invoke(this, e); }
+    protected virtual void OnRegionChanged(System.EventArgs e)
+    {
+        RegionChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the
@@ -2946,7 +3075,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the RightToLeftChanged event.
     /// </summary>
-    protected virtual void OnRightToLeftChanged(System.EventArgs e) { RightToLeftChanged?.Invoke(this, e); }
+    protected virtual void OnRightToLeftChanged(System.EventArgs e)
+    {
+        RightToLeftChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the
@@ -2964,27 +3096,42 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Raises the StyleChanged event.
     /// </summary>
-    protected virtual void OnStyleChanged(System.EventArgs e) { StyleChanged?.Invoke(this, e); }
+    protected virtual void OnStyleChanged(System.EventArgs e)
+    {
+        StyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SystemColorsChanged event.
     /// </summary>
-    protected virtual void OnSystemColorsChanged(System.EventArgs e) { SystemColorsChanged?.Invoke(this, e); }
+    protected virtual void OnSystemColorsChanged(System.EventArgs e)
+    {
+        SystemColorsChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the TabIndexChanged event.
     /// </summary>
-    protected virtual void OnTabIndexChanged(System.EventArgs e) { TabIndexChanged?.Invoke(this, e); }
+    protected virtual void OnTabIndexChanged(System.EventArgs e)
+    {
+        TabIndexChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the TabStopChanged event.
     /// </summary>
-    protected virtual void OnTabStopChanged(System.EventArgs e) { TabStopChanged?.Invoke(this, e); }
+    protected virtual void OnTabStopChanged(System.EventArgs e)
+    {
+        TabStopChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the TextChanged event.
     /// </summary>
-    protected virtual void OnTextChanged(System.EventArgs e) { TextChanged?.Invoke(this, e); }
+    protected virtual void OnTextChanged(System.EventArgs e)
+    {
+        TextChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the

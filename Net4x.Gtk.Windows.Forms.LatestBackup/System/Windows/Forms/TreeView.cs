@@ -551,22 +551,34 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Raises the AfterCollapse event.
     /// </summary>
-    protected virtual void OnAfterCollapse(System.Windows.Forms.TreeViewEventArgs e) { AfterCollapse?.Invoke(this, e); }
+    protected virtual void OnAfterCollapse(System.Windows.Forms.TreeViewEventArgs e)
+    {
+        AfterCollapse?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AfterExpand event.
     /// </summary>
-    protected virtual void OnAfterExpand(System.Windows.Forms.TreeViewEventArgs e) { AfterExpand?.Invoke(this, e); }
+    protected virtual void OnAfterExpand(System.Windows.Forms.TreeViewEventArgs e)
+    {
+        AfterExpand?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AfterSelect event.
     /// </summary>
-    protected virtual void OnAfterSelect(System.Windows.Forms.TreeViewEventArgs e) { AfterSelect?.Invoke(this, e); }
+    protected virtual void OnAfterSelect(System.Windows.Forms.TreeViewEventArgs e)
+    {
+        AfterSelect?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the BeforeSelect event.
     /// </summary>
-    protected virtual void OnBeforeSelect(System.Windows.Forms.TreeViewCancelEventArgs e) { BeforeSelect?.Invoke(this, e); }
+    protected virtual void OnBeforeSelect(System.Windows.Forms.TreeViewCancelEventArgs e)
+    {
+        BeforeSelect?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.

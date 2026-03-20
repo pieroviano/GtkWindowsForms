@@ -535,27 +535,42 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Raises the FormClosed event.
     /// </summary>
-    protected virtual void OnFormClosed(System.Windows.Forms.FormClosedEventArgs e) { FormClosed?.Invoke(this, e); }
+    protected virtual void OnFormClosed(System.Windows.Forms.FormClosedEventArgs e)
+    {
+        FormClosed?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the FormClosing event.
     /// </summary>
-    protected virtual void OnFormClosing(System.Windows.Forms.FormClosingEventArgs e) { FormClosing?.Invoke(this, e); }
+    protected virtual void OnFormClosing(System.Windows.Forms.FormClosingEventArgs e)
+    {
+        FormClosing?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the Load event.
     /// </summary>
-    protected virtual void OnLoad(System.EventArgs e) { Load?.Invoke(this, e); }
+    protected override void OnLoad(System.EventArgs e)
+    {
+        Load?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the Shown event.
     /// </summary>
-    protected virtual void OnShown(System.EventArgs e) { Shown?.Invoke(this, e); }
+    protected virtual void OnShown(System.EventArgs e)
+    {
+        Shown?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SizeChanged event.
     /// </summary>
-    protected virtual void OnSizeChanged(System.EventArgs e) { SizeChanged?.Invoke(this, e); }
+    protected override void OnSizeChanged(System.EventArgs e)
+    {
+        SizeChanged?.Invoke(this, e);
+    }
 
     private void Close_Clicked(object sender, EventArgs e)
     {

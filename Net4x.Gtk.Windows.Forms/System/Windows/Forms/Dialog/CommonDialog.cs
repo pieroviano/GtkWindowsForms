@@ -20,7 +20,7 @@ public abstract class CommonDialog : Component
     /// <summary>
     /// Occurs when help request.
     /// </summary>
-    public event EventHandler HelpRequest
+    public virtual event EventHandler HelpRequest
     {
         add => Events.AddHandler(s_helpRequestEvent, value);
         remove => Events.RemoveHandler(s_helpRequestEvent, value);

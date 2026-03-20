@@ -21,9 +21,9 @@ public class PropertyManager : BindingManagerBase
 
     private string? _propName;
 
-    public virtual event EventHandler<EventArgs> CurrentChanged;
+    public override event EventHandler CurrentChanged;
 
-    public virtual event EventHandler<EventArgs> CurrentItemChanged;
+    public override event EventHandler CurrentItemChanged;
 
     /// <summary>
     /// Initializes a new instance of the

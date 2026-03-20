@@ -183,7 +183,7 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Hides the drop down.
     /// </summary>
-    //public event ToolStripItemClickedEventHandler DropDownItemClicked;
+    //public virtual event ToolStripItemClickedEventHandler DropDownItemClicked;
     public void HideDropDown() { }
 
     /// <summary>
@@ -194,16 +194,25 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Raises the DropDownClosed event.
     /// </summary>
-    protected virtual void OnDropDownClosed(EventArgs e) { DropDownClosed?.Invoke(this, e); }
+    protected virtual void OnDropDownClosed(EventArgs e)
+    {
+        DropDownClosed?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DropDownOpened event.
     /// </summary>
-    protected virtual void OnDropDownOpened(EventArgs e) { DropDownOpened?.Invoke(this, e); }
+    protected virtual void OnDropDownOpened(EventArgs e)
+    {
+        DropDownOpened?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DropDownOpening event.
     /// </summary>
-    protected virtual void OnDropDownOpening(EventArgs e) { DropDownOpening?.Invoke(this, e); }
+    protected virtual void OnDropDownOpening(EventArgs e)
+    {
+        DropDownOpening?.Invoke(this, e);
+    }
 
 }

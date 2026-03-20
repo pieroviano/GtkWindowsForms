@@ -133,7 +133,10 @@ public class ApplicationContext : IDisposable
     /// <summary>
     /// Raises the ThreadExit event.
     /// </summary>
-    protected virtual void OnThreadExit(System.EventArgs e) { ThreadExit?.Invoke(this, e); }
+    protected virtual void OnThreadExit(System.EventArgs e)
+    {
+        ThreadExit?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Called when the mainForm is closed. The default implementation

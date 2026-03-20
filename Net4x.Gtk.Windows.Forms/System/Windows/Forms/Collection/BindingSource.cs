@@ -98,7 +98,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </exception>
     [Category("CatData")]
     [Description("BindingSourceAddingNewEventHandlerDescr")]
-    public event AddingNewEventHandler AddingNew
+    public virtual event AddingNewEventHandler AddingNew
     {
         add => Events.AddHandler(EventAddingNew, value);
         remove => Events.RemoveHandler(EventAddingNew, value);
@@ -110,7 +110,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceBindingCompleteEventHandlerDescr")]
-    public event BindingCompleteEventHandler BindingComplete
+    public virtual event BindingCompleteEventHandler BindingComplete
     {
         add => Events.AddHandler(EventBindingComplete, value);
         remove => Events.RemoveHandler(EventBindingComplete, value);
@@ -121,7 +121,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceCurrentChangedEventHandlerDescr")]
-    public event EventHandler CurrentChanged
+    public virtual event EventHandler CurrentChanged
     {
         add => Events.AddHandler(EventCurrentChanged, value);
         remove => Events.RemoveHandler(EventCurrentChanged, value);
@@ -133,7 +133,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceCurrentItemChangedEventHandlerDescr")]
-    public event EventHandler CurrentItemChanged
+    public virtual event EventHandler CurrentItemChanged
     {
         add => Events.AddHandler(EventCurrentItemChanged, value);
         remove => Events.RemoveHandler(EventCurrentItemChanged, value);
@@ -145,7 +145,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceDataErrorEventHandlerDescr")]
-    public event BindingManagerDataErrorEventHandler DataError
+    public virtual event BindingManagerDataErrorEventHandler DataError
     {
         add => Events.AddHandler(EventDataError, value);
         remove => Events.RemoveHandler(EventDataError, value);
@@ -157,7 +157,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceDataMemberChangedEventHandlerDescr")]
-    public event EventHandler DataMemberChanged
+    public virtual event EventHandler DataMemberChanged
     {
         add => Events.AddHandler(EventDataMemberChanged, value);
         remove => Events.RemoveHandler(EventDataMemberChanged, value);
@@ -169,7 +169,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceDataSourceChangedEventHandlerDescr")]
-    public event EventHandler DataSourceChanged
+    public virtual event EventHandler DataSourceChanged
     {
         add => Events.AddHandler(EventDataSourceChanged, value);
         remove => Events.RemoveHandler(EventDataSourceChanged, value);
@@ -180,7 +180,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourceListChangedEventHandlerDescr")]
-    public event ListChangedEventHandler ListChanged
+    public virtual event ListChangedEventHandler ListChanged
     {
         add => Events.AddHandler(EventListChanged, value);
         remove => Events.RemoveHandler(EventListChanged, value);
@@ -192,7 +192,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </summary>
     [Category("CatData")]
     [Description("BindingSourcePositionChangedEventHandlerDescr")]
-    public event EventHandler PositionChanged
+    public virtual event EventHandler PositionChanged
     {
         add => Events.AddHandler(EventPositionChanged, value);
         remove => Events.RemoveHandler(EventPositionChanged, value);

@@ -203,31 +203,49 @@ public abstract class ListControl : ScrollableControl
     /// <summary>
     /// Raises the DisplayMemberChanged event.
     /// </summary>
-    protected virtual void OnDisplayMemberChanged(System.EventArgs e) { DisplayMemberChanged?.Invoke(this, e); }
+    protected virtual void OnDisplayMemberChanged(System.EventArgs e)
+    {
+        DisplayMemberChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the Format event.
     /// </summary>
-    protected virtual void OnFormat(System.Windows.Forms.ListControlConvertEventArgs e) { Format?.Invoke(this, e); }
+    protected virtual void OnFormat(System.Windows.Forms.ListControlConvertEventArgs e)
+    {
+        Format?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the FormatInfoChanged event.
     /// </summary>
-    protected virtual void OnFormatInfoChanged(System.EventArgs e) { FormatInfoChanged?.Invoke(this, e); }
+    protected virtual void OnFormatInfoChanged(System.EventArgs e)
+    {
+        FormatInfoChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the FormatStringChanged event.
     /// </summary>
-    protected virtual void OnFormatStringChanged(System.EventArgs e) { FormatStringChanged?.Invoke(this, e); }
+    protected virtual void OnFormatStringChanged(System.EventArgs e)
+    {
+        FormatStringChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the FormattingEnabledChanged event.
     /// </summary>
-    protected virtual void OnFormattingEnabledChanged(System.EventArgs e) { FormattingEnabledChanged?.Invoke(this, e); }
+    protected virtual void OnFormattingEnabledChanged(System.EventArgs e)
+    {
+        FormattingEnabledChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ValueMemberChanged event.
     /// </summary>
-    protected virtual void OnValueMemberChanged(System.EventArgs e) { ValueMemberChanged?.Invoke(this, e); }
+    protected virtual void OnValueMemberChanged(System.EventArgs e)
+    {
+        ValueMemberChanged?.Invoke(this, e);
+    }
 
 }

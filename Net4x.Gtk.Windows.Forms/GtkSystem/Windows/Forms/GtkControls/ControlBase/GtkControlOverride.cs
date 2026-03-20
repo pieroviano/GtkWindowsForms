@@ -284,6 +284,9 @@ public sealed class GtkControlOverride : IControlOverride
     /// <summary>
     /// Raises the PaintGraphics event.
     /// </summary>
-    private void OnPaintGraphics(EventArgs e) {; }
+    private void OnPaintGraphics(EventArgs e)
+    {
+
+    }
 
 }

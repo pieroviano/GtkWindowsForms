@@ -158,6 +158,9 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// <summary>
     /// Raises the Scroll event.
     /// </summary>
-    private void OnScroll(System.Windows.Forms.ScrollEventArgs e) { Scroll?.Invoke(this, e); }
+    private void OnScroll(System.Windows.Forms.ScrollEventArgs e)
+    {
+        Scroll?.Invoke(this, e);
+    }
 
 }

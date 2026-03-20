@@ -65,7 +65,7 @@ public class Binding
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.Binding.FormattingEnabled" /> property is set to true and a binding operation is complete, such as when data is pushed from the control to the data source or vice versa
     /// </summary>
-    public event BindingCompleteEventHandler? BindingComplete
+    public virtual event BindingCompleteEventHandler? BindingComplete
     {
         add => _bindingComplete += value;
         remove => _bindingComplete -= value;
@@ -77,7 +77,7 @@ public class Binding
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    public event ConvertEventHandler? Format
+    public virtual event ConvertEventHandler? Format
     {
         add => _format += value;
         remove => _format -= value;
@@ -89,7 +89,7 @@ public class Binding
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    public event ConvertEventHandler? Parse
+    public virtual event ConvertEventHandler? Parse
     {
         add => _parse += value;
         remove => _parse -= value;

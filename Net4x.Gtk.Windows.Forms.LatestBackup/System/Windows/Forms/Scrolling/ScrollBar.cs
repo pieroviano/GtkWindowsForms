@@ -102,12 +102,18 @@ public abstract partial class ScrollBar : Control
     /// <summary>
     /// Raises the Scroll event.
     /// </summary>
-    protected virtual void OnScroll(System.Windows.Forms.ScrollEventArgs e) { Scroll?.Invoke(this, e); }
+    protected virtual void OnScroll(System.Windows.Forms.ScrollEventArgs e)
+    {
+        Scroll?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ValueChanged event.
     /// </summary>
-    protected virtual void OnValueChanged(EventArgs e) { ValueChanged?.Invoke(this, e); }
+    protected virtual void OnValueChanged(EventArgs e)
+    {
+        ValueChanged?.Invoke(this, e);
+    }
 
     private void Control_ValueChanged(object sender, EventArgs e)
     {

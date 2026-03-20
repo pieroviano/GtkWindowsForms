@@ -133,7 +133,10 @@ public class TrackBar : Control
     /// <summary>
     /// Raises the Scroll event.
     /// </summary>
-    protected virtual void OnScroll(System.EventArgs e) { Scroll?.Invoke(this, e); }
+    protected virtual void OnScroll(System.EventArgs e)
+    {
+        Scroll?.Invoke(this, e);
+    }
 
     private void Control_Realized(object sender, EventArgs e)
     {

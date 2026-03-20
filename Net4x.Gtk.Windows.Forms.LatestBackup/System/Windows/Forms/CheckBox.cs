@@ -98,12 +98,18 @@ public partial class CheckBox : Control
     /// <summary>
     /// Raises the CheckedChanged event.
     /// </summary>
-    protected virtual void OnCheckedChanged(System.EventArgs e) { CheckedChanged?.Invoke(this, e); }
+    protected virtual void OnCheckedChanged(System.EventArgs e)
+    {
+        CheckedChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CheckStateChanged event.
     /// </summary>
-    protected virtual void OnCheckStateChanged(System.EventArgs e) {; }
+    protected virtual void OnCheckStateChanged(System.EventArgs e)
+    {
+
+    }
 
     private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {

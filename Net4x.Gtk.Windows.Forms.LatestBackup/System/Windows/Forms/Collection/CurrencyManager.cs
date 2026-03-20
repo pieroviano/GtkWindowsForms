@@ -50,11 +50,11 @@ public class CurrencyManager : BindingManagerBase
 
     public virtual event EventHandler<EventArgs> CurrencyChanged;
 
-    public virtual event EventHandler<EventArgs> CurrentChanged;
+    public override event EventHandler CurrentChanged;
 
-    public virtual event EventHandler<EventArgs> CurrentItemChanged;
+    public override event EventHandler CurrentItemChanged;
 
-    public virtual event EventHandler<EventArgs> PositionChanged;
+    public override event EventHandler PositionChanged;
 
     /// <summary>
     /// Occurs when the current item has been altered.
@@ -62,7 +62,7 @@ public class CurrencyManager : BindingManagerBase
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    public event ItemChangedEventHandler? ItemChanged
+    public virtual event ItemChangedEventHandler? ItemChanged
     {
         add => _itemChanged += value;
         remove => _itemChanged -= value;
@@ -74,7 +74,7 @@ public class CurrencyManager : BindingManagerBase
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    public event ListChangedEventHandler? ListChanged
+    public virtual event ListChangedEventHandler? ListChanged
     {
         add => _listChanged += value;
         remove => _listChanged -= value;
@@ -87,7 +87,7 @@ public class CurrencyManager : BindingManagerBase
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    public event EventHandler? MetaDataChanged
+    public virtual event EventHandler? MetaDataChanged
     {
         add => _metaDataChanged += value;
         remove => _metaDataChanged -= value;

@@ -327,12 +327,18 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <summary>
     /// Raises the MaximumSizeChanged event.
     /// </summary>
-    protected virtual void OnMaximumSizeChanged(System.EventArgs e) { MaximumSizeChanged?.Invoke(this, e); }
+    protected virtual void OnMaximumSizeChanged(System.EventArgs e)
+    {
+        MaximumSizeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the MinimumSizeChanged event.
     /// </summary>
-    protected virtual void OnMinimumSizeChanged(System.EventArgs e) { MinimumSizeChanged?.Invoke(this, e); }
+    protected virtual void OnMinimumSizeChanged(System.EventArgs e)
+    {
+        MinimumSizeChanged?.Invoke(this, e);
+    }
 
     private void Init()
     {

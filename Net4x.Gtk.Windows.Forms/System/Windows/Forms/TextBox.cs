@@ -235,12 +235,18 @@ public partial class TextBox : Control
     /// <summary>
     /// Raises the KeyDown event.
     /// </summary>
-    protected virtual void OnKeyDown(System.Windows.Forms.KeyEventArgs e) { KeyDown?.Invoke(this, e); }
+    protected override void OnKeyDown(System.Windows.Forms.KeyEventArgs e)
+    {
+        KeyDown?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the TextChanged event.
     /// </summary>
-    protected virtual void OnTextChanged(System.EventArgs e) { TextChanged?.Invoke(this, e); }
+    protected override void OnTextChanged(System.EventArgs e)
+    {
+        TextChanged?.Invoke(this, e);
+    }
 
     private void Self_Changed(object sender, EventArgs e)
     {

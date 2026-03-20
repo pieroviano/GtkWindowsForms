@@ -95,4 +95,169 @@
         <SourceString>Occurs when [</SourceString>
         <TargetString>Occurs when </TargetString>
     </Item>
+    <Item>
+        <FileName>*.cs</FileName>
+        <SourceString>public event</SourceString>
+        <TargetString>public virtual event</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\PropertyGridInternal\PropertyGridBase\PropertyGridView.cs</FileName>
+        <SourceString>public virtual event</SourceString>
+        <TargetString>public event</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\ImageList\ImageList.cs</FileName>
+        <SourceString>public virtual event</SourceString>
+        <TargetString>public event</TargetString>
+    </Item>
+    <Item>
+        <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\FormBase.cs</FileName>
+        <SourceString>public virtual event</SourceString>
+        <TargetString>public event</TargetString>
+    </Item>
+    <Item>
+        <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\GtkControlOverride.cs</FileName>
+        <SourceString>public virtual event</SourceString>
+        <TargetString>public event</TargetString>
+    </Item>
+    <Item>
+        <FileName>GtkSystem\Windows\Forms\GtkControls\ControlBase\GroupBoxBase.cs</FileName>
+        <SourceString>public virtual event</SourceString>
+        <TargetString>public event</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\MenuStripBase\WidgetToolStrip.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; OnCheckedChanged</SourceString>
+        <TargetString>override event EventHandler&lt;EventArgs&gt; OnCheckedChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\MenuStripBase\WidgetToolStrip.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; OnCheckStateChanged</SourceString>
+        <TargetString>override event EventHandler&lt;EventArgs&gt; OnCheckStateChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\MenuStripBase\WidgetToolStrip.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; OnClick</SourceString>
+        <TargetString>override event EventHandler&lt;EventArgs&gt; OnClick</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\MenuStripBase\WidgetToolStrip.cs</FileName>
+        <SourceString>virtual void OnOnDropDownItemClicked</SourceString>
+        <TargetString>override void OnDropDownItemClicked</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\MenuStripBase\ToolStripButton.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; CheckedChanged</SourceString>
+        <TargetString>override event EventHandler CheckedChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\MenuStripBase\ToolStripButton.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; CheckStateChanged</SourceString>
+        <TargetString>override event EventHandler CheckStateChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\MenuStripBase\ToolStripButton.cs</FileName>
+        <SourceString>virtual void OnCheckedChanged</SourceString>
+        <TargetString>override void OnCheckedChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\MenuStripBase\ToolStripButton.cs</FileName>
+        <SourceString>virtual void OnCheckStateChanged</SourceString>
+        <TargetString>override void OnCheckStateChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\UserControl.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;System.Windows.Forms.PaintEventArgs&gt; Paint</SourceString>
+        <TargetString>override event PaintEventHandler Paint</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\UserControl.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; ParentChanged</SourceString>
+        <TargetString>override event EventHandler ParentChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\UserControl.cs</FileName>
+        <SourceString>virtual void OnLoad</SourceString>
+        <TargetString>override void OnLoad</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Button.cs</FileName>
+        <SourceString>virtual void OnClick</SourceString>
+        <TargetString>override void OnClick</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\LinkLabel.cs</FileName>
+        <SourceString>virtual void OnClick</SourceString>
+        <TargetString>override void OnClick</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\TextBox.cs</FileName>
+        <SourceString>virtual void OnKeyDown</SourceString>
+        <TargetString>override void OnKeyDown</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\TextBox.cs</FileName>
+        <SourceString>virtual void OnTextChanged</SourceString>
+        <TargetString>override void OnTextChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Form.cs</FileName>
+        <SourceString>virtual void OnLoad</SourceString>
+        <TargetString>override void OnLoad</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\cs</FileName>
+        <SourceString>virtual void OnSizeChanged</SourceString>
+        <TargetString>override void OnSizeChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\RichTextBox.cs</FileName>
+        <SourceString>virtual void OnTextChanged</SourceString>
+        <TargetString>override void OnTextChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\ToolStrip.cs</FileName>
+        <SourceString>virtual void OnClick</SourceString>
+        <TargetString>override void OnClick</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Collection\CurrencyManager.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; CurrentChanged</SourceString>
+        <TargetString>override event EventHandler CurrentChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Collection\CurrencyManager.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; CurrentItemChanged</SourceString>
+        <TargetString>override event EventHandler CurrentItemChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Collection\CurrencyManager.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; PositionChanged</SourceString>
+        <TargetString>override event EventHandler PositionChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Collection\PropertyManager.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; CurrentChanged</SourceString>
+        <TargetString>override event EventHandler CurrentChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Collection\PropertyManager.cs</FileName>
+        <SourceString>virtual event EventHandler&lt;EventArgs&gt; CurrentItemChanged</SourceString>
+        <TargetString>override event EventHandler CurrentItemChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Form.cs</FileName>
+        <SourceString>virtual void OnSizeChanged</SourceString>
+        <TargetString>override void OnSizeChanged</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\MenuStripBase\WidgetToolStrip.cs</FileName>
+        <SourceString>protected virtual void On</SourceString>
+        <TargetString>protected override void On</TargetString>
+    </Item>
+    <Item>
+        <FileName>System\Windows\Forms\Button.cs</FileName>
+        <SourceString>if (Click != null &amp;&amp; self.IsVisible) { Click(this, EventArgs.Empty); }</SourceString>
+        <TargetString></TargetString>
+    </Item>
 </Items>

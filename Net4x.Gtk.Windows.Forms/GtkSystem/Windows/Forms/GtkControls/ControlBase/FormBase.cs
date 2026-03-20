@@ -223,12 +223,18 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// <summary>
     /// Raises the CloseWindowEvent event.
     /// </summary>
-    private void OnCloseWindowEvent(EventArgs e) { CloseWindowEvent?.Invoke(this, e); }
+    private void OnCloseWindowEvent(EventArgs e)
+    {
+        CloseWindowEvent?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the Scroll event.
     /// </summary>
-    private void OnScroll(System.Windows.Forms.ScrollEventArgs e) { Scroll?.Invoke(this, e); }
+    private void OnScroll(System.Windows.Forms.ScrollEventArgs e)
+    {
+        Scroll?.Invoke(this, e);
+    }
 
     private void Vadjustment_ValueChanged(object sender, EventArgs e)
     {

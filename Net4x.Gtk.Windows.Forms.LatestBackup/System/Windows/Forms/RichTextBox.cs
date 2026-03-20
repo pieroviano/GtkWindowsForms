@@ -183,7 +183,10 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Raises the TextChanged event.
     /// </summary>
-    protected virtual void OnTextChanged(System.EventArgs e) { TextChanged?.Invoke(this, e); }
+    protected override void OnTextChanged(System.EventArgs e)
+    {
+        TextChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Applies styling to the GTK widget based on control properties.

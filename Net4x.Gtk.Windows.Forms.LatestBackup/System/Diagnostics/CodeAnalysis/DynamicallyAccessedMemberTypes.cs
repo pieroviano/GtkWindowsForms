@@ -64,11 +64,11 @@ internal enum DynamicallyAccessedMemberTypes
     /// </summary>
     NonPublicProperties = 1024,
     /// <summary>
-    /// Specifies all public events.
+    /// Specifies all public virtual events.
     /// </summary>
     PublicEvents = 2048,
     /// <summary>
-    /// Specifies all non-public events.
+    /// Specifies all non-public virtual events.
     /// </summary>
     NonPublicEvents = 4096,
     /// <summary>

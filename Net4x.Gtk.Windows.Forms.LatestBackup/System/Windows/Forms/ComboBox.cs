@@ -279,7 +279,10 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Raises the DropDown event.
     /// </summary>
-    protected virtual void OnDropDown(System.EventArgs e) { DropDown?.Invoke(this, e); }
+    protected virtual void OnDropDown(System.EventArgs e)
+    {
+        DropDown?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the

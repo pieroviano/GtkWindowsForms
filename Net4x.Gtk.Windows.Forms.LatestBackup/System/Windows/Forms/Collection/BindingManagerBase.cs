@@ -48,7 +48,7 @@ public abstract class BindingManagerBase
     /// Occurs when a binding operation has completed. Individual binding objects raise BindingComplete,
     /// and this event aggregates those notifications for bindings managed by this manager.
     /// </summary>
-    public event BindingCompleteEventHandler? BindingComplete
+    public virtual event BindingCompleteEventHandler? BindingComplete
     {
         add => _bindingCompleteEventHandler += value;
         remove => _bindingCompleteEventHandler -= value;
@@ -57,7 +57,7 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Occurs when the current item has changed.
     /// </summary>
-    public event EventHandler? CurrentChanged
+    public virtual event EventHandler? CurrentChanged
     {
         add => OnCurrentChangedHandler += value;
         remove => OnCurrentChangedHandler -= value;
@@ -66,7 +66,7 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Occurs after the current item has changed; provided for compatibility with existing patterns.
     /// </summary>
-    public event EventHandler? CurrentItemChanged
+    public virtual event EventHandler? CurrentItemChanged
     {
         add => OnCurrentItemChangedValueHandler += value;
         remove => OnCurrentItemChangedValueHandler -= value;
@@ -75,7 +75,7 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Occurs when a data error is detected while synchronizing values between source and bound controls.
     /// </summary>
-    public event BindingManagerDataErrorEventHandler? DataError
+    public virtual event BindingManagerDataErrorEventHandler? DataError
     {
         add => _dataError += value;
         remove => _dataError -= value;
@@ -84,7 +84,7 @@ public abstract class BindingManagerBase
     /// <summary>
     /// Occurs when the position within the managed list changes.
     /// </summary>
-    public event EventHandler? PositionChanged
+    public virtual event EventHandler? PositionChanged
     {
         add => OnPositionChangedHandler += value;
         remove => OnPositionChangedHandler -= value;

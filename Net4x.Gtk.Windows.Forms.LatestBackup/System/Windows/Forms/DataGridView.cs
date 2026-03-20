@@ -63,7 +63,7 @@ public partial class DataGridView : ScrollableControl
     /// Not implemented in this GTK-backed control. Placeholder for compatibility.
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event EventHandler SelectionChanged;
+    //public virtual event EventHandler SelectionChanged;
     [Obsolete(" this event is not implemented， develop independently")]
     public virtual event EventHandler AllowUserToOrderColumnsChanged;
 
@@ -107,7 +107,7 @@ public partial class DataGridView : ScrollableControl
     /// Raised when AutoSizeRowsMode changes - not implemented here.
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event EventHandler BackColorChanged;
+    //public virtual event EventHandler BackColorChanged;
     [Obsolete(" this event is not implemented， develop independently")]
     public virtual event DataGridViewAutoSizeModeEventHandler AutoSizeRowsModeChanged;
 
@@ -115,7 +115,7 @@ public partial class DataGridView : ScrollableControl
     /// Raised when the background color changes - not implemented here.
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event EventHandler BackgroundImageChanged;
+    //public virtual event EventHandler BackgroundImageChanged;
     [Obsolete(" this event is not implemented， develop independently")]
     public virtual event EventHandler BackgroundColorChanged;
 
@@ -135,7 +135,7 @@ public partial class DataGridView : ScrollableControl
     /// Raised when a cell begins edit. Placeholder for compatibility.
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event EventHandler PaddingChanged;
+    //public virtual event EventHandler PaddingChanged;
     [Obsolete(" this event is not implemented， develop independently")]
     public virtual event DataGridViewCellCancelEventHandler CellBeginEdit;
 
@@ -143,9 +143,9 @@ public partial class DataGridView : ScrollableControl
     /// Raised when the cell border style changes - not implemented here.
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event EventHandler StyleChanged;
+    //public virtual event EventHandler StyleChanged;
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event EventHandler BackgroundImageLayoutChanged;
+    //public virtual event EventHandler BackgroundImageLayoutChanged;
     [Obsolete(" this event is not implemented， develop independently")]
     public virtual event EventHandler CellBorderStyleChanged;
 
@@ -158,7 +158,7 @@ public partial class DataGridView : ScrollableControl
     /// Raised when a cell content is clicked - placeholder for compatibility.
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event DataGridViewCellEventHandler CellClick;
+    //public virtual event DataGridViewCellEventHandler CellClick;
     [Obsolete(" this event is not implemented， develop independently")]
     public virtual event DataGridViewCellEventHandler CellContentClick;
 
@@ -315,7 +315,7 @@ public partial class DataGridView : ScrollableControl
     /// Raised when a cell is validating - placeholder for compatibility.
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event DataGridViewCellEventHandler CellValueChanged;
+    //public virtual event DataGridViewCellEventHandler CellValueChanged;
     [Obsolete(" this event is not implemented， develop independently")]
     public virtual event DataGridViewCellValidatingEventHandler CellValidating;
 
@@ -520,9 +520,9 @@ public partial class DataGridView : ScrollableControl
     /// Raised when edit mode changes - placeholder for compatibility.
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event EventHandler FontChanged;
+    //public virtual event EventHandler FontChanged;
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event EventHandler ForeColorChanged;
+    //public virtual event EventHandler ForeColorChanged;
     [Obsolete(" this event is not implemented， develop independently")]
     public virtual event EventHandler EditModeChanged;
 
@@ -698,7 +698,7 @@ public partial class DataGridView : ScrollableControl
     /// Raised when rows default cell style changes - placeholder for compatibility.
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
-    //public event EventHandler TextChanged;
+    //public virtual event EventHandler TextChanged;
     [Obsolete(" this event is not implemented， develop independently")]
     public virtual event EventHandler RowsDefaultCellStyleChanged;
 
@@ -1254,582 +1254,930 @@ public partial class DataGridView : ScrollableControl
     /// <summary>
     /// Raises the AllowUserToAddRowsChanged event.
     /// </summary>
-    protected virtual void OnAllowUserToAddRowsChanged(System.EventArgs e) { AllowUserToAddRowsChanged?.Invoke(this, e); }
+    protected virtual void OnAllowUserToAddRowsChanged(System.EventArgs e)
+    {
+        AllowUserToAddRowsChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AllowUserToDeleteRowsChanged event.
     /// </summary>
-    protected virtual void OnAllowUserToDeleteRowsChanged(System.EventArgs e) { AllowUserToDeleteRowsChanged?.Invoke(this, e); }
+    protected virtual void OnAllowUserToDeleteRowsChanged(System.EventArgs e)
+    {
+        AllowUserToDeleteRowsChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AllowUserToOrderColumnsChanged event.
     /// </summary>
-    protected virtual void OnAllowUserToOrderColumnsChanged(System.EventArgs e) { AllowUserToOrderColumnsChanged?.Invoke(this, e); }
+    protected virtual void OnAllowUserToOrderColumnsChanged(System.EventArgs e)
+    {
+        AllowUserToOrderColumnsChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AllowUserToResizeColumnsChanged event.
     /// </summary>
-    protected virtual void OnAllowUserToResizeColumnsChanged(System.EventArgs e) { AllowUserToResizeColumnsChanged?.Invoke(this, e); }
+    protected virtual void OnAllowUserToResizeColumnsChanged(System.EventArgs e)
+    {
+        AllowUserToResizeColumnsChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AllowUserToResizeRowsChanged event.
     /// </summary>
-    protected virtual void OnAllowUserToResizeRowsChanged(System.EventArgs e) { AllowUserToResizeRowsChanged?.Invoke(this, e); }
+    protected virtual void OnAllowUserToResizeRowsChanged(System.EventArgs e)
+    {
+        AllowUserToResizeRowsChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AlternatingRowsDefaultCellStyleChanged event.
     /// </summary>
-    protected virtual void OnAlternatingRowsDefaultCellStyleChanged(System.EventArgs e) { AlternatingRowsDefaultCellStyleChanged?.Invoke(this, e); }
+    protected virtual void OnAlternatingRowsDefaultCellStyleChanged(System.EventArgs e)
+    {
+        AlternatingRowsDefaultCellStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AutoGenerateColumnsChanged event.
     /// </summary>
-    protected virtual void OnAutoGenerateColumnsChanged(System.EventArgs e) { AutoGenerateColumnsChanged?.Invoke(this, e); }
+    protected virtual void OnAutoGenerateColumnsChanged(System.EventArgs e)
+    {
+        AutoGenerateColumnsChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AutoSizeColumnModeChanged event.
     /// </summary>
-    protected virtual void OnAutoSizeColumnModeChanged(System.Windows.Forms.DataGridViewAutoSizeColumnModeEventArgs e) { AutoSizeColumnModeChanged?.Invoke(this, e); }
+    protected virtual void OnAutoSizeColumnModeChanged(System.Windows.Forms.DataGridViewAutoSizeColumnModeEventArgs e)
+    {
+        AutoSizeColumnModeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AutoSizeColumnsModeChanged event.
     /// </summary>
-    protected virtual void OnAutoSizeColumnsModeChanged(System.Windows.Forms.DataGridViewAutoSizeColumnsModeEventArgs e) { AutoSizeColumnsModeChanged?.Invoke(this, e); }
+    protected virtual void OnAutoSizeColumnsModeChanged(System.Windows.Forms.DataGridViewAutoSizeColumnsModeEventArgs e)
+    {
+        AutoSizeColumnsModeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the AutoSizeRowsModeChanged event.
     /// </summary>
-    protected virtual void OnAutoSizeRowsModeChanged(System.Windows.Forms.DataGridViewAutoSizeModeEventArgs e) { AutoSizeRowsModeChanged?.Invoke(this, e); }
+    protected virtual void OnAutoSizeRowsModeChanged(System.Windows.Forms.DataGridViewAutoSizeModeEventArgs e)
+    {
+        AutoSizeRowsModeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the BackgroundColorChanged event.
     /// </summary>
-    protected virtual void OnBackgroundColorChanged(System.EventArgs e) { BackgroundColorChanged?.Invoke(this, e); }
+    protected virtual void OnBackgroundColorChanged(System.EventArgs e)
+    {
+        BackgroundColorChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the BorderStyleChanged event.
     /// </summary>
-    protected virtual void OnBorderStyleChanged(System.EventArgs e) { BorderStyleChanged?.Invoke(this, e); }
+    protected virtual void OnBorderStyleChanged(System.EventArgs e)
+    {
+        BorderStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CancelRowEdit event.
     /// </summary>
-    protected virtual void OnCancelRowEdit(System.Windows.Forms.QuestionEventArgs e) { CancelRowEdit?.Invoke(this, e); }
+    protected virtual void OnCancelRowEdit(System.Windows.Forms.QuestionEventArgs e)
+    {
+        CancelRowEdit?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellBeginEdit event.
     /// </summary>
-    protected virtual void OnCellBeginEdit(System.Windows.Forms.DataGridViewCellCancelEventArgs e) { CellBeginEdit?.Invoke(this, e); }
+    protected virtual void OnCellBeginEdit(System.Windows.Forms.DataGridViewCellCancelEventArgs e)
+    {
+        CellBeginEdit?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellBorderStyleChanged event.
     /// </summary>
-    protected virtual void OnCellBorderStyleChanged(System.EventArgs e) { CellBorderStyleChanged?.Invoke(this, e); }
+    protected virtual void OnCellBorderStyleChanged(System.EventArgs e)
+    {
+        CellBorderStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellClick event.
     /// </summary>
-    protected virtual void OnCellClick(System.Windows.Forms.DataGridViewCellEventArgs e) { CellClick?.Invoke(this, e); }
+    protected virtual void OnCellClick(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellContentClick event.
     /// </summary>
-    protected virtual void OnCellContentClick(System.Windows.Forms.DataGridViewCellEventArgs e) { CellContentClick?.Invoke(this, e); }
+    protected virtual void OnCellContentClick(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellContentClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellContentDoubleClick event.
     /// </summary>
-    protected virtual void OnCellContentDoubleClick(System.Windows.Forms.DataGridViewCellEventArgs e) { CellContentDoubleClick?.Invoke(this, e); }
+    protected virtual void OnCellContentDoubleClick(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellContentDoubleClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellContextMenuStripChanged event.
     /// </summary>
-    protected virtual void OnCellContextMenuStripChanged(System.Windows.Forms.DataGridViewCellEventArgs e) { CellContextMenuStripChanged?.Invoke(this, e); }
+    protected virtual void OnCellContextMenuStripChanged(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellContextMenuStripChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellContextMenuStripNeeded event.
     /// </summary>
-    protected virtual void OnCellContextMenuStripNeeded(System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs e) { CellContextMenuStripNeeded?.Invoke(this, e); }
+    protected virtual void OnCellContextMenuStripNeeded(System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs e)
+    {
+        CellContextMenuStripNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellDoubleClick event.
     /// </summary>
-    protected virtual void OnCellDoubleClick(System.Windows.Forms.DataGridViewCellEventArgs e) { CellDoubleClick?.Invoke(this, e); }
+    protected virtual void OnCellDoubleClick(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellDoubleClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellEndEdit event.
     /// </summary>
-    protected virtual void OnCellEndEdit(System.Windows.Forms.DataGridViewCellEventArgs e) { CellEndEdit?.Invoke(this, e); }
+    protected virtual void OnCellEndEdit(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellEndEdit?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellEnter event.
     /// </summary>
-    protected virtual void OnCellEnter(System.Windows.Forms.DataGridViewCellEventArgs e) { CellEnter?.Invoke(this, e); }
+    protected virtual void OnCellEnter(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellEnter?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellErrorTextChanged event.
     /// </summary>
-    protected virtual void OnCellErrorTextChanged(System.Windows.Forms.DataGridViewCellEventArgs e) { CellErrorTextChanged?.Invoke(this, e); }
+    protected virtual void OnCellErrorTextChanged(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellErrorTextChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellErrorTextNeeded event.
     /// </summary>
-    protected virtual void OnCellErrorTextNeeded(System.Windows.Forms.DataGridViewCellErrorTextNeededEventArgs e) { CellErrorTextNeeded?.Invoke(this, e); }
+    protected virtual void OnCellErrorTextNeeded(System.Windows.Forms.DataGridViewCellErrorTextNeededEventArgs e)
+    {
+        CellErrorTextNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellFormatting event.
     /// </summary>
-    protected virtual void OnCellFormatting(System.Windows.Forms.DataGridViewCellFormattingEventArgs e) { CellFormatting?.Invoke(this, e); }
+    protected virtual void OnCellFormatting(System.Windows.Forms.DataGridViewCellFormattingEventArgs e)
+    {
+        CellFormatting?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellLeave event.
     /// </summary>
-    protected virtual void OnCellLeave(System.Windows.Forms.DataGridViewCellEventArgs e) { CellLeave?.Invoke(this, e); }
+    protected virtual void OnCellLeave(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellLeave?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellMouseClick event.
     /// </summary>
-    protected virtual void OnCellMouseClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e) { CellMouseClick?.Invoke(this, e); }
+    protected virtual void OnCellMouseClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    {
+        CellMouseClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellMouseDoubleClick event.
     /// </summary>
-    protected virtual void OnCellMouseDoubleClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e) { CellMouseDoubleClick?.Invoke(this, e); }
+    protected virtual void OnCellMouseDoubleClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    {
+        CellMouseDoubleClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellMouseDown event.
     /// </summary>
-    protected virtual void OnCellMouseDown(System.Windows.Forms.DataGridViewCellMouseEventArgs e) { CellMouseDown?.Invoke(this, e); }
+    protected virtual void OnCellMouseDown(System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    {
+        CellMouseDown?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellMouseEnter event.
     /// </summary>
-    protected virtual void OnCellMouseEnter(System.Windows.Forms.DataGridViewCellEventArgs e) { CellMouseEnter?.Invoke(this, e); }
+    protected virtual void OnCellMouseEnter(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellMouseEnter?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellMouseLeave event.
     /// </summary>
-    protected virtual void OnCellMouseLeave(System.Windows.Forms.DataGridViewCellEventArgs e) { CellMouseLeave?.Invoke(this, e); }
+    protected virtual void OnCellMouseLeave(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellMouseLeave?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellMouseMove event.
     /// </summary>
-    protected virtual void OnCellMouseMove(System.Windows.Forms.DataGridViewCellMouseEventArgs e) { CellMouseMove?.Invoke(this, e); }
+    protected virtual void OnCellMouseMove(System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    {
+        CellMouseMove?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellMouseUp event.
     /// </summary>
-    protected virtual void OnCellMouseUp(System.Windows.Forms.DataGridViewCellMouseEventArgs e) { CellMouseUp?.Invoke(this, e); }
+    protected virtual void OnCellMouseUp(System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    {
+        CellMouseUp?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellParsing event.
     /// </summary>
-    protected virtual void OnCellParsing(System.Windows.Forms.DataGridViewCellParsingEventArgs e) { CellParsing?.Invoke(this, e); }
+    protected virtual void OnCellParsing(System.Windows.Forms.DataGridViewCellParsingEventArgs e)
+    {
+        CellParsing?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellStateChanged event.
     /// </summary>
-    protected virtual void OnCellStateChanged(System.Windows.Forms.DataGridViewCellStateChangedEventArgs e) { CellStateChanged?.Invoke(this, e); }
+    protected virtual void OnCellStateChanged(System.Windows.Forms.DataGridViewCellStateChangedEventArgs e)
+    {
+        CellStateChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellStyleChanged event.
     /// </summary>
-    protected virtual void OnCellStyleChanged(System.Windows.Forms.DataGridViewCellEventArgs e) { CellStyleChanged?.Invoke(this, e); }
+    protected virtual void OnCellStyleChanged(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellStyleContentChanged event.
     /// </summary>
-    protected virtual void OnCellStyleContentChanged(System.Windows.Forms.DataGridViewCellStyleContentChangedEventArgs e) { CellStyleContentChanged?.Invoke(this, e); }
+    protected virtual void OnCellStyleContentChanged(System.Windows.Forms.DataGridViewCellStyleContentChangedEventArgs e)
+    {
+        CellStyleContentChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellToolTipTextChanged event.
     /// </summary>
-    protected virtual void OnCellToolTipTextChanged(System.Windows.Forms.DataGridViewCellEventArgs e) { CellToolTipTextChanged?.Invoke(this, e); }
+    protected virtual void OnCellToolTipTextChanged(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellToolTipTextChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellToolTipTextNeeded event.
     /// </summary>
-    protected virtual void OnCellToolTipTextNeeded(System.Windows.Forms.DataGridViewCellToolTipTextNeededEventArgs e) { CellToolTipTextNeeded?.Invoke(this, e); }
+    protected virtual void OnCellToolTipTextNeeded(System.Windows.Forms.DataGridViewCellToolTipTextNeededEventArgs e)
+    {
+        CellToolTipTextNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellValidated event.
     /// </summary>
-    protected virtual void OnCellValidated(System.Windows.Forms.DataGridViewCellEventArgs e) { CellValidated?.Invoke(this, e); }
+    protected virtual void OnCellValidated(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellValidated?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellValidating event.
     /// </summary>
-    protected virtual void OnCellValidating(System.Windows.Forms.DataGridViewCellValidatingEventArgs e) { CellValidating?.Invoke(this, e); }
+    protected virtual void OnCellValidating(System.Windows.Forms.DataGridViewCellValidatingEventArgs e)
+    {
+        CellValidating?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellValueChanged event.
     /// </summary>
-    protected virtual void OnCellValueChanged(System.Windows.Forms.DataGridViewCellEventArgs e) { CellValueChanged?.Invoke(this, e); }
+    protected virtual void OnCellValueChanged(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        CellValueChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellValueNeeded event.
     /// </summary>
-    protected virtual void OnCellValueNeeded(System.Windows.Forms.DataGridViewCellValueEventArgs e) { CellValueNeeded?.Invoke(this, e); }
+    protected virtual void OnCellValueNeeded(System.Windows.Forms.DataGridViewCellValueEventArgs e)
+    {
+        CellValueNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CellValuePushed event.
     /// </summary>
-    protected virtual void OnCellValuePushed(System.Windows.Forms.DataGridViewCellValueEventArgs e) { CellValuePushed?.Invoke(this, e); }
+    protected virtual void OnCellValuePushed(System.Windows.Forms.DataGridViewCellValueEventArgs e)
+    {
+        CellValuePushed?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnAdded event.
     /// </summary>
-    protected virtual void OnColumnAdded(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnAdded?.Invoke(this, e); }
+    protected virtual void OnColumnAdded(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnAdded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnContextMenuStripChanged event.
     /// </summary>
-    protected virtual void OnColumnContextMenuStripChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnContextMenuStripChanged?.Invoke(this, e); }
+    protected virtual void OnColumnContextMenuStripChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnContextMenuStripChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnDataPropertyNameChanged event.
     /// </summary>
-    protected virtual void OnColumnDataPropertyNameChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnDataPropertyNameChanged?.Invoke(this, e); }
+    protected virtual void OnColumnDataPropertyNameChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnDataPropertyNameChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnDefaultCellStyleChanged event.
     /// </summary>
-    protected virtual void OnColumnDefaultCellStyleChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnDefaultCellStyleChanged?.Invoke(this, e); }
+    protected virtual void OnColumnDefaultCellStyleChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnDefaultCellStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnDisplayIndexChanged event.
     /// </summary>
-    protected virtual void OnColumnDisplayIndexChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnDisplayIndexChanged?.Invoke(this, e); }
+    protected virtual void OnColumnDisplayIndexChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnDisplayIndexChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnDividerDoubleClick event.
     /// </summary>
-    protected virtual void OnColumnDividerDoubleClick(System.Windows.Forms.DataGridViewColumnDividerDoubleClickEventArgs e) { ColumnDividerDoubleClick?.Invoke(this, e); }
+    protected virtual void OnColumnDividerDoubleClick(System.Windows.Forms.DataGridViewColumnDividerDoubleClickEventArgs e)
+    {
+        ColumnDividerDoubleClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnDividerWidthChanged event.
     /// </summary>
-    protected virtual void OnColumnDividerWidthChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnDividerWidthChanged?.Invoke(this, e); }
+    protected virtual void OnColumnDividerWidthChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnDividerWidthChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnHeaderCellChanged event.
     /// </summary>
-    protected virtual void OnColumnHeaderCellChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnHeaderCellChanged?.Invoke(this, e); }
+    protected virtual void OnColumnHeaderCellChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnHeaderCellChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnHeaderMouseClick event.
     /// </summary>
-    protected virtual void OnColumnHeaderMouseClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e) { ColumnHeaderMouseClick?.Invoke(this, e); }
+    protected virtual void OnColumnHeaderMouseClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    {
+        ColumnHeaderMouseClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnHeaderMouseDoubleClick event.
     /// </summary>
-    protected virtual void OnColumnHeaderMouseDoubleClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e) { ColumnHeaderMouseDoubleClick?.Invoke(this, e); }
+    protected virtual void OnColumnHeaderMouseDoubleClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    {
+        ColumnHeaderMouseDoubleClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnHeadersBorderStyleChanged event.
     /// </summary>
-    protected virtual void OnColumnHeadersBorderStyleChanged(System.EventArgs e) { ColumnHeadersBorderStyleChanged?.Invoke(this, e); }
+    protected virtual void OnColumnHeadersBorderStyleChanged(System.EventArgs e)
+    {
+        ColumnHeadersBorderStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnHeadersDefaultCellStyleChanged event.
     /// </summary>
-    protected virtual void OnColumnHeadersDefaultCellStyleChanged(System.EventArgs e) { ColumnHeadersDefaultCellStyleChanged?.Invoke(this, e); }
+    protected virtual void OnColumnHeadersDefaultCellStyleChanged(System.EventArgs e)
+    {
+        ColumnHeadersDefaultCellStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnHeadersHeightChanged event.
     /// </summary>
-    protected virtual void OnColumnHeadersHeightChanged(System.EventArgs e) { ColumnHeadersHeightChanged?.Invoke(this, e); }
+    protected virtual void OnColumnHeadersHeightChanged(System.EventArgs e)
+    {
+        ColumnHeadersHeightChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnHeadersHeightSizeModeChanged event.
     /// </summary>
-    protected virtual void OnColumnHeadersHeightSizeModeChanged(System.Windows.Forms.DataGridViewAutoSizeModeEventArgs e) { ColumnHeadersHeightSizeModeChanged?.Invoke(this, e); }
+    protected virtual void OnColumnHeadersHeightSizeModeChanged(System.Windows.Forms.DataGridViewAutoSizeModeEventArgs e)
+    {
+        ColumnHeadersHeightSizeModeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnMinimumWidthChanged event.
     /// </summary>
-    protected virtual void OnColumnMinimumWidthChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnMinimumWidthChanged?.Invoke(this, e); }
+    protected virtual void OnColumnMinimumWidthChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnMinimumWidthChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnNameChanged event.
     /// </summary>
-    protected virtual void OnColumnNameChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnNameChanged?.Invoke(this, e); }
+    protected virtual void OnColumnNameChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnNameChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnRemoved event.
     /// </summary>
-    protected virtual void OnColumnRemoved(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnRemoved?.Invoke(this, e); }
+    protected virtual void OnColumnRemoved(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnRemoved?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnSortModeChanged event.
     /// </summary>
-    protected virtual void OnColumnSortModeChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnSortModeChanged?.Invoke(this, e); }
+    protected virtual void OnColumnSortModeChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnSortModeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnStateChanged event.
     /// </summary>
-    protected virtual void OnColumnStateChanged(System.Windows.Forms.DataGridViewColumnStateChangedEventArgs e) { ColumnStateChanged?.Invoke(this, e); }
+    protected virtual void OnColumnStateChanged(System.Windows.Forms.DataGridViewColumnStateChangedEventArgs e)
+    {
+        ColumnStateChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnToolTipTextChanged event.
     /// </summary>
-    protected virtual void OnColumnToolTipTextChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnToolTipTextChanged?.Invoke(this, e); }
+    protected virtual void OnColumnToolTipTextChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnToolTipTextChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ColumnWidthChanged event.
     /// </summary>
-    protected virtual void OnColumnWidthChanged(System.Windows.Forms.DataGridViewColumnEventArgs e) { ColumnWidthChanged?.Invoke(this, e); }
+    protected virtual void OnColumnWidthChanged(System.Windows.Forms.DataGridViewColumnEventArgs e)
+    {
+        ColumnWidthChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CurrentCellChanged event.
     /// </summary>
-    protected virtual void OnCurrentCellChanged(System.EventArgs e) { CurrentCellChanged?.Invoke(this, e); }
+    protected virtual void OnCurrentCellChanged(System.EventArgs e)
+    {
+        CurrentCellChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the CurrentCellDirtyStateChanged event.
     /// </summary>
-    protected virtual void OnCurrentCellDirtyStateChanged(System.EventArgs e) { CurrentCellDirtyStateChanged?.Invoke(this, e); }
+    protected virtual void OnCurrentCellDirtyStateChanged(System.EventArgs e)
+    {
+        CurrentCellDirtyStateChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DataBindingComplete event.
     /// </summary>
-    protected virtual void OnDataBindingComplete(System.Windows.Forms.DataGridViewBindingCompleteEventArgs e) { DataBindingComplete?.Invoke(this, e); }
+    protected virtual void OnDataBindingComplete(System.Windows.Forms.DataGridViewBindingCompleteEventArgs e)
+    {
+        DataBindingComplete?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DataError event.
     /// </summary>
-    protected virtual void OnDataError(System.Windows.Forms.DataGridViewDataErrorEventArgs e) { DataError?.Invoke(this, e); }
+    protected virtual void OnDataError(System.Windows.Forms.DataGridViewDataErrorEventArgs e)
+    {
+        DataError?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DataMemberChanged event.
     /// </summary>
-    protected virtual void OnDataMemberChanged(System.EventArgs e) { DataMemberChanged?.Invoke(this, e); }
+    protected virtual void OnDataMemberChanged(System.EventArgs e)
+    {
+        DataMemberChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DataSourceChanged event.
     /// </summary>
-    protected virtual void OnDataSourceChanged(System.EventArgs e) { DataSourceChanged?.Invoke(this, e); }
+    protected virtual void OnDataSourceChanged(System.EventArgs e)
+    {
+        DataSourceChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DefaultCellStyleChanged event.
     /// </summary>
-    protected virtual void OnDefaultCellStyleChanged(System.EventArgs e) { DefaultCellStyleChanged?.Invoke(this, e); }
+    protected virtual void OnDefaultCellStyleChanged(System.EventArgs e)
+    {
+        DefaultCellStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the DefaultValuesNeeded event.
     /// </summary>
-    protected virtual void OnDefaultValuesNeeded(System.Windows.Forms.DataGridViewRowEventArgs e) { DefaultValuesNeeded?.Invoke(this, e); }
+    protected virtual void OnDefaultValuesNeeded(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        DefaultValuesNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the EditingControlShowing event.
     /// </summary>
-    protected virtual void OnEditingControlShowing(System.Windows.Forms.DataGridViewEditingControlShowingEventArgs e) { EditingControlShowing?.Invoke(this, e); }
+    protected virtual void OnEditingControlShowing(System.Windows.Forms.DataGridViewEditingControlShowingEventArgs e)
+    {
+        EditingControlShowing?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the EditModeChanged event.
     /// </summary>
-    protected virtual void OnEditModeChanged(System.EventArgs e) { EditModeChanged?.Invoke(this, e); }
+    protected virtual void OnEditModeChanged(System.EventArgs e)
+    {
+        EditModeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the GridColorChanged event.
     /// </summary>
-    protected virtual void OnGridColorChanged(System.EventArgs e) { GridColorChanged?.Invoke(this, e); }
+    protected virtual void OnGridColorChanged(System.EventArgs e)
+    {
+        GridColorChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the MultiSelectChanged event.
     /// </summary>
-    protected virtual void OnMultiSelectChanged(System.EventArgs e) { MultiSelectChanged?.Invoke(this, e); }
+    protected virtual void OnMultiSelectChanged(System.EventArgs e)
+    {
+        MultiSelectChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the NewRowNeeded event.
     /// </summary>
-    protected virtual void OnNewRowNeeded(System.Windows.Forms.DataGridViewRowEventArgs e) { NewRowNeeded?.Invoke(this, e); }
+    protected virtual void OnNewRowNeeded(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        NewRowNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the ReadOnlyChanged event.
     /// </summary>
-    protected virtual void OnReadOnlyChanged(System.EventArgs e) { ReadOnlyChanged?.Invoke(this, e); }
+    protected virtual void OnReadOnlyChanged(System.EventArgs e)
+    {
+        ReadOnlyChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowContextMenuStripChanged event.
     /// </summary>
-    protected virtual void OnRowContextMenuStripChanged(System.Windows.Forms.DataGridViewRowEventArgs e) { RowContextMenuStripChanged?.Invoke(this, e); }
+    protected virtual void OnRowContextMenuStripChanged(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        RowContextMenuStripChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowContextMenuStripNeeded event.
     /// </summary>
-    protected virtual void OnRowContextMenuStripNeeded(System.Windows.Forms.DataGridViewRowContextMenuStripNeededEventArgs e) { RowContextMenuStripNeeded?.Invoke(this, e); }
+    protected virtual void OnRowContextMenuStripNeeded(System.Windows.Forms.DataGridViewRowContextMenuStripNeededEventArgs e)
+    {
+        RowContextMenuStripNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowDefaultCellStyleChanged event.
     /// </summary>
-    protected virtual void OnRowDefaultCellStyleChanged(System.Windows.Forms.DataGridViewRowEventArgs e) { RowDefaultCellStyleChanged?.Invoke(this, e); }
+    protected virtual void OnRowDefaultCellStyleChanged(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        RowDefaultCellStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowDirtyStateNeeded event.
     /// </summary>
-    protected virtual void OnRowDirtyStateNeeded(System.Windows.Forms.QuestionEventArgs e) { RowDirtyStateNeeded?.Invoke(this, e); }
+    protected virtual void OnRowDirtyStateNeeded(System.Windows.Forms.QuestionEventArgs e)
+    {
+        RowDirtyStateNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowDividerDoubleClick event.
     /// </summary>
-    protected virtual void OnRowDividerDoubleClick(System.Windows.Forms.DataGridViewRowDividerDoubleClickEventArgs e) { RowDividerDoubleClick?.Invoke(this, e); }
+    protected virtual void OnRowDividerDoubleClick(System.Windows.Forms.DataGridViewRowDividerDoubleClickEventArgs e)
+    {
+        RowDividerDoubleClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowDividerHeightChanged event.
     /// </summary>
-    protected virtual void OnRowDividerHeightChanged(System.Windows.Forms.DataGridViewRowEventArgs e) { RowDividerHeightChanged?.Invoke(this, e); }
+    protected virtual void OnRowDividerHeightChanged(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        RowDividerHeightChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowEnter event.
     /// </summary>
-    protected virtual void OnRowEnter(System.Windows.Forms.DataGridViewCellEventArgs e) { RowEnter?.Invoke(this, e); }
+    protected virtual void OnRowEnter(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        RowEnter?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowErrorTextChanged event.
     /// </summary>
-    protected virtual void OnRowErrorTextChanged(System.Windows.Forms.DataGridViewRowEventArgs e) { RowErrorTextChanged?.Invoke(this, e); }
+    protected virtual void OnRowErrorTextChanged(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        RowErrorTextChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowErrorTextNeeded event.
     /// </summary>
-    protected virtual void OnRowErrorTextNeeded(System.Windows.Forms.DataGridViewRowErrorTextNeededEventArgs e) { RowErrorTextNeeded?.Invoke(this, e); }
+    protected virtual void OnRowErrorTextNeeded(System.Windows.Forms.DataGridViewRowErrorTextNeededEventArgs e)
+    {
+        RowErrorTextNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeaderCellChanged event.
     /// </summary>
-    protected virtual void OnRowHeaderCellChanged(System.Windows.Forms.DataGridViewRowEventArgs e) { RowHeaderCellChanged?.Invoke(this, e); }
+    protected virtual void OnRowHeaderCellChanged(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        RowHeaderCellChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeaderMouseClick event.
     /// </summary>
-    protected virtual void OnRowHeaderMouseClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e) { RowHeaderMouseClick?.Invoke(this, e); }
+    protected virtual void OnRowHeaderMouseClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    {
+        RowHeaderMouseClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeaderMouseDoubleClick event.
     /// </summary>
-    protected virtual void OnRowHeaderMouseDoubleClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e) { RowHeaderMouseDoubleClick?.Invoke(this, e); }
+    protected virtual void OnRowHeaderMouseDoubleClick(System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    {
+        RowHeaderMouseDoubleClick?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeadersBorderStyleChanged event.
     /// </summary>
-    protected virtual void OnRowHeadersBorderStyleChanged(System.EventArgs e) { RowHeadersBorderStyleChanged?.Invoke(this, e); }
+    protected virtual void OnRowHeadersBorderStyleChanged(System.EventArgs e)
+    {
+        RowHeadersBorderStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeadersDefaultCellStyleChanged event.
     /// </summary>
-    protected virtual void OnRowHeadersDefaultCellStyleChanged(System.EventArgs e) { RowHeadersDefaultCellStyleChanged?.Invoke(this, e); }
+    protected virtual void OnRowHeadersDefaultCellStyleChanged(System.EventArgs e)
+    {
+        RowHeadersDefaultCellStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeadersWidthChanged event.
     /// </summary>
-    protected virtual void OnRowHeadersWidthChanged(System.EventArgs e) { RowHeadersWidthChanged?.Invoke(this, e); }
+    protected virtual void OnRowHeadersWidthChanged(System.EventArgs e)
+    {
+        RowHeadersWidthChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeadersWidthSizeModeChanged event.
     /// </summary>
-    protected virtual void OnRowHeadersWidthSizeModeChanged(System.Windows.Forms.DataGridViewAutoSizeModeEventArgs e) { RowHeadersWidthSizeModeChanged?.Invoke(this, e); }
+    protected virtual void OnRowHeadersWidthSizeModeChanged(System.Windows.Forms.DataGridViewAutoSizeModeEventArgs e)
+    {
+        RowHeadersWidthSizeModeChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeightChanged event.
     /// </summary>
-    protected virtual void OnRowHeightChanged(System.Windows.Forms.DataGridViewRowEventArgs e) { RowHeightChanged?.Invoke(this, e); }
+    protected virtual void OnRowHeightChanged(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        RowHeightChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeightInfoNeeded event.
     /// </summary>
-    protected virtual void OnRowHeightInfoNeeded(System.Windows.Forms.DataGridViewRowHeightInfoNeededEventArgs e) { RowHeightInfoNeeded?.Invoke(this, e); }
+    protected virtual void OnRowHeightInfoNeeded(System.Windows.Forms.DataGridViewRowHeightInfoNeededEventArgs e)
+    {
+        RowHeightInfoNeeded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowHeightInfoPushed event.
     /// </summary>
-    protected virtual void OnRowHeightInfoPushed(System.Windows.Forms.DataGridViewRowHeightInfoPushedEventArgs e) { RowHeightInfoPushed?.Invoke(this, e); }
+    protected virtual void OnRowHeightInfoPushed(System.Windows.Forms.DataGridViewRowHeightInfoPushedEventArgs e)
+    {
+        RowHeightInfoPushed?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowLeave event.
     /// </summary>
-    protected virtual void OnRowLeave(System.Windows.Forms.DataGridViewCellEventArgs e) { RowLeave?.Invoke(this, e); }
+    protected virtual void OnRowLeave(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        RowLeave?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowMinimumHeightChanged event.
     /// </summary>
-    protected virtual void OnRowMinimumHeightChanged(System.Windows.Forms.DataGridViewRowEventArgs e) { RowMinimumHeightChanged?.Invoke(this, e); }
+    protected virtual void OnRowMinimumHeightChanged(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        RowMinimumHeightChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowPostPaint event.
     /// </summary>
-    protected virtual void OnRowPostPaint(System.Windows.Forms.DataGridViewRowPostPaintEventArgs e) { RowPostPaint?.Invoke(this, e); }
+    protected virtual void OnRowPostPaint(System.Windows.Forms.DataGridViewRowPostPaintEventArgs e)
+    {
+        RowPostPaint?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowPrePaint event.
     /// </summary>
-    protected virtual void OnRowPrePaint(System.Windows.Forms.DataGridViewRowPrePaintEventArgs e) { RowPrePaint?.Invoke(this, e); }
+    protected virtual void OnRowPrePaint(System.Windows.Forms.DataGridViewRowPrePaintEventArgs e)
+    {
+        RowPrePaint?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowsAdded event.
     /// </summary>
-    protected virtual void OnRowsAdded(System.Windows.Forms.DataGridViewRowsAddedEventArgs e) { RowsAdded?.Invoke(this, e); }
+    protected virtual void OnRowsAdded(System.Windows.Forms.DataGridViewRowsAddedEventArgs e)
+    {
+        RowsAdded?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowsDefaultCellStyleChanged event.
     /// </summary>
-    protected virtual void OnRowsDefaultCellStyleChanged(System.EventArgs e) { RowsDefaultCellStyleChanged?.Invoke(this, e); }
+    protected virtual void OnRowsDefaultCellStyleChanged(System.EventArgs e)
+    {
+        RowsDefaultCellStyleChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowsRemoved event.
     /// </summary>
-    protected virtual void OnRowsRemoved(System.Windows.Forms.DataGridViewRowsRemovedEventArgs e) { RowsRemoved?.Invoke(this, e); }
+    protected virtual void OnRowsRemoved(System.Windows.Forms.DataGridViewRowsRemovedEventArgs e)
+    {
+        RowsRemoved?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowStateChanged event.
     /// </summary>
-    protected virtual void OnRowStateChanged(System.Windows.Forms.DataGridViewRowStateChangedEventArgs e) { RowStateChanged?.Invoke(this, e); }
+    protected virtual void OnRowStateChanged(System.Windows.Forms.DataGridViewRowStateChangedEventArgs e)
+    {
+        RowStateChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowUnshared event.
     /// </summary>
-    protected virtual void OnRowUnshared(System.Windows.Forms.DataGridViewRowEventArgs e) { RowUnshared?.Invoke(this, e); }
+    protected virtual void OnRowUnshared(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        RowUnshared?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowValidated event.
     /// </summary>
-    protected virtual void OnRowValidated(System.Windows.Forms.DataGridViewCellEventArgs e) { RowValidated?.Invoke(this, e); }
+    protected virtual void OnRowValidated(System.Windows.Forms.DataGridViewCellEventArgs e)
+    {
+        RowValidated?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the RowValidating event.
     /// </summary>
-    protected virtual void OnRowValidating(System.Windows.Forms.DataGridViewCellCancelEventArgs e) { RowValidating?.Invoke(this, e); }
+    protected virtual void OnRowValidating(System.Windows.Forms.DataGridViewCellCancelEventArgs e)
+    {
+        RowValidating?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SelectionChanged event.
     /// </summary>
-    protected virtual void OnSelectionChanged(System.EventArgs e) { SelectionChanged?.Invoke(this, e); }
+    protected virtual void OnSelectionChanged(System.EventArgs e)
+    {
+        SelectionChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SortCompare event.
     /// </summary>
-    protected virtual void OnSortCompare(System.Windows.Forms.DataGridViewSortCompareEventArgs e) { SortCompare?.Invoke(this, e); }
+    protected virtual void OnSortCompare(System.Windows.Forms.DataGridViewSortCompareEventArgs e)
+    {
+        SortCompare?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the Sorted event.
     /// </summary>
-    protected virtual void OnSorted(System.EventArgs e) { Sorted?.Invoke(this, e); }
+    protected virtual void OnSorted(System.EventArgs e)
+    {
+        Sorted?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the UserAddedRow event.
     /// </summary>
-    protected virtual void OnUserAddedRow(System.Windows.Forms.DataGridViewRowEventArgs e) { UserAddedRow?.Invoke(this, e); }
+    protected virtual void OnUserAddedRow(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        UserAddedRow?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the UserDeletedRow event.
     /// </summary>
-    protected virtual void OnUserDeletedRow(System.Windows.Forms.DataGridViewRowEventArgs e) { UserDeletedRow?.Invoke(this, e); }
+    protected virtual void OnUserDeletedRow(System.Windows.Forms.DataGridViewRowEventArgs e)
+    {
+        UserDeletedRow?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the UserDeletingRow event.
     /// </summary>
-    protected virtual void OnUserDeletingRow(System.Windows.Forms.DataGridViewRowCancelEventArgs e) { UserDeletingRow?.Invoke(this, e); }
+    protected virtual void OnUserDeletingRow(System.Windows.Forms.DataGridViewRowCancelEventArgs e)
+    {
+        UserDeletingRow?.Invoke(this, e);
+    }
 
     private void GridView_Realized(object sender, EventArgs e)
     {

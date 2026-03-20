@@ -28,7 +28,7 @@ public class BindingsCollection : BaseCollection
     /// <summary>
     /// Occurs after the collection has changed (Add/Remove/Refresh).
     /// </summary>
-    public event CollectionChangeEventHandler? CollectionChanged
+    public virtual event CollectionChangeEventHandler? CollectionChanged
     {
         add => _onCollectionChanged += value;
         remove => _onCollectionChanged -= value;
@@ -37,7 +37,7 @@ public class BindingsCollection : BaseCollection
     /// <summary>
     /// Occurs before the collection changes. Handlers can inspect the change before it is applied.
     /// </summary>
-    public event CollectionChangeEventHandler? CollectionChanging
+    public virtual event CollectionChangeEventHandler? CollectionChanging
     {
         add => _onCollectionChanging += value;
         remove => _onCollectionChanging -= value;

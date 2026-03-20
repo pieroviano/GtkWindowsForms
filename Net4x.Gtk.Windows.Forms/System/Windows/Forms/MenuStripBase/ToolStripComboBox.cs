@@ -99,12 +99,18 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Raises the SelectedIndexChanged event.
     /// </summary>
-    protected virtual void OnSelectedIndexChanged(EventArgs e) { SelectedIndexChanged?.Invoke(this, e); }
+    protected virtual void OnSelectedIndexChanged(EventArgs e)
+    {
+        SelectedIndexChanged?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Raises the SelectedValueChanged event.
     /// </summary>
-    protected virtual void OnSelectedValueChanged(EventArgs e) { SelectedValueChanged?.Invoke(this, e); }
+    protected virtual void OnSelectedValueChanged(EventArgs e)
+    {
+        SelectedValueChanged?.Invoke(this, e);
+    }
 
     private void ComboBox_Changed(object sender, EventArgs e)
     {

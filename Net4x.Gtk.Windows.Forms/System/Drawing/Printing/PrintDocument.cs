@@ -42,7 +42,7 @@ public class PrintDocument : Component
     /// <summary>
     /// Occurs when begin print.
     /// </summary>
-    public event PrintEventHandler BeginPrint
+    public virtual event PrintEventHandler BeginPrint
     {
         add => _beginPrintHandler += value;
         remove => _beginPrintHandler -= value;
@@ -51,7 +51,7 @@ public class PrintDocument : Component
     /// <summary>
     /// Occurs when end print.
     /// </summary>
-    public event PrintEventHandler EndPrint
+    public virtual event PrintEventHandler EndPrint
     {
         add => _endPrintHandler += value;
         remove => _endPrintHandler -= value;
@@ -60,7 +60,7 @@ public class PrintDocument : Component
     /// <summary>
     /// Occurs when print page.
     /// </summary>
-    public event PrintPageEventHandler PrintPage
+    public virtual event PrintPageEventHandler PrintPage
     {
         add => _printPageHandler += value;
         remove => _printPageHandler -= value;
@@ -69,7 +69,7 @@ public class PrintDocument : Component
     /// <summary>
     /// Occurs when query page settings.
     /// </summary>
-    public event QueryPageSettingsEventHandler QueryPageSettings
+    public virtual event QueryPageSettingsEventHandler QueryPageSettings
     {
         add => _queryHandler += value;
         remove => _queryHandler -= value;

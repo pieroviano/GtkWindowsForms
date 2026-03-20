@@ -703,7 +703,10 @@ public abstract class FileDialog : CommonDialog
     /// <summary>
     /// Raises the FileOk event.
     /// </summary>
-    protected virtual void OnFileOk(System.ComponentModel.CancelEventArgs e) { FileOk?.Invoke(this, e); }
+    protected virtual void OnFileOk(System.ComponentModel.CancelEventArgs e)
+    {
+        FileOk?.Invoke(this, e);
+    }
 
     /// <summary>
     /// Runs the dialog.
