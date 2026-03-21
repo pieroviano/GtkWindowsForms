@@ -16,10 +16,19 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripDropDownMenu : ToolStripDropDown
 {
+    /// <summary>
+    /// Occurs when font changed.
+    /// </summary>
     public virtual event EventHandler<EventArgs> FontChanged;
 
+    /// <summary>
+    /// Occurs when layout.
+    /// </summary>
     public virtual event EventHandler<LayoutEventArgs> Layout;
 
+    /// <summary>
+    /// Occurs when paint background.
+    /// </summary>
     public virtual event EventHandler<PaintEventArgs> PaintBackground;
 
     /// <summary>

@@ -8436,6 +8436,26 @@
             <see cref="T:System.Windows.Forms.CurrencyManager" /> in the list.
             </summary>
         </member>
+        <member name="E:System.Windows.Forms.CurrencyManager.CurrencyChanged">
+            <summary>
+            Occurs when currency changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.CurrencyManager.CurrentChanged">
+            <summary>
+            Occurs when current changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.CurrencyManager.CurrentItemChanged">
+            <summary>
+            Occurs when current item changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.CurrencyManager.PositionChanged">
+            <summary>
+            Occurs when position changed.
+            </summary>
+        </member>
         <member name="E:System.Windows.Forms.CurrencyManager.ItemChanged">
             <summary>
             Occurs when the current item has been altered.
@@ -9040,6 +9060,16 @@
             <filterpriority>
             2
             </filterpriority>
+        </member>
+        <member name="E:System.Windows.Forms.PropertyManager.CurrentChanged">
+            <summary>
+            Occurs when current changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.PropertyManager.CurrentItemChanged">
+            <summary>
+            Occurs when current item changed.
+            </summary>
         </member>
         <member name="M:System.Windows.Forms.PropertyManager.#ctor">
             <summary>
@@ -34991,6 +35021,16 @@
             that can contain text and images.
             </summary>
         </member>
+        <member name="E:System.Windows.Forms.ToolStripButton.CheckedChanged">
+            <summary>
+            Occurs when checked changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.ToolStripButton.CheckStateChanged">
+            <summary>
+            Occurs when check state changed.
+            </summary>
+        </member>
         <member name="M:System.Windows.Forms.ToolStripButton.#ctor">
             <summary>
             Initializes a new instance of the
@@ -35299,6 +35339,21 @@
             Represents a control that when clicked displays an associated
             <see cref="T:System.Windows.Forms.ToolStripDropDown" />
             from which the user can select a single item.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.ToolStripDropDownButton.MouseDown">
+            <summary>
+            Occurs when mouse down.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.ToolStripDropDownButton.MouseLeave">
+            <summary>
+            Occurs when mouse leave.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.ToolStripDropDownButton.MouseUp">
+            <summary>
+            Occurs when mouse up.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ToolStripDropDownButton.#ctor">
@@ -35674,6 +35729,21 @@
             control of previous versions,
             <see cref="!:System.Windows.Forms.Menu" />
             is retained for both backward compatibility and future use if you choose.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.ToolStripDropDownMenu.FontChanged">
+            <summary>
+            Occurs when font changed.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.ToolStripDropDownMenu.Layout">
+            <summary>
+            Occurs when layout.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.ToolStripDropDownMenu.PaintBackground">
+            <summary>
+            Occurs when paint background.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.ToolStripDropDownMenu.#ctor">
@@ -43846,6 +43916,16 @@
         <member name="E:System.Windows.Forms.UserControl.Load">
             <summary>
             Occurs when the control is loaded.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.UserControl.Paint">
+            <summary>
+            Occurs when paint.
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.UserControl.ParentChanged">
+            <summary>
+            Occurs when parent changed.
             </summary>
         </member>
         <member name="M:System.Windows.Forms.UserControl.#ctor">

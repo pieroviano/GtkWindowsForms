@@ -171,21 +171,34 @@ public class EventOnRewriter(string[]? eventsToExclude, Dictionary<string, strin
 
         return method.WithBody(body);
     }
+
     private EventFieldDeclarationSyntax CreateEventHandlerEvent(string eventName, string eventArgsType)
     {
+        var xmlComment = SyntaxFactory.ParseLeadingTrivia(
+            $@"/// <summary>
+    /// Occurs when {SplitCamelCase(eventName).ToLower()}.
+    /// </summary>
+    ");
+
         return SyntaxFactory.EventFieldDeclaration(
                 SyntaxFactory.VariableDeclaration(
-                    SyntaxFactory.GenericName(SyntaxFactory.Identifier("EventHandler"))
-                        .WithTypeArgumentList(
-                            SyntaxFactory.TypeArgumentList(
-                                SyntaxFactory.SingletonSeparatedList<TypeSyntax>(
-                                    SyntaxFactory.ParseTypeName(eventArgsType))))
-                        .WithTrailingTrivia(SyntaxFactory.Space))
+                        SyntaxFactory.GenericName(SyntaxFactory.Identifier("EventHandler"))
+                            .WithTypeArgumentList(
+                                SyntaxFactory.TypeArgumentList(
+                                    SyntaxFactory.SingletonSeparatedList<TypeSyntax>(
+                                        SyntaxFactory.ParseTypeName(eventArgsType))))
+                            .WithTrailingTrivia(SyntaxFactory.Space))
                     .AddVariables(SyntaxFactory.VariableDeclarator(eventName)))
             .AddModifiers(SyntaxFactory.Token(
                 SyntaxFactory.TriviaList(),
                 SyntaxKind.PublicKeyword,
                 SyntaxFactory.TriviaList(SyntaxFactory.Space)))
+            .WithLeadingTrivia(xmlComment)
             .NormalizeWhitespace();
+    }
+    private static string SplitCamelCase(string input)
+    {
+        return System.Text.RegularExpressions.Regex
+            .Replace(input, "(\\B[A-Z])", " $1");
     }
 }

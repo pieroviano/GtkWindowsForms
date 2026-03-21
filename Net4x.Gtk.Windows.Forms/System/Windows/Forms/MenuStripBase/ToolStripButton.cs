@@ -11,8 +11,14 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
 {
+    /// <summary>
+    /// Occurs when checked changed.
+    /// </summary>
     public override event EventHandler CheckedChanged;
 
+    /// <summary>
+    /// Occurs when check state changed.
+    /// </summary>
     public override event EventHandler CheckStateChanged;
 
     /// <summary>

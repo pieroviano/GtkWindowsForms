@@ -35,8 +35,14 @@ public partial class UserControl : ContainerControl
     /// </summary>
     public override event EventHandler Load;
 
+    /// <summary>
+    /// Occurs when paint.
+    /// </summary>
     public override event PaintEventHandler Paint;
 
+    /// <summary>
+    /// Occurs when parent changed.
+    /// </summary>
     public override event EventHandler ParentChanged;
 
     /// <summary>

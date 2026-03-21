@@ -48,12 +48,24 @@ public class CurrencyManager : BindingManagerBase
 
     private bool _suspendPushDataInCurrentChanged;
 
+    /// <summary>
+    /// Occurs when currency changed.
+    /// </summary>
     public virtual event EventHandler<EventArgs> CurrencyChanged;
 
+    /// <summary>
+    /// Occurs when current changed.
+    /// </summary>
     public override event EventHandler CurrentChanged;
 
+    /// <summary>
+    /// Occurs when current item changed.
+    /// </summary>
     public override event EventHandler CurrentItemChanged;
 
+    /// <summary>
+    /// Occurs when position changed.
+    /// </summary>
     public override event EventHandler PositionChanged;
 
     /// <summary>

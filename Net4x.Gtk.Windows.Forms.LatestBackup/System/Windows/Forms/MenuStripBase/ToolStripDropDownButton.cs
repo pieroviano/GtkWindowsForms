@@ -11,10 +11,19 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripDropDownButton : ToolStripDropDownItem
 {
+    /// <summary>
+    /// Occurs when mouse down.
+    /// </summary>
     public virtual event EventHandler<MouseEventArgs> MouseDown;
 
+    /// <summary>
+    /// Occurs when mouse leave.
+    /// </summary>
     public virtual event EventHandler<EventArgs> MouseLeave;
 
+    /// <summary>
+    /// Occurs when mouse up.
+    /// </summary>
     public virtual event EventHandler<MouseEventArgs> MouseUp;
 
     /// <summary>
