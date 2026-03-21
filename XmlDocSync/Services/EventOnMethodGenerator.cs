@@ -16,6 +16,8 @@ public static class EventOnMethodGenerator
 
         var newRoot = rewriter.Visit(root);
 
+        newRoot = new EmptyCatchRewriter().Visit(newRoot);
+
         return newRoot.ToFullString().Replace("\r\n", "\n").TrimEnd('\n');
     }
 }

@@ -293,12 +293,18 @@ public class AutoClosingMessageBox : IMessageBox
                 {
                     _dialog.PangoContext?.Dispose();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.Write($"Unexpected exception in AutoDisposeAfterTimeout: {ex}");
+                }
                 try
                 {
                     _dialog.Dispose();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.Write($"Unexpected exception in AutoDisposeAfterTimeout: {ex}");
+                }
                 GC.SuppressFinalize(_dialog);
                 _dialog = null;
             }

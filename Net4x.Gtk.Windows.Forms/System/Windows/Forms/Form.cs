@@ -468,9 +468,9 @@ public partial class Form : ContainerControl, IWin32Window
                         self.Icon = new Gdk.Pixbuf(this.GetType().Assembly, "Resources.System.view-more.png");
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    System.Diagnostics.Trace.Write($"Unexpected exception in Show: {ex}");
                 }
             }
         }

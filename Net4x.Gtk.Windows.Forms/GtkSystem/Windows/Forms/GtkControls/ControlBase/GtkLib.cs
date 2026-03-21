@@ -39,8 +39,10 @@ internal class FuncLoader
 
                     Marshal.FreeHGlobal(buf);
                 }
-                catch { }
-
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.Write($"Unexpected exception in FuncLoader: {ex}");
+                }
                 break;
         }
     }

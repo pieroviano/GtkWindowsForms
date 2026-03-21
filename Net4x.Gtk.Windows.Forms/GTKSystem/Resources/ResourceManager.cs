@@ -304,12 +304,15 @@ public class ResourceManager : System.Resources.ResourceManager
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.Write($"Unexpected exception in ReadResourceFile: {ex}");
+                }
             }
         }
         catch (System.Exception ex)
         {
-
+            System.Diagnostics.Trace.Write($"Unexpected exception in ReadResourceFile: {ex}");
         }
 
         return result;

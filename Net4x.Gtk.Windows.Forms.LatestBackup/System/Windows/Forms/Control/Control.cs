@@ -2458,7 +2458,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 this.GtkControl = null;
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Trace.Write($"Unexpected exception in Dispose: {ex}");
+        }
         base.Dispose(disposing);
     }
 

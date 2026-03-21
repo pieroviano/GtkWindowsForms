@@ -487,8 +487,9 @@ public class ResXResourceWriter : IResourceWriter
                         alias = GetAliasFromName(new AssemblyName(assemblyName));
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    System.Diagnostics.Trace.Write($"Unexpected exception in AddDataRow: {ex}");
                 }
             }
             else

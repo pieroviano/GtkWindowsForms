@@ -109,8 +109,9 @@ internal static class SystemResources
         {
             text = ResourceManager.GetString(resourceKey);
         }
-        catch
+        catch (Exception ex)
         {
+            System.Diagnostics.Trace.Write($"Unexpected exception in GetResourceString: {ex}");
         }
         if (defaultString != null && resourceKey.Equals(text))
         {

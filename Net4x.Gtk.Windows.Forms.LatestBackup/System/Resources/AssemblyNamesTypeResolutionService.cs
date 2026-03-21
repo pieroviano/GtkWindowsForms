@@ -135,10 +135,10 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
                 {
                     assemblyName = new AssemblyName(fullName);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    System.Diagnostics.Trace.Write($"Unexpected exception in GetType: {ex}");
                 }
-
                 if (assemblyName != null)
                 {
                     var assemblyList = new List<AssemblyName>(_names.Length);

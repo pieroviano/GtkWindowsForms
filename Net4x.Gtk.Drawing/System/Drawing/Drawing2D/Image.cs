@@ -131,23 +131,29 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         {
             SetNativeImage(InitializeFromStream(new MemoryStream(buffer)));
         }
-        catch (ExternalException)
+        catch (ExternalException externalException)
         {
+            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {externalException}");
         }
-        catch (ArgumentException)
+        catch (ArgumentException argumentException)
         {
+            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {argumentException}");
         }
-        catch (OutOfMemoryException)
+        catch (OutOfMemoryException outOfMemoryException)
         {
+            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {outOfMemoryException}");
         }
-        catch (InvalidOperationException)
+        catch (InvalidOperationException invalidOperationException)
         {
+            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {invalidOperationException}");
         }
-        catch (NotImplementedException)
+        catch (NotImplementedException notImplementedException)
         {
+            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {notImplementedException}");
         }
-        catch (FileNotFoundException)
+        catch (FileNotFoundException fileNotFoundException)
         {
+            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {fileNotFoundException}");
         }
     }
 

@@ -1136,7 +1136,10 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.Write($"Unexpected exception in ToolStripItem_Realized: {ex}");
+            }
         }
         menuItem.ShowAll();
 

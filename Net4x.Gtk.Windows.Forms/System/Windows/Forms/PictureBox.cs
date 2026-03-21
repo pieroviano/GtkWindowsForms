@@ -182,7 +182,10 @@ public partial class PictureBox : Control
                 Load(ImageLocation);
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Trace.Write($"Unexpected exception in Load: {ex}");
+        }
     }
 
     /// <summary>
