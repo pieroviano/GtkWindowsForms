@@ -27,5 +27,4 @@ public class DialogEventArgs : EventArgs
     /// The dialog.
     /// </value>
     public Dialog Dialog { get; }
-
 }

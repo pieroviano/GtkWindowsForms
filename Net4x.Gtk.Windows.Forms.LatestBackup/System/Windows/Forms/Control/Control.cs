@@ -523,7 +523,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual AnchorStyles Anchor
     {
         get => _anchor;
-
         set
         {
             _anchor = value;
@@ -547,7 +546,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual bool AutoSize
     {
         get => _autoSize;
-
         set
         {
             _autoSize = value;
@@ -571,7 +569,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             else
                 return Color.FromName("0");
         }
-
         set
         {
             ISelf.Override.BackColor = value;
@@ -614,7 +611,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual BorderStyle BorderStyle
     {
         get { return _BorderStyle; }
-
         set
         {
             _BorderStyle = value;
@@ -778,7 +774,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             return _dock;
         }
-
         set
         {
             _dock = value;
@@ -846,7 +841,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             else
                 return _Font;
         }
-
         set
         {
             _Font = value;
@@ -865,7 +859,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual Color ForeColor
     {
         get { return _ForeColor; }
-
         set { _ForeColor = value; UpdateStyle(); }
     }
 
@@ -907,7 +900,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
             return this.Widget.HeightRequest == -1 ? this.Widget.AllocatedHeight : this.Widget.HeightRequest;
         }
-
         set
         {
             this.Widget.HeightRequest = Math.Max(-1, value);
@@ -989,7 +981,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual int Left
     {
         get => this.Widget.MarginStart;
-
         set
         {
             this.Widget.MarginStart = value;
@@ -1007,7 +998,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             return new Point(Left, Top);
         }
-
         set
         {
             if (LockLocation == false)
@@ -1132,7 +1122,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             return new Size(Width, Height);
         }
-
         set
         {
             _size = value;
@@ -1194,7 +1183,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual int Top
     {
         get => this.Widget.MarginTop;
-
         set
         {
             this.Widget.MarginTop = value;
@@ -1268,7 +1256,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
             return this.Widget.WidthRequest == -1 ? this.Widget.AllocatedWidth : this.Widget.WidthRequest;
         }
-
         set
         {
             this.Widget.WidthRequest = Math.Max(-1, value);
@@ -3683,5 +3670,4 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             LocationChanged?.Invoke(this, EventArgs.Empty);
         }
     }
-
 }

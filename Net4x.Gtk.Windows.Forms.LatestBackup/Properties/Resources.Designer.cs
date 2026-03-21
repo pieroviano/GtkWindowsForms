@@ -457,6 +457,5 @@ set
                 return resourceMan;
             }
         }
-
     }
 }

@@ -31,6 +31,5 @@ public partial class Control
                 return _m;
             }
         }
-
     }
 }

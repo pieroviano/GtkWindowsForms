@@ -72,7 +72,6 @@ public class ImageListImage
     public string Name
     {
         get => _name ?? string.Empty;
-
         set => _name = value;
     }
 
@@ -126,5 +125,4 @@ public class ImageListImage
 
         return new ImageListImage((Bitmap)Image.FromStream(stream));
     }
-
 }

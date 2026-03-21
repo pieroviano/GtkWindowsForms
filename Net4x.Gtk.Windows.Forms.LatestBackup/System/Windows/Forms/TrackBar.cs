@@ -160,5 +160,4 @@ public class TrackBar : Control
         Value = (int)adjustment.Value;
         Scroll?.Invoke(this, e);
     }
-
 }

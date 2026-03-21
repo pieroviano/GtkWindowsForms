@@ -101,7 +101,6 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
     public ColorDepth ColorDepth
     {
         get => _colorDepth;
-
         set
         {
             if (_colorDepth == value)
@@ -157,7 +156,6 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
     public Size ImageSize
     {
         get => _imageSize;
-
         set
         {
 
@@ -180,7 +178,6 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
         {
             return _ImageStream;
         }
-
         set
         {
             _ImageStream = value;

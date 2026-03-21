@@ -57,5 +57,4 @@ public class SplitterCancelEventArgs : CancelEventArgs
         get;
         set;
     }
-
 }

@@ -45,5 +45,4 @@ public class QueryContinueDragEventArgs : EventArgs
     /// Gets a value indicating the current state of the SHIFT, CTRL, and ALT keys.
     /// </summary>
     public int KeyState { get; }
-
 }

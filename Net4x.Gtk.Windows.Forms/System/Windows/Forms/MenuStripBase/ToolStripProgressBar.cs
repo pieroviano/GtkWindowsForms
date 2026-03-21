@@ -97,7 +97,6 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
         {
             return base.Size;
         }
-
         set
         {
             base.Size = value;
@@ -139,7 +138,6 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     public int Value
     {
         get { return (int)Math.Round(progressBar.Value, 0); }
-
         set
         {
             progressBar.Value = value;
@@ -170,5 +168,4 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
         progressBar.MaxValue = Maximum;
         progressBar.MinValue = Minimum;
     }
-
 }

@@ -518,7 +518,6 @@ public partial class CheckedListBox : ContainerControl
             _owner.NativeRemove(index);
             base.RemoveAt(index);
         }
-
     }
 
     /// <summary>

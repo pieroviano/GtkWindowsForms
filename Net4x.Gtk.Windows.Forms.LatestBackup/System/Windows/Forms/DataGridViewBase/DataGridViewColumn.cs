@@ -73,7 +73,6 @@ public class DataGridViewButtonColumn : DataGridViewColumn
             }
         }
     }
-
 }
 
 /// <summary>
@@ -141,7 +140,6 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
             _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
         }
     }
-
 }
 
 /// <summary>
@@ -272,7 +270,6 @@ public class DataGridViewColumn : TreeViewColumn
     public DataGridViewAutoSizeColumnMode AutoSizeMode
     {
         get => _AutoSizeMode;
-
         set
         {
             if (value == DataGridViewAutoSizeColumnMode.None) { _AutoSizeMode = value; base.Resizable = false; base.Sizing = TreeViewColumnSizing.Fixed; } else { base.Resizable = true; base.Sizing = TreeViewColumnSizing.GrowOnly; }
@@ -288,7 +285,6 @@ public class DataGridViewColumn : TreeViewColumn
     public virtual DataGridViewCell CellTemplate
     {
         get => _cellTemplate;
-
         set => _cellTemplate = value;
     }
 
@@ -337,7 +333,6 @@ public class DataGridViewColumn : TreeViewColumn
     public DataGridViewCellStyle DefaultCellStyle
     {
         get => _DefaultCellStyle;
-
         set { _DefaultCellStyle = value; _cellRenderer.ColumnStyle = value; }
     }
 
@@ -475,7 +470,6 @@ public class DataGridViewColumn : TreeViewColumn
     public bool ReadOnly
     {
         get => _ReadOnly;
-
         set
         {
             _ReadOnly = value;
@@ -490,7 +484,6 @@ public class DataGridViewColumn : TreeViewColumn
     public new DataGridViewTriState Resizable
     {
         get { return base.Resizable == true ? DataGridViewTriState.True : DataGridViewTriState.False; }
-
         set { base.Resizable = value == DataGridViewTriState.True; }
     }
 
@@ -527,7 +520,6 @@ public class DataGridViewColumn : TreeViewColumn
     public DataGridViewColumnSortMode SortMode
     {
         get => _SortMode;
-
         set
         {
             _SortMode = value;
@@ -701,7 +693,6 @@ public class DataGridViewColumn : TreeViewColumn
             _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
         }
     }
-
 }
 
 /// <summary>
@@ -826,7 +817,6 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
             foreach (object item in items)
                 Add(item);
         }
-
     }
 }
 
@@ -877,7 +867,6 @@ public class DataGridViewImageColumn : DataGridViewColumn
 
         return newcell;
     }
-
 }
 
 /// <summary>
@@ -919,7 +908,6 @@ public class DataGridViewLinkColumn : DataGridViewColumn
 
         return newcell;
     }
-
 }
 
 /// <summary>
@@ -983,7 +971,6 @@ public class DataGridViewRadioColumn : DataGridViewColumn
             _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
         }
     }
-
 }
 
 /// <summary>
@@ -1014,5 +1001,4 @@ public class DataGridViewTextBoxColumn : DataGridViewColumn
     public DataGridViewTextBoxColumn(DataGridView ownerGridView) : base(ownerGridView, new DataGridViewTextBoxCell())
     {
     }
-
 }

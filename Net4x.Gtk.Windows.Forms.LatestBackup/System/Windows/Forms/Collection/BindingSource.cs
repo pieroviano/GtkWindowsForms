@@ -313,7 +313,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public virtual bool AllowNew
     {
         get => AllowNewInternal(true);
-
         set
         {
             if (_allowNewIsSet && value == _allowNewSetValue)
@@ -440,7 +439,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public string? DataMember
     {
         get => _dataMember;
-
         set
         {
             if (value == null)
@@ -471,7 +469,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public object? DataSource
     {
         get => _dataSource;
-
         set
         {
             if (_dataSource != value)
@@ -499,7 +496,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public virtual string? Filter
     {
         get => _filter;
-
         set
         {
             _filter = value;
@@ -594,7 +590,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public int Position
     {
         get => _currencyManager?.Position ?? 0;
-
         set
         {
             if (_currencyManager != null && _currencyManager.Position != value)
@@ -617,7 +612,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public bool RaiseListChangedEvents
     {
         get => _raiseListChangedEvents;
-
         set => _raiseListChangedEvents = value;
     }
 
@@ -633,7 +627,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     public string? Sort
     {
         get => _sort;
-
         set
         {
             _sort = value;
@@ -833,7 +826,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
             return list.Filter;
         }
-
         set
         {
             if (_initializing || DesignMode)
@@ -870,7 +862,6 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
             return BuildSortString(sortDescriptions);
         }
-
         set
         {
             if (_initializing || DesignMode)
@@ -2371,5 +2362,4 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
         return lists;
     }
-
 }

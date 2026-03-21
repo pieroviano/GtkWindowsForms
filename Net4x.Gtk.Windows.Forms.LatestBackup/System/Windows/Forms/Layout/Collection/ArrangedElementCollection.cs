@@ -233,5 +233,4 @@ public class ArrangedElementCollection : IList
             }
         }
     }
-
 }

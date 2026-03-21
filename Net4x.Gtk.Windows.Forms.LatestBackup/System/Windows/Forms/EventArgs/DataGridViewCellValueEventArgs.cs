@@ -95,5 +95,4 @@ public class DataGridViewCellValueEventArgs : EventArgs
         RowIndex = rowIndex;
         Value = value;
     }
-
 }

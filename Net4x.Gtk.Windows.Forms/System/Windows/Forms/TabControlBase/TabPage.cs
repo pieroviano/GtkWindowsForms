@@ -71,7 +71,6 @@ public class TabPage : ContainerControl
         {
             return DockStyle.Fill;
         }
-
         set { base.Dock = DockStyle.Fill; }
     }
 
@@ -131,7 +130,6 @@ public class TabPage : ContainerControl
         {
             return new Point(0, 0);
         }
-
         set
         {
         }
@@ -146,7 +144,6 @@ public class TabPage : ContainerControl
     public override Padding Padding
     {
         get => base.Padding;
-
         set
         {
             base.Padding = value;
@@ -188,5 +185,4 @@ public class TabPage : ContainerControl
         get { return _tabLabel.Text; }
         set { _tabLabel.Text = value; }
     }
-
 }

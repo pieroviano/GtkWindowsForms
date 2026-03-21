@@ -39,6 +39,5 @@ public partial class ResXResourceReader
 
             return result;
         }
-
     }
 }

@@ -89,5 +89,4 @@ public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

@@ -72,7 +72,6 @@ public class PropertyManager : BindingManagerBase
     public override int Position
     {
         get => 0;
-
         set
         {
         }
@@ -267,5 +266,4 @@ public class PropertyManager : BindingManagerBase
         EndCurrentEdit();
         OnCurrentChanged(EventArgs.Empty);
     }
-
 }

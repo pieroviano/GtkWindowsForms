@@ -32,5 +32,4 @@ public class DataGridViewRowEventArgs : EventArgs
     /// The row.
     /// </value>
     public DataGridViewRow Row { get; }
-
 }

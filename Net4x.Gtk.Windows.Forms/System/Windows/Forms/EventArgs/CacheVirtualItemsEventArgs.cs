@@ -44,5 +44,4 @@ public class CacheVirtualItemsEventArgs : EventArgs
     /// The start index.
     /// </value>
     public int StartIndex { get; }
-
 }

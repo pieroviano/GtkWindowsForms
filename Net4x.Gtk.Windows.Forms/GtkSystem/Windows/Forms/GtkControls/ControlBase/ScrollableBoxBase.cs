@@ -52,7 +52,6 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     public virtual bool AutoScroll
     {
         get => base.VscrollbarPolicy == Gtk.PolicyType.Automatic;
-
         set
         {
             if (value == true)
@@ -191,5 +190,4 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
             Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
         }
     }
-
 }

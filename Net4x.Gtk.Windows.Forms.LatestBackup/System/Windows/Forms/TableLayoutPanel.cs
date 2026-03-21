@@ -76,7 +76,6 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     public TableLayoutPanelCellBorderStyle CellBorderStyle
     {
         get;
-
         set;
     }
 
@@ -91,7 +90,6 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     public int ColumnCount
     {
         get => _ColumnCount;
-
         set
         {
             for (int r = 0; r < _RowCount; r++)
@@ -155,7 +153,6 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     public TableLayoutPanelGrowStyle GrowStyle
     {
         get;
-
         set;
     }
 
@@ -178,7 +175,6 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     public int RowCount
     {
         get => _RowCount;
-
         set
         {
             for (int r = 0; r < value; r++)
@@ -222,7 +218,6 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     public override Size Size
     {
         get => base.Size;
-
         set
         {
             base.Size = value;
@@ -538,5 +533,4 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
             }
         }
     }
-
 }

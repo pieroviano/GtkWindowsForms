@@ -51,8 +51,6 @@ public class RowStyle : TableLayoutStyle
     public float Height
     {
         get;
-
         set;
     }
-
 }

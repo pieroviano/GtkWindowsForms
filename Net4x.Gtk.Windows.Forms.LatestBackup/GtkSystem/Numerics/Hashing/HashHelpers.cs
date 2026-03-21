@@ -12,5 +12,4 @@ internal static class HashHelpers
 
         return ((int)num + h1) ^ h2;
     }
-
 }

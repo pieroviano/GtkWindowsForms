@@ -25,7 +25,6 @@ public sealed partial class ImageList
                 get;
                 set;
             }
-
         }
     }
 }

@@ -33,7 +33,6 @@ public sealed class SaveFileDialog : FileDialog
     public bool CheckWriteAccess
     {
         get => true;
-
         set { }
     }
 
@@ -74,5 +73,4 @@ public sealed class SaveFileDialog : FileDialog
 
         return base.ShowDialog(owner);
     }
-
 }

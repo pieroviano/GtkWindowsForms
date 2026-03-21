@@ -101,7 +101,6 @@ public sealed class ColorMatrix
         {
             return _matrix00;
         }
-
         set
         {
             _matrix00 = value;
@@ -122,7 +121,6 @@ public sealed class ColorMatrix
         {
             return _matrix01;
         }
-
         set
         {
             _matrix01 = value;
@@ -143,7 +141,6 @@ public sealed class ColorMatrix
         {
             return _matrix02;
         }
-
         set
         {
             _matrix02 = value;
@@ -164,7 +161,6 @@ public sealed class ColorMatrix
         {
             return _matrix03;
         }
-
         set
         {
             _matrix03 = value;
@@ -185,7 +181,6 @@ public sealed class ColorMatrix
         {
             return _matrix04;
         }
-
         set
         {
             _matrix04 = value;
@@ -206,7 +201,6 @@ public sealed class ColorMatrix
         {
             return _matrix10;
         }
-
         set
         {
             _matrix10 = value;
@@ -227,7 +221,6 @@ public sealed class ColorMatrix
         {
             return _matrix11;
         }
-
         set
         {
             _matrix11 = value;
@@ -248,7 +241,6 @@ public sealed class ColorMatrix
         {
             return _matrix12;
         }
-
         set
         {
             _matrix12 = value;
@@ -269,7 +261,6 @@ public sealed class ColorMatrix
         {
             return _matrix13;
         }
-
         set
         {
             _matrix13 = value;
@@ -290,7 +281,6 @@ public sealed class ColorMatrix
         {
             return _matrix14;
         }
-
         set
         {
             _matrix14 = value;
@@ -311,7 +301,6 @@ public sealed class ColorMatrix
         {
             return _matrix20;
         }
-
         set
         {
             _matrix20 = value;
@@ -332,7 +321,6 @@ public sealed class ColorMatrix
         {
             return _matrix21;
         }
-
         set
         {
             _matrix21 = value;
@@ -353,7 +341,6 @@ public sealed class ColorMatrix
         {
             return _matrix22;
         }
-
         set
         {
             _matrix22 = value;
@@ -374,7 +361,6 @@ public sealed class ColorMatrix
         {
             return _matrix23;
         }
-
         set
         {
             _matrix23 = value;
@@ -395,7 +381,6 @@ public sealed class ColorMatrix
         {
             return _matrix24;
         }
-
         set
         {
             _matrix24 = value;
@@ -416,7 +401,6 @@ public sealed class ColorMatrix
         {
             return _matrix30;
         }
-
         set
         {
             _matrix30 = value;
@@ -437,7 +421,6 @@ public sealed class ColorMatrix
         {
             return _matrix31;
         }
-
         set
         {
             _matrix31 = value;
@@ -458,7 +441,6 @@ public sealed class ColorMatrix
         {
             return _matrix32;
         }
-
         set
         {
             _matrix32 = value;
@@ -479,7 +461,6 @@ public sealed class ColorMatrix
         {
             return _matrix33;
         }
-
         set
         {
             _matrix33 = value;
@@ -500,7 +481,6 @@ public sealed class ColorMatrix
         {
             return _matrix34;
         }
-
         set
         {
             _matrix34 = value;
@@ -521,7 +501,6 @@ public sealed class ColorMatrix
         {
             return _matrix40;
         }
-
         set
         {
             _matrix40 = value;
@@ -542,7 +521,6 @@ public sealed class ColorMatrix
         {
             return _matrix41;
         }
-
         set
         {
             _matrix41 = value;
@@ -563,7 +541,6 @@ public sealed class ColorMatrix
         {
             return _matrix42;
         }
-
         set
         {
             _matrix42 = value;
@@ -584,7 +561,6 @@ public sealed class ColorMatrix
         {
             return _matrix43;
         }
-
         set
         {
             _matrix43 = value;
@@ -605,7 +581,6 @@ public sealed class ColorMatrix
         {
             return _matrix44;
         }
-
         set
         {
             _matrix44 = value;
@@ -708,5 +683,4 @@ public sealed class ColorMatrix
         _matrix43 = newColorMatrix[4][3];
         _matrix44 = newColorMatrix[4][4];
     }
-
 }

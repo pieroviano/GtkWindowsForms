@@ -157,5 +157,4 @@ public class PaintEventArgs : EventArgs, IDisposable
             oldPal = IntPtr.Zero;
         }
     }
-
 }

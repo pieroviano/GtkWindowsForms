@@ -181,5 +181,4 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     {
         MouseUp?.Invoke(this, e);
     }
-
 }

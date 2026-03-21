@@ -50,5 +50,4 @@ public class DataGridViewRowDividerDoubleClickEventArgs : HandledMouseEventArgs
     /// The index of the row.
     /// </value>
     public int RowIndex { get; }
-
 }

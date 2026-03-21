@@ -58,5 +58,4 @@ public class ItemDragEventArgs : EventArgs
     /// The item.
     /// </value>
     public object Item { get; }
-
 }

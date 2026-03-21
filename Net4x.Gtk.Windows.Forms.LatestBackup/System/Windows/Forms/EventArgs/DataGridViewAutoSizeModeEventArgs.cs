@@ -39,5 +39,4 @@ public class DataGridViewAutoSizeModeEventArgs : EventArgs
     /// </c>.
     /// </value>
     public bool PreviousModeAutoSized { get; }
-
 }

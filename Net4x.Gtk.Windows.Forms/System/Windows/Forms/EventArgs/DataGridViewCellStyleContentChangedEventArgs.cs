@@ -33,5 +33,4 @@ public class DataGridViewCellStyleContentChangedEventArgs : EventArgs
     public DataGridViewCellStyleScopes CellStyleScope => CellStyle.Scope;
 
     internal bool ChangeAffectsPreferredSize { get; }
-
 }

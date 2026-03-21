@@ -59,5 +59,4 @@ public sealed class BoxBase : Gtk.Box, IControlGtk
 
         return base.OnDrawn(cr);
     }
-
 }

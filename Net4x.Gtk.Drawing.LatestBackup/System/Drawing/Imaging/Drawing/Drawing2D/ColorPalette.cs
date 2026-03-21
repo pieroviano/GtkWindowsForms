@@ -76,5 +76,4 @@ public sealed class ColorPalette
 
         return intPtr;
     }
-
 }

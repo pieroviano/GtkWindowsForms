@@ -408,7 +408,6 @@ public sealed class ImageAnimator
             {
                 return _onFrameChangedHandler;
             }
-
             set
             {
                 _onFrameChangedHandler = value;
@@ -495,6 +494,5 @@ public sealed class ImageAnimator
         {
             _onFrameChangedHandler?.Invoke(_image, e);
         }
-
     }
 }

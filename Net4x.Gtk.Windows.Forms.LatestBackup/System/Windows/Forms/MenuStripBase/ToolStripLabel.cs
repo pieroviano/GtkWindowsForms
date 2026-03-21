@@ -85,5 +85,4 @@ public class ToolStripLabel : WidgetToolStrip<Gtk.MenuItem>
     public ToolStripLabel(string text, Image image, EventHandler onClick, string name) : base(null, text, image, onClick, name)
     {
     }
-
 }

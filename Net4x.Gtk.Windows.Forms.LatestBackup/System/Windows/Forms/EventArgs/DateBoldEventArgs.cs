@@ -43,5 +43,4 @@ public class DateBoldEventArgs : EventArgs
     /// The start date.
     /// </value>
     public DateTime StartDate { get; }
-
 }

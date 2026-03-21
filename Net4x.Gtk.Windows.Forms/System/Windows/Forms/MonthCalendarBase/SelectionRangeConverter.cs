@@ -191,5 +191,4 @@ public class SelectionRangeConverter : TypeConverter
     {
         return true;
     }
-
 }

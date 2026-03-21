@@ -67,7 +67,6 @@ public class DataGridViewDataErrorEventArgs : DataGridViewCellCancelEventArgs
     public bool ThrowException
     {
         get => _throwException;
-
         set
         {
             if (value && Exception == null)
@@ -78,5 +77,4 @@ public class DataGridViewDataErrorEventArgs : DataGridViewCellCancelEventArgs
             _throwException = value;
         }
     }
-
 }

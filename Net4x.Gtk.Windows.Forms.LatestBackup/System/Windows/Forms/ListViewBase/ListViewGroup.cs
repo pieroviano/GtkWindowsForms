@@ -84,7 +84,6 @@ public sealed class ListViewGroup : ISerializable
     public ListViewGroupCollapsedState CollapsedState
     {
         get;
-
         set;
     }
 
@@ -97,7 +96,6 @@ public sealed class ListViewGroup : ISerializable
     public string Footer
     {
         get;
-
         set;
     }
 
@@ -110,7 +108,6 @@ public sealed class ListViewGroup : ISerializable
     public HorizontalAlignment FooterAlignment
     {
         get;
-
         set;
     }
 
@@ -123,7 +120,6 @@ public sealed class ListViewGroup : ISerializable
     public string Header
     {
         get;
-
         set;
     }
 
@@ -136,7 +132,6 @@ public sealed class ListViewGroup : ISerializable
     public HorizontalAlignment HeaderAlignment
     {
         get;
-
         set;
     }
 
@@ -180,7 +175,6 @@ public sealed class ListViewGroup : ISerializable
     public string Name
     {
         get;
-
         set;
     }
 
@@ -193,7 +187,6 @@ public sealed class ListViewGroup : ISerializable
     public string Subtitle
     {
         get;
-
         set;
     }
 
@@ -206,7 +199,6 @@ public sealed class ListViewGroup : ISerializable
     public object Tag
     {
         get;
-
         set;
     }
 
@@ -219,7 +211,6 @@ public sealed class ListViewGroup : ISerializable
     public string TaskLink
     {
         get;
-
         set;
     }
 
@@ -232,7 +223,6 @@ public sealed class ListViewGroup : ISerializable
     public int TitleImageIndex
     {
         get;
-
         set;
     }
 
@@ -245,7 +235,6 @@ public sealed class ListViewGroup : ISerializable
     public string TitleImageKey
     {
         get;
-
         set;
     }
 
@@ -277,5 +266,4 @@ public sealed class ListViewGroup : ISerializable
     {
 
     }
-
 }

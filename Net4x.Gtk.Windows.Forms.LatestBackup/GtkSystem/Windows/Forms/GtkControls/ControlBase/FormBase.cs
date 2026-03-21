@@ -80,7 +80,6 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     public bool AutoScroll
     {
         get => ScrollView.VscrollbarPolicy == Gtk.PolicyType.Automatic;
-
         set
         {
             if (value == true)

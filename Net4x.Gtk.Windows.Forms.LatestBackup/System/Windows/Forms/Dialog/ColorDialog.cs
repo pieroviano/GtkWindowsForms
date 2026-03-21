@@ -219,5 +219,4 @@ public class ColorDialog : CommonDialog
 
         return res == -5;
     }
-
 }

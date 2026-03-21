@@ -26,5 +26,4 @@ public class ControlEventArgs : EventArgs
     /// Retrieves the control object stored in this event.
     /// </summary>
     public Control Control { get; }
-
 }

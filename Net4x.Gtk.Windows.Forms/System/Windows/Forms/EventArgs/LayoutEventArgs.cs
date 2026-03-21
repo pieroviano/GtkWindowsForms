@@ -66,5 +66,4 @@ public sealed class LayoutEventArgs : EventArgs
     /// The affected property.
     /// </value>
     public string AffectedProperty { get; }
-
 }

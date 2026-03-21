@@ -27,5 +27,4 @@ public sealed class ListBoxBase : ScrollableBoxBase
         base.AutoScroll = true;
         base.Add(ListBox);
     }
-
 }

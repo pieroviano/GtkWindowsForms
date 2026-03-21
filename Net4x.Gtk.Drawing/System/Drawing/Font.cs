@@ -589,5 +589,4 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// A string that represents this System.Drawing.Font.
     /// </returns>
     public override string ToString() { return "Font"; }
-
 }

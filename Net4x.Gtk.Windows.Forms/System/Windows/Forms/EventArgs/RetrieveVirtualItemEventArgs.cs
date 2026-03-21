@@ -41,5 +41,4 @@ public class RetrieveVirtualItemEventArgs : EventArgs
     /// The index of the item.
     /// </value>
     public int ItemIndex { get; }
-
 }

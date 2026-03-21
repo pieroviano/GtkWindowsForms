@@ -251,5 +251,4 @@ public class ImageConverter : TypeConverter
 
         return null;
     }
-
 }

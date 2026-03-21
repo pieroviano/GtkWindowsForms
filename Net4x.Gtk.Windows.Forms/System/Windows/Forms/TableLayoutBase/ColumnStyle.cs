@@ -51,8 +51,6 @@ public class ColumnStyle : TableLayoutStyle
     public float Width
     {
         get;
-
         set;
     }
-
 }

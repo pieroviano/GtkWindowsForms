@@ -59,5 +59,4 @@ public sealed class FlowLayoutPanelBase : Gtk.FlowBox, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

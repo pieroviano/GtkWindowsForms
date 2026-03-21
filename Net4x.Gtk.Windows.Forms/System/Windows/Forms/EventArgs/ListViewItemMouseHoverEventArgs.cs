@@ -32,5 +32,4 @@ public class ListViewItemMouseHoverEventArgs : EventArgs
     /// The item.
     /// </value>
     public ListViewItem Item { get; }
-
 }

@@ -33,7 +33,6 @@ public class ToolStripSeparator : WidgetToolStrip<Gtk.SeparatorMenuItem>
     public override Size Size
     {
         get => base.Size;
-
         set
         {
             if (value.Width > value.Height)
@@ -54,5 +53,4 @@ public class ToolStripSeparator : WidgetToolStrip<Gtk.SeparatorMenuItem>
         get;
         set;
     }
-
 }

@@ -51,7 +51,6 @@ public partial class SwitchBox : Control
     public bool Checked
     {
         get { return self.Active; }
-
         set
         {
             self.Active = value;
@@ -93,5 +92,4 @@ public partial class SwitchBox : Control
         if (CheckedChanged != null && self.IsVisible)
             CheckedChanged(this, EventArgs.Empty);
     }
-
 }

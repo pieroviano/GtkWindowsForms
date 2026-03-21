@@ -35,7 +35,6 @@ public partial class ComboBox
             {
                 return Item.ToString();
             }
-
         }
     }
 }

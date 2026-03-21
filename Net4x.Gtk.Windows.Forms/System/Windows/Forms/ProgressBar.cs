@@ -150,5 +150,4 @@ public class ProgressBar : Control
         self.MinValue = Minimum;
         self.Value = Value;
     }
-
 }

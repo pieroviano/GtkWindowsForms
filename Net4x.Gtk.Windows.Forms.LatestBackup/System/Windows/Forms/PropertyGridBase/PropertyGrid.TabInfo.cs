@@ -31,6 +31,5 @@ public partial class PropertyGrid
             Scope = this.Scope;
             Button = this.Button;
         }
-
     }
 }

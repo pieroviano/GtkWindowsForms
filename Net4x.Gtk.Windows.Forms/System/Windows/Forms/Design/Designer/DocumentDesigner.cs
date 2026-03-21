@@ -99,5 +99,4 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
     {
         throw new NotImplementedException();
     }
-
 }

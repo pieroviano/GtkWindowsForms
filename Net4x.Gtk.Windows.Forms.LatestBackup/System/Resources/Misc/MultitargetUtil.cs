@@ -57,5 +57,4 @@ internal static class MultitargetUtil
                 || ex is AccessViolationException
                 || ex is Security.SecurityException;
     }
-
 }

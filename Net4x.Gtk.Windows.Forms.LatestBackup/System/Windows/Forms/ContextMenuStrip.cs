@@ -44,5 +44,4 @@ public class ContextMenuStrip : ToolStripDropDownMenu
     /// </c>visible.
     /// </param>
     protected void SetVisibleCore(bool visible) { }
-
 }

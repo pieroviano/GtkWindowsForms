@@ -27,21 +27,18 @@ public abstract class TableLayoutStyle
     public SizeType SizeType
     {
         get;
-
         set;
     }
 
     internal IArrangedElement Owner
     {
         get;
-
         set;
     }
 
     internal float Size
     {
         get;
-
         set;
     }
 
@@ -49,5 +46,4 @@ public abstract class TableLayoutStyle
     {
         this.Size = size;
     }
-
 }

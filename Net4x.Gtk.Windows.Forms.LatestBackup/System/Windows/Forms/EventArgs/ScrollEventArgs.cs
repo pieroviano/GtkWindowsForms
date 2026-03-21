@@ -126,5 +126,4 @@ public class ScrollEventArgs : EventArgs
     /// The type.
     /// </value>
     public ScrollEventType Type { get; }
-
 }

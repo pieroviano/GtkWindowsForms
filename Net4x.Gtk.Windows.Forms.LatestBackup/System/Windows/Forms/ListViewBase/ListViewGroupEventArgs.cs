@@ -39,5 +39,4 @@ public class ListViewGroupEventArgs : EventArgs
             throw new System.NotImplementedException();
         }
     }
-
 }

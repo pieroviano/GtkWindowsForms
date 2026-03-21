@@ -234,5 +234,4 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// </c>.
     /// </value>
     protected bool DefaultAutoToolTip { get; }
-
 }

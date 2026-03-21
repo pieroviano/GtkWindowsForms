@@ -43,5 +43,4 @@ public class DateRangeEventArgs : EventArgs
     /// The start.
     /// </value>
     public DateTime Start { get; }
-
 }

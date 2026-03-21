@@ -30,5 +30,4 @@ public class InvalidateEventArgs : EventArgs
     /// invalidated window area.
     /// </summary>
     public Rectangle InvalidRect { get; }
-
 }

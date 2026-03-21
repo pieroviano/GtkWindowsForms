@@ -125,6 +125,5 @@ set {
                 return resourceMan;
             }
         }
-
     }
 }

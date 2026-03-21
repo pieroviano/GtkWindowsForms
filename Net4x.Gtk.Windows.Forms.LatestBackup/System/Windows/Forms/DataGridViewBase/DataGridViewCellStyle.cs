@@ -251,7 +251,6 @@ public class DataGridViewCellStyle : ICloneable
         {
             return scope;
         }
-
         set
         {
             scope = value;
@@ -329,5 +328,4 @@ public class DataGridViewCellStyle : ICloneable
     {
         throw new NotImplementedException();
     }
-
 }

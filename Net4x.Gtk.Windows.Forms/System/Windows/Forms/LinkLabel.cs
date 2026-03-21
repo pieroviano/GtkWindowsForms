@@ -262,7 +262,6 @@ public partial class LinkLabel : Control
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -558,6 +557,5 @@ public partial class LinkLabel : Control
         {
             throw new NotImplementedException();
         }
-
     }
 }

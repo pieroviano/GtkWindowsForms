@@ -61,5 +61,4 @@ public class ToolStripTextBox : WidgetToolStrip<Gtk.MenuItem>
         get => this.entry.Text;
         set => this.entry.Text = value;
     }
-
 }

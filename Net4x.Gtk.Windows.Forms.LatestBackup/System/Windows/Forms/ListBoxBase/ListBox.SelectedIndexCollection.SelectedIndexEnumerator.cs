@@ -78,7 +78,6 @@ public partial class ListBox
             {
                 _current = -1;
             }
-
         }
     }
 }

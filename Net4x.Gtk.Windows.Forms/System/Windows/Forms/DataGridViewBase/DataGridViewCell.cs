@@ -409,7 +409,6 @@ public abstract class DataGridViewCell
         get;
         set;
     }
-
 }
 
 /// <summary>

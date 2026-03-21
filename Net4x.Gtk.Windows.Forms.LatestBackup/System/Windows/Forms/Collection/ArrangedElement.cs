@@ -58,14 +58,12 @@ internal abstract class ArrangedElement : Component, IArrangedElement
     public Padding Margin
     {
         get;
-
         set;
     }
 
     public virtual Padding Padding
     {
         get;
-
         set;
     }
 
@@ -75,7 +73,6 @@ internal abstract class ArrangedElement : Component, IArrangedElement
         {
             return _parent;
         }
-
         set
         {
             _parent = value;
@@ -93,7 +90,6 @@ internal abstract class ArrangedElement : Component, IArrangedElement
     public virtual bool Visible
     {
         get;
-
         set;
     }
 
@@ -175,5 +171,4 @@ internal abstract class ArrangedElement : Component, IArrangedElement
             OnBoundsChanged(oldBounds, bounds);
         }
     }
-
 }

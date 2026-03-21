@@ -107,5 +107,4 @@ internal class RelatedPropertyManager : PropertyManager
         SetDataSource(GetCurrentOrNull(_parentManager));
         OnCurrentChanged(EventArgs.Empty);
     }
-
 }

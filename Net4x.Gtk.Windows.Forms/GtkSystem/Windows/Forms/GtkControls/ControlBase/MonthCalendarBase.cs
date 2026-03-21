@@ -70,5 +70,4 @@ public sealed class MonthCalendarBase : Gtk.Calendar, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

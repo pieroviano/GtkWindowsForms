@@ -734,7 +734,6 @@ public partial class Control
                 }
             }
         }
-
     }
 
     internal class ArrangedElementWidget : IArrangedElement
@@ -794,6 +793,5 @@ public partial class Control
         {
             throw new NotImplementedException();
         }
-
     }
 }

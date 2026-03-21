@@ -47,7 +47,6 @@ public sealed class WmfPlaceableFileHeader
         {
             return _bboxBottom;
         }
-
         set
         {
             _bboxBottom = value;
@@ -66,7 +65,6 @@ public sealed class WmfPlaceableFileHeader
         {
             return _bboxLeft;
         }
-
         set
         {
             _bboxLeft = value;
@@ -85,7 +83,6 @@ public sealed class WmfPlaceableFileHeader
         {
             return _bboxRight;
         }
-
         set
         {
             _bboxRight = value;
@@ -104,7 +101,6 @@ public sealed class WmfPlaceableFileHeader
         {
             return _bboxTop;
         }
-
         set
         {
             _bboxTop = value;
@@ -125,7 +121,6 @@ public sealed class WmfPlaceableFileHeader
         {
             return _checksum;
         }
-
         set
         {
             _checksum = value;
@@ -144,7 +139,6 @@ public sealed class WmfPlaceableFileHeader
         {
             return _hmf;
         }
-
         set
         {
             _hmf = value;
@@ -163,7 +157,6 @@ public sealed class WmfPlaceableFileHeader
         {
             return _inch;
         }
-
         set
         {
             _inch = value;
@@ -182,7 +175,6 @@ public sealed class WmfPlaceableFileHeader
         {
             return _key;
         }
-
         set
         {
             _key = value;
@@ -201,7 +193,6 @@ public sealed class WmfPlaceableFileHeader
         {
             return _reserved;
         }
-
         set
         {
             _reserved = value;
@@ -212,5 +203,4 @@ public sealed class WmfPlaceableFileHeader
     {
         return ref _key;
     }
-
 }

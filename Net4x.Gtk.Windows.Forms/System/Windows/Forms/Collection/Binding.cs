@@ -392,7 +392,6 @@ public class Binding
     public ControlUpdateMode ControlUpdateMode
     {
         get => _controlUpdateMode;
-
         set
         {
             if (_controlUpdateMode != value)
@@ -429,7 +428,6 @@ public class Binding
     public object? DataSourceNullValue
     {
         get => _dsNullValue;
-
         set
         {
             if (!Equals(_dsNullValue, value))
@@ -464,7 +462,6 @@ public class Binding
     public DataSourceUpdateMode DataSourceUpdateMode
     {
         get => _dataSourceUpdateMode;
-
         set => _dataSourceUpdateMode = value;
     }
 
@@ -483,7 +480,6 @@ public class Binding
     public IFormatProvider? FormatInfo
     {
         get => _formatInfo;
-
         set
         {
             if (ReferenceEquals(_formatInfo, value))
@@ -511,7 +507,6 @@ public class Binding
     public string? FormatString
     {
         get => _formatString;
-
         set
         {
             if (value == null)
@@ -541,7 +536,6 @@ public class Binding
     public bool FormattingEnabled
     {
         get => _formattingEnabled;
-
         set
         {
             if (_formattingEnabled != value)
@@ -582,7 +576,6 @@ public class Binding
     public object? NullValue
     {
         get => _nullValue;
-
         set
         {
             if (!Equals(_nullValue, value))
@@ -1303,5 +1296,4 @@ public class Binding
             e.Cancel = true;
         }
     }
-
 }

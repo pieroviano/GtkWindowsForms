@@ -48,7 +48,6 @@ public class ApplicationContext : IDisposable
     public Form MainForm
     {
         get => _mainForm;
-
         set
         {
             EventHandler onClose = OnMainFormDestroy;
@@ -151,5 +150,4 @@ public class ApplicationContext : IDisposable
             OnMainFormClosed(sender, e);
         }
     }
-
 }

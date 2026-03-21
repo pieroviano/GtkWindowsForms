@@ -305,7 +305,6 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
 
             return _Pixbuf;
         }
-
         set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
     }
 
@@ -323,7 +322,6 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
 
             return _PixbufData;
         }
-
         set { _PixbufData = value; _Pixbuf = new Gdk.Pixbuf((byte[])value.Clone()); }
     }
 
@@ -483,5 +481,4 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
     {
     }
-
 }

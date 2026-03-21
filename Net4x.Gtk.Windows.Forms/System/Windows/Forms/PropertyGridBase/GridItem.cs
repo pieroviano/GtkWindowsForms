@@ -37,7 +37,6 @@ public abstract class GridItem
     public virtual bool Expanded
     {
         get;
-
         set;
     }
 

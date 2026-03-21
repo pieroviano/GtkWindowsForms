@@ -297,5 +297,4 @@ public class ImageFormatConverter : TypeConverter
     {
         return true;
     }
-
 }

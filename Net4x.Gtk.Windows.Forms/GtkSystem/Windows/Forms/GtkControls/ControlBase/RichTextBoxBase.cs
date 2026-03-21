@@ -27,5 +27,4 @@ public sealed class RichTextBoxBase : ScrollableBoxBase
         this.AutoScroll = true;
         this.Add(TextView);
     }
-
 }

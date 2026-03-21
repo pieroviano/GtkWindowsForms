@@ -152,6 +152,5 @@ public partial class PropertyGrid
                     _ownerPropertyGrid._tabs.Count);
             }
         }
-
     }
 }

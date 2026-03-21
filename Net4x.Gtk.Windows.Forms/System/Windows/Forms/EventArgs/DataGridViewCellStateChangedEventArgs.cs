@@ -44,5 +44,4 @@ public class DataGridViewCellStateChangedEventArgs : EventArgs
     /// The state changed.
     /// </value>
     public DataGridViewElementStates StateChanged { get; }
-
 }

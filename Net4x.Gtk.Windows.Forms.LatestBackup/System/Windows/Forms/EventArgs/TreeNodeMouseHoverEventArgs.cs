@@ -32,5 +32,4 @@ public class TreeNodeMouseHoverEventArgs : EventArgs
     /// The node.
     /// </value>
     public TreeNode Node { get; }
-
 }

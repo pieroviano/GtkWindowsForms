@@ -108,5 +108,4 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     {
         throw new NotImplementedException();
     }
-
 }

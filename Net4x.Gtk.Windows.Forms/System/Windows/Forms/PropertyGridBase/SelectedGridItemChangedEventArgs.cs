@@ -33,5 +33,4 @@ public class SelectedGridItemChangedEventArgs : EventArgs
     /// The previously selected GridItem object. This can be null.
     /// </summary>
     public GridItem OldSelection { get; }
-
 }

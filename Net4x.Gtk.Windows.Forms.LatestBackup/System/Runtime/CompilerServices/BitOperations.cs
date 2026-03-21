@@ -143,5 +143,4 @@ internal static class BitOperations
         return RotateRight((uint)value, offset);
 #endif
     }
-
 }

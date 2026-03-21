@@ -49,5 +49,4 @@ public sealed class ViewportBase : Gtk.Viewport, IControlGtk
 
         return base.OnDrawn(cr);
     }
-
 }

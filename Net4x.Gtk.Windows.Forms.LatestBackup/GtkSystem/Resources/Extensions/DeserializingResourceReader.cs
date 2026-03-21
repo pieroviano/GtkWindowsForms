@@ -951,7 +951,6 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         {
             return Type.GetType(typeName);
         }
-
     }
 
     internal sealed class ResourceEnumerator : IDictionaryEnumerator, IEnumerator
@@ -1083,6 +1082,5 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
             _currentIsValid = false;
             _currentName = -1;
         }
-
     }
 }

@@ -100,5 +100,4 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
     {
         return false;
     }
-
 }

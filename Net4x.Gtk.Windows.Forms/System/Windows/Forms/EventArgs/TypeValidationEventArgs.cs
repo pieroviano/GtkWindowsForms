@@ -91,5 +91,4 @@ public class TypeValidationEventArgs : EventArgs
     /// The type of the validating.
     /// </value>
     public Type ValidatingType { get; }
-
 }

@@ -353,7 +353,6 @@ internal sealed partial class PropertyGridView
                 cr.Restore();
             }
         }
-
     }
 
     public class CellRendererProperty : Gtk.CellRendererCombo
@@ -387,7 +386,6 @@ internal sealed partial class PropertyGridView
                     base.Editable = false;
                     base.Weight = value.Level == 0 ? 900 : 200;
                 }
-
             }
 
             get { return _value; }
@@ -495,11 +493,9 @@ internal sealed partial class PropertyGridView
                                     {
                                         pinfo.SetValue(obj, pvalue);
                                     }
-
                                 }
                             }
                         }
-
                     }
                 }
                 catch
@@ -530,6 +526,5 @@ internal sealed partial class PropertyGridView
                 }
             }
         }
-
     }
 }

@@ -20,5 +20,4 @@ internal class DataGridViewCellStyleChangedEventArgs : EventArgs
         get;
         set;
     }
-
 }

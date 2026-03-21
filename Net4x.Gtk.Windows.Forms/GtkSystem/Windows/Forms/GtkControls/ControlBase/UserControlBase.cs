@@ -24,5 +24,4 @@ public sealed class UserControlBase : ScrollableBoxBase
         this.Hexpand = false;
         this.Vexpand = false;
     }
-
 }

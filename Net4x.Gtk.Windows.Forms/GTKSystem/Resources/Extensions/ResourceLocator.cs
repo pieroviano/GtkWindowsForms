@@ -21,7 +21,6 @@ internal struct ResourceLocator
         {
             return _value;
         }
-
         set
         {
             _value = value;
@@ -32,5 +31,4 @@ internal struct ResourceLocator
     {
         return value <= ResourceTypeCode.TimeSpan;
     }
-
 }

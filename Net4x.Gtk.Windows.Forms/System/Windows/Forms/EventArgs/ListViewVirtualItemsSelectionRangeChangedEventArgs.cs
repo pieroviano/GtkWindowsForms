@@ -39,5 +39,4 @@ public class ListViewVirtualItemsSelectionRangeChangedEventArgs : EventArgs
     /// Returns the begining of the range where the selection changed
     /// </summary>
     public int StartIndex { get; }
-
 }

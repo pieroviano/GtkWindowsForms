@@ -257,6 +257,5 @@ public partial class ResXFileRef
 
             return result;
         }
-
     }
 }

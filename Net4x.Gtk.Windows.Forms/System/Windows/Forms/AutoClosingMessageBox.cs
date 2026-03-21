@@ -340,5 +340,4 @@ public class AutoClosingMessageBox : IMessageBox
 
         return invoke();
     }
-
 }

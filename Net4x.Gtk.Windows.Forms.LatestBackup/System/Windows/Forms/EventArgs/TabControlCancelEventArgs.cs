@@ -63,5 +63,4 @@ public class TabControlCancelEventArgs : CancelEventArgs
     /// The index of the tab page.
     /// </value>
     public int TabPageIndex { get; }
-
 }

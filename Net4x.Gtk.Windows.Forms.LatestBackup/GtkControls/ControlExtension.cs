@@ -48,5 +48,4 @@ internal static class ControlExtension
             return 0;
         }
     }
-
 }

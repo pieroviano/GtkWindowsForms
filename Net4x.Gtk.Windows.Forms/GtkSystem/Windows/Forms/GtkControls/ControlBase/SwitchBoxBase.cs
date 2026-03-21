@@ -45,5 +45,4 @@ public sealed class SwitchBoxBase : Gtk.Switch, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

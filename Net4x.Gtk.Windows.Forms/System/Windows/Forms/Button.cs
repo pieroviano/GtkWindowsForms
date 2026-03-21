@@ -81,7 +81,6 @@ public partial class Button : Control
     public System.Drawing.ContentAlignment TextAlign
     {
         get { return textAlign; }
-
         set
         {
             textAlign = value;
@@ -130,7 +129,6 @@ public partial class Button : Control
                 self.Xalign = 1.0f;
                 self.Yalign = 1.0f;
             }
-
         }
     }
 
@@ -146,5 +144,4 @@ public partial class Button : Control
     {
         
     }
-
 }

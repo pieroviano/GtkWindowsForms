@@ -112,7 +112,6 @@ public partial class PrintPreviewControl : Control
     public bool AutoZoom
     {
         get => _autoZoom;
-
         set
         {
             if (_autoZoom != value)
@@ -132,7 +131,6 @@ public partial class PrintPreviewControl : Control
     public int Columns
     {
         get => _columns;
-
         set
         {
             _columns = value;
@@ -149,7 +147,6 @@ public partial class PrintPreviewControl : Control
     public PrintDocument Document
     {
         get => _document;
-
         set
         {
             _document = value;
@@ -180,7 +177,6 @@ public partial class PrintPreviewControl : Control
     public override RightToLeft RightToLeft
     {
         get => base.RightToLeft;
-
         set
         {
             base.RightToLeft = value;
@@ -198,7 +194,6 @@ public partial class PrintPreviewControl : Control
     public int Rows
     {
         get => _rows;
-
         set
         {
             _rows = value;
@@ -221,7 +216,6 @@ public partial class PrintPreviewControl : Control
 
             return value;
         }
-
         set
         {
             var oldValue = StartPage;
@@ -248,7 +242,6 @@ public partial class PrintPreviewControl : Control
     public new bool TabStop
     {
         get => base.TabStop;
-
         set => base.TabStop = value;
     }
 
@@ -264,7 +257,6 @@ public partial class PrintPreviewControl : Control
     public override string Text
     {
         get => base.Text;
-
         set => base.Text = value;
     }
 
@@ -296,7 +288,6 @@ public partial class PrintPreviewControl : Control
     public double Zoom
     {
         get => _zoom;
-
         set
         {
             _autoZoom = false;
@@ -377,5 +368,4 @@ public partial class PrintPreviewControl : Control
             paper.HeightRequest = (int)Math.Round(_document.PageSetup.GetPaperHeight(Unit.Points) * _zoom / 0.75, 0);
         }
     }
-
 }

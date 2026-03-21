@@ -613,7 +613,6 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public object SelectedObject
     {
         get => _selectedObjects is null || _selectedObjects.Length == 0 ? null : _selectedObjects[0];
-
         set => SelectedObjects = value is null ? Array.Empty<object>() : (new object[] { value });
     }
 
@@ -628,7 +627,6 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public object[] SelectedObjects
     {
         get => _selectedObjects is null ? Array.Empty<object>() : (object[])_selectedObjects.Clone();
-
         set
         {
             _selectedObjects = value is null ? Array.Empty<object>() : (object[])value.Clone();
@@ -928,5 +926,4 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     {
         Events[s_selectedGridItemChangedEvent]?.DynamicInvoke(this, e);
     }
-
 }

@@ -50,5 +50,4 @@ public class DataGridViewColumnDividerDoubleClickEventArgs : HandledMouseEventAr
     /// The index of the column.
     /// </value>
     public int ColumnIndex { get; }
-
 }

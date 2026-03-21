@@ -99,7 +99,6 @@ public partial class ListBox
             {
                 return _innerArray![index];
             }
-
             set
             {
                 _innerArray![index] = value;
@@ -375,7 +374,6 @@ public partial class ListBox
                         AddInternal((int)item);
                     }
                 }
-
             }
             finally
             {
@@ -401,6 +399,5 @@ public partial class ListBox
                 _innerArray = newEntries;
             }
         }
-
     }
 }

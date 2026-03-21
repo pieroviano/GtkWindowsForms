@@ -40,5 +40,4 @@ public class TabControlEventArgs : EventArgs
     /// Stores the index to the tabpage that is undergoing the event.
     /// </summary>
     public int TabPageIndex { get; }
-
 }

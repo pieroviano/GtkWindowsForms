@@ -106,5 +106,4 @@ public class TableLayoutRowStyleCollection : TableLayoutStyleCollection
     {
         base.Remove(rowStyle);
     }
-
 }

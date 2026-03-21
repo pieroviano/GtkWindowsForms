@@ -34,5 +34,4 @@ public sealed class PanelBase : ScrollableBoxBase
 
         return base.OnDrawn(cr);
     }
-
 }

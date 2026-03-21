@@ -105,5 +105,4 @@ public partial class RadioButton : Control
         if (CheckedChanged != null && self.IsVisible)
             CheckedChanged(this, e);
     }
-
 }

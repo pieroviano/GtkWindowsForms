@@ -71,7 +71,6 @@ public partial class TabControl : ContainerControl
             else
                 return TabAlignment.Top;
         }
-
         set
         {
             if (value == TabAlignment.Left)
@@ -398,7 +397,6 @@ public partial class TabControl : ContainerControl
                 _owner.self.SetMenuLabelText(item.self, _owner.self.GetTabLabelText(item.self));
             }
         }
-
     }
 
     /// <summary>
@@ -851,6 +849,5 @@ public partial class TabControl : ContainerControl
         {
             throw new NotImplementedException();
         }
-
     }
 }

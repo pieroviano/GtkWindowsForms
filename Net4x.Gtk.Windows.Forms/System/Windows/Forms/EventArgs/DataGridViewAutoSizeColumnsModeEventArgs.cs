@@ -29,5 +29,4 @@ public class DataGridViewAutoSizeColumnsModeEventArgs : EventArgs
     /// The previous modes.
     /// </value>
     public DataGridViewAutoSizeColumnMode[] PreviousModes { get; }
-
 }

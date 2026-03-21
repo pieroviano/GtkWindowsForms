@@ -51,7 +51,6 @@ public class GtkMenuItem : Gtk.MenuItem
         {
             return gtk_image_menu_item_get_always_show_image(base.Handle);
         }
-
         set
         {
             gtk_image_menu_item_set_always_show_image(base.Handle, value);
@@ -71,7 +70,6 @@ public class GtkMenuItem : Gtk.MenuItem
         {
             return GLib.Object.GetObject(gtk_image_menu_item_get_image(base.Handle)) as Gtk.Widget;
         }
-
         set
         {
             gtk_image_menu_item_set_image(base.Handle, value?.Handle ?? IntPtr.Zero);

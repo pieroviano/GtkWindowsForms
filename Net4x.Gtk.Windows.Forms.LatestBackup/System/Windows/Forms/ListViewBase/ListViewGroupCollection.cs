@@ -147,5 +147,4 @@ public class ListViewGroupCollection : List<ListViewGroup>
 
         _listView.NativeGroupAdd(group, -1);
     }
-
 }

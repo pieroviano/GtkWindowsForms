@@ -316,5 +316,4 @@ public class DataGridViewRow
     {
         return Height;
     }
-
 }

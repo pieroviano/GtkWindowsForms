@@ -390,5 +390,4 @@ public class MessageBoxOld
 
         return dia.Run();
     }
-
 }

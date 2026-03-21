@@ -53,7 +53,6 @@ public partial class PrinterSettings : ICloneable
     public bool CanDuplex
     {
         get;
-
         set;
     }
 
@@ -63,7 +62,6 @@ public partial class PrinterSettings : ICloneable
     public bool Collate
     {
         get;
-
         set;
     }
 
@@ -73,7 +71,6 @@ public partial class PrinterSettings : ICloneable
     public short Copies
     {
         get;
-
         set;
     }
 
@@ -88,7 +85,6 @@ public partial class PrinterSettings : ICloneable
     public Duplex Duplex
     {
         get;
-
         set;
     }
 
@@ -98,7 +94,6 @@ public partial class PrinterSettings : ICloneable
     public int FromPage
     {
         get => _fromPage;
-
         set
         {
             _fromPage = value;
@@ -111,7 +106,6 @@ public partial class PrinterSettings : ICloneable
     public static StringCollection InstalledPrinters
     {
         get;
-
         set;
     }
 
@@ -146,7 +140,6 @@ public partial class PrinterSettings : ICloneable
     public int MaximumPage
     {
         get => _maxPage;
-
         set
         {
             _maxPage = value;
@@ -159,7 +152,6 @@ public partial class PrinterSettings : ICloneable
     public int MinimumPage
     {
         get => _minPage;
-
         set
         {
             _minPage = value;
@@ -172,7 +164,6 @@ public partial class PrinterSettings : ICloneable
     public string PrinterName
     {
         get;
-
         set;
     }
 
@@ -182,7 +173,6 @@ public partial class PrinterSettings : ICloneable
     public string PrintFileName
     {
         get;
-
         set;
     }
 
@@ -192,7 +182,6 @@ public partial class PrinterSettings : ICloneable
     public PrintRange PrintRange
     {
         get => _printRange;
-
         set
         {
             _printRange = value;
@@ -214,7 +203,6 @@ public partial class PrinterSettings : ICloneable
     public int ToPage
     {
         get => _toPage;
-
         set
         {
             _toPage = value;

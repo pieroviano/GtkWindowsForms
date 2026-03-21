@@ -48,7 +48,6 @@ public sealed class ImageCodecInfo
         {
             return _clsid;
         }
-
         set
         {
             _clsid = value;
@@ -67,7 +66,6 @@ public sealed class ImageCodecInfo
         {
             return _codecName;
         }
-
         set
         {
             _codecName = value;
@@ -87,7 +85,6 @@ public sealed class ImageCodecInfo
         {
             return _dllName;
         }
-
         set
         {
             _dllName = value;
@@ -106,7 +103,6 @@ public sealed class ImageCodecInfo
         {
             return _filenameExtension;
         }
-
         set
         {
             _filenameExtension = value;
@@ -126,7 +122,6 @@ public sealed class ImageCodecInfo
         {
             return _flags;
         }
-
         set
         {
             _flags = value;
@@ -145,7 +140,6 @@ public sealed class ImageCodecInfo
         {
             return _formatDescription;
         }
-
         set
         {
             _formatDescription = value;
@@ -166,7 +160,6 @@ public sealed class ImageCodecInfo
         {
             return _formatID;
         }
-
         set
         {
             _formatID = value;
@@ -185,7 +178,6 @@ public sealed class ImageCodecInfo
         {
             return _mimeType;
         }
-
         set
         {
             _mimeType = value;
@@ -205,7 +197,6 @@ public sealed class ImageCodecInfo
         {
             return _signatureMasks;
         }
-
         set
         {
             _signatureMasks = value;
@@ -225,7 +216,6 @@ public sealed class ImageCodecInfo
         {
             return _signaturePatterns;
         }
-
         set
         {
             _signaturePatterns = value;
@@ -244,7 +234,6 @@ public sealed class ImageCodecInfo
         {
             return _version;
         }
-
         set
         {
             _version = value;
@@ -289,5 +278,4 @@ public sealed class ImageCodecInfo
 
         return array;
     }
-
 }

@@ -81,5 +81,4 @@ public class OpacityConverter : TypeConverter
     /// An System.Object that represents the converted value.
     /// </returns>
     public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) { return value; }
-
 }

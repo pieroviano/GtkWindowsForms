@@ -57,5 +57,4 @@ public sealed class LayoutBase : Gtk.Layout, IControlGtk
 
         return base.OnDrawn(cr);
     }
-
 }

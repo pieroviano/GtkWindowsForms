@@ -35,5 +35,4 @@ public class ListControlConvertEventArgs : ConvertEventArgs
     /// The list item.
     /// </value>
     public object ListItem { get; }
-
 }

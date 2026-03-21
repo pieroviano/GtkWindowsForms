@@ -29,5 +29,4 @@ public class FormClosedEventArgs : EventArgs
     /// The close reason.
     /// </value>
     public CloseReason CloseReason { get; }
-
 }

@@ -146,5 +146,4 @@ public class DataGridViewSelectedColumnCollection : BaseCollection, IList
     {
         throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
     }
-
 }

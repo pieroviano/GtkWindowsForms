@@ -191,5 +191,4 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
     {
 
     }
-
 }

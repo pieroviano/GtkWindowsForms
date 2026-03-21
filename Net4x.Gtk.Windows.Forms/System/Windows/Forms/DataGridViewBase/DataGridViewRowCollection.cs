@@ -935,5 +935,4 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
             ((DataGridViewRow)items[i]).Index = idx;
         }
     }
-
 }

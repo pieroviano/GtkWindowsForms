@@ -287,5 +287,4 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
         IsFirstDisplayedRow = isFirstDisplayedRow;
         IsLastVisibleRow = isLastVisibleRow;
     }
-
 }

@@ -47,5 +47,4 @@ public sealed class ScrollbarBase<T> : Gtk.Scrollbar, IControlGtk
         get;
         set;
     }
-
 }

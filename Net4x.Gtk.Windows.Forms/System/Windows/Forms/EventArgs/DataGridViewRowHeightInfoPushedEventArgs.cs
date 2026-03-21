@@ -45,5 +45,4 @@ public class DataGridViewRowHeightInfoPushedEventArgs : HandledEventArgs
     /// The index of the row.
     /// </value>
     public int RowIndex { get; }
-
 }

@@ -59,5 +59,4 @@ public class LabelEditEventArgs : EventArgs
     /// <see cref="T:System.Windows.Forms.ListViewItem" />.
     /// </summary>
     public string Label { get; }
-
 }

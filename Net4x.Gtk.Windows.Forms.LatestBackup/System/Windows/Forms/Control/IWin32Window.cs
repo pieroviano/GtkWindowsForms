@@ -24,5 +24,4 @@ public interface IWin32Window
     /// 1
     /// </filterpriority>
     IntPtr Handle { get; }
-
 }

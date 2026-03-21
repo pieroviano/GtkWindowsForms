@@ -103,7 +103,6 @@ public sealed class PrintDialog : CommonDialog
     public PrintDocument Document
     {
         get => _printDocument;
-
         set
         {
             _printDocument = value;
@@ -123,7 +122,6 @@ public sealed class PrintDialog : CommonDialog
     public PrinterSettings PrinterSettings
     {
         get => _printerSettings ??= new PrinterSettings();
-
         set
         {
             if (value != PrinterSettings)
@@ -364,5 +362,4 @@ public sealed class PrintDialog : CommonDialog
     {
         _printDocument?.OnQueryPageSettings(new QueryPageSettingsEventArgs(PageSettings));
     }
-
 }

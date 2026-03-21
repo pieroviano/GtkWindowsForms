@@ -40,5 +40,4 @@ public class DataGridViewCellContextMenuStripNeededEventArgs : DataGridViewCellE
         get;
         set;
     }
-
 }

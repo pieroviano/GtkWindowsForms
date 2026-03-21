@@ -1067,5 +1067,4 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Xor(Region region)
     {
     }
-
 }

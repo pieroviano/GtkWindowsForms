@@ -41,5 +41,4 @@ public class NavigateEventArgs : EventArgs
     /// </c>.
     /// </value>
     public bool Forward { get; }
-
 }

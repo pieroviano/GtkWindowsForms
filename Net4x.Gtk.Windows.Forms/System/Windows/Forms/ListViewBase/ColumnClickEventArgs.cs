@@ -29,5 +29,4 @@ public class ColumnClickEventArgs : EventArgs
     /// The column.
     /// </value>
     public int Column { get; }
-
 }

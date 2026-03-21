@@ -63,5 +63,4 @@ public class DataGridViewCellCancelEventArgs : CancelEventArgs
     /// The index of the row.
     /// </value>
     public int RowIndex { get; }
-
 }

@@ -103,5 +103,4 @@ public class StatusStrip : ToolStrip
         get;
         set;
     }
-
 }

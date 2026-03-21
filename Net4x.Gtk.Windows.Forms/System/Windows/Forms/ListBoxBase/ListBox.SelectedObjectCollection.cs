@@ -368,6 +368,5 @@ public partial class ListBox
         {
             throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
         }
-
     }
 }

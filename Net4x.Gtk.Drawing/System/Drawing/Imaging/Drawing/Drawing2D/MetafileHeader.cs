@@ -337,5 +337,4 @@ public sealed class MetafileHeader
 
         return false;
     }
-
 }

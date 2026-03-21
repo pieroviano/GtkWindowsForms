@@ -98,5 +98,4 @@ internal class ResXSerializationBinder : SerializationBinder
         // Binder couldn't handle it, let the default loader take over.
         return type;
     }
-
 }

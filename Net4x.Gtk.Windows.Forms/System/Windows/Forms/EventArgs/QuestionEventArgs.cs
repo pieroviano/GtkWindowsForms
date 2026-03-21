@@ -49,5 +49,4 @@ public class QuestionEventArgs : EventArgs
         get;
         set;
     }
-
 }

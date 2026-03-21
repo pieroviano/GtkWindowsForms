@@ -77,7 +77,6 @@ public partial class PictureBox : Control
     public override System.Drawing.Image Image
     {
         get { return _image; }
-
         set
         {
             _image = value;
@@ -242,5 +241,4 @@ public partial class PictureBox : Control
             self.Pixbuf = newImagePixbuf;
         }
     }
-
 }

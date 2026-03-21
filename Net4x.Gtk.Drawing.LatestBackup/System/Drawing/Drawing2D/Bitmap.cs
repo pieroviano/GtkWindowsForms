@@ -671,5 +671,4 @@ public sealed class Bitmap : Image
 
         return manifestResourceStream;
     }
-
 }

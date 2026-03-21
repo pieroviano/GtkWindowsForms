@@ -34,5 +34,4 @@ internal static class ResXExtensions
         else
             return value;
     }
-
 }

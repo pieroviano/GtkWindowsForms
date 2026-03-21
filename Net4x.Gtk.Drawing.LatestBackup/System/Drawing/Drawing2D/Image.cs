@@ -73,7 +73,6 @@ public class GtkImageConverter : TypeConverter
     {
         return true;
     }
-
 }
 
 /// <summary>
@@ -248,7 +247,6 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 
             return _Pixbuf;
         }
-
         set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
     }
 
@@ -264,7 +262,6 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 
             return _PixbufData;
         }
-
         set { _PixbufData = value; _Pixbuf = new Gdk.Pixbuf(value); }
     }
 
@@ -326,7 +323,6 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         {
             return _userData;
         }
-
         set
         {
             _userData = value;

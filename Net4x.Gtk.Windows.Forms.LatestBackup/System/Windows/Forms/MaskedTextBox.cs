@@ -207,5 +207,4 @@ public class MaskedTextBox : TextBox
 
         return true;
     }
-
 }

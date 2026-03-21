@@ -56,5 +56,4 @@ public sealed class TabPageBase : ScrollableBoxBase
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

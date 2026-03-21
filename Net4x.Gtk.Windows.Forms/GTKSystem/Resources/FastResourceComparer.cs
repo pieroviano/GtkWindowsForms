@@ -126,5 +126,4 @@ internal sealed class FastResourceComparer : IComparer, IEqualityComparer, IComp
 
         return (int)num;
     }
-
 }

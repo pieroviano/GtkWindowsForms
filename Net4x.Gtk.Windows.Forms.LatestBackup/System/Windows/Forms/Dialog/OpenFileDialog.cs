@@ -138,5 +138,4 @@ public sealed class OpenFileDialog : FileDialog
 
         return base.ShowDialog(owner);
     }
-
 }

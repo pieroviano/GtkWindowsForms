@@ -31,5 +31,4 @@ public class ItemCheckedEventArgs : EventArgs
     /// The item.
     /// </value>
     public ListViewItem Item { get; }
-
 }

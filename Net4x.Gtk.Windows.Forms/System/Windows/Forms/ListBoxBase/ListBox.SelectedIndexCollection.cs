@@ -314,6 +314,5 @@ public partial class ListBox
         {
             throw new NotSupportedException("SR.ListBoxSelectedIndexCollectionIsReadOnly");
         }
-
     }
 }

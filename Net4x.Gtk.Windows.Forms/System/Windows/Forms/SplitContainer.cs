@@ -58,7 +58,6 @@ public partial class SplitContainer : ContainerControl
     public FixedPanel FixedPanel
     {
         get => _fixedPanel;
-
         set
         {
             _fixedPanel = value;
@@ -85,7 +84,6 @@ public partial class SplitContainer : ContainerControl
     public Orientation Orientation
     {
         get { return self.Orientation == Gtk.Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal; }
-
         set
         {
             self.Orientation = value == Orientation.Horizontal ? Gtk.Orientation.Vertical : Gtk.Orientation.Horizontal;
@@ -104,7 +102,6 @@ public partial class SplitContainer : ContainerControl
         {
             return _panel1;
         }
-
         set
         {
             _panel1 = value;
@@ -123,7 +120,6 @@ public partial class SplitContainer : ContainerControl
         {
             return _panel2;
         }
-
         set
         {
             _panel2 = value;
@@ -165,5 +161,4 @@ public partial class SplitContainer : ContainerControl
         get { return _SplitterWidth; }
         set { _SplitterWidth = value; self.WideHandle = value > 2; }
     }
-
 }

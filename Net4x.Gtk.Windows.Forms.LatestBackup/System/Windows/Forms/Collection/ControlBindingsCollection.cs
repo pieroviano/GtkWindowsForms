@@ -340,5 +340,4 @@ public class ControlBindingsCollection : BindingsCollection
         dataBinding.SetBindableComponent(value: null);
         base.RemoveCore(dataBinding);
     }
-
 }

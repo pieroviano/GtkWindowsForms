@@ -46,5 +46,4 @@ public class PropertyValueChangedEventArgs : EventArgs
     /// The old value.
     /// </value>
     public object OldValue { get; }
-
 }

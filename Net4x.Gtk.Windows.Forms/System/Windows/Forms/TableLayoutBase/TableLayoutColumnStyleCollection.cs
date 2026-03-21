@@ -113,5 +113,4 @@ public class TableLayoutColumnStyleCollection : TableLayoutStyleCollection
     {
         base.Remove(columnStyle);
     }
-
 }

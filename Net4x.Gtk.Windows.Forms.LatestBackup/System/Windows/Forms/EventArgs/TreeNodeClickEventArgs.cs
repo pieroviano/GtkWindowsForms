@@ -42,5 +42,4 @@ public class TreeNodeMouseClickEventArgs : MouseEventArgs
     /// The node.
     /// </value>
     public TreeNode Node { get; }
-
 }

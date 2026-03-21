@@ -57,7 +57,6 @@ public partial class RichTextBox : ScrollableControl
         {
             return self.TextView.Buffer.Text.Split([Environment.NewLine], StringSplitOptions.None);
         }
-
         set
         {
             if (value is null || value.Length == 0)
@@ -103,7 +102,6 @@ public partial class RichTextBox : ScrollableControl
 
             return end.Offset - start.Offset;
         }
-
         set
         {
             Select(SelectionStart, value);
@@ -124,7 +122,6 @@ public partial class RichTextBox : ScrollableControl
 
             return start.Offset;
         }
-
         set { Select(value, SelectionLength); }
     }
 
@@ -207,5 +204,4 @@ public partial class RichTextBox : ScrollableControl
             TextChanged(this, e);
         }
     }
-
 }

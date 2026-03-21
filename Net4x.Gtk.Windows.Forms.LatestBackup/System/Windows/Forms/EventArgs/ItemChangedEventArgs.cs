@@ -22,5 +22,4 @@ public class ItemChangedEventArgs : EventArgs
     /// The index.
     /// </value>
     public int Index { get; }
-
 }

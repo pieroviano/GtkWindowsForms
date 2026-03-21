@@ -184,5 +184,4 @@ public class FontDialog : CommonDialog
 
         return res == -5;
     }
-
 }

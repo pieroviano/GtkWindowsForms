@@ -111,7 +111,6 @@ public sealed class PageSetupDialog : CommonDialog
     public PrintDocument Document
     {
         get => _printDocument;
-
         set
         {
             _printDocument = value;
@@ -152,7 +151,6 @@ public sealed class PageSetupDialog : CommonDialog
     public Margins MinMargins
     {
         get => _minMargins;
-
         set => _minMargins = value ?? new Margins(0, 0, 0, 0);
     }
 
@@ -168,7 +166,6 @@ public sealed class PageSetupDialog : CommonDialog
     public PageSettings PageSettings
     {
         get => _pageSettings;
-
         set
         {
             _pageSettings = value;
@@ -188,7 +185,6 @@ public sealed class PageSetupDialog : CommonDialog
     public PrinterSettings PrinterSettings
     {
         get => _printerSettings;
-
         set
         {
             _printerSettings = value;
@@ -278,5 +274,4 @@ public sealed class PageSetupDialog : CommonDialog
             return false;
         }
     }
-
 }

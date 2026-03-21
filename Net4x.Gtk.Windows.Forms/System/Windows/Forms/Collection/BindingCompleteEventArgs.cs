@@ -182,5 +182,4 @@ public class BindingCompleteEventArgs : CancelEventArgs
             throw new System.NotImplementedException();
         }
     }
-
 }

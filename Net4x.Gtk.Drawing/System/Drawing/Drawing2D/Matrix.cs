@@ -826,5 +826,4 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
 
         this.vectorTransformPoints = pts;
     }
-
 }

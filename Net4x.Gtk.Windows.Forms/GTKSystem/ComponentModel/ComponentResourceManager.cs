@@ -87,5 +87,4 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
 
         return temp.GetString(name);
     }
-
 }

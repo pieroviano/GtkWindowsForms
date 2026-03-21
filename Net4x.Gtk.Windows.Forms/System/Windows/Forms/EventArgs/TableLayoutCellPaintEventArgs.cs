@@ -62,5 +62,4 @@ public class TableLayoutCellPaintEventArgs : PaintEventArgs
     /// The row.
     /// </value>
     public int Row { get; }
-
 }

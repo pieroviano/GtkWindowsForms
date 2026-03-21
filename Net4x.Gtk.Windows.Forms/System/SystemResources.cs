@@ -125,5 +125,4 @@ internal static class SystemResources
     {
         return false;
     }
-
 }

@@ -41,5 +41,4 @@ public interface IBindableComponent : IComponent, IDisposable
     /// 1
     /// </filterpriority>
     ControlBindingsCollection DataBindings { get; }
-
 }

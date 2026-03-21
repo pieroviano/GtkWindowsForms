@@ -39,5 +39,4 @@ public class HelpEventArgs : EventArgs
     /// Gets the screen coordinates of the mouse pointer.
     /// </summary>
     public Point MousePos { get; }
-
 }

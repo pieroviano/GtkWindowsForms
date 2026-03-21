@@ -360,5 +360,4 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     {
         CollectionChanged?.Invoke(__owner, e);
     }
-
 }

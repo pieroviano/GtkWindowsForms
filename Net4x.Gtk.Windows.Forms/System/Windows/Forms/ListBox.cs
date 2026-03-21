@@ -146,7 +146,6 @@ public partial class ListBox : ListControl
     public override object DataSource
     {
         get => _DataSource;
-
         set
         {
             _DataSource = value;
@@ -172,7 +171,6 @@ public partial class ListBox : ListControl
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
             throw new System.NotImplementedException();
@@ -379,7 +377,6 @@ public partial class ListBox : ListControl
 
             return index == -1 ? null : _items[SelectedIndex];
         }
-
         set
         {
             ClearSelected();
@@ -422,7 +419,6 @@ public partial class ListBox : ListControl
 
             return index == -1 ? null : _items[SelectedIndex];
         }
-
         set
         {
             ClearSelected();
@@ -444,7 +440,6 @@ public partial class ListBox : ListControl
         {
             return _SelectionMode;
         }
-
         set
         {
             if (value == SelectionMode.None)
@@ -514,7 +509,6 @@ public partial class ListBox : ListControl
                     return ((Gtk.Label)row.Child).Text;
             }
         }
-
         set
         {
             foreach (var row in self.ListBox.Children)
@@ -537,7 +531,6 @@ public partial class ListBox : ListControl
     public int TopIndex
     {
         get => _topIndex;
-
         set
         {
             _topIndex = value;
@@ -610,21 +603,18 @@ public partial class ListBox : ListControl
     private EventHandler _selectedIndexChanged
     {
         get { return ((EventHandler)Events["SelectedIndexChanged"]); }
-
         set { Events["SelectedIndexChanged"] = value; }
     }
 
     private EventHandler _selectedItemChanged
     {
         get { return ((EventHandler)Events["SelectedItemChanged"]); }
-
         set { Events["SelectedItemChanged"] = value; }
     }
 
     private EventHandler _selectedValueChanged
     {
         get { return ((EventHandler)Events["SelectedValueChanged"]); }
-
         set { Events["SelectedValueChanged"] = value; }
     }
 
@@ -1144,6 +1134,5 @@ public partial class ListBox : ListControl
         {
             return DisplayText?.ToString();
         }
-
     }
 }

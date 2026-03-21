@@ -29,5 +29,4 @@ internal class GridCell
         get;
         set;
     }
-
 }

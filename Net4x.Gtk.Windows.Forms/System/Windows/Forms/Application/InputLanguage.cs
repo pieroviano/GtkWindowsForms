@@ -39,14 +39,12 @@ public sealed class InputLanguage
         {
             return new InputLanguage(PangoHelper.ContextGet().Language.Handle);
         }
-
         set
         {
             if (value == null)
             {
                 value = InputLanguage.DefaultInputLanguage;
             }
-
         }
     }
 
@@ -139,5 +137,4 @@ public sealed class InputLanguage
     {
         return "0000000000000000".Substring(0, length - input.Length) + input;
     }
-
 }

@@ -15,5 +15,4 @@ public sealed class CheckedListBoxBase : ScrollableBoxBase
         this.Override.AddClass("CheckedListBox");
         this.BorderWidth = 1;
     }
-
 }

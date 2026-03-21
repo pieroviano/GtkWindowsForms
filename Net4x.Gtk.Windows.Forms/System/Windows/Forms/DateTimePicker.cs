@@ -156,7 +156,6 @@ public partial class DateTimePicker : MaskedTextBox
     public string CustomFormat
     {
         get => _CustomFormat;
-
         set
         {
             _CustomFormat = value;
@@ -173,7 +172,6 @@ public partial class DateTimePicker : MaskedTextBox
     public DateTimePickerFormat Format
     {
         get => _Format;
-
         set
         {
             _Format = value;
@@ -247,7 +245,6 @@ public partial class DateTimePicker : MaskedTextBox
 
             return result;
         }
-
         set
         {
             if (value > MaxDate)
@@ -361,5 +358,4 @@ public partial class DateTimePicker : MaskedTextBox
         this.Value = DateTime.Now;
         popver.Hide();
     }
-
 }

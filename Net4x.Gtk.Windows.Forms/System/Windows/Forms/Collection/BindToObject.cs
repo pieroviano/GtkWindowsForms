@@ -205,5 +205,4 @@ internal class BindToObject
     {
         _bindingManager?.OnCurrentChanged(EventArgs.Empty);
     }
-
 }

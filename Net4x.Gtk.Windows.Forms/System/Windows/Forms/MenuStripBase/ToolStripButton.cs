@@ -166,5 +166,4 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     {
         CheckStateChanged?.Invoke(this, e);
     }
-
 }

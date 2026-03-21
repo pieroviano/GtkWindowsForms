@@ -130,7 +130,6 @@ public class ResourceManager : System.Resources.ResourceManager
         {
             return null;
         }
-
     }
 
     /// <summary>
@@ -168,7 +167,6 @@ public class ResourceManager : System.Resources.ResourceManager
                         fileName = files[0];
                         filebytes = File.ReadAllBytes(files[0]);
                     }
-
                 }
                 if (name.EndsWith(".BackgroundImage"))
                 {
@@ -409,6 +407,5 @@ public class ResourceManager : System.Resources.ResourceManager
             get;
             set;
         }
-
     }
 }

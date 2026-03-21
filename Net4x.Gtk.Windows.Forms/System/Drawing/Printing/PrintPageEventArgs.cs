@@ -83,5 +83,4 @@ public class PrintPageEventArgs : EventArgs
     {
         Graphics = value;
     }
-
 }

@@ -61,5 +61,4 @@ public sealed class TableLayoutPanelBase : ScrollableBoxBase, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

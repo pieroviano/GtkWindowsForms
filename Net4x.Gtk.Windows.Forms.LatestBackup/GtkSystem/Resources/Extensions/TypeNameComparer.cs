@@ -116,5 +116,4 @@ internal sealed class TypeNameComparer : IEqualityComparer<string>
 
         return assemblyQualifiedTypeName;
     }
-
 }

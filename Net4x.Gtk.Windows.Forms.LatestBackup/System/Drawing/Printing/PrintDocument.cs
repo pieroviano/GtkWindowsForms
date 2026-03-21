@@ -96,7 +96,6 @@ public class PrintDocument : Component
     public PageSettings DefaultPageSettings
     {
         get { return _defaultPageSettings; }
-
         set
         {
             _defaultPageSettings = value ?? new PageSettings();
@@ -114,7 +113,6 @@ public class PrintDocument : Component
     public string DocumentName
     {
         get => _documentName;
-
         set => _documentName = value ?? "";
     }
 
@@ -133,7 +131,6 @@ public class PrintDocument : Component
     public bool OriginAtMargins
     {
         get => _originAtMargins;
-
         set => _originAtMargins = value;
     }
 
@@ -146,7 +143,6 @@ public class PrintDocument : Component
     public PageSetup PageSetup
     {
         get => _pageSetup;
-
         set
         {
             _pageSetup = value;
@@ -170,7 +166,6 @@ public class PrintDocument : Component
     public PrinterSettings PrinterSettings
     {
         get => _printerSettings;
-
         set
         {
             value ??= new PrinterSettings();

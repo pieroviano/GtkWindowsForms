@@ -73,7 +73,6 @@ public partial class Label : Control
     public System.Drawing.ContentAlignment TextAlign
     {
         get { return textAlign; }
-
         set
         {
             textAlign = value;
@@ -122,8 +121,6 @@ public partial class Label : Control
                 self.Xalign = 1.0f;
                 self.Yalign = 1.0f;
             }
-
         }
     }
-
 }

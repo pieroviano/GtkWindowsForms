@@ -124,7 +124,6 @@ public partial class TreeView : ScrollableControl
     public bool CheckBoxes
     {
         get => _checkBoxs;
-
         set
         {
             _checkBoxs = value;
@@ -173,7 +172,6 @@ public partial class TreeView : ScrollableControl
     public ImageList ImageList
     {
         get => _imageList;
-
         set
         {
             _imageList = value;
@@ -211,7 +209,6 @@ public partial class TreeView : ScrollableControl
     public string PathSeparator
     {
         get;
-
         set;
     } = "\\";
 
@@ -272,7 +269,6 @@ public partial class TreeView : ScrollableControl
             }
             else { return null; }
         }
-
         set
         {
             if (value == null)
@@ -407,7 +403,6 @@ public partial class TreeView : ScrollableControl
         {
             return root;
         }
-
         set
         {
 
@@ -733,6 +728,5 @@ public partial class TreeView : ScrollableControl
                     this.Pixbuf = _treeView.ImageList.Images[value].Pixbuf;
             }
         }
-
     }
 }

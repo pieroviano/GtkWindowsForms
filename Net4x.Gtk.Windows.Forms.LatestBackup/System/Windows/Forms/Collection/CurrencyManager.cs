@@ -158,7 +158,6 @@ public class CurrencyManager : BindingManagerBase
     public override int Position
     {
         get => ListPosition;
-
         set
         {
             if (ListPosition == -1)
@@ -1071,5 +1070,4 @@ public class CurrencyManager : BindingManagerBase
                 }
         }
     }
-
 }

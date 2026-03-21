@@ -169,5 +169,4 @@ public class ToolStrip : Control
         CheckedChanged?.Invoke(this, e);
         CheckStateChanged?.Invoke(this, e);
     }
-
 }

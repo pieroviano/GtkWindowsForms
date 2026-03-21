@@ -71,5 +71,4 @@ public sealed class TrackBarBase : Gtk.Viewport, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

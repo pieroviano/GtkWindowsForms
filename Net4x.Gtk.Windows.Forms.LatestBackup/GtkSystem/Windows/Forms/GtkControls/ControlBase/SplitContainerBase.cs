@@ -73,5 +73,4 @@ public sealed class SplitContainerBase : Gtk.Paned, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

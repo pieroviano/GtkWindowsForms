@@ -90,5 +90,4 @@ public class GridItemCollection : ICollection
             Array.Copy(_entries, 0, dest, index, _entries.Length);
         }
     }
-
 }

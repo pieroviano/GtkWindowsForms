@@ -162,5 +162,4 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     {
         Scroll?.Invoke(this, e);
     }
-
 }

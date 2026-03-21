@@ -61,5 +61,4 @@ public abstract class TableLayoutStyleCollection : ArrayList
     {
         Owner = owner;
     }
-
 }

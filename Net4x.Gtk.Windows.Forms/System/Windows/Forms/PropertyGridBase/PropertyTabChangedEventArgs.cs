@@ -43,5 +43,4 @@ public class PropertyTabChangedEventArgs : EventArgs
     /// The old tab.
     /// </value>
     public PropertyTab? OldTab { get; }
-
 }

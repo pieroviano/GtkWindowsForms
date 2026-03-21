@@ -97,7 +97,6 @@ public class CellReandererUtility
                 cell.WrapMode = cellstyle.WrapMode == DataGridViewTriState.True ? Pango.WrapMode.WordChar : Pango.WrapMode.Word;
         }
     }
-
 }
 
 /// <summary>
@@ -220,7 +219,6 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
         widget.StyleContext.Restore();
         base.OnRender(cr, widget, new Gdk.Rectangle(background_area.X, background_area.Y, background_area.Width, background_area.Height), new Gdk.Rectangle(cell_area.X, cell_area.Y, cell_area.Width, cell_area.Height), flags);
     }
-
 }
 
 /// <summary>
@@ -305,7 +303,6 @@ public class CellRendererComboValue : CellRendererCombo, ICellRenderer
         get;
         set;
     }
-
 }
 
 /// <summary>
@@ -469,7 +466,6 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
         get;
         set;
     }
-
 }
 
 /// <summary>
@@ -597,7 +593,6 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
         get;
         set;
     }
-
 }
 
 /// <summary>
@@ -685,7 +680,6 @@ public class CellRendererValue : CellRendererText, ICellRenderer
         get;
         set;
     }
-
 }
 
 /// <summary>
@@ -816,5 +810,4 @@ public interface ICellRenderer
         get;
         set;
     }
-
 }

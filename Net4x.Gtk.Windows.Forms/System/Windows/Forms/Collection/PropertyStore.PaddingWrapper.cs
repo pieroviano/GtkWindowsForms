@@ -19,6 +19,5 @@ internal partial class PropertyStore
         {
             Padding = padding;
         }
-
     }
 }

@@ -96,7 +96,6 @@ public partial class ComboBox : ListControl
     public override object DataSource
     {
         get => _DataSource;
-
         set
         {
             _DataSource = value;
@@ -114,7 +113,6 @@ public partial class ComboBox : ListControl
     public ComboBoxStyle DropDownStyle
     {
         get => _DropDownStyle;
-
         set
         {
             _DropDownStyle = value;
@@ -157,7 +155,6 @@ public partial class ComboBox : ListControl
     public object SelectedItem
     {
         get { return SelectedIndex == -1 ? null : __itemsData[SelectedIndex]; }
-
         set { var _index = __itemsData.IndexOf(value); if (_index != -1) { SelectedIndex = _index; } }
     }
 
@@ -191,21 +188,18 @@ public partial class ComboBox : ListControl
     private EventHandler _selectedIndexChanged
     {
         get { return ((EventHandler)Events["SelectedIndexChanged"]); }
-
         set { Events["SelectedIndexChanged"] = value; }
     }
 
     private EventHandler _selectedItemChanged
     {
         get { return ((EventHandler)Events["SelectedItemChanged"]); }
-
         set { Events["SelectedItemChanged"] = value; }
     }
 
     private EventHandler _selectedValueChanged
     {
         get { return ((EventHandler)Events["SelectedValueChanged"]); }
-
         set { Events["SelectedValueChanged"] = value; }
     }
 
@@ -433,5 +427,4 @@ public partial class ComboBox : ListControl
     {
         DropDown?.Invoke(this, e);
     }
-
 }

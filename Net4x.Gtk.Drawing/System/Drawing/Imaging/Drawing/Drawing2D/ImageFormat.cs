@@ -328,5 +328,4 @@ public sealed class ImageFormat
 
         return ".bmp";
     }
-
 }

@@ -314,5 +314,4 @@ internal partial class ItemArray : IComparer<Entry>
 
         return compInfo.Compare(itemName1, itemName2, CompareOptions.StringSort);
     }
-
 }

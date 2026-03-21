@@ -75,5 +75,4 @@ internal class DataGridViewCellLinkedList : IEnumerable
 
         return removedCount;
     }
-
 }

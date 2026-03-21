@@ -153,12 +153,10 @@ public class KeyEventArgs : EventArgs
     public bool SuppressKeyPress
     {
         get => _suppressKeyPress;
-
         set
         {
             _suppressKeyPress = value;
             Handled = value;
         }
     }
-
 }

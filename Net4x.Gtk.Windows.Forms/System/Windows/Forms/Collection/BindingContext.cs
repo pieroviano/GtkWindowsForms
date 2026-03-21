@@ -248,6 +248,5 @@ public class BindingContext : ContextBoundObject
         {
             return dataSourceHashCode * dataMember.GetHashCode();
         }
-
     }
 }

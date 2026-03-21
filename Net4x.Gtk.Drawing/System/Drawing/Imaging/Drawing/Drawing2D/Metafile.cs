@@ -1309,5 +1309,4 @@ public sealed class Metafile : Image
     {
 
     }
-
 }

@@ -157,5 +157,4 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// Sets the displayed items.
     /// </summary>
     protected void SetDisplayedItems() { }
-
 }

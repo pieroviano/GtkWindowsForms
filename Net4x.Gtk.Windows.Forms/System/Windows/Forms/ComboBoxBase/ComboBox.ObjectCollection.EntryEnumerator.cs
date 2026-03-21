@@ -77,7 +77,6 @@ public partial class ComboBox
             {
                 _current = -1;
             }
-
         }
     }
 }

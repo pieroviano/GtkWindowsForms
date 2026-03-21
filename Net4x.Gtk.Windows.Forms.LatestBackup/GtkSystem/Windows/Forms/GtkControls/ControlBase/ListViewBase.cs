@@ -40,5 +40,4 @@ public sealed class ListViewBase : Gtk.Viewport, IControlGtk
         get;
         set;
     }
-
 }

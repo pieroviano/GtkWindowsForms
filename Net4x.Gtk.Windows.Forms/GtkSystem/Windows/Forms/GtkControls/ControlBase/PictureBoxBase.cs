@@ -69,5 +69,4 @@ public sealed class PictureBoxBase : Gtk.Image, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

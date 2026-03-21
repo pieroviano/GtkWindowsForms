@@ -75,5 +75,4 @@ public sealed class TabControlBase : Gtk.Notebook, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

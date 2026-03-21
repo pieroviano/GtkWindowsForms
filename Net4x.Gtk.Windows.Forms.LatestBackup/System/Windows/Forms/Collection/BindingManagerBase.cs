@@ -512,5 +512,4 @@ public abstract class BindingManagerBase
             bi.BindingComplete -= Binding_BindingComplete;
         }
     }
-
 }

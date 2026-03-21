@@ -76,5 +76,4 @@ public class QueryAccessibilityHelpEventArgs : EventArgs
         get;
         set;
     }
-
 }

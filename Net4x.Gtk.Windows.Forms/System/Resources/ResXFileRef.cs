@@ -156,5 +156,4 @@ public partial class ResXFileRef
 
         return string.Concat(relPath.ToString(), path2.Substring(si + 1));
     }
-
 }

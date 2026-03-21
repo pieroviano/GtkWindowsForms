@@ -604,5 +604,4 @@ internal class ListBindingHelper
 
         return false;
     }
-
 }

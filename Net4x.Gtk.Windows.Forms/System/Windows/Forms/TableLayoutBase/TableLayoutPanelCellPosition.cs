@@ -121,5 +121,4 @@ public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosi
     {
         return $"[{this.Column},{this.Row}]";
     }
-
 }

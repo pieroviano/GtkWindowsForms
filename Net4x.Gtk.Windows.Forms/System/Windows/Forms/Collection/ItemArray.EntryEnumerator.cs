@@ -105,6 +105,5 @@ internal partial class ItemArray
 
             _current = -1;
         }
-
     }
 }

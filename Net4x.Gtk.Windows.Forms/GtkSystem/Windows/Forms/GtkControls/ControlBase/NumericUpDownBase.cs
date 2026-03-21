@@ -72,5 +72,4 @@ public sealed class NumericUpDownBase : Gtk.SpinButton, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

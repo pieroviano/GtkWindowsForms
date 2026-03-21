@@ -213,5 +213,4 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
     {
         return assemblyPath != null && (assemblyPath.StartsWith(s_dotNetPath, StringComparison.OrdinalIgnoreCase) || assemblyPath.StartsWith(s_dotNetPathX86, StringComparison.OrdinalIgnoreCase));
     }
-
 }

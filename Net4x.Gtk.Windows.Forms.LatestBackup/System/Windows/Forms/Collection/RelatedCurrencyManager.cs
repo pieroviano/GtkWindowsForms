@@ -168,5 +168,4 @@ internal class RelatedCurrencyManager : CurrencyManager
             }
         }
     }
-
 }

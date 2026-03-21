@@ -67,7 +67,6 @@ public partial class GroupBox : ContainerControl
     public override Padding Padding
     {
         get => base.Padding;
-
         set
         {
             base.Padding = value;
@@ -119,5 +118,4 @@ public partial class GroupBox : ContainerControl
     {
         _Created = false;
     }
-
 }

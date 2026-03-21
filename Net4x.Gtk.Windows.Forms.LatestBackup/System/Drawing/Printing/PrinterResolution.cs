@@ -32,7 +32,6 @@ public partial class PrinterResolution
     public PrinterResolutionKind Kind
     {
         get => _kind;
-
         set
         {
             _kind = value;

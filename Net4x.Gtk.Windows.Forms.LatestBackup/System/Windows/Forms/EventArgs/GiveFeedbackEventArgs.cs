@@ -40,5 +40,4 @@ public class GiveFeedbackEventArgs : EventArgs
         get;
         set;
     }
-
 }

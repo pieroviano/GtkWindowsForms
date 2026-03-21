@@ -33,5 +33,4 @@ public class WebBrowserProgressChangedEventArgs : EventArgs
     /// CurrentProgress/MaximumProgress*100 = progress percentage.
     /// </summary>
     public long MaximumProgress { get; }
-
 }

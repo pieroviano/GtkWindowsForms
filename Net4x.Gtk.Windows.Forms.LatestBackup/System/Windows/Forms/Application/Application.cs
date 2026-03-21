@@ -64,7 +64,6 @@ namespace System.Windows.Forms
             {
                 return Thread.CurrentThread.CurrentCulture;
             }
-
             set
             {
                 Thread.CurrentThread.CurrentCulture = value;
@@ -83,7 +82,6 @@ namespace System.Windows.Forms
             {
                 return InputLanguage.CurrentInputLanguage;
             }
-
             set
             {
                 InputLanguage.CurrentInputLanguage = value;
@@ -447,7 +445,6 @@ namespace System.Windows.Forms
                     setupthemecontent.AppendLine("UseCustomTheme=false");
                     setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_use_custom_style_corresponding_to_custom_style);
                     setupthemecontent.AppendLine("UseCustomStyle=true");
-
                     setupthemecontent.AppendLine().AppendLine("[custom theme]");
                     setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Custom_theme_name);
                     setupthemecontent.AppendLine("Name=mytheme");
@@ -455,7 +452,6 @@ namespace System.Windows.Forms
                     setupthemecontent.AppendLine("ThemeFolder=theme");
                     setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_css_file_path);
                     setupthemecontent.AppendLine("ThemeCssPath=theme/mytheme/theme.css");
-
                     setupthemecontent.AppendLine().AppendLine("[custom style]");
                     setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Freely_defined_style_files);
                     setupthemecontent.AppendLine("StylePath=style.css");
@@ -525,7 +521,6 @@ namespace System.Windows.Forms
         {
             Gtk.Application.Quit();
         }
-
     }
 
     /// <summary>
@@ -540,7 +535,6 @@ namespace System.Windows.Forms
         {
 
         }
-
     }
 }
 /// <summary>
@@ -557,5 +551,4 @@ public sealed class ApplicationConfiguration
         global::System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
         global::System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
     }
-
 }

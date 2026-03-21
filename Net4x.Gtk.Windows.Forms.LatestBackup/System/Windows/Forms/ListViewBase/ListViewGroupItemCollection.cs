@@ -18,5 +18,4 @@ internal class ListViewGroupItemCollection : List<ListViewItem>
             Add(item);
         }
     }
-
 }

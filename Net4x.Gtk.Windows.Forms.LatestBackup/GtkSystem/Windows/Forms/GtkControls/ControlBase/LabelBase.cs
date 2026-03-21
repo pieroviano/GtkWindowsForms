@@ -85,5 +85,4 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

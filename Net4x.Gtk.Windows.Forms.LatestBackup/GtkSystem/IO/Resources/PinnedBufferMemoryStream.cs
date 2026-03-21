@@ -28,5 +28,4 @@ internal sealed class PinnedBufferMemoryStream : UnmanagedMemoryStream
         }
         base.Dispose(disposing);
     }
-
 }

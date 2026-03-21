@@ -109,7 +109,6 @@ public sealed class PathGradientBrush : Brush
     public Blend Blend
     {
         get;
-
         set;
     }
 
@@ -123,7 +122,6 @@ public sealed class PathGradientBrush : Brush
     public Color CenterColor
     {
         get;
-
         set;
     } = Color.Black;
 
@@ -137,7 +135,6 @@ public sealed class PathGradientBrush : Brush
     public PointF CenterPoint
     {
         get;
-
         set;
     }
 
@@ -151,7 +148,6 @@ public sealed class PathGradientBrush : Brush
     public PointF FocusScales
     {
         get;
-
         set;
     }
 
@@ -166,7 +162,6 @@ public sealed class PathGradientBrush : Brush
     public ColorBlend InterpolationColors
     {
         get;
-
         set;
     }
 
@@ -198,7 +193,6 @@ public sealed class PathGradientBrush : Brush
     public Color[] SurroundColors
     {
         get;
-
         set;
     }
 
@@ -215,7 +209,6 @@ public sealed class PathGradientBrush : Brush
     public Matrix Transform
     {
         get;
-
         set;
     }
 
@@ -232,7 +225,6 @@ public sealed class PathGradientBrush : Brush
     public WrapMode WrapMode
     {
         get;
-
         set;
     }
 
@@ -412,5 +404,4 @@ public sealed class PathGradientBrush : Brush
     public void TranslateTransform(float dx, float dy, MatrixOrder order)
     {
     }
-
 }

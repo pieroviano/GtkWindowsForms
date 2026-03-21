@@ -70,7 +70,6 @@ public partial class Panel : ScrollableControl
     public override Padding Padding
     {
         get => base.Padding;
-
         set
         {
             base.Padding = value;
@@ -80,5 +79,4 @@ public partial class Panel : ScrollableControl
             contaner.MarginBottom = value.Bottom;
         }
     }
-
 }

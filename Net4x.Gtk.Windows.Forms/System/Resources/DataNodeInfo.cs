@@ -33,5 +33,4 @@ internal class DataNodeInfo
             ReaderPosition = new Point(ReaderPosition.X, ReaderPosition.Y)
         };
     }
-
 }

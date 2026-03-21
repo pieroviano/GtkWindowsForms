@@ -11,5 +11,4 @@ public sealed class GraphicsContainer : MarshalByRefObject
     internal GraphicsContainer()
     {
     }
-
 }

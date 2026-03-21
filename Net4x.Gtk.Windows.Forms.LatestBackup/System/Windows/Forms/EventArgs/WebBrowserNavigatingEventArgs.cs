@@ -50,5 +50,4 @@ public class WebBrowserNavigatingEventArgs : CancelEventArgs
             return _url;
         }
     }
-
 }

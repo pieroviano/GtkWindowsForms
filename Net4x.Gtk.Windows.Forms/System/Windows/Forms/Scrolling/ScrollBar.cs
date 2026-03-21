@@ -123,5 +123,4 @@ public abstract partial class ScrollBar : Control
         Scroll?.Invoke(this, args);
         _oldValue = newValue;
     }
-
 }

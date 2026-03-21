@@ -39,7 +39,6 @@ public sealed class ColorBlend
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
         }
@@ -57,10 +56,8 @@ public sealed class ColorBlend
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
         }
     }
-
 }

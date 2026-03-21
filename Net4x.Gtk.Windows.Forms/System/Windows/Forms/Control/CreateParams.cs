@@ -129,5 +129,4 @@ public class CreateParams
     {
         return $"CreateParams {{'{ClassName}', '{Caption}', 0x{Style:x}, 0x{ExStyle:x}, {{{X}, {Y}, {Width}, {Height}}}}}";
     }
-
 }

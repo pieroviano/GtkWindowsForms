@@ -57,5 +57,4 @@ public sealed class ToolStripBase : Gtk.MenuBar, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

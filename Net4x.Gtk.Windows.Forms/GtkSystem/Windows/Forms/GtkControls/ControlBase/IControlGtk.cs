@@ -23,5 +23,4 @@ public interface IControlGtk : IDisposable
         get;
         set;
     }
-
 }

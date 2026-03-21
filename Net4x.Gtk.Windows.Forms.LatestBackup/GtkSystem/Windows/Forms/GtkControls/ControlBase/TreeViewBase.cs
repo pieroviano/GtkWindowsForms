@@ -29,5 +29,4 @@ public sealed class TreeViewBase : ScrollableBoxBase
         this.AutoScroll = true;
         this.Add(this.TreeView);
     }
-
 }

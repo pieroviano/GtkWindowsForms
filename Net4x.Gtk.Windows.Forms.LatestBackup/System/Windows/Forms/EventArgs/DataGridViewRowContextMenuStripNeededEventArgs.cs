@@ -54,5 +54,4 @@ public class DataGridViewRowContextMenuStripNeededEventArgs : EventArgs
     /// The index of the row.
     /// </value>
     public int RowIndex { get; }
-
 }

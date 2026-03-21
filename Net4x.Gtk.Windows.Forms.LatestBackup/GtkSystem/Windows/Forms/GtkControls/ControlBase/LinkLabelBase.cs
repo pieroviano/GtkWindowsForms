@@ -60,5 +60,4 @@ public sealed class LinkLabelBase : Gtk.LinkButton, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

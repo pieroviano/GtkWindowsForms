@@ -28,5 +28,4 @@ public sealed class DataGridViewBase : ScrollableBoxBase
         this.AutoScroll = true;
         this.Add(GridView);
     }
-
 }

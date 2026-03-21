@@ -598,5 +598,4 @@ public sealed class ImageAttributes : ICloneable, IDisposable
     {
 
     }
-
 }

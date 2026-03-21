@@ -139,5 +139,4 @@ public class ToolStripStatusLabel : ToolStripLabel
         get;
         set;
     }
-
 }

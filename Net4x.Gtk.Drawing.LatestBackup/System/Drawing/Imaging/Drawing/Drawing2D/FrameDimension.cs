@@ -129,5 +129,4 @@ public sealed class FrameDimension
 
         return $"[FrameDimension: {_guid}]";
     }
-
 }

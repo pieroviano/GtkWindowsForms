@@ -113,5 +113,4 @@ public sealed class HatchBrush : Brush
     {
         return null;
     }
-
 }

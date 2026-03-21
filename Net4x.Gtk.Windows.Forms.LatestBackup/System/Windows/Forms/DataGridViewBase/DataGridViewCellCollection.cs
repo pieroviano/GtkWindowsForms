@@ -453,5 +453,4 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     {
         RemoveAt(index);
     }
-
 }

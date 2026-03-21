@@ -27,5 +27,4 @@ public class ToolStripItemClickedEventArgs : EventArgs
     /// The clicked item.
     /// </value>
     public ToolStripItem ClickedItem { get; }
-
 }

@@ -60,5 +60,4 @@ public class SplitterEventArgs : EventArgs
     /// Gets the y-coordinate of the mouse pointer (in client coordinates).
     /// </summary>
     public int Y { get; }
-
 }

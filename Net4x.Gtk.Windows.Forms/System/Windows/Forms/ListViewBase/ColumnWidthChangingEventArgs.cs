@@ -67,5 +67,4 @@ public class ColumnWidthChangingEventArgs : CancelEventArgs
         get;
         set;
     }
-
 }

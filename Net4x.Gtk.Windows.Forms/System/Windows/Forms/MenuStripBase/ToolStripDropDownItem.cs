@@ -214,5 +214,4 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     {
         DropDownOpening?.Invoke(this, e);
     }
-
 }

@@ -77,5 +77,4 @@ public sealed class ComboBoxBase : Gtk.ComboBoxText, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

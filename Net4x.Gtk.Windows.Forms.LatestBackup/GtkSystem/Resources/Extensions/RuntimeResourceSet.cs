@@ -229,5 +229,4 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
 
         return obj;
     }
-
 }

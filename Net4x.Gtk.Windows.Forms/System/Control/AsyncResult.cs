@@ -46,5 +46,4 @@ public class AsyncResult : IAsyncResult
         get;
         set;
     }
-
 }

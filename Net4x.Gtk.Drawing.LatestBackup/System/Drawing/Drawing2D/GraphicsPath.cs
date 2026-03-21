@@ -150,7 +150,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     public FillMode FillMode
     {
         get;
-
         set;
     }
 
@@ -1962,7 +1961,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2005,7 +2003,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2021,7 +2018,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2055,7 +2051,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2098,7 +2093,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2114,7 +2108,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2139,7 +2132,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2164,7 +2156,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2180,7 +2171,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2205,7 +2195,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2239,7 +2228,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2255,7 +2243,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2271,7 +2258,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2287,7 +2273,6 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -2348,6 +2333,5 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
-
     }
 }

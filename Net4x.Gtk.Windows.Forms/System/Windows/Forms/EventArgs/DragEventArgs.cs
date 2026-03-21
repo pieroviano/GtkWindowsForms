@@ -68,5 +68,4 @@ public class DragEventArgs : EventArgs
     /// Gets the y-coordinate of the mouse pointer.
     /// </summary>
     public int Y { get; }
-
 }

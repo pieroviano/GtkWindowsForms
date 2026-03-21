@@ -78,5 +78,4 @@ public class ListViewItemConverter : ExpandableObjectConverter
     {
         throw new System.NotImplementedException();
     }
-
 }

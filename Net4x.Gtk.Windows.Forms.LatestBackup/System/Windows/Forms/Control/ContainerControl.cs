@@ -38,7 +38,6 @@ public class ContainerControl : ScrollableControl, IContainerControl
 
             return _ActiveControl;
         }
-
         set { ActivateControl(value); }
     }
 
@@ -77,5 +76,4 @@ public class ContainerControl : ScrollableControl, IContainerControl
 
         return false;
     }
-
 }

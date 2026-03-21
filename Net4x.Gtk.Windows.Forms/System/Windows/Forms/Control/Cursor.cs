@@ -118,7 +118,6 @@ public sealed class Cursor : IDisposable, ISerializable
         {
             return new Rectangle(0, 0, 16, 16);
         }
-
         set
         {
 
@@ -131,7 +130,6 @@ public sealed class Cursor : IDisposable, ISerializable
     public static Cursor? Current
     {
         get;
-
         set;
     }
 
@@ -160,7 +158,6 @@ public sealed class Cursor : IDisposable, ISerializable
     public static Point Position
     {
         get;
-
         set;
     }
 
@@ -308,5 +305,4 @@ public sealed class Cursor : IDisposable, ISerializable
     {
 
     }
-
 }

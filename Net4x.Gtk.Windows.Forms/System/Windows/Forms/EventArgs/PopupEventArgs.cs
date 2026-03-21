@@ -50,5 +50,4 @@ public class PopupEventArgs : CancelEventArgs
         get;
         set;
     }
-
 }

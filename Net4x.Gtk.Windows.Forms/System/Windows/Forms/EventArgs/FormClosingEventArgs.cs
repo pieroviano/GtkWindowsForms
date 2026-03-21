@@ -37,5 +37,4 @@ public class FormClosingEventArgs : CancelEventArgs
     /// Provides the reason for the Form close.
     /// </summary>
     public CloseReason CloseReason { get; }
-
 }

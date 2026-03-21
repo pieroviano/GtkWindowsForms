@@ -72,7 +72,6 @@ public struct CharacterRange
         {
             return first;
         }
-
         set
         {
             first = value;
@@ -93,7 +92,6 @@ public struct CharacterRange
         {
             return length;
         }
-
         set
         {
             length = value;
@@ -132,5 +130,4 @@ public struct CharacterRange
     {
         return (first ^ length);
     }
-
 }

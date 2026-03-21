@@ -31,5 +31,4 @@ public class PrintEventArgs : CancelEventArgs
     /// <see cref="T:System.Drawing.Printing.PrintAction" /> is causing this event.
     /// </summary>
     public PrintAction PrintAction { get; }
-
 }

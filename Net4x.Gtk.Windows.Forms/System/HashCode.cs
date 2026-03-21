@@ -396,7 +396,6 @@ internal struct HashCode
         hash = MixFinal(hash);
         return (int)hash;
     }
-
 }
 
 #endif

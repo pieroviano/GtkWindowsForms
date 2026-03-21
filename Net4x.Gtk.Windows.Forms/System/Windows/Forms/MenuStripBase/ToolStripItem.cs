@@ -442,7 +442,6 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     public virtual int Left
     {
         get;
-
         set;
     }
 
@@ -737,7 +736,6 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     public virtual int Top
     {
         get;
-
         set;
     }
 
@@ -922,5 +920,4 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         DropDownItemClicked?.Invoke(this, e);
     }
-
 }

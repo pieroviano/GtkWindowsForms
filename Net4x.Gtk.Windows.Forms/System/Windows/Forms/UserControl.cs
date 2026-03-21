@@ -113,7 +113,6 @@ public partial class UserControl : ContainerControl
     public override Padding Padding
     {
         get => base.Padding;
-
         set
         {
             base.Padding = value;
@@ -198,5 +197,4 @@ public partial class UserControl : ContainerControl
     {
         OnParentChanged(EventArgs.Empty);
     }
-
 }

@@ -24,5 +24,4 @@ public sealed class RegionData
         get;
         set;
     }
-
 }

@@ -38,5 +38,4 @@ public class BindingManagerDataErrorEventArgs : EventArgs
             throw new System.NotImplementedException();
         }
     }
-
 }

@@ -56,5 +56,4 @@ public class LinkLabelLinkClickedEventArgs : EventArgs
     /// The link.
     /// </value>
     public LinkLabel.Link Link { get; }
-
 }

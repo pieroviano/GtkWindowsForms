@@ -29,5 +29,4 @@ public class LinkClickedEventArgs : EventArgs
     /// Gets the text of the link being clicked.
     /// </summary>
     public string LinkText { get; }
-
 }

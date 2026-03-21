@@ -39,7 +39,6 @@ internal sealed class MetafileHeaderEmf
     {
         return ref Unsafe.As<MetafileType, byte>(ref type);
     }
-
 }
 
 internal static class SafeNativeMethods

@@ -29,5 +29,4 @@ public class ContentsResizedEventArgs : EventArgs
     /// <see cref="T:System.Windows.Forms.RichTextBox" /> control.
     /// </summary>
     public Rectangle NewRectangle { get; }
-
 }

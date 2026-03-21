@@ -53,5 +53,4 @@ public sealed class ToolStripDropDownBase : Gtk.Menu, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

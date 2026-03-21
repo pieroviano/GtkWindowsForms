@@ -719,5 +719,4 @@ public class ResXResourceWriter : IResourceWriter
 
         return raw;
     }
-
 }

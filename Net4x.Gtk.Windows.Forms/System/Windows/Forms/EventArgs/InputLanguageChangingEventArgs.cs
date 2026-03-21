@@ -55,5 +55,4 @@ public class InputLanguageChangingEventArgs : CancelEventArgs
     /// required for the requested input language.
     /// </summary>
     public bool SysCharSet { get; }
-
 }

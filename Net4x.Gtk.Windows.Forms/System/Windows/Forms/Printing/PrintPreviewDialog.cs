@@ -59,7 +59,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public IButtonControl AcceptButton
     {
         get;
-
         set;
     }
 
@@ -77,7 +76,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public bool AutoScale
     {
         get;
-
         set;
     }
 
@@ -90,7 +88,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public IButtonControl CancelButton
     {
         get;
-
         set;
     }
 
@@ -108,7 +105,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public bool ControlBox
     {
         get;
-
         set;
     }
 
@@ -121,7 +117,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public PrintDocument Document
     {
         get;
-
         set;
     }
 
@@ -147,7 +142,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public bool HelpButton
     {
         get;
-
         set;
     }
 
@@ -160,7 +154,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public System.Drawing.Icon Icon
     {
         get;
-
         set;
     }
 
@@ -178,7 +171,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public bool IsMdiContainer
     {
         get;
-
         set;
     }
 
@@ -196,7 +188,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public bool KeyPreview
     {
         get;
-
         set;
     }
 
@@ -217,7 +208,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public SizeGripStyle SizeGripStyle
     {
         get;
-
         set;
     }
 
@@ -230,7 +220,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public FormStartPosition StartPosition
     {
         get;
-
         set;
     }
 
@@ -248,7 +237,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public bool TopMost
     {
         get;
-
         set;
     }
 
@@ -266,7 +254,6 @@ public partial class PrintPreviewDialog : ScrollableControl
     public bool UseAntiAlias
     {
         get => PrintPreviewControl.UseAntiAlias;
-
         set => PrintPreviewControl.UseAntiAlias = value;
     }
 
@@ -398,5 +385,4 @@ public partial class PrintPreviewDialog : ScrollableControl
         printDialog.Document.DocumentName = "PrintDoument";
         printDialog.ShowDialog(previewForm);
     }
-
 }

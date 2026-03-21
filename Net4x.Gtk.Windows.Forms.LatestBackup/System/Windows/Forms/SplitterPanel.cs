@@ -89,5 +89,4 @@ public sealed class SplitterPanel : Panel
         get;
         set;
     }
-
 }

@@ -34,5 +34,4 @@ public class WebBrowserDocumentCompletedEventArgs : EventArgs
             return _url;
         }
     }
-
 }

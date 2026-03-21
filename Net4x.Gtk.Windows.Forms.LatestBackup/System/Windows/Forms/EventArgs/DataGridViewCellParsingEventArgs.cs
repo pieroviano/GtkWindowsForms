@@ -85,5 +85,4 @@ public class DataGridViewCellParsingEventArgs : ConvertEventArgs
     /// The index of the row.
     /// </value>
     public int RowIndex { get; }
-
 }

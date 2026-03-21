@@ -200,5 +200,4 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
 
         //return PInvoke.ImageList.Write(handle, stream);
     }
-
 }

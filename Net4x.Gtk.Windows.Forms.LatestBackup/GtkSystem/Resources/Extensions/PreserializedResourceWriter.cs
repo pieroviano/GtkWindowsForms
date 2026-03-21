@@ -936,7 +936,6 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
             TypeName = typeName;
             Data = data;
         }
-
     }
 
     private class ResourceDataRecord
@@ -954,7 +953,6 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
             Data = data;
             CloseAfterWrite = closeAfterWrite;
         }
-
     }
 
     private class StreamWrapper
@@ -969,6 +967,5 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
             Stream = s;
             CloseAfterWrite = closeAfterWrite;
         }
-
     }
 }

@@ -82,7 +82,6 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         {
             return _all ? _top : DataGridViewAdvancedCellBorderStyle.NotSet;
         }
-
         set
         {
 
@@ -106,7 +105,6 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
 
             return _bottom;
         }
-
         set
         {
 
@@ -130,7 +128,6 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
 
             return _left;
         }
-
         set
         {
 
@@ -154,7 +151,6 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
 
             return _right;
         }
-
         set
         {
 
@@ -173,7 +169,6 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
         {
             return _top;
         }
-
         set
         {
 
@@ -277,5 +272,4 @@ public sealed class DataGridViewAdvancedBorderStyle : ICloneable
 
         return dgvabs;
     }
-
 }

@@ -58,7 +58,6 @@ public partial class CheckBox : Control
     public bool Checked
     {
         get { return self.Active; }
-
         set { self.Active = value; if (self.IsRealized) { self.Inconsistent = false; } }
     }
 
@@ -71,7 +70,6 @@ public partial class CheckBox : Control
     public CheckState CheckState
     {
         get { if (self.Inconsistent == true) { return CheckState.Indeterminate; } else { return self.Active ? CheckState.Checked : CheckState.Unchecked; } }
-
         set { self.Inconsistent = value == CheckState.Indeterminate; self.Active = value == CheckState.Checked; }
     }
 
@@ -124,5 +122,4 @@ public partial class CheckBox : Control
         if (CheckStateChanged != null && self.IsVisible)
             CheckStateChanged(this, EventArgs.Empty);
     }
-
 }

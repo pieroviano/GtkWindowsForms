@@ -390,5 +390,4 @@ internal class NonStaticMessageBox : IMessageBox
 
         return dia.Run();
     }
-
 }

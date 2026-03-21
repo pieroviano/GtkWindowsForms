@@ -82,7 +82,6 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
         }
@@ -100,7 +99,6 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
         }
@@ -122,7 +120,6 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
         }
@@ -142,7 +139,6 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
         }
@@ -211,5 +207,4 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     protected virtual void Dispose(bool disposing)
     {
     }
-
 }

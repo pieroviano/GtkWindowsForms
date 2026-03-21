@@ -61,5 +61,4 @@ public class MouseEventArgs : EventArgs
     /// Gets the y-coordinate of a mouse click.
     /// </summary>
     public int Y { get; }
-
 }

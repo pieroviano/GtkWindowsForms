@@ -181,5 +181,4 @@ public class DataGridViewSelectedCellCollection : BaseCollection, IList
     {
         throw new NotSupportedException("SR.DataGridView_ReadOnlyCollection");
     }
-
 }

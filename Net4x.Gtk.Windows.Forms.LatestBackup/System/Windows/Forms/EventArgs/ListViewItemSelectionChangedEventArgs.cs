@@ -33,5 +33,4 @@ public class ListViewItemSelectionChangedEventArgs : EventArgs
     /// The list view item's index
     /// </summary>
     public int ItemIndex { get; }
-
 }

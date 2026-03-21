@@ -31,5 +31,4 @@ public class DataGridViewBindingCompleteEventArgs : EventArgs
     /// The type of the list changed.
     /// </value>
     public ListChangedType ListChangedType { get; }
-
 }

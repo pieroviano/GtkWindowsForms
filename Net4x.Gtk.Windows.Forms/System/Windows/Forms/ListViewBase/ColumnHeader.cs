@@ -160,7 +160,6 @@ public class ColumnHeader : Component, ICloneable
     public string Name
     {
         get;
-
         set;
     }
 
@@ -176,7 +175,6 @@ public class ColumnHeader : Component, ICloneable
     public object Tag
     {
         get;
-
         set;
     }
 
@@ -190,7 +188,6 @@ public class ColumnHeader : Component, ICloneable
     public string Text
     {
         get;
-
         set;
     }
 
@@ -205,7 +202,6 @@ public class ColumnHeader : Component, ICloneable
     public HorizontalAlignment TextAlign
     {
         get;
-
         set;
     }
 
@@ -220,7 +216,6 @@ public class ColumnHeader : Component, ICloneable
     public int Width
     {
         get;
-
         set;
     } = 100;
 
@@ -247,5 +242,4 @@ public class ColumnHeader : Component, ICloneable
     {
 
     }
-
 }

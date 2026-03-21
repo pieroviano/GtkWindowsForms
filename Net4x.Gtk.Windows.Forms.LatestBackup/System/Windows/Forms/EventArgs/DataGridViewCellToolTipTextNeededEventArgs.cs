@@ -26,5 +26,4 @@ public class DataGridViewCellToolTipTextNeededEventArgs : DataGridViewCellEventA
         get;
         set;
     }
-
 }

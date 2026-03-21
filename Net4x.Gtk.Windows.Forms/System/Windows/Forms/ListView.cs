@@ -428,7 +428,6 @@ public class ListView : ContainerControl
     public IComparer ListViewItemSorter
     {
         get;
-
         set;
     }
 
@@ -449,7 +448,6 @@ public class ListView : ContainerControl
         {
             return _MultiSelect;
         }
-
         set
         {
             _MultiSelect = value;
@@ -1097,7 +1095,6 @@ public class ListView : ContainerControl
                             if (img != null)
                                 hBox.PackStart(new Gtk.Image(img.Pixbuf), false, false, 0);
                         }
-
                     }
                     var lab = new Gtk.Label();
                     var attributes = new Pango.AttrList();
@@ -1739,7 +1736,6 @@ public class ListView : ContainerControl
         {
 
         }
-
     }
 
     /// <summary>
@@ -1778,7 +1774,6 @@ public class ListView : ContainerControl
                 return this.Find(w => w.Name == key);
             }
         }
-
     }
 
     /// <summary>
@@ -2278,7 +2273,6 @@ public class ListView : ContainerControl
             base.Remove(column);
             _owner.NativeHeaderRemove(column);
         }
-
     }
 
     /// <summary>
@@ -2685,7 +2679,6 @@ public class ListView : ContainerControl
             base.Add(item);
             _owner.NativeAdd(item, position);
         }
-
     }
 
     /// <summary>

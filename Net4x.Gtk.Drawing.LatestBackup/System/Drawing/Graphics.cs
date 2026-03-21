@@ -61,7 +61,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public Region Clip
     {
         get;
-
         set;
     }
 
@@ -74,7 +73,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             return new RectangleF(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height);
         }
-
     }
 
     /// <summary>
@@ -83,7 +81,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public CompositingMode CompositingMode
     {
         get;
-
         set;
     }
 
@@ -93,7 +90,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public CompositingQuality CompositingQuality
     {
         get;
-
         set;
     }
 
@@ -119,7 +115,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public InterpolationMode InterpolationMode
     {
         get;
-
         set;
     }
 
@@ -132,7 +127,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             return false;
         }
-
     }
 
     /// <summary>
@@ -149,7 +143,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public float PageScale
     {
         get;
-
         set;
     }
 
@@ -159,7 +152,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public GraphicsUnit PageUnit
     {
         get;
-
         set;
     }
 
@@ -169,7 +161,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public PixelOffsetMode PixelOffsetMode
     {
         get;
-
         set;
     }
 
@@ -179,7 +170,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public Point RenderingOrigin
     {
         get;
-
         set;
     }
 
@@ -189,7 +179,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public SmoothingMode SmoothingMode
     {
         get;
-
         set;
     }
 
@@ -203,11 +192,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
         }
-
     }
 
     /// <summary>
@@ -219,11 +206,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
         }
-
     }
 
     /// <summary>
@@ -236,11 +221,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             throw new System.NotImplementedException();
         }
-
         set
         {
         }
-
     }
 
     /// <summary>
@@ -252,7 +235,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             return new RectangleF(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height);
         }
-
     }
 
     internal double diff_left
@@ -1062,7 +1044,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                     {
                         family = pangocontext.FontDescription.Family;
                     }
-
                 }
 
             }
@@ -1077,7 +1058,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             this.context.Restore();
             QueueDraw();
         }
-
     }
 
     /// <summary>
@@ -1591,14 +1571,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             {
                 image.Pixbuf = new Pixbuf(Graphics.simisurface, 0, 0, image.Width, image.Height);
             }
-
         }
 
         finally
         {
             this.widget?.QueueDraw();
         }
-
     }
 
     /// <summary>
@@ -1876,7 +1854,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                 {
                     family = pangocontext.FontDescription.Family;
                 }
-
             }
 
         }
@@ -2176,7 +2153,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             else if (pen.DashStyle == DashStyle.DashDot)
                 this.context.SetDash(new double[] { 6, 2, 6 }, pen.DashOffset);
         }
-
     }
 
     internal void SetTranslateWithDifference(double x, double y)
@@ -2270,7 +2246,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
             this.context.Restore();
         }
-
     }
 
     private void DrawEllipseCore(Pen pen, float x, float y, float width, float height, bool isfill, FillMode fillmode)
@@ -2340,14 +2315,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                     else
                         pattern.Filter = Cairo.Filter.Best;
                 }
-
             }
 
             this.context.Paint();
             this.context.Restore();
             QueueDraw();
         }
-
     }
 
     private void DrawImageUnscaledCore(Image image, int x, int y, int width, int height, bool clipped = false)
@@ -2382,13 +2355,11 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                     else
                         pattern.Filter = Cairo.Filter.Best;
                 }
-
             }
 
             this.context.Paint();
             this.context.Restore();
         }
-
     }
 
     private void DrawLinesCore(Pen pen, PointF[] points)
@@ -2408,7 +2379,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             this.context.Restore();
             QueueDraw();
         }
-
     }
 
     private void DrawPathCore(Pen pen, GraphicsPath path, bool isfill)
@@ -2441,7 +2411,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                 {
                     this.context.LineTo(point.X, point.Y);
                 }
-
             }
 
             else if (o is GraphicsPath.BeziersMode beziers)
@@ -2451,7 +2420,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                 {
                     this.context.LineTo(point.X, point.Y);
                 }
-
             }
 
             else if (o is GraphicsPath.ClosedCurveMode closedcurve)
@@ -2496,7 +2464,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                 {
                     this.context.LineTo(p.X, p.Y);
                 }
-
             }
 
             else if (o is GraphicsPath.PieMode pie)
@@ -2534,7 +2501,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                 {
                     this.context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
                 }
-
             }
 
             else if (o is GraphicsPath.StringMode str)
@@ -2556,7 +2522,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                     {
                         family = pangocontext.FontDescription.Family;
                     }
-
                 }
 
                 this.context.SelectFontFace(family, str.style == 2 ? Cairo.FontSlant.Italic : Cairo.FontSlant.Normal, str.style == 1 ? Cairo.FontWeight.Bold : Cairo.FontWeight.Normal);
@@ -2575,7 +2540,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             {
                 this.context.ClosePath();
             }
-
         }
 
         if (isfill == true)
@@ -2633,7 +2597,6 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                 this.context.Stroke();
             this.context.Restore();
         }
-
     }
 
     private void DrawRectangleCore(bool isfill, Pen pen, float x, float y, float width, float height)

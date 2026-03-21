@@ -67,7 +67,6 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     public virtual bool AutoScroll
     {
         get => _AutoScroll;
-
         set
         {
             _AutoScroll = value;
@@ -110,7 +109,6 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     public override bool AutoSize
     {
         get => base.AutoSize;
-
         set
         {
             base.AutoSize = value;
@@ -162,5 +160,4 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     {
         scrollbase = scrolledwindow;
     }
-
 }

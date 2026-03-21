@@ -48,5 +48,4 @@ internal class ListViewGroupConverter : TypeConverter
     {
         throw new System.NotImplementedException();
     }
-
 }

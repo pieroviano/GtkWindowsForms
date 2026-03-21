@@ -59,5 +59,4 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

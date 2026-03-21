@@ -160,5 +160,4 @@ public abstract class PropertyTab : IExtenderProvider
             _bitmap = null;
         }
     }
-
 }

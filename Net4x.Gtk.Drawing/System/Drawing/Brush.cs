@@ -56,5 +56,4 @@ public abstract class Brush : MarshalByRefObject, ICloneable, IDisposable
     protected virtual void Dispose(bool disposing)
     {
     }
-
 }

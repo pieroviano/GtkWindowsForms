@@ -531,7 +531,6 @@ public abstract class FileDialog : CommonDialog
         {
             return _filter ?? string.Empty;
         }
-
         set
         {
             if (value == _filter)
@@ -785,5 +784,4 @@ public abstract class FileDialog : CommonDialog
 
         return response == -5;
     }
-
 }

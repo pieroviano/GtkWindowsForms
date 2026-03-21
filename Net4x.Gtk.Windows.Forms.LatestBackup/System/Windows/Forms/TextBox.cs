@@ -68,7 +68,6 @@ public partial class TextBox : Control
         {
             return [self.Text];
         }
-
         set
         {
             if (value is null || value.Length == 0)
@@ -168,7 +167,6 @@ public partial class TextBox : Control
 
             return end - start;
         }
-
         set
         {
             Select(SelectionStart, value);
@@ -189,7 +187,6 @@ public partial class TextBox : Control
 
             return start;
         }
-
         set { Select(value, SelectionLength); }
     }
 
@@ -280,5 +277,4 @@ public partial class TextBox : Control
                 KeyDown(this, new KeyEventArgs(key));
         }
     }
-
 }

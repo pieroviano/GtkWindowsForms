@@ -66,5 +66,4 @@ public class InputLanguageCollection : ReadOnlyCollectionBase
     {
         return InnerList.IndexOf(value);
     }
-
 }

@@ -29,5 +29,4 @@ public class UpDownEventArgs : EventArgs
     /// The button identifier.
     /// </value>
     public int ButtonID { get; }
-
 }

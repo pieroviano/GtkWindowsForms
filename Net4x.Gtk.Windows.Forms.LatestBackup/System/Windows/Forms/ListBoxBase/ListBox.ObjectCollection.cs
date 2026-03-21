@@ -498,6 +498,5 @@ public partial class ListBox
 
             return index;
         }
-
     }
 }

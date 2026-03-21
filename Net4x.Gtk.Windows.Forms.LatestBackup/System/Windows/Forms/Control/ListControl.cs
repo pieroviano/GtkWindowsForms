@@ -247,5 +247,4 @@ public abstract class ListControl : ScrollableControl
     {
         ValueMemberChanged?.Invoke(this, e);
     }
-
 }

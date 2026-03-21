@@ -198,6 +198,5 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
             __owner.Clear();
             base.Clear();
         }
-
     }
 }

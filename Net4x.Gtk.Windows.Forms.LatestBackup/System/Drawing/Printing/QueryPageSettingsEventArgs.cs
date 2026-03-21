@@ -28,7 +28,6 @@ public class QueryPageSettingsEventArgs : PrintEventArgs
 
             return _pageSettings;
         }
-
         set
         {
             value ??= new PageSettings();
@@ -48,5 +47,4 @@ public class QueryPageSettingsEventArgs : PrintEventArgs
         get;
         set;
     }
-
 }

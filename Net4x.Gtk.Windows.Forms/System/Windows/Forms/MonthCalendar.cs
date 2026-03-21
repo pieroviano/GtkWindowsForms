@@ -155,7 +155,6 @@ public partial class MonthCalendar : Control
     public DateTime TodayDate
     {
         get { return self.Date; }
-
         set { self.Date = value; }
     }
 
@@ -183,5 +182,4 @@ public partial class MonthCalendar : Control
         if (DateSelected != null && self.IsVisible)
             DateSelected(this, new DateRangeEventArgs(SelectionRange.Start, SelectionRange.End));
     }
-
 }

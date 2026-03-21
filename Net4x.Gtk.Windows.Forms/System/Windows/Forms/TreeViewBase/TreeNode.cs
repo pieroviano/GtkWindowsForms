@@ -140,7 +140,6 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
                 return this.TreeView.GetNodeChecked(this);
             }
         }
-
         set { _IsChecked = value; TreeView?.NativeNodeChecked(this, value); }
     }
 
@@ -159,7 +158,6 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
 
             return string.Join("/", paths);
         }
-
         set { }
     }
 
@@ -172,7 +170,6 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     public int ImageIndex
     {
         get => _imageIndex;
-
         set { _imageIndex = value; TreeView?.NativeNodeImage(this, value); }
     }
 
@@ -185,7 +182,6 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     public string ImageKey
     {
         get => _imageKey;
-
         set { _imageKey = value; TreeView?.NativeNodeImage(this, value); }
     }
 
@@ -242,7 +238,6 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
                 return this.TreeView.GetNodeSelected(this);
             }
         }
-
         set
         {
             _IsSelected = value;
@@ -377,7 +372,6 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     public string Text
     {
         get => _text;
-
         set
         {
             _text = value;
@@ -504,5 +498,4 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
             GetFullPath(node.Parent, paths);
         }
     }
-
 }

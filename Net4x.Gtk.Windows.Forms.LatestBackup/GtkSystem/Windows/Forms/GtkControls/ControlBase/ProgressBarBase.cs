@@ -70,5 +70,4 @@ public sealed class ProgressBarBase : Gtk.LevelBar, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

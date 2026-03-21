@@ -868,7 +868,6 @@ public partial class DataGridView : ScrollableControl
     public object DataSource
     {
         get { return _DataSource; }
-
         set
         {
             _DataSource = value;
@@ -914,7 +913,6 @@ public partial class DataGridView : ScrollableControl
     public bool MultiSelect
     {
         get => _MultiSelect;
-
         set
         {
             _MultiSelect = value;
@@ -980,7 +978,6 @@ public partial class DataGridView : ScrollableControl
     public DataGridViewRow RowTemplate
     {
         get { return _RowTemplate ??= new DataGridViewRow(); }
-
         set { _RowTemplate = value; }
     }
 
@@ -1110,7 +1107,6 @@ public partial class DataGridView : ScrollableControl
     public DataGridViewSelectionMode SelectionMode
     {
         get => _SelectionMode;
-
         set
         {
             _SelectionMode = value;
@@ -1136,7 +1132,6 @@ public partial class DataGridView : ScrollableControl
                         break;
                     }
             }
-
         }
     }
 
@@ -2315,5 +2310,4 @@ public partial class DataGridView : ScrollableControl
         if (SelectionChanged != null && Created)
             SelectionChanged(this, e);
     }
-
 }

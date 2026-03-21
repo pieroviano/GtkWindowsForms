@@ -42,7 +42,6 @@ public sealed class FolderBrowserDialog : FileDialog
     public string SelectedPath
     {
         get => SelectedDirectory;
-
         set => SelectedDirectory = value;
     }
 
@@ -120,5 +119,4 @@ public sealed class FolderBrowserDialog : FileDialog
 
         return base.ShowDialog(owner);
     }
-
 }

@@ -55,5 +55,4 @@ public class ColumnReorderedEventArgs : CancelEventArgs
     /// The old index of the display.
     /// </value>
     public int OldDisplayIndex { get; }
-
 }

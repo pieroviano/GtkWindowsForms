@@ -287,5 +287,4 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
             AddMemu(toolStripItems[i]);
         }
     }
-
 }

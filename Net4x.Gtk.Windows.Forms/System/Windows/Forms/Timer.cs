@@ -154,5 +154,4 @@ public class Timer : Component
         if (Tick != null)
             Gtk.Application.Invoke(Tick);
     }
-
 }

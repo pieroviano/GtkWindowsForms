@@ -406,5 +406,4 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
         PaintParts = paintParts;
         Handled = false;
     }
-
 }

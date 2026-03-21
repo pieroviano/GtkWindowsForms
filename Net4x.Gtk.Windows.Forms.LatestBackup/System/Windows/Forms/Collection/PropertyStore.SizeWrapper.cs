@@ -15,6 +15,5 @@ internal partial class PropertyStore
         {
             Size = size;
         }
-
     }
 }

@@ -48,7 +48,6 @@ public sealed class EncoderParameters : IDisposable
         {
             return _param;
         }
-
         set
         {
             _param = value;
@@ -82,5 +81,4 @@ public sealed class EncoderParameters : IDisposable
 
         return IntPtr.Zero;
     }
-
 }

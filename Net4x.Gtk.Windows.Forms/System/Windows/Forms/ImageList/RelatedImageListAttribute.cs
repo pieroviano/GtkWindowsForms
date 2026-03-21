@@ -37,5 +37,4 @@ public sealed class RelatedImageListAttribute : Attribute
             return _relatedImageList;
         }
     }
-
 }

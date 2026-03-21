@@ -40,5 +40,4 @@ public class DataGridViewColumnEventArgs : EventArgs
     /// The column.
     /// </value>
     public DataGridViewColumn Column { get; }
-
 }

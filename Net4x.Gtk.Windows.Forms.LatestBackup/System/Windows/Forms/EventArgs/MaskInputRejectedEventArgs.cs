@@ -43,5 +43,4 @@ public class MaskInputRejectedEventArgs : EventArgs
     /// The rejection hint.
     /// </value>
     public MaskedTextResultHint RejectionHint { get; }
-
 }

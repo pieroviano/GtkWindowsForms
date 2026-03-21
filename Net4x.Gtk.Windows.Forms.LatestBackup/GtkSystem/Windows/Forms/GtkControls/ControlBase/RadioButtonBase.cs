@@ -85,5 +85,4 @@ public sealed class RadioButtonBase : Gtk.RadioButton, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

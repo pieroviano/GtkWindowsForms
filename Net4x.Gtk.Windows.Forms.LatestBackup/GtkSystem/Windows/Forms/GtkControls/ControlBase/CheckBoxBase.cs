@@ -43,5 +43,4 @@ public sealed class CheckBoxBase : Gtk.CheckButton, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

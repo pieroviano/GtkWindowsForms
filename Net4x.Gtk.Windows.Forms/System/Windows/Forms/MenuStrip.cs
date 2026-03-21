@@ -23,5 +23,4 @@ public partial class MenuStrip : ToolStrip
         this.self.StyleContext.AddClass("MenuStrip");
         this.Dock = DockStyle.Top;
     }
-
 }

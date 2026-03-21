@@ -53,5 +53,4 @@ public class InputLanguageChangedEventArgs : EventArgs
     /// Gets the input language.
     /// </summary>
     public InputLanguage InputLanguage { get; }
-
 }

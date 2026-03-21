@@ -29,5 +29,4 @@ public class ColumnWidthChangedEventArgs : EventArgs
     /// The index of the column.
     /// </value>
     public int ColumnIndex { get; }
-
 }

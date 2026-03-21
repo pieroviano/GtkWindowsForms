@@ -70,5 +70,4 @@ public sealed class TextBoxBase : Gtk.Entry, IControlGtk
         Override.OnAddClass();
         base.OnShown();
     }
-
 }

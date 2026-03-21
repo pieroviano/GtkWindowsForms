@@ -231,7 +231,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
                 itemBox.PackStart(label, false, false, 0);
                 this.MenuItem.Add(itemBox);
             }
-
         }
         Created = true;
 
@@ -398,7 +397,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
             else
                 return _Font;
         }
-
         set { _Font = value; UpdateStyle(); }
     }
 
@@ -448,7 +446,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     public override System.Drawing.Image Image
     {
         get => base.Image;
-
         set
         {
             base.Image = value;
@@ -536,7 +533,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     public override int Left
     {
         get;
-
         set;
     }
 
@@ -734,7 +730,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
         {
             return new Size(this.Widget.WidthRequest, this.Widget.HeightRequest);
         }
-
         set
         {
             this.Widget.SetSizeRequest(value.Width, value.Height);
@@ -790,7 +785,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
 
             return this.label.Text;
         }
-
         set { this.label.Text = value; this.button.Label = value; }
     }
 
@@ -851,7 +845,6 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     public override int Top
     {
         get;
-
         set;
     }
 
@@ -1148,5 +1141,4 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
         menuItem.ShowAll();
 
     }
-
 }

@@ -82,5 +82,4 @@ public class DataGridViewCellMouseEventArgs : MouseEventArgs
     /// The index of the row.
     /// </value>
     public int RowIndex { get; }
-
 }

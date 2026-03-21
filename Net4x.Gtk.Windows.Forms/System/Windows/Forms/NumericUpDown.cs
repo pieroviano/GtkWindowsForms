@@ -63,7 +63,6 @@ public partial class NumericUpDown : Control
     public decimal Increment
     {
         get => Convert.ToDecimal(self.Adjustment.StepIncrement);
-
         set => self.Adjustment.StepIncrement = Convert.ToDouble(value);
     }
 
@@ -116,5 +115,4 @@ public partial class NumericUpDown : Control
         if (ValueChanged != null && self.IsVisible)
             ValueChanged(this, e);
     }
-
 }

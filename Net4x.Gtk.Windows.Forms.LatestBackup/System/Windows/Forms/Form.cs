@@ -125,7 +125,6 @@ public partial class Form : ContainerControl, IWin32Window
         {
             return new Size(self.AllocatedWidth, self.AllocatedHeight);
         }
-
         set
         {
             self.WidthRequest = -1;
@@ -154,7 +153,6 @@ public partial class Form : ContainerControl, IWin32Window
     public FormBorderStyle FormBorderStyle
     {
         get { return formBorderStyle; }
-
         set
         {
             formBorderStyle = value;
@@ -242,7 +240,6 @@ public partial class Form : ContainerControl, IWin32Window
     public override Padding Padding
     {
         get => base.Padding;
-
         set
         {
             base.Padding = value;
@@ -299,7 +296,6 @@ public partial class Form : ContainerControl, IWin32Window
         {
             return _WindowState;
         }
-
         set
         {
             _WindowState = value;
@@ -471,7 +467,6 @@ public partial class Form : ContainerControl, IWin32Window
                     {
                         self.Icon = new Gdk.Pixbuf(this.GetType().Assembly, "Resources.System.view-more.png");
                     }
-
                 }
                 catch
                 {
@@ -708,6 +703,5 @@ public partial class Form : ContainerControl, IWin32Window
         {
             __owner = owner;
         }
-
     }
 }
