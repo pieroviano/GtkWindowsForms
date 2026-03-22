@@ -2,7 +2,7 @@
 
 namespace Prepare.Tests;
 
-public class TopLevelTypeSplitterTests
+public class TypeSplitterTests
 {
     [Fact]
     public void Split_Should_Return_Single_File_When_Only_One_Type()
@@ -13,7 +13,7 @@ public class TopLevelTypeSplitterTests
                    }
                    """;
 
-        var result = TopLevelTypeSplitter.Split(code);
+        var result = TypeSplitter.Split(code);
 
         Assert.Single(result);
         Assert.True(result.ContainsKey("A.cs"));
@@ -27,7 +27,7 @@ public class TopLevelTypeSplitterTests
                    public class B { }
                    """;
 
-        var result = TopLevelTypeSplitter.Split(code);
+        var result = TypeSplitter.Split(code);
 
         Assert.Equal(2, result.Count);
         Assert.Contains("A.cs", result.Keys);
@@ -44,7 +44,7 @@ public class TopLevelTypeSplitterTests
                    public class B { }
                    """;
 
-        var result = TopLevelTypeSplitter.Split(code);
+        var result = TypeSplitter.Split(code);
 
         Assert.Contains("using System;", result["A.cs"]);
         Assert.Contains("using System;", result["B.cs"]);
@@ -61,7 +61,7 @@ public class TopLevelTypeSplitterTests
                    }
                    """;
 
-        var result = TopLevelTypeSplitter.Split(code);
+        var result = TypeSplitter.Split(code);
 
         Assert.Equal(2, result.Count);
         Assert.Contains("namespace TestNamespace", result["A.cs"]);
@@ -78,7 +78,7 @@ public class TopLevelTypeSplitterTests
                    public class B { }
                    """;
 
-        var result = TopLevelTypeSplitter.Split(code);
+        var result = TypeSplitter.Split(code);
 
         Assert.Equal(2, result.Count);
         Assert.Contains("namespace TestNamespace;", result["A.cs"]);
@@ -96,7 +96,7 @@ public class TopLevelTypeSplitterTests
                    // some comment
                    """;
 
-        var result = TopLevelTypeSplitter.Split(code);
+        var result = TypeSplitter.Split(code);
 
         Assert.Single(result);
         Assert.True(result.ContainsKey("A.cs"));
@@ -123,7 +123,7 @@ public class TopLevelTypeSplitterTests
                    }
                    """;
 
-        var result = TopLevelTypeSplitter.Split(code);
+        var result = TypeSplitter.Split(code);
 
         Assert.Single(result);
         var content = result["ImageList.cs"];

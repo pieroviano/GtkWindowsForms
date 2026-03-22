@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace XmlDocSync.Services;
 
-public static class TopLevelTypeSplitService
+public static class TypeSplitService
 {
     public static void ProcessDirectory(string directoryPath, string[] toExclude)
     {
@@ -109,7 +109,7 @@ public static class TopLevelTypeSplitService
 
         var sourceCode = File.ReadAllText(filePath);
 
-        var splitResults = TopLevelTypeSplitter.Split(sourceCode);
+        var splitResults = TypeSplitter.Split(sourceCode);
 
         // If nothing to split (or only one type with same filename), do nothing
         if (splitResults.Count == 0)

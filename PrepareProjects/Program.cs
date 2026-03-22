@@ -145,8 +145,8 @@ public class Program
         LineEndingNormalizer.NormalizeCsFiles(csProjectDirectory);
 
         ConsoleColor.Green.Write(@"Splitting project files with multiple types", true);
-        TopLevelTypeSplitService.ProcessDirectory(gtkDrawingDirectory, [".Designer.cs"]);
-        TopLevelTypeSplitService.ProcessDirectory(csProjectDirectory, 
+        TypeSplitService.ProcessDirectory(gtkDrawingDirectory, [".Designer.cs"]);
+        TypeSplitService.ProcessDirectory(csProjectDirectory, 
                                                   [
                                                       ".Designer.cs",
                                                       @"System\Windows\Forms\MenuStripBase\ToolStripDropDownItem.cs",
@@ -156,7 +156,8 @@ public class Program
                                                       @"System\Resources\ResXResourceReader.cs",
                                                       @"System\Resources\ResXResourceReader.ReaderAliasResolver.cs",
                                                       @"System\Resources\ResXFileRef.cs",
-                                                      @"System\Resources\ResxFileRef.Converter.cs",                                                      @"System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.cs",
+                                                      @"System\Resources\ResxFileRef.Converter.cs",                                                      
+                                                      @"System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.cs",
                                                       @"System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.CustomTabOffsetsEnumerator.cs",
                                                       @"System\Windows\Forms\ListBoxBase\ListBox.ObjectCollection.cs",
                                                       @"System\Windows\Forms\ListBoxBase\ListBox.SelectedIndexCollection.cs",

@@ -2,7 +2,7 @@
 
 namespace Prepare.Tests;
 
-public class TopLevelTypeSplitServiceTests
+public class TypeSplitServiceTests
 {
     [Fact]
     public void ProcessFilesInDirectory_SkipsBaseAndChildFiles()
@@ -34,7 +34,7 @@ public class TopLevelTypeSplitServiceTests
             var processedFiles = new List<string>();
 
             // Act: call ProcessFilesInDirectory with a custom processFiles action that records processed files
-            TopLevelTypeSplitService.ProcessFilesInDirectory(filesByDir, filesToProcess =>
+            TypeSplitService.ProcessFilesInDirectory(filesByDir, filesToProcess =>
             {
                 processedFiles.AddRange(filesToProcess.Select(Path.GetFileName));
             });
