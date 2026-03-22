@@ -106,7 +106,7 @@ public partial class CheckBox : Control
     /// </summary>
     protected virtual void OnCheckStateChanged(System.EventArgs e)
     {
-
+        CheckStateChanged?.Invoke(this, e);
     }
 
     private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)

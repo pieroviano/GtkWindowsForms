@@ -902,7 +902,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </summary>
     protected virtual void OnCheckStateChanged(System.EventArgs e)
     {
-
+        CheckStateChanged?.Invoke(this, e);
     }
 
     /// <summary>

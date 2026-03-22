@@ -934,7 +934,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// </summary>
     protected override void OnCheckStateChanged(EventArgs e)
     {
-
+        CheckStateChanged?.Invoke(this, e);
     }
 
     /// <summary>

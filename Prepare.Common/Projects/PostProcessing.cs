@@ -106,7 +106,10 @@ public static class PostProcessing
     {
         if (!File.Exists(filePath))
         {
-            YellowConsole.Write($"Skipped (file not found): {replacement.FileName}");
+            if (!filePath.EndsWith("\\cs"))
+            {
+                YellowConsole.Write($"Skipped (file not found): {replacement.FileName}");
+            }
             return applied;
         }
 

@@ -143,7 +143,7 @@ public class ToolStrip : Control
     /// </summary>
     protected virtual void OnCheckStateChanged(System.EventArgs e)
     {
-
+        CheckStateChanged?.Invoke(this, e);
     }
 
     /// <summary>

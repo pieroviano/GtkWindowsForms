@@ -13,11 +13,7 @@ public static class PrepareWorker
 
     public static string[] FilesToExclude = [];
 
-    public static string[] EventsToExclude = new[]
-    {
-        "ParentChanged",
-        "CheckStateChanged"
-    };
+    public static string[] EventsToExclude = [];
 
     public static Dictionary<string, string> DefaultMap =>
         new()
