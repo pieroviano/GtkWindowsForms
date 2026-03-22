@@ -500,7 +500,7 @@ internal sealed partial class PropertyGridView
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.Write($"Unexpected exception in CellRendererText_Edited: {ex}");
+                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in CellRendererText_Edited", ex);
                 }
                 owner.PropertyValueChanged?.Invoke(o, new PropertyValueChangedEventArgs(val, oldvalue));
             }

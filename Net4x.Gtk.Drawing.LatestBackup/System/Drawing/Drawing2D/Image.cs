@@ -133,27 +133,27 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         }
         catch (ExternalException externalException)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {externalException}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Image", externalException);
         }
         catch (ArgumentException argumentException)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {argumentException}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Image", argumentException);
         }
         catch (OutOfMemoryException outOfMemoryException)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {outOfMemoryException}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Image", outOfMemoryException);
         }
         catch (InvalidOperationException invalidOperationException)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {invalidOperationException}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Image", invalidOperationException);
         }
         catch (NotImplementedException notImplementedException)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {notImplementedException}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Image", notImplementedException);
         }
         catch (FileNotFoundException fileNotFoundException)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in Image: {fileNotFoundException}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Image", fileNotFoundException);
         }
     }
 

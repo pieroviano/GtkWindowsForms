@@ -14,6 +14,7 @@ public static class LogUtility
             YellowConsole.Write($"Copying '{source}' to '{Path.GetDirectoryName(destination)}' directory.");
         }
         ConsoleColor.Cyan.Write($"Copying '{source}' to '{destination}' {str}");
+        Directory.CreateDirectory(Path.GetDirectoryName(destFileName) ?? string.Empty);
         File.Copy(sourceFileName, destFileName, overwrite);
     }
 }

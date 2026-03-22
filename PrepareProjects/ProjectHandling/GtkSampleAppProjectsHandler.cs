@@ -39,7 +39,6 @@ public static class GtkSampleAppProjectsHandler
 
         UpdateLinkedCompileItems(csprojPath);
         UpdateProjectReferences(csprojPath, sourceProjectName, targetProjectName);
-        UpdateNoneItems(csprojPath);
 
         EnsureResourcesDesignerCompileItem(csprojPath);
         EnsurePrepareBuildTarget(csprojPath);
@@ -478,29 +477,6 @@ public static class GtkSampleAppProjectsHandler
         }
 
         doc.Save(csprojPath);
-    }
-
-    private static void UpdateNoneItems(string csprojPath)
-    {
-        var doc = XDocument.Load(csprojPath);
-        var ns = doc.Root!.Name.Namespace;
-
-        const string readmeEnInclude =
-            @"..\PrepareProjects\Resources\ProjectDescription.txt";
-
-        var readmeNone = doc
-            .Descendants(ns + "Content")
-            .FirstOrDefault(e => (string?)e.Attribute("Include") == "TestData1.json");
-
-        if (readmeNone != null)
-        {
-            readmeNone.AddAfterSelf(
-                new XElement(ns + "Content",
-                    new XAttribute("Include", readmeEnInclude),
-                    new XAttribute("Link", "ProjectDescription.txt")));
-
-            doc.Save(csprojPath);
-        }
     }
 
     private static void UpdateProjectReferences(

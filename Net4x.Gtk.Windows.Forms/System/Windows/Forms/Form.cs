@@ -470,7 +470,7 @@ public partial class Form : ContainerControl, IWin32Window
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.Write($"Unexpected exception in Show: {ex}");
+                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Show", ex);
                 }
             }
         }

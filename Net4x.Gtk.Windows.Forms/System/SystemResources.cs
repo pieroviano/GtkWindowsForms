@@ -111,7 +111,7 @@ internal static class SystemResources
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in GetResourceString: {ex}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in GetResourceString", ex);
         }
         if (defaultString != null && resourceKey.Equals(text))
         {

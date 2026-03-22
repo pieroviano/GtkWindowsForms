@@ -244,11 +244,11 @@ public class ImageConverter : TypeConverter
         }
         catch (OutOfMemoryException outOfMemoryException)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in GetBitmapStream: {outOfMemoryException}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in GetBitmapStream", outOfMemoryException);
         }
         catch (ArgumentOutOfRangeException argumentOutOfRangeException)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in GetBitmapStream: {argumentOutOfRangeException}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in GetBitmapStream", argumentOutOfRangeException);
         }
 
         return null;

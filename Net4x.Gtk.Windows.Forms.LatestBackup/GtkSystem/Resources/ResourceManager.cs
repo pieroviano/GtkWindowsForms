@@ -306,13 +306,13 @@ public class ResourceManager : System.Resources.ResourceManager
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.Write($"Unexpected exception in ReadResourceFile: {ex}");
+                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in ReadResourceFile", ex);
                 }
             }
         }
         catch (System.Exception ex)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in ReadResourceFile: {ex}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in ReadResourceFile", ex);
         }
 
         return result;

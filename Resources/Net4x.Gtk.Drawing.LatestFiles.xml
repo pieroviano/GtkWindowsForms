@@ -7,6 +7,7 @@
   <Item Source="obj\Net4x.Gtk.Drawing.csproj.nuget.g.targets" Destination="obj\Net4x.Gtk.Drawing.csproj.nuget.g.targets" />
   <Item Source="obj\project.assets.json" Destination="obj\project.assets.json" />
   <Item Source="obj\project.nuget.cache" Destination="obj\project.nuget.cache" />
+  <Item Source="System\Diagnostics\GtkLogger.cs" Destination="System\Diagnostics\GtkLogger.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Diagnostics\GtkLogger.cs</Item>
   <Item Source="System\Drawing\Brush.cs" Destination="System\Drawing\Brush.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Brush.cs</Item>
   <Item Source="System\Drawing\CharacterRange.cs" Destination="System\Drawing\CharacterRange.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\CharacterRange.cs</Item>
   <Item Source="System\Drawing\ColorExtension.cs" Destination="System\Drawing\ColorExtension.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\ColorExtension.cs</Item>

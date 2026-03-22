@@ -322,6 +322,7 @@ public static class PrepareWorker
             Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")),
             Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\")),
             Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")));
+        LogUtility.FileCopyAndLog(@"..\..\..\..\Resources\GtkLogger.cs", Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Diagnostics\GtkLogger.cs"));
     }
 
     public static async Task PatchCommentsInFile(string path)

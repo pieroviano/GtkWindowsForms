@@ -137,7 +137,7 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.Write($"Unexpected exception in GetType: {ex}");
+                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in GetType", ex);
                 }
                 if (assemblyName != null)
                 {

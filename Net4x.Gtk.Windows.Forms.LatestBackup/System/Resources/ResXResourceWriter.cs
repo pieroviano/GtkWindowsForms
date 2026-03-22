@@ -489,7 +489,7 @@ public class ResXResourceWriter : IResourceWriter
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.Write($"Unexpected exception in AddDataRow: {ex}");
+                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in AddDataRow", ex);
                 }
             }
             else

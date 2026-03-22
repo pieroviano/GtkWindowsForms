@@ -184,7 +184,7 @@ public partial class PictureBox : Control
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Trace.Write($"Unexpected exception in Load: {ex}");
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Load", ex);
         }
     }
 

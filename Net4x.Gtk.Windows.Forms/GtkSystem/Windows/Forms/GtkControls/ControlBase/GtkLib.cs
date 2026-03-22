@@ -41,7 +41,7 @@ internal class FuncLoader
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.Write($"Unexpected exception in FuncLoader: {ex}");
+                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in FuncLoader", ex);
                 }
                 break;
         }

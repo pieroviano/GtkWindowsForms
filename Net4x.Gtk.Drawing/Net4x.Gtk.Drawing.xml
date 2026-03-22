@@ -4,6 +4,197 @@
         <name>Net4x.Gtk.Drawing</name>
     </assembly>
     <members>
+        <member name="T:System.Diagnostics.GtkLogger">
+            <summary>
+            Provides logging functionality similar to Serilog, Microsoft.Extensions.Logging, or Log4Net.
+            By default, uses Trace.Write to output log messages.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.GtkLogger._customLogAction">
+            <summary>
+            Custom action for logging. If set, overrides the default Trace.Write behavior.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.GtkLogger._isEnabled">
+            <summary>
+            Indicates whether logging is enabled.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.GtkLogger._minimumLogLevel">
+            <summary>
+            The minimum log level. Messages below this level will not be logged.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.#cctor">
+            <summary>
+            Static constructor to initialize the minimum log level from environment variable.
+            Reads the "MinimumLogLevel" environment variable and defaults to Information if not set.
+            </summary>
+        </member>
+        <member name="P:System.Diagnostics.GtkLogger.IsEnabled">
+            <summary>
+            Gets or sets whether logging is enabled.
+            </summary>
+        </member>
+        <member name="P:System.Diagnostics.GtkLogger.MinimumLogLevel">
+            <summary>
+            Gets or sets the minimum log level. Messages below this level will not be logged.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Critical(System.String,System.Exception)">
+            <summary>
+            Logs a critical-level message.
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Debug(System.String,System.Exception)">
+            <summary>
+            Logs a debug-level message.
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Error(System.String,System.Exception)">
+            <summary>
+            Logs an error-level message.
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Exception(System.Exception,System.String)">
+            <summary>
+            Logs an exception with error level.
+            </summary>
+            <param name="exception">The exception to log.</param>
+            <param name="message">Optional message to accompany the exception.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Fatal(System.String,System.Exception)">
+            <summary>
+            Logs a fatal-level message (alias for Critical).
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Info(System.String,System.Exception)">
+            <summary>
+            Logs an information-level message (alias for Information).
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Information(System.String,System.Exception)">
+            <summary>
+            Logs an information-level message.
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.SetCustomLogAction(System.Action{System.String,System.Diagnostics.LogLevel,System.Exception})">
+            <summary>
+            Sets a custom log action to override the default Trace.Write behavior.
+            </summary>
+            <param name="logAction">Custom action that receives the message, log level, and optional exception.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Trace(System.String,System.Exception)">
+            <summary>
+            Logs a trace-level message.
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Warn(System.String,System.Exception)">
+            <summary>
+            Logs a warning-level message (alias for Warning).
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Warning(System.String,System.Exception)">
+            <summary>
+            Logs a warning-level message.
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.FormatMessage(System.Diagnostics.LogLevel,System.String,System.Exception)">
+            <summary>
+            Formats the log message with timestamp, level, message, and optional exception details.
+            </summary>
+            <param name="level">The log level.</param>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+            <returns>The formatted log message.</returns>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.GetLogLevelString(System.Diagnostics.LogLevel)">
+            <summary>
+            Gets the string representation of a log level.
+            </summary>
+            <param name="level">The log level.</param>
+            <returns>The string representation.</returns>
+        </member>
+        <member name="M:System.Diagnostics.GtkLogger.Log(System.Diagnostics.LogLevel,System.String,System.Exception)">
+            <summary>
+            Core logging method that handles message filtering, formatting, and output.
+            </summary>
+            <param name="level">The log level.</param>
+            <param name="message">The message to log.</param>
+            <param name="exception">Optional exception to include in the log.</param>
+        </member>
+        <member name="T:System.Diagnostics.LogLevel">
+            <summary>
+            Defines logging severity levels.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.LogLevel.Trace">
+            <summary>
+            Logs that contain the most detailed messages. These messages may contain sensitive application data.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.LogLevel.Debug">
+            <summary>
+            Logs that are used for interactive investigation during development.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.LogLevel.Information">
+            <summary>
+            Logs that track the general flow of the application.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.LogLevel.Warning">
+            <summary>
+            Logs that highlight an abnormal or unexpected event in the application flow.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.LogLevel.Error">
+            <summary>
+            Logs that highlight when the current flow of execution is stopped due to a failure.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.LogLevel.Critical">
+            <summary>
+            Logs that describe an unrecoverable application or system crash.
+            </summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute">
+            <summary>
+            Specifies that when a method returns
+            <see cref="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue" />, the parameter will not be null even if the corresponding type allows it.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.#ctor(System.Boolean)">
+            <summary>
+            Initializes the attribute with the specified return value condition.
+            </summary>
+            <param name="returnValue">
+            The return value condition. If the method returns this value, the associated parameter will not be null.
+            </param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue">
+            <summary>
+            Gets the return value condition.
+            </summary>
+        </member>
         <member name="T:System.Drawing.Brush">
             <summary>
             Defines objects used to fill the interiors of graphical shapes such as rectangles, ellipses, pies, polygons, and paths.
@@ -16566,25 +16757,6 @@
         <member name="F:System.Drawing.Text.TextRenderingHint.ClearTypeGridFit">
             <summary>
             Each character is drawn using its glyph ClearType bitmap with hinting. The highest quality setting. Used to take advantage of ClearType font features.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute">
-            <summary>
-            Specifies that when a method returns
-            <see cref="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue" />, the parameter will not be null even if the corresponding type allows it.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.#ctor(System.Boolean)">
-            <summary>
-            Initializes the attribute with the specified return value condition.
-            </summary>
-            <param name="returnValue">
-            The return value condition. If the method returns this value, the associated parameter will not be null.
-            </param>
-        </member>
-        <member name="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue">
-            <summary>
-            Gets the return value condition.
             </summary>
         </member>
     </members>

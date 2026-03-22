@@ -295,7 +295,7 @@ public class AutoClosingMessageBox : IMessageBox
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.Write($"Unexpected exception in AutoDisposeAfterTimeout: {ex}");
+                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in AutoDisposeAfterTimeout", ex);
                 }
                 try
                 {
@@ -303,7 +303,7 @@ public class AutoClosingMessageBox : IMessageBox
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.Write($"Unexpected exception in AutoDisposeAfterTimeout: {ex}");
+                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in AutoDisposeAfterTimeout", ex);
                 }
                 GC.SuppressFinalize(_dialog);
                 _dialog = null;

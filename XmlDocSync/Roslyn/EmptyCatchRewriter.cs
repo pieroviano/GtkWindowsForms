@@ -53,7 +53,7 @@ public class EmptyCatchRewriter : CSharpSyntaxRewriter
         var newDeclaration = SyntaxFactory.CatchDeclaration(exceptionType, identifier);
 
         var statement = SyntaxFactory.ParseStatement(
-            $"System.Diagnostics.Trace.Write($\"Unexpected exception in {methodName}: {{{identifier.Text}}}\");");
+            $"System.Diagnostics.GtkLogger.Debug($\"Unexpected exception in {methodName}\", {identifier.Text});");
 
         var newBlock = SyntaxFactory.Block(statement)
             .WithOpenBraceToken(
