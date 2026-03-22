@@ -11,7 +11,7 @@ internal class SourcePathService
         // Build currentNew
         currentNew = Path.Combine(csprojDirectory, item.Destination);
 
-        if (!File.Exists(currentNew))
+        if (!File.Exists(currentNew) && !currentNew.EndsWith("\\cs"))
         {
             YellowConsole.Write($"Skipping (not found): {currentNew}");
             return false;

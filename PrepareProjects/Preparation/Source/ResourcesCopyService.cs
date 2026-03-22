@@ -29,5 +29,6 @@ public static class ResourcesCopyService
         LogUtility.FileCopyAndLog(@"..\..\..\..\Resources\IMessageBox.cs", Path.Combine(targetDir, @"GTKControls\IMessageBox.cs"));
         LogUtility.FileCopyAndLog(@"..\..\..\..\Resources\NonStaticMessageBox.cs", Path.Combine(targetDir, @"GTKControls\NonStaticMessageBox.cs"));
         LogUtility.FileCopyAndLog(@"..\..\..\..\Resources\GridCell.cs", Path.Combine(targetDir, @"GTKControls\GridCell.cs"));
+        LogUtility.FileCopyAndLog(@"..\..\..\..\Resources\PaintGraphicsEventHandler.cs", Path.Combine(targetDir, @"GtkControls\ControlBase\PaintGraphicsEventHandler.cs"));
     }
 }

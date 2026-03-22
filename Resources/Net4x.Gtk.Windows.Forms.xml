@@ -1125,17 +1125,6 @@
             Called when the control is shown.
             </summary>
         </member>
-        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventHandler">
-            <summary>
-            PaintGraphicsEventHandler delegate.
-            </summary>
-            <param name="cr">
-            The Cairo context.
-            </param>
-            <param name="rec">
-            The record.
-            </param>
-        </member>
         <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride">
              <summary>
              GtkControlOverride is a class that provides an implementation of the IControlOverride interface for GTK controls.

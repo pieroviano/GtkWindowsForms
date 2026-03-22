@@ -55,6 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		Resources\Net4x.Gtk.Windows.Forms.targets = Resources\Net4x.Gtk.Windows.Forms.targets
 		Resources\Net4x.Gtk.Windows.Forms.xml = Resources\Net4x.Gtk.Windows.Forms.xml
 		Resources\NonStaticMessageBox.cs = Resources\NonStaticMessageBox.cs
+		Resources\PaintGraphicsEventHandler.cs = Resources\PaintGraphicsEventHandler.cs
 		Resources\PostProcessing.xml = Resources\PostProcessing.xml
 		Resources\ProjectDescription.txt = Resources\ProjectDescription.txt
 		Resources\README.md = Resources\README.md

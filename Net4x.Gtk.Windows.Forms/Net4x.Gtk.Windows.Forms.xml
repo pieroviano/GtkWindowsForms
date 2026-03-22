@@ -1140,17 +1140,6 @@
             Raises the Scroll event.
             </summary>
         </member>
-        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventHandler">
-            <summary>
-            PaintGraphicsEventHandler delegate.
-            </summary>
-            <param name="cr">
-            The Cairo context.
-            </param>
-            <param name="rec">
-            The record.
-            </param>
-        </member>
         <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride">
              <summary>
              GtkControlOverride is a class that provides an implementation of the IControlOverride interface for GTK controls.
@@ -1317,7 +1306,7 @@
             The CSS class.
             </param>
         </member>
-        <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride.OnPaintGraphics(System.EventArgs)">
+        <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride.OnPaintGraphics(GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventArgs)">
             <summary>
             Raises the PaintGraphics event.
             </summary>
@@ -1794,6 +1783,41 @@
             <summary>
             Called when the control is shown.
             </summary>
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventArgs">
+            <summary>
+            Provides data for the PaintGraphics event.
+            </summary>
+        </member>
+        <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventArgs.#ctor(Cairo.Context,System.Drawing.Rectangle)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventArgs" /> class.
+            </summary>
+            <param name="context">The Cairo context.
+            </param>
+            <param name="rectangle">The rectangle area to paint.
+            </param>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventArgs.Context">
+            <summary>
+            Gets the Cairo context used for drawing.
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventArgs.Rectangle">
+            <summary>
+            Gets the rectangle area to paint.
+            </summary>
+        </member>
+        <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventHandler">
+            <summary>
+            Represents the method that will handle the PaintGraphics event.
+            </summary>
+            <param name="sender">The source of the event.
+            </param>
+            <param name="e">A
+            <see cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventArgs" /> that contains the event data.
+            </param>
         </member>
         <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.PanelBase">
             <summary>
@@ -26617,18 +26641,6 @@
             <see cref="T:System.Windows.Forms.DataGridViewColumnStateChangedEventArgs" /> instance containing the event data.
             </param>
         </member>
-        <member name="T:System.Windows.Forms.DataGridViewEditingControlShowingEventHandler">
-            <summary>
-            Delegate DataGridViewEditingControlShowingEventHandler
-            </summary>
-            <param name="sender">
-            The sender.
-            </param>
-            <param name="e">
-            The
-            <see cref="T:System.Windows.Forms.DataGridViewEditingControlShowingEventArgs" /> instance containing the event data.
-            </param>
-        </member>
         <member name="T:System.Windows.Forms.DataGridViewDataErrorEventHandler">
             <summary>
             Delegate DataGridViewDataErrorEventHandler
@@ -26639,6 +26651,18 @@
             <param name="e">
             The
             <see cref="T:System.Windows.Forms.DataGridViewDataErrorEventArgs" /> instance containing the event data.
+            </param>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewEditingControlShowingEventHandler">
+            <summary>
+            Delegate DataGridViewEditingControlShowingEventHandler
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The
+            <see cref="T:System.Windows.Forms.DataGridViewEditingControlShowingEventArgs" /> instance containing the event data.
             </param>
         </member>
         <member name="T:System.Windows.Forms.DataGridViewRowCancelEventHandler">
@@ -26677,18 +26701,6 @@
             <see cref="T:System.Windows.Forms.DataGridViewRowDividerDoubleClickEventArgs" /> instance containing the event data.
             </param>
         </member>
-        <member name="T:System.Windows.Forms.DataGridViewRowEventHandler">
-            <summary>
-            Delegate DataGridViewRowEventHandler
-            </summary>
-            <param name="sender">
-            The sender.
-            </param>
-            <param name="e">
-            The
-            <see cref="T:System.Windows.Forms.DataGridViewRowEventArgs" /> instance containing the event data.
-            </param>
-        </member>
         <member name="T:System.Windows.Forms.DataGridViewRowErrorTextNeededEventHandler">
             <summary>
             Delegate DataGridViewRowErrorTextNeededEventHandler
@@ -26699,6 +26711,18 @@
             <param name="e">
             The
             <see cref="T:System.Windows.Forms.DataGridViewRowErrorTextNeededEventArgs" /> instance containing the event data.
+            </param>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewRowEventHandler">
+            <summary>
+            Delegate DataGridViewRowEventHandler
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The
+            <see cref="T:System.Windows.Forms.DataGridViewRowEventArgs" /> instance containing the event data.
             </param>
         </member>
         <member name="T:System.Windows.Forms.DataGridViewRowHeightInfoNeededEventHandler">

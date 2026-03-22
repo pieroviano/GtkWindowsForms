@@ -15,7 +15,6 @@ public static class PrepareWorker
 
     public static string[] EventsToExclude = new[]
     {
-        "PaintGraphics",
         "ParentChanged",
         "CheckStateChanged"
     };
@@ -23,7 +22,7 @@ public static class PrepareWorker
     public static Dictionary<string, string> DefaultMap =>
         new()
         {
-            { "GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventHandler", "System.EventArgs" },
+            { "GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventHandler", "GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventArgs" },
             { "System.Windows.Forms.FormClosingEventHandler", "System.Windows.Forms.FormClosingEventArgs" },
             { "System.Windows.Forms.LinkLabelLinkClickedEventHandler", "System.Windows.Forms.LinkLabelLinkClickedEventArgs" },
             { "System.Windows.Forms.ColumnClickEventHandler", "System.Windows.Forms.ColumnClickEventArgs" },
@@ -178,7 +177,6 @@ public static class PrepareWorker
                 "System.Windows.Forms.ListViewItemSelectionChangedEventArgs"
             },
             { "System.Windows.Forms.PaintEventHandler", "System.Windows.Forms.PaintEventArgs" },
-            { "System.Windows.Forms.PaintGraphicsEventHandler", "System.EventArgs" },
             { "System.Windows.Forms.QuestionEventHandler", "System.Windows.Forms.QuestionEventArgs" },
             {
                 "System.Windows.Forms.SelectedGridItemChangedEventHandler",

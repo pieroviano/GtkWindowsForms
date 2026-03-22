@@ -133,4 +133,25 @@ public class TypeSplitterTests
         Assert.Contains("public void Method()", content);
         Assert.Contains("private enum OriginalOptions", content);
     }
+
+    [Fact]
+    public void Split_Should_Handle_Delegates()
+    {
+        var code = """
+                   namespace TestNamespace;
+
+                   public class MyClass { }
+                   public delegate void MyDelegate(string message);
+                   public delegate int AnotherDelegate();
+                   """;
+
+        var result = TypeSplitter.Split(code);
+
+        Assert.Equal(3, result.Count);
+        Assert.Contains("MyClass.cs", result.Keys);
+        Assert.Contains("MyDelegate.cs", result.Keys);
+        Assert.Contains("AnotherDelegate.cs", result.Keys);
+        Assert.Contains("public delegate void MyDelegate(string message);", result["MyDelegate.cs"]);
+        Assert.Contains("public delegate int AnotherDelegate();", result["AnotherDelegate.cs"]);
+    }
 }

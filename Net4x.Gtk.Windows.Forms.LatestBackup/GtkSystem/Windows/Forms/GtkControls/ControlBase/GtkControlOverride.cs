@@ -7,16 +7,7 @@ using GtkSystem.Windows.Forms.Utility;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
-/// <summary>
-/// PaintGraphicsEventHandler delegate.
-/// </summary>
-/// <param name="cr">
-/// The Cairo context.
-/// </param>
-/// <param name="rec">
-/// The record.
-/// </param>
-public delegate void PaintGraphicsEventHandler(Cairo.Context cr, Rectangle rec);
+
 /// <summary>
 /// GtkControlOverride is a class that provides an implementation of the IControlOverride interface for GTK controls.
 /// It allows developers to customize the appearance and behavior of GTK controls by providing properties for background color,
@@ -266,7 +257,7 @@ public sealed class GtkControlOverride : IControlOverride
     /// </param>
     public void OnPaint(Cairo.Context cr, Gdk.Rectangle area)
     {
-        PaintGraphics?.Invoke(cr, new Rectangle(area.X, area.Y, area.Width, area.Height));
+        PaintGraphics?.Invoke(this, new PaintGraphicsEventArgs(cr, new Rectangle(area.X, area.Y, area.Width, area.Height)));
         Paint?.Invoke(this.container, new PaintEventArgs(new Graphics(container, cr, area), new Rectangle(area.X, area.Y, area.Width, area.Height)));
     }
 
@@ -284,8 +275,8 @@ public sealed class GtkControlOverride : IControlOverride
     /// <summary>
     /// Raises the PaintGraphics event.
     /// </summary>
-    private void OnPaintGraphics(EventArgs e)
+    private void OnPaintGraphics(GtkSystem.Windows.Forms.GtkControls.ControlBase.PaintGraphicsEventArgs e)
     {
-
+        PaintGraphics?.Invoke(this, e);
     }
 }

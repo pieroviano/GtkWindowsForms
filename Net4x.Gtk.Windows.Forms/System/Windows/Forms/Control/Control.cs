@@ -3425,8 +3425,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         //Console.WriteLine($"HWnd:{m.HWnd},WParam:{m.WParam},LParam:{m.LParam},Msg:{m.Msg}");
     }
 
-    private void Override_PaintGraphics(Cairo.Context cr, Rectangle rec)
+    private void Override_PaintGraphics(object sender, PaintGraphicsEventArgs e)
     {
+        Cairo.Context cr = e.Context;
         if (surface != null)
         {
             cr.Save();

@@ -19,11 +19,19 @@ public static class TypeSplitter
             {
                 AddTypeAndNested(result, root.Usings, type);
             }
+            else if (member is DelegateDeclarationSyntax delegateDecl)
+            {
+                AddDelegate(result, root.Usings, delegateDecl);
+            }
             else if (member is NamespaceDeclarationSyntax ns)
             {
                 foreach (var nestedType in ns.Members.OfType<BaseTypeDeclarationSyntax>())
                 {
                     AddTypeAndNested(result, root.Usings, nestedType, ns);
+                }
+                foreach (var nsDelegate in ns.Members.OfType<DelegateDeclarationSyntax>())
+                {
+                    AddDelegate(result, root.Usings, nsDelegate, ns);
                 }
             }
             else if (member is FileScopedNamespaceDeclarationSyntax fileNs)
@@ -31,6 +39,10 @@ public static class TypeSplitter
                 foreach (var nestedType in fileNs.Members.OfType<BaseTypeDeclarationSyntax>())
                 {
                     AddTypeAndNested(result, root.Usings, nestedType, fileNs);
+                }
+                foreach (var fileNsDelegate in fileNs.Members.OfType<DelegateDeclarationSyntax>())
+                {
+                    AddDelegate(result, root.Usings, fileNsDelegate, fileNs);
                 }
             }
         }
@@ -60,6 +72,33 @@ public static class TypeSplitter
                 _ => type
             }
             : type;
+
+        var newRoot = CreateCompilationUnit(usings, memberToAdd);
+        result[fileName] = newRoot.ToFullString();
+    }
+
+    private static void AddDelegate(
+        Dictionary<string, string> result,
+        SyntaxList<UsingDirectiveSyntax> usings,
+        DelegateDeclarationSyntax delegateDecl,
+        MemberDeclarationSyntax? namespaceOrParent = null)
+    {
+        // Construct file name
+        var fileName = delegateDecl.Identifier.Text + ".cs";
+
+        // Wrap in namespace if provided
+        MemberDeclarationSyntax memberToAdd = namespaceOrParent != null
+            ? namespaceOrParent switch
+            {
+                NamespaceDeclarationSyntax ns => ns.WithMembers(SyntaxFactory.SingletonList<MemberDeclarationSyntax>(delegateDecl))
+                    .WithLeadingTrivia(ns.GetLeadingTrivia())
+                    .WithTrailingTrivia(ns.GetTrailingTrivia()),
+                FileScopedNamespaceDeclarationSyntax fileNs => fileNs.WithMembers(SyntaxFactory.SingletonList<MemberDeclarationSyntax>(delegateDecl))
+                    .WithLeadingTrivia(fileNs.GetLeadingTrivia())
+                    .WithTrailingTrivia(fileNs.GetTrailingTrivia()),
+                _ => delegateDecl
+            }
+            : delegateDecl;
 
         var newRoot = CreateCompilationUnit(usings, memberToAdd);
         result[fileName] = newRoot.ToFullString();
