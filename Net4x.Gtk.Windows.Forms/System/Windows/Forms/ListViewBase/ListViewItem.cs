@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Runtime.Serialization;
+
 namespace System.Windows.Forms;
 
 /// <summary>
@@ -8,7 +9,6 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
 {
-
 
     internal bool _checked;
 

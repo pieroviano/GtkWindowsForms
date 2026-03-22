@@ -45,101 +45,131 @@
             <summary>
             Logs a critical-level message.
             </summary>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Debug(System.String,System.Exception)">
             <summary>
             Logs a debug-level message.
             </summary>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Error(System.String,System.Exception)">
             <summary>
             Logs an error-level message.
             </summary>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Exception(System.Exception,System.String)">
             <summary>
             Logs an exception with error level.
             </summary>
-            <param name="exception">The exception to log.</param>
-            <param name="message">Optional message to accompany the exception.</param>
+            <param name="exception">The exception to log.
+            </param>
+            <param name="message">Optional message to accompany the exception.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Fatal(System.String,System.Exception)">
             <summary>
             Logs a fatal-level message (alias for Critical).
             </summary>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Info(System.String,System.Exception)">
             <summary>
             Logs an information-level message (alias for Information).
             </summary>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Information(System.String,System.Exception)">
             <summary>
             Logs an information-level message.
             </summary>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.SetCustomLogAction(System.Action{System.String,System.Diagnostics.LogLevel,System.Exception})">
             <summary>
             Sets a custom log action to override the default Trace.Write behavior.
             </summary>
-            <param name="logAction">Custom action that receives the message, log level, and optional exception.</param>
+            <param name="logAction">Custom action that receives the message, log level, and optional exception.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Trace(System.String,System.Exception)">
             <summary>
             Logs a trace-level message.
             </summary>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Warn(System.String,System.Exception)">
             <summary>
             Logs a warning-level message (alias for Warning).
             </summary>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Warning(System.String,System.Exception)">
             <summary>
             Logs a warning-level message.
             </summary>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.FormatMessage(System.Diagnostics.LogLevel,System.String,System.Exception)">
             <summary>
             Formats the log message with timestamp, level, message, and optional exception details.
             </summary>
-            <param name="level">The log level.</param>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
-            <returns>The formatted log message.</returns>
+            <param name="level">The log level.
+            </param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
+            <returns>The formatted log message.
+            </returns>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.GetLogLevelString(System.Diagnostics.LogLevel)">
             <summary>
             Gets the string representation of a log level.
             </summary>
-            <param name="level">The log level.</param>
-            <returns>The string representation.</returns>
+            <param name="level">The log level.
+            </param>
+            <returns>The string representation.
+            </returns>
         </member>
         <member name="M:System.Diagnostics.GtkLogger.Log(System.Diagnostics.LogLevel,System.String,System.Exception)">
             <summary>
             Core logging method that handles message filtering, formatting, and output.
             </summary>
-            <param name="level">The log level.</param>
-            <param name="message">The message to log.</param>
-            <param name="exception">Optional exception to include in the log.</param>
+            <param name="level">The log level.
+            </param>
+            <param name="message">The message to log.
+            </param>
+            <param name="exception">Optional exception to include in the log.
+            </param>
         </member>
         <member name="T:System.Diagnostics.LogLevel">
             <summary>

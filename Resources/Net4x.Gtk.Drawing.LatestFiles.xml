@@ -8,6 +8,7 @@
   <Item Source="obj\project.assets.json" Destination="obj\project.assets.json" />
   <Item Source="obj\project.nuget.cache" Destination="obj\project.nuget.cache" />
   <Item Source="System\Diagnostics\GtkLogger.cs" Destination="System\Diagnostics\GtkLogger.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Diagnostics\GtkLogger.cs</Item>
+  <Item Source="System\Diagnostics\LogLevel.cs" Destination="System\Diagnostics\LogLevel.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Diagnostics\LogLevel.cs</Item>
   <Item Source="System\Drawing\Brush.cs" Destination="System\Drawing\Brush.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Brush.cs</Item>
   <Item Source="System\Drawing\CharacterRange.cs" Destination="System\Drawing\CharacterRange.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\CharacterRange.cs</Item>
   <Item Source="System\Drawing\ColorExtension.cs" Destination="System\Drawing\ColorExtension.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\ColorExtension.cs</Item>
@@ -53,6 +54,7 @@
   <Item Source="System\Drawing\Drawing2D\GraphicsContainer.cs" Destination="System\Drawing\Drawing2D\GraphicsContainer.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Drawing2D\GraphicsContainer.cs</Item>
   <Item Source="System\Drawing\Drawing2D\GraphicsPath.cs" Destination="System\Drawing\Drawing2D\GraphicsPath.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Drawing2D\GraphicsPath.cs</Item>
   <Item Source="System\Drawing\Drawing2D\GraphicsState.cs" Destination="System\Drawing\Drawing2D\GraphicsState.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Drawing2D\GraphicsState.cs</Item>
+  <Item Source="System\Drawing\Drawing2D\GtkImageConverter.cs" Destination="System\Drawing\Drawing2D\GtkImageConverter.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Drawing2D\GtkImageConverter.cs</Item>
   <Item Source="System\Drawing\Drawing2D\HatchBrush.cs" Destination="System\Drawing\Drawing2D\HatchBrush.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Drawing2D\HatchBrush.cs</Item>
   <Item Source="System\Drawing\Drawing2D\HatchStyle.cs" Destination="System\Drawing\Drawing2D\HatchStyle.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Drawing2D\HatchStyle.cs</Item>
   <Item Source="System\Drawing\Drawing2D\Image.cs" Destination="System\Drawing\Drawing2D\Image.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Drawing2D\Image.cs</Item>
@@ -123,6 +125,7 @@
   <Item Source="System\Drawing\Imaging\Drawing\Drawing2D\PlayRecordCallback.cs" Destination="System\Drawing\Imaging\Drawing\Drawing2D\PlayRecordCallback.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Imaging\Drawing\Drawing2D\PlayRecordCallback.cs</Item>
   <Item Source="System\Drawing\Imaging\Drawing\Drawing2D\PropertyItem.cs" Destination="System\Drawing\Imaging\Drawing\Drawing2D\PropertyItem.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Imaging\Drawing\Drawing2D\PropertyItem.cs</Item>
   <Item Source="System\Drawing\Imaging\Drawing\Drawing2D\PropertyItemInternal.cs" Destination="System\Drawing\Imaging\Drawing\Drawing2D\PropertyItemInternal.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Imaging\Drawing\Drawing2D\PropertyItemInternal.cs</Item>
+  <Item Source="System\Drawing\Imaging\Drawing\Drawing2D\SafeNativeMethods.cs" Destination="System\Drawing\Imaging\Drawing\Drawing2D\SafeNativeMethods.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Imaging\Drawing\Drawing2D\SafeNativeMethods.cs</Item>
   <Item Source="System\Drawing\Imaging\Drawing\Drawing2D\WmfMetaHeader.cs" Destination="System\Drawing\Imaging\Drawing\Drawing2D\WmfMetaHeader.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Imaging\Drawing\Drawing2D\WmfMetaHeader.cs</Item>
   <Item Source="System\Drawing\Imaging\Drawing\Drawing2D\WmfPlaceableFileHeader.cs" Destination="System\Drawing\Imaging\Drawing\Drawing2D\WmfPlaceableFileHeader.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Imaging\Drawing\Drawing2D\WmfPlaceableFileHeader.cs</Item>
 </Files>

@@ -2892,11 +2892,6 @@
             <returns>
             </returns>
         </member>
-        <member name="T:System.Windows.Forms.InitAppliction">
-            <summary>
-            InitAppliction is a static class that is used to initialize the application. It is used to set the application properties and to initialize the application. This class cannot be inherited.
-            </summary>
-        </member>
         <member name="T:System.Windows.Forms.ApplicationContext">
             <summary>
             ApplicationContext provides contextual information about an application
@@ -3016,6 +3011,11 @@
         <member name="M:System.Windows.Forms.FormCollection.Remove(System.Windows.Forms.Form)">
             <summary>
             Used internally to add a Form to the FormCollection
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.InitAppliction">
+            <summary>
+            InitAppliction is a static class that is used to initialize the application. It is used to set the application properties and to initialize the application. This class cannot be inherited.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.InputLanguage">
@@ -5940,170 +5940,6 @@
             <see cref="T:System.ComponentModel.ListChangedEventArgs" /> that contains the event data.
             </param>
         </member>
-        <member name="T:System.Windows.Forms.ControlBindingsCollection">
-            <summary>
-            Represents the collection of data bindings for a control.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.#ctor(System.Windows.Forms.IBindableComponent)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.ControlBindingsCollection" /> class for the specified bindable component.
-            </summary>
-            <param name="control">
-            The control (or component) that will own bindings added to this collection.
-            </param>
-        </member>
-        <member name="P:System.Windows.Forms.ControlBindingsCollection.BindableComponent">
-            <summary>
-            Gets the component that is bindable and associated with this collection.
-            This can be null for an unbound collection.
-            </summary>
-        </member>
-        <member name="P:System.Windows.Forms.ControlBindingsCollection.Control">
-            <summary>
-            Gets the underlying
-            <see cref="T:System.Windows.Forms.ControlBindingsCollection.Control" /> instance if the bindable component is a Control; otherwise null.
-            </summary>
-        </member>
-        <member name="P:System.Windows.Forms.ControlBindingsCollection.DefaultDataSourceUpdateMode">
-            <summary>
-            Gets or sets the default data source update mode used when creating new
-            <see cref="T:System.Windows.Forms.Binding" /> instances.
-            </summary>
-        </member>
-        <member name="P:System.Windows.Forms.ControlBindingsCollection.Item(System.String)">
-            <summary>
-            Gets the first
-            <see cref="T:System.Windows.Forms.Binding" /> in the collection that targets the specified property name,
-            or null if no binding for that property is present.
-            Comparison is case-insensitive.
-            </summary>
-            <param name="propertyName">
-            The name of the property on the control to find the binding for.
-            </param>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.Windows.Forms.Binding)">
-            <summary>
-            Adds the specified
-            <see cref="T:System.Windows.Forms.Binding" /> to the collection. Throws if
-            <paramref name="binding" /> is null or invalid for this control.
-            </summary>
-            <param name="binding">
-            The binding to add.
-            </param>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String)">
-            <summary>
-            Creates a
-            <see cref="T:System.Windows.Forms.Binding" /> that binds the specified property to the given data source and adds it to the collection.
-            Uses the default formatting and update mode.
-            </summary>
-            <param name="propertyName">
-            The property on the control to bind.
-            </param>
-            <param name="dataSource">
-            The data source object.
-            </param>
-            <param name="dataMember">
-            The data member (column/property) on the data source to bind to.
-            </param>
-            <returns>
-            The created and added
-            <see cref="T:System.Windows.Forms.Binding" />.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean)">
-            <summary>
-            Creates and adds a binding with the specified formatting option.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean,System.Windows.Forms.DataSourceUpdateMode)">
-            <summary>
-            Creates and adds a binding with the specified formatting and update mode.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean,System.Windows.Forms.DataSourceUpdateMode,System.Object)">
-            <summary>
-            Creates and adds a binding with the specified null-value substitution.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean,System.Windows.Forms.DataSourceUpdateMode,System.Object,System.String)">
-            <summary>
-            Creates and adds a binding with a format string.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean,System.Windows.Forms.DataSourceUpdateMode,System.Object,System.String,System.IFormatProvider)">
-            <summary>
-            Creates and adds a binding with full formatting and format provider options.
-            </summary>
-            <exception cref="T:System.ArgumentNullException">
-            If
-            <paramref name="dataSource" /> is null.
-            </exception>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.Clear">
-            <summary>
-            Removes all bindings from the collection.
-            The CollectionChanged event is raised.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.Remove(System.Windows.Forms.Binding)">
-            <summary>
-            Removes the specified binding from the collection.
-            Throws if the binding is null or does not belong to this collection.
-            </summary>
-            <param name="binding">
-            The binding to remove.
-            </param>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.RemoveAt(System.Int32)">
-            <summary>
-            Removes the binding at the specified index.
-            </summary>
-            <param name="index">
-            Zero-based index of the binding to remove.
-            </param>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.AddCore(System.Windows.Forms.Binding)">
-            <summary>
-            Core add implementation. Validates and associates the binding with this collection's component,
-            then delegates to the base implementation to insert it.
-            </summary>
-            <param name="dataBinding">
-            The binding to add.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-            If
-            <paramref name="dataBinding" /> is null.
-            </exception>
-            <exception cref="T:System.ArgumentException">
-            If the binding is already associated with another component.
-            </exception>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.ClearCore">
-            <summary>
-            Core clear implementation. Disassociates all bindings from the owning component before clearing.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.ControlBindingsCollection.RemoveCore(System.Windows.Forms.Binding)">
-            <summary>
-            Core remove implementation. Validates and disassociates the binding before removing it from the collection.
-            </summary>
-            <param name="dataBinding">
-            The binding to remove.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-            If
-            <paramref name="dataBinding" /> is null.
-            </exception>
-            <exception cref="T:System.ArgumentException">
-            If the binding does not belong to this collection.
-            </exception>
-        </member>
         <member name="T:System.Windows.Forms.Control">
             <summary>
             Represents the collection of data bindings for a control.
@@ -8400,6 +8236,170 @@
             <param name="m">
             Message to process.
             </param>
+        </member>
+        <member name="T:System.Windows.Forms.ControlBindingsCollection">
+            <summary>
+            Represents the collection of data bindings for a control.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.#ctor(System.Windows.Forms.IBindableComponent)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.ControlBindingsCollection" /> class for the specified bindable component.
+            </summary>
+            <param name="control">
+            The control (or component) that will own bindings added to this collection.
+            </param>
+        </member>
+        <member name="P:System.Windows.Forms.ControlBindingsCollection.BindableComponent">
+            <summary>
+            Gets the component that is bindable and associated with this collection.
+            This can be null for an unbound collection.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.ControlBindingsCollection.Control">
+            <summary>
+            Gets the underlying
+            <see cref="T:System.Windows.Forms.ControlBindingsCollection.Control" /> instance if the bindable component is a Control; otherwise null.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.ControlBindingsCollection.DefaultDataSourceUpdateMode">
+            <summary>
+            Gets or sets the default data source update mode used when creating new
+            <see cref="T:System.Windows.Forms.Binding" /> instances.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.ControlBindingsCollection.Item(System.String)">
+            <summary>
+            Gets the first
+            <see cref="T:System.Windows.Forms.Binding" /> in the collection that targets the specified property name,
+            or null if no binding for that property is present.
+            Comparison is case-insensitive.
+            </summary>
+            <param name="propertyName">
+            The name of the property on the control to find the binding for.
+            </param>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.Windows.Forms.Binding)">
+            <summary>
+            Adds the specified
+            <see cref="T:System.Windows.Forms.Binding" /> to the collection. Throws if
+            <paramref name="binding" /> is null or invalid for this control.
+            </summary>
+            <param name="binding">
+            The binding to add.
+            </param>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String)">
+            <summary>
+            Creates a
+            <see cref="T:System.Windows.Forms.Binding" /> that binds the specified property to the given data source and adds it to the collection.
+            Uses the default formatting and update mode.
+            </summary>
+            <param name="propertyName">
+            The property on the control to bind.
+            </param>
+            <param name="dataSource">
+            The data source object.
+            </param>
+            <param name="dataMember">
+            The data member (column/property) on the data source to bind to.
+            </param>
+            <returns>
+            The created and added
+            <see cref="T:System.Windows.Forms.Binding" />.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean)">
+            <summary>
+            Creates and adds a binding with the specified formatting option.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean,System.Windows.Forms.DataSourceUpdateMode)">
+            <summary>
+            Creates and adds a binding with the specified formatting and update mode.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean,System.Windows.Forms.DataSourceUpdateMode,System.Object)">
+            <summary>
+            Creates and adds a binding with the specified null-value substitution.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean,System.Windows.Forms.DataSourceUpdateMode,System.Object,System.String)">
+            <summary>
+            Creates and adds a binding with a format string.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.Add(System.String,System.Object,System.String,System.Boolean,System.Windows.Forms.DataSourceUpdateMode,System.Object,System.String,System.IFormatProvider)">
+            <summary>
+            Creates and adds a binding with full formatting and format provider options.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">
+            If
+            <paramref name="dataSource" /> is null.
+            </exception>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.Clear">
+            <summary>
+            Removes all bindings from the collection.
+            The CollectionChanged event is raised.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.Remove(System.Windows.Forms.Binding)">
+            <summary>
+            Removes the specified binding from the collection.
+            Throws if the binding is null or does not belong to this collection.
+            </summary>
+            <param name="binding">
+            The binding to remove.
+            </param>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.RemoveAt(System.Int32)">
+            <summary>
+            Removes the binding at the specified index.
+            </summary>
+            <param name="index">
+            Zero-based index of the binding to remove.
+            </param>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.AddCore(System.Windows.Forms.Binding)">
+            <summary>
+            Core add implementation. Validates and associates the binding with this collection's component,
+            then delegates to the base implementation to insert it.
+            </summary>
+            <param name="dataBinding">
+            The binding to add.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            If
+            <paramref name="dataBinding" /> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            If the binding is already associated with another component.
+            </exception>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.ClearCore">
+            <summary>
+            Core clear implementation. Disassociates all bindings from the owning component before clearing.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.ControlBindingsCollection.RemoveCore(System.Windows.Forms.Binding)">
+            <summary>
+            Core remove implementation. Validates and disassociates the binding before removing it from the collection.
+            </summary>
+            <param name="dataBinding">
+            The binding to remove.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            If
+            <paramref name="dataBinding" /> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            If the binding does not belong to this collection.
+            </exception>
         </member>
         <member name="T:System.Windows.Forms.ControlUpdateMode">
             <summary>
@@ -14383,6 +14383,31 @@
             2
             </filterpriority>
         </member>
+        <member name="T:System.Windows.Forms.DataGridViewButtonColumn">
+            <summary>
+            Hosts a collection of
+            <see cref="T:System.Windows.Forms.DataGridViewButtonCell" /> objects.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewButtonColumn.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewButtonColumn" /> class.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewButtonColumn.#ctor(System.Windows.Forms.DataGridView)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewButtonColumn" /> class attached to the specified grid.
+            </summary>
+            <param name="ownerGridView">
+            The owning
+            <see cref="T:System.Windows.Forms.DataGridView" />.
+            </param>
+        </member>
         <member name="T:System.Windows.Forms.DataGridViewCell">
             <summary>
             Represents an individual cell in a
@@ -14698,57 +14723,6 @@
             false
             </c>.
             </value>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewCheckBoxCell">
-            <summary>
-            Displays a check box user interface (UI) to use in a
-            <see cref="T:System.Windows.Forms.DataGridView" /> control.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewComboBoxCell">
-            <summary>
-            Displays a combo box in a
-            <see cref="T:System.Windows.Forms.DataGridView" /> control.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewImageCell">
-            <summary>
-            Displays a graphic in a
-            <see cref="T:System.Windows.Forms.DataGridView" /> control.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewLinkCell">
-            <summary>
-            Represents a cell that contains a link.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewRadioCell">
-            <summary>
-            Class DataGridViewRadioCell. Implements the
-            <see cref="T:System.Windows.Forms.DataGridViewCell" />
-            </summary>
-            <seealso cref="T:System.Windows.Forms.DataGridViewCell" />
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewTextBoxCell">
-            <summary>
-            Displays editable text information in a
-            <see cref="T:System.Windows.Forms.DataGridView" /> control.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
         </member>
         <member name="T:System.Windows.Forms.DataGridViewCellCollection">
             <summary>
@@ -15206,30 +15180,14 @@
             <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
-        <member name="T:System.Windows.Forms.DataGridViewButtonColumn">
+        <member name="T:System.Windows.Forms.DataGridViewCheckBoxCell">
             <summary>
-            Hosts a collection of
-            <see cref="T:System.Windows.Forms.DataGridViewButtonCell" /> objects.
+            Displays a check box user interface (UI) to use in a
+            <see cref="T:System.Windows.Forms.DataGridView" /> control.
             </summary>
             <filterpriority>
             2
             </filterpriority>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewButtonColumn.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewButtonColumn" /> class.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewButtonColumn.#ctor(System.Windows.Forms.DataGridView)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewButtonColumn" /> class attached to the specified grid.
-            </summary>
-            <param name="ownerGridView">
-            The owning
-            <see cref="T:System.Windows.Forms.DataGridView" />.
-            </param>
         </member>
         <member name="T:System.Windows.Forms.DataGridViewCheckBoxColumn">
             <summary>
@@ -15510,165 +15468,6 @@
             Raises the Disposed event.
             </summary>
         </member>
-        <member name="T:System.Windows.Forms.DataGridViewComboBoxColumn">
-            <summary>
-            Represents a column of
-            <see cref="T:System.Windows.Forms.DataGridViewComboBoxCell" /> objects.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewComboBoxColumn" /> class.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.#ctor(System.Windows.Forms.DataGridView)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewComboBoxColumn" /> class attached to the specified grid.
-            </summary>
-            <param name="ownerGridView">
-            The owning
-            <see cref="T:System.Windows.Forms.DataGridView" />.
-            </param>
-        </member>
-        <member name="P:System.Windows.Forms.DataGridViewComboBoxColumn.Items">
-            <summary>
-            Gets the collection of items presented by the combo box cells.
-            </summary>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection">
-            <summary>
-            Simple collection class for combo box items used by the column.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection.#ctor(System.Windows.Forms.DataGridViewComboBoxColumn)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection" /> class.
-            </summary>
-            <param name="owner">
-            Owning combo box column.
-            </param>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection.Add(System.Object)">
-            <summary>
-            Adds an item to the collection and the underlying GTK model.
-            </summary>
-            <param name="value">
-            Item to add.
-            </param>
-            <returns>
-            The index at which the item was added.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection.AddRange(System.Object[])">
-            <summary>
-            Adds a range of items to the collection.
-            </summary>
-            <param name="items">
-            Array of items to add.
-            </param>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewImageColumn">
-            <summary>
-            Hosts a collection of
-            <see cref="T:System.Windows.Forms.DataGridViewImageCell" /> objects.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewImageColumn.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewImageColumn" /> class.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewImageColumn.#ctor(System.Windows.Forms.DataGridView)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewImageColumn" /> class attached to the specified grid.
-            </summary>
-            <param name="ownerGridView">
-            The owning
-            <see cref="T:System.Windows.Forms.DataGridView" />.
-            </param>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewLinkColumn">
-            <summary>
-            Represents a column of cells that contain links in a
-            <see cref="T:System.Windows.Forms.DataGridView" /> control.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewLinkColumn.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewLinkColumn" /> class.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewLinkColumn.#ctor(System.Windows.Forms.DataGridView)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewLinkColumn" /> class attached to the specified grid.
-            </summary>
-            <param name="ownerGridView">
-            The owning
-            <see cref="T:System.Windows.Forms.DataGridView" />.
-            </param>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewRadioColumn">
-            <summary>
-            Represents a column of radio-button style toggle cells.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewRadioColumn.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewRadioColumn" /> class.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewRadioColumn.#ctor(System.Windows.Forms.DataGridView)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewRadioColumn" /> class attached to the specified grid.
-            </summary>
-            <param name="ownerGridView">
-            The owning
-            <see cref="T:System.Windows.Forms.DataGridView" />.
-            </param>
-        </member>
-        <member name="T:System.Windows.Forms.DataGridViewTextBoxColumn">
-            <summary>
-            Hosts a collection of
-            <see cref="T:System.Windows.Forms.DataGridViewTextBoxCell" /> cells.
-            </summary>
-            <filterpriority>
-            2
-            </filterpriority>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewTextBoxColumn.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewTextBoxColumn" /> class using the default text box cell template.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.DataGridViewTextBoxColumn.#ctor(System.Windows.Forms.DataGridView)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.DataGridViewTextBoxColumn" /> class attached to the specified grid.
-            </summary>
-            <param name="ownerGridView">
-            The owning
-            <see cref="T:System.Windows.Forms.DataGridView" />.
-            </param>
-        </member>
         <member name="T:System.Windows.Forms.DataGridViewColumnCollection">
             <summary>
             Represents a collection of
@@ -15922,6 +15721,78 @@
             space for a sorting glyph.
             </summary>
         </member>
+        <member name="T:System.Windows.Forms.DataGridViewComboBoxCell">
+            <summary>
+            Displays a combo box in a
+            <see cref="T:System.Windows.Forms.DataGridView" /> control.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewComboBoxColumn">
+            <summary>
+            Represents a column of
+            <see cref="T:System.Windows.Forms.DataGridViewComboBoxCell" /> objects.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewComboBoxColumn" /> class.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.#ctor(System.Windows.Forms.DataGridView)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewComboBoxColumn" /> class attached to the specified grid.
+            </summary>
+            <param name="ownerGridView">
+            The owning
+            <see cref="T:System.Windows.Forms.DataGridView" />.
+            </param>
+        </member>
+        <member name="P:System.Windows.Forms.DataGridViewComboBoxColumn.Items">
+            <summary>
+            Gets the collection of items presented by the combo box cells.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection">
+            <summary>
+            Simple collection class for combo box items used by the column.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection.#ctor(System.Windows.Forms.DataGridViewComboBoxColumn)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection" /> class.
+            </summary>
+            <param name="owner">
+            Owning combo box column.
+            </param>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection.Add(System.Object)">
+            <summary>
+            Adds an item to the collection and the underlying GTK model.
+            </summary>
+            <param name="value">
+            Item to add.
+            </param>
+            <returns>
+            The index at which the item was added.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewComboBoxColumn.ObjectCollection.AddRange(System.Object[])">
+            <summary>
+            Adds a range of items to the collection.
+            </summary>
+            <param name="items">
+            Array of items to add.
+            </param>
+        </member>
         <member name="T:System.Windows.Forms.DataGridViewContentAlignment">
             <summary>
             Defines constants that indicate the alignment of content within a
@@ -16107,6 +15978,73 @@
             The state of the button.
             </value>
         </member>
+        <member name="T:System.Windows.Forms.DataGridViewImageCell">
+            <summary>
+            Displays a graphic in a
+            <see cref="T:System.Windows.Forms.DataGridView" /> control.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewImageColumn">
+            <summary>
+            Hosts a collection of
+            <see cref="T:System.Windows.Forms.DataGridViewImageCell" /> objects.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewImageColumn.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewImageColumn" /> class.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewImageColumn.#ctor(System.Windows.Forms.DataGridView)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewImageColumn" /> class attached to the specified grid.
+            </summary>
+            <param name="ownerGridView">
+            The owning
+            <see cref="T:System.Windows.Forms.DataGridView" />.
+            </param>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewLinkCell">
+            <summary>
+            Represents a cell that contains a link.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewLinkColumn">
+            <summary>
+            Represents a column of cells that contain links in a
+            <see cref="T:System.Windows.Forms.DataGridView" /> control.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewLinkColumn.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewLinkColumn" /> class.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewLinkColumn.#ctor(System.Windows.Forms.DataGridView)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewLinkColumn" /> class attached to the specified grid.
+            </summary>
+            <param name="ownerGridView">
+            The owning
+            <see cref="T:System.Windows.Forms.DataGridView" />.
+            </param>
+        </member>
         <member name="T:System.Windows.Forms.DataGridViewPaintParts">
             <summary>
             Defines values for specifying the parts of a
@@ -16157,6 +16095,34 @@
             <summary>
             The selection background
             </summary>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewRadioCell">
+            <summary>
+            Class DataGridViewRadioCell. Implements the
+            <see cref="T:System.Windows.Forms.DataGridViewCell" />
+            </summary>
+            <seealso cref="T:System.Windows.Forms.DataGridViewCell" />
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewRadioColumn">
+            <summary>
+            Represents a column of radio-button style toggle cells.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewRadioColumn.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewRadioColumn" /> class.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewRadioColumn.#ctor(System.Windows.Forms.DataGridView)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewRadioColumn" /> class attached to the specified grid.
+            </summary>
+            <param name="ownerGridView">
+            The owning
+            <see cref="T:System.Windows.Forms.DataGridView" />.
+            </param>
         </member>
         <member name="T:System.Windows.Forms.DataGridViewRow">
             <summary>
@@ -17130,6 +17096,40 @@
             The column will be selected by clicking in the column's header cell. An individual
             cell can be selected by clicking that cell.
             </summary>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewTextBoxCell">
+            <summary>
+            Displays editable text information in a
+            <see cref="T:System.Windows.Forms.DataGridView" /> control.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="T:System.Windows.Forms.DataGridViewTextBoxColumn">
+            <summary>
+            Hosts a collection of
+            <see cref="T:System.Windows.Forms.DataGridViewTextBoxCell" /> cells.
+            </summary>
+            <filterpriority>
+            2
+            </filterpriority>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewTextBoxColumn.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewTextBoxColumn" /> class using the default text box cell template.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.DataGridViewTextBoxColumn.#ctor(System.Windows.Forms.DataGridView)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:System.Windows.Forms.DataGridViewTextBoxColumn" /> class attached to the specified grid.
+            </summary>
+            <param name="ownerGridView">
+            The owning
+            <see cref="T:System.Windows.Forms.DataGridView" />.
+            </param>
         </member>
         <member name="T:System.Windows.Forms.DateTimePicker">
             <summary>
@@ -18351,116 +18351,6 @@
             </c> otherwise.
             </returns>
         </member>
-        <member name="T:System.Windows.Forms.MessageBoxOld">
-            <summary>
-            Class MessageBoxOld.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
-            <summary>
-            Displays a message box with specified text, caption, and style with Help Button.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
-            <summary>
-            Displays a message box with specified text, caption, style and Help file Path .
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
-            <summary>
-            Displays a message box with specified text, caption, style and Help file Path for a IWin32Window.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
-            <summary>
-            Displays a message box with specified text, caption, style, Help file Path and keyword.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
-            <summary>
-            Displays a message box with specified text, caption, style, Help file Path and keyword for a IWin32Window.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
-            <summary>
-            Displays a message box with specified text, caption, style, Help file Path and HelpNavigator.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
-            <summary>
-            Displays a message box with specified text, caption, style, Help file Path and HelpNavigator for IWin32Window.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
-            <summary>
-            Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
-            <summary>
-            Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object for a IWin32Window.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
-            <summary>
-            Displays a message box with specified text, caption, and style with Help Button.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
-            <summary>
-            Displays a message box with specified text, caption, and style.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
-            <summary>
-            Displays a message box with specified text, caption, and style.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
-            <summary>
-            Displays a message box with specified text, caption, and style.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String)">
-            <summary>
-            Displays a message box with specified text and caption.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String)">
-            <summary>
-            Displays a message box with specified text.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
-            <summary>
-            Displays a message box with specified text, caption, and style.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
-            <summary>
-            Displays a message box with specified text, caption, and style.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
-            <summary>
-            Displays a message box with specified text, caption, and style.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
-            <summary>
-            Displays a message box with specified text, caption, and style.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String)">
-            <summary>
-            Displays a message box with specified text and caption.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String)">
-            <summary>
-            Displays a message box with specified text.
-            </summary>
-        </member>
         <member name="T:System.Windows.Forms.MessageBoxButtons">
             <summary>
             Specifies constants defining which buttons to display on a
@@ -18583,6 +18473,116 @@
         <member name="F:System.Windows.Forms.MessageBoxIcon.Information">
             <summary>
             Specifies that the message box contains an asterisk icon.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.MessageBoxOld">
+            <summary>
+            Class MessageBoxOld.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
+            <summary>
+            Displays a message box with specified text, caption, and style with Help Button.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
+            <summary>
+            Displays a message box with specified text, caption, style and Help file Path .
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
+            <summary>
+            Displays a message box with specified text, caption, style and Help file Path for a IWin32Window.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
+            <summary>
+            Displays a message box with specified text, caption, style, Help file Path and keyword.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
+            <summary>
+            Displays a message box with specified text, caption, style, Help file Path and keyword for a IWin32Window.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
+            <summary>
+            Displays a message box with specified text, caption, style, Help file Path and HelpNavigator.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
+            <summary>
+            Displays a message box with specified text, caption, style, Help file Path and HelpNavigator for IWin32Window.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
+            <summary>
+            Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
+            <summary>
+            Displays a message box with specified text, caption, style, Help file Path ,HelpNavigator and object for a IWin32Window.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
+            <summary>
+            Displays a message box with specified text, caption, and style with Help Button.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
+            <summary>
+            Displays a message box with specified text, caption, and style.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
+            <summary>
+            Displays a message box with specified text, caption, and style.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
+            <summary>
+            Displays a message box with specified text, caption, and style.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String,System.String)">
+            <summary>
+            Displays a message box with specified text and caption.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.String)">
+            <summary>
+            Displays a message box with specified text.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
+            <summary>
+            Displays a message box with specified text, caption, and style.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
+            <summary>
+            Displays a message box with specified text, caption, and style.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
+            <summary>
+            Displays a message box with specified text, caption, and style.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
+            <summary>
+            Displays a message box with specified text, caption, and style.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String,System.String)">
+            <summary>
+            Displays a message box with specified text and caption.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBoxOld.Show(System.Windows.Forms.IWin32Window,System.String)">
+            <summary>
+            Displays a message box with specified text.
             </summary>
         </member>
         <member name="T:System.Windows.Forms.MessageBoxOptions">
@@ -27221,578 +27221,6 @@
             <summary>
             Delegate to the WebBrowser ProgressChanged event.
             </summary>
-        </member>
-        <member name="T:System.Windows.Forms.MessageBox">
-            <summary>
-            Displays a message box that can contain text, buttons, and symbols that inform and instruct the user.
-            </summary>
-        </member>
-        <member name="P:System.Windows.Forms.MessageBox.Instance">
-            <summary>
-            The active
-            <see cref="T:System.Windows.Forms.IMessageBox" /> implementation used by the static
-            <see cref="T:System.Windows.Forms.MessageBox" /> helpers.
-            By default this is a
-            <see cref="T:System.Windows.Forms.NonStaticMessageBox" />; callers may replace it using
-            <see cref="M:System.Windows.Forms.MessageBox.ReplaceInstance(System.Int32)" />.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.ReplaceInstance(System.Int32)">
-            <summary>
-            Replaces the current
-            <see cref="T:System.Windows.Forms.IMessageBox" /> implementation used by the static API.
-            </summary>
-            <param name="timeout">
-            When greater than zero, switch to the
-            <see cref="T:System.Windows.Forms.AutoClosingMessageBox" /> instance and set its
-            <see cref="T:System.Windows.Forms.AutoClosingMessageBox.MessageBoxTimeout" />; when less than or equal to zero, use a
-            <see cref="T:System.Windows.Forms.NonStaticMessageBox" />.
-            </param>
-            <returns>
-            The newly installed
-            <see cref="T:System.Windows.Forms.IMessageBox" /> instance.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
-            <summary>
-            Displays a message box with the specified text, caption, buttons and icon.
-            Other parameters are accepted for API compatibility but are ignored by the current implementations.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <param name="displayHelpButton">
-            if set to
-            <c>
-            true
-            </c>display help button.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
-            <summary>
-            Displays a message box with the specified text, caption, buttons, icon and help file path.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <param name="helpFilePath">
-            The help file path.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
-            <summary>
-            Displays a message box with the specified owner, text, caption, buttons and icon.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <param name="helpFilePath">
-            The help file path.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
-            <summary>
-            Displays a message box with the specified text, caption, buttons, icon and help keyword.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <param name="helpFilePath">
-            The help file path.
-            </param>
-            <param name="keyword">
-            The keyword.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
-            <summary>
-            Displays a message box with the specified owner, text, caption, buttons, icon and help keyword.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <param name="helpFilePath">
-            The help file path.
-            </param>
-            <param name="keyword">
-            The keyword.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
-            <summary>
-            Displays a message box with the specified text, caption, buttons, icon and help navigator.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <param name="helpFilePath">
-            The help file path.
-            </param>
-            <param name="navigator">
-            The navigator.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
-            <summary>
-            Displays a message box with the specified owner, text, caption, buttons, icon and help navigator.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <param name="helpFilePath">
-            The help file path.
-            </param>
-            <param name="navigator">
-            The navigator.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
-            <summary>
-            Displays a message box with the specified text, caption, buttons, icon, help navigator and parameter.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <param name="helpFilePath">
-            The help file path.
-            </param>
-            <param name="navigator">
-            The navigator.
-            </param>
-            <param name="param">
-            The parameter.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
-            <summary>
-            Displays a message box with the specified owner, text, caption, buttons, icon, help navigator and parameter.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <param name="helpFilePath">
-            The help file path.
-            </param>
-            <param name="navigator">
-            The navigator.
-            </param>
-            <param name="param">
-            The parameter.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
-            <summary>
-            Displays a message box with the specified text, caption, buttons and icon.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
-            <summary>
-            Displays a message box with the specified text, caption, buttons and default button.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
-            <summary>
-            Displays a message box with the specified text, caption and buttons.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
-            <summary>
-            Displays a message box with the specified text and buttons.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String)">
-            <summary>
-            Displays a message box with the specified text and caption.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.String)">
-            <summary>
-            Displays a message box with the specified text.
-            </summary>
-            <param name="text">
-            The text.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
-            <summary>
-            Displays a message box with the specified owner, text, caption, buttons and icon.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <param name="options">
-            The options.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
-            <summary>
-            Displays a message box with the specified owner, text, caption, buttons and default button.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <param name="defaultButton">
-            The default button.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
-            <summary>
-            Displays a message box with the specified owner, text, caption, buttons and icon.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <param name="icon">
-            The icon.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
-            <summary>
-            Displays a message box with the specified owner, text, caption and buttons.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <param name="buttons">
-            The buttons.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String)">
-            <summary>
-            Displays a message box with the specified owner, text and caption.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <param name="caption">
-            The caption.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String)">
-            <summary>
-            Displays a message box with the specified owner and text.
-            </summary>
-            <param name="owner">
-            The owner.
-            </param>
-            <param name="text">
-            The text.
-            </param>
-            <returns>
-            DialogResult.
-            </returns>
         </member>
         <member name="T:System.Windows.Forms.FlowLayoutPanel">
             <summary>
@@ -38132,6 +37560,578 @@
             <param name="widget">
             The widget.
             </param>
+        </member>
+        <member name="T:System.Windows.Forms.MessageBox">
+            <summary>
+            Displays a message box that can contain text, buttons, and symbols that inform and instruct the user.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.MessageBox.Instance">
+            <summary>
+            The active
+            <see cref="T:System.Windows.Forms.IMessageBox" /> implementation used by the static
+            <see cref="T:System.Windows.Forms.MessageBox" /> helpers.
+            By default this is a
+            <see cref="T:System.Windows.Forms.NonStaticMessageBox" />; callers may replace it using
+            <see cref="M:System.Windows.Forms.MessageBox.ReplaceInstance(System.Int32)" />.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.ReplaceInstance(System.Int32)">
+            <summary>
+            Replaces the current
+            <see cref="T:System.Windows.Forms.IMessageBox" /> implementation used by the static API.
+            </summary>
+            <param name="timeout">
+            When greater than zero, switch to the
+            <see cref="T:System.Windows.Forms.AutoClosingMessageBox" /> instance and set its
+            <see cref="T:System.Windows.Forms.AutoClosingMessageBox.MessageBoxTimeout" />; when less than or equal to zero, use a
+            <see cref="T:System.Windows.Forms.NonStaticMessageBox" />.
+            </param>
+            <returns>
+            The newly installed
+            <see cref="T:System.Windows.Forms.IMessageBox" /> instance.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
+            <summary>
+            Displays a message box with the specified text, caption, buttons and icon.
+            Other parameters are accepted for API compatibility but are ignored by the current implementations.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <param name="displayHelpButton">
+            if set to
+            <c>
+            true
+            </c>display help button.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
+            <summary>
+            Displays a message box with the specified text, caption, buttons, icon and help file path.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <param name="helpFilePath">
+            The help file path.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
+            <summary>
+            Displays a message box with the specified owner, text, caption, buttons and icon.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <param name="helpFilePath">
+            The help file path.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
+            <summary>
+            Displays a message box with the specified text, caption, buttons, icon and help keyword.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <param name="helpFilePath">
+            The help file path.
+            </param>
+            <param name="keyword">
+            The keyword.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
+            <summary>
+            Displays a message box with the specified owner, text, caption, buttons, icon and help keyword.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <param name="helpFilePath">
+            The help file path.
+            </param>
+            <param name="keyword">
+            The keyword.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
+            <summary>
+            Displays a message box with the specified text, caption, buttons, icon and help navigator.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <param name="helpFilePath">
+            The help file path.
+            </param>
+            <param name="navigator">
+            The navigator.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
+            <summary>
+            Displays a message box with the specified owner, text, caption, buttons, icon and help navigator.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <param name="helpFilePath">
+            The help file path.
+            </param>
+            <param name="navigator">
+            The navigator.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
+            <summary>
+            Displays a message box with the specified text, caption, buttons, icon, help navigator and parameter.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <param name="helpFilePath">
+            The help file path.
+            </param>
+            <param name="navigator">
+            The navigator.
+            </param>
+            <param name="param">
+            The parameter.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
+            <summary>
+            Displays a message box with the specified owner, text, caption, buttons, icon, help navigator and parameter.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <param name="helpFilePath">
+            The help file path.
+            </param>
+            <param name="navigator">
+            The navigator.
+            </param>
+            <param name="param">
+            The parameter.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
+            <summary>
+            Displays a message box with the specified text, caption, buttons and icon.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
+            <summary>
+            Displays a message box with the specified text, caption, buttons and default button.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
+            <summary>
+            Displays a message box with the specified text, caption and buttons.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
+            <summary>
+            Displays a message box with the specified text and buttons.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String,System.String)">
+            <summary>
+            Displays a message box with the specified text and caption.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.String)">
+            <summary>
+            Displays a message box with the specified text.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
+            <summary>
+            Displays a message box with the specified owner, text, caption, buttons and icon.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <param name="options">
+            The options.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
+            <summary>
+            Displays a message box with the specified owner, text, caption, buttons and default button.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <param name="defaultButton">
+            The default button.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
+            <summary>
+            Displays a message box with the specified owner, text, caption, buttons and icon.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <param name="icon">
+            The icon.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
+            <summary>
+            Displays a message box with the specified owner, text, caption and buttons.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <param name="buttons">
+            The buttons.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String)">
+            <summary>
+            Displays a message box with the specified owner, text and caption.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <param name="caption">
+            The caption.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.MessageBox.Show(System.Windows.Forms.IWin32Window,System.String)">
+            <summary>
+            Displays a message box with the specified owner and text.
+            </summary>
+            <param name="owner">
+            The owner.
+            </param>
+            <param name="text">
+            The text.
+            </param>
+            <returns>
+            DialogResult.
+            </returns>
         </member>
         <member name="M:System.Windows.Forms.ClientUtils.GetWordBoundaryStart(System.String,System.Int32)">
             <summary>

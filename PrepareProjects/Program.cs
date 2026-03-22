@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using Prepare.Common.Content;
 using Prepare.Common.IO;
 using Prepare.Common.Logging;
@@ -142,6 +143,35 @@ public class Program
         ConsoleColor.Green.Write(@"Normalizing end of line on project files", true);
         LineEndingNormalizer.NormalizeCsFiles(gtkDrawingDirectory);
         LineEndingNormalizer.NormalizeCsFiles(csProjectDirectory);
+
+        ConsoleColor.Green.Write(@"Splitting project files with multiple types", true);
+        TopLevelTypeSplitService.ProcessDirectory(gtkDrawingDirectory, [".Designer.cs"]);
+        TopLevelTypeSplitService.ProcessDirectory(csProjectDirectory, 
+                                                  [
+                                                      ".Designer.cs",
+                                                      @"System\Windows\Forms\MenuStripBase\ToolStripDropDownItem.cs",
+                                                      @"System\Windows\Forms\PropertyGridBase\PropertyGrid.Flags.cs",
+                                                      @"System\Windows\Forms\PropertyGridBase\PropertyGrid.PropertyTabCollection.cs",
+                                                      @"System\Windows\Forms\PropertyGridBase\PropertyGrid.TabInfo.cs",
+                                                      @"System\Resources\ResXResourceReader.cs",
+                                                      @"System\Resources\ResXResourceReader.ReaderAliasResolver.cs",
+                                                      @"System\Resources\ResXFileRef.cs",
+                                                      @"System\Resources\ResxFileRef.Converter.cs",                                                      @"System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.cs",
+                                                      @"System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.CustomTabOffsetsEnumerator.cs",
+                                                      @"System\Windows\Forms\ListBoxBase\ListBox.ObjectCollection.cs",
+                                                      @"System\Windows\Forms\ListBoxBase\ListBox.SelectedIndexCollection.cs",
+                                                      @"System\Windows\Forms\ListBoxBase\ListBox.SelectedIndexCollection.SelectedIndexEnumerator.cs",
+                                                      @"System\Windows\Forms\ListBoxBase\ListBox.SelectedObjectCollection.cs",
+                                                      @"System\Windows\Forms\ComboBoxBase\ComboBox.ObjectCollection.cs",
+                                                      @"System\Windows\Forms\ComboBoxBase\ComboBox.ObjectCollection.Entry.cs",
+                                                      @"System\Windows\Forms\ComboBoxBase\ComboBox.ObjectCollection.EntryEnumerator.cs",
+                                                      @"Content\System.ComponentModel.cs",
+                                                      @"Content\System.Resources.ResourceManager.cs",
+                                                      @"GtkSystem\Windows\Forms\GtkControls\ControlBase\GtkControlOverride.cs",
+                                                      @"System\Resources\ResXFileRef.cs",
+                                                      @"System\Resources\ResXResourceReader.cs",
+                                                      //@""
+                                                  ]);
 
         ConsoleColor.Green.Write(@"Persisting latest project files", true);
         projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);

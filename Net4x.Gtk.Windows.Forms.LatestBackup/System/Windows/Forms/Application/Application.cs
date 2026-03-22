@@ -522,33 +522,4 @@ namespace System.Windows.Forms
             Gtk.Application.Quit();
         }
     }
-
-    /// <summary>
-    /// InitAppliction is a static class that is used to initialize the application. It is used to set the application properties and to initialize the application. This class cannot be inherited.
-    /// </summary>
-    public static class InitAppliction
-    {
-
-        private static readonly Gtk.Application app = Application.Init();
-
-        static InitAppliction()
-        {
-
-        }
-    }
-}
-/// <summary>
-/// ApplicationConfiguration is a static class that is used to configure the application. It is used to set the application properties and to configure the application. This class cannot be inherited.
-/// </summary>
-public sealed class ApplicationConfiguration
-{
-    /// <summary>
-    /// Initializes this instance.
-    /// </summary>
-    public static void Initialize()
-    {
-        global::System.Windows.Forms.Application.EnableVisualStyles();
-        global::System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-        global::System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
-    }
 }

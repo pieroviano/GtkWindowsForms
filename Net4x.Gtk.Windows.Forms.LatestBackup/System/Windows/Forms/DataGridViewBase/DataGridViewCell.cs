@@ -5,17 +5,6 @@ using System.Drawing;
 namespace System.Windows.Forms;
 
 /// <summary>
-/// Displays a button-like user interface (UI) for use in a
-/// <see cref="T:System.Windows.Forms.DataGridView" /> control.
-/// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
-public class DataGridViewButtonCell : DataGridViewCell
-{
-}
-
-/// <summary>
 /// Represents an individual cell in a
 /// <see cref="T:System.Windows.Forms.DataGridView" /> control.
 /// </summary>
@@ -409,70 +398,4 @@ public abstract class DataGridViewCell
         get;
         set;
     }
-}
-
-/// <summary>
-/// Displays a check box user interface (UI) to use in a
-/// <see cref="T:System.Windows.Forms.DataGridView" /> control.
-/// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
-public class DataGridViewCheckBoxCell : DataGridViewCell
-{
-}
-
-/// <summary>
-/// Displays a combo box in a
-/// <see cref="T:System.Windows.Forms.DataGridView" /> control.
-/// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
-public class DataGridViewComboBoxCell : DataGridViewCell
-{
-}
-
-/// <summary>
-/// Displays a graphic in a
-/// <see cref="T:System.Windows.Forms.DataGridView" /> control.
-/// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
-public class DataGridViewImageCell : DataGridViewCell
-{
-}
-
-/// <summary>
-/// Represents a cell that contains a link.
-/// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
-public class DataGridViewLinkCell : DataGridViewCell
-{
-}
-
-/// <summary>
-/// Class DataGridViewRadioCell. Implements the
-/// <see cref="T:System.Windows.Forms.DataGridViewCell" />
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.DataGridViewCell" />
-public class DataGridViewRadioCell : DataGridViewCell
-{
-}
-
-/// <summary>
-/// Displays editable text information in a
-/// <see cref="T:System.Windows.Forms.DataGridView" /> control.
-/// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
-public class DataGridViewTextBoxCell : DataGridViewCell
-{
-    //public DataGridViewTextBoxCell(DataGridViewRow dataGridViewRow) {
-
-    //}
 }
