@@ -182,6 +182,9 @@ public class Program
         ProjectUtility.PersistProjectFiles(net4xGtkDrawingPath, projectFiles, directoryName, BackupUtility.LatestBackup);
         BackupUtility.DeleteBackupFolders("..\\..\\..\\..\\");
 
+        ConsoleColor.Green.Write(@"Applying patches the solution", true);
+        GitPatchApplier.CommitAndApplyPatches();
+
         ConsoleColor.Green.Write(@"Building the solution", true);
         updatePropsFiles.Invoke();
         var solutionPath = PrepareWorker.GetSolutionPath(csProjectDirectory);
