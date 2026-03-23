@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using Gtk;
 
@@ -82,7 +82,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         get => ScrollView.VscrollbarPolicy == Gtk.PolicyType.Automatic;
         set
         {
-            if (value)
+            if (value == true)
             {
                 if (VScroll)
                     ScrollView.VscrollbarPolicy = Gtk.PolicyType.Automatic;
@@ -182,7 +182,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
 
     private void FormBase_Close(object sender, EventArgs e)
     {
-        var result = MessageBox.Show(this, System.Properties.Resources.Gtk_FormBase_FormBase_Close, "Esc keyboard operation hints", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        DialogResult result = MessageBox.Show(this, System.Properties.Resources.Gtk_FormBase_FormBase_Close, "Esc keyboard operation hints", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         if (result == DialogResult.Yes)
         {
             this.Respond(ResponseType.DeleteEvent);
@@ -215,7 +215,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         if (Scroll != null)
         {
             var adj = (Gtk.Adjustment)sender;
-            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? adj.Value - adj.StepIncrement : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
+            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
         }
     }
 
@@ -240,7 +240,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         if (Scroll != null)
         {
             var adj = (Gtk.Adjustment)sender;
-            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? adj.Value - adj.StepIncrement : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
+            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
         }
     }
 

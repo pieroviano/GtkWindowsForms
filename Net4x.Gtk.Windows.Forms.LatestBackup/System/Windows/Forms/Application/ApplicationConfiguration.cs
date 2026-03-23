@@ -1,4 +1,12 @@
-﻿using System.Windows.Forms;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+using Gtk;
 
 /// <summary>
 /// ApplicationConfiguration is a static class that is used to configure the application. It is used to set the application properties and to configure the application. This class cannot be inherited.

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -122,7 +122,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// <param name="cellTemplate">
     /// Template cell.
     /// </param>
-    protected DataGridViewColumn(int column, DataGridView? ownerGridView, DataGridViewCell cellTemplate) : base()
+    protected DataGridViewColumn(int column, DataGridView ownerGridView, DataGridViewCell cellTemplate) : base()
     {
         if (ownerGridView != null)
         {
@@ -353,7 +353,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// </summary>
     public new DataGridViewTriState Resizable
     {
-        get { return base.Resizable ? DataGridViewTriState.True : DataGridViewTriState.False; }
+        get { return base.Resizable == true ? DataGridViewTriState.True : DataGridViewTriState.False; }
         set { base.Resizable = value == DataGridViewTriState.True; }
     }
 
@@ -452,7 +452,7 @@ public class DataGridViewColumn : TreeViewColumn
         {
             if (_treeView != null)
             {
-                var size = _treeView.PangoContext.FontDescription.Size / Pango.Scale.PangoScale;
+                double size = _treeView.PangoContext.FontDescription.Size / Pango.Scale.PangoScale;
                 return (int)size + 16;
             }
 
@@ -495,7 +495,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// <param name="cellStyle">
     /// The default style to apply.
     /// </param>
-    public void SetGridViewDefaultStyle(DataGridViewCellStyle? cellStyle)
+    public void SetGridViewDefaultStyle(DataGridViewCellStyle cellStyle)
     {
         if (cellStyle != null)
         {
@@ -555,8 +555,8 @@ public class DataGridViewColumn : TreeViewColumn
     {
         var path = new TreePath(args.Path);
         var model = _treeView.Model;
-        model.GetIter(out var iter, path);
-        var cell = model.GetValue(iter, this.Index);
+        model.GetIter(out TreeIter iter, path);
+        object cell = model.GetValue(iter, this.Index);
         if (cell is DataGridViewCell val)
         {
             val.Value = args.NewText;

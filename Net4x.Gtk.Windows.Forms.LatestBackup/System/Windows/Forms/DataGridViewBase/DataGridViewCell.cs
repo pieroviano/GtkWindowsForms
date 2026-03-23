@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 
@@ -369,7 +369,7 @@ public abstract class DataGridViewCell
     /// </value>
     public virtual Type ValueType
     {
-        get { return _valueType ?? Value?.GetType(); }
+        get { return _valueType ?? (Value?.GetType()); }
         set { _valueType = value; }
     }
 

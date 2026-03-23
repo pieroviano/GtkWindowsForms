@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.Generic;
@@ -317,6 +317,10 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
         {
             throw new IndexOutOfRangeException(" index out of range， please check whether the index is within the valid rangeImageList within the data range， save the related images toResources under the directory。", ex);
         }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 
     /// <summary>
@@ -333,7 +337,7 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
     /// </exception>
     public Bitmap GetBitmap(string name)
     {
-        var index = _imageCollection.IndexOfKey(name);
+        int index = _imageCollection.IndexOfKey(name);
         if (index == -1)
         {
             throw new FileNotFoundException($"“{name}” not loaded， please save the related images toResources under the directory。", name);
@@ -357,23 +361,23 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
 
     internal Image GetOriginalImage(string name)
     {
-        var resources = $"./Resources";
+        var path1 = $"./Resources";
         var value = this.ImageStream;
         if (value.ResourceInfo != null && value.ResourceInfo.BaseName != null)
         {
             // load image data here
-            var dir = $"{resources}/{Path.GetExtension(value.ResourceInfo.BaseName).TrimStart('.')}";
-            var filename = $"{dir}/{name}";
-            if (IO.File.Exists(filename))
+            var dir = $"{path1}/{Path.GetExtension(value.ResourceInfo.BaseName).TrimStart('.')}";
+            var path2 = $"{dir}/{name}";
+            if (IO.File.Exists(path2))
             {
                 if (!Directory.Exists(dir))
                     Directory.CreateDirectory(dir);
-                return ScaleSimpleBitmap(Bitmap.FromFile(filename));
+                return ScaleSimpleBitmap(Bitmap.FromFile(path2));
             }
         }
-        if (IO.File.Exists($"{resources}/{name}"))
+        if (IO.File.Exists($"{path1}/{name}"))
         {
-            return ScaleSimpleBitmap(Bitmap.FromFile($"{resources}/{name}"));
+            return ScaleSimpleBitmap(Bitmap.FromFile($"{path1}/{name}"));
         }
 
         return null;
@@ -395,7 +399,7 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
             if (!(_originals is null))
             {
                 // we might own some of the stuff that's not been created yet
-                foreach (var original in _originals)
+                foreach (Original original in _originals)
                 {
                     if ((original._options & OriginalOptions.OwnsImage) != 0)
                     {
@@ -441,12 +445,12 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
             return false;
         }
 
-        for (var i = 0; i < bmpData.Height; i++)
+        for (int i = 0; i < bmpData.Height; i++)
         {
-            var offsetRow = i * bmpData.Stride;
-            for (var j = 3; j < bmpData.Width * 4; j += 4) // *4 is safe since we know PixelFormat is ARGB
+            int offsetRow = i * bmpData.Stride;
+            for (int j = 3; j < bmpData.Width * 4; j += 4) // *4 is safe since we know PixelFormat is ARGB
             {
-                var candidate = (byte*)bmpData.Scan0.ToPointer() + offsetRow + j;
+                byte* candidate = ((byte*)bmpData.Scan0.ToPointer()) + offsetRow + j;
                 if (*candidate != 0)
                 {
                     return true;
@@ -468,11 +472,11 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
         // do the actual copy
         var offsetSrc = 0;
         var offsetDest = 0;
-        for (var i = 0; i < targetData.Height; i++)
+        for (int i = 0; i < targetData.Height; i++)
         {
-            var srcPtr = sourceData.Scan0 + offsetSrc;
-            var destPtr = targetData.Scan0 + offsetDest;
-            var length = Math.Abs(targetData.Stride);
+            IntPtr srcPtr = sourceData.Scan0 + offsetSrc;
+            IntPtr destPtr = targetData.Scan0 + offsetDest;
+            int length = Math.Abs(targetData.Stride);
             Buffer.MemoryCopy(srcPtr.ToPointer(), destPtr.ToPointer(), length, length);
             offsetSrc += sourceData.Stride;
             offsetDest += targetData.Stride;
@@ -484,9 +488,9 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
         ownsBitmap = false;
         var bitmp = original._image as Bitmap;
         var pixbuf = new Gdk.Pixbuf(bitmp.PixbufData);
-        var w = Math.Max(16, Math.Min(ImageSize.Width, 200));
-        var h = Math.Max(16, Math.Min(ImageSize.Height, 200));
-        var newpixbuf = pixbuf.ScaleSimple(w, h, Gdk.InterpType.Bilinear);
+        int w = Math.Max(16, Math.Min(ImageSize.Width, 200));
+        int h = Math.Max(16, Math.Min(ImageSize.Height, 200));
+        Gdk.Pixbuf newpixbuf = pixbuf.ScaleSimple(w, h, Gdk.InterpType.Bilinear);
         ownsBitmap = true;
 
         return new Bitmap(w, h) { Pixbuf = newpixbuf };
@@ -520,9 +524,9 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
     private Bitmap ScaleSimpleBitmap(Image bitmp)
     {
         var pixbuf = new Gdk.Pixbuf(bitmp.PixbufData);
-        var w = Math.Max(16, Math.Min(ImageSize.Width, 200));
-        var h = Math.Max(16, Math.Min(ImageSize.Height, 200));
-        var newpixbuf = pixbuf.ScaleSimple(w, h, Gdk.InterpType.Bilinear);
+        int w = Math.Max(16, Math.Min(ImageSize.Width, 200));
+        int h = Math.Max(16, Math.Min(ImageSize.Height, 200));
+        Gdk.Pixbuf newpixbuf = pixbuf.ScaleSimple(w, h, Gdk.InterpType.Bilinear);
 
         return new Bitmap(w, h) { Pixbuf = newpixbuf };
     }

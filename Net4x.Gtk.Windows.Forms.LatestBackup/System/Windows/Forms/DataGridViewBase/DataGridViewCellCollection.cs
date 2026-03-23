@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Atk;
@@ -201,7 +201,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
         }
 
         items.AddRange(dataGridViewCells);
-        foreach (var dataGridViewCell2 in dataGridViewCells)
+        foreach (DataGridViewCell dataGridViewCell2 in dataGridViewCells)
         {
             dataGridViewCell2.OwningRowInternal = owner;
         }
@@ -223,7 +223,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
             throw new ArgumentNullException("dataGridViewCells");
         }
 
-        foreach (var dataGridViewCell2 in dataGridViewCells)
+        foreach (DataGridViewCell dataGridViewCell2 in dataGridViewCells)
         {
             dataGridViewCell2.OwningRowInternal = owner;
             items.Add(dataGridViewCell2);
@@ -365,7 +365,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
 
         var num = -1;
         var count = items.Count;
-        for (var i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             if (items[i] == cell)
             {

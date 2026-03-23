@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace System.Windows.Forms;
 
@@ -195,7 +195,7 @@ public abstract class ListControl : ScrollableControl
     /// <returns>
     /// Display text for the item.
     /// </returns>
-    public virtual string GetItemText(object? item)
+    public virtual string GetItemText(object item)
     {
         return item?.ToString();
     }

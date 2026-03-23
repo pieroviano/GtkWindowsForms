@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -90,13 +90,13 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
         column.DisplayIndex = column.Index;
         column.SetGridViewDefaultStyle(__owner.DefaultCellStyle);
 
-        var _cellStyle = column.DefaultCellStyle;
+        DataGridViewCellStyle _cellStyle = column.DefaultCellStyle;
         if (__owner.ColumnHeadersDefaultCellStyle != null)
             _cellStyle = __owner.ColumnHeadersDefaultCellStyle;
 
         if (_cellStyle != null)
         {
-            var header = (Gtk.Button)column.Button;
+            var header = ((Gtk.Button)column.Button);
             var style = "";
             if (_cellStyle.BackColor.Name != "0")
             {
@@ -160,7 +160,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </param>
     public new void AddRange(IEnumerable<DataGridViewColumn> columns)
     {
-        foreach (var column in columns)
+        foreach (DataGridViewColumn column in columns)
         {
             Add(column);
         }
@@ -205,7 +205,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </returns>
     public int GetColumnsWidth(DataGridViewElementStates includeFilter)
     {
-        var co = Find(m => m.State == includeFilter);
+        DataGridViewColumn co = Find(m => m.State == includeFilter);
 
         return co == null ? __owner.RowHeadersWidth : co.Width;
     }
@@ -279,7 +279,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </returns>
     public DataGridViewColumn GetNextColumn(DataGridViewColumn dataGridViewColumnStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
-        var ix = FindIndex(m => m.Name == dataGridViewColumnStart.Name && m.State == includeFilter && m.State == excludeFilter);
+        int ix = FindIndex(m => m.Name == dataGridViewColumnStart.Name && m.State == includeFilter && m.State == excludeFilter);
 
         return ix < Count ? base[ix] : null;
     }
@@ -301,19 +301,19 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
             __owner.GridView.Model = __owner.Store;
         }
         __owner.Store.DefaultSortFunc = new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) => { return 0; });
-        for (var i = 0; i < __owner.Store.NColumns; i++)
+        for (int i = 0; i < __owner.Store.NColumns; i++)
         {
             __owner.Store.SetSortFunc(i, new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) =>
             {
-                ((Gtk.TreeStore)m).GetSortColumnId(out var sortid, out var order);
+                ((Gtk.TreeStore)m).GetSortColumnId(out int sortid, out Gtk.SortType order);
                 var v1 = m.GetValue(t1, sortid) as DataGridViewCell;
                 var v2 = m.GetValue(t2, sortid) as DataGridViewCell;
                 if (v1?.Value == null || v2?.Value == null)
                     return 0;
-                else if (int.TryParse(v1.Value.ToString(), out var rv1) && int.TryParse(v2.Value.ToString(), out var rv2))
-                    return rv2 - rv1;
-                else if (DateTime.TryParse(v1.Value.ToString(), out var rd1) && DateTime.TryParse(v2.Value.ToString(), out var rd2))
-                    return (int)(rd2 - rd1).TotalSeconds;
+                else if (int.TryParse(v1.Value.ToString(), out int rv1) && int.TryParse(v2.Value.ToString(), out int rv2))
+                    return (rv2 - rv1);
+                else if (DateTime.TryParse(v1.Value.ToString(), out DateTime rd1) && DateTime.TryParse(v2.Value.ToString(), out DateTime rd2))
+                    return (int)((rd2 - rd1).TotalSeconds);
                 else
                     return v2.Value.ToString().CompareTo(v1.Value.ToString());
             }));
@@ -332,7 +332,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     public new bool Remove(DataGridViewColumn column)
     {
         __owner.GridView.RemoveColumn(column);
-        var ir= base.Remove(column);
+        bool ir= base.Remove(column);
         OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Remove, column));
 
         return ir;

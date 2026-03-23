@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
@@ -27,7 +27,7 @@ internal partial class PropertyStore
     /// </summary>
     public bool ContainsInteger(int key)
     {
-        GetInteger(key, out var found);
+        GetInteger(key, out bool found);
 
         return found;
     }
@@ -39,14 +39,14 @@ internal partial class PropertyStore
     /// </summary>
     public bool ContainsObject(int key)
     {
-        GetObject(key, out var found);
+        GetObject(key, out bool found);
 
         return found;
     }
 
     public bool ContainsObjectThatIsNotNull(int key)
     {
-        var entry = GetObject(key, out var found);
+        var entry = GetObject(key, out bool found);
 
         return found && entry is not null;
     }
@@ -101,8 +101,8 @@ internal partial class PropertyStore
     /// </summary>
     public int GetInteger(int key, out bool found)
     {
-        var keyIndex = SplitKey(key, out var element);
-        if (!LocateIntegerEntry(keyIndex, out var index))
+        var keyIndex = SplitKey(key, out short element);
+        if (!LocateIntegerEntry(keyIndex, out int index))
         {
             found = false;
             return default;
@@ -147,8 +147,8 @@ internal partial class PropertyStore
     /// </summary>
     public object? GetObject(int key, out bool found)
     {
-        var keyIndex = SplitKey(key, out var element);
-        if (!LocateObjectEntry(keyIndex, out var index))
+        var keyIndex = SplitKey(key, out short element);
+        if (!LocateObjectEntry(keyIndex, out int index))
         {
             found = false;
             return null;
@@ -255,8 +255,8 @@ internal partial class PropertyStore
     /// </summary>
     public void RemoveObject(int key)
     {
-        var entryKey = SplitKey(key, out var element);
-        if (!LocateObjectEntry(entryKey, out var index))
+        var entryKey = SplitKey(key, out short element);
+        if (!LocateObjectEntry(entryKey, out int index))
         {
             return;
         }
@@ -268,7 +268,7 @@ internal partial class PropertyStore
         }
 
         // Declare that the element is no longer used
-        _objEntries[index].Mask &= (short)~(short)(1 << element);
+        _objEntries[index].Mask &= (short)(~((short)(1 << element)));
 
         if (_objEntries[index].Mask == 0)
         {
@@ -326,7 +326,7 @@ internal partial class PropertyStore
 
     public void SetColor(int key, Color value)
     {
-        var storedObject = GetObject(key, out var found);
+        var storedObject = GetObject(key, out bool found);
         if (!found)
         {
             SetObject(key, new ColorWrapper(value));
@@ -351,8 +351,8 @@ internal partial class PropertyStore
     /// </summary>
     public void SetInteger(int key, int value)
     {
-        var entryKey = SplitKey(key, out var element);
-        if (!LocateIntegerEntry(entryKey, out var index))
+        var entryKey = SplitKey(key, out short element);
+        if (!LocateIntegerEntry(entryKey, out int index))
         {
             // We must allocate a new entry.
             if (_intEntries is not null)
@@ -404,7 +404,7 @@ internal partial class PropertyStore
                 break;
         }
 
-        _intEntries[index].Mask = (short)((1 << element) | (ushort)_intEntries[index].Mask);
+        _intEntries[index].Mask = (short)((1 << element) | (ushort)(_intEntries[index].Mask));
     }
 
     /// <summary>
@@ -412,8 +412,8 @@ internal partial class PropertyStore
     /// </summary>
     public void SetObject(int key, object? value)
     {
-        var entryKey = SplitKey(key, out var element);
-        if (!LocateObjectEntry(entryKey, out var index))
+        var entryKey = SplitKey(key, out short element);
+        if (!LocateObjectEntry(entryKey, out int index))
         {
             // We must allocate a new entry.
             if (_objEntries is not null)
@@ -465,12 +465,12 @@ internal partial class PropertyStore
                 break;
         }
 
-        _objEntries[index].Mask = (short)((ushort)_objEntries[index].Mask | (1 << element));
+        _objEntries[index].Mask = (short)((ushort)(_objEntries[index].Mask) | (1 << element));
     }
 
     public void SetPadding(int key, Padding value)
     {
-        var storedObject = GetObject(key, out var found);
+        var storedObject = GetObject(key, out bool found);
         if (!found)
         {
             SetObject(key, new PaddingWrapper(value));
@@ -492,7 +492,7 @@ internal partial class PropertyStore
 
     public void SetRectangle(int key, Rectangle value)
     {
-        var storedObject = GetObject(key, out var found);
+        var storedObject = GetObject(key, out bool found);
         if (!found)
         {
             SetObject(key, new RectangleWrapper(value));
@@ -514,7 +514,7 @@ internal partial class PropertyStore
 
     public void SetSize(int key, Size value)
     {
-        var storedObject = GetObject(key, out var found);
+        var storedObject = GetObject(key, out bool found);
         if (!found)
         {
             SetObject(key, new SizeWrapper(value));
@@ -559,7 +559,7 @@ internal partial class PropertyStore
     /// </returns>
     public bool TryGetObject<T>(int key, out T? value)
     {
-        var entry = GetObject(key, out var found);
+        var entry = GetObject(key, out bool found);
         Debug.Assert(!found || entry is null || entry is T, $"Entry is not of type {typeof(T)}, but of type {entry?.GetType()}");
         if (typeof(T).IsValueType || typeof(T).IsEnum || typeof(T).IsPrimitive)
         {

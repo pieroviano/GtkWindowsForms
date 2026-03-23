@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -73,14 +73,14 @@ public sealed class OpenFileDialog : FileDialog
     {
         get
         {
-            var fullPaths = FileNames;
+            string[] fullPaths = FileNames;
             if (fullPaths is null || fullPaths.Length == 0)
             {
                 return Array.Empty<string>();
             }
 
             var safePaths = new string[fullPaths.Length];
-            for (var i = 0; i < safePaths.Length; ++i)
+            for (int i = 0; i < safePaths.Length; ++i)
             {
                 safePaths[i] = Path.GetFileName(fullPaths[i]);
             }

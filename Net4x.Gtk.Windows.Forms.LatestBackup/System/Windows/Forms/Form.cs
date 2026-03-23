@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -264,8 +264,8 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public bool ShowInTaskbar
     {
-        get { return !self.SkipTaskbarHint; }
-        set { self.SkipTaskbarHint = !value; }
+        get { return self.SkipTaskbarHint == false; }
+        set { self.SkipTaskbarHint = value == false; }
     }
 
     /// <summary>
@@ -380,7 +380,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// </param>
     public override void ResumeLayout(bool resume)
     {
-        _Created = !resume;
+        _Created = resume == false;
     }
 
     /// <summary>
@@ -422,10 +422,10 @@ public partial class Form : ContainerControl, IWin32Window
             self.Activate();
         }
 
-        if (!self.IsVisible)
+        if (self.IsVisible == false)
         {
             this.FormBorderStyle = this.FormBorderStyle;
-            if (!this.MaximizeBox && !this.MinimizeBox)
+            if (this.MaximizeBox == false && this.MinimizeBox == false)
             {
                 self.TypeHint = Gdk.WindowTypeHint.Dialog;
             }
@@ -439,7 +439,7 @@ public partial class Form : ContainerControl, IWin32Window
             {
                 self.Iconify();
             }
-            if (!self.IsMapped)
+            if (self.IsMapped == false)
             {
                 try
                 {
@@ -514,7 +514,7 @@ public partial class Form : ContainerControl, IWin32Window
             throw new InvalidOperationException("ShowDialogOnDisabled");
         }
         Show(owner);
-        var irun = self.Run();
+        int irun = self.Run();
 
         return this.DialogResult;
     }
@@ -574,7 +574,7 @@ public partial class Form : ContainerControl, IWin32Window
 
     private void Control_Shown(object sender, EventArgs e)
     {
-        if (!Is_Control_Shown)
+        if (Is_Control_Shown == false)
         {
             Is_Control_Shown = true;
             if (self.Titlebar is Gtk.HeaderBar titlebar)
@@ -585,7 +585,7 @@ public partial class Form : ContainerControl, IWin32Window
                 }
                 else
                 {
-                    if (MaximizeBox)
+                    if (MaximizeBox == true)
                     {
                         var maximize = new Gtk.Button("window-maximize-symbolic", IconSize.SmallToolbar) { Name = "maximize", Visible = true, Relief = ReliefStyle.None, Valign = Align.Center, Halign = Align.Center };
                         maximize.StyleContext.AddClass("maximize");
@@ -593,7 +593,7 @@ public partial class Form : ContainerControl, IWin32Window
                         maximize.Clicked += Maximize_Clicked;
                         titlebar.PackEnd(maximize);
                     }
-                    if (MinimizeBox)
+                    if (MinimizeBox == true)
                     {
                         var minimize = new Gtk.Button("window-minimize-symbolic", IconSize.SmallToolbar) { Name = "minimize", Visible = true, Relief = ReliefStyle.None, Valign = Align.Center, Halign = Align.Center };
                         minimize.StyleContext.AddClass("minimize");
@@ -662,12 +662,12 @@ public partial class Form : ContainerControl, IWin32Window
         var closing = new FormClosingEventArgs(CloseReason.UserClosing, false);
         OnFormClosing(closing);
 
-        if (!closing.Cancel)
+        if (closing.Cancel == false)
         {
             OnFormClosed(new FormClosedEventArgs(CloseReason.UserClosing));
         }
 
-        return !closing.Cancel;
+        return closing.Cancel == false;
     }
 
     private void Self_ResizeChecked(object sender, EventArgs e)

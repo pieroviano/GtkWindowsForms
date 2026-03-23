@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -169,42 +169,42 @@ public partial class ResXResourceReader : IResourceReader
     {
     }
 
-    internal ResXResourceReader(string fileName, ITypeResolutionService typeResolver, IAliasResolver? aliasResolver)
+    internal ResXResourceReader(string fileName, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
     {
         _fileName = fileName;
         _typeResolver = typeResolver;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver, IAliasResolver? aliasResolver)
+    internal ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
     {
         _reader = reader;
         _typeResolver = typeResolver;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(Stream stream, ITypeResolutionService typeResolver, IAliasResolver? aliasResolver)
+    internal ResXResourceReader(Stream stream, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
     {
         _stream = stream;
         _typeResolver = typeResolver;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(Stream stream, AssemblyName[] assemblyNames, IAliasResolver? aliasResolver)
+    internal ResXResourceReader(Stream stream, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
     {
         _stream = stream;
         _assemblyNames = assemblyNames;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames, IAliasResolver? aliasResolver)
+    internal ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
     {
         _reader = reader;
         _assemblyNames = assemblyNames;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(string fileName, AssemblyName[] assemblyNames, IAliasResolver? aliasResolver)
+    internal ResXResourceReader(string fileName, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
     {
         _fileName = fileName;
         _assemblyNames = assemblyNames;
@@ -445,8 +445,8 @@ public partial class ResXResourceReader : IResourceReader
 
     private void ParseAssemblyNode(XmlReader reader)
     {
-        var alias = reader[ResXResourceWriter.AliasStr];
-        var typeName = reader[ResXResourceWriter.NameStr];
+        string alias = reader[ResXResourceWriter.AliasStr];
+        string typeName = reader[ResXResourceWriter.NameStr];
 
         var assemblyName = new AssemblyName(typeName);
 
@@ -465,7 +465,7 @@ public partial class ResXResourceReader : IResourceReader
             Name = reader[ResXResourceWriter.NameStr]
         };
 
-        var typeName = reader[ResXResourceWriter.TypeStr];
+        string typeName = reader[ResXResourceWriter.TypeStr];
 
         string alias = null;
         AssemblyName assemblyName = null;
@@ -507,7 +507,7 @@ public partial class ResXResourceReader : IResourceReader
                 {
                     if (reader.Name.Equals(ResXResourceWriter.ValueStr))
                     {
-                        var oldValue = reader.WhitespaceHandling;
+                        WhitespaceHandling oldValue = reader.WhitespaceHandling;
                         try
                         {
                             // based on the documentation at https://docs.microsoft.com/dotnet/api/system.xml.xmltextreader.whitespacehandling
@@ -553,7 +553,7 @@ public partial class ResXResourceReader : IResourceReader
         }
         else
         {
-            IDictionary data = isMetaData ? _resMetadata : _resData;
+            IDictionary data = (isMetaData ? _resMetadata : _resData);
             if (_assemblyNames is null)
             {
                 data[nodeInfo.Name] = dataNode.GetValue(_typeResolver);
@@ -567,7 +567,7 @@ public partial class ResXResourceReader : IResourceReader
 
     private void ParseResHeaderNode(XmlReader reader)
     {
-        var name = reader[ResXResourceWriter.NameStr];
+        string name = reader[ResXResourceWriter.NameStr];
         if (name != null)
         {
             reader.ReadStartElement();
@@ -685,7 +685,7 @@ public partial class ResXResourceReader : IResourceReader
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
-                        var s = reader.LocalName;
+                        string s = reader.LocalName;
 
                         if (reader.LocalName.Equals(ResXResourceWriter.AssemblyStr))
                         {

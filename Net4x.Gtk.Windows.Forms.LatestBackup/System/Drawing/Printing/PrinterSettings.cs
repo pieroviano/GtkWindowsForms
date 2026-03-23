@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.Specialized;
@@ -239,7 +239,7 @@ public partial class PrinterSettings : ICloneable
     /// </returns>
     public bool IsDirectPrintingSupported(Image image)
     {
-        var imageFormat = image.RawFormat;
+        ImageFormat imageFormat = image.RawFormat;
 
         if (!imageFormat.Equals(ImageFormat.Jpeg) && !imageFormat.Equals(ImageFormat.Png))
         {

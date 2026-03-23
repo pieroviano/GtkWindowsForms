@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -78,8 +78,8 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
     {
         var path = new TreePath(args.Path);
         var model = _treeView.Model;
-        model.GetIter(out var iter, path);
-        var cell = model.GetValue(iter, this.Index);
+        model.GetIter(out TreeIter iter, path);
+        object cell = model.GetValue(iter, this.Index);
         if (cell is DataGridViewCell val)
         {
             val.Value = args.NewText;
@@ -131,7 +131,7 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
         /// </param>
         public void AddRange(object[] items)
         {
-            foreach (var item in items)
+            foreach (object item in items)
                 Add(item);
         }
     }

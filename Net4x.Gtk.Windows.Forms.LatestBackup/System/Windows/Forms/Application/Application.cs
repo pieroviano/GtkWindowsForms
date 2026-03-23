@@ -1,7 +1,11 @@
-﻿using System.ComponentModel;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 using Gtk;
 
 namespace System.Windows.Forms
@@ -94,7 +98,7 @@ namespace System.Windows.Forms
         {
             get
             {
-                var module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
+                System.Diagnostics.ProcessModule module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
                 if (module.ModuleName.ToLower() == "dotnet" || module.ModuleName.ToLower() == "dotnet.exe")
                     return Assembly.GetEntryAssembly().Location;
                 else
@@ -127,8 +131,8 @@ namespace System.Windows.Forms
             get
             {
                 var forms = new FormCollection();
-                var windows = Gtk.Window.ListToplevels().Where(w => w.IsVisible);
-                foreach (var w in windows)
+                var windows = Gtk.Window.ListToplevels().Where(w => w.IsVisible == true);
+                foreach (Gtk.Window w in windows)
                     if (w.Data.ContainsKey("Control") && w.Data["Control"] is Form form)
                         forms.Add(form);
 
@@ -199,7 +203,7 @@ namespace System.Windows.Forms
         /// Exits this instance.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static void Exit(CancelEventArgs? e)
+        public static void Exit(CancelEventArgs e)
         {
             lock (internalSyncObject)
             {
@@ -211,7 +215,7 @@ namespace System.Windows.Forms
                     }
                     else
                     {
-                        if (!e.Cancel)
+                        if (e.Cancel == false)
                         {
                             Gtk.Application.Quit();
                         }
@@ -348,7 +352,7 @@ namespace System.Windows.Forms
                 var quitAction = new GLib.SimpleAction("quit", null);
                 quitAction.Activated += QuitActivated;
                 App.AddAction(quitAction);
-                var settings = Gtk.Settings.Default;
+                Gtk.Settings settings = Gtk.Settings.Default;
                 settings.SplitCursor = true;
                 settings.EnableAnimations = true;
                 var iconpath = Path.Combine(appdirectory, "icon.png");
@@ -361,22 +365,22 @@ namespace System.Windows.Forms
                 if (File.Exists(themesetuppath))
                 {
                     var setuptheme = File.ReadAllLines(themesetuppath, Text.Encoding.UTF8);
-                    var nameValue = setuptheme.Where(w=>w.Contains("=")).ToDictionary(k => k.Split('=')[0],v=>v.Split('=')[1]);
-                    nameValue.TryGetValue("UseDefaultStyle", out var usedef);
+                    Dictionary<string,string> nameValue = setuptheme.Where(w=>w.Contains("=")).ToDictionary(k => k.Split('=')[0],v=>v.Split('=')[1]);
+                    nameValue.TryGetValue("UseDefaultStyle", out string usedef);
                     if (usedef != "false")
                         cssBuilder.AppendLine(css_style);
 
-                    nameValue.TryGetValue("AutoTheme", out var autotheme);
+                    nameValue.TryGetValue("AutoTheme", out string autotheme);
                     if (autotheme == "false")
                     {
-                        if (nameValue.TryGetValue("DefaultThemeName", out var themename))
+                        if (nameValue.TryGetValue("DefaultThemeName", out string themename))
                             Gtk.Settings.Default.ThemeName = themename;
                     }
-                    if (nameValue.TryGetValue("UseCustomTheme", out var usetheme))
+                    if (nameValue.TryGetValue("UseCustomTheme", out string usetheme))
                     {
                         if (usetheme == "true")
                         {
-                            if (nameValue.TryGetValue("ThemeFolder", out var themefolder))
+                            if (nameValue.TryGetValue("ThemeFolder", out string themefolder))
                             {
                                 if (Directory.Exists(themefolder))
                                 {
@@ -399,7 +403,7 @@ namespace System.Windows.Forms
                                     Console.WriteLine(themefolder + System.Properties.Resources.Gtk_Application_Init_Directory_does_not_exist);
                                 }
                             }
-                            if (nameValue.TryGetValue("ThemeCssPath", out var themecss))
+                            if (nameValue.TryGetValue("ThemeCssPath", out string themecss))
                             {
                                 if (File.Exists(themecss))
                                 {
@@ -408,9 +412,9 @@ namespace System.Windows.Forms
                             }
                         }
                     }
-                    if (nameValue.TryGetValue("UseCustomStyle", out var customstyle))
+                    if (nameValue.TryGetValue("UseCustomStyle", out string customstyle))
                     {
-                        if (customstyle == "true" && nameValue.TryGetValue("StylePath", out var stylefile))
+                        if (customstyle == "true" && nameValue.TryGetValue("StylePath", out string stylefile))
                         {
                             var stylepath = Path.Combine(themepath, stylefile);
                             if (File.Exists(stylepath))

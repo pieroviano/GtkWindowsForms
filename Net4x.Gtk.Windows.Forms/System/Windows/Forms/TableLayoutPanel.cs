@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -92,9 +92,9 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
         get => _ColumnCount;
         set
         {
-            for (var r = 0; r < _RowCount; r++)
+            for (int r = 0; r < _RowCount; r++)
             {
-                for (var c = 0; c < value; c++)
+                for (int c = 0; c < value; c++)
                 {
                     if (grid.GetChildAt(c, r) == null)
                     {
@@ -102,7 +102,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
                     }
                 }
             }
-            for (var c = value; c < _ColumnCount; c++)
+            for (int c = value; c < _ColumnCount; c++)
             {
                 grid.RemoveColumn(value);
             }
@@ -177,9 +177,9 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
         get => _RowCount;
         set
         {
-            for (var r = 0; r < value; r++)
+            for (int r = 0; r < value; r++)
             {
-                for (var c = 0; c < _ColumnCount; c++)
+                for (int c = 0; c < _ColumnCount; c++)
                 {
                     if (grid.GetChildAt(c, r) == null)
                     {
@@ -187,7 +187,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
                     }
                 }
             }
-            for (var r = value; r < _RowCount; r++)
+            for (int r = value; r < _RowCount; r++)
             {
                 grid.RemoveRow(value);
             }
@@ -239,7 +239,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     public TableLayoutPanelCellPosition GetCellPosition(Control control)
     {
         var cellPosition = new TableLayoutPanelCellPosition(-1, -1);
-        var cell=control.GetGridCell(grid);
+        GridCell cell=control.GetGridCell(grid);
         if (cell != null)
         {
             cellPosition.Column = cell.LeftAttach;
@@ -294,7 +294,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
         var list = new List<int>();
         if (RowCount > 0)
         {
-            for (var c = 0; c < ColumnCount; c++)
+            for (int c = 0; c < ColumnCount; c++)
                 list.Add(grid.GetChildAt(c, 0).WidthRequest);
         }
 
@@ -330,7 +330,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     public TableLayoutPanelCellPosition GetPositionFromControl(Control control)
     {
         var cellPosition = new TableLayoutPanelCellPosition(-1, -1);
-        var cell=control.GetGridCell(grid);
+        GridCell cell=control.GetGridCell(grid);
         if (cell != null)
         {
             cellPosition.Column = cell.LeftAttach;
@@ -368,7 +368,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
         var list = new List<int>();
         if (ColumnCount > 0)
         {
-            for (var r = 0; r < RowCount; r++)
+            for (int r = 0; r < RowCount; r++)
                 list.Add(grid.GetChildAt(0, r).WidthRequest);
         }
 
@@ -411,7 +411,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// </param>
     public void SetCellPosition(Control control, TableLayoutPanelCellPosition position)
     {
-        var cell=control.GetGridCell(grid);
+        GridCell cell=control.GetGridCell(grid);
         if (cell != null)
         {
             cell.LeftAttach = position.Column;
@@ -430,7 +430,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// </param>
     public void SetColumn(Control control, int column)
     {
-        var child=control.GetGridCell(grid);
+        GridCell child=control.GetGridCell(grid);
         child?.LeftAttach = column;
 
     }
@@ -494,12 +494,12 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
             {
                 if (cs.SizeType == SizeType.Absolute)
                 {
-                    for (var r = 0; r < RowCount; r++)
+                    for (int r = 0; r < RowCount; r++)
                         grid.GetChildAt(cidx, r).WidthRequest = Convert.ToInt32(cs.Width);
                 }
                 else if (cs.SizeType == SizeType.Percent)
                 {
-                    for (var r = 0; r < RowCount; r++)
+                    for (int r = 0; r < RowCount; r++)
                     {
                         grid.GetChildAt(cidx, r).WidthRequest = Convert.ToInt32(size.Width * cs.Width * 0.01);
                     }
@@ -521,12 +521,12 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
                 {
                     Console.WriteLine(ColumnCount);
                     Console.WriteLine(Convert.ToInt32(rs.Height));
-                    for (var c = 0; c < ColumnCount; c++)
+                    for (int c = 0; c < ColumnCount; c++)
                         grid.GetChildAt(c, ridx).HeightRequest = Convert.ToInt32(rs.Height);
                 }
                 else if (rs.SizeType == SizeType.Percent)
                 {
-                    for (var c = 0; c < ColumnCount; c++)
+                    for (int c = 0; c < ColumnCount; c++)
                         grid.GetChildAt(c, ridx).HeightRequest = Convert.ToInt32(size.Height * rs.Height * 0.01);
                 }
                 ridx++;

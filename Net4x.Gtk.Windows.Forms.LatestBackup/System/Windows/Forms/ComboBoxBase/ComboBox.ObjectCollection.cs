@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -128,7 +128,7 @@ public partial class ComboBox
         /// </param>
         public void AddRange(params object[] items)
         {
-            foreach (var item in items)
+            foreach (object item in items)
             {
                 AddInternal(item);
                 if (item is Entry entryItem)
@@ -171,9 +171,9 @@ public partial class ComboBox
         /// </summary>
         public void CopyTo(object[] destination, int arrayIndex)
         {
-            var count = InnerList.Count;
+            int count = InnerList.Count;
 
-            for (var i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 destination[i + arrayIndex] = InnerList[i].Item;
             }
@@ -204,10 +204,10 @@ public partial class ComboBox
         {
             var virtualIndex = -1;
 
-            foreach (var entry in InnerList)
+            foreach (Entry entry in InnerList)
             {
                 virtualIndex++;
-                if (value is Entry itemEntry && entry == itemEntry || entry.Item.Equals(value))
+                if ((value is Entry itemEntry && entry == itemEntry) || entry.Item.Equals(value))
                 {
                     return virtualIndex;
                 }
@@ -260,7 +260,7 @@ public partial class ComboBox
         {
             _owner.self.Remove(index);
             InnerList.RemoveAt(index);
-            if (!_owner.self.IsRealized)
+            if (_owner.self.IsRealized == false)
             {
                 if (index < _owner._selectedIndex)
                 {
@@ -298,7 +298,7 @@ public partial class ComboBox
                 return;
             }
 
-            var selected = index == _owner.SelectedIndex;
+            var selected = (index == _owner.SelectedIndex);
 
             if (string.Compare(_owner.GetItemText(value), _owner.NativeGetItemText(index), true, CultureInfo.CurrentCulture) != 0)
             {
@@ -329,10 +329,10 @@ public partial class ComboBox
 
         int IComparer<Entry>.Compare(Entry? entry1, Entry? entry2)
         {
-            var itemName1 = _owner.GetItemText(entry1.Item);
-            var itemName2 = _owner.GetItemText(entry2.Item);
+            string? itemName1 = _owner.GetItemText(entry1.Item);
+            string? itemName2 = _owner.GetItemText(entry2.Item);
 
-            var compInfo = Application.CurrentCulture.CompareInfo;
+            CompareInfo compInfo = Application.CurrentCulture.CompareInfo;
 
             return compInfo.Compare(itemName1, itemName2, CompareOptions.StringSort);
         }
@@ -340,15 +340,15 @@ public partial class ComboBox
         void ICollection.CopyTo(Array destination, int index)
         {
 
-            var count = InnerList.Count;
+            int count = InnerList.Count;
 
-            for (var i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 destination.SetValue(InnerList[i], i + index);
             }
         }
 
-        private int AddInternal(object? item)
+        private int AddInternal(object item)
         {
             item ??= "";
             var index = -1;

@@ -148,8 +148,8 @@ public partial class TextBox : Control
     /// </value>
     public virtual bool ReadOnly
     {
-        get { return !self.IsEditable; }
-        set { self.IsEditable = !value; }
+        get { return self.IsEditable == false; }
+        set { self.IsEditable = value == false; }
     }
 
     /// <summary>
@@ -163,7 +163,7 @@ public partial class TextBox : Control
     {
         get
         {
-            self.GetSelectionBounds(out var start, out var end);
+            self.GetSelectionBounds(out int start, out int end);
 
             return end - start;
         }
@@ -183,7 +183,7 @@ public partial class TextBox : Control
     {
         get
         {
-            self.GetSelectionBounds(out var start, out var end);
+            self.GetSelectionBounds(out int start, out int end);
 
             return start;
         }
@@ -208,10 +208,10 @@ public partial class TextBox : Control
     /// <param name="text">
     /// The text.
     /// </param>
-    public void InsertTextAtCursor(string? text)
+    public void InsertTextAtCursor(string text)
     {
         if (text == null) return;
-        var posi = self.CursorPosition;
+        int posi = self.CursorPosition;
         self.InsertText(text, ref posi);
     }
 
@@ -266,7 +266,7 @@ public partial class TextBox : Control
     {
         if (KeyDown != null && this.GetType().Name == "TextBox")
         {
-            var keytext = args.NewText.ToUpper();
+            string keytext = args.NewText.ToUpper();
             if (char.IsNumber(args.NewText[0]))
                 keytext = "D" + keytext;
             var keyv = Enum.GetValues(typeof(Keys)).Cast<Keys>().Where(k =>

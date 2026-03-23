@@ -1,4 +1,4 @@
-﻿
+
 namespace System.Windows.Forms;
 
 /// <summary>
@@ -27,7 +27,7 @@ public class ContainerControl : ScrollableControl, IContainerControl
     {
         get
         {
-            foreach (var control in this.Controls)
+            foreach (object control in this.Controls)
             {
                 if (control is Control con)
                 {

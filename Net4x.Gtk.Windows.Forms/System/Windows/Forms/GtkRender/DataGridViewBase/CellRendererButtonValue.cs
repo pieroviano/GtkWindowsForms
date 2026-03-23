@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -71,7 +71,7 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
         {
             if (value != null)
             {
-                var style = value.Style ?? ColumnStyle;
+                DataGridViewCellStyle style = value.Style ?? ColumnStyle;
                 if (style == null)
                     style = value.InheritedStyle;
                 utility.SetTextWithStyle(this, style, value.Value);
@@ -120,8 +120,8 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
     {
         widget.StyleContext.AddClass("GridViewCell-Button");
         widget.StyleContext.Save();
-        var height = cell_area.Height;
-        var y = cell_area.Y;
+        int height = cell_area.Height;
+        int y = cell_area.Y;
         if (height > 36)
         {
             y = y + (cell_area.Height - 36) / 2;

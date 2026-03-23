@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -210,7 +210,7 @@ public class MessageBoxOld
                                  MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,
                                  MessageBoxOptions options)
     {
-        var result = DialogResult.None;
+        DialogResult result = DialogResult.None;
         try
         {
 
@@ -235,7 +235,7 @@ public class MessageBoxOld
         }
         else
         {
-            var window = Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive);
+            Gtk.Window window = Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive);
             if (window != null)
             {
                 ActiveWindow = window;
@@ -287,7 +287,7 @@ public class MessageBoxOld
         dia.BorderWidth = 20;
         dia.Valign = Align.Fill;
         dia.Halign = Align.Fill;
-        var msgbox = new Box(Gtk.Orientation.Horizontal, 10)
+        Gtk.Box msgbox = new Box(Gtk.Orientation.Horizontal, 10)
         {
             Valign = Align.Start,
             Halign = Align.Fill
@@ -309,11 +309,11 @@ public class MessageBoxOld
         var maxwidth = 300;
         if (Gdk.Screen.Default.Display.NMonitors > 0)
         {
-            var rectangle = Gdk.Screen.Default.Display.GetMonitor(0).Workarea;
+            Gdk.Rectangle rectangle = Gdk.Screen.Default.Display.GetMonitor(0).Workarea;
             maxwidth = rectangle.Width / 2;
         }
         var pag = content.CreatePangoLayout(text);
-        pag.GetPixelSize(out var width, out var height);
+        pag.GetPixelSize(out int width, out int height);
         if (width > maxwidth)
         {
             dia.SetSizeRequest(maxwidth, 100);
@@ -364,7 +364,7 @@ public class MessageBoxOld
 
     private static int ShowMessageDialogCore(Gtk.Window owner, Gtk.WindowPosition position, string text, string caption, MessageBoxButtons buttons, params object[] icon)
     {
-        var buttonsType = Gtk.ButtonsType.Close;
+        Gtk.ButtonsType buttonsType = Gtk.ButtonsType.Close;
         if (buttons == MessageBoxButtons.OK)
             buttonsType = Gtk.ButtonsType.Ok;
         else if (buttons == MessageBoxButtons.OKCancel)

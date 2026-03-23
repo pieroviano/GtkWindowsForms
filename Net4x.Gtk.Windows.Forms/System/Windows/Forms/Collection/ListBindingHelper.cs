@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -46,7 +46,7 @@ internal class ListBindingHelper
         {
             return dataSource;
         }
-        var propertyDescriptor = GetListItemProperties(dataSource)?.Find(dataMember, true) ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
+        var propertyDescriptor = (GetListItemProperties(dataSource)?.Find(dataMember, true)) ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
         if (!(dataSource is ICurrencyManagerProvider))
         {
             obj = !(dataSource is IEnumerable) ? dataSource : GetFirstItemByEnumerable(dataSource as IEnumerable);
@@ -142,7 +142,7 @@ internal class ListBindingHelper
         dataSource = GetList(dataSource);
         if (!string.IsNullOrEmpty(dataMember))
         {
-            var propertyDescriptor = GetListItemProperties(dataSource)?.Find(dataMember, true) ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
+            var propertyDescriptor = GetListItemProperties(dataSource)?.Find(dataMember, true);
             var num = listAccessors == null ? 1 : listAccessors.Length + 1;
             var propertyDescriptorArray = new PropertyDescriptor[num];
             propertyDescriptorArray[0] = propertyDescriptor ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
@@ -355,7 +355,7 @@ internal class ListBindingHelper
             try
             {
                 var enumerator = enumerable?.GetEnumerator();
-                using var disposable = enumerator as IDisposable;
+                using var enumerator1 = enumerator as IDisposable;
                 if (enumerator != null)
                 {
                     enumerator.Reset();
@@ -413,7 +413,7 @@ internal class ListBindingHelper
             else if (firstItemByEnumerable != null)
             {
                 properties = TypeDescriptor.GetProperties(firstItemByEnumerable, BrowsableAttributeList);
-                if (!(enumerable is IList) && properties.Count == 0)
+                if (!(enumerable is IList) && (properties.Count == 0))
                 {
                     properties = TypeDescriptor.GetProperties(enumerable, BrowsableAttributeList);
                 }
@@ -595,8 +595,8 @@ internal class ListBindingHelper
         var interfaces = type?.GetInterfaces()?? [];
         for (var i = 0; i < interfaces.Length; i++)
         {
-            var @interface = interfaces[i];
-            if (@interface.IsGenericType && typeof(IList<>).IsAssignableFrom(@interface.GetGenericTypeDefinition()))
+            var type1 = interfaces[i];
+            if (type1.IsGenericType && typeof(IList<>).IsAssignableFrom(type1.GetGenericTypeDefinition()))
             {
                 return true;
             }

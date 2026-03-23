@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -88,7 +88,7 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// </param>
     public void AddRange(ListViewGroup[] groups)
     {
-        foreach (var group in groups)
+        foreach (ListViewGroup group in groups)
         {
             AddCore(group);
         }
@@ -102,7 +102,7 @@ public class ListViewGroupCollection : List<ListViewGroup>
     /// </param>
     public void AddRange(ListViewGroupCollection groups)
     {
-        foreach (var group in groups)
+        foreach (ListViewGroup group in groups)
         {
             AddCore(group);
         }

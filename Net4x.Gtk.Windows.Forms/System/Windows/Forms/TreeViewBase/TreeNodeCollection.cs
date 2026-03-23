@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 
 /// <summary>
 /// Represents a collection of
@@ -53,7 +53,7 @@ public class TreeNodeCollection : List<TreeNode>
         {
             throw new ArgumentNullException("nodes");
         }
-        foreach (var node in nodes)
+        foreach (TreeNode node in nodes)
         {
             Add(node);
         }
@@ -74,7 +74,7 @@ public class TreeNodeCollection : List<TreeNode>
         {
             throw new ArgumentNullException("nodes");
         }
-        foreach (var node in nodes)
+        foreach (TreeNode node in nodes)
         {
             Add(node);
         }
@@ -87,7 +87,7 @@ public class TreeNodeCollection : List<TreeNode>
     {
         if (owner.TreeView != null)
         {
-            foreach (var node in this)
+            foreach (TreeNode node in this)
                 owner.TreeView.RemoveNode(node);
         }
         base.Clear();

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace System.Windows.Forms;
@@ -57,7 +57,7 @@ public class OpacityConverter : TypeConverter
     /// <returns>
     /// An System.Object that represents the converted value.
     /// </returns>
-    public override object? ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object? value) { return value; }
+    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value) { return value; }
 
     /// <summary>
     /// Converts from the converter's native type to a value of the destination type.

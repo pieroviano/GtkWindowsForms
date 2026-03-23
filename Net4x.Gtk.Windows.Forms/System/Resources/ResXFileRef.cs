@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -79,17 +79,17 @@ public partial class ResXFileRef
 
         if (FileName.IndexOf(';') != -1 || FileName.IndexOf('\"') != -1)
         {
-            result += "\"" + FileName + "\";";
+            result += ("\"" + FileName + "\";");
         }
         else
         {
-            result += FileName + ";";
+            result += (FileName + ";");
         }
 
         result += TypeName;
         if (TextFileEncoding != null)
         {
-            result += ";" + TextFileEncoding.WebName;
+            result += (";" + TextFileEncoding.WebName);
         }
 
         return result;
@@ -121,9 +121,9 @@ public partial class ResXFileRef
         int i;
         var si = -1;
 
-        for (i = 0; i < path1.Length && i < path2.Length; ++i)
+        for (i = 0; (i < path1.Length) && (i < path2.Length); ++i)
         {
-            if (path1[i] != path2[i] && (compareCase || char.ToLower(path1[i], CultureInfo.InvariantCulture) != char.ToLower(path2[i], CultureInfo.InvariantCulture)))
+            if ((path1[i] != path2[i]) && (compareCase || (char.ToLower(path1[i], CultureInfo.InvariantCulture) != char.ToLower(path2[i], CultureInfo.InvariantCulture))))
             {
                 break;
             }
@@ -139,7 +139,7 @@ public partial class ResXFileRef
             return path2;
         }
 
-        if (i == path1.Length && i == path2.Length)
+        if ((i == path1.Length) && (i == path2.Length))
         {
             return string.Empty;
         }

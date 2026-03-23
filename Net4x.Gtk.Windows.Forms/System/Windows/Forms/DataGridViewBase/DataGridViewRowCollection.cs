@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -165,7 +165,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         var newRow = new DataGridViewRow();
         var cols = dataGridView.Columns;
         var valueslength = values.Length;
-        for (var i = 0; i < cols.Count; i++)
+        for (int i = 0; i < cols.Count; i++)
         {
             if (i >= valueslength)
                 newRow.Cells.Add(dataGridView.Columns[i].NewCell());
@@ -191,7 +191,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public virtual int Add(int count)
     {
         var start = items.Count;
-        for (var i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             var row = new DataGridViewRow() { Index = start + i };
             AddGtkStore(row);
@@ -252,7 +252,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         else
         {
             var rowindex = items.Count;
-            foreach (var row in dataGridViewRows)
+            foreach (DataGridViewRow row in dataGridViewRows)
             {
                 AddGtkStore(parentRow.TreeIter, ref rowindex, row);
             }
@@ -315,7 +315,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public int GetFirstRow(DataGridViewElementStates includeFilter)
     {
         var idx = -1;
-        for (var i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             if (((DataGridViewRow)items[i]).State == includeFilter)
             {
@@ -342,7 +342,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public int GetFirstRow(DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
         var idx = -1;
-        for (var i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             if (((DataGridViewRow)items[i]).State == includeFilter || ((DataGridViewRow)items[i]).State == excludeFilter)
             {
@@ -366,7 +366,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public int GetLastRow(DataGridViewElementStates includeFilter)
     {
         var idx = -1;
-        for (var i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             if (((DataGridViewRow)items[i]).State == includeFilter)
             {
@@ -392,7 +392,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public int GetNextRow(int indexStart, DataGridViewElementStates includeFilter)
     {
         var idx = -1;
-        for (var i = indexStart - 1; i < items.Count; i++)
+        for (int i = indexStart - 1; i < items.Count; i++)
         {
             if (((DataGridViewRow)items[i]).State == includeFilter)
             {
@@ -422,7 +422,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public int GetNextRow(int indexStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
         var idx = -1;
-        for (var i = indexStart - 1; i < items.Count; i++)
+        for (int i = indexStart - 1; i < items.Count; i++)
         {
             if (((DataGridViewRow)items[i]).State == includeFilter || ((DataGridViewRow)items[i]).State == excludeFilter)
             {
@@ -452,7 +452,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public int GetPreviousRow(int indexStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
         var idx = -1;
-        for (var i = indexStart - 1; i > -1; i--)
+        for (int i = indexStart - 1; i > -1; i--)
         {
             if (((DataGridViewRow)items[i]).State == includeFilter || ((DataGridViewRow)items[i]).State == excludeFilter)
             {
@@ -479,7 +479,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public int GetPreviousRow(int indexStart, DataGridViewElementStates includeFilter)
     {
         var idx = -1;
-        for (var i = indexStart - 1; i > -1; i--)
+        for (int i = indexStart - 1; i > -1; i--)
         {
             if (((DataGridViewRow)items[i]).State == includeFilter)
             {
@@ -508,7 +508,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         else
         {
             var num = 0;
-            for (var i = 0; i < items.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
                 if ((GetRowState(i) & includeFilter) == includeFilter)
                 {
@@ -531,7 +531,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public int GetRowsHeight(DataGridViewElementStates includeFilter)
     {
         var num = 0;
-        for (var i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             if ((GetRowState(i) & includeFilter) == includeFilter)
             {
@@ -584,7 +584,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         var newRow = new DataGridViewRow();
         var cols = dataGridView.Columns;
         var valueslength = values.Length;
-        for (var i = 0; i < cols.Count; i++)
+        for (int i = 0; i < cols.Count; i++)
         {
             if (i >= valueslength)
                 newRow.Cells.Add(dataGridView.Columns[i].NewCell());
@@ -623,7 +623,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public virtual void Insert(int rowIndex, int count)
     {
         var rows = new DataGridViewRow[count];
-        for (var r = 0; r < count; r++)
+        for (int r = 0; r < count; r++)
         {
             foreach (var col in dataGridView.Columns)
             {
@@ -694,13 +694,13 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </param>
     public virtual void RemoveAt(int index)
     {
-        if (dataGridView.Store.GetIter(out var iter, new TreePath(new int[] { index })))
+        if (dataGridView.Store.GetIter(out TreeIter iter, new TreePath(new int[] { index })))
         {
             dataGridView.Store.Remove(ref iter);
         }
         items.RemoveAt(index);
         //reset id
-        for (var i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             ((DataGridViewRow)items[i]).Index = i;
         }
@@ -717,7 +717,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public DataGridViewRow SharedRow(int rowIndex)
     {
-        var hasiter = dataGridView.Store.GetIter(out var iter,new TreePath(new int[] { rowIndex }));
+        bool hasiter = dataGridView.Store.GetIter(out TreeIter iter,new TreePath(new int[] { rowIndex }));
         if (hasiter)
         {
             foreach (DataGridViewRow item in items)
@@ -791,13 +791,13 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
 
     private TreeIter AddGtkStore(DataGridViewCellCollection cells)
     {
-        var ncolumns = dataGridView.Store.NColumns;
-        var columnscount = dataGridView.Columns.Count;
-        for (var i = cells.Count; i < columnscount; i++)
+        int ncolumns = dataGridView.Store.NColumns;
+        int columnscount = dataGridView.Columns.Count;
+        for (int i = cells.Count; i < columnscount; i++)
             cells.Add(dataGridView.Columns[i].NewCell());
-        for (var i = cells.Count; i < ncolumns; i++)
+        for (int i = cells.Count; i < ncolumns; i++)
             cells.Add(new DataGridViewTextBoxCell());
-        for (var i = 0; i < ncolumns; i++)
+        for (int i = 0; i < ncolumns; i++)
             cells[i].ColumnIndex = i;
 
         if (ncolumns == cells.Count)
@@ -808,13 +808,13 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
 
     private TreeIter AddGtkStore(TreeIter parent, DataGridViewCellCollection cells)
     {
-        var ncolumns = dataGridView.Store.NColumns;
-        var columnscount = dataGridView.Columns.Count;
-        for (var i = cells.Count; i < columnscount; i++)
+        int ncolumns = dataGridView.Store.NColumns;
+        int columnscount = dataGridView.Columns.Count;
+        for (int i = cells.Count; i < columnscount; i++)
             cells.Add(dataGridView.Columns[i].NewCell());
-        for (var i = cells.Count; i < ncolumns; i++)
+        for (int i = cells.Count; i < ncolumns; i++)
             cells.Add(new DataGridViewTextBoxCell());
-        for (var i = 0; i < ncolumns; i++)
+        for (int i = 0; i < ncolumns; i++)
             cells[i].ColumnIndex = i;
         if (ncolumns == cells.Count)
             return dataGridView.Store.AppendValues(parent, cells.ConvertAll(o => o).ToArray());
@@ -825,11 +825,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     private void AddGtkStore(params DataGridViewRow[] dataGridViewRows)
     {
         var rowindex = items.Count;
-        foreach (var row in dataGridViewRows)
+        foreach (DataGridViewRow row in dataGridViewRows)
         {
             row.DataGridView = dataGridView;
             row.Index = rowindex;
-            var _cellStyle = dataGridView.DefaultCellStyle;
+            DataGridViewCellStyle _cellStyle = dataGridView.DefaultCellStyle;
             if (dataGridView.RowsDefaultCellStyle != null)
                 _cellStyle = dataGridView.RowsDefaultCellStyle;
             if (rowindex % 2 != 0 && dataGridView.AlternatingRowsDefaultCellStyle != null)
@@ -855,7 +855,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
             }
             else
             {
-                var piter = AddGtkStore(row.TreeIter, row.Cells);
+                Gtk.TreeIter piter = AddGtkStore(row.TreeIter, row.Cells);
                 foreach (DataGridViewRow child in row.Children)
                 {
                     items.Add(child);
@@ -869,7 +869,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     {
         row.Index = rowindex;
         row.DataGridView = dataGridView;
-        var _cellStyle = dataGridView.DefaultCellStyle;
+        DataGridViewCellStyle _cellStyle = dataGridView.DefaultCellStyle;
         if (dataGridView.RowsDefaultCellStyle != null)
             _cellStyle = dataGridView.RowsDefaultCellStyle;
         if (rowindex % 2 != 0 && dataGridView.AlternatingRowsDefaultCellStyle != null)
@@ -892,13 +892,13 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
 
     private TreeIter InsertGtkStore(int rowIndex, DataGridViewCellCollection cells)
     {
-        var ncolumns = dataGridView.Store.NColumns;
-        var columnscount = dataGridView.Columns.Count;
-        for (var i = cells.Count; i < columnscount; i++)
+        int ncolumns = dataGridView.Store.NColumns;
+        int columnscount = dataGridView.Columns.Count;
+        for (int i = cells.Count; i < columnscount; i++)
             cells.Add(dataGridView.Columns[i].NewCell());
-        for (var i = cells.Count; i < ncolumns; i++)
+        for (int i = cells.Count; i < ncolumns; i++)
             cells.Add(new DataGridViewTextBoxCell());
-        for (var i = 0; i < ncolumns; i++)
+        for (int i = 0; i < ncolumns; i++)
             cells[i].ColumnIndex = i;
         if (ncolumns == cells.Count)
             return dataGridView.Store.InsertWithValues(rowIndex, cells.ConvertAll(o => o).ToArray());
@@ -909,9 +909,9 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     private void InsertGtkStore(int rowIndex, params DataGridViewRow[] dataGridViewRows)
     {
         var idx = rowIndex;
-        foreach (var row in dataGridViewRows)
+        foreach (DataGridViewRow row in dataGridViewRows)
         {
-            var _cellStyle = dataGridView.DefaultCellStyle;
+            DataGridViewCellStyle _cellStyle = dataGridView.DefaultCellStyle;
             if (dataGridView.RowsDefaultCellStyle != null)
                 _cellStyle = dataGridView.RowsDefaultCellStyle;
             if (idx % 2 != 0 && dataGridView.AlternatingRowsDefaultCellStyle != null)
@@ -930,7 +930,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
             idx++;
         }
         var newindex = idx;
-        for (var i = idx; i < items.Count; i++)
+        for (int i = idx; i < items.Count; i++)
         {
             ((DataGridViewRow)items[i]).Index = idx;
         }

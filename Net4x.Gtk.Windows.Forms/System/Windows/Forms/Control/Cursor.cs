@@ -1,8 +1,10 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Drawing;
+using System.IO;
 using System.Runtime.Serialization;
+using GLib;
 
 namespace System.Windows.Forms;
 
@@ -22,7 +24,7 @@ public sealed class Cursor : IDisposable, ISerializable
 
     private readonly IntPtr _handle;
 
-    private static Size _cursorSize = Size.Empty;
+    private static Size s_cursorSize = Size.Empty;
 
     /// <summary>
     /// Initializes a new instance of the

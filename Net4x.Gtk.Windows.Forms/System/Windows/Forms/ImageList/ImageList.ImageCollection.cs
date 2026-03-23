@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -99,9 +99,9 @@ public sealed partial class ImageList
                 // pass back a copy of the current state.
                 var keysCollection = new StringCollection();
 
-                for (var i = 0; i < _imageInfoCollection.Count; i++)
+                for (int i = 0; i < _imageInfoCollection.Count; i++)
                 {
-                    if (_imageInfoCollection[i] is ImageInfo image && image.Name != null && image.Name.Length != 0)
+                    if ((_imageInfoCollection[i] is ImageInfo image) && (image.Name != null) && (image.Name.Length != 0))
                     {
                         keysCollection.Add(image.Name);
                     }
@@ -141,7 +141,7 @@ public sealed partial class ImageList
             }
             set
             {
-                if (_imageInfoCollection.Count > index)
+                if ((_imageInfoCollection.Count > index))
                 {
                     var bitmap = value as Bitmap;
                     _owner._originals[index] = new Original(bitmap.Clone(), OriginalOptions.OwnsImage);
@@ -283,7 +283,7 @@ public sealed partial class ImageList
         /// </param>
         public void AddRange(params Image[] images)
         {
-            foreach (var image in images)
+            foreach (Image image in images)
             {
                 Add(image);
             }
@@ -301,7 +301,7 @@ public sealed partial class ImageList
         /// </returns>
         public int AddStrip(Image value)
         {
-            var nImages = value.Width / _owner.ImageSize.Width;
+            int nImages = value.Width / _owner.ImageSize.Width;
 
             var original = new Original(value, OriginalOptions.ImageStrip, nImages);
 
@@ -364,7 +364,7 @@ public sealed partial class ImageList
         public IEnumerator GetEnumerator()
         {
             var images = new Image[Count];
-            for (var i = 0; i < images.Length; ++i)
+            for (int i = 0; i < images.Length; ++i)
             {
                 images[i] = _owner.GetBitmap(i);
             }
@@ -472,7 +472,7 @@ public sealed partial class ImageList
             }
             else
             {
-                for (var i = len; i < index + 1; i++)
+                for (int i = len; i < index + 1; i++)
                 {
                     this.Add(name, _owner.GetOriginalImage(name));
                 }
@@ -483,7 +483,7 @@ public sealed partial class ImageList
         {
             _imageInfoCollection.Clear();
 
-            for (var i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 _imageInfoCollection.Add(new ImageInfo());
             }
@@ -510,7 +510,7 @@ public sealed partial class ImageList
 
         void ICollection.CopyTo(Array dest, int index)
         {
-            for (var i = 0; i < Count; ++i)
+            for (int i = 0; i < Count; ++i)
             {
                 dest.SetValue(_owner.GetBitmap(i), index++);
             }

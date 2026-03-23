@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing.Printing;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -244,7 +244,7 @@ public sealed class PrintDialog : CommonDialog
     /// false
     /// </c> otherwise.
     /// </returns>
-    public bool RunPrint(IWin32Window? owner, bool showDialog)
+    public bool RunPrint(IWin32Window owner, bool showDialog)
     {
         try
         {
@@ -260,28 +260,28 @@ public sealed class PrintDialog : CommonDialog
             printOperation.BeginPrint += PrintOperation_BeginPrint;
             printOperation.EndPrint += PrintOperation_EndPrint;
             printOperation.Preview += PrintOperation_Preview;
-            var window = Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive);
+            Gtk.Window window = Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive);
             if (PrintToFile && AllowPrintToFile)
             {
-                var exportFileName = _printerSettings.PrintFileName;
+                string exportFileName = _printerSettings.PrintFileName;
                 if (string.IsNullOrWhiteSpace(exportFileName))
                     exportFileName = $"print_{DateTime.Now.ToString("yyyyMMddHHmmss")}.pdf";
                 else if (System.IO.Path.GetExtension(exportFileName).ToLower() != ".pdf")
                     exportFileName += ".pdf";
 
                 printOperation.ExportFilename = exportFileName;
-                var result = printOperation.Run(PrintOperationAction.Export, owner == null ? window : ((Form)owner).self);
+                Gtk.PrintOperationResult result = printOperation.Run(PrintOperationAction.Export, owner == null ? window : ((Form)owner).self);
                 return result != Gtk.PrintOperationResult.Cancel && result != Gtk.PrintOperationResult.Error;
             }
             else
             {
-                var result = printOperation.Run(PrintOperationAction.PrintDialog, owner == null ? window : ((Form)owner).self);
+                Gtk.PrintOperationResult result = printOperation.Run(PrintOperationAction.PrintDialog, owner == null ? window : ((Form)owner).self);
                 return result != Gtk.PrintOperationResult.Cancel && result != Gtk.PrintOperationResult.Error;
             }
         }
         catch (Exception ex)
         {
-            var messageDialog = new MessageDialog(owner == null ? null : ((Form)owner).self, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "")
+            Gtk.MessageDialog messageDialog = new MessageDialog(owner == null ? null : ((Form)owner).self, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "")
             {
                 WindowPosition = owner == null ? WindowPosition.Center : WindowPosition.CenterOnParent
             };
@@ -330,7 +330,7 @@ public sealed class PrintDialog : CommonDialog
     private void PrintOperation_DrawPage(object o, DrawPageArgs args)
     {
         var oper = (Gtk.PrintOperation)o;
-        var setup = args.Context.PageSetup;
+        PageSetup setup = args.Context.PageSetup;
         using (var cr = args.Context.CairoContext)
         {
             //document size(794,1123)px

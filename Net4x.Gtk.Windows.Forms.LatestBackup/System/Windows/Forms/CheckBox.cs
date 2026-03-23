@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -69,7 +69,7 @@ public partial class CheckBox : Control
     /// </value>
     public CheckState CheckState
     {
-        get { if (self.Inconsistent) { return CheckState.Indeterminate; } else { return self.Active ? CheckState.Checked : CheckState.Unchecked; } }
+        get { if (self.Inconsistent == true) { return CheckState.Indeterminate; } else { return self.Active ? CheckState.Checked : CheckState.Unchecked; } }
         set { self.Inconsistent = value == CheckState.Indeterminate; self.Active = value == CheckState.Checked; }
     }
 
@@ -111,7 +111,7 @@ public partial class CheckBox : Control
 
     private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {
-        if (self.Inconsistent)
+        if (self.Inconsistent == true)
             self.Inconsistent = false;
     }
 

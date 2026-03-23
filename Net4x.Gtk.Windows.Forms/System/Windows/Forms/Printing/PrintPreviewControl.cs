@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -332,7 +332,7 @@ public partial class PrintPreviewControl : Control
     {
         if (_document != null)
         {
-            var setup = _document.PageSetup;
+            PageSetup setup = _document.PageSetup;
             _document.OnBeginPrint(new PrintEventArgs());
             var cr = args.Cr;
             var top = (int)Math.Round(setup.GetTopMargin(Unit.Points) / pxscale, 0);
@@ -342,7 +342,7 @@ public partial class PrintPreviewControl : Control
             var width = (int)Math.Round(setup.GetPaperWidth(Unit.Points) / pxscale, 0); //page<paper
             var height = (int)Math.Round(setup.GetPaperHeight(Unit.Points) / pxscale, 0);
 
-            if (!AutoZoom)
+            if (AutoZoom == false)
             {
 
                 paper.WidthRequest = (int)Math.Round(width * _zoom, 0);
@@ -362,7 +362,7 @@ public partial class PrintPreviewControl : Control
 
     private void Self_Realized(object? sender, EventArgs e)
     {
-        if (!AutoZoom)
+        if (AutoZoom == false)
         {
             paper.WidthRequest = (int)Math.Round(_document.PageSetup.GetPaperWidth(Unit.Points) * _zoom / 0.75, 0);
             paper.HeightRequest = (int)Math.Round(_document.PageSetup.GetPaperHeight(Unit.Points) * _zoom / 0.75, 0);

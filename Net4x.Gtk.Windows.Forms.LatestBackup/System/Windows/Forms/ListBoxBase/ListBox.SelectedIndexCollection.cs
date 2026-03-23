@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -149,7 +149,7 @@ public partial class ListBox
         {
             if (_owner != null)
             {
-                var items = _owner.Items;
+                ObjectCollection items = _owner.Items;
                 if (items != null)
                 {
                     if (index != -1 && !Contains(index))
@@ -201,7 +201,7 @@ public partial class ListBox
         public void CopyTo(Array destination, int index)
         {
             var cnt = Count;
-            for (var i = 0; i < cnt; i++)
+            for (int i = 0; i < cnt; i++)
             {
                 destination.SetValue(this[i], i + index);
             }
@@ -255,7 +255,7 @@ public partial class ListBox
         {
             if (_owner != null)
             {
-                var items = _owner.Items;
+                ObjectCollection items = _owner.Items;
                 if (items != null)
                 {
                     if (index != -1 && Contains(index))

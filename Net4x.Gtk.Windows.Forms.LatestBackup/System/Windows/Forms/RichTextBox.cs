@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -98,7 +98,7 @@ public partial class RichTextBox : ScrollableControl
     {
         get
         {
-            self.TextView.Buffer.GetSelectionBounds(out var start, out var end);
+            self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end);
 
             return end.Offset - start.Offset;
         }
@@ -118,7 +118,7 @@ public partial class RichTextBox : ScrollableControl
     {
         get
         {
-            self.TextView.Buffer.GetSelectionBounds(out var start, out var end);
+            self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end);
 
             return start.Offset;
         }
@@ -155,7 +155,7 @@ public partial class RichTextBox : ScrollableControl
     /// <param name="text">
     /// The text.
     /// </param>
-    public void InsertTextAtCursor(string? text)
+    public void InsertTextAtCursor(string text)
     {
         if (text == null) return;
         self.TextView.Buffer.InsertAtCursor(text);
@@ -172,8 +172,8 @@ public partial class RichTextBox : ScrollableControl
     /// </param>
     public void Select(int start, int length)
     {
-        var startiter = self.TextView.Buffer.GetIterAtOffset(start);
-        var enditer = self.TextView.Buffer.GetIterAtOffset(start + length);
+        TextIter startiter = self.TextView.Buffer.GetIterAtOffset(start);
+        TextIter enditer = self.TextView.Buffer.GetIterAtOffset(start + length);
         self.TextView.Buffer.SelectRange(startiter, enditer);
     }
 

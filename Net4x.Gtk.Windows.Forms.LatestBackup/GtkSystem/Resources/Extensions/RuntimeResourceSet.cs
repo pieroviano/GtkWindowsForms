@@ -1,4 +1,6 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Resources;
 
 namespace GtkSystem.Resources.Extensions;
@@ -9,7 +11,7 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
 
     private Dictionary<string, ResourceLocator> _caseInsensitiveTable;
 
-    private DeserializingResourceReader? _defaultReader;
+    private DeserializingResourceReader _defaultReader;
 
     private bool _haveReadFromReader;
 
@@ -21,7 +23,7 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
         {
             throw new ArgumentNullException("reader");
         }
-        _defaultReader = reader as DeserializingResourceReader ?? throw new ArgumentException(SystemResources.Format(SR.NotSupported_WrongResourceReader_Type, reader.GetType()), "reader");
+        _defaultReader = (reader as DeserializingResourceReader) ?? throw new ArgumentException(SystemResources.Format(SR.NotSupported_WrongResourceReader_Type, reader.GetType()), "reader");
         _resCache = new Dictionary<string, ResourceLocator>(FastResourceComparer.Default);
         _defaultReader._resCache = _resCache;
     }
@@ -45,16 +47,16 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
 
     public override string GetString(string key)
     {
-        var resourceValue = GetObject(key, ignoreCase: false, isString: true);
+        var @object = GetObject(key, ignoreCase: false, isString: true);
 
-        return (string)resourceValue;
+        return (string)@object;
     }
 
     public override string GetString(string key, bool ignoreCase)
     {
-        var resourceValue = GetObject(key, ignoreCase, isString: true);
+        var @object = GetObject(key, ignoreCase, isString: true);
 
-        return (string)resourceValue;
+        return (string)@object;
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -109,47 +111,47 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
         {
             throw new ObjectDisposedException(null, SR.ObjectDisposed_ResourceSet);
         }
-        object resourceValue = null;
+        object obj = null;
         lock (Reader)
         {
             if (Reader == null)
             {
                 throw new ObjectDisposedException(null, SR.ObjectDisposed_ResourceSet);
             }
-            ResourceLocator resourceLocator;
+            ResourceLocator value;
             if (_defaultReader != null)
             {
-                var dataPosition = -1;
-                if (_resCache.TryGetValue(key, out resourceLocator))
+                var num = -1;
+                if (_resCache.TryGetValue(key, out value))
                 {
-                    resourceValue = resourceLocator.Value;
-                    dataPosition = resourceLocator.DataPosition;
+                    obj = value.Value;
+                    num = value.DataPosition;
                 }
-                if (dataPosition == -1 && resourceValue == null)
+                if (num == -1 && obj == null)
                 {
-                    dataPosition = _defaultReader.FindPosForResource(key);
+                    num = _defaultReader.FindPosForResource(key);
                 }
-                if (dataPosition != -1 && resourceValue == null)
+                if (num != -1 && obj == null)
                 {
                     ResourceTypeCode typeCode;
                     if (isString)
                     {
-                        resourceValue = _defaultReader.LoadString(dataPosition);
+                        obj = _defaultReader.LoadString(num);
                         typeCode = ResourceTypeCode.String;
                     }
                     else
                     {
-                        resourceValue = _defaultReader.LoadObject(dataPosition, out typeCode);
+                        obj = _defaultReader.LoadObject(num, out typeCode);
                     }
-                    resourceLocator = new ResourceLocator(dataPosition, ResourceLocator.CanCache(typeCode) ? resourceValue : null);
+                    value = new ResourceLocator(num, ResourceLocator.CanCache(typeCode) ? obj : null);
                     lock (_resCache)
                     {
-                        _resCache[key] = resourceLocator;
+                        _resCache[key] = value;
                     }
                 }
-                if (resourceValue != null || !ignoreCase)
+                if (obj != null || !ignoreCase)
                 {
-                    return resourceValue;
+                    return obj;
                 }
             }
             if (!_haveReadFromReader)
@@ -164,12 +166,12 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
                     while (enumerator.MoveNext())
                     {
                         var entry = enumerator.Entry;
-                        var resourceKey = (string)entry.Key;
-                        var value = new ResourceLocator(-1, entry.Value);
-                        _resCache.Add(resourceKey, value);
+                        var key2 = (string)entry.Key;
+                        var value2 = new ResourceLocator(-1, entry.Value);
+                        _resCache.Add(key2, value2);
                         if (ignoreCase)
                         {
-                            _caseInsensitiveTable.Add(resourceKey, value);
+                            _caseInsensitiveTable.Add(key2, value2);
                         }
                     }
                     if (!ignoreCase)
@@ -179,30 +181,30 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
                 }
                 else
                 {
-                    var enumeratorInternal = _defaultReader.GetEnumeratorInternal();
+                    DeserializingResourceReader.ResourceEnumerator enumeratorInternal = _defaultReader.GetEnumeratorInternal();
                     while (enumeratorInternal.MoveNext())
                     {
-                        var resourceKey = (string)enumeratorInternal.Key;
-                        var dataPosition = enumeratorInternal.DataPosition;
-                        var locator = new ResourceLocator(dataPosition, null);
-                        _caseInsensitiveTable.Add(resourceKey, locator);
+                        var key3 = (string)enumeratorInternal.Key;
+                        int dataPosition = enumeratorInternal.DataPosition;
+                        var value3 = new ResourceLocator(dataPosition, null);
+                        _caseInsensitiveTable.Add(key3, value3);
                     }
                 }
                 _haveReadFromReader = true;
             }
             object result = null;
-            var wasFound = false;
+            var flag = false;
             var keyInWrongCase = false;
-            if (_defaultReader != null && _resCache.TryGetValue(key, out resourceLocator))
+            if (_defaultReader != null && _resCache.TryGetValue(key, out value))
             {
-                wasFound = true;
-                result = ResolveResourceLocator(resourceLocator, key, _resCache, keyInWrongCase);
+                flag = true;
+                result = ResolveResourceLocator(value, key, _resCache, keyInWrongCase);
             }
-            if (!wasFound && ignoreCase && _caseInsensitiveTable.TryGetValue(key, out resourceLocator))
+            if (!flag && ignoreCase && _caseInsensitiveTable.TryGetValue(key, out value))
             {
-                wasFound = true;
+                flag = true;
                 keyInWrongCase = true;
-                result = ResolveResourceLocator(resourceLocator, key, _resCache, keyInWrongCase);
+                result = ResolveResourceLocator(value, key, _resCache, keyInWrongCase);
             }
             return result;
         }
@@ -210,21 +212,21 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
 
     private object ResolveResourceLocator(ResourceLocator resLocation, string key, Dictionary<string, ResourceLocator> copyOfCache, bool keyInWrongCase)
     {
-        var resourceValue = resLocation.Value;
-        if (resourceValue == null)
+        object obj = resLocation.Value;
+        if (obj == null)
         {
             ResourceTypeCode typeCode;
             lock (Reader)
             {
-                resourceValue = _defaultReader.LoadObject(resLocation.DataPosition, out typeCode);
+                obj = _defaultReader.LoadObject(resLocation.DataPosition, out typeCode);
             }
             if (!keyInWrongCase && ResourceLocator.CanCache(typeCode))
             {
-                resLocation.Value = resourceValue;
+                resLocation.Value = obj;
                 copyOfCache[key] = resLocation;
             }
         }
 
-        return resourceValue;
+        return obj;
     }
 }

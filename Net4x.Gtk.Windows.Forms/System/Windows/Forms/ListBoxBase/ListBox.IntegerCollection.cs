@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -206,7 +206,7 @@ public partial class ListBox
         public void CopyTo(Array destination, int index)
         {
             var cnt = Count;
-            for (var i = 0; i < cnt; i++)
+            for (int i = 0; i < cnt; i++)
             {
                 destination.SetValue(this[i], i + index);
             }
@@ -268,7 +268,7 @@ public partial class ListBox
         public void RemoveAt(int index)
         {
             _count--;
-            for (var i = index; i < _count; i++)
+            for (int i = index; i < _count; i++)
             {
                 _innerArray![i] = _innerArray[i + 1];
             }
@@ -363,7 +363,7 @@ public partial class ListBox
             try
             {
                 EnsureSpace(items.Count);
-                foreach (var item in items)
+                foreach (object item in items)
                 {
                     if (!(item is int))
                     {

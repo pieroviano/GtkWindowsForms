@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using GLib;
 using Gtk;
 
@@ -28,7 +28,7 @@ public sealed class ScrollbarBase<T> : Gtk.Scrollbar, IControlGtk
     {
         get
         {
-            return typeof(T) == typeof(Gtk.HScrollbar) ? Gtk.HScrollbar.GType : Gtk.VScrollbar.GType;
+            return (typeof(T) == typeof(Gtk.HScrollbar)) ? Gtk.HScrollbar.GType : Gtk.VScrollbar.GType;
         }
     }
 

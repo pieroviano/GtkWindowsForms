@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,7 +6,6 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Resources.Misc;
 using System.Text;
 using System.Xml;
 
@@ -301,9 +300,9 @@ public class ResXResourceWriter : IResourceWriter
         // we're modifying the node as we're adding it to the resxwriter
         // this is BAD, so we clone it. adding it to a writer doesnt change it
         // we're messing with a copy
-        var nodeClone = node.DeepClone();
+        ResXDataNode nodeClone = node.DeepClone();
 
-        var fileRef = nodeClone.FileRef;
+        ResXFileRef fileRef = nodeClone.FileRef;
         var modifiedBasePath = BasePath;
 
         if (!string.IsNullOrEmpty(modifiedBasePath))
@@ -316,7 +315,7 @@ public class ResXResourceWriter : IResourceWriter
             fileRef?.MakeFilePathRelative(modifiedBasePath);
         }
 
-        var info = nodeClone.GetDataNodeInfo();
+        DataNodeInfo info = nodeClone.GetDataNodeInfo();
         AddDataRow(DataStr, info.Name, info.ValueData, info.TypeName, info.MimeType, info.Comment);
     }
 
@@ -430,7 +429,7 @@ public class ResXResourceWriter : IResourceWriter
             case ResXFileRef fileRef:
                 {
                     var node = new ResXDataNode(name, fileRef, _typeNameConverter);
-                    var info = node.GetDataNodeInfo();
+                    DataNodeInfo info = node.GetDataNodeInfo();
                     AddDataRow(elementName, info.Name, info.ValueData, info.TypeName, info.MimeType, info.Comment);
                     break;
                 }
@@ -438,7 +437,7 @@ public class ResXResourceWriter : IResourceWriter
             default:
                 {
                     var node = new ResXDataNode(name, value, _typeNameConverter);
-                    var info = node.GetDataNodeInfo();
+                    DataNodeInfo info = node.GetDataNodeInfo();
                     AddDataRow(elementName, info.Name, info.ValueData, info.TypeName, info.MimeType, info.Comment);
                     break;
                 }
@@ -451,7 +450,7 @@ public class ResXResourceWriter : IResourceWriter
     private void AddDataRow(string elementName, string name, string value)
     {
         // if it's a null string, set it here as a resxnullref
-        var typeName =
+        string typeName =
             value is null
                 ? MultitargetUtil.GetAssemblyQualifiedName(typeof(ResXNullRef), _typeNameConverter)
                 : null;
@@ -462,7 +461,7 @@ public class ResXResourceWriter : IResourceWriter
     /// Adds a new row to the Resources table. This helper is used because
     /// we want to always late bind to the columns for greater flexibility.
     /// </summary>
-    private void AddDataRow(string elementName, string name, string value, string type, string? mimeType, string comment)
+    private void AddDataRow(string elementName, string name, string value, string type, string mimeType, string comment)
     {
         if (_hasBeenSaved)
         {
@@ -524,7 +523,7 @@ public class ResXResourceWriter : IResourceWriter
                 Writer.WriteAttributeString(MimeTypeStr, mimeType);
             }
 
-            if (type is null && mimeType is null || type != null && type.StartsWith("System.Char", StringComparison.Ordinal))
+            if ((type is null && mimeType is null) || (type != null && type.StartsWith("System.Char", StringComparison.Ordinal)))
             {
                 Writer.WriteAttributeString("xml", "space", null, "preserve");
             }
@@ -587,7 +586,7 @@ public class ResXResourceWriter : IResourceWriter
     {
         var indexStart = typeName.IndexOf(',');
 
-        return indexStart == -1 ? typeName : typeName.Substring(0, indexStart);
+        return ((indexStart == -1) ? typeName : typeName.Substring(0, indexStart));
     }
 
     private void InitializeWriter()
@@ -690,7 +689,7 @@ public class ResXResourceWriter : IResourceWriter
 
     private string TypeNameWithAssembly(Type type)
     {
-        var result = MultitargetUtil.GetAssemblyQualifiedName(type, _typeNameConverter);
+        string result = MultitargetUtil.GetAssemblyQualifiedName(type, _typeNameConverter);
 
         return result;
     }
@@ -703,7 +702,7 @@ public class ResXResourceWriter : IResourceWriter
         var raw = Convert.ToBase64String(data);
         if (raw.Length > lineWrap)
         {
-            var output = new StringBuilder(raw.Length + raw.Length / lineWrap * 3); // word wrap on lineWrap chars, \r\n
+            var output = new StringBuilder(raw.Length + (raw.Length / lineWrap) * 3); // word wrap on lineWrap chars, \r\n
             var current = 0;
             for (; current < raw.Length - lineWrap; current += lineWrap)
             {

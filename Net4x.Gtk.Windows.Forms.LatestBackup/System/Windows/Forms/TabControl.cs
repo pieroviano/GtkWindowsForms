@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -259,13 +259,13 @@ public partial class TabControl : ContainerControl
     /// </exception>
     public Rectangle GetTabRect(int index)
     {
-        if (index < 0 || index >= TabCount)
+        if (index < 0 || (index >= TabCount))
         {
             throw new ArgumentOutOfRangeException(nameof(index), index, "SR.InvalidArgument");
         }
         var page = TabPages[index];
-        var tab = page.TabLabel;
-        var rect = tab.Allocation;
+        Gtk.Label tab = page.TabLabel;
+        Gdk.Rectangle rect = tab.Allocation;
 
         return new Rectangle(0, 0, rect.Width, rect.Height);
     }
@@ -344,15 +344,19 @@ public partial class TabControl : ContainerControl
                     if (_owner.DrawMode == TabDrawMode.OwnerDrawFixed && _owner.DrawItem != null)
                     {
                         var tab = (Gtk.Label)sender;
-                        var allocation= tab.Allocation;
+                        Gdk.Rectangle allocation= tab.Allocation;
                         args.Cr.ResetClip();
-                        var width = allocation.Width + 24;
-                        var height = allocation.Height + 2;
+                        int width = allocation.Width + 24;
+                        int height = allocation.Height + 2;
                         _owner.OnDrawItem(new DrawItemEventArgs(new Graphics(tab, args.Cr, new Gdk.Rectangle(0, 0, width, height)) { diff_left = -12, diff_top = -2 }, _owner.Font, new Rectangle(0, 0, width, height), Convert.ToInt32(tab.Name), DrawItemState.Default));
 
                     }
                 };
                 return _owner.self.AppendPage(item.self, item.TabLabel);
+            }
+            catch
+            {
+                throw;
             }
             finally
             {
@@ -388,7 +392,7 @@ public partial class TabControl : ContainerControl
 
         private void Self_Shown(object sender, EventArgs e)
         {
-            foreach (var item in this)
+            foreach (TabPage item in this)
             {
                 _owner.self.SetMenuLabelText(item.self, _owner.self.GetTabLabelText(item.self));
             }
@@ -564,7 +568,7 @@ public partial class TabControl : ContainerControl
         /// </param>
         public void AddRange(TabPage[] pages)
         {
-            foreach (var page in pages)
+            foreach (TabPage page in pages)
                 this.Add(page);
         }
 

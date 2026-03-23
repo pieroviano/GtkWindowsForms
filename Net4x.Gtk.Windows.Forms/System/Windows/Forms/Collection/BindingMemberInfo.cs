@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms;
+namespace System.Windows.Forms;
 
 /// <summary>
 /// Contains information that enables a
@@ -22,7 +22,7 @@ public readonly struct BindingMemberInfo : IEquatable<BindingMemberInfo>
     /// <param name="dataMember">
     /// The data member.
     /// </param>
-    public BindingMemberInfo(string? dataMember)
+    public BindingMemberInfo(string dataMember)
     {
         dataMember ??= string.Empty;
         var lastDot = dataMember.LastIndexOf('.');

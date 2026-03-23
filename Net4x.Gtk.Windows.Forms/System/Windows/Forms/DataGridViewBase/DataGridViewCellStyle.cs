@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -275,7 +275,7 @@ public class DataGridViewCellStyle : ICloneable
         var celltype = this.GetType();
         var newobj = new DataGridViewCellStyle();
         var propertys = celltype.GetProperties(Reflection.BindingFlags.Public | Reflection.BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.SetProperty);
-        foreach (var property in propertys)
+        foreach (PropertyInfo property in propertys)
             if (property.CanRead && property.CanWrite)
                 property.SetValue(newobj, property.GetValue(this));
 

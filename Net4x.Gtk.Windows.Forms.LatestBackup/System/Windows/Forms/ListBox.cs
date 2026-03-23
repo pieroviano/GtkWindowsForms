@@ -602,19 +602,19 @@ public partial class ListBox : ListControl
 
     private EventHandler _selectedIndexChanged
     {
-        get { return (EventHandler)Events["SelectedIndexChanged"]; }
+        get { return ((EventHandler)Events["SelectedIndexChanged"]); }
         set { Events["SelectedIndexChanged"] = value; }
     }
 
     private EventHandler _selectedItemChanged
     {
-        get { return (EventHandler)Events["SelectedItemChanged"]; }
+        get { return ((EventHandler)Events["SelectedItemChanged"]); }
         set { Events["SelectedItemChanged"] = value; }
     }
 
     private EventHandler _selectedValueChanged
     {
-        get { return (EventHandler)Events["SelectedValueChanged"]; }
+        get { return ((EventHandler)Events["SelectedValueChanged"]); }
         set { Events["SelectedValueChanged"] = value; }
     }
 
@@ -858,7 +858,7 @@ public partial class ListBox : ListControl
     /// </param>
     public void SetSelected(int index, bool value)
     {
-        if (value)
+        if (value == true)
             self.ListBox.SelectRow(self.ListBox.GetRowAtIndex(index));
         else
             self.ListBox.UnselectRow(self.ListBox.GetRowAtIndex(index));
@@ -889,7 +889,7 @@ public partial class ListBox : ListControl
     /// </summary>
     protected void NativeClear()
     {
-        var count = self.ListBox.Children.Length;
+        int count = self.ListBox.Children.Length;
         while (count > 0)
         {
             self.ListBox.Remove(self.ListBox.GetRowAtIndex(count - 1));
@@ -1017,7 +1017,7 @@ public partial class ListBox : ListControl
         {
             if (_DataSource is IListSource listSource)
             {
-                var list = listSource.GetList().GetEnumerator();
+                IEnumerator list = listSource.GetList().GetEnumerator();
                 SetDataSource(list);
             }
             else if (_DataSource is IEnumerable list1)
@@ -1029,7 +1029,7 @@ public partial class ListBox : ListControl
 
     private void propertyNotity(object o, NotifyArgs args)
     {
-        var binding = DataBindings[args.Property];
+        Binding binding = DataBindings[args.Property];
         binding.WriteValue();
     }
 
@@ -1040,7 +1040,7 @@ public partial class ListBox : ListControl
             self.ListBox.AddNotification(binding.PropertyName, propertyNotity);
     }
 
-    private void SetDataSource(IEnumerator? enumerator)
+    private void SetDataSource(IEnumerator enumerator)
     {
         _items.Clear();
         if (enumerator != null)

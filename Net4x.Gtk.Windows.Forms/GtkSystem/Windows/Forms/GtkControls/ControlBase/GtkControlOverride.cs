@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -181,7 +181,7 @@ public sealed class GtkControlOverride : IControlOverride
     /// </summary>
     public void OnAddClass()
     {
-        foreach (var cssClass in cssList)
+        foreach (string cssClass in cssList)
         {
             if (container.StyleContext.HasClass(cssClass))
                 container.StyleContext.RemoveClass(cssClass);

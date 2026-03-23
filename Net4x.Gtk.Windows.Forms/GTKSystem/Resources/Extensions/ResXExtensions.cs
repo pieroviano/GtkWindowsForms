@@ -1,10 +1,11 @@
-﻿using System.Resources;
+using System;
+using System.Resources;
 
 namespace GtkSystem.Resources.Extensions;
 
 internal static class ResXExtensions
 {
-    public static string OrThrowIfNull(this string? value)
+    public static string OrThrowIfNull(this string value)
     {
         if (value == null)
         {
@@ -14,7 +15,7 @@ internal static class ResXExtensions
             return value;
     }
 
-    public static ResXFileRef OrThrowIfNull(this ResXFileRef? value)
+    public static ResXFileRef OrThrowIfNull(this ResXFileRef value)
     {
         if (value == null)
         {

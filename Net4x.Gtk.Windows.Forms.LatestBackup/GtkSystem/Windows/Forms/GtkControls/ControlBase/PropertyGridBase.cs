@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -15,14 +15,14 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
 {
     /// <summary>
-    /// The first child
+    /// The child1
     /// </summary>
-    public Gtk.ScrolledWindow FirstChild = new Gtk.ScrolledWindow();
+    public Gtk.ScrolledWindow child1 = new Gtk.ScrolledWindow();
 
     /// <summary>
-    /// The second child
+    /// The child2
     /// </summary>
-    public Gtk.Box SecondChild = new Gtk.Box(Gtk.Orientation.Vertical,2);
+    public Gtk.Box child2 = new Gtk.Box(Gtk.Orientation.Vertical,2);
 
     readonly Gtk.Label descriptionLabel = new Gtk.Label("description") { Xalign = 0, Yalign = 0 };
 
@@ -39,15 +39,15 @@ public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
         this.Valign = Gtk.Align.Start;
         this.Halign = Gtk.Align.Start;
         this.WideHandle = true;
-        SecondChild.BorderWidth = 1;
+        child2.BorderWidth = 1;
         var attrList = new Pango.AttrList();
         attrList.Insert(new Pango.AttrWeight(Pango.Weight.Bold));
         titleLabel.Attributes = attrList;
-        SecondChild.PackStart(titleLabel, false, true, 2);
-        SecondChild.PackStart(descriptionLabel, true, true, 2);
+        child2.PackStart(titleLabel, false, true, 2);
+        child2.PackStart(descriptionLabel, true, true, 2);
 
-        this.Pack1(FirstChild, true, true);
-        this.Pack2(SecondChild, false, true);
+        this.Pack1(child1, true, true);
+        this.Pack2(child2, false, true);
     }
 
     /// <summary>
