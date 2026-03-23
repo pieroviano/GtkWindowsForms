@@ -1,0 +1,2 @@
+git format-patch main -o patches/ -1 HEAD
+git apply patches/*.patch

@@ -1,0 +1,836 @@
+From 3d3347b999fa0b9fd7ab10a01174cfa68fb65a4a Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Mon, 23 Mar 2026 03:16:33 +0200
+Subject: [PATCH] Modified direct event invocation to OnXXX
+
+---
+ .../Forms/GtkControls/ControlBase/FormBase.cs |   4 +-
+ .../ControlBase/ScrollableBoxBase.cs          |   6 +-
+ .../System/Windows/Forms/ComboBox.cs          |   4 +-
+ .../System/Windows/Forms/Control/Control.cs   |  59 ++++------
+ .../System/Windows/Forms/DataGridView.cs      |   6 +-
+ .../System/Windows/Forms/DateTimePicker.cs    |   2 +-
+ .../Windows/Forms/EventArgs/PaintEventArgs.cs |   3 +-
+ .../System/Windows/Forms/Form.cs              |  10 +-
+ .../System/Windows/Forms/LinkLabel.cs         |   4 +-
+ .../System/Windows/Forms/ListBox.cs           |   4 +-
+ .../System/Windows/Forms/ListView.cs          |  18 +--
+ .../Forms/MenuStripBase/ToolStripComboBox.cs  |   4 +-
+ .../MenuStripBase/ToolStripDropDownButton.cs  |   6 -
+ .../Forms/MenuStripBase/WidgetToolStrip.cs    |   8 +-
+ .../System/Windows/Forms/MonthCalendar.cs     |   4 +-
+ .../System/Windows/Forms/NumericUpDown.cs     |   2 +-
+ .../System/Windows/Forms/RadioButton.cs       |   2 +-
+ .../System/Windows/Forms/RichTextBox.cs       |   2 +-
+ .../Windows/Forms/Scrolling/ScrollBar.cs      |   6 +-
+ .../System/Windows/Forms/SwitchBox.cs         |   4 +-
+ .../System/Windows/Forms/TabControl.cs        |   4 +-
+ .../System/Windows/Forms/TextBox.cs           |   8 +-
+ .../System/Windows/Forms/ToolStrip.cs         |   8 +-
+ .../System/Windows/Forms/TrackBar.cs          |   4 +-
+ .../System/Windows/Forms/TreeView.cs          |   8 +-
+ 25 files changed, 27 insertions(+), 53 deletions(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+index 5babb148..43783f0b 100644
+--- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
++++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+@@ -215,7 +215,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
+         if (Scroll != null)
+         {
+             var adj = (Gtk.Adjustment)sender;
+-            Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
++            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
+         }
+     }
+ 
+@@ -240,7 +240,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
+         if (Scroll != null)
+         {
+             var adj = (Gtk.Adjustment)sender;
+-            Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
++            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
+         }
+     }
+ 
+diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs
+index e2275be8..d5b39678 100644
+--- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs
++++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs
+@@ -1,4 +1,4 @@
+-using System;
++﻿using System;
+ using System.Windows.Forms;
+ using Gdk;
+ 
+@@ -178,7 +178,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
+         if (Scroll != null)
+         {
+             var adj = (Gtk.Adjustment)sender;
+-            Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
++            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
+         }
+     }
+ 
+@@ -187,7 +187,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
+         if (Scroll != null)
+         {
+             var adj = (Gtk.Adjustment)sender;
+-            Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
++            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+index a4f9100f..cd5f32dc 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+@@ -275,7 +275,7 @@ public partial class ComboBox : ListControl
+     /// </summary>
+     protected virtual void OnDropDown(System.EventArgs e)
+     {
+-        DropDown?.Invoke(this, e);
++        OnDropDown(e);
+     }
+ 
+     /// <summary>
+@@ -425,6 +425,6 @@ public partial class ComboBox : ListControl
+ 
+     private void Ws_Toggled(object sender, EventArgs e)
+     {
+-        DropDown?.Invoke(this, e);
++        OnDropDown(e);
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+index 7fcbaf21..fc22808c 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -527,7 +527,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         {
+             _anchor = value;
+             SetAnchorStyles(Widget, _anchor);
+-            AnchorChanged?.Invoke(this, EventArgs.Empty);
++            OnAnchorChanged(EventArgs.Empty);
+         }
+     }
+ 
+@@ -807,7 +807,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+                 this.Widget.Halign = Align.Start;
+                 this.Widget.Valign = Align.Start;
+             }
+-            DockChanged?.Invoke(this, EventArgs.Empty);
++            OnDockChanged(EventArgs.Empty);
+         }
+     }
+ 
+@@ -903,8 +903,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         set
+         {
+             this.Widget.HeightRequest = Math.Max(-1, value);
+-            DockChanged?.Invoke(this, EventArgs.Empty);
+-            AnchorChanged?.Invoke(this, EventArgs.Empty);
++            OnDockChanged(EventArgs.Empty);
++            OnAnchorChanged(EventArgs.Empty);
+         }
+     }
+ 
+@@ -984,8 +984,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         set
+         {
+             this.Widget.MarginStart = value;
+-            DockChanged?.Invoke(this, EventArgs.Empty);
+-            AnchorChanged?.Invoke(this, EventArgs.Empty);
++            OnDockChanged(EventArgs.Empty);
++            OnAnchorChanged(EventArgs.Empty);
+         }
+     }
+ 
+@@ -1186,8 +1186,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         set
+         {
+             this.Widget.MarginTop = value;
+-            DockChanged?.Invoke(this, EventArgs.Empty);
+-            AnchorChanged?.Invoke(this, EventArgs.Empty);
++            OnDockChanged(EventArgs.Empty);
++            OnAnchorChanged(EventArgs.Empty);
+         }
+     }
+ 
+@@ -1259,8 +1259,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         set
+         {
+             this.Widget.WidthRequest = Math.Max(-1, value);
+-            DockChanged?.Invoke(this, EventArgs.Empty);
+-            AnchorChanged?.Invoke(this, EventArgs.Empty);
++            OnDockChanged(EventArgs.Empty);
++            OnAnchorChanged(EventArgs.Empty);
+         }
+     }
+ 
+@@ -3489,7 +3489,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+             owidget.Window.GetOrigin(out int x, out int y);// avoid event penetration errors
+             var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
+             OnMouseDown(mouseArgs);
+-            MouseDown?.Invoke(this, mouseArgs);
+         }
+     }
+ 
+@@ -3507,22 +3506,17 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+             owidget.Window.GetOrigin(out int x, out int y);
+             var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
+             OnMouseUp(mouseArgs);
+-            MouseUp?.Invoke(this, mouseArgs);
+ 
+             if (args.Event.Type == Gdk.EventType.TwoButtonPress || args.Event.Type == Gdk.EventType.DoubleButtonPress)
+             {
+                 var mouseArgs2 = new MouseEventArgs(result, 2, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
+                 OnMouseDoubleClick(mouseArgs2);
+-                MouseDoubleClick?.Invoke(this, mouseArgs2);
+-                DoubleClick?.Invoke(this, EventArgs.Empty);
++                OnDoubleClick(EventArgs.Empty);
+             }
+             else
+             {
+                 OnClick(EventArgs.Empty);
+-                var mouseArgs3 = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
+-                OnMouseClick(mouseArgs3);
+-                Click?.Invoke(this, EventArgs.Empty);
+-                MouseClick?.Invoke(this, mouseArgs3);
++                OnMouseClick(new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0));
+             }
+             if (ContextMenuStrip != null)
+             {
+@@ -3538,7 +3532,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     private void Widget_ConfigureEvent(object o, ConfigureEventArgs args)
+     {
+         OnMove(EventArgs.Empty);
+-        Move?.Invoke(this, args);
+     }
+ 
+     private void Widget_EnterNotifyEvent(object o, EnterNotifyEventArgs args)
+@@ -3556,26 +3549,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         }
+         OnMouseEnter(EventArgs.Empty);
+         OnMouseHover(EventArgs.Empty);
+-        Enter?.Invoke(this, args);
+-        MouseEnter?.Invoke(this, args);
+-        MouseHover?.Invoke(this, args);
++        OnEnter(args);
+     }
+ 
+     private void Widget_FocusInEvent(object o, FocusInEventArgs args)
+     {
+-        GotFocus?.Invoke(this, args);
++        OnGotFocus(args);
+     }
+ 
+     private void Widget_FocusOutEvent(object o, FocusOutEventArgs args)
+     {
+         var cancelEventArgs = new CancelEventArgs(false);
+-        LostFocus?.Invoke(this, args);
++        OnLostFocus(args);
+         OnValidating(cancelEventArgs);
+-        Validating?.Invoke(this, cancelEventArgs);
+         if (Validated != null && cancelEventArgs.Cancel == false)
+         {
+             OnValidated(cancelEventArgs);
+-            Validated(this, cancelEventArgs);
+         }
+     }
+ 
+@@ -3595,7 +3584,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+                 if (eventkey.State.HasFlag(Gdk.ModifierType.LockMask))
+                     keys |= Keys.CapsLock;
+                 OnKeyDown(new KeyEventArgs(keys));
+-                KeyDown(this, new KeyEventArgs(keys));
+             }
+         }
+     }
+@@ -3604,8 +3592,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     {
+         var keys = (Keys)args.Event.HardwareKeycode;
+         OnKeyUp(new KeyEventArgs(keys));
+-        KeyUp?.Invoke(this, new KeyEventArgs(keys));
+-        KeyPress?.Invoke(this, new KeyPressEventArgs(Convert.ToChar(keys)));
++        OnKeyPress(new KeyPressEventArgs(Convert.ToChar(keys)));
+     }
+ 
+     private void Widget_LeaveNotifyEvent(object o, LeaveNotifyEventArgs args)
+@@ -3615,8 +3602,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+             this.Widget.Window.Cursor = null;
+         }
+         OnMouseLeave(EventArgs.Empty);
+-        Leave?.Invoke(this, EventArgs.Empty);
+-        MouseLeave?.Invoke(this, EventArgs.Empty);
++        OnLeave(EventArgs.Empty);
+     }
+ 
+     private void Widget_MotionNotifyEvent(object o, MotionNotifyEventArgs args)
+@@ -3634,7 +3620,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+             owidget.Window.GetOrigin(out int x, out int y);
+             var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 1);
+             OnMouseMove(mouseArgs);
+-            MouseMove?.Invoke(this, mouseArgs);
+         }
+     }
+ 
+@@ -3644,8 +3629,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         {
+             WidgetRealized = true;
+             InitStyle((Gtk.Widget)sender);
+-            OnLoad(EventArgs.Empty);
+-            Load?.Invoke(this, e);
++            OnLoad(e);
+         }
+     }
+ 
+@@ -3653,25 +3637,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     {
+         var mouseArgs = new MouseEventArgs(MouseButtons.None, 0, (int)args.Event.X, (int)args.Event.Y, (int)args.Event.DeltaY);
+         OnMouseWheel(mouseArgs);
+-        MouseWheel?.Invoke(this, mouseArgs);
+     }
+ 
+     private void Widget_SizeAllocated(object o, SizeAllocatedArgs args)
+     {
+         OnResize(EventArgs.Empty);
+-        Resize?.Invoke(this, EventArgs.Empty);
+         if (args.Allocation.Width != size_width || args.Allocation.Height != size_height)
+         {
+             size_width = args.Allocation.Width;
+             size_height = args.Allocation.Height;
+             OnSizeChanged(EventArgs.Empty);
+-            SizeChanged?.Invoke(this, EventArgs.Empty);
+         }
+         if (args.Allocation.X != location_x || args.Allocation.Y != location_y)
+         {
+             location_x = args.Allocation.X;
+             location_y = args.Allocation.Y;
+-            LocationChanged?.Invoke(this, EventArgs.Empty);
++            OnLocationChanged(EventArgs.Empty);
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
+index 7b8230b0..73111ae5 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
+@@ -1243,7 +1243,7 @@ public partial class DataGridView : ScrollableControl
+ 
+     internal void CellValueChanagedHandler(int column, int row)
+     {
+-        CellValueChanged?.Invoke(this, new DataGridViewCellEventArgs(column, row));
++        OnCellValueChanged(new DataGridViewCellEventArgs(column, row));
+     }
+ 
+     /// <summary>
+@@ -2188,7 +2188,7 @@ public partial class DataGridView : ScrollableControl
+         if (CellClick != null)
+         {
+             var column = args.Column as DataGridViewColumn;
+-            CellClick(this, new DataGridViewCellEventArgs(column.Index, args.Path.Indices.Last()));
++            OnCellClick(new DataGridViewCellEventArgs(column.Index, args.Path.Indices.Last()));
+         }
+     }
+ 
+@@ -2308,6 +2308,6 @@ public partial class DataGridView : ScrollableControl
+             _selectedBandIndexes.Add(idx);
+         }
+         if (SelectionChanged != null && Created)
+-            SelectionChanged(this, e);
++            OnSelectionChanged(e);
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
+index 134d4c7a..2d1ac845 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
+@@ -345,7 +345,7 @@ public partial class DateTimePicker : MaskedTextBox
+     private void Self_Changed(object sender, EventArgs e)
+     {
+         if (ValueChanged != null && self.IsMapped)
+-            ValueChanged(this, e);
++            OnValueChanged(e);
+     }
+ 
+     private void Self_Shown(object sender, EventArgs e)
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs
+index 7bda903e..33676a1d 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs
+@@ -1,4 +1,4 @@
+-// Licensed to the .NET Foundation under one or more agreements.
++﻿// Licensed to the .NET Foundation under one or more agreements.
+ // The .NET Foundation licenses this file to you under the MIT license.
+ // See the LICENSE file in the project root for more information.
+ 
+@@ -153,7 +153,6 @@ public class PaintEventArgs : EventArgs, IDisposable
+ 
+         if (oldPal != IntPtr.Zero && _dc != IntPtr.Zero)
+         {
+-            //SafeNativeMethods.SelectPalette(new HandleRef(this, _dc), new HandleRef(this, oldPal), 0);
+             oldPal = IntPtr.Zero;
+         }
+     }
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+index 5d3a76b1..668a14fd 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+@@ -649,22 +649,22 @@ public partial class Form : ContainerControl, IWin32Window
+ 
+     private void OnLoadHandler()
+     {
+-        Load?.Invoke(this, EventArgs.Empty);
++        OnLoad(EventArgs.Empty);
+     }
+ 
+     private void OnShownHandler()
+     {
+-        Shown?.Invoke(this, EventArgs.Empty);
++        OnShown(EventArgs.Empty);
+     }
+ 
+     private bool Self_CloseWindowEvent(object sender, EventArgs e)
+     {
+         var closing = new FormClosingEventArgs(CloseReason.UserClosing, false);
+-        FormClosing?.Invoke(this, closing);
++        OnFormClosing(closing);
+ 
+         if (closing.Cancel == false)
+         {
+-            FormClosed?.Invoke(this, new FormClosedEventArgs(CloseReason.UserClosing));
++            OnFormClosed(new FormClosedEventArgs(CloseReason.UserClosing));
+         }
+ 
+         return closing.Cancel == false;
+@@ -672,7 +672,7 @@ public partial class Form : ContainerControl, IWin32Window
+ 
+     private void Self_ResizeChecked(object sender, EventArgs e)
+     {
+-        SizeChanged?.Invoke(this, EventArgs.Empty);
++        OnSizeChanged(EventArgs.Empty);
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+index 33819953..d14261ca 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -189,7 +189,7 @@ public partial class LinkLabel : Control
+ 
+     private void LinkLabel_Click(object sender, EventArgs e)
+     {
+-        Click?.Invoke(this, e);
++        OnClick(e);
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+index 5abc74fd..ef01708c 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -960,7 +960,7 @@ public partial class ListBox : ListControl
+     {
+         if (self.ListBox.SelectedRow != null)
+             self.ListBox.SelectRow(self.ListBox.SelectedRow);
+-        _selectedIndexChanged?.Invoke(this, e);
++        OnSelectedIndexChanged(e);
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+index 63d13d00..26853661 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -1565,8 +1565,8 @@ public class ListView : ContainerControl
+                     group.FlowBox.UnselectAll();
+                 }
+             }
+-            ItemActivate?.Invoke(this, args);
+-            ItemSelectionChanged?.Invoke(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
++            OnItemActivate(args);
++            OnItemSelectionChanged(new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+         }
+     }
+ 
+@@ -1575,7 +1575,7 @@ public class ListView : ContainerControl
+         var widget = (Gtk.FlowBox)sender;
+         if (MultiSelect == true)
+         {
+-            ItemActivate?.Invoke(this, e);
++            OnItemActivate(e);
+ 
+             var selecteds = new List<int>();
+             foreach (var group in GetAllGroups())
+@@ -1596,18 +1596,18 @@ public class ListView : ContainerControl
+                     if (item.Selected == false)
+                     {
+                         item.Selected = true;
+-                        ItemSelectionChanged?.Invoke(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
++                        OnItemSelectionChanged(new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+                     }
+                 }
+                 else if (item.Selected == true)
+                 {
+                     item.Selected = false;
+-                    ItemSelectionChanged?.Invoke(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
++                    OnItemSelectionChanged(new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+                 }
+             }
+         }
+ 
+-        SelectedIndexChanged?.Invoke(this, e);
++        OnSelectedIndexChanged(e);
+     }
+ 
+     private void Columbt_Clicked(object sender, EventArgs e)
+@@ -1634,11 +1634,11 @@ public class ListView : ContainerControl
+                 }
+                 this.Sort();
+ 
+-                ColumnReordered?.Invoke(this, new ColumnReorderedEventArgs(SortingColumnIndex, actioncolumn, Columns[actioncolumn]));
++                OnColumnReordered(new ColumnReorderedEventArgs(SortingColumnIndex, actioncolumn, Columns[actioncolumn]));
+ 
+                 SortingColumnIndex = actioncolumn;
+             }
+-            ColumnClick?.Invoke(this, new ColumnClickEventArgs((int)btn.ActionTargetValue));
++            OnColumnClick(new ColumnClickEventArgs((int)btn.ActionTargetValue));
+         }
+     }
+ 
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs
+index 96ead3d2..99aea353 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs
+@@ -114,8 +114,8 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
+ 
+     private void ComboBox_Changed(object sender, EventArgs e)
+     {
+-        SelectedIndexChanged?.Invoke(this, e);
+-        SelectedValueChanged?.Invoke(this, e);
++        OnSelectedIndexChanged(e);
++        OnSelectedValueChanged(e);
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs
+index 167cff6c..934dd6cb 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs
+@@ -154,12 +154,6 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
+     /// The
+     /// <see cref="T:System.Windows.Forms.MouseEventArgs" /> instance containing the event data.
+     /// </param>
+-    //protected AccessibleObject CreateAccessibilityInstance()
+-    //{
+-    //}
+-    //protected  ToolStripDropDown CreateDefaultDropDown()
+-    //{
+-    //}
+     protected void OnMouseDown(MouseEventArgs e)
+     {
+         MouseDown?.Invoke(this, e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
+index 1972e106..5b0fa8c9 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
+@@ -926,7 +926,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
+     /// </summary>
+     protected override void OnCheckedChanged(EventArgs e)
+     {
+-        CheckedChanged?.Invoke(this, e);
++        OnCheckedChanged(e);
+     }
+ 
+     /// <summary>
+@@ -1033,7 +1033,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
+ 
+     private void Checkbutton_Toggled(object sender, EventArgs e)
+     {
+-        CheckedChanged?.Invoke(this, e);
++        OnCheckedChanged(e);
+     }
+ 
+     private void MenuItem_Activated(object sender, EventArgs e)
+@@ -1058,9 +1058,9 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
+ 
+     private void MenuItem_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
+     {
+-        DropDownItemClicked?.Invoke(this, new ToolStripItemClickedEventArgs(this));
++        OnDropDownItemClicked(new ToolStripItemClickedEventArgs(this));
+ 
+-        Click?.Invoke(this, args);
++        OnClick(args);
+ 
+     }
+ 
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs
+index e64374bf..83d5d944 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs
+@@ -177,9 +177,9 @@ public partial class MonthCalendar : Control
+     private void MonthCalendar_DaySelected(object sender, EventArgs e)
+     {
+         if (DateChanged != null && self.IsVisible)
+-            DateChanged(this, new DateRangeEventArgs(SelectionRange.Start, SelectionRange.End));
++            OnDateChanged(new DateRangeEventArgs(SelectionRange.Start, SelectionRange.End));
+ 
+         if (DateSelected != null && self.IsVisible)
+-            DateSelected(this, new DateRangeEventArgs(SelectionRange.Start, SelectionRange.End));
++            OnDateSelected(new DateRangeEventArgs(SelectionRange.Start, SelectionRange.End));
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+index 40a105a3..ae0e0b9f 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+@@ -113,6 +113,6 @@ public partial class NumericUpDown : Control
+     private void Self_ValueChanged(object sender, EventArgs e)
+     {
+         if (ValueChanged != null && self.IsVisible)
+-            ValueChanged(this, e);
++            OnValueChanged(e);
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+index 49c88b7d..7492d2b0 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+@@ -103,6 +103,6 @@ public partial class RadioButton : Control
+     private void Self_Toggled(object sender, EventArgs e)
+     {
+         if (CheckedChanged != null && self.IsVisible)
+-            CheckedChanged(this, e);
++            OnCheckedChanged(e);
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+index ad200232..8ec45fad 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+@@ -201,7 +201,7 @@ public partial class RichTextBox : ScrollableControl
+     {
+         if (TextChanged != null && self.IsVisible)
+         {
+-            TextChanged(this, e);
++            OnTextChanged(e);
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs
+index 6f8a7873..f27dad81 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs
+@@ -1,4 +1,4 @@
+-using System;
++﻿using System;
+ using System.ComponentModel;
+ 
+ namespace System.Windows.Forms;
+@@ -118,9 +118,9 @@ public abstract partial class ScrollBar : Control
+     private void Control_ValueChanged(object sender, EventArgs e)
+     {
+         double newValue = Adjustment.Value;
+-        ValueChanged?.Invoke(this, e);
++        OnValueChanged(e);
+         var args = new ScrollEventArgs(newValue >= _oldValue ? ScrollEventType.SmallIncrement : ScrollEventType.SmallDecrement, (int)_oldValue, (int)newValue);
+-        Scroll?.Invoke(this, args);
++        OnScroll(args);
+         _oldValue = newValue;
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
+index a9762378..e41a0c09 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
+@@ -55,7 +55,7 @@ public partial class SwitchBox : Control
+         {
+             self.Active = value;
+             if (CheckedChanged != null && self.IsVisible)
+-                CheckedChanged(this, EventArgs.Empty);
++                OnCheckedChanged(EventArgs.Empty);
+         }
+     }
+ 
+@@ -90,6 +90,6 @@ public partial class SwitchBox : Control
+     private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
+     {
+         if (CheckedChanged != null && self.IsVisible)
+-            CheckedChanged(this, EventArgs.Empty);
++            OnCheckedChanged(EventArgs.Empty);
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
+index 088d9019..bcd33313 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
+@@ -289,7 +289,7 @@ public partial class TabControl : ContainerControl
+     private void Self_SwitchPage(object o, SwitchPageArgs args)
+     {
+         if (SelectedIndexChanged != null && self.IsMapped)
+-            SelectedIndexChanged(this, new EventArgs());
++            OnSelectedIndexChanged(new EventArgs());
+     }
+ 
+     /// <summary>
+@@ -348,7 +348,7 @@ public partial class TabControl : ContainerControl
+                         args.Cr.ResetClip();
+                         int width = allocation.Width + 24;
+                         int height = allocation.Height + 2;
+-                        _owner.DrawItem(this, new DrawItemEventArgs(new Graphics(tab, args.Cr, new Gdk.Rectangle(0, 0, width, height)) { diff_left = -12, diff_top = -2 }, _owner.Font, new Rectangle(0, 0, width, height), Convert.ToInt32(tab.Name), DrawItemState.Default));
++                        _owner.OnDrawItem(new DrawItemEventArgs(new Graphics(tab, args.Cr, new Gdk.Rectangle(0, 0, width, height)) { diff_left = -12, diff_top = -2 }, _owner.Font, new Rectangle(0, 0, width, height), Convert.ToInt32(tab.Name), DrawItemState.Default));
+ 
+                     }
+                 };
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+index 18c85905..7c8d4587 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -247,7 +247,7 @@ public partial class TextBox : Control
+ 
+     private void Self_Changed(object sender, EventArgs e)
+     {
+-        if (TextChanged != null && self.IsVisible) { TextChanged(this, EventArgs.Empty); }
++        if (TextChanged != null && self.IsVisible) { OnTextChanged(EventArgs.Empty); }
+     }
+ 
+     private void Self_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)
+@@ -257,7 +257,7 @@ public partial class TextBox : Control
+             if (args.Event is Gdk.EventKey eventkey)
+             {
+                 var keys = (Keys)eventkey.HardwareKeycode;
+-                KeyDown(this, new KeyEventArgs(keys));
++                OnKeyDown(new KeyEventArgs(keys));
+             }
+         }
+     }
+@@ -274,7 +274,7 @@ public partial class TextBox : Control
+                 return Enum.GetName(typeof(Keys), k) == keytext;
+             });
+             foreach (var key in keyv)
+-                KeyDown(this, new KeyEventArgs(key));
++                OnKeyDown(new KeyEventArgs(key));
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+index aabfccde..b6c03158 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+@@ -164,9 +164,9 @@ public class ToolStrip : Control
+ 
+     private void ToolStripItem_Activated(object sender, ActivateCurrentArgs e)
+     {
+-        DropDownItemClicked?.Invoke(this, new ToolStripItemClickedEventArgs(new ToolStripItem()));
+-        Click?.Invoke(sender, e);
+-        CheckedChanged?.Invoke(this, e);
+-        CheckStateChanged?.Invoke(this, e);
++        OnDropDownItemClicked(new ToolStripItemClickedEventArgs(new ToolStripItem()));
++        OnClick(e);
++        OnCheckedChanged(e);
++        OnCheckStateChanged(e);
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
+index 3eb7d275..6591267c 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
+@@ -135,7 +135,7 @@ public class TrackBar : Control
+     /// </summary>
+     protected virtual void OnScroll(System.EventArgs e)
+     {
+-        Scroll?.Invoke(this, e);
++        OnScroll(EventArgs.Empty);
+     }
+ 
+     private void Control_Realized(object sender, EventArgs e)
+@@ -158,6 +158,6 @@ public class TrackBar : Control
+     private void Control_ValueChanged(object sender, EventArgs e)
+     {
+         Value = (int)adjustment.Value;
+-        Scroll?.Invoke(this, e);
++        OnScroll(EventArgs.Empty);
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+index a1e935e0..922bd9bb 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+@@ -626,10 +626,10 @@ public partial class TreeView : ScrollableControl
+                 GetNodeChild(root, currpath.Indices, ref result);
+                 cancelEventArgs = new TreeViewCancelEventArgs(result, false, TreeViewAction.ByMouse);
+ 
+-                BeforeSelect?.Invoke(this, cancelEventArgs);
++                OnBeforeSelect(cancelEventArgs);
+                 if (cancelEventArgs == null || cancelEventArgs.Cancel == false)
+                 {
+-                    AfterSelect?.Invoke(this, new TreeViewEventArgs(result));
++                    OnAfterSelect(new TreeViewEventArgs(result));
+                 }
+                 else
+                 {
+@@ -663,7 +663,7 @@ public partial class TreeView : ScrollableControl
+         {
+             TreeNode result = null;
+             GetNodeChild(root, args.Path.Indices, ref result);
+-            AfterCollapse(this, new TreeViewEventArgs(result, TreeViewAction.Collapse));
++            OnAfterCollapse(new TreeViewEventArgs(result, TreeViewAction.Collapse));
+         }
+     }
+ 
+@@ -673,7 +673,7 @@ public partial class TreeView : ScrollableControl
+         {
+             TreeNode result = null;
+             GetNodeChild(root, args.Path.Indices, ref result);
+-            AfterExpand(this, new TreeViewEventArgs(result, TreeViewAction.Expand));
++            OnAfterExpand(new TreeViewEventArgs(result, TreeViewAction.Expand));
+         }
+     }
+ 
+-- 
+2.53.0.windows.2
+

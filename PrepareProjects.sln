@@ -78,6 +78,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		Resources\using-differences.json = Resources\using-differences.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D7319D5-CD89-414A-A0ED-922582376C27}"
+	ProjectSection(SolutionItems) = preProject
+		patches\0001-Modified-direct-event-invocation-to-OnXXX.patch = patches\0001-Modified-direct-event-invocation-to-OnXXX.patch
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
