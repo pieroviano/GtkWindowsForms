@@ -38,13 +38,6 @@ public static class GitPatchApplier
             Console.WriteLine($"Applying patch: {Path.GetFileName(patch)}");
 
             var (_, error) = RunGit($"apply --3way \"{patch}\"", repoPath, printOutput);
-
-            if (!string.IsNullOrWhiteSpace(error))
-            {
-                Console.WriteLine($"⚠️ Failed to apply patch: {patch}");
-                // optional: break here if you want strict behavior
-                // break;
-            }
         }
     }
 

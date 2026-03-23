@@ -5764,9 +5764,9 @@
         <member name="M:System.Drawing.ImageAnimator.ImageInfo.#ctor(System.Drawing.Image)">
             <summary>
             Initializes a new instance of
-            <see cref="T:System.Drawing.Image" /> from a pixbuf byte buffer.
+            <see cref="T:System.Drawing.Image" /> from a raw image.
             </summary>
-            <param name="pixbuf">The raw pixbuf bytes.
+            <param name="image">The raw image.
             </param>
         </member>
         <member name="T:System.Drawing.ImageConverter">
