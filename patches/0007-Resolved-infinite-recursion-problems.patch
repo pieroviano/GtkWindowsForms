@@ -1,0 +1,590 @@
+From 12c11216fe210f35eb4dc4cdcd44e68bb88f7e47 Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Tue, 24 Mar 2026 01:15:29 +0200
+Subject: [PATCH] Resolved infinite recursion problems
+
+---
+ .../System/Drawing/ColorExtension.cs          |  15 +-
+ Net4x.Gtk.Drawing/System/Drawing/Font.cs      |  21 +-
+ .../System/Drawing/FontFamily.cs              |  17 +-
+ Net4x.Gtk.Drawing/System/Drawing/Graphics.cs  |   4 +-
+ .../System/Windows/Forms/ComboBox.cs          |   4 +-
+ .../System/Windows/Forms/Enum/Message.cs      |   4 +-
+ .../System/Windows/Forms/ListBox.cs           |   2 +-
+ .../Windows/Forms/TreeViewBase/TreeNode.cs    |  14 +-
+ Resources/ColorConverter.cs                   | 363 ++++++++++++++++++
+ 9 files changed, 420 insertions(+), 24 deletions(-)
+ create mode 100644 Resources/ColorConverter.cs
+
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs b/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs
+index 28d24829..ec2cb3b2 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs
+@@ -1,4 +1,4 @@
+-namespace System.Drawing;
++﻿namespace System.Drawing;
+ 
+ internal static class ColorExtension
+ {
+@@ -7,11 +7,12 @@ internal static class ColorExtension
+ 
+     public static Color FromName(string name)
+     {
+-        // try to get a known color first
+-        if (ColorTable.TryGetNamedColor(name, out var color))
+-            return color;
+-
+-        // otherwise treat it as a named color
+-        return FromName(name);
++        object namedColor = ColorConverter.GetNamedColor(name);
++        if (namedColor != null)
++        {
++            return (Color)namedColor;
++        }
++        return Color.Transparent;
+     }
++
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Font.cs b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+index 7b93aee0..abbb366c 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Font.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+@@ -1,4 +1,4 @@
+-using System.ComponentModel;
++﻿using System.ComponentModel;
+ using System.Runtime.Serialization;
+ 
+ namespace System.Drawing;
+@@ -443,8 +443,23 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// <returns>
+     /// true if the obj parameter is a System.Drawing.Font and has the same System.Drawing.Font.FontFamily, System.Drawing.Font.GdiVerticalFont, System.Drawing.Font.GdiCharSet, System.Drawing.Font.Style, System.Drawing.Font.Size, and System.Drawing.Font.Unit property values as this System.Drawing.Font; otherwise, false.
+     /// </returns>
+-    public override bool Equals(object obj) { return Equals(obj as Font); }
+-
++    public override bool Equals(object obj)
++    {
++        if (obj == this)
++        {
++            return true;
++        }
++        Font font = obj as Font;
++        if (font == null)
++        {
++            return false;
++        }
++        if (!font.FontFamily.Equals(this.FontFamily) || font.GdiVerticalFont != this.GdiVerticalFont || font.GdiCharSet != this.GdiCharSet || font.Style != this.Style || font.Size != this.Size)
++        {
++            return false;
++        }
++        return font.Unit == this.Unit;
++    }
+     /// <summary>
+     /// Creates a System.Drawing.Font from the specified Windows handle to a device context.
+     /// </summary>
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs b/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
+index 9ebfe8ac..d7d5dbd0 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
+@@ -1,4 +1,4 @@
+-using System.Drawing.Text;
++﻿using System.Drawing.Text;
+ using Gdk;
+ 
+ namespace System.Drawing;
+@@ -105,8 +105,19 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
+     /// <returns>
+     /// true if obj is a System.Drawing.FontFamily and is identical to this System.Drawing.FontFamily; otherwise, false.
+     /// </returns>
+-    public override bool Equals(object obj) { return Equals(obj as FontFamily); }
+-
++    public override bool Equals(object obj)
++    {
++        if (obj == this)
++        {
++            return true;
++        }
++        FontFamily fontFamily = obj as FontFamily;
++        if (fontFamily == null)
++        {
++            return false;
++        }
++        return fontFamily.Name == this.Name;
++    }
+     /// <summary>
+     /// Returns the cell ascent, in design units, of the System.Drawing.FontFamily of
+     /// the specified style.
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+index ff7b1f16..163418c4 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+@@ -1,4 +1,4 @@
+-using System.ComponentModel;
++﻿using System.ComponentModel;
+ using System.Drawing.Drawing2D;
+ using System.Drawing.Imaging;
+ using System.Drawing.Text;
+@@ -907,7 +907,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void DrawPie(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
+     {
+-        DrawPie(pen, x, y, width, height, startAngle, sweepAngle);
++        DrawPieCore(false, pen, x, y, width, height, startAngle, sweepAngle);
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+index cd5f32dc..6fbb9c1d 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -275,7 +275,7 @@ public partial class ComboBox : ListControl
+     /// </summary>
+     protected virtual void OnDropDown(System.EventArgs e)
+     {
+-        OnDropDown(e);
++        DropDown?.Invoke(this, e);
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs
+index bba4a6e2..e1c47426 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs
+@@ -1,4 +1,4 @@
+-// Licensed to the .NET Foundation under one or more agreements.
++﻿// Licensed to the .NET Foundation under one or more agreements.
+ // The .NET Foundation licenses this file to you under the MIT license.
+ // See the LICENSE file in the project root for more information.
+ 
+@@ -171,6 +171,6 @@ public struct Message
+     /// <see cref="T:System.String" /> that represents this instance.
+     /// </returns>
+     //public override string ToString() => MessageDecoder.ToString(this);
+-    public override string ToString() => this.ToString();
++    public override string ToString() => string.Format($"{Msg}({WParam}, {LParam})");
+ 
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+index ef01708c..41174982 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+@@ -960,7 +960,7 @@ public partial class ListBox : ListControl
+     {
+         if (self.ListBox.SelectedRow != null)
+             self.ListBox.SelectRow(self.ListBox.SelectedRow);
+-        OnSelectedIndexChanged(e);
++        _selectedIndexChanged?.Invoke(this, e);
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
+index ddba4cbd..0a009150 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
+@@ -1,4 +1,4 @@
+-// Licensed to the .NET Foundation under one or more agreements.
++﻿// Licensed to the .NET Foundation under one or more agreements.
+ // The .NET Foundation licenses this file to you under the MIT license.
+ // See the LICENSE file in the project root for more information.
+ 
+@@ -492,10 +492,16 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
+     /// </param>
+     protected void GetFullPath(TreeNode node, List<string> paths)
+     {
+-        paths.Add(node.Text);
+-        if (node.Parent != null && node.Parent.index != "-1")
++        while (true)
+         {
+-            GetFullPath(node.Parent, paths);
++            paths.Add(node.Text);
++            if (node.Parent != null && node.Parent.index != "-1")
++            {
++                node = node.Parent;
++                continue;
++            }
++
++            break;
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Resources/ColorConverter.cs b/Resources/ColorConverter.cs
+new file mode 100644
+index 00000000..544ea84f
+--- /dev/null
++++ b/Resources/ColorConverter.cs
+@@ -0,0 +1,363 @@
++﻿using System;
++using System.Collections;
++using System.ComponentModel;
++using System.ComponentModel.Design.Serialization;
++using System.Globalization;
++using System.Reflection;
++
++namespace System.Drawing
++{
++    public class ColorConverter : TypeConverter
++    {
++        private static string ColorConstantsLock;
++
++        private static Hashtable colorConstants;
++
++        private static string SystemColorConstantsLock;
++
++        private static Hashtable systemColorConstants;
++
++        private static string ValuesLock;
++
++        private static TypeConverter.StandardValuesCollection values;
++
++        private static Hashtable Colors
++        {
++            get
++            {
++                if (ColorConverter.colorConstants == null)
++                {
++                    lock (ColorConverter.ColorConstantsLock)
++                    {
++                        if (ColorConverter.colorConstants == null)
++                        {
++                            Hashtable hashtables = new Hashtable(StringComparer.OrdinalIgnoreCase);
++                            ColorConverter.FillConstants(hashtables, typeof(Color));
++                            ColorConverter.colorConstants = hashtables;
++                        }
++                    }
++                }
++                return ColorConverter.colorConstants;
++            }
++        }
++
++        private static Hashtable SystemColors
++        {
++            get
++            {
++                if (ColorConverter.systemColorConstants == null)
++                {
++                    lock (ColorConverter.SystemColorConstantsLock)
++                    {
++                        if (ColorConverter.systemColorConstants == null)
++                        {
++                            Hashtable hashtables = new Hashtable(StringComparer.OrdinalIgnoreCase);
++                            ColorConverter.FillConstants(hashtables, typeof(SystemColors));
++                            ColorConverter.systemColorConstants = hashtables;
++                        }
++                    }
++                }
++                return ColorConverter.systemColorConstants;
++            }
++        }
++
++        static ColorConverter()
++        {
++            ColorConverter.ColorConstantsLock = "colorConstants";
++            ColorConverter.SystemColorConstantsLock = "systemColorConstants";
++            ColorConverter.ValuesLock = "values";
++        }
++
++        public ColorConverter()
++        {
++        }
++
++        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
++        {
++            if (sourceType == typeof(string))
++            {
++                return true;
++            }
++            return base.CanConvertFrom(context, sourceType);
++        }
++
++        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
++        {
++            if (destinationType == typeof(InstanceDescriptor))
++            {
++                return true;
++            }
++            return base.CanConvertTo(context, destinationType);
++        }
++
++        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
++        {
++            string str = value as string;
++            if (str == null)
++            {
++                return base.ConvertFrom(context, culture, value);
++            }
++            object namedColor = null;
++            string str1 = str.Trim();
++            if (str1.Length != 0)
++            {
++                namedColor = ColorConverter.GetNamedColor(str1);
++                if (namedColor == null)
++                {
++                    if (culture == null)
++                    {
++                        culture = CultureInfo.CurrentCulture;
++                    }
++                    char listSeparator = culture.TextInfo.ListSeparator[0];
++                    bool flag = true;
++                    TypeConverter converter = TypeDescriptor.GetConverter(typeof(int));
++                    if (str1.IndexOf(listSeparator) == -1)
++                    {
++                        if (str1.Length >= 2 && (str1[0] == '\'' || str1[0] == '\"') && str1[0] == str1[str1.Length - 1])
++                        {
++                            string str2 = str1.Substring(1, str1.Length - 2);
++                            namedColor = Color.FromName(str2);
++                            flag = false;
++                        }
++                        else if (str1.Length == 7 && str1[0] == '#' || str1.Length == 8 && (str1.StartsWith("0x") || str1.StartsWith("0X")) || str1.Length == 8 && (str1.StartsWith("&h") || str1.StartsWith("&H")))
++                        {
++                            namedColor = Color.FromArgb(-16777216 | (int)converter.ConvertFromString(context, culture, str1));
++                        }
++                    }
++                    if (namedColor == null)
++                    {
++                        string[] strArrays = str1.Split(new char[] { listSeparator });
++                        int[] numArray = new int[(int)strArrays.Length];
++                        for (int i = 0; i < (int)numArray.Length; i++)
++                        {
++                            numArray[i] = (int)converter.ConvertFromString(context, culture, strArrays[i]);
++                        }
++                        switch ((int)numArray.Length)
++                        {
++                            case 1:
++                                {
++                                    namedColor = Color.FromArgb(numArray[0]);
++                                    goto case 2;
++                                }
++                            case 2:
++                                {
++                                    flag = true;
++                                    break;
++                                }
++                            case 3:
++                                {
++                                    namedColor = Color.FromArgb(numArray[0], numArray[1], numArray[2]);
++                                    goto case 2;
++                                }
++                            case 4:
++                                {
++                                    namedColor = Color.FromArgb(numArray[0], numArray[1], numArray[2], numArray[3]);
++                                    goto case 2;
++                                }
++                            default:
++                                {
++                                    goto case 2;
++                                }
++                        }
++                    }
++                    if (namedColor != null & flag)
++                    {
++                        int argb = ((Color)namedColor).ToArgb();
++                        foreach (Color color in ColorConverter.Colors.Values)
++                        {
++                            if (color.ToArgb() != argb)
++                            {
++                                continue;
++                            }
++                            namedColor = color;
++                            goto Label1;
++                        }
++                    }
++                }
++Label1:
++                if (namedColor == null)
++                {
++                    throw new ArgumentException("InvalidColor");
++                }
++            }
++            else
++            {
++                namedColor = Color.Empty;
++            }
++            return namedColor;
++        }
++
++        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
++        {
++            string[] str;
++            if (destinationType == null)
++            {
++                throw new ArgumentNullException("destinationType");
++            }
++            if (value is Color)
++            {
++                if (destinationType == typeof(string))
++                {
++                    Color color = (Color)value;
++                    if (color == Color.Empty)
++                    {
++                        return string.Empty;
++                    }
++                    if (string.IsNullOrEmpty(color.Name))
++                    {
++                        return color.Name;
++                    }
++                    if (color.IsNamedColor)
++                    {
++                        return string.Concat("'", color.Name, "'");
++                    }
++                    if (culture == null)
++                    {
++                        culture = CultureInfo.CurrentCulture;
++                    }
++                    string str1 = string.Concat(culture.TextInfo.ListSeparator, " ");
++                    TypeConverter converter = TypeDescriptor.GetConverter(typeof(int));
++                    int num = 0;
++                    if (color.A >= 255)
++                    {
++                        str = new string[3];
++                    }
++                    else
++                    {
++                        str = new string[4];
++                        int num1 = num;
++                        num = num1 + 1;
++                        str[num1] = converter.ConvertToString(context, culture, color.A);
++                    }
++                    int num2 = num;
++                    num = num2 + 1;
++                    str[num2] = converter.ConvertToString(context, culture, color.R);
++                    int num3 = num;
++                    num = num3 + 1;
++                    str[num3] = converter.ConvertToString(context, culture, color.G);
++                    int num4 = num;
++                    num = num4 + 1;
++                    str[num4] = converter.ConvertToString(context, culture, color.B);
++                    return string.Join(str1, str);
++                }
++                if (destinationType == typeof(InstanceDescriptor))
++                {
++                    MemberInfo field = null;
++                    object[] a = null;
++                    Color color = (Color)value;
++                    if (color.IsEmpty)
++                    {
++                        field = typeof(Color).GetField("Empty");
++                    }
++                    else if (!string.IsNullOrEmpty(color.Name))
++                    {
++                        field = typeof(Color).GetProperty(color.Name);
++                    }
++                    else if (color.A != 255)
++                    {
++                        field = typeof(Color).GetMethod("FromArgb", new Type[] { typeof(int), typeof(int), typeof(int), typeof(int) });
++                        a = new object[] { color.A, color.R, color.G, color.B };
++                    }
++                    else if (!color.IsNamedColor)
++                    {
++                        field = typeof(Color).GetMethod("FromArgb", new Type[] { typeof(int), typeof(int), typeof(int) });
++                        a = new object[] { color.R, color.G, color.B };
++                    }
++                    else
++                    {
++                        field = typeof(Color).GetMethod("FromName", new Type[] { typeof(string) });
++                        a = new object[] { color.Name };
++                    }
++                    if (field == null)
++                    {
++                        return null;
++                    }
++                    return new InstanceDescriptor(field, a);
++                }
++            }
++            return base.ConvertTo(context, culture, value, destinationType);
++        }
++
++        private static void FillConstants(Hashtable hash, Type enumType)
++        {
++            MethodAttributes methodAttribute = MethodAttributes.FamANDAssem | MethodAttributes.Family | MethodAttributes.Public | MethodAttributes.Static;
++            PropertyInfo[] properties = enumType.GetProperties();
++            for (int i = 0; i < (int)properties.Length; i++)
++            {
++                PropertyInfo value = properties[i];
++                if (value.PropertyType == typeof(Color))
++                {
++                    MethodInfo getMethod = value.GetGetMethod();
++                    if (getMethod != null && (getMethod.Attributes & methodAttribute) == methodAttribute)
++                    {
++                        object[] objArray = null;
++                        hash[value.Name] = value.GetValue(null, objArray);
++                    }
++                }
++            }
++        }
++
++        internal static object GetNamedColor(string name)
++        {
++            object item = null;
++            item = ColorConverter.Colors[name];
++            if (item != null)
++            {
++                return item;
++            }
++            item = ColorConverter.SystemColors[name];
++            return item;
++        }
++
++        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
++        {
++            if (ColorConverter.values == null)
++            {
++                lock (ColorConverter.ValuesLock)
++                {
++                    if (ColorConverter.values == null)
++                    {
++                        ArrayList arrayLists = new ArrayList();
++                        arrayLists.AddRange(ColorConverter.Colors.Values);
++                        arrayLists.AddRange(ColorConverter.SystemColors.Values);
++                        int count = arrayLists.Count;
++                        for (int i = 0; i < count - 1; i++)
++                        {
++                            for (int j = i + 1; j < count; j++)
++                            {
++                                if (arrayLists[i].Equals(arrayLists[j]))
++                                {
++                                    arrayLists.RemoveAt(j);
++                                    count--;
++                                    j--;
++                                }
++                            }
++                        }
++                        arrayLists.Sort(0, arrayLists.Count, new ColorConverter.ColorComparer());
++                        ColorConverter.values = new TypeConverter.StandardValuesCollection(arrayLists.ToArray());
++                    }
++                }
++            }
++            return ColorConverter.values;
++        }
++
++        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
++        {
++            return true;
++        }
++
++        private class ColorComparer : IComparer
++        {
++            public ColorComparer()
++            {
++            }
++
++            public int Compare(object left, object right)
++            {
++                Color color = (Color)left;
++                Color color1 = (Color)right;
++                return string.Compare(color.Name, color1.Name, false, CultureInfo.InvariantCulture);
++            }
++        }
++    }
++}
+\ No newline at end of file
+-- 
+2.53.0.windows.2
+

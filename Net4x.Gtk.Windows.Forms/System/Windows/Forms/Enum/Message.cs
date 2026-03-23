@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -171,6 +171,6 @@ public struct Message
     /// <see cref="T:System.String" /> that represents this instance.
     /// </returns>
     //public override string ToString() => MessageDecoder.ToString(this);
-    public override string ToString() => this.ToString();
+    public override string ToString() => string.Format($"{Msg}({WParam}, {LParam})");
 
 }

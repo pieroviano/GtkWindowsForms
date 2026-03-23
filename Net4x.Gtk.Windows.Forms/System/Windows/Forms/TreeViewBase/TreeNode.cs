@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -492,10 +492,16 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// </param>
     protected void GetFullPath(TreeNode node, List<string> paths)
     {
-        paths.Add(node.Text);
-        if (node.Parent != null && node.Parent.index != "-1")
+        while (true)
         {
-            GetFullPath(node.Parent, paths);
+            paths.Add(node.Text);
+            if (node.Parent != null && node.Parent.index != "-1")
+            {
+                node = node.Parent;
+                continue;
+            }
+
+            break;
         }
     }
 }

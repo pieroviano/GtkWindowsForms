@@ -1,4 +1,4 @@
-using System.Drawing.Text;
+﻿using System.Drawing.Text;
 using Gdk;
 
 namespace System.Drawing;
@@ -105,8 +105,19 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <returns>
     /// true if obj is a System.Drawing.FontFamily and is identical to this System.Drawing.FontFamily; otherwise, false.
     /// </returns>
-    public override bool Equals(object obj) { return Equals(obj as FontFamily); }
-
+    public override bool Equals(object obj)
+    {
+        if (obj == this)
+        {
+            return true;
+        }
+        FontFamily fontFamily = obj as FontFamily;
+        if (fontFamily == null)
+        {
+            return false;
+        }
+        return fontFamily.Name == this.Name;
+    }
     /// <summary>
     /// Returns the cell ascent, in design units, of the System.Drawing.FontFamily of
     /// the specified style.

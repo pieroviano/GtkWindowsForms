@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
@@ -907,7 +907,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void DrawPie(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
     {
-        DrawPie(pen, x, y, width, height, startAngle, sweepAngle);
+        DrawPieCore(false, pen, x, y, width, height, startAngle, sweepAngle);
     }
 
     /// <summary>

@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Nuget.Props = Directory.Nuget.Props
 		Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.Files.xml = Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.Files.xml
 		Nuget.Config = Nuget.Config
+		Patches.txt = Patches.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdatePostProcessing", "UpdatePostProcessing\UpdatePostProcessing.csproj", "{3274A6DB-8EFC-4F1E-AE67-20178B486096}"
@@ -30,6 +31,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1411EE5D-F774-46B3-8868-39145F0A3773}"
 	ProjectSection(SolutionItems) = preProject
 		Resources\AutoClosingMessageBox.cs = Resources\AutoClosingMessageBox.cs
+		Resources\ColorConverter.cs = Resources\ColorConverter.cs
 		Resources\ControlExtension.cs = Resources\ControlExtension.cs
 		Resources\DialogEventArgs.cs = Resources\DialogEventArgs.cs
 		Resources\ExtensionsMessageBox.Static.cs = Resources\ExtensionsMessageBox.Static.cs
@@ -86,6 +88,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0004-Removed-unused-using-with-patch.patch = patches\0004-Removed-unused-using-with-patch.patch
 		patches\0005-.patch-ImageAnimator.patch = patches\0005-.patch-ImageAnimator.patch
 		patches\0006-Cleaned-code.patch = patches\0006-Cleaned-code.patch
+		patches\0007-Resolved-infinite-recursion-problems.patch = patches\0007-Resolved-infinite-recursion-problems.patch
 	EndProjectSection
 EndProject
 Global

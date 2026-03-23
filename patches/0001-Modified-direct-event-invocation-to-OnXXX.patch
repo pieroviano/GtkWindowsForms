@@ -783,7 +783,7 @@ index 3eb7d275..6591267c 100644
      protected virtual void OnScroll(System.EventArgs e)
      {
 -        Scroll?.Invoke(this, e);
-+        OnScroll(EventArgs.Empty);
++        Scroll?.Invoke(this, e);
      }
  
      private void Control_Realized(object sender, EventArgs e)

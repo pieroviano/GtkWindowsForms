@@ -960,7 +960,7 @@ public partial class ListBox : ListControl
     {
         if (self.ListBox.SelectedRow != null)
             self.ListBox.SelectRow(self.ListBox.SelectedRow);
-        OnSelectedIndexChanged(e);
+        _selectedIndexChanged?.Invoke(this, e);
     }
 
     /// <summary>

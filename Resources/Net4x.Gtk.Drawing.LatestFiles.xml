@@ -11,6 +11,7 @@
   <Item Source="System\Diagnostics\LogLevel.cs" Destination="System\Diagnostics\LogLevel.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Diagnostics\LogLevel.cs</Item>
   <Item Source="System\Drawing\Brush.cs" Destination="System\Drawing\Brush.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\Brush.cs</Item>
   <Item Source="System\Drawing\CharacterRange.cs" Destination="System\Drawing\CharacterRange.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\CharacterRange.cs</Item>
+  <Item Source="System\Drawing\ColorConverter.cs" Destination="System\Drawing\ColorConverter.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\ColorConverter.cs</Item>
   <Item Source="System\Drawing\ColorExtension.cs" Destination="System\Drawing\ColorExtension.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\ColorExtension.cs</Item>
   <Item Source="System\Drawing\ColorTable.cs" Destination="System\Drawing\ColorTable.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\ColorTable.cs</Item>
   <Item Source="System\Drawing\CopyPixelOperation.cs" Destination="System\Drawing\CopyPixelOperation.cs">..\..\..\..\Net4x.Gtk.Drawing.LatestBackup\System\Drawing\CopyPixelOperation.cs</Item>

@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace System.Drawing;
@@ -443,8 +443,23 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <returns>
     /// true if the obj parameter is a System.Drawing.Font and has the same System.Drawing.Font.FontFamily, System.Drawing.Font.GdiVerticalFont, System.Drawing.Font.GdiCharSet, System.Drawing.Font.Style, System.Drawing.Font.Size, and System.Drawing.Font.Unit property values as this System.Drawing.Font; otherwise, false.
     /// </returns>
-    public override bool Equals(object obj) { return Equals(obj as Font); }
-
+    public override bool Equals(object obj)
+    {
+        if (obj == this)
+        {
+            return true;
+        }
+        Font font = obj as Font;
+        if (font == null)
+        {
+            return false;
+        }
+        if (!font.FontFamily.Equals(this.FontFamily) || font.GdiVerticalFont != this.GdiVerticalFont || font.GdiCharSet != this.GdiCharSet || font.Style != this.Style || font.Size != this.Size)
+        {
+            return false;
+        }
+        return font.Unit == this.Unit;
+    }
     /// <summary>
     /// Creates a System.Drawing.Font from the specified Windows handle to a device context.
     /// </summary>
