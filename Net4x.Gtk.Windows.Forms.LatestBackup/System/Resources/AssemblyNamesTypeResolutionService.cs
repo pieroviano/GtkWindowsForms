@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -58,7 +58,7 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
             }
             else if (_names != null)
             {
-                foreach (AssemblyName asmName in _names.Where(an => an.Equals(name)))
+                foreach (var asmName in _names.Where(an => an.Equals(name)))
                 {
                     try
                     {
@@ -142,7 +142,7 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
                 if (assemblyName != null)
                 {
                     var assemblyList = new List<AssemblyName>(_names.Length);
-                    foreach (AssemblyName asmName in _names)
+                    foreach (var asmName in _names)
                     {
                         if (string.Equals(assemblyName.Name, asmName.Name, StringComparison.OrdinalIgnoreCase))
                         {
@@ -159,7 +159,7 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
             }
 
             // Search each reference assembly
-            foreach (AssemblyName asmName in _names)
+            foreach (var asmName in _names)
             {
                 var asm = GetAssembly(asmName, false);
                 if (asm != null)
@@ -209,7 +209,7 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
     /// <summary>
     /// This is matching %windir%\Microsoft.NET\Framework*, so both 32bit and 64bit framework will be covered.
     /// </summary>
-    private static bool IsDotNetAssembly(string assemblyPath)
+    private static bool IsDotNetAssembly(string? assemblyPath)
     {
         return assemblyPath != null && (assemblyPath.StartsWith(s_dotNetPath, StringComparison.OrdinalIgnoreCase) || assemblyPath.StartsWith(s_dotNetPathX86, StringComparison.OrdinalIgnoreCase));
     }

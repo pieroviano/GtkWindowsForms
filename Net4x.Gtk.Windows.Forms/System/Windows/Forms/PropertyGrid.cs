@@ -147,7 +147,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public PropertyGrid()
     {
         _propertyView = new PropertyGridView(this);
-        self.child1.Add(_propertyView.tree);
+        self.FirstChild.Add(_propertyView.tree);
         _propertyView.PropertyValueChanged += Self_PropertyValueChanged;
         _propertyView.SelectedGridItemChanged += Self_SelectedGridItemChanged;
     }
@@ -632,7 +632,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public object SelectedObject
     {
         get => _selectedObjects is null || _selectedObjects.Length == 0 ? null : _selectedObjects[0];
-        set => SelectedObjects = value is null ? Array.Empty<object>() : (new object[] { value });
+        set => SelectedObjects = value is null ? Array.Empty<object>() : new object[] { value };
     }
 
     /// <summary>

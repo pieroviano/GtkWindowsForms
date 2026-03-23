@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -113,7 +113,7 @@ public partial class ResXFileRef
                         parts.Length > 2
                             ? Encoding.GetEncoding(parts[2])
                             : Encoding.Default;
-                    using (StreamReader sr = new StreamReader(fileName, textFileEncoding))
+                    using (var sr = new StreamReader(fileName, textFileEncoding))
                     {
                         return sr.ReadToEnd();
                     }
@@ -123,7 +123,7 @@ public partial class ResXFileRef
                 // or if it's a byte array we just return that
                 byte[] temp = null;
 
-                using (FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     Debug.Assert(fileStream != null, "Couldn't open " + fileName);
                     temp = new byte[fileStream.Length];
@@ -199,7 +199,7 @@ public partial class ResXFileRef
         }
 
         // "value" is the parameter name of ConvertFrom, which calls this method.
-        internal static string[] ParseResxFileRefString(string stringValue)
+        internal static string[] ParseResxFileRefString(string? stringValue)
         {
             string[] result = null;
             if (stringValue != null)

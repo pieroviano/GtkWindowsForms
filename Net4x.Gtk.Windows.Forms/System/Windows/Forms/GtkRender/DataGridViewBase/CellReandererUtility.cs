@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -21,13 +21,13 @@ public class CellReandererUtility
     {
         if (text == null && cellstyle != null)
             text = Convert.ToString(cellstyle.NullValue) ?? string.Empty;
-        if (cellstyle != null && string.IsNullOrWhiteSpace(cellstyle.Format) == false)
+        if (cellstyle != null && !string.IsNullOrWhiteSpace(cellstyle.Format))
             return string.Format(cellstyle.Format, text);
         else
             return text?.ToString();
     }
 
-    internal void SetControlWithStyle(CellRenderer cell, DataGridViewCellStyle cellstyle)
+    internal void SetControlWithStyle(CellRenderer cell, DataGridViewCellStyle? cellstyle)
     {
         if (cellstyle != null)
         {
@@ -60,7 +60,7 @@ public class CellReandererUtility
         cell.Text = GetFormatText(value, cellstyle);
     }
 
-    internal void SetTextWithStyle(CellRendererText cell, DataGridViewCellStyle cellstyle)
+    internal void SetTextWithStyle(CellRendererText cell, DataGridViewCellStyle? cellstyle)
     {
         if (cellstyle != null)
         {

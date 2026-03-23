@@ -1,6 +1,4 @@
-#if NETSTANDARD
-using System;
-
+﻿#if NETSTANDARD
 namespace System.Diagnostics.CodeAnalysis;
 
 /// <summary>

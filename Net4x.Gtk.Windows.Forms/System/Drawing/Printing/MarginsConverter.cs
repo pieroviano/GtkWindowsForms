@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -78,7 +78,7 @@ public class MarginsConverter : ExpandableObjectConverter
     /// <exception cref="T:System.ArgumentException">
     /// TextParseFailedFormat
     /// </exception>
-    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo? culture, object value)
     {
         if (value is string strValue)
         {
@@ -103,7 +103,7 @@ public class MarginsConverter : ExpandableObjectConverter
             var values = new int[tokens.Length];
             var intConverter = GetIntConverter();
 
-            for (int i = 0; i < values.Length; i++)
+            for (var i = 0; i < values.Length; i++)
             {
                 // Note: ConvertFromString will raise exception if value cannot be converted.
                 values[i] = (int)intConverter.ConvertFromString(context, culture, tokens[i])!;
@@ -146,7 +146,7 @@ public class MarginsConverter : ExpandableObjectConverter
     /// <see cref="T:System.Object">
     /// </see> that represents the converted value.
     /// </returns>
-    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo? culture, object value, Type destinationType)
     {
         if (value is Margins margins)
         {

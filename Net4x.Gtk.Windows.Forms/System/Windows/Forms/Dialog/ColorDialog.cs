@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -188,7 +188,7 @@ public class ColorDialog : CommonDialog
     /// false
     /// </c> otherwise.
     /// </returns>
-    protected override bool RunDialog(IWin32Window owner)
+    protected override bool RunDialog(IWin32Window? owner)
     {
         Gtk.ColorChooserDialog colorChooserDialog = null;
         if (owner != null && owner is Form ownerform)
@@ -211,8 +211,8 @@ public class ColorDialog : CommonDialog
             colorChooserDialog.Rgba = new Gdk.RGBA() { Alpha = (double)Color.A / 255, Red = (double)Color.R / 255, Green = (double)Color.G / 255, Blue = (double)Color.B / 255 };
         if (FullOpen && AllowFullOpen)
             colorChooserDialog.Fullscreen();
-        int res = colorChooserDialog.Run();
-        Gdk.RGBA colorSelection = colorChooserDialog.Rgba;
+        var res = colorChooserDialog.Run();
+        var colorSelection = colorChooserDialog.Rgba;
         this.Color = Color.FromArgb((int)(colorSelection.Alpha * 255), (int)Math.Round(colorSelection.Red * 255, 0), (int)Math.Round(colorSelection.Green * 255, 0), (int)Math.Round(colorSelection.Blue * 255, 0));
         colorChooserDialog.Dispose();
         colorChooserDialog.Destroy();

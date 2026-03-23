@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -32,8 +32,8 @@ static internal class ClientUtils
 
             var isWord = char.IsLetterOrDigit(character) ||
                 CharUnicodeInfo.GetUnicodeCategory(character) == UnicodeCategory.NonSpacingMark;
-            if ((isWord && lastSeen == CharType.NonWord && seenWord) ||
-                (!isWord && lastSeen == CharType.Word && index != 0))
+            if (isWord && lastSeen == CharType.NonWord && seenWord ||
+                !isWord && lastSeen == CharType.Word && index != 0)
             {
                 break;
             }

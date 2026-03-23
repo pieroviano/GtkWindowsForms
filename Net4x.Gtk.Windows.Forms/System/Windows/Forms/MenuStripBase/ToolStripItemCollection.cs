@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -228,19 +228,19 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     public int AddMemu(ToolStripItem item)
     {
         item.Parent = owner;
-        if (isToolStrip == true)
+        if (isToolStrip)
         {
             toolStrip.self.Add(item.Widget);
         }
-        else if (isStatusStrip == true)
+        else if (isStatusStrip)
         {
             statusStrip.self.Add(item.Widget);
         }
-        else if (isMenuStrip == true)
+        else if (isMenuStrip)
         {
             toolStrip.self.Add(item.Widget);
         }
-        else if (isToolStripDropDown == true)
+        else if (isToolStripDropDown)
         {
             menu.Add(item.Widget);
         }
@@ -267,7 +267,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// </param>
     public void AddRange(ToolStripItem[] toolStripItems)
     {
-        for (int i = 0; i < toolStripItems.Length; i++)
+        for (var i = 0; i < toolStripItems.Length; i++)
         {
             AddMemu(toolStripItems[i]);
         }
@@ -282,7 +282,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     public void AddRange(ToolStripItemCollection toolStripItems)
     {
         var count = toolStripItems.Count;
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
             AddMemu(toolStripItems[i]);
         }

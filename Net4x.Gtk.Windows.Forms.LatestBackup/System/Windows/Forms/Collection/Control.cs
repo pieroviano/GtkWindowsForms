@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -6,11 +6,9 @@
  */
 
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
 
@@ -186,7 +184,7 @@ public partial class Control
             {
                 return;
             }
-            foreach (Control item in controls)
+            foreach (var item in controls)
             {
                 Add(item);
             }
@@ -214,7 +212,7 @@ public partial class Control
         /// </summary>
         public virtual void Clear()
         {
-            foreach (Gtk.Widget wid in __ownerControl.Children)
+            foreach (var wid in __ownerControl.Children)
                 __ownerControl.Remove(wid);
 
             InnerList.Clear();
@@ -277,7 +275,7 @@ public partial class Control
         /// </returns>
         public Control[] Find(string key, bool searchAllChildren)
         {
-            List<IArrangedElement> foundControls = InnerList.FindAll(o =>
+            var foundControls = InnerList.FindAll(o =>
             {
                 if (o is Control con)
                 {
@@ -402,7 +400,7 @@ public partial class Control
         /// </param>
         public void RemoveAt(int index)
         {
-            IArrangedElement element = InnerList[index];
+            var element = InnerList[index];
             if (element is Control control)
                 Remove(control);
             else if (element is ArrangedElementWidget widget)
@@ -479,7 +477,7 @@ public partial class Control
 
         private void __ownerControl_Mapped(object sender, EventArgs e)
         {
-            if (is__ownerControl_Mapped == false)
+            if (!is__ownerControl_Mapped)
             {
                 is__ownerControl_Mapped = true;
                 if (sender is Gtk.Overlay lay)
@@ -510,7 +508,7 @@ public partial class Control
         private void Control_DockChanged(object sender, EventArgs e)
         {
             var control = sender as Control;
-            if (control.Widget.Parent is Gtk.Overlay lay)
+            if (control?.Widget.Parent is Gtk.Overlay lay)
             {
                 SetMarginEnd(lay, control);
             }
@@ -518,7 +516,7 @@ public partial class Control
 
         private Gtk.Widget GetFrame(Gtk.Widget widget)
         {
-            Gtk.Widget parent = widget.Parent;
+            var parent = widget.Parent;
             while (parent != null)
             {
                 if (parent is GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk)
@@ -534,7 +532,7 @@ public partial class Control
 
         private bool IsValidIndex(int index)
         {
-            return ((index >= 0) && (index < Count));
+            return index >= 0 && index < Count;
         }
 
         private void NativeAdd(object item)
@@ -603,10 +601,6 @@ public partial class Control
                     }
                 }
             }
-            catch
-            {
-                throw;
-            }
             finally
             {
                 if (__ownerControl.IsRealized)
@@ -621,22 +615,15 @@ public partial class Control
 
         private void NativeAdd()
         {
-            try
+            foreach (var item in this)
             {
-                foreach (object item in this)
-                {
-                    NativeAdd(item);
-                }
-            }
-            catch
-            {
-                throw;
+                NativeAdd(item);
             }
         }
 
         private void ResizeMapped(Gtk.Overlay lay)
         {
-            foreach (object item in this)
+            foreach (var item in this)
             {
                 if (item is Control control)
                 {
@@ -649,7 +636,7 @@ public partial class Control
                     widget.MarginTop = Math.Max(0, widget.MarginTop + Offset.Y);
                 }
             }
-            foreach (object item in this)
+            foreach (var item in this)
             {
                 if (item is Control control)
                 {
@@ -697,9 +684,9 @@ public partial class Control
                 control.Widget.WidthRequest = -1;
                 lay.WidthRequest = -1;
             }
-            if (lay.IsMapped == true)
+            if (lay.IsMapped)
             {
-                Gtk.Widget widget = control.Widget;
+                var widget = control.Widget;
                 if (widget.Halign == Gtk.Align.End)
                 {
                     if (widget.WidthRequest > 0)

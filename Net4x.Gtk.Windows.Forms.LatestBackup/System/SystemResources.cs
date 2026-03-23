@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 using GtkSystem.Resources;
 
@@ -40,7 +40,7 @@ internal static class SystemResources
         return string.Format(resourceFormat, p1, p2, p3);
     }
 
-    internal static string Format(string resourceFormat, params object[] args)
+    internal static string Format(string resourceFormat, params object[]? args)
     {
         if (args != null)
         {
@@ -84,7 +84,7 @@ internal static class SystemResources
         return string.Format(provider, resourceFormat, p1, p2, p3);
     }
 
-    internal static string Format(IFormatProvider provider, string resourceFormat, params object[] args)
+    internal static string Format(IFormatProvider provider, string resourceFormat, params object[]? args)
     {
         if (args != null)
         {

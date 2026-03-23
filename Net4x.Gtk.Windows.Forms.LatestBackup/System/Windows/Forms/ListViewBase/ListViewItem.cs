@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Runtime.Serialization;
 
 namespace System.Windows.Forms;
@@ -808,7 +808,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     {
         if (_listView is not null && _listView.IsHandleCreated && _listView.View == View.Details)
         {
-            _listView.GetSubItemAt(x, y, out int iItem, out int iSubItem);
+            _listView.GetSubItemAt(x, y, out var iItem, out var iSubItem);
             if (Index > -1 && iSubItem > -1 && iSubItem < SubItems.Count)
             {
                 return SubItems[iSubItem];
@@ -853,7 +853,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     internal void InitListViewItem(string[] items, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
     {
         InitListViewItem(items.Length > 0 ? items[0] : "", imageIndex, imageKey, foreColor, backColor, font, group);
-        foreach (string item in items)
+        foreach (var item in items)
             _subitems.Add(item);
 
     }
@@ -861,7 +861,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     internal void InitListViewItem(ListViewSubItem[] subItems, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
     {
         InitListViewItem(subItems.Length > 0 ? subItems[0].Text : "", imageIndex, imageKey, foreColor, backColor, font, group);
-        foreach (ListViewSubItem item in subItems)
+        foreach (var item in subItems)
             _subitems.Add(item);
     }
 
@@ -1127,7 +1127,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// </param>
         public void AddRange(ListViewSubItem[] items)
         {
-            foreach (ListViewSubItem item in items)
+            foreach (var item in items)
                 Add(item);
         }
 
@@ -1139,7 +1139,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// </param>
         public void AddRange(string[] items)
         {
-            foreach (string item in items)
+            foreach (var item in items)
                 Add(item);
         }
 
@@ -1160,7 +1160,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// </param>
         public void AddRange(string[] items, Color foreColor, Color backColor, Font font)
         {
-            foreach (string item in items)
+            foreach (var item in items)
                 Add(item, foreColor, backColor, font);
         }
 

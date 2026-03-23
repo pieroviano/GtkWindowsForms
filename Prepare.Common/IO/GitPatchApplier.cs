@@ -35,7 +35,7 @@ public static class GitPatchApplier
 
         foreach (var patch in patchFiles)
         {
-            Console.WriteLine($"Applying patch: {Path.GetFileName(patch)}");
+            ConsoleColor.Cyan.Write($"Applying patch: {Path.GetFileName(patch)}", true);
 
             var (_, error) = RunGit($"apply --3way \"{patch}\"", repoPath, printOutput);
         }

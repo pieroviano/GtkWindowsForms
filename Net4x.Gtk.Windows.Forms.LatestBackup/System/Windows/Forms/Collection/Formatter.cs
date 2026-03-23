@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 
@@ -328,7 +328,7 @@ internal class Formatter
                 return targetConverter.ConvertFrom(null!, GetFormatterCulture(formatInfo), checkState == CheckState.Checked);
             }
         }
-        else if (value != null && (targetType.IsInstanceOfType(value)))
+        else if (value != null && targetType.IsInstanceOfType(value))
         {
             return value;
         }

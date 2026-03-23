@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -892,7 +892,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     public virtual bool Visible
     {
         get { return this.Widget.Visible; }
-        set { this.Widget.Visible = value; this.Widget.NoShowAll = value == false; }
+        set { this.Widget.Visible = value; this.Widget.NoShowAll = !value; }
     }
 
     /// <summary>
@@ -992,7 +992,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
             else
                 style.AppendFormat("font-size:{0}pt;", font.Size);
 
-            if (string.IsNullOrWhiteSpace(font.FontFamily?.Name) == false)
+            if (!string.IsNullOrWhiteSpace(font.FontFamily?.Name))
             {
                 style.AppendFormat("font-family:\"{0}\";", font.FontFamily.Name);
             }
@@ -1114,12 +1114,12 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
                     label.NoShowAll = true;
                     if (Image != null && Image.PixbufData != null)
                     {
-                        var ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles))
+                        var image = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles))
                         {
                             Halign = Gtk.Align.Center,
                             Valign = Gtk.Align.Center
                         };
-                        flagBox.Child = ico1;
+                        flagBox.Child = image;
                     }
                 }
                 else
@@ -1127,12 +1127,12 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
 
                     if (Image != null && Image.PixbufData != null)
                     {
-                        var ico1 = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles))
+                        var image = new Gtk.Image(new Gdk.Pixbuf(Image.PixbufData).ScaleSimple(20, 20, Gdk.InterpType.Tiles))
                         {
                             Halign = Gtk.Align.Center,
                             Valign = Gtk.Align.Center
                         };
-                        flagBox.Child = ico1;
+                        flagBox.Child = image;
                     }
                 }
             }

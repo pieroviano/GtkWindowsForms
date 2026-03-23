@@ -1936,14 +1936,14 @@
             <seealso cref="T:Gtk.Paned" />
             <seealso cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
         </member>
-        <member name="F:GtkSystem.Windows.Forms.GtkControls.ControlBase.PropertyGridBase.child1">
+        <member name="F:GtkSystem.Windows.Forms.GtkControls.ControlBase.PropertyGridBase.FirstChild">
             <summary>
-            The child1
+            The first child
             </summary>
         </member>
-        <member name="F:GtkSystem.Windows.Forms.GtkControls.ControlBase.PropertyGridBase.child2">
+        <member name="F:GtkSystem.Windows.Forms.GtkControls.ControlBase.PropertyGridBase.SecondChild">
             <summary>
-            The child2
+            The second child
             </summary>
         </member>
         <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.PropertyGridBase.#ctor">
@@ -2920,7 +2920,7 @@
             <summary>
             ApplicationContext provides contextual information about an application
             thread. Specifically this allows an application author to redifine what
-            circurmstances cause a message loop to exit. By default the application
+            circurmstances cause a message loop to exit. By default, the application
             context listens to the close event on the mainForm, then exits the
             thread's message loop.
             </summary>
@@ -46508,13 +46508,13 @@
             This is matching %windir%\Microsoft.NET\Framework*, so both 32bit and 64bit framework will be covered.
             </summary>
         </member>
-        <member name="T:System.Resources.MultitargetUtil">
+        <member name="T:System.Resources.Misc.MultitargetUtil">
             <summary>
             Helper class supporting Multitarget type assembly qualified name resolution for ResX API.
             Note: this file is compiled into different assemblies (runtime and VSIP assemblies ...)
             </summary>
         </member>
-        <member name="M:System.Resources.MultitargetUtil.GetAssemblyQualifiedName(System.Type,System.Func{System.Type,System.String})">
+        <member name="M:System.Resources.Misc.MultitargetUtil.GetAssemblyQualifiedName(System.Type,System.Func{System.Type,System.String})">
             <summary>
             This method gets assembly info for the corresponding type. If the delegate
             is provided it is used to get this information.

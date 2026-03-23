@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -340,8 +340,8 @@ public partial class PrintPreviewDialog : ScrollableControl
         _previewControl.Zoom = 1;
         _previewControl.AutoZoom = true;
         _previewControl.Document = Document;
-        int formwidth = _previewControl.Width + 100;
-        int formheight = _previewControl.Height + 100;
+        var formwidth = _previewControl.Width + 100;
+        var formheight = _previewControl.Height + 100;
         previewForm.ClientSize = new Size(formwidth, formheight);
         box = new Gtk.Box(Gtk.Orientation.Vertical, 15);
         var header = new Gtk.Box(Gtk.Orientation.Horizontal, 20);

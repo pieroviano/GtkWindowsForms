@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
 
@@ -78,7 +78,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <param name="name">
     /// The name.
     /// </param>
-    protected ToolStripItem(string text, Image image, EventHandler onClick, string name) : this()
+    protected ToolStripItem(string text, Image image, EventHandler? onClick, string name) : this()
     {
         this.Name = name;
         this.Text = text;

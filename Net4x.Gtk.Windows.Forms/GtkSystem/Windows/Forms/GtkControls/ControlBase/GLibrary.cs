@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -68,7 +68,7 @@ internal class GLibrary
 
         if (value == IntPtr.Zero)
         {
-            for (int i = 0; i < _libraryDefinitions[library].Length; i++)
+            for (var i = 0; i < _libraryDefinitions[library].Length; i++)
             {
                 value = FuncLoader.LoadLibrary(_libraryDefinitions[library][i]);
                 if (value != IntPtr.Zero)

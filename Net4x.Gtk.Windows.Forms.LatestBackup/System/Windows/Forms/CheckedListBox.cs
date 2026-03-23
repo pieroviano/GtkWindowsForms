@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -81,7 +81,7 @@ public partial class CheckedListBox : ContainerControl
             var items = new CheckedIndexCollection();
             foreach (Gtk.FlowBoxChild child in _flow.Children)
             {
-                if ((bool)child.Child.GetProperty("active") == true)
+                if ((bool)child.Child.GetProperty("active"))
                     items.Add(child.Index);
             }
 
@@ -99,7 +99,7 @@ public partial class CheckedListBox : ContainerControl
             var items = new CheckedItemCollection();
             foreach (Gtk.FlowBoxChild child in _flow.Children)
             {
-                if ((bool)child.Child.GetProperty("active") == true)
+                if ((bool)child.Child.GetProperty("active"))
                     items.Add(child.Child.GetProperty("label").Val);
             }
 
@@ -175,7 +175,7 @@ public partial class CheckedListBox : ContainerControl
     public bool MultiColumn
     {
         get { return _flow.Orientation == Gtk.Orientation.Vertical; }
-        set { if (value == false) { _flow.Orientation = Gtk.Orientation.Horizontal; } else { _flow.Orientation = Gtk.Orientation.Vertical; } }
+        set { if (!value) { _flow.Orientation = Gtk.Orientation.Horizontal; } else { _flow.Orientation = Gtk.Orientation.Vertical; } }
     }
 
     /// <summary>
@@ -188,7 +188,7 @@ public partial class CheckedListBox : ContainerControl
             var items = new SelectedItemCollection();
             foreach (Gtk.FlowBoxChild child in _flow.Children)
             {
-                if (child.IsSelected == true)
+                if (child.IsSelected)
                     items.Add(child.Child.GetProperty("label").Val);
             }
 
@@ -212,7 +212,7 @@ public partial class CheckedListBox : ContainerControl
     {
         foreach (Gtk.FlowBoxChild wi in _flow.Children)
         {
-            Gtk.Widget box = ((Gtk.Box)wi.Child).Children[0];
+            var box = ((Gtk.Box)wi.Child).Children[0];
             if (box is Gtk.CheckButton check)
             {
                 check.Active = false;
@@ -261,7 +261,7 @@ public partial class CheckedListBox : ContainerControl
             if (this.ItemCheck != null)
             {
                 var checkBox = _items.GetCheckedListBoxItem(item.Index);
-                this.ItemCheck(checkBox, new ItemCheckEventArgs(item.Index, box.Active == true ? CheckState.Checked : CheckState.Unchecked, box.Active == false ? CheckState.Checked : CheckState.Unchecked));
+                this.ItemCheck(checkBox, new ItemCheckEventArgs(item.Index, box.Active ? CheckState.Checked : CheckState.Unchecked, !box.Active ? CheckState.Checked : CheckState.Unchecked));
             }
         };
         var boxitem = new Gtk.FlowBoxChild
@@ -332,8 +332,8 @@ public partial class CheckedListBox : ContainerControl
 
     private void Control_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {
-        int rowIndex = args.Child.Index;
-        if (this.CheckOnClick == true)
+        var rowIndex = args.Child.Index;
+        if (this.CheckOnClick)
             args.Child.Child.SetProperty("active", new GLib.Value(true));
 
         SelectedIndexChanged?.Invoke(this, args);
@@ -461,7 +461,7 @@ public partial class CheckedListBox : ContainerControl
         /// </param>
         public override void AddRange(ICollection c)
         {
-            foreach (object o in c)
+            foreach (var o in c)
                 AddCore(o, false, -1);
         }
 

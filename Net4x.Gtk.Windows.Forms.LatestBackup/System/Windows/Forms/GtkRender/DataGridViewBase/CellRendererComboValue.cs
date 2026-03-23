@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -69,7 +69,7 @@ public class CellRendererComboValue : CellRendererCombo, ICellRenderer
         {
             if (value != null)
             {
-                DataGridViewCellStyle style = value.Style ?? ColumnStyle;
+                var style = value.Style ?? ColumnStyle;
                 if (style == null)
                     style = value.InheritedStyle;
                 utility.SetTextWithStyle(this, style, value.Value);

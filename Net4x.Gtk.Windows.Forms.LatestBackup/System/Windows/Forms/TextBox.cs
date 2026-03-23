@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -148,8 +148,8 @@ public partial class TextBox : Control
     /// </value>
     public virtual bool ReadOnly
     {
-        get { return self.IsEditable == false; }
-        set { self.IsEditable = value == false; }
+        get { return !self.IsEditable; }
+        set { self.IsEditable = !value; }
     }
 
     /// <summary>
@@ -163,7 +163,7 @@ public partial class TextBox : Control
     {
         get
         {
-            self.GetSelectionBounds(out int start, out int end);
+            self.GetSelectionBounds(out var start, out var end);
 
             return end - start;
         }
@@ -183,7 +183,7 @@ public partial class TextBox : Control
     {
         get
         {
-            self.GetSelectionBounds(out int start, out int end);
+            self.GetSelectionBounds(out var start, out var end);
 
             return start;
         }
@@ -208,10 +208,10 @@ public partial class TextBox : Control
     /// <param name="text">
     /// The text.
     /// </param>
-    public void InsertTextAtCursor(string text)
+    public void InsertTextAtCursor(string? text)
     {
         if (text == null) return;
-        int posi = self.CursorPosition;
+        var posi = self.CursorPosition;
         self.InsertText(text, ref posi);
     }
 
@@ -247,7 +247,7 @@ public partial class TextBox : Control
 
     private void Self_Changed(object sender, EventArgs e)
     {
-        if (TextChanged != null && self.IsVisible) { TextChanged(this, EventArgs.Empty); }
+        if (TextChanged != null && self.IsVisible) { OnTextChanged(EventArgs.Empty); }
     }
 
     private void Self_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)
@@ -257,7 +257,7 @@ public partial class TextBox : Control
             if (args.Event is Gdk.EventKey eventkey)
             {
                 var keys = (Keys)eventkey.HardwareKeycode;
-                KeyDown(this, new KeyEventArgs(keys));
+                OnKeyDown(new KeyEventArgs(keys));
             }
         }
     }
@@ -266,7 +266,7 @@ public partial class TextBox : Control
     {
         if (KeyDown != null && this.GetType().Name == "TextBox")
         {
-            string keytext = args.NewText.ToUpper();
+            var keytext = args.NewText.ToUpper();
             if (char.IsNumber(args.NewText[0]))
                 keytext = "D" + keytext;
             var keyv = Enum.GetValues(typeof(Keys)).Cast<Keys>().Where(k =>
@@ -274,7 +274,7 @@ public partial class TextBox : Control
                 return Enum.GetName(typeof(Keys), k) == keytext;
             });
             foreach (var key in keyv)
-                KeyDown(this, new KeyEventArgs(key));
+                OnKeyDown(new KeyEventArgs(key));
         }
     }
 }

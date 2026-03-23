@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -48,7 +48,7 @@ public class SelectionRangeConverter : TypeConverter
     /// <summary>
     /// Converts the given object to the converter's native type.
     /// </summary>
-    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo? culture, object value)
     {
         if (value is string)
         {
@@ -69,7 +69,7 @@ public class SelectionRangeConverter : TypeConverter
 
             if (tokens.Length == 2)
             {
-                TypeConverter dateTimeConverter = TypeDescriptor.GetConverter(typeof(DateTime));
+                var dateTimeConverter = TypeDescriptor.GetConverter(typeof(DateTime));
                 var start = (DateTime)dateTimeConverter.ConvertFromString(context, culture, tokens[0]);
                 var end = (DateTime)dateTimeConverter.ConvertFromString(context, culture, tokens[1]);
                 return new SelectionRange(start, end);
@@ -96,7 +96,7 @@ public class SelectionRangeConverter : TypeConverter
     /// type is string.  If this cannot convert to the desitnation type, this will
     /// throw a NotSupportedException.
     /// </summary>
-    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo? culture, object value, Type destinationType)
     {
         if (destinationType == null)
         {
@@ -115,9 +115,9 @@ public class SelectionRangeConverter : TypeConverter
                 var props = GetProperties(value);
                 var args = new string[props.Count];
 
-                for (int i = 0; i < props.Count; i++)
+                for (var i = 0; i < props.Count; i++)
                 {
-                    object propValue = props[i].GetValue(value);
+                    var propValue = props[i].GetValue(value);
                     args[i] = TypeDescriptor.GetConverter(propValue).ConvertToString(context, culture, propValue);
                 }
 
@@ -179,7 +179,7 @@ public class SelectionRangeConverter : TypeConverter
     /// </summary>
     public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
     {
-        PropertyDescriptorCollection props = TypeDescriptor.GetProperties(typeof(SelectionRange), attributes);
+        var props = TypeDescriptor.GetProperties(typeof(SelectionRange), attributes);
 
         return props.Sort(new string[] { "Start", "End" });
     }

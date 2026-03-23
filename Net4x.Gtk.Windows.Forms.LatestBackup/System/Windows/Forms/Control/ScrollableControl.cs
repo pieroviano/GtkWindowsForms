@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -70,7 +70,7 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
         set
         {
             _AutoScroll = value;
-            if (AutoSize == false)
+            if (!AutoSize)
                 scrollbase?.AutoScroll = value;
         }
     }
@@ -112,7 +112,7 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
         set
         {
             base.AutoSize = value;
-            if (value == true)
+            if (value)
             {
                 scrollbase?.AutoScroll = false;
             }

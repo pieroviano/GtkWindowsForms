@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -228,8 +228,8 @@ public partial class ListBox
         /// </param>
         public void CopyTo(object[] destination, int arrayIndex)
         {
-            int count = InnerArray.Count;
-            for (int i = 0; i < count; i++)
+            var count = InnerArray.Count;
+            for (var i = 0; i < count; i++)
             {
                 destination[i + arrayIndex] = InnerArray.GetItem(i);
             }
@@ -357,7 +357,7 @@ public partial class ListBox
             _owner.BeginUpdate();
             try
             {
-                foreach (object item in items)
+                foreach (var item in items)
                 {
                     AddInternal(item);
                 }
@@ -395,7 +395,7 @@ public partial class ListBox
             // is different to the current text in the native list item, recreate the native list item...
             if (_owner.IsHandleCreated)
             {
-                var selected = (_owner.SelectedIndex == index);
+                var selected = _owner.SelectedIndex == index;
                 if (string.Compare(_owner.GetItemText(value), _owner.NativeGetItemText(index), true, CultureInfo.CurrentCulture) != 0)
                 {
                     _owner.NativeRemoveAt(index);
@@ -424,8 +424,8 @@ public partial class ListBox
 
         void ICollection.CopyTo(Array destination, int index)
         {
-            int count = InnerArray.Count;
-            for (int i = 0; i < count; i++)
+            var count = InnerArray.Count;
+            for (var i = 0; i < count; i++)
             {
                 destination.SetValue(InnerArray.GetItem(i), i + index);
             }
@@ -437,7 +437,7 @@ public partial class ListBox
 
         void IList.Remove(object? value) => Remove(value!);
 
-        private int AddInternal(object item)
+        private int AddInternal(object? item)
         {
             item ??= "";
             var index = -1;
@@ -447,7 +447,7 @@ public partial class ListBox
             }
             else
             {
-                Entry entry = GetEntry(item);
+                var entry = GetEntry(item);
                 if (Count > 0)
                 {
                     index = InnerArray.BinarySearch(entry);

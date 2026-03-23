@@ -103,6 +103,6 @@ public partial class RadioButton : Control
     private void Self_Toggled(object sender, EventArgs e)
     {
         if (CheckedChanged != null && self.IsVisible)
-            CheckedChanged(this, e);
+            OnCheckedChanged(e);
     }
 }

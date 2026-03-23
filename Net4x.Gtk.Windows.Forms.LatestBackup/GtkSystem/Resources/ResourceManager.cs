@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -243,7 +243,7 @@ public class ResourceManager : System.Resources.ResourceManager
             {
                 var stream = _assembly.GetManifestResourceStream(_baseName + ResFileExtension);
                 var reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
-                IDictionaryEnumerator dict = reader.GetEnumerator();
+                var dict = reader.GetEnumerator();
                 while (dict.MoveNext())
                 {
                     if (dict.Key.ToString() == name)
@@ -289,7 +289,7 @@ public class ResourceManager : System.Resources.ResourceManager
                     var xmlReaderSettings = new XmlReaderSettings { CheckCharacters = false };
                     doc.Load(filepath);
                     var docElem = doc.DocumentElement;
-                    XmlNodeList nodes = docElem.SelectNodes("data");
+                    var nodes = docElem.SelectNodes("data");
                     //<data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
                     //<value> </value>
                     //</data>
@@ -298,7 +298,7 @@ public class ResourceManager : System.Resources.ResourceManager
                     {
                         if (xn.Attributes["name"].Value == name)
                         {
-                            string data = xn.SelectSingleNode("value").InnerText;
+                            var data = xn.SelectSingleNode("value").InnerText;
                             result = System.Convert.FromBase64String(data);
                             break;
                         }
@@ -326,7 +326,7 @@ public class ResourceManager : System.Resources.ResourceManager
         {
             var stream = _assembly.GetManifestResourceStream(_baseName + ".resources");
             var reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
-            IDictionaryEnumerator dict = reader.GetEnumerator();
+            var dict = reader.GetEnumerator();
             while (dict.MoveNext())
             {
                 if (dict.Key.ToString() == name)

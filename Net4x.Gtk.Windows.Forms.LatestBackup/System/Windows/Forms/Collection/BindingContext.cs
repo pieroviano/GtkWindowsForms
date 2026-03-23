@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -91,10 +91,10 @@ public class BindingContext : ContextBoundObject
         }
 
         var key = GetKey(dataSource, dataMember);
-        var item = listManagers[key] as WeakReference;
-        if (item != null)
+        var cachedReference = listManagers[key] as WeakReference;
+        if (cachedReference != null)
         {
-            relatedCurrencyManager = (BindingManagerBase)item.Target;
+            relatedCurrencyManager = (BindingManagerBase)cachedReference.Target;
         }
 
         if (relatedCurrencyManager != null)
@@ -104,18 +104,18 @@ public class BindingContext : ContextBoundObject
 
         if (dataMember.Length != 0)
         {
-            var num = dataMember.LastIndexOf(".", StringComparison.Ordinal);
-            var str = num == -1 ? "" : dataMember.Substring(0, num);
-            var str1 = dataMember.Substring(num + 1);
-            var bindingManagerBase = EnsureListManager(dataSource, str);
-            var propertyDescriptor = (bindingManagerBase.GetItemProperties()?.Find(str1, true)) ?? throw new ArgumentException("RelatedListManagerChild");
+            var lastDotIndex = dataMember.LastIndexOf(".", StringComparison.Ordinal);
+            var parentPath = lastDotIndex == -1 ? "" : dataMember.Substring(0, lastDotIndex);
+            var childPropertyName = dataMember.Substring(lastDotIndex + 1);
+            var bindingManagerBase = EnsureListManager(dataSource, parentPath);
+            var propertyDescriptor = bindingManagerBase.GetItemProperties()?.Find(childPropertyName, true) ?? throw new ArgumentException("RelatedListManagerChild");
             if (!typeof(IList).IsAssignableFrom(propertyDescriptor.PropertyType))
             {
-                relatedCurrencyManager = new RelatedPropertyManager(bindingManagerBase, str1);
+                relatedCurrencyManager = new RelatedPropertyManager(bindingManagerBase, childPropertyName);
             }
             else
             {
-                relatedCurrencyManager = new RelatedCurrencyManager(bindingManagerBase, str1);
+                relatedCurrencyManager = new RelatedCurrencyManager(bindingManagerBase, childPropertyName);
             }
         }
         else if (dataSource is IList || dataSource is IListSource)
@@ -127,9 +127,9 @@ public class BindingContext : ContextBoundObject
             relatedCurrencyManager = new PropertyManager(dataSource);
         }
 
-        if (item != null)
+        if (cachedReference != null)
         {
-            item.Target = relatedCurrencyManager;
+            cachedReference.Target = relatedCurrencyManager;
         }
         else
         {
@@ -146,7 +146,7 @@ public class BindingContext : ContextBoundObject
         return new HashKey(dataSource, dataMember);
     }
 
-    private static void CheckPropertyBindingCycles(BindingContext? newBindingContext, Binding propBinding)
+    private static void CheckPropertyBindingCycles(BindingContext? newBindingContext, Binding? propBinding)
     {
         if (newBindingContext == null || propBinding == null)
         {
@@ -158,10 +158,10 @@ public class BindingContext : ContextBoundObject
             var bindingManagerBase = newBindingContext.EnsureListManager(propBinding.BindableComponent, "");
             for (var i = 0; i < bindingManagerBase.Bindings.Count; i++)
             {
-                var item = bindingManagerBase.Bindings[i];
-                if (item.DataSource == propBinding.BindableComponent)
+                var existingBinding = bindingManagerBase.Bindings[i];
+                if (existingBinding.DataSource == propBinding.BindableComponent)
                 {
-                    if (propBinding.BindToObject?.BindingMemberInfo.BindingMember.Equals(item.PropertyName) ??
+                    if (propBinding.BindToObject?.BindingMemberInfo.BindingMember.Equals(existingBinding.PropertyName) ??
                         false)
                     {
                         throw new ArgumentException(@"DataBindingCycle", "propBinding");
@@ -169,7 +169,7 @@ public class BindingContext : ContextBoundObject
                 }
                 else if (propBinding.BindToObject?.BindingManagerBase is PropertyManager)
                 {
-                    CheckPropertyBindingCycles(newBindingContext, item);
+                    CheckPropertyBindingCycles(newBindingContext, existingBinding);
                 }
             }
         }
@@ -177,7 +177,7 @@ public class BindingContext : ContextBoundObject
 
     private void ScrubWeakRefs()
     {
-        ArrayList? arrayLists = null;
+        ArrayList? keysToRemove = null;
         foreach (DictionaryEntry listManager in listManagers)
         {
             if (((WeakReference)listManager.Value).Target != null)
@@ -185,19 +185,19 @@ public class BindingContext : ContextBoundObject
                 continue;
             }
 
-            if (arrayLists == null)
+            if (keysToRemove == null)
             {
-                arrayLists = new ArrayList();
+                keysToRemove = new ArrayList();
             }
 
-            arrayLists.Add(listManager.Key);
+            keysToRemove.Add(listManager.Key);
         }
 
-        if (arrayLists != null)
+        if (keysToRemove != null)
         {
-            foreach (var arrayList in arrayLists)
+            foreach (var keyToRemove in keysToRemove)
             {
-                listManagers.Remove(arrayList);
+                listManagers.Remove(keyToRemove);
             }
         }
     }

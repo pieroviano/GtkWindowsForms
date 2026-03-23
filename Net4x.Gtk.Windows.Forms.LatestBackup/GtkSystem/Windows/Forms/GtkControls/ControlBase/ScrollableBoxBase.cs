@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using Gdk;
 
@@ -54,7 +54,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
         get => base.VscrollbarPolicy == Gtk.PolicyType.Automatic;
         set
         {
-            if (value == true)
+            if (value)
             {
                 if (VScroll)
                     base.VscrollbarPolicy = Gtk.PolicyType.Automatic;
@@ -178,7 +178,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
         if (Scroll != null)
         {
             var adj = (Gtk.Adjustment)sender;
-            Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
+            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? adj.Value - adj.StepIncrement : adj.Value), (int)adj.Value, ScrollOrientation.HorizontalScroll));
         }
     }
 
@@ -187,7 +187,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
         if (Scroll != null)
         {
             var adj = (Gtk.Adjustment)sender;
-            Scroll(this, new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? (adj.Value - adj.StepIncrement) : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
+            OnScroll(new System.Windows.Forms.ScrollEventArgs(ScrollEventType.ThumbTrack, (int)(adj.Value > adj.StepIncrement ? adj.Value - adj.StepIncrement : adj.Value), (int)adj.Value, ScrollOrientation.VerticalScroll));
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
@@ -2153,7 +2153,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                 }
                 str = str.Substring(1, str.Length - 2);
             }
-            var propertyDescriptor = (itemProperties?.Find(str, true)) ?? throw new ArgumentException("BindingSourceSortStringPropertyNotInIBindingList");
+            var propertyDescriptor = itemProperties?.Find(str, true) ?? throw new ArgumentException("BindingSourceSortStringPropertyNotInIBindingList");
             arrayLists.Add(new ListSortDescription(propertyDescriptor, flag ? ListSortDirection.Ascending : ListSortDirection.Descending));
         }
         var listSortDescriptionArray = new ListSortDescription[arrayLists.Count];

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -923,7 +923,7 @@ public partial class DataGridView : ScrollableControl
             }
             else
             {
-                if (_MultiSelect == true)
+                if (_MultiSelect)
                     GridView.Selection.Mode = Gtk.SelectionMode.Multiple;
                 else
                     GridView.Selection.Mode = Gtk.SelectionMode.Single;
@@ -995,10 +995,10 @@ public partial class DataGridView : ScrollableControl
             {
                 case DataGridViewSelectionMode.CellSelect:
                     {
-                        int cols = Store.NColumns;
+                        var cols = Store.NColumns;
                         Store.Foreach(new TreeModelForeachFunc((model, path, iter) =>
                         {
-                            for (int i = 0; i < cols; i++)
+                            for (var i = 0; i < cols; i++)
                             {
                                 var cell = (DataGridViewCell)model.GetValue(iter, i);
                                 if (cell.Selected)
@@ -1012,7 +1012,7 @@ public partial class DataGridView : ScrollableControl
                 case DataGridViewSelectionMode.FullColumnSelect:
                 case DataGridViewSelectionMode.ColumnHeaderSelect:
                     {
-                        foreach (int columnIndex in _selectedBandIndexes)
+                        foreach (var columnIndex in _selectedBandIndexes)
                         {
                             foreach (DataGridViewRow dataGridViewRow in Rows)   // unshares all rows!
                             {
@@ -1025,7 +1025,7 @@ public partial class DataGridView : ScrollableControl
                 case DataGridViewSelectionMode.FullRowSelect:
                 case DataGridViewSelectionMode.RowHeaderSelect:
                     {
-                        foreach (int rowIndex in _selectedBandIndexes)
+                        foreach (var rowIndex in _selectedBandIndexes)
                         {
                             var dataGridViewRow = (DataGridViewRow)Rows[rowIndex];
                             foreach (DataGridViewCell dataGridViewCell in dataGridViewRow.Cells)
@@ -1059,7 +1059,7 @@ public partial class DataGridView : ScrollableControl
                     break;
                 case DataGridViewSelectionMode.FullColumnSelect:
                 case DataGridViewSelectionMode.ColumnHeaderSelect:
-                    foreach (int columnIndex in _selectedBandIndexes)
+                    foreach (var columnIndex in _selectedBandIndexes)
                     {
                         strc.Add(Columns[columnIndex]);
                     }
@@ -1089,7 +1089,7 @@ public partial class DataGridView : ScrollableControl
                     break;
                 case DataGridViewSelectionMode.FullRowSelect:
                 case DataGridViewSelectionMode.RowHeaderSelect:
-                    foreach (int rowIndex in _selectedBandIndexes)
+                    foreach (var rowIndex in _selectedBandIndexes)
                     {
                         strc.Add(Rows[rowIndex]);
                     }
@@ -1243,7 +1243,7 @@ public partial class DataGridView : ScrollableControl
 
     internal void CellValueChanagedHandler(int column, int row)
     {
-        CellValueChanged?.Invoke(this, new DataGridViewCellEventArgs(column, row));
+        OnCellValueChanged(new DataGridViewCellEventArgs(column, row));
     }
 
     /// <summary>
@@ -2188,7 +2188,7 @@ public partial class DataGridView : ScrollableControl
         if (CellClick != null)
         {
             var column = args.Column as DataGridViewColumn;
-            CellClick(this, new DataGridViewCellEventArgs(column.Index, args.Path.Indices.Last()));
+            OnCellClick(new DataGridViewCellEventArgs(column.Index, args.Path.Indices.Last()));
         }
     }
 
@@ -2196,7 +2196,7 @@ public partial class DataGridView : ScrollableControl
     {
         foreach (DataColumn col in dt.Columns)
         {
-            if (_columns.Exists(m => m.DataPropertyName == col.ColumnName) == false)
+            if (!_columns.Exists(m => m.DataPropertyName == col.ColumnName))
             {
                 if (col.DataType.Name == "Boolean")
                     _columns.Add(new DataGridViewCheckBoxColumn(this) { Name = col.ColumnName, HeaderText = col.ColumnName, DataPropertyName = col.ColumnName, ValueType = col.DataType });
@@ -2213,9 +2213,9 @@ public partial class DataGridView : ScrollableControl
             foreach (DataRow dr in dt.Rows)
             {
                 var newRow = new DataGridViewRow();
-                foreach (DataGridViewColumn col in _columns)
+                foreach (var col in _columns)
                 {
-                    object cellvalue = dt.Columns.Contains(col.DataPropertyName) ? dr[col.DataPropertyName] : null;
+                    var cellvalue = dt.Columns.Contains(col.DataPropertyName) ? dr[col.DataPropertyName] : null;
                     newRow.Cells.Add(col.NewCell(cellvalue, col.ValueType));
                 }
                 _rows.Add(newRow);
@@ -2230,9 +2230,9 @@ public partial class DataGridView : ScrollableControl
         if (_entityType.Length == 1)
         {
             var pros = _entityType[0].GetProperties(BindingFlags.Public|BindingFlags.Instance);
-            foreach (PropertyInfo pro in pros)
+            foreach (var pro in pros)
             {
-                if (_columns.Exists(m => m.DataPropertyName == pro.Name) == false)
+                if (!_columns.Exists(m => m.DataPropertyName == pro.Name))
                 {
                     if (pro.PropertyType.Name == "Boolean")
                         _columns.Add(new DataGridViewCheckBoxColumn(this) { Name = pro.Name, HeaderText = pro.Name, DataPropertyName = pro.Name, ValueType = pro.PropertyType });
@@ -2252,9 +2252,9 @@ public partial class DataGridView : ScrollableControl
                     var obj = reader.Current;
                     var type = obj.GetType();
                     var newRow = new DataGridViewRow();
-                    foreach (DataGridViewColumn col in _columns)
+                    foreach (var col in _columns)
                     {
-                        object cellvalue = type.GetProperty(col.DataPropertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)?.GetValue(obj);
+                        var cellvalue = type.GetProperty(col.DataPropertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)?.GetValue(obj);
                         newRow.Cells.Add(col.NewCell(cellvalue, col.ValueType));
                     }
                     _rows.Add(newRow);
@@ -2294,20 +2294,20 @@ public partial class DataGridView : ScrollableControl
 
     private void propertyNotity(object o, NotifyArgs args)
     {
-        Binding binding = DataBindings[args.Property];
+        var binding = DataBindings[args.Property];
         binding.WriteValue();
     }
 
     private void Selection_Changed(object sender, EventArgs e)
     {
         _selectedBandIndexes.Clear();
-        TreePath[] treePaths = GridView.Selection.GetSelectedRows();
-        foreach (TreePath path in treePaths)
+        var treePaths = GridView.Selection.GetSelectedRows();
+        foreach (var path in treePaths)
         {
-            int idx = path.Indices.Last();
+            var idx = path.Indices.Last();
             _selectedBandIndexes.Add(idx);
         }
         if (SelectionChanged != null && Created)
-            SelectionChanged(this, e);
+            OnSelectionChanged(e);
     }
 }

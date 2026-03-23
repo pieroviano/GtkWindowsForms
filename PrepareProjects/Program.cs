@@ -174,6 +174,9 @@ public class Program
                                                       //@""
                                                   ]);
 
+        ConsoleColor.Green.Write(@"Applying patches the solution", true);
+        GitPatchApplier.CommitAndApplyPatches();
+
         ConsoleColor.Green.Write(@"Persisting latest project files", true);
         projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
         ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, csProjectDirectory, BackupUtility.LatestBackup);
@@ -181,9 +184,6 @@ public class Program
         projectFiles = ProjectUtility.GetProjectFiles(net4xGtkDrawingPath, out _);
         ProjectUtility.PersistProjectFiles(net4xGtkDrawingPath, projectFiles, directoryName, BackupUtility.LatestBackup);
         BackupUtility.DeleteBackupFolders("..\\..\\..\\..\\");
-
-        ConsoleColor.Green.Write(@"Applying patches the solution", true);
-        GitPatchApplier.CommitAndApplyPatches();
 
         ConsoleColor.Green.Write(@"Building the solution", true);
         updatePropsFiles.Invoke();

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -199,7 +199,7 @@ public class ListView : ContainerControl
         get
         {
             var selecteditems = new CheckedIndexCollection(this);
-            foreach (ListViewItem item in CheckedItems)
+            foreach (var item in CheckedItems)
             {
                 selecteditems.Add(item.Index);
             }
@@ -219,7 +219,7 @@ public class ListView : ContainerControl
         get
         {
             var selecteditems = new CheckedListViewItemCollection(this);
-            foreach (ListViewItem item in this.Items)
+            foreach (var item in this.Items)
             {
                 if (item.Checked)
                 {
@@ -453,7 +453,7 @@ public class ListView : ContainerControl
             _MultiSelect = value;
             foreach (var group in GetAllGroups())
             {
-                if (value == true)
+                if (value)
                 {
                     group.FlowBox.SelectionMode = Gtk.SelectionMode.Multiple;
                 }
@@ -511,7 +511,7 @@ public class ListView : ContainerControl
         get
         {
             var selecteditems = new SelectedIndexCollection();
-            foreach (ListViewItem item in SelectedItems)
+            foreach (var item in SelectedItems)
             {
                 selecteditems.Add(item.Index);
             }
@@ -531,7 +531,7 @@ public class ListView : ContainerControl
         get
         {
             var selecteditems = new SelectedListViewItemCollection();
-            foreach (ListViewItem item in this.Items)
+            foreach (var item in this.Items)
             {
                 if (item.Selected)
                 {
@@ -809,8 +809,8 @@ public class ListView : ContainerControl
             {
                 if (flow is Gtk.FlowBox _flow)
                 {
-                    int top = _flow.Allocation.Top + __headerheight - (int)scrolledWindow.Vadjustment.Value;
-                    FlowBoxChild child = _flow.GetChildAtPos(x + (int)scrolledWindow.Hadjustment.Value, y - top);
+                    var top = _flow.Allocation.Top + __headerheight - (int)scrolledWindow.Vadjustment.Value;
+                    var child = _flow.GetChildAtPos(x + (int)scrolledWindow.Hadjustment.Value, y - top);
                     if (child != null)
                     {
                         return this.Items.Find(m => m.Index == Convert.ToInt32(child.Data["ItemId"]));
@@ -854,7 +854,7 @@ public class ListView : ContainerControl
         iItem = -1;
         iSubItem = -1;
         var position = -(int)headerView.Hadjustment.Value;
-        for (int i = 0; i < Columns.Count; i++)
+        for (var i = 0; i < Columns.Count; i++)
         {
             if (position < x && position + Columns[i].Width > x)
             {
@@ -890,7 +890,7 @@ public class ListView : ContainerControl
             hBox.BorderWidth = 0;
             hBox.Homogeneous = false;
 
-            foreach (ColumnHeader col in Columns)
+            foreach (var col in Columns)
             {
                 if (item.SubItems != null && item.SubItems.Count > col.Index)
                 {
@@ -902,8 +902,8 @@ public class ListView : ContainerControl
 
             boxitem.Add(hBox);
 
-            Gtk.FlowBox flowBox = DefaultGroup.FlowBox;
-            if (this.ShowGroups == true && this.View != View.List && this.View != View.Tile)
+            var flowBox = DefaultGroup.FlowBox;
+            if (this.ShowGroups && this.View != View.List && this.View != View.Tile)
             {
                 if (Groups.Exists(g => g.Name == item.Group.Name))
                     flowBox = item.Group.FlowBox;
@@ -938,7 +938,7 @@ public class ListView : ContainerControl
 
                 var x_position = 5;
                 var padding = 2;
-                if (this.CheckBoxes == true)
+                if (this.CheckBoxes)
                 {
                     var checkBox = new CheckBox();
                     checkBox.self.Halign = Gtk.Align.Start;
@@ -999,7 +999,7 @@ public class ListView : ContainerControl
                 lab.Ypad = 0;
                 lab.WidthRequest = fistcell.WidthRequest - x_position;
                 fistcell.Put(lab, x_position, padding);
-                Gtk.Viewport viewport = new Viewport
+                var viewport = new Viewport
                 {
                     WidthRequest = Columns.Count > 0 ? Columns[0].Width : Width,
                     BorderWidth = 0
@@ -1008,7 +1008,7 @@ public class ListView : ContainerControl
                 hBox.PackStart(viewport, false, true, 0);
 
                 var index = 0;
-                foreach (ColumnHeader col in Columns)
+                foreach (var col in Columns)
                 {
                     if (index > 0)
                     {
@@ -1020,7 +1020,7 @@ public class ListView : ContainerControl
                         };
                         if (item.SubItems != null && item.SubItems.Count > index)
                         {
-                            ListViewItem.ListViewSubItem subitem = item.SubItems[index];
+                            var subitem = item.SubItems[index];
                             var sublabel = new Gtk.Label();
                             subitem._label = sublabel;
                             var subattributes = new Pango.AttrList();
@@ -1040,7 +1040,7 @@ public class ListView : ContainerControl
                             sublabel.Text = subitem.Text;
                             sublayout.Add(sublabel);
                         }
-                        Gtk.Viewport sviewport = new Viewport
+                        var sviewport = new Viewport
                         {
                             WidthRequest = col.Width,
                             BorderWidth = 0
@@ -1053,7 +1053,7 @@ public class ListView : ContainerControl
             }
             else
             {
-                if (this.CheckBoxes == true)
+                if (this.CheckBoxes)
                 {
                     var checkBox = new CheckBox();
                     checkBox.self.Halign = Gtk.Align.Start;
@@ -1125,8 +1125,8 @@ public class ListView : ContainerControl
                             Drawing.Image img = this.LargeImageList.GetBitmap(item.ImageKey);
                             if (img != null)
                             {
-                                int width = img.Pixbuf.Width;
-                                int height = img.Pixbuf.Height;
+                                var width = img.Pixbuf.Width;
+                                var height = img.Pixbuf.Height;
                                 vBox.Add(new Gtk.Image(new Gdk.Pixbuf(img.PixbufData)) { WidthRequest = Math.Min(50, width), HeightRequest = Math.Min(50, height) });
                             }
                         }
@@ -1135,8 +1135,8 @@ public class ListView : ContainerControl
                             Drawing.Image img = this.LargeImageList.GetBitmap(item.ImageIndex);
                             if (img != null)
                             {
-                                int width = img.Pixbuf.Width;
-                                int height = img.Pixbuf.Height;
+                                var width = img.Pixbuf.Width;
+                                var height = img.Pixbuf.Height;
                                 vBox.Add(new Gtk.Image(img.Pixbuf) { WidthRequest = Math.Min(50, width), HeightRequest = Math.Min(50, height) });
                             }
                         }
@@ -1179,7 +1179,7 @@ public class ListView : ContainerControl
                     hBox.PackStart(lab, false, false, 0);
                 }
             }
-            if (IsCacheUpdate == false)
+            if (!IsCacheUpdate)
                 self.ShowAll();
         }
     }
@@ -1216,14 +1216,14 @@ public class ListView : ContainerControl
         }
     }
 
-    internal void NativeGroupAdd(ListViewGroup group, int position)
+    internal void NativeGroupAdd(ListViewGroup? group, int position)
     {
         if (self.IsRealized)
         {
             if (group == null)
                 return;
 
-            if (position == -1 && Groups.Exists(g => g.SerialGuid == group.SerialGuid) == false)
+            if (position == -1 && !Groups.Exists(g => g.SerialGuid == group.SerialGuid))
             {
                 if (AllowColumnReorder)
                 {
@@ -1238,19 +1238,19 @@ public class ListView : ContainerControl
                 }
             }
 
-            Gtk.FlowBox _flow = DefaultGroup.FlowBox;
+            var _flow = DefaultGroup.FlowBox;
             var hBox = new Gtk.Box(Gtk.Orientation.Vertical, 0)
             {
                 Valign = Gtk.Align.Start,
                 Halign = Gtk.Align.Fill
             };
-            if (ShowGroups == true && this.View != View.List && this.View != View.Tile)
+            if (ShowGroups && this.View != View.List && this.View != View.Tile)
             {
                 _flow = group.FlowBox;
                 if (_flow.Parent != null)
                     return;
 
-                Gtk.Box groupbox = new Box(Gtk.Orientation.Horizontal, 0);
+                var groupbox = new Box(Gtk.Orientation.Horizontal, 0);
                 groupbox.StyleContext.AddClass("GroupTitle");
                 groupbox.MarginStart = 3;
                 var title = new Gtk.Label(group.Header) { Xalign = 0, Halign = Gtk.Align.Start, Valign = Gtk.Align.Center, Ellipsize = Pango.EllipsizeMode.End };
@@ -1307,8 +1307,8 @@ public class ListView : ContainerControl
             _flow.MinChildrenPerLine = 0u;
             _flow.Halign = Gtk.Align.Fill;
             _flow.Valign = Gtk.Align.Start;
-            _flow.SelectionMode = MultiSelect == false ? Gtk.SelectionMode.Single : Gtk.SelectionMode.Multiple;
-            _flow.ActivateOnSingleClick = MultiSelect == false;
+            _flow.SelectionMode = !MultiSelect ? Gtk.SelectionMode.Single : Gtk.SelectionMode.Multiple;
+            _flow.ActivateOnSingleClick = !MultiSelect;
             _flow.SortFunc = new Gtk.FlowBoxSortFunc((fbc1, fbc2) =>
             {
                 if (SortingColumnIndex > -1)
@@ -1327,7 +1327,7 @@ public class ListView : ContainerControl
             _flow.SelectedChildrenChanged += _flow_SelectedChildrenChanged;
             hBox.PackStart(_flow, false, true, 0);
 
-            if (ShowGroups == true && this.View != View.List && this.View != View.Tile)
+            if (ShowGroups && this.View != View.List && this.View != View.Tile)
             {
                 if (!string.IsNullOrEmpty(group.Footer))
                 {
@@ -1433,7 +1433,7 @@ public class ListView : ContainerControl
     {
         if (item._flowBoxChild != null && item._flowBoxChild.Parent is Gtk.FlowBox flowBox)
         {
-            if (isselected == true)
+            if (isselected)
                 flowBox.SelectChild(item._flowBoxChild);
             else
                 flowBox.UnselectChild(item._flowBoxChild);
@@ -1560,22 +1560,22 @@ public class ListView : ContainerControl
             item._selected = args.Child.IsSelected;
             foreach (var group in GetAllGroups())
             {
-                if (group.FlowBox.Equals(widget) == false)
+                if (!group.FlowBox.Equals(widget))
                 {
                     group.FlowBox.UnselectAll();
                 }
             }
-            ItemActivate?.Invoke(this, args);
-            ItemSelectionChanged?.Invoke(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+            OnItemActivate(args);
+            OnItemSelectionChanged(new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
         }
     }
 
     private void _flow_SelectedChildrenChanged(object sender, EventArgs e)
     {
         var widget = (Gtk.FlowBox)sender;
-        if (MultiSelect == true)
+        if (MultiSelect)
         {
-            ItemActivate?.Invoke(this, e);
+            OnItemActivate(e);
 
             var selecteds = new List<int>();
             foreach (var group in GetAllGroups())
@@ -1589,25 +1589,25 @@ public class ListView : ContainerControl
                     }
                 }
             }
-            foreach (ListViewItem item in Items)
+            foreach (var item in Items)
             {
                 if (selecteds.Contains(item.Index))
                 {
-                    if (item.Selected == false)
+                    if (!item.Selected)
                     {
                         item.Selected = true;
-                        ItemSelectionChanged?.Invoke(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+                        OnItemSelectionChanged(new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
                     }
                 }
-                else if (item.Selected == true)
+                else if (item.Selected)
                 {
                     item.Selected = false;
-                    ItemSelectionChanged?.Invoke(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+                    OnItemSelectionChanged(new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
                 }
             }
         }
 
-        SelectedIndexChanged?.Invoke(this, e);
+        OnSelectedIndexChanged(e);
     }
 
     private void Columbt_Clicked(object sender, EventArgs e)
@@ -1617,7 +1617,7 @@ public class ListView : ContainerControl
         if (this.HeaderStyle == ColumnHeaderStyle.Clickable)
         {
             var actioncolumn = (int)btn.ActionTargetValue;
-            if (this.Sorted == true)
+            if (this.Sorted)
             {
                 if (SortingColumnIndex == actioncolumn)
                 {
@@ -1634,11 +1634,11 @@ public class ListView : ContainerControl
                 }
                 this.Sort();
 
-                ColumnReordered?.Invoke(this, new ColumnReorderedEventArgs(SortingColumnIndex, actioncolumn, Columns[actioncolumn]));
+                OnColumnReordered(new ColumnReorderedEventArgs(SortingColumnIndex, actioncolumn, Columns[actioncolumn]));
 
                 SortingColumnIndex = actioncolumn;
             }
-            ColumnClick?.Invoke(this, new ColumnClickEventArgs((int)btn.ActionTargetValue));
+            OnColumnClick(new ColumnClickEventArgs((int)btn.ActionTargetValue));
         }
     }
 
@@ -1651,20 +1651,20 @@ public class ListView : ContainerControl
             header.ShowAll();
             headerView.HeightRequest = __headerheight;
         }
-        foreach (ColumnHeader header in this.Columns)
+        foreach (var header in this.Columns)
         {
             NativeHeaderAdd(header);
         }
-        foreach (ListViewGroup g in Groups)
+        foreach (var g in Groups)
         {
             NativeGroupAdd(g, -1);
         }
-        foreach (ListViewItem item in Items)
+        foreach (var item in Items)
         {
             NativeAdd(item, -1);
         }
 
-        MultiSelect = MultiSelect == true;
+        MultiSelect = MultiSelect;
         self.ShowAll();
     }
 
@@ -1683,7 +1683,7 @@ public class ListView : ContainerControl
 
     private void Override_DrawnBackground(object o, DrawnArgs args)
     {
-        Cairo.Rectangle rec = args.Cr.ClipExtents();
+        var rec = args.Cr.ClipExtents();
         if (rec.Width > 10 && SortingColumnIndex > -1)
         {
             var ws = (LabelBase)o;
@@ -1691,14 +1691,14 @@ public class ListView : ContainerControl
             {
                 if (Sorting != SortOrder.None)
                 {
-                    Cairo.Context ctx = args.Cr;
+                    var ctx = args.Cr;
                     ctx.Save();
                     ctx.ResetClip();
                     ctx.Rectangle(rec.X, rec.Y - 4, rec.Width, rec.Height + 4);
                     ctx.Clip();
                     ctx.Translate((int)rec.Width / 2 - 16, rec.Y - 5);
                     ctx.Rotate(0.5 * Math.PI);
-                    Gdk.RGBA color = ws.StyleContext.GetColor(StateFlags.Normal);
+                    var color = ws.StyleContext.GetColor(StateFlags.Normal);
                     ctx.SetSourceRGBA(color.Red, color.Green, color.Blue, color.Alpha);
                     //Serif,Impact,Sylfaen,Arial Black,Cambria,Candara,Arial
                     ctx.SelectFontFace("Serif", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
@@ -2025,7 +2025,7 @@ public class ListView : ContainerControl
         /// </param>
         public virtual void AddRange(ColumnHeader[] values)
         {
-            foreach (ColumnHeader value in values)
+            foreach (var value in values)
             {
                 this.Add(value);
             }
@@ -2439,7 +2439,7 @@ public class ListView : ContainerControl
         /// </param>
         public void AddRange(ListViewItem[] items)
         {
-            foreach (ListViewItem item in items)
+            foreach (var item in items)
             {
                 AddCore(item, -1);
             }
@@ -2453,7 +2453,7 @@ public class ListView : ContainerControl
         /// </param>
         public void AddRange(ListViewItemCollection items)
         {
-            foreach (ListViewItem item in items)
+            foreach (var item in items)
                 AddCore(item, -1);
         }
 

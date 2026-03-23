@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -19,7 +19,7 @@ public class GridItemCollection : ICollection
 
     private protected GridItem[] _entries;
 
-    internal GridItemCollection(GridItem[] entries)
+    internal GridItemCollection(GridItem[]? entries)
     {
         _entries = entries ?? Array.Empty<GridItem>();
     }
@@ -61,7 +61,7 @@ public class GridItemCollection : ICollection
     {
         get
         {
-            foreach (GridItem g in _entries)
+            foreach (var g in _entries)
             {
                 if (g.Label == label)
                 {

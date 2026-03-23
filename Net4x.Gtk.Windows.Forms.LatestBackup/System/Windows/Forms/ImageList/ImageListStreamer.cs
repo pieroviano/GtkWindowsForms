@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using GtkSystem.Resources;
@@ -34,7 +34,7 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
     internal ImageListStreamer(Stream stream)
     {
         if (stream is MemoryStream ms
-            && ms.TryGetBuffer(out ArraySegment<byte> buffer)
+            && ms.TryGetBuffer(out var buffer)
             && buffer.Offset == 0)
         {
             Deserialize(buffer.Array);

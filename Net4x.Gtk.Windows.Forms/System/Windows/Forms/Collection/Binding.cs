@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
 using System.Security.Permissions;
 
@@ -672,7 +672,7 @@ public class Binding
         {
             reformat = false;
         }
-        var flag = false;
+        var shouldRevert = false;
         object? value = null;
         Exception? exception = null;
         if (!IsBinding)
@@ -710,18 +710,18 @@ public class Binding
             {
                 if (exception != null || !FormattingEnabled && value == null)
                 {
-                    flag = true;
+                    shouldRevert = true;
                     value = _bindToObject?.GetValue();
                 }
-                if (reformat && !FormattingEnabled | !flag)
+                if (reformat && !FormattingEnabled | !shouldRevert)
                 {
-                    var obj = FormatObject(value);
-                    if (force || !FormattingEnabled || !Equals(obj, propValue))
+                    var formattedValue = FormatObject(value);
+                    if (force || !FormattingEnabled || !Equals(formattedValue, propValue))
                     {
-                        SetPropValue(obj);
+                        SetPropValue(formattedValue);
                     }
                 }
-                if (!flag)
+                if (!shouldRevert)
                 {
                     _bindToObject?.SetValue(value);
                 }
@@ -813,7 +813,7 @@ public class Binding
         BindingContext? bindingContext;
         if (_control != value)
         {
-            var bindableComponent = _control;
+            var previousControl = _control;
             BindTarget(false);
             _control = value;
             BindTarget(true);
@@ -824,7 +824,7 @@ public class Binding
             catch
             {
                 BindTarget(false);
-                _control = bindableComponent;
+                _control = previousControl;
                 BindTarget(true);
                 throw;
             }
@@ -861,11 +861,11 @@ public class Binding
 
     internal void UpdateIsBinding()
     {
-        var flag = IsBindable && ComponentCreated && (_bindingManagerBase?.IsBinding ?? false);
-        if (_bound != flag)
+        var shouldBind = IsBindable && ComponentCreated && (_bindingManagerBase?.IsBinding ?? false);
+        if (_bound != shouldBind)
         {
-            _bound = flag;
-            BindTarget(flag);
+            _bound = shouldBind;
+            BindTarget(shouldBind);
             if (_bound)
             {
                 if (_controlUpdateMode == ControlUpdateMode.Never)
@@ -990,86 +990,86 @@ public class Binding
         {
             _control.DataBindings?.CheckDuplicates(this);
             var type = _control.GetType();
-            var str = string.Concat(_propertyName, "IsNull");
-            PropertyDescriptor? item = null;
-            PropertyDescriptor? propertyDescriptor = null;
+            var nullPropertyName = string.Concat(_propertyName, "IsNull");
+            PropertyDescriptor? targetPropertyDescriptor = null;
+            PropertyDescriptor? isNullPropertyDescriptor = null;
             var inheritanceAttribute = (InheritanceAttribute)TypeDescriptor.GetAttributes(_control)[typeof(InheritanceAttribute)];
             var propertyDescriptorCollections = inheritanceAttribute == null || inheritanceAttribute.InheritanceLevel == InheritanceLevel.NotInherited ? TypeDescriptor.GetProperties(_control) : TypeDescriptor.GetProperties(type);
             for (var i = 0; i < propertyDescriptorCollections.Count; i++)
             {
-                if (item == null && string.Equals(propertyDescriptorCollections[i].Name, _propertyName, StringComparison.OrdinalIgnoreCase))
+                if (targetPropertyDescriptor == null && string.Equals(propertyDescriptorCollections[i].Name, _propertyName, StringComparison.OrdinalIgnoreCase))
                 {
-                    item = propertyDescriptorCollections[i];
-                    if (propertyDescriptor != null)
+                    targetPropertyDescriptor = propertyDescriptorCollections[i];
+                    if (isNullPropertyDescriptor != null)
                     {
                         break;
                     }
                 }
-                if (propertyDescriptor == null && string.Equals(propertyDescriptorCollections[i].Name, str, StringComparison.OrdinalIgnoreCase))
+                if (isNullPropertyDescriptor == null && string.Equals(propertyDescriptorCollections[i].Name, nullPropertyName, StringComparison.OrdinalIgnoreCase))
                 {
-                    propertyDescriptor = propertyDescriptorCollections[i];
-                    if (item != null)
+                    isNullPropertyDescriptor = propertyDescriptorCollections[i];
+                    if (targetPropertyDescriptor != null)
                     {
                         break;
                     }
                 }
             }
-            if (item == null)
+            if (targetPropertyDescriptor == null)
             {
                 throw new ArgumentException(@"ListBindingBindProperty", nameof(PropertyName));
             }
-            if (item.IsReadOnly && _controlUpdateMode != ControlUpdateMode.Never)
+            if (targetPropertyDescriptor.IsReadOnly && _controlUpdateMode != ControlUpdateMode.Never)
             {
                 throw new ArgumentException(@"ListBindingBindPropertyReadOnly", nameof(PropertyName));
             }
-            _propInfo = item;
+            _propInfo = targetPropertyDescriptor;
             _propInfoConverter = _propInfo.Converter;
-            if (propertyDescriptor != null && propertyDescriptor.PropertyType == typeof(bool) && !propertyDescriptor.IsReadOnly)
+            if (isNullPropertyDescriptor != null && isNullPropertyDescriptor.PropertyType == typeof(bool) && !isNullPropertyDescriptor.IsReadOnly)
             {
-                _propIsNullInfo = propertyDescriptor;
+                _propIsNullInfo = isNullPropertyDescriptor;
             }
-            EventDescriptor? eventDescriptor = null;
-            var str1 = "Validating";
+            EventDescriptor? validatingEventDescriptor = null;
+            var validatingEventName = "Validating";
             var events = TypeDescriptor.GetEvents(_control);
             var num = 0;
             while (num < events.Count)
             {
-                if (eventDescriptor != null || !string.Equals(events[num].Name, str1, StringComparison.OrdinalIgnoreCase))
+                if (validatingEventDescriptor != null || !string.Equals(events[num].Name, validatingEventName, StringComparison.OrdinalIgnoreCase))
                 {
                     num++;
                 }
                 else
                 {
-                    eventDescriptor = events[num];
+                    validatingEventDescriptor = events[num];
                     break;
                 }
             }
-            _validateInfo = eventDescriptor;
+            _validateInfo = validatingEventDescriptor;
         }
         UpdateIsBinding();
     }
 
     private BindingCompleteEventArgs CreateBindingCompleteEventArgs(BindingCompleteContext context, Exception? ex)
     {
-        var flag = false;
-        string? empty;
+        var shouldThrow = false;
+        string? errorMessage;
         var bindingCompleteState = BindingCompleteState.Success;
         if (ex == null)
         {
-            empty = BindToObject?.DataErrorText;
-            if (!string.IsNullOrEmpty(empty))
+            errorMessage = BindToObject?.DataErrorText;
+            if (!string.IsNullOrEmpty(errorMessage))
             {
                 bindingCompleteState = BindingCompleteState.DataError;
             }
         }
         else
         {
-            empty = ex.Message;
+            errorMessage = ex.Message;
             bindingCompleteState = BindingCompleteState.Exception;
-            flag = true;
+            shouldThrow = true;
         }
 
-        return new BindingCompleteEventArgs(this, bindingCompleteState, context, empty, ex, flag);
+        return new BindingCompleteEventArgs(this, bindingCompleteState, context, errorMessage, ex, shouldThrow);
     }
 
     private object? FormatObject(object? value)
@@ -1096,31 +1096,31 @@ public class Binding
         }
         var convertEventArgs = new ConvertEventArgs(value, propertyType);
         OnFormat(convertEventArgs);
-        var obj = convertEventArgs.Value;
+        var formattedValue = convertEventArgs.Value;
         if (propertyType == typeof(object))
         {
             return value;
         }
-        if (obj != null && (obj.GetType().IsSubclassOf(propertyType) || obj.GetType() == propertyType))
+        if (formattedValue != null && (formattedValue.GetType().IsSubclassOf(propertyType) || formattedValue.GetType() == propertyType))
         {
-            return obj;
+            return formattedValue;
         }
         var typeConverter = TypeDescriptor.GetConverter(value != null ? value.GetType() : typeof(object));
         if (typeConverter.CanConvertTo(propertyType))
         {
             if (value != null)
             {
-                obj = typeConverter.ConvertTo(value, propertyType);
+                formattedValue = typeConverter.ConvertTo(value, propertyType);
             }
 
-            return obj;
+            return formattedValue;
         }
         if (value is IConvertible)
         {
-            obj = Convert.ChangeType(value, propertyType, CultureInfo.CurrentCulture);
-            if (obj != null && (obj.GetType().IsSubclassOf(propertyType) || obj.GetType() == propertyType))
+            formattedValue = Convert.ChangeType(value, propertyType, CultureInfo.CurrentCulture);
+            if (formattedValue != null && (formattedValue.GetType().IsSubclassOf(propertyType) || formattedValue.GetType() == propertyType))
             {
-                return obj;
+                return formattedValue;
             }
         }
         throw new FormatException("ListBindingFormatFailed");
@@ -1143,19 +1143,19 @@ public class Binding
 
     private object? GetPropValue()
     {
-        var obj = DataSourceNullValue;
-        var value = false;
+        var propertyValue = DataSourceNullValue;
+        var isNull = false;
         if (_propIsNullInfo != null)
         {
-            value = _control != null && (bool)_propIsNullInfo.GetValue(_control);
+            isNull = _control != null && (bool)_propIsNullInfo.GetValue(_control);
         }
 
         if (_control != null)
         {
-            obj = !value ? _propInfo?.GetValue(_control) ?? DataSourceNullValue : DataSourceNullValue;
+            propertyValue = !isNull ? _propInfo?.GetValue(_control) ?? DataSourceNullValue : DataSourceNullValue;
         }
 
-        return obj;
+        return propertyValue;
     }
 
     private object? ParseObject(object? value)
@@ -1165,10 +1165,10 @@ public class Binding
         {
             var convertEventArg = new ConvertEventArgs(value, bindToType);
             OnParse(convertEventArg);
-            var obj = convertEventArg.Value;
-            if (!Equals(value, obj))
+            var parsedValue = convertEventArg.Value;
+            if (!Equals(value, parsedValue))
             {
-                return obj;
+                return parsedValue;
             }
             TypeConverter? converter = null;
             if (_bindToObject?.FieldInfo != null)
@@ -1197,10 +1197,10 @@ public class Binding
         {
             if (bindToType != null)
             {
-                var obj1 = Convert.ChangeType(value, bindToType, CultureInfo.CurrentCulture);
-                if (obj1 != null && (obj1.GetType().IsSubclassOf(bindToType) || obj1.GetType() == bindToType))
+                var convertedValue = Convert.ChangeType(value, bindToType, CultureInfo.CurrentCulture);
+                if (convertedValue != null && (convertedValue.GetType().IsSubclassOf(bindToType) || convertedValue.GetType() == bindToType))
                 {
-                    return obj1;
+                    return convertedValue;
                 }
             }
         }

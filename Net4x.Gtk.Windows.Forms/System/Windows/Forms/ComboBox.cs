@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -187,19 +187,19 @@ public partial class ComboBox : ListControl
 
     private EventHandler _selectedIndexChanged
     {
-        get { return ((EventHandler)Events["SelectedIndexChanged"]); }
+        get { return (EventHandler)Events["SelectedIndexChanged"]; }
         set { Events["SelectedIndexChanged"] = value; }
     }
 
     private EventHandler _selectedItemChanged
     {
-        get { return ((EventHandler)Events["SelectedItemChanged"]); }
+        get { return (EventHandler)Events["SelectedItemChanged"]; }
         set { Events["SelectedItemChanged"] = value; }
     }
 
     private EventHandler _selectedValueChanged
     {
-        get { return ((EventHandler)Events["SelectedValueChanged"]); }
+        get { return (EventHandler)Events["SelectedValueChanged"]; }
         set { Events["SelectedValueChanged"] = value; }
     }
 
@@ -216,7 +216,7 @@ public partial class ComboBox : ListControl
     {
         if (item is ObjectCollection.Entry entry)
         {
-            Type type = entry.Item.GetType();
+            var type = entry.Item.GetType();
             if (entry.Item is DataRow dr)
                 return dr[DisplayMember]?.ToString();
             else if (type.IsValueType && type.IsPrimitive)
@@ -242,7 +242,7 @@ public partial class ComboBox : ListControl
     /// </param>
     public void NativeAdd(int index, string value, string text)
     {
-        if (_sorted == false && index > -1)
+        if (!_sorted && index > -1)
         {
             self.Insert(index, value, text);
         }
@@ -264,8 +264,8 @@ public partial class ComboBox : ListControl
     /// </returns>
     public string NativeGetItemText(int index)
     {
-        self.Model.GetIter(out TreeIter iter, new TreePath(new int[] { index }));
-        object val = self.Model.GetValue(iter, 1);
+        self.Model.GetIter(out var iter, new TreePath(new int[] { index }));
+        var val = self.Model.GetValue(iter, 1);
 
         return val?.ToString();
     }
@@ -397,12 +397,12 @@ public partial class ComboBox : ListControl
         self.Entry.Visible = false;
         var ws = (Gtk.ToggleButton)o;
         ws.WidthRequest = -1;
-        Pango.Context pangocontext = ws.PangoContext;
-        string family = pangocontext.FontDescription.Family;
+        var pangocontext = ws.PangoContext;
+        var family = pangocontext.FontDescription.Family;
         args.Cr.SelectFontFace(family, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
         if (this.ForeColor.Name == "0")
         {
-            Gdk.RGBA color = ws.StyleContext.GetColor(StateFlags.Normal);
+            var color = ws.StyleContext.GetColor(StateFlags.Normal);
             args.Cr.SetSourceRGBA(color.Red, color.Green, color.Blue, color.Alpha);
         }
         else
@@ -410,12 +410,12 @@ public partial class ComboBox : ListControl
             args.Cr.SetSourceRGBA(this.ForeColor.R / 255, this.ForeColor.G / 255, this.ForeColor.B / 255, this.ForeColor.A / 255);
         }
 
-        double fontsize = pangocontext.FontDescription.Size / Pango.Scale.PangoScale * 1.5;
+        var fontsize = pangocontext.FontDescription.Size / Pango.Scale.PangoScale * 1.5;
         args.Cr.Save();
         args.Cr.Translate(10, (ws.AllocatedHeight - fontsize) / 2 + fontsize - 2);
         args.Cr.SetFontSize(fontsize);
-        Cairo.TextExtents ext = args.Cr.TextExtents(self.Entry.Text);
-        string text = self.Entry.Text;
+        var ext = args.Cr.TextExtents(self.Entry.Text);
+        var text = self.Entry.Text;
         while (text.Length > 1 && args.Cr.TextExtents(text).Width > ws.AllocatedWidth - 40)
             text = text.Substring(0, text.Length - 1);
 

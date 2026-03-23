@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
+﻿using System.ComponentModel;
 using System.Resources;
 using System.Text;
 
@@ -313,7 +310,7 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     /// </exception>
     /// <exception cref="T:System.InvalidOperationException">
     /// </exception>
-    public void AddResource(string name, object value)
+    public void AddResource(string name, object? value)
     {
         if (name == null)
         {
@@ -428,16 +425,16 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
         {
             throw new ArgumentNullException("typeName");
         }
-        if (s_primitiveTypes.TryGetValue(typeName, out var value2))
+        if (s_primitiveTypes.TryGetValue(typeName, out var primitiveType))
         {
-            if (value2 == typeof(string))
+            if (primitiveType == typeof(string))
             {
                 AddResource(name, value);
                 return;
             }
-            TypeConverter converter = TypeDescriptor.GetConverter(value2) ?? throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, value2));
-            object value3 = converter.ConvertFromInvariantString(value);
-            AddResource(name, value3);
+            var converter = TypeDescriptor.GetConverter(primitiveType) ?? throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, primitiveType));
+            var convertedValue = converter.ConvertFromInvariantString(value);
+            AddResource(name, convertedValue);
         }
         else
         {
@@ -517,94 +514,92 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
         binaryWriter.Write(ResourceManager.MagicNumber);
         binaryWriter.Write(ResourceManager.HeaderVersionNumber);
         var memoryStream = new MemoryStream(240);
-        var binaryWriter2 = new BinaryWriter(memoryStream);
-        binaryWriter2.Write(ResourceReaderTypeName);
-        binaryWriter2.Write(ResourceSetTypeName);
-        binaryWriter2.Flush();
+        var memoryBinaryWriter = new BinaryWriter(memoryStream);
+        memoryBinaryWriter.Write(ResourceReaderTypeName);
+        memoryBinaryWriter.Write(ResourceSetTypeName);
+        memoryBinaryWriter.Flush();
         binaryWriter.Write((int)memoryStream.Length);
         memoryStream.Seek(0L, SeekOrigin.Begin);
         memoryStream.CopyTo(binaryWriter.BaseStream, (int)memoryStream.Length);
         binaryWriter.Write(2);
-        int num = _resourceList.Count;
+        var totalResourceCount = _resourceList.Count;
         if (_preserializedData != null)
         {
-            num += _preserializedData.Count;
+            totalResourceCount += _preserializedData.Count;
         }
-        binaryWriter.Write(num);
-        var array = new int[num];
-        var array2 = new int[num];
-        var num2 = 0;
-        var memoryStream2 = new MemoryStream(num * 40);
-        var binaryWriter3 = new BinaryWriter(memoryStream2, Encoding.Unicode);
+        binaryWriter.Write(totalResourceCount);
+        var nameHashes = new int[totalResourceCount];
+        var namePositions = new int[totalResourceCount];
+        var resourceIndex = 0;
+        var otherMemoryStream = new MemoryStream(totalResourceCount * 40);
+        var otherMemoryBinaryWriter = new BinaryWriter(otherMemoryStream, Encoding.Unicode);
         Stream stream = new MemoryStream();
         using (stream)
         {
-            var binaryWriter4 = new BinaryWriter(stream, Encoding.UTF8);
+            var writer = new BinaryWriter(stream, Encoding.UTF8);
             if (_preserializedData != null)
             {
-                foreach (KeyValuePair<string, PrecannedResource> preserializedDatum in _preserializedData)
+                foreach (var preserializedDatum in _preserializedData)
                 {
                     _resourceList.Add(preserializedDatum.Key, preserializedDatum.Value);
                 }
             }
-            foreach (KeyValuePair<string, object> resource in _resourceList)
+            foreach (var resource in _resourceList)
             {
-                array[num2] = FastResourceComparer.HashFunction(resource.Key);
-                array2[num2++] = (int)binaryWriter3.Seek(0, SeekOrigin.Current);
-                binaryWriter3.Write(resource.Key);
-                binaryWriter3.Write((int)binaryWriter4.Seek(0, SeekOrigin.Current));
+                nameHashes[resourceIndex] = FastResourceComparer.HashFunction(resource.Key);
+                namePositions[resourceIndex++] = (int)otherMemoryBinaryWriter.Seek(0, SeekOrigin.Current);
+                otherMemoryBinaryWriter.Write(resource.Key);
+                otherMemoryBinaryWriter.Write((int)writer.Seek(0, SeekOrigin.Current));
                 var value = resource.Value;
                 var resourceTypeCode = FindTypeCode(value, list);
-                Write7BitEncodedInt(binaryWriter4, (int)resourceTypeCode);
+                Write7BitEncodedInt(writer, (int)resourceTypeCode);
                 if (value is PrecannedResource precannedResource)
                 {
-                    WriteData(binaryWriter4, precannedResource.Data);
+                    WriteData(writer, precannedResource.Data);
                 }
                 else
                 {
-                    WriteValue(resourceTypeCode, value, binaryWriter4);
+                    WriteValue(resourceTypeCode, value, writer);
                 }
             }
             binaryWriter.Write(list.Count);
-            foreach (string item in list)
+            foreach (var item in list)
             {
                 binaryWriter.Write(item);
             }
-            Array.Sort(array, array2);
+            Array.Sort(nameHashes, namePositions);
             binaryWriter.Flush();
-            var num3 = (int)binaryWriter.BaseStream.Position & 7;
-            if (num3 > 0)
+            var paddingOffset = (int)binaryWriter.BaseStream.Position & 7;
+            if (paddingOffset > 0)
             {
-                for (int i = 0; i < 8 - num3; i++)
+                for (var i = 0; i < 8 - paddingOffset; i++)
                 {
                     binaryWriter.Write("PAD"[i % 3]);
                 }
             }
-            var array3 = array;
-            foreach (int value2 in array3)
+            foreach (var hashValue in nameHashes)
             {
-                binaryWriter.Write(value2);
+                binaryWriter.Write(hashValue);
             }
-            var array4 = array2;
-            foreach (int value3 in array4)
+            foreach (var positionValue in namePositions)
             {
-                binaryWriter.Write(value3);
+                binaryWriter.Write(positionValue);
             }
             binaryWriter.Flush();
-            binaryWriter3.Flush();
-            binaryWriter4.Flush();
-            var num4 = (int)(binaryWriter.Seek(0, SeekOrigin.Current) + memoryStream2.Length);
-            num4 += 4;
-            binaryWriter.Write(num4);
-            if (memoryStream2.Length > 0)
+            otherMemoryBinaryWriter.Flush();
+            writer.Flush();
+            var dataSectionOffset = (int)(binaryWriter.Seek(0, SeekOrigin.Current) + otherMemoryStream.Length);
+            dataSectionOffset += 4;
+            binaryWriter.Write(dataSectionOffset);
+            if (otherMemoryStream.Length > 0)
             {
-                memoryStream2.Seek(0L, SeekOrigin.Begin);
-                memoryStream2.CopyTo(binaryWriter.BaseStream, (int)memoryStream2.Length);
+                otherMemoryStream.Seek(0L, SeekOrigin.Begin);
+                otherMemoryStream.CopyTo(binaryWriter.BaseStream, (int)otherMemoryStream.Length);
             }
-            binaryWriter3.Dispose();
+            otherMemoryBinaryWriter.Dispose();
             stream.Position = 0L;
             stream.CopyTo(binaryWriter.BaseStream);
-            binaryWriter4.Dispose();
+            writer.Dispose();
         }
         binaryWriter.Flush();
         _resourceList = null;
@@ -624,7 +619,7 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
         _preserializedData.Add(name, new PrecannedResource(typeName, data));
     }
 
-    private void AddResourceInternal(string name, Stream value, bool closeAfterWrite)
+    private void AddResourceInternal(string name, Stream? value, bool closeAfterWrite)
     {
         if (value == null)
         {
@@ -654,7 +649,7 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
         _caseInsensitiveDups = null;
     }
 
-    private ResourceTypeCode FindTypeCode(object value, List<string> types)
+    private ResourceTypeCode FindTypeCode(object? value, List<string> types)
     {
         if (value == null)
         {
@@ -741,25 +736,25 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                 typeName = typeName.Substring(17);
                 return (ResourceTypeCode)Enum.Parse(typeof(ResourceTypeCode), typeName);
             }
-            var num = types.IndexOf(typeName);
-            if (num == -1)
+            var typeIndex = types.IndexOf(typeName);
+            if (typeIndex == -1)
             {
-                num = types.Count;
+                typeIndex = types.Count;
                 types.Add(typeName);
             }
-            return (ResourceTypeCode)(num + 64);
+            return (ResourceTypeCode)(typeIndex + 64);
         }
         throw new PlatformNotSupportedException(SR.NotSupported_BinarySerializedResources);
     }
 
     private static void Write7BitEncodedInt(BinaryWriter store, int value)
     {
-        uint num;
-        for (num = (uint)value; num >= 128; num >>= 7)
+        uint unsignedValue;
+        for (unsignedValue = (uint)value; unsignedValue >= 128; unsignedValue >>= 7)
         {
-            store.Write((byte)(num | 0x80u));
+            store.Write((byte)(unsignedValue | 0x80u));
         }
-        store.Write((byte)num);
+        store.Write((byte)unsignedValue);
     }
 
     private void WriteData(BinaryWriter writer, object dataContext)
@@ -775,12 +770,12 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
             {
                 case SerializationFormat.BinaryFormatter:
                     {
-                        var array2 = (byte[])resourceDataRecord.Data;
+                        var binaryData = (byte[])resourceDataRecord.Data;
                         if (_requiresDeserializingResourceReader)
                         {
-                            Write7BitEncodedInt(writer, array2.Length);
+                            Write7BitEncodedInt(writer, binaryData.Length);
                         }
-                        writer.Write(array2);
+                        writer.Write(binaryData);
                         break;
                     }
                 case SerializationFormat.ActivatorStream:
@@ -797,9 +792,9 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                     }
                 case SerializationFormat.TypeConverterByteArray:
                     {
-                        var array = (byte[])resourceDataRecord.Data;
-                        Write7BitEncodedInt(writer, array.Length);
-                        writer.Write(array);
+                        var byteData = (byte[])resourceDataRecord.Data;
+                        Write7BitEncodedInt(writer, byteData.Length);
+                        writer.Write(byteData);
                         break;
                     }
                 case SerializationFormat.TypeConverterString:
@@ -869,8 +864,8 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                 break;
             case ResourceTypeCode.DateTime:
                 {
-                    var value2 = ((DateTime)value).ToBinary();
-                    writer.Write(value2);
+                    var binaryValue = ((DateTime)value).ToBinary();
+                    writer.Write(binaryValue);
                     break;
                 }
             case ResourceTypeCode.TimeSpan:
@@ -878,9 +873,9 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                 break;
             case ResourceTypeCode.ByteArray:
                 {
-                    var array3 = (byte[])value;
-                    writer.Write(array3.Length);
-                    writer.Write(array3, 0, array3.Length);
+                    var byteArray = (byte[])value;
+                    writer.Write(byteArray.Length);
+                    writer.Write(byteArray, 0, byteArray.Length);
                     break;
                 }
             case ResourceTypeCode.Stream:
@@ -893,9 +888,9 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                         {
                             throw new ArgumentException(SR.ArgumentOutOfRange_StreamLength);
                         }
-                        var array = memoryStream.ToArray();
-                        writer.Write(array.Length);
-                        writer.Write(array, 0, array.Length);
+                        var memoryStreamBytes = memoryStream.ToArray();
+                        writer.Write(memoryStreamBytes.Length);
+                        writer.Write(memoryStreamBytes, 0, memoryStreamBytes.Length);
                         break;
                     }
                     var stream = streamWrapper.Stream;
@@ -905,11 +900,11 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                     }
                     stream.Position = 0L;
                     writer.Write((int)stream.Length);
-                    var array2 = new byte[4096];
-                    var num = 0;
-                    while ((num = stream.Read(array2, 0, array2.Length)) != 0)
+                    var buffer = new byte[4096];
+                    var bytesRead = 0;
+                    while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
                     {
-                        writer.Write(array2, 0, num);
+                        writer.Write(buffer, 0, bytesRead);
                     }
                     if (streamWrapper.CloseAfterWrite)
                     {

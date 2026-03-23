@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -9,7 +9,7 @@ namespace System.Windows.Forms;
 /// <summary>
 /// ApplicationContext provides contextual information about an application
 /// thread. Specifically this allows an application author to redifine what
-/// circurmstances cause a message loop to exit. By default the application
+/// circurmstances cause a message loop to exit. By default, the application
 /// context listens to the close event on the mainForm, then exits the
 /// thread's message loop.
 /// </summary>

@@ -113,6 +113,6 @@ public partial class NumericUpDown : Control
     private void Self_ValueChanged(object sender, EventArgs e)
     {
         if (ValueChanged != null && self.IsVisible)
-            ValueChanged(this, e);
+            OnValueChanged(e);
     }
 }

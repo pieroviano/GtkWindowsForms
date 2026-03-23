@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Imaging;
@@ -342,9 +342,9 @@ public sealed class ImageAnimator
 
         /// <summary>
         /// Initializes a new instance of
-        /// <see cref="T:System.Drawing.Image" /> from a pixbuf byte buffer.
+        /// <see cref="T:System.Drawing.Image" /> from a raw image.
         /// </summary>
-        /// <param name="pixbuf">The raw pixbuf bytes.
+        /// <param name="image">The raw image.
         /// </param>
         public ImageInfo(Image image)
         {

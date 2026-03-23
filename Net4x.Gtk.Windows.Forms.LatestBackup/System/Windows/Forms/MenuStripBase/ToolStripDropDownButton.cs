@@ -154,12 +154,6 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// The
     /// <see cref="T:System.Windows.Forms.MouseEventArgs" /> instance containing the event data.
     /// </param>
-    //protected AccessibleObject CreateAccessibilityInstance()
-    //{
-    //}
-    //protected  ToolStripDropDown CreateDefaultDropDown()
-    //{
-    //}
     protected void OnMouseDown(MouseEventArgs e)
     {
         MouseDown?.Invoke(this, e);

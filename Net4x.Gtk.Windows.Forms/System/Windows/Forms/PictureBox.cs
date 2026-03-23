@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -146,10 +146,10 @@ public partial class PictureBox : Control
     {
         if (string.IsNullOrWhiteSpace(url))
         { return; }
-        else if (url.Contains("://") && Uri.TryCreate(url, UriKind.Absolute, out Uri result))
+        else if (url.Contains("://") && Uri.TryCreate(url, UriKind.Absolute, out var result))
         {
-            GLib.IFile file = GLib.FileFactory.NewForUri(result);
-            GLib.FileInputStream stream = file.Read(new GLib.Cancellable());
+            var file = GLib.FileFactory.NewForUri(result);
+            var stream = file.Read(new GLib.Cancellable());
             var pixbuf = new Gdk.Pixbuf(stream, new GLib.Cancellable());
             _image = new Bitmap(0, 0)
             {
@@ -215,8 +215,8 @@ public partial class PictureBox : Control
 
     private void Self_Shown(object sender, EventArgs e)
     {
-        int width = Width;
-        int height = Height;
+        var width = Width;
+        var height = Height;
         if (this.MaximumSize.Width > 0)
         {
             width = Math.Min(this.MaximumSize.Width, Width);
@@ -235,12 +235,12 @@ public partial class PictureBox : Control
         }
         if (_image != null && _image.Pixbuf != null)
         {
-            ImageUtility.ScaleImageByPictureBoxSizeMode(_image.Pixbuf, width, height, out Gdk.Pixbuf newImagePixbuf, SizeMode);
+            ImageUtility.ScaleImageByPictureBoxSizeMode(_image.Pixbuf, width, height, out var newImagePixbuf, SizeMode);
             self.Pixbuf = newImagePixbuf;
         }
         else if (InitialImage != null && InitialImage.Pixbuf != null)
         {
-            ImageUtility.ScaleImageByPictureBoxSizeMode(InitialImage.Pixbuf, width, height, out Gdk.Pixbuf newImagePixbuf, SizeMode);
+            ImageUtility.ScaleImageByPictureBoxSizeMode(InitialImage.Pixbuf, width, height, out var newImagePixbuf, SizeMode);
             self.Pixbuf = newImagePixbuf;
         }
     }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -109,10 +109,10 @@ public class MaskedTextBox : TextBox
 
     private void Control_Backspace(object sender, EventArgs e)
     {
-        if (IsMaskPassword == true)
+        if (IsMaskPassword)
         {
             // format formatting mask， change numbers only
-            int position = self.CursorPosition;
+            var position = self.CursorPosition;
             if (self.Text.Length + 1 == correctText.Length) // delete one character
             {
                 isBackspace = true;
@@ -140,7 +140,7 @@ public class MaskedTextBox : TextBox
         }
         else if (!string.IsNullOrWhiteSpace(Mask))
         {//按 format formatted assignment
-            string txt = Regex.Match(Text, "\\d").Value;
+            var txt = Regex.Match(Text, "\\d").Value;
             var windex = -1;
             Text = Regex.Replace(Mask, "\\d", (Match m) =>
             {
@@ -159,11 +159,11 @@ public class MaskedTextBox : TextBox
 
     private void Control_TextInserted(object o, Gtk.TextInsertedArgs args)
     {
-        if (self.IsRealized && isBackspace == false)
+        if (self.IsRealized && !isBackspace)
         {
-            int position = args.Position;
-            string new_text = args.NewText;
-            if (IsMaskPassword == true)
+            var position = args.Position;
+            var new_text = args.NewText;
+            if (IsMaskPassword)
             {
                 if (new_text.Length > 1 || self.Text.Length != correctText.Length + 1)
                 {
@@ -194,12 +194,12 @@ public class MaskedTextBox : TextBox
 
     private bool IsNumberChar(char w)
     {
-        return (char.IsNumber(w) || w == '_');
+        return char.IsNumber(w) || w == '_';
     }
 
     private bool IsNumberText(string text)
     {
-        foreach (char w in text)
+        foreach (var w in text)
         {
             if (!IsNumberChar(w))
                 return false;

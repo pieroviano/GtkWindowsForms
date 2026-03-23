@@ -1,7 +1,6 @@
-using System.IO;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace GtkSystem.IO;
+namespace GtkSystem.IO.Resources;
 
 internal sealed class PinnedBufferMemoryStream : UnmanagedMemoryStream
 {
