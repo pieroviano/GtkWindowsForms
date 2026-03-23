@@ -135,7 +135,7 @@ public class TrackBar : Control
     /// </summary>
     protected virtual void OnScroll(System.EventArgs e)
     {
-        Scroll?.Invoke(this, e);
+        OnScroll(EventArgs.Empty);
     }
 
     private void Control_Realized(object sender, EventArgs e)
@@ -158,6 +158,6 @@ public class TrackBar : Control
     private void Control_ValueChanged(object sender, EventArgs e)
     {
         Value = (int)adjustment.Value;
-        Scroll?.Invoke(this, e);
+        OnScroll(EventArgs.Empty);
     }
 }

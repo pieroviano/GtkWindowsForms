@@ -649,22 +649,22 @@ public partial class Form : ContainerControl, IWin32Window
 
     private void OnLoadHandler()
     {
-        Load?.Invoke(this, EventArgs.Empty);
+        OnLoad(EventArgs.Empty);
     }
 
     private void OnShownHandler()
     {
-        Shown?.Invoke(this, EventArgs.Empty);
+        OnShown(EventArgs.Empty);
     }
 
     private bool Self_CloseWindowEvent(object sender, EventArgs e)
     {
         var closing = new FormClosingEventArgs(CloseReason.UserClosing, false);
-        FormClosing?.Invoke(this, closing);
+        OnFormClosing(closing);
 
         if (closing.Cancel == false)
         {
-            FormClosed?.Invoke(this, new FormClosedEventArgs(CloseReason.UserClosing));
+            OnFormClosed(new FormClosedEventArgs(CloseReason.UserClosing));
         }
 
         return closing.Cancel == false;
@@ -672,7 +672,7 @@ public partial class Form : ContainerControl, IWin32Window
 
     private void Self_ResizeChecked(object sender, EventArgs e)
     {
-        SizeChanged?.Invoke(this, EventArgs.Empty);
+        OnSizeChanged(EventArgs.Empty);
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -247,7 +247,7 @@ public partial class TextBox : Control
 
     private void Self_Changed(object sender, EventArgs e)
     {
-        if (TextChanged != null && self.IsVisible) { TextChanged(this, EventArgs.Empty); }
+        if (TextChanged != null && self.IsVisible) { OnTextChanged(EventArgs.Empty); }
     }
 
     private void Self_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)
@@ -257,7 +257,7 @@ public partial class TextBox : Control
             if (args.Event is Gdk.EventKey eventkey)
             {
                 var keys = (Keys)eventkey.HardwareKeycode;
-                KeyDown(this, new KeyEventArgs(keys));
+                OnKeyDown(new KeyEventArgs(keys));
             }
         }
     }
@@ -274,7 +274,7 @@ public partial class TextBox : Control
                 return Enum.GetName(typeof(Keys), k) == keytext;
             });
             foreach (var key in keyv)
-                KeyDown(this, new KeyEventArgs(key));
+                OnKeyDown(new KeyEventArgs(key));
         }
     }
 }

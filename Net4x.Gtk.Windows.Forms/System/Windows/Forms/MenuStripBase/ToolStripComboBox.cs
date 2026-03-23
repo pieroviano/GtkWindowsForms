@@ -114,8 +114,8 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
 
     private void ComboBox_Changed(object sender, EventArgs e)
     {
-        SelectedIndexChanged?.Invoke(this, e);
-        SelectedValueChanged?.Invoke(this, e);
+        OnSelectedIndexChanged(e);
+        OnSelectedValueChanged(e);
     }
 
     /// <summary>

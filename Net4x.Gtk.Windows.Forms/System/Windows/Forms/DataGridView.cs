@@ -1243,7 +1243,7 @@ public partial class DataGridView : ScrollableControl
 
     internal void CellValueChanagedHandler(int column, int row)
     {
-        CellValueChanged?.Invoke(this, new DataGridViewCellEventArgs(column, row));
+        OnCellValueChanged(new DataGridViewCellEventArgs(column, row));
     }
 
     /// <summary>
@@ -2188,7 +2188,7 @@ public partial class DataGridView : ScrollableControl
         if (CellClick != null)
         {
             var column = args.Column as DataGridViewColumn;
-            CellClick(this, new DataGridViewCellEventArgs(column.Index, args.Path.Indices.Last()));
+            OnCellClick(new DataGridViewCellEventArgs(column.Index, args.Path.Indices.Last()));
         }
     }
 
@@ -2308,6 +2308,6 @@ public partial class DataGridView : ScrollableControl
             _selectedBandIndexes.Add(idx);
         }
         if (SelectionChanged != null && Created)
-            SelectionChanged(this, e);
+            OnSelectionChanged(e);
     }
 }

@@ -926,7 +926,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
     /// </summary>
     protected override void OnCheckedChanged(EventArgs e)
     {
-        CheckedChanged?.Invoke(this, e);
+        OnCheckedChanged(e);
     }
 
     /// <summary>
@@ -1033,7 +1033,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
 
     private void Checkbutton_Toggled(object sender, EventArgs e)
     {
-        CheckedChanged?.Invoke(this, e);
+        OnCheckedChanged(e);
     }
 
     private void MenuItem_Activated(object sender, EventArgs e)
@@ -1058,9 +1058,9 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
 
     private void MenuItem_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {
-        DropDownItemClicked?.Invoke(this, new ToolStripItemClickedEventArgs(this));
+        OnDropDownItemClicked(new ToolStripItemClickedEventArgs(this));
 
-        Click?.Invoke(this, args);
+        OnClick(args);
 
     }
 

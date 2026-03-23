@@ -275,7 +275,7 @@ public partial class ComboBox : ListControl
     /// </summary>
     protected virtual void OnDropDown(System.EventArgs e)
     {
-        DropDown?.Invoke(this, e);
+        OnDropDown(e);
     }
 
     /// <summary>
@@ -425,6 +425,6 @@ public partial class ComboBox : ListControl
 
     private void Ws_Toggled(object sender, EventArgs e)
     {
-        DropDown?.Invoke(this, e);
+        OnDropDown(e);
     }
 }

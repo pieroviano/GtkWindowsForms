@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -1565,8 +1565,8 @@ public class ListView : ContainerControl
                     group.FlowBox.UnselectAll();
                 }
             }
-            ItemActivate?.Invoke(this, args);
-            ItemSelectionChanged?.Invoke(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+            OnItemActivate(args);
+            OnItemSelectionChanged(new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
         }
     }
 
@@ -1575,7 +1575,7 @@ public class ListView : ContainerControl
         var widget = (Gtk.FlowBox)sender;
         if (MultiSelect == true)
         {
-            ItemActivate?.Invoke(this, e);
+            OnItemActivate(e);
 
             var selecteds = new List<int>();
             foreach (var group in GetAllGroups())
@@ -1596,18 +1596,18 @@ public class ListView : ContainerControl
                     if (item.Selected == false)
                     {
                         item.Selected = true;
-                        ItemSelectionChanged?.Invoke(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+                        OnItemSelectionChanged(new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
                     }
                 }
                 else if (item.Selected == true)
                 {
                     item.Selected = false;
-                    ItemSelectionChanged?.Invoke(this, new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
+                    OnItemSelectionChanged(new ListViewItemSelectionChangedEventArgs(item, item.Index, item.Selected));
                 }
             }
         }
 
-        SelectedIndexChanged?.Invoke(this, e);
+        OnSelectedIndexChanged(e);
     }
 
     private void Columbt_Clicked(object sender, EventArgs e)
@@ -1634,11 +1634,11 @@ public class ListView : ContainerControl
                 }
                 this.Sort();
 
-                ColumnReordered?.Invoke(this, new ColumnReorderedEventArgs(SortingColumnIndex, actioncolumn, Columns[actioncolumn]));
+                OnColumnReordered(new ColumnReorderedEventArgs(SortingColumnIndex, actioncolumn, Columns[actioncolumn]));
 
                 SortingColumnIndex = actioncolumn;
             }
-            ColumnClick?.Invoke(this, new ColumnClickEventArgs((int)btn.ActionTargetValue));
+            OnColumnClick(new ColumnClickEventArgs((int)btn.ActionTargetValue));
         }
     }
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -527,7 +527,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             _anchor = value;
             SetAnchorStyles(Widget, _anchor);
-            AnchorChanged?.Invoke(this, EventArgs.Empty);
+            OnAnchorChanged(EventArgs.Empty);
         }
     }
 
@@ -807,7 +807,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 this.Widget.Halign = Align.Start;
                 this.Widget.Valign = Align.Start;
             }
-            DockChanged?.Invoke(this, EventArgs.Empty);
+            OnDockChanged(EventArgs.Empty);
         }
     }
 
@@ -903,8 +903,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             this.Widget.HeightRequest = Math.Max(-1, value);
-            DockChanged?.Invoke(this, EventArgs.Empty);
-            AnchorChanged?.Invoke(this, EventArgs.Empty);
+            OnDockChanged(EventArgs.Empty);
+            OnAnchorChanged(EventArgs.Empty);
         }
     }
 
@@ -984,8 +984,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             this.Widget.MarginStart = value;
-            DockChanged?.Invoke(this, EventArgs.Empty);
-            AnchorChanged?.Invoke(this, EventArgs.Empty);
+            OnDockChanged(EventArgs.Empty);
+            OnAnchorChanged(EventArgs.Empty);
         }
     }
 
@@ -1186,8 +1186,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             this.Widget.MarginTop = value;
-            DockChanged?.Invoke(this, EventArgs.Empty);
-            AnchorChanged?.Invoke(this, EventArgs.Empty);
+            OnDockChanged(EventArgs.Empty);
+            OnAnchorChanged(EventArgs.Empty);
         }
     }
 
@@ -1259,8 +1259,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             this.Widget.WidthRequest = Math.Max(-1, value);
-            DockChanged?.Invoke(this, EventArgs.Empty);
-            AnchorChanged?.Invoke(this, EventArgs.Empty);
+            OnDockChanged(EventArgs.Empty);
+            OnAnchorChanged(EventArgs.Empty);
         }
     }
 
@@ -3489,7 +3489,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             owidget.Window.GetOrigin(out int x, out int y);// avoid event penetration errors
             var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
             OnMouseDown(mouseArgs);
-            MouseDown?.Invoke(this, mouseArgs);
         }
     }
 
@@ -3507,22 +3506,17 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             owidget.Window.GetOrigin(out int x, out int y);
             var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
             OnMouseUp(mouseArgs);
-            MouseUp?.Invoke(this, mouseArgs);
 
             if (args.Event.Type == Gdk.EventType.TwoButtonPress || args.Event.Type == Gdk.EventType.DoubleButtonPress)
             {
                 var mouseArgs2 = new MouseEventArgs(result, 2, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
                 OnMouseDoubleClick(mouseArgs2);
-                MouseDoubleClick?.Invoke(this, mouseArgs2);
-                DoubleClick?.Invoke(this, EventArgs.Empty);
+                OnDoubleClick(EventArgs.Empty);
             }
             else
             {
                 OnClick(EventArgs.Empty);
-                var mouseArgs3 = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
-                OnMouseClick(mouseArgs3);
-                Click?.Invoke(this, EventArgs.Empty);
-                MouseClick?.Invoke(this, mouseArgs3);
+                OnMouseClick(new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0));
             }
             if (ContextMenuStrip != null)
             {
@@ -3538,7 +3532,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     private void Widget_ConfigureEvent(object o, ConfigureEventArgs args)
     {
         OnMove(EventArgs.Empty);
-        Move?.Invoke(this, args);
     }
 
     private void Widget_EnterNotifyEvent(object o, EnterNotifyEventArgs args)
@@ -3556,26 +3549,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         }
         OnMouseEnter(EventArgs.Empty);
         OnMouseHover(EventArgs.Empty);
-        Enter?.Invoke(this, args);
-        MouseEnter?.Invoke(this, args);
-        MouseHover?.Invoke(this, args);
+        OnEnter(args);
     }
 
     private void Widget_FocusInEvent(object o, FocusInEventArgs args)
     {
-        GotFocus?.Invoke(this, args);
+        OnGotFocus(args);
     }
 
     private void Widget_FocusOutEvent(object o, FocusOutEventArgs args)
     {
         var cancelEventArgs = new CancelEventArgs(false);
-        LostFocus?.Invoke(this, args);
+        OnLostFocus(args);
         OnValidating(cancelEventArgs);
-        Validating?.Invoke(this, cancelEventArgs);
         if (Validated != null && cancelEventArgs.Cancel == false)
         {
             OnValidated(cancelEventArgs);
-            Validated(this, cancelEventArgs);
         }
     }
 
@@ -3595,7 +3584,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 if (eventkey.State.HasFlag(Gdk.ModifierType.LockMask))
                     keys |= Keys.CapsLock;
                 OnKeyDown(new KeyEventArgs(keys));
-                KeyDown(this, new KeyEventArgs(keys));
             }
         }
     }
@@ -3604,8 +3592,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         var keys = (Keys)args.Event.HardwareKeycode;
         OnKeyUp(new KeyEventArgs(keys));
-        KeyUp?.Invoke(this, new KeyEventArgs(keys));
-        KeyPress?.Invoke(this, new KeyPressEventArgs(Convert.ToChar(keys)));
+        OnKeyPress(new KeyPressEventArgs(Convert.ToChar(keys)));
     }
 
     private void Widget_LeaveNotifyEvent(object o, LeaveNotifyEventArgs args)
@@ -3615,8 +3602,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             this.Widget.Window.Cursor = null;
         }
         OnMouseLeave(EventArgs.Empty);
-        Leave?.Invoke(this, EventArgs.Empty);
-        MouseLeave?.Invoke(this, EventArgs.Empty);
+        OnLeave(EventArgs.Empty);
     }
 
     private void Widget_MotionNotifyEvent(object o, MotionNotifyEventArgs args)
@@ -3634,7 +3620,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             owidget.Window.GetOrigin(out int x, out int y);
             var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 1);
             OnMouseMove(mouseArgs);
-            MouseMove?.Invoke(this, mouseArgs);
         }
     }
 
@@ -3644,8 +3629,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             WidgetRealized = true;
             InitStyle((Gtk.Widget)sender);
-            OnLoad(EventArgs.Empty);
-            Load?.Invoke(this, e);
+            OnLoad(e);
         }
     }
 
@@ -3653,25 +3637,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         var mouseArgs = new MouseEventArgs(MouseButtons.None, 0, (int)args.Event.X, (int)args.Event.Y, (int)args.Event.DeltaY);
         OnMouseWheel(mouseArgs);
-        MouseWheel?.Invoke(this, mouseArgs);
     }
 
     private void Widget_SizeAllocated(object o, SizeAllocatedArgs args)
     {
         OnResize(EventArgs.Empty);
-        Resize?.Invoke(this, EventArgs.Empty);
         if (args.Allocation.Width != size_width || args.Allocation.Height != size_height)
         {
             size_width = args.Allocation.Width;
             size_height = args.Allocation.Height;
             OnSizeChanged(EventArgs.Empty);
-            SizeChanged?.Invoke(this, EventArgs.Empty);
         }
         if (args.Allocation.X != location_x || args.Allocation.Y != location_y)
         {
             location_x = args.Allocation.X;
             location_y = args.Allocation.Y;
-            LocationChanged?.Invoke(this, EventArgs.Empty);
+            OnLocationChanged(EventArgs.Empty);
         }
     }
 }

@@ -345,7 +345,7 @@ public partial class DateTimePicker : MaskedTextBox
     private void Self_Changed(object sender, EventArgs e)
     {
         if (ValueChanged != null && self.IsMapped)
-            ValueChanged(this, e);
+            OnValueChanged(e);
     }
 
     private void Self_Shown(object sender, EventArgs e)

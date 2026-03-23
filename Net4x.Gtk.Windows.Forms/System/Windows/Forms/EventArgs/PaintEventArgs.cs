@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -153,7 +153,6 @@ public class PaintEventArgs : EventArgs, IDisposable
 
         if (oldPal != IntPtr.Zero && _dc != IntPtr.Zero)
         {
-            //SafeNativeMethods.SelectPalette(new HandleRef(this, _dc), new HandleRef(this, oldPal), 0);
             oldPal = IntPtr.Zero;
         }
     }

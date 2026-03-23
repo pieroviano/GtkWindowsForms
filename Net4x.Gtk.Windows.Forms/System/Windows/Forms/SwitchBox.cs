@@ -55,7 +55,7 @@ public partial class SwitchBox : Control
         {
             self.Active = value;
             if (CheckedChanged != null && self.IsVisible)
-                CheckedChanged(this, EventArgs.Empty);
+                OnCheckedChanged(EventArgs.Empty);
         }
     }
 
@@ -90,6 +90,6 @@ public partial class SwitchBox : Control
     private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {
         if (CheckedChanged != null && self.IsVisible)
-            CheckedChanged(this, EventArgs.Empty);
+            OnCheckedChanged(EventArgs.Empty);
     }
 }

@@ -201,7 +201,7 @@ public partial class RichTextBox : ScrollableControl
     {
         if (TextChanged != null && self.IsVisible)
         {
-            TextChanged(this, e);
+            OnTextChanged(e);
         }
     }
 }

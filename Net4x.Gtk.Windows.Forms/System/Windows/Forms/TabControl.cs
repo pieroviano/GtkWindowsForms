@@ -289,7 +289,7 @@ public partial class TabControl : ContainerControl
     private void Self_SwitchPage(object o, SwitchPageArgs args)
     {
         if (SelectedIndexChanged != null && self.IsMapped)
-            SelectedIndexChanged(this, new EventArgs());
+            OnSelectedIndexChanged(new EventArgs());
     }
 
     /// <summary>
@@ -348,7 +348,7 @@ public partial class TabControl : ContainerControl
                         args.Cr.ResetClip();
                         int width = allocation.Width + 24;
                         int height = allocation.Height + 2;
-                        _owner.DrawItem(this, new DrawItemEventArgs(new Graphics(tab, args.Cr, new Gdk.Rectangle(0, 0, width, height)) { diff_left = -12, diff_top = -2 }, _owner.Font, new Rectangle(0, 0, width, height), Convert.ToInt32(tab.Name), DrawItemState.Default));
+                        _owner.OnDrawItem(new DrawItemEventArgs(new Graphics(tab, args.Cr, new Gdk.Rectangle(0, 0, width, height)) { diff_left = -12, diff_top = -2 }, _owner.Font, new Rectangle(0, 0, width, height), Convert.ToInt32(tab.Name), DrawItemState.Default));
 
                     }
                 };

@@ -164,9 +164,9 @@ public class ToolStrip : Control
 
     private void ToolStripItem_Activated(object sender, ActivateCurrentArgs e)
     {
-        DropDownItemClicked?.Invoke(this, new ToolStripItemClickedEventArgs(new ToolStripItem()));
-        Click?.Invoke(sender, e);
-        CheckedChanged?.Invoke(this, e);
-        CheckStateChanged?.Invoke(this, e);
+        OnDropDownItemClicked(new ToolStripItemClickedEventArgs(new ToolStripItem()));
+        OnClick(e);
+        OnCheckedChanged(e);
+        OnCheckStateChanged(e);
     }
 }

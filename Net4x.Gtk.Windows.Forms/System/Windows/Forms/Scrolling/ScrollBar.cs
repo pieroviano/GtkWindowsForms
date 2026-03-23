@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
@@ -118,9 +118,9 @@ public abstract partial class ScrollBar : Control
     private void Control_ValueChanged(object sender, EventArgs e)
     {
         double newValue = Adjustment.Value;
-        ValueChanged?.Invoke(this, e);
+        OnValueChanged(e);
         var args = new ScrollEventArgs(newValue >= _oldValue ? ScrollEventType.SmallIncrement : ScrollEventType.SmallDecrement, (int)_oldValue, (int)newValue);
-        Scroll?.Invoke(this, args);
+        OnScroll(args);
         _oldValue = newValue;
     }
 }

@@ -626,10 +626,10 @@ public partial class TreeView : ScrollableControl
                 GetNodeChild(root, currpath.Indices, ref result);
                 cancelEventArgs = new TreeViewCancelEventArgs(result, false, TreeViewAction.ByMouse);
 
-                BeforeSelect?.Invoke(this, cancelEventArgs);
+                OnBeforeSelect(cancelEventArgs);
                 if (cancelEventArgs == null || cancelEventArgs.Cancel == false)
                 {
-                    AfterSelect?.Invoke(this, new TreeViewEventArgs(result));
+                    OnAfterSelect(new TreeViewEventArgs(result));
                 }
                 else
                 {
@@ -663,7 +663,7 @@ public partial class TreeView : ScrollableControl
         {
             TreeNode result = null;
             GetNodeChild(root, args.Path.Indices, ref result);
-            AfterCollapse(this, new TreeViewEventArgs(result, TreeViewAction.Collapse));
+            OnAfterCollapse(new TreeViewEventArgs(result, TreeViewAction.Collapse));
         }
     }
 
@@ -673,7 +673,7 @@ public partial class TreeView : ScrollableControl
         {
             TreeNode result = null;
             GetNodeChild(root, args.Path.Indices, ref result);
-            AfterExpand(this, new TreeViewEventArgs(result, TreeViewAction.Expand));
+            OnAfterExpand(new TreeViewEventArgs(result, TreeViewAction.Expand));
         }
     }
 
