@@ -1,0 +1,83 @@
+From 49cd1479df595a84354d1eada236b22c8665cc88 Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Mon, 23 Mar 2026 03:52:49 +0200
+Subject: [PATCH] Added events on propertygrid
+
+---
+ .../System/Windows/Forms/PropertyGrid.cs      |  32 +-
+ 1 file changed, 26 insertions(+), 6 deletions(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+index 7f8b3821..6419a282 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -36,6 +36,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
+     private object[] _selectedObjects;
+ 
+     private readonly List<TabInfo> _tabs = new List<TabInfo>();
++    private Delegate _propertyValueChanged;
++    private Delegate _selectedGridItemChanged;
+ 
+     private static readonly object s_comComponentNameChangedEvent = new();
+ 
+@@ -100,8 +102,16 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
+     /// </summary>
+     public virtual event PropertyValueChangedEventHandler PropertyValueChanged
+     {
+-        add => Events.AddHandler(s_propertyValueChangedEvent, value);
+-        remove => Events.RemoveHandler(s_propertyValueChangedEvent, value);
++        add
++        {
++            Events.AddHandler(s_propertyValueChangedEvent, value);
++            _propertyValueChanged = Events[s_propertyValueChangedEvent];
++        }
++        remove
++        {
++            Events.RemoveHandler(s_propertyValueChangedEvent, value);
++            _propertyValueChanged = Events[s_propertyValueChangedEvent];
++        }
+     }
+ 
+     /// <summary>
+@@ -109,8 +119,16 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
+     /// </summary>
+     public virtual event SelectedGridItemChangedEventHandler SelectedGridItemChanged
+     {
+-        add => Events.AddHandler(s_selectedGridItemChangedEvent, value);
+-        remove => Events.RemoveHandler(s_selectedGridItemChangedEvent, value);
++        add
++        {
++            Events.AddHandler(s_selectedGridItemChangedEvent, value);
++            _selectedGridItemChanged = Events[s_selectedGridItemChangedEvent];
++        }
++        remove
++        {
++            Events.RemoveHandler(s_selectedGridItemChangedEvent, value);
++            _selectedGridItemChanged = Events[s_selectedGridItemChangedEvent];
++        }
+     }
+ 
+     /// <summary>
+@@ -920,11 +938,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
+ 
+     private void Self_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+     {
+-        Events[s_propertyValueChangedEvent]?.DynamicInvoke(this, e);
++        _propertyValueChanged?.DynamicInvoke(this, e);
+     }
+ 
+     private void Self_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
+     {
+-        Events[s_selectedGridItemChangedEvent]?.DynamicInvoke(this, e);
++        _selectedGridItemChanged?.DynamicInvoke(this, e);
+     }
+ }
+\ No newline at end of file
+-- 
+2.53.0.windows.2

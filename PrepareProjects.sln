@@ -81,6 +81,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D7319D5-CD89-414A-A0ED-922582376C27}"
 	ProjectSection(SolutionItems) = preProject
 		patches\0001-Modified-direct-event-invocation-to-OnXXX.patch = patches\0001-Modified-direct-event-invocation-to-OnXXX.patch
+		patches\0002-Added-events-on-propertygrid.patch = patches\0002-Added-events-on-propertygrid.patch
 	EndProjectSection
 EndProject
 Global
