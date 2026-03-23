@@ -27,7 +27,7 @@ public class FileUpdatesService
         var csprojDirectory = Path.GetDirectoryName(csprojPath);
 #pragma warning disable CS8604 // Possible null reference argument.
         var files = Directory.GetFiles(csprojDirectory, "*.cs",
-            SearchOption.AllDirectories);
+            SearchOption.AllDirectories).Where(f=>Path.GetFullPath(f).Contains("\\obj\\") || !f.StartsWith("obj\\")).ToArray();
 #pragma warning restore CS8604 // Possible null reference argument.
         items.CompareFiles(csprojDirectory, files);
 

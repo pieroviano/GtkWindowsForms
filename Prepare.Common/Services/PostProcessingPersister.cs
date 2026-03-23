@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Xml.Linq;
 using Prepare.Common.IO;
+using Prepare.Common.Logging;
 using Prepare.Common.Models;
 using Prepare.Common.Text;
 
@@ -9,7 +10,7 @@ namespace Prepare.Common.Services;
 internal class PostProcessingPersister
 {
     private readonly string _postProcessingPath = Path.GetFullPath(
-        Path.Combine(AppContext.BaseDirectory, @$"..\..\..\..\Resources{BackupUtility.LatestPostProcessing}"));
+        Path.Combine(AppContext.BaseDirectory, @$"..\..\..\..\Resources\{BackupUtility.LatestPostProcessing}"));
 
     public void PersistReplacements(IEnumerable<TextReplacement> replacements, FileItem fileItem)
     {
@@ -53,13 +54,20 @@ internal class PostProcessingPersister
             );
 
             var appSetting = (ConfigurationManager.AppSettings["ToExclude"] ?? string.Empty).Split('|');
-            if (!ItemExists(
+            if (!replacement.SourceFileName.StartsWith("obj\\") && !ItemExists(
                     root,
                     replacement.SourceFileName,
                     replacement.SourceString,
                     replacement.TargetString) && !appSetting.Any(i=>!string.IsNullOrEmpty(i) && replacement.TargetString.Contains(i)))
             {
-                ConsoleColor.White.Write($"Differences found for {replacement.SourceFileName}: {itemElement}", true);
+                try
+                {
+                    ConsoleColor.White.Write($"Differences found for {replacement.SourceFileName}: {itemElement}", true);
+                }
+                catch (Exception e)
+                {
+                    YellowConsole.Write(e.ToString());
+                }
                 root.Add(itemElement);
                 modified = true;
             }
