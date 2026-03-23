@@ -1,0 +1,25 @@
+From b7c3c5ce5175e5642bbabf2b0ca7efcf4f14e8fb Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Mon, 23 Mar 2026 04:23:37 +0200
+Subject: [PATCH] ''
+
+---
+ .../System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
+index 5b0fa8c9..520fbbd9 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
+@@ -926,7 +926,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
+     /// </summary>
+     protected override void OnCheckedChanged(EventArgs e)
+     {
+-        OnCheckedChanged(e);
++        CheckedChanged?.Invoke(this, e);
+     }
+ 
+     /// <summary>
+-- 
+2.53.0.windows.2
+
