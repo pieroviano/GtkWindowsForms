@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Imaging;
-using System.Threading;
 
 namespace System.Drawing;
 

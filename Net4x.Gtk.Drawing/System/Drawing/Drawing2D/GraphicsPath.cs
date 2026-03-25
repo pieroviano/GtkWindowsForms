@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Pango;
+﻿using System.Collections;
 
 namespace System.Drawing.Drawing2D;
 

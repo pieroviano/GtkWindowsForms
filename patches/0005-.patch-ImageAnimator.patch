@@ -1,7 +1,7 @@
 From 519b2166295f3254c4cfce7bcb427fef8d3ee8c2 Mon Sep 17 00:00:00 2001
 From: pviano-ria <pviano@riasolutionsgroup.ai>
 Date: Mon, 23 Mar 2026 05:14:40 +0200
-Subject: [PATCH] ''
+Subject: [PATCH] Fix ImageAnimator
 
 ---
  Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs | 6 +++---

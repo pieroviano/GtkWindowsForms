@@ -16669,6 +16669,11 @@
             Overhanging parts of glyphs, and unwrapped text reaching outside the formatting rectangle are allowed to show. By default all text and glyph parts reaching outside the formatting rectangle are clipped.
             </summary>
         </member>
+        <member name="F:System.Drawing.StringFormatFlags.None">
+            <summary>
+            The default value. The text is displayed and formatted in the default manner.
+            </summary>
+        </member>
         <member name="T:System.Drawing.StringTrimming">
             <summary>
             Specifies how to trim characters from a string that does not completely fit into a layout shape.

@@ -1,7 +1,5 @@
-using System.ComponentModel;
-using System.IO;
+﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using Gdk;
 
 namespace System.Drawing;
 

@@ -1,7 +1,5 @@
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 

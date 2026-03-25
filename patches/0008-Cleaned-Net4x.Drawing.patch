@@ -1,0 +1,473 @@
+From 7192db9fe56b8c041a67ce1ec408460c0015d77d Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Wed, 25 Mar 2026 02:39:58 +0200
+Subject: [PATCH] Cleaned Net4x.Drawing
+
+---
+ Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml       |  5 ++
+ .../System/Diagnostics/LogLevel.cs            |  4 +-
+ .../System/Drawing/CharacterRange.cs          |  4 +-
+ .../System/Drawing/ColorConverter.cs          |  3 +-
+ .../System/Drawing/ColorTable.cs              |  3 +-
+ .../System/Drawing/Drawing2D/Bitmap.cs        |  6 +-
+ .../Drawing2D/Enum/InterpolationMode.cs       |  4 +-
+ .../System/Drawing/Drawing2D/GraphicsPath.cs  |  4 +-
+ .../Drawing/Drawing2D/GtkImageConverter.cs    |  5 +-
+ .../System/Drawing/Drawing2D/Image.cs         |  4 +-
+ .../System/Drawing/Drawing2D/ImageAnimator.cs |  4 +-
+ .../Drawing/Drawing2D/ImageConverter.cs       |  3 +-
+ .../Drawing/Drawing2D/ImageFormatConverter.cs |  3 +-
+ Net4x.Gtk.Drawing/System/Drawing/Graphics.cs  |  1 -
+ Net4x.Gtk.Drawing/System/Drawing/Icon.cs      |  4 +-
+ .../Imaging/Drawing/Drawing2D/Metafile.cs     |  4 +-
+ .../Drawing/Drawing2D/SafeNativeMethods.cs    |  5 +-
+ .../System/Drawing/StringFormat.cs            | 88 +++++++------------
+ .../System/Drawing/StringFormatFlags.cs       |  8 +-
+ 19 files changed, 59 insertions(+), 103 deletions(-)
+
+diff --git a/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml b/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
+index 9a564e2b..ace9b4eb 100644
+--- a/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
++++ b/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
+@@ -16669,6 +16669,11 @@
+             Overhanging parts of glyphs, and unwrapped text reaching outside the formatting rectangle are allowed to show. By default all text and glyph parts reaching outside the formatting rectangle are clipped.
+             </summary>
+         </member>
++        <member name="F:System.Drawing.StringFormatFlags.None">
++            <summary>
++            The default value. The text is displayed and formatted in the default manner.
++            </summary>
++        </member>
+         <member name="T:System.Drawing.StringTrimming">
+             <summary>
+             Specifies how to trim characters from a string that does not completely fit into a layout shape.
+diff --git a/Net4x.Gtk.Drawing/System/Diagnostics/LogLevel.cs b/Net4x.Gtk.Drawing/System/Diagnostics/LogLevel.cs
+index fa17997e..b93e24a8 100644
+--- a/Net4x.Gtk.Drawing/System/Diagnostics/LogLevel.cs
++++ b/Net4x.Gtk.Drawing/System/Diagnostics/LogLevel.cs
+@@ -1,6 +1,4 @@
+-using System.Text;
+-
+-namespace System.Diagnostics;
++﻿namespace System.Diagnostics;
+ 
+ /// <summary>
+ /// Defines logging severity levels.
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs b/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs
+index 83ce9eda..0426f53a 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs
+@@ -1,4 +1,4 @@
+-//
++﻿//
+ // System.Windows.Drawing.CharacterRange.cs
+ //
+ // Authors:
+@@ -28,8 +28,6 @@
+ // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ //
+ 
+-using System;
+-
+ namespace System.Drawing;
+ 
+ /// <summary>
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs
+index acf69291..3df9082f 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs
+@@ -1,5 +1,4 @@
+-﻿using System;
+-using System.Collections;
++﻿using System.Collections;
+ using System.ComponentModel;
+ using System.ComponentModel.Design.Serialization;
+ using System.Globalization;
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs b/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs
+index f77ab751..49700234 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs
+@@ -1,7 +1,6 @@
+-// Licensed to the .NET Foundation under one or more agreements.
++﻿// Licensed to the .NET Foundation under one or more agreements.
+ // The .NET Foundation licenses this file to you under the MIT license.
+ 
+-using System.Collections.Generic;
+ using System.Reflection;
+ 
+ namespace System.Drawing;
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
+index 26429a57..362d998e 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
+@@ -1,11 +1,7 @@
+-using System.ComponentModel;
++﻿using System.ComponentModel;
+ using System.Drawing.Imaging;
+-using System.IO;
+ using System.Runtime.InteropServices;
+ using System.Runtime.Serialization;
+-using Cairo;
+-using Gdk;
+-using Pango;
+ 
+ namespace System.Drawing;
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs
+index 10925448..cfe56e56 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs
+@@ -1,6 +1,4 @@
+-using System;
+-
+-namespace System.Drawing.Drawing2D;
++﻿namespace System.Drawing.Drawing2D;
+ 
+ /// <summary>
+ /// The System.Drawing.Drawing2D.InterpolationMode enumeration specifies the algorithm
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+index ff0c6881..7991479b 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+@@ -1,6 +1,4 @@
+-using System.Collections;
+-using System.Collections.Generic;
+-using Pango;
++﻿using System.Collections;
+ 
+ namespace System.Drawing.Drawing2D;
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs
+index 0f904e8b..e8dd1451 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs
+@@ -1,9 +1,6 @@
+-using System.ComponentModel;
++﻿using System.ComponentModel;
+ using System.Diagnostics.CodeAnalysis;
+-using System.Drawing.Imaging;
+ using System.Globalization;
+-using System.Runtime.InteropServices;
+-using System.Runtime.Serialization;
+ 
+ namespace System.Drawing;
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
+index 6a1a68d1..3bb627fd 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
+@@ -1,7 +1,5 @@
+-using System.ComponentModel;
+-using System.Diagnostics.CodeAnalysis;
++﻿using System.ComponentModel;
+ using System.Drawing.Imaging;
+-using System.Globalization;
+ using System.Runtime.InteropServices;
+ using System.Runtime.Serialization;
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
+index 496f4193..445fe3e1 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
+@@ -1,8 +1,6 @@
+-﻿using System.Collections.Generic;
+-using System.Diagnostics;
++﻿using System.Diagnostics;
+ using System.Diagnostics.CodeAnalysis;
+ using System.Drawing.Imaging;
+-using System.Threading;
+ 
+ namespace System.Drawing;
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
+index 33298829..24e1f7b2 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
+@@ -1,9 +1,8 @@
+-using System.Buffers.Binary;
++﻿using System.Buffers.Binary;
+ using System.ComponentModel;
+ using System.Diagnostics.CodeAnalysis;
+ using System.Drawing.Imaging;
+ using System.Globalization;
+-using System.IO;
+ 
+ namespace System.Drawing;
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
+index 6626bd02..968fe478 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
+@@ -1,9 +1,8 @@
+-using System.ComponentModel;
++﻿using System.ComponentModel;
+ using System.ComponentModel.Design.Serialization;
+ using System.Diagnostics.CodeAnalysis;
+ using System.Drawing.Imaging;
+ using System.Globalization;
+-using System.Reflection;
+ 
+ namespace System.Drawing;
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+index 163418c4..dd574f11 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+@@ -4,7 +4,6 @@ using System.Drawing.Imaging;
+ using System.Drawing.Text;
+ using Cairo;
+ using Gdk;
+-using Pango;
+ 
+ namespace System.Drawing;
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
+index 923efba6..f9dc8b12 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
+@@ -1,7 +1,5 @@
+-using System.ComponentModel;
+-using System.IO;
++﻿using System.ComponentModel;
+ using System.Runtime.Serialization;
+-using Gdk;
+ 
+ namespace System.Drawing;
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
+index 548f361c..f4fede56 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
+@@ -1,6 +1,4 @@
+-using System.ComponentModel;
+-
+-using System.IO;
++﻿using System.ComponentModel;
+ using System.Runtime.CompilerServices;
+ using System.Runtime.InteropServices;
+ using System.Runtime.Serialization;
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs
+index 50c934f0..c9b857fd 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs
+@@ -1,7 +1,4 @@
+-using System.Runtime.CompilerServices;
+-using System.Runtime.InteropServices;
+-
+-namespace System.Drawing.Imaging;
++﻿namespace System.Drawing.Imaging;
+ 
+ internal static class SafeNativeMethods
+ {
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+index cd647d99..04298f37 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+@@ -1,4 +1,4 @@
+-using System.Drawing.Text;
++﻿using System.Drawing.Text;
+ 
+ namespace System.Drawing;
+ 
+@@ -10,6 +10,20 @@ namespace System.Drawing;
+ /// </filterpriority>
+ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+ {
++    private StringAlignment _alignment = StringAlignment.Near;
++    private StringAlignment _lineAlignment = StringAlignment.Near;
++    private StringFormatFlags _formatFlags = StringFormatFlags.None;
++    private StringTrimming _trimming = StringTrimming.Character;
++    private HotkeyPrefix _hotkeyPrefix = HotkeyPrefix.None;
++    private int _digitSubstitutionLanguage = 0;
++    private StringDigitSubstitute _digitSubstitutionMethod = StringDigitSubstitute.None;
++    private float _firstTabOffset = 0f;
++    private float[] _tabStops = new float[0];
++    private CharacterRange[] _measurableCharacterRanges = new CharacterRange[0];
++    private static readonly StringFormat _genericDefault = new StringFormat();
++    private static readonly StringFormat _genericTypographic = new StringFormat(StringFormatFlags.NoClip);
++
++    private bool _disposed = false;
+ 
+     /// <summary>
+     /// Initializes a new
+@@ -77,13 +91,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public StringAlignment Alignment
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
++        get { return _alignment; }
++        set { _alignment = value; }
+     }
+ 
+     /// <summary>
+@@ -102,10 +111,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public int DigitSubstitutionLanguage
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
++        get { return _digitSubstitutionLanguage; }
+     }
+ 
+     /// <summary>
+@@ -117,10 +123,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public StringDigitSubstitute DigitSubstitutionMethod
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
++        get { return _digitSubstitutionMethod; }
+     }
+ 
+     /// <summary>
+@@ -133,13 +136,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public StringFormatFlags FormatFlags
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
++        get { return _formatFlags; }
++        set { _formatFlags = value; }
+     }
+ 
+     /// <summary>
+@@ -152,10 +150,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public static StringFormat GenericDefault
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
++        get { return _genericDefault; }
+     }
+ 
+     /// <summary>
+@@ -168,10 +163,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public static StringFormat GenericTypographic
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
++        get { return _genericTypographic; }
+     }
+ 
+     /// <summary>
+@@ -187,13 +179,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public HotkeyPrefix HotkeyPrefix
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
++        get { return _hotkeyPrefix; }
++        set { _hotkeyPrefix = value; }
+     }
+ 
+     /// <summary>
+@@ -205,13 +192,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public StringAlignment LineAlignment
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
++        get { return _lineAlignment; }
++        set { _lineAlignment = value; }
+     }
+ 
+     /// <summary>
+@@ -226,13 +208,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public StringTrimming Trimming
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
++        get { return _trimming; }
++        set { _trimming = value; }
+     }
+ 
+     /// <summary>
+@@ -245,7 +222,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public object Clone()
+     {
+-        throw new System.NotImplementedException();
++        return new StringFormat(this);
+     }
+ 
+     /// <summary>
+@@ -268,7 +245,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public float[] GetTabStops(out float firstTabOffset)
+     {
+-        throw new System.NotImplementedException();
++        firstTabOffset = _firstTabOffset;
++        return (float[])_tabStops.Clone();
+     }
+ 
+     /// <summary>
+@@ -335,6 +313,6 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public override string ToString()
+     {
+-        throw new System.NotImplementedException();
++        return $"StringFormat(Alignment={_alignment}, LineAlignment={_lineAlignment}, Flags={_formatFlags}, Trimming={_trimming}, HotkeyPrefix={_hotkeyPrefix}, DigitSubstitutionLanguage={_digitSubstitutionLanguage}, DigitSubstitutionMethod={_digitSubstitutionMethod}, TabStops=[{string.Join(",", _tabStops)}], FirstTabOffset={_firstTabOffset})";
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs b/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs
+index 419b4c53..8e3934d7 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs
+@@ -1,4 +1,4 @@
+-namespace System.Drawing;
++﻿namespace System.Drawing;
+ 
+ /// <summary>
+ /// Specifies the display and layout information for text strings.
+@@ -45,5 +45,9 @@ public enum StringFormatFlags
+     /// <summary>
+     /// Overhanging parts of glyphs, and unwrapped text reaching outside the formatting rectangle are allowed to show. By default all text and glyph parts reaching outside the formatting rectangle are clipped.
+     /// </summary>
+-    NoClip = 0x4000
++    NoClip = 0x4000,
++    /// <summary>
++    /// The default value. The text is displayed and formatted in the default manner.
++    /// </summary>
++    None
+ }
+\ No newline at end of file
+-- 
+2.53.0.windows.2
+

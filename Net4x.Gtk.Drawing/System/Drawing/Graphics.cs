@@ -4,7 +4,6 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using Cairo;
 using Gdk;
-using Pango;
 
 namespace System.Drawing;
 

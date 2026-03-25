@@ -1,4 +1,4 @@
-using System.Drawing.Text;
+﻿using System.Drawing.Text;
 
 namespace System.Drawing;
 
@@ -10,6 +10,20 @@ namespace System.Drawing;
 /// </filterpriority>
 public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
 {
+    private StringAlignment _alignment = StringAlignment.Near;
+    private StringAlignment _lineAlignment = StringAlignment.Near;
+    private StringFormatFlags _formatFlags = StringFormatFlags.None;
+    private StringTrimming _trimming = StringTrimming.Character;
+    private HotkeyPrefix _hotkeyPrefix = HotkeyPrefix.None;
+    private int _digitSubstitutionLanguage = 0;
+    private StringDigitSubstitute _digitSubstitutionMethod = StringDigitSubstitute.None;
+    private float _firstTabOffset = 0f;
+    private float[] _tabStops = new float[0];
+    private CharacterRange[] _measurableCharacterRanges = new CharacterRange[0];
+    private static readonly StringFormat _genericDefault = new StringFormat();
+    private static readonly StringFormat _genericTypographic = new StringFormat(StringFormatFlags.NoClip);
+
+    private bool _disposed = false;
 
     /// <summary>
     /// Initializes a new
@@ -77,13 +91,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public StringAlignment Alignment
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get { return _alignment; }
+        set { _alignment = value; }
     }
 
     /// <summary>
@@ -102,10 +111,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public int DigitSubstitutionLanguage
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
+        get { return _digitSubstitutionLanguage; }
     }
 
     /// <summary>
@@ -117,10 +123,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public StringDigitSubstitute DigitSubstitutionMethod
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
+        get { return _digitSubstitutionMethod; }
     }
 
     /// <summary>
@@ -133,13 +136,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public StringFormatFlags FormatFlags
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get { return _formatFlags; }
+        set { _formatFlags = value; }
     }
 
     /// <summary>
@@ -152,10 +150,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public static StringFormat GenericDefault
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
+        get { return _genericDefault; }
     }
 
     /// <summary>
@@ -168,10 +163,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public static StringFormat GenericTypographic
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
+        get { return _genericTypographic; }
     }
 
     /// <summary>
@@ -187,13 +179,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public HotkeyPrefix HotkeyPrefix
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get { return _hotkeyPrefix; }
+        set { _hotkeyPrefix = value; }
     }
 
     /// <summary>
@@ -205,13 +192,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public StringAlignment LineAlignment
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get { return _lineAlignment; }
+        set { _lineAlignment = value; }
     }
 
     /// <summary>
@@ -226,13 +208,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public StringTrimming Trimming
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get { return _trimming; }
+        set { _trimming = value; }
     }
 
     /// <summary>
@@ -245,7 +222,7 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public object Clone()
     {
-        throw new System.NotImplementedException();
+        return new StringFormat(this);
     }
 
     /// <summary>
@@ -268,7 +245,8 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public float[] GetTabStops(out float firstTabOffset)
     {
-        throw new System.NotImplementedException();
+        firstTabOffset = _firstTabOffset;
+        return (float[])_tabStops.Clone();
     }
 
     /// <summary>
@@ -335,6 +313,6 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public override string ToString()
     {
-        throw new System.NotImplementedException();
+        return $"StringFormat(Alignment={_alignment}, LineAlignment={_lineAlignment}, Flags={_formatFlags}, Trimming={_trimming}, HotkeyPrefix={_hotkeyPrefix}, DigitSubstitutionLanguage={_digitSubstitutionLanguage}, DigitSubstitutionMethod={_digitSubstitutionMethod}, TabStops=[{string.Join(",", _tabStops)}], FirstTabOffset={_firstTabOffset})";
     }
 }

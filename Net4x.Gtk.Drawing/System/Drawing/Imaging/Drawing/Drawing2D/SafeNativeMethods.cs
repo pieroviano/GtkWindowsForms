@@ -1,7 +1,4 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-
-namespace System.Drawing.Imaging;
+﻿namespace System.Drawing.Imaging;
 
 internal static class SafeNativeMethods
 {
