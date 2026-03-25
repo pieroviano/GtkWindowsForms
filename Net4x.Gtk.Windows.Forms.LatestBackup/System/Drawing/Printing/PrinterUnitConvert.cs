@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
@@ -35,18 +35,18 @@ public sealed class PrinterUnitConvert
     /// Converts the value, in fromUnit units, to toUnit units.
     /// </summary>
     public static Point Convert(Point value, PrinterUnit fromUnit, PrinterUnit toUnit) =>
-        new Point(Convert(value.X, fromUnit, toUnit), Convert(value.Y, fromUnit, toUnit));
+        new(Convert(value.X, fromUnit, toUnit), Convert(value.Y, fromUnit, toUnit));
 
     /// <summary>
     /// Converts the value, in fromUnit units, to toUnit units.
     /// </summary>
     public static Size Convert(Size value, PrinterUnit fromUnit, PrinterUnit toUnit) =>
-        new Size(Convert(value.Width, fromUnit, toUnit), Convert(value.Height, fromUnit, toUnit));
+        new(Convert(value.Width, fromUnit, toUnit), Convert(value.Height, fromUnit, toUnit));
 
     /// <summary>
     /// Converts the value, in fromUnit units, to toUnit units.
     /// </summary>
-    public static Rectangle Convert(Rectangle value, PrinterUnit fromUnit, PrinterUnit toUnit) => new Rectangle(
+    public static Rectangle Convert(Rectangle value, PrinterUnit fromUnit, PrinterUnit toUnit) => new(
         Convert(value.X, fromUnit, toUnit),
         Convert(value.Y, fromUnit, toUnit),
         Convert(value.Width, fromUnit, toUnit),
@@ -55,7 +55,7 @@ public sealed class PrinterUnitConvert
     /// <summary>
     /// Converts the value, in fromUnit units, to toUnit units.
     /// </summary>
-    public static Margins Convert(Margins value, PrinterUnit fromUnit, PrinterUnit toUnit) => new Margins()
+    public static Margins Convert(Margins value, PrinterUnit fromUnit, PrinterUnit toUnit) => new()
     {
         DoubleLeft = Convert(value.DoubleLeft, fromUnit, toUnit),
         DoubleRight = Convert(value.DoubleRight, fromUnit, toUnit),

@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace System.Windows.Forms;
 
@@ -19,7 +19,7 @@ public class ToolStripDropDown : ToolStripItem
     /// The self
     /// </summary>
     //public readonly ToolStripDropDownBase self = new ToolStripDropDownBase();
-    public readonly Gtk.Menu self = new Gtk.Menu();
+    public readonly Gtk.Menu self = new();
 
     /// <summary>
     /// Initializes a new instance of the

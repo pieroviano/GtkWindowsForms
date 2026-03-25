@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Resources;
 
 namespace GtkSystem.Resources.Extensions;
@@ -21,9 +19,9 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
     {
         if (reader == null)
         {
-            throw new ArgumentNullException("reader");
+            throw new ArgumentNullException(nameof(reader));
         }
-        _defaultReader = (reader as DeserializingResourceReader) ?? throw new ArgumentException(SystemResources.Format(SR.NotSupported_WrongResourceReader_Type, reader.GetType()), "reader");
+        _defaultReader = (reader as DeserializingResourceReader) ?? throw new ArgumentException(SystemResources.Format(SR.NotSupported_WrongResourceReader_Type, reader.GetType()), nameof(reader));
         _resCache = new Dictionary<string, ResourceLocator>(FastResourceComparer.Default);
         _defaultReader._resCache = _resCache;
     }
@@ -105,7 +103,7 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
     {
         if (key == null)
         {
-            throw new ArgumentNullException("key");
+            throw new ArgumentNullException(nameof(key));
         }
         if (Reader == null || _resCache == null)
         {
@@ -181,13 +179,13 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
                 }
                 else
                 {
-                    DeserializingResourceReader.ResourceEnumerator enumeratorInternal = _defaultReader.GetEnumeratorInternal();
-                    while (enumeratorInternal.MoveNext())
+                    var enumerator = _defaultReader.GetEnumeratorInternal();
+                    while (enumerator.MoveNext())
                     {
-                        var key3 = (string)enumeratorInternal.Key;
-                        int dataPosition = enumeratorInternal.DataPosition;
-                        var value3 = new ResourceLocator(dataPosition, null);
-                        _caseInsensitiveTable.Add(key3, value3);
+                        var enumeratorKey = (string)enumerator.Key;
+                        var dataPosition = enumerator.DataPosition;
+                        var resourceLocator = new ResourceLocator(dataPosition, null);
+                        _caseInsensitiveTable.Add(enumeratorKey, resourceLocator);
                     }
                 }
                 _haveReadFromReader = true;
@@ -212,7 +210,7 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
 
     private object ResolveResourceLocator(ResourceLocator resLocation, string key, Dictionary<string, ResourceLocator> copyOfCache, bool keyInWrongCase)
     {
-        object obj = resLocation.Value;
+        var obj = resLocation.Value;
         if (obj == null)
         {
             ResourceTypeCode typeCode;

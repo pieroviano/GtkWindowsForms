@@ -1,5 +1,4 @@
-using System.Drawing;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -57,11 +56,7 @@ public class GtkMenuItem : Gtk.MenuItem
         }
     }
 
-    internal Gtk.Image DefaultImage
-    {
-        get;
-        set;
-    } = new Gtk.Image("image-missing", Gtk.IconSize.SmallToolbar);
+    internal Gtk.Image DefaultImage { get; set; } = new("image-missing", Gtk.IconSize.SmallToolbar);
 
     [GLib.Property("Image")]
     internal Gtk.Widget IcoImage

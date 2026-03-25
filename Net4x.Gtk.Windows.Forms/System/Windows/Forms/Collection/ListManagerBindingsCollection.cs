@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace System.Windows.Forms;
 
@@ -16,7 +16,7 @@ internal class ListManagerBindingsCollection : BindingsCollection
     {
         if (dataBinding == null)
         {
-            throw new ArgumentNullException("dataBinding");
+            throw new ArgumentNullException(nameof(dataBinding));
         }
         if (dataBinding.BindingManagerBase == _bindingManagerBase)
         {

@@ -4,11 +4,8 @@
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
-using Atk;
-using Gdk;
-using GLib;
+
 using Gtk;
-using Pango;
 
 namespace System.Windows.Forms.GtkRender;
 

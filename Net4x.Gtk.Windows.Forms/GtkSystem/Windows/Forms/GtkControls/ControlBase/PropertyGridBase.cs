@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -17,16 +17,16 @@ public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
     /// <summary>
     /// The child1
     /// </summary>
-    public Gtk.ScrolledWindow child1 = new Gtk.ScrolledWindow();
+    public Gtk.ScrolledWindow child1 = new();
 
     /// <summary>
     /// The child2
     /// </summary>
-    public Gtk.Box child2 = new Gtk.Box(Gtk.Orientation.Vertical,2);
+    public Gtk.Box child2 = new(Gtk.Orientation.Vertical,2);
 
-    readonly Gtk.Label descriptionLabel = new Gtk.Label("description") { Xalign = 0, Yalign = 0 };
+    readonly Gtk.Label descriptionLabel = new("description") { Xalign = 0, Yalign = 0 };
 
-    readonly Gtk.Label titleLabel = new Gtk.Label("name") { Xalign = 0, Yalign = 0 };
+    readonly Gtk.Label titleLabel = new("name") { Xalign = 0, Yalign = 0 };
 
     /// <summary>
     /// Initializes a new instance of the

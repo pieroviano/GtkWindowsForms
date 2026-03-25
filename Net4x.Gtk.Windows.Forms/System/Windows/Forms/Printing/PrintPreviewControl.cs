@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -21,7 +21,7 @@ public partial class PrintPreviewControl : Control
     /// <summary>
     /// The self
     /// </summary>
-    public readonly ViewportBase self = new ViewportBase();
+    public readonly ViewportBase self = new();
 
     private bool _autoZoom = true;
 
@@ -45,7 +45,7 @@ public partial class PrintPreviewControl : Control
 
     private const double pxscale = 0.75;
 
-    private static readonly object s_startPageChangedEvent = new object();
+    private static readonly object s_startPageChangedEvent = new();
 
     private readonly Gtk.ScrolledWindow scroll;
 
@@ -332,7 +332,7 @@ public partial class PrintPreviewControl : Control
     {
         if (_document != null)
         {
-            PageSetup setup = _document.PageSetup;
+            var setup = _document.PageSetup;
             _document.OnBeginPrint(new PrintEventArgs());
             var cr = args.Cr;
             var top = (int)Math.Round(setup.GetTopMargin(Unit.Points) / pxscale, 0);

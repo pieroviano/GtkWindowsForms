@@ -648,7 +648,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual Rectangle Bounds
     {
-        get => new Rectangle(Widget.Clip.X, this.Widget.Clip.Y, this.Widget.Clip.Width, this.Widget.Clip.Height);
+        get => new(Widget.Clip.X, this.Widget.Clip.Y, this.Widget.Clip.Width, this.Widget.Clip.Height);
         set { SetBounds(value.X, value.Y, value.Width, value.Height); }
     }
 
@@ -692,7 +692,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            Gdk.Rectangle allocation = this.Widget.Allocation;
+            var allocation = this.Widget.Allocation;
 
             return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height);
         }
@@ -2031,7 +2031,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (Widget != null)
         {
-            this.Widget.Window.GetOrigin(out int x, out int y);
+            this.Widget.Window.GetOrigin(out var x, out var y);
             if (p.X > x && p.Y > y)
                 return new Point(p.X - x, p.Y - y);
         }
@@ -2052,7 +2052,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (Widget != null)
         {
-            this.Widget.Window.GetOrigin(out int x, out int y);
+            this.Widget.Window.GetOrigin(out var x, out var y);
             if (p.X < x && p.Y < y)
                 return new Point(p.X + x, p.Y + y);
         }
@@ -2101,7 +2101,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (Widget != null)
         {
-            this.Widget.Window.GetPosition(out int x, out int y);
+            this.Widget.Window.GetPosition(out var x, out var y);
             if (r.X > x && r.Y > y)
                 return new Rectangle(r.X - x, r.Y - y, r.Width, r.Height);
         }
@@ -2122,7 +2122,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (Widget != null)
         {
-            this.Widget.Window.GetPosition(out int x, out int y);
+            this.Widget.Window.GetPosition(out var x, out var y);
             if (r.X < x && r.Y < y)
                 return new Rectangle(r.X + x, r.Y + y, r.Width, r.Height);
         }
@@ -2361,7 +2361,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (this.Widget != null)
         {
-            Gdk.Rectangle rect = this.Widget.Clip;
+            var rect = this.Widget.Clip;
             if (specified == BoundsSpecified.X)
                 rect.X = x;
             else if (specified == BoundsSpecified.Y)
@@ -3427,7 +3427,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private void Override_PaintGraphics(object sender, PaintGraphicsEventArgs e)
     {
-        Cairo.Context cr = e.Context;
+        var cr = e.Context;
         if (surface != null)
         {
             cr.Save();
@@ -3478,7 +3478,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (o is Gtk.Widget owidget && owidget.Window != null)
         {
-            MouseButtons result = MouseButtons.None;
+            var result = MouseButtons.None;
             if (args.Event.Button == 1)
                 result = MouseButtons.Left;
             else if (args.Event.Button == 2)
@@ -3486,7 +3486,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             else if (args.Event.Button == 3)
                 result = MouseButtons.Right;
 
-            owidget.Window.GetOrigin(out int x, out int y);// avoid event penetration errors
+            owidget.Window.GetOrigin(out var x, out var y);// avoid event penetration errors
             var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
             OnMouseDown(mouseArgs);
         }
@@ -3496,14 +3496,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (o is Gtk.Widget owidget && owidget.Window != null)
         {
-            MouseButtons result = MouseButtons.None;
+            var result = MouseButtons.None;
             if (args.Event.Button == 1)
                 result = MouseButtons.Left;
             else if (args.Event.Button == 2)
                 result = MouseButtons.Middle;
             else if (args.Event.Button == 3)
                 result = MouseButtons.Right;
-            owidget.Window.GetOrigin(out int x, out int y);
+            owidget.Window.GetOrigin(out var x, out var y);
             var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
             OnMouseUp(mouseArgs);
 
@@ -3609,7 +3609,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (o is Gtk.Widget owidget && owidget.Window != null)
         {
-            MouseButtons result = MouseButtons.None;
+            var result = MouseButtons.None;
             // Console.WriteLine(args.Event.State);
             if (args.Event.State.HasFlag(Gdk.ModifierType.Button1Mask))
                 result = MouseButtons.Left;
@@ -3617,7 +3617,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 result = MouseButtons.Middle;
             else if (args.Event.State.HasFlag(Gdk.ModifierType.Button3Mask))
                 result = MouseButtons.Right;
-            owidget.Window.GetOrigin(out int x, out int y);
+            owidget.Window.GetOrigin(out var x, out var y);
             var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 1);
             OnMouseMove(mouseArgs);
         }

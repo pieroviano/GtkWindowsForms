@@ -5,7 +5,6 @@
 
 using System.ComponentModel;
 using System.Reflection;
-using System.Resources;
 
 namespace System.Resources
 {

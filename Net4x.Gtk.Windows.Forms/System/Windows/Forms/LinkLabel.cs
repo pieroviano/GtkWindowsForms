@@ -20,7 +20,7 @@ public partial class LinkLabel : Control
     /// <summary>
     /// The self
     /// </summary>
-    public readonly LinkLabelBase self = new LinkLabelBase();
+    public readonly LinkLabelBase self = new();
 
     /// <summary>
     /// Occurs when the control is clicked.

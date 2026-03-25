@@ -1,11 +1,10 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
 using System.ComponentModel;
-using GLib;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -20,7 +19,7 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// The self
     /// </summary>
-    public readonly RichTextBoxBase self = new RichTextBoxBase();
+    public readonly RichTextBoxBase self = new();
 
     /// <summary>
     /// Occurs when the Text property value changes.
@@ -98,7 +97,7 @@ public partial class RichTextBox : ScrollableControl
     {
         get
         {
-            self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end);
+            self.TextView.Buffer.GetSelectionBounds(out var start, out var end);
 
             return end.Offset - start.Offset;
         }
@@ -118,7 +117,7 @@ public partial class RichTextBox : ScrollableControl
     {
         get
         {
-            self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end);
+            self.TextView.Buffer.GetSelectionBounds(out var start, out var end);
 
             return start.Offset;
         }
@@ -172,8 +171,8 @@ public partial class RichTextBox : ScrollableControl
     /// </param>
     public void Select(int start, int length)
     {
-        TextIter startiter = self.TextView.Buffer.GetIterAtOffset(start);
-        TextIter enditer = self.TextView.Buffer.GetIterAtOffset(start + length);
+        var startiter = self.TextView.Buffer.GetIterAtOffset(start);
+        var enditer = self.TextView.Buffer.GetIterAtOffset(start + length);
         self.TextView.Buffer.SelectRange(startiter, enditer);
     }
 

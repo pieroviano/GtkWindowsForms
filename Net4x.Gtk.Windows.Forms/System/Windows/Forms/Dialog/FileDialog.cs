@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -6,8 +6,6 @@
  */
 
 using System.ComponentModel;
-using Cairo;
-using GLib;
 
 namespace System.Windows.Forms;
 
@@ -19,7 +17,7 @@ public abstract class FileDialog : CommonDialog
 
     private string _filter;
 
-    static readonly Dictionary<string, string> MimeMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    static readonly Dictionary<string, string> MimeMapping = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// Occurs when file ok.
@@ -545,7 +543,7 @@ public abstract class FileDialog : CommonDialog
                 {
                     throw new ArgumentException("FileDialog Invalid Filter", value);
                 }
-                for (int i = 1; i < pipeCount; i += 2)
+                for (var i = 1; i < pipeCount; i += 2)
                 {
                     if (filters[i].Split('.').Length == 1)
                     {
@@ -754,10 +752,10 @@ public abstract class FileDialog : CommonDialog
         if (_filter != null)
         {
             var filters = _filter.Split('|');
-            for (int i = 1; i < filters.Length; i += 2)
+            for (var i = 1; i < filters.Length; i += 2)
             {
                 var patterns = filters[i].Split(';');
-                foreach (string pattern in patterns)
+                foreach (var pattern in patterns)
                 {
                     var ffilter = new Gtk.FileFilter();
                     var extand = pattern.TrimStart(new char[] { '*', ' ' });
@@ -775,7 +773,7 @@ public abstract class FileDialog : CommonDialog
                 }
             }
         }
-        int response = fileDialog.Run();
+        var response = fileDialog.Run();
         this.FileName = fileDialog.Filename;
         this.FileNames = fileDialog.Filenames.Clone() as string[];
         this.SelectedDirectory = fileDialog.Filename;

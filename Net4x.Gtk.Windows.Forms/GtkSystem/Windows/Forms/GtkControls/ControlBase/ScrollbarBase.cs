@@ -1,4 +1,3 @@
-using System;
 using GLib;
 using Gtk;
 

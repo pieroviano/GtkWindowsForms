@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -7,10 +7,8 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -51,7 +49,7 @@ public sealed class ResXDataNode : ISerializable
     private object _value;
 
     // this is going to be used to check if a ResXDataNode is of type ResXFileRef
-    private static readonly ITypeResolutionService s_internalTypeResolver = new AssemblyNamesTypeResolutionService(new AssemblyName[] { new AssemblyName("System.Windows.Forms") });
+    private static readonly ITypeResolutionService s_internalTypeResolver = new AssemblyNamesTypeResolutionService(new AssemblyName[] { new("System.Windows.Forms") });
 
     private static readonly char[] s_specialChars = new char[] { ' ', '\r', '\n' };
 
@@ -293,7 +291,7 @@ public sealed class ResXDataNode : ISerializable
                     FileRefTextEncoding != null
                         ? new ResXFileRef(FileRefFullPath, FileRefType, Encoding.GetEncoding(FileRefTextEncoding))
                         : new ResXFileRef(FileRefFullPath, FileRefType);
-                TypeConverter tc = TypeDescriptor.GetConverter(typeof(ResXFileRef));
+                var tc = TypeDescriptor.GetConverter(typeof(ResXFileRef));
                 result = tc.ConvertFrom(_fileRef.ToString());
             }
             else
@@ -510,9 +508,9 @@ public sealed class ResXDataNode : ISerializable
                 throw new InvalidOperationException(string.Format("SR.NotSerializableType,{0},{1}", _name, valueType.FullName));
             }
 
-            TypeConverter tc = TypeDescriptor.GetConverter(valueType);
-            bool toString = tc.CanConvertTo(typeof(string));
-            bool fromString = tc.CanConvertFrom(typeof(string));
+            var tc = TypeDescriptor.GetConverter(valueType);
+            var toString = tc.CanConvertTo(typeof(string));
+            var fromString = tc.CanConvertFrom(typeof(string));
             try
             {
                 if (toString && fromString)
@@ -534,8 +532,8 @@ public sealed class ResXDataNode : ISerializable
                 }
             }
 
-            bool toByteArray = tc.CanConvertTo(typeof(byte[]));
-            bool fromByteArray = tc.CanConvertFrom(typeof(byte[]));
+            var toByteArray = tc.CanConvertTo(typeof(byte[]));
+            var fromByteArray = tc.CanConvertFrom(typeof(byte[]));
             if (toByteArray && fromByteArray)
             {
                 var data = (byte[])tc.ConvertTo(value, typeof(byte[]));
@@ -557,7 +555,7 @@ public sealed class ResXDataNode : ISerializable
                     _binaryFormatter = new DataContractSerializer(typeof(ResXNullRef));
                 }
 
-                using (MemoryStream ms = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
                     _binaryFormatter.WriteObject(ms, value);
@@ -598,9 +596,9 @@ public sealed class ResXDataNode : ISerializable
     private object GenerateObjectFromDataNodeInfo(DataNodeInfo dataNodeInfo, ITypeResolutionService typeResolver)
     {
         object result = null;
-        string mimeTypeName = dataNodeInfo.MimeType;
+        var mimeTypeName = dataNodeInfo.MimeType;
         // default behavior: if we don't have a type name, it's a string
-        string typeName =
+        var typeName =
             string.IsNullOrEmpty(dataNodeInfo.TypeName)
                 ? MultitargetUtil.GetAssemblyQualifiedName(typeof(string), _typeNameConverter)
                 : dataNodeInfo.TypeName;
@@ -609,7 +607,7 @@ public sealed class ResXDataNode : ISerializable
         {
             if (string.Equals(mimeTypeName, ResXResourceWriter.BinSerializedObjectMimeType))
             {
-                string text = dataNodeInfo.ValueData;
+                var text = dataNodeInfo.ValueData;
                 var serializedData = FromBase64WrappedString(text);
 
                 if (_binaryFormatter is null)
@@ -635,10 +633,10 @@ public sealed class ResXDataNode : ISerializable
                     var type = ResolveType(typeName, typeResolver);
                     if (type != null)
                     {
-                        TypeConverter tc = TypeDescriptor.GetConverter(type);
+                        var tc = TypeDescriptor.GetConverter(type);
                         if (tc.CanConvertFrom(typeof(byte[])))
                         {
-                            string text = dataNodeInfo.ValueData;
+                            var text = dataNodeInfo.ValueData;
                             var serializedData = FromBase64WrappedString(text);
 
                             if (serializedData != null)
@@ -677,10 +675,10 @@ public sealed class ResXDataNode : ISerializable
                 }
                 else
                 {
-                    TypeConverter tc = TypeDescriptor.GetConverter(type);
+                    var tc = TypeDescriptor.GetConverter(type);
                     if (tc.CanConvertFrom(typeof(string)))
                     {
-                        string text = dataNodeInfo.ValueData;
+                        var text = dataNodeInfo.ValueData;
                         try
                         {
                             result = tc.ConvertFromInvariantString(text);
@@ -732,7 +730,7 @@ public sealed class ResXDataNode : ISerializable
         if (nodeType != null && nodeType.Equals(typeof(ResXFileRef)))
         {
             // we have a fileref, split the value data and populate the fields
-            string[] fileRefDetails = ResXFileRef.Converter.ParseResxFileRefString(_nodeInfo.ValueData);
+            var fileRefDetails = ResXFileRef.Converter.ParseResxFileRefString(_nodeInfo.ValueData);
             if (fileRefDetails != null && fileRefDetails.Length > 1)
             {
                 if (!Path.IsPathRooted(fileRefDetails[0]) && basePath != null)

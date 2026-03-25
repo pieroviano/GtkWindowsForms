@@ -1,8 +1,7 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
-using System.Drawing;
 
 namespace System.Windows.Forms;
 
@@ -24,7 +23,7 @@ public sealed partial class ImageList
 
         private const int InitialCapacity = 4;
 
-        private static readonly object s_syncLock = new object();
+        private static readonly object s_syncLock = new();
 
         //private NativeImageList(HIMAGELIST himl)
         //{

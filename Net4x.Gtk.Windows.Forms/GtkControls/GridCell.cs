@@ -1,6 +1,3 @@
-using System;
-using GLib;
-
 namespace GtkControls;
 
 internal class GridCell

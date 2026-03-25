@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
+﻿using System.ComponentModel;
 using System.Resources;
 using System.Text;
 
@@ -123,7 +120,7 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (fileName == null)
         {
-            throw new ArgumentNullException("fileName");
+            throw new ArgumentNullException(nameof(fileName));
         }
         _output = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
         _resourceList = new SortedDictionary<string, object>(FastResourceComparer.Default);
@@ -146,7 +143,7 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (stream == null)
         {
-            throw new ArgumentNullException("stream");
+            throw new ArgumentNullException(nameof(stream));
         }
         if (!stream.CanWrite)
         {
@@ -214,15 +211,15 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (name == null)
         {
-            throw new ArgumentNullException("name");
+            throw new ArgumentNullException(nameof(name));
         }
         if (value == null)
         {
-            throw new ArgumentNullException("value");
+            throw new ArgumentNullException(nameof(value));
         }
         if (typeName == null)
         {
-            throw new ArgumentNullException("typeName");
+            throw new ArgumentNullException(nameof(typeName));
         }
         if (!value.CanSeek)
         {
@@ -253,11 +250,11 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (name == null)
         {
-            throw new ArgumentNullException("name");
+            throw new ArgumentNullException(nameof(name));
         }
         if (value == null)
         {
-            throw new ArgumentNullException("value");
+            throw new ArgumentNullException(nameof(value));
         }
         if (typeName == null)
         {
@@ -287,7 +284,7 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (name == null)
         {
-            throw new ArgumentNullException("name");
+            throw new ArgumentNullException(nameof(name));
         }
         if (_resourceList == null)
         {
@@ -317,7 +314,7 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (name == null)
         {
-            throw new ArgumentNullException("name");
+            throw new ArgumentNullException(nameof(name));
         }
         if (_resourceList == null)
         {
@@ -356,7 +353,7 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (name == null)
         {
-            throw new ArgumentNullException("name");
+            throw new ArgumentNullException(nameof(name));
         }
         if (_resourceList == null)
         {
@@ -383,7 +380,7 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (name == null)
         {
-            throw new ArgumentNullException("name");
+            throw new ArgumentNullException(nameof(name));
         }
         if (_resourceList == null)
         {
@@ -418,15 +415,15 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (name == null)
         {
-            throw new ArgumentNullException("name");
+            throw new ArgumentNullException(nameof(name));
         }
         if (value == null)
         {
-            throw new ArgumentNullException("value");
+            throw new ArgumentNullException(nameof(value));
         }
         if (typeName == null)
         {
-            throw new ArgumentNullException("typeName");
+            throw new ArgumentNullException(nameof(typeName));
         }
         if (s_primitiveTypes.TryGetValue(typeName, out var value2))
         {
@@ -435,8 +432,8 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                 AddResource(name, value);
                 return;
             }
-            TypeConverter converter = TypeDescriptor.GetConverter(value2) ?? throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, value2));
-            object value3 = converter.ConvertFromInvariantString(value);
+            var converter = TypeDescriptor.GetConverter(value2) ?? throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, value2));
+            var value3 = converter.ConvertFromInvariantString(value);
             AddResource(name, value3);
         }
         else
@@ -469,15 +466,15 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
     {
         if (name == null)
         {
-            throw new ArgumentNullException("name");
+            throw new ArgumentNullException(nameof(name));
         }
         if (value == null)
         {
-            throw new ArgumentNullException("value");
+            throw new ArgumentNullException(nameof(value));
         }
         if (typeName == null)
         {
-            throw new ArgumentNullException("typeName");
+            throw new ArgumentNullException(nameof(typeName));
         }
         AddResourceData(name, typeName, new ResourceDataRecord(SerializationFormat.TypeConverterByteArray, value));
         _requiresDeserializingResourceReader = true;
@@ -517,94 +514,94 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
         binaryWriter.Write(ResourceManager.MagicNumber);
         binaryWriter.Write(ResourceManager.HeaderVersionNumber);
         var memoryStream = new MemoryStream(240);
-        var binaryWriter2 = new BinaryWriter(memoryStream);
-        binaryWriter2.Write(ResourceReaderTypeName);
-        binaryWriter2.Write(ResourceSetTypeName);
-        binaryWriter2.Flush();
+        var writer = new BinaryWriter(memoryStream);
+        writer.Write(ResourceReaderTypeName);
+        writer.Write(ResourceSetTypeName);
+        writer.Flush();
         binaryWriter.Write((int)memoryStream.Length);
         memoryStream.Seek(0L, SeekOrigin.Begin);
         memoryStream.CopyTo(binaryWriter.BaseStream, (int)memoryStream.Length);
         binaryWriter.Write(2);
-        int num = _resourceList.Count;
+        var num = _resourceList.Count;
         if (_preserializedData != null)
         {
             num += _preserializedData.Count;
         }
         binaryWriter.Write(num);
         var array = new int[num];
-        var array2 = new int[num];
-        var num2 = 0;
-        var memoryStream2 = new MemoryStream(num * 40);
-        var binaryWriter3 = new BinaryWriter(memoryStream2, Encoding.Unicode);
+        var items = new int[num];
+        var j = 0;
+        var otherMemoryStream = new MemoryStream(num * 40);
+        var otherWriter = new BinaryWriter(otherMemoryStream, Encoding.Unicode);
         Stream stream = new MemoryStream();
         using (stream)
         {
-            var binaryWriter4 = new BinaryWriter(stream, Encoding.UTF8);
+            var yetOtherWriter = new BinaryWriter(stream, Encoding.UTF8);
             if (_preserializedData != null)
             {
-                foreach (KeyValuePair<string, PrecannedResource> preserializedDatum in _preserializedData)
+                foreach (var preserializedDatum in _preserializedData)
                 {
                     _resourceList.Add(preserializedDatum.Key, preserializedDatum.Value);
                 }
             }
-            foreach (KeyValuePair<string, object> resource in _resourceList)
+            foreach (var resource in _resourceList)
             {
-                array[num2] = FastResourceComparer.HashFunction(resource.Key);
-                array2[num2++] = (int)binaryWriter3.Seek(0, SeekOrigin.Current);
-                binaryWriter3.Write(resource.Key);
-                binaryWriter3.Write((int)binaryWriter4.Seek(0, SeekOrigin.Current));
+                array[j] = FastResourceComparer.HashFunction(resource.Key);
+                items[j++] = (int)otherWriter.Seek(0, SeekOrigin.Current);
+                otherWriter.Write(resource.Key);
+                otherWriter.Write((int)yetOtherWriter.Seek(0, SeekOrigin.Current));
                 var value = resource.Value;
                 var resourceTypeCode = FindTypeCode(value, list);
-                Write7BitEncodedInt(binaryWriter4, (int)resourceTypeCode);
+                Write7BitEncodedInt(yetOtherWriter, (int)resourceTypeCode);
                 if (value is PrecannedResource precannedResource)
                 {
-                    WriteData(binaryWriter4, precannedResource.Data);
+                    WriteData(yetOtherWriter, precannedResource.Data);
                 }
                 else
                 {
-                    WriteValue(resourceTypeCode, value, binaryWriter4);
+                    WriteValue(resourceTypeCode, value, yetOtherWriter);
                 }
             }
             binaryWriter.Write(list.Count);
-            foreach (string item in list)
+            foreach (var item in list)
             {
                 binaryWriter.Write(item);
             }
-            Array.Sort(array, array2);
+            Array.Sort(array, items);
             binaryWriter.Flush();
-            var num3 = (int)binaryWriter.BaseStream.Position & 7;
-            if (num3 > 0)
+            var position = (int)binaryWriter.BaseStream.Position & 7;
+            if (position > 0)
             {
-                for (int i = 0; i < 8 - num3; i++)
+                for (var i = 0; i < 8 - position; i++)
                 {
                     binaryWriter.Write("PAD"[i % 3]);
                 }
             }
-            var array3 = array;
-            foreach (int value2 in array3)
+            var ints = array;
+            foreach (var value in ints)
             {
-                binaryWriter.Write(value2);
+                binaryWriter.Write(value);
             }
-            var array4 = array2;
-            foreach (int value3 in array4)
+            var values = items;
+            foreach (var value in values)
             {
-                binaryWriter.Write(value3);
+                binaryWriter.Write(value);
             }
             binaryWriter.Flush();
-            binaryWriter3.Flush();
-            binaryWriter4.Flush();
-            var num4 = (int)(binaryWriter.Seek(0, SeekOrigin.Current) + memoryStream2.Length);
-            num4 += 4;
-            binaryWriter.Write(num4);
-            if (memoryStream2.Length > 0)
+            otherWriter.Flush();
+            yetOtherWriter.Flush();
+            var length = (int)(binaryWriter.Seek(0, SeekOrigin.Current) + otherMemoryStream.Length);
+            length += 4;
+            binaryWriter.Write(length);
+            if (otherMemoryStream.Length > 0)
             {
-                memoryStream2.Seek(0L, SeekOrigin.Begin);
-                memoryStream2.CopyTo(binaryWriter.BaseStream, (int)memoryStream2.Length);
+                otherMemoryStream.Seek(0L, SeekOrigin.Begin);
+                otherMemoryStream.CopyTo(binaryWriter.BaseStream, (int)otherMemoryStream.Length);
             }
-            binaryWriter3.Dispose();
+            otherWriter.Dispose();
             stream.Position = 0L;
             stream.CopyTo(binaryWriter.BaseStream);
-            binaryWriter4.Dispose();
+            yetOtherWriter.Dispose();
         }
         binaryWriter.Flush();
         _resourceList = null;
@@ -775,12 +772,12 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
             {
                 case SerializationFormat.BinaryFormatter:
                     {
-                        var array2 = (byte[])resourceDataRecord.Data;
+                        var data = (byte[])resourceDataRecord.Data;
                         if (_requiresDeserializingResourceReader)
                         {
-                            Write7BitEncodedInt(writer, array2.Length);
+                            Write7BitEncodedInt(writer, data.Length);
                         }
-                        writer.Write(array2);
+                        writer.Write(data);
                         break;
                     }
                 case SerializationFormat.ActivatorStream:
@@ -869,8 +866,8 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                 break;
             case ResourceTypeCode.DateTime:
                 {
-                    var value2 = ((DateTime)value).ToBinary();
-                    writer.Write(value2);
+                    var binary = ((DateTime)value).ToBinary();
+                    writer.Write(binary);
                     break;
                 }
             case ResourceTypeCode.TimeSpan:
@@ -878,9 +875,9 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                 break;
             case ResourceTypeCode.ByteArray:
                 {
-                    var array3 = (byte[])value;
-                    writer.Write(array3.Length);
-                    writer.Write(array3, 0, array3.Length);
+                    var bytes = (byte[])value;
+                    writer.Write(bytes.Length);
+                    writer.Write(bytes, 0, bytes.Length);
                     break;
                 }
             case ResourceTypeCode.Stream:
@@ -905,11 +902,11 @@ public sealed class PreserializedResourceWriter : IResourceWriter, IDisposable
                     }
                     stream.Position = 0L;
                     writer.Write((int)stream.Length);
-                    var array2 = new byte[4096];
+                    var bytes = new byte[4096];
                     var num = 0;
-                    while ((num = stream.Read(array2, 0, array2.Length)) != 0)
+                    while ((num = stream.Read(bytes, 0, bytes.Length)) != 0)
                     {
-                        writer.Write(array2, 0, num);
+                        writer.Write(bytes, 0, num);
                     }
                     if (streamWrapper.CloseAfterWrite)
                     {

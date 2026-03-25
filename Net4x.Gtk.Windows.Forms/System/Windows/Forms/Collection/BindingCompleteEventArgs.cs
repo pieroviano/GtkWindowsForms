@@ -1,185 +1,160 @@
+﻿//
+// BindingCompleteEventArgs.cs
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+// Copyright (c) 2006 Novell, Inc.
+//
+// Authors:
+//	Jonathan Pobst (monkey@jpobst.com)
+//
+
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
-namespace System.Windows.Forms;
-
-/// <summary>
-/// Provides data for the
-/// <see cref="T:System.Windows.Forms.Binding.BindingComplete" /> event.
-/// Instances contain the binding that completed, the completion state, the context in which
-/// the binding completed, optional error text and exception information, and an optional cancel flag.
-/// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
-public class BindingCompleteEventArgs : CancelEventArgs
+namespace System.Windows.Forms
 {
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" /> class with
-    /// the specified binding, completion state, context, error text, exception and cancel flag.
+    /// BindingCompleteEventArgs provides data for the <see cref="Binding.BindingComplete"/> event.
     /// </summary>
-    /// <param name="binding">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.Binding" /> associated with the completion event.
-    /// </param>
-    /// <param name="state">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteState" /> describing the result.
-    /// </param>
-    /// <param name="context">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteContext" /> that identifies the area in which the binding completed.
-    /// </param>
-    /// <param name="errorText">
-    /// Optional user-visible error text describing the completion result.
-    /// </param>
-    /// <param name="exception">
-    /// Optional
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.Exception" /> that occurred during the operation.
-    /// </param>
-    /// <param name="cancel">
-    /// True to cancel the operation; otherwise false.
-    /// </param>
-    public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText, Exception exception, bool cancel)
-    {
-        throw new System.NotImplementedException();
-    }
+    /// <seealso cref="System.ComponentModel.CancelEventArgs" />
+    public class BindingCompleteEventArgs : CancelEventArgs
+	{
+		private Binding binding;
+		private BindingCompleteState state;
+		private BindingCompleteContext context;
+		private string error_text;
+		private Exception exception;
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" /> class with
-    /// the specified binding, completion state, context, error text and exception.
-    /// </summary>
-    /// <param name="binding">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.Binding" /> associated with the completion event.
-    /// </param>
-    /// <param name="state">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteState" /> describing the result.
-    /// </param>
-    /// <param name="context">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteContext" /> that identifies the area in which the binding completed.
-    /// </param>
-    /// <param name="errorText">
-    /// Optional user-visible error text describing the completion result.
-    /// </param>
-    /// <param name="exception">
-    /// Optional
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.Exception" /> that occurred during the operation.
-    /// </param>
-    public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText, Exception exception)
-    {
-        throw new System.NotImplementedException();
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindingCompleteEventArgs"/> class.
+        /// </summary>
+        /// <param name="binding">The binding.</param>
+        /// <param name="state">The state.</param>
+        /// <param name="context">The context.</param>
+        public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context)
+			: this (binding, state, context, String.Empty, null, false)
+		{
+		}
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" /> class with
-    /// the specified binding, completion state, context and error text.
-    /// </summary>
-    /// <param name="binding">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.Binding" /> associated with the completion event.
-    /// </param>
-    /// <param name="state">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteState" /> describing the result.
-    /// </param>
-    /// <param name="context">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteContext" /> that identifies the area in which the binding completed.
-    /// </param>
-    /// <param name="errorText">
-    /// Optional user-visible error text describing the completion result.
-    /// </param>
-    public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText)
-    {
-        throw new System.NotImplementedException();
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindingCompleteEventArgs"/> class.
+        /// </summary>
+        /// <param name="binding">The binding.</param>
+        /// <param name="state">The state.</param>
+        /// <param name="context">The context.</param>
+        /// <param name="errorText">The error text.</param>
+        public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText)
+			: this (binding, state, context, errorText, null, true)
+		{
+		}
 
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" /> class with
-    /// the specified binding, completion state and context.
-    /// </summary>
-    /// <param name="binding">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.Binding" /> associated with the completion event.
-    /// </param>
-    /// <param name="state">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteState" /> describing the result.
-    /// </param>
-    /// <param name="context">
-    /// The
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.BindingCompleteContext" /> that identifies the area in which the binding completed.
-    /// </param>
-    public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context)
-    {
-        throw new System.NotImplementedException();
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindingCompleteEventArgs"/> class.
+        /// </summary>
+        /// <param name="binding">The binding.</param>
+        /// <param name="state">The state.</param>
+        /// <param name="context">The context.</param>
+        /// <param name="errorText">The error text.</param>
+        /// <param name="exception">The exception.</param>
+        public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText, Exception exception)
+			: this (binding, state, context, errorText, exception, true)
+		{
+		}
 
-    /// <summary>
-    /// Gets the
-    /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs.Binding" /> that raised the BindingComplete event.
-    /// </summary>
-    public Binding Binding
-    {
-        [CompilerGenerated]
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindingCompleteEventArgs"/> class.
+        /// </summary>
+        /// <param name="binding">The binding.</param>
+        /// <param name="state">The state.</param>
+        /// <param name="context">The context.</param>
+        /// <param name="errorText">The error text.</param>
+        /// <param name="exception">The exception.</param>
+        /// <param name="cancel">if set to <c>true</c> [cancel].</param>
+        public BindingCompleteEventArgs(Binding binding, BindingCompleteState state, BindingCompleteContext context, string errorText, Exception exception, bool cancel)
+			: base (cancel)
+		{
+			this.binding = binding;
+			this.state = state;
+			this.context = context;
+			this.error_text = errorText;
+			this.exception = exception;
+		}
 
-    /// <summary>
-    /// Gets the context in which the binding completed.
-    /// </summary>
-    public BindingCompleteContext BindingCompleteContext
-    {
-        [CompilerGenerated]
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+        /// <summary>
+        /// Gets the binding.
+        /// </summary>
+        /// <value>
+        /// The binding.
+        /// </value>
+        public Binding Binding {
+			get { return this.binding; }
+		}
 
-    /// <summary>
-    /// Gets the state that describes the outcome of the binding operation.
-    /// </summary>
-    public BindingCompleteState BindingCompleteState
-    {
-        [CompilerGenerated]
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+        /// <summary>
+        /// Gets the binding complete context.
+        /// </summary>
+        /// <value>
+        /// The binding complete context.
+        /// </value>
+        public BindingCompleteContext BindingCompleteContext {
+			get { return this.context; }
+		}
 
-    /// <summary>
-    /// Gets a user-visible error message associated with the completion, if any.
-    /// </summary>
-    public string ErrorText
-    {
-        [CompilerGenerated]
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+        /// <summary>
+        /// Gets the state of the binding complete.
+        /// </summary>
+        /// <value>
+        /// The state of the binding complete.
+        /// </value>
+        public BindingCompleteState BindingCompleteState {
+			get { return this.state; }
+		}
 
-    /// <summary>
-    /// Gets the exception that occurred during binding, if any.
-    /// </summary>
-    public Exception Exception
-    {
-        [CompilerGenerated]
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+        /// <summary>
+        /// Gets the error text.
+        /// </summary>
+        /// <value>
+        /// The error text.
+        /// </value>
+        public string ErrorText {
+			get { return this.error_text; }
+		}
+
+        /// <summary>
+        /// Gets the exception.
+        /// </summary>
+        /// <value>
+        /// The exception.
+        /// </value>
+        public Exception Exception {
+			get { return this.exception; }
+		}
+
+		internal void SetErrorText (string error_text)
+		{
+			this.error_text = error_text;
+		}
+
+		internal void SetException (Exception exception)
+		{
+			this.exception = exception;
+		}
+	}
 }

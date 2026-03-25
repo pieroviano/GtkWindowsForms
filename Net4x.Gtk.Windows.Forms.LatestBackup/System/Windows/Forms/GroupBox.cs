@@ -1,11 +1,10 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
 using System.ComponentModel;
-using Cairo;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -20,11 +19,11 @@ public partial class GroupBox : ContainerControl
     /// <summary>
     /// The self
     /// </summary>
-    public readonly GroupBoxBase self = new GroupBoxBase();
+    public readonly GroupBoxBase self = new();
 
     private readonly ControlCollection _controls = null;
 
-    private readonly Gtk.Overlay contaner = new Gtk.Overlay();
+    private readonly Gtk.Overlay contaner = new();
 
     /// <summary>
     /// Initializes a new instance of the

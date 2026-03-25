@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -15,7 +15,7 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ApplicationContext : IDisposable
 {
-    private Form _mainForm;
+    private Form? _mainForm;
 
     /// <summary>
     /// Is raised when the thread's message loop should be terminated.
@@ -35,7 +35,7 @@ public class ApplicationContext : IDisposable
     /// If OnMainFormClosed is not overriden, the thread's message
     /// loop will be terminated when mainForm is closed.
     /// </summary>
-    public ApplicationContext(Form mainForm)
+    public ApplicationContext(Form? mainForm)
     {
         MainForm = mainForm;
     }
@@ -45,7 +45,7 @@ public class ApplicationContext : IDisposable
     /// If OnMainFormClosed is not overriden, the thread's message
     /// loop will be terminated when mainForm is closed.
     /// </summary>
-    public Form MainForm
+    public Form? MainForm
     {
         get => _mainForm;
         set

@@ -1,11 +1,10 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
 using System.ComponentModel;
-using Gdk;
 using GLib;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -22,7 +21,7 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// The self
     /// </summary>
-    public readonly TreeViewBase self = new TreeViewBase();
+    public readonly TreeViewBase self = new();
 
     internal TreeNode root;
 
@@ -178,7 +177,7 @@ public partial class TreeView : ScrollableControl
             rendererPixbuf.Visible = _imageList != null;
             if (_imageList != null)
             {
-                Gtk.TreeViewColumn column = self.TreeView.Columns[0];
+                var column = self.TreeView.Columns[0];
                 column.AddAttribute(rendererPixbuf, "pixbufkey", 3);
                 column.AddAttribute(rendererPixbuf, "pixbufindex", 2);
             }
@@ -260,7 +259,7 @@ public partial class TreeView : ScrollableControl
     {
         get
         {
-            TreePath[] paths = self.TreeView.Selection.GetSelectedRows();
+            var paths = self.TreeView.Selection.GetSelectedRows();
             if (paths.Length > 0)
             {
                 TreeNode result = null;
@@ -275,7 +274,7 @@ public partial class TreeView : ScrollableControl
                 self.TreeView.Selection.UnselectAll();
             else
             {
-                TreePath path = _store.GetPath(value.TreeIter);
+                var path = _store.GetPath(value.TreeIter);
                 if (path != null)
                 {
                     self.TreeView.ExpandToPath(path);
@@ -449,10 +448,10 @@ public partial class TreeView : ScrollableControl
 
     internal bool GetNodeSelected(TreeNode node)
     {
-        Gtk.TreePath[] treePaths = self.TreeView.Selection.GetSelectedRows();
-        foreach (Gtk.TreePath treePath in treePaths)
+        var treePaths = self.TreeView.Selection.GetSelectedRows();
+        foreach (var treePath in treePaths)
         {
-            if (Store.GetIter(out Gtk.TreeIter iter, treePath))
+            if (Store.GetIter(out var iter, treePath))
             {
                 if (iter.Equals(node.TreeIter))
                     return true;
@@ -467,21 +466,21 @@ public partial class TreeView : ScrollableControl
         if (node != null && parent != null)
         {
             var iter = Store.InsertWithValues(parent.TreeIter, position, node.Text, node.Checked, node.ImageIndex, node.ImageKey);
-            Gtk.TreePath path = Store.GetPath(iter);
+            var path = Store.GetPath(iter);
             node.Index = string.Join(",", path.Indices);
             node.TreeIter = iter;
-            foreach (TreeNode node2 in node.Nodes)
+            foreach (var node2 in node.Nodes)
                 LoadNodeValue(node2, node.TreeIter);
         }
     }
 
     internal void LoadNodeValue(TreeNode node, TreeIter parent)
     {
-        TreeIter iter = parent.Equals(TreeIter.Zero) ? Store.AppendValues(node.Text, node.Checked, node.ImageIndex, node.ImageKey) : Store.AppendValues(parent, node.Text, node.Checked, node.ImageIndex, node.ImageKey);
-        TreePath path = Store.GetPath(iter);
+        var iter = parent.Equals(TreeIter.Zero) ? Store.AppendValues(node.Text, node.Checked, node.ImageIndex, node.ImageKey) : Store.AppendValues(parent, node.Text, node.Checked, node.ImageIndex, node.ImageKey);
+        var path = Store.GetPath(iter);
         node.Index = string.Join(",", path.Indices);
         node.TreeIter = iter;
-        foreach (TreeNode child in node.Nodes)
+        foreach (var child in node.Nodes)
         {
             LoadNodeValue(child, iter);
         }
@@ -591,7 +590,7 @@ public partial class TreeView : ScrollableControl
     {
         var path = new TreePath(args.Path);
         var model = _store;
-        model.GetIter(out TreeIter iter, path);
+        model.GetIter(out var iter, path);
         var val = (bool)(model.GetValue(iter, 1));
         model.SetValue(iter, 1, val == false);
     }
@@ -599,7 +598,7 @@ public partial class TreeView : ScrollableControl
     private void GetNodeChild(TreeNode node, int[] indices, ref TreeNode result)
     {
         var nodeIndex= string.Join(",", indices);
-        foreach (TreeNode child in node.Nodes)
+        foreach (var child in node.Nodes)
         {
             if (child.Index == nodeIndex)
             {
@@ -618,10 +617,10 @@ public partial class TreeView : ScrollableControl
         if (BeforeSelect != null || AfterSelect != null)
         {
             var selection = sender as Gtk.TreeSelection;
-            TreePath[] paths = selection.GetSelectedRows();
+            var paths = selection.GetSelectedRows();
             if (paths.Length > 0)
             {
-                TreePath currpath = paths.Last();
+                var currpath = paths.Last();
                 TreeNode result = null;
                 GetNodeChild(root, currpath.Indices, ref result);
                 cancelEventArgs = new TreeViewCancelEventArgs(result, false, TreeViewAction.ByMouse);
@@ -643,7 +642,7 @@ public partial class TreeView : ScrollableControl
     {
         if (ImageList != null)
         {
-            Gtk.TreeViewColumn column = ((Gtk.TreeView)sender).Columns[0];
+            var column = ((Gtk.TreeView)sender).Columns[0];
             if (string.IsNullOrWhiteSpace(ImageKey))
             {
                 System.Drawing.Image image = ImageList.GetBitmap(ImageIndex);

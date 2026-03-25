@@ -5,8 +5,6 @@
  * author:chenhongjin
  */
 using System.ComponentModel;
-using Atk;
-using GLib;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -21,7 +19,7 @@ public partial class TextBox : Control
     /// <summary>
     /// The self
     /// </summary>
-    public readonly TextBoxBase self = new TextBoxBase();
+    public readonly TextBoxBase self = new();
 
     /// <summary>
     /// Occurs when a key is pressed while the control has focus.
@@ -163,7 +161,7 @@ public partial class TextBox : Control
     {
         get
         {
-            self.GetSelectionBounds(out int start, out int end);
+            self.GetSelectionBounds(out var start, out var end);
 
             return end - start;
         }
@@ -183,7 +181,7 @@ public partial class TextBox : Control
     {
         get
         {
-            self.GetSelectionBounds(out int start, out int end);
+            self.GetSelectionBounds(out var start, out var end);
 
             return start;
         }
@@ -211,7 +209,7 @@ public partial class TextBox : Control
     public void InsertTextAtCursor(string text)
     {
         if (text == null) return;
-        int posi = self.CursorPosition;
+        var posi = self.CursorPosition;
         self.InsertText(text, ref posi);
     }
 
@@ -266,7 +264,7 @@ public partial class TextBox : Control
     {
         if (KeyDown != null && this.GetType().Name == "TextBox")
         {
-            string keytext = args.NewText.ToUpper();
+            var keytext = args.NewText.ToUpper();
             if (char.IsNumber(args.NewText[0]))
                 keytext = "D" + keytext;
             var keyv = Enum.GetValues(typeof(Keys)).Cast<Keys>().Where(k =>

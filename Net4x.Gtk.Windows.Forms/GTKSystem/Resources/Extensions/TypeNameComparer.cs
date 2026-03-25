@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace GtkSystem.Resources.Extensions;
@@ -9,83 +7,83 @@ internal sealed class TypeNameComparer : IEqualityComparer<string>
 {
     private static readonly char[] s_whiteSpaceChars = new char[4] { ' ', '\n', '\r', '\t' };
 
-    public static TypeNameComparer Instance { get; } = new TypeNameComparer();
+    public static TypeNameComparer Instance { get; } = new();
 
     public bool Equals(string assemblyQualifiedTypeName1, string assemblyQualifiedTypeName2)
     {
         if (assemblyQualifiedTypeName1 == null)
         {
-            throw new ArgumentNullException("assemblyQualifiedTypeName1");
+            throw new ArgumentNullException(nameof(assemblyQualifiedTypeName1));
         }
         if (assemblyQualifiedTypeName2 == null)
         {
-            throw new ArgumentNullException("assemblyQualifiedTypeName2");
+            throw new ArgumentNullException(nameof(assemblyQualifiedTypeName2));
         }
         if ((object)assemblyQualifiedTypeName1 == assemblyQualifiedTypeName2)
         {
             return true;
         }
-        var readOnlySpan = assemblyQualifiedTypeName1.AsSpan().TrimStart(s_whiteSpaceChars);
-        var readOnlySpan2 = assemblyQualifiedTypeName2.AsSpan().TrimStart(s_whiteSpaceChars);
-        var span = ReadTypeName(readOnlySpan);
-        var other = ReadTypeName(readOnlySpan2);
-        if (!MemoryExtensions.Equals(span, other, StringComparison.Ordinal))
+        var typeNameSpan1 = assemblyQualifiedTypeName1.AsSpan().TrimStart(s_whiteSpaceChars);
+        var typeNameSpan2 = assemblyQualifiedTypeName2.AsSpan().TrimStart(s_whiteSpaceChars);
+        var mainTypeName1 = ReadTypeName(typeNameSpan1);
+        var mainTypeName2 = ReadTypeName(typeNameSpan2);
+        if (!MemoryExtensions.Equals(mainTypeName1, mainTypeName2, StringComparison.Ordinal))
         {
             return false;
         }
-        readOnlySpan = ((readOnlySpan.Length > span.Length) ? readOnlySpan.Slice(span.Length + 1).TrimStart(s_whiteSpaceChars) : ReadOnlySpan<char>.Empty);
-        readOnlySpan2 = ((readOnlySpan2.Length > other.Length) ? readOnlySpan2.Slice(other.Length + 1).TrimStart(s_whiteSpaceChars) : ReadOnlySpan<char>.Empty);
-        var readOnlySpan3 = ReadAssemblySimpleName(readOnlySpan);
-        var readOnlySpan4 = ReadAssemblySimpleName(readOnlySpan2);
-        if ((readOnlySpan3.IsEmpty && !readOnlySpan.IsEmpty) || (readOnlySpan4.IsEmpty && !readOnlySpan2.IsEmpty))
+        typeNameSpan1 = ((typeNameSpan1.Length > mainTypeName1.Length) ? typeNameSpan1.Slice(mainTypeName1.Length + 1).TrimStart(s_whiteSpaceChars) : ReadOnlySpan<char>.Empty);
+        typeNameSpan2 = ((typeNameSpan2.Length > mainTypeName2.Length) ? typeNameSpan2.Slice(mainTypeName2.Length + 1).TrimStart(s_whiteSpaceChars) : ReadOnlySpan<char>.Empty);
+        var assemblyName1 = ReadAssemblySimpleName(typeNameSpan1);
+        var assemblyName2 = ReadAssemblySimpleName(typeNameSpan2);
+        if ((assemblyName1.IsEmpty && !typeNameSpan1.IsEmpty) || (assemblyName2.IsEmpty && !typeNameSpan2.IsEmpty))
         {
             return false;
         }
-        if (readOnlySpan3.IsEmpty)
+        if (assemblyName1.IsEmpty)
         {
-            if (!readOnlySpan4.IsEmpty)
+            if (!assemblyName2.IsEmpty)
             {
-                return IsMscorlib(readOnlySpan4);
+                return IsMscorlib(assemblyName2);
             }
             return true;
         }
-        if (readOnlySpan4.IsEmpty)
+        if (assemblyName2.IsEmpty)
         {
-            return IsMscorlib(readOnlySpan3);
+            return IsMscorlib(assemblyName1);
         }
-        if (!MemoryExtensions.Equals(readOnlySpan3, readOnlySpan4, StringComparison.OrdinalIgnoreCase))
+        if (!MemoryExtensions.Equals(assemblyName1, assemblyName2, StringComparison.OrdinalIgnoreCase))
         {
             return false;
         }
-        if (IsMscorlib(readOnlySpan3))
+        if (IsMscorlib(assemblyName1))
         {
             return true;
         }
-        var assemblyName = new AssemblyName(readOnlySpan.ToString());
-        var assemblyName2 = new AssemblyName(readOnlySpan2.ToString());
-        if (assemblyName.CultureInfo?.LCID != assemblyName2.CultureInfo?.LCID)
+        var assemblyObj1 = new AssemblyName(typeNameSpan1.ToString());
+        var assemblyObj2 = new AssemblyName(typeNameSpan2.ToString());
+        if (assemblyObj1.CultureInfo?.LCID != assemblyObj2.CultureInfo?.LCID)
         {
             return false;
         }
-        var publicKeyToken = assemblyName.GetPublicKeyToken();
-        var publicKeyToken2 = assemblyName2.GetPublicKeyToken();
+        var publicKeyToken1 = assemblyObj1.GetPublicKeyToken();
+        var publicKeyToken2 = assemblyObj2.GetPublicKeyToken();
 
-        return publicKeyToken.AsSpan().SequenceEqual(publicKeyToken2);
+        return publicKeyToken1.AsSpan().SequenceEqual(publicKeyToken2);
     }
 
     public int GetHashCode(string assemblyQualifiedTypeName)
     {
-        var assemblyQualifiedTypeName2 = assemblyQualifiedTypeName.AsSpan().TrimStart(s_whiteSpaceChars);
-        var readOnlySpan = ReadTypeName(assemblyQualifiedTypeName2);
-        var num = 0;
-        for (int i = 0; i < readOnlySpan.Length; i++)
+        var trimmedTypeName = assemblyQualifiedTypeName.AsSpan().TrimStart(s_whiteSpaceChars);
+        var mainTypeName = ReadTypeName(trimmedTypeName);
+        var hash = 0;
+        for (var i = 0; i < mainTypeName.Length; i++)
         {
-            var h = num;
-            var c = readOnlySpan[i];
-            num = GtkSystem.Numerics.Hashing.HashHelpers.Combine(h, c.GetHashCode());
+            var prevHash = hash;
+            var ch = mainTypeName[i];
+            hash = GtkSystem.Numerics.Hashing.HashHelpers.Combine(prevHash, ch.GetHashCode());
         }
 
-        return num;
+        return hash;
     }
 
     private static bool IsMscorlib(ReadOnlySpan<char> assemblyName)

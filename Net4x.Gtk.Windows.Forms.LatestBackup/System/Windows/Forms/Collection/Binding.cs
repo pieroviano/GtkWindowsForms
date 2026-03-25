@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
 using System.Security.Permissions;
 
@@ -726,9 +726,9 @@ public class Binding
                     _bindToObject?.SetValue(value);
                 }
             }
-            catch (Exception exception2)
+            catch (Exception ex)
             {
-                exception = exception2;
+                exception = ex;
                 if (!FormattingEnabled)
                 {
                     throw;
@@ -785,9 +785,9 @@ public class Binding
                     _modified = false;
                 }
             }
-            catch (Exception? exception1)
+            catch (Exception? ex)
             {
-                exception = exception1;
+                exception = ex;
                 if (!FormattingEnabled)
                 {
                     throw;
@@ -1029,12 +1029,12 @@ public class Binding
                 _propIsNullInfo = propertyDescriptor;
             }
             EventDescriptor? eventDescriptor = null;
-            var str1 = "Validating";
+            var validating = "Validating";
             var events = TypeDescriptor.GetEvents(_control);
             var num = 0;
             while (num < events.Count)
             {
-                if (eventDescriptor != null || !string.Equals(events[num].Name, str1, StringComparison.OrdinalIgnoreCase))
+                if (eventDescriptor != null || !string.Equals(events[num].Name, validating, StringComparison.OrdinalIgnoreCase))
                 {
                     num++;
                 }

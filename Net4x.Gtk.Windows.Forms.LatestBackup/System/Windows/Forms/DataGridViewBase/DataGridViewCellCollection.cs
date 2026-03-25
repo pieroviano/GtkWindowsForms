@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.ComponentModel;
-using Atk;
-using GLib;
 
 namespace System.Windows.Forms;
 
@@ -16,7 +13,7 @@ namespace System.Windows.Forms;
 public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IEnumerable
 {
 
-    private readonly ArrayList items = new ArrayList();
+    private readonly ArrayList items = new();
 
     private DataGridViewRow owner;
 
@@ -99,7 +96,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
         }
         set
         {
-            items[index] = value ?? throw new ArgumentNullException("value");
+            items[index] = value ?? throw new ArgumentNullException(nameof(value));
         }
     }
 
@@ -128,7 +125,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
 
             if (dataGridViewColumn == null)
             {
-                throw new ArgumentException("DataGridViewColumnCollection_ColumnNotFound", "columnName");
+                throw new ArgumentException("DataGridViewColumnCollection_ColumnNotFound", nameof(columnName));
             }
 
             return (DataGridViewCell)items[dataGridViewColumn.Index];
@@ -143,7 +140,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
 
             if (dataGridViewColumn == null)
             {
-                throw new ArgumentException("DataGridViewColumnCollection_ColumnNotFound", "columnName");
+                throw new ArgumentException("DataGridViewColumnCollection_ColumnNotFound", nameof(columnName));
             }
 
             this[dataGridViewColumn.Index] = value;
@@ -197,11 +194,11 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     {
         if (dataGridViewCells == null)
         {
-            throw new ArgumentNullException("dataGridViewCells");
+            throw new ArgumentNullException(nameof(dataGridViewCells));
         }
 
         items.AddRange(dataGridViewCells);
-        foreach (DataGridViewCell dataGridViewCell2 in dataGridViewCells)
+        foreach (var dataGridViewCell2 in dataGridViewCells)
         {
             dataGridViewCell2.OwningRowInternal = owner;
         }
@@ -220,10 +217,10 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     {
         if (dataGridViewCells == null)
         {
-            throw new ArgumentNullException("dataGridViewCells");
+            throw new ArgumentNullException(nameof(dataGridViewCells));
         }
 
-        foreach (DataGridViewCell dataGridViewCell2 in dataGridViewCells)
+        foreach (var dataGridViewCell2 in dataGridViewCells)
         {
             dataGridViewCell2.OwningRowInternal = owner;
             items.Add(dataGridViewCell2);
@@ -365,7 +362,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
 
         var num = -1;
         var count = items.Count;
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
             if (items[i] == cell)
             {

@@ -1,12 +1,9 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using GtkSystem.Resources;
 using static GtkSystem.Resources.ResourceManager;
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-using System.IO;
 using System.Runtime.Serialization;
 
 namespace System.Windows.Forms;
@@ -27,14 +24,14 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
 
     // Compressed magic header. If we see this, the image stream is compressed.
     //private static ReadOnlySpan<byte> HeaderMagic => "MSFt"u8;
-    private static readonly object s_syncObject = new object();
+    private static readonly object s_syncObject = new();
 
     internal ImageListStreamer(ImageList imageList) => _imageList = imageList;
 
     internal ImageListStreamer(Stream stream)
     {
         if (stream is MemoryStream ms
-            && ms.TryGetBuffer(out ArraySegment<byte> buffer)
+            && ms.TryGetBuffer(out var buffer)
             && buffer.Offset == 0)
         {
             Deserialize(buffer.Array);

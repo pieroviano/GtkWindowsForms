@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
@@ -253,7 +253,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     {
         if (container == null)
         {
-            throw new ArgumentNullException("container");
+            throw new ArgumentNullException(nameof(container));
         }
         container.Add(this);
     }

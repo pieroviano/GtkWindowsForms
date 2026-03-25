@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -26,9 +26,9 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// The underlying GTK-based container that implements scrolling and layout.
     /// </summary>
-    public readonly CheckedListBoxBase self = new CheckedListBoxBase();
+    public readonly CheckedListBoxBase self = new();
 
-    internal Gtk.FlowBox _flow = new Gtk.FlowBox();
+    internal Gtk.FlowBox _flow = new();
 
     private readonly ObjectCollection _items;
 
@@ -212,7 +212,7 @@ public partial class CheckedListBox : ContainerControl
     {
         foreach (Gtk.FlowBoxChild wi in _flow.Children)
         {
-            Gtk.Widget box = ((Gtk.Box)wi.Child).Children[0];
+            var box = ((Gtk.Box)wi.Child).Children[0];
             if (box is Gtk.CheckButton check)
             {
                 check.Active = false;
@@ -332,7 +332,7 @@ public partial class CheckedListBox : ContainerControl
 
     private void Control_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {
-        int rowIndex = args.Child.Index;
+        var rowIndex = args.Child.Index;
         if (this.CheckOnClick == true)
             args.Child.Child.SetProperty("active", new GLib.Value(true));
 
@@ -461,7 +461,7 @@ public partial class CheckedListBox : ContainerControl
         /// </param>
         public override void AddRange(ICollection c)
         {
-            foreach (object o in c)
+            foreach (var o in c)
                 AddCore(o, false, -1);
         }
 

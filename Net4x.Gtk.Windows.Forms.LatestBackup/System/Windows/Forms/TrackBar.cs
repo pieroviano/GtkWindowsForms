@@ -18,9 +18,9 @@ public class TrackBar : Control
     /// <summary>
     /// The self
     /// </summary>
-    public readonly TrackBarBase self = new TrackBarBase();
+    public readonly TrackBarBase self = new();
 
-    readonly Gtk.Adjustment adjustment = new Gtk.Adjustment(10, 0, 100, 1, 1, 0);
+    readonly Gtk.Adjustment adjustment = new(10, 0, 100, 1, 1, 0);
 
     Gtk.Scale scale;
 

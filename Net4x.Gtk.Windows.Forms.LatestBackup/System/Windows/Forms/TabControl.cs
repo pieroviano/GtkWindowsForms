@@ -1,12 +1,11 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using Gtk;
@@ -23,7 +22,7 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// The self
     /// </summary>
-    public readonly TabControlBase self = new TabControlBase();
+    public readonly TabControlBase self = new();
 
     private readonly TabControl.ControlCollection _controls;
 
@@ -264,8 +263,8 @@ public partial class TabControl : ContainerControl
             throw new ArgumentOutOfRangeException(nameof(index), index, "SR.InvalidArgument");
         }
         var page = TabPages[index];
-        Gtk.Label tab = page.TabLabel;
-        Gdk.Rectangle rect = tab.Allocation;
+        var tab = page.TabLabel;
+        var rect = tab.Allocation;
 
         return new Rectangle(0, 0, rect.Width, rect.Height);
     }
@@ -344,10 +343,10 @@ public partial class TabControl : ContainerControl
                     if (_owner.DrawMode == TabDrawMode.OwnerDrawFixed && _owner.DrawItem != null)
                     {
                         var tab = (Gtk.Label)sender;
-                        Gdk.Rectangle allocation= tab.Allocation;
+                        var allocation= tab.Allocation;
                         args.Cr.ResetClip();
-                        int width = allocation.Width + 24;
-                        int height = allocation.Height + 2;
+                        var width = allocation.Width + 24;
+                        var height = allocation.Height + 2;
                         _owner.OnDrawItem(new DrawItemEventArgs(new Graphics(tab, args.Cr, new Gdk.Rectangle(0, 0, width, height)) { diff_left = -12, diff_top = -2 }, _owner.Font, new Rectangle(0, 0, width, height), Convert.ToInt32(tab.Name), DrawItemState.Default));
 
                     }
@@ -392,7 +391,7 @@ public partial class TabControl : ContainerControl
 
         private void Self_Shown(object sender, EventArgs e)
         {
-            foreach (TabPage item in this)
+            foreach (var item in this)
             {
                 _owner.self.SetMenuLabelText(item.self, _owner.self.GetTabLabelText(item.self));
             }
@@ -568,7 +567,7 @@ public partial class TabControl : ContainerControl
         /// </param>
         public void AddRange(TabPage[] pages)
         {
-            foreach (TabPage page in pages)
+            foreach (var page in pages)
                 this.Add(page);
         }
 

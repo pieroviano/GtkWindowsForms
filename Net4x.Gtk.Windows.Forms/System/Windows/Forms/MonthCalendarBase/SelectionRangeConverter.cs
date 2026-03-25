@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,7 +6,6 @@ using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
 using System.Globalization;
-using System.Reflection;
 
 namespace System.Windows.Forms;
 
@@ -69,7 +68,7 @@ public class SelectionRangeConverter : TypeConverter
 
             if (tokens.Length == 2)
             {
-                TypeConverter dateTimeConverter = TypeDescriptor.GetConverter(typeof(DateTime));
+                var dateTimeConverter = TypeDescriptor.GetConverter(typeof(DateTime));
                 var start = (DateTime)dateTimeConverter.ConvertFromString(context, culture, tokens[0]);
                 var end = (DateTime)dateTimeConverter.ConvertFromString(context, culture, tokens[1]);
                 return new SelectionRange(start, end);
@@ -115,9 +114,9 @@ public class SelectionRangeConverter : TypeConverter
                 var props = GetProperties(value);
                 var args = new string[props.Count];
 
-                for (int i = 0; i < props.Count; i++)
+                for (var i = 0; i < props.Count; i++)
                 {
-                    object propValue = props[i].GetValue(value);
+                    var propValue = props[i].GetValue(value);
                     args[i] = TypeDescriptor.GetConverter(propValue).ConvertToString(context, culture, propValue);
                 }
 
@@ -179,7 +178,7 @@ public class SelectionRangeConverter : TypeConverter
     /// </summary>
     public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
     {
-        PropertyDescriptorCollection props = TypeDescriptor.GetProperties(typeof(SelectionRange), attributes);
+        var props = TypeDescriptor.GetProperties(typeof(SelectionRange), attributes);
 
         return props.Sort(new string[] { "Start", "End" });
     }

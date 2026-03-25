@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -6,11 +6,9 @@
  */
 
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
 
@@ -30,15 +28,15 @@ public partial class Control
     public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable
     {
 
-        internal Drawing.Point Offset = new Drawing.Point(0, 0);
+        internal Drawing.Point Offset = new(0, 0);
 
-        readonly Type __itemType;
+        readonly Type _itemType;
 
-        readonly Control __owner;
+        readonly Control _owner;
 
-        readonly Gtk.Container __ownerControl;
+        readonly Gtk.Container _ownerControl;
 
-        private bool is__ownerControl_Mapped = false;
+        private bool is_ownerControl_Mapped = false;
 
         /// <summary>
         /// Initializes a new instance of the
@@ -51,10 +49,10 @@ public partial class Control
         /// </param>
         public ControlCollection(Control owner)
         {
-            __ownerControl = owner.GtkControl as Gtk.Container;
-            __owner = owner;
-            __ownerControl.Mapped += __ownerControl_Mapped;
-            __ownerControl.ResizeChecked += __ownerControl_ResizeChecked;
+            _ownerControl = owner.GtkControl as Gtk.Container;
+            _owner = owner;
+            _ownerControl.Mapped += _ownerControl_Mapped;
+            _ownerControl.ResizeChecked += _ownerControl_ResizeChecked;
         }
 
         /// <summary>
@@ -70,17 +68,17 @@ public partial class Control
         /// </param>
         public ControlCollection(Control owner, Gtk.Container ownerContainer)
         {
-            __ownerControl = ownerContainer;
-            __owner = owner;
-            __ownerControl.Mapped += __ownerControl_Mapped;
-            __ownerControl.ResizeChecked += __ownerControl_ResizeChecked;
+            _ownerControl = ownerContainer;
+            _owner = owner;
+            _ownerControl.Mapped += _ownerControl_Mapped;
+            _ownerControl.ResizeChecked += _ownerControl_ResizeChecked;
         }
 
         /// <summary>
         /// Gets the owning
         /// <see cref="T:System.Windows.Forms.Control" /> for this collection.
         /// </summary>
-        public Control Owner { get => __owner; }
+        public Control Owner { get => _owner; }
 
         /// <summary>
         /// Gets the child control at the specified index.
@@ -186,7 +184,7 @@ public partial class Control
             {
                 return;
             }
-            foreach (Control item in controls)
+            foreach (var item in controls)
             {
                 Add(item);
             }
@@ -205,7 +203,7 @@ public partial class Control
         /// </param>
         public void AddWidget(Gtk.Widget item, Control control)
         {
-            control.Parent = __owner;
+            control.Parent = _owner;
             InnerList.Add(new ArrangedElementWidget(item));
         }
 
@@ -214,8 +212,8 @@ public partial class Control
         /// </summary>
         public virtual void Clear()
         {
-            foreach (Gtk.Widget wid in __ownerControl.Children)
-                __ownerControl.Remove(wid);
+            foreach (var wid in _ownerControl.Children)
+                _ownerControl.Remove(wid);
 
             InnerList.Clear();
         }
@@ -229,7 +227,7 @@ public partial class Control
         /// </returns>
         public object Clone()
         {
-            var ccOther = new ControlCollection(__owner, __ownerControl);
+            var ccOther = new ControlCollection(_owner, _ownerControl);
             ccOther.InnerList.AddRange(InnerList);
 
             return ccOther;
@@ -277,7 +275,7 @@ public partial class Control
         /// </returns>
         public Control[] Find(string key, bool searchAllChildren)
         {
-            List<IArrangedElement> foundControls = InnerList.FindAll(o =>
+            var foundControls = InnerList.FindAll(o =>
             {
                 if (o is Control con)
                 {
@@ -391,7 +389,7 @@ public partial class Control
                 return;
             }
             InnerList.Remove(value);
-            __ownerControl.Remove(value.Widget);
+            _ownerControl.Remove(value.Widget);
         }
 
         /// <summary>
@@ -402,13 +400,13 @@ public partial class Control
         /// </param>
         public void RemoveAt(int index)
         {
-            IArrangedElement element = InnerList[index];
+            var element = InnerList[index];
             if (element is Control control)
                 Remove(control);
             else if (element is ArrangedElementWidget widget)
             {
                 InnerList.RemoveAt(index);
-                __ownerControl.Remove(widget.GetWidget);
+                _ownerControl.Remove(widget.GetWidget);
             }
         }
 
@@ -458,7 +456,7 @@ public partial class Control
 
         object ICloneable.Clone()
         {
-            var ccOther = new ControlCollection(__owner, __ownerControl);
+            var ccOther = new ControlCollection(_owner, _ownerControl);
             ccOther.InnerList.AddRange(InnerList);
 
             return ccOther;
@@ -470,18 +468,18 @@ public partial class Control
                 Remove(control);
             else if (element is Gtk.Widget widget)
             {
-                __ownerControl.Remove(widget);
+                _ownerControl.Remove(widget);
                 var index = this.IndexOfKey(widget.Name);
                 if (index >= 0)
                     InnerList.RemoveAt(index);
             }
         }
 
-        private void __ownerControl_Mapped(object sender, EventArgs e)
+        private void _ownerControl_Mapped(object sender, EventArgs e)
         {
-            if (is__ownerControl_Mapped == false)
+            if (is_ownerControl_Mapped == false)
             {
-                is__ownerControl_Mapped = true;
+                is_ownerControl_Mapped = true;
                 if (sender is Gtk.Overlay lay)
                 {
                     ResizeMapped(lay);
@@ -490,7 +488,7 @@ public partial class Control
         }
 
         //ResizeChecked resettable layout
-        private void __ownerControl_ResizeChecked(object sender, EventArgs e)
+        private void _ownerControl_ResizeChecked(object sender, EventArgs e)
         {
             if (sender is Gtk.Overlay lay)
             {
@@ -518,7 +516,7 @@ public partial class Control
 
         private Gtk.Widget GetFrame(Gtk.Widget widget)
         {
-            Gtk.Widget parent = widget.Parent;
+            var parent = widget.Parent;
             while (parent != null)
             {
                 if (parent is GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk)
@@ -543,13 +541,13 @@ public partial class Control
             {
                 if (item is Control icontrol)
                 {
-                    icontrol.Parent = __owner;
+                    icontrol.Parent = _owner;
                 }
-                if (__ownerControl is Gtk.Overlay lay)
+                if (_ownerControl is Gtk.Overlay lay)
                 {
                     if (item is StatusStrip statusbar)
                     {
-                        if (__owner is Form form)
+                        if (_owner is Form form)
                         {
                             statusbar.self.Halign = Gtk.Align.Fill;
                             statusbar.self.Valign = Gtk.Align.Start;
@@ -580,7 +578,7 @@ public partial class Control
                         lay.AddOverlay(widget);
                     }
                 }
-                else if (__ownerControl is Gtk.Fixed lay2)
+                else if (_ownerControl is Gtk.Fixed lay2)
                 {
                     if (item is Control con)
                     {
@@ -591,7 +589,7 @@ public partial class Control
                         lay2.Put(widget, Offset.X, Offset.Y);
                     }
                 }
-                else if (__ownerControl is Gtk.Layout lay3)
+                else if (_ownerControl is Gtk.Layout lay3)
                 {
                     if (item is Control con)
                     {
@@ -609,7 +607,7 @@ public partial class Control
             }
             finally
             {
-                if (__ownerControl.IsRealized)
+                if (_ownerControl.IsRealized)
                 {
                     if (item is Control con)
                         con.Widget.ShowAll();
@@ -623,7 +621,7 @@ public partial class Control
         {
             try
             {
-                foreach (object item in this)
+                foreach (var item in this)
                 {
                     NativeAdd(item);
                 }
@@ -636,7 +634,7 @@ public partial class Control
 
         private void ResizeMapped(Gtk.Overlay lay)
         {
-            foreach (object item in this)
+            foreach (var item in this)
             {
                 if (item is Control control)
                 {
@@ -649,7 +647,7 @@ public partial class Control
                     widget.MarginTop = Math.Max(0, widget.MarginTop + Offset.Y);
                 }
             }
-            foreach (object item in this)
+            foreach (var item in this)
             {
                 if (item is Control control)
                 {
@@ -660,15 +658,15 @@ public partial class Control
 
         private void SetMarginEnd(Gtk.Overlay lay, Control control)
         {
-            if (__owner is Form)
+            if (_owner is Form)
             {
                 lay.WidthRequest = Math.Max(-1, Math.Max(lay.Parent.Parent.AllocatedWidth, control.Location.X + control.Width));
                 lay.HeightRequest = Math.Max(-1, Math.Max(lay.Parent.Parent.AllocatedHeight, control.Location.Y + control.Height));
             }
             else
             {
-                lay.WidthRequest = Math.Max(-1, Math.Max(__owner.Width - 4, control.Location.X + control.Width));
-                lay.HeightRequest = Math.Max(-1, Math.Max(__owner.Height - 4, control.Location.Y + control.Height));
+                lay.WidthRequest = Math.Max(-1, Math.Max(_owner.Width - 4, control.Location.X + control.Width));
+                lay.HeightRequest = Math.Max(-1, Math.Max(_owner.Height - 4, control.Location.Y + control.Height));
             }
             if (control.Dock == DockStyle.Fill)
             {
@@ -699,7 +697,7 @@ public partial class Control
             }
             if (lay.IsMapped == true)
             {
-                Gtk.Widget widget = control.Widget;
+                var widget = control.Widget;
                 if (widget.Halign == Gtk.Align.End)
                 {
                     if (widget.WidthRequest > 0)
@@ -738,7 +736,7 @@ public partial class Control
 
     internal class ArrangedElementWidget : IArrangedElement
     {
-        Gtk.Widget _widget;
+        private Gtk.Widget _widget;
 
         public virtual event EventHandler Disposed;
 
@@ -747,51 +745,78 @@ public partial class Control
             _widget = widget;
         }
 
-        public Rectangle Bounds => throw new NotImplementedException();
+        public Rectangle Bounds
+        {
+            get
+            {
+                Gdk.Rectangle? widgetAllocation = _widget?.Allocation;
+                if (widgetAllocation.HasValue)
+                {
+                    return new Rectangle(widgetAllocation.Value.X, widgetAllocation.Value.Y, widgetAllocation.Value.Width, widgetAllocation.Value.Height);
+                }
+                return Rectangle.Empty;
+            }
+        }
 
-        public ArrangedElementCollection Children => throw new NotImplementedException();
+        public ArrangedElementCollection Children => ArrangedElementCollection.Empty;
 
-        public IArrangedElement Container => throw new NotImplementedException();
+        public IArrangedElement Container => null;
 
-        public Rectangle DisplayRectangle => throw new NotImplementedException();
+        public Rectangle DisplayRectangle
+        {
+            get
+            {
+                Gdk.Rectangle? widgetAllocation = _widget?.Allocation;
+                if (widgetAllocation.HasValue)
+                {
+                    return new Rectangle(widgetAllocation.Value.X, widgetAllocation.Value.Y, widgetAllocation.Value.Width, widgetAllocation.Value.Height);
+                }
+                return Rectangle.Empty;
+            }
+        }
 
-        /// <summary>
-        /// Gets the wrapped GTK widget.
-        /// </summary>
-        public Gtk.Widget GetWidget { get => _widget; }
+        public bool ParticipatesInLayout => _widget?.Visible ?? false;
 
-        public bool ParticipatesInLayout => throw new NotImplementedException();
-
-        public PropertyStore Properties => throw new NotImplementedException();
+        public PropertyStore Properties { get; } = new PropertyStore();
 
         public ISite Site
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get => null;
+            set { }
         }
 
-        /// <summary>
-        /// Disposes the wrapped GTK widget when the arranged-element wrapper is disposed.
-        /// </summary>
+        public Gtk.Widget GetWidget => _widget;
+
         public void Dispose()
         {
             _widget?.Dispose();
             _widget = null;
+            Disposed?.Invoke(this, EventArgs.Empty);
         }
 
         public Size GetPreferredSize(Size proposedSize)
         {
-            throw new NotImplementedException();
+            // Return the widget's requested size or the proposed size as fallback
+            if (_widget != null)
+            {
+                _widget.GetPreferredSize(out var min, out var nat);
+                return new Size(nat.Width, nat.Height);
+            }
+            return proposedSize;
         }
 
         public void PerformLayout(IArrangedElement affectedElement, string propertyName)
         {
-            throw new NotImplementedException();
+            // No-op for widget wrapper
         }
 
         public void SetBounds(Rectangle bounds, BoundsSpecified specified)
         {
-            throw new NotImplementedException();
+            if (_widget != null)
+            {
+                _widget.SetSizeRequest(bounds.Width, bounds.Height);
+                _widget.SetAllocation(new Gdk.Rectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height));
+            }
         }
     }
 }

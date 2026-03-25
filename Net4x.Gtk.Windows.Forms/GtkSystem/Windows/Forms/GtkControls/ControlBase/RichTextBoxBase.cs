@@ -1,4 +1,4 @@
-
+﻿
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
@@ -8,7 +8,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 public sealed class RichTextBoxBase : ScrollableBoxBase
 {
 
-    internal Gtk.TextView TextView = new Gtk.TextView();
+    internal Gtk.TextView TextView = new();
 
     /// <summary>
     /// Initializes a new instance of the

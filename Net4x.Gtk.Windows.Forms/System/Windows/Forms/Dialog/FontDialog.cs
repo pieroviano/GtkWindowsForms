@@ -1,6 +1,5 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
-using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -160,8 +159,8 @@ public class FontDialog : CommonDialog
             fontChooserDialog.Font = _font.Name + " " + (int)_font.Size;
         if (FullOpen && AllowFullOpen)
             fontChooserDialog.Fullscreen();
-        int res = fontChooserDialog.Run();
-        FontStyle fontStyle = FontStyle.Regular;
+        var res = fontChooserDialog.Run();
+        var fontStyle = FontStyle.Regular;
         switch (fontChooserDialog.FontDesc.Weight)
         {
             case Pango.Weight.Bold:

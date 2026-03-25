@@ -8,7 +8,6 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
-using System.Reflection;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -29,7 +28,7 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Underlying GTK combo box wrapper used to render and manage the native widget.
     /// </summary>
-    public readonly ComboBoxBase self = new ComboBoxBase();
+    public readonly ComboBoxBase self = new();
 
     internal int _selectedIndex;
 
@@ -216,7 +215,7 @@ public partial class ComboBox : ListControl
     {
         if (item is ObjectCollection.Entry entry)
         {
-            Type type = entry.Item.GetType();
+            var type = entry.Item.GetType();
             if (entry.Item is DataRow dr)
                 return dr[DisplayMember]?.ToString();
             else if (type.IsValueType && type.IsPrimitive)
@@ -264,8 +263,8 @@ public partial class ComboBox : ListControl
     /// </returns>
     public string NativeGetItemText(int index)
     {
-        self.Model.GetIter(out TreeIter iter, new TreePath(new int[] { index }));
-        object val = self.Model.GetValue(iter, 1);
+        self.Model.GetIter(out var iter, new TreePath(new int[] { index }));
+        var val = self.Model.GetValue(iter, 1);
 
         return val?.ToString();
     }
@@ -397,12 +396,12 @@ public partial class ComboBox : ListControl
         self.Entry.Visible = false;
         var ws = (Gtk.ToggleButton)o;
         ws.WidthRequest = -1;
-        Pango.Context pangocontext = ws.PangoContext;
-        string family = pangocontext.FontDescription.Family;
+        var pangocontext = ws.PangoContext;
+        var family = pangocontext.FontDescription.Family;
         args.Cr.SelectFontFace(family, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
         if (this.ForeColor.Name == "0")
         {
-            Gdk.RGBA color = ws.StyleContext.GetColor(StateFlags.Normal);
+            var color = ws.StyleContext.GetColor(StateFlags.Normal);
             args.Cr.SetSourceRGBA(color.Red, color.Green, color.Blue, color.Alpha);
         }
         else
@@ -410,12 +409,12 @@ public partial class ComboBox : ListControl
             args.Cr.SetSourceRGBA(this.ForeColor.R / 255, this.ForeColor.G / 255, this.ForeColor.B / 255, this.ForeColor.A / 255);
         }
 
-        double fontsize = pangocontext.FontDescription.Size / Pango.Scale.PangoScale * 1.5;
+        var fontsize = pangocontext.FontDescription.Size / Pango.Scale.PangoScale * 1.5;
         args.Cr.Save();
         args.Cr.Translate(10, (ws.AllocatedHeight - fontsize) / 2 + fontsize - 2);
         args.Cr.SetFontSize(fontsize);
-        Cairo.TextExtents ext = args.Cr.TextExtents(self.Entry.Text);
-        string text = self.Entry.Text;
+        var ext = args.Cr.TextExtents(self.Entry.Text);
+        var text = self.Entry.Text;
         while (text.Length > 1 && args.Cr.TextExtents(text).Width > ws.AllocatedWidth - 40)
             text = text.Substring(0, text.Length - 1);
 

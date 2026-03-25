@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -8,7 +8,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.ScrollableBoxBase" />
 public sealed class TreeViewBase : ScrollableBoxBase
 {
-    internal Gtk.TreeView TreeView = new Gtk.TreeView();
+    internal Gtk.TreeView TreeView = new();
 
     /// <summary>
     /// Initializes a new instance of the

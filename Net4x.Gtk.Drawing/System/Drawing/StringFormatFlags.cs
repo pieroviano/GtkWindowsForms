@@ -1,4 +1,4 @@
-﻿namespace System.Drawing;
+namespace System.Drawing;
 
 /// <summary>
 /// Specifies the display and layout information for text strings.
@@ -45,9 +45,5 @@ public enum StringFormatFlags
     /// <summary>
     /// Overhanging parts of glyphs, and unwrapped text reaching outside the formatting rectangle are allowed to show. By default all text and glyph parts reaching outside the formatting rectangle are clipped.
     /// </summary>
-    NoClip = 0x4000,
-    /// <summary>
-    /// The default value. The text is displayed and formatted in the default manner.
-    /// </summary>
-    None
+    NoClip = 0x4000
 }

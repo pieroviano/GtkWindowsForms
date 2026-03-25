@@ -7,7 +7,6 @@ Subject: [PATCH] Cleaned Net4x.Drawing
  Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml       |  5 ++
  .../System/Diagnostics/LogLevel.cs            |  4 +-
  .../System/Drawing/CharacterRange.cs          |  4 +-
- .../System/Drawing/ColorConverter.cs          |  3 +-
  .../System/Drawing/ColorTable.cs              |  3 +-
  .../System/Drawing/Drawing2D/Bitmap.cs        |  6 +-
  .../Drawing2D/Enum/InterpolationMode.cs       |  4 +-
@@ -72,17 +71,6 @@ index 83ce9eda..0426f53a 100644
  namespace System.Drawing;
  
  /// <summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs
-index acf69291..3df9082f 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs
-@@ -1,5 +1,4 @@
--﻿using System;
--using System.Collections;
-+﻿using System.Collections;
- using System.ComponentModel;
- using System.ComponentModel.Design.Serialization;
- using System.Globalization;
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs b/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs
 index f77ab751..49700234 100644
 --- a/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs

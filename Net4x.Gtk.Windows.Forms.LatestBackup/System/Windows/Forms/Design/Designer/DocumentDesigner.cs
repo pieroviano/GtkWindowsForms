@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -22,7 +22,7 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
 
     // ActiveX support
     //
-    private static readonly Guid htmlDesignTime = new Guid("73CEF3DD-AE85-11CF-A406-00AA00C00940");
+    private static readonly Guid htmlDesignTime = new("73CEF3DD-AE85-11CF-A406-00AA00C00940");
 
     private readonly bool initializing;   // is the designer initializing?
 

@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 
 namespace GtkSystem.Resources;
 
 internal sealed class FastResourceComparer : IComparer, IEqualityComparer, IComparer<string>, IEqualityComparer<string>
 {
-    internal static readonly FastResourceComparer Default = new FastResourceComparer();
+    internal static readonly FastResourceComparer Default = new();
 
     public int Compare(object a, object b)
     {
@@ -27,12 +26,12 @@ internal sealed class FastResourceComparer : IComparer, IEqualityComparer, IComp
 
     public unsafe static int CompareOrdinal(string a, byte[] bytes, int bCharLength)
     {
-        var num = 0;
-        var num2 = 0;
-        var num3 = a.Length;
-        if (num3 > bCharLength)
+        var charIndex = 0;
+        var charDiff = 0;
+        var compareLength = a.Length;
+        if (compareLength > bCharLength)
         {
-            num3 = bCharLength;
+            compareLength = bCharLength;
         }
         if (bCharLength == 0)
         {
@@ -44,17 +43,17 @@ internal sealed class FastResourceComparer : IComparer, IEqualityComparer, IComp
         }
         fixed (byte* ptr = bytes)
         {
-            var ptr2 = ptr;
-            while (num < num3 && num2 == 0)
+            var p = ptr;
+            while (charIndex < compareLength && charDiff == 0)
             {
-                var num4 = *ptr2 | (ptr2[1] << 8);
-                num2 = a[num++] - num4;
-                ptr2 += 2;
+                var bChar = *p | (p[1] << 8);
+                charDiff = a[charIndex++] - bChar;
+                p += 2;
             }
         }
-        if (num2 != 0)
+        if (charDiff != 0)
         {
-            return num2;
+            return charDiff;
         }
 
         return a.Length - bCharLength;
@@ -84,9 +83,9 @@ internal sealed class FastResourceComparer : IComparer, IEqualityComparer, IComp
 
     public int GetHashCode(object key)
     {
-        var key2 = (string)key;
+        var k = (string)key;
 
-        return HashFunction(key2);
+        return HashFunction(k);
     }
 
     public int GetHashCode([DisallowNull] string key)
@@ -96,21 +95,21 @@ internal sealed class FastResourceComparer : IComparer, IEqualityComparer, IComp
 
     internal static unsafe int CompareOrdinal(byte* a, int byteLen, string b)
     {
-        var num = 0;
-        var num2 = 0;
-        var num3 = byteLen >> 1;
-        if (num3 > b.Length)
+        var charDiff = 0;
+        var charIndex = 0;
+        var compareLength = byteLen >> 1;
+        if (compareLength > b.Length)
         {
-            num3 = b.Length;
+            compareLength = b.Length;
         }
-        while (num2 < num3 && num == 0)
+        while (charIndex < compareLength && charDiff == 0)
         {
-            var c = (char)(*(a++) | (*(a++) << 8));
-            num = c - b[num2++];
+            var aChar = (char)(*(a++) | (*(a++) << 8));
+            charDiff = aChar - b[charIndex++];
         }
-        if (num != 0)
+        if (charDiff != 0)
         {
-            return num;
+            return charDiff;
         }
 
         return byteLen - b.Length * 2;
@@ -118,12 +117,12 @@ internal sealed class FastResourceComparer : IComparer, IEqualityComparer, IComp
 
     internal static int HashFunction(string key)
     {
-        var num = 5381u;
-        for (int i = 0; i < key.Length; i++)
+        var hash = 5381u;
+        for (var i = 0; i < key.Length; i++)
         {
-            num = ((num << 5) + num) ^ key[i];
+            hash = ((hash << 5) + hash) ^ key[i];
         }
 
-        return (int)num;
+        return (int)hash;
     }
 }

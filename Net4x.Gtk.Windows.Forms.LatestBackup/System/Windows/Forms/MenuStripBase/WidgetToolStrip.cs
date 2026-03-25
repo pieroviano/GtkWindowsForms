@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -6,12 +6,10 @@
  * date: 2024/1/3
  */
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms.Layout;
-using GLib;
 
 namespace System.Windows.Forms;
 
@@ -37,25 +35,25 @@ namespace System.Windows.Forms;
 public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
 {
 
-    internal Gtk.Button button = new Gtk.Button();
+    internal Gtk.Button button = new();
 
-    internal Gtk.ComboBoxText comboBox = new Gtk.ComboBoxText() { HasFrame = false };
+    internal Gtk.ComboBoxText comboBox = new() { HasFrame = false };
 
-    internal Gtk.Entry entry = new Gtk.Entry();
+    internal Gtk.Entry entry = new();
 
-    internal Gtk.Viewport flagBox = new Gtk.Viewport();
+    internal Gtk.Viewport flagBox = new();
 
-    internal Gtk.RadioButton groupradio = new Gtk.RadioButton("");
+    internal Gtk.RadioButton groupradio = new("");
 
-    internal Gtk.Box itemBox = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
+    internal Gtk.Box itemBox = new(Gtk.Orientation.Horizontal, 0);
 
-    internal Gtk.Label label = new Gtk.Label();
+    internal Gtk.Label label = new();
 
     // internal Gtk.ProgressBar progressBar = new Gtk.ProgressBar();
 
-    internal Gtk.LevelBar progressBar = new Gtk.LevelBar();
+    internal Gtk.LevelBar progressBar = new();
 
-    readonly Gtk.CssProvider provider = new Gtk.CssProvider();
+    readonly Gtk.CssProvider provider = new();
 
     private Color _BackColor;
 

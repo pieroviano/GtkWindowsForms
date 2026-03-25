@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 internal class ListViewGroupItemCollection : List<ListViewItem>
 {
@@ -13,7 +10,7 @@ internal class ListViewGroupItemCollection : List<ListViewItem>
 
     public void AddRange(ListViewItem[] items)
     {
-        foreach (ListViewItem item in items)
+        foreach (var item in items)
         {
             Add(item);
         }

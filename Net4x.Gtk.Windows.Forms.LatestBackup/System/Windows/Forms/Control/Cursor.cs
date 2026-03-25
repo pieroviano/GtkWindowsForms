@@ -2,9 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Drawing;
-using System.IO;
 using System.Runtime.Serialization;
-using GLib;
 
 namespace System.Windows.Forms;
 

@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -37,7 +37,7 @@ internal class ResXSerializationBinder : SerializationBinder
         }
         else
         {
-            string assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
+            var assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
             if (!string.IsNullOrEmpty(assemblyQualifiedTypeName))
             {
                 var pos = assemblyQualifiedTypeName.IndexOf(',');
@@ -67,7 +67,7 @@ internal class ResXSerializationBinder : SerializationBinder
 
         typeName = typeName + ", " + assemblyName;
 
-        Type type = _typeResolver.GetType(typeName);
+        var type = _typeResolver.GetType(typeName);
         if (type is null)
         {
             var typeParts = typeName.Split(',');
@@ -82,7 +82,7 @@ internal class ResXSerializationBinder : SerializationBinder
             {
                 var partialName = typeParts[0].Trim();
 
-                for (int i = 1; i < typeParts.Length; ++i)
+                for (var i = 1; i < typeParts.Length; ++i)
                 {
                     var typePart = typeParts[i].Trim();
                     if (!typePart.StartsWith("Version=") && !typePart.StartsWith("version="))

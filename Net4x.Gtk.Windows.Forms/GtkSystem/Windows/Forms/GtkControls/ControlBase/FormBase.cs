@@ -1,5 +1,4 @@
-using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -16,7 +15,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// <summary>
     /// The scroll view
     /// </summary>
-    public readonly Gtk.ScrolledWindow ScrollView = new Gtk.ScrolledWindow();
+    public readonly Gtk.ScrolledWindow ScrollView = new();
 
     /// <summary>
     /// Occurs when the close window event occurs.
@@ -182,7 +181,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
 
     private void FormBase_Close(object sender, EventArgs e)
     {
-        DialogResult result = MessageBox.Show(this, System.Properties.Resources.Gtk_FormBase_FormBase_Close, "Esc keyboard operation hints", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        var result = MessageBox.Show(this, System.Properties.Resources.Gtk_FormBase_FormBase_Close, "Esc keyboard operation hints", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         if (result == DialogResult.Yes)
         {
             this.Respond(ResponseType.DeleteEvent);

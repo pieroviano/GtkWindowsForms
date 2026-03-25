@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Drawing;
-using GLib;
-using Pango;
 
 namespace System.Windows.Forms;
 
@@ -267,7 +263,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// </param>
     public void AddRange(ToolStripItem[] toolStripItems)
     {
-        for (int i = 0; i < toolStripItems.Length; i++)
+        for (var i = 0; i < toolStripItems.Length; i++)
         {
             AddMemu(toolStripItems[i]);
         }
@@ -282,7 +278,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     public void AddRange(ToolStripItemCollection toolStripItems)
     {
         var count = toolStripItems.Count;
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
             AddMemu(toolStripItems[i]);
         }

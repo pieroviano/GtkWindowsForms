@@ -1,8 +1,7 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
@@ -15,7 +14,7 @@ namespace System.Windows.Forms;
 [ListBindable(false)]
 public class DataGridViewSelectedCellCollection : BaseCollection, IList
 {
-    private readonly List<DataGridViewCell> _items = new List<DataGridViewCell>();
+    private readonly List<DataGridViewCell> _items = new();
 
     internal DataGridViewSelectedCellCollection()
     {

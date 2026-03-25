@@ -42,7 +42,7 @@ public partial class ListBox : ListControl
     /// <summary>
     /// The self
     /// </summary>
-    public readonly ListBoxBase self = new ListBoxBase();
+    public readonly ListBoxBase self = new();
 
     internal bool IsUpdateing = false;
 
@@ -889,7 +889,7 @@ public partial class ListBox : ListControl
     /// </summary>
     protected void NativeClear()
     {
-        int count = self.ListBox.Children.Length;
+        var count = self.ListBox.Children.Length;
         while (count > 0)
         {
             self.ListBox.Remove(self.ListBox.GetRowAtIndex(count - 1));
@@ -1017,7 +1017,7 @@ public partial class ListBox : ListControl
         {
             if (_DataSource is IListSource listSource)
             {
-                IEnumerator list = listSource.GetList().GetEnumerator();
+                var list = listSource.GetList().GetEnumerator();
                 SetDataSource(list);
             }
             else if (_DataSource is IEnumerable list1)
@@ -1029,7 +1029,7 @@ public partial class ListBox : ListControl
 
     private void propertyNotity(object o, NotifyArgs args)
     {
-        Binding binding = DataBindings[args.Property];
+        var binding = DataBindings[args.Property];
         binding.WriteValue();
     }
 

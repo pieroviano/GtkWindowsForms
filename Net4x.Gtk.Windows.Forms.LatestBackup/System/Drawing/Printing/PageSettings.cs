@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 namespace System.Drawing.Printing;
@@ -8,7 +8,7 @@ namespace System.Drawing.Printing;
 /// <seealso cref="T:System.ICloneable" />
 public unsafe class PageSettings : ICloneable
 {
-    private Margins _margins = new Margins();
+    private Margins _margins = new();
 
     private readonly PaperSize _paperSize;
 

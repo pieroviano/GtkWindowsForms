@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -12,13 +12,13 @@ namespace System.Windows.Forms;
 /// </summary>
 public class FormCollection : ReadOnlyCollectionBase
 {
-    internal static object CollectionSyncRoot = new object();
+    internal static object CollectionSyncRoot = new();
 
     /// <summary>
     /// Gets a form specified by name, if present, else returns null. If there are multiple
     /// forms with matching names, the first form found is returned.
     /// </summary>
-    public virtual Form this[string name]
+    public virtual Form? this[string name]
     {
         get
         {
@@ -43,11 +43,11 @@ public class FormCollection : ReadOnlyCollectionBase
     /// <summary>
     /// Gets a form specified by index.
     /// </summary>
-    public virtual Form this[int index]
+    public virtual Form? this[int index]
     {
         get
         {
-            Form f = null;
+            Form? f = null;
 
             lock (CollectionSyncRoot)
             {

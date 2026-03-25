@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using Gtk;
 using GtkSystem.Windows.Forms.Utility;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
-
 
 /// <summary>
 /// GtkControlOverride is a class that provides an implementation of the IControlOverride interface for GTK controls.
@@ -47,7 +44,7 @@ public sealed class GtkControlOverride : IControlOverride
 
     private readonly Widget container;
 
-    private readonly List<string> cssList = new List<string>();
+    private readonly List<string> cssList = new();
 
     private Gdk.Pixbuf imagePixbuf;
 
@@ -181,7 +178,7 @@ public sealed class GtkControlOverride : IControlOverride
     /// </summary>
     public void OnAddClass()
     {
-        foreach (string cssClass in cssList)
+        foreach (var cssClass in cssList)
         {
             if (container.StyleContext.HasClass(cssClass))
                 container.StyleContext.RemoveClass(cssClass);

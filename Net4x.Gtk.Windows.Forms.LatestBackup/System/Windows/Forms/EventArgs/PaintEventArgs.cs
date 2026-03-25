@@ -5,7 +5,6 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms;
 
@@ -36,7 +35,7 @@ public class PaintEventArgs : EventArgs, IDisposable
     private IntPtr oldPal = IntPtr.Zero;
 
 #if DEBUG
-    private static readonly TraceSwitch s_paintEventFinalizationSwitch = new TraceSwitch("PaintEventFinalization", "Tracks the creation and finalization of PaintEvent objects");
+    private static readonly TraceSwitch s_paintEventFinalizationSwitch = new("PaintEventFinalization", "Tracks the creation and finalization of PaintEvent objects");
 
     internal static string GetAllocationStack()
     {

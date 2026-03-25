@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -113,7 +112,7 @@ public partial class ResXFileRef
                         parts.Length > 2
                             ? Encoding.GetEncoding(parts[2])
                             : Encoding.Default;
-                    using (StreamReader sr = new StreamReader(fileName, textFileEncoding))
+                    using (var sr = new StreamReader(fileName, textFileEncoding))
                     {
                         return sr.ReadToEnd();
                     }
@@ -123,7 +122,7 @@ public partial class ResXFileRef
                 // or if it's a byte array we just return that
                 byte[] temp = null;
 
-                using (FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     Debug.Assert(fileStream != null, "Couldn't open " + fileName);
                     temp = new byte[fileStream.Length];

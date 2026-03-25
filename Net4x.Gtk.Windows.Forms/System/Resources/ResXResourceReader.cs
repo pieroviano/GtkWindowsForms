@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -7,7 +7,6 @@ using System.Collections.Specialized;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
@@ -445,8 +444,8 @@ public partial class ResXResourceReader : IResourceReader
 
     private void ParseAssemblyNode(XmlReader reader)
     {
-        string alias = reader[ResXResourceWriter.AliasStr];
-        string typeName = reader[ResXResourceWriter.NameStr];
+        var alias = reader[ResXResourceWriter.AliasStr];
+        var typeName = reader[ResXResourceWriter.NameStr];
 
         var assemblyName = new AssemblyName(typeName);
 
@@ -465,7 +464,7 @@ public partial class ResXResourceReader : IResourceReader
             Name = reader[ResXResourceWriter.NameStr]
         };
 
-        string typeName = reader[ResXResourceWriter.TypeStr];
+        var typeName = reader[ResXResourceWriter.TypeStr];
 
         string alias = null;
         AssemblyName assemblyName = null;
@@ -507,7 +506,7 @@ public partial class ResXResourceReader : IResourceReader
                 {
                     if (reader.Name.Equals(ResXResourceWriter.ValueStr))
                     {
-                        WhitespaceHandling oldValue = reader.WhitespaceHandling;
+                        var oldValue = reader.WhitespaceHandling;
                         try
                         {
                             // based on the documentation at https://docs.microsoft.com/dotnet/api/system.xml.xmltextreader.whitespacehandling
@@ -567,7 +566,7 @@ public partial class ResXResourceReader : IResourceReader
 
     private void ParseResHeaderNode(XmlReader reader)
     {
-        string name = reader[ResXResourceWriter.NameStr];
+        var name = reader[ResXResourceWriter.NameStr];
         if (name != null)
         {
             reader.ReadStartElement();
@@ -685,7 +684,7 @@ public partial class ResXResourceReader : IResourceReader
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
-                        string s = reader.LocalName;
+                        var s = reader.LocalName;
 
                         if (reader.LocalName.Equals(ResXResourceWriter.AssemblyStr))
                         {

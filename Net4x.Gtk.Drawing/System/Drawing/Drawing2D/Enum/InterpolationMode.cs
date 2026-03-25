@@ -1,4 +1,6 @@
-﻿namespace System.Drawing.Drawing2D;
+using System;
+
+namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// The System.Drawing.Drawing2D.InterpolationMode enumeration specifies the algorithm

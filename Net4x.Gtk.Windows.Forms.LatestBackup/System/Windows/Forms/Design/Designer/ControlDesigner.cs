@@ -1,12 +1,9 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.ComponentModel.Design.Serialization;
 using System.Drawing;
-using System.Drawing.Design;
 
 namespace System.Windows.Forms.Design;
 
@@ -24,7 +21,7 @@ public partial class ControlDesigner : ComponentDesigner
     /// valid point in typical scenarios.
     /// </remarks>
 #pragma warning disable IDE1006 // Naming Styles - Public API
-    protected static readonly Point InvalidPoint = new Point(int.MinValue, int.MinValue);
+    protected static readonly Point InvalidPoint = new(int.MinValue, int.MinValue);
 
     private readonly bool _ctrlSelect;                           // if the CTRL key was down at the mouse down
 

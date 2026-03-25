@@ -29,13 +29,13 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <summary>
     /// The self
     /// </summary>
-    public readonly PropertyGridBase self = new PropertyGridBase();
+    public readonly PropertyGridBase self = new();
 
     private readonly PropertyGridView _propertyView;
 
     private object[] _selectedObjects;
 
-    private readonly List<TabInfo> _tabs = new List<TabInfo>();
+    private readonly List<TabInfo> _tabs = new();
     private Delegate _propertyValueChanged;
     private Delegate _selectedGridItemChanged;
 

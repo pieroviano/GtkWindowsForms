@@ -1,5 +1,4 @@
-using System.Runtime.Serialization;
-using Gtk;
+﻿using System.Runtime.Serialization;
 
 namespace System.Windows.Forms;
 
@@ -19,7 +18,7 @@ public sealed class ListViewGroup : ISerializable
     /// </summary>
     public readonly string SerialGuid = Guid.NewGuid().ToString();
 
-    internal readonly Gtk.FlowBox FlowBox = new Gtk.FlowBox() { Orientation = Gtk.Orientation.Horizontal, Name = Guid.NewGuid().ToString() };
+    internal readonly Gtk.FlowBox FlowBox = new() { Orientation = Gtk.Orientation.Horizontal, Name = Guid.NewGuid().ToString() };
 
     readonly ListView.ListViewItemCollection _items;
 

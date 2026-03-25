@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -28,7 +28,7 @@ public sealed class InputLanguage
     /// <summary>
     /// Returns the culture of the current input language.
     /// </summary>
-    public CultureInfo Culture => new CultureInfo((int)handle & 0xFFFF);
+    public CultureInfo Culture => new((int)handle & 0xFFFF);
 
     /// <summary>
     /// Gets or sets the input language for the current thread.
@@ -74,7 +74,7 @@ public sealed class InputLanguage
             var size = 1;
             var ils = new InputLanguage[size];
 
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 ils[i] = new InputLanguage(PangoHelper.ContextGet().Language.Handle);
             }

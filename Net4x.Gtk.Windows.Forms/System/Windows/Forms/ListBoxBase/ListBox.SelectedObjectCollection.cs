@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -57,14 +57,14 @@ public partial class ListBox
             {
                 if (_owner.IsHandleCreated)
                 {
-                    SelectionMode current = _owner.SelectionMode;
+                    var current = _owner.SelectionMode;
                     switch (current)
                     {
                         case SelectionMode.None:
                             return 0;
 
                         case SelectionMode.One:
-                            int index = _owner.SelectedIndex;
+                            var index = _owner.SelectedIndex;
                             if (index >= 0)
                             {
                                 return 1;
@@ -185,7 +185,7 @@ public partial class ListBox
         {
             if (_owner != null)
             {
-                ObjectCollection items = _owner.Items;
+                var items = _owner.Items;
                 if (items != null && value != null)
                 {
                     var index = items.IndexOf(value);
@@ -237,8 +237,8 @@ public partial class ListBox
         /// </param>
         public void CopyTo(Array destination, int index)
         {
-            int cnt = InnerArray.GetCount(SelectedObjectMask);
-            for (int i = 0; i < cnt; i++)
+            var cnt = InnerArray.GetCount(SelectedObjectMask);
+            for (var i = 0; i < cnt; i++)
             {
                 destination.SetValue(InnerArray.GetItem(i, SelectedObjectMask), i + index);
             }
@@ -285,7 +285,7 @@ public partial class ListBox
         {
             if (_owner != null)
             {
-                ObjectCollection items = _owner.Items;
+                var items = _owner.Items;
                 if (items != null && value != null)
                 {
                     var index = items.IndexOf(value);

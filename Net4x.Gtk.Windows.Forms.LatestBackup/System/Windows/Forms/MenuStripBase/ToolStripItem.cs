@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
 
@@ -12,7 +12,7 @@ namespace System.Windows.Forms;
 public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
 {
 
-    internal Gtk.Image DefaultImage = new Gtk.Image("image-missing", Gtk.IconSize.Menu);
+    internal Gtk.Image DefaultImage = new("image-missing", Gtk.IconSize.Menu);
 
     private readonly ToolStripItemCollection dropDownItems;
 

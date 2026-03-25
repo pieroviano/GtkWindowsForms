@@ -1,17 +1,11 @@
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
-using System.Resources;
-using System.Runtime.Serialization;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace GtkSystem.Resources;
 
@@ -25,7 +19,7 @@ public class ResourceManager : System.Resources.ResourceManager
     /// <summary>
     /// The get resource information
     /// </summary>
-    public ResourceInfo GetResourceInfo = new ResourceInfo();
+    public ResourceInfo GetResourceInfo = new();
 
     internal const string ResFileExtension = ".resources";
 
@@ -117,7 +111,7 @@ public class ResourceManager : System.Resources.ResourceManager
     /// name
     /// </paramref> cannot be found, the method returns null.
     /// </returns>
-    public override object GetObject(string name, CultureInfo culture)
+    public override object? GetObject(string name, CultureInfo culture)
     {
         var result = GetObject(name);
         var stack = new StackTrace(true);
@@ -228,7 +222,7 @@ public class ResourceManager : System.Resources.ResourceManager
     /// name
     /// </paramref> cannot be found in a resource set.
     /// </returns>
-    public override string GetString(string name, CultureInfo culture)
+    public override string GetString(string name, CultureInfo? culture)
     {
         return ReadResourceText(name);
     }
@@ -243,7 +237,7 @@ public class ResourceManager : System.Resources.ResourceManager
             {
                 var stream = _assembly.GetManifestResourceStream(_baseName + ResFileExtension);
                 var reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
-                IDictionaryEnumerator dict = reader.GetEnumerator();
+                var dict = reader.GetEnumerator();
                 while (dict.MoveNext())
                 {
                     if (dict.Key.ToString() == name)
@@ -289,16 +283,13 @@ public class ResourceManager : System.Resources.ResourceManager
                     var xmlReaderSettings = new XmlReaderSettings { CheckCharacters = false };
                     doc.Load(filepath);
                     var docElem = doc.DocumentElement;
-                    XmlNodeList nodes = docElem.SelectNodes("data");
-                    //<data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
-                    //<value> </value>
-                    //</data>
+                    var nodes = docElem.SelectNodes("data");
 
                     foreach (XmlNode xn in nodes)
                     {
                         if (xn.Attributes["name"].Value == name)
                         {
-                            string data = xn.SelectSingleNode("value").InnerText;
+                            var data = xn.SelectSingleNode("value").InnerText;
                             result = System.Convert.FromBase64String(data);
                             break;
                         }
@@ -326,7 +317,7 @@ public class ResourceManager : System.Resources.ResourceManager
         {
             var stream = _assembly.GetManifestResourceStream(_baseName + ".resources");
             var reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
-            IDictionaryEnumerator dict = reader.GetEnumerator();
+            var dict = reader.GetEnumerator();
             while (dict.MoveNext())
             {
                 if (dict.Key.ToString() == name)

@@ -1,9 +1,8 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -129,7 +128,7 @@ public class KeysConverter : TypeConverter, IComparer
                 // Parse an array of key tokens.
                 //
                 var tokens = text.Split(new char[] { '+' });
-                for (int i = 0; i < tokens.Length; i++)
+                for (var i = 0; i < tokens.Length; i++)
                 {
                     tokens[i] = tokens[i].Trim();
                 }
@@ -139,9 +138,9 @@ public class KeysConverter : TypeConverter, IComparer
                 var key = (Keys)0;
                 var foundKeyCode = false;
 
-                for (int i = 0; i < tokens.Length; i++)
+                for (var i = 0; i < tokens.Length; i++)
                 {
-                    object obj = KeyNames[tokens[i]] ?? Enum.Parse(typeof(Keys), tokens[i]);
+                    var obj = KeyNames[tokens[i]] ?? Enum.Parse(typeof(Keys), tokens[i]);
                     if (obj != null)
                     {
                         var currentKey = (Keys)obj;
@@ -181,7 +180,7 @@ public class KeysConverter : TypeConverter, IComparer
         else if (value is Enum[])
         {
             long finalValue = 0;
-            foreach (Enum e in (Enum[])value)
+            foreach (var e in (Enum[])value)
             {
                 finalValue |= Convert.ToInt64(e, CultureInfo.InvariantCulture);
             }
@@ -219,12 +218,12 @@ public class KeysConverter : TypeConverter, IComparer
                 var key = (Keys)value;
                 var added = false;
                 var terms = new ArrayList();
-                Keys modifiers = (key & Keys.Modifiers);
+                var modifiers = (key & Keys.Modifiers);
 
                 // First, iterate through and do the modifiers. These are
                 // additive, so we support things like Ctrl + Alt
                 //
-                for (int i = 0; i < DisplayOrder.Count; i++)
+                for (var i = 0; i < DisplayOrder.Count; i++)
                 {
                     var keyString = (string)DisplayOrder[i];
                     var keyValue = (Keys)keyNames[keyString];
@@ -252,7 +251,7 @@ public class KeysConverter : TypeConverter, IComparer
                 // Now reset and do the key values.  Here, we quit if
                 // we find a match.
                 //
-                Keys keyOnly = (key & Keys.KeyCode);
+                var keyOnly = (key & Keys.KeyCode);
                 var foundKey = false;
 
                 if (added && asString)
@@ -260,7 +259,7 @@ public class KeysConverter : TypeConverter, IComparer
                     terms.Add("+");
                 }
 
-                for (int i = 0; i < DisplayOrder.Count; i++)
+                for (var i = 0; i < DisplayOrder.Count; i++)
                 {
                     var keyString = (string)DisplayOrder[i];
                     var keyValue = (Keys)keyNames[keyString];
@@ -329,7 +328,7 @@ public class KeysConverter : TypeConverter, IComparer
 
             var keys = KeyNames.Values;
 
-            foreach (object o in keys)
+            foreach (var o in keys)
             {
                 list.Add(o);
             }

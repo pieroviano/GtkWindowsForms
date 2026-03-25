@@ -1,8 +1,9 @@
-﻿using System.Buffers.Binary;
+using System.Buffers.Binary;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 
 namespace System.Drawing;
 

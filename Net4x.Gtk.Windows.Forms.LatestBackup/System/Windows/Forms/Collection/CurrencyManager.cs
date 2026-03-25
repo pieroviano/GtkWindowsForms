@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
@@ -440,7 +440,7 @@ public class CurrencyManager : BindingManagerBase
     {
         if (key == null)
         {
-            throw new ArgumentNullException("key");
+            throw new ArgumentNullException(nameof(key));
         }
         if (property != null && _list is IBindingList && ((IBindingList)_list).SupportsSearching)
         {
@@ -706,7 +706,7 @@ public class CurrencyManager : BindingManagerBase
             {
                 throw new ArgumentException("ListManagerSetDataSource");
             }
-            throw new ArgumentNullException("source");
+            throw new ArgumentNullException(nameof(source));
         }
         if (FinalType == null)
         {

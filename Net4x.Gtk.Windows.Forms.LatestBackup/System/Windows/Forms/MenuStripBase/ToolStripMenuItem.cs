@@ -1,6 +1,3 @@
-using System;
-using Gtk;
-
 namespace System.Windows.Forms;
 
 /// <summary>

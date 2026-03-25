@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace System.Windows.Forms;
 
@@ -16,7 +16,7 @@ public abstract class ListControl : ScrollableControl
     /// <summary>
     /// The events
     /// </summary>
-    protected new EventHandlerList Events = new EventHandlerList();
+    protected new EventHandlerList Events = new();
 
     /// <summary>
     /// Occurs when the

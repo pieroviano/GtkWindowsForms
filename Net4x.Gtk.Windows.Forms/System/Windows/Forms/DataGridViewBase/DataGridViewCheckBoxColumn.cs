@@ -1,12 +1,10 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
-using System.Collections;
-using System.ComponentModel;
-using System.Reflection;
+
 using System.Windows.Forms.GtkRender;
 using Gtk;
 
@@ -68,8 +66,8 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
     {
         var path = new TreePath(args.Path);
         var model = _treeView.Model;
-        model.GetIter(out TreeIter iter, path);
-        object cell = model.GetValue(iter, this.Index);
+        model.GetIter(out var iter, path);
+        var cell = model.GetValue(iter, this.Index);
         if (cell is DataGridViewCell val)
         {
             var tggle = (CellRendererToggleValue)o;

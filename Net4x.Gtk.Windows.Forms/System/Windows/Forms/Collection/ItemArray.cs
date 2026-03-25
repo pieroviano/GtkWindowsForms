@@ -1,8 +1,7 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using static System.Windows.Forms.ItemArray;
 
@@ -104,7 +103,7 @@ internal partial class ItemArray : IComparer<Entry>
         // More complex; we must compute this index.
         var calcIndex = -1;
 
-        for (int i = 0; i < Count; i++)
+        for (var i = 0; i < Count; i++)
         {
             if ((_entries[i].State & stateMask) != 0)
             {
@@ -134,7 +133,7 @@ internal partial class ItemArray : IComparer<Entry>
         // based on a mask.
         var filteredCount = 0;
 
-        foreach (Entry entry in _entries)
+        foreach (var entry in _entries)
         {
             if ((entry.State & stateMask) != 0)
             {
@@ -201,7 +200,7 @@ internal partial class ItemArray : IComparer<Entry>
     {
         var virtualIndex = -1;
 
-        foreach (Entry entry in _entries)
+        foreach (var entry in _entries)
         {
             if (stateMask == 0 || (entry.State & stateMask) != 0)
             {
@@ -307,10 +306,10 @@ internal partial class ItemArray : IComparer<Entry>
             return 0;
         }
 
-        string? itemName1 = _listControl.GetItemText(entry1.Item);
-        string? itemName2 = _listControl.GetItemText(entry2.Item);
+        var itemName1 = _listControl.GetItemText(entry1.Item);
+        var itemName2 = _listControl.GetItemText(entry2.Item);
 
-        CompareInfo compInfo = Application.CurrentCulture.CompareInfo;
+        var compInfo = Application.CurrentCulture.CompareInfo;
 
         return compInfo.Compare(itemName1, itemName2, CompareOptions.StringSort);
     }

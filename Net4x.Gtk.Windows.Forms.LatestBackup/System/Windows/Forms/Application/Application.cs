@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Threading;
-using System.Windows.Forms;
 using Gtk;
 
 namespace System.Windows.Forms
@@ -19,7 +15,7 @@ namespace System.Windows.Forms
     public sealed class Application
     {
 
-        private static readonly object internalSyncObject = new object();
+        private static readonly object internalSyncObject = new();
 
         static Application()
         {
@@ -98,7 +94,7 @@ namespace System.Windows.Forms
         {
             get
             {
-                System.Diagnostics.ProcessModule module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
+                var module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
                 if (module.ModuleName.ToLower() == "dotnet" || module.ModuleName.ToLower() == "dotnet.exe")
                     return Assembly.GetEntryAssembly().Location;
                 else
@@ -132,7 +128,7 @@ namespace System.Windows.Forms
             {
                 var forms = new FormCollection();
                 var windows = Gtk.Window.ListToplevels().Where(w => w.IsVisible == true);
-                foreach (Gtk.Window w in windows)
+                foreach (var w in windows)
                     if (w.Data.ContainsKey("Control") && w.Data["Control"] is Form form)
                         forms.Add(form);
 
@@ -329,7 +325,7 @@ namespace System.Windows.Forms
 ";
 
                 var appdirectory = "./";// StartupPath; // becauselinux the system commonly uses environment variable paths， will lead toDirectory/Environment the retrieved current directory is incorrect
-                if (!File.Exists($"{appdirectory}/GtkSystem.Windows.Forms.dll"))
+                if (!File.Exists($"{appdirectory}/{Assembly.GetExecutingAssembly().GetName().Name}.dll"))
                 {
                     appdirectory = Path.GetDirectoryName(ExecutablePath);
                 }
@@ -346,13 +342,13 @@ namespace System.Windows.Forms
                 }
 
                 Gtk.Application.Init();
-                App = new Gtk.Application("GtkSystem.Windows.Forms", GLib.ApplicationFlags.None);
+                App = new Gtk.Application(Assembly.GetExecutingAssembly().GetName().Name, GLib.ApplicationFlags.None);
                 App.Register(GLib.Cancellable.Current);
                 App.Shutdown += App_Shutdown;
                 var quitAction = new GLib.SimpleAction("quit", null);
                 quitAction.Activated += QuitActivated;
                 App.AddAction(quitAction);
-                Gtk.Settings settings = Gtk.Settings.Default;
+                var settings = Gtk.Settings.Default;
                 settings.SplitCursor = true;
                 settings.EnableAnimations = true;
                 var iconpath = Path.Combine(appdirectory, "icon.png");
@@ -365,22 +361,22 @@ namespace System.Windows.Forms
                 if (File.Exists(themesetuppath))
                 {
                     var setuptheme = File.ReadAllLines(themesetuppath, Text.Encoding.UTF8);
-                    Dictionary<string,string> nameValue = setuptheme.Where(w=>w.Contains("=")).ToDictionary(k => k.Split('=')[0],v=>v.Split('=')[1]);
-                    nameValue.TryGetValue("UseDefaultStyle", out string usedef);
+                    var nameValue = setuptheme.Where(w=>w.Contains("=")).ToDictionary(k => k.Split('=')[0],v=>v.Split('=')[1]);
+                    nameValue.TryGetValue("UseDefaultStyle", out var usedef);
                     if (usedef != "false")
                         cssBuilder.AppendLine(css_style);
 
-                    nameValue.TryGetValue("AutoTheme", out string autotheme);
+                    nameValue.TryGetValue("AutoTheme", out var autotheme);
                     if (autotheme == "false")
                     {
-                        if (nameValue.TryGetValue("DefaultThemeName", out string themename))
+                        if (nameValue.TryGetValue("DefaultThemeName", out var themename))
                             Gtk.Settings.Default.ThemeName = themename;
                     }
-                    if (nameValue.TryGetValue("UseCustomTheme", out string usetheme))
+                    if (nameValue.TryGetValue("UseCustomTheme", out var usetheme))
                     {
                         if (usetheme == "true")
                         {
-                            if (nameValue.TryGetValue("ThemeFolder", out string themefolder))
+                            if (nameValue.TryGetValue("ThemeFolder", out var themefolder))
                             {
                                 if (Directory.Exists(themefolder))
                                 {
@@ -403,7 +399,7 @@ namespace System.Windows.Forms
                                     Console.WriteLine(themefolder + System.Properties.Resources.Gtk_Application_Init_Directory_does_not_exist);
                                 }
                             }
-                            if (nameValue.TryGetValue("ThemeCssPath", out string themecss))
+                            if (nameValue.TryGetValue("ThemeCssPath", out var themecss))
                             {
                                 if (File.Exists(themecss))
                                 {
@@ -412,9 +408,9 @@ namespace System.Windows.Forms
                             }
                         }
                     }
-                    if (nameValue.TryGetValue("UseCustomStyle", out string customstyle))
+                    if (nameValue.TryGetValue("UseCustomStyle", out var customstyle))
                     {
-                        if (customstyle == "true" && nameValue.TryGetValue("StylePath", out string stylefile))
+                        if (customstyle == "true" && nameValue.TryGetValue("StylePath", out var stylefile))
                         {
                             var stylepath = Path.Combine(themepath, stylefile);
                             if (File.Exists(stylepath))

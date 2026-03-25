@@ -342,6 +342,11 @@ public class RemoveUnusedUsingsRewriter : CSharpSyntaxRewriter
             return typeName is "ITypeResolutionService";
         }
 
+        if (namespaceName == "System.ComponentModel.Design.Serialization")
+        {
+            return typeName is "InstanceDescriptor";
+        }
+
         if (namespaceName == "System.Windows.Forms.Design")
         {
             return typeName is "PropertyTab";

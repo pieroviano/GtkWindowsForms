@@ -1,4 +1,6 @@
-﻿namespace System.Diagnostics;
+using System.Text;
+
+namespace System.Diagnostics;
 
 /// <summary>
 /// Defines logging severity levels.

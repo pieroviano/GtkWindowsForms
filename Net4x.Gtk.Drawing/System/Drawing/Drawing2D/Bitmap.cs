@@ -1,7 +1,11 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using Cairo;
+using Gdk;
+using Pango;
 
 namespace System.Drawing;
 

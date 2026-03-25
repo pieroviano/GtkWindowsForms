@@ -4,9 +4,7 @@
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
-using System.Collections;
-using System.ComponentModel;
-using System.Reflection;
+
 using System.Windows.Forms.GtkRender;
 using Gtk;
 

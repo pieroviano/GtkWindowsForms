@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -31,7 +31,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Underlying GTK window wrapper used by this form.
     /// </summary>
-    public FormBase self = new FormBase();
+    public FormBase self = new();
 
     private ObjectCollection _ObjectCollection;
 
@@ -39,7 +39,7 @@ public partial class Form : ContainerControl, IWin32Window
 
     private readonly Gtk.Application app = Application.Init();
 
-    private readonly Gtk.Overlay contanter = new Gtk.Overlay();
+    private readonly Gtk.Overlay contanter = new();
 
     private bool Is_Control_Shown = false;
 
@@ -514,7 +514,7 @@ public partial class Form : ContainerControl, IWin32Window
             throw new InvalidOperationException("ShowDialogOnDisabled");
         }
         Show(owner);
-        int irun = self.Run();
+        var irun = self.Run();
 
         return this.DialogResult;
     }

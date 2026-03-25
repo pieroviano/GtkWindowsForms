@@ -1,10 +1,9 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System.Collections;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -146,7 +145,7 @@ public class ResXResourceWriter : IResourceWriter
 
     private XmlTextWriter _xmlTextWriter;
 
-    private static readonly TraceSwitch s_resValueProviderSwitch = new TraceSwitch("ResX", "Debug the resource value provider");
+    private static readonly TraceSwitch s_resValueProviderSwitch = new("ResX", "Debug the resource value provider");
 
     /// <summary>
     /// Creates a new ResXResourceWriter that will write to the specified file.
@@ -300,9 +299,9 @@ public class ResXResourceWriter : IResourceWriter
         // we're modifying the node as we're adding it to the resxwriter
         // this is BAD, so we clone it. adding it to a writer doesnt change it
         // we're messing with a copy
-        ResXDataNode nodeClone = node.DeepClone();
+        var nodeClone = node.DeepClone();
 
-        ResXFileRef fileRef = nodeClone.FileRef;
+        var fileRef = nodeClone.FileRef;
         var modifiedBasePath = BasePath;
 
         if (!string.IsNullOrEmpty(modifiedBasePath))
@@ -315,7 +314,7 @@ public class ResXResourceWriter : IResourceWriter
             fileRef?.MakeFilePathRelative(modifiedBasePath);
         }
 
-        DataNodeInfo info = nodeClone.GetDataNodeInfo();
+        var info = nodeClone.GetDataNodeInfo();
         AddDataRow(DataStr, info.Name, info.ValueData, info.TypeName, info.MimeType, info.Comment);
     }
 
@@ -429,7 +428,7 @@ public class ResXResourceWriter : IResourceWriter
             case ResXFileRef fileRef:
                 {
                     var node = new ResXDataNode(name, fileRef, _typeNameConverter);
-                    DataNodeInfo info = node.GetDataNodeInfo();
+                    var info = node.GetDataNodeInfo();
                     AddDataRow(elementName, info.Name, info.ValueData, info.TypeName, info.MimeType, info.Comment);
                     break;
                 }
@@ -437,7 +436,7 @@ public class ResXResourceWriter : IResourceWriter
             default:
                 {
                     var node = new ResXDataNode(name, value, _typeNameConverter);
-                    DataNodeInfo info = node.GetDataNodeInfo();
+                    var info = node.GetDataNodeInfo();
                     AddDataRow(elementName, info.Name, info.ValueData, info.TypeName, info.MimeType, info.Comment);
                     break;
                 }
@@ -450,7 +449,7 @@ public class ResXResourceWriter : IResourceWriter
     private void AddDataRow(string elementName, string name, string value)
     {
         // if it's a null string, set it here as a resxnullref
-        string typeName =
+        var typeName =
             value is null
                 ? MultitargetUtil.GetAssemblyQualifiedName(typeof(ResXNullRef), _typeNameConverter)
                 : null;
@@ -689,7 +688,7 @@ public class ResXResourceWriter : IResourceWriter
 
     private string TypeNameWithAssembly(Type type)
     {
-        string result = MultitargetUtil.GetAssemblyQualifiedName(type, _typeNameConverter);
+        var result = MultitargetUtil.GetAssemblyQualifiedName(type, _typeNameConverter);
 
         return result;
     }

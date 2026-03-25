@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.ComponentModel;
-using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -19,7 +17,7 @@ namespace System.Windows.Forms;
 public class BindingsCollection : BaseCollection
 {
 
-    private readonly List<Binding> _list = new List<Binding>();
+    private readonly List<Binding> _list = new();
 
     private CollectionChangeEventHandler? _onCollectionChanged;
 

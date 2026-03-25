@@ -1,5 +1,3 @@
-using GLib;
-
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>

@@ -1,10 +1,6 @@
-using System.Threading.Tasks;
 using Gtk;
 
 namespace System.Windows.Forms;
-
-using static System.Net.Mime.MediaTypeNames;
-using FormsMessageBoxButtons = MessageBoxButtons;
 
 /// <summary>
 /// An IMessageBox implementation that wraps a platform message box and automatically disposes it after a timeout.

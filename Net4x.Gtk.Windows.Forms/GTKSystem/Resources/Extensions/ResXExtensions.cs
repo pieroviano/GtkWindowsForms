@@ -1,4 +1,3 @@
-using System;
 using System.Resources;
 
 namespace GtkSystem.Resources.Extensions;

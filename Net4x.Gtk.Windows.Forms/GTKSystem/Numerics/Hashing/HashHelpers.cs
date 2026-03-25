@@ -1,5 +1,3 @@
-using System;
-
 namespace GtkSystem.Numerics.Hashing;
 
 internal static class HashHelpers
