@@ -5,6 +5,7 @@ using GtkLogger = gtk::System.Diagnostics.GtkLogger;
 
 namespace System.Diagnostics;
 
+[Collection("NonParallelCollection")]
 public class GtkLoggerTests
 {
     private string? _capturedMessage;

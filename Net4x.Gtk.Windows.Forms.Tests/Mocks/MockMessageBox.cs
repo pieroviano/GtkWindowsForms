@@ -6,8 +6,10 @@ namespace Mocks;
 
 extern alias gtk;
 
-public class MockMessageBox : IMessageBox
+public class MockMessageBox : IMessageBox, IDisposable
 {
+    private static IMessageBox _oldInstance;
+
     /// <summary>
     /// Stores all log messages captured by the custom GtkLogger action.
     /// </summary>
@@ -25,6 +27,7 @@ public class MockMessageBox : IMessageBox
             var formatted = $"[{level}] {message}" + (exception != null ? $" Exception: {exception}" : "");
             mockMessageBox.LoggedMessages.Add(formatted);
         });
+        _oldInstance = MessageBox.Instance;
         MessageBox.Instance = mockMessageBox;
         return mockMessageBox;
     }
@@ -112,4 +115,15 @@ public class MockMessageBox : IMessageBox
 
     public DialogResult Show(IWin32Window? owner, string? text)
         => LogAndReturn(text, "");
+
+    public void Dispose()
+    {
+        gtk::System.Diagnostics.GtkLogger.SetCustomLogAction(null);
+        MessageBox.Instance = _oldInstance;
+    }
+
+    ~MockMessageBox()
+    {
+        Dispose();
+    }
 }

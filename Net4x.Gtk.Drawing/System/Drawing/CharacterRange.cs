@@ -1,4 +1,4 @@
-//
+﻿//
 // System.Windows.Drawing.CharacterRange.cs
 //
 // Authors:
@@ -117,7 +117,7 @@ public struct CharacterRange
 
         var cr = (CharacterRange) obj;
 
-        return Equals(this, cr);
+        return this.first == cr.first && this.length == cr.length;
     }
 
     /// <summary>
