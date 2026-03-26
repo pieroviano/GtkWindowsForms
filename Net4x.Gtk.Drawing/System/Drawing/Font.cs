@@ -422,9 +422,19 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// Creates an exact copy of this System.Drawing.Font.
     /// </summary>
     /// <returns>
-    /// The System.Drawing.Font this method creates, cast as an System.Object.
+    /// The System.Drawing.Font this method creates, cast as a System.Object.
     /// </returns>
-    public object Clone() { return null; }
+    public object Clone()
+    {
+        return new Font(
+            this.FontFamily,
+            this.Size,
+            this.Style,
+            this.Unit,
+            this.GdiCharSet,
+            this.GdiVerticalFont
+        );
+    }
 
     /// <summary>
     /// Releases all resources used by this System.Drawing.Font.

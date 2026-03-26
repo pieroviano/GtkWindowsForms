@@ -97,6 +97,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0013-Fixed-Form-raising-Load-twice.patch = patches\0013-Fixed-Form-raising-Load-twice.patch
 		patches\0014-Fixed-bug-regarding-Image-throwing-exception-if-crea.patch = patches\0014-Fixed-bug-regarding-Image-throwing-exception-if-crea.patch
 		patches\0015-Fixing-ColorConverter.patch = patches\0015-Fixing-ColorConverter.patch
+		patches\0016-Fix-font.patch = patches\0016-Fix-font.patch
 		patches\0016-Fx-CharacterRange.patch = patches\0016-Fx-CharacterRange.patch
 	EndProjectSection
 EndProject

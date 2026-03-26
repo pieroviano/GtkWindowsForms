@@ -1,0 +1,38 @@
+From 24593d0309ee19e6dabe6dd675feb6208c542ec4 Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Thu, 26 Mar 2026 06:53:18 +0200
+Subject: [PATCH] Fix font
+
+---
+ Net4x.Gtk.Drawing/System/Drawing/Font.cs | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Font.cs b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+index abbb366c..38334a7f 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Font.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+@@ -422,9 +422,19 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// Creates an exact copy of this System.Drawing.Font.
+     /// </summary>
+     /// <returns>
+-    /// The System.Drawing.Font this method creates, cast as an System.Object.
++    /// The System.Drawing.Font this method creates, cast as a System.Object.
+     /// </returns>
+-    public object Clone() { return null; }
++    public object Clone()
++    {
++        return new Font(
++            this.FontFamily,
++            this.Size,
++            this.Style,
++            this.Unit,
++            this.GdiCharSet,
++            this.GdiVerticalFont
++        );
++    }
+ 
+     /// <summary>
+     /// Releases all resources used by this System.Drawing.Font.
+-- 
+2.53.0.windows.2
+
