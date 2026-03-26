@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -33,16 +34,16 @@ namespace GtkWinFormsApp
             ofd.Title = Properties.GtkWinFormsAppResources.Gtk_Click_Test_Open_File;
             ofd.DefaultExt = "*.png";
             DialogResult dialogResult = ofd.ShowDialog(this);
-            Console.WriteLine("dialogResult:" + dialogResult.ToString());
-            Console.WriteLine("FileName:" + ofd.FileName);
+            GtkLogger.Info("dialogResult:" + dialogResult.ToString());
+            GtkLogger.Info("FileName:" + ofd.FileName);
             foreach (string file in ofd.FileNames)
             {
-                Console.WriteLine("FileNames:" + file);
+                GtkLogger.Info("FileNames:" + file);
             }
-            Console.WriteLine("SafeFileName:" + ofd.SafeFileName);
+            GtkLogger.Info("SafeFileName:" + ofd.SafeFileName);
             foreach (string file in ofd.SafeFileNames)
             {
-                Console.WriteLine("SafeFileNames:" + file);
+                GtkLogger.Info("SafeFileNames:" + file);
             }
         }
 
@@ -53,11 +54,11 @@ namespace GtkWinFormsApp
             ofd.Title = Properties.GtkWinFormsAppResources.Gtk_Click_Test_Save_File;
 
             DialogResult dialogResult = ofd.ShowDialog();
-            Console.WriteLine("dialogResult:" + dialogResult.ToString());
-            Console.WriteLine("FileName:" + ofd.FileName);
+            GtkLogger.Info("dialogResult:" + dialogResult.ToString());
+            GtkLogger.Info("FileName:" + ofd.FileName);
             foreach (string file in ofd.FileNames)
             {
-                Console.WriteLine("FileNames:" + file);
+                GtkLogger.Info("FileNames:" + file);
             }
         }
 
@@ -66,8 +67,8 @@ namespace GtkWinFormsApp
             FolderBrowserDialog ofd = new FolderBrowserDialog();
             ofd.Description = Properties.GtkWinFormsAppResources.Gtk_Click_Browse_Folder_Description;
             DialogResult dialogResult = ofd.ShowDialog();
-            Console.WriteLine("dialogResult:" + dialogResult.ToString());
-            Console.WriteLine("SelectedPath:" + ofd.SelectedPath);
+            GtkLogger.Info("dialogResult:" + dialogResult.ToString());
+            GtkLogger.Info("SelectedPath:" + ofd.SelectedPath);
         }
 
         private void button8_Click(object sender, EventArgs e)

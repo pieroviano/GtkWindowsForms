@@ -1,8 +1,9 @@
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -84,7 +85,7 @@ namespace GtkWinFormsApp
         private void button1_Click(object sender, EventArgs e)
         {
 
-            Console.WriteLine(treeView1.SelectedNode?.Text);
+            GtkLogger.Info(treeView1.SelectedNode?.Text);
             // b.Title = "test2";
             DialogResult result = MessageBox.Show(" 1. Load data point yes \n2. Do not load data point no", Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_2, MessageBoxButtons.YesNo);
             if (result == DialogResult.No)
@@ -164,15 +165,15 @@ namespace GtkWinFormsApp
             }
 
             //DialogResult result = MessageBox.Show(this, " pop-up test", " informational tips", MessageBoxButtons.OKCancel);
-            //Console.WriteLine(result.ToString());
+            //GtkLogger.Info(result.ToString());
             //if (result == DialogResult.OK)
             //{
-            //    Console.WriteLine("DialogResult.OK");
+            //    GtkLogger.Info("DialogResult.OK");
             //    label2.Text = " you chose OK";
             //}
             //if (result == DialogResult.Cancel)
             //{
-            //    Console.WriteLine("DialogResult.Cancel");
+            //    GtkLogger.Info("DialogResult.Cancel");
             //    label2.Text = Properties.GtkWinFormsAppResources.Gtk_You_selected_Cancel;
             //}
         }
@@ -180,22 +181,22 @@ namespace GtkWinFormsApp
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ToolStripItem menu = sender as ToolStripItem;
-            Console.WriteLine(menu.Text);
+            GtkLogger.Info(menu.Text);
         }
 
         private void textBox1_Validating(object sender, CancelEventArgs e)
         {
-            Console.WriteLine("textBox1_Validating");
+            GtkLogger.Info("textBox1_Validating");
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
         {
-            Console.WriteLine("textBox1_Enter");
+            GtkLogger.Info("textBox1_Enter");
         }
 
         private void maskedTextBox2_Validated(object sender, EventArgs e)
         {
-            Console.WriteLine("maskedTextBox2_Validated");
+            GtkLogger.Info("maskedTextBox2_Validated");
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -210,44 +211,44 @@ namespace GtkWinFormsApp
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("numericUpDown1_ValueChanged");
+            GtkLogger.Info("numericUpDown1_ValueChanged");
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("radioButton3_CheckedChanged");
+            GtkLogger.Info("radioButton3_CheckedChanged");
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("radioButton2_CheckedChanged");
+            GtkLogger.Info("radioButton2_CheckedChanged");
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("radioButton1_CheckedChanged");
+            GtkLogger.Info("radioButton1_CheckedChanged");
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("textBox1_TextChanged");
+            GtkLogger.Info("textBox1_TextChanged");
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Console.WriteLine($"comboBox1_SelectedIndexChanged {comboBox1.SelectedIndex},{comboBox1.SelectedValue},{comboBox1.Text}");
+            GtkLogger.Info($"comboBox1_SelectedIndexChanged {comboBox1.SelectedIndex},{comboBox1.SelectedValue},{comboBox1.Text}");
         }
 
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
             var i = comboBox1.SelectedIndex;
             var o = comboBox1.SelectedItem;
-            Console.WriteLine("comboBox1_SelectedValueChanged");
+            GtkLogger.Info("comboBox1_SelectedValueChanged");
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("dateTimePicker1_ValueChanged");
+            GtkLogger.Info("dateTimePicker1_ValueChanged");
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -255,90 +256,90 @@ namespace GtkWinFormsApp
             //6
             //if(dataGridView1.SelectedRows.Count > 0) 
             //    dataGridView1.SelectedRows[0].Cells[3].Value = DateTime.Now;
-            Console.WriteLine("dataGridView1_SelectionChanged");
+            GtkLogger.Info("dataGridView1_SelectionChanged");
         }
 
         private void dataGridView1_MultiSelectChanged(object sender, EventArgs e)
         { //1
-            Console.WriteLine("dataGridView1_MultiSelectChanged");
+            GtkLogger.Info("dataGridView1_MultiSelectChanged");
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            Console.WriteLine("dataGridView1_CellValueChanged");
+            GtkLogger.Info("dataGridView1_CellValueChanged");
             if (e.RowIndex > -1)
             //    if (dataGridView1.Rows.Count > 0 && dataGridView1.Rows[e.RowIndex].Cells.Count>0)
             {
                 DataGridViewCell cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                Console.WriteLine($"{cell.Value},{cell.Selected}");
+                GtkLogger.Info($"{cell.Value},{cell.Selected}");
             }
             //foreach (DataGridViewRow row in dataGridView1.Rows)
             //{
-            //    Console.WriteLine(row.Cells[1].Value);
+            //    GtkLogger.Info(row.Cells[1].Value);
             //}
         }
 
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             //3
-            Console.WriteLine("dataGridView1_CellEnter");
+            GtkLogger.Info("dataGridView1_CellEnter");
         }
 
         private void dataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
         {//4
-            Console.WriteLine("dataGridView1_CellLeave");
+            GtkLogger.Info("dataGridView1_CellLeave");
         }
 
         private void dataGridView1_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
             //7
-            Console.WriteLine("dataGridView1_CellValidated");
+            GtkLogger.Info("dataGridView1_CellValidated");
 
-            Console.WriteLine(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+            GtkLogger.Info(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString());
         }
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             //5
-            Console.WriteLine("dataGridView1_CellValidating" + e.FormattedValue);
+            GtkLogger.Info("dataGridView1_CellValidating" + e.FormattedValue);
         }
 
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            Console.WriteLine("dataGridView1_RowEnter");
+            GtkLogger.Info("dataGridView1_RowEnter");
         }
 
         private void dataGridView1_RowLeave(object sender, DataGridViewCellEventArgs e)
         {
-            Console.WriteLine("dataGridView1_RowLeave");
+            GtkLogger.Info("dataGridView1_RowLeave");
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //2
-            Console.WriteLine("dataGridView1_CellClick");
+            GtkLogger.Info("dataGridView1_CellClick");
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("richTextBox1_TextChanged");
+            GtkLogger.Info("richTextBox1_TextChanged");
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("tabControl1_SelectedIndexChanged");
+            GtkLogger.Info("tabControl1_SelectedIndexChanged");
         }
 
         private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
 
-            Console.WriteLine("treeView1_BeforeSelect：" + e.Node?.Text);
+            GtkLogger.Info("treeView1_BeforeSelect：" + e.Node?.Text);
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            Console.WriteLine("treeView1_AfterSelect：" + treeView1.SelectedNode.FullPath);
-            Console.WriteLine("treeView1_AfterSelect：" + e.Node?.Text);
+            GtkLogger.Info("treeView1_AfterSelect：" + treeView1.SelectedNode.FullPath);
+            GtkLogger.Info("treeView1_AfterSelect：" + e.Node?.Text);
         }
 
         private void treeView1_AfterCollapse(object sender, TreeViewEventArgs e)
@@ -353,45 +354,45 @@ namespace GtkWinFormsApp
 
         private void test2ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("test2ToolStripMenuItem_CheckedChanged");
+            GtkLogger.Info("test2ToolStripMenuItem_CheckedChanged");
         }
 
         private void test2ToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("test2ToolStripMenuItem_CheckedChanged");
+            GtkLogger.Info("test2ToolStripMenuItem_CheckedChanged");
         }
 
         private void test2ToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            Console.WriteLine("test2ToolStripMenuItem_DropDownItemClicked");
+            GtkLogger.Info("test2ToolStripMenuItem_DropDownItemClicked");
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("toolStripMenuItem3_Click");
+            GtkLogger.Info("toolStripMenuItem3_Click");
         }
 
         private void toolStripMenuItem3_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            Console.WriteLine("toolStripMenuItem3_DropDownItemClicked");
+            GtkLogger.Info("toolStripMenuItem3_DropDownItemClicked");
         }
 
         private void checkedListBox1_SelectedValueChanged(object sender, EventArgs e)
         {
-            Console.WriteLine($"checkedListBox1_SelectedValueChanged:{sender}");
+            GtkLogger.Info($"checkedListBox1_SelectedValueChanged:{sender}");
         }
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             (sender as CheckBox).Text = "1234";
             checkedListBox1.Items[0] = DateTime.Now.ToString();
-            Console.WriteLine($"checkedListBox1_ItemCheck，{sender}: newvalue:{e.NewValue}-oldvalue:{e.CurrentValue}");
+            GtkLogger.Info($"checkedListBox1_ItemCheck，{sender}: newvalue:{e.NewValue}-oldvalue:{e.CurrentValue}");
             if (e.Index == 2)
             {
                 checkedListBox1.SetItemChecked(3, true);
                 foreach (var o in checkedListBox1.CheckedItems)
                 {
-                    Console.WriteLine("ItemCheck，" + o.ToString());
+                    GtkLogger.Info("ItemCheck，" + o.ToString());
                 }
             }
         }
@@ -444,13 +445,13 @@ namespace GtkWinFormsApp
         private void button6_Click(object sender, EventArgs e)
         {
            // textBox1.InsertTextAtCursor("666 slip");
-            Console.WriteLine(textBox1.SelectionStart);
-            Console.WriteLine(textBox1.SelectionLength);
+            GtkLogger.Info(textBox1.SelectionStart.ToString());
+            GtkLogger.Info(textBox1.SelectionLength.ToString());
             textBox1.SelectionLength = 20;
             // richTextBox1.InsertTextAtCursor("666 slip");
-            // Console.WriteLine(richTextBox1.SelectionStart);
-            //// Console.WriteLine(richTextBox1.SelectionStart1);
-            // Console.WriteLine(richTextBox1.SelectionLength);
+            // GtkLogger.Info(richTextBox1.SelectionStart);
+            //// GtkLogger.Info(richTextBox1.SelectionStart1);
+            // GtkLogger.Info(richTextBox1.SelectionLength);
             richTextBox1.SelectionLength = 50;
         }
 
@@ -483,17 +484,17 @@ namespace GtkWinFormsApp
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             
-            Console.WriteLine("textBox1_KeyDown");
+            GtkLogger.Info("textBox1_KeyDown");
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Console.WriteLine("textBox1_KeyPress");
+            GtkLogger.Info("textBox1_KeyPress");
         }
 
         private void textBox1_KeyUp(object sender, KeyEventArgs e)
         {
-            Console.WriteLine("textBox1_KeyUp");
+            GtkLogger.Info("textBox1_KeyUp");
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -503,7 +504,7 @@ namespace GtkWinFormsApp
 
         private void comboBox1_DropDown(object sender, EventArgs e)
         {
-            Console.WriteLine("comboBox1_DropDown");
+            GtkLogger.Info("comboBox1_DropDown");
         }
     }
 

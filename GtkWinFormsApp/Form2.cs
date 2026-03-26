@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -51,7 +52,7 @@ namespace GtkWinFormsApp
             ListViewItem item = listView1.GetItemAt(e.X, e.Y);
             if (item != null)
             {
-                Console.WriteLine(item.Text);
+                GtkLogger.Info(item.Text);
             }
         }
 

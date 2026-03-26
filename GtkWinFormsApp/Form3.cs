@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -35,7 +36,7 @@ namespace GtkWinFormsApp
         private void Form3_SizeChanged(object sender, EventArgs e)
         {
             panel1.Refresh();
-            //Console.WriteLine(Width);
+            //GtkLogger.Info(Width);
             // panel1.Refresh();
             this.Refresh();
         }
@@ -120,12 +121,12 @@ namespace GtkWinFormsApp
         {
             Form4 f = new Form4();
             DialogResult res = f.ShowDialog();
-            Console.WriteLine(res);
+            GtkLogger.Info(res.ToString());
         }
 
         private void panel5_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
         {
-            Console.WriteLine($"panel5_Scroll:{e.OldValue},{e.NewValue};{e.ScrollOrientation}");
+            GtkLogger.Info($"panel5_Scroll:{e.OldValue},{e.NewValue};{e.ScrollOrientation}");
         }
 
         private void button3_Click(object sender, EventArgs e)

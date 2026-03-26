@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace GtkSystemWinFormsApp11
 
         private void Form1_SizeChanged(object? sender, EventArgs e)
         {
-            Console.WriteLine($"{this.Width},{this.Height}");
+            GtkLogger.Info($"{this.Width},{this.Height}");
         }
 
         private void button1_Click(object sender, EventArgs e)
