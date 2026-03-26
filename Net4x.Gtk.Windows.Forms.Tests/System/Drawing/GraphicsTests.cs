@@ -1,4 +1,11 @@
-﻿namespace System.Drawing;
+﻿extern alias gtk;
+
+using Graphics = gtk::System.Drawing.Graphics;
+using Bitmap = gtk::System.Drawing.Bitmap;
+using Pen = gtk::System.Drawing.Pen;
+using SolidBrush = gtk::System.Drawing.SolidBrush;
+
+namespace System.Drawing;
 
 public class GraphicsTests
 {

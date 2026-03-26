@@ -1,4 +1,9 @@
-﻿namespace System.Diagnostics;
+﻿extern alias gtk;
+
+using LogLevel = gtk::System.Diagnostics.LogLevel;
+using GtkLogger = gtk::System.Diagnostics.GtkLogger;
+
+namespace System.Diagnostics;
 
 public class GtkLoggerTests
 {

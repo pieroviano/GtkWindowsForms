@@ -1,4 +1,10 @@
-﻿namespace System.Drawing;
+﻿extern alias gtk;
+
+using FontFamily = gtk::System.Drawing.FontFamily;
+using GenericFontFamilies = gtk::System.Drawing.GenericFontFamilies;
+using FontStyle = gtk::System.Drawing.FontStyle;
+
+namespace System.Drawing;
 
 public class FontFamilyTests
 {

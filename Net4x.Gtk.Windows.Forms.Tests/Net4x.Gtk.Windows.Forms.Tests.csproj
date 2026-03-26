@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.csproj" Aliases="gtk" />
     <ProjectReference Include="..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.csproj" />
   </ItemGroup>
 

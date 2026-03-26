@@ -1,4 +1,8 @@
-﻿namespace System.Drawing
+﻿extern alias gtk;
+
+using Icon = gtk::System.Drawing.Icon;
+
+namespace System.Drawing
 {
     public class IconTests
     {

@@ -4,6 +4,8 @@ using System.Diagnostics;
 
 namespace Mocks;
 
+extern alias gtk;
+
 public class MockMessageBox : IMessageBox
 {
     /// <summary>
@@ -18,7 +20,7 @@ public class MockMessageBox : IMessageBox
     {
         var mockMessageBox = new MockMessageBox();
         mockMessageBox.LoggedMessages.Clear();
-        GtkLogger.SetCustomLogAction((message, level, exception) =>
+        gtk::System.Diagnostics.GtkLogger.SetCustomLogAction((message, level, exception) =>
         {
             var formatted = $"[{level}] {message}" + (exception != null ? $" Exception: {exception}" : "");
             mockMessageBox.LoggedMessages.Add(formatted);
@@ -31,7 +33,7 @@ public class MockMessageBox : IMessageBox
 
     private DialogResult LogAndReturn(string? text, string caption)
     {
-        GtkLogger.Info($"MessageBox.Show called. Caption: '{caption}', Text: '{text}'");
+        gtk::System.Diagnostics.GtkLogger.Info($"MessageBox.Show called. Caption: '{caption}', Text: '{text}'");
         return DialogResult.OK;
     }
 
