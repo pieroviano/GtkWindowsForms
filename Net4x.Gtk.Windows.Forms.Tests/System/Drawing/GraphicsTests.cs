@@ -3,6 +3,33 @@
 public class GraphicsTests
 {
     [Fact]
+    public void FromImage_Should_Throw_When_Width_Invalid()
+    {
+        var img = new Bitmap(0, 10);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Graphics.FromImage(img));
+    }
+
+    [Fact]
+    public void FromImage_Should_Throw_When_Height_Invalid()
+    {
+        var img = new Bitmap(10, 0);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Graphics.FromImage(img));
+    }
+
+    [Fact]
+    public void FromImage_Should_Create_Graphics_When_Valid()
+    {
+        var img = new Bitmap(10, 10);
+
+        var g = Graphics.FromImage(img);
+
+        Assert.NotNull(g);
+        Assert.NotNull(Graphics.Context);
+    }
+
+    [Fact]
     public void ClipBounds_Should_Return_Rectangle_From_Internal_State()
     {
         var rect = new Gdk.Rectangle(10, 20, 100, 200);

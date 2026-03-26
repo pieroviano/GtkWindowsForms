@@ -2,6 +2,7 @@
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using Gtk;
 
 namespace System.Drawing;
 
@@ -33,6 +34,11 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     private object _userData;
 
     private int _width;
+
+    static Image()
+    {
+        Application.Init();
+    }
 
     internal Image(byte[] pixbuf)
     {

@@ -1,0 +1,37 @@
+From e03cd322567e36ac9d52041bceee12bd1c45ff16 Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Thu, 26 Mar 2026 05:01:12 +0200
+Subject: [PATCH] Fixed bug regarding Image throwing exception if created from
+ scratch
+
+---
+ Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
+index d6ebf72e..e933e235 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
+@@ -2,6 +2,7 @@
+ using System.Drawing.Imaging;
+ using System.Runtime.InteropServices;
+ using System.Runtime.Serialization;
++using Gtk;
+ 
+ namespace System.Drawing;
+ 
+@@ -34,6 +35,11 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
+ 
+     private int _width;
+ 
++    static Image()
++    {
++        Application.Init();
++    }
++
+     internal Image(byte[] pixbuf)
+     {
+         PixbufData = pixbuf;
+-- 
+2.53.0.windows.2
+
