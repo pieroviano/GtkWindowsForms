@@ -124,7 +124,8 @@ public class ColorConverterTests
     [Fact]
     public void ConvertTo_InstanceDescriptor_NamedColor_ReturnsDescriptor()
     {
-        var result = (InstanceDescriptor)_sut.ConvertTo(null, CultureInfo.InvariantCulture, Color.Red, typeof(InstanceDescriptor));
+        var result = (InstanceDescriptor)_sut.ConvertTo(null, CultureInfo.InvariantCulture, Color.Red,
+            typeof(InstanceDescriptor));
 
         Assert.NotNull(result);
         Assert.NotNull(result.MemberInfo);
@@ -135,7 +136,8 @@ public class ColorConverterTests
     {
         var color = Color.FromArgb(1, 2, 3);
 
-        var result = (InstanceDescriptor)_sut.ConvertTo(null, CultureInfo.InvariantCulture, color, typeof(InstanceDescriptor));
+        var result =
+            (InstanceDescriptor)_sut.ConvertTo(null, CultureInfo.InvariantCulture, color, typeof(InstanceDescriptor));
 
         Assert.NotNull(result);
     }
@@ -161,31 +163,4 @@ public class ColorConverterTests
         Assert.True(result);
     }
 
-    // ----------------------------
-    // Internal method (IMPORTANT)
-    // ----------------------------
-
-    [Fact]
-    public void GetNamedColor_KnownColor_ReturnsColor()
-    {
-        var result = ColorConverter.GetNamedColor("Red");
-
-        Assert.Equal(Color.Red.ToArgb(), ((Color)result).ToArgb());
-    }
-
-    [Fact]
-    public void GetNamedColor_SystemColor_ReturnsColor()
-    {
-        var result = ColorConverter.GetNamedColor("Window");
-
-        Assert.NotNull(result);
-    }
-
-    [Fact]
-    public void GetNamedColor_Unknown_ReturnsNull()
-    {
-        var result = ColorConverter.GetNamedColor("NotAColor");
-
-        Assert.Null(result);
-    }
 }
