@@ -77,6 +77,11 @@ public partial class Form : ContainerControl, IWin32Window
         remove { self.Scroll += value; }
     }
 
+    static Form()
+    {
+        Application.Init();
+    }
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Form" /> class.
@@ -603,7 +608,6 @@ public partial class Form : ContainerControl, IWin32Window
                     }
                 }
             }
-            OnLoadHandler();
         }
         OnShownHandler();
     }
@@ -645,11 +649,6 @@ public partial class Form : ContainerControl, IWin32Window
     private void Minimize_Clicked(object sender, EventArgs e)
     {
         self.Iconify();
-    }
-
-    private void OnLoadHandler()
-    {
-        OnLoad(EventArgs.Empty);
     }
 
     private void OnShownHandler()
