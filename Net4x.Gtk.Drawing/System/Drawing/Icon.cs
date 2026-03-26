@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using Gdk;
@@ -305,7 +305,14 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
 
             return _Pixbuf;
         }
-        set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
+        set
+        {
+            _Pixbuf = value;
+            if (value != null)
+            {
+                _PixbufData = value.SaveToBuffer("bmp");
+            }
+        }
     }
 
     /// <summary>
@@ -322,7 +329,14 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
 
             return _PixbufData;
         }
-        set { _PixbufData = value; _Pixbuf = new Gdk.Pixbuf((byte[])value.Clone()); }
+        set
+        {
+            _PixbufData = value;
+            if (value != null)
+            {
+                _Pixbuf = new Gdk.Pixbuf((byte[])value.Clone());
+            }
+        }
     }
 
     /// <summary>

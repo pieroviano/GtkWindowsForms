@@ -1,7 +1,5 @@
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 
@@ -15,7 +13,7 @@ namespace System.Drawing;
 /// <filterpriority>1
 /// </filterpriority>
 [Serializable]
-public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable//,MarshalByRefObject
+public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 {
 
     internal IntPtr nativeImage;
