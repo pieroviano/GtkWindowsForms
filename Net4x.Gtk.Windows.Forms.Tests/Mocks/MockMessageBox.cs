@@ -1,0 +1,113 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Diagnostics;
+
+namespace Mocks;
+
+public class MockMessageBox : IMessageBox
+{
+    /// <summary>
+    /// Stores all log messages captured by the custom GtkLogger action.
+    /// </summary>
+    public List<string> LoggedMessages { get; } = new List<string>();
+
+    /// <summary>
+    /// Replaces MessageBox.Instance with a new MockMessageBox for testing and captures GtkLogger.Info output.
+    /// </summary>
+    public static MockMessageBox ReplaceMessageBoxWithMock()
+    {
+        var mockMessageBox = new MockMessageBox();
+        mockMessageBox.LoggedMessages.Clear();
+        GtkLogger.SetCustomLogAction((message, level, exception) =>
+        {
+            var formatted = $"[{level}] {message}" + (exception != null ? $" Exception: {exception}" : "");
+            mockMessageBox.LoggedMessages.Add(formatted);
+        });
+        MessageBox.Instance = mockMessageBox;
+        return mockMessageBox;
+    }
+
+    public event EventHandler<DialogEventArgs>? DialogAvailable;
+
+    private DialogResult LogAndReturn(string? text, string caption)
+    {
+        GtkLogger.Info($"MessageBox.Show called. Caption: '{caption}', Text: '{text}'");
+        return DialogResult.OK;
+    }
+
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text, string caption, MessageBoxButtons buttons)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text, string caption)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(string? text)
+        => LogAndReturn(text, "");
+
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
+        MessageBoxDefaultButton defaultButton)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(IWin32Window? owner, string? text, string caption)
+        => LogAndReturn(text, caption);
+
+    public DialogResult Show(IWin32Window? owner, string? text)
+        => LogAndReturn(text, "");
+}
