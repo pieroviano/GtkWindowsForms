@@ -6570,7 +6570,7 @@
             Creates an exact copy of this System.Drawing.Font.
             </summary>
             <returns>
-            The System.Drawing.Font this method creates, cast as an System.Object.
+            The System.Drawing.Font this method creates, cast as a System.Object.
             </returns>
         </member>
         <member name="M:System.Drawing.Font.Dispose">

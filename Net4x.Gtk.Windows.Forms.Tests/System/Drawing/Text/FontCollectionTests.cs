@@ -1,0 +1,49 @@
+﻿extern alias gtk;
+
+using System;
+using System.Drawing;
+using System.Drawing.Text;
+using Xunit;
+
+using FontCollection= gtk::System.Drawing.Text.FontCollection;
+using FontFamily= gtk::System.Drawing.FontFamily;
+
+namespace System.Drawing.Text;
+
+public class FontCollectionTests
+{
+    private class TestFontCollection : FontCollection
+    {
+        public TestFontCollection(FontFamily[] families)
+        {
+            Families = families;
+        }
+
+        public new FontFamily[] Families { get; }
+
+        public void CallDisposeBool(bool disposing) => Dispose(disposing);
+    }
+
+    [Fact]
+    public void Families_ReturnsAssignedArray()
+    {
+        var families = new[] { new FontFamily("Arial"), new FontFamily("Times New Roman") };
+        var collection = new TestFontCollection(families);
+        Assert.Equal(families, collection.Families);
+    }
+
+    [Fact]
+    public void Dispose_DoesNotThrow()
+    {
+        var collection = new TestFontCollection(Array.Empty<FontFamily>());
+        collection.Dispose();
+    }
+
+    [Fact]
+    public void DisposeBool_CanBeCalled()
+    {
+        var collection = new TestFontCollection(Array.Empty<FontFamily>());
+        collection.CallDisposeBool(true);
+        collection.CallDisposeBool(false);
+    }
+}

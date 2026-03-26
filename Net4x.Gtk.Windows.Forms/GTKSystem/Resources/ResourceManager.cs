@@ -36,7 +36,7 @@ public class ResourceManager : System.Resources.ResourceManager
     /// <param name="usingResourceSet">
     /// The using resource set.
     /// </param>
-    public ResourceManager([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : this(null, null, usingResourceSet)
+    public ResourceManager([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : this(string.Empty, Assembly.GetExecutingAssembly(), usingResourceSet)
     {
 
     }
