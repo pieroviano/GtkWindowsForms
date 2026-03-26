@@ -92,6 +92,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0008-Cleaned-Net4x.Drawing.patch = patches\0008-Cleaned-Net4x.Drawing.patch
 		patches\0009-Cleaned-Net4x.Gtk.Windows.Forms.patch = patches\0009-Cleaned-Net4x.Gtk.Windows.Forms.patch
 		patches\0010-Added-InternalVisibleTo.patch = patches\0010-Added-InternalVisibleTo.patch
+		patches\0011-Fixing-Gtk.Drawing.patch = patches\0011-Fixing-Gtk.Drawing.patch
 	EndProjectSection
 EndProject
 Global
