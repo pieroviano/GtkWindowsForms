@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Drawing.Imaging;
 
 namespace System.Drawing.Drawing2D;
 
@@ -26,9 +25,10 @@ public class BitmapDataTests
     [Fact]
     public void Width_Should_Set_And_Get()
     {
-        var data = new BitmapData();
-
-        data.Width = 123;
+        var data = new BitmapData
+        {
+            Width = 123
+        };
 
         Assert.Equal(123, data.Width);
     }
@@ -36,9 +36,10 @@ public class BitmapDataTests
     [Fact]
     public void Height_Should_Set_And_Get()
     {
-        var data = new BitmapData();
-
-        data.Height = 456;
+        var data = new BitmapData
+        {
+            Height = 456
+        };
 
         Assert.Equal(456, data.Height);
     }
@@ -46,9 +47,10 @@ public class BitmapDataTests
     [Fact]
     public void Stride_Should_Set_And_Get()
     {
-        var data = new BitmapData();
-
-        data.Stride = 789;
+        var data = new BitmapData
+        {
+            Stride = 789
+        };
 
         Assert.Equal(789, data.Stride);
     }
@@ -56,9 +58,10 @@ public class BitmapDataTests
     [Fact]
     public void Reserved_Should_Set_And_Get()
     {
-        var data = new BitmapData();
-
-        data.Reserved = 42;
+        var data = new BitmapData
+        {
+            Reserved = 42
+        };
 
         Assert.Equal(42, data.Reserved);
     }
@@ -81,9 +84,10 @@ public class BitmapDataTests
     [InlineData(PixelFormat.Format16bppRgb565)]
     public void PixelFormat_Should_Accept_Valid_Values(PixelFormat format)
     {
-        var data = new BitmapData();
-
-        data.PixelFormat = format;
+        var data = new BitmapData
+        {
+            PixelFormat = format
+        };
 
         Assert.Equal(format, data.PixelFormat);
     }
@@ -125,8 +129,10 @@ public class BitmapDataTests
     [Fact]
     public void GetPinnableReference_Should_Return_Reference_To_Width()
     {
-        var data = new BitmapData();
-        data.Width = 10;
+        var data = new BitmapData
+        {
+            Width = 10
+        };
 
         ref int reference = ref data.GetPinnableReference();
 

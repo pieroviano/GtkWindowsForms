@@ -1,12 +1,6 @@
 ﻿extern alias gtk;
-
-using System;
-using System.Drawing;
-using System.Drawing.Text;
-using Xunit;
-
-using FontCollection= gtk::System.Drawing.Text.FontCollection;
-using FontFamily= gtk::System.Drawing.FontFamily;
+using FontCollection = gtk::System.Drawing.Text.FontCollection;
+using FontFamily = gtk::System.Drawing.FontFamily;
 
 namespace System.Drawing.Text;
 

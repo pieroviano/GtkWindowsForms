@@ -92,7 +92,7 @@ public class ListBindingHelperTests
 
     private class TestTypedList : ITypedList
     {
-        public PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[] listAccessors) => new(null);
-        public string GetListName(PropertyDescriptor[] listAccessors) => "TestTypedList";
+        public PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[]? listAccessors) => new(null);
+        public string GetListName(PropertyDescriptor[]? listAccessors) => "TestTypedList";
     }
 }

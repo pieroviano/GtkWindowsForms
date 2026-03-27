@@ -8,6 +8,7 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
     <RootNamespace />
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿namespace System.Drawing;
+﻿#pragma warning disable xUnit2002
+namespace System.Drawing;
 
 extern alias gtk;
 

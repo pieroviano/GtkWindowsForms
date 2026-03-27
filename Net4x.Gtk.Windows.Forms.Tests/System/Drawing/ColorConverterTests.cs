@@ -2,8 +2,9 @@
 
 using System.ComponentModel.Design.Serialization;
 using System.Globalization;
+#pragma warning disable CS8605 // Unboxing a possibly null value.
 
-using ColorConverter = gtk::System.Drawing.ColorConverter;
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 
 namespace System.Drawing;
 

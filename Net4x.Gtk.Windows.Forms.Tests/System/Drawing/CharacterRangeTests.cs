@@ -1,6 +1,7 @@
 ﻿extern alias gtk;
 
 using CharacterRange = gtk::System.Drawing.CharacterRange;
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 namespace System.Drawing;
 
@@ -26,9 +27,10 @@ public class CharacterRangeTests
     [Fact]
     public void First_SetterAndGetter_WorkCorrectly()
     {
-        var range = new CharacterRange();
-
-        range.First = 10;
+        var range = new CharacterRange
+        {
+            First = 10
+        };
 
         Assert.Equal(10, range.First);
     }
@@ -36,9 +38,10 @@ public class CharacterRangeTests
     [Fact]
     public void Length_SetterAndGetter_WorkCorrectly()
     {
-        var range = new CharacterRange();
-
-        range.Length = 20;
+        var range = new CharacterRange
+        {
+            Length = 20
+        };
 
         Assert.Equal(20, range.Length);
     }

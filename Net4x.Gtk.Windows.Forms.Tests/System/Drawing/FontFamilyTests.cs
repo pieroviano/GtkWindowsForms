@@ -3,6 +3,7 @@
 using FontFamily = gtk::System.Drawing.FontFamily;
 using GenericFontFamilies = gtk::System.Drawing.GenericFontFamilies;
 using FontStyle = gtk::System.Drawing.FontStyle;
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 namespace System.Drawing;
 
@@ -27,9 +28,10 @@ public class FontFamilyTests
     [Fact]
     public void Name_Property_Should_Be_Settable()
     {
-        var ff = new FontFamily("A");
-
-        ff.Name = "B";
+        var ff = new FontFamily("A")
+        {
+            Name = "B"
+        };
 
         Assert.Equal("B", ff.Name);
     }

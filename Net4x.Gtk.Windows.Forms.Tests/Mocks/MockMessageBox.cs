@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Diagnostics;
+﻿using System.Windows.Forms;
 
 namespace Mocks;
 
@@ -8,7 +6,7 @@ extern alias gtk;
 
 public class MockMessageBox : IMessageBox, IDisposable
 {
-    private static IMessageBox _oldInstance;
+    private static IMessageBox? _oldInstance;
 
     /// <summary>
     /// Stores all log messages captured by the custom GtkLogger action.
