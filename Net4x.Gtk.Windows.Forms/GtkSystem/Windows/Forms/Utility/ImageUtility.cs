@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using Gdk;
 
 namespace GtkSystem.Windows.Forms.Utility;
 
@@ -111,7 +112,7 @@ public class ImageUtility
     /// <param name="backgroundMode">
     /// The background mode.
     /// </param>
-    public static void ScaleImage(int width, int height, ref Gdk.Pixbuf imagePixbuf, byte[] imagebytes, PictureBoxSizeMode sizeMode, ImageLayout backgroundMode)
+    public static void ScaleImage(int width, int height, ref Pixbuf? imagePixbuf, byte[]? imagebytes, PictureBoxSizeMode sizeMode, ImageLayout backgroundMode)
     {
         if (imagebytes != null)
         {

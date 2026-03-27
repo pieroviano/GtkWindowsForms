@@ -1,0 +1,88 @@
+﻿using System.Resources;
+
+namespace GtkSystem.Resources.Extensions;
+
+public class ResXExtensionsTests
+{
+    // ----------------------------
+    // OrThrowIfNull (string)
+    // ----------------------------
+
+    [Fact]
+    public void OrThrowIfNull_String_WhenNotNull_ReturnsValue()
+    {
+        var input = "test";
+
+        var result = input.OrThrowIfNull();
+
+        Assert.Equal(input, result);
+    }
+
+    [Fact]
+    public void OrThrowIfNull_String_WhenNull_Throws()
+    {
+        string input = null;
+
+        var ex = Assert.Throws<Exception>(() => input.OrThrowIfNull());
+
+        Assert.Equal("string Is Null Or Empty", ex.Message);
+    }
+
+    // ----------------------------
+    // OrThrowIfNull (ResXFileRef)
+    // ----------------------------
+
+    [Fact]
+    public void OrThrowIfNull_ResXFileRef_WhenNotNull_ReturnsValue()
+    {
+        var input = new ResXFileRef("file.txt", typeof(string).AssemblyQualifiedName);
+
+        var result = input.OrThrowIfNull();
+
+        Assert.Same(input, result);
+    }
+
+    [Fact]
+    public void OrThrowIfNull_ResXFileRef_WhenNull_Throws()
+    {
+        ResXFileRef input = null;
+
+        var ex = Assert.Throws<Exception>(() => input.OrThrowIfNull());
+
+        Assert.Equal("string is null", ex.Message);
+    }
+
+    // ----------------------------
+    // OrThrowIfNullOrEmpty (string)
+    // ----------------------------
+
+    [Fact]
+    public void OrThrowIfNullOrEmpty_WhenValid_ReturnsValue()
+    {
+        var input = "valid";
+
+        var result = input.OrThrowIfNullOrEmpty();
+
+        Assert.Equal(input, result);
+    }
+
+    [Fact]
+    public void OrThrowIfNullOrEmpty_WhenNull_Throws()
+    {
+        string input = null;
+
+        var ex = Assert.Throws<Exception>(() => input.OrThrowIfNullOrEmpty());
+
+        Assert.Equal("string Is Null Or Empty", ex.Message);
+    }
+
+    [Fact]
+    public void OrThrowIfNullOrEmpty_WhenEmpty_Throws()
+    {
+        var input = string.Empty;
+
+        var ex = Assert.Throws<Exception>(() => input.OrThrowIfNullOrEmpty());
+
+        Assert.Equal("string Is Null Or Empty", ex.Message);
+    }
+}
