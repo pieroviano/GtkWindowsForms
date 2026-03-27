@@ -11,7 +11,7 @@ internal static class BinaryReaderExtensions
         {
             if (bitPosition == 35)
             {
-                throw new FormatException(SR.Format_Bad7BitInt32);
+                throw new FormatException(GtkSystem.Resources.Extensions.SR.Format_Bad7BitInt32);
             }
             byteRead = reader.ReadByte();
             result |= (byteRead & 0x7F) << bitPosition;

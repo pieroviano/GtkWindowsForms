@@ -337,6 +337,167 @@
             <exception cref="T:System.InvalidOperationException">
             </exception>
         </member>
+        <member name="T:GtkSystem.Resources.Extensions.SR">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.Arg_ResourceFileUnsupportedVersion">
+            <summary>
+              Looks up a localized string similar to The ResourceReader class does not know how to read this version of .resources files. Expected version: {0}  This file: {1}.
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.Argument_StreamNotReadable">
+            <summary>
+              Looks up a localized string similar to Stream was not readable.
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.Argument_StreamNotWritable">
+            <summary>
+              Looks up a localized string similar to Stream was not writable..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.ArgumentOutOfRange_StreamLength">
+            <summary>
+              Looks up a localized string similar to Stream length must be non-negative and less than 2^31 - 1 - origin..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_InvalidType">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file.  The specified type doesn&apos;t exist..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_NegativeStringLength">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file. String length must be non-negative..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_ResourceDataLengthInvalid">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file.  The specified data length &apos;{0}&apos; is not a valid position in the stream..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_ResourceNameCorrupted">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file. A resource name extends past the end of the stream..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_ResourceNameCorrupted_NameIndex">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file. The resource name for name index {0} extends past the end of the stream..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_ResourcesDataInvalidOffset">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file. Invalid offset &apos;{0}&apos; into data section..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_ResourcesHeaderCorrupted">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file. Unable to read resources from this file because of invalid header information. Try regenerating the .resources file..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_ResourcesIndexTooLong">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file. String for name index &apos;{0}&apos; extends past the end of the file..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_ResourcesNameInvalidOffset">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file. Invalid offset &apos;{0}&apos; into name section..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_ResourcesNameTooLong">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file. Resource name extends past the end of the file..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_ResType_SerBlobMismatch">
+            <summary>
+              Looks up a localized string similar to The type serialized in the .resources file was not the same type that the .resources file said it contained. Expected &apos;{0}&apos; but read &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.BadImageFormat_TypeMismatch">
+            <summary>
+              Looks up a localized string similar to Corrupt .resources file.  The specified type doesn&apos;t match the available data in the stream..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.Format_Bad7BitInt32">
+            <summary>
+              Looks up a localized string similar to Too many bytes in what should have been a 7 bit encoded Int32..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.InvalidOperation_EnumEnded">
+            <summary>
+              Looks up a localized string similar to Enumeration already finished..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.InvalidOperation_EnumNotStarted">
+            <summary>
+              Looks up a localized string similar to Enumeration has not started. Call MoveNext..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.InvalidOperation_ResourceNotString_Type">
+            <summary>
+              Looks up a localized string similar to Resource was of type &apos;{0}&apos; instead of String - call GetObject instead..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.InvalidOperation_ResourceWriterSaved">
+            <summary>
+              Looks up a localized string similar to The resource writer has already been closed and cannot be edited..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.NotSupported_BinarySerializedResources">
+            <summary>
+              Looks up a localized string similar to This platform does not support binary serialized resources..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.NotSupported_ResourceObjectSerialization">
+            <summary>
+              Looks up a localized string similar to Cannot read resources that depend on serialization..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.NotSupported_UnseekableStream">
+            <summary>
+              Looks up a localized string similar to Stream does not support seeking..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.NotSupported_WrongResourceReader_Type">
+            <summary>
+              Looks up a localized string similar to This .resources file should not be read with this reader. The resource reader type is &quot;{0}&quot;..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.ObjectDisposed_ResourceSet">
+            <summary>
+              Looks up a localized string similar to Cannot access a closed resource set..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.ResourceReaderIsClosed">
+            <summary>
+              Looks up a localized string similar to ResourceReader is closed..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.Resources_StreamNotValid">
+            <summary>
+              Looks up a localized string similar to Stream is not a valid resource file..
+            </summary>
+        </member>
+        <member name="P:GtkSystem.Resources.Extensions.SR.TypeLoadException_CannotLoadConverter">
+            <summary>
+              Looks up a localized string similar to Could not load a converter for type {0}..
+            </summary>
+        </member>
         <member name="T:GtkSystem.Resources.ResourceManager">
             <summary>
             ResourceManager is a class that provides convenient access to culture-specific resources at runtime. It enables you to retrieve resources based on the current culture or a specified culture. This class is typically used in applications that support multiple languages and cultures, allowing you to manage and access localized resources such as strings, images, and other data.
@@ -504,167 +665,6 @@
             <value>
             The type of the source.
             </value>
-        </member>
-        <member name="T:GtkSystem.SR">
-            <summary>
-            A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.Arg_ResourceFileUnsupportedVersion">
-            <summary>
-            Looks up a localized string similar to The ResourceReader class does not know how to read this version of .resources files. Expected version: {0}  This file: {1}.
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.Argument_StreamNotReadable">
-            <summary>
-            Looks up a localized string similar to Stream was not readable.
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.Argument_StreamNotWritable">
-            <summary>
-            Looks up a localized string similar to Stream was not writable..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.ArgumentOutOfRange_StreamLength">
-            <summary>
-            Looks up a localized string similar to Stream length must be non-negative and less than 2^31 - 1 - origin..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_InvalidType">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file.  The specified type doesn't exist..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_NegativeStringLength">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file. String length must be non-negative..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_ResourceDataLengthInvalid">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file.  The specified data length '{0}' is not a valid position in the stream..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_ResourceNameCorrupted">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file. A resource name extends past the end of the stream..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_ResourceNameCorrupted_NameIndex">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file. The resource name for name index {0} extends past the end of the stream..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_ResourcesDataInvalidOffset">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file. Invalid offset '{0}' into data section..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_ResourcesHeaderCorrupted">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file. Unable to read resources from this file because of invalid header information. Try regenerating the .resources file..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_ResourcesIndexTooLong">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file. String for name index '{0}' extends past the end of the file..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_ResourcesNameInvalidOffset">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file. Invalid offset '{0}' into name section..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_ResourcesNameTooLong">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file. Resource name extends past the end of the file..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_ResType_SerBlobMismatch">
-            <summary>
-            Looks up a localized string similar to The type serialized in the .resources file was not the same type that the .resources file said it contained. Expected '{0}' but read '{1}'..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.BadImageFormat_TypeMismatch">
-            <summary>
-            Looks up a localized string similar to Corrupt .resources file.  The specified type doesn't match the available data in the stream..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.Culture">
-            <summary>
-            Overrides the current thread's CurrentUICulture property for all
-            resource lookups using this strongly typed resource class.
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.Format_Bad7BitInt32">
-            <summary>
-            Looks up a localized string similar to Too many bytes in what should have been a 7 bit encoded Int32..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.InvalidOperation_EnumEnded">
-            <summary>
-            Looks up a localized string similar to Enumeration already finished..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.InvalidOperation_EnumNotStarted">
-            <summary>
-            Looks up a localized string similar to Enumeration has not started. Call MoveNext..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.InvalidOperation_ResourceNotString_Type">
-            <summary>
-            Looks up a localized string similar to Resource was of type '{0}' instead of String - call GetObject instead..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.InvalidOperation_ResourceWriterSaved">
-            <summary>
-            Looks up a localized string similar to The resource writer has already been closed and cannot be edited..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.NotSupported_BinarySerializedResources">
-            <summary>
-            Looks up a localized string similar to This platform does not support binary serialized resources..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.NotSupported_ResourceObjectSerialization">
-            <summary>
-            Looks up a localized string similar to Cannot read resources that depend on serialization..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.NotSupported_UnseekableStream">
-            <summary>
-            Looks up a localized string similar to Stream does not support seeking..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.NotSupported_WrongResourceReader_Type">
-            <summary>
-            Looks up a localized string similar to This .resources file should not be read with this reader. The resource reader type is "{0}"..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.ObjectDisposed_ResourceSet">
-            <summary>
-            Looks up a localized string similar to Cannot access a closed resource set..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.ResourceManager">
-            <summary>
-            Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.ResourceReaderIsClosed">
-            <summary>
-            Looks up a localized string similar to ResourceReader is closed..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.Resources_StreamNotValid">
-            <summary>
-            Looks up a localized string similar to Stream is not a valid resource file..
-            </summary>
-        </member>
-        <member name="P:GtkSystem.SR.TypeLoadException_CannotLoadConverter">
-            <summary>
-            Looks up a localized string similar to Could not load a converter for type {0}..
-            </summary>
         </member>
         <member name="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.BoxBase">
             <summary>

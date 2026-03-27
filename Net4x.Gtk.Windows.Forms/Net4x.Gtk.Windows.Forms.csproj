@@ -256,7 +256,7 @@ Based on GTKSystem.Windows.Forms:
         <EmbeddedResource Update="GtkSystem\Resources\Extensions\SR.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>SR.Designer.cs</LastGenOutput>
-            <CustomToolNamespace>GtkSystem</CustomToolNamespace>
+            <CustomToolNamespace>GtkSystem.Resources.Extensions</CustomToolNamespace>
         </EmbeddedResource>
         <Compile Update="GtkSystem\Resources\Extensions\SR.Designer.cs">
             <DesignTime>True</DesignTime>
