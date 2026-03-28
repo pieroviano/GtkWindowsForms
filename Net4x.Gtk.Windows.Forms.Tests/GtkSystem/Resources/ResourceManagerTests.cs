@@ -23,7 +23,7 @@ public class ResourceManagerTests
     {
         var mgr = new ResourceManager("TestBase", Assembly.GetExecutingAssembly(), typeof(ResourceSet));
         Assert.NotNull(mgr.GetResourceInfo);
-        Assert.Equal("", mgr.GetResourceInfo.BaseName);
+        Assert.Equal("TestBase", mgr.GetResourceInfo.BaseName);
         Assert.Equal(Assembly.GetExecutingAssembly(), mgr.GetResourceInfo.Assembly);
         Assert.Equal(typeof(ResourceSet), mgr.GetResourceInfo.SourceType);
     }

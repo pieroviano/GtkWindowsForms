@@ -102,6 +102,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0017-Fix-ResourceManager.patch = patches\0017-Fix-ResourceManager.patch
 		patches\0018-Fix-MessageBox.patch = patches\0018-Fix-MessageBox.patch
 		patches\0019-Fixing-SR.patch = patches\0019-Fixing-SR.patch
+		patches\0020-Fix-ControlExtension.patch = patches\0020-Fix-ControlExtension.patch
 	EndProjectSection
 EndProject
 Global
