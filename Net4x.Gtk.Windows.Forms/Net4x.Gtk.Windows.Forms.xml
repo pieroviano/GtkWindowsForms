@@ -46726,14 +46726,6 @@
             <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
-        <member name="M:System.Resources.ResXFileRef.PathDifference(System.String,System.String,System.Boolean)">
-            <summary>
-            path1+result = path2
-            A string which is the relative path difference between path1 and
-            path2 such that if path1 and the calculated difference are used
-            as arguments to Combine(), path2 is returned
-            </summary>
-        </member>
         <member name="T:System.Resources.ResXNullRef">
             <summary>
             ResX Null Reference class.  This class allows ResX to store null values.

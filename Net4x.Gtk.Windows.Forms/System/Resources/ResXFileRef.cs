@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -106,53 +106,26 @@ public partial class ResXFileRef
             return;
         }
 
-        FileName = PathDifference(basePath, FileName, false);
-    }
+        // Normalize both paths
+        var baseFull = Path.GetFullPath(basePath);
+        var fileFull = Path.GetFullPath(FileName);
 
-    /// <summary>
-    /// path1+result = path2
-    /// A string which is the relative path difference between path1 and
-    /// path2 such that if path1 and the calculated difference are used
-    /// as arguments to Combine(), path2 is returned
-    /// </summary>
-    private static string PathDifference(string path1, string path2, bool compareCase)
-    {
-        int i;
-        var si = -1;
-
-        for (i = 0; (i < path1.Length) && (i < path2.Length); ++i)
+        // If paths are identical, set to empty string
+        if (string.Equals(baseFull.TrimEnd(Path.DirectorySeparatorChar), fileFull.TrimEnd(Path.DirectorySeparatorChar), StringComparison.OrdinalIgnoreCase))
         {
-            if ((path1[i] != path2[i]) && (compareCase || (char.ToLower(path1[i], CultureInfo.InvariantCulture) != char.ToLower(path2[i], CultureInfo.InvariantCulture))))
-            {
-                break;
-            }
-
-            if (path1[i] == Path.DirectorySeparatorChar)
-            {
-                si = i;
-            }
+            FileName = string.Empty;
+            return;
         }
 
-        if (i == 0)
-        {
-            return path2;
-        }
-
-        if ((i == path1.Length) && (i == path2.Length))
-        {
-            return string.Empty;
-        }
-
-        var relPath = new StringBuilder();
-
-        for (; i < path1.Length; ++i)
-        {
-            if (path1[i] == Path.DirectorySeparatorChar)
-            {
-                relPath.Append(".." + Path.DirectorySeparatorChar);
-            }
-        }
-
-        return string.Concat(relPath.ToString(), path2.Substring(si + 1));
+        string relPath;
+#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        relPath = Path.GetRelativePath(baseFull, fileFull);
+#else
+        // Fallback for older .NET: use Uri
+        var baseUri = new Uri(baseFull.EndsWith(Path.DirectorySeparatorChar.ToString()) ? baseFull : baseFull + Path.DirectorySeparatorChar);
+        var fileUri = new Uri(fileFull);
+        relPath = Uri.UnescapeDataString(baseUri.MakeRelativeUri(fileUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+#endif
+        FileName = relPath == "." ? string.Empty : relPath;
     }
 }

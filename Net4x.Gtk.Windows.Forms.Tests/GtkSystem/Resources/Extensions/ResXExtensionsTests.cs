@@ -23,9 +23,8 @@ public class ResXExtensionsTests
     {
         string input = null;
 
-        var ex = Assert.Throws<Exception>(() => input.OrThrowIfNull());
-
-        Assert.Equal("string Is Null Or Empty", ex.Message);
+        var ex = Assert.Throws<ArgumentNullException>(() => input.OrThrowIfNull());
+        Assert.Equal("Value cannot be null. (Parameter 'string Is Null Or Empty')", ex.Message);
     }
 
     // ----------------------------
@@ -47,9 +46,12 @@ public class ResXExtensionsTests
     {
         ResXFileRef input = null;
 
-        var ex = Assert.Throws<Exception>(() => input.OrThrowIfNull());
+        var ex = Assert.Throws<ArgumentNullException>(() =>
+        {
+            return input.OrThrowIfNull();
+        });
 
-        Assert.Equal("string is null", ex.Message);
+        Assert.Equal("Value cannot be null. (Parameter 'ResXFileRef is null')", ex.Message);
     }
 
     // ----------------------------
@@ -71,7 +73,7 @@ public class ResXExtensionsTests
     {
         string input = null;
 
-        var ex = Assert.Throws<Exception>(() => input.OrThrowIfNullOrEmpty());
+        var ex = Assert.Throws<ArgumentException>(() => input.OrThrowIfNullOrEmpty());
 
         Assert.Equal("string Is Null Or Empty", ex.Message);
     }
@@ -81,7 +83,7 @@ public class ResXExtensionsTests
     {
         var input = string.Empty;
 
-        var ex = Assert.Throws<Exception>(() => input.OrThrowIfNullOrEmpty());
+        var ex = Assert.Throws<ArgumentException>(() => input.OrThrowIfNullOrEmpty());
 
         Assert.Equal("string Is Null Or Empty", ex.Message);
     }
