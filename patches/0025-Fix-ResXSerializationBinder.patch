@@ -1,0 +1,50 @@
+From ee90972790fdc195048e694f1be5ee975408cd62 Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Sat, 28 Mar 2026 04:08:49 +0200
+Subject: [PATCH] Fix ResXSerializationBinder
+
+---
+ .../System/Resources/ResXSerializationBinder.cs    | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs b/Net4x.Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs
+index f3fbb9c4..338b8589 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs
+@@ -28,14 +28,10 @@ internal class ResXSerializationBinder : SerializationBinder
+     }
+ 
+     // Get the multitarget-aware string representation for the give type.
+-    public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
++    public override void BindToName(Type serializedType, out string assemblyName, out string? typeName)
+     {
+         typeName = null;
+-        if (_typeNameConverter is null)
+-        {
+-
+-        }
+-        else
++        if (_typeNameConverter != null)
+         {
+             var assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
+             if (!string.IsNullOrEmpty(assemblyQualifiedTypeName))
+@@ -49,13 +45,13 @@ internal class ResXSerializationBinder : SerializationBinder
+                     {
+                         typeName = newTypeName;
+                     }
+-
+                     return;
+                 }
+             }
+         }
+-
+-        base.BindToName(serializedType, out assemblyName, out typeName);
++        // fallback: set assemblyName and typeName explicitly
++        assemblyName = serializedType.Assembly?.GetName().Name;
++        typeName = null;
+     }
+ 
+     public override Type BindToType(string assemblyName, string typeName)
+-- 
+2.53.0.windows.2
+

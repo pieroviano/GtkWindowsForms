@@ -28,14 +28,10 @@ internal class ResXSerializationBinder : SerializationBinder
     }
 
     // Get the multitarget-aware string representation for the give type.
-    public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
+    public override void BindToName(Type serializedType, out string assemblyName, out string? typeName)
     {
         typeName = null;
-        if (_typeNameConverter is null)
-        {
-
-        }
-        else
+        if (_typeNameConverter != null)
         {
             var assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
             if (!string.IsNullOrEmpty(assemblyQualifiedTypeName))
@@ -49,13 +45,13 @@ internal class ResXSerializationBinder : SerializationBinder
                     {
                         typeName = newTypeName;
                     }
-
                     return;
                 }
             }
         }
-
-        base.BindToName(serializedType, out assemblyName, out typeName);
+        // fallback: set assemblyName and typeName explicitly
+        assemblyName = serializedType.Assembly?.GetName().Name;
+        typeName = null;
     }
 
     public override Type BindToType(string assemblyName, string typeName)

@@ -5,6 +5,7 @@ using Xunit;
 
 namespace GtkControls;
 
+[Collection("NonParallelCollection")]
 public class ControlExtensionTests
 {
     public ControlExtensionTests()
