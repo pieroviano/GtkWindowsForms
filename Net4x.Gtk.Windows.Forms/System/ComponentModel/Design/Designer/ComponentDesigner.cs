@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -20,34 +20,42 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
     private readonly bool _settingsKeyExplicitlySet;
 
     private readonly DesignerVerbCollection? _verbs;
+    private DesignerVerbCollection _designerVerbCollection;
 
     /// <summary>
     /// Gets a collection of child designers.
     /// </summary>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
-    public ICollection Children => throw new NotImplementedException();
+    public virtual ICollection Children => new object[0];
 
     /// <summary>
     /// Gets the base component that this designer is designing.
     /// </summary>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
-    public IComponent Component => throw new NotImplementedException();
+    public virtual IComponent Component => _component;
 
     /// <summary>
     /// Gets the parent designer.
     /// </summary>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
-    public IDesigner Parent => throw new NotImplementedException();
+    public virtual IDesigner Parent { get; set; }
 
     /// <summary>
     /// Gets a collection of the design-time verbs supported by the designer.
     /// </summary>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
-    public DesignerVerbCollection Verbs => throw new NotImplementedException();
+    public virtual DesignerVerbCollection Verbs
+    {
+        get
+        {
+            _designerVerbCollection = _verbs;
+            return _designerVerbCollection ??= new DesignerVerbCollection();
+        }
+    }
 
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
