@@ -1,0 +1,59 @@
+From 446bee22e4b54e1a6f6cde50f0bb32845bf9bda0 Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Sat, 28 Mar 2026 03:46:25 +0200
+Subject: [PATCH] Fix ReaderAliasResolver
+
+---
+ .../ResXResourceReader.ReaderAliasResolver.cs      | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs b/Net4x.Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs
+index 70542921..688665f6 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs
+@@ -1,4 +1,4 @@
+-// Licensed to the .NET Foundation under one or more agreements.
++﻿// Licensed to the .NET Foundation under one or more agreements.
+ // The .NET Foundation licenses this file to you under the MIT license.
+ // See the LICENSE file in the project root for more information.
+ 
+@@ -12,7 +12,7 @@ namespace System.Resources;
+ /// </summary>
+ public partial class ResXResourceReader
+ {
+-    private sealed class ReaderAliasResolver : IAliasResolver
++    internal sealed class ReaderAliasResolver : IAliasResolver
+     {
+         private readonly Hashtable _cachedAliases;
+ 
+@@ -23,20 +23,24 @@ public partial class ResXResourceReader
+ 
+         public void PushAlias(string alias, AssemblyName name)
+         {
+-            if (_cachedAliases != null && !string.IsNullOrEmpty(alias))
++            if (string.IsNullOrEmpty(alias))
+             {
+-                _cachedAliases[alias] = name;
++                return;
+             }
++            _cachedAliases[alias] = name;
+         }
+ 
+         public AssemblyName ResolveAlias(string alias)
+         {
++            if (string.IsNullOrEmpty(alias))
++            {
++                return null;
++            }
+             AssemblyName result = null;
+             if (_cachedAliases != null)
+             {
+                 result = (AssemblyName)_cachedAliases[alias];
+             }
+-
+             return result;
+         }
+     }
+-- 
+2.53.0.windows.2
+
