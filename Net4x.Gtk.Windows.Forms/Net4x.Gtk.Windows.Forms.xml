@@ -46437,11 +46437,6 @@
             <see cref="T:System.Drawing.Printing.PrintDocument" />.
             </summary>
         </member>
-        <member name="M:System.Resources.AssemblyNamesTypeResolutionService.IsDotNetAssembly(System.String)">
-            <summary>
-            This is matching %windir%\Microsoft.NET\Framework*, so both 32bit and 64bit framework will be covered.
-            </summary>
-        </member>
         <member name="T:System.Resources.MultitargetUtil">
             <summary>
             Helper class supporting Multitarget type assembly qualified name resolution for ResX API.
