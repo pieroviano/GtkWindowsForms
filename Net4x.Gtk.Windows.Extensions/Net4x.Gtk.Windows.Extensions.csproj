@@ -17,6 +17,7 @@
         <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <NoWarn>$(NoWarn);NU5118</NoWarn>
+        <PackageId>Gtk.Windows.Extensions</PackageId>
     </PropertyGroup>
     <ItemGroup>
         <Compile Remove="Resources\**" />

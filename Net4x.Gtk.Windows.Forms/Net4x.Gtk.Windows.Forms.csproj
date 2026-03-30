@@ -63,8 +63,8 @@ Based on GTKSystem.Windows.Forms:
         </Compile>
         <None Include="Content\System.ComponentModel.cs" Pack="true" PackagePath="content\System.ComponentModel.cs" />
         <None Include="Content\System.Resources.ResourceManager.cs" Pack="true" PackagePath="content\System.Resources.ResourceManager.cs" />
-        <None Include="Net4x.Gtk.Windows.Forms.props" Pack="true" PackagePath="\build\" />
-        <None Include="Net4x.Gtk.Windows.Forms.targets" Pack="true" PackagePath="\build\" />
+        <None Include="Gtk.Windows.Forms.props" Pack="true" PackagePath="\build\" />
+        <None Include="Gtk.Windows.Forms.targets" Pack="true" PackagePath="\build\" />
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="GTKControls\Control\ArrangedElementCollection.cs" />
@@ -299,6 +299,7 @@ Based on GTKSystem.Windows.Forms:
     </ItemGroup>
     <PropertyGroup>
         <NoWarn>$(NoWarn);MSB3243;</NoWarn>
+        <PackageId>Gtk.Windows.Forms</PackageId>
     </PropertyGroup>
     <ItemGroup>
         <Compile Update="Properties\MessageBoxResources.Designer.cs">
