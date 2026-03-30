@@ -13,7 +13,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// <summary>
     /// Occurs when scroll.
     /// </summary>
-    public virtual event ScrollEventHandler Scroll;
+    public virtual event ScrollEventHandler? Scroll;
 
     /// <summary>
     /// Initializes a new instance of the

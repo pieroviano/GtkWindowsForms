@@ -16,7 +16,7 @@ public class MaskedTextBox : TextBox
 
     internal bool IsMasking = true;
 
-    string correctText;
+    string? correctText;
 
     bool isBackspace = false;
 
@@ -48,7 +48,7 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The mask.
     /// </value>
-    public string Mask
+    public string? Mask
     {
         get;
         set;
@@ -72,7 +72,7 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get { return self.Text; }
         set { IsMasking = false; self.Text = value ?? ""; IsMasking = true; }
@@ -96,7 +96,7 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The type of the validating.
     /// </value>
-    public Type ValidatingType
+    public Type? ValidatingType
     {
         get;
         set;
@@ -113,7 +113,7 @@ public class MaskedTextBox : TextBox
         {
             // format formatting mask， change numbers only
             var position = self.CursorPosition;
-            if (self.Text.Length + 1 == correctText.Length) // delete one character
+            if (self.Text.Length + 1 == correctText?.Length) // delete one character
             {
                 isBackspace = true;
                 if (IsNumberChar(correctText[position]))
@@ -125,7 +125,7 @@ public class MaskedTextBox : TextBox
                     self.InsertText(correctText[position].ToString(), ref position);
                 }
             }
-            else if (self.Text.Length + 1 < correctText.Length) // select multiple characters for deletion
+            else if (self.Text.Length + 1 < correctText?.Length) // select multiple characters for deletion
             {
                 self.Text = correctText;
             }
@@ -165,12 +165,12 @@ public class MaskedTextBox : TextBox
             var new_text = args.NewText;
             if (IsMaskPassword == true)
             {
-                if (new_text.Length > 1 || self.Text.Length != correctText.Length + 1)
+                if (new_text.Length > 1 || self.Text.Length != correctText?.Length + 1)
                 {
                     if (correctText != null)
                         self.Text = correctText;
                 }
-                else if (correctText.Length > position && new_text.Length == 1)
+                else if (correctText?.Length > position && new_text.Length == 1)
                 {
                     if (IsNumberText(correctText.Substring(position - 1, 1)) && IsNumberText(new_text))
                     {

@@ -9,6 +9,8 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
+using Gtk;
+using Container = Gtk.Container;
 
 namespace System.Windows.Forms;
 
@@ -30,11 +32,11 @@ public partial class Control
 
         internal Drawing.Point Offset = new(0, 0);
 
-        readonly Type _itemType;
+        readonly Type? _itemType;
 
         readonly Control _owner;
 
-        readonly Gtk.Container _ownerControl;
+        readonly Container? _ownerControl;
 
         private bool is_ownerControl_Mapped = false;
 
@@ -51,8 +53,11 @@ public partial class Control
         {
             _ownerControl = owner.GtkControl as Gtk.Container;
             _owner = owner;
-            _ownerControl.Mapped += _ownerControl_Mapped;
-            _ownerControl.ResizeChecked += _ownerControl_ResizeChecked;
+            if (_ownerControl != null)
+            {
+                _ownerControl.Mapped += _ownerControl_Mapped;
+                _ownerControl.ResizeChecked += _ownerControl_ResizeChecked;
+            }
         }
 
         /// <summary>
@@ -66,12 +71,15 @@ public partial class Control
         /// <param name="ownerContainer">
         /// The underlying GTK container used to host children.
         /// </param>
-        public ControlCollection(Control owner, Gtk.Container ownerContainer)
+        public ControlCollection(Control owner, Container? ownerContainer)
         {
             _ownerControl = ownerContainer;
             _owner = owner;
-            _ownerControl.Mapped += _ownerControl_Mapped;
-            _ownerControl.ResizeChecked += _ownerControl_ResizeChecked;
+            if (_ownerControl != null)
+            {
+                _ownerControl.Mapped += _ownerControl_Mapped;
+                _ownerControl.ResizeChecked += _ownerControl_ResizeChecked;
+            }
         }
 
         /// <summary>
@@ -201,9 +209,9 @@ public partial class Control
         /// Associated
         /// <see cref="T:System.Windows.Forms.Control" /> instance.
         /// </param>
-        public void AddWidget(Gtk.Widget item, Control control)
+        public void AddWidget(Gtk.Widget item, Control? control)
         {
-            control.Parent = _owner;
+            control?.Parent = _owner;
             InnerList.Add(new ArrangedElementWidget(item));
         }
 
@@ -212,8 +220,11 @@ public partial class Control
         /// </summary>
         public virtual void Clear()
         {
-            foreach (var wid in _ownerControl.Children)
-                _ownerControl.Remove(wid);
+            if (_ownerControl != null)
+            {
+                foreach (var wid in _ownerControl.Children)
+                    _ownerControl.Remove(wid);
+            }
 
             InnerList.Clear();
         }
@@ -273,7 +284,7 @@ public partial class Control
         /// Array of matching
         /// <see cref="T:System.Windows.Forms.Control" /> instances (may be empty).
         /// </returns>
-        public Control[] Find(string key, bool searchAllChildren)
+        public Control?[] Find(string key, bool searchAllChildren)
         {
             var foundControls = InnerList.FindAll(o =>
             {
@@ -288,7 +299,7 @@ public partial class Control
                 else { return false; }
             });
             if (foundControls == null)
-                return new Control[0];
+                return new Control?[0];
             else
                 return foundControls.ConvertAll(o => o as Control).ToArray();
         }
@@ -389,7 +400,7 @@ public partial class Control
                 return;
             }
             InnerList.Remove(value);
-            _ownerControl.Remove(value.Widget);
+            _ownerControl?.Remove(value.Widget);
         }
 
         /// <summary>
@@ -406,7 +417,7 @@ public partial class Control
             else if (element is ArrangedElementWidget widget)
             {
                 InnerList.RemoveAt(index);
-                _ownerControl.Remove(widget.GetWidget);
+                _ownerControl?.Remove(widget.GetWidget);
             }
         }
 
@@ -468,7 +479,7 @@ public partial class Control
                 Remove(control);
             else if (element is Gtk.Widget widget)
             {
-                _ownerControl.Remove(widget);
+                _ownerControl?.Remove(widget);
                 var index = this.IndexOfKey(widget.Name);
                 if (index >= 0)
                     InnerList.RemoveAt(index);
@@ -499,7 +510,7 @@ public partial class Control
         private void Control_AnchorChanged(object sender, EventArgs e)
         {
             var control = sender as Control;
-            if (control.Widget.Parent is Gtk.Overlay lay)
+            if (control?.Widget?.Parent is Gtk.Overlay lay)
             {
                 SetMarginEnd(lay, control);
             }
@@ -508,13 +519,13 @@ public partial class Control
         private void Control_DockChanged(object sender, EventArgs e)
         {
             var control = sender as Control;
-            if (control.Widget.Parent is Gtk.Overlay lay)
+            if (control?.Widget?.Parent is Gtk.Overlay lay)
             {
                 SetMarginEnd(lay, control);
             }
         }
 
-        private Gtk.Widget GetFrame(Gtk.Widget widget)
+        private Widget? GetFrame(Gtk.Widget widget)
         {
             var parent = widget.Parent;
             while (parent != null)
@@ -607,10 +618,10 @@ public partial class Control
             }
             finally
             {
-                if (_ownerControl.IsRealized)
+                if (_ownerControl?.IsRealized == true)
                 {
                     if (item is Control con)
-                        con.Widget.ShowAll();
+                        con.Widget?.ShowAll();
                     else if (item is Gtk.Widget widget)
                         widget.ShowAll();
                 }
@@ -638,8 +649,11 @@ public partial class Control
             {
                 if (item is Control control)
                 {
-                    control.Widget.MarginStart = Math.Max(0, control.Widget.MarginStart + Offset.X);
-                    control.Widget.MarginTop = Math.Max(0, control.Widget.MarginTop + Offset.Y);
+                    if (control.Widget != null)
+                    {
+                        control.Widget.MarginStart = Math.Max(0, control.Widget.MarginStart + Offset.X);
+                        control.Widget.MarginTop = Math.Max(0, control.Widget.MarginTop + Offset.Y);
+                    }
                 }
                 else if (item is Gtk.Widget widget)
                 {
@@ -670,42 +684,42 @@ public partial class Control
             }
             if (control.Dock == DockStyle.Fill)
             {
-                control.Widget.WidthRequest = -1;
-                control.Widget.HeightRequest = -1;
+                control.Widget?.WidthRequest = -1;
+                control.Widget?.HeightRequest = -1;
                 lay.WidthRequest = -1;
                 lay.HeightRequest = -1;
             }
             else if (control.Dock == DockStyle.Left)
             {
-                control.Widget.HeightRequest = -1;
+                control.Widget?.HeightRequest = -1;
                 lay.HeightRequest = -1;
             }
             else if (control.Dock == DockStyle.Right)
             {
-                control.Widget.HeightRequest = -1;
+                control.Widget?.HeightRequest = -1;
                 lay.HeightRequest = -1;
             }
             else if (control.Dock == DockStyle.Top)
             {
-                control.Widget.WidthRequest = -1;
+                control.Widget?.WidthRequest = -1;
                 lay.WidthRequest = -1;
             }
             else if (control.Dock == DockStyle.Bottom)
             {
-                control.Widget.WidthRequest = -1;
+                control.Widget?.WidthRequest = -1;
                 lay.WidthRequest = -1;
             }
             if (lay.IsMapped == true)
             {
                 var widget = control.Widget;
-                if (widget.Halign == Gtk.Align.End)
+                if (widget is { Halign: Gtk.Align.End })
                 {
                     if (widget.WidthRequest > 0)
                         widget.MarginEnd = Math.Max(0, lay.AllocatedWidth - widget.MarginStart - widget.WidthRequest);
                     else
                         widget.MarginEnd = 0;
                 }
-                else if (widget.Halign == Gtk.Align.Fill)
+                else if (widget is { Halign: Gtk.Align.Fill })
                 {
                     if (control.Dock == DockStyle.Fill)
                         widget.MarginEnd = 0;
@@ -714,14 +728,14 @@ public partial class Control
                     else
                         widget.MarginEnd = 0;
                 }
-                if (widget.Valign == Gtk.Align.End)
+                if (widget is { Valign: Gtk.Align.End })
                 {
                     if (widget.HeightRequest > 0)
                         widget.MarginBottom = Math.Max(0, lay.AllocatedHeight - widget.MarginTop - widget.HeightRequest);
                     else
                         widget.MarginBottom = 0;
                 }
-                else if (widget.Valign == Gtk.Align.Fill)
+                else if (widget is { Valign: Gtk.Align.Fill })
                 {
                     if (control.Dock == DockStyle.Fill)
                         widget.MarginBottom = 0;
@@ -736,9 +750,9 @@ public partial class Control
 
     internal class ArrangedElementWidget : IArrangedElement
     {
-        private Gtk.Widget _widget;
+        private Widget? _widget;
 
-        public virtual event EventHandler Disposed;
+        public virtual event EventHandler? Disposed;
 
         internal ArrangedElementWidget(Gtk.Widget widget)
         {
@@ -749,7 +763,7 @@ public partial class Control
         {
             get
             {
-                Gdk.Rectangle? widgetAllocation = _widget?.Allocation;
+                var widgetAllocation = _widget?.Allocation;
                 if (widgetAllocation.HasValue)
                 {
                     return new Rectangle(widgetAllocation.Value.X, widgetAllocation.Value.Y, widgetAllocation.Value.Width, widgetAllocation.Value.Height);
@@ -760,13 +774,13 @@ public partial class Control
 
         public ArrangedElementCollection Children => ArrangedElementCollection.Empty;
 
-        public IArrangedElement Container => null;
+        public IArrangedElement? Container => null;
 
         public Rectangle DisplayRectangle
         {
             get
             {
-                Gdk.Rectangle? widgetAllocation = _widget?.Allocation;
+                var widgetAllocation = _widget?.Allocation;
                 if (widgetAllocation.HasValue)
                 {
                     return new Rectangle(widgetAllocation.Value.X, widgetAllocation.Value.Y, widgetAllocation.Value.Width, widgetAllocation.Value.Height);
@@ -779,13 +793,13 @@ public partial class Control
 
         public PropertyStore Properties { get; } = new PropertyStore();
 
-        public ISite Site
+        public ISite? Site
         {
             get => null;
             set { }
         }
 
-        public Gtk.Widget GetWidget => _widget;
+        public Widget? GetWidget => _widget;
 
         public void Dispose()
         {
@@ -805,7 +819,7 @@ public partial class Control
             return proposedSize;
         }
 
-        public void PerformLayout(IArrangedElement affectedElement, string propertyName)
+        public void PerformLayout(IArrangedElement affectedElement, string? propertyName)
         {
             // No-op for widget wrapper
         }

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Icon = System.Drawing.Icon;
 
 namespace System.Windows.Forms;
 
@@ -25,21 +26,21 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// </summary>
     public ViewportBase self = new();
 
-    private PrintPreviewControl _previewControl;
+    private PrintPreviewControl? _previewControl;
 
-    private Gtk.Box box;
+    private Box? box;
 
-    private Form previewForm;
+    private Form? previewForm;
 
     /// <summary>
     /// Occurs when maximum size changed.
     /// </summary>
-    public virtual event EventHandler MaximumSizeChanged;
+    public virtual event EventHandler? MaximumSizeChanged;
 
     /// <summary>
     /// Occurs when minimum size changed.
     /// </summary>
-    public virtual event EventHandler MinimumSizeChanged;
+    public virtual event EventHandler? MinimumSizeChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -56,7 +57,7 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <value>
     /// The accept button.
     /// </value>
-    public IButtonControl AcceptButton
+    public IButtonControl? AcceptButton
     {
         get;
         set;
@@ -85,7 +86,7 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <value>
     /// The cancel button.
     /// </value>
-    public IButtonControl CancelButton
+    public IButtonControl? CancelButton
     {
         get;
         set;
@@ -114,7 +115,7 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <value>
     /// The document.
     /// </value>
-    public PrintDocument Document
+    public PrintDocument? Document
     {
         get;
         set;
@@ -151,7 +152,7 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <value>
     /// The icon.
     /// </value>
-    public System.Drawing.Icon Icon
+    public Icon? Icon
     {
         get;
         set;
@@ -197,7 +198,7 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <value>
     /// The print preview control.
     /// </value>
-    public PrintPreviewControl PrintPreviewControl => _previewControl;
+    public PrintPreviewControl? PrintPreviewControl => _previewControl;
 
     /// <summary>
     /// Gets or sets the size grip style.
@@ -253,8 +254,8 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// </value>
     public bool UseAntiAlias
     {
-        get => PrintPreviewControl.UseAntiAlias;
-        set => PrintPreviewControl.UseAntiAlias = value;
+        get => PrintPreviewControl?.UseAntiAlias ?? false;
+        set => PrintPreviewControl?.UseAntiAlias = value;
     }
 
     /// <summary>
@@ -274,14 +275,14 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <exception cref="T:System.InvalidOperationException">
     /// OwnsSelfOrOwner
     /// </exception>
-    public void Show(IWin32Window owner)
+    public void Show(IWin32Window? owner)
     {
         if (owner == this)
         {
             throw new InvalidOperationException("OwnsSelfOrOwner");
         }
         Init();
-        previewForm.Show(owner);
+        previewForm?.Show(owner);
     }
 
     /// <summary>
@@ -293,11 +294,11 @@ public partial class PrintPreviewDialog : ScrollableControl
     /// <returns>
     /// DialogResult.
     /// </returns>
-    public DialogResult ShowDialog(IWin32Window owner)
+    public DialogResult ShowDialog(IWin32Window? owner)
     {
         Init();
 
-        return previewForm.ShowDialog(owner);
+        return previewForm?.ShowDialog(owner) ?? default;
     }
 
     /// <summary>
@@ -353,24 +354,24 @@ public partial class PrintPreviewDialog : ScrollableControl
         box.PackStart(_previewControl.Widget, false, true, 0);
         box.MarginTop = 20;
         box.MarginStart = (previewForm.Width - _previewControl.Width) / 2;
-        previewForm.Controls.Add(box);
+        previewForm.Controls?.Add(box);
         previewForm.SizeChanged += PreviewForm_SizeChanged;
     }
 
     private void PreviewForm_SizeChanged(object sender, EventArgs e)
     {
-        box.MarginStart = (previewForm.Width - _previewControl.Width) / 2;
+        box?.MarginStart = (previewForm?.Width ?? 0 - _previewControl?.Width ?? 0) / 2;
     }
 
     private void Printbutton_ButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
     {
         var printDialog = new PrintDialog
         {
-            Document = _previewControl.Document,
+            Document = _previewControl?.Document,
             AllowPrintToFile = false,
             PrintToFile = false
         };
-        printDialog.Document.DocumentName = "PrintDoument";
+        printDialog.Document?.DocumentName = "PrintDoument";
         printDialog.ShowDialog(previewForm);
     }
 
@@ -378,11 +379,11 @@ public partial class PrintPreviewDialog : ScrollableControl
     {
         var printDialog = new PrintDialog
         {
-            Document = _previewControl.Document,
+            Document = _previewControl?.Document,
             AllowPrintToFile = false,
             PrintToFile = false
         };
-        printDialog.Document.DocumentName = "PrintDoument";
+        printDialog.Document?.DocumentName = "PrintDoument";
         printDialog.ShowDialog(previewForm);
     }
 }

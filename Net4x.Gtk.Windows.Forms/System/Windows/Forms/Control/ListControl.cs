@@ -22,37 +22,37 @@ public abstract class ListControl : ScrollableControl
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.ListControl.DisplayMember" /> property changes.
     /// </summary>
-    public virtual event EventHandler DisplayMemberChanged;
+    public virtual event EventHandler? DisplayMemberChanged;
 
     /// <summary>
     /// Occurs when formatting of list items is required.
     /// </summary>
-    public virtual event ListControlConvertEventHandler Format;
+    public virtual event ListControlConvertEventHandler? Format;
 
     /// <summary>
     /// Occurs when the formatting provider information changes.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public virtual event EventHandler FormatInfoChanged;
+    public virtual event EventHandler? FormatInfoChanged;
 
     /// <summary>
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.ListControl.FormatString" /> property changes.
     /// </summary>
-    public virtual event EventHandler FormatStringChanged;
+    public virtual event EventHandler? FormatStringChanged;
 
     /// <summary>
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.ListControl.FormattingEnabled" /> property changes.
     /// </summary>
-    public virtual event EventHandler FormattingEnabledChanged;
+    public virtual event EventHandler? FormattingEnabledChanged;
 
     /// <summary>
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.ListControl.ValueMember" /> property changes.
     /// </summary>
-    public virtual event EventHandler ValueMemberChanged;
+    public virtual event EventHandler? ValueMemberChanged;
 
     /// <summary>
     /// Occurs when the data source for the control changes.
@@ -101,7 +101,7 @@ public abstract class ListControl : ScrollableControl
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.Repaint)]
     [AttributeProvider(typeof(IListSource))]
-    public virtual object DataSource
+    public virtual object? DataSource
     {
         get;
         set;
@@ -111,7 +111,7 @@ public abstract class ListControl : ScrollableControl
     /// Gets or sets the property to display for each item in the control.
     /// </summary>
     [DefaultValue("")]
-    public virtual string DisplayMember
+    public virtual string? DisplayMember
     {
         get;
         set;
@@ -123,7 +123,7 @@ public abstract class ListControl : ScrollableControl
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DefaultValue(null)]
-    public virtual IFormatProvider FormatInfo
+    public virtual IFormatProvider? FormatInfo
     {
         get;
         set;
@@ -134,7 +134,7 @@ public abstract class ListControl : ScrollableControl
     /// </summary>
     [DefaultValue("")]
     [MergableProperty(false)]
-    public virtual string FormatString
+    public virtual string? FormatString
     {
         get;
         set;
@@ -168,7 +168,7 @@ public abstract class ListControl : ScrollableControl
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Bindable(true)]
-    public virtual object SelectedValue
+    public virtual object? SelectedValue
     {
         get;
         set;
@@ -178,7 +178,7 @@ public abstract class ListControl : ScrollableControl
     /// Gets or sets the property to use as the actual value for the items in the control.
     /// </summary>
     [DefaultValue("")]
-    public virtual string ValueMember
+    public virtual string? ValueMember
     {
         get;
         set;
@@ -195,7 +195,7 @@ public abstract class ListControl : ScrollableControl
     /// <returns>
     /// Display text for the item.
     /// </returns>
-    public virtual string GetItemText(object item)
+    public virtual string? GetItemText(object item)
     {
         return item?.ToString();
     }

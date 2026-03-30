@@ -26,7 +26,7 @@ public partial class RadioButton : Control
     /// <summary>
     /// Occurs when checked changed.
     /// </summary>
-    public virtual event EventHandler CheckedChanged;
+    public virtual event EventHandler? CheckedChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -69,7 +69,7 @@ public partial class RadioButton : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get { return self.Label; }
         set { self.Label = value; }
@@ -86,7 +86,7 @@ public partial class RadioButton : Control
     private void Self_ParentSet(object o, Gtk.ParentSetArgs args)
     {
         var con = self.Parent as Gtk.Container;
-        foreach (var widget in con.Children)
+        foreach (var widget in con?.Children ?? [])
         {
             if (widget is Gtk.RadioButton group)
             {

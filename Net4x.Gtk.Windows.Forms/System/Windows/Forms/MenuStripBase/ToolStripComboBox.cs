@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -26,12 +26,12 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Occurs when selected index changed.
     /// </summary>
-    public virtual event EventHandler SelectedIndexChanged;
+    public virtual event EventHandler? SelectedIndexChanged;
 
     /// <summary>
     /// Occurs when selected value changed.
     /// </summary>
-    public virtual event EventHandler SelectedValueChanged;
+    public virtual event EventHandler? SelectedValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the

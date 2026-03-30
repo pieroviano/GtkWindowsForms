@@ -21,33 +21,33 @@ public partial class ResXResourceReader : IResourceReader
 {
     private readonly IAliasResolver _aliasResolver;
 
-    private readonly AssemblyName[] _assemblyNames;
+    private readonly AssemblyName[]? _assemblyNames;
 
-    private string _basePath;
+    private string? _basePath;
 
-    private string _fileContents;
+    private string? _fileContents;
 
-    private readonly string _fileName;
+    private readonly string? _fileName;
 
     private bool _isReaderDirty;
 
-    private TextReader _reader;
+    private TextReader? _reader;
 
-    private ListDictionary _resData;
+    private ListDictionary? _resData;
 
-    private string _resHeaderMimeType;
+    private string? _resHeaderMimeType;
 
-    private string _resHeaderReaderType;
+    private string? _resHeaderReaderType;
 
-    private string _resHeaderVersion;
+    private string? _resHeaderVersion;
 
-    private string _resHeaderWriterType;
+    private string? _resHeaderWriterType;
 
-    private ListDictionary _resMetadata;
+    private ListDictionary? _resMetadata;
 
-    private Stream _stream;
+    private Stream? _stream;
 
-    private readonly ITypeResolutionService _typeResolver;
+    private readonly ITypeResolutionService? _typeResolver;
 
     private bool _useResXDataNodes;
 
@@ -58,7 +58,7 @@ public partial class ResXResourceReader : IResourceReader
     /// <param name="fileName">
     /// Name of the file.
     /// </param>
-    public ResXResourceReader(string fileName) : this(fileName, (ITypeResolutionService)null, null)
+    public ResXResourceReader(string fileName) : this(fileName, (ITypeResolutionService?)null, null)
     {
     }
 
@@ -83,7 +83,7 @@ public partial class ResXResourceReader : IResourceReader
     /// <param name="reader">
     /// The reader.
     /// </param>
-    public ResXResourceReader(TextReader reader) : this(reader, (ITypeResolutionService)null, null)
+    public ResXResourceReader(TextReader reader) : this(reader, (ITypeResolutionService?)null, null)
     {
     }
 
@@ -97,7 +97,7 @@ public partial class ResXResourceReader : IResourceReader
     /// <param name="typeResolver">
     /// The type resolver.
     /// </param>
-    public ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver) : this(reader, typeResolver, (IAliasResolver)null)
+    public ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver) : this(reader, typeResolver, (IAliasResolver?)null)
     {
     }
 
@@ -108,7 +108,7 @@ public partial class ResXResourceReader : IResourceReader
     /// <param name="stream">
     /// The stream.
     /// </param>
-    public ResXResourceReader(Stream stream) : this(stream, (ITypeResolutionService)null, (IAliasResolver)null)
+    public ResXResourceReader(Stream stream) : this(stream, (ITypeResolutionService?)null, (IAliasResolver?)null)
     {
     }
 
@@ -122,7 +122,7 @@ public partial class ResXResourceReader : IResourceReader
     /// <param name="typeResolver">
     /// The type resolver.
     /// </param>
-    public ResXResourceReader(Stream stream, ITypeResolutionService typeResolver) : this(stream, typeResolver, (IAliasResolver)null)
+    public ResXResourceReader(Stream stream, ITypeResolutionService typeResolver) : this(stream, typeResolver, (IAliasResolver?)null)
     {
     }
 
@@ -136,7 +136,7 @@ public partial class ResXResourceReader : IResourceReader
     /// <param name="assemblyNames">
     /// The assembly names.
     /// </param>
-    public ResXResourceReader(Stream stream, AssemblyName[] assemblyNames) : this(stream, assemblyNames, (IAliasResolver)null)
+    public ResXResourceReader(Stream stream, AssemblyName[] assemblyNames) : this(stream, assemblyNames, (IAliasResolver?)null)
     {
     }
 
@@ -150,7 +150,7 @@ public partial class ResXResourceReader : IResourceReader
     /// <param name="assemblyNames">
     /// The assembly names.
     /// </param>
-    public ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames) : this(reader, assemblyNames, (IAliasResolver)null)
+    public ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames) : this(reader, assemblyNames, (IAliasResolver?)null)
     {
     }
 
@@ -164,53 +164,53 @@ public partial class ResXResourceReader : IResourceReader
     /// <param name="assemblyNames">
     /// The assembly names.
     /// </param>
-    public ResXResourceReader(string fileName, AssemblyName[] assemblyNames) : this(fileName, assemblyNames, (IAliasResolver)null)
+    public ResXResourceReader(string fileName, AssemblyName[] assemblyNames) : this(fileName, assemblyNames, (IAliasResolver?)null)
     {
     }
 
-    internal ResXResourceReader(string fileName, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
+    internal ResXResourceReader(string fileName, ITypeResolutionService? typeResolver, IAliasResolver? aliasResolver)
     {
         _fileName = fileName;
         _typeResolver = typeResolver;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(TextReader reader, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
+    internal ResXResourceReader(TextReader reader, ITypeResolutionService? typeResolver, IAliasResolver? aliasResolver)
     {
         _reader = reader;
         _typeResolver = typeResolver;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(Stream stream, ITypeResolutionService typeResolver, IAliasResolver aliasResolver)
+    internal ResXResourceReader(Stream stream, ITypeResolutionService? typeResolver, IAliasResolver? aliasResolver)
     {
         _stream = stream;
         _typeResolver = typeResolver;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(Stream stream, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
+    internal ResXResourceReader(Stream stream, AssemblyName[] assemblyNames, IAliasResolver? aliasResolver)
     {
         _stream = stream;
         _assemblyNames = assemblyNames;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
+    internal ResXResourceReader(TextReader reader, AssemblyName[] assemblyNames, IAliasResolver? aliasResolver)
     {
         _reader = reader;
         _assemblyNames = assemblyNames;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    internal ResXResourceReader(string fileName, AssemblyName[] assemblyNames, IAliasResolver aliasResolver)
+    internal ResXResourceReader(string fileName, AssemblyName[] assemblyNames, IAliasResolver? aliasResolver)
     {
         _fileName = fileName;
         _assemblyNames = assemblyNames;
         _aliasResolver = aliasResolver ?? new ReaderAliasResolver();
     }
 
-    private ResXResourceReader(ITypeResolutionService typeResolver)
+    private ResXResourceReader(ITypeResolutionService? typeResolver)
     {
         _typeResolver = typeResolver;
         _aliasResolver = new ReaderAliasResolver();
@@ -225,7 +225,7 @@ public partial class ResXResourceReader : IResourceReader
     /// <summary>
     /// BasePath for relatives filepaths with ResXFileRefs.
     /// </summary>
-    public string BasePath
+    public string? BasePath
     {
         get
         {
@@ -278,13 +278,13 @@ public partial class ResXResourceReader : IResourceReader
     /// </summary>
     public static ResXResourceReader FromFileContents(string fileContents)
     {
-        return FromFileContents(fileContents, (ITypeResolutionService)null);
+        return FromFileContents(fileContents, (ITypeResolutionService?)null);
     }
 
     /// <summary>
     /// Creates a reader with the specified file contents.
     /// </summary>
-    public static ResXResourceReader FromFileContents(string fileContents, ITypeResolutionService typeResolver)
+    public static ResXResourceReader FromFileContents(string fileContents, ITypeResolutionService? typeResolver)
     {
         return new ResXResourceReader(typeResolver)
         {
@@ -309,22 +309,22 @@ public partial class ResXResourceReader : IResourceReader
     /// <returns>
     /// A dictionary enumerator for the resources for this reader.
     /// </returns>
-    public IDictionaryEnumerator GetEnumerator()
+    public IDictionaryEnumerator? GetEnumerator()
     {
         _isReaderDirty = true;
         EnsureResData();
 
-        return _resData.GetEnumerator();
+        return _resData?.GetEnumerator();
     }
 
     /// <summary>
     /// Returns a dictionary enumerator that can be used to enumerate the &lt;metadata&gt; elements in the .resx file.
     /// </summary>
-    public IDictionaryEnumerator GetMetadataEnumerator()
+    public IDictionaryEnumerator? GetMetadataEnumerator()
     {
         EnsureResData();
 
-        return _resMetadata.GetEnumerator();
+        return _resMetadata?.GetEnumerator();
     }
 
     void IDisposable.Dispose()
@@ -335,7 +335,7 @@ public partial class ResXResourceReader : IResourceReader
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return GetEnumerator();
+        return GetEnumerator() ?? new object[0].GetEnumerator();
     }
 
     /// <summary>
@@ -374,7 +374,7 @@ public partial class ResXResourceReader : IResourceReader
             _resData = new ListDictionary();
             _resMetadata = new ListDictionary();
 
-            XmlTextReader contentReader = null;
+            XmlTextReader? contentReader = null;
 
             try
             {
@@ -398,8 +398,8 @@ public partial class ResXResourceReader : IResourceReader
                 }
 
                 SetupNameTable(contentReader);
-                contentReader.WhitespaceHandling = WhitespaceHandling.None;
-                ParseXml(contentReader);
+                contentReader?.WhitespaceHandling = WhitespaceHandling.None;
+                if (contentReader != null) ParseXml(contentReader);
             }
             finally
             {
@@ -435,8 +435,10 @@ public partial class ResXResourceReader : IResourceReader
         return pt;
     }
 
-    private static string GetTypeFromTypeName(string typeName)
+    private static string? GetTypeFromTypeName(string? typeName)
     {
+        if (typeName == null)
+            return null;
         var indexStart = typeName.IndexOf(',');
 
         return typeName.Substring(0, indexStart);
@@ -466,8 +468,8 @@ public partial class ResXResourceReader : IResourceReader
 
         var typeName = reader[ResXResourceWriter.TypeStr];
 
-        string alias = null;
-        AssemblyName assemblyName = null;
+        string? alias = null;
+        AssemblyName? assemblyName = null;
 
         if (!string.IsNullOrEmpty(typeName))
         {
@@ -548,18 +550,18 @@ public partial class ResXResourceReader : IResourceReader
 
         if (UseResXDataNodes)
         {
-            _resData[nodeInfo.Name] = dataNode;
+            _resData?[nodeInfo.Name] = dataNode;
         }
         else
         {
-            IDictionary data = (isMetaData ? _resMetadata : _resData);
+            IDictionary? data = (isMetaData ? _resMetadata : _resData);
             if (_assemblyNames is null)
             {
-                data[nodeInfo.Name] = dataNode.GetValue(_typeResolver);
+                data?[nodeInfo.Name] = dataNode.GetValue(_typeResolver);
             }
             else
             {
-                data[nodeInfo.Name] = dataNode.GetValue(_assemblyNames);
+                data?[nodeInfo.Name] = dataNode.GetValue(_assemblyNames);
             }
         }
     }
@@ -788,22 +790,25 @@ public partial class ResXResourceReader : IResourceReader
         }
     }
 
-    private static void SetupNameTable(XmlReader reader)
+    private static void SetupNameTable(XmlReader? reader)
     {
-        reader.NameTable.Add(ResXResourceWriter.TypeStr);
-        reader.NameTable.Add(ResXResourceWriter.NameStr);
-        reader.NameTable.Add(ResXResourceWriter.DataStr);
-        reader.NameTable.Add(ResXResourceWriter.MetadataStr);
-        reader.NameTable.Add(ResXResourceWriter.MimeTypeStr);
-        reader.NameTable.Add(ResXResourceWriter.ValueStr);
-        reader.NameTable.Add(ResXResourceWriter.ResHeaderStr);
-        reader.NameTable.Add(ResXResourceWriter.VersionStr);
-        reader.NameTable.Add(ResXResourceWriter.ResMimeTypeStr);
-        reader.NameTable.Add(ResXResourceWriter.ReaderStr);
-        reader.NameTable.Add(ResXResourceWriter.WriterStr);
-        reader.NameTable.Add(ResXResourceWriter.BinSerializedObjectMimeType);
-        reader.NameTable.Add(ResXResourceWriter.SoapSerializedObjectMimeType);
-        reader.NameTable.Add(ResXResourceWriter.AssemblyStr);
-        reader.NameTable.Add(ResXResourceWriter.AliasStr);
+        if (reader is { NameTable: not null })
+        {
+            reader.NameTable.Add(ResXResourceWriter.TypeStr);
+            reader.NameTable.Add(ResXResourceWriter.NameStr);
+            reader.NameTable.Add(ResXResourceWriter.DataStr);
+            reader.NameTable.Add(ResXResourceWriter.MetadataStr);
+            reader.NameTable.Add(ResXResourceWriter.MimeTypeStr);
+            reader.NameTable.Add(ResXResourceWriter.ValueStr);
+            reader.NameTable.Add(ResXResourceWriter.ResHeaderStr);
+            reader.NameTable.Add(ResXResourceWriter.VersionStr);
+            reader.NameTable.Add(ResXResourceWriter.ResMimeTypeStr);
+            reader.NameTable.Add(ResXResourceWriter.ReaderStr);
+            reader.NameTable.Add(ResXResourceWriter.WriterStr);
+            reader.NameTable.Add(ResXResourceWriter.BinSerializedObjectMimeType);
+            reader.NameTable.Add(ResXResourceWriter.SoapSerializedObjectMimeType);
+            reader.NameTable.Add(ResXResourceWriter.AssemblyStr);
+            reader.NameTable.Add(ResXResourceWriter.AliasStr);
+        }
     }
 }

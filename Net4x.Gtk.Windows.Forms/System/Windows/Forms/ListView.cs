@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Drawing;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Image = System.Drawing.Image;
 
 namespace System.Windows.Forms;
 
@@ -36,7 +37,7 @@ public class ListView : ContainerControl
 
     private readonly ColumnHeaderCollection _columns;
 
-    private ListViewGroup _defaultGroup;
+    private ListViewGroup? _defaultGroup;
 
     private int _fontSize;
 
@@ -55,37 +56,37 @@ public class ListView : ContainerControl
     /// <summary>
     /// Occurs when column click.
     /// </summary>
-    public virtual event ColumnClickEventHandler ColumnClick;
+    public virtual event ColumnClickEventHandler? ColumnClick;
 
     /// <summary>
     /// Occurs when column reordered.
     /// </summary>
-    public virtual event ColumnReorderedEventHandler ColumnReordered;
+    public virtual event ColumnReorderedEventHandler? ColumnReordered;
 
     /// <summary>
     /// Occurs when item activate.
     /// </summary>
-    public virtual event EventHandler ItemActivate;
+    public virtual event EventHandler? ItemActivate;
 
     /// <summary>
     /// Occurs when item check.
     /// </summary>
-    public virtual event ItemCheckEventHandler ItemCheck;
+    public virtual event ItemCheckEventHandler? ItemCheck;
 
     /// <summary>
     /// Occurs when item checked.
     /// </summary>
-    public virtual event ItemCheckedEventHandler ItemChecked;
+    public virtual event ItemCheckedEventHandler? ItemChecked;
 
     /// <summary>
     /// Occurs when item selection changed.
     /// </summary>
-    public virtual event ListViewItemSelectionChangedEventHandler ItemSelectionChanged;
+    public virtual event ListViewItemSelectionChangedEventHandler? ItemSelectionChanged;
 
     /// <summary>
     /// Occurs when selected index changed.
     /// </summary>
-    public virtual event EventHandler SelectedIndexChanged;
+    public virtual event EventHandler? SelectedIndexChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -282,7 +283,7 @@ public class ListView : ContainerControl
     /// <value>
     /// The group image list.
     /// </value>
-    public ImageList GroupImageList
+    public ImageList? GroupImageList
     {
         get;
         set;
@@ -410,7 +411,7 @@ public class ListView : ContainerControl
     /// <value>
     /// The large image list.
     /// </value>
-    public ImageList LargeImageList
+    public ImageList? LargeImageList
     {
         get;
         set;
@@ -422,7 +423,7 @@ public class ListView : ContainerControl
     /// <value>
     /// The ListView item sorter.
     /// </value>
-    public IComparer ListViewItemSorter
+    public IComparer? ListViewItemSorter
     {
         get;
         set;
@@ -580,7 +581,7 @@ public class ListView : ContainerControl
     /// <value>
     /// The small image list.
     /// </value>
-    public ImageList SmallImageList
+    public ImageList? SmallImageList
     {
         get;
         set;
@@ -622,7 +623,7 @@ public class ListView : ContainerControl
     /// <value>
     /// The state image list.
     /// </value>
-    public ImageList StateImageList
+    public ImageList? StateImageList
     {
         get;
         set;
@@ -748,7 +749,7 @@ public class ListView : ContainerControl
     /// <returns>
     /// ListViewItem.
     /// </returns>
-    public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
+    public ListViewItem? FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
     {
         var idx = Items.FindIndex(startIndex, w => w.Text == text);
 
@@ -779,7 +780,7 @@ public class ListView : ContainerControl
     /// <returns>
     /// ListViewItem.
     /// </returns>
-    public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
+    public ListViewItem? FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
     {
         var idx = Items.FindIndex(startIndex, w => w.Text == text);
 
@@ -798,7 +799,7 @@ public class ListView : ContainerControl
     /// <returns>
     /// ListViewItem.
     /// </returns>
-    public ListViewItem GetItemAt(int x, int y)
+    public ListViewItem? GetItemAt(int x, int y)
     {
         foreach (Gtk.Box vbox in flowBoxContainer.Children)
         {
@@ -902,8 +903,8 @@ public class ListView : ContainerControl
             var flowBox = DefaultGroup.FlowBox;
             if (this.ShowGroups == true && this.View != View.List && this.View != View.Tile)
             {
-                if (Groups.Exists(g => g.Name == item.Group.Name))
-                    flowBox = item.Group.FlowBox;
+                if (Groups.Exists(g => g.Name == item.Group?.Name))
+                    flowBox = item.Group?.FlowBox;
                 else
                     NativeGroupAdd(DefaultGroup, -1);
             }
@@ -913,16 +914,20 @@ public class ListView : ContainerControl
             }
 
             if (position == -1)
-                flowBox.Add(boxitem);
+                flowBox?.Add(boxitem);
             else
-                flowBox.Insert(boxitem, position);
+                flowBox?.Insert(boxitem, position);
 
             if (this.View == View.Details)
             {
                 hBox.Spacing = 0;
                 header.Visible = true;
-                flowBox.MinChildrenPerLine = 1;
-                flowBox.MaxChildrenPerLine = 1;
+                if (flowBox != null)
+                {
+                    flowBox.MinChildrenPerLine = 1;
+                    flowBox.MaxChildrenPerLine = 1;
+                }
+
                 var fistcell = new Gtk.Layout(new Adjustment(IntPtr.Zero), new Adjustment(IntPtr.Zero))
                 {
                     Halign = Gtk.Align.Start,
@@ -946,12 +951,12 @@ public class ListView : ContainerControl
                     checkBox.CheckedChanged += (object sender, EventArgs e) =>
                     {
                         var box = sender as CheckBox;
-                        var checkitem = box.self.Parent.Parent.Parent.Parent as Gtk.FlowBoxChild;
-                        var thisitem = this.Items.Find(m => m.Index == Convert.ToInt32(checkitem.Data["ItemId"]));
+                        var checkitem = box?.self.Parent.Parent.Parent.Parent as Gtk.FlowBoxChild;
+                        var thisitem = this.Items.Find(m => m.Index == Convert.ToInt32(checkitem?.Data["ItemId"]));
                         if (thisitem != null)
                         {
-                            thisitem.Checked = box.self.Active;
-                            ItemCheck?.Invoke(sender, new ItemCheckEventArgs(checkitem.Index, box.self.Active ? CheckState.Checked : CheckState.Unchecked, box.self.Active ? CheckState.Unchecked : CheckState.Checked));
+                            thisitem.Checked = box?.self.Active ?? false;
+                            ItemCheck?.Invoke(sender, new ItemCheckEventArgs(checkitem?.Index ?? -1, (box?.self.Active ?? false) ? CheckState.Checked : CheckState.Unchecked, (box?.self.Active ?? false) ? CheckState.Unchecked : CheckState.Checked));
                             ItemChecked?.Invoke(sender, new ItemCheckedEventArgs(thisitem));
                         }
                     };
@@ -966,14 +971,14 @@ public class ListView : ContainerControl
                     this.SmallImageList.ImageSize = new Size(imgsize, imgsize);
                     if (!string.IsNullOrWhiteSpace(item.ImageKey))
                     {
-                        Drawing.Image img = this.SmallImageList.GetBitmap(item.ImageKey);
+                        Drawing.Image? img = this.SmallImageList.GetBitmap(item.ImageKey??string.Empty);
                         if (img != null)
                             fistcell.Put(new Gtk.Image(img.Pixbuf) { Halign = Gtk.Align.Start, Valign = Gtk.Align.Fill }, x_position, padding + 2);
                         x_position += imgsize + 5;
                     }
                     else if (item.ImageIndex > -1)
                     {
-                        Drawing.Image img = this.SmallImageList.GetBitmap(item.ImageIndex);
+                        Image? img = this.SmallImageList.GetBitmap(item.ImageIndex);
                         if (img != null)
                             fistcell.Put(new Gtk.Image(img.Pixbuf) { Halign = Gtk.Align.Start, Valign = Gtk.Align.Fill }, x_position, padding + 2);
                         x_position += imgsize + 5;
@@ -1061,12 +1066,12 @@ public class ListView : ContainerControl
                     checkBox.CheckedChanged += (object sender, EventArgs e) =>
                     {
                         var box = sender as CheckBox;
-                        var checkitem = box.self.Parent.Parent as Gtk.FlowBoxChild;
-                        var thisitem = this.Items.Find(m => m.Index == Convert.ToInt32(checkitem.Data["ItemId"]));
+                        var checkitem = box?.self.Parent.Parent as Gtk.FlowBoxChild;
+                        var thisitem = this.Items.Find(m => m.Index == Convert.ToInt32(checkitem?.Data["ItemId"]));
                         if (thisitem != null)
                         {
-                            thisitem.Checked = box.self.Active;
-                            ItemCheck?.Invoke(sender, new ItemCheckEventArgs(checkitem.Index, box.self.Active ? CheckState.Checked : CheckState.Unchecked, box.self.Active ? CheckState.Unchecked : CheckState.Checked));
+                            thisitem.Checked = box?.self.Active ?? false;
+                            ItemCheck?.Invoke(sender, new ItemCheckEventArgs(checkitem?.Index ?? -1, (box?.self.Active ?? false) ? CheckState.Checked : CheckState.Unchecked, (box?.self.Active ?? false) ? CheckState.Unchecked : CheckState.Checked));
                             ItemChecked?.Invoke(sender, new ItemCheckedEventArgs(thisitem));
                         }
                     };
@@ -1075,20 +1080,24 @@ public class ListView : ContainerControl
                 if (this.View == View.SmallIcon)
                 {
                     header.Visible = false;
-                    flowBox.MinChildrenPerLine = 1;
-                    flowBox.MaxChildrenPerLine = 999;
+                    if (flowBox != null)
+                    {
+                        flowBox.MinChildrenPerLine = 1;
+                        flowBox.MaxChildrenPerLine = 999;
+                    }
+
                     if (this.SmallImageList != null)
                     {
                         this.SmallImageList.ImageSize = new Size(16, 16);
                         if (!string.IsNullOrWhiteSpace(item.ImageKey))
                         {
-                            Drawing.Image img = this.SmallImageList.GetBitmap(item.ImageKey);
+                            Drawing.Image? img = this.SmallImageList.GetBitmap(item.ImageKey??string.Empty);
                             if (img != null)
                                 hBox.PackStart(new Gtk.Image(img.Pixbuf), false, false, 0);
                         }
                         else if (item.ImageIndex > -1)
                         {
-                            Drawing.Image img = this.SmallImageList.GetBitmap(item.ImageIndex);
+                            Image? img = this.SmallImageList.GetBitmap(item.ImageIndex);
                             if (img != null)
                                 hBox.PackStart(new Gtk.Image(img.Pixbuf), false, false, 0);
                         }
@@ -1111,29 +1120,33 @@ public class ListView : ContainerControl
                 }
                 else if (this.View == View.LargeIcon)
                 {
-                    flowBox.MinChildrenPerLine = 1;
-                    flowBox.MaxChildrenPerLine = 999;
+                    if (flowBox != null)
+                    {
+                        flowBox.MinChildrenPerLine = 1;
+                        flowBox.MaxChildrenPerLine = 999;
+                    }
+
                     var vBox = new Gtk.Box(Gtk.Orientation.Vertical, 5);
                     if (this.LargeImageList != null)
                     {
-                        this.SmallImageList.ImageSize = new Size(100, 100);
+                        this.SmallImageList?.ImageSize = new Size(100, 100);
                         if (!string.IsNullOrWhiteSpace(item.ImageKey))
                         {
-                            Drawing.Image img = this.LargeImageList.GetBitmap(item.ImageKey);
+                            Drawing.Image? img = this.LargeImageList.GetBitmap(item.ImageKey??string.Empty);
                             if (img != null)
                             {
-                                var width = img.Pixbuf.Width;
-                                var height = img.Pixbuf.Height;
+                                var width = img.Pixbuf?.Width??0;
+                                var height = img.Pixbuf?.Height??0;
                                 vBox.Add(new Gtk.Image(new Gdk.Pixbuf(img.PixbufData)) { WidthRequest = Math.Min(50, width), HeightRequest = Math.Min(50, height) });
                             }
                         }
                         else if (item.ImageIndex > -1)
                         {
-                            Drawing.Image img = this.LargeImageList.GetBitmap(item.ImageIndex);
+                            Image? img = this.LargeImageList.GetBitmap(item.ImageIndex);
                             if (img != null)
                             {
-                                var width = img.Pixbuf.Width;
-                                var height = img.Pixbuf.Height;
+                                var width = img.Pixbuf?.Width ?? 0;
+                                var height = img.Pixbuf?.Height ?? 0;
                                 vBox.Add(new Gtk.Image(img.Pixbuf) { WidthRequest = Math.Min(50, width), HeightRequest = Math.Min(50, height) });
                             }
                         }
@@ -1188,9 +1201,9 @@ public class ListView : ContainerControl
             var box = item._flowBoxChild.Child as Gtk.Box;
             if (this.View == View.Details)
             {
-                var viewport = box.Children[0] as Gtk.Viewport;
-                var layout = viewport.Child as Gtk.Layout;
-                foreach (var chk in layout.Children)
+                var viewport = box?.Children[0] as Gtk.Viewport;
+                var layout = viewport?.Child as Gtk.Layout;
+                foreach (var chk in layout?.Children ?? [])
                 {
                     if (chk is Gtk.CheckButton chkbutton)
                     {
@@ -1201,7 +1214,7 @@ public class ListView : ContainerControl
             }
             else
             {
-                foreach (var chk in box.Children)
+                foreach (var chk in box?.Children ?? [])
                 {
                     if (chk is Gtk.CheckButton chkbutton)
                     {
@@ -1444,9 +1457,9 @@ public class ListView : ContainerControl
             var box = item._flowBoxChild.Child as Gtk.Box;
             if (this.View == View.Details)
             {
-                var viewport = box.Children[0] as Gtk.Viewport;
-                var layout = viewport.Child as Gtk.Layout;
-                foreach (var lab in layout.Children)
+                var viewport = box?.Children[0] as Gtk.Viewport;
+                var layout = viewport?.Child as Gtk.Layout;
+                foreach (var lab in layout?.Children ?? [])
                 {
                     if (lab is Gtk.Label label)
                     {
@@ -1457,7 +1470,7 @@ public class ListView : ContainerControl
             }
             else if (this.View == View.SmallIcon)
             {
-                foreach (var lab in box.Children)
+                foreach (var lab in box?.Children ?? [])
                 {
                     if (lab is Gtk.Label label)
                     {
@@ -1468,8 +1481,8 @@ public class ListView : ContainerControl
             }
             else if (this.View == View.LargeIcon)
             {
-                var vbox = box.Children[0] as Gtk.Box;
-                foreach (var lab in vbox.Children)
+                var vbox = box?.Children[0] as Gtk.Box;
+                foreach (var lab in vbox?.Children ?? [])
                 {
                     if (lab is Gtk.Label label)
                     {
@@ -1480,7 +1493,7 @@ public class ListView : ContainerControl
             }
             else if (this.View == View.List)
             {
-                foreach (var lab in box.Children)
+                foreach (var lab in box?.Children ?? [])
                 {
                     if (lab is Gtk.Label label)
                     {
@@ -2207,7 +2220,7 @@ public class ListView : ContainerControl
         /// <param name="imageKey">
         /// The image key.
         /// </param>
-        public void Insert(int index, string key, string text, int width, HorizontalAlignment textAlign, string imageKey)
+        public void Insert(int index, string key, string text, int width, HorizontalAlignment textAlign, string? imageKey)
         {
             var header = new ColumnHeader
             {
@@ -2282,7 +2295,7 @@ public class ListView : ContainerControl
     [ListBindable(false)]
     public class ListViewItemCollection : List<ListViewItem>, IList
     {
-        readonly ListView _owner;
+        readonly ListView? _owner;
 
         /// <summary>
         /// Initializes a new instance of the
@@ -2291,7 +2304,7 @@ public class ListView : ContainerControl
         /// <param name="owner">
         /// The owner.
         /// </param>
-        public ListViewItemCollection(ListView owner)
+        public ListViewItemCollection(ListView? owner)
         {
             _owner = owner;
         }
@@ -2463,7 +2476,7 @@ public class ListView : ContainerControl
 
             foreach (var item in this)
             {
-                item.SubItems.Clear();
+                item.SubItems?.Clear();
             }
             base.Clear();
         }
@@ -2521,7 +2534,7 @@ public class ListView : ContainerControl
         public ListViewItem[] Find(string key, bool searchAllSubItems)
         {
             if (searchAllSubItems)
-                return base.FindAll(w => w.Name == key && w.SubItems.ContainsKey(key)).ToArray();
+                return base.FindAll(w => w.Name == key && (w.SubItems?.ContainsKey(key) ?? false)).ToArray();
             else
                 return base.FindAll(w => w.Name == key).ToArray();
         }
@@ -2671,10 +2684,10 @@ public class ListView : ContainerControl
             item._listView = _owner;
             item.Index = Count;
             if (item.Group == null)
-                item.Group = _owner.DefaultGroup;
+                item.Group = _owner?.DefaultGroup;
 
             base.Add(item);
-            _owner.NativeAdd(item, position);
+            _owner?.NativeAdd(item, position);
         }
     }
 

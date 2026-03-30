@@ -17,15 +17,13 @@ namespace System.Drawing.Printing;
 public class PrintDocument : Component
 {
 
-    private PrintEventHandler _beginPrintHandler;
+    private PrintEventHandler _beginPrintHandler = delegate { };
 
     private PageSettings _defaultPageSettings;
 
     private string _documentName = "document";
 
-    private PrintEventHandler _endPrintHandler;
-
-    
+    private PrintEventHandler? _endPrintHandler;
 
     private bool _originAtMargins;
 
@@ -33,9 +31,9 @@ public class PrintDocument : Component
 
     private PrinterSettings _printerSettings = new();
 
-    private PrintPageEventHandler _printPageHandler;
+    private PrintPageEventHandler _printPageHandler = delegate { };
 
-    private QueryPageSettingsEventHandler _queryHandler;
+    private QueryPageSettingsEventHandler _queryHandler = delegate { };
 
     private bool _userSetPageSettings;
 
@@ -45,7 +43,9 @@ public class PrintDocument : Component
     public virtual event PrintEventHandler BeginPrint
     {
         add => _beginPrintHandler += value;
+#pragma warning disable CS8601 // Possible null reference assignment.
         remove => _beginPrintHandler -= value;
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -63,7 +63,9 @@ public class PrintDocument : Component
     public virtual event PrintPageEventHandler PrintPage
     {
         add => _printPageHandler += value;
+#pragma warning disable CS8601 // Possible null reference assignment.
         remove => _printPageHandler -= value;
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -72,7 +74,9 @@ public class PrintDocument : Component
     public virtual event QueryPageSettingsEventHandler QueryPageSettings
     {
         add => _queryHandler += value;
+#pragma warning disable CS8601 // Possible null reference assignment.
         remove => _queryHandler -= value;
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -190,7 +194,7 @@ public class PrintDocument : Component
             AllowPrintToFile = false,
             PrintToFile = false
         };
-        printDialog.Document.DocumentName = "PrintDoument";
+        printDialog.Document.DocumentName = "PrintDocument";
         printDialog.RunPrint(null, true);
     }
 

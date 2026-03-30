@@ -26,34 +26,34 @@
 //	Jonathan Pobst (monkey@jpobst.com)
 //
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// BindingManagerDataErrorEventArgs provides data for the BindingManagerBase.DataError event.
+/// </summary>
+/// <seealso cref="System.EventArgs" />
+public class BindingManagerDataErrorEventArgs : EventArgs
 {
+
+    private readonly Exception exception;
+
     /// <summary>
-    /// BindingManagerDataErrorEventArgs provides data for the BindingManagerBase.DataError event.
+    /// Initializes a new instance of the <see cref="BindingManagerDataErrorEventArgs"/> class.
     /// </summary>
-    /// <seealso cref="System.EventArgs" />
-    public class BindingManagerDataErrorEventArgs : EventArgs
-	{
+    /// <param name="exception">The exception.</param>
+    public BindingManagerDataErrorEventArgs(Exception exception) : base()
+    {
+        this.exception = exception;
+    }
 
-		private Exception exception;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BindingManagerDataErrorEventArgs"/> class.
-        /// </summary>
-        /// <param name="exception">The exception.</param>
-        public BindingManagerDataErrorEventArgs(Exception exception) : base ()
-		{
-			this.exception = exception;
-		}
-
-        /// <summary>
-        /// Gets the exception.
-        /// </summary>
-        /// <value>
-        /// The exception.
-        /// </value>
-        public Exception Exception {
-			get { return this.exception; }
-		}
-	}
+    /// <summary>
+    /// Gets the exception.
+    /// </summary>
+    /// <value>
+    /// The exception.
+    /// </value>
+    public Exception Exception
+    {
+        get { return this.exception; }
+    }
 }

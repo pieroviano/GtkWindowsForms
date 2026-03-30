@@ -15,7 +15,7 @@ namespace System.Windows.Forms;
 public class MessageBoxOld
 {
 
-    private static Gtk.Window ActiveWindow = null; // has caching significance
+    private static Gtk.Window? ActiveWindow = null; // has caching significance
 
     /// <summary>
     /// Displays a message box with specified text, caption, and style with Help Button.
@@ -169,7 +169,7 @@ public class MessageBoxOld
     /// <summary>
     /// Displays a message box with specified text, caption, and style.
     /// </summary>
-    public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+    public static DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
     {
         return ShowCore(owner, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, false);
     }
@@ -200,13 +200,15 @@ public class MessageBoxOld
 
     private static void Dia_Response(object o, Gtk.ResponseArgs args)
     {
-        var dia = o as Gtk.Dialog;
-        dia.PangoContext.Dispose();
-        dia.Dispose();
-        dia.Destroy();
+        if (o is Dialog dia)
+        {
+            dia.PangoContext.Dispose();
+            dia.Dispose();
+            dia.Destroy();
+        }
     }
 
-    private static DialogResult ShowCore(IWin32Window owner, string text, string caption,
+    private static DialogResult ShowCore(IWin32Window? owner, string text, string caption,
                                  MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,
                                  MessageBoxOptions options)
     {
@@ -224,14 +226,14 @@ public class MessageBoxOld
         return result;
     }
 
-    private static DialogResult ShowCore(IWin32Window owner, string text, string caption,
+    private static DialogResult ShowCore(IWin32Window? owner, string? text, string caption,
                                          MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,
                                          MessageBoxOptions options, bool showHelp)
     {
         var irun = 0;
         if (owner is System.Windows.Forms.Form control)
         {
-            irun = ShowCore((Gtk.Window)control.Widget, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
+            irun = ShowCore((Gtk.Window?)control.Widget, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
         }
         else
         {
@@ -266,7 +268,7 @@ public class MessageBoxOld
             return DialogResult.None;
     }
 
-    private static int ShowCore(Gtk.Window owner, Gtk.WindowPosition position, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
+    private static int ShowCore(Window? owner, Gtk.WindowPosition position, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
     {
         var dia = new Gtk.Dialog(caption, owner, Gtk.DialogFlags.DestroyWithParent)
         {

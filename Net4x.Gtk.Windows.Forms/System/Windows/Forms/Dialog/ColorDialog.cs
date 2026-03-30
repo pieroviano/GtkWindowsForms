@@ -7,6 +7,7 @@
 
 using System.ComponentModel;
 using System.Drawing;
+using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -80,7 +81,7 @@ public class ColorDialog : CommonDialog
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int[] CustomColors
+    public int[]? CustomColors
     {
         get;
         set;
@@ -188,9 +189,9 @@ public class ColorDialog : CommonDialog
     /// false
     /// </c> otherwise.
     /// </returns>
-    protected override bool RunDialog(IWin32Window owner)
+    protected override bool RunDialog(IWin32Window? owner)
     {
-        Gtk.ColorChooserDialog colorChooserDialog = null;
+        ColorChooserDialog? colorChooserDialog = null;
         if (owner != null && owner is Form ownerform)
         {
             colorChooserDialog = new Gtk.ColorChooserDialog(System.Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color, ownerform.self)

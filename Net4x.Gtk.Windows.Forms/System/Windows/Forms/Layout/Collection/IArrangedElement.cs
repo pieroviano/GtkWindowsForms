@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -16,7 +16,7 @@ internal interface IArrangedElement : IComponent
     /// <summary>
     /// Returns the element's children (on a control, this forwards to Controls)
     /// </summary>
-    ArrangedElementCollection Children { get; }
+    ArrangedElementCollection? Children { get; }
 
     /// <summary>
     /// Returns the element's parent container (on a control, this forwards to Parent)

@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Runtime.Serialization;
+using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -12,11 +13,11 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
 
     internal bool _checked;
 
-    internal Gtk.FlowBoxChild _flowBoxChild;
+    internal FlowBoxChild? _flowBoxChild;
 
-    internal ListViewGroup _group;
+    internal ListViewGroup? _group;
 
-    internal ListView _listView;
+    internal ListView? _listView;
 
     internal bool _selected;
 
@@ -24,7 +25,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
 
     internal int ID;
 
-    private ListViewSubItemCollection _subitems;
+    private ListViewSubItemCollection? _subitems;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -485,7 +486,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <value>
     /// The font.
     /// </value>
-    public Font Font
+    public Font? Font
     {
         get;
         set;
@@ -509,7 +510,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <value>
     /// The group.
     /// </value>
-    public ListViewGroup Group
+    public ListViewGroup? Group
     {
         get { return _group; }
         set { _group = value; }
@@ -533,7 +534,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <value>
     /// The image key.
     /// </value>
-    public string ImageKey
+    public string? ImageKey
     {
         get;
         set;
@@ -545,7 +546,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <value>
     /// The image list.
     /// </value>
-    public ImageList ImageList
+    public ImageList? ImageList
     {
         get;
 
@@ -583,7 +584,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <value>
     /// The ListView.
     /// </value>
-    public ListView ListView
+    public ListView? ListView
     {
         get;
 
@@ -596,7 +597,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <value>
     /// The name.
     /// </value>
-    public string Name
+    public string? Name
     {
         get;
         set;
@@ -654,7 +655,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <value>
     /// The sub items.
     /// </value>
-    public ListViewSubItemCollection SubItems
+    public ListViewSubItemCollection? SubItems
     {
         get => _subitems;
     }
@@ -665,7 +666,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <value>
     /// The tag.
     /// </value>
-    public object Tag
+    public object? Tag
     {
         get;
         set;
@@ -694,7 +695,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <value>
     /// The tool tip text.
     /// </value>
-    public string ToolTipText
+    public string? ToolTipText
     {
         get;
         set;
@@ -717,17 +718,17 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         set;
     }
 
-    internal virtual AccessibleObject AccessibilityObject
+    internal virtual AccessibleObject? AccessibilityObject
     {
         get;
     }
 
-    internal object ImageIndexer
+    internal object? ImageIndexer
     {
         get;
     }
 
-    internal string ItemType
+    internal string? ItemType
     {
         get;
         set;
@@ -759,7 +760,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <returns>
     /// A new object that is a copy of this instance.
     /// </returns>
-    public virtual object Clone()
+    public virtual object? Clone()
     {
         return null;
     }
@@ -804,12 +805,12 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     /// <returns>
     /// ListViewSubItem.
     /// </returns>
-    public ListViewSubItem GetSubItemAt(int x, int y)
+    public ListViewSubItem? GetSubItemAt(int x, int y)
     {
         if (_listView is not null && _listView.IsHandleCreated && _listView.View == View.Details)
         {
             _listView.GetSubItemAt(x, y, out var iItem, out var iSubItem);
-            if (Index > -1 && iSubItem > -1 && iSubItem < SubItems.Count)
+            if (Index > -1 && iSubItem > -1 && iSubItem < SubItems?.Count)
             {
                 return SubItems[iSubItem];
             }
@@ -835,7 +836,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
 
     }
 
-    internal void InitListViewItem(string text, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
+    internal void InitListViewItem(string text, int imageIndex, string? imageKey, Color? foreColor, Color? backColor, Font? font, ListViewGroup? group)
     {
         _subitems = new ListViewSubItemCollection(this)
         {
@@ -850,19 +851,19 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         this.Group = group;
     }
 
-    internal void InitListViewItem(string[] items, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
+    internal void InitListViewItem(string[] items, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font? font, ListViewGroup? group)
     {
         InitListViewItem(items.Length > 0 ? items[0] : "", imageIndex, imageKey, foreColor, backColor, font, group);
         foreach (var item in items)
-            _subitems.Add(item);
+            _subitems?.Add(item);
 
     }
 
-    internal void InitListViewItem(ListViewSubItem[] subItems, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font font, ListViewGroup group)
+    internal void InitListViewItem(ListViewSubItem[] subItems, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font? font, ListViewGroup? group)
     {
         InitListViewItem(subItems.Length > 0 ? subItems[0].Text : "", imageIndex, imageKey, foreColor, backColor, font, group);
         foreach (var item in subItems)
-            _subitems.Add(item);
+            _subitems?.Add(item);
     }
 
     /// <summary>
@@ -871,7 +872,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     public class ListViewSubItem
     {
 
-        internal Gtk.Label _label;
+        internal Gtk.Label? _label;
 
         internal string _text = string.Empty;
 
@@ -958,7 +959,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <value>
         /// The font.
         /// </value>
-        public Font Font
+        public Font? Font
         {
             get;
             set;
@@ -982,7 +983,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <value>
         /// The ListView item.
         /// </value>
-        public ListViewItem ListViewItem
+        public ListViewItem? ListViewItem
         {
             get;
             set;
@@ -994,7 +995,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <value>
         /// The name.
         /// </value>
-        public string Name
+        public string? Name
         {
             get;
             set;
@@ -1006,7 +1007,7 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
         /// <value>
         /// The tag.
         /// </value>
-        public object Tag
+        public object? Tag
         {
             get;
             set;

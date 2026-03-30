@@ -51,22 +51,22 @@ public class CurrencyManager : BindingManagerBase
     /// <summary>
     /// Occurs when currency changed.
     /// </summary>
-    public virtual event EventHandler<EventArgs> CurrencyChanged;
+    public virtual event EventHandler<EventArgs>? CurrencyChanged;
 
     /// <summary>
     /// Occurs when current changed.
     /// </summary>
-    public override event EventHandler CurrentChanged;
+    public override event EventHandler? CurrentChanged;
 
     /// <summary>
     /// Occurs when current item changed.
     /// </summary>
-    public override event EventHandler CurrentItemChanged;
+    public override event EventHandler? CurrentItemChanged;
 
     /// <summary>
     /// Occurs when position changed.
     /// </summary>
-    public override event EventHandler PositionChanged;
+    public override event EventHandler? PositionChanged;
 
     /// <summary>
     /// Occurs when the current item has been altered.
@@ -193,9 +193,9 @@ public class CurrencyManager : BindingManagerBase
     {
         get
         {
-            if (_list is IBindingList)
+            if (_list is IBindingList list)
             {
-                return ((IBindingList)_list).AllowNew;
+                return list.AllowNew;
             }
             if (_list == null)
             {
@@ -214,9 +214,9 @@ public class CurrencyManager : BindingManagerBase
     {
         get
         {
-            if (_list is IBindingList)
+            if (_list is IBindingList list)
             {
-                return ((IBindingList)_list).AllowEdit;
+                return list.AllowEdit;
             }
             if (_list == null)
             {
@@ -231,9 +231,9 @@ public class CurrencyManager : BindingManagerBase
     {
         get
         {
-            if (_list is IBindingList)
+            if (_list is IBindingList list)
             {
-                return ((IBindingList)_list).AllowRemove;
+                return list.AllowRemove;
             }
             if (_list == null)
             {
@@ -442,9 +442,9 @@ public class CurrencyManager : BindingManagerBase
         {
             throw new ArgumentNullException(nameof(key));
         }
-        if (property != null && _list is IBindingList && ((IBindingList)_list).SupportsSearching)
+        if (property != null && _list is IBindingList list && list.SupportsSearching)
         {
-            return ((IBindingList)_list).Find(property, key);
+            return list.Find(property, key);
         }
         if (property != null)
         {
@@ -467,12 +467,12 @@ public class CurrencyManager : BindingManagerBase
 
     internal override string? GetListName()
     {
-        if (!(_list is ITypedList))
+        if (!(_list is ITypedList list))
         {
             return FinalType?.Name;
         }
 
-        return ((ITypedList)_list).GetListName(null);
+        return list.GetListName(null);
     }
 
     /// <summary>
@@ -489,34 +489,34 @@ public class CurrencyManager : BindingManagerBase
     /// </param>
     protected internal override string? GetListName(ArrayList? listAccessors)
     {
-        if (!(_list is ITypedList))
+        if (!(_list is ITypedList list))
         {
             return "";
         }
         var propertyDescriptorArray = new PropertyDescriptor[listAccessors?.Count ?? 0];
         listAccessors?.CopyTo(propertyDescriptorArray, 0);
 
-        return ((ITypedList)_list).GetListName(propertyDescriptorArray);
+        return list.GetListName(propertyDescriptorArray);
     }
 
     internal ListSortDirection GetSortDirection()
     {
-        if (!(_list is IBindingList) || !((IBindingList)_list).SupportsSorting)
+        if (!(_list is IBindingList list) || !list.SupportsSorting)
         {
             return ListSortDirection.Ascending;
         }
 
-        return ((IBindingList)_list).SortDirection;
+        return list.SortDirection;
     }
 
     internal PropertyDescriptor? GetSortProperty()
     {
-        if (!(_list is IBindingList) || !((IBindingList)_list).SupportsSorting)
+        if (!(_list is IBindingList list) || !list.SupportsSorting)
         {
             return null;
         }
 
-        return ((IBindingList)_list).SortProperty;
+        return list.SortProperty;
     }
 
     /// <param name="e">
@@ -582,25 +582,25 @@ public class CurrencyManager : BindingManagerBase
 
     internal void SetSort(PropertyDescriptor property, ListSortDirection sortDirection)
     {
-        if (_list is IBindingList && ((IBindingList)_list).SupportsSorting)
+        if (_list is IBindingList list && list.SupportsSorting)
         {
-            ((IBindingList)_list).ApplySort(property, sortDirection);
+            list.ApplySort(property, sortDirection);
         }
     }
 
     internal void UnwireEvents(IList? listValue)
     {
-        if (listValue is IBindingList && ((IBindingList)listValue).SupportsChangeNotification)
+        if (listValue is IBindingList list && list.SupportsChangeNotification)
         {
-            ((IBindingList)listValue).ListChanged -= List_ListChanged;
+            list.ListChanged -= List_ListChanged;
         }
     }
 
     internal void WireEvents(IList? listValue)
     {
-        if (listValue is IBindingList && ((IBindingList)listValue).SupportsChangeNotification)
+        if (listValue is IBindingList list && list.SupportsChangeNotification)
         {
-            ((IBindingList)listValue).ListChanged += List_ListChanged;
+            list.ListChanged += List_ListChanged;
         }
     }
 
@@ -691,16 +691,16 @@ public class CurrencyManager : BindingManagerBase
         _list = null;
         FinalType = null;
         var listValue = source;
-        if (listValue is Array)
+        if (listValue is Array array)
         {
-            FinalType = listValue.GetType();
-            listValue = (Array)listValue;
+            FinalType = array.GetType();
+            listValue = array;
         }
-        if (listValue is IListSource)
+        if (listValue is IListSource listSource)
         {
-            listValue = ((IListSource)listValue).GetList();
+            listValue = listSource.GetList();
         }
-        if (!(listValue is IList))
+        if (!(listValue is IList list))
         {
             if (listValue != null)
             {
@@ -710,9 +710,9 @@ public class CurrencyManager : BindingManagerBase
         }
         if (FinalType == null)
         {
-            FinalType = listValue.GetType();
+            FinalType = list.GetType();
         }
-        _list = (IList)listValue;
+        _list = list;
         WireEvents(_list);
         if (_list.Count <= 0)
         {

@@ -9,7 +9,7 @@ public class ComponentDesignerTests
     {
         public override System.Collections.ICollection Children => throw new NotImplementedException();
         public override IComponent Component => throw new NotImplementedException();
-        public override IDesigner Parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override IDesigner? Parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override DesignerVerbCollection Verbs => throw new NotImplementedException();
     }
 
@@ -129,9 +129,9 @@ public class ComponentDesignerTests
 
     private class TestComponent : IComponent
     {
-        public ISite Site { get; set; }
+        public ISite? Site { get; set; }
 
-        public event EventHandler Disposed;
+        public event EventHandler? Disposed;
 
         public void Dispose()
         {

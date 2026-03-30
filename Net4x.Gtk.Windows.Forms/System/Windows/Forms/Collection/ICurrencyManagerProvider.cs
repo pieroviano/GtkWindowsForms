@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// ICurrencyManagerProvider is the interface that must be implemented by any component that provides a CurrencyManager
@@ -18,7 +18,7 @@ public interface ICurrencyManagerProvider
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    CurrencyManager CurrencyManager { get; }
+    CurrencyManager? CurrencyManager { get; }
 
     /// <summary>
     /// Gets the
@@ -35,6 +35,6 @@ public interface ICurrencyManagerProvider
     /// The name of the column or list, within the data source, to obtain the
     /// <see cref="T:System.Windows.Forms.CurrencyManager" /> for.
     /// </param>
-    CurrencyManager GetRelatedCurrencyManager(string dataMember);
+    CurrencyManager? GetRelatedCurrencyManager(string? dataMember);
 
 }

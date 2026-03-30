@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -41,7 +41,7 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <value>
     /// The type of the formatted value.
     /// </value>
-    public override Type FormattedValueType
+    public override Type? FormattedValueType
     {
         get;
     }
@@ -127,7 +127,7 @@ public class DataGridViewHeaderCell : DataGridViewCell
     /// <value>
     /// The type of the value.
     /// </value>
-    public override Type ValueType
+    public override Type? ValueType
     {
         get;
         set;
@@ -154,7 +154,7 @@ public class DataGridViewHeaderCell : DataGridViewCell
         }
     }
 
-    internal Bitmap FlipXPThemesBitmap
+    internal Bitmap? FlipXPThemesBitmap
     {
         get;
         set;

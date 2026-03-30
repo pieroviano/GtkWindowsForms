@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.Specialized;
@@ -17,7 +17,7 @@ internal abstract class ArrangedElement : Component, IArrangedElement
 
     private readonly PropertyStore _propertyStore = new();  // Contains all properties that are not always set.
 
-    private BitVector32 _state;
+    private readonly BitVector32 _state;
 
     private static readonly int s_stateVisible = BitVector32.CreateMask();
 

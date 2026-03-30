@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -14,7 +14,7 @@ internal interface IOleDragClient
     /// </summary>
     bool CanModifyComponents { get; }
 
-    IComponent Component { get; }
+    IComponent? Component { get; }
 
     /// <summary>
     /// Retrieves the control view instance for the designer that is hosting the drag.

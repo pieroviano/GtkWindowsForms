@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace System.Windows.Forms;
 
@@ -17,11 +17,15 @@ public class ToolStripSeparator : WidgetToolStrip<Gtk.SeparatorMenuItem>
     /// </summary>
     public ToolStripSeparator() : base("ToolStripSeparator")
     {
-        this.MenuItem.Hexpand = false;
-        this.MenuItem.Vexpand = false;
-        this.MenuItem.Halign = Gtk.Align.Center;
-        this.MenuItem.Valign = Gtk.Align.Center;
-        this.MenuItem.StyleContext.AddClass("ToolStripSeparator");
+        var menuItem = this.MenuItem;
+        if (menuItem != null)
+        {
+            menuItem.Hexpand = false;
+            menuItem.Vexpand = false;
+            menuItem.Halign = Gtk.Align.Center;
+            menuItem.Valign = Gtk.Align.Center;
+            menuItem.StyleContext.AddClass("ToolStripSeparator");
+        }
     }
 
     /// <summary>

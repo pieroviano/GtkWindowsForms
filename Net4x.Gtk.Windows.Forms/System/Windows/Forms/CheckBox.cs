@@ -26,12 +26,12 @@ public partial class CheckBox : Control
     /// <summary>
     /// Occurs when checked is changed.
     /// </summary>
-    public virtual event EventHandler CheckedChanged;
+    public virtual event EventHandler? CheckedChanged;
 
     /// <summary>
     /// Occurs when the check state is changed.
     /// </summary>
-    public virtual event EventHandler CheckStateChanged;
+    public virtual event EventHandler? CheckStateChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -87,7 +87,7 @@ public partial class CheckBox : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get { return self.Label; }
         set { self.Label = value; }

@@ -28,7 +28,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <param name="name">
     /// The name of the new System.Drawing.FontFamily.
     /// </param>
-    public FontFamily(string name) : this(name, null) { }
+    public FontFamily(string? name) : this(name, null) { }
 
     /// <summary>
     /// Initializes a new System.Drawing.FontFamily in the specified System.Drawing.Text.FontCollection
@@ -40,7 +40,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <param name="fontCollection">
     /// The System.Drawing.Text.FontCollection that contains this System.Drawing.FontFamily.
     /// </param>
-    public FontFamily(string name, FontCollection fontCollection)
+    public FontFamily(string? name, FontCollection? fontCollection)
     {
         this.Name = name;
     }
@@ -84,7 +84,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <returns>
     /// A System.String that represents the name of this System.Drawing.FontFamily.
     /// </returns>
-    public string Name
+    public string? Name
     {
         get;
         set;
@@ -111,8 +111,8 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
         {
             return true;
         }
-        FontFamily fontFamily = obj as FontFamily;
-        if (fontFamily == null)
+
+        if (obj is not FontFamily fontFamily)
         {
             return false;
         }
@@ -172,7 +172,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <returns>
     /// The hash code for this System.Drawing.FontFamily.
     /// </returns>
-    public override int GetHashCode() { return Name.GetHashCode(); }
+    public override int GetHashCode() { return (Name??string.Empty).GetHashCode(); }
 
     /// <summary>
     /// Returns the line spacing, in design units, of the System.Drawing.FontFamily of
@@ -196,7 +196,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <returns>
     /// A System.String that represents the name, in the specified language, of this System.Drawing.FontFamily.
     /// </returns>
-    public string GetName(int language) { return Name; }
+    public string? GetName(int language) { return Name; }
 
     /// <summary>
     /// Indicates whether the specified System.Drawing.FontStyle enumeration is available.
@@ -215,7 +215,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <returns>
     /// The string that represents this System.Drawing.FontFamily.
     /// </returns>
-    public override string ToString()
+    public override string? ToString()
     {
         return Name;
     }

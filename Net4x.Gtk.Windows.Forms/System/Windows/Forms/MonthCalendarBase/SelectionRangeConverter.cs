@@ -49,9 +49,9 @@ public class SelectionRangeConverter : TypeConverter
     /// </summary>
     public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
-        if (value is string)
+        if (value is string s)
         {
-            var text = ((string)value).Trim();
+            var text = s.Trim();
             if (text.Length == 0)
             {
                 return new SelectionRange(DateTime.Now.Date, DateTime.Now.Date);

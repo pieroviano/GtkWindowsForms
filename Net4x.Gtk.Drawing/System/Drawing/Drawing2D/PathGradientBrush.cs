@@ -1,4 +1,4 @@
-
+﻿
 namespace System.Drawing.Drawing2D;
 
 /// <summary>
@@ -22,10 +22,10 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public PathGradientBrush(GraphicsPath path)
     {
-        float left = path.SizePoints.Select(o => o.X).Min();
-        float top = path.SizePoints.Select(o => o.Y).Min();
-        float right = path.SizePoints.Select(o => o.X).Max();
-        float bottom = path.SizePoints.Select(o => o.Y).Max();
+        var left = path.SizePoints.Select(o => o.X).Min();
+        var top = path.SizePoints.Select(o => o.Y).Min();
+        var right = path.SizePoints.Select(o => o.X).Max();
+        var bottom = path.SizePoints.Select(o => o.Y).Max();
         this.Rectangle = new RectangleF(left, top, right - left, bottom - top);
     }
 
@@ -57,10 +57,10 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public PathGradientBrush(PointF[] points, WrapMode wrapMode)
     {
-        float left = points.Select(o => o.X).Min();
-        float top = points.Select(o => o.Y).Min();
-        float right = points.Select(o => o.X).Max();
-        float bottom = points.Select(o => o.Y).Max();
+        var left = points.Select(o => o.X).Min();
+        var top = points.Select(o => o.Y).Min();
+        var right = points.Select(o => o.X).Max();
+        var bottom = points.Select(o => o.Y).Max();
         this.Rectangle = new RectangleF(left, top, right - left, bottom - top);
     }
 
@@ -106,7 +106,7 @@ public sealed class PathGradientBrush : Brush
     /// A
     /// <see cref="T:System.Drawing.Drawing2D.Blend" /> that represents a custom falloff for the gradient.
     /// </returns>
-    public Blend Blend
+    public Blend? Blend
     {
         get;
         set;
@@ -159,7 +159,7 @@ public sealed class PathGradientBrush : Brush
     /// A
     /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
     /// </returns>
-    public ColorBlend InterpolationColors
+    public ColorBlend? InterpolationColors
     {
         get;
         set;
@@ -190,7 +190,7 @@ public sealed class PathGradientBrush : Brush
     /// <see cref="T:System.Drawing.Color" /> structures that represents the colors associated with each point in the path this
     /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> fills.
     /// </returns>
-    public Color[] SurroundColors
+    public Color[]? SurroundColors
     {
         get;
         set;
@@ -206,7 +206,7 @@ public sealed class PathGradientBrush : Brush
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that defines a geometric transform that applies only to fills drawn with this
     /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" />.
     /// </returns>
-    public Matrix Transform
+    public Matrix? Transform
     {
         get;
         set;
@@ -236,7 +236,7 @@ public sealed class PathGradientBrush : Brush
     /// The
     /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> this method creates, cast as an object.
     /// </returns>
-    public override object Clone()
+    public override object? Clone()
     {
         return null;
 

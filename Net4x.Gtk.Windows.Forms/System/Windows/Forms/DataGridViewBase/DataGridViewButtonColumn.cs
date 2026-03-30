@@ -35,7 +35,7 @@ public class DataGridViewButtonColumn : DataGridViewColumn
     /// The owning
     /// <see cref="T:System.Windows.Forms.DataGridView" />.
     /// </param>
-    public DataGridViewButtonColumn(DataGridView ownerGridView) : base(0, ownerGridView, new DataGridViewButtonCell())
+    public DataGridViewButtonColumn(DataGridView? ownerGridView) : base(0, ownerGridView, new DataGridViewButtonCell())
     {
         var renderer = new CellRendererButtonValue(this)
         {
@@ -50,7 +50,7 @@ public class DataGridViewButtonColumn : DataGridViewColumn
         _cellRenderer = renderer;
     }
 
-    internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
+    internal override DataGridViewCell NewCell(object? value = null, Type? valueType = null)
     {
         var newcell = new DataGridViewButtonCell();
         AtrributesClone(newcell);
@@ -67,7 +67,7 @@ public class DataGridViewButtonColumn : DataGridViewColumn
             if (args.Column.Cells[0] is CellRendererText cell)
             {
                 var path = args.Path;
-                _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
+                _gridview?.CellValueChanagedHandler(this.Index, path.Indices.Last());
             }
         }
     }

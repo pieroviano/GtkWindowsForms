@@ -43,9 +43,10 @@ public class ControlExtensionTests
         // Arrange
         var grid = new Gtk.Grid();
         var parent = new Gtk.Label(); // NOT added to grid
-        var widget = new Gtk.Label();
-
-        widget.Parent = parent;
+        var widget = new Gtk.Label
+        {
+            Parent = parent
+        };
 
         var control = new TestControl(widget);
 
@@ -107,10 +108,10 @@ public class ControlExtensionTests
 
         public override Gtk.Widget Widget { get; }
 
-        public override object GtkControl
+        public override object? GtkControl
         {
             get;
             set;
-        } 
+        }
     }
 }

@@ -23,11 +23,11 @@ public class ResourceManager : System.Resources.ResourceManager
 
     internal const string ResFileExtension = ".resources";
 
-    private readonly Assembly _assembly;
+    private readonly Assembly? _assembly;
 
-    private readonly string _baseName;
+    private readonly string? _baseName;
 
-    private readonly System.Type _resourceSource;
+    private readonly Type? _resourceSource;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -202,7 +202,7 @@ public class ResourceManager : System.Resources.ResourceManager
     /// name
     /// </paramref> cannot be found in a resource set.
     /// </returns>
-    public override string GetString(string name)
+    public override string? GetString(string name)
     {
         return GetString(name, null);
     }
@@ -222,12 +222,12 @@ public class ResourceManager : System.Resources.ResourceManager
     /// name
     /// </paramref> cannot be found in a resource set.
     /// </returns>
-    public override string GetString(string name, CultureInfo? culture)
+    public override string? GetString(string name, CultureInfo? culture)
     {
         return ReadResourceText(name);
     }
 
-    private object ReadResourceData(string name)
+    private object? ReadResourceData(string name)
     {
         if (_assembly == null)
             throw new FileNotFoundException();
@@ -269,9 +269,9 @@ public class ResourceManager : System.Resources.ResourceManager
         return null;
     }
 
-    private byte[] ReadResourceFile(string name)
+    private byte[]? ReadResourceFile(string name)
     {
-        byte[] result = null;
+        byte[]? result = null;
         try
         {
             var filepath = $"./{ReadResourceData("this_FileName")}"; //linux the path must use/
@@ -309,7 +309,7 @@ public class ResourceManager : System.Resources.ResourceManager
         return result;
     }
 
-    private string ReadResourceText(string name)
+    private string? ReadResourceText(string name)
     {
         if (_assembly == null)
             throw new FileNotFoundException();
@@ -348,7 +348,7 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The assembly.
         /// </value>
-        public Assembly Assembly
+        public Assembly? Assembly
         {
             get;
             set;
@@ -360,7 +360,7 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The name of the base.
         /// </value>
-        public string BaseName
+        public string? BaseName
         {
             get;
             set;
@@ -372,7 +372,7 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The image bytes.
         /// </value>
-        public byte[] ImageBytes
+        public byte[]? ImageBytes
         {
             get;
             set;
@@ -384,7 +384,7 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The name of the resource.
         /// </value>
-        public string ResourceName
+        public string? ResourceName
         {
             get;
             set;
@@ -396,7 +396,7 @@ public class ResourceManager : System.Resources.ResourceManager
         /// <value>
         /// The type of the source.
         /// </value>
-        public System.Type SourceType
+        public Type? SourceType
         {
             get;
             set;

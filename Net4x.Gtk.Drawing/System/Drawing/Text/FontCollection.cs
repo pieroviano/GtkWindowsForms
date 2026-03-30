@@ -1,4 +1,4 @@
-namespace System.Drawing.Text;
+﻿namespace System.Drawing.Text;
 
 /// <summary>
 /// Provides a base class for installed and private font collections.
@@ -12,7 +12,7 @@ public abstract class FontCollection : IDisposable
     /// <returns>
     /// An array of System.Drawing.FontFamily objects.
     /// </returns>
-    public FontFamily[] Families { get; }
+    public FontFamily[]? Families { get; }
 
     /// <summary>
     /// Releases all resources used by this System.Drawing.Text.FontCollection.

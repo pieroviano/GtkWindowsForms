@@ -28,22 +28,22 @@ public class ToolStrip : Control
     /// <summary>
     /// Occurs when checked changed.
     /// </summary>
-    public virtual event EventHandler CheckedChanged;
+    public virtual event EventHandler? CheckedChanged;
 
     /// <summary>
     /// Occurs when check state changed.
     /// </summary>
-    public virtual event EventHandler CheckStateChanged;
+    public virtual event EventHandler? CheckStateChanged;
 
     /// <summary>
     /// Occurs when the control is clicked.
     /// </summary>
-    public override event EventHandler Click;
+    public override event EventHandler? Click;
 
     /// <summary>
     /// Occurs when drop down item clicked.
     /// </summary>
-    public virtual event ToolStripItemClickedEventHandler DropDownItemClicked;
+    public virtual event ToolStripItemClickedEventHandler? DropDownItemClicked;
 
     /// <summary>
     /// Initializes a new instance of the

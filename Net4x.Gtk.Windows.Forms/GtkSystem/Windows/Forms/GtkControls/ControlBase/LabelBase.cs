@@ -1,4 +1,4 @@
-namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
+﻿namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
 /// LabelBase is a base class for GTK label controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of label controls. The LabelBase class includes features such as text alignment, word wrapping, and custom drawing capabilities.
@@ -31,7 +31,7 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
     /// <param name="text">
     /// The text.
     /// </param>
-    public LabelBase(string text) : base(text)
+    public LabelBase(string? text) : base(text)
     {
         this.Override = new GtkControlOverride(this);
         this.Override.AddClass("Label");

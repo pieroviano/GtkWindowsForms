@@ -6,6 +6,7 @@
  */
 
 using System.ComponentModel;
+using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -15,14 +16,14 @@ namespace System.Windows.Forms;
 public abstract class FileDialog : CommonDialog
 {
 
-    private string _filter;
+    private string? _filter;
 
     static readonly Dictionary<string, string> MimeMapping = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// Occurs when file ok.
     /// </summary>
-    public virtual event CancelEventHandler FileOk;
+    public virtual event CancelEventHandler? FileOk;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -455,7 +456,7 @@ public abstract class FileDialog : CommonDialog
     /// <value>
     /// The default ext.
     /// </value>
-    public string DefaultExt
+    public string? DefaultExt
     {
         get;
         set;
@@ -484,7 +485,7 @@ public abstract class FileDialog : CommonDialog
     /// <value>
     /// The description.
     /// </value>
-    public string Description
+    public string? Description
     {
         get;
         set;
@@ -496,7 +497,7 @@ public abstract class FileDialog : CommonDialog
     /// <value>
     /// The name of the file.
     /// </value>
-    public string FileName
+    public string? FileName
     {
         get;
         set;
@@ -508,7 +509,7 @@ public abstract class FileDialog : CommonDialog
     /// <value>
     /// The file names.
     /// </value>
-    public string[] FileNames
+    public string[]? FileNames
     {
         get;
         internal set;
@@ -578,7 +579,7 @@ public abstract class FileDialog : CommonDialog
     /// <value>
     /// The initial directory.
     /// </value>
-    public string InitialDirectory
+    public string? InitialDirectory
     {
         get;
         set;
@@ -641,7 +642,7 @@ public abstract class FileDialog : CommonDialog
     /// <value>
     /// The title.
     /// </value>
-    public string Title
+    public string? Title
     {
         get;
         set;
@@ -676,7 +677,7 @@ public abstract class FileDialog : CommonDialog
         set;
     }
 
-    internal string SelectedDirectory
+    internal string? SelectedDirectory
     {
         get;
         set;
@@ -719,9 +720,9 @@ public abstract class FileDialog : CommonDialog
     /// false
     /// </c> otherwise.
     /// </returns>
-    protected override bool RunDialog(IWin32Window owner)
+    protected override bool RunDialog(IWin32Window? owner)
     {
-        Gtk.FileChooserDialog fileDialog = null;
+        FileChooserDialog? fileDialog = null;
         if (owner != null && owner is Form ownerform)
         {
             fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, ownerform.self, ActionType)

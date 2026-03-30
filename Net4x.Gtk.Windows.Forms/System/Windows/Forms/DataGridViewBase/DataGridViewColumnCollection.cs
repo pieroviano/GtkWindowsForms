@@ -20,14 +20,14 @@ namespace System.Windows.Forms;
 public class DataGridViewColumnCollection : List<DataGridViewColumn>
 {
 
-    private readonly DataGridView __owner;
+    private readonly DataGridView _owner;
 
     private readonly Gtk.TreeView GridView;
 
     /// <summary>
     /// Occurs when the collection changes.
     /// </summary>
-    public virtual event CollectionChangeEventHandler CollectionChanged;
+    public virtual event CollectionChangeEventHandler? CollectionChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -39,7 +39,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </param>
     public DataGridViewColumnCollection(DataGridView dataGridView)
     {
-        __owner = dataGridView;
+        _owner = dataGridView;
         GridView = dataGridView.GridView;
     }
 
@@ -47,7 +47,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// Gets the owning
     /// <see cref="T:System.Windows.Forms.DataGridViewColumnCollection.DataGridView" />.
     /// </summary>
-    protected DataGridView DataGridView { get { return __owner; } }
+    protected DataGridView DataGridView { get { return _owner; } }
 
     /// <summary>
     /// Gets the column with the specified name.
@@ -85,14 +85,14 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </param>
     public new void Add(DataGridViewColumn column)
     {
-        column.DataGridView = __owner;
+        column.DataGridView = _owner;
         column.Index = Count;
         column.DisplayIndex = column.Index;
-        column.SetGridViewDefaultStyle(__owner.DefaultCellStyle);
+        column.SetGridViewDefaultStyle(_owner.DefaultCellStyle);
 
         var _cellStyle = column.DefaultCellStyle;
-        if (__owner.ColumnHeadersDefaultCellStyle != null)
-            _cellStyle = __owner.ColumnHeadersDefaultCellStyle;
+        if (_owner.ColumnHeadersDefaultCellStyle != null)
+            _cellStyle = _owner.ColumnHeadersDefaultCellStyle;
 
         if (_cellStyle != null)
         {
@@ -143,7 +143,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
         }
 
         base.Add(column);
-        if (__owner.self.IsRealized)
+        if (_owner.self.IsRealized)
         {
             Invalidate();
         }
@@ -175,7 +175,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
         foreach (var wik in GridView.Columns)
             GridView.RemoveColumn(wik);
 
-        OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Add, __owner));
+        OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Add, _owner));
     }
 
     /// <summary>
@@ -207,7 +207,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     {
         var co = Find(m => m.State == includeFilter);
 
-        return co == null ? __owner.RowHeadersWidth : co.Width;
+        return co == null ? _owner.RowHeadersWidth : co.Width;
     }
 
     /// <summary>
@@ -277,7 +277,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// The next matching
     /// <see cref="T:System.Windows.Forms.DataGridViewColumn" /> or null.
     /// </returns>
-    public DataGridViewColumn GetNextColumn(DataGridViewColumn dataGridViewColumnStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
+    public DataGridViewColumn? GetNextColumn(DataGridViewColumn dataGridViewColumnStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
         var ix = FindIndex(m => m.Name == dataGridViewColumnStart.Name && m.State == includeFilter && m.State == excludeFilter);
 
@@ -289,21 +289,21 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </summary>
     public void Invalidate()
     {
-        if (Count > __owner.Store.NColumns)
+        if (Count > _owner.Store.NColumns)
         {
             var columnTypes = new object[Count];
-            __owner.Store.Clear();
-            __owner.Store = new Gtk.TreeStore(Array.ConvertAll(columnTypes, o => typeof(DataGridViewCell)));
-            __owner.GridView.Model = __owner.Store;
+            _owner.Store.Clear();
+            _owner.Store = new Gtk.TreeStore(Array.ConvertAll(columnTypes, o => typeof(DataGridViewCell)));
+            _owner.GridView.Model = _owner.Store;
         }
-        else if (__owner.GridView.Model == null)
+        else if (_owner.GridView.Model == null)
         {
-            __owner.GridView.Model = __owner.Store;
+            _owner.GridView.Model = _owner.Store;
         }
-        __owner.Store.DefaultSortFunc = new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) => { return 0; });
-        for (var i = 0; i < __owner.Store.NColumns; i++)
+        _owner.Store.DefaultSortFunc = new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) => { return 0; });
+        for (var i = 0; i < _owner.Store.NColumns; i++)
         {
-            __owner.Store.SetSortFunc(i, new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) =>
+            _owner.Store.SetSortFunc(i, new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) =>
             {
                 ((Gtk.TreeStore)m).GetSortColumnId(out var sortid, out var order);
                 var v1 = m.GetValue(t1, sortid) as DataGridViewCell;
@@ -331,7 +331,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </returns>
     public new bool Remove(DataGridViewColumn column)
     {
-        __owner.GridView.RemoveColumn(column);
+        _owner.GridView.RemoveColumn(column);
         var ir= base.Remove(column);
         OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Remove, column));
 
@@ -358,6 +358,6 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </param>
     protected virtual void OnCollectionChanged(CollectionChangeEventArgs e)
     {
-        CollectionChanged?.Invoke(__owner, e);
+        CollectionChanged?.Invoke(_owner, e);
     }
 }

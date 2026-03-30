@@ -11,9 +11,9 @@ namespace System.Windows.Forms;
 [DefaultProperty(nameof(Document))]
 public sealed class PrintDialog : CommonDialog
 {
-    private PrintDocument _printDocument;
+    private PrintDocument? _printDocument;
 
-    private PrinterSettings _printerSettings;
+    private PrinterSettings? _printerSettings;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -100,7 +100,7 @@ public sealed class PrintDialog : CommonDialog
     /// The document.
     /// </value>
     [DefaultValue(null)]
-    public PrintDocument Document
+    public PrintDocument? Document
     {
         get => _printDocument;
         set
@@ -244,13 +244,13 @@ public sealed class PrintDialog : CommonDialog
     /// false
     /// </c> otherwise.
     /// </returns>
-    public bool RunPrint(IWin32Window owner, bool showDialog)
+    public bool RunPrint(IWin32Window? owner, bool showDialog)
     {
         try
         {
             var printOperation = new Gtk.PrintOperation
             {
-                DefaultPageSetup = Document.PageSetup,
+                DefaultPageSetup = Document?.PageSetup,
                 Unit = Unit.Points,
                 ShowProgress = true,
                 UseFullPage = true
@@ -263,7 +263,7 @@ public sealed class PrintDialog : CommonDialog
             var window = Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive);
             if (PrintToFile && AllowPrintToFile)
             {
-                var exportFileName = _printerSettings.PrintFileName;
+                var exportFileName = _printerSettings?.PrintFileName;
                 if (string.IsNullOrWhiteSpace(exportFileName))
                     exportFileName = $"print_{DateTime.Now.ToString("yyyyMMddHHmmss")}.pdf";
                 else if (System.IO.Path.GetExtension(exportFileName).ToLower() != ".pdf")
@@ -309,7 +309,7 @@ public sealed class PrintDialog : CommonDialog
     /// false
     /// </c> otherwise.
     /// </returns>
-    protected override bool RunDialog(IWin32Window owner)
+    protected override bool RunDialog(IWin32Window? owner)
     {
         return RunPrint(owner, true);
     }

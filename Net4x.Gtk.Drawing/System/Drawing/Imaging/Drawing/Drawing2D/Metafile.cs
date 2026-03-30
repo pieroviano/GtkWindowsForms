@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -87,25 +87,6 @@ public sealed class Metafile : Image
     /// </param>
     public Metafile(IntPtr referenceHdc, Rectangle frameRect)
         : this(referenceHdc, frameRect, MetafileFrameUnit.GdiCompatible)
-    {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Imaging.Metafile" /> class from the specified handle to a device context and an
-    /// <see cref="T:System.Drawing.Imaging.EmfType" /> enumeration that specifies the format of the
-    /// <see cref="T:System.Drawing.Imaging.Metafile" />.
-    /// </summary>
-    /// <param name="referenceHdc">
-    /// The handle to a device context.
-    /// </param>
-    /// <param name="emfType">
-    /// An
-    /// <see cref="T:System.Drawing.Imaging.EmfType" /> that specifies the format of the
-    /// <see cref="T:System.Drawing.Imaging.Metafile" />.
-    /// </param>
-    public Metafile(IntPtr referenceHdc, EmfType emfType)
-        : this(referenceHdc, emfType, null)
     {
     }
 
@@ -206,7 +187,7 @@ public sealed class Metafile : Image
     /// <see cref="T:System.String" /> that contains a descriptive name for the new
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </param>
-    public Metafile(IntPtr referenceHdc, RectangleF frameRect, MetafileFrameUnit frameUnit, EmfType type, string description)
+    public Metafile(IntPtr referenceHdc, RectangleF frameRect, MetafileFrameUnit frameUnit, EmfType type, string? description)
     {
 
     }
@@ -462,7 +443,7 @@ public sealed class Metafile : Image
     /// <see cref="T:System.String" /> that contains a descriptive name for the new
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </param>
-    public Metafile(string fileName, IntPtr referenceHdc, RectangleF frameRect, MetafileFrameUnit frameUnit, EmfType type, string description)
+    public Metafile(string fileName, IntPtr referenceHdc, RectangleF frameRect, MetafileFrameUnit frameUnit, EmfType type, string? description)
     {
 
     }
@@ -863,7 +844,7 @@ public sealed class Metafile : Image
     /// A descriptive name for the new
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </param>
-    public Metafile(IntPtr referenceHdc, EmfType emfType, string description)
+    public Metafile(IntPtr referenceHdc, EmfType emfType, string? description = null)
     {
 
     }
@@ -897,7 +878,7 @@ public sealed class Metafile : Image
     /// <see cref="T:System.String" /> that contains a descriptive name for the new
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </param>
-    public Metafile(IntPtr referenceHdc, Rectangle frameRect, MetafileFrameUnit frameUnit, EmfType type, string desc)
+    public Metafile(IntPtr referenceHdc, Rectangle frameRect, MetafileFrameUnit frameUnit, EmfType type, string? desc)
     {
 
     }
@@ -926,7 +907,7 @@ public sealed class Metafile : Image
     /// <see cref="T:System.String" /> that contains a descriptive name for the new
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </param>
-    public Metafile(string fileName, IntPtr referenceHdc, EmfType type, string description)
+    public Metafile(string fileName, IntPtr referenceHdc, EmfType type, string? description)
     {
 
     }
@@ -967,7 +948,7 @@ public sealed class Metafile : Image
     /// <see cref="T:System.String" /> that contains a descriptive name for the new
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </param>
-    public Metafile(string fileName, IntPtr referenceHdc, Rectangle frameRect, MetafileFrameUnit frameUnit, EmfType type, string description)
+    public Metafile(string fileName, IntPtr referenceHdc, Rectangle frameRect, MetafileFrameUnit frameUnit, EmfType type, string? description)
     {
 
     }
@@ -997,7 +978,7 @@ public sealed class Metafile : Image
     /// <see cref="T:System.String" /> that contains a descriptive name for the new
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </param>
-    public Metafile(Stream stream, IntPtr referenceHdc, EmfType type, string description)
+    public Metafile(Stream stream, IntPtr referenceHdc, EmfType type, string? description)
     {
 
     }
@@ -1039,7 +1020,7 @@ public sealed class Metafile : Image
     /// <see cref="T:System.String" /> that contains a descriptive name for the new
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </param>
-    public Metafile(Stream stream, IntPtr referenceHdc, RectangleF frameRect, MetafileFrameUnit frameUnit, EmfType type, string description)
+    public Metafile(Stream stream, IntPtr referenceHdc, RectangleF frameRect, MetafileFrameUnit frameUnit, EmfType type, string? description)
     {
 
     }
@@ -1081,7 +1062,7 @@ public sealed class Metafile : Image
     /// <see cref="T:System.String" /> that contains a descriptive name for the new
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </param>
-    public Metafile(Stream stream, IntPtr referenceHdc, Rectangle frameRect, MetafileFrameUnit frameUnit, EmfType type, string description)
+    public Metafile(Stream stream, IntPtr referenceHdc, Rectangle frameRect, MetafileFrameUnit frameUnit, EmfType type, string? description)
     {
 
     }

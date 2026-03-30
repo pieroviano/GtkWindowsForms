@@ -25,12 +25,12 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// <summary>
     /// Graphics object with which painting should be done.
     /// </summary>
-    private readonly Graphics _graphics;
+    private readonly Graphics? _graphics;
 
     /// <summary>
     /// See ResetGraphics()
     /// </summary>
-    private readonly GraphicsState _savedGraphicsState;
+    private readonly GraphicsState? _savedGraphicsState;
 
     private IntPtr oldPal = IntPtr.Zero;
 
@@ -98,7 +98,7 @@ public class PaintEventArgs : EventArgs, IDisposable
     /// <value>
     /// The graphics.
     /// </value>
-    public Graphics Graphics
+    public Graphics? Graphics
     {
         get
         {

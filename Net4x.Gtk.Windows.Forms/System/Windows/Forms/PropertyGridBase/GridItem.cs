@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace System.Windows.Forms;
 
@@ -46,7 +46,7 @@ public abstract class GridItem
     /// <value>
     /// The grid items.
     /// </value>
-    public abstract GridItemCollection GridItems { get; }
+    public abstract GridItemCollection? GridItems { get; }
 
     /// <summary>
     /// Gets the type of the grid item.
@@ -62,7 +62,7 @@ public abstract class GridItem
     /// <value>
     /// The label.
     /// </value>
-    public abstract string Label { get; }
+    public abstract string? Label { get; }
 
     /// <summary>
     /// Gets the parent.
@@ -70,7 +70,7 @@ public abstract class GridItem
     /// <value>
     /// The parent.
     /// </value>
-    public abstract GridItem Parent { get; }
+    public abstract GridItem? Parent { get; }
 
     /// <summary>
     /// Gets the property descriptor.
@@ -78,7 +78,7 @@ public abstract class GridItem
     /// <value>
     /// The property descriptor.
     /// </value>
-    public abstract PropertyDescriptor PropertyDescriptor { get; }
+    public abstract PropertyDescriptor? PropertyDescriptor { get; }
 
     /// <summary>
     /// Gets or sets the tag.
@@ -90,7 +90,7 @@ public abstract class GridItem
     [Bindable(true)]
     [DefaultValue(null)]
     [TypeConverter(typeof(StringConverter))]
-    public object Tag
+    public object? Tag
     {
         get;
         set;
@@ -102,7 +102,7 @@ public abstract class GridItem
     /// <value>
     /// The value.
     /// </value>
-    public abstract object Value { get; }
+    public abstract object? Value { get; }
 
     /// <summary>
     /// Selects this instance.

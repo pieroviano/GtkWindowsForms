@@ -1,11 +1,11 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using GtkSystem.Resources;
 
 namespace System;
 
 internal static class SystemResources
 {
-    private static ResourceManager s_resourceManager;
+    private static ResourceManager? s_resourceManager;
 
     internal static ResourceManager ResourceManager => s_resourceManager ?? (s_resourceManager = new GtkSystem.Resources.ResourceManager(typeof(System.Properties.Resources)));
 
@@ -19,7 +19,7 @@ internal static class SystemResources
         return string.Format(resourceFormat, p1);
     }
 
-    internal static string Format(string resourceFormat, object p1, object p2)
+    internal static string Format(string resourceFormat, object? p1, object? p2)
     {
         if (UsingResourceKeys())
         {
@@ -39,7 +39,7 @@ internal static class SystemResources
         return string.Format(resourceFormat, p1, p2, p3);
     }
 
-    internal static string Format(string resourceFormat, params object[] args)
+    internal static string Format(string resourceFormat, params object[]? args)
     {
         if (args != null)
         {
@@ -83,7 +83,7 @@ internal static class SystemResources
         return string.Format(provider, resourceFormat, p1, p2, p3);
     }
 
-    internal static string Format(IFormatProvider provider, string resourceFormat, params object[] args)
+    internal static string Format(IFormatProvider provider, string resourceFormat, params object[]? args)
     {
         if (args != null)
         {
@@ -97,13 +97,13 @@ internal static class SystemResources
         return resourceFormat;
     }
 
-    internal static string GetResourceString(string resourceKey, string defaultString = null)
+    internal static string? GetResourceString(string resourceKey, string? defaultString = null)
     {
         if (UsingResourceKeys())
         {
             return defaultString ?? resourceKey;
         }
-        string text = null;
+        string? text = null;
         try
         {
             text = ResourceManager.GetString(resourceKey);

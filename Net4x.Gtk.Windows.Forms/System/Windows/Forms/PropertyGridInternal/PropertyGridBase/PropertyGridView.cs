@@ -5,6 +5,7 @@
  * author:chenhongjin
  */
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Reflection;
 using Cairo;
 using Gdk;
@@ -20,13 +21,13 @@ internal sealed partial class PropertyGridView
 
     public Gtk.TreeView tree = new();
 
-    private object _selectedObject;
+    private object? _selectedObject;
 
-    private GridEntry oldSelectedPropertyItem;
+    private GridEntry? oldSelectedPropertyItem;
 
-    public event PropertyValueChangedEventHandler PropertyValueChanged;
+    public event PropertyValueChangedEventHandler? PropertyValueChanged;
 
-    public event SelectedGridItemChangedEventHandler SelectedGridItemChanged;
+    public event SelectedGridItemChangedEventHandler? SelectedGridItemChanged;
 
     public PropertyGridView(PropertyGrid propertyGrid)
     {
@@ -44,14 +45,14 @@ internal sealed partial class PropertyGridView
             Reorderable = false
         };
         var button1 = column1.Button as Gtk.Button;
-        if (button1.Child is Gtk.Box box1)
+        if (button1?.Child is Gtk.Box otherBox)
         {
             var img = new Gtk.Image(this.GetType().Assembly, "Resources.System.PBCategory.ico")
             {
                 Visible = true
             };
-            box1.PackStart(img, false, true, 1);
-            box1.ReorderChild(img, 0);
+            otherBox.PackStart(img, false, true, 1);
+            otherBox.ReorderChild(img, 0);
         }
 
         var expander = new CellRendererExpander(this)
@@ -61,7 +62,7 @@ internal sealed partial class PropertyGridView
         column1.PackStart(expander, false);
         column1.AddAttribute(expander, "icon", 0);
 
-        var column2 = new Gtk.TreeViewColumn
+        var expanderColumn = new Gtk.TreeViewColumn
         {
             MinWidth = 20,
             FixedWidth = 150,
@@ -72,9 +73,9 @@ internal sealed partial class PropertyGridView
             SortOrder = SortType.Ascending,
             Reorderable = false
         };
-        column2.Button.Name = "key";
-        var button2 = column2.Button as Gtk.Button;
-        if (button2.Child is Gtk.Box box)
+        expanderColumn.Button.Name = "key";
+        var expanderColumnButton = expanderColumn.Button as Gtk.Button;
+        if (expanderColumnButton?.Child is Gtk.Box box)
         {
             var img = new Gtk.Image(this.GetType().Assembly, "Resources.System.PBAlpha.ico")
             {
@@ -88,9 +89,9 @@ internal sealed partial class PropertyGridView
         {
             Editable = false
         };
-        column2.SortColumnId = 0;
-        column2.PackStart(names, false);
-        column2.AddAttribute(names, "otext", 0);
+        expanderColumn.SortColumnId = 0;
+        expanderColumn.PackStart(names, false);
+        expanderColumn.AddAttribute(names, "otext", 0);
 
         var column3 = new Gtk.TreeViewColumn
         {
@@ -110,9 +111,9 @@ internal sealed partial class PropertyGridView
         column3.AddAttribute(values, "ovalue", 0);
 
         tree.AppendColumn(column1);
-        tree.AppendColumn(column2);
+        tree.AppendColumn(expanderColumn);
         tree.AppendColumn(column3);
-        tree.ExpanderColumn = column2;
+        tree.ExpanderColumn = expanderColumn;
 
         tree.LevelIndentation = 15;
         tree.Selection.Mode = Gtk.SelectionMode.Single;
@@ -124,7 +125,7 @@ internal sealed partial class PropertyGridView
         {
             var val1 = model.GetValue(iter1, 0) as GridEntry;
             var val2 = model.GetValue(iter2, 0) as GridEntry;
-            return val1.Value.ToString().CompareTo(val2.Value.ToString());
+            return string.Compare((val1?.Value?.ToString() ?? string.Empty), (val2?.Value?.ToString() ?? string.Empty), StringComparison.Ordinal);
         }));
 
         tree.Model = store;
@@ -195,9 +196,9 @@ internal sealed partial class PropertyGridView
         tree.ExpandAll();
     }
 
-    private bool GetPropertyInfo(Gtk.TreeIter? parent, GridEntry parentitem, PropertyInfo property, object obj)
+    private bool GetPropertyInfo(Gtk.TreeIter? parent, GridEntry? parentitem, PropertyInfo? property, object obj)
     {
-        if (property.CanRead == true)
+        if (property?.CanRead == true)
         {
             var attri = property.GetCustomAttributes(typeof(BrowsableAttribute));
             if (attri != null && attri.Count() > 0)
@@ -251,7 +252,7 @@ internal sealed partial class PropertyGridView
         }
     }
 
-    private void GetPropertyInfos(Gtk.TreeIter? parent, GridEntry parentitem, object obj)
+    private void GetPropertyInfos(Gtk.TreeIter? parent, GridEntry? parentitem, object obj)
     {
         var type = obj.GetType();
         var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty);
@@ -297,7 +298,7 @@ internal sealed partial class PropertyGridView
 
     private void Tree_RowActivated(object o, RowActivatedArgs args)
     {
-        Console.WriteLine(args.Path);
+        GtkLogger.Info(args.Path.ToString());
         if (store.GetIter(out var iter, args.Path))
         {
             if (store.GetValue(iter, 0) is GridEntry ov)
@@ -332,9 +333,9 @@ internal sealed partial class PropertyGridView
             var re = base.OnActivate(evnt, widget, path, background_area, cell_area, flags);
             var tree = widget as Gtk.TreeView;
             if (this.IsExpanded)
-                tree.CollapseRow(new TreePath(path));
+                tree?.CollapseRow(new TreePath(path));
             else
-                tree.ExpandToPath(new TreePath(path));
+                tree?.ExpandToPath(new TreePath(path));
 
             return re;
         }
@@ -360,7 +361,7 @@ internal sealed partial class PropertyGridView
 
         readonly PropertyGridView owner;
 
-        private GridEntry _value;
+        private GridEntry? _value;
 
         public CellRendererProperty(PropertyGridView owner)
         {
@@ -374,16 +375,16 @@ internal sealed partial class PropertyGridView
         }
 
         [Property("otext")]
-        public GridEntry OText
+        public GridEntry? OText
         {
             set
             {
                 _value = value;
                 if (_value != null)
                 {
-                    base.Text = value.Label;
+                    base.Text = value?.Label;
                     base.Editable = false;
-                    base.Weight = value.Level == 0 ? 900 : 200;
+                    base.Weight = value?.Level == 0 ? 900 : 200;
                 }
             }
 
@@ -391,16 +392,16 @@ internal sealed partial class PropertyGridView
         }
 
         [Property("ovalue")]
-        public GridEntry OValue
+        public GridEntry? OValue
         {
             set
             {
                 _value = value;
                 if (_value != null)
                 {
-                    base.Text = value.Value?.ToString();
-                    base.Editable = value.Editable;
-                    base.Weight = value.Level == 0 ? 900 : 200;
+                    base.Text = value?.Value?.ToString();
+                    base.Editable = value?.Editable ?? false;
+                    base.Weight = value?.Level == 0 ? 900 : 200;
                 }
             }
 
@@ -411,7 +412,7 @@ internal sealed partial class PropertyGridView
         {
             if (this.IsExpander)
             {
-                if (_value.Level == 0)
+                if (_value?.Level == 0)
                 {
                     cell_area.X = 30;
                     background_area.X = 30;
@@ -439,11 +440,11 @@ internal sealed partial class PropertyGridView
                     if (path.Depth <= 2)
                     {
                         var obj = owner._selectedObject;
-                        var info = obj.GetType().GetProperty(val.Label);
-                        var value = info.GetValue(obj);
-                        if (info.CanWrite)
+                        var info = obj?.GetType().GetProperty(val.Label??string.Empty);
+                        var value = info?.GetValue(obj);
+                        if (info?.CanWrite ?? false)
                         {
-                            if (val.ValueType.IsEnum)
+                            if (val.ValueType?.IsEnum ?? false)
                                 val.value = Enum.Parse(info.PropertyType, args.NewText);
                             else
                                 val.value = Convert.ChangeType(args.NewText, info.PropertyType);
@@ -452,11 +453,11 @@ internal sealed partial class PropertyGridView
                     }
                     else
                     {
-                        if (val.ValueType.IsEnum)
+                        if (val.ValueType?.IsEnum ?? false)
                         {
                             var obj = owner._selectedObject;
-                            var info = obj.GetType().GetProperty(val.Label);
-                            if (info.CanWrite)
+                            var info = obj?.GetType().GetProperty(val.Label??string.Empty);
+                            if (info?.CanWrite ?? false)
                             {
                                 if (val.ValueType.IsEnum)
                                     val.value = Enum.Parse(info.PropertyType, args.NewText);
@@ -473,22 +474,22 @@ internal sealed partial class PropertyGridView
                                 if (pcell is GridEntry pval)
                                 {
                                     var obj = owner._selectedObject;
-                                    var otype = obj.GetType();
-                                    var pinfo = otype.GetProperty(pval.Label);
-                                    var pvalue = pinfo.GetValue(obj);
-                                    //从obj get current object，赋值
-                                    var info = pvalue.GetType().GetProperty(val.Label);
-                                    if (info.CanWrite)
+                                    var otype = obj?.GetType();
+                                    var pinfo = otype?.GetProperty(pval.Label??string.Empty);
+                                    var pvalue = pinfo?.GetValue(obj);
+
+                                    var info = pvalue?.GetType().GetProperty(val.Label??string.Empty);
+                                    if (info?.CanWrite ?? false)
                                     {
-                                        if (val.ValueType.IsEnum)
+                                        if (val.ValueType?.IsEnum ?? false)
                                             val.value = Enum.Parse(info.PropertyType, args.NewText);
                                         else
                                             val.value = Convert.ChangeType(args.NewText, info.PropertyType);
                                         info.SetValue(pvalue, val.value);
-                                        pval.value = pvalue.ToString();
+                                        pval.value = pvalue?.ToString();
                                     }
                                     // modify parent object value
-                                    if (pinfo.CanWrite)
+                                    if (pinfo?.CanWrite ?? false)
                                     {
                                         pinfo.SetValue(obj, pvalue);
                                     }
@@ -508,7 +509,7 @@ internal sealed partial class PropertyGridView
         private void CellRendererText_EditingStarted(object o, EditingStartedArgs args)
         {
             model.Clear();
-            if (_value.ValueType != null)
+            if (_value?.ValueType != null)
             {
                 if (_value.ValueType.IsEnum)
                 {

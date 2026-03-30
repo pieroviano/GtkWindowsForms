@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace System.Drawing.Imaging;
 
@@ -52,7 +52,7 @@ public sealed class ColorPalette
         _flags = Marshal.ReadInt32(memory);
         var num = Marshal.ReadInt32((IntPtr)((long)memory + 4));
         _entries = new Color[num];
-        for (int i = 0; i < num; i++)
+        for (var i = 0; i < num; i++)
         {
             var argb = Marshal.ReadInt32((IntPtr)((long)memory + 8 + i * 4));
             _entries[i] = Color.FromArgb(argb);
@@ -69,7 +69,7 @@ public sealed class ColorPalette
             Marshal.WriteInt32(intPtr, 0, _flags);
             Marshal.WriteInt32((IntPtr)((long)intPtr + 4), 0, num);
         }
-        for (int i = 0; i < num; i++)
+        for (var i = 0; i < num; i++)
         {
             Marshal.WriteInt32((IntPtr)((long)intPtr + 4 * (i + 2)), 0, _entries[i].ToArgb());
         }

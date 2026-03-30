@@ -23,7 +23,7 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Backing storage for the data source assigned to the combo box.
     /// </summary>
-    public object _DataSource;
+    public object? _DataSource;
 
     /// <summary>
     /// Underlying GTK combo box wrapper used to render and manage the native widget.
@@ -41,7 +41,7 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Occurs when the drop-down portion of the combo box is displayed.
     /// </summary>
-    public virtual event EventHandler DropDown;
+    public virtual event EventHandler? DropDown;
 
     /// <summary>
     /// Occurs when the selected index changes. Handlers are stored in the internal
@@ -50,7 +50,9 @@ public partial class ComboBox : ListControl
     public override event EventHandler SelectedIndexChanged
     {
         add { _selectedIndexChanged += value; }
+#pragma warning disable CS8601 // Possible null reference assignment.
         remove { _selectedIndexChanged -= value; }
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -60,7 +62,9 @@ public partial class ComboBox : ListControl
     public override event EventHandler SelectedItemChanged
     {
         add { _selectedItemChanged += value; }
+#pragma warning disable CS8601 // Possible null reference assignment.
         remove { _selectedItemChanged -= value; }
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -70,7 +74,9 @@ public partial class ComboBox : ListControl
     public override event EventHandler SelectedValueChanged
     {
         add { _selectedValueChanged += value; }
+#pragma warning disable CS8601 // Possible null reference assignment.
         remove { _selectedValueChanged -= value; }
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -92,7 +98,7 @@ public partial class ComboBox : ListControl
     /// Gets or sets the data source for the combo box. When set, the control will attempt
     /// to populate its items from the provided data structure (DataTable, DataView or IList).
     /// </summary>
-    public override object DataSource
+    public override object? DataSource
     {
         get => _DataSource;
         set
@@ -151,7 +157,7 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Gets or sets the currently selected item object from the Items collection, or null.
     /// </summary>
-    public object SelectedItem
+    public object? SelectedItem
     {
         get { return SelectedIndex == -1 ? null : __itemsData[SelectedIndex]; }
         set { var _index = __itemsData.IndexOf(value); if (_index != -1) { SelectedIndex = _index; } }
@@ -160,7 +166,7 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Gets or sets the value of the selected item. Uses the GTK ActiveId for the underlying model.
     /// </summary>
-    public override object SelectedValue
+    public override object? SelectedValue
     {
         get { return self.ActiveId; }
         set => self.ActiveId = value?.ToString();
@@ -178,7 +184,7 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Gets or sets the text associated with the combo box's editable portion.
     /// </summary>
-    public override string Text
+    public override string? Text
     {
         get => self.Entry.Text;
         set { self.Entry.Text = value; }
@@ -211,17 +217,16 @@ public partial class ComboBox : ListControl
     /// <returns>
     /// String representation to display for the item.
     /// </returns>
-    public override string GetItemText(object item)
+    public override string? GetItemText(object? item)
     {
         if (item is ObjectCollection.Entry entry)
         {
-            var type = entry.Item.GetType();
+            var type = entry.Item?.GetType();
             if (entry.Item is DataRow dr)
                 return dr[DisplayMember]?.ToString();
-            else if (type.IsValueType && type.IsPrimitive)
-                return type.GetProperty(DisplayMember).GetValue(entry)?.ToString();
-            else
-                return item?.ToString();
+            if (type != null && type.IsValueType && type.IsPrimitive)
+                return type.GetProperty(DisplayMember)?.GetValue(entry)?.ToString();
+            return item?.ToString();
         }
 
         return item?.ToString();
@@ -239,7 +244,7 @@ public partial class ComboBox : ListControl
     /// <param name="text">
     /// Display text for the item.
     /// </param>
-    public void NativeAdd(int index, string value, string text)
+    public void NativeAdd(int index, string? value, string? text)
     {
         if (_sorted == false && index > -1)
         {
@@ -261,7 +266,7 @@ public partial class ComboBox : ListControl
     /// <returns>
     /// Display text, or null as string if unavailable.
     /// </returns>
-    public string NativeGetItemText(int index)
+    public string? NativeGetItemText(int index)
     {
         self.Model.GetIter(out var iter, new TreePath(new int[] { index }));
         var val = self.Model.GetValue(iter, 1);
@@ -369,25 +374,28 @@ public partial class ComboBox : ListControl
     {
         OnSetDataSource();
         var ws = ((Gtk.Box)self.Children[0].Parent).Children[1] as Gtk.ToggleButton;
-        ws.Toggled += Ws_Toggled;
+        ws?.Toggled += Ws_Toggled;
         if (DropDownStyle == ComboBoxStyle.DropDownList)
         {
             self.Entry.IsEditable = false;
             self.Entry.CanFocus = false;
             self.Entry.NoShowAll = true;
             self.Entry.WidthRequest = 1;
-            ws.WidthRequest = self.WidthRequest;
-            ws.Label = self.Entry.Text;
-            ws.Image = Gtk.Image.NewFromIconName("pan-down", Gtk.IconSize.Button);
-            ws.ImagePosition = Gtk.PositionType.Right;
-            ws.AlwaysShowImage = true;
-            ws.Valign = Align.Center;
-            ws.Yalign = 0.5f;
-            ws.Xalign = 0.95f;
-            ws.Hexpand = true;
-            ws.Image.Halign = Gtk.Align.End;
-            ws.Image.Valign = Gtk.Align.Center;
-            ws.Drawn += Ws_Drawn;
+            if (ws != null)
+            {
+                ws.WidthRequest = self.WidthRequest;
+                ws.Label = self.Entry.Text;
+                ws.Image = Gtk.Image.NewFromIconName("pan-down", Gtk.IconSize.Button);
+                ws.ImagePosition = Gtk.PositionType.Right;
+                ws.AlwaysShowImage = true;
+                ws.Valign = Align.Center;
+                ws.Yalign = 0.5f;
+                ws.Xalign = 0.95f;
+                ws.Hexpand = true;
+                ws.Image.Halign = Gtk.Align.End;
+                ws.Image.Valign = Gtk.Align.Center;
+                ws.Drawn += Ws_Drawn;
+            }
         }
     }
 

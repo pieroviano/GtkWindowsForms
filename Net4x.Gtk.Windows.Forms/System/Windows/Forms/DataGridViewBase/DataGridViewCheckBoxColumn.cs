@@ -35,7 +35,7 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
     /// The owning
     /// <see cref="T:System.Windows.Forms.DataGridView" />.
     /// </param>
-    public DataGridViewCheckBoxColumn(DataGridView ownerGridView) : base(0, ownerGridView, new DataGridViewCheckBoxCell())
+    public DataGridViewCheckBoxColumn(DataGridView? ownerGridView) : base(0, ownerGridView, new DataGridViewCheckBoxCell())
     {
         ValueType = typeof(bool);
 
@@ -52,7 +52,7 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
         _cellRenderer = renderer;
     }
 
-    internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
+    internal override DataGridViewCell NewCell(object? value = null, Type? valueType = null)
     {
         var newcell = new DataGridViewCheckBoxCell();
         AtrributesClone(newcell);
@@ -65,14 +65,18 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
     private void CellName_Toggled(object o, ToggledArgs args)
     {
         var path = new TreePath(args.Path);
-        var model = _treeView.Model;
+        var model = _treeView?.Model;
+        if (model == null)
+        {
+            return;
+        }  
         model.GetIter(out var iter, path);
         var cell = model.GetValue(iter, this.Index);
         if (cell is DataGridViewCell val)
         {
             var tggle = (CellRendererToggleValue)o;
             val.Value = tggle.Active == false;
-            _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
+            _gridview?.CellValueChanagedHandler(this.Index, path.Indices.Last());
         }
     }
 }

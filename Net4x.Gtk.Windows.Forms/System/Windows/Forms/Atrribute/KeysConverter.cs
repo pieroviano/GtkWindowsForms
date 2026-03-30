@@ -22,7 +22,7 @@ namespace System.Windows.Forms;
 public class KeysConverter : TypeConverter, IComparer
 {
 
-    private List<string> displayOrder;
+    private List<string>? displayOrder;
 
     private const Keys FirstAscii = System.Windows.Forms.Keys.A;
 
@@ -30,7 +30,7 @@ public class KeysConverter : TypeConverter, IComparer
 
     private const Keys FirstNumpadDigit = System.Windows.Forms.Keys.NumPad0;
 
-    private IDictionary keyNames;
+    private IDictionary? keyNames;
 
     private const Keys LastAscii = System.Windows.Forms.Keys.Z;
 
@@ -38,9 +38,9 @@ public class KeysConverter : TypeConverter, IComparer
 
     private const Keys LastNumpadDigit = System.Windows.Forms.Keys.NumPad9;
 
-    private StandardValuesCollection values;
+    private StandardValuesCollection? values;
 
-    private List<string> DisplayOrder
+    private List<string>? DisplayOrder
     {
         get
         {
@@ -58,7 +58,7 @@ public class KeysConverter : TypeConverter, IComparer
     /// Access to a lookup table of name/value pairs for keys.  These are localized
     /// names.
     /// </summary>
-    private IDictionary KeyNames
+    private IDictionary? KeyNames
     {
         get
         {
@@ -111,12 +111,12 @@ public class KeysConverter : TypeConverter, IComparer
     /// <summary>
     /// Converts the given object to the converter's native type.
     /// </summary>
-    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    public override object? ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
-        if (value is string)
+        if (value is string s)
         {
 
-            var text = ((string)value).Trim();
+            var text = s.Trim();
 
             if (text.Length == 0)
             {
@@ -140,7 +140,7 @@ public class KeysConverter : TypeConverter, IComparer
 
                 for (var i = 0; i < tokens.Length; i++)
                 {
-                    var obj = KeyNames[tokens[i]] ?? Enum.Parse(typeof(Keys), tokens[i]);
+                    var obj = KeyNames?[tokens[i]] ?? Enum.Parse(typeof(Keys), tokens[i]);
                     if (obj != null)
                     {
                         var currentKey = (Keys)obj;
@@ -177,10 +177,10 @@ public class KeysConverter : TypeConverter, IComparer
                 return (object)key;
             }
         }
-        else if (value is Enum[])
+        else if (value is Enum[] enums)
         {
             long finalValue = 0;
-            foreach (var e in (Enum[])value)
+            foreach (var e in enums)
             {
                 finalValue |= Convert.ToInt64(e, CultureInfo.InvariantCulture);
             }
@@ -223,10 +223,10 @@ public class KeysConverter : TypeConverter, IComparer
                 // First, iterate through and do the modifiers. These are
                 // additive, so we support things like Ctrl + Alt
                 //
-                for (var i = 0; i < DisplayOrder.Count; i++)
+                for (var i = 0; i < (DisplayOrder?.Count ?? 0); i++)
                 {
-                    var keyString = (string)DisplayOrder[i];
-                    var keyValue = (Keys)keyNames[keyString];
+                    var keyString = (string?)DisplayOrder?[i];
+                    var keyValue = (Keys?)keyNames?[keyString??string.Empty]??Keys.None;
                     if (((int)(keyValue) & (int)modifiers) != 0)
                     {
 
@@ -237,7 +237,7 @@ public class KeysConverter : TypeConverter, IComparer
                                 terms.Add("+");
                             }
 
-                            terms.Add((string)keyString);
+                            terms.Add((string?)keyString);
                         }
                         else
                         {
@@ -259,16 +259,16 @@ public class KeysConverter : TypeConverter, IComparer
                     terms.Add("+");
                 }
 
-                for (var i = 0; i < DisplayOrder.Count; i++)
+                for (var i = 0; i < DisplayOrder?.Count; i++)
                 {
-                    var keyString = (string)DisplayOrder[i];
-                    var keyValue = (Keys)keyNames[keyString];
+                    var keyString = (string?)DisplayOrder?[i];
+                    var keyValue = (Keys?)keyNames?[keyString??string.Empty] ?? Keys.None;
                     if (keyValue.Equals(keyOnly))
                     {
 
                         if (asString)
                         {
-                            terms.Add((string)keyString);
+                            terms.Add((string?)keyString);
                         }
                         else
                         {
@@ -326,11 +326,14 @@ public class KeysConverter : TypeConverter, IComparer
         {
             var list = new ArrayList();
 
-            var keys = KeyNames.Values;
+            var keys = KeyNames?.Values;
 
-            foreach (var o in keys)
+            if (keys != null)
             {
-                list.Add(o);
+                foreach (var o in keys)
+                {
+                    list.Add(o);
+                }
             }
 
             list.Sort(this);
@@ -365,8 +368,8 @@ public class KeysConverter : TypeConverter, IComparer
 
     private void AddKey(string key, Keys value)
     {
-        keyNames[key] = value;
-        displayOrder.Add(key);
+        keyNames?[key] = value;
+        displayOrder?.Add(key);
     }
 
     private void Initialize()

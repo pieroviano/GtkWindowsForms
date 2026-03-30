@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -41,7 +41,7 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
 
     private bool _AutoScroll;
 
-    private IScrollableBoxBase scrollbase;
+    private IScrollableBoxBase? scrollbase;
 
     /// <summary>
     /// Occurs when the control or its scrollable child is scrolled.
@@ -133,8 +133,8 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     /// </summary>
     protected bool HScroll
     {
-        get => scrollbase.HScroll;
-        set => scrollbase.HScroll = value;
+        get => scrollbase?.HScroll ?? false;
+        set => scrollbase?.HScroll = value;
     }
 
     /// <summary>
@@ -145,8 +145,8 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     //public HScrollProperties HorizontalScroll { get; }
     protected bool VScroll
     {
-        get => scrollbase.VScroll;
-        set => scrollbase.VScroll = value;
+        get => scrollbase?.VScroll ?? false;
+        set => scrollbase?.VScroll = value;
     }
 
     /// <summary>

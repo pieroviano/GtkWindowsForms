@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace System.Drawing.Imaging;
 
@@ -617,7 +617,7 @@ public sealed class ColorMatrix
     internal float[][] GetMatrix()
     {
         var array = new float[5][];
-        for (int i = 0; i < 5; i++)
+        for (var i = 0; i < 5; i++)
         {
             array[i] = new float[5];
         }

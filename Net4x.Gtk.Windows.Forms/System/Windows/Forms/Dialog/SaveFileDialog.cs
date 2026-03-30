@@ -36,7 +36,7 @@ public sealed class SaveFileDialog : FileDialog
         set { }
     }
 
-    private new string Description => base.Description;
+    private new string? Description => base.Description;
 
     /// <summary>
     /// Opens the file.
@@ -67,7 +67,7 @@ public sealed class SaveFileDialog : FileDialog
     /// <returns>
     /// DialogResult.
     /// </returns>
-    public override DialogResult ShowDialog(IWin32Window owner)
+    public override DialogResult ShowDialog(IWin32Window? owner)
     {
         ActionType = Gtk.FileChooserAction.Save;
 

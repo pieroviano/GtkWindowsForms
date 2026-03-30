@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Forms.Layout;
 
 namespace System.Windows.Forms;
@@ -30,7 +30,7 @@ public abstract class TableLayoutStyle
         set;
     }
 
-    internal IArrangedElement Owner
+    internal IArrangedElement? Owner
     {
         get;
         set;

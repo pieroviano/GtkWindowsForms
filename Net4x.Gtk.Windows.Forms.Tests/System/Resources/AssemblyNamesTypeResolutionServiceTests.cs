@@ -5,9 +5,9 @@ namespace System.Resources;
 public class AssemblyNamesTypeResolutionServiceTests
 {
     private readonly AssemblyName[] _names =
-    {
+    [
         typeof(string).Assembly.GetName()
-    };
+    ];
 
     private AssemblyNamesTypeResolutionService CreateSut()
         => new AssemblyNamesTypeResolutionService(_names);
@@ -52,7 +52,9 @@ public class AssemblyNamesTypeResolutionServiceTests
 
         var path = sut.GetPathOfAssembly(name);
 
+#pragma warning disable SYSLIB0044
         Assert.Equal(name.CodeBase, path);
+#pragma warning restore SYSLIB0044
     }
 
     [Fact]
@@ -128,10 +130,9 @@ public class AssemblyNamesTypeResolutionServiceTests
     [Fact]
     public void GetAssembly_ThrowOnErrorFalse_InvalidAssembly_ShouldNotThrow()
     {
-        var sut = new AssemblyNamesTypeResolutionService(new[]
-        {
+        var sut = new AssemblyNamesTypeResolutionService([
             new AssemblyName("Definitely.Does.Not.Exist")
-        });
+        ]);
 
         var result = sut.GetAssembly(new AssemblyName("Definitely.Does.Not.Exist"), throwOnError: false);
 

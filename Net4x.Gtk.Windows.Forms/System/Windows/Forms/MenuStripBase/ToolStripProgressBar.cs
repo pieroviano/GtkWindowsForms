@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -19,7 +19,7 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// </summary>
     public ToolStripProgressBar() : base("ToolStripProgressBar", null)
     {
-        base.MenuItem.Realized += Control_Realized;
+        base.MenuItem?.Realized += Control_Realized;
     }
 
     /// <summary>

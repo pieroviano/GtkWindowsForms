@@ -100,7 +100,7 @@ public class PinnedBufferMemoryStreamTests
     public void LargeBuffer_ReadsCorrectly()
     {
         var data = new byte[10_000];
-        for (int i = 0; i < data.Length; i++)
+        for (var i = 0; i < data.Length; i++)
             data[i] = (byte)(i % 256);
 
         using var stream = new PinnedBufferMemoryStream(data);

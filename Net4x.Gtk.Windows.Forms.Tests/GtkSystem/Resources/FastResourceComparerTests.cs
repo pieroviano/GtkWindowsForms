@@ -170,7 +170,7 @@ public class FastResourceComparerTests
     [Fact]
     public void CompareOrdinal_String_And_EmptyBytes()
     {
-        var result = FastResourceComparer.CompareOrdinal("abc", Array.Empty<byte>(), 0);
+        var result = FastResourceComparer.CompareOrdinal("abc", [], 0);
 
         Assert.Equal(-1, result);
     }

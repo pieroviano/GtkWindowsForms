@@ -846,12 +846,12 @@ public class Binding
 
     internal void SetListManager(BindingManagerBase? bindingManager)
     {
-        if (_bindingManagerBase is CurrencyManager)
+        if (_bindingManagerBase is CurrencyManager manager)
         {
             ((CurrencyManager)_bindingManagerBase).MetaDataChanged -= binding_MetaDataChanged;
         }
         _bindingManagerBase = bindingManager;
-        if (_bindingManagerBase is CurrencyManager)
+        if (_bindingManagerBase is CurrencyManager currencyManager)
         {
             ((CurrencyManager)_bindingManagerBase).MetaDataChanged += binding_MetaDataChanged;
         }

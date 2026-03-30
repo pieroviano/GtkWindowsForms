@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -20,7 +21,7 @@ public sealed class ListViewGroup : ISerializable
 
     internal readonly Gtk.FlowBox FlowBox = new() { Orientation = Gtk.Orientation.Horizontal, Name = Guid.NewGuid().ToString() };
 
-    readonly ListView.ListViewItemCollection _items;
+    readonly ListView.ListViewItemCollection? _items;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -92,7 +93,7 @@ public sealed class ListViewGroup : ISerializable
     /// <value>
     /// The footer.
     /// </value>
-    public string Footer
+    public string? Footer
     {
         get;
         set;
@@ -145,8 +146,8 @@ public sealed class ListViewGroup : ISerializable
         get
         {
             var coll = new ListView.ListViewItemCollection(ListView);
-            var all = ListView.Items.FindAll(m => m.Group.SerialGuid == this.SerialGuid);
-            coll.AddRange(all);
+            var all = ListView?.Items.FindAll(m => m.Group?.SerialGuid == this.SerialGuid);
+            coll.AddRange(all ?? []);
 
             return coll;
         }
@@ -158,7 +159,7 @@ public sealed class ListViewGroup : ISerializable
     /// <value>
     /// The ListView.
     /// </value>
-    public ListView ListView
+    public ListView? ListView
     {
         get;
 
@@ -183,7 +184,7 @@ public sealed class ListViewGroup : ISerializable
     /// <value>
     /// The subtitle.
     /// </value>
-    public string Subtitle
+    public string? Subtitle
     {
         get;
         set;
@@ -195,7 +196,7 @@ public sealed class ListViewGroup : ISerializable
     /// <value>
     /// The tag.
     /// </value>
-    public object Tag
+    public object? Tag
     {
         get;
         set;
@@ -207,7 +208,7 @@ public sealed class ListViewGroup : ISerializable
     /// <value>
     /// The task link.
     /// </value>
-    public string TaskLink
+    public string? TaskLink
     {
         get;
         set;
@@ -231,13 +232,13 @@ public sealed class ListViewGroup : ISerializable
     /// <value>
     /// The title image key.
     /// </value>
-    public string TitleImageKey
+    public string? TitleImageKey
     {
         get;
         set;
     }
 
-    internal Gtk.Box _groupbox
+    internal Box? _groupbox
     {
         get;
         set;

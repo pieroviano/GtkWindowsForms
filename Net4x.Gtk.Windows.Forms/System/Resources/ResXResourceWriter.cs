@@ -127,23 +127,23 @@ public class ResXResourceWriter : IResourceWriter
 
     internal const string WriterStr = "writer";
 
-    private Hashtable _cachedAliases;
+    private Hashtable? _cachedAliases;
 
 #pragma warning restore IDE1006 // Naming Styles
 
-    private readonly string _fileName;
+    private readonly string? _fileName;
 
     private bool _hasBeenSaved;
 
     private bool _initialized;
 
-    private Stream _stream;
+    private Stream? _stream;
 
-    private TextWriter _textWriter;
+    private TextWriter? _textWriter;
 
-    private readonly Func<Type, string> _typeNameConverter; // no public property to be consistent with ResXDataNode class.
+    private readonly Func<Type, string>? _typeNameConverter; // no public property to be consistent with ResXDataNode class.
 
-    private XmlTextWriter _xmlTextWriter;
+    private XmlTextWriter? _xmlTextWriter;
 
     private static readonly TraceSwitch s_resValueProviderSwitch = new("ResX", "Debug the resource value provider");
 
@@ -213,13 +213,13 @@ public class ResXResourceWriter : IResourceWriter
     /// <summary>
     /// Base Path for ResXFileRefs.
     /// </summary>
-    public string BasePath
+    public string? BasePath
     {
         get;
         set;
     }
 
-    private XmlWriter Writer
+    private XmlWriter? Writer
     {
         get
         {
@@ -306,7 +306,7 @@ public class ResXResourceWriter : IResourceWriter
 
         if (!string.IsNullOrEmpty(modifiedBasePath))
         {
-            if (!modifiedBasePath.EndsWith("\\"))
+            if (!(modifiedBasePath?.EndsWith("\\") ?? false))
             {
                 modifiedBasePath += "\\";
             }
@@ -348,8 +348,8 @@ public class ResXResourceWriter : IResourceWriter
         _hasBeenSaved = true;
         Debug.WriteLineIf(s_resValueProviderSwitch.TraceVerbose, "writing XML");
 
-        Writer.WriteEndElement();
-        Writer.Flush();
+        Writer?.WriteEndElement();
+        Writer?.Flush();
 
         Debug.WriteLineIf(s_resValueProviderSwitch.TraceVerbose, "done");
     }
@@ -385,20 +385,20 @@ public class ResXResourceWriter : IResourceWriter
 
     private void AddAssemblyRow(string elementName, string alias, string name)
     {
-        Writer.WriteStartElement(elementName);
+        Writer?.WriteStartElement(elementName);
         {
             if (!string.IsNullOrEmpty(alias))
             {
-                Writer.WriteAttributeString(AliasStr, alias);
+                Writer?.WriteAttributeString(AliasStr, alias);
             }
 
             if (!string.IsNullOrEmpty(name))
             {
-                Writer.WriteAttributeString(NameStr, name);
+                Writer?.WriteAttributeString(NameStr, name);
             }
         }
 
-        Writer.WriteEndElement();
+        Writer?.WriteEndElement();
     }
 
     /// <summary>
@@ -460,14 +460,14 @@ public class ResXResourceWriter : IResourceWriter
     /// Adds a new row to the Resources table. This helper is used because
     /// we want to always late bind to the columns for greater flexibility.
     /// </summary>
-    private void AddDataRow(string elementName, string name, string value, string type, string mimeType, string comment)
+    private void AddDataRow(string elementName, string? name, string? value, string? type, string? mimeType, string? comment)
     {
         if (_hasBeenSaved)
         {
             throw new InvalidOperationException("SR.ResXResourceWriterSaved");
         }
 
-        string alias = null;
+        string? alias = null;
         if (!string.IsNullOrEmpty(type) && elementName == DataStr)
         {
             var assemblyName = GetFullName(type);
@@ -497,9 +497,9 @@ public class ResXResourceWriter : IResourceWriter
             }
         }
 
-        Writer.WriteStartElement(elementName);
+        Writer?.WriteStartElement(elementName);
         {
-            Writer.WriteAttributeString(NameStr, name);
+            Writer?.WriteAttributeString(NameStr, name);
 
             if (!string.IsNullOrEmpty(alias) && !string.IsNullOrEmpty(type) && elementName == DataStr)
             {
@@ -507,48 +507,48 @@ public class ResXResourceWriter : IResourceWriter
                 // to change in 3.2
                 var typeName = GetTypeName(type);
                 var typeValue = typeName + ", " + alias;
-                Writer.WriteAttributeString(TypeStr, typeValue);
+                Writer?.WriteAttributeString(TypeStr, typeValue);
             }
             else
             {
                 if (type != null)
                 {
-                    Writer.WriteAttributeString(TypeStr, type);
+                    Writer?.WriteAttributeString(TypeStr, type);
                 }
             }
 
             if (mimeType != null)
             {
-                Writer.WriteAttributeString(MimeTypeStr, mimeType);
+                Writer?.WriteAttributeString(MimeTypeStr, mimeType);
             }
 
             if ((type is null && mimeType is null) || (type != null && type.StartsWith("System.Char", StringComparison.Ordinal)))
             {
-                Writer.WriteAttributeString("xml", "space", null, "preserve");
+                Writer?.WriteAttributeString("xml", "space", null, "preserve");
             }
 
-            Writer.WriteStartElement(ValueStr);
+            Writer?.WriteStartElement(ValueStr);
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    Writer.WriteString(value);
+                    Writer?.WriteString(value);
                 }
             }
 
-            Writer.WriteEndElement();
+            Writer?.WriteEndElement();
 
             if (!string.IsNullOrEmpty(comment))
             {
-                Writer.WriteStartElement(CommentStr);
+                Writer?.WriteStartElement(CommentStr);
                 {
-                    Writer.WriteString(comment);
+                    Writer?.WriteString(comment);
                 }
 
-                Writer.WriteEndElement();
+                Writer?.WriteEndElement();
             }
         }
 
-        Writer.WriteEndElement();
+        Writer?.WriteEndElement();
     }
 
     private string GetAliasFromName(AssemblyName assemblyName)
@@ -570,22 +570,22 @@ public class ResXResourceWriter : IResourceWriter
         return alias;
     }
 
-    private static string GetFullName(string typeName)
+    private static string? GetFullName(string? typeName)
     {
-        var indexStart = typeName.IndexOf(',');
+        var indexStart = typeName?.IndexOf(',')??-1;
         if (indexStart == -1)
         {
             return null;
         }
 
-        return typeName.Substring(indexStart + 2);
+        return typeName?.Substring(indexStart + 2);
     }
 
-    private static string GetTypeName(string typeName)
+    private static string? GetTypeName(string? typeName)
     {
-        var indexStart = typeName.IndexOf(',');
+        var indexStart = typeName?.IndexOf(',') ?? -1;
 
-        return ((indexStart == -1) ? typeName : typeName.Substring(0, indexStart));
+        return (indexStart == -1) ? typeName : typeName?.Substring(0, indexStart);
     }
 
     private void InitializeWriter()
@@ -686,14 +686,14 @@ public class ResXResourceWriter : IResourceWriter
         _initialized = true;
     }
 
-    private string TypeNameWithAssembly(Type type)
+    private string? TypeNameWithAssembly(Type type)
     {
         var result = MultitargetUtil.GetAssemblyQualifiedName(type, _typeNameConverter);
 
         return result;
     }
 
-    static string ToBase64WrappedString(byte[] data)
+    private static string ToBase64WrappedString(byte[] data)
     {
         const int lineWrap = 80;
         const string crlf = "\r\n";

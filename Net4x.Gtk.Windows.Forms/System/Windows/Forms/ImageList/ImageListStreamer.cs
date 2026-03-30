@@ -62,7 +62,7 @@ public sealed class ImageListStreamer : ISerializable, IDisposable
     /// <value>
     /// The resource information.
     /// </value>
-    public ResourceInfo ResourceInfo
+    public ResourceInfo? ResourceInfo
     {
         get;
         set;

@@ -6,12 +6,20 @@
  */
 
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms.Design;
 using System.Windows.Forms.Layout;
+using Cairo;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Color = System.Drawing.Color;
+using Container = Gtk.Container;
+using Image = System.Drawing.Image;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using Region = System.Drawing.Region;
 
 namespace System.Windows.Forms;
 
@@ -31,11 +39,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     internal bool LockLocation = false;// because the code executes sequentially， special locking
 
-    Cairo.Context context;
+    Context? context;
 
-    Cairo.ImageSurface image;
+    ImageSurface? image;
 
-    Cairo.Surface surface;
+    Surface? surface;
 
     private AnchorStyles _anchor;
 
@@ -45,7 +53,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private DockStyle _dock;
 
-    private Font _Font;
+    private Font? _Font;
 
     private Color _ForeColor;
 
@@ -53,7 +61,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private readonly Gtk.Application app = Application.Init();
 
-    private readonly ArrangedElementCollection arrangedElementCollection;
+    private readonly ArrangedElementCollection? arrangedElementCollection;
 
     private int location_x = 0;
 
@@ -68,362 +76,362 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Occurs when the Anchor property value changes.
     /// </summary>
-    public virtual event EventHandler AnchorChanged;
+    public virtual event EventHandler? AnchorChanged;
 
     /// <summary>
     /// Occurs when the AutoSize property value changes.
     /// </summary>
-    public virtual event EventHandler AutoSizeChanged;
+    public virtual event EventHandler? AutoSizeChanged;
 
     /// <summary>
     /// Occurs when the BackColor property value changes.
     /// </summary>
-    public virtual event EventHandler BackColorChanged;
+    public virtual event EventHandler? BackColorChanged;
 
     /// <summary>
     /// Occurs when the BackgroundImage property value changes.
     /// </summary>
-    public virtual event EventHandler BackgroundImageChanged;
+    public virtual event EventHandler? BackgroundImageChanged;
 
     /// <summary>
     /// Occurs when the BackgroundImageLayout property value changes.
     /// </summary>
-    public virtual event EventHandler BackgroundImageLayoutChanged;
+    public virtual event EventHandler? BackgroundImageLayoutChanged;
 
     /// <summary>
     /// Occurs when the BindingContext property value changes.
     /// </summary>
-    public virtual event EventHandler BindingContextChanged;
+    public virtual event EventHandler? BindingContextChanged;
 
     /// <summary>
     /// Occurs when the CausesValidation property value changes.
     /// </summary>
-    public virtual event EventHandler CausesValidationChanged;
+    public virtual event EventHandler? CausesValidationChanged;
 
     /// <summary>
     /// Occurs when the focus cues (keyboard, etc.) change.
     /// </summary>
-    public virtual event UICuesEventHandler ChangeUICues;
+    public virtual event UICuesEventHandler? ChangeUICues;
 
     /// <summary>
     /// Occurs when the control is clicked.
     /// </summary>
-    public virtual event EventHandler Click;
+    public virtual event EventHandler? Click;
 
     /// <summary>
     /// Occurs when the ClientSize property value changes.
     /// </summary>
-    public virtual event EventHandler ClientSizeChanged;
+    public virtual event EventHandler? ClientSizeChanged;
 
     /// <summary>
     /// Occurs when the ContextMenuStrip property value changes.
     /// </summary>
-    public virtual event EventHandler ContextMenuStripChanged;
+    public virtual event EventHandler? ContextMenuStripChanged;
 
     /// <summary>
     /// Occurs when a control is added to the Controls collection.
     /// </summary>
-    public virtual event ControlEventHandler ControlAdded;
+    public virtual event ControlEventHandler? ControlAdded;
 
     /// <summary>
     /// Occurs when a control is removed from the Controls collection.
     /// </summary>
-    public virtual event ControlEventHandler ControlRemoved;
+    public virtual event ControlEventHandler? ControlRemoved;
 
     /// <summary>
     /// Occurs when the Cursor property value changes.
     /// </summary>
-    public virtual event EventHandler CursorChanged;
+    public virtual event EventHandler? CursorChanged;
 
     /// <summary>
     /// Occurs when the Dock property value changes.
     /// </summary>
-    public virtual event EventHandler DockChanged;
+    public virtual event EventHandler? DockChanged;
 
     /// <summary>
     /// Occurs when the control is double-clicked.
     /// </summary>
-    public virtual event EventHandler DoubleClick;
+    public virtual event EventHandler? DoubleClick;
 
     /// <summary>
     /// Occurs after the DPI of the parent has changed.
     /// </summary>
-    public virtual event EventHandler DpiChangedAfterParent;
+    public virtual event EventHandler? DpiChangedAfterParent;
 
     /// <summary>
     /// Occurs before the DPI of the parent changes.
     /// </summary>
-    public virtual event EventHandler DpiChangedBeforeParent;
+    public virtual event EventHandler? DpiChangedBeforeParent;
 
     /// <summary>
     /// Occurs when an object is dragged and dropped onto the control.
     /// </summary>
-    public virtual event DragEventHandler DragDrop;
+    public virtual event DragEventHandler? DragDrop;
 
     /// <summary>
     /// Occurs when an object is dragged into the control's bounds.
     /// </summary>
-    public virtual event DragEventHandler DragEnter;
+    public virtual event DragEventHandler? DragEnter;
 
     /// <summary>
     /// Occurs when an object is dragged out of the control's bounds.
     /// </summary>
-    public virtual event EventHandler DragLeave;
+    public virtual event EventHandler? DragLeave;
 
     /// <summary>
     /// Occurs when an object is dragged over the control.
     /// </summary>
-    public virtual event DragEventHandler DragOver;
+    public virtual event DragEventHandler? DragOver;
 
     /// <summary>
     /// Occurs when the Enabled property value changes.
     /// </summary>
-    public virtual event EventHandler EnabledChanged;
+    public virtual event EventHandler? EnabledChanged;
 
     /// <summary>
     /// Occurs when the control receives input focus.
     /// </summary>
-    public virtual event EventHandler Enter;
+    public virtual event EventHandler? Enter;
 
     /// <summary>
     /// Occurs when the Font property value changes.
     /// </summary>
-    public virtual event EventHandler FontChanged;
+    public virtual event EventHandler? FontChanged;
 
     /// <summary>
     /// Occurs when the ForeColor property value changes.
     /// </summary>
-    public virtual event EventHandler ForeColorChanged;
+    public virtual event EventHandler? ForeColorChanged;
 
     /// <summary>
     /// Occurs when a drag-and-drop operation reports feedback.
     /// </summary>
-    public virtual event GiveFeedbackEventHandler GiveFeedback;
+    public virtual event GiveFeedbackEventHandler? GiveFeedback;
 
     /// <summary>
     /// Occurs when the control receives input focus.
     /// </summary>
-    public virtual event EventHandler GotFocus;
+    public virtual event EventHandler? GotFocus;
 
     /// <summary>
     /// Occurs when the underlying handle is created.
     /// </summary>
-    public virtual event EventHandler HandleCreated;
+    public virtual event EventHandler? HandleCreated;
 
     /// <summary>
     /// Occurs when the underlying handle is destroyed.
     /// </summary>
-    public virtual event EventHandler HandleDestroyed;
+    public virtual event EventHandler? HandleDestroyed;
 
     /// <summary>
     /// Occurs when the user requests help for the control.
     /// </summary>
-    public virtual event HelpEventHandler HelpRequested;
+    public virtual event HelpEventHandler? HelpRequested;
 
     /// <summary>
     /// Occurs when the ImeMode property value changes.
     /// </summary>
-    public virtual event EventHandler ImeModeChanged;
+    public virtual event EventHandler? ImeModeChanged;
 
     /// <summary>
     /// Occurs when the control is invalidated.
     /// </summary>
-    public virtual event InvalidateEventHandler Invalidated;
+    public virtual event InvalidateEventHandler? Invalidated;
 
     /// <summary>
     /// Occurs when a key is pressed while the control has focus.
     /// </summary>
-    public virtual event KeyEventHandler KeyDown;
+    public virtual event KeyEventHandler? KeyDown;
 
     /// <summary>
     /// Occurs when a key is pressed and then released while the control has focus.
     /// </summary>
-    public virtual event KeyPressEventHandler KeyPress;
+    public virtual event KeyPressEventHandler? KeyPress;
 
     /// <summary>
     /// Occurs when a key is released while the control has focus.
     /// </summary>
-    public virtual event KeyEventHandler KeyUp;
+    public virtual event KeyEventHandler? KeyUp;
 
     /// <summary>
     /// Occurs when the layout of the control changes.
     /// </summary>
-    public virtual event LayoutEventHandler Layout;
+    public virtual event LayoutEventHandler? Layout;
 
     /// <summary>
     /// Occurs when the control loses input focus.
     /// </summary>
-    public virtual event EventHandler Leave;
+    public virtual event EventHandler? Leave;
 
     /// <summary>
     /// Occurs when the control is loaded (realized).
     /// </summary>
     //public virtual event EventHandler Disposed;
-    public virtual event EventHandler Load;
+    public virtual event EventHandler? Load;
 
     /// <summary>
     /// Occurs when the Location property value changes.
     /// </summary>
-    public virtual event EventHandler LocationChanged;
+    public virtual event EventHandler? LocationChanged;
 
     /// <summary>
     /// Occurs when the control loses input focus.
     /// </summary>
-    public virtual event EventHandler LostFocus;
+    public virtual event EventHandler? LostFocus;
 
     /// <summary>
     /// Occurs when the Margin property value changes.
     /// </summary>
-    public virtual event EventHandler MarginChanged;
+    public virtual event EventHandler? MarginChanged;
 
     /// <summary>
     /// Occurs when the mouse capture state changes.
     /// </summary>
-    public virtual event EventHandler MouseCaptureChanged;
+    public virtual event EventHandler? MouseCaptureChanged;
 
     /// <summary>
     /// Occurs when the control is clicked with the mouse.
     /// </summary>
-    public virtual event MouseEventHandler MouseClick;
+    public virtual event MouseEventHandler? MouseClick;
 
     /// <summary>
     /// Occurs when the control is double-clicked with the mouse.
     /// </summary>
-    public virtual event MouseEventHandler MouseDoubleClick;
+    public virtual event MouseEventHandler? MouseDoubleClick;
 
     /// <summary>
     /// Occurs when a mouse button is pressed while the cursor is over the control.
     /// </summary>
-    public virtual event MouseEventHandler MouseDown;
+    public virtual event MouseEventHandler? MouseDown;
 
     /// <summary>
     /// Occurs when the mouse pointer enters the control.
     /// </summary>
-    public virtual event EventHandler MouseEnter;
+    public virtual event EventHandler? MouseEnter;
 
     /// <summary>
     /// Occurs when the mouse pointer hovers over the control.
     /// </summary>
-    public virtual event EventHandler MouseHover;
+    public virtual event EventHandler? MouseHover;
 
     /// <summary>
     /// Occurs when the mouse pointer leaves the control.
     /// </summary>
-    public virtual event EventHandler MouseLeave;
+    public virtual event EventHandler? MouseLeave;
 
     /// <summary>
     /// Occurs when the mouse pointer moves over the control.
     /// </summary>
-    public virtual event MouseEventHandler MouseMove;
+    public virtual event MouseEventHandler? MouseMove;
 
     /// <summary>
     /// Occurs when a mouse button is released while the cursor is over the control.
     /// </summary>
-    public virtual event MouseEventHandler MouseUp;
+    public virtual event MouseEventHandler? MouseUp;
 
     /// <summary>
     /// Occurs when the mouse wheel moves while the pointer is over the control.
     /// </summary>
-    public virtual event MouseEventHandler MouseWheel;
+    public virtual event MouseEventHandler? MouseWheel;
 
     /// <summary>
     /// Occurs when the control is moved.
     /// </summary>
-    public virtual event EventHandler Move;
+    public virtual event EventHandler? Move;
 
     /// <summary>
     /// Occurs when the Padding property value changes.
     /// </summary>
-    public virtual event EventHandler PaddingChanged;
+    public virtual event EventHandler? PaddingChanged;
 
     /// <summary>
     /// Occurs when the Parent property value changes.
     /// </summary>
     //public virtual event PaintEventHandler Paint;
-    public virtual event EventHandler ParentChanged;
+    public virtual event EventHandler? ParentChanged;
 
     /// <summary>
     /// Occurs when a key is pressed while the control has focus, and allows previewing the key press.
     /// </summary>
-    public virtual event PreviewKeyDownEventHandler PreviewKeyDown;
+    public virtual event PreviewKeyDownEventHandler? PreviewKeyDown;
 
     /// <summary>
     /// Occurs when accessibility help is requested for the control.
     /// </summary>
-    public virtual event QueryAccessibilityHelpEventHandler QueryAccessibilityHelp;
+    public virtual event QueryAccessibilityHelpEventHandler? QueryAccessibilityHelp;
 
     /// <summary>
     /// Occurs during a drag operation to determine whether the drag should continue.
     /// </summary>
-    public virtual event QueryContinueDragEventHandler QueryContinueDrag;
+    public virtual event QueryContinueDragEventHandler? QueryContinueDrag;
 
     /// <summary>
     /// Occurs when the Region property value changes.
     /// </summary>
-    public virtual event EventHandler RegionChanged;
+    public virtual event EventHandler? RegionChanged;
 
     /// <summary>
     /// Occurs when the control is resized.
     /// </summary>
-    public virtual event EventHandler Resize;
+    public virtual event EventHandler? Resize;
 
     /// <summary>
     /// Occurs when the RightToLeft property value changes.
     /// </summary>
-    public virtual event EventHandler RightToLeftChanged;
+    public virtual event EventHandler? RightToLeftChanged;
 
     /// <summary>
     /// Occurs when the Size property value changes.
     /// </summary>
-    public virtual event EventHandler SizeChanged;
+    public virtual event EventHandler? SizeChanged;
 
     /// <summary>
     /// Occurs when the control's style changes.
     /// </summary>
-    public virtual event EventHandler StyleChanged;
+    public virtual event EventHandler? StyleChanged;
 
     /// <summary>
     /// Occurs when the system colors change.
     /// </summary>
-    public virtual event EventHandler SystemColorsChanged;
+    public virtual event EventHandler? SystemColorsChanged;
 
     /// <summary>
     /// Occurs when the TabIndex property value changes.
     /// </summary>
-    public virtual event EventHandler TabIndexChanged;
+    public virtual event EventHandler? TabIndexChanged;
 
     /// <summary>
     /// Occurs when the TabStop property value changes.
     /// </summary>
-    public virtual event EventHandler TabStopChanged;
+    public virtual event EventHandler? TabStopChanged;
 
     /// <summary>
     /// Occurs when the Text property value changes.
     /// </summary>
-    public virtual event EventHandler TextChanged;
+    public virtual event EventHandler? TextChanged;
 
     /// <summary>
     /// Occurs when the control is validated.
     /// </summary>
-    public virtual event EventHandler Validated;
+    public virtual event EventHandler? Validated;
 
     /// <summary>
     /// Occurs when validating the control; allows cancellation.
     /// </summary>
-    public virtual event CancelEventHandler Validating;
+    public virtual event CancelEventHandler? Validating;
 
     /// <summary>
     /// Occurs when the Visible property value changes.
     /// </summary>
-    public virtual event EventHandler VisibleChanged;
+    public virtual event EventHandler? VisibleChanged;
 
     /// <summary>
     /// Occurs when the control needs to be painted. The add/remove forward to the GTK override.
     /// </summary>
     public virtual event PaintEventHandler Paint
     {
-        add { ISelf.Override.Paint += value; }
-        remove { ISelf.Override.Paint -= value; }
+        add { ISelf?.Override.Paint += value; }
+        remove { ISelf?.Override.Paint -= value; }
     }
 
     /// <summary>
@@ -462,7 +470,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             widget.KeyReleaseEvent += Widget_KeyReleaseEvent;
             widget.Realized += Widget_Realized;
             widget.ConfigureEvent += Widget_ConfigureEvent;
-            ISelf.Override.PaintGraphics += Override_PaintGraphics;
+            ISelf?.Override.PaintGraphics += Override_PaintGraphics;
             widget.SizeAllocated += Widget_SizeAllocated;
         }
     }
@@ -470,12 +478,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the accessible object for the control.
     /// </summary>
-    public virtual AccessibleObject AccessibilityObject { get; }
+    public virtual AccessibleObject? AccessibilityObject { get; }
 
     /// <summary>
     /// Gets or sets the default action description for accessibility.
     /// </summary>
-    public virtual string AccessibleDefaultActionDescription
+    public virtual string? AccessibleDefaultActionDescription
     {
         get;
         set;
@@ -484,7 +492,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the accessible description for the control.
     /// </summary>
-    public virtual string AccessibleDescription
+    public virtual string? AccessibleDescription
     {
         get;
         set;
@@ -493,7 +501,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the accessible name for the control.
     /// </summary>
-    public virtual string AccessibleName
+    public virtual string? AccessibleName
     {
         get;
         set;
@@ -549,7 +557,19 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _autoSize = value;
-            if (_autoSize == true) { this.Widget.WidthRequest = -1; this.Widget.HeightRequest = -1; } else { Size = _size; }
+            if (_autoSize == true)
+            {
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.WidthRequest = -1;
+                    widget.HeightRequest = -1;
+                }
+            }
+            else
+            {
+                Size = _size;
+            }
         }
     }
 
@@ -560,28 +580,27 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            if (ISelf.Override.BackColor.HasValue)
+            if (ISelf?.Override.BackColor.HasValue == true)
                 return ISelf.Override.BackColor.Value;
-            //else if (UseVisualStyleBackColor)
-            //    return Color.FromName("0");
-            //else
-            //    return Color.Transparent; 
             else
                 return Color.FromName("0");
         }
         set
         {
-            ISelf.Override.BackColor = value;
-            ISelf.Override.OnAddClass();
-            UpdateStyle();
-            Refresh();
+            if (ISelf != null)
+            {
+                ISelf.Override.BackColor = value;
+                ISelf.Override.OnAddClass();
+                UpdateStyle();
+                Refresh();
+            }
         }
     }
 
     /// <summary>
     /// Gets or sets the background image for the control.
     /// </summary>
-    public virtual Drawing.Image BackgroundImage
+    public virtual Image? BackgroundImage
     {
         get => ISelf?.Override.BackgroundImage;
         set { if (ISelf != null) { ISelf.Override.BackgroundImage = value; Refresh(); } }
@@ -599,7 +618,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the binding context for the control.
     /// </summary>
-    public virtual BindingContext BindingContext
+    public virtual BindingContext? BindingContext
     {
         get;
         set;
@@ -616,21 +635,33 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             _BorderStyle = value;
             if (value == BorderStyle.FixedSingle)
             {
-                this.Widget.StyleContext.RemoveClass("BorderFixed3D");
-                this.Widget.StyleContext.RemoveClass("BorderNone");
-                this.Widget.StyleContext.AddClass("BorderFixedSingle");
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.StyleContext.RemoveClass("BorderFixed3D");
+                    widget.StyleContext.RemoveClass("BorderNone");
+                    widget.StyleContext.AddClass("BorderFixedSingle");
+                }
             }
             else if (value == BorderStyle.Fixed3D)
             {
-                this.Widget.StyleContext.RemoveClass("BorderFixedSingle");
-                this.Widget.StyleContext.RemoveClass("BorderNone");
-                this.Widget.StyleContext.AddClass("BorderFixed3D");
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.StyleContext.RemoveClass("BorderFixedSingle");
+                    widget.StyleContext.RemoveClass("BorderNone");
+                    widget.StyleContext.AddClass("BorderFixed3D");
+                }
             }
             else
             {
-                this.Widget.StyleContext.RemoveClass("BorderFixedSingle");
-                this.Widget.StyleContext.RemoveClass("BorderFixed3D");
-                this.Widget.StyleContext.AddClass("BorderNone");
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.StyleContext.RemoveClass("BorderFixedSingle");
+                    widget.StyleContext.RemoveClass("BorderFixed3D");
+                    widget.StyleContext.AddClass("BorderNone");
+                }
             }
         }
     }
@@ -640,7 +671,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual int Bottom
     {
-        get => this.Widget.MarginBottom;
+        get => this.Widget != null ? this.Widget.MarginBottom : 0;
     }
 
     /// <summary>
@@ -648,14 +679,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual Rectangle Bounds
     {
-        get => new(Widget.Clip.X, this.Widget.Clip.Y, this.Widget.Clip.Width, this.Widget.Clip.Height);
+        get
+        {
+            if (Widget != null)
+                return new(Widget.Clip.X, this.Widget.Clip.Y, this.Widget.Clip.Width, this.Widget.Clip.Height);
+            else
+                return Rectangle.Empty;
+        }
         set { SetBounds(value.X, value.Y, value.Width, value.Height); }
     }
 
     /// <summary>
     /// Gets a value indicating whether the control can receive focus.
     /// </summary>
-    public virtual bool CanFocus { get { return this.Widget.CanFocus; } }
+    public virtual bool CanFocus { get { return this.Widget != null && this.Widget.CanFocus; } }
 
     /// <summary>
     /// Gets a value indicating whether the control can be selected.
@@ -683,7 +720,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the arranged element collection for child layout.
     /// </summary>
-    public ArrangedElementCollection Children => arrangedElementCollection;
+    public ArrangedElementCollection? Children => arrangedElementCollection;
 
     /// <summary>
     /// Gets the client rectangle for the control.
@@ -692,9 +729,15 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            var allocation = this.Widget.Allocation;
-
-            return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height);
+            if (this.Widget != null)
+            {
+                var allocation = this.Widget.Allocation;
+                return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height);
+            }
+            else
+            {
+                return Rectangle.Empty;
+            }
         }
     }
 
@@ -703,14 +746,18 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual Size ClientSize
     {
-        get { return new Size(Widget.AllocatedWidth, this.Widget.AllocatedHeight); }
-        set { this.Widget.SetSizeRequest(value.Width, value.Height); }
+        get
+        {
+            if (Widget != null) return new Size(Widget.AllocatedWidth, this.Widget.AllocatedHeight);
+            else return Size.Empty;
+        }
+        set { this.Widget?.SetSizeRequest(value.Width, value.Height); }
     }
 
     /// <summary>
     /// Gets the company name associated with the control (if any).
     /// </summary>
-    public virtual string CompanyName { get; }
+    public virtual string? CompanyName { get; }
 
     /// <summary>
     /// Gets a value indicating whether the control or one of its child controls has input focus.
@@ -720,7 +767,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the context menu associated with the control.
     /// </summary>
-    public virtual ContextMenuStrip ContextMenuStrip
+    public virtual ContextMenuStrip? ContextMenuStrip
     {
         get;
         set;
@@ -729,7 +776,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the collection of child controls.
     /// </summary>
-    public virtual ControlCollection Controls { get; }
+    public virtual ControlCollection? Controls { get; }
 
     /// <summary>
     /// Gets a value indicating whether the control has been created.
@@ -739,7 +786,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the cursor for the control.
     /// </summary>
-    public virtual Cursor Cursor
+    public virtual Cursor? Cursor
     {
         get;
         set;
@@ -748,7 +795,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the collection of data bindings for the control.
     /// </summary>
-    public virtual ControlBindingsCollection DataBindings { get; }
+    public virtual ControlBindingsCollection? DataBindings { get; }
 
     /// <summary>
     /// Gets the device DPI for the control.
@@ -779,33 +826,57 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             _dock = value;
             if (value == DockStyle.Fill)
             {
-                this.Widget.Halign = Align.Fill;
-                this.Widget.Valign = Align.Fill;
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.Halign = Align.Fill;
+                    widget.Valign = Align.Fill;
+                }
             }
             else if (value == DockStyle.Left)
             {
-                this.Widget.Halign = Align.Start;
-                this.Widget.Valign = Align.Fill;
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.Halign = Align.Start;
+                    widget.Valign = Align.Fill;
+                }
             }
             else if (value == DockStyle.Top)
             {
-                this.Widget.Halign = Align.Fill;
-                this.Widget.Valign = Align.Start;
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.Halign = Align.Fill;
+                    widget.Valign = Align.Start;
+                }
             }
             else if (value == DockStyle.Right)
             {
-                this.Widget.Halign = Align.End;
-                this.Widget.Valign = Align.Fill;
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.Halign = Align.End;
+                    widget.Valign = Align.Fill;
+                }
             }
             else if (value == DockStyle.Bottom)
             {
-                this.Widget.Halign = Align.Fill;
-                this.Widget.Valign = Align.End;
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.Halign = Align.Fill;
+                    widget.Valign = Align.End;
+                }
             }
             else if (value == DockStyle.None)
             {
-                this.Widget.Halign = Align.Start;
-                this.Widget.Valign = Align.Start;
+                var widget = this.Widget;
+                if (widget != null)
+                {
+                    widget.Halign = Align.Start;
+                    widget.Valign = Align.Start;
+                }
             }
             OnDockChanged(EventArgs.Empty);
         }
@@ -816,14 +887,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual bool Enabled
     {
-        get { return this.Widget.Sensitive; }
-        set { this.Widget.Sensitive = value; }
+        get
+        {
+            var widget = this.Widget;
+            return widget != null && widget.Sensitive;
+        }
+        set
+        {
+            var widget = this.Widget;
+            widget?.Sensitive = value;
+        }
     }
 
     /// <summary>
     /// Gets a value indicating whether the control has input focus.
     /// </summary>
-    public virtual bool Focused { get { return this.Widget.IsFocus; } }
+    public virtual bool Focused { get { return this.Widget?.IsFocus ?? false; } }
 
     /// <summary>
     /// Gets or sets the font of the control.
@@ -834,7 +913,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             if (_Font == null)
             {
-                var fontdes = this.Widget.PangoContext.FontDescription;
+                var fontdes = this.Widget?.PangoContext.FontDescription;
+                if (fontdes == null)
+                {
+                    return _Font ?? new Drawing.Font(new Drawing.FontFamily("Default"), 12);
+                }
                 var size = Convert.ToInt32(fontdes.Size / Pango.Scale.PangoScale);
                 return new Drawing.Font(new Drawing.FontFamily(fontdes.Family), size);
             }
@@ -844,10 +927,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _Font = value;
-            if (string.IsNullOrWhiteSpace(_Font?.Name) == false && !this.Widget.PangoContext.Families.Any(o => o.Name == _Font.Name))
+            if (string.IsNullOrWhiteSpace(_Font?.Name) == false && this.Widget != null && !this.Widget.PangoContext.Families.Any(o => _Font != null && o.Name == _Font.Name))
             {
                 _Font = new Font("", value.Size, value.Style, value.Unit, value.GdiCharSet);
-                Console.WriteLine($"\"{_Font.Name}\" font name is not supported, only English names are supported. Please confirm that the font name is correct or replace it with an English name");
+                GtkLogger.Info($"\"{_Font.Name}\" font name is not supported, only English names are supported. Please confirm that the font name is correct or replace it with an English name");
             }
             UpdateStyle();
         }
@@ -865,12 +948,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the GTK container associated with this control, if any.
     /// </summary>
-    public virtual Gtk.Container GtkContainer { get => GtkControl as Gtk.Container; }
+    public virtual Container? GtkContainer { get => GtkControl as Gtk.Container; }
 
     /// <summary>
     /// Gets or sets the underlying GTK control object.
     /// </summary>
-    public virtual object GtkControl
+    public virtual object? GtkControl
     {
         get;
         set;
@@ -893,16 +976,18 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            if (this.Widget.IsMapped == false && this.Widget is Gtk.Window wnd)
+            var widget = this.Widget;
+            if (widget != null && widget.IsMapped == false && widget is Gtk.Window wnd)
             {
                 return wnd.HeightRequest == -1 ? wnd.DefaultHeight : wnd.HeightRequest;
             }
 
-            return this.Widget.HeightRequest == -1 ? this.Widget.AllocatedHeight : this.Widget.HeightRequest;
+            return widget == null ? 0 : (widget.HeightRequest == -1 ? widget.AllocatedHeight : widget.HeightRequest);
         }
         set
         {
-            this.Widget.HeightRequest = Math.Max(-1, value);
+            var widget = this.Widget;
+            widget?.HeightRequest = Math.Max(-1, value);
             OnDockChanged(EventArgs.Empty);
             OnAnchorChanged(EventArgs.Empty);
         }
@@ -912,7 +997,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// Gets or sets the primary image associated with the control.
     /// </summary>
 
-    public virtual System.Drawing.Image Image
+    public virtual Image? Image
     {
         get;
         set;
@@ -958,12 +1043,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the IControlGtk wrapper for the underlying GTK control.
     /// </summary>
-    public virtual IControlGtk ISelf { get => GtkControl as IControlGtk; }
+    public virtual IControlGtk? ISelf { get => GtkControl as IControlGtk; }
 
     /// <summary>
     /// Gets a value indicating whether the underlying handle has been created (realized).
     /// </summary>
-    public virtual bool IsHandleCreated { get => this.Widget.IsRealized; }
+    public virtual bool IsHandleCreated { get => this.Widget != null && this.Widget.IsRealized; }
 
     /// <summary>
     /// Gets a value indicating whether the control is mirrored for right-to-left languages.
@@ -973,17 +1058,18 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the layout engine used by the control.
     /// </summary>
-    public virtual LayoutEngine LayoutEngine { get; }
+    public virtual LayoutEngine? LayoutEngine { get; }
 
     /// <summary>
     /// Gets or sets the left position of the control relative to its container.
     /// </summary>
     public virtual int Left
     {
-        get => this.Widget.MarginStart;
+        get => this.Widget?.MarginStart ?? 0;
         set
         {
-            this.Widget.MarginStart = value;
+            var widget = this.Widget;
+            widget?.MarginStart = value;
             OnDockChanged(EventArgs.Empty);
             OnAnchorChanged(EventArgs.Empty);
         }
@@ -1040,8 +1126,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual string Name
     {
-        get { return this.Widget.Name; }
-        set { this.Widget.Name = value; }
+        get { return this.Widget?.Name ?? string.Empty; }
+        set { this.Widget?.Name = value; }
     }
 
     /// <summary>
@@ -1056,7 +1142,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the parent control.
     /// </summary>
-    public virtual Control Parent
+    public virtual Control? Parent
     {
         get;
         set;
@@ -1075,12 +1161,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the product name associated with the control (if any).
     /// </summary>
-    public virtual string ProductName { get; }
+    public virtual string? ProductName { get; }
 
     /// <summary>
     /// Gets the product version associated with the control (if any).
     /// </summary>
-    public virtual string ProductVersion { get; }
+    public virtual string? ProductVersion { get; }
 
     /// <summary>
     /// Gets a value indicating whether the control is recreating its handle.
@@ -1090,7 +1176,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the region describing the window region of the control.
     /// </summary>
-    public virtual Drawing.Region Region
+    public virtual Region? Region
     {
         get;
         set;
@@ -1101,7 +1187,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual int Right
     {
-        get => this.Widget.MarginEnd;
+        get => this.Widget?.MarginEnd ?? 0;
     }
 
     /// <summary>
@@ -1162,7 +1248,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets an object that contains data about the control.
     /// </summary>
-    public virtual object Tag
+    public virtual object? Tag
     {
         get;
         set;
@@ -1171,7 +1257,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the text associated with the control.
     /// </summary>
-    public virtual string Text
+    public virtual string? Text
     {
         get;
         set;
@@ -1182,10 +1268,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual int Top
     {
-        get => this.Widget.MarginTop;
+        get => this.Widget?.MarginTop ?? 0;
         set
         {
-            this.Widget.MarginTop = value;
+            this.Widget?.MarginTop = value;
             OnDockChanged(EventArgs.Empty);
             OnAnchorChanged(EventArgs.Empty);
         }
@@ -1194,7 +1280,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the top-level control that contains this control.
     /// </summary>
-    public virtual Control TopLevelControl { get; }
+    public virtual Control? TopLevelControl { get; }
 
     /// <summary>
     /// Gets a unique key associated with the control (used for styling or resources).
@@ -1228,8 +1314,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual bool Visible
     {
-        get { return this.Widget.Visible; }
-        set { this.Widget.Visible = value; this.Widget.NoShowAll = value == false; }
+        get { return this.Widget?.Visible ?? false; }
+        set { if (this.Widget != null) { this.Widget.Visible = value; this.Widget.NoShowAll = value == false; } }
     }
 
     /// <summary>
@@ -1240,7 +1326,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the underlying GTK widget for this control.
     /// </summary>
-    public virtual Gtk.Widget Widget { get => GtkControl as Gtk.Widget; }
+    public virtual Widget? Widget { get => GtkControl as Gtk.Widget; }
 
     /// <summary>
     /// Gets or sets the width of the control.
@@ -1249,16 +1335,18 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            if (this.Widget.IsMapped == false && this.Widget is Gtk.Window wnd)
+            var widget = this.Widget;
+            if (widget != null && widget.IsMapped == false && widget is Gtk.Window wnd)
             {
                 return wnd.WidthRequest == -1 ? wnd.DefaultWidth : wnd.WidthRequest;
             }
 
-            return this.Widget.WidthRequest == -1 ? this.Widget.AllocatedWidth : this.Widget.WidthRequest;
+            var o = this.Widget;
+            return o != null && o.WidthRequest == -1 ? this.Widget?.AllocatedWidth ?? 0 : this.Widget?.WidthRequest ?? 0;
         }
         set
         {
-            this.Widget.WidthRequest = Math.Max(-1, value);
+            this.Widget?.WidthRequest = Math.Max(-1, value);
             OnDockChanged(EventArgs.Empty);
             OnAnchorChanged(EventArgs.Empty);
         }
@@ -1267,7 +1355,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the window target for the control.
     /// </summary>
-    public virtual IWindowTarget WindowTarget
+    public virtual IWindowTarget? WindowTarget
     {
         get;
         set;
@@ -1336,7 +1424,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the default cursor for the control.
     /// </summary>
-    protected virtual Cursor DefaultCursor { get; }
+    protected virtual Cursor? DefaultCursor { get; }
 
     /// <summary>
     /// Gets the default IME mode for the control.
@@ -1439,7 +1527,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <returns>
     /// An IAsyncResult representing the asynchronous operation.
     /// </returns>
-    public virtual IAsyncResult BeginInvoke(Delegate method, params object[] args)
+    public virtual IAsyncResult BeginInvoke(Delegate method, params object[]? args)
     {
         var task = System.Threading.Tasks.Task.Factory.StartNew(state =>
         {
@@ -1520,17 +1608,17 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         try
         {
             if (image == null)
-                image = new Cairo.ImageSurface(Cairo.Format.Argb32, this.Widget.AllocatedWidth, this.Widget.AllocatedHeight);
+                image = new Cairo.ImageSurface(Cairo.Format.Argb32, this.Widget?.AllocatedWidth ?? 0, this.Widget?.AllocatedHeight ?? 0);
 
             surface?.Dispose();
-            surface = image.CreateSimilar(Cairo.Content.ColorAlpha, this.Widget.AllocatedWidth, this.Widget.AllocatedHeight);
+            surface = image.CreateSimilar(Cairo.Content.ColorAlpha, this.Widget?.AllocatedWidth ?? 0, this.Widget?.AllocatedHeight ?? 0);
             context?.Dispose();
             context = new Cairo.Context(surface);
-            return new Drawing.Graphics(this.Widget, context, this.Widget.Allocation);
+            return new Drawing.Graphics(this.Widget, context, this.Widget?.Allocation ?? default);
         }
         catch (Exception ex)
         {
-            Console.WriteLine(" canvas creation failed：" + ex.Message);
+            GtkLogger.Info(" canvas creation failed：" + ex.Message);
             throw;
         }
     }
@@ -1568,7 +1656,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         }
         catch (Exception ex)
         {
-            Console.WriteLine(" canvas creation failed：" + ex.Message);
+            GtkLogger.Info(" canvas creation failed：" + ex.Message);
             throw;
         }
     }
@@ -1647,9 +1735,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <returns>
     /// The parent Form, or null if none is found.
     /// </returns>
-    public virtual Form FindForm()
+    public virtual Form? FindForm()
     {
-        if (this.Widget.Toplevel.Data.ContainsKey("Control"))
+        if (this.Widget?.Toplevel.Data.ContainsKey("Control") ?? false)
         {
             return this.Widget.Toplevel.Data["Control"] as Form;
         }
@@ -1695,7 +1783,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <returns>
     /// The child control at the point, or null if none.
     /// </returns>
-    public virtual Control GetChildAtPoint(Point pt)
+    public virtual Control? GetChildAtPoint(Point pt)
     {
         return null;
     }
@@ -1712,7 +1800,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <returns>
     /// The child control at the point, or null if none.
     /// </returns>
-    public virtual Control GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue)
+    public virtual Control? GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue)
     {
         return null;
     }
@@ -1723,7 +1811,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <returns>
     /// An IContainerControl if the control implements it; otherwise the control itself.
     /// </returns>
-    public virtual IContainerControl GetContainerControl()
+    public virtual IContainerControl? GetContainerControl()
     {
         return this as IContainerControl;
     }
@@ -1740,37 +1828,41 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <returns>
     /// The next control in the tab order, or null if none.
     /// </returns>
-    public virtual Control GetNextControl(Control ctl, bool forward)
+    public virtual Control? GetNextControl(Control ctl, bool forward)
     {
-        Control prev = null;
-        Control next = null;
+        Control? prev = null;
+        Control? next = null;
         var finded = false;
 
-        foreach (var obj in this.Controls)
-        {
-            if (obj is Control control)
+        var controlCollection = this.Controls;
+        if (controlCollection != null)
+            foreach (var obj in controlCollection)
             {
-                if (finded == true)
-                    next = control;
+                if (obj is Control control)
+                {
+                    if (finded == true)
+                        next = control;
 
-                if (control.Widget.Handle == ctl.Widget.Handle)
-                {
-                    finded = true;
-                }
-                if (finded == true)
-                {
-                    if (forward == false && prev != null)
+                    if (control.Widget?.Handle == ctl.Widget?.Handle)
                     {
-                        return prev;
+                        finded = true;
                     }
-                    else if (forward == true && next != null)
+
+                    if (finded == true)
                     {
-                        return next;
+                        if (forward == false && prev != null)
+                        {
+                            return prev;
+                        }
+                        else if (forward == true && next != null)
+                        {
+                            return next;
+                        }
                     }
+
+                    prev = control;
                 }
-                prev = control;
             }
-        }
 
         return null;
     }
@@ -1816,7 +1908,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     public virtual void Invalidate(bool invalidateChildren)
     {
-        Invalidate(new Rectangle(Widget.Allocation.X, Widget.Allocation.Y, Widget.Allocation.Width, Widget.Allocation.Height), invalidateChildren);
+        if (Widget != null)
+            Invalidate(
+                new Rectangle(Widget.Allocation.X, Widget.Allocation.Y, Widget.Allocation.Width,
+                    Widget.Allocation.Height), invalidateChildren);
     }
 
     /// <summary>
@@ -1892,7 +1987,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <returns>
     /// The result returned by the delegate.
     /// </returns>
-    public virtual object Invoke(Delegate method)
+    public virtual object? Invoke(Delegate method)
     {
         return Invoke(method, null);
     }
@@ -1909,9 +2004,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <returns>
     /// The result returned by the delegate.
     /// </returns>
-    public virtual object Invoke(Delegate method, params object[] args)
+    public virtual object? Invoke(Delegate method, params object[]? args)
     {
-        object result = null;
+        object? result = null;
         GLib.Idle.Add(() =>
         {
             result = method.DynamicInvoke(args);
@@ -1939,7 +2034,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Invokes a function on the control's thread and returns typed result.
     /// </summary>
-    /// <typeparam name="ENTRY">
+    /// <typeparam name="TEntry">
     /// Return type.
     /// </typeparam>
     /// <param name="method">
@@ -1948,9 +2043,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <returns>
     /// Result of the function.
     /// </returns>
-    public virtual ENTRY Invoke<ENTRY>(Func<ENTRY> method)
+    public virtual TEntry? Invoke<TEntry>(Func<TEntry> method)
     {
-        var result = default(ENTRY);
+        var result = default(TEntry);
         GLib.Idle.Add(() =>
         {
             result = method.Invoke();
@@ -2433,7 +2528,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         }
     }
 
-    void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string propertyName)
+    void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string? propertyName)
     {
         throw new NotImplementedException();
     }
@@ -3342,7 +3437,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
                 if (string.IsNullOrWhiteSpace(font.FontFamily?.Name) == false)
                 {
-                    style.AppendFormat("font-family:\"{0}\";", font.FontFamily.Name);
+                    style.AppendFormat("font-family:\"{0}\";", font.FontFamily?.Name);
                 }
                 if ((font.Style & FontStyle.Bold) != 0)
                 {
@@ -3401,8 +3496,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     protected virtual void UpdateBackgroundStyle()
     {
-        if (this.Widget != null && this.Widget.IsMapped)
-            ISelf.Override.OnAddClass();
+        if (this.Widget != null && this.Widget.IsMapped && ISelf != null) ISelf.Override.OnAddClass();
     }
 
     /// <summary>
@@ -3422,7 +3516,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     protected virtual void WndProc(ref Message m)
     {
-        //Console.WriteLine($"HWnd:{m.HWnd},WParam:{m.WParam},LParam:{m.LParam},Msg:{m.Msg}");
+        //GtkLogger.Info($"HWnd:{m.HWnd},WParam:{m.WParam},LParam:{m.LParam},Msg:{m.Msg}");
     }
 
     private void Override_PaintGraphics(object sender, PaintGraphicsEventArgs e)
@@ -3437,40 +3531,40 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         }
     }
 
-    private void SetAnchorStyles(Gtk.Widget widget, AnchorStyles anchorStyles)
+    private void SetAnchorStyles(Widget? widget, AnchorStyles anchorStyles)
     {
         if (anchorStyles.HasFlag(AnchorStyles.Left) && anchorStyles.HasFlag(AnchorStyles.Right))
         {
-            widget.Halign = Gtk.Align.Fill;
+            widget?.Halign = Gtk.Align.Fill;
         }
         else if (anchorStyles.HasFlag(AnchorStyles.Left))
         {
-            widget.Halign = Gtk.Align.Start;
+            widget?.Halign = Gtk.Align.Start;
         }
         else if (anchorStyles.HasFlag(AnchorStyles.Right))
         {
-            widget.Halign = Gtk.Align.End;
+            widget?.Halign = Gtk.Align.End;
         }
         else
         {
-            widget.Halign = Gtk.Align.Start;
+            widget?.Halign = Gtk.Align.Start;
         }
 
         if (anchorStyles.HasFlag(AnchorStyles.Top) && anchorStyles.HasFlag(AnchorStyles.Bottom))
         {
-            widget.Valign = Gtk.Align.Fill;
+            widget?.Valign = Gtk.Align.Fill;
         }
         else if (anchorStyles.HasFlag(AnchorStyles.Top))
         {
-            widget.Valign = Gtk.Align.Start;
+            widget?.Valign = Gtk.Align.Start;
         }
         else if (anchorStyles.HasFlag(AnchorStyles.Bottom))
         {
-            widget.Valign = Gtk.Align.End;
+            widget?.Valign = Gtk.Align.End;
         }
         else
         {
-            widget.Valign = Gtk.Align.Start;
+            widget?.Valign = Gtk.Align.Start;
         }
     }
 
@@ -3540,11 +3634,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             if (Cursor.CursorType == Gdk.CursorType.CursorIsPixmap)
             {
-                this.Widget.Window.Cursor = new Gdk.Cursor(((Gtk.Widget)o).Display, Cursor.CursorPixbuf, Cursor.CursorsXY.X, Cursor.CursorsXY.Y);
+                this.Widget?.Window.Cursor = new Gdk.Cursor(((Gtk.Widget)o).Display, Cursor.CursorPixbuf, Cursor.CursorsXY.X, Cursor.CursorsXY.Y);
             }
             else
             {
-                this.Widget.Window.Cursor = new Gdk.Cursor(((Gtk.Widget)o).Display, Cursor.CursorType);
+                this.Widget?.Window.Cursor = new Gdk.Cursor(((Gtk.Widget)o).Display, Cursor.CursorType);
             }
         }
         OnMouseEnter(EventArgs.Empty);
@@ -3599,7 +3693,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (Cursor != null)
         {
-            this.Widget.Window.Cursor = null;
+            this.Widget?.Window.Cursor = null;
         }
         OnMouseLeave(EventArgs.Empty);
         OnLeave(EventArgs.Empty);
@@ -3610,7 +3704,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         if (o is Gtk.Widget owidget && owidget.Window != null)
         {
             var result = MouseButtons.None;
-            // Console.WriteLine(args.Event.State);
+            // GtkLogger.Info(args.Event.State);
             if (args.Event.State.HasFlag(Gdk.ModifierType.Button1Mask))
                 result = MouseButtons.Left;
             else if (args.Event.State.HasFlag(Gdk.ModifierType.Button2Mask))

@@ -28,26 +28,26 @@ namespace GtkWinFormsApp
             treeView1.Nodes.Clear();
             treeView1.CheckBoxes = true;
 
-            string jsontext = File.ReadAllText( (System.Globalization.CultureInfo.CurrentCulture.Name ?? "").StartsWith("zh")? System.IO.Path.Combine("Properties", "TestData1.json"): System.IO.Path.Combine("Properties", "TestData1.en.json"));
-            using (FileStream reader = new FileStream( (System.Globalization.CultureInfo.CurrentCulture.Name ?? "").StartsWith("zh")? System.IO.Path.Combine("Properties", "TestData1.json"): System.IO.Path.Combine("Properties", "TestData1.en.json"), FileMode.Open, FileAccess.Read))
+            var jsontext = File.ReadAllText( (System.Globalization.CultureInfo.CurrentCulture.Name ?? "").StartsWith("zh")? System.IO.Path.Combine("Properties", "TestData1.json"): System.IO.Path.Combine("Properties", "TestData1.en.json"));
+            using (var reader = new FileStream( (System.Globalization.CultureInfo.CurrentCulture.Name ?? "").StartsWith("zh")? System.IO.Path.Combine("Properties", "TestData1.json"): System.IO.Path.Combine("Properties", "TestData1.en.json"), FileMode.Open, FileAccess.Read))
             {
-                DataContractJsonSerializer dataContractJson = new DataContractJsonSerializer(typeof(List<TestDataMode>));
-                List<TestDataMode> json = dataContractJson.ReadObject(reader) as List<TestDataMode>;
-                IEnumerable<TreeNode> childs = GetChild(null, json);
+                var dataContractJson = new DataContractJsonSerializer(typeof(List<TestDataMode>));
+                var json = dataContractJson.ReadObject(reader) as List<TestDataMode>;
+                var childs = GetChild(null, json);
                 treeView1.Nodes.AddRange(childs.ToArray());
-                int i = 1;
+                var i = 1;
                 while (treeView1.Nodes[0].Nodes[2].Nodes.Count < 4)
                 {
                     treeView1.Nodes[0].Nodes[2].Nodes.Add(new TreeNode(i.ToString()));
                     i++;
                 }
-                foreach (TreeNode child in treeView1.Nodes)
+                foreach (var child in treeView1.Nodes)
                     child.Expand();
 
                 treeView1.Nodes[0].Nodes[2].Nodes[3].Checked = true;
                 treeView1.SelectedNode = treeView1.Nodes[0].Nodes[2];
             }
-            TabPage tabPage=new TabPage();
+            var tabPage=new TabPage();
             tabPage.Location = new System.Drawing.Point(4, 29);
             tabPage.Margin = new Padding(4);
             tabPage.Name = "tabPage3";
@@ -61,12 +61,12 @@ namespace GtkWinFormsApp
         }
         private IEnumerable<TreeNode> GetChild(string treeID, IEnumerable<TestDataMode> data)
         {
-            List<TreeNode> children = new List<TreeNode>();
+            var children = new List<TreeNode>();
             var list = data.Where(w => w.parent == treeID);
-            foreach (TestDataMode d in list)
+            foreach (var d in list)
             {
                 var node = new TreeNode(d.name) { Name = d.treeID };
-                IEnumerable<TreeNode> childs = GetChild(d.treeID, data);
+                var childs = GetChild(d.treeID, data);
                 if (childs.Count() > 0)
                     node.Nodes.AddRange(childs.ToArray());
                 children.Add(node);
@@ -87,13 +87,13 @@ namespace GtkWinFormsApp
 
             GtkLogger.Info(treeView1.SelectedNode?.Text);
             // b.Title = "test2";
-            DialogResult result = MessageBox.Show(" 1. Load data point yes \n2. Do not load data point no", Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_2, MessageBoxButtons.YesNo);
+            var result = MessageBox.Show(" 1. Load data point yes \n2. Do not load data point no", Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_2, MessageBoxButtons.YesNo);
             if (result == DialogResult.No)
             {
                 return;
             }
             //1. Dataset list data source
-            List<TestEntity> data = new List<TestEntity>();
+            var data = new List<TestEntity>();
             var createdate = DateTime.Now;
             data.Add(new TestEntity() { ID = 0, Title = " load data point yesLoad data\nPoint yesLoad data point yesLoad data point yesLoad data point yes", Info = "sdfdf", State = true, CreateDate = createdate, Operate = Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_4, PIC1 = "face-smile-big", PIC = Image.FromFile("./Resources/timg6.jpg") });
             data.Add(new TestEntity() { ID = 1, Title = "test2", Info = "yyyy2", State = true, CreateDate = createdate, Operate = Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_4, PIC1 = "", PIC = Image.FromFile("./Resources/timg6.jpg") });
@@ -102,7 +102,7 @@ namespace GtkWinFormsApp
 
             data.Add(new TestEntity() { ID = 5, Title = Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_5, Info = "ddds", State = false, CreateDate = createdate, Operate = Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_4, PIC1 = "https://gitlab.gnome.org/uploads/-/system/project/avatar/13319/gi-docgen.png?width=48", PIC = Image.FromFile("./Resources/timg2.jpg") });
             data.Add(new TestEntity() { ID = 6, Title = "test4", Info = "yyyy", State = true, CreateDate = createdate, Operate = Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_4, PIC1 = "", PIC = Image.FromFile("./Resources/timg2.jpg") });
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
                 data.Add(new TestEntity() { ID = i + 7, Title = Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_5 + i.ToString(), Info = "ddds", State = false, CreateDate = createdate, Operate = Properties.GtkWinFormsAppResources.Gtk_TestDataForm_button1_4, PIC1 = "https://www.baidu.com/img/flexible/logo/pc/result.png?" + i.ToString(), PIC = Image.FromFile("./Resources/timg2.jpg") });
 
 
@@ -138,7 +138,7 @@ namespace GtkWinFormsApp
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
+            var column = new DataGridViewTextBoxColumn();
             column.HeaderText = "test1";
             column.MinimumWidth = 6;
             column.Name = "test1";
@@ -147,7 +147,7 @@ namespace GtkWinFormsApp
 
             dataGridView1.Columns.Add(column);
 
-            ColorDialog cd = new ColorDialog();
+            var cd = new ColorDialog();
             if (textBox1.Text.Length >= 6)
             {
                 try
@@ -156,7 +156,7 @@ namespace GtkWinFormsApp
                 }
                 catch { }
             }
-            DialogResult result = cd.ShowDialog(this);
+            var result = cd.ShowDialog(this);
 
             if (result == DialogResult.OK)
             {
@@ -180,7 +180,7 @@ namespace GtkWinFormsApp
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            ToolStripItem menu = sender as ToolStripItem;
+            var menu = sender as ToolStripItem;
             GtkLogger.Info(menu.Text);
         }
 
@@ -270,7 +270,7 @@ namespace GtkWinFormsApp
             if (e.RowIndex > -1)
             //    if (dataGridView1.Rows.Count > 0 && dataGridView1.Rows[e.RowIndex].Cells.Count>0)
             {
-                DataGridViewCell cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                var cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 GtkLogger.Info($"{cell.Value},{cell.Selected}");
             }
             //foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -404,7 +404,7 @@ namespace GtkWinFormsApp
 
             if (GtkWinFormsApp.Properties.Resources.timg6 != null)
             {
-                MemoryStream mem = new MemoryStream(GtkWinFormsApp.Properties.Resources.timg6);
+                var mem = new MemoryStream(GtkWinFormsApp.Properties.Resources.timg6);
 
                 //g.DrawImage(new Bitmap(mem), new Point(0, 0));
                 g.DrawImage(new Bitmap(mem), new Rectangle(0, 0, 192, 108), new Rectangle(0, 0, 1920, 1080), GraphicsUnit.Pixel);
@@ -413,19 +413,19 @@ namespace GtkWinFormsApp
 
             g.FillRectangle(new SolidBrush(Color.AliceBlue), new Rectangle(0, 0, 100, 50));
             // g.DrawLine(new Pen(new SolidBrush(Color.Blue), 2), new Point(10, 10), new Point(50, 30));
-            List<PointF> Rps = new List<PointF>();
-            List<PointF> rps = new List<PointF>();
+            var Rps = new List<PointF>();
+            var rps = new List<PointF>();
             float R = 50;
-            double rad = Math.PI / 180;
-            float r = (float)(R * Math.Sin(18 * R) / Math.Cos(36 * R));
+            var rad = Math.PI / 180;
+            var r = (float)(R * Math.Sin(18 * R) / Math.Cos(36 * R));
             float x = pictureBox2.Width / 2;
             float y = pictureBox2.Height / 2;
-            for (int k = 0; k < 5; k++)
+            for (var k = 0; k < 5; k++)
             {
                 Rps.Add(new PointF(x - (R * (float)Math.Cos((90 + k * 72) * rad)), y - (R * (float)Math.Sin((90 + k * 72) * rad))));
                 rps.Add(new PointF(x - (r * (float)Math.Cos((90 + k * 72 + 36) * rad)), y - (r * (float)Math.Sin((90 + k * 72 + 36) * rad))));
             }
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 //g.DrawLine(new Pen(new SolidBrush(Color.Blue), 2), Rps[i], rps[i]);
                 //g.DrawLine(new Pen(new SolidBrush(Color.Blue), 2), rps[i], new PointF(x, y));
@@ -457,8 +457,8 @@ namespace GtkWinFormsApp
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Form2 form = new Form2();
-            DialogResult result = form.ShowDialog(this);
+            var form = new Form2();
+            var result = form.ShowDialog(this);
             if (result == DialogResult.None || result == DialogResult.Cancel)
             {
                 // MessageBox.Show(" close the window to return");

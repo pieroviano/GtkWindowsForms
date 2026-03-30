@@ -1,8 +1,12 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Drawing;
 using System.Runtime.Serialization;
+using Gdk;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using Size = System.Drawing.Size;
 
 namespace System.Windows.Forms;
 
@@ -176,7 +180,7 @@ public sealed class Cursor : IDisposable, ISerializable
         set;
     }
 
-    internal Gdk.Pixbuf CursorPixbuf
+    internal Pixbuf? CursorPixbuf
     {
         get;
         set;
@@ -289,9 +293,9 @@ public sealed class Cursor : IDisposable, ISerializable
     /// </returns>
     public override string ToString() => $"[Cursor: {CursorsProperty ?? base.ToString()}]";
 
-    internal unsafe byte[] GetData()
+    internal unsafe byte[]? GetData()
     {
-        return (byte[])_cursorData.Clone();
+        return (byte[]?)_cursorData?.Clone();
     }
 
     void ISerializable.GetObjectData(SerializationInfo si, StreamingContext context)

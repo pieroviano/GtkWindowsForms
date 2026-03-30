@@ -1,6 +1,8 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
+#nullable enable
+
 
 using System.ComponentModel.Design;
 using System.Runtime.Serialization;
@@ -13,11 +15,11 @@ namespace System.Resources;
 
 internal class ResXSerializationBinder : SerializationBinder
 {
-    private readonly Func<Type, string> _typeNameConverter;
+    private readonly Func<Type, string>? _typeNameConverter;
 
-    private readonly ITypeResolutionService _typeResolver;
+    private readonly ITypeResolutionService? _typeResolver;
 
-    internal ResXSerializationBinder(ITypeResolutionService typeResolver)
+    internal ResXSerializationBinder(ITypeResolutionService? typeResolver)
     {
         _typeResolver = typeResolver;
     }
@@ -28,7 +30,7 @@ internal class ResXSerializationBinder : SerializationBinder
     }
 
     // Get the multitarget-aware string representation for the give type.
-    public override void BindToName(Type serializedType, out string assemblyName, out string? typeName)
+    public override void BindToName(Type serializedType, out string? assemblyName, out string? typeName)
     {
         typeName = null;
         if (_typeNameConverter != null)
@@ -36,11 +38,11 @@ internal class ResXSerializationBinder : SerializationBinder
             var assemblyQualifiedTypeName = MultitargetUtil.GetAssemblyQualifiedName(serializedType, _typeNameConverter);
             if (!string.IsNullOrEmpty(assemblyQualifiedTypeName))
             {
-                var pos = assemblyQualifiedTypeName.IndexOf(',');
-                if (pos > 0 && pos < assemblyQualifiedTypeName.Length - 1)
+                var pos = assemblyQualifiedTypeName?.IndexOf(',')??-1;
+                if (pos > 0 && pos < (assemblyQualifiedTypeName?.Length ?? 0) - 1)
                 {
-                    assemblyName = assemblyQualifiedTypeName.Substring(pos + 1).TrimStart();
-                    var newTypeName = assemblyQualifiedTypeName.Substring(0, pos);
+                    assemblyName = assemblyQualifiedTypeName?.Substring(pos + 1).TrimStart();
+                    var newTypeName = assemblyQualifiedTypeName?.Substring(0, pos);
                     if (!string.Equals(newTypeName, serializedType.FullName, StringComparison.InvariantCulture))
                     {
                         typeName = newTypeName;
@@ -54,7 +56,7 @@ internal class ResXSerializationBinder : SerializationBinder
         typeName = null;
     }
 
-    public override Type BindToType(string assemblyName, string typeName)
+    public override Type? BindToType(string assemblyName, string typeName)
     {
         if (_typeResolver is null)
         {

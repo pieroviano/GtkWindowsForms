@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#nullable enable
+
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;
@@ -22,31 +24,31 @@ namespace System.Resources;
 public sealed class ResXDataNode : ISerializable
 {
 
-    private DataContractSerializer _binaryFormatter;
+    private DataContractSerializer? _binaryFormatter;
 
-    private string _comment;
+    private string? _comment;
 
-    private ResXFileRef _fileRef;
+    private ResXFileRef? _fileRef;
 
-    private string _fileRefFullPath;
+    private string? _fileRefFullPath;
 
-    private string _fileRefTextEncoding;
+    private string? _fileRefTextEncoding;
 
-    private string _fileRefType;
+    private string? _fileRefType;
 
-    private string _name;
+    private string? _name;
 
-    private DataNodeInfo _nodeInfo;
+    private DataNodeInfo? _nodeInfo;
 
-    private string _typeName; // is only used when we create a resxdatanode manually with an object and contains the FQN
+    private string? _typeName; // is only used when we create a resxdatanode manually with an object and contains the FQN
 
     // callback function to get type name for multitargeting.
     // No public property to force using constructors for the following reasons:
     // 1. one of the constructors needs this field (if used) to initialize the object, make it consistent with the other constructors to avoid errors.
     // 2. once the object is constructed the delegate should not be changed to avoid getting inconsistent results.
-    private Func<Type, string> _typeNameConverter;
+    private Func<Type, string>? _typeNameConverter;
 
-    private object _value;
+    private object? _value;
 
     // this is going to be used to check if a ResXDataNode is of type ResXFileRef
     private static readonly ITypeResolutionService s_internalTypeResolver = new AssemblyNamesTypeResolutionService(new AssemblyName[] { new("System.Windows.Forms") });
@@ -85,7 +87,7 @@ public sealed class ResXDataNode : ISerializable
     /// </exception>
     /// <exception cref="T:System.InvalidOperationException">
     /// </exception>
-    public ResXDataNode(string name, object value, Func<Type, string> typeNameConverter)
+    public ResXDataNode(string name, object? value, Func<Type, string>? typeNameConverter)
     {
         if (name.Length == 0)
         {
@@ -137,14 +139,14 @@ public sealed class ResXDataNode : ISerializable
     /// <param name="typeNameConverter">
     /// The type name converter.
     /// </param>
-    public ResXDataNode(string name, ResXFileRef fileRef, Func<Type, string> typeNameConverter)
+    public ResXDataNode(string name, ResXFileRef fileRef, Func<Type, string>? typeNameConverter)
     {
         _name = name.OrThrowIfNullOrEmpty();
         _fileRef = fileRef.OrThrowIfNull();
         _typeNameConverter = typeNameConverter;
     }
 
-    internal ResXDataNode(DataNodeInfo nodeInfo, string basePath)
+    internal ResXDataNode(DataNodeInfo nodeInfo, string? basePath)
     {
         _nodeInfo = nodeInfo;
         InitializeDataNode(basePath);
@@ -184,7 +186,7 @@ public sealed class ResXDataNode : ISerializable
     /// <value>
     /// The file reference.
     /// </value>
-    public ResXFileRef FileRef
+    public ResXFileRef? FileRef
     {
         get
         {
@@ -214,7 +216,7 @@ public sealed class ResXDataNode : ISerializable
     /// <exception cref="T:System.ArgumentException">
     /// Name
     /// </exception>
-    public string Name
+    public string? Name
     {
         get
         {
@@ -228,7 +230,7 @@ public sealed class ResXDataNode : ISerializable
         }
         set
         {
-            if (value.Length == 0)
+            if ((value?.Length ?? 0) == 0)
             {
                 throw new ArgumentException(nameof(Name));
             }
@@ -237,7 +239,7 @@ public sealed class ResXDataNode : ISerializable
         }
     }
 
-    private string FileRefFullPath
+    private string? FileRefFullPath
     {
         get
         {
@@ -245,7 +247,7 @@ public sealed class ResXDataNode : ISerializable
         }
     }
 
-    private string FileRefTextEncoding
+    private string? FileRefTextEncoding
     {
         get
         {
@@ -253,7 +255,7 @@ public sealed class ResXDataNode : ISerializable
         }
     }
 
-    private string FileRefType
+    private string? FileRefType
     {
         get
         {
@@ -273,14 +275,14 @@ public sealed class ResXDataNode : ISerializable
     /// <summary>
     /// Get the value contained in this datanode
     /// </summary>
-    public object GetValue(ITypeResolutionService typeResolver)
+    public object? GetValue(ITypeResolutionService? typeResolver)
     {
         if (_value != null)
         {
             return _value;
         }
 
-        object result = null;
+        object? result = null;
         if (FileRefFullPath != null)
         {
             var objectType = ResolveType(FileRefType, typeResolver);
@@ -301,7 +303,7 @@ public sealed class ResXDataNode : ISerializable
                 throw (newTle);
             }
         }
-        else if (_nodeInfo.ValueData != null)
+        else if (_nodeInfo?.ValueData != null)
         {
             // it's embedded, we deserialize it
             result = GenerateObjectFromDataNodeInfo(_nodeInfo, typeResolver);
@@ -320,7 +322,7 @@ public sealed class ResXDataNode : ISerializable
     /// <summary>
     /// Get the value contained in this datanode
     /// </summary>
-    public object GetValue(AssemblyName[] names)
+    public object? GetValue(AssemblyName[] names)
     {
         return GetValue(new AssemblyNamesTypeResolutionService(names));
     }
@@ -329,7 +331,7 @@ public sealed class ResXDataNode : ISerializable
     /// Get the FQ type name for this datanode.
     /// We return typeof(object) for ResXNullRef
     /// </summary>
-    public string GetValueTypeName(ITypeResolutionService typeResolver)
+    public string? GetValueTypeName(ITypeResolutionService? typeResolver)
     {
         // the type name here is always a FQN
         if (!string.IsNullOrEmpty(_typeName))
@@ -341,7 +343,7 @@ public sealed class ResXDataNode : ISerializable
         }
 
         var result = FileRefType;
-        Type objectType = null;
+        Type? objectType = null;
         // do we have a fileref?
         if (result != null)
         {
@@ -359,7 +361,7 @@ public sealed class ResXDataNode : ISerializable
                 // deserialize to know what we're dealing with... very inefficient...
                 if (!string.IsNullOrEmpty(_nodeInfo.MimeType))
                 {
-                    object insideObject = null;
+                    object? insideObject = null;
 
                     try
                     {
@@ -414,7 +416,7 @@ public sealed class ResXDataNode : ISerializable
     /// <summary>
     /// Get the FQ type name for this datanode
     /// </summary>
-    public string GetValueTypeName(AssemblyName[] names)
+    public string? GetValueTypeName(AssemblyName[] names)
     {
         return GetValueTypeName(new AssemblyNamesTypeResolutionService(names));
     }
@@ -461,7 +463,7 @@ public sealed class ResXDataNode : ISerializable
             // a direct object OR a fileref
             if (FileRefFullPath != null)
             {
-                _nodeInfo.ValueData = FileRef.ToString();
+                _nodeInfo.ValueData = FileRef?.ToString();
                 _nodeInfo.MimeType = null;
                 _nodeInfo.TypeName = MultitargetUtil.GetAssemblyQualifiedName(typeof(ResXFileRef), _typeNameConverter);
             }
@@ -483,7 +485,7 @@ public sealed class ResXDataNode : ISerializable
         throw new PlatformNotSupportedException();
     }
 
-    private void FillDataNodeInfoFromObject(DataNodeInfo nodeInfo, object value)
+    private void FillDataNodeInfoFromObject(DataNodeInfo nodeInfo, object? value)
     {
         if (value is CultureInfo ci)
         {
@@ -568,12 +570,12 @@ public sealed class ResXDataNode : ISerializable
         }
     }
 
-    private static byte[] FromBase64WrappedString(string text)
+    private static byte[] FromBase64WrappedString(string? text)
     {
-        if (text.IndexOfAny(s_specialChars) != -1)
+        if ((text?.IndexOfAny(s_specialChars) ?? -1) != -1)
         {
-            var sb = new StringBuilder(text.Length);
-            foreach (var ch in text)
+            var sb = new StringBuilder(text?.Length ?? 0);
+            foreach (var ch in text ?? string.Empty)
             {
                 switch (ch)
                 {
@@ -593,9 +595,9 @@ public sealed class ResXDataNode : ISerializable
         return Convert.FromBase64String(text);
     }
 
-    private object GenerateObjectFromDataNodeInfo(DataNodeInfo dataNodeInfo, ITypeResolutionService typeResolver)
+    private object? GenerateObjectFromDataNodeInfo(DataNodeInfo dataNodeInfo, ITypeResolutionService? typeResolver)
     {
-        object result = null;
+        object? result = null;
         var mimeTypeName = dataNodeInfo.MimeType;
         // default behavior: if we don't have a type name, it's a string
         var typeName =
@@ -666,7 +668,7 @@ public sealed class ResXDataNode : ISerializable
                     result = null;
                 }
                 else if (type == typeof(byte[]) ||
-                    (typeName.Contains("System.Byte[]") && (typeName.Contains("mscorlib") || typeName.Contains("System.Private.CoreLib"))))
+                    ((typeName?.Contains("System.Byte[]") ?? false) && (typeName.Contains("mscorlib") || typeName.Contains("System.Private.CoreLib"))))
                 {
                     // Handle byte[]'s, which are stored as base-64 encoded strings.
                     // We can't hard-code byte[] type name due to version number
@@ -715,22 +717,22 @@ public sealed class ResXDataNode : ISerializable
         return result;
     }
 
-    private void InitializeDataNode(string basePath)
+    private void InitializeDataNode(string? basePath)
     {
         // we can only use our internal type resolver here
         // because we only want to check if this is a ResXFileRef node
         // and we can't be sure that we have a typeResolutionService that can
         // recognize this. It's not very clean but this should work.
-        Type nodeType = null;
-        if (!string.IsNullOrEmpty(_nodeInfo.TypeName)) // can be null if we have a string (default for string is TypeName == null)
+        Type? nodeType = null;
+        if (!string.IsNullOrEmpty(_nodeInfo?.TypeName)) // can be null if we have a string (default for string is TypeName == null)
         {
-            nodeType = s_internalTypeResolver.GetType(_nodeInfo.TypeName, false, true);
+            nodeType = s_internalTypeResolver.GetType(_nodeInfo?.TypeName ?? string.Empty, false, true);
         }
 
         if (nodeType != null && nodeType.Equals(typeof(ResXFileRef)))
         {
             // we have a fileref, split the value data and populate the fields
-            var fileRefDetails = ResXFileRef.Converter.ParseResxFileRefString(_nodeInfo.ValueData);
+            var fileRefDetails = ResXFileRef.Converter.ParseResxFileRefString(_nodeInfo?.ValueData);
             if (fileRefDetails != null && fileRefDetails.Length > 1)
             {
                 if (!Path.IsPathRooted(fileRefDetails[0]) && basePath != null)
@@ -751,9 +753,9 @@ public sealed class ResXDataNode : ISerializable
         }
     }
 
-    private static Type ResolveType(string typeName, ITypeResolutionService typeResolver)
+    private static Type? ResolveType(string? typeName, ITypeResolutionService? typeResolver)
     {
-        Type resolvedType = null;
+        Type? resolvedType = null;
         if (typeResolver != null)
         {
             // If we cannot find the strong-named type, then try to see
@@ -764,7 +766,7 @@ public sealed class ResXDataNode : ISerializable
             resolvedType = typeResolver.GetType(typeName, false);
             if (resolvedType is null)
             {
-                var typeParts = typeName.Split(',');
+                var typeParts = typeName?.Split(',');
 
                 // Break up the type name from the rest of the assembly strong name.
                 if (typeParts != null && typeParts.Length >= 2)

@@ -12350,22 +12350,6 @@
             <see cref="T:System.Drawing.Imaging.Metafile" />.
             </param>
         </member>
-        <member name="M:System.Drawing.Imaging.Metafile.#ctor(System.IntPtr,System.Drawing.Imaging.EmfType)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Drawing.Imaging.Metafile" /> class from the specified handle to a device context and an
-            <see cref="T:System.Drawing.Imaging.EmfType" /> enumeration that specifies the format of the
-            <see cref="T:System.Drawing.Imaging.Metafile" />.
-            </summary>
-            <param name="referenceHdc">
-            The handle to a device context.
-            </param>
-            <param name="emfType">
-            An
-            <see cref="T:System.Drawing.Imaging.EmfType" /> that specifies the format of the
-            <see cref="T:System.Drawing.Imaging.Metafile" />.
-            </param>
-        </member>
         <member name="M:System.Drawing.Imaging.Metafile.#ctor(System.IntPtr,System.Drawing.RectangleF)">
             <summary>
             Initializes a new instance of the

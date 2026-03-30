@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -13,17 +13,17 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// <summary>
     /// Occurs when mouse down.
     /// </summary>
-    public virtual event EventHandler<MouseEventArgs> MouseDown;
+    public virtual event EventHandler<MouseEventArgs>? MouseDown;
 
     /// <summary>
     /// Occurs when mouse leave.
     /// </summary>
-    public virtual event EventHandler<EventArgs> MouseLeave;
+    public virtual event EventHandler<EventArgs>? MouseLeave;
 
     /// <summary>
     /// Occurs when mouse up.
     /// </summary>
-    public virtual event EventHandler<MouseEventArgs> MouseUp;
+    public virtual event EventHandler<MouseEventArgs>? MouseUp;
 
     /// <summary>
     /// Initializes a new instance of the

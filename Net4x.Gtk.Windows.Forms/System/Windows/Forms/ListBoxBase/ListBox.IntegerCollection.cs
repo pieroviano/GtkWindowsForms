@@ -113,13 +113,13 @@ public partial class ListBox
             }
             set
             {
-                if (!(value is int))
+                if (!(value is int i))
                 {
                     throw new ArgumentException(nameof(value));
                 }
                 else
                 {
-                    this[index] = (int)value;
+                    this[index] = i;
                 }
             }
         }
@@ -276,12 +276,12 @@ public partial class ListBox
 
         int IList.Add(object? item)
         {
-            if (!(item is int))
+            if (!(item is int i))
             {
                 throw new ArgumentException(nameof(item));
             }
 
-            return Add((int)item);
+            return Add(i);
         }
 
         void IList.Clear()
@@ -321,12 +321,12 @@ public partial class ListBox
 
         void IList.Remove(object? value)
         {
-            if (!(value is int))
+            if (!(value is int i))
             {
                 throw new ArgumentException(nameof(value));
             }
 
-            Remove((int)value);
+            Remove(i);
         }
 
         void IList.RemoveAt(int index)
@@ -365,13 +365,13 @@ public partial class ListBox
                 EnsureSpace(items.Count);
                 foreach (var item in items)
                 {
-                    if (!(item is int))
+                    if (!(item is int i))
                     {
                         throw new ArgumentException(nameof(item));
                     }
                     else
                     {
-                        AddInternal((int)item);
+                        AddInternal(i);
                     }
                 }
             }

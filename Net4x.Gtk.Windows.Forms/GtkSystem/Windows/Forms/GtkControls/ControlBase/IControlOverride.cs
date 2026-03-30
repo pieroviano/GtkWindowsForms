@@ -1,6 +1,7 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using Gtk;
+using Image = System.Drawing.Image;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -42,7 +43,7 @@ public interface IControlOverride
     /// <value>
     /// The background image.
     /// </value>
-    System.Drawing.Image BackgroundImage
+    Image? BackgroundImage
     {
         get;
         set;

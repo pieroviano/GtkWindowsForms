@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -59,10 +59,10 @@ internal class FuncLoader
         return ret;
     }
 
-    public static T LoadFunction<T>(IntPtr procaddress)
+    public static T? LoadFunction<T>(IntPtr procaddress)
     {
         if (procaddress == IntPtr.Zero)
-            return default(T);
+            return default;
 
         return Marshal.GetDelegateForFunctionPointer<T>(procaddress);
     }

@@ -106,7 +106,7 @@ public sealed class OpenFileDialog : FileDialog
         set;
     }
 
-    private new string Description => base.Description;
+    private new string? Description => base.Description;
 
     /// <summary>
     /// Opens the file.
@@ -114,7 +114,7 @@ public sealed class OpenFileDialog : FileDialog
     /// <returns>
     /// Stream.
     /// </returns>
-    public Stream OpenFile()
+    public Stream? OpenFile()
     {
         if (System.IO.File.Exists(base.FileName))
             return System.IO.File.OpenRead(base.FileName);
@@ -132,7 +132,7 @@ public sealed class OpenFileDialog : FileDialog
     /// <returns>
     /// DialogResult.
     /// </returns>
-    public override DialogResult ShowDialog(IWin32Window owner)
+    public override DialogResult ShowDialog(IWin32Window? owner)
     {
         ActionType = Gtk.FileChooserAction.Open;
 

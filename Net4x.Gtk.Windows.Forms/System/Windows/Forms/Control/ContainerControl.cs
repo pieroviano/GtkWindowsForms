@@ -10,7 +10,7 @@ namespace System.Windows.Forms;
 public class ContainerControl : ScrollableControl, IContainerControl
 {
 
-    private Control _ActiveControl;
+    private Control? _ActiveControl;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -23,18 +23,20 @@ public class ContainerControl : ScrollableControl, IContainerControl
     /// <summary>
     /// Gets or sets the control that is active on the container control.
     /// </summary>
-    public Control ActiveControl
+    public Control? ActiveControl
     {
         get
         {
-            foreach (var control in this.Controls)
-            {
-                if (control is Control con)
+            var controlCollection = this.Controls;
+            if (controlCollection != null)
+                foreach (var control in controlCollection)
                 {
-                    if ((con.Widget.StateFlags & Gtk.StateFlags.Active) != 0 || con.Widget.IsFocus)
-                        return con;
+                    if (control is Control con)
+                    {
+                        if (con.Widget != null && ((con.Widget.StateFlags & Gtk.StateFlags.Active) != 0 || con.Widget.IsFocus))
+                            return con;
+                    }
                 }
-            }
 
             return _ActiveControl;
         }
@@ -47,7 +49,7 @@ public class ContainerControl : ScrollableControl, IContainerControl
     /// <value>
     /// The status strip.
     /// </value>
-    public virtual StatusStrip StatusStrip
+    public virtual StatusStrip? StatusStrip
     {
         get;
         set;
@@ -63,7 +65,7 @@ public class ContainerControl : ScrollableControl, IContainerControl
     /// <returns>
     /// true if the control is successfully activated; otherwise, false.
     /// </returns>
-    public bool ActivateControl(Control active)
+    public bool ActivateControl(Control? active)
     {
         _ActiveControl = active;
         if (active != null)

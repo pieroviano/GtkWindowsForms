@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Drawing;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Icon = System.Drawing.Icon;
 
 namespace System.Windows.Forms;
 
@@ -33,7 +34,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public FormBase self = new();
 
-    private ObjectCollection _ObjectCollection;
+    private ObjectCollection? _ObjectCollection;
 
     private FormWindowState _WindowState = FormWindowState.Normal;
 
@@ -46,27 +47,27 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Occurs after the form has been closed.
     /// </summary>
-    public virtual event FormClosedEventHandler FormClosed;
+    public virtual event FormClosedEventHandler? FormClosed;
 
     /// <summary>
     /// Occurs as the form is being closed. Handlers can cancel the close.
     /// </summary>
-    public virtual event FormClosingEventHandler FormClosing;
+    public virtual event FormClosingEventHandler? FormClosing;
 
     /// <summary>
     /// Occurs when the form is loaded.
     /// </summary>
-    public override event EventHandler Load;
+    public override event EventHandler? Load;
 
     /// <summary>
     /// Occurs the first time the form is shown.
     /// </summary>
-    public virtual event EventHandler Shown;
+    public virtual event EventHandler? Shown;
 
     /// <summary>
     /// Occurs when the form's size changes.
     /// </summary>
-    public override event EventHandler SizeChanged;
+    public override event EventHandler? SizeChanged;
 
     /// <summary>
     /// Occurs when the form's scroll position changes.
@@ -141,7 +142,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets the collection of controls contained within the form.
     /// </summary>
-    public new ObjectCollection Controls { get { return _ObjectCollection; } }
+    public new ObjectCollection? Controls { get { return _ObjectCollection; } }
 
     /// <summary>
     /// Gets or sets the dialog result produced by the form.
@@ -197,7 +198,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets the icon associated with this form.
     /// </summary>
-    public System.Drawing.Icon Icon
+    public Icon? Icon
     {
         get;
         set;
@@ -206,7 +207,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets the primary menu strip for the form.
     /// </summary>
-    public MenuStrip MainMenuStrip
+    public MenuStrip? MainMenuStrip
     {
         get;
         set;
@@ -285,7 +286,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets the text associated with the form (displayed in the title bar).
     /// </summary>
-    public override string Text
+    public override string? Text
     {
         get { return self.Title; }
         set { self.Title = value; }
@@ -402,7 +403,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <param name="owner">
     /// The owner window. May be null.
     /// </param>
-    public void Show(IWin32Window owner)
+    public void Show(IWin32Window? owner)
     {
         if (owner == this)
         {
@@ -502,7 +503,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <returns>
     /// The dialog result produced by the form.
     /// </returns>
-    public DialogResult ShowDialog(IWin32Window owner)
+    public DialogResult ShowDialog(IWin32Window? owner)
     {
         if (owner == this)
         {

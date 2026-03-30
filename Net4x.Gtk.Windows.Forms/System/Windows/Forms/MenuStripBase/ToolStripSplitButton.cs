@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -141,7 +141,7 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// </value>
     [Browsable(false)]
     [DefaultValue(null)]
-    public ToolStripItem DefaultItem
+    public ToolStripItem? DefaultItem
     {
         get;
         set;

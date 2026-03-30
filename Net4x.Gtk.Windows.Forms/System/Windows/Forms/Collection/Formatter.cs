@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 
@@ -184,9 +184,9 @@ internal class Formatter
             }
             return CheckState.Indeterminate;
         }
-        if (targetType == StringType && value is IFormattable && !string.IsNullOrEmpty(formatString))
+        if (targetType == StringType && value is IFormattable formattable && !string.IsNullOrEmpty(formatString))
         {
-            return (value as IFormattable)?.ToString(formatString, formatInfo);
+            return formattable?.ToString(formatString, formatInfo);
         }
         var type = value.GetType();
         var converter = TypeDescriptor.GetConverter(type);
@@ -252,12 +252,12 @@ internal class Formatter
 
     private static CultureInfo GetFormatterCulture(IFormatProvider? formatInfo)
     {
-        if (!(formatInfo is CultureInfo))
+        if (!(formatInfo is CultureInfo info))
         {
             return CultureInfo.CurrentCulture;
         }
 
-        return formatInfo as CultureInfo ?? CultureInfo.InvariantCulture;
+        return info ?? CultureInfo.InvariantCulture;
     }
 
     private static Type? NullableUnwrap(Type? type)
@@ -310,7 +310,7 @@ internal class Formatter
         }
         else if (value is CheckState state && state != CheckState.Unchecked)
         {
-            var checkState = (CheckState)value;
+            var checkState = state;
             if (checkState == CheckState.Indeterminate)
             {
                 return DBNull.Value;

@@ -7,7 +7,7 @@ internal static class ControlExtension
     public static GridCell? GetGridCell(this Control control, Gtk.Grid grid)
     {
         var cell = new GridCell();
-        var widget = control.Widget.Parent;
+        var widget = control.Widget?.Parent;
 
         if (widget == null)
         {

@@ -1,5 +1,8 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
+using Gtk;
+using Image = System.Drawing.Image;
+using Region = System.Drawing.Region;
 
 namespace System.Windows.Forms;
 
@@ -359,7 +362,7 @@ public interface IControl
     /// <value>
     /// The accessibility object.
     /// </value>
-    AccessibleObject AccessibilityObject { get; }
+    AccessibleObject? AccessibilityObject { get; }
 
     /// <summary>
     /// Gets or sets the accessible default action description.
@@ -367,7 +370,7 @@ public interface IControl
     /// <value>
     /// The accessible default action description.
     /// </value>
-    string AccessibleDefaultActionDescription
+    string? AccessibleDefaultActionDescription
     {
         get;
         set;
@@ -379,7 +382,7 @@ public interface IControl
     /// <value>
     /// The accessible description.
     /// </value>
-    string AccessibleDescription
+    string? AccessibleDescription
     {
         get;
         set;
@@ -391,7 +394,7 @@ public interface IControl
     /// <value>
     /// The name of the accessible.
     /// </value>
-    string AccessibleName
+    string? AccessibleName
     {
         get;
         set;
@@ -485,7 +488,7 @@ public interface IControl
     /// <value>
     /// The background image.
     /// </value>
-    Image BackgroundImage
+    Image? BackgroundImage
     {
         get;
         set;
@@ -509,7 +512,7 @@ public interface IControl
     /// <value>
     /// The binding context.
     /// </value>
-    BindingContext BindingContext
+    BindingContext? BindingContext
     {
         get;
         set;
@@ -601,7 +604,7 @@ public interface IControl
     /// <value>
     /// The name of the company.
     /// </value>
-    string CompanyName { get; }
+    string? CompanyName { get; }
 
     /// <summary>
     /// Gets a value indicating whether contains focus.
@@ -622,7 +625,7 @@ public interface IControl
     /// <value>
     /// The context menu strip.
     /// </value>
-    ContextMenuStrip ContextMenuStrip
+    ContextMenuStrip? ContextMenuStrip
     {
         get;
         set;
@@ -634,7 +637,7 @@ public interface IControl
     /// <value>
     /// The controls.
     /// </value>
-    Control.ControlCollection Controls { get; }
+    Control.ControlCollection? Controls { get; }
 
     /// <summary>
     /// Gets a value indicating whether this IControl is created.
@@ -655,7 +658,7 @@ public interface IControl
     /// <value>
     /// The cursor.
     /// </value>
-    Cursor Cursor
+    Cursor? Cursor
     {
         get;
         set;
@@ -667,7 +670,7 @@ public interface IControl
     /// <value>
     /// The data bindings.
     /// </value>
-    ControlBindingsCollection DataBindings { get; }
+    ControlBindingsCollection? DataBindings { get; }
 
     /// <summary>
     /// Gets the device dpi.
@@ -877,7 +880,7 @@ public interface IControl
     /// <value>
     /// The layout engine.
     /// </value>
-    LayoutEngine LayoutEngine { get; }
+    LayoutEngine? LayoutEngine { get; }
 
     /// <summary>
     /// Gets or sets the left.
@@ -958,7 +961,7 @@ public interface IControl
     /// <value>
     /// The parent.
     /// </value>
-    Control Parent
+    Control? Parent
     {
         get;
         set;
@@ -978,7 +981,7 @@ public interface IControl
     /// <value>
     /// The name of the product.
     /// </value>
-    string ProductName { get; }
+    string? ProductName { get; }
 
     /// <summary>
     /// Gets the product version.
@@ -986,7 +989,7 @@ public interface IControl
     /// <value>
     /// The product version.
     /// </value>
-    string ProductVersion { get; }
+    string? ProductVersion { get; }
 
     /// <summary>
     /// Gets a value indicating whether recreating handle.
@@ -1007,7 +1010,7 @@ public interface IControl
     /// <value>
     /// The region.
     /// </value>
-    Region Region
+    Region? Region
     {
         get;
         set;
@@ -1092,7 +1095,7 @@ public interface IControl
     /// <value>
     /// The tag.
     /// </value>
-    object Tag
+    object? Tag
     {
         get;
         set;
@@ -1104,7 +1107,7 @@ public interface IControl
     /// <value>
     /// The text.
     /// </value>
-    string Text
+    string? Text
     {
         get;
         set;
@@ -1128,7 +1131,7 @@ public interface IControl
     /// <value>
     /// The top level control.
     /// </value>
-    Control TopLevelControl { get; }
+    Control? TopLevelControl { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether use visual style back color.
@@ -1185,7 +1188,7 @@ public interface IControl
     /// Gets the underlying Gtk.Widget associated with the control.
     /// </summary>
     //widget unregister the contained methods
-    Gtk.Widget Widget { get; }
+    Widget? Widget { get; }
 
     /// <summary>
     /// Gets or sets the width.
@@ -1205,7 +1208,7 @@ public interface IControl
     /// <value>
     /// The window target.
     /// </value>
-    IWindowTarget WindowTarget
+    IWindowTarget? WindowTarget
     {
         get;
         set;
@@ -1323,7 +1326,7 @@ public interface IControl
     /// <returns>
     /// The parent Form, or null if none is found.
     /// </returns>
-    Form FindForm();
+    Form? FindForm();
 
     /// <summary>
     /// Attempts to set input focus to the control.
@@ -1342,7 +1345,7 @@ public interface IControl
     /// <returns>
     /// The child control at the specified point, or null if none.
     /// </returns>
-    Control GetChildAtPoint(Point pt);
+    Control? GetChildAtPoint(Point pt);
 
     /// <summary>
     /// Gets the child control at the specified point with skip options.
@@ -1356,7 +1359,7 @@ public interface IControl
     /// <returns>
     /// The child control at the specified point, or null if none.
     /// </returns>
-    Control GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue);
+    Control? GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue);
 
     /// <summary>
     /// Returns the container control that the control is associated with.
@@ -1364,7 +1367,7 @@ public interface IControl
     /// <returns>
     /// An IContainerControl or null.
     /// </returns>
-    IContainerControl GetContainerControl();
+    IContainerControl? GetContainerControl();
 
     /// <summary>
     /// Gets the next control in the tab order.
@@ -1378,7 +1381,7 @@ public interface IControl
     /// <returns>
     /// The next control in the tab order, or null if none.
     /// </returns>
-    Control GetNextControl(Control ctl, bool forward);
+    Control? GetNextControl(Control ctl, bool forward);
 
     /// <summary>
     /// Returns the preferred size of the control given the proposed size.
@@ -1452,7 +1455,7 @@ public interface IControl
     /// <returns>
     /// The result returned by the delegate.
     /// </returns>
-    object Invoke(Delegate method);
+    object? Invoke(Delegate method);
 
     /// <summary>
     /// Invokes a delegate on the control's thread with arguments and returns its result.
@@ -1466,7 +1469,7 @@ public interface IControl
     /// <returns>
     /// The result returned by the delegate.
     /// </returns>
-    object Invoke(Delegate method, params object[] args);
+    object? Invoke(Delegate method, params object[] args);
 
     /// <summary>
     /// Invokes a function on the control's thread and returns typed result.
@@ -1480,7 +1483,7 @@ public interface IControl
     /// <returns>
     /// Result of the function.
     /// </returns>
-    TEntry Invoke<TEntry>(Func<TEntry> method);
+    TEntry? Invoke<TEntry>(Func<TEntry> method);
 
     /// <summary>
     /// Converts a logical unit value to device units.

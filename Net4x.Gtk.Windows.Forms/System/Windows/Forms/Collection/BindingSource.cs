@@ -2077,7 +2077,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             object? list = null;
             IList? lists = null;
-            if (manager.Count > 0)
+            if (manager != null && manager.Count > 0)
             {
                 if (_dataMember != null)
                 {
@@ -2106,8 +2106,8 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             {
                 SetList(WrapObjectInBindingList(list), false, false);
             }
-            var flag1 = _lastCurrentItem == null || manager.Count == 0 || _lastCurrentItem != manager.Current ? true : Position >= Count;
-            _lastCurrentItem = manager.Count > 0 ? manager.Current : null;
+            var flag1 = manager != null && (_lastCurrentItem == null || manager.Count == 0 || _lastCurrentItem != manager.Current || Position >= Count);
+            _lastCurrentItem = manager != null && manager.Count > 0 ? manager.Current : null;
             if (flag1)
             {
                 Position = Count > 0 ? 0 : -1;
@@ -2171,9 +2171,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             return;
         }
         _needToSetList = false;
-        if (_dataSource is Type)
+        if (_dataSource is Type type)
         {
-            listFromType = GetListFromType(_dataSource as Type);
+            listFromType = GetListFromType(type);
         }
         else
         {
@@ -2182,11 +2182,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         var list = ListBindingHelper.GetList(listFromType, _dataMember);
         _listExtractedFromEnumerable = false;
         IList? listFromEnumerable = null;
-        if (!(list is IList))
+        if (!(list is IList iList))
         {
-            if (list is IListSource)
+            if (list is IListSource source)
             {
-                listFromEnumerable = (list as IListSource)?.GetList();
+                listFromEnumerable = source?.GetList();
             }
             else if (list is IEnumerable enumerable)
             {
@@ -2211,7 +2211,7 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         }
         else
         {
-            listFromEnumerable = list as IList;
+            listFromEnumerable = iList;
         }
         SetList(listFromEnumerable, true, true);
     }
@@ -2281,9 +2281,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     private void UnwireDataSource()
     {
-        if (_dataSource is ICurrencyManagerProvider)
+        if (_dataSource is ICurrencyManagerProvider provider)
         {
-            var manager = (_dataSource as ICurrencyManagerProvider)?.CurrencyManager;
+            var manager = provider?.CurrencyManager;
             if (manager != null)
             {
                 manager.CurrentItemChanged -= ParentCurrencyManager_CurrentItemChanged;
@@ -2325,9 +2325,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     private void WireDataSource()
     {
-        if (_dataSource is ICurrencyManagerProvider)
+        if (_dataSource is ICurrencyManagerProvider provider)
         {
-            var manager = (_dataSource as ICurrencyManagerProvider)?.CurrencyManager;
+            var manager = provider?.CurrencyManager;
             if (manager != null)
             {
                 manager.CurrentItemChanged += ParentCurrencyManager_CurrentItemChanged;

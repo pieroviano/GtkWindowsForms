@@ -20,7 +20,7 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
     private readonly bool _settingsKeyExplicitlySet;
 
     private readonly DesignerVerbCollection? _verbs;
-    private DesignerVerbCollection _designerVerbCollection;
+    private DesignerVerbCollection? _designerVerbCollection;
 
     /// <summary>
     /// Gets a collection of child designers.
@@ -34,14 +34,14 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
     /// </summary>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
-    public virtual IComponent Component => _component;
+    public virtual IComponent? Component => _component;
 
     /// <summary>
     /// Gets the parent designer.
     /// </summary>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
-    public virtual IDesigner Parent { get; set; }
+    public virtual IDesigner? Parent { get; set; }
 
     /// <summary>
     /// Gets a collection of the design-time verbs supported by the designer.

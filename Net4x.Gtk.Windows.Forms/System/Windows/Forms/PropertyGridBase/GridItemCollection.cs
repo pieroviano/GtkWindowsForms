@@ -57,7 +57,7 @@ public class GridItemCollection : ICollection
     /// <returns>
     /// GridItem.
     /// </returns>
-    public GridItem this[string label]
+    public GridItem? this[string label]
     {
         get
         {

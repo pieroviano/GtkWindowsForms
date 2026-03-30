@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -26,17 +26,17 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Occurs when drop down closed.
     /// </summary>
-    public virtual event EventHandler DropDownClosed;
+    public virtual event EventHandler? DropDownClosed;
 
     /// <summary>
     /// Occurs when drop down opened.
     /// </summary>
-    public virtual event EventHandler DropDownOpened;
+    public virtual event EventHandler? DropDownOpened;
 
     /// <summary>
     /// Occurs when drop down opening.
     /// </summary>
-    public virtual event EventHandler DropDownOpening;
+    public virtual event EventHandler? DropDownOpening;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -78,7 +78,7 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <param name="dropDownItems">
     /// The drop down items.
     /// </param>
-    protected ToolStripDropDownItem(string text, Image image, params ToolStripItem[] dropDownItems) : this(text, image, null, "")
+    protected ToolStripDropDownItem(string text, Image? image, params ToolStripItem[] dropDownItems) : this(text, image, null, "")
     {
         DropDownItems.AddRange(dropDownItems);
     }
@@ -99,7 +99,7 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <param name="name">
     /// The name.
     /// </param>
-    protected ToolStripDropDownItem(string text, Image image, EventHandler onClick, string name) : base("ToolStripDropDownItem", text, image, onClick, name)
+    protected ToolStripDropDownItem(string text, Image? image, EventHandler? onClick, string name) : base("ToolStripDropDownItem", text, image, onClick, name)
     {
         DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
     }
@@ -111,7 +111,7 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// The drop down.
     /// </value>
     [TypeConverter(typeof(ReferenceConverter))]
-    public ToolStripDropDown DropDown
+    public ToolStripDropDown? DropDown
     {
         get;
         set;
@@ -165,7 +165,7 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get => base.Text;
         set => base.Text = value;

@@ -1,4 +1,4 @@
-
+﻿
 namespace System.Drawing.Imaging;
 
 /// <summary>
@@ -10,23 +10,23 @@ public sealed class ImageCodecInfo
 {
     private Guid _clsid;
 
-    private string _codecName;
+    private string? _codecName;
 
-    private string _dllName;
+    private string? _dllName;
 
-    private string _filenameExtension;
+    private string? _filenameExtension;
 
     private ImageCodecFlags _flags;
 
-    private string _formatDescription;
+    private string? _formatDescription;
 
     private Guid _formatID;
 
-    private string _mimeType;
+    private string? _mimeType;
 
-    private byte[][] _signatureMasks;
+    private byte[][]? _signatureMasks;
 
-    private byte[][] _signaturePatterns;
+    private byte[][]? _signaturePatterns;
 
     private int _version;
 
@@ -60,7 +60,7 @@ public sealed class ImageCodecInfo
     /// <returns>
     /// A string that contains the name of the codec.
     /// </returns>
-    public string CodecName
+    public string? CodecName
     {
         get
         {
@@ -79,7 +79,7 @@ public sealed class ImageCodecInfo
     /// <returns>
     /// A string that contains the path name of the DLL that holds the codec.
     /// </returns>
-    public string DllName
+    public string? DllName
     {
         get
         {
@@ -97,7 +97,7 @@ public sealed class ImageCodecInfo
     /// <returns>
     /// A string that contains the file name extension(s) used in the codec.
     /// </returns>
-    public string FilenameExtension
+    public string? FilenameExtension
     {
         get
         {
@@ -134,7 +134,7 @@ public sealed class ImageCodecInfo
     /// <returns>
     /// A string that describes the codec's file format.
     /// </returns>
-    public string FormatDescription
+    public string? FormatDescription
     {
         get
         {
@@ -172,7 +172,7 @@ public sealed class ImageCodecInfo
     /// <returns>
     /// A string that contains the codec's Multipurpose Internet Mail Extensions (MIME) type.
     /// </returns>
-    public string MimeType
+    public string? MimeType
     {
         get
         {
@@ -191,7 +191,7 @@ public sealed class ImageCodecInfo
     /// A two dimensional array of bytes that can be used as a filter.
     /// </returns>
     [CLSCompliant(false)]
-    public byte[][] SignatureMasks
+    public byte[][]? SignatureMasks
     {
         get
         {
@@ -210,7 +210,7 @@ public sealed class ImageCodecInfo
     /// A two dimensional array of bytes that represents the signature of the codec.
     /// </returns>
     [CLSCompliant(false)]
-    public byte[][] SignaturePatterns
+    public byte[][]? SignaturePatterns
     {
         get
         {

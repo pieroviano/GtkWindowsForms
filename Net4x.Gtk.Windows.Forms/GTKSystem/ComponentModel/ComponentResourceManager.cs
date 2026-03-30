@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace GtkSystem.ComponentModel;
 
@@ -81,7 +81,7 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// name
     /// </paramref> cannot be found in a resource set.
     /// </returns>
-    public override string GetString(string name)
+    public override string? GetString(string name)
     {
         var temp = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
 

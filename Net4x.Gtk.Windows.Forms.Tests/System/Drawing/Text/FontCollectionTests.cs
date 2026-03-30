@@ -29,14 +29,14 @@ public class FontCollectionTests
     [Fact]
     public void Dispose_DoesNotThrow()
     {
-        var collection = new TestFontCollection(Array.Empty<FontFamily>());
+        var collection = new TestFontCollection([]);
         collection.Dispose();
     }
 
     [Fact]
     public void DisposeBool_CanBeCalled()
     {
-        var collection = new TestFontCollection(Array.Empty<FontFamily>());
+        var collection = new TestFontCollection([]);
         collection.CallDisposeBool(true);
         collection.CallDisposeBool(false);
     }

@@ -64,7 +64,7 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     /// <value>
     /// The column style.
     /// </value>
-    public DataGridViewCellStyle ColumnStyle
+    public DataGridViewCellStyle? ColumnStyle
     {
         get;
         set;
@@ -94,7 +94,7 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     /// <value>
     /// The markup.
     /// </value>
-    public string Markup
+    public string? Markup
     {
         get;
         set;

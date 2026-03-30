@@ -31,12 +31,12 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// Occurs when draw item.
     /// </summary>
-    public virtual event DrawItemEventHandler DrawItem;
+    public virtual event DrawItemEventHandler? DrawItem;
 
     /// <summary>
     /// Occurs when selected index changed.
     /// </summary>
-    public virtual event EventHandler SelectedIndexChanged;
+    public virtual event EventHandler? SelectedIndexChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -360,8 +360,8 @@ public partial class TabControl : ContainerControl
             finally
             {
                 _owner.self.SetTabReorderable(item.self, true);
-                if (_owner.Widget.IsRealized)
-                    item.Widget.ShowAll();
+                if (_owner.Widget?.IsRealized ?? false)
+                    item.Widget?.ShowAll();
             }
         }
 
@@ -495,7 +495,7 @@ public partial class TabControl : ContainerControl
         /// <param name="imageKey">
         /// The image key.
         /// </param>
-        public void Add(string key, string text, string imageKey)
+        public void Add(string key, string text, string? imageKey)
         {
             var tp = new TabPage
             {

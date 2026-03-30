@@ -17,7 +17,7 @@ internal static class ColorExtension
         {
             return (Color)prop.GetValue(null);
         }
-        object namedColor = ColorConverter.GetNamedColor(name);
+        var namedColor = ColorConverter.GetNamedColor(name);
         if (namedColor != null)
         {
             return (Color)namedColor;

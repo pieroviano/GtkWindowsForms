@@ -13,8 +13,8 @@ public class TypeNameComparerTests
     [Fact]
     public void Equals_FirstArgumentNull_Throws()
     {
-        string a = null;
-        string b = "System.String, mscorlib";
+        string? a = null;
+        var b = "System.String, mscorlib";
 
         Assert.Throws<ArgumentNullException>(() => _comparer.Equals(a, b));
     }
@@ -22,8 +22,8 @@ public class TypeNameComparerTests
     [Fact]
     public void Equals_SecondArgumentNull_Throws()
     {
-        string a = "System.String, mscorlib";
-        string b = null;
+        var a = "System.String, mscorlib";
+        string? b = null;
 
         Assert.Throws<ArgumentNullException>(() => _comparer.Equals(a, b));
     }

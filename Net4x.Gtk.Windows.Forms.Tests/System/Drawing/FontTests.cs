@@ -3,6 +3,7 @@
 using Font = gtk::System.Drawing.Font;
 using FontFamily = gtk::System.Drawing.FontFamily;
 using FontStyle = gtk::System.Drawing.FontStyle;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 
 namespace System.Drawing;
 
@@ -76,7 +77,7 @@ public class FontTests
     public void GetHashCode_ReturnsInt()
     {
         var font = new Font("Arial", 12f);
-        int hash = font.GetHashCode();
+        var hash = font.GetHashCode();
         Assert.IsType<int>(hash);
     }
 
@@ -84,7 +85,7 @@ public class FontTests
     public void ToString_ReturnsString()
     {
         var font = new Font("Arial", 12f);
-        string str = font.ToString();
+        var str = font.ToString();
         Assert.IsType<string>(str);
     }
 

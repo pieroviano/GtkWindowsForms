@@ -23,12 +23,12 @@ public partial class MonthCalendar : Control
     /// <summary>
     /// Occurs when date changed.
     /// </summary>
-    public virtual event DateRangeEventHandler DateChanged;
+    public virtual event DateRangeEventHandler? DateChanged;
 
     /// <summary>
     /// Occurs when date selected.
     /// </summary>
-    public virtual event DateRangeEventHandler DateSelected;
+    public virtual event DateRangeEventHandler? DateSelected;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -89,7 +89,7 @@ public partial class MonthCalendar : Control
     /// <value>
     /// The selection range.
     /// </value>
-    public SelectionRange SelectionRange
+    public SelectionRange? SelectionRange
     {
         get;
         set;
@@ -177,9 +177,9 @@ public partial class MonthCalendar : Control
     private void MonthCalendar_DaySelected(object sender, EventArgs e)
     {
         if (DateChanged != null && self.IsVisible)
-            OnDateChanged(new DateRangeEventArgs(SelectionRange.Start, SelectionRange.End));
+            OnDateChanged(new DateRangeEventArgs(SelectionRange?.Start ?? default, SelectionRange?.End ?? default));
 
         if (DateSelected != null && self.IsVisible)
-            OnDateSelected(new DateRangeEventArgs(SelectionRange.Start, SelectionRange.End));
+            OnDateSelected(new DateRangeEventArgs(SelectionRange?.Start ?? default, SelectionRange?.End ?? default));
     }
 }

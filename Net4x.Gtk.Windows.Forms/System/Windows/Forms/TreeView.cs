@@ -8,6 +8,7 @@ using System.ComponentModel;
 using GLib;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Image = System.Drawing.Image;
 
 namespace System.Windows.Forms;
 
@@ -27,11 +28,11 @@ public partial class TreeView : ScrollableControl
 
     private bool _checkBoxs;
 
-    private ImageList _imageList;
+    private ImageList? _imageList;
 
     private readonly Gtk.TreeStore _store;
 
-    private TreeViewCancelEventArgs cancelEventArgs = null;
+    private TreeViewCancelEventArgs? cancelEventArgs = null;
 
     private readonly CellRendererToggle renderercheckbox;
 
@@ -40,22 +41,22 @@ public partial class TreeView : ScrollableControl
     /// <summary>
     /// Occurs after collapse.
     /// </summary>
-    public virtual event TreeViewEventHandler AfterCollapse;
+    public virtual event TreeViewEventHandler? AfterCollapse;
 
     /// <summary>
     /// Occurs after expand.
     /// </summary>
-    public virtual event TreeViewEventHandler AfterExpand;
+    public virtual event TreeViewEventHandler? AfterExpand;
 
     /// <summary>
     /// Occurs after select.
     /// </summary>
-    public virtual event TreeViewEventHandler AfterSelect;
+    public virtual event TreeViewEventHandler? AfterSelect;
 
     /// <summary>
     /// Occurs before select.
     /// </summary>
-    public virtual event TreeViewCancelEventHandler BeforeSelect;
+    public virtual event TreeViewCancelEventHandler? BeforeSelect;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -156,7 +157,7 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The image key.
     /// </value>
-    public string ImageKey
+    public string? ImageKey
     {
         get;
         set;
@@ -168,7 +169,7 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The image list.
     /// </value>
-    public ImageList ImageList
+    public ImageList? ImageList
     {
         get => _imageList;
         set
@@ -229,7 +230,7 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The selected image key.
     /// </value>
-    public string SelectedImageKey
+    public string? SelectedImageKey
     {
         get;
         set;
@@ -241,11 +242,11 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The selected item.
     /// </value>
-    public object SelectedItem
+    public object? SelectedItem
     {
         get
         {
-            return SelectedNode.Text;
+            return SelectedNode?.Text;
         }
     }
 
@@ -255,14 +256,14 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The selected node.
     /// </value>
-    public TreeNode SelectedNode
+    public TreeNode? SelectedNode
     {
         get
         {
             var paths = self.TreeView.Selection.GetSelectedRows();
             if (paths.Length > 0)
             {
-                TreeNode result = null;
+                TreeNode? result = null;
                 GetNodeChild(root, paths.Last().Indices, ref result);
                 return result;
             }
@@ -290,11 +291,11 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The selected value.
     /// </value>
-    public object SelectedValue
+    public object? SelectedValue
     {
         get
         {
-            return SelectedNode.Text;
+            return SelectedNode?.Text;
         }
     }
 
@@ -384,7 +385,7 @@ public partial class TreeView : ScrollableControl
     /// <value>
     /// The state image key.
     /// </value>
-    public string StateImageKey
+    public string? StateImageKey
     {
         get;
         set;
@@ -502,7 +503,7 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    internal void NativeNodeImage(TreeNode node, string key)
+    internal void NativeNodeImage(TreeNode node, string? key)
     {
         if (node != null)
         {
@@ -518,7 +519,7 @@ public partial class TreeView : ScrollableControl
         }
     }
 
-    internal void NativeNodeText(TreeNode node, string text)
+    internal void NativeNodeText(TreeNode node, string? text)
     {
         if (node != null)
         {
@@ -595,7 +596,7 @@ public partial class TreeView : ScrollableControl
         model.SetValue(iter, 1, val == false);
     }
 
-    private void GetNodeChild(TreeNode node, int[] indices, ref TreeNode result)
+    private void GetNodeChild(TreeNode node, int[] indices, ref TreeNode? result)
     {
         var nodeIndex= string.Join(",", indices);
         foreach (var child in node.Nodes)
@@ -617,11 +618,11 @@ public partial class TreeView : ScrollableControl
         if (BeforeSelect != null || AfterSelect != null)
         {
             var selection = sender as Gtk.TreeSelection;
-            var paths = selection.GetSelectedRows();
-            if (paths.Length > 0)
+            var paths = selection?.GetSelectedRows();
+            if (paths?.Length > 0)
             {
                 var currpath = paths.Last();
-                TreeNode result = null;
+                TreeNode? result = null;
                 GetNodeChild(root, currpath.Indices, ref result);
                 cancelEventArgs = new TreeViewCancelEventArgs(result, false, TreeViewAction.ByMouse);
 
@@ -632,7 +633,7 @@ public partial class TreeView : ScrollableControl
                 }
                 else
                 {
-                    selection.UnselectPath(currpath);
+                    selection?.UnselectPath(currpath);
                 }
             }
         }
@@ -645,12 +646,12 @@ public partial class TreeView : ScrollableControl
             var column = ((Gtk.TreeView)sender).Columns[0];
             if (string.IsNullOrWhiteSpace(ImageKey))
             {
-                System.Drawing.Image image = ImageList.GetBitmap(ImageIndex);
+                Image? image = ImageList.GetBitmap(ImageIndex);
                 if (image != null) rendererPixbuf.Pixbuf = image.Pixbuf;
             }
             else
             {
-                System.Drawing.Image image = ImageList.GetBitmap(ImageKey);
+                System.Drawing.Image? image = ImageList.GetBitmap(ImageKey);
                 if (image != null) rendererPixbuf.Pixbuf = image.Pixbuf;
             }
         }
@@ -660,7 +661,7 @@ public partial class TreeView : ScrollableControl
     {
         if (AfterCollapse != null && ((Gtk.TreeView)o).IsVisible)
         {
-            TreeNode result = null;
+            TreeNode? result = null;
             GetNodeChild(root, args.Path.Indices, ref result);
             OnAfterCollapse(new TreeViewEventArgs(result, TreeViewAction.Collapse));
         }
@@ -670,7 +671,7 @@ public partial class TreeView : ScrollableControl
     {
         if (AfterExpand != null && ((Gtk.TreeView)o).IsVisible)
         {
-            TreeNode result = null;
+            TreeNode? result = null;
             GetNodeChild(root, args.Path.Indices, ref result);
             OnAfterExpand(new TreeViewEventArgs(result, TreeViewAction.Expand));
         }
@@ -681,7 +682,7 @@ public partial class TreeView : ScrollableControl
         /// <summary>
         /// The tree view
         /// </summary>
-        public TreeView _treeView;
+        public readonly TreeView _treeView;
 
         /// <summary>
         /// Initializes a new instance of the
@@ -706,8 +707,8 @@ public partial class TreeView : ScrollableControl
         {
             set
             {
-                if (value < _treeView.ImageList.Images.Count)
-                    this.Pixbuf = _treeView.ImageList.Images[value].Pixbuf;
+                if (value < _treeView.ImageList?.Images.Count)
+                    this.Pixbuf = _treeView.ImageList.Images[value]?.Pixbuf;
             }
         }
 
@@ -723,8 +724,8 @@ public partial class TreeView : ScrollableControl
             set
             {
 
-                if (string.IsNullOrWhiteSpace(value) == false && _treeView.ImageList.Images.ContainsKey(value))
-                    this.Pixbuf = _treeView.ImageList.Images[value].Pixbuf;
+                if (string.IsNullOrWhiteSpace(value) == false && (_treeView.ImageList?.Images.ContainsKey(value) ?? false))
+                    this.Pixbuf = _treeView.ImageList.Images[value]?.Pixbuf;
             }
         }
     }

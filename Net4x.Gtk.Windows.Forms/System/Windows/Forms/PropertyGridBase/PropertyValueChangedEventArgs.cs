@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -25,7 +25,7 @@ public class PropertyValueChangedEventArgs : EventArgs
     /// <param name="oldValue">
     /// The old value.
     /// </param>
-    public PropertyValueChangedEventArgs(GridItem changedItem, object oldValue)
+    public PropertyValueChangedEventArgs(GridItem changedItem, object? oldValue)
     {
         ChangedItem = changedItem;
         OldValue = oldValue;
@@ -45,5 +45,5 @@ public class PropertyValueChangedEventArgs : EventArgs
     /// <value>
     /// The old value.
     /// </value>
-    public object OldValue { get; }
+    public object? OldValue { get; }
 }

@@ -16,7 +16,7 @@ namespace System.Windows.Forms.Design;
 public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner, IToolboxUser, IOleDragClient
 {
 
-    internal static IDesignerSerializationManager manager;
+    internal static IDesignerSerializationManager? manager;
 
     private const string AxClipFormat = "CLSID";
 
@@ -31,7 +31,7 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
 
     private readonly bool queriedTabOrder;
 
-    private readonly MenuCommand tabOrderCommand;
+    private readonly MenuCommand? tabOrderCommand;
 
     private readonly bool trayAutoArrange;
 

@@ -41,7 +41,7 @@ public abstract class CommonDialog : Component
     /// <value>
     /// The tag.
     /// </value>
-    public object Tag
+    public object? Tag
     {
         get;
         set;
@@ -69,7 +69,7 @@ public abstract class CommonDialog : Component
     /// <returns>
     /// DialogResult.
     /// </returns>
-    public virtual DialogResult ShowDialog(IWin32Window owner)
+    public virtual DialogResult ShowDialog(IWin32Window? owner)
     {
         var result = DialogResult.Cancel;
         var runresult = RunDialog(owner);
@@ -109,6 +109,6 @@ public abstract class CommonDialog : Component
     /// false
     /// </c> otherwise.
     /// </returns>
-    protected abstract bool RunDialog(IWin32Window owner);
+    protected abstract bool RunDialog(IWin32Window? owner);
 
 }

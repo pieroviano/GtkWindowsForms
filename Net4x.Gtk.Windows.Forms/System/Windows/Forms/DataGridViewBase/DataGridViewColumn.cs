@@ -21,19 +21,19 @@ namespace System.Windows.Forms;
 public class DataGridViewColumn : TreeViewColumn
 {
 
-    internal ICellRenderer _cellRenderer;
+    internal ICellRenderer? _cellRenderer;
 
     internal DataGridViewCell _cellTemplate;
 
-    internal DataGridView _gridview;
+    internal DataGridView? _gridview;
 
-    internal Gtk.TreeView _treeView;
+    internal Gtk.TreeView? _treeView;
 
     private DataGridViewAutoSizeColumnMode _AutoSizeMode;
 
     private string _DataPropertyName = string.Empty;
 
-    private DataGridViewCellStyle _DefaultCellStyle;
+    private DataGridViewCellStyle? _DefaultCellStyle;
 
     private int _DisplayIndex;
 
@@ -41,7 +41,7 @@ public class DataGridViewColumn : TreeViewColumn
 
     private int _index;
 
-    private string _markup;
+    private string? _markup;
 
     private bool _ReadOnly;
 
@@ -52,7 +52,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public virtual event EventHandler Disposed;
+    public virtual event EventHandler? Disposed;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -94,7 +94,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// <param name="cellTemplate">
     /// Template cell to use.
     /// </param>
-    public DataGridViewColumn(DataGridView ownerGridView, DataGridViewCell cellTemplate) : this(0, ownerGridView, cellTemplate)
+    public DataGridViewColumn(DataGridView? ownerGridView, DataGridViewCell cellTemplate) : this(0, ownerGridView, cellTemplate)
     {
         var renderer = new CellRendererValue(this)
         {
@@ -121,7 +121,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// <param name="cellTemplate">
     /// Template cell.
     /// </param>
-    protected DataGridViewColumn(int column, DataGridView ownerGridView, DataGridViewCell cellTemplate) : base()
+    protected DataGridViewColumn(int column, DataGridView? ownerGridView, DataGridViewCell cellTemplate) : base()
     {
         if (ownerGridView != null)
         {
@@ -168,7 +168,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// Gets or sets the context menu strip for the column header and cells.
     /// </summary>
     [DefaultValue(null)]
-    public ContextMenuStrip ContextMenuStrip
+    public ContextMenuStrip? ContextMenuStrip
     {
         get;
         set;
@@ -178,10 +178,10 @@ public class DataGridViewColumn : TreeViewColumn
     /// Gets or sets the
     /// <see cref="T:System.Windows.Forms.DataGridViewColumn.DataGridView" /> that contains this column.
     /// </summary>
-    public DataGridView DataGridView
+    public DataGridView? DataGridView
     {
         get { return _gridview; }
-        set { _gridview = value; _treeView = value.GridView; }
+        set { _gridview = value; _treeView = value?.GridView; }
     }
 
     /// <summary>
@@ -199,10 +199,10 @@ public class DataGridViewColumn : TreeViewColumn
     /// Gets or sets the default cell style applied to cells in this column.
     /// </summary>
     [Browsable(true)]
-    public DataGridViewCellStyle DefaultCellStyle
+    public DataGridViewCellStyle? DefaultCellStyle
     {
         get => _DefaultCellStyle;
-        set { _DefaultCellStyle = value; _cellRenderer.ColumnStyle = value; }
+        set { _DefaultCellStyle = value; _cellRenderer?.ColumnStyle = value; }
     }
 
     /// <summary>
@@ -251,7 +251,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public DataGridViewColumnHeaderCell HeaderCell
+    public DataGridViewColumnHeaderCell? HeaderCell
     {
         get;
         set;
@@ -293,7 +293,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// Gets the inherited cell style for the column.
     /// </summary>
     [Browsable(false)]
-    public DataGridViewCellStyle InheritedStyle { get; }
+    public DataGridViewCellStyle? InheritedStyle { get; }
 
     /// <summary>
     /// Gets a value indicating whether the column is data-bound.
@@ -305,10 +305,10 @@ public class DataGridViewColumn : TreeViewColumn
     /// <summary>
     /// Gets or sets the Pango markup used for rendering text in this column.
     /// </summary>
-    public string Markup
+    public string? Markup
     {
         get => _markup;
-        set { _markup = value; _cellRenderer.Markup = value; }
+        set { _markup = value; _cellRenderer?.Markup = value; }
     }
 
     /// <summary>
@@ -342,8 +342,11 @@ public class DataGridViewColumn : TreeViewColumn
         set
         {
             _ReadOnly = value;
-            _cellRenderer.Editable = !_ReadOnly;
-            _cellRenderer.Activatable = !_ReadOnly;
+            if (_cellRenderer != null)
+            {
+                _cellRenderer.Editable = !_ReadOnly;
+                _cellRenderer.Activatable = !_ReadOnly;
+            }
         }
     }
 
@@ -377,7 +380,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public ISite Site
+    public ISite? Site
     {
         get;
         set;
@@ -413,7 +416,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// </summary>
     [DefaultValue("")]
     [Localizable(true)]
-    public string ToolTipText
+    public string? ToolTipText
     {
         get;
         set;
@@ -465,7 +468,7 @@ public class DataGridViewColumn : TreeViewColumn
     /// <returns>
     /// A cloned object (implementation returns null in this port).
     /// </returns>
-    public object Clone()
+    public object? Clone()
     {
         return null;
     }
@@ -494,15 +497,18 @@ public class DataGridViewColumn : TreeViewColumn
     /// <param name="cellStyle">
     /// The default style to apply.
     /// </param>
-    public void SetGridViewDefaultStyle(DataGridViewCellStyle cellStyle)
+    public void SetGridViewDefaultStyle(DataGridViewCellStyle? cellStyle)
     {
         if (cellStyle != null)
         {
             if (cellStyle.WrapMode == DataGridViewTriState.True)
             {
-                _cellRenderer.WrapMode = Pango.WrapMode.WordChar;
-                _cellRenderer.WrapWidth = 0;
-                _cellRenderer.WidthChars = 0;
+                if (_cellRenderer != null)
+                {
+                    _cellRenderer.WrapMode = Pango.WrapMode.WordChar;
+                    _cellRenderer.WrapWidth = 0;
+                    _cellRenderer.WidthChars = 0;
+                }
             }
         }
         if (_gridview != null)
@@ -513,7 +519,7 @@ public class DataGridViewColumn : TreeViewColumn
             }
             else
             {
-                _cellRenderer.Height = RowHeight;
+                _cellRenderer?.Height = RowHeight;
             }
         }
     }
@@ -532,7 +538,7 @@ public class DataGridViewColumn : TreeViewColumn
         newcell.ReadOnly = _cellTemplate.ReadOnly;
     }
 
-    internal virtual DataGridViewCell NewCell(object value = null, Type valueType = null)
+    internal virtual DataGridViewCell? NewCell(object? value = null, Type? valueType = null)
     {
         var newcell = new DataGridViewTextBoxCell();
         AtrributesClone(newcell);
@@ -553,13 +559,16 @@ public class DataGridViewColumn : TreeViewColumn
     private void Renderer_Edited(object o, EditedArgs args)
     {
         var path = new TreePath(args.Path);
-        var model = _treeView.Model;
-        model.GetIter(out var iter, path);
-        var cell = model.GetValue(iter, this.Index);
-        if (cell is DataGridViewCell val)
+        var model = _treeView?.Model;
+        if (model != null)
         {
-            val.Value = args.NewText;
-            _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
+            model.GetIter(out var iter, path);
+            var cell = model.GetValue(iter, this.Index);
+            if (cell is DataGridViewCell val)
+            {
+                val.Value = args.NewText;
+                _gridview?.CellValueChanagedHandler(this.Index, path.Indices.Last());
+            }
         }
     }
 }

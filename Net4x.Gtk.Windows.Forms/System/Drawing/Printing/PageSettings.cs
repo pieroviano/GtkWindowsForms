@@ -10,11 +10,11 @@ public unsafe class PageSettings : ICloneable
 {
     private Margins _margins = new();
 
-    private readonly PaperSize _paperSize;
+    private readonly PaperSize? _paperSize;
 
-    private readonly PaperSource _paperSource;
+    private readonly PaperSource? _paperSource;
 
-    private readonly PrinterResolution _printerResolution;
+    private readonly PrinterResolution? _printerResolution;
 
     private PrinterSettings _printerSettings;
 
@@ -131,7 +131,7 @@ public unsafe class PageSettings : ICloneable
     /// <value>
     /// The size of the paper.
     /// </value>
-    public PaperSize PaperSize
+    public PaperSize? PaperSize
     {
         get;
         set;
@@ -143,7 +143,7 @@ public unsafe class PageSettings : ICloneable
     /// <value>
     /// The paper source.
     /// </value>
-    public PaperSource PaperSource
+    public PaperSource? PaperSource
     {
         get;
         set;
@@ -168,7 +168,7 @@ public unsafe class PageSettings : ICloneable
     /// <value>
     /// The printer resolution.
     /// </value>
-    public PrinterResolution PrinterResolution
+    public PrinterResolution? PrinterResolution
     {
         get;
         set;

@@ -81,13 +81,13 @@ public class CellRendererComboValue : CellRendererCombo, ICellRenderer
     /// <value>
     /// The column style.
     /// </value>
-    public DataGridViewCellStyle ColumnStyle
+    public DataGridViewCellStyle? ColumnStyle
     {
         get;
         set;
     }
 
-    string ICellRenderer.Markup
+    string? ICellRenderer.Markup
     {
         get;
         set;

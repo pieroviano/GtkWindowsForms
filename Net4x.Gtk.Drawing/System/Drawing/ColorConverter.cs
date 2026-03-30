@@ -9,15 +9,15 @@ namespace System.Drawing;
 public class ColorConverter : TypeConverter
 {
 
-    private static Hashtable colorConstants;
+    private static Hashtable? colorConstants;
 
     private static readonly string ColorConstantsLock;
 
-    private static Hashtable systemColorConstants;
+    private static Hashtable? systemColorConstants;
 
     private static readonly string SystemColorConstantsLock;
 
-    private static TypeConverter.StandardValuesCollection values;
+    private static StandardValuesCollection? values;
 
     private static readonly string ValuesLock;
 
@@ -100,7 +100,7 @@ public class ColorConverter : TypeConverter
         {
             return base.ConvertFrom(context, culture, value);
         }
-        object namedColor = null;
+        object? namedColor = null;
         var str1 = str.Trim();
         if (str1.Length != 0)
         {
@@ -113,7 +113,7 @@ public class ColorConverter : TypeConverter
                 }
                 var listSeparator = culture.TextInfo.ListSeparator[0];
                 var flag = true;
-                TypeConverter converter = TypeDescriptor.GetConverter(typeof(int));
+                var converter = TypeDescriptor.GetConverter(typeof(int));
                 if (str1.IndexOf(listSeparator) == -1)
                 {
                     if (str1.Length >= 2 && (str1[0] == '\'' || str1[0] == '\"') && str1[0] == str1[str1.Length - 1])
@@ -131,7 +131,7 @@ public class ColorConverter : TypeConverter
                 {
                     var strArrays = str1.Split(new char[] { listSeparator });
                     var numArray = new int[(int)strArrays.Length];
-                    for (int i = 0; i < (int)numArray.Length; i++)
+                    for (var i = 0; i < (int)numArray.Length; i++)
                     {
                         numArray[i] = (int)converter.ConvertFromString(context, culture, strArrays[i]);
                     }
@@ -165,19 +165,21 @@ public class ColorConverter : TypeConverter
                 }
                 if (namedColor != null & flag)
                 {
-                    int argb = ((Color)namedColor).ToArgb();
-                    foreach (Color color in ColorConverter.Colors.Values)
+                    if (namedColor != null)
                     {
-                        if (color.ToArgb() != argb)
+                        var argb = ((Color)namedColor).ToArgb();
+                        foreach (Color color in ColorConverter.Colors.Values)
                         {
-                            continue;
+                            if (color.ToArgb() != argb)
+                            {
+                                continue;
+                            }
+                            namedColor = color;
+                            break;
                         }
-                        namedColor = color;
-                        goto Label1;
                     }
                 }
             }
-Label1:
             if (namedColor == null)
             {
                 throw new ArgumentException("InvalidColor");
@@ -191,18 +193,20 @@ Label1:
         return namedColor;
     }
 
-    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+    public override object? ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
     {
         string[] str;
         if (destinationType == null)
         {
             throw new ArgumentNullException("destinationType");
         }
-        if (value is Color)
+
+        var colorValue = value as Color?;
+        if (colorValue != null)
         {
             if (destinationType == typeof(string))
             {
-                var color = (Color)value;
+                var color = colorValue.Value;
                 if (color == Color.Empty)
                 {
                     return string.Empty;
@@ -220,7 +224,7 @@ Label1:
                     culture = CultureInfo.CurrentCulture;
                 }
                 var str1 = string.Concat(culture.TextInfo.ListSeparator, " ");
-                TypeConverter converter = TypeDescriptor.GetConverter(typeof(int));
+                var converter = TypeDescriptor.GetConverter(typeof(int));
                 var num = 0;
                 if (color.A >= 255)
                 {
@@ -246,9 +250,9 @@ Label1:
             }
             if (destinationType == typeof(InstanceDescriptor))
             {
-                MemberInfo field = null;
-                object[] a = null;
-                var color = (Color)value;
+                MemberInfo? field = null;
+                object[]? a = null;
+                var color = colorValue.Value;
                 if (color.IsEmpty)
                 {
                     field = typeof(Color).GetField("Empty");
@@ -295,9 +299,9 @@ Label1:
                     arrayLists.AddRange(ColorConverter.Colors.Values);
                     arrayLists.AddRange(ColorConverter.SystemColors.Values);
                     var count = arrayLists.Count;
-                    for (int i = 0; i < count - 1; i++)
+                    for (var i = 0; i < count - 1; i++)
                     {
-                        for (int j = i + 1; j < count; j++)
+                        for (var j = i + 1; j < count; j++)
                         {
                             if (arrayLists[i].Equals(arrayLists[j]))
                             {
@@ -321,9 +325,9 @@ Label1:
         return true;
     }
 
-    internal static object GetNamedColor(string name)
+    internal static object? GetNamedColor(string name)
     {
-        object item = null;
+        object? item = null;
         item = ColorConverter.Colors[name];
         if (item != null)
         {
@@ -338,7 +342,7 @@ Label1:
     {
         var methodAttribute = MethodAttributes.FamANDAssem | MethodAttributes.Family | MethodAttributes.Public | MethodAttributes.Static;
         var properties = enumType.GetProperties();
-        for (int i = 0; i < (int)properties.Length; i++)
+        for (var i = 0; i < (int)properties.Length; i++)
         {
             var value = properties[i];
             if (value.PropertyType == typeof(Color))
@@ -346,7 +350,7 @@ Label1:
                 var getMethod = value.GetGetMethod();
                 if (getMethod != null && (getMethod.Attributes & methodAttribute) == methodAttribute)
                 {
-                    object[] objArray = null;
+                    object[]? objArray = null;
                     hash[value.Name] = value.GetValue(null, objArray);
                 }
             }

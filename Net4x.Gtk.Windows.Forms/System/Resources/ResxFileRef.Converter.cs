@@ -39,7 +39,7 @@ public partial class ResXFileRef
         /// <returns>
         /// true if this converter can perform the conversion; otherwise, false.
         /// </returns>
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
         {
             if (sourceType == typeof(string))
             {
@@ -65,7 +65,7 @@ public partial class ResXFileRef
         /// <returns>
         /// true if this converter can perform the conversion; otherwise, false.
         /// </returns>
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type destinationType)
         {
             return destinationType == typeof(string);
         }
@@ -93,7 +93,7 @@ public partial class ResXFileRef
         /// <see cref="T:System.Object">
         /// </see> that represents the converted value.
         /// </returns>
-        public override object ConvertFrom(
+        public override object? ConvertFrom(
                         ITypeDescriptorContext context,
                         CultureInfo culture,
                         object value)
@@ -101,15 +101,15 @@ public partial class ResXFileRef
             if (value is string stringValue)
             {
                 var parts = ParseResxFileRefString(stringValue);
-                var fileName = parts[0];
-                var toCreate = Type.GetType(parts[1], true);
+                var fileName = parts?[0];
+                var toCreate = Type.GetType(parts?[1]??string.Empty, true);
 
                 // special case string and byte[]
                 if (toCreate == typeof(string))
                 {
                     // we have a string, now we need to check the encoding
                     var textFileEncoding =
-                        parts.Length > 2
+                        parts?.Length > 2
                             ? Encoding.GetEncoding(parts[2])
                             : Encoding.Default;
                     using (var sr = new StreamReader(fileName, textFileEncoding))
@@ -120,13 +120,13 @@ public partial class ResXFileRef
 
                 // this is a regular file, we call it's constructor with a stream as a parameter
                 // or if it's a byte array we just return that
-                byte[] temp = null;
+                byte[]? temp = null;
 
                 using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     Debug.Assert(fileStream != null, "Couldn't open " + fileName);
-                    temp = new byte[fileStream.Length];
-                    fileStream.Read(temp, 0, (int)fileStream.Length);
+                    temp = new byte[fileStream?.Length ?? 0];
+                    fileStream?.Read(temp, 0, (int)fileStream.Length);
                 }
 
                 if (toCreate == typeof(byte[]))
@@ -140,7 +140,7 @@ public partial class ResXFileRef
                     return memStream;
                 }
 
-                if (toCreate == typeof(Bitmap) && fileName.EndsWith(".ico"))
+                if (toCreate == typeof(Bitmap) && fileName != null && fileName.EndsWith(".ico"))
                 {
                     // we special case the .ico bitmaps because GDI+ destroy the alpha channel component and
                     // we don't want that to happen
@@ -182,13 +182,13 @@ public partial class ResXFileRef
         /// <see cref="T:System.Object">
         /// </see> that represents the converted value.
         /// </returns>
-        public override object ConvertTo(
-                        ITypeDescriptorContext context,
+        public override object? ConvertTo(
+                        ITypeDescriptorContext? context,
                         CultureInfo culture,
                         object value,
                         Type destinationType)
         {
-            object created = null;
+            object? created = null;
             if (destinationType == typeof(string))
             {
                 created = ((ResXFileRef)value).ToString();
@@ -198,9 +198,9 @@ public partial class ResXFileRef
         }
 
         // "value" is the parameter name of ConvertFrom, which calls this method.
-        internal static string[] ParseResxFileRefString(string stringValue)
+        internal static string[]? ParseResxFileRefString(string? stringValue)
         {
-            string[] result = null;
+            string[]? result = null;
             if (stringValue != null)
             {
                 stringValue = stringValue.Trim();

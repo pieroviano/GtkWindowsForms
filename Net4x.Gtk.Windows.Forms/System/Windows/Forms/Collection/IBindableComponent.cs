@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace System.Windows.Forms;
 
@@ -21,7 +21,7 @@ public interface IBindableComponent : IComponent, IDisposable
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    BindingContext BindingContext
+    BindingContext? BindingContext
     {
         get;
         set;
@@ -40,5 +40,5 @@ public interface IBindableComponent : IComponent, IDisposable
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    ControlBindingsCollection DataBindings { get; }
+    ControlBindingsCollection? DataBindings { get; }
 }

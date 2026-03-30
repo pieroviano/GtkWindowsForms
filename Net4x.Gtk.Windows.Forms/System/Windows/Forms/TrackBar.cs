@@ -5,6 +5,7 @@
  * author:chenhongjin
  */
 using System.ComponentModel;
+using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -22,12 +23,12 @@ public class TrackBar : Control
 
     readonly Gtk.Adjustment adjustment = new(10, 0, 100, 1, 1, 0);
 
-    Gtk.Scale scale;
+    Scale? scale;
 
     /// <summary>
     /// Occurs when scroll.
     /// </summary>
-    public virtual event EventHandler Scroll;
+    public virtual event EventHandler? Scroll;
 
     /// <summary>
     /// Initializes a new instance of the

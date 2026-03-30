@@ -1,4 +1,5 @@
-using Gtk;
+﻿using Gtk;
+using ScrollEventHandler = System.Windows.Forms.ScrollEventHandler;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -13,7 +14,7 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// <summary>
     /// Occurs when a scroll event occurs..
     /// </summary>
-    public event System.Windows.Forms.ScrollEventHandler Scroll;
+    public event ScrollEventHandler? Scroll;
 
     /// <summary>
     /// Initializes a new instance of the

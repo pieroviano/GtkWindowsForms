@@ -11,7 +11,7 @@ public class MockMessageBox : IMessageBox, IDisposable
     /// <summary>
     /// Stores all log messages captured by the custom GtkLogger action.
     /// </summary>
-    public List<string> LoggedMessages { get; } = new List<string>();
+    public List<string> LoggedMessages { get; } = [];
 
     /// <summary>
     /// Replaces MessageBox.Instance with a new MockMessageBox for testing and captures GtkLogger.Info output.
@@ -30,7 +30,9 @@ public class MockMessageBox : IMessageBox, IDisposable
         return mockMessageBox;
     }
 
+#pragma warning disable CS0067 // The event is never used
     public event EventHandler<DialogEventArgs>? DialogAvailable;
+#pragma warning restore CS0067 // The event is never used
 
     private DialogResult LogAndReturn(string? text, string caption)
     {

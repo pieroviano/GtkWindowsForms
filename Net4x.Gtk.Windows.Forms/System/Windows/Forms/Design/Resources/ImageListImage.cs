@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -17,7 +17,7 @@ namespace System.Windows.Forms.Design;
 public class ImageListImage
 {
 
-    private string _name;
+    private string? _name;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -26,7 +26,7 @@ public class ImageListImage
     /// <param name="image">
     /// The image to wrap.
     /// </param>
-    public ImageListImage(Image image)
+    public ImageListImage(Image? image)
     {
         Image = image;
     }
@@ -51,14 +51,14 @@ public class ImageListImage
     /// Gets the horizontal resolution, in dots per inch, of the wrapped image.
     /// </summary>
     // Add properties to make this object "look" like Image in the Collection editor
-    public float HorizontalResolution => Image.HorizontalResolution;
+    public float HorizontalResolution => Image?.HorizontalResolution ?? default;
 
     /// <summary>
     /// Gets or sets the underlying
     /// <see cref="T:System.Windows.Forms.Design.ImageListImage.Image" /> instance.
     /// </summary>
     [Browsable(false)]
-    public Image Image
+    public Image? Image
     {
         get;
         set;
@@ -77,28 +77,28 @@ public class ImageListImage
     /// <summary>
     /// Gets the physical dimensions of the wrapped image.
     /// </summary>
-    public SizeF PhysicalDimension => Image.Size;
+    public SizeF PhysicalDimension => Image?.Size ?? default;
 
     /// <summary>
     /// Gets the pixel format of the wrapped image.
     /// </summary>
-    public PixelFormat PixelFormat => Image.PixelFormat;
+    public PixelFormat PixelFormat => Image?.PixelFormat ?? default;
 
     /// <summary>
     /// Gets the
     /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> of the wrapped image.
     /// </summary>
-    public ImageFormat RawFormat => Image.RawFormat;
+    public ImageFormat? RawFormat => Image?.RawFormat;
 
     /// <summary>
     /// Gets the size, in pixels, of the wrapped image.
     /// </summary>
-    public Size Size => Image.Size;
+    public Size Size => Image?.Size ?? default;
 
     /// <summary>
     /// Gets the vertical resolution, in dots per inch, of the wrapped image.
     /// </summary>
-    public float VerticalResolution => Image.VerticalResolution;
+    public float VerticalResolution => Image?.VerticalResolution ?? default;
 
     /// <summary>
     /// Creates an
@@ -122,6 +122,6 @@ public class ImageListImage
             return new ImageListImage((new Icon(stream)).ToBitmap());
         }
 
-        return new ImageListImage((Bitmap)Image.FromStream(stream));
+        return new ImageListImage((Bitmap?)Image.FromStream(stream));
     }
 }

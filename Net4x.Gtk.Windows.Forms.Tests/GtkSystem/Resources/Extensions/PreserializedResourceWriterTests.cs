@@ -1,4 +1,7 @@
-﻿namespace GtkSystem.Resources.Extensions;
+﻿#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+
+namespace GtkSystem.Resources.Extensions;
 
 public class PreserializedResourceWriterTests
 {
@@ -44,7 +47,7 @@ public class PreserializedResourceWriterTests
     {
         using var ms = new MemoryStream();
         var writer = new PreserializedResourceWriter(ms);
-        writer.AddResource("name", new byte[] { 1, 2, 3 });
+        writer.AddResource("name", [1, 2, 3]);
         writer.Generate();
     }
 
@@ -53,7 +56,7 @@ public class PreserializedResourceWriterTests
     {
         using var ms = new MemoryStream();
         var writer = new PreserializedResourceWriter(ms);
-        using var data = new MemoryStream(new byte[] { 1, 2, 3 });
+        using var data = new MemoryStream([1, 2, 3]);
         writer.AddResource("name", data);
         writer.Generate();
     }
@@ -63,7 +66,7 @@ public class PreserializedResourceWriterTests
     {
         using var ms = new MemoryStream();
         var writer = new PreserializedResourceWriter(ms);
-        writer.AddBinaryFormattedResource("name", new byte[] { 1, 2, 3 });
+        writer.AddBinaryFormattedResource("name", [1, 2, 3]);
         writer.Generate();
     }
 
@@ -72,7 +75,7 @@ public class PreserializedResourceWriterTests
     {
         using var ms = new MemoryStream();
         var writer = new PreserializedResourceWriter(ms);
-        writer.AddTypeConverterResource("name", new byte[] { 1, 2, 3 }, typeof(int).FullName);
+        writer.AddTypeConverterResource("name", [1, 2, 3], typeof(int).FullName);
         writer.Generate();
     }
 

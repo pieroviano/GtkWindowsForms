@@ -10,8 +10,10 @@ public class ResXResourceReaderTests
     public void FromFileContents_ShouldReadStringResource()
     {
         var reader = ResXResourceReader.FromFileContents(SimpleResx);
-        var dict = new Dictionary<string, object>();
+        var dict = new Dictionary<string, object?>();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         foreach (DictionaryEntry entry in reader)
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         {
             dict.Add((string)entry.Key, entry.Value);
         }
@@ -69,7 +71,9 @@ public class ResXResourceReaderTests
         var invalidResx = "<root><data></data></root>";
         Assert.Throws<ArgumentException>(() => {
             var reader = ResXResourceReader.FromFileContents(invalidResx);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             foreach (DictionaryEntry entry in reader) { }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         });
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
+using Gtk;
+using Image = System.Drawing.Image;
+using Region = System.Drawing.Region;
 
 namespace System.Windows.Forms;
 
@@ -19,22 +22,22 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <summary>
     /// Occurs when checked changed.
     /// </summary>
-    public virtual event EventHandler CheckedChanged;
+    public virtual event EventHandler? CheckedChanged;
 
     /// <summary>
     /// Occurs when check state changed.
     /// </summary>
-    public virtual event EventHandler CheckStateChanged;
+    public virtual event EventHandler? CheckStateChanged;
 
     /// <summary>
     /// Occurs when click.
     /// </summary>
-    public virtual event EventHandler Click;
+    public virtual event EventHandler? Click;
 
     /// <summary>
     /// Occurs when drop down item clicked.
     /// </summary>
-    public virtual event ToolStripItemClickedEventHandler DropDownItemClicked;
+    public virtual event ToolStripItemClickedEventHandler? DropDownItemClicked;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -78,7 +81,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <param name="name">
     /// The name.
     /// </param>
-    protected ToolStripItem(string text, Image image, EventHandler onClick, string name) : this()
+    protected ToolStripItem(string text, Image? image, EventHandler? onClick, string name) : this()
     {
         this.Name = name;
         this.Text = text;
@@ -142,7 +145,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The background image.
     /// </value>
-    public virtual Image BackgroundImage
+    public virtual Image? BackgroundImage
     {
         get;
         set;
@@ -292,7 +295,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// The font.
     /// </value>
     //  public virtual bool Focused { get { return this.IsFocus; } }
-    public virtual Font Font
+    public virtual Font? Font
     {
         get;
         set;
@@ -341,7 +344,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The image.
     /// </value>
-    public virtual System.Drawing.Image Image
+    public virtual Image? Image
     {
         get;
         set;
@@ -377,7 +380,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The image key.
     /// </value>
-    public virtual string ImageKey
+    public virtual string? ImageKey
     {
         get;
         set;
@@ -451,7 +454,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The menu item.
     /// </value>
-    public virtual Gtk.MenuItem MenuItem
+    public virtual MenuItem? MenuItem
     {
         get;
         set;
@@ -487,7 +490,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The name.
     /// </value>
-    public virtual string Name
+    public virtual string? Name
     {
         get;
         set;
@@ -511,7 +514,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The owner.
     /// </value>
-    public virtual ToolStrip Owner
+    public virtual ToolStrip? Owner
     {
         get;
         set;
@@ -523,7 +526,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The owner item.
     /// </value>
-    public virtual ToolStripItem OwnerItem { get; }
+    public virtual ToolStripItem? OwnerItem { get; }
 
     /// <summary>
     /// Gets or sets the padding.
@@ -546,7 +549,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The parent.
     /// </value>
-    public virtual ToolStripItem Parent
+    public virtual ToolStripItem? Parent
     {
         get;
         set;
@@ -596,7 +599,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The region.
     /// </value>
-    public virtual System.Drawing.Region Region
+    public virtual Region? Region
     {
         get;
         set;
@@ -659,7 +662,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The tag.
     /// </value>
-    public virtual object Tag
+    public virtual object? Tag
     {
         get;
         set;
@@ -672,7 +675,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// The text.
     /// </value>
     //public virtual string Text { get { return base.Label; } set { base.Label = value; } }
-    public virtual string Text
+    public virtual string? Text
     {
         get;
         set;
@@ -721,7 +724,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// The tool tip text.
     /// </value>
     //public virtual bool Enabled { get; set; }
-    public virtual string ToolTipText
+    public virtual string? ToolTipText
     {
         get;
         set;
@@ -745,7 +748,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The unique key.
     /// </value>
-    public virtual string unique_key
+    public virtual string? unique_key
     {
         get;
         protected set;
@@ -774,7 +777,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The widget.
     /// </value>
-    public virtual Gtk.Widget Widget { get; }
+    public virtual Widget? Widget { get; }
 
     /// <summary>
     /// Gets or sets the width.
@@ -884,7 +887,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     }
 
-    void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string propertyName)
+    void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string? propertyName)
     {
         throw new NotImplementedException();
     }

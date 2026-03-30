@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -9,15 +10,15 @@ namespace System.Windows.Forms;
 public class GtkMenuItem : Gtk.MenuItem
 {
 
-    private static readonly d_gtk_image_menu_item_get_always_show_image gtk_image_menu_item_get_always_show_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_get_always_show_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_get_always_show_image"));
+    private static readonly d_gtk_image_menu_item_get_always_show_image? gtk_image_menu_item_get_always_show_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_get_always_show_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_get_always_show_image"));
 
-    private static readonly d_gtk_image_menu_item_get_image gtk_image_menu_item_get_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_get_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_get_image"));
+    private static readonly d_gtk_image_menu_item_get_image? gtk_image_menu_item_get_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_get_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_get_image"));
 
-    private static readonly d_gtk_image_menu_item_get_type gtk_image_menu_item_get_type = FuncLoader.LoadFunction<d_gtk_image_menu_item_get_type>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_get_type"));
+    private static readonly d_gtk_image_menu_item_get_type? gtk_image_menu_item_get_type = FuncLoader.LoadFunction<d_gtk_image_menu_item_get_type>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_get_type"));
 
-    private static readonly d_gtk_image_menu_item_set_always_show_image gtk_image_menu_item_set_always_show_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_set_always_show_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_set_always_show_image"));
+    private static readonly d_gtk_image_menu_item_set_always_show_image? gtk_image_menu_item_set_always_show_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_set_always_show_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_set_always_show_image"));
 
-    private static readonly d_gtk_image_menu_item_set_image gtk_image_menu_item_set_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_set_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_set_image"));
+    private static readonly d_gtk_image_menu_item_set_image? gtk_image_menu_item_set_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_set_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_set_image"));
 
     /// <summary>
     /// Initializes a new instance of the
@@ -37,9 +38,9 @@ public class GtkMenuItem : Gtk.MenuItem
     {
         get
         {
-            var val = gtk_image_menu_item_get_type();
+            var val = gtk_image_menu_item_get_type?.Invoke();
 
-            return new GLib.GType(val);
+            return new GLib.GType(val ?? IntPtr.Zero);
         }
     }
 
@@ -48,26 +49,26 @@ public class GtkMenuItem : Gtk.MenuItem
     {
         get
         {
-            return gtk_image_menu_item_get_always_show_image(base.Handle);
+            return gtk_image_menu_item_get_always_show_image?.Invoke(base.Handle) ?? false;
         }
         set
         {
-            gtk_image_menu_item_set_always_show_image(base.Handle, value);
+            gtk_image_menu_item_set_always_show_image?.Invoke(base.Handle, value);
         }
     }
 
     internal Gtk.Image DefaultImage { get; set; } = new("image-missing", Gtk.IconSize.SmallToolbar);
 
     [GLib.Property("Image")]
-    internal Gtk.Widget IcoImage
+    internal Widget? IcoImage
     {
         get
         {
-            return GLib.Object.GetObject(gtk_image_menu_item_get_image(base.Handle)) as Gtk.Widget;
+            return GLib.Object.GetObject(gtk_image_menu_item_get_image?.Invoke(base.Handle) ?? IntPtr.Zero) as Gtk.Widget;
         }
         set
         {
-            gtk_image_menu_item_set_image(base.Handle, value?.Handle ?? IntPtr.Zero);
+            gtk_image_menu_item_set_image?.Invoke(base.Handle, value?.Handle ?? IntPtr.Zero);
         }
     }
 

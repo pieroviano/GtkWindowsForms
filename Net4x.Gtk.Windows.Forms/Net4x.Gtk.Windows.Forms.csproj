@@ -31,7 +31,7 @@ Based on GTKSystem.Windows.Forms:
         <SignAssembly>true</SignAssembly>
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>annotations</Nullable>
+        <Nullable>enable</Nullable>
         <RootNamespace />
         <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
@@ -154,7 +154,7 @@ Based on GTKSystem.Windows.Forms:
     <ItemGroup>
         <PackageReference Include="System.Memory" Version="4.6.0" />
         <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" />
-        <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
+        <PackageReference Include="System.Resources.Extensions" Version="$(Net4xGtkWindowsFormsVersion).$(VersionBuildSuffix)" />
         <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>

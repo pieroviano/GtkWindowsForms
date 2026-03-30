@@ -275,7 +275,7 @@ public sealed class Bitmap : Image
         this.PixbufData = original.PixbufData;
     }
 
-    internal Bitmap(byte[] pixbuf) : base(pixbuf)
+    internal Bitmap(byte[]? pixbuf) : base(pixbuf)
     {
 
     }
@@ -358,7 +358,7 @@ public sealed class Bitmap : Image
     public Bitmap Clone(Rectangle rect, PixelFormat format)
     {
 
-        return new Bitmap(rect.Width, rect.Height, format) { PixbufData = (byte[])this.PixbufData.Clone() };
+        return new Bitmap(rect.Width, rect.Height, format) { PixbufData = (byte[]?)this.PixbufData?.Clone() };
     }
 
     /// <summary>

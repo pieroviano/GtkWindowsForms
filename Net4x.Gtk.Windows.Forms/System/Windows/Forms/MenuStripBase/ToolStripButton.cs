@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -13,12 +13,12 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Occurs when checked changed.
     /// </summary>
-    public override event EventHandler CheckedChanged;
+    public override event EventHandler? CheckedChanged;
 
     /// <summary>
     /// Occurs when check state changed.
     /// </summary>
-    public override event EventHandler CheckStateChanged;
+    public override event EventHandler? CheckStateChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -99,7 +99,7 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// <param name="name">
     /// The name.
     /// </param>
-    public ToolStripButton(string text, Image image, EventHandler onClick, string name) : base(text, image, onClick, name)
+    public ToolStripButton(string text, Image? image, EventHandler? onClick, string name) : base(text, image, onClick, name)
     {
         DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
     }

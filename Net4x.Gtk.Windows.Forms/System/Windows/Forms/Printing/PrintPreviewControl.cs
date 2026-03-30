@@ -27,7 +27,7 @@ public partial class PrintPreviewControl : Control
 
     private int _columns = 1;
 
-    private PrintDocument _document;
+    private PrintDocument? _document;
 
     private int _rows = 1;
 
@@ -144,14 +144,14 @@ public partial class PrintPreviewControl : Control
     /// The document.
     /// </value>
     [DefaultValue(null)]
-    public PrintDocument Document
+    public PrintDocument? Document
     {
         get => _document;
         set
         {
             _document = value;
-            paper.WidthRequest = (int)Math.Round(_document.PageSetup.GetPaperWidth(Unit.Points) / pxscale, 0);
-            paper.HeightRequest = (int)Math.Round(_document.PageSetup.GetPaperHeight(Unit.Points) / pxscale, 0);
+            paper.WidthRequest = (int)Math.Round((_document?.PageSetup.GetPaperWidth(Unit.Points) ?? 0) / pxscale, 0);
+            paper.HeightRequest = (int)Math.Round((_document?.PageSetup.GetPaperHeight(Unit.Points) ?? 0) / pxscale, 0);
             self.WidthRequest = paper.WidthRequest + 100;
             self.HeightRequest = paper.HeightRequest + 100;
             InvalidatePreview();
@@ -254,7 +254,7 @@ public partial class PrintPreviewControl : Control
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Bindable(false)]
-    public override string Text
+    public override string? Text
     {
         get => base.Text;
         set => base.Text = value;
@@ -364,8 +364,8 @@ public partial class PrintPreviewControl : Control
     {
         if (AutoZoom == false)
         {
-            paper.WidthRequest = (int)Math.Round(_document.PageSetup.GetPaperWidth(Unit.Points) * _zoom / 0.75, 0);
-            paper.HeightRequest = (int)Math.Round(_document.PageSetup.GetPaperHeight(Unit.Points) * _zoom / 0.75, 0);
+            paper.WidthRequest = (int)Math.Round((_document?.PageSetup.GetPaperWidth(Unit.Points) ?? 0) * _zoom / 0.75, 0);
+            paper.HeightRequest = (int)Math.Round((_document?.PageSetup.GetPaperHeight(Unit.Points) ?? 0) * _zoom / 0.75, 0);
         }
     }
 }

@@ -108,6 +108,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0023-Fix-ResXFileRef.patch = patches\0023-Fix-ResXFileRef.patch
 		patches\0024-Fix-ReaderAliasResolver.patch = patches\0024-Fix-ReaderAliasResolver.patch
 		patches\0025-Fix-ResXSerializationBinder.patch = patches\0025-Fix-ResXSerializationBinder.patch
+		patches\0026-Introduce-nullable.patch = patches\0026-Introduce-nullable.patch
 	EndProjectSection
 EndProject
 Global

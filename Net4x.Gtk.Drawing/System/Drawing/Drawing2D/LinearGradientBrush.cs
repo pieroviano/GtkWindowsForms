@@ -1,4 +1,4 @@
-
+﻿
 namespace System.Drawing.Drawing2D;
 
 /// <summary>
@@ -256,7 +256,7 @@ public sealed class LinearGradientBrush : Brush
     /// A
     /// <see cref="T:System.Drawing.Drawing2D.Blend" /> that represents a custom falloff for the gradient.
     /// </returns>
-    public Blend Blend
+    public Blend? Blend
     {
         get;
         set;
@@ -286,7 +286,7 @@ public sealed class LinearGradientBrush : Brush
     /// A
     /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
     /// </returns>
-    public ColorBlend InterpolationColors
+    public ColorBlend? InterpolationColors
     {
         get;
         set;
@@ -341,7 +341,7 @@ public sealed class LinearGradientBrush : Brush
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that defines a geometric transform that applies only to fills drawn with this
     /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" />.
     /// </returns>
-    public Matrix Transform
+    public Matrix? Transform
     {
         get;
         set;
@@ -371,7 +371,7 @@ public sealed class LinearGradientBrush : Brush
     /// The
     /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" /> this method creates, cast as an object.
     /// </returns>
-    public override object Clone()
+    public override object? Clone()
     {
         return null;
     }

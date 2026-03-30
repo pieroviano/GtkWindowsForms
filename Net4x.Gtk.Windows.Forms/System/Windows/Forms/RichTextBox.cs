@@ -24,7 +24,7 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Occurs when the Text property value changes.
     /// </summary>
-    public override event EventHandler TextChanged;
+    public override event EventHandler? TextChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -130,7 +130,7 @@ public partial class RichTextBox : ScrollableControl
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get => self.TextView.Buffer.Text;
         set => self.TextView.Buffer.Text = value;

@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -47,7 +47,7 @@ public class QueryAccessibilityHelpEventArgs : EventArgs
     /// <value>
     /// The help keyword.
     /// </value>
-    public string HelpKeyword
+    public string? HelpKeyword
     {
         get;
         set;
@@ -59,7 +59,7 @@ public class QueryAccessibilityHelpEventArgs : EventArgs
     /// <value>
     /// The help namespace.
     /// </value>
-    public string HelpNamespace
+    public string? HelpNamespace
     {
         get;
         set;
@@ -71,7 +71,7 @@ public class QueryAccessibilityHelpEventArgs : EventArgs
     /// <value>
     /// The help string.
     /// </value>
-    public string HelpString
+    public string? HelpString
     {
         get;
         set;

@@ -48,7 +48,7 @@ public partial class ListBox : ListControl
 
     private readonly ControlBindingsCollection _collect;
 
-    private object _DataSource;
+    private object? _DataSource;
 
     private readonly ObjectCollection _items;
 
@@ -63,7 +63,9 @@ public partial class ListBox : ListControl
     public override event EventHandler SelectedIndexChanged
     {
         add { _selectedIndexChanged += value; }
+#pragma warning disable CS8601 // Possible null reference assignment.
         remove { _selectedIndexChanged -= value; }
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -73,7 +75,9 @@ public partial class ListBox : ListControl
     public override event EventHandler SelectedItemChanged
     {
         add { _selectedItemChanged += value; }
+#pragma warning disable CS8601 // Possible null reference assignment.
         remove { _selectedItemChanged -= value; }
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -83,7 +87,9 @@ public partial class ListBox : ListControl
     public override event EventHandler SelectedValueChanged
     {
         add { _selectedValueChanged += value; }
+#pragma warning disable CS8601 // Possible null reference assignment.
         remove { _selectedValueChanged -= value; }
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -123,7 +129,7 @@ public partial class ListBox : ListControl
     /// <value>
     /// The custom tab offsets.
     /// </value>
-    public IntegerCollection CustomTabOffsets
+    public IntegerCollection? CustomTabOffsets
     {
         get;
     }
@@ -143,7 +149,7 @@ public partial class ListBox : ListControl
     /// <value>
     /// The data source.
     /// </value>
-    public override object DataSource
+    public override object? DataSource
     {
         get => _DataSource;
         set
@@ -369,7 +375,7 @@ public partial class ListBox : ListControl
     /// </value>
     [Browsable(false)]
     [Bindable(true)]
-    public object SelectedItem
+    public object? SelectedItem
     {
         get
         {
@@ -380,8 +386,11 @@ public partial class ListBox : ListControl
         set
         {
             ClearSelected();
-            var index = _items.IndexOf(value);
-            SelectedItems.SetSelected(index, true);
+            if (value != null)
+            {
+                var index = _items.IndexOf(value);
+                SelectedItems.SetSelected(index, true);
+            }
         }
     }
 
@@ -411,7 +420,7 @@ public partial class ListBox : ListControl
     /// </value>
     [DefaultValue(null)]
     [Browsable(false)]
-    public override object SelectedValue
+    public override object? SelectedValue
     {
         get
         {
@@ -422,7 +431,7 @@ public partial class ListBox : ListControl
         set
         {
             ClearSelected();
-            var index = _items.IndexOf(value);
+            var index = _items.IndexOf(value??string.Empty);
             SelectedItems.SetSelected(index, true);
         }
     }
@@ -487,7 +496,7 @@ public partial class ListBox : ListControl
     /// The text.
     /// </value>
     [Browsable(false)]
-    public override string Text
+    public override string? Text
     {
         get
         {
@@ -756,7 +765,7 @@ public partial class ListBox : ListControl
     /// <returns>
     /// Display text for the item.
     /// </returns>
-    public override string GetItemText(object item)
+    public override string? GetItemText(object item)
     {
         if (item is ItemArray.Entry entry)
         {
@@ -907,7 +916,7 @@ public partial class ListBox : ListControl
     /// <returns>
     /// System.String.
     /// </returns>
-    protected string NativeGetItemText(int index)
+    protected string? NativeGetItemText(int index)
     {
         var row = self.ListBox.GetRowAtIndex(index).Child as Gtk.Label;
 
@@ -1030,7 +1039,7 @@ public partial class ListBox : ListControl
     private void propertyNotity(object o, NotifyArgs args)
     {
         var binding = DataBindings[args.Property];
-        binding.WriteValue();
+        binding?.WriteValue();
     }
 
     private void Self_Realized(object sender, EventArgs e)
@@ -1064,7 +1073,7 @@ public partial class ListBox : ListControl
                     if (o is DataRowView row)
                         _items.Add(row[DisplayMember]);
                     else
-                        _items.Add(o.GetType().GetProperty(DisplayMember)?.GetValue(o));
+                        _items.Add(o?.GetType().GetProperty(DisplayMember ?? string.Empty)?.GetValue(o));
                 }
             }
         }
@@ -1092,7 +1101,7 @@ public partial class ListBox : ListControl
         /// <value>
         /// The check value.
         /// </value>
-        public object CheckValue
+        public object? CheckValue
         {
             get;
             set;
@@ -1116,7 +1125,7 @@ public partial class ListBox : ListControl
         /// <value>
         /// The item value.
         /// </value>
-        public object ItemValue
+        public object? ItemValue
         {
             get;
             set;
@@ -1130,7 +1139,7 @@ public partial class ListBox : ListControl
         /// A
         /// <see cref="T:System.String" /> that represents this instance.
         /// </returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return DisplayText?.ToString();
         }

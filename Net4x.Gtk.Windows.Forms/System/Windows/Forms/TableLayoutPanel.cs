@@ -6,6 +6,7 @@
  */
 
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using GtkControls;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -259,7 +260,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     [DisplayName("Column")]
     public int GetColumn(Control control)
     {
-        return control.GetGridCell(grid).LeftAttach;
+        return control.GetGridCell(grid)?.LeftAttach ?? 0;
     }
 
     /// <summary>
@@ -275,7 +276,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     [DisplayName("ColumnSpan")]
     public int GetColumnSpan(Control control)
     {
-        return control.Widget.MarginStart;
+        return control.Widget?.MarginStart ?? 0;
     }
 
     /// <summary>
@@ -310,7 +311,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <returns>
     /// Control.
     /// </returns>
-    public Control GetControlFromPosition(int column, int row)
+    public Control? GetControlFromPosition(int column, int row)
     {
         return grid.GetChildAt(column, row).Data["Control"] as Control;
     }
@@ -350,7 +351,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     [DisplayName("Row")]
     public int GetRow(Control control)
     {
-        return control.GetGridCell(grid).TopAttach;
+        return control.GetGridCell(grid)?.TopAttach ?? 0;
     }
 
     /// <summary>
@@ -385,7 +386,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     [DisplayName("RowSpan")]
     public int GetRowSpan(Control control)
     {
-        return control.Widget.MarginTop;
+        return control.Widget?.MarginTop ?? 0;
     }
 
     /// <summary>
@@ -443,8 +444,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// </param>
     public void SetColumnSpan(Control control, int value)
     {
-        control.Widget.MarginStart = value;
-        control.Widget.MarginEnd = value;
+        if (control.Widget != null)
+        {
+            control.Widget.MarginStart = value;
+            control.Widget.MarginEnd = value;
+        }
     }
 
     /// <summary>
@@ -458,7 +462,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// </param>
     public void SetRow(Control control, int row)
     {
-        control.GetGridCell(grid).TopAttach = row;
+        control.GetGridCell(grid)?.TopAttach = row;
     }
 
     /// <summary>
@@ -472,8 +476,11 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// </param>
     public void SetRowSpan(Control control, int value)
     {
-        control.Widget.MarginTop = value;
-        control.Widget.MarginBottom = value;
+        if (control.Widget != null)
+        {
+            control.Widget.MarginTop = value;
+            control.Widget.MarginBottom = value;
+        }
     }
 
     bool IExtenderProvider.CanExtend(object obj)
@@ -516,8 +523,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
             {
                 if (rs.SizeType == SizeType.Absolute)
                 {
-                    Console.WriteLine(ColumnCount);
-                    Console.WriteLine(Convert.ToInt32(rs.Height));
+                    GtkLogger.Info(ColumnCount.ToString());
+                    GtkLogger.Info(Convert.ToInt32(rs.Height).ToString());
                     for (var c = 0; c < ColumnCount; c++)
                         grid.GetChildAt(c, ridx).HeightRequest = Convert.ToInt32(rs.Height);
                 }

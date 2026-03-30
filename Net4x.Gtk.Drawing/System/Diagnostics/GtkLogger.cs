@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 
 namespace System.Diagnostics;
 
@@ -204,7 +204,7 @@ public static class GtkLogger
     /// </param>
     /// <returns>The formatted log message.
     /// </returns>
-    private static string FormatMessage(LogLevel level, string message, Exception? exception)
+    private static string FormatMessage(LogLevel level, string? message, Exception? exception)
     {
         var sb = new StringBuilder();
 
@@ -281,7 +281,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    private static void Log(LogLevel level, string message, Exception? exception)
+    private static void Log(LogLevel level, string? message, Exception? exception)
     {
         if (!_isEnabled || level < _minimumLogLevel)
             return;
@@ -294,7 +294,7 @@ public static class GtkLogger
         }
         else
         {
-            System.Diagnostics.Trace.Write(formattedMessage);
+            Diagnostics.Trace.Write(formattedMessage);
         }
     }
 }

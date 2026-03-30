@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -35,7 +35,7 @@ public class DataGridViewImageColumn : DataGridViewColumn
     /// The owning
     /// <see cref="T:System.Windows.Forms.DataGridView" />.
     /// </param>
-    public DataGridViewImageColumn(DataGridView ownerGridView) : base(0, ownerGridView, new DataGridViewImageCell())
+    public DataGridViewImageColumn(DataGridView? ownerGridView) : base(0, ownerGridView, new DataGridViewImageCell())
     {
         ValueType = typeof(Drawing.Image);
         var renderer = new CellRendererPixbufValue(this)
@@ -48,7 +48,7 @@ public class DataGridViewImageColumn : DataGridViewColumn
         _cellRenderer = renderer;
     }
 
-    internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
+    internal override DataGridViewCell? NewCell(object? value = null, Type? valueType = null)
     {
         var newcell = new DataGridViewImageCell();
         AtrributesClone(newcell);

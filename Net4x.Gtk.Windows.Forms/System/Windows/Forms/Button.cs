@@ -29,7 +29,7 @@ public partial class Button : Control
     /// <summary>
     /// Occurs when the control is clicked.
     /// </summary>
-    public override event EventHandler Click;
+    public override event EventHandler? Click;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -66,7 +66,7 @@ public partial class Button : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get => ((Gtk.Label)self.Child).Text;
         set => ((Gtk.Label)self.Child).Text = value;
@@ -142,6 +142,5 @@ public partial class Button : Control
 
     private void Self_Clicked(object sender, EventArgs e)
     {
-        
     }
 }

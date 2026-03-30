@@ -78,7 +78,7 @@ public class MarginsConverter : ExpandableObjectConverter
     /// <exception cref="T:System.ArgumentException">
     /// TextParseFailedFormat
     /// </exception>
-    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    public override object? ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
         if (value is string strValue)
         {
@@ -213,7 +213,7 @@ public class MarginsConverter : ExpandableObjectConverter
         var top = propertyValues["Top"];
         var bottom = propertyValues["Bottom"];
 
-        return left is int && right is int && bottom is int && top is int ? (object)new Margins((int)left, (int)right, (int)top, (int)bottom) : throw new ArgumentException("PropertyValueInvalidEntry");
+        return left is int i && right is int right1 && bottom is int bottom1 && top is int top1 ? (object)new Margins(i, right1, top1, bottom1) : throw new ArgumentException("PropertyValueInvalidEntry");
     }
 
     /// <summary>

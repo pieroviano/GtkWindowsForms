@@ -20,7 +20,9 @@ namespace System.Windows.Forms.GtkRender;
 /// <seealso cref="T:System.Windows.Forms.GtkRender.ICellRenderer" />
 public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
 {
+#pragma warning disable IDE0040
     readonly DataGridViewColumn Column;
+#pragma warning restore IDE0040
 
     private readonly CellReandererUtility utility;
 
@@ -74,17 +76,20 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
                     if (style == null)
                         style = value.InheritedStyle;
                     utility.SetControlWithStyle(this, style);
-                    if (typeof(Drawing.Image).Equals(value.ValueType) || typeof(Drawing.Bitmap).Equals(value.ValueType))
+                    var valueType = value.ValueType;
+                    if (valueType is not null && 
+                        (typeof(Drawing.Image).Equals(valueType) || 
+                         typeof(Drawing.Bitmap).Equals(valueType)))
                     {
-                        this.Pixbuf = ((Drawing.Image)value.Value).Pixbuf;
+                        this.Pixbuf = ((Drawing.Image?)value.Value)?.Pixbuf;
                     }
-                    else if (value.ValueType == typeof(byte[]))
+                    else if (valueType == typeof(byte[]))
                     {
-                        this.Pixbuf = new Pixbuf((byte[])value.Value);
+                        this.Pixbuf = new Pixbuf((byte[]?)value.Value);
                     }
                     else
                     {
-                        this.Pixbuf = new Gdk.Pixbuf(value.Value.ToString().Replace("\\\\", "//").Replace("\\", "/"));
+                        this.Pixbuf = new Gdk.Pixbuf(value.Value?.ToString().Replace("\\\\", "//").Replace("\\", "/"));
                     }
                 }
                 catch
@@ -101,7 +106,7 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// <value>
     /// The column style.
     /// </value>
-    public DataGridViewCellStyle ColumnStyle
+    public DataGridViewCellStyle? ColumnStyle
     {
         get;
         set;
@@ -131,7 +136,7 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// <value>
     /// The markup.
     /// </value>
-    public string Markup
+    public string? Markup
     {
         get;
         set;

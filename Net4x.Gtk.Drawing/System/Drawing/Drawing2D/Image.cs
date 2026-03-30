@@ -1,7 +1,10 @@
-﻿using System.ComponentModel;
+﻿#nullable enable
+
+using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using Gdk;
 using Gtk;
 
 namespace System.Drawing;
@@ -19,19 +22,19 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 
     internal IntPtr nativeImage;
 
-    private string _fileName;
+    private string? _fileName;
 
     private int _height;
 
-    private Gdk.Pixbuf _Pixbuf;
+    private Pixbuf? _Pixbuf;
 
-    private byte[] _PixbufData;
+    private byte[]? _PixbufData;
 
-    private readonly byte[] _rawData;
+    private readonly byte[]? _rawData;
 
-    private ImageFormat _rawFormat;
+    private ImageFormat? _rawFormat;
 
-    private object _userData;
+    private object? _userData;
 
     private int _width;
 
@@ -40,7 +43,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         Application.Init();
     }
 
-    internal Image(byte[] pixbuf)
+    internal Image(byte[]? pixbuf)
     {
         PixbufData = pixbuf;
     }
@@ -96,7 +99,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// <summary>
     /// Gets or sets the file name associated with this image. Setting the filename loads the image.
     /// </summary>
-    public string FileName
+    public string? FileName
     {
         get => _fileName;
         set { _fileName = value; Pixbuf = new Gdk.Pixbuf(value); }
@@ -120,7 +123,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// Gets the list of frame dimension GUIDs for this image.
     /// </summary>
     [Browsable(false)]
-    public Guid[] FrameDimensionsList
+    public Guid[]? FrameDimensionsList
     {
         get;
 
@@ -154,7 +157,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// Gets the palette for indexed images, if applicable.
     /// </summary>
     [Browsable(false)]
-    public ColorPalette Palette
+    public ColorPalette? Palette
     {
         get;
 
@@ -181,7 +184,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// <see cref="Gdk.Pixbuf" /> representation.
     /// Setting the property updates the internal pixbuf byte buffer.
     /// </summary>
-    public Gdk.Pixbuf Pixbuf
+    public Pixbuf? Pixbuf
     {
         get
         {
@@ -189,14 +192,18 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
 
             return _Pixbuf;
         }
-        set { _Pixbuf = value; _PixbufData = value.SaveToBuffer("bmp"); }
+        set
+        {
+            _Pixbuf = value;
+            if (value != null) _PixbufData = value.SaveToBuffer("bmp");
+        }
     }
 
     /// <summary>
     /// Gets or sets the raw pixbuf byte buffer for this image.
     /// </summary>
     //“jpeg”, “tiff”, “png”, “ico” or “bmp”.
-    public byte[] PixbufData
+    public byte[]? PixbufData
     {
         get
         {
@@ -221,7 +228,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// Gets the list of property ids embedded in the image.
     /// </summary>
     [Browsable(false)]
-    public int[] PropertyIdList
+    public int[]? PropertyIdList
     {
         get;
 
@@ -232,7 +239,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// Gets the array of property items embedded in the image (EXIF / metadata).
     /// </summary>
     [Browsable(false)]
-    public PropertyItem[] PropertyItems
+    public PropertyItem[]? PropertyItems
     {
         get;
 
@@ -259,7 +266,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// </summary>
     [Localizable(false)]
     [DefaultValue(null)]
-    public object Tag
+    public object? Tag
     {
         get
         {
@@ -300,7 +307,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// </summary>
     public object Clone()
     {
-        return new Bitmap((byte[])this.PixbufData.Clone()) { Width = this.Width, Height = this.Height };
+        return new Bitmap((byte[]?)this.PixbufData?.Clone()) { Width = this.Width, Height = this.Height };
     }
 
     /// <summary>
@@ -337,7 +344,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         }
         filename = System.IO.Path.GetFullPath(filename);
         var extension = IO.Path.GetExtension(filename)?.ToLower();
-        byte[] filebytes =File.ReadAllBytes(filename);
+        var filebytes =File.ReadAllBytes(filename);
         var bitmap = new Bitmap(filebytes);
         bitmap.GetImageFormat(extension);
 
@@ -365,7 +372,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// Creates an image from a
     /// <see cref="T:System.IO.Stream" />.
     /// </summary>
-    public static Image FromStream(Stream stream)
+    public static Image? FromStream(Stream stream)
     {
         return FromStream(stream, useEmbeddedColorManagement: false);
     }
@@ -374,7 +381,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// Creates an image from a
     /// <see cref="T:System.IO.Stream" />.
     /// </summary>
-    public static Image FromStream(Stream stream, bool useEmbeddedColorManagement)
+    public static Image? FromStream(Stream stream, bool useEmbeddedColorManagement)
     {
         return FromStream(stream, useEmbeddedColorManagement, validateImageData: true);
     }
@@ -383,7 +390,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// Creates an image from a
     /// <see cref="T:System.IO.Stream" />.
     /// </summary>
-    public static Image FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData)
+    public static Image? FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData)
     {
         if (stream != null)
         {
@@ -404,7 +411,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// <summary>
     /// Returns encoder parameters supported by the encoder identified by the given GUID.
     /// </summary>
-    public EncoderParameters GetEncoderParameterList(Guid encoder)
+    public EncoderParameters? GetEncoderParameterList(Guid encoder)
     {
 
         return null;
@@ -431,7 +438,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// <summary>
     /// Retrieves a property item by id, or null if not present.
     /// </summary>
-    public PropertyItem GetPropertyItem(int propid)
+    public PropertyItem? GetPropertyItem(int propid)
     {
 
         return null;
@@ -441,7 +448,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// <summary>
     /// Returns a thumbnail image for this image. Not implemented.
     /// </summary>
-    public Image GetThumbnailImage(int thumbWidth, int thumbHeight, GetThumbnailImageAbort callback, IntPtr callbackData)
+    public Image? GetThumbnailImage(int thumbWidth, int thumbHeight, GetThumbnailImageAbort callback, IntPtr callbackData)
     {
         return null;
     }
@@ -507,9 +514,9 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// <summary>
     /// Saves the image to the specified filename using the provided encoder and parameters.
     /// </summary>
-    public void Save(string filename, ImageCodecInfo encoder, EncoderParameters encoderParams)
+    public void Save(string filename, ImageCodecInfo encoder, EncoderParameters? encoderParams)
     {
-        Pixbuf?.Save(filename, encoder.MimeType.Trim('.').ToLower());
+        Pixbuf?.Save(filename, encoder.MimeType?.Trim('.').ToLower());
     }
 
     /// <summary>
@@ -523,11 +530,11 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// <summary>
     /// Saves the image to the specified filename. The image format is inferred from the extension.
     /// </summary>
-    public void Save(Stream stream, ImageCodecInfo encoder, EncoderParameters encoderParams)
+    public void Save(Stream stream, ImageCodecInfo? encoder, EncoderParameters? encoderParams)
     {
         if (PixbufData != null)
         {
-            foreach (byte b in PixbufData)
+            foreach (var b in PixbufData)
                 stream.WriteByte(b);
         }
     }
@@ -606,7 +613,7 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
         base.Dispose(disposing);
     }
 
-    private ImageFormat GetImageFormat(string extension)
+    private ImageFormat GetImageFormat(string? extension)
     {
         if (extension == ".memorybmp")
         {

@@ -1,18 +1,19 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
+using System.Reflection;
 
 namespace System.Windows.Forms.PropertyGridInternal;
 
 internal partial class GridEntry : GridItem, ITypeDescriptorContext
 {
 
-    public GridEntry _parent;
+    public GridEntry? _parent;
 
-    internal object value;
+    internal object? value;
 
-    public GridEntry(GridEntry parent, GridItemType itemtype, int level, string label, object value, string description)
+    public GridEntry(GridEntry? parent, GridItemType itemtype, int level, string? label, object? value, string? description)
     {
         _parent = parent;
         this.Parent = parent;
@@ -31,7 +32,7 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
 
     public IContainer Container => throw new NotImplementedException();
 
-    public string Description
+    public string? Description
     {
         get;
         set;
@@ -43,13 +44,13 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
         set;
     }
 
-    public override GridItemCollection GridItems { get; }
+    public override GridItemCollection? GridItems { get; }
 
     public override GridItemType GridItemType { get; }
 
     public object Instance => throw new NotImplementedException();
 
-    public override string Label { get; }
+    public override string? Label { get; }
 
     public int Level
     {
@@ -57,25 +58,25 @@ internal partial class GridEntry : GridItem, ITypeDescriptorContext
         set;
     }
 
-    public PropertyGrid OwnerGrid
+    public PropertyGrid? OwnerGrid
     {
         get;
         set;
     }
 
-    public override GridItem Parent { get; }
+    public override GridItem? Parent { get; }
 
-    public override PropertyDescriptor PropertyDescriptor { get; }
+    public override PropertyDescriptor? PropertyDescriptor { get; }
 
-    public override object Value { get => value; }
+    public override object? Value { get => value; }
 
-    public Type ValueType
+    public Type? ValueType
     {
         get;
         set;
     }
 
-    internal System.Reflection.PropertyInfo PropertyInfo
+    internal PropertyInfo? PropertyInfo
     {
         get;
         set;

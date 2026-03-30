@@ -64,7 +64,7 @@ public class DataGridViewCellStyle : ICloneable
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public object DataSourceNullValue
+    public object? DataSourceNullValue
     {
         get;
         set;
@@ -76,7 +76,7 @@ public class DataGridViewCellStyle : ICloneable
     /// <value>
     /// The font.
     /// </value>
-    public Font Font
+    public Font? Font
     {
         get;
         set;
@@ -101,7 +101,7 @@ public class DataGridViewCellStyle : ICloneable
     /// The format.
     /// </value>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public string Format
+    public string? Format
     {
         get;
         set;
@@ -115,7 +115,7 @@ public class DataGridViewCellStyle : ICloneable
     /// </value>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public IFormatProvider FormatProvider
+    public IFormatProvider? FormatProvider
     {
         get;
         set;
@@ -174,7 +174,7 @@ public class DataGridViewCellStyle : ICloneable
     /// </value>
     [DefaultValue("")]
     [TypeConverter(typeof(StringConverter))]
-    public object NullValue
+    public object? NullValue
     {
         get;
         set;
@@ -224,7 +224,7 @@ public class DataGridViewCellStyle : ICloneable
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public object Tag
+    public object? Tag
     {
         get;
         set;

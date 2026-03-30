@@ -1,254 +1,255 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
 using Gtk;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Provides static methods and properties to manage an application, such as methods to start and stop an application, to process Windows messages, and properties to get information about an application. This class cannot be inherited.
+/// </summary>
+/// <filterpriority>
+/// 1
+/// </filterpriority>
+public sealed class Application
 {
+
+    private static readonly object internalSyncObject = new();
+
+    static Application()
+    {
+        Init();
+    }
+
     /// <summary>
-    /// Provides static methods and properties to manage an application, such as methods to start and stop an application, to process Windows messages, and properties to get information about an application. This class cannot be inherited.
+    /// Gets the application.
     /// </summary>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
-    public sealed class Application
+    /// <value>
+    /// The application.
+    /// </value>
+    public static Gtk.Application? App
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// Gets the common application data path.
+    /// </summary>
+    /// <value>
+    /// The common application data path.
+    /// </value>
+    public static string CommonAppDataPath
+    {
+        get
+        {
+            return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), appDataDirectory);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the current culture.
+    /// </summary>
+    /// <value>
+    /// The current culture.
+    /// </value>
+    public static CultureInfo CurrentCulture
+    {
+        get
+        {
+            return Thread.CurrentThread.CurrentCulture;
+        }
+        set
+        {
+            Thread.CurrentThread.CurrentCulture = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the current input language.
+    /// </summary>
+    /// <value>
+    /// The current input language.
+    /// </value>
+    public static InputLanguage CurrentInputLanguage
+    {
+        get
+        {
+            return InputLanguage.CurrentInputLanguage;
+        }
+        set
+        {
+            InputLanguage.CurrentInputLanguage = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets the executable path.
+    /// </summary>
+    /// <value>
+    /// The executable path.
+    /// </value>
+    public static string ExecutablePath
+    {
+        get
+        {
+            var module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
+            if (module.ModuleName.ToLower() == "dotnet" || module.ModuleName.ToLower() == "dotnet.exe")
+                return Assembly.GetEntryAssembly().Location;
+            else
+                return module.FileName;
+        }
+    }
+
+    /// <summary>
+    /// Gets the local user application data path.
+    /// </summary>
+    /// <value>
+    /// The local user application data path.
+    /// </value>
+    public static string LocalUserAppDataPath
+    {
+        get
+        {
+            return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appDataDirectory);
+        }
+    }
+
+    /// <summary>
+    /// Gets the open forms.
+    /// </summary>
+    /// <value>
+    /// The open forms.
+    /// </value>
+    public static FormCollection OpenForms
+    {
+        get
+        {
+            var forms = new FormCollection();
+            var windows = Gtk.Window.ListToplevels().Where(w => w.IsVisible == true);
+            foreach (var w in windows)
+                if (w.Data.ContainsKey("Control") && w.Data["Control"] is Form form)
+                    forms.Add(form);
+
+            return forms;
+        }
+    }
+
+    /// <summary>
+    /// Gets the startup path.
+    /// </summary>
+    /// <value>
+    /// The startup path.
+    /// </value>
+    public static string StartupPath { get { return System.IO.Directory.GetCurrentDirectory(); } }
+
+    /// <summary>
+    /// Gets the user application data path.
+    /// </summary>
+    /// <value>
+    /// The user application data path.
+    /// </value>
+    public static string UserAppDataPath
+    {
+        get
+        {
+            return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appDataDirectory);
+        }
+    }
+
+    private static string appDataDirectory
+    {
+        get
+        {
+            var assemblyFullName = Assembly.GetEntryAssembly().FullName.Split(',');
+            var _namespace = assemblyFullName[0];
+            var assembly = Assembly.GetExecutingAssembly().GetName();
+
+            return Path.Combine(_namespace, assembly.Name, assembly.Version.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Does the events.
+    /// </summary>
+    public static void DoEvents()
+    {
+        while (Gtk.Application.EventsPending())
+            Gtk.Application.RunIteration(false);
+    }
+
+    /// <summary>
+    /// Enables the visual styles.
+    /// </summary>
+    public static void EnableVisualStyles()
     {
 
-        private static readonly object internalSyncObject = new();
+    }
 
-        static Application()
-        {
-            Init();
-        }
+    /// <summary>
+    /// Exits this instance.
+    /// </summary>
+    public static void Exit()
+    {
+        ExitThread();
+    }
 
-        /// <summary>
-        /// Gets the application.
-        /// </summary>
-        /// <value>
-        /// The application.
-        /// </value>
-        public static Gtk.Application App
+    /// <summary>
+    /// Exits this instance.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public static void Exit(CancelEventArgs e)
+    {
+        lock (internalSyncObject)
         {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the common application data path.
-        /// </summary>
-        /// <value>
-        /// The common application data path.
-        /// </value>
-        public static string CommonAppDataPath
-        {
-            get
+            try
             {
-                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), appDataDirectory);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the current culture.
-        /// </summary>
-        /// <value>
-        /// The current culture.
-        /// </value>
-        public static CultureInfo CurrentCulture
-        {
-            get
-            {
-                return Thread.CurrentThread.CurrentCulture;
-            }
-            set
-            {
-                Thread.CurrentThread.CurrentCulture = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the current input language.
-        /// </summary>
-        /// <value>
-        /// The current input language.
-        /// </value>
-        public static InputLanguage CurrentInputLanguage
-        {
-            get
-            {
-                return InputLanguage.CurrentInputLanguage;
-            }
-            set
-            {
-                InputLanguage.CurrentInputLanguage = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the executable path.
-        /// </summary>
-        /// <value>
-        /// The executable path.
-        /// </value>
-        public static string ExecutablePath
-        {
-            get
-            {
-                var module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
-                if (module.ModuleName.ToLower() == "dotnet" || module.ModuleName.ToLower() == "dotnet.exe")
-                    return Assembly.GetEntryAssembly().Location;
-                else
-                    return module.FileName;
-            }
-        }
-
-        /// <summary>
-        /// Gets the local user application data path.
-        /// </summary>
-        /// <value>
-        /// The local user application data path.
-        /// </value>
-        public static string LocalUserAppDataPath
-        {
-            get
-            {
-                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appDataDirectory);
-            }
-        }
-
-        /// <summary>
-        /// Gets the open forms.
-        /// </summary>
-        /// <value>
-        /// The open forms.
-        /// </value>
-        public static FormCollection OpenForms
-        {
-            get
-            {
-                var forms = new FormCollection();
-                var windows = Gtk.Window.ListToplevels().Where(w => w.IsVisible == true);
-                foreach (var w in windows)
-                    if (w.Data.ContainsKey("Control") && w.Data["Control"] is Form form)
-                        forms.Add(form);
-
-                return forms;
-            }
-        }
-
-        /// <summary>
-        /// Gets the startup path.
-        /// </summary>
-        /// <value>
-        /// The startup path.
-        /// </value>
-        public static string StartupPath { get { return System.IO.Directory.GetCurrentDirectory(); } }
-
-        /// <summary>
-        /// Gets the user application data path.
-        /// </summary>
-        /// <value>
-        /// The user application data path.
-        /// </value>
-        public static string UserAppDataPath
-        {
-            get
-            {
-                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appDataDirectory);
-            }
-        }
-
-        private static string appDataDirectory
-        {
-            get
-            {
-                var assemblyFullName = Assembly.GetEntryAssembly().FullName.Split(',');
-                var _namespace = assemblyFullName[0];
-                var assembly = Assembly.GetExecutingAssembly().GetName();
-
-                return Path.Combine(_namespace, assembly.Name, assembly.Version.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Does the events.
-        /// </summary>
-        public static void DoEvents()
-        {
-            while (Gtk.Application.EventsPending())
-                Gtk.Application.RunIteration(false);
-        }
-
-        /// <summary>
-        /// Enables the visual styles.
-        /// </summary>
-        public static void EnableVisualStyles()
-        {
-
-        }
-
-        /// <summary>
-        /// Exits this instance.
-        /// </summary>
-        public static void Exit()
-        {
-            ExitThread();
-        }
-
-        /// <summary>
-        /// Exits this instance.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static void Exit(CancelEventArgs e)
-        {
-            lock (internalSyncObject)
-            {
-                try
+                if (e == null)
                 {
-                    if (e == null)
+                    Gtk.Application.Quit();
+                }
+                else
+                {
+                    if (e.Cancel == false)
                     {
                         Gtk.Application.Quit();
                     }
-                    else
-                    {
-                        if (e.Cancel == false)
-                        {
-                            Gtk.Application.Quit();
-                        }
-                    }
-                }
-                finally
-                {
                 }
             }
-        }
-
-        /// <summary>
-        /// Exits the thread.
-        /// </summary>
-        public static void ExitThread()
-        {
-            lock (internalSyncObject)
+            finally
             {
-                try
-                {
-
-                    Gtk.Application.Quit();
-                }
-                finally { }
             }
         }
+    }
 
-        /// <summary>
-        /// Initializes this instance.
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public static Gtk.Application Init()
+    /// <summary>
+    /// Exits the thread.
+    /// </summary>
+    public static void ExitThread()
+    {
+        lock (internalSyncObject)
         {
-            if (App == null)
+            try
             {
-                var css_style = @"
+
+                Gtk.Application.Quit();
+            }
+            finally { }
+        }
+    }
+
+    /// <summary>
+    /// Initializes this instance.
+    /// </summary>
+    /// <returns>
+    /// </returns>
+    public static Gtk.Application Init()
+    {
+        if (App == null)
+        {
+            var css_style = @"
 
 /* Define control styles*/
 
@@ -324,198 +325,197 @@ namespace System.Windows.Forms
 .PropertyGrid button{background:#eeeeee;}
 ";
 
-                var appdirectory = "./";// StartupPath; // becauselinux the system commonly uses environment variable paths， will lead toDirectory/Environment the retrieved current directory is incorrect
-                if (!File.Exists($"{appdirectory}/{Assembly.GetExecutingAssembly().GetName().Name}.dll"))
+            var appdirectory = "./";// StartupPath; // becauselinux the system commonly uses environment variable paths， will lead toDirectory/Environment the retrieved current directory is incorrect
+            if (!File.Exists($"{appdirectory}/{Assembly.GetExecutingAssembly().GetName().Name}.dll"))
+            {
+                appdirectory = Path.GetDirectoryName(ExecutablePath);
+            }
+            var resourcepath = Path.Combine(appdirectory, "Resources");
+            var themepath = Path.Combine(appdirectory, "theme");
+            var themesetuppath = Path.Combine(themepath, "setup.theme");
+            if (!Directory.Exists(resourcepath))
+            {
+                Directory.CreateDirectory(resourcepath);
+            }
+            if (!Directory.Exists(themepath))
+            {
+                Directory.CreateDirectory(themepath);
+            }
+
+            Gtk.Application.Init();
+            App = new Gtk.Application(Assembly.GetExecutingAssembly().GetName().Name, GLib.ApplicationFlags.None);
+            App.Register(GLib.Cancellable.Current);
+            App.Shutdown += App_Shutdown;
+            var quitAction = new GLib.SimpleAction("quit", null);
+            quitAction.Activated += QuitActivated;
+            App.AddAction(quitAction);
+            var settings = Gtk.Settings.Default;
+            settings.SplitCursor = true;
+            settings.EnableAnimations = true;
+            var iconpath = Path.Combine(appdirectory, "icon.png");
+            if (File.Exists(iconpath))
+                Gtk.Window.SetDefaultIconFromFile(iconpath);
+
+            var css = new Gtk.CssProvider();
+            var cssBuilder=new StringBuilder();
+
+            if (File.Exists(themesetuppath))
+            {
+                var setuptheme = File.ReadAllLines(themesetuppath, Text.Encoding.UTF8);
+                var nameValue = setuptheme.Where(w=>w.Contains("=")).ToDictionary(k => k.Split('=')[0],v=>v.Split('=')[1]);
+                nameValue.TryGetValue("UseDefaultStyle", out var usedef);
+                if (usedef != "false")
+                    cssBuilder.AppendLine(css_style);
+
+                nameValue.TryGetValue("AutoTheme", out var autotheme);
+                if (autotheme == "false")
                 {
-                    appdirectory = Path.GetDirectoryName(ExecutablePath);
+                    if (nameValue.TryGetValue("DefaultThemeName", out var themename))
+                        Gtk.Settings.Default.ThemeName = themename;
                 }
-                var resourcepath = Path.Combine(appdirectory, "Resources");
-                var themepath = Path.Combine(appdirectory, "theme");
-                var themesetuppath = Path.Combine(themepath, "setup.theme");
-                if (!Directory.Exists(resourcepath))
+                if (nameValue.TryGetValue("UseCustomTheme", out var usetheme))
                 {
-                    Directory.CreateDirectory(resourcepath);
-                }
-                if (!Directory.Exists(themepath))
-                {
-                    Directory.CreateDirectory(themepath);
-                }
-
-                Gtk.Application.Init();
-                App = new Gtk.Application(Assembly.GetExecutingAssembly().GetName().Name, GLib.ApplicationFlags.None);
-                App.Register(GLib.Cancellable.Current);
-                App.Shutdown += App_Shutdown;
-                var quitAction = new GLib.SimpleAction("quit", null);
-                quitAction.Activated += QuitActivated;
-                App.AddAction(quitAction);
-                var settings = Gtk.Settings.Default;
-                settings.SplitCursor = true;
-                settings.EnableAnimations = true;
-                var iconpath = Path.Combine(appdirectory, "icon.png");
-                if (File.Exists(iconpath))
-                    Gtk.Window.SetDefaultIconFromFile(iconpath);
-
-                var css = new Gtk.CssProvider();
-                var cssBuilder=new StringBuilder();
-
-                if (File.Exists(themesetuppath))
-                {
-                    var setuptheme = File.ReadAllLines(themesetuppath, Text.Encoding.UTF8);
-                    var nameValue = setuptheme.Where(w=>w.Contains("=")).ToDictionary(k => k.Split('=')[0],v=>v.Split('=')[1]);
-                    nameValue.TryGetValue("UseDefaultStyle", out var usedef);
-                    if (usedef != "false")
-                        cssBuilder.AppendLine(css_style);
-
-                    nameValue.TryGetValue("AutoTheme", out var autotheme);
-                    if (autotheme == "false")
+                    if (usetheme == "true")
                     {
-                        if (nameValue.TryGetValue("DefaultThemeName", out var themename))
-                            Gtk.Settings.Default.ThemeName = themename;
-                    }
-                    if (nameValue.TryGetValue("UseCustomTheme", out var usetheme))
-                    {
-                        if (usetheme == "true")
+                        if (nameValue.TryGetValue("ThemeFolder", out var themefolder))
                         {
-                            if (nameValue.TryGetValue("ThemeFolder", out var themefolder))
+                            if (Directory.Exists(themefolder))
                             {
-                                if (Directory.Exists(themefolder))
+                                try
                                 {
-                                    try
-                                    {
-                                        var _themefolder = Path.GetFullPath(themefolder);
-                                        Environment.SetEnvironmentVariable("GTK_DATA_PREFIX", _themefolder);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine(ex.Message);
-                                    }
-                                    finally
-                                    {
-                                        Gtk.Settings.Default.ThemeName = nameValue["Name"];
-                                    }
+                                    var _themefolder = Path.GetFullPath(themefolder);
+                                    Environment.SetEnvironmentVariable("GTK_DATA_PREFIX", _themefolder);
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    Console.WriteLine(themefolder + System.Properties.Resources.Gtk_Application_Init_Directory_does_not_exist);
+                                    GtkLogger.Info(ex.Message);
                                 }
-                            }
-                            if (nameValue.TryGetValue("ThemeCssPath", out var themecss))
-                            {
-                                if (File.Exists(themecss))
+                                finally
                                 {
-                                    cssBuilder.AppendFormat("@import url(\"{0}\");", themecss).AppendLine();
+                                    Gtk.Settings.Default.ThemeName = nameValue["Name"];
                                 }
-                            }
-                        }
-                    }
-                    if (nameValue.TryGetValue("UseCustomStyle", out var customstyle))
-                    {
-                        if (customstyle == "true" && nameValue.TryGetValue("StylePath", out var stylefile))
-                        {
-                            var stylepath = Path.Combine(themepath, stylefile);
-                            if (File.Exists(stylepath))
-                            {
-                                var styletext = File.ReadAllText(stylepath, Text.Encoding.UTF8);
-                                cssBuilder.AppendLine(styletext);
                             }
                             else
                             {
-                                File.WriteAllText(stylepath, System.Properties.Resources.Gtk_Application_Init_Here_you_can_customize_or_adjust_the_control_style, Text.Encoding.UTF8);
+                                GtkLogger.Info(themefolder + System.Properties.Resources.Gtk_Application_Init_Directory_does_not_exist);
+                            }
+                        }
+                        if (nameValue.TryGetValue("ThemeCssPath", out var themecss))
+                        {
+                            if (File.Exists(themecss))
+                            {
+                                cssBuilder.AppendFormat("@import url(\"{0}\");", themecss).AppendLine();
                             }
                         }
                     }
                 }
-                else
+                if (nameValue.TryGetValue("UseCustomStyle", out var customstyle))
                 {
-                    cssBuilder.AppendLine(css_style);
-
-                    var setupthemecontent = new StringBuilder();
-                    setupthemecontent.AppendLine("[setup]");
-                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_follow_the_system_theme_by_default);
-                    setupthemecontent.AppendLine("AutoTheme=true");
-                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_apply_built_in_styles);
-                    setupthemecontent.AppendLine("UseDefaultStyle=true");
-                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Specify_the_theme_valid_when_AutoTheme_is_false);
-                    setupthemecontent.AppendLine("DefaultThemeName=Default");
-                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_use_a_custom_theme_corresponding_to_custom_theme);
-                    setupthemecontent.AppendLine("UseCustomTheme=false");
-                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_use_custom_style_corresponding_to_custom_style);
-                    setupthemecontent.AppendLine("UseCustomStyle=true");
-                    setupthemecontent.AppendLine().AppendLine("[custom theme]");
-                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Custom_theme_name);
-                    setupthemecontent.AppendLine("Name=mytheme");
-                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_The_folder_where_the_theme_files_are_located);
-                    setupthemecontent.AppendLine("ThemeFolder=theme");
-                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_css_file_path);
-                    setupthemecontent.AppendLine("ThemeCssPath=theme/mytheme/theme.css");
-                    setupthemecontent.AppendLine().AppendLine("[custom style]");
-                    setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Freely_defined_style_files);
-                    setupthemecontent.AppendLine("StylePath=style.css");
-
-                    File.WriteAllText(themesetuppath, setupthemecontent.ToString(), Text.Encoding.UTF8);
+                    if (customstyle == "true" && nameValue.TryGetValue("StylePath", out var stylefile))
+                    {
+                        var stylepath = Path.Combine(themepath, stylefile);
+                        if (File.Exists(stylepath))
+                        {
+                            var styletext = File.ReadAllText(stylepath, Text.Encoding.UTF8);
+                            cssBuilder.AppendLine(styletext);
+                        }
+                        else
+                        {
+                            File.WriteAllText(stylepath, System.Properties.Resources.Gtk_Application_Init_Here_you_can_customize_or_adjust_the_control_style, Text.Encoding.UTF8);
+                        }
+                    }
                 }
+            }
+            else
+            {
+                cssBuilder.AppendLine(css_style);
 
-                css.LoadFromData(cssBuilder.ToString());
-                Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css, StyleProviderPriority.Application);
+                var setupthemecontent = new StringBuilder();
+                setupthemecontent.AppendLine("[setup]");
+                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_follow_the_system_theme_by_default);
+                setupthemecontent.AppendLine("AutoTheme=true");
+                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_apply_built_in_styles);
+                setupthemecontent.AppendLine("UseDefaultStyle=true");
+                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Specify_the_theme_valid_when_AutoTheme_is_false);
+                setupthemecontent.AppendLine("DefaultThemeName=Default");
+                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_use_a_custom_theme_corresponding_to_custom_theme);
+                setupthemecontent.AppendLine("UseCustomTheme=false");
+                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Whether_to_use_custom_style_corresponding_to_custom_style);
+                setupthemecontent.AppendLine("UseCustomStyle=true");
+                setupthemecontent.AppendLine().AppendLine("[custom theme]");
+                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Custom_theme_name);
+                setupthemecontent.AppendLine("Name=mytheme");
+                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_The_folder_where_the_theme_files_are_located);
+                setupthemecontent.AppendLine("ThemeFolder=theme");
+                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_css_file_path);
+                setupthemecontent.AppendLine("ThemeCssPath=theme/mytheme/theme.css");
+                setupthemecontent.AppendLine().AppendLine("[custom style]");
+                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Freely_defined_style_files);
+                setupthemecontent.AppendLine("StylePath=style.css");
+
+                File.WriteAllText(themesetuppath, setupthemecontent.ToString(), Text.Encoding.UTF8);
             }
 
-            return App;
+            css.LoadFromData(cssBuilder.ToString());
+            Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css, StyleProviderPriority.Application);
         }
 
-        /// <summary>
-        /// Runs the specified main form.
-        /// </summary>
-        /// <param name="mainForm">
-        /// The main form.
-        /// </param>
-        public static void Run(Form mainForm)
-        {
-            mainForm.self.Destroyed += Control_Destroyed;
-            mainForm.Show();
-            Gtk.Application.Run();
-        }
+        return App;
+    }
 
-        /// <summary>
-        /// Sets the compatible text rendering default.
-        /// </summary>
-        /// <param name="defaultValue">
-        /// if set to
-        /// <c>
-        /// true
-        /// </c>default value.
-        /// </param>
-        public static void SetCompatibleTextRenderingDefault(bool defaultValue)
-        {
+    /// <summary>
+    /// Runs the specified main form.
+    /// </summary>
+    /// <param name="mainForm">
+    /// The main form.
+    /// </param>
+    public static void Run(Form mainForm)
+    {
+        mainForm.self.Destroyed += Control_Destroyed;
+        mainForm.Show();
+        Gtk.Application.Run();
+    }
 
-        }
+    /// <summary>
+    /// Sets the compatible text rendering default.
+    /// </summary>
+    /// <param name="defaultValue">
+    /// if set to
+    /// <c>
+    /// true
+    /// </c>default value.
+    /// </param>
+    public static void SetCompatibleTextRenderingDefault(bool defaultValue)
+    {
 
-        /// <summary>
-        /// Sets the high dpi mode.
-        /// </summary>
-        /// <param name="highDpiMode">
-        /// The high dpi mode.
-        /// </param>
-        /// <returns>
-        /// </returns>
-        public static bool SetHighDpiMode(HighDpiMode highDpiMode)
-        {
-            return true;
-        }
+    }
 
-        private static void App_Shutdown(object sender, EventArgs e)
-        {
-            Console.WriteLine("App_Shutdown");
-            Gtk.Application.Quit();
-        }
+    /// <summary>
+    /// Sets the high dpi mode.
+    /// </summary>
+    /// <param name="highDpiMode">
+    /// The high dpi mode.
+    /// </param>
+    /// <returns>
+    /// </returns>
+    public static bool SetHighDpiMode(HighDpiMode highDpiMode)
+    {
+        return true;
+    }
 
-        private static void Control_Destroyed(object sender, EventArgs e)
-        {
-            ExitThread();
-        }
+    private static void App_Shutdown(object sender, EventArgs e)
+    {
+        GtkLogger.Info("App_Shutdown");
+        Gtk.Application.Quit();
+    }
 
-        private static void QuitActivated(object sender, EventArgs e)
-        {
-            Gtk.Application.Quit();
-        }
+    private static void Control_Destroyed(object sender, EventArgs e)
+    {
+        ExitThread();
+    }
+
+    private static void QuitActivated(object sender, EventArgs e)
+    {
+        Gtk.Application.Quit();
     }
 }

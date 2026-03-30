@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -14,12 +15,12 @@ public abstract partial class ScrollBar : Control
     /// <summary>
     /// Occurs when scroll.
     /// </summary>
-    public virtual event ScrollEventHandler Scroll;
+    public virtual event ScrollEventHandler? Scroll;
 
     /// <summary>
     /// Occurs when value changed.
     /// </summary>
-    public virtual event EventHandler ValueChanged;
+    public virtual event EventHandler? ValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -27,7 +28,7 @@ public abstract partial class ScrollBar : Control
     /// </summary>
     public ScrollBar() : base()
     {
-        Adjustment.ValueChanged += Control_ValueChanged;
+        Adjustment?.ValueChanged += Control_ValueChanged;
     }
 
     /// <summary>
@@ -36,7 +37,7 @@ public abstract partial class ScrollBar : Control
     /// <value>
     /// The adjustment.
     /// </value>
-    public virtual Gtk.Adjustment Adjustment { get; }
+    public virtual Adjustment? Adjustment { get; }
 
     /// <summary>
     /// Gets or sets the large change.
@@ -46,8 +47,8 @@ public abstract partial class ScrollBar : Control
     /// </value>
     public int LargeChange
     {
-        get => (int)Adjustment.PageIncrement;
-        set => Adjustment.PageIncrement = value;
+        get => (int)(Adjustment?.PageIncrement ?? 0);
+        set => Adjustment?.PageIncrement = value;
     }
 
     /// <summary>
@@ -58,8 +59,8 @@ public abstract partial class ScrollBar : Control
     /// </value>
     public int Maximum
     {
-        get => (int)Adjustment.Upper;
-        set => Adjustment.Upper = value;
+        get => (int)(Adjustment?.Upper ?? 0);
+        set => Adjustment?.Upper = value;
     }
 
     /// <summary>
@@ -70,8 +71,8 @@ public abstract partial class ScrollBar : Control
     /// </value>
     public int Minimum
     {
-        get => (int)Adjustment.Lower;
-        set => Adjustment.Lower = value;
+        get => (int)(Adjustment?.Lower ?? 0);
+        set => Adjustment?.Lower = value;
     }
 
     /// <summary>
@@ -82,8 +83,8 @@ public abstract partial class ScrollBar : Control
     /// </value>
     public int SmallChange
     {
-        get => (int)Adjustment.StepIncrement;
-        set => Adjustment.StepIncrement = value;
+        get => (int)(Adjustment?.StepIncrement ?? 0);
+        set => Adjustment?.StepIncrement = value;
     }
 
     /// <summary>
@@ -94,8 +95,8 @@ public abstract partial class ScrollBar : Control
     /// </value>
     public int Value
     {
-        get => (int)Adjustment.Value;
-        set { Adjustment.Value = value; }
+        get => (int)(Adjustment?.Value ?? 0);
+        set { Adjustment?.Value = value; }
     }
 
     /// <summary>
@@ -116,7 +117,7 @@ public abstract partial class ScrollBar : Control
 
     private void Control_ValueChanged(object sender, EventArgs e)
     {
-        var newValue = Adjustment.Value;
+        var newValue = Adjustment?.Value??0.0;
         OnValueChanged(e);
         var args = new ScrollEventArgs(newValue >= _oldValue ? ScrollEventType.SmallIncrement : ScrollEventType.SmallDecrement, (int)_oldValue, (int)newValue);
         OnScroll(args);

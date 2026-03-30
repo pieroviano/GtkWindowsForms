@@ -14,29 +14,29 @@ public partial class ResXResourceReader
 {
     internal sealed class ReaderAliasResolver : IAliasResolver
     {
-        private readonly Hashtable _cachedAliases;
+        private readonly Hashtable? _cachedAliases;
 
         internal ReaderAliasResolver()
         {
             _cachedAliases = new Hashtable();
         }
 
-        public void PushAlias(string alias, AssemblyName name)
+        public void PushAlias(string alias, AssemblyName? name)
         {
             if (string.IsNullOrEmpty(alias))
             {
                 return;
             }
-            _cachedAliases[alias] = name;
+            _cachedAliases?[alias] = name;
         }
 
-        public AssemblyName ResolveAlias(string alias)
+        public AssemblyName? ResolveAlias(string? alias)
         {
             if (string.IsNullOrEmpty(alias))
             {
                 return null;
             }
-            AssemblyName result = null;
+            AssemblyName? result = null;
             if (_cachedAliases != null)
             {
                 result = (AssemblyName)_cachedAliases[alias];

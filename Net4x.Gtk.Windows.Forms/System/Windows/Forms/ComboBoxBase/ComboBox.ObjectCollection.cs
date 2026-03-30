@@ -169,7 +169,7 @@ public partial class ComboBox
         /// <summary>
         /// Copies the ComboBox Items collection to a destination array.
         /// </summary>
-        public void CopyTo(object[] destination, int arrayIndex)
+        public void CopyTo(object?[] destination, int arrayIndex)
         {
             var count = InnerList.Count;
 
@@ -207,7 +207,7 @@ public partial class ComboBox
             foreach (var entry in InnerList)
             {
                 virtualIndex++;
-                if ((value is Entry itemEntry && entry == itemEntry) || entry.Item.Equals(value))
+                if (entry.Item != null && ((value is Entry itemEntry && entry == itemEntry) || entry.Item.Equals(value)))
                 {
                     return virtualIndex;
                 }
@@ -274,7 +274,7 @@ public partial class ComboBox
             }
         }
 
-        internal int Add(string value, string text, object item)
+        internal int Add(string? value, string? text, object item)
         {
             var index = AddInternal(item);
             NativeAdd(-1, value, text);
@@ -310,7 +310,7 @@ public partial class ComboBox
                 if (selected)
                 {
                     _owner.SelectedIndex = index;
-                    _owner.Text = value?.ToString();
+                    _owner.Text = value?.ToString() ?? string.Empty;
                 }
             }
             else
@@ -329,8 +329,8 @@ public partial class ComboBox
 
         int IComparer<Entry>.Compare(Entry? entry1, Entry? entry2)
         {
-            var itemName1 = _owner.GetItemText(entry1.Item);
-            var itemName2 = _owner.GetItemText(entry2.Item);
+            var itemName1 = _owner.GetItemText(entry1?.Item);
+            var itemName2 = _owner.GetItemText(entry2?.Item);
 
             var compInfo = Application.CurrentCulture.CompareInfo;
 
@@ -371,7 +371,7 @@ public partial class ComboBox
             return index;
         }
 
-        private void NativeAdd(int index, string value, string text)
+        private void NativeAdd(int index, string? value, string? text)
         {
             try
             {

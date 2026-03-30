@@ -404,7 +404,7 @@ internal partial class PropertyStore
                 break;
         }
 
-        _intEntries[index].Mask = (short)((1 << element) | (ushort)(_intEntries[index].Mask));
+        _intEntries?[index].Mask = (short)((1 << element) | (ushort)(_intEntries[index].Mask));
     }
 
     /// <summary>
@@ -465,7 +465,7 @@ internal partial class PropertyStore
                 break;
         }
 
-        _objEntries[index].Mask = (short)((ushort)(_objEntries[index].Mask) | (1 << element));
+        _objEntries?[index].Mask = (short)((ushort)(_objEntries[index].Mask) | (1 << element));
     }
 
     public void SetPadding(int key, Padding value)

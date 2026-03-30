@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -11,7 +12,7 @@ public class FontDialog : CommonDialog
 
     private Font? _font;
 
-    private static readonly Gtk.Window ActiveWindow = null;
+    private static readonly Gtk.Window? ActiveWindow = null;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -120,7 +121,7 @@ public class FontDialog : CommonDialog
     /// A
     /// <see cref="T:System.String" /> that represents this instance.
     /// </returns>
-    public override string ToString() => $"{_font.Name} {_font.Size}";
+    public override string ToString() => $"{_font?.Name} {_font?.Size}";
 
     /// <summary>
     /// Runs the dialog.
@@ -136,9 +137,9 @@ public class FontDialog : CommonDialog
     /// false
     /// </c> otherwise.
     /// </returns>
-    protected override bool RunDialog(IWin32Window owner)
+    protected override bool RunDialog(IWin32Window? owner)
     {
-        Gtk.FontChooserDialog fontChooserDialog = null;
+        FontChooserDialog? fontChooserDialog = null;
         if (owner != null && owner is Form ownerform)
         {
             fontChooserDialog = new Gtk.FontChooserDialog(System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, ownerform.self)

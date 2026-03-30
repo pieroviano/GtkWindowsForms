@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
@@ -24,12 +24,12 @@ public class PropertyManager : BindingManagerBase
     /// <summary>
     /// Occurs when current changed.
     /// </summary>
-    public override event EventHandler CurrentChanged;
+    public override event EventHandler? CurrentChanged;
 
     /// <summary>
     /// Occurs when current item changed.
     /// </summary>
-    public override event EventHandler CurrentItemChanged;
+    public override event EventHandler? CurrentItemChanged;
 
     /// <summary>
     /// Initializes a new instance of the

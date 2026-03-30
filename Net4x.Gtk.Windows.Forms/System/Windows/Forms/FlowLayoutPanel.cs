@@ -173,7 +173,7 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
         /// <param name="control">
         /// The control.
         /// </param>
-        public override void Add(Control control)
+        public override void Add(Control? control)
         {
             var box = new FlowBoxChild
             {
@@ -181,14 +181,18 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
                 Halign = Align.Start,
                 Expand = false
             };
-            control.Location = new Drawing.Point(0, 0);
-            control.LockLocation = true;
-            control.Parent = _owner;
-            var widg = control.Widget;
-            widg.Valign = Align.Start;
-            widg.Halign = Align.Start;
-            widg.Expand = false;
-            box.Add(widg);
+            control?.Location = new Drawing.Point(0, 0);
+            control?.LockLocation = true;
+            control?.Parent = _owner;
+            var widg = control?.Widget;
+            if (widg != null)
+            {
+                widg.Valign = Align.Start;
+                widg.Halign = Align.Start;
+                widg.Expand = false;
+                box.Add(widg);
+            }
+
             _owner.self.Add(box);
             base.AddWidget(box, control);
         }

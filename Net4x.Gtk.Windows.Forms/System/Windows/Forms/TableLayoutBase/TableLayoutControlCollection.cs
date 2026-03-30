@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Gtk;
 
 namespace System.Windows.Forms;
@@ -43,7 +43,7 @@ public class TableLayoutControlCollection : Control.ControlCollection
     /// <value>
     /// The container.
     /// </value>
-    public TableLayoutPanel Container { get; }
+    public TableLayoutPanel? Container { get; }
 
     /// <summary>
     /// Adds the specified control.
@@ -62,27 +62,34 @@ public class TableLayoutControlCollection : Control.ControlCollection
         control.Location = new Drawing.Point(0, 0);
         control.LockLocation = true;
         control.Parent = Container;
-        control.Widget.Margin = 4;
-        control.Widget.Valign = Align.Start;
-        control.Widget.Halign = Align.Start;
-        control.Widget.Hexpand = false;
-        if (Container.grid.GetChildAt(column, row) is Gtk.Viewport view)
+        if (control.Widget != null)
         {
-            view.Child = control.Widget;
-        }
-        else
-        {
-            var viewport = new Gtk.Viewport
+            control.Widget.Margin = 4;
+            control.Widget.Valign = Align.Start;
+            control.Widget.Halign = Align.Start;
+            control.Widget.Hexpand = false;
+            if (Container?.grid.GetChildAt(column, row) is Gtk.Viewport view)
             {
-                Vexpand = false, Hexpand = false, Valign = Align.Fill,
-                Halign = Align.Fill,
-                BorderWidth = 0,
-                Child = control.Widget
-            };
-            Container.grid.Attach(viewport, column, row, 1, 1);
+                view.Child = control.Widget;
+            }
+            else
+            {
+                var viewport = new Gtk.Viewport
+                {
+                    Vexpand = false, Hexpand = false, Valign = Align.Fill,
+                    Halign = Align.Fill,
+                    BorderWidth = 0,
+                    Child = control.Widget
+                };
+                Container?.grid.Attach(viewport, column, row, 1, 1);
+            }
         }
+
         base.Add(control);
-        Container.SetColumn(control, column);
-        Container.SetRow(control, row);
+        if (Container != null)
+        {
+            Container.SetColumn(control, column);
+            Container.SetRow(control, row);
+        }
     }
 }

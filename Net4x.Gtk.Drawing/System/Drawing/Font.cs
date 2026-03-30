@@ -260,7 +260,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <exception cref="T:System.ArgumentException">
     /// emSize is less than or equal to 0, evaluates to infinity, or is not a valid number.
     /// </exception>
-    public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)
+    public Font(FontFamily? family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)
     {
         this.Name = family?.Name;
         this.FontFamily = family;
@@ -287,7 +287,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// The System.Drawing.FontFamily associated with this System.Drawing.Font.
     /// </returns>
     [Browsable(false)]
-    public FontFamily FontFamily { get; }
+    public FontFamily? FontFamily { get; }
 
     /// <summary>
     /// Gets a byte value that specifies the GDI character set that this System.Drawing.Font
@@ -343,7 +343,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// A string representation of the face name of this System.Drawing.Font.
     /// </returns>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string Name { get; }
+    public string? Name { get; }
 
     /// <summary>
     /// Gets the name of the font originally specified.
@@ -352,7 +352,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// The string representing the name of the font originally specified.
     /// </returns>
     [Browsable(false)]
-    public string OriginalFontName { get; }
+    public string? OriginalFontName { get; }
 
     /// <summary>
     /// Gets the em-size of this System.Drawing.Font measured in the units specified
@@ -399,7 +399,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// The name of the system font, if System.Drawing.Font.IsSystemFont returns true; otherwise, an empty string ("").
     /// </returns>
     [Browsable(false)]
-    public string SystemFontName { get; }
+    public string? SystemFontName { get; }
 
     /// <summary>
     /// Gets a value that indicates whether this System.Drawing.Font is underlined.
@@ -459,12 +459,12 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         {
             return true;
         }
-        Font font = obj as Font;
-        if (font == null)
+
+        if (obj is not Font font)
         {
             return false;
         }
-        if (!font.FontFamily.Equals(this.FontFamily) || font.GdiVerticalFont != this.GdiVerticalFont || font.GdiCharSet != this.GdiCharSet || font.Style != this.Style || font.Size != this.Size)
+        if (font.FontFamily != null && this.FontFamily != null && (!font.FontFamily.Equals(this.FontFamily) || font.GdiVerticalFont != this.GdiVerticalFont || font.GdiCharSet != this.GdiCharSet || font.Style != this.Style || font.Size != this.Size))
         {
             return false;
         }

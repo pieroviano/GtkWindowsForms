@@ -33,11 +33,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
 
     private readonly PropertyGridView _propertyView;
 
-    private object[] _selectedObjects;
+    private object[]? _selectedObjects;
 
     private readonly List<TabInfo> _tabs = new();
-    private Delegate _propertyValueChanged;
-    private Delegate _selectedGridItemChanged;
+    private Delegate? _propertyValueChanged;
+    private Delegate? _selectedGridItemChanged;
 
     private static readonly object s_comComponentNameChangedEvent = new();
 
@@ -55,7 +55,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// Occurs when the
     /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control is browsing a COM object and the user renames the object.
     /// </summary>
-    public virtual event ComponentRenameEventHandler ComComponentNameChanged;
+    public virtual event ComponentRenameEventHandler? ComComponentNameChanged;
 
     /// <summary>
     /// Occurs when mouse enter.

@@ -1,4 +1,4 @@
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Encapsulates a 3-by-3 affine matrix that represents a geometric transform. This class cannot be inherited.
@@ -137,7 +137,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The initialize matrix.
     /// </value>
-    public Matrix initMatrix
+    public Matrix? initMatrix
     {
         get;
         set;
@@ -149,7 +149,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The initialize point f.
     /// </value>
-    public PointF[] initPointF
+    public PointF[]? initPointF
     {
         get;
         set;
@@ -274,7 +274,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The multiply.
     /// </value>
-    public Matrix multiply
+    public Matrix? multiply
     {
         get;
         set;
@@ -388,7 +388,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The transform points.
     /// </value>
-    public PointF[] transformPoints
+    public PointF[]? transformPoints
     {
         get;
         set;
@@ -400,7 +400,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The transform vectors.
     /// </value>
-    public PointF[] transformVectors
+    public PointF[]? transformVectors
     {
         get;
         set;
@@ -412,7 +412,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// <value>
     /// The vector transform points.
     /// </value>
-    public Point[] vectorTransformPoints
+    public Point[]? vectorTransformPoints
     {
         get;
         set;
@@ -426,7 +426,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// The
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" /> that this method creates.
     /// </returns>
-    public Matrix Clone()
+    public Matrix? Clone()
     {
         return null;
 

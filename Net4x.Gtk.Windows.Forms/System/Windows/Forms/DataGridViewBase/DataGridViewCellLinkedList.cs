@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -26,7 +26,7 @@ internal class DataGridViewCellLinkedList : IEnumerable
 
     public int Count => _count;
 
-    public DataGridViewCell HeadCell
+    public DataGridViewCell? HeadCell
     {
         get
         {
@@ -34,7 +34,7 @@ internal class DataGridViewCellLinkedList : IEnumerable
         }
     }
 
-    public DataGridViewCell this[int index]
+    public DataGridViewCell? this[int index]
     {
         get
         {

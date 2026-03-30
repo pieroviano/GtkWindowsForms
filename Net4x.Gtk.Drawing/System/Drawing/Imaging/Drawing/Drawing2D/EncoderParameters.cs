@@ -1,4 +1,4 @@
-
+﻿
 namespace System.Drawing.Imaging;
 
 /// <summary>
@@ -7,7 +7,7 @@ namespace System.Drawing.Imaging;
 /// </summary>
 public sealed class EncoderParameters : IDisposable
 {
-    private EncoderParameter[] _param;
+    private EncoderParameter[]? _param;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -42,7 +42,7 @@ public sealed class EncoderParameters : IDisposable
     /// The array of
     /// <see cref="T:System.Drawing.Imaging.EncoderParameter" /> objects.
     /// </returns>
-    public EncoderParameter[] Param
+    public EncoderParameter[]? Param
     {
         get
         {
@@ -61,7 +61,7 @@ public sealed class EncoderParameters : IDisposable
     public void Dispose()
     {
         var param = _param;
-        for (int i = 0; i < param.Length; i++)
+        for (var i = 0; i < param?.Length; i++)
         {
             param[i]?.Dispose();
         }

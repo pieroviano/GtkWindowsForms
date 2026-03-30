@@ -23,7 +23,7 @@ public partial class NumericUpDown : Control
     /// <summary>
     /// Occurs when value changed.
     /// </summary>
-    public virtual event EventHandler ValueChanged;
+    public virtual event EventHandler? ValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the

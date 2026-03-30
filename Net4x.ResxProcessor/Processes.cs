@@ -22,11 +22,11 @@ public class Processes
     public bool WaitSameProcessesStartedEarlier()
     {
         // Specify the process name and command line arguments
-        string processName = Process.GetCurrentProcess().ProcessName;
+        var processName = Process.GetCurrentProcess().ProcessName;
 
         // Check if another instance of the process is running with the same name and arguments
         var process = IsProcessRunning(processName);
-        bool hasWaited = false;
+        var hasWaited = false;
         while (process != null)
         {
             hasWaited = true;

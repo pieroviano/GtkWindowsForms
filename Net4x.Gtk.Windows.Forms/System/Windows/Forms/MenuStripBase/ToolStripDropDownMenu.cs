@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -19,17 +19,17 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// <summary>
     /// Occurs when font changed.
     /// </summary>
-    public virtual event EventHandler<EventArgs> FontChanged;
+    public virtual event EventHandler<EventArgs>? FontChanged;
 
     /// <summary>
     /// Occurs when layout.
     /// </summary>
-    public virtual event EventHandler<LayoutEventArgs> Layout;
+    public virtual event EventHandler<LayoutEventArgs>? Layout;
 
     /// <summary>
     /// Occurs when paint background.
     /// </summary>
-    public virtual event EventHandler<PaintEventArgs> PaintBackground;
+    public virtual event EventHandler<PaintEventArgs>? PaintBackground;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -121,7 +121,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// <returns>
     /// ToolStripItem.
     /// </returns>
-    protected internal ToolStripItem CreateDefaultItem(string text, Image image, EventHandler onClick) { return null; }
+    protected internal ToolStripItem? CreateDefaultItem(string text, Image image, EventHandler onClick) { return null; }
 
     /// <summary>
     /// Handles the

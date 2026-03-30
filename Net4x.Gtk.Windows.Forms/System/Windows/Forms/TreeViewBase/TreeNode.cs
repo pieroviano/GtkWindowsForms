@@ -16,17 +16,17 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
 
     internal Gtk.TreeIter TreeIter = Gtk.TreeIter.Zero;
 
-    internal TreeView treeView;
+    internal TreeView? treeView;
 
     private int _imageIndex;
 
-    private string _imageKey;
+    private string? _imageKey;
 
     private bool _IsChecked;
 
     private bool _IsSelected;
 
-    private string _text;
+    private string? _text;
 
     // format， union of indexes at all levels：0,1,2,3....
 
@@ -34,7 +34,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
 
     private readonly TreeNodeCollection nodes;
 
-    private TreeNode parent;
+    private TreeNode? parent;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -153,7 +153,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     {
         get
         {
-            var paths=new List<string>();
+            var paths=new List<string?>();
             GetFullPath(this, paths);
 
             return string.Join("/", paths);
@@ -179,7 +179,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The image key.
     /// </value>
-    public string ImageKey
+    public string? ImageKey
     {
         get => _imageKey;
         set { _imageKey = value; TreeView?.NativeNodeImage(this, value); }
@@ -270,7 +270,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The name.
     /// </value>
-    public string Name
+    public string? Name
     {
         get;
         set;
@@ -296,7 +296,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The parent.
     /// </value>
-    public TreeNode Parent
+    public TreeNode? Parent
     {
         get { return parent; }
 
@@ -321,7 +321,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The selected image key.
     /// </value>
-    public string SelectedImageKey
+    public string? SelectedImageKey
     {
         get;
         set;
@@ -345,7 +345,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The state image key.
     /// </value>
-    public string StateImageKey
+    public string? StateImageKey
     {
         get;
         set;
@@ -357,7 +357,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The tag.
     /// </value>
-    public object Tag
+    public object? Tag
     {
         get;
         set;
@@ -369,7 +369,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The text.
     /// </value>
-    public string Text
+    public string? Text
     {
         get => _text;
         set
@@ -385,13 +385,13 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The tool tip text.
     /// </value>
-    public string ToolTipText
+    public string? ToolTipText
     {
         get;
         set;
     }
 
-    internal TreeView TreeView
+    internal TreeView? TreeView
     {
         get
         {
@@ -408,7 +408,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <returns>
     /// A new object that is a copy of this instance.
     /// </returns>
-    public object Clone()
+    public object? Clone()
     {
         return null;
     }
@@ -490,7 +490,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <param name="paths">
     /// The paths.
     /// </param>
-    protected void GetFullPath(TreeNode node, List<string> paths)
+    protected void GetFullPath(TreeNode node, List<string?> paths)
     {
         while (true)
         {

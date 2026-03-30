@@ -9,8 +9,8 @@ namespace System.Resources;
 internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
 {
     private Hashtable? _cachedAssemblies;
-    private Hashtable _cachedTypes;
-    private AssemblyName[] _names;
+    private Hashtable? _cachedTypes;
+    private readonly AssemblyName[]? _names;
 
     // Cross-platform known .NET locations
     private static readonly string[] s_dotNetSharedPaths = GetDotNetSharedPaths();
@@ -87,13 +87,13 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
 #pragma warning restore SYSLIB0044
     }
 
-    public Type GetType(string name)
+    public Type? GetType(string? name)
         => GetType(name, true);
 
-    public Type GetType(string name, bool throwOnError)
+    public Type? GetType(string? name, bool throwOnError)
         => GetType(name, throwOnError, false);
 
-    public Type GetType(string name, bool throwOnError, bool ignoreCase)
+    public Type? GetType(string? name, bool throwOnError, bool ignoreCase)
     {
         Type? result = null;
 
@@ -119,12 +119,15 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
                 var asm = GetAssembly(asmName, false);
                 if (asm == null) continue;
 
-                result = asm.GetType(name, false, ignoreCase);
-
-                if (result is null && name.Contains(','))
+                if (name != null)
                 {
-                    var shortName = name.Substring(0, name.IndexOf(','));
-                    result = asm.GetType(shortName, false, ignoreCase);
+                    result = asm.GetType(name, false, ignoreCase);
+
+                    if (result is null && name.Contains(',') == true)
+                    {
+                        var shortName = name.Substring(0, name.IndexOf(','));
+                        result = asm.GetType(shortName, false, ignoreCase);
+                    }
                 }
 
                 if (result != null)
@@ -201,7 +204,7 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
             .ToArray();
     }
 
-    private static void ReorderAssembliesIfNeeded(string name)
+    private static void ReorderAssembliesIfNeeded(string? name)
     {
         // unchanged logic extracted for clarity if needed later
     }
@@ -217,9 +220,9 @@ internal class AssemblyNamesTypeResolutionService : ITypeResolutionService
             normalized.StartsWith(p, StringComparison.OrdinalIgnoreCase));
     }
 
-    private static string NormalizePath(string path)
+    private static string NormalizePath(string? path)
     {
-        return Path.GetFullPath(path)
+        return Path.GetFullPath(path ?? string.Empty)
             .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
     }
 }

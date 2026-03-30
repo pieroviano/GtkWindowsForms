@@ -67,7 +67,7 @@ public class ResXSerializationBinderTests
     [Fact]
     public void BindToType_NoResolver_ReturnsNull()
     {
-        var sut = new System.Resources.ResXSerializationBinder((ITypeResolutionService)null);
+        var sut = new System.Resources.ResXSerializationBinder((ITypeResolutionService?)null);
 
         var result = sut.BindToType("mscorlib", "System.String");
 
@@ -93,7 +93,7 @@ public class ResXSerializationBinderTests
         var resolver = Substitute.For<ITypeResolutionService>();
 
         resolver.GetType(Arg.Is<string>(s => s.Contains("Version=")))
-            .Returns((Type)null);
+            .Returns((Type?)null);
 
         resolver.GetType("System.String")
             .Returns(typeof(string));
@@ -111,7 +111,7 @@ public class ResXSerializationBinderTests
     public void BindToType_ResolverFailsAll_ReturnsNull()
     {
         var resolver = Substitute.For<ITypeResolutionService>();
-        resolver.GetType(Arg.Any<string>()).Returns((Type)null);
+        resolver.GetType(Arg.Any<string>()).Returns((Type?)null);
 
         var sut = new System.Resources.ResXSerializationBinder(resolver);
 

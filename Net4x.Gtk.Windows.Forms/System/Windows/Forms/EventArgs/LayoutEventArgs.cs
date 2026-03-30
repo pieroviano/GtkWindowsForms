@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -23,7 +23,7 @@ public sealed class LayoutEventArgs : EventArgs
     /// <param name="affectedProperty">
     /// The affected property.
     /// </param>
-    public LayoutEventArgs(IComponent affectedComponent, string affectedProperty)
+    public LayoutEventArgs(IComponent affectedComponent, string? affectedProperty)
     {
         AffectedComponent = affectedComponent;
         AffectedProperty = affectedProperty;
@@ -57,7 +57,7 @@ public sealed class LayoutEventArgs : EventArgs
     /// <value>
     /// The affected control.
     /// </value>
-    public Control AffectedControl => AffectedComponent as Control;
+    public Control? AffectedControl => AffectedComponent as Control;
 
     /// <summary>
     /// Gets the affected property.
@@ -65,5 +65,5 @@ public sealed class LayoutEventArgs : EventArgs
     /// <value>
     /// The affected property.
     /// </value>
-    public string AffectedProperty { get; }
+    public string? AffectedProperty { get; }
 }

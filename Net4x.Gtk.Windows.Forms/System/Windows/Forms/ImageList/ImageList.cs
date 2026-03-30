@@ -301,11 +301,11 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
     /// index out of range， please check whether the index is within the valid rangeImageList within the data range， save the related images toResources under the directory。
     /// </exception>
     // NOTE: forces handle creation, so doesn't return things from the original list
-    public Bitmap GetBitmap(int index)
+    public Bitmap? GetBitmap(int index)
     {
         try
         {
-            return _originals[index]._image as Bitmap;
+            return _originals?[index]._image as Bitmap;
         }
         catch (IndexOutOfRangeException ex)
         {
@@ -329,9 +329,9 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
     /// <exception cref="T:System.IO.FileNotFoundException">
     /// “{name}” not loaded， please save the related images toResources under the directory。
     /// </exception>
-    public Bitmap GetBitmap(string name)
+    public Bitmap? GetBitmap(string? name)
     {
-        var index = _imageCollection.IndexOfKey(name);
+        var index = _imageCollection?.IndexOfKey(name) ?? -1;
         if (index == -1)
         {
             throw new FileNotFoundException($"“{name}” not loaded， please save the related images toResources under the directory。", name);
@@ -353,11 +353,11 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
                    ? base.ToString()
                    : $"{base.ToString()} Images.Count: {Images.Count}, ImageSize: {ImageSize}";
 
-    internal Image GetOriginalImage(string name)
+    internal Image? GetOriginalImage(string name)
     {
         var path1 = $"./Resources";
         var value = this.ImageStream;
-        if (value.ResourceInfo != null && value.ResourceInfo.BaseName != null)
+        if (value?.ResourceInfo != null && value.ResourceInfo.BaseName != null)
         {
             // load image data here
             var dir = $"{path1}/{Path.GetExtension(value.ResourceInfo.BaseName).TrimStart('.')}";
@@ -397,11 +397,11 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
                 {
                     if ((original._options & OriginalOptions.OwnsImage) != 0)
                     {
-                        ((IDisposable)original._image).Dispose();
+                        ((IDisposable?)original._image)?.Dispose();
                     }
                 }
                 _originals.Clear();
-                _imageCollection.Clear();
+                _imageCollection?.Clear();
             }
 
             DestroyHandle();
@@ -481,7 +481,7 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
     {
         ownsBitmap = false;
         var bitmp = original._image as Bitmap;
-        var pixbuf = new Gdk.Pixbuf(bitmp.PixbufData);
+        var pixbuf = new Gdk.Pixbuf(bitmp?.PixbufData);
         var w = Math.Max(16, Math.Min(ImageSize.Width, 200));
         var h = Math.Max(16, Math.Min(ImageSize.Height, 200));
         var newpixbuf = pixbuf.ScaleSimple(w, h, Gdk.InterpType.Bilinear);
@@ -500,7 +500,7 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
     {
         if (HandleCreated)
         {
-            _nativeImageList.Dispose();
+            _nativeImageList?.Dispose();
             _nativeImageList = null;
             _originals = new List<Original>();
         }

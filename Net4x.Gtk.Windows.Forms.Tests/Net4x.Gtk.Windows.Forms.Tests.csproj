@@ -9,6 +9,7 @@
     <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
     <RootNamespace />
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <NoWarn>CS8002;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

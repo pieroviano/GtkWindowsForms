@@ -1,5 +1,6 @@
 ﻿using System.Collections;
-using System.Drawing;
+using Gtk;
+using Image = System.Drawing.Image;
 
 namespace System.Windows.Forms;
 
@@ -18,13 +19,13 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
 
     private readonly bool isToolStripDropDown;
 
-    private Gtk.Menu menu;
+    private Menu? menu;
 
-    private readonly ToolStripItem owner;
+    private readonly ToolStripItem? owner;
 
-    private readonly StatusStrip statusStrip;
+    private readonly StatusStrip? statusStrip;
 
-    private readonly ToolStrip toolStrip;
+    private readonly ToolStrip? toolStrip;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -141,7 +142,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     public new ToolStripItem this[int index]
     {
         get { return base[index]; }
-        set { menu.Insert(value.Widget, index); base[index] = value; }
+        set { menu?.Insert(value.Widget, index); base[index] = value; }
     }
 
     /// <summary>
@@ -204,7 +205,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// <returns>
     /// ToolStripItem.
     /// </returns>
-    public ToolStripItem Add(string text, Image image, EventHandler onClick)
+    public ToolStripItem Add(string? text, Image? image, EventHandler? onClick)
     {
         ToolStripItem toolStripItem = new ToolStripLabel();
         AddMemu(toolStripItem);
@@ -226,28 +227,28 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         item.Parent = owner;
         if (isToolStrip == true)
         {
-            toolStrip.self.Add(item.Widget);
+            toolStrip?.self.Add(item.Widget);
         }
         else if (isStatusStrip == true)
         {
-            statusStrip.self.Add(item.Widget);
+            statusStrip?.self.Add(item.Widget);
         }
         else if (isMenuStrip == true)
         {
-            toolStrip.self.Add(item.Widget);
+            toolStrip?.self.Add(item.Widget);
         }
         else if (isToolStripDropDown == true)
         {
-            menu.Add(item.Widget);
+            menu?.Add(item.Widget);
         }
         else
         {
-            if (owner.MenuItem.Submenu == null)
+            if (owner?.MenuItem?.Submenu == null)
             {
                 this.menu = new Gtk.Menu();
-                owner.MenuItem.Submenu = this.menu;
+                owner?.MenuItem?.Submenu = this.menu;
             }
-            menu.Add(item.Widget);
+            menu?.Add(item.Widget);
         }
 
         base.Add(item);

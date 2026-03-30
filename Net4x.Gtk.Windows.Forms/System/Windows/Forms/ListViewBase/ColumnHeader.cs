@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace System.Windows.Forms;
@@ -12,9 +12,9 @@ public class ColumnHeader : Component, ICloneable
 {
     internal int _index;
 
-    internal string _name;
+    internal string? _name;
 
-    internal string _text;
+    internal string? _text;
 
     internal int _width = 120;
 
@@ -99,7 +99,7 @@ public class ColumnHeader : Component, ICloneable
     /// <value>
     /// The image key.
     /// </value>
-    public string ImageKey
+    public string? ImageKey
     {
         get;
         set;
@@ -144,7 +144,7 @@ public class ColumnHeader : Component, ICloneable
     /// The ListView.
     /// </value>
     [Browsable(false)]
-    public ListView ListView
+    public ListView? ListView
     {
         [CompilerGenerated]
         get;
@@ -157,7 +157,7 @@ public class ColumnHeader : Component, ICloneable
     /// The name.
     /// </value>
     [Browsable(false)]
-    public string Name
+    public string? Name
     {
         get;
         set;
@@ -172,7 +172,7 @@ public class ColumnHeader : Component, ICloneable
     [Localizable(false)]
     [Bindable(true)]
     [DefaultValue(null)]
-    public object Tag
+    public object? Tag
     {
         get;
         set;
@@ -185,7 +185,7 @@ public class ColumnHeader : Component, ICloneable
     /// The text.
     /// </value>
     [Localizable(true)]
-    public string Text
+    public string? Text
     {
         get;
         set;
@@ -225,7 +225,7 @@ public class ColumnHeader : Component, ICloneable
     /// <returns>
     /// A new object that is a copy of this instance.
     /// </returns>
-    public object Clone()
+    public object? Clone()
     {
         return null;
     }

@@ -1,7 +1,10 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using Gdk;
 using Gtk;
 using GtkSystem.Windows.Forms.Utility;
+using Image = System.Drawing.Image;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -38,30 +41,30 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 public sealed class GtkControlOverride : IControlOverride
 {
 
-    private System.Drawing.Image _BackgroundImage;
+    private Image? _BackgroundImage;
 
-    private Gdk.Pixbuf backgroundPixbuf;
+    private Pixbuf? backgroundPixbuf;
 
     private readonly Widget container;
 
     private readonly List<string> cssList = new();
 
-    private Gdk.Pixbuf imagePixbuf;
+    private Pixbuf? imagePixbuf;
 
     /// <summary>
     /// Occurs when the background is drawn.
     /// </summary>
-    public event DrawnHandler DrawnBackground;
+    public event DrawnHandler? DrawnBackground;
 
     /// <summary>
     /// Occurs when paint.
     /// </summary>
-    public event PaintEventHandler Paint;
+    public event PaintEventHandler? Paint;
 
     /// <summary>
     /// Occurs when paint graphics.
     /// </summary>
-    public event PaintGraphicsEventHandler PaintGraphics;
+    public event PaintGraphicsEventHandler? PaintGraphics;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -93,7 +96,7 @@ public sealed class GtkControlOverride : IControlOverride
     /// <value>
     /// The background image.
     /// </value>
-    public System.Drawing.Image BackgroundImage
+    public Image? BackgroundImage
     {
         get { return _BackgroundImage; }
         set { _BackgroundImage = value; backgroundPixbuf = null; }
@@ -117,7 +120,7 @@ public sealed class GtkControlOverride : IControlOverride
     /// <value>
     /// The image.
     /// </value>
-    public System.Drawing.Image Image
+    public Image? Image
     {
         get;
         set;

@@ -19,7 +19,7 @@ namespace GtkWinFormsApp
         {
             InitializeComponent();
 
-            UserControl11 userControl11 = new UserControl11();
+            var userControl11 = new UserControl11();
             panel5.Controls.Add(userControl11);
             this.SizeChanged += Form3_SizeChanged;
 
@@ -45,7 +45,7 @@ namespace GtkWinFormsApp
         {
             //button1.ForeColor=Color.Red;
             //button1.BackColor=Color.Green;
-            Form1 f = new Form1();
+            var f = new Form1();
             f.Show();
         }
 
@@ -59,7 +59,7 @@ namespace GtkWinFormsApp
             var result = this.BeginInvoke(new MethodInvoker(() =>
             {
                 System.Threading.Thread.Sleep(1000);
-                for (int i = 1; i < 101; i++)
+                for (var i = 1; i < 101; i++)
                 {
                     progressBar1.Invoke(new MethodInvoker(() =>
                     {
@@ -74,7 +74,7 @@ namespace GtkWinFormsApp
         {
             var g = e.Graphics;
 
-            GraphicsPath path = new GraphicsPath();
+            var path = new GraphicsPath();
             path.AddEllipse(90, 25, 40, 20);
 
             path.StartFigure();
@@ -98,7 +98,7 @@ namespace GtkWinFormsApp
 
             //path.CloseAllFigures();
 
-            LinearGradientBrush brush = new LinearGradientBrush(new Point(0, 0), new Point(100, 30), Color.Red, Color.Blue);
+            var brush = new LinearGradientBrush(new Point(0, 0), new Point(100, 30), Color.Red, Color.Blue);
             //g.TranslateTransform(30, 0);
             //g.RotateTransform(20);
             g.DrawPath(new Pen(brush, 2), path);
@@ -113,14 +113,14 @@ namespace GtkWinFormsApp
 
         private void ssssToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Form2 f1 = new Form2();
+            var f1 = new Form2();
             f1.Show(this);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form4 f = new Form4();
-            DialogResult res = f.ShowDialog();
+            var f = new Form4();
+            var res = f.ShowDialog();
             GtkLogger.Info(res.ToString());
         }
 
@@ -136,7 +136,7 @@ namespace GtkWinFormsApp
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Form2 f1 = new Form2();
+            var f1 = new Form2();
             f1.Show(this);
         }
     }

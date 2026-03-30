@@ -40,7 +40,7 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
     /// The owning
     /// <see cref="T:System.Windows.Forms.DataGridView" />.
     /// </param>
-    public DataGridViewComboBoxColumn(DataGridView ownerGridView) : base(0, ownerGridView, new DataGridViewComboBoxCell())
+    public DataGridViewComboBoxColumn(DataGridView? ownerGridView) : base(0, ownerGridView, new DataGridViewComboBoxCell())
     {
         _items = new ObjectCollection(this);
         var renderer = new CellRendererComboValue(this)
@@ -62,7 +62,7 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
     /// </summary>
     public ObjectCollection Items => _items;
 
-    internal override DataGridViewCell NewCell(object value = null, Type valueType = null)
+    internal override DataGridViewCell? NewCell(object? value = null, Type? valueType = null)
     {
         var newcell = new DataGridViewComboBoxCell();
         AtrributesClone(newcell);
@@ -75,13 +75,14 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
     private void Renderer_Edited(object o, EditedArgs args)
     {
         var path = new TreePath(args.Path);
-        var model = _treeView.Model;
+        var model = _treeView?.Model;
+        if (model == null) return;
         model.GetIter(out var iter, path);
         var cell = model.GetValue(iter, this.Index);
         if (cell is DataGridViewCell val)
         {
             val.Value = args.NewText;
-            _gridview.CellValueChanagedHandler(this.Index, path.Indices.Last());
+            _gridview?.CellValueChanagedHandler(this.Index, path.Indices.Last());
         }
     }
 

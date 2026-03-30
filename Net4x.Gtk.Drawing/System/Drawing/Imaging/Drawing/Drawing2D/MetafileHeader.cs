@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace System.Drawing.Imaging;
 
@@ -10,9 +10,9 @@ namespace System.Drawing.Imaging;
 public sealed class MetafileHeader
 {
 
-    internal MetafileHeaderEmf emf;
+    internal MetafileHeaderEmf? emf;
 
-    internal MetafileHeaderWmf wmf;
+    internal MetafileHeaderWmf? wmf;
 
     internal MetafileHeader()
     {
@@ -34,10 +34,12 @@ public sealed class MetafileHeader
         {
             if (!IsWmf())
             {
-                return new Rectangle(emf.X, emf.Y, emf.Width, emf.Height);
+                if (emf != null) return new Rectangle(emf.X, emf.Y, emf.Width, emf.Height);
             }
 
-            return new Rectangle(wmf.X, wmf.Y, wmf.Width, wmf.Height);
+            if (wmf != null) return new Rectangle(wmf.X, wmf.Y, wmf.Width, wmf.Height);
+
+            return new Rectangle(0, 0, 0, 0);
         }
     }
 
@@ -55,10 +57,12 @@ public sealed class MetafileHeader
         {
             if (!IsWmf())
             {
-                return emf.dpiX;
+                if (emf != null) return emf.dpiX;
             }
 
-            return wmf.dpiX;
+            if (wmf != null) return wmf.dpiX;
+
+            return 0;
         }
     }
 
@@ -76,10 +80,12 @@ public sealed class MetafileHeader
         {
             if (!IsWmf())
             {
-                return emf.dpiY;
+                if (emf != null) return emf.dpiY;
             }
 
-            return wmf.dpiY;
+            if (wmf != null) return wmf.dpiY;
+
+            return 0;
         }
     }
 
@@ -94,7 +100,9 @@ public sealed class MetafileHeader
         get
         {
 
-            return wmf.EmfPlusHeaderSize;
+            if (wmf != null) return wmf.EmfPlusHeaderSize;
+
+            return 0;
         }
     }
 
@@ -111,7 +119,9 @@ public sealed class MetafileHeader
         get
         {
 
-            return wmf.LogicalDpiX;
+            if (wmf != null) return wmf.LogicalDpiX;
+
+            return 0;
         }
     }
 
@@ -128,7 +138,9 @@ public sealed class MetafileHeader
         get
         {
 
-            return wmf.LogicalDpiY;
+            if (wmf != null) return wmf.LogicalDpiY;
+
+            return 0;
         }
     }
 
@@ -146,10 +158,12 @@ public sealed class MetafileHeader
         {
             if (!IsWmf())
             {
-                return emf.size;
+                if (emf != null) return emf.size;
             }
 
-            return wmf.size;
+            if (wmf != null) return wmf.size;
+
+            return 0;
         }
     }
 
@@ -168,10 +182,12 @@ public sealed class MetafileHeader
         {
             if (!IsWmf())
             {
-                return emf.type;
+                if (emf != null) return emf.type;
             }
 
-            return wmf.type;
+            if (wmf != null) return wmf.type;
+
+            return MetafileType.Invalid;
         }
     }
 
@@ -189,10 +205,12 @@ public sealed class MetafileHeader
         {
             if (!IsWmf())
             {
-                return emf.version;
+                if (emf != null) return emf.version;
             }
 
-            return wmf.version;
+            if (wmf != null) return wmf.version;
+
+            return 0;
         }
     }
 
@@ -205,12 +223,14 @@ public sealed class MetafileHeader
     /// <see cref="T:System.Drawing.Imaging.MetaHeader" /> that contains the WMF header file for the associated
     /// <see cref="T:System.Drawing.Imaging.Metafile" />.
     /// </returns>
-    public MetaHeader WmfHeader
+    public MetaHeader? WmfHeader
     {
         get
         {
 
-            return wmf.WmfHeader;
+            if (wmf != null) return wmf.WmfHeader;
+
+            return null;
         }
     }
 
@@ -227,7 +247,7 @@ public sealed class MetafileHeader
     {
         if (IsEmfPlus())
         {
-            return (emf.emfPlusFlags & EmfPlusFlags.Display) != 0;
+            if (emf != null) return (emf.emfPlusFlags & EmfPlusFlags.Display) != 0;
         }
 
         return false;

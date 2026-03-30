@@ -82,7 +82,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, buttons, icon);
         }
 
-        return Instance.Show(null, text, caption, buttons, icon);
+        return Instance?.Show(null, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, buttons, icon);
         }
 
-        return Instance.Show(null, text, caption, buttons, icon);
+        return Instance?.Show(null, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -162,7 +162,7 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, caption, buttons, icon);
         }
 
-        return Instance.Show(owner, text, caption, buttons, icon);
+        return Instance?.Show(owner, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -203,7 +203,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, buttons, icon);
         }
 
-        return Instance.Show(null, text, caption, buttons, icon);
+        return Instance?.Show(null, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -248,7 +248,7 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, caption, buttons, icon);
         }
 
-        return Instance.Show(owner, text, caption, buttons, icon);
+        return Instance?.Show(owner, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -289,7 +289,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, buttons, icon);
         }
 
-        return Instance.Show(null, text, caption, buttons, icon);
+        return Instance?.Show(null, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -334,7 +334,7 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, caption, buttons, icon);
         }
 
-        return Instance.Show(owner, text, caption, buttons, icon);
+        return Instance?.Show(owner, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -379,7 +379,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, buttons, icon);
         }
 
-        return Instance.Show(null, text, caption, buttons, icon);
+        return Instance?.Show(null, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -428,7 +428,7 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, caption, buttons, icon);
         }
 
-        return Instance.Show(owner, text, caption, buttons, icon);
+        return Instance?.Show(owner, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -463,7 +463,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, buttons, icon);
         }
 
-        return Instance.Show(null, text, caption, buttons, icon);
+        return Instance?.Show(null, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -495,7 +495,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, buttons, icon);
         }
 
-        return Instance.Show(null, text, caption, buttons, icon);
+        return Instance?.Show(null, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -523,7 +523,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, buttons, icon);
         }
 
-        return Instance.Show(null, text, caption, buttons, icon);
+        return Instance?.Show(null, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -548,7 +548,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, buttons, MessageBoxIcon.None);
         }
 
-        return Instance.Show(null, text, caption, buttons, MessageBoxIcon.None);
+        return Instance?.Show(null, text, caption, buttons, MessageBoxIcon.None) ?? default;
     }
 
     /// <summary>
@@ -570,7 +570,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None);
         }
 
-        return Instance.Show(null, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None);
+        return Instance?.Show(null, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None) ?? default;
     }
 
     /// <summary>
@@ -589,7 +589,7 @@ public class MessageBox
             return MessageBoxOld.Show(null, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None);
         }
 
-        return Instance.Show(null, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None);
+        return Instance?.Show(null, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None) ?? default;
     }
 
     /// <summary>
@@ -628,7 +628,7 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, caption, buttons, icon);
         }
 
-        return Instance.Show(owner, text, caption, buttons, icon);
+        return Instance?.Show(owner, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -664,7 +664,7 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, caption, buttons, icon);
         }
 
-        return Instance.Show(owner, text, caption, buttons, icon);
+        return Instance?.Show(owner, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -696,7 +696,7 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, caption, buttons, icon);
         }
 
-        return Instance.Show(owner, text, caption, buttons, icon);
+        return Instance?.Show(owner, text, caption, buttons, icon) ?? default;
     }
 
     /// <summary>
@@ -724,7 +724,7 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, caption, buttons, MessageBoxIcon.None);
         }
 
-        return Instance.Show(owner, text, caption, buttons, MessageBoxIcon.None);
+        return Instance?.Show(owner, text, caption, buttons, MessageBoxIcon.None) ?? default;
     }
 
     /// <summary>
@@ -749,7 +749,7 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None);
         }
 
-        return Instance.Show(owner, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None);
+        return Instance?.Show(owner, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None) ?? default;
     }
 
     /// <summary>
@@ -771,6 +771,6 @@ public class MessageBox
             return MessageBoxOld.Show(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None);
         }
 
-        return Instance.Show(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None);
+        return Instance?.Show(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None) ?? default;
     }
 }

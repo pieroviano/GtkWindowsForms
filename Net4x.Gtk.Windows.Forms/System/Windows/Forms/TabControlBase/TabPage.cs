@@ -99,7 +99,7 @@ public class TabPage : ContainerControl
     /// <value>
     /// The image key.
     /// </value>
-    public string ImageKey
+    public string? ImageKey
     {
         get;
         set;
@@ -111,7 +111,7 @@ public class TabPage : ContainerControl
     /// <value>
     /// The image list.
     /// </value>
-    public List<object> ImageList
+    public List<object>? ImageList
     {
         get;
         set;
@@ -179,7 +179,7 @@ public class TabPage : ContainerControl
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get { return _tabLabel.Text; }
         set { _tabLabel.Text = value; }

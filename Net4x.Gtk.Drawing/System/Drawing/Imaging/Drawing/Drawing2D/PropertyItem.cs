@@ -1,4 +1,4 @@
-namespace System.Drawing.Imaging;
+﻿namespace System.Drawing.Imaging;
 
 /// <summary>
 /// Encapsulates a metadata property to be included in an image file. Not inheritable.
@@ -56,7 +56,7 @@ public sealed class PropertyItem
     /// <returns>
     /// A byte array that represents the value of the property item.
     /// </returns>
-    public byte[] Value
+    public byte[]? Value
     {
         get;
         set;

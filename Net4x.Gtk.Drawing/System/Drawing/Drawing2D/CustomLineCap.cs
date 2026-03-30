@@ -1,4 +1,4 @@
-
+﻿
 namespace System.Drawing.Drawing2D;
 
 /// <summary>
@@ -152,7 +152,7 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// The
     /// <see cref="T:System.Drawing.Drawing2D.CustomLineCap" /> this method creates, cast as an object.
     /// </returns>
-    public object Clone()
+    public object? Clone()
     {
         return null;
     }

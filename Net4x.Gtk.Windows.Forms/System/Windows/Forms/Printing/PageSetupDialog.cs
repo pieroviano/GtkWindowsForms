@@ -15,13 +15,13 @@ namespace System.Windows.Forms;
 public sealed class PageSetupDialog : CommonDialog
 {
 
-    private Margins _minMargins;
+    private Margins? _minMargins;
 
-    private PageSettings _pageSettings;
+    private PageSettings? _pageSettings;
 
-    private PrintDocument _printDocument;
+    private PrintDocument? _printDocument;
 
-    private PrinterSettings _printerSettings;
+    private PrinterSettings? _printerSettings;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -108,7 +108,7 @@ public sealed class PageSetupDialog : CommonDialog
     /// The document.
     /// </value>
     [DefaultValue(null)]
-    public PrintDocument Document
+    public PrintDocument? Document
     {
         get => _printDocument;
         set
@@ -148,7 +148,7 @@ public sealed class PageSetupDialog : CommonDialog
     /// <value>
     /// The minimum margins.
     /// </value>
-    public Margins MinMargins
+    public Margins? MinMargins
     {
         get => _minMargins;
         set => _minMargins = value ?? new Margins(0, 0, 0, 0);
@@ -163,7 +163,7 @@ public sealed class PageSetupDialog : CommonDialog
     [DefaultValue(null)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public PageSettings PageSettings
+    public PageSettings? PageSettings
     {
         get => _pageSettings;
         set
@@ -182,7 +182,7 @@ public sealed class PageSetupDialog : CommonDialog
     [DefaultValue(null)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public PrinterSettings PrinterSettings
+    public PrinterSettings? PrinterSettings
     {
         get => _printerSettings;
         set
@@ -259,14 +259,14 @@ public sealed class PageSetupDialog : CommonDialog
     /// false
     /// </c> otherwise.
     /// </returns>
-    protected override bool RunDialog(IWin32Window owner)
+    protected override bool RunDialog(IWin32Window? owner)
     {
         try
         {
             var window = Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive);
             var printSettings = new Gtk.PrintSettings();
-            var pageSetup = Gtk.Print.RunPageSetupDialog(owner == null ? window : ((Form)owner).self, _printDocument.PageSetup ?? new Gtk.PageSetup(), printSettings);
-            _printDocument.PageSetup = pageSetup;
+            var pageSetup = Gtk.Print.RunPageSetupDialog(((Form?)owner)?.self ?? window, _printDocument?.PageSetup ?? new Gtk.PageSetup(), printSettings);
+            _printDocument?.PageSetup = pageSetup;
             return true;
         }
         catch

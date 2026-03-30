@@ -12,7 +12,7 @@ namespace System.Drawing.Printing;
 /// </summary>
 public partial class PrinterSettings : ICloneable
 {
-    private readonly byte[] _cachedDevmode;
+    private readonly byte[]? _cachedDevmode;
 
     private readonly short _copies = -1;
 
@@ -24,7 +24,7 @@ public partial class PrinterSettings : ICloneable
 
     private readonly ushort _extraBytes;
 
-    private readonly byte[] _extraInfo;
+    private readonly byte[]? _extraInfo;
 
     private int _fromPage;
 
@@ -32,7 +32,7 @@ public partial class PrinterSettings : ICloneable
 
     private int _minPage;
 
-    private readonly string _printerName; // default printer.
+    private readonly string? _printerName; // default printer.
 
     private PrintRange _printRange;
 
@@ -103,7 +103,7 @@ public partial class PrinterSettings : ICloneable
     /// <summary>
     /// Gets the collection of installed printer names. Implementation/platform-specific.
     /// </summary>
-    public static StringCollection InstalledPrinters
+    public static StringCollection? InstalledPrinters
     {
         get;
         set;
@@ -161,7 +161,7 @@ public partial class PrinterSettings : ICloneable
     /// <summary>
     /// Gets or sets the printer name associated with these settings.
     /// </summary>
-    public string PrinterName
+    public string? PrinterName
     {
         get;
         set;
@@ -170,7 +170,7 @@ public partial class PrinterSettings : ICloneable
     /// <summary>
     /// Gets or sets the file name to use when printing to a file.
     /// </summary>
-    public string PrintFileName
+    public string? PrintFileName
     {
         get;
         set;

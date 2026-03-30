@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -47,13 +47,13 @@ internal class ListBindingHelper
             return dataSource;
         }
         var propertyDescriptor = (GetListItemProperties(dataSource)?.Find(dataMember, true)) ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", dataMember));
-        if (!(dataSource is ICurrencyManagerProvider))
+        if (!(dataSource is ICurrencyManagerProvider provider))
         {
-            obj = !(dataSource is IEnumerable) ? dataSource : GetFirstItemByEnumerable(dataSource as IEnumerable);
+            obj = !(dataSource is IEnumerable source) ? dataSource : GetFirstItemByEnumerable(source);
         }
         else
         {
-            var currencyManager = (dataSource as ICurrencyManagerProvider)?.CurrencyManager;
+            var currencyManager = provider?.CurrencyManager;
             obj = currencyManager is { Position: >= 0 } && currencyManager.Position <= currencyManager.Count - 1 ? currencyManager.Current : null;
         }
         if (obj == null)
@@ -73,12 +73,12 @@ internal class ListBindingHelper
     /// </returns>
     public static object? GetList(object? list)
     {
-        if (!(list is IListSource))
+        if (!(list is IListSource source))
         {
             return list;
         }
 
-        return (list as IListSource)?.GetList();
+        return source?.GetList();
     }
 
     /// <summary>
@@ -95,21 +95,21 @@ internal class ListBindingHelper
         {
             return new PropertyDescriptorCollection(null);
         }
-        if (!(list is Type))
+        if (!(list is Type type))
         {
             var obj = GetList(list);
-            if (!(obj is ITypedList))
+            if (!(obj is ITypedList typedList))
             {
-                itemProperties = !(obj is IEnumerable) ? TypeDescriptor.GetProperties(obj) : GetListItemPropertiesByEnumerable(obj as IEnumerable);
+                itemProperties = !(obj is IEnumerable enumerable) ? TypeDescriptor.GetProperties(obj) : GetListItemPropertiesByEnumerable(enumerable);
             }
             else
             {
-                itemProperties = (obj as ITypedList)?.GetItemProperties(null);
+                itemProperties = typedList?.GetItemProperties(null);
             }
         }
         else
         {
-            itemProperties = GetListItemPropertiesByType(list as Type);
+            itemProperties = GetListItemPropertiesByType(type);
         }
 
         return itemProperties;
@@ -175,21 +175,21 @@ internal class ListBindingHelper
         {
             listItemProperties = GetListItemProperties(list);
         }
-        else if (!(list is Type))
+        else if (!(list is Type type))
         {
             var obj = GetList(list);
-            if (!(obj is ITypedList))
+            if (!(obj is ITypedList typedList))
             {
-                listItemProperties = !(obj is IEnumerable) ? GetListItemPropertiesByInstance(obj, listAccessors, 0) : GetListItemPropertiesByEnumerable(obj as IEnumerable, listAccessors);
+                listItemProperties = !(obj is IEnumerable enumerable) ? GetListItemPropertiesByInstance(obj, listAccessors, 0) : GetListItemPropertiesByEnumerable(enumerable, listAccessors);
             }
             else
             {
-                listItemProperties = (obj as ITypedList)?.GetItemProperties(listAccessors);
+                listItemProperties = typedList?.GetItemProperties(listAccessors);
             }
         }
         else
         {
-            listItemProperties = GetListItemPropertiesByType(list as Type, listAccessors);
+            listItemProperties = GetListItemPropertiesByType(type, listAccessors);
         }
 
         return listItemProperties;
@@ -248,19 +248,19 @@ internal class ListBindingHelper
             return null;
         }
         Type? propertyType;
-        if (list is Type && typeof(IListSource).IsAssignableFrom(list as Type))
+        if (list is Type type1 && typeof(IListSource).IsAssignableFrom(type1))
         {
-            list = CreateInstanceOfType(list as Type);
+            list = CreateInstanceOfType(type1);
         }
         list = GetList(list);
-        var type = list is Type ? list as Type : list?.GetType();
+        var type = list is Type list1 ? list1 : list?.GetType();
         var obj = list is Type ? null : list;
         if (!typeof(Array).IsAssignableFrom(type))
         {
             var typedIndexer = GetTypedIndexer(type);
             if (typedIndexer == null)
             {
-                propertyType = !(obj is IEnumerable) ? type : GetListItemTypeByEnumerable(obj as IEnumerable);
+                propertyType = !(obj is IEnumerable enumerable) ? type : GetListItemTypeByEnumerable(enumerable);
             }
             else
             {

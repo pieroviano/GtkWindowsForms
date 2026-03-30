@@ -117,7 +117,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     {
         get
         {
-            DataGridViewColumn dataGridViewColumn = null;
+            DataGridViewColumn? dataGridViewColumn = null;
             if (owner.DataGridView != null)
             {
                 dataGridViewColumn = owner.DataGridView.Columns[columnName];
@@ -132,7 +132,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
         }
         set
         {
-            DataGridViewColumn dataGridViewColumn = null;
+            DataGridViewColumn? dataGridViewColumn = null;
             if (owner.DataGridView != null)
             {
                 dataGridViewColumn = owner.DataGridView.Columns[columnName];

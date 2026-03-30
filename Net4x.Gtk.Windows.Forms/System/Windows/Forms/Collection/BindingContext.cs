@@ -80,10 +80,10 @@ public class BindingContext : ContextBoundObject
             dataMember = "";
         }
 
-        if (dataSource is ICurrencyManagerProvider)
+        if (dataSource is ICurrencyManagerProvider provider)
         {
             relatedCurrencyManager =
-                (dataSource as ICurrencyManagerProvider)?.GetRelatedCurrencyManager(dataMember);
+                provider?.GetRelatedCurrencyManager(dataMember);
             if (relatedCurrencyManager != null)
             {
                 return relatedCurrencyManager;
@@ -230,12 +230,11 @@ public class BindingContext : ContextBoundObject
 
         public override bool Equals(object? target)
         {
-            if (!(target is HashKey))
+            if (!(target is HashKey hashKey))
             {
                 return false;
             }
 
-            var hashKey = (HashKey)target;
             if (wRef.Target != hashKey.wRef.Target)
             {
                 return false;

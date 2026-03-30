@@ -14,7 +14,7 @@ namespace System.Windows.Forms;
 /// </summary>
 public class DataGridViewCellPaintingEventArgs : HandledEventArgs
 {
-    private readonly DataGridView _dataGridView;
+    private readonly DataGridView? _dataGridView;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -117,7 +117,7 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The advanced border style.
     /// </value>
-    public DataGridViewAdvancedBorderStyle AdvancedBorderStyle
+    public DataGridViewAdvancedBorderStyle? AdvancedBorderStyle
     {
         get;
         private set;
@@ -141,7 +141,7 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The cell style.
     /// </value>
-    public DataGridViewCellStyle CellStyle
+    public DataGridViewCellStyle? CellStyle
     {
         get;
         private set;
@@ -177,7 +177,7 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The error text.
     /// </value>
-    public string ErrorText
+    public string? ErrorText
     {
         get;
         private set;
@@ -189,7 +189,7 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The formatted value.
     /// </value>
-    public object FormattedValue
+    public object? FormattedValue
     {
         get;
         private set;
@@ -201,7 +201,7 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The graphics.
     /// </value>
-    public Graphics Graphics
+    public Graphics? Graphics
     {
         get;
         private set;
@@ -249,7 +249,7 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// <value>
     /// The value.
     /// </value>
-    public object Value
+    public object? Value
     {
         get;
         private set;
@@ -272,11 +272,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// </exception>
     public void Paint(Rectangle clipBounds, DataGridViewPaintParts paintParts)
     {
-        if (RowIndex < -1 || RowIndex >= _dataGridView.Rows.Count)
+        if (RowIndex < -1 || RowIndex >= _dataGridView?.Rows.Count)
         {
             throw new InvalidOperationException("SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange");
         }
-        if (ColumnIndex < -1 || ColumnIndex >= _dataGridView.Columns.Count)
+        if (ColumnIndex < -1 || ColumnIndex >= _dataGridView?.Columns.Count)
         {
             throw new InvalidOperationException("SR.DataGridViewElementPaintingEventArgs_ColumnIndexOutOfRange");
         }
@@ -314,11 +314,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// </exception>
     public void PaintBackground(Rectangle clipBounds, bool cellsPaintSelectionBackground)
     {
-        if (RowIndex < -1 || RowIndex >= _dataGridView.Rows.Count)
+        if (RowIndex < -1 || RowIndex >= _dataGridView?.Rows.Count)
         {
             throw new InvalidOperationException("SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange");
         }
-        if (ColumnIndex < -1 || ColumnIndex >= _dataGridView.Columns.Count)
+        if (ColumnIndex < -1 || ColumnIndex >= _dataGridView?.Columns.Count)
         {
             throw new InvalidOperationException("SR.DataGridViewElementPaintingEventArgs_ColumnIndexOutOfRange");
         }
@@ -355,11 +355,11 @@ public class DataGridViewCellPaintingEventArgs : HandledEventArgs
     /// </exception>
     public void PaintContent(Rectangle clipBounds)
     {
-        if (RowIndex < -1 || RowIndex >= _dataGridView.Rows.Count)
+        if (RowIndex < -1 || RowIndex >= _dataGridView?.Rows.Count)
         {
             throw new InvalidOperationException("SR.DataGridViewElementPaintingEventArgs_RowIndexOutOfRange");
         }
-        if (ColumnIndex < -1 || ColumnIndex >= _dataGridView.Columns.Count)
+        if (ColumnIndex < -1 || ColumnIndex >= _dataGridView?.Columns.Count)
         {
             throw new InvalidOperationException("SR.DataGridViewElementPaintingEventArgs_ColumnIndexOutOfRange");
         }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
@@ -94,7 +94,7 @@ internal class RelatedCurrencyManager : CurrencyManager
         {
             OnDataError(exception);
         }
-        if (!(_parentManager is CurrencyManager))
+        if (!(_parentManager is CurrencyManager currencyManager))
         {
             if (_parentManager is { Current: not null })
             {
@@ -105,7 +105,6 @@ internal class RelatedCurrencyManager : CurrencyManager
         }
         else
         {
-            var currencyManager = (CurrencyManager)_parentManager;
             if (currencyManager.Count <= 0)
             {
                 currencyManager.AddNew();

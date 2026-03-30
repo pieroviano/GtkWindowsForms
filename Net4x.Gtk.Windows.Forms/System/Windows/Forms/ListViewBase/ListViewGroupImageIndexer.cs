@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 internal class ListViewGroupImageIndexer : ImageList.Indexer
 {
@@ -8,7 +8,7 @@ internal class ListViewGroupImageIndexer : ImageList.Indexer
         throw new System.NotImplementedException();
     }
 
-    public override ImageList ImageList
+    public override ImageList? ImageList
     {
         get
         {

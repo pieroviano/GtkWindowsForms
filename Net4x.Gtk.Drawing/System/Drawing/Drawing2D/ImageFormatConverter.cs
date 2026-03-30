@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Imaging;
@@ -195,7 +195,7 @@ public class ImageFormatConverter : TypeConverter
             }
             if (destinationType == typeof(InstanceDescriptor))
             {
-                string text = null;
+                string? text = null;
                 if (imageFormat.Guid.Equals(ImageFormat.Bmp.Guid))
                 {
                     text = "Bmp";

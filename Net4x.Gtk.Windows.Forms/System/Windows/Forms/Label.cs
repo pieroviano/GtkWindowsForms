@@ -57,7 +57,7 @@ public partial class Label : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get => self.Text;
         set { self.Text = value; }

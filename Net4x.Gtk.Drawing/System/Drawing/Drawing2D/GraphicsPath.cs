@@ -1,6 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Pango;
+using Context = Cairo.Context;
 
 namespace System.Drawing.Drawing2D;
 
@@ -82,7 +83,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Drawing2D.FillMode" /> enumeration that specifies how the interiors of shapes in this
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> are filled.
     /// </param>
-    public GraphicsPath(PointF[] pts, byte[] types, FillMode fillMode)
+    public GraphicsPath(PointF[] pts, byte[]? types, FillMode fillMode)
     {
         this.PathPoints = pts;
         this.PointCount = pts.Length;
@@ -163,7 +164,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Drawing2D.PathData" /> that encapsulates arrays for both the points and types for this
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
     /// </returns>
-    public PathData PathData
+    public PathData? PathData
     {
         get;
 
@@ -177,7 +178,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// An array of
     /// <see cref="T:System.Drawing.PointF" /> objects that represent the path.
     /// </returns>
-    public PointF[] PathPoints
+    public PointF[]? PathPoints
     {
         get;
 
@@ -191,7 +192,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <returns>
     /// An array of bytes that specifies the types of the corresponding points in the path.
     /// </returns>
-    public byte[] PathTypes
+    public byte[]? PathTypes
     {
         get;
 
@@ -215,13 +216,13 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         private set;
     }
 
-    internal Cairo.Context Context
+    internal Context? Context
     {
         get;
         set;
     }
 
-    internal PointF[] destPoints
+    internal PointF[]? destPoints
     {
         get;
         set;
@@ -239,13 +240,13 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         set;
     }
 
-    internal Matrix matrix
+    internal Matrix? matrix
     {
         get;
         set;
     }
 
-    internal Pen pen
+    internal Pen? pen
     {
         get;
         set;
@@ -996,7 +997,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </param>
     public void AddRectangles(RectangleF[] rects)
     {
-        foreach (RectangleF rect in rects)
+        foreach (var rect in rects)
             AddPathPoints(new PointF(rect.Left, rect.Top), new PointF(rect.Right, rect.Bottom));
 
         list.Add(new RectanglesMode() { rects = rects });
@@ -1158,7 +1159,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// The
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> this method creates, cast as an object.
     /// </returns>
-    public object Clone()
+    public object? Clone()
     {
         return null;
     }
@@ -2013,7 +2014,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the points that define the Bézier curves.
         /// </summary>
-        public PointF[] points
+        public PointF[]? points
         {
             get;
             set;
@@ -2037,7 +2038,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the points that define the closed curve.
         /// </summary>
-        public PointF[] points
+        public PointF[]? points
         {
             get;
             set;
@@ -2079,7 +2080,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the points that define the spline.
         /// </summary>
-        public PointF[] points
+        public PointF[]? points
         {
             get;
             set;
@@ -2166,7 +2167,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the points that define the connected lines.
         /// </summary>
-        public PointF[] points
+        public PointF[]? points
         {
             get;
             set;
@@ -2190,7 +2191,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the path to add.
         /// </summary>
-        public GraphicsPath path
+        public GraphicsPath? path
         {
             get;
             set;
@@ -2238,7 +2239,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the points that define the polygon.
         /// </summary>
-        public PointF[] points
+        public PointF[]? points
         {
             get;
             set;
@@ -2268,7 +2269,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the rectangles.
         /// </summary>
-        public RectangleF[] rects
+        public RectangleF[]? rects
         {
             get;
             set;
@@ -2292,7 +2293,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the font family for the string.
         /// </summary>
-        public FontFamily family
+        public FontFamily? family
         {
             get;
             set;
@@ -2328,7 +2329,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
         /// <summary>
         /// Gets or sets the string text.
         /// </summary>
-        public string text
+        public string? text
         {
             get;
             set;

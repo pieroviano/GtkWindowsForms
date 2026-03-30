@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -37,7 +37,7 @@ public class ItemDragEventArgs : EventArgs
     /// <param name="item">
     /// The item.
     /// </param>
-    public ItemDragEventArgs(MouseButtons button, object item)
+    public ItemDragEventArgs(MouseButtons button, object? item)
     {
         Button = button;
         Item = item;
@@ -57,5 +57,5 @@ public class ItemDragEventArgs : EventArgs
     /// <value>
     /// The item.
     /// </value>
-    public object Item { get; }
+    public object? Item { get; }
 }

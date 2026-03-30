@@ -1,4 +1,4 @@
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 
 namespace System.Drawing;
 
@@ -133,7 +133,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
     /// <see cref="T:System.Drawing.Pens" /> class.
     /// </exception>
-    public Brush Brush
+    public Brush? Brush
     {
         get;
         set;
@@ -172,7 +172,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
     /// <see cref="T:System.Drawing.Pens" /> class.
     /// </exception>
-    public float[] CompoundArray
+    public float[]? CompoundArray
     {
         get;
         set;
@@ -193,7 +193,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
     /// <see cref="T:System.Drawing.Pens" /> class.
     /// </exception>
-    public CustomLineCap CustomEndCap
+    public CustomLineCap? CustomEndCap
     {
         get;
         set;
@@ -214,7 +214,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
     /// <see cref="T:System.Drawing.Pens" /> class.
     /// </exception>
-    public CustomLineCap CustomStartCap
+    public CustomLineCap? CustomStartCap
     {
         get;
         set;
@@ -275,7 +275,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
     /// <see cref="T:System.Drawing.Pens" /> class.
     /// </exception>
-    public float[] DashPattern
+    public float[]? DashPattern
     {
         get;
         set;
@@ -423,7 +423,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" />, such as those returned by the
     /// <see cref="T:System.Drawing.Pens" /> class.
     /// </exception>
-    public Matrix Transform
+    public Matrix? Transform
     {
         get;
         set;
@@ -459,7 +459,7 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Object" /> that can be cast to a
     /// <see cref="T:System.Drawing.Pen" />.
     /// </returns>
-    public object Clone()
+    public object? Clone()
     {
         return null;
     }

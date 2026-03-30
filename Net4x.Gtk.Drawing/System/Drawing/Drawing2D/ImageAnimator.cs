@@ -17,11 +17,11 @@ public sealed class ImageAnimator
 
     internal const int AnimationDelayMS = 40;
 
-    private static Thread s_animationThread;
+    private static Thread? s_animationThread;
 
     private static bool s_anyFrameDirty;
 
-    private static List<ImageInfo> s_imageInfoList;
+    private static List<ImageInfo>? s_imageInfoList;
 
     private static readonly ReaderWriterLock s_rwImgListLock = new ReaderWriterLock();
 
@@ -49,13 +49,13 @@ public sealed class ImageAnimator
         {
             return;
         }
-        ImageInfo imageInfo = null;
+        ImageInfo? imageInfo = null;
         lock (image)
         {
             imageInfo = new ImageInfo(image);
         }
         StopAnimate(image, onFrameChangedHandler);
-        bool isReaderLockHeld = s_rwImgListLock.IsReaderLockHeld;
+        var isReaderLockHeld = s_rwImgListLock.IsReaderLockHeld;
         var lockCookie = default(LockCookie);
         t_threadWriterLockWaitCount++;
         try
@@ -119,7 +119,7 @@ public sealed class ImageAnimator
     /// <see langword="true" /> if the specified image contains time-based frames; otherwise,
     /// <see langword="false" />.
     /// </returns>
-    public static bool CanAnimate([NotNullWhen(true)] Image image)
+    public static bool CanAnimate([NotNullWhen(true)] Image? image)
     {
         if (image == null)
         {
@@ -127,16 +127,17 @@ public sealed class ImageAnimator
         }
         lock (image)
         {
-            Guid[] frameDimensionsList = image!.FrameDimensionsList;
+            var frameDimensionsList = image?.FrameDimensionsList;
             var array = frameDimensionsList;
-            foreach (Guid guid in array)
-            {
-                var frameDimension = new FrameDimension(guid);
-                if (frameDimension.Equals(FrameDimension.Time))
+            if (array != null)
+                foreach (var guid in array)
                 {
-                    return image!.GetFrameCount(FrameDimension.Time) > 1;
+                    var frameDimension = new FrameDimension(guid);
+                    if (frameDimension.Equals(FrameDimension.Time))
+                    {
+                        return image!.GetFrameCount(FrameDimension.Time) > 1;
+                    }
                 }
-            }
         }
 
         return false;
@@ -159,7 +160,7 @@ public sealed class ImageAnimator
         {
             return;
         }
-        bool isReaderLockHeld = s_rwImgListLock.IsReaderLockHeld;
+        var isReaderLockHeld = s_rwImgListLock.IsReaderLockHeld;
         var lockCookie = default(LockCookie);
         t_threadWriterLockWaitCount++;
         try
@@ -179,7 +180,7 @@ public sealed class ImageAnimator
         }
         try
         {
-            for (int i = 0; i < s_imageInfoList.Count; i++)
+            for (var i = 0; i < s_imageInfoList.Count; i++)
             {
                 var imageInfo = s_imageInfoList[i];
                 if (image == imageInfo.Image)
@@ -223,7 +224,7 @@ public sealed class ImageAnimator
         {
             var flag = false;
             var flag2 = false;
-            foreach (ImageInfo s_imageInfo in s_imageInfoList)
+            foreach (var s_imageInfo in s_imageInfoList)
             {
                 if (s_imageInfo.Image == image)
                 {
@@ -265,7 +266,7 @@ public sealed class ImageAnimator
         s_rwImgListLock.AcquireReaderLock(-1);
         try
         {
-            foreach (ImageInfo s_imageInfo in s_imageInfoList)
+            foreach (var s_imageInfo in s_imageInfoList)
             {
                 lock (s_imageInfo.Image)
                 {
@@ -291,7 +292,7 @@ public sealed class ImageAnimator
             s_rwImgListLock.AcquireReaderLock(-1);
             try
             {
-                for (int i = 0; i < s_imageInfoList.Count; i++)
+                for (var i = 0; i < s_imageInfoList?.Count; i++)
                 {
                     var imageInfo = s_imageInfoList[i];
                     if (imageInfo.Animated)
@@ -322,7 +323,7 @@ public sealed class ImageAnimator
 
         private bool _frameDirty;
 
-        private readonly long[] _frameEndTimes;
+        private readonly long[]? _frameEndTimes;
 
         private long _frameTimer;
 
@@ -332,7 +333,7 @@ public sealed class ImageAnimator
 
         private readonly short _loopCount;
 
-        private EventHandler _onFrameChangedHandler;
+        private EventHandler? _onFrameChangedHandler;
 
         private readonly long _totalAnimationTime;
 
@@ -354,40 +355,40 @@ public sealed class ImageAnimator
             if (_animated)
             {
                 _frameCount = image.GetFrameCount(FrameDimension.Time);
-                PropertyItem propertyItem = image.GetPropertyItem(20736);
+                var propertyItem = image.GetPropertyItem(20736);
                 if (propertyItem != null)
                 {
-                    byte[] value = propertyItem.Value;
+                    var value = propertyItem.Value;
                     _frameEndTimes = new long[_frameCount];
-                    var num = 0L;
-                    var num2 = 0;
-                    var num3 = 0;
-                    while (num2 < _frameCount)
+                    var i = 0L;
+                    var current = 0;
+                    var j = 0;
+                    while (current < _frameCount)
                     {
-                        if (num3 >= value.Length)
+                        if (j >= value?.Length)
                         {
-                            num3 = 0;
+                            j = 0;
                         }
-                        var num4 = BitConverter.ToInt32(value, num3) * 10;
-                        num += ((num4 > 0) ? num4 : 40);
-                        if (num < _totalAnimationTime)
+                        var k = BitConverter.ToInt32(value, j) * 10;
+                        i += ((k > 0) ? k : 40);
+                        if (i < _totalAnimationTime)
                         {
-                            num = _totalAnimationTime;
+                            i = _totalAnimationTime;
                         }
                         else
                         {
-                            _totalAnimationTime = num;
+                            _totalAnimationTime = i;
                         }
-                        _frameEndTimes[num2] = num;
-                        num2++;
-                        num3 += 4;
+                        _frameEndTimes[current] = i;
+                        current++;
+                        j += 4;
                     }
                 }
-                PropertyItem propertyItem2 = image.GetPropertyItem(20737);
-                if (propertyItem2 != null)
+                var item = image.GetPropertyItem(20737);
+                if (item != null)
                 {
-                    byte[] value2 = propertyItem2.Value;
-                    _loopCount = BitConverter.ToInt16(value2, 0);
+                    var v = item.Value;
+                    _loopCount = BitConverter.ToInt16(v, 0);
                 }
                 else
                 {
@@ -402,7 +403,7 @@ public sealed class ImageAnimator
 
         public bool Animated => _animated;
 
-        public EventHandler FrameChangedHandler
+        public EventHandler? FrameChangedHandler
         {
             get
             {
@@ -465,12 +466,12 @@ public sealed class ImageAnimator
                     _frame = _frameCount - 1;
                     _frameTimer = TotalAnimationTime;
                 }
-                else if (_frame > 0 && _frameTimer < _frameEndTimes[_frame - 1])
+                else if (_frame > 0 && _frameEndTimes != null && _frameTimer < _frameEndTimes[_frame - 1])
                 {
                     _frame = 0;
                 }
             }
-            while (_frameTimer > _frameEndTimes[_frame])
+            while (_frameEndTimes != null && _frameTimer > _frameEndTimes[_frame])
             {
                 _frame++;
             }

@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
@@ -21,13 +21,13 @@ public sealed partial class ImageList
     {
         internal Color _customTransparentColor = Color.Transparent;
 
-        internal object _image;
+        internal readonly object? _image;
 
         internal int _nImages = 1;
 
-        internal OriginalOptions _options;
+        internal readonly OriginalOptions _options;
 
-        internal Original(object image, OriginalOptions options) : this(image, options, Color.Transparent)
+        internal Original(object? image, OriginalOptions options) : this(image, options, Color.Transparent)
         {
         }
 
@@ -36,7 +36,7 @@ public sealed partial class ImageList
             _nImages = nImages;
         }
 
-        internal Original(object image, OriginalOptions options, Color customTransparentColor)
+        internal Original(object? image, OriginalOptions options, Color customTransparentColor)
         {
 
             _image = image;

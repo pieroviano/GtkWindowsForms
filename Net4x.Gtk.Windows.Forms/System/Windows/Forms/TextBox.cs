@@ -24,12 +24,12 @@ public partial class TextBox : Control
     /// <summary>
     /// Occurs when a key is pressed while the control has focus.
     /// </summary>
-    public override event KeyEventHandler KeyDown;
+    public override event KeyEventHandler? KeyDown;
 
     /// <summary>
     /// Occurs when the Text property value changes.
     /// </summary>
-    public override event EventHandler TextChanged;
+    public override event EventHandler? TextChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -194,10 +194,10 @@ public partial class TextBox : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get { return self.Text; }
-        set { self.Text = value ?? ""; }
+        set { self.Text = value; }
     }
 
     /// <summary>

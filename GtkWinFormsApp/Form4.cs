@@ -28,20 +28,20 @@ namespace GtkWinFormsApp
 
         private void button3_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
+            var ofd = new OpenFileDialog();
             ofd.Filter = Properties.GtkWinFormsAppResources.Gtk_Image_files_jpg_png_Image_files_2_bmp;
             ofd.Multiselect = true;
             ofd.Title = Properties.GtkWinFormsAppResources.Gtk_Click_Test_Open_File;
             ofd.DefaultExt = "*.png";
-            DialogResult dialogResult = ofd.ShowDialog(this);
+            var dialogResult = ofd.ShowDialog(this);
             GtkLogger.Info("dialogResult:" + dialogResult.ToString());
             GtkLogger.Info("FileName:" + ofd.FileName);
-            foreach (string file in ofd.FileNames)
+            foreach (var file in ofd.FileNames)
             {
                 GtkLogger.Info("FileNames:" + file);
             }
             GtkLogger.Info("SafeFileName:" + ofd.SafeFileName);
-            foreach (string file in ofd.SafeFileNames)
+            foreach (var file in ofd.SafeFileNames)
             {
                 GtkLogger.Info("SafeFileNames:" + file);
             }
@@ -49,14 +49,14 @@ namespace GtkWinFormsApp
 
         private void button6_Click(object sender, EventArgs e)
         {
-            SaveFileDialog ofd = new SaveFileDialog();
+            var ofd = new SaveFileDialog();
             ofd.Filter = Properties.GtkWinFormsAppResources.Gtk_Image_files_jpg_png_Image_files_2_bmp;
             ofd.Title = Properties.GtkWinFormsAppResources.Gtk_Click_Test_Save_File;
 
-            DialogResult dialogResult = ofd.ShowDialog();
+            var dialogResult = ofd.ShowDialog();
             GtkLogger.Info("dialogResult:" + dialogResult.ToString());
             GtkLogger.Info("FileName:" + ofd.FileName);
-            foreach (string file in ofd.FileNames)
+            foreach (var file in ofd.FileNames)
             {
                 GtkLogger.Info("FileNames:" + file);
             }
@@ -64,16 +64,16 @@ namespace GtkWinFormsApp
 
         private void button7_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog ofd = new FolderBrowserDialog();
+            var ofd = new FolderBrowserDialog();
             ofd.Description = Properties.GtkWinFormsAppResources.Gtk_Click_Browse_Folder_Description;
-            DialogResult dialogResult = ofd.ShowDialog();
+            var dialogResult = ofd.ShowDialog();
             GtkLogger.Info("dialogResult:" + dialogResult.ToString());
             GtkLogger.Info("SelectedPath:" + ofd.SelectedPath);
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            ColorDialog colorDialog = new ColorDialog();
+            var colorDialog = new ColorDialog();
             colorDialog.ShowDialog();
 
             //FontDialog fontDialog = new FontDialog();

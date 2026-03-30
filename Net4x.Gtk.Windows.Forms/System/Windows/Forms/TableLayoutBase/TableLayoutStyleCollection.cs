@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Windows.Forms.Layout;
 
 namespace System.Windows.Forms;
@@ -8,13 +8,13 @@ namespace System.Windows.Forms;
 /// </summary>
 public abstract class TableLayoutStyleCollection : ArrayList
 {
-    internal TableLayoutStyleCollection(IArrangedElement owner)
+    internal TableLayoutStyleCollection(IArrangedElement? owner)
     {
         Owner = owner;
 
     }
 
-    internal IArrangedElement Owner
+    internal IArrangedElement? Owner
     {
         get;
 

@@ -22,7 +22,7 @@ namespace GtkWinFormsApp
             InitializeComponent();
             // listView1.Items.Add(new ListViewItem("test1", new ListViewGroup("ListViewGroup1", "ListViewGroup1")) { });
 
-          DataTable dt = new DataTable();
+          var dt = new DataTable();
             dt.Columns.Add("ID", typeof(string));
             dt.Columns.Add("CreateDate", typeof(DateTime));
             dt.Rows.Add("user1", DateTime.Now);
@@ -49,7 +49,7 @@ namespace GtkWinFormsApp
 
         private void ListView1_MouseDown(object sender, MouseEventArgs e)
         {
-            ListViewItem item = listView1.GetItemAt(e.X, e.Y);
+            var item = listView1.GetItemAt(e.X, e.Y);
             if (item != null)
             {
                 GtkLogger.Info(item.Text);
@@ -70,7 +70,7 @@ namespace GtkWinFormsApp
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult res = MessageBox.Show("Form2_FormClosing");
+            var res = MessageBox.Show("Form2_FormClosing");
             e.Cancel = res != DialogResult.OK;
         }
         private void listView1_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -81,7 +81,7 @@ namespace GtkWinFormsApp
         private void listView1_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             richTextBox1.Text = "";
-            foreach (ListViewItem m in listView1.CheckedItems)
+            foreach (var m in listView1.CheckedItems)
                 richTextBox1.Text += $"{m.Text},Selected:{m.Selected},Checked:{m.Checked}；\n";
         }
 
@@ -93,7 +93,7 @@ namespace GtkWinFormsApp
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             richTextBox1.Text = "";
-            foreach (ListViewItem m in listView1.SelectedItems)
+            foreach (var m in listView1.SelectedItems)
                 richTextBox1.Text += $"{m.Text},Selected:{m.Selected},Checked:{m.Checked}；\n";
         }
 
@@ -115,11 +115,13 @@ namespace GtkWinFormsApp
             listView1.Items.Add(new ListViewItem(Properties.GtkWinFormsAppResources.Gtk_Click_Add_group_and_data_simultaneously) { ForeColor = Color.Red, BackColor = Color.Yellow, Group = listView1.Groups[0] });
             listView1.Items.Add(new ListViewItem(Properties.GtkWinFormsAppResources.Gtk_Click_Add_data_to_a_specified_group) { ForeColor = Color.Red, BackColor = Color.Yellow, Group = listView1.Groups[1] });
 
-            ListViewItem m = new ListViewItem(Properties.GtkWinFormsAppResources.Gtk_Click_This_is_a_method_to_add_multi_column_data, 0);
-            m.Checked = true;
-            m.Selected = true;
-            m.ForeColor = Color.Green;
-            m.BackColor = Color.Yellow;
+            var m = new ListViewItem(Properties.GtkWinFormsAppResources.Gtk_Click_This_is_a_method_to_add_multi_column_data, 0)
+                {
+                    Checked = true,
+                    Selected = true,
+                    ForeColor = Color.Green,
+                    BackColor = Color.Yellow
+                };
             m.SubItems.Add(new ListViewItem.ListViewSubItem(m, Properties.GtkWinFormsAppResources.Gtk_Click_Sub_column_data_1, Color.HotPink, Color.Gray, new Font(FontFamily.GenericSansSerif, 16)));
             m.SubItems.Add(new ListViewItem.ListViewSubItem(m, Properties.GtkWinFormsAppResources.Gtk_Click_Sub_column_data_2));
             m.SubItems.Add(new ListViewItem.ListViewSubItem(m, Properties.GtkWinFormsAppResources.Gtk_Click_Sub_column_data_3_Sub_column_data_3_Sub_column_data_3));

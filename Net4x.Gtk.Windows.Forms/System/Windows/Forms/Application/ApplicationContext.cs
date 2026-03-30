@@ -21,7 +21,7 @@ public class ApplicationContext : IDisposable
     /// Is raised when the thread's message loop should be terminated.
     /// This is raised by calling ExitThread.
     /// </summary>
-    public virtual event EventHandler ThreadExit;
+    public virtual event EventHandler? ThreadExit;
 
     /// <summary>
     /// Creates a new ApplicationContext with no mainForm.
@@ -69,7 +69,7 @@ public class ApplicationContext : IDisposable
     [Bindable(true)]
     [DefaultValue(null)]
     [TypeConverter(typeof(StringConverter))]
-    public object Tag
+    public object? Tag
     {
         get;
         set;

@@ -14,9 +14,9 @@ namespace System.Drawing;
 public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISerializable
 {
 
-    private Gdk.Pixbuf _Pixbuf;
+    private Pixbuf? _Pixbuf;
 
-    private byte[] _PixbufData;
+    private byte[]? _PixbufData;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -24,7 +24,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// </summary>
     /// <param name="bytes">The bytes.
     /// </param>
-    public Icon(byte[] bytes)
+    public Icon(byte[]? bytes)
     {
         if (bytes != null)
         {
@@ -137,7 +137,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     {
         this.Width = width;
         this.Height = height;
-        using (BinaryReader reader = new BinaryReader(stream))
+        using (var reader = new BinaryReader(stream))
         {
             var bytes = reader.ReadBytes((int)stream.Length);
             this.PixbufData = bytes;
@@ -201,7 +201,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// string is
     /// <see langword="null" /> or does not contain image data.
     /// </exception>
-    public Icon(string fileName, int width, int height)
+    public Icon(string? fileName, int width, int height)
     {
         this.FileName = fileName;
         this.Width = width;
@@ -255,7 +255,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <value>
     /// The name of the file.
     /// </value>
-    public string FileName
+    public string? FileName
     {
         get;
         set;
@@ -297,7 +297,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <value>
     /// The pixbuf.
     /// </value>
-    public Gdk.Pixbuf Pixbuf
+    public Pixbuf? Pixbuf
     {
         get
         {
@@ -321,7 +321,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <value>
     /// The pixbuf data.
     /// </value>
-    public byte[] PixbufData
+    public byte[]? PixbufData
     {
         get
         {
@@ -381,7 +381,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// </returns>
     public object Clone()
     {
-        return new Icon(this.FileName, this.Width, this.Height) { Pixbuf = this.Pixbuf, PixbufData = (byte[])this.PixbufData.Clone() };
+        return new Icon(this.FileName, this.Width, this.Height) { Pixbuf = this.Pixbuf, PixbufData = (byte[]?)this.PixbufData?.Clone() };
     }
 
     /// <summary>
@@ -444,13 +444,13 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     public void Save(Stream outputStream)
     {
         if (PixbufData != null)
-            foreach (byte data in PixbufData)
+            foreach (var data in PixbufData)
                 outputStream.WriteByte(data);
         else if (Pixbuf != null)
-            foreach (byte data in Pixbuf.PixelBytes.Data)
+            foreach (var data in Pixbuf.PixelBytes.Data)
                 outputStream.WriteByte(data);
         else if (FileName != null && System.IO.File.Exists(FileName))
-            foreach (byte data in System.IO.File.ReadAllBytes(FileName))
+            foreach (var data in System.IO.File.ReadAllBytes(FileName))
                 outputStream.WriteByte(data);
     }
 

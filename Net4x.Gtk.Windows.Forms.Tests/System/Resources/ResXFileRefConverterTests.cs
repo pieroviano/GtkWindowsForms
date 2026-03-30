@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 
 namespace System.Resources;
 
@@ -37,7 +38,9 @@ public class ResXFileRefConverterTests
     {
         var input = "\"C:/file.txt\";System.String;utf-8";
         var parts = ResXFileRef.Converter.ParseResxFileRefString(input);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         Assert.Equal("C:/file.txt", parts[0]);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         Assert.Equal("System.String", parts[1]);
         Assert.Equal("utf-8", parts[2]);
     }
@@ -47,6 +50,7 @@ public class ResXFileRefConverterTests
     {
         var input = "C:/file.txt;System.String;utf-8";
         var parts = ResXFileRef.Converter.ParseResxFileRefString(input);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         Assert.Equal("C:/file.txt", parts[0]);
         Assert.Equal("System.String", parts[1]);
         Assert.Equal("utf-8", parts[2]);

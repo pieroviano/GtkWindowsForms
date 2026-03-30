@@ -24,7 +24,7 @@ internal static class ResXExtensions
             return value;
     }
 
-    public static string OrThrowIfNullOrEmpty(this string? value)
+    public static string? OrThrowIfNullOrEmpty(this string? value)
     {
         if (string.IsNullOrEmpty(value))
         {

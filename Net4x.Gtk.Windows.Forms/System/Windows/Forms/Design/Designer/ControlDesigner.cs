@@ -25,7 +25,7 @@ public partial class ControlDesigner : ComponentDesigner
 
     private readonly bool _ctrlSelect;                           // if the CTRL key was down at the mouse down
 
-    private readonly CollectionChangeEventHandler _dataBindingsCollectionChanged;
+    private readonly CollectionChangeEventHandler? _dataBindingsCollectionChanged;
 
     private Point _downPos = Point.Empty;               // point used to track first down of a double click
 
@@ -37,7 +37,7 @@ public partial class ControlDesigner : ComponentDesigner
 
     private readonly bool _hasLocation;                          // Do we have a location property?
 
-    private readonly IDesignerHost _host;                        // the host for our designer
+    private readonly IDesignerHost? _host;                        // the host for our designer
 
     private readonly bool _inHitTest;                            // A popular way to implement GetHitTest is by WM_NCHITTEST
 
@@ -69,7 +69,7 @@ public partial class ControlDesigner : ComponentDesigner
 
     private readonly bool _revokeDragDrop = true;
 
-    private readonly Exception _thrownException;
+    private readonly Exception? _thrownException;
 
     private readonly bool _toolPassThrough;                      // a tool is selected, allow the parent to draw a rect for it.
 
@@ -79,7 +79,7 @@ public partial class ControlDesigner : ComponentDesigner
 
     private static readonly bool s_inContextMenu;
 
-    private event EventHandler DisposingHandler;
+    private event EventHandler? DisposingHandler;
 
     internal bool ForceVisible
     {

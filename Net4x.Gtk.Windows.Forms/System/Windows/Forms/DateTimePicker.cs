@@ -33,7 +33,7 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// ValueChanged event is raised when the Value property is changed, either by user action or programmatically.
     /// </summary>
-    public virtual event EventHandler ValueChanged;
+    public virtual event EventHandler? ValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -81,7 +81,7 @@ public partial class DateTimePicker : MaskedTextBox
     /// <value>
     /// The calendar font.
     /// </value>
-    public Font CalendarFont
+    public Font? CalendarFont
     {
         get;
         set;
@@ -279,10 +279,10 @@ public partial class DateTimePicker : MaskedTextBox
     private void Calendar_DaySelected(object sender, EventArgs e)
     {
         var calendar = sender as Gtk.Calendar;
-        var dt = calendar.GetDate();
+        var dt = calendar?.GetDate() ?? throw new InvalidOperationException();
         if (dt > MaxDate || dt < MinDate)
         {
-            calendar.Date = Value;
+            calendar?.Date = Value;
             MessageBox.Show($" the selected date is out of the allowed range \n maximum time：{MaxDate.ToString("yyyy/MM/dd HH:mm:ss")}\n minimum time：{MinDate.ToString("yyyy/MM/dd HH:mm:ss")}", System.Properties.Resources.Gtk_DateTimePicker_Calendar_DaySelected_Date_restrictions);
         }
         else

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using Gtk;
+using ScrollEventHandler = System.Windows.Forms.ScrollEventHandler;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -20,12 +21,12 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// <summary>
     /// Occurs when the close window event occurs.
     /// </summary>
-    public event CloseWindowHandler CloseWindowEvent;
+    public event CloseWindowHandler? CloseWindowEvent;
 
     /// <summary>
     /// Occurs when a scroll event occurs..
     /// </summary>
-    public event System.Windows.Forms.ScrollEventHandler Scroll;
+    public event ScrollEventHandler? Scroll;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -34,7 +35,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// <param name="parent">
     /// The parent.
     /// </param>
-    public FormBase(Gtk.Window parent = null) : base("title", Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive), DialogFlags.UseHeaderBar)
+    public FormBase(Gtk.Window? parent = null) : base("title", Gtk.Window.ListToplevels().LastOrDefault(o => o is FormBase && o.IsActive), DialogFlags.UseHeaderBar)
     {
         this.Override = new GtkControlOverride(this);
         this.Override.AddClass("Form");
@@ -198,7 +199,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     {
         if (args.ResponseId == ResponseType.DeleteEvent)
         {
-            if (CloseWindowEvent(this, EventArgs.Empty))
+            if (CloseWindowEvent?.Invoke(this, EventArgs.Empty) == true)
             {
                 this.OnClose();
                 this.Group.CurrentGrab?.Destroy();

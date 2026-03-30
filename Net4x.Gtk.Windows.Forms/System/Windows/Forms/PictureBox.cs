@@ -19,9 +19,9 @@ namespace System.Windows.Forms;
 public partial class PictureBox : Control
 {
 
-    private System.Drawing.Image _image;
+    private Image? _image;
 
-    private string _ImageLocation;
+    private string? _ImageLocation;
 
     private readonly PictureBoxBase self = new();
 
@@ -53,7 +53,7 @@ public partial class PictureBox : Control
     /// <value>
     /// The error image.
     /// </value>
-    public System.Drawing.Image ErrorImage
+    public Image? ErrorImage
     {
         get;
         set;
@@ -73,7 +73,7 @@ public partial class PictureBox : Control
     /// <value>
     /// The image.
     /// </value>
-    public override System.Drawing.Image Image
+    public override System.Drawing.Image? Image
     {
         get { return _image; }
         set
@@ -92,7 +92,7 @@ public partial class PictureBox : Control
     /// <value>
     /// The image location.
     /// </value>
-    public string ImageLocation
+    public string? ImageLocation
     {
         get { return _ImageLocation; }
         set { _ImageLocation = value; Load(value); }
@@ -104,7 +104,7 @@ public partial class PictureBox : Control
     /// <value>
     /// The initial image.
     /// </value>
-    public System.Drawing.Image InitialImage
+    public Image? InitialImage
     {
         get;
         set;
@@ -141,11 +141,11 @@ public partial class PictureBox : Control
     /// <param name="url">
     /// The URL.
     /// </param>
-    public new void Load(string url)
+    public new void Load(string? url)
     {
         if (string.IsNullOrWhiteSpace(url))
         { return; }
-        else if (url.Contains("://") && Uri.TryCreate(url, UriKind.Absolute, out var result))
+        else if ((url?.Contains("://") ?? false) && Uri.TryCreate(url, UriKind.Absolute, out var result))
         {
             var file = GLib.FileFactory.NewForUri(result);
             var stream = file.Read(new GLib.Cancellable());
@@ -157,7 +157,7 @@ public partial class PictureBox : Control
         }
         else
         {
-            var pixbuf = new Gdk.Pixbuf(url.Replace("\\\\", "/").Replace("\\", "/"));
+            var pixbuf = new Gdk.Pixbuf(url?.Replace("\\\\", "/").Replace("\\", "/"));
             _image = new Bitmap(0, 0)
             {
                 Pixbuf = pixbuf
@@ -204,7 +204,7 @@ public partial class PictureBox : Control
     /// <param name="url">
     /// The URL.
     /// </param>
-    public void LoadAsync(string url)
+    public void LoadAsync(string? url)
     {
         Threading.Tasks.Task.Run(() => Gtk.Application.Invoke(new EventHandler((o, e) =>
         {
@@ -212,7 +212,7 @@ public partial class PictureBox : Control
         })));
     }
 
-    private void Self_Shown(object sender, EventArgs e)
+    private void Self_Shown(object? sender, EventArgs? e)
     {
         var width = Width;
         var height = Height;

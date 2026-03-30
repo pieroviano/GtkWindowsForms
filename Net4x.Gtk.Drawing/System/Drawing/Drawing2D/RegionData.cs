@@ -1,4 +1,4 @@
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Encapsulates the data that makes up a
@@ -19,7 +19,7 @@ public sealed class RegionData
     /// An array of bytes that specify the
     /// <see cref="T:System.Drawing.Region" /> object.
     /// </returns>
-    public byte[] Data
+    public byte[]? Data
     {
         get;
         set;

@@ -7365,7 +7365,7 @@
             <summary>
             Invokes a function on the control's thread and returns typed result.
             </summary>
-            <typeparam name="ENTRY">
+            <typeparam name="TEntry">
             Return type.
             </typeparam>
             <param name="method">

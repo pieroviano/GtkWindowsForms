@@ -37,7 +37,7 @@ namespace GtkSystemWinFormsApp11
         private void button1_Paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
-            g.DrawEllipse(new Pen(new SolidBrush(Color.Red), 2), 80, 25, 30, 20);
+            g?.DrawEllipse(new Pen(new SolidBrush(Color.Red), 2), 80, 25, 30, 20);
             //g.FillEllipse(new SolidBrush(Color.Red), 40, 25, 30, 20);
             // g.DrawEllipse(new Pen(new SolidBrush(Color.Red), 0), 40, 25, 40, 40);
 

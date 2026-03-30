@@ -134,7 +134,7 @@ public class BitmapDataTests
             Width = 10
         };
 
-        ref int reference = ref data.GetPinnableReference();
+        ref var reference = ref data.GetPinnableReference();
 
         reference = 99;
 

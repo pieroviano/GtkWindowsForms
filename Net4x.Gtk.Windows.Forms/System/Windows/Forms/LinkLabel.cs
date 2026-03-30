@@ -25,12 +25,12 @@ public partial class LinkLabel : Control
     /// <summary>
     /// Occurs when the control is clicked.
     /// </summary>
-    public override event EventHandler Click;
+    public override event EventHandler? Click;
 
     /// <summary>
     /// Occurs when link clicked.
     /// </summary>
-    public virtual event LinkLabelLinkClickedEventHandler LinkClicked;
+    public virtual event LinkLabelLinkClickedEventHandler? LinkClicked;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -106,7 +106,7 @@ public partial class LinkLabel : Control
     /// <value>
     /// The links.
     /// </value>
-    public LinkCollection Links { get; }
+    public LinkCollection? Links { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether link visited.
@@ -131,7 +131,7 @@ public partial class LinkLabel : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get { return string.IsNullOrEmpty(self.Label) ? self.Uri : self.Label; }
         set { self.Label = value; self.Uri = value; }
@@ -244,7 +244,7 @@ public partial class LinkLabel : Control
         /// <value>
         /// The description.
         /// </value>
-        public string Description
+        public string? Description
         {
             get;
             set;
@@ -257,7 +257,7 @@ public partial class LinkLabel : Control
         /// The link data.
         /// </value>
         [DefaultValue(null)]
-        public object LinkData
+        public object? LinkData
         {
             get;
             set;
@@ -396,13 +396,13 @@ public partial class LinkLabel : Control
         /// </returns>
         public int Add(object value)
         {
-            if (value is Label)
+            if (value is Label label)
             {
-                owner.Text = ((Label)value).Text;
+                owner.Text = label.Text;
             }
             else
             {
-                owner.Text = value?.ToString();
+                owner.Text = value?.ToString() ?? string.Empty;
             }
 
             return 1;
@@ -437,7 +437,7 @@ public partial class LinkLabel : Control
         /// </returns>
         public bool Contains(object value)
         {
-            return owner.Text.Contains(value.ToString());
+            return owner.Text?.Contains(value.ToString()) ?? false;
         }
 
         /// <summary>

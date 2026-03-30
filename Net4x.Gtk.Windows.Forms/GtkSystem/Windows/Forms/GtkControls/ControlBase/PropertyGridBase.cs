@@ -75,7 +75,7 @@ public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
     /// <param name="description">
     /// The description.
     /// </param>
-    public void ShowDescription(string title, string description)
+    public void ShowDescription(string? title, string? description)
     {
         titleLabel.Text = title;
         descriptionLabel.Text = description;

@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -212,7 +212,7 @@ internal class NonStaticMessageBox : IMessageBox
         int irun;
         if (owner is Form control)
         {
-            irun = ShowCore((Window)control.Widget, WindowPosition.CenterOnParent, text, caption, buttons, icon);
+            irun = ShowCore((Window?)control.Widget, WindowPosition.CenterOnParent, text, caption, buttons, icon);
         }
         else
         {
@@ -262,7 +262,7 @@ internal class NonStaticMessageBox : IMessageBox
         }
     }
 
-    private int ShowCore(Window? owner, WindowPosition position, string text, string caption,
+    private int ShowCore(Window? owner, WindowPosition position, string? text, string caption,
         MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
     {
         var dia = new Dialog(caption, owner, DialogFlags.DestroyWithParent);

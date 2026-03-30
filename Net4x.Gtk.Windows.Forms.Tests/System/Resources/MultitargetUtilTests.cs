@@ -36,7 +36,9 @@ public class MultitargetUtilTests
     }
 
     [Theory]
+#pragma warning disable xUnit1012
     [InlineData(null)]
+#pragma warning restore xUnit1012
     [InlineData("")]
     public void GetAssemblyQualifiedName_ConverterReturnsNullOrEmpty_FallsBack(string converterResult)
     {

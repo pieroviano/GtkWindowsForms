@@ -132,18 +132,18 @@ public sealed partial class ImageList
         /// </returns>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Image this[int index]
+        public Image? this[int index]
         {
             get
             {
-                return _owner._originals[index]._image as Image;
+                return _owner._originals?[index]._image as Image;
             }
             set
             {
                 if ((_imageInfoCollection.Count > index))
                 {
                     var bitmap = value as Bitmap;
-                    _owner._originals[index] = new Original(bitmap.Clone(), OriginalOptions.OwnsImage);
+                    _owner._originals?[index] = new Original(bitmap?.Clone(), OriginalOptions.OwnsImage);
                 }
             }
         }
@@ -193,7 +193,7 @@ public sealed partial class ImageList
         /// <param name="image">
         /// The image.
         /// </param>
-        public void Add(string key, Image image)
+        public void Add(string key, Image? image)
         {
             // Store off the name.
             var imageInfo = new ImageInfo()
@@ -245,7 +245,7 @@ public sealed partial class ImageList
         /// <param name="value">
         /// The value.
         /// </param>
-        public void Add(Image value)
+        public void Add(Image? value)
         {
 
             var original = new Original(value, OriginalOptions.Default);
@@ -362,7 +362,7 @@ public sealed partial class ImageList
         /// </returns>
         public IEnumerator GetEnumerator()
         {
-            var images = new Image[Count];
+            var images = new Image?[Count];
             for (var i = 0; i < images.Length; ++i)
             {
                 images[i] = _owner.GetBitmap(i);
@@ -395,7 +395,7 @@ public sealed partial class ImageList
         /// <returns>
         /// System.Int32.
         /// </returns>
-        public int IndexOfKey(string key)
+        public int IndexOfKey(string? key)
         {
             if (string.IsNullOrEmpty(key))
             {
@@ -432,7 +432,7 @@ public sealed partial class ImageList
             if (index >= 0 && index < _imageInfoCollection.Count)
             {
                 _imageInfoCollection.RemoveAt(index);
-                _owner._originals.RemoveAt(index);
+                _owner._originals?.RemoveAt(index);
                 _owner.OnChangeHandle(EventArgs.Empty);
             }
         }
@@ -467,7 +467,7 @@ public sealed partial class ImageList
             if (len > index)
             {
                 _imageInfoCollection[index].Name = name;
-                _owner._originals[index] = new Original(_owner.GetOriginalImage(name), OriginalOptions.OwnsImage);
+                _owner._originals?[index] = new Original(_owner.GetOriginalImage(name), OriginalOptions.OwnsImage);
             }
             else
             {
@@ -490,7 +490,7 @@ public sealed partial class ImageList
 
         int IList.Add(object? value)
         {
-            Add((Image)value);
+            Add((Image?)value);
 
             return Count - 1;
         }
@@ -541,7 +541,7 @@ public sealed partial class ImageList
         private int Add(Original original, ImageInfo? imageInfo)
         {
             _imageInfoCollection.Add(imageInfo ?? new ImageInfo());
-            _owner._originals.Add(original);
+            _owner._originals?.Add(original);
             _owner.OnChangeHandle(EventArgs.Empty);
 
             return _imageInfoCollection.Count - 1;

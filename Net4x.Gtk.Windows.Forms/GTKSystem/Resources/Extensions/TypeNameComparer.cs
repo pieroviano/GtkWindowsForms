@@ -9,7 +9,7 @@ internal sealed class TypeNameComparer : IEqualityComparer<string>
 
     public static TypeNameComparer Instance { get; } = new();
 
-    public bool Equals(string assemblyQualifiedTypeName1, string assemblyQualifiedTypeName2)
+    public bool Equals(string? assemblyQualifiedTypeName1, string? assemblyQualifiedTypeName2)
     {
         if (assemblyQualifiedTypeName1 == null)
         {

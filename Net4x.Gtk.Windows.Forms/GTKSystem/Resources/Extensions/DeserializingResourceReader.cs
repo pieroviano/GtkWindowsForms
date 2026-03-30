@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Resources;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
@@ -18,13 +20,13 @@ namespace GtkSystem.Resources.Extensions;
 public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, IDisposable
 {
 
-    internal Dictionary<string, ResourceLocator> _resCache;
+    internal Dictionary<string, ResourceLocator>? _resCache;
 
     private bool _assumeBinaryFormatter;
 
     private long _dataSectionOffset;
 
-    private DataContractSerializer _formatter;
+    private DataContractSerializer? _formatter;
 
     private int[]? _nameHashes;
 
@@ -40,9 +42,9 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
 
     private BinaryReader? _store;
 
-    private int[] _typeNamePositions;
+    private int[]? _typeNamePositions;
 
-    private Type[] _typeTable;
+    private Type[]? _typeTable;
 
     private UnmanagedMemoryStream? _ums;
 
@@ -182,15 +184,18 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         {
             for (var j = bitPosition; j <= i; j++)
             {
-                _store.BaseStream.Seek(_nameSectionOffset + GetNamePosition(j), SeekOrigin.Begin);
+                _store?.BaseStream.Seek(_nameSectionOffset + GetNamePosition(j), SeekOrigin.Begin);
                 if (CompareStringEqualsName(name))
                 {
-                    var findPosForResource = _store.ReadInt32();
-                    if (findPosForResource < 0 || findPosForResource >= _store.BaseStream.Length - _dataSectionOffset)
+                    if (_store != null)
                     {
-                        throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, findPosForResource));
+                        var findPosForResource = _store.ReadInt32();
+                        if (findPosForResource < 0 || findPosForResource >= _store.BaseStream.Length - _dataSectionOffset)
+                        {
+                            throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, findPosForResource));
+                        }
+                        return findPosForResource;
                     }
-                    return findPosForResource;
                 }
             }
         }
@@ -203,7 +208,7 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         return new ResourceEnumerator(this);
     }
 
-    internal object LoadObject(int pos)
+    internal object? LoadObject(int pos)
     {
         if (_version == 1)
         {
@@ -213,7 +218,7 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         return LoadObjectV2(pos, out var typeCode);
     }
 
-    internal object LoadObject(int pos, out ResourceTypeCode typeCode)
+    internal object? LoadObject(int pos, out ResourceTypeCode typeCode)
     {
         if (_version == 1)
         {
@@ -225,7 +230,7 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         return LoadObjectV2(pos, out typeCode);
     }
 
-    internal object LoadObjectV1(int pos)
+    internal object? LoadObjectV1(int pos)
     {
         try
         {
@@ -241,7 +246,7 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         }
     }
 
-    internal object LoadObjectV2(int pos, out ResourceTypeCode typeCode)
+    internal object? LoadObjectV2(int pos, out ResourceTypeCode typeCode)
     {
         try
         {
@@ -257,33 +262,36 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         }
     }
 
-    internal string LoadString(int pos)
+    internal string? LoadString(int pos)
     {
-        _store.BaseStream.Seek(_dataSectionOffset + pos, SeekOrigin.Begin);
-        string result = null;
-        var num = _store.Read7BitEncodedInt();
-        if (_version == 1)
+        _store?.BaseStream.Seek(_dataSectionOffset + pos, SeekOrigin.Begin);
+        string? result = null;
+        if (_store != null)
         {
-            if (num == -1)
+            var num = _store.Read7BitEncodedInt();
+            if (_version == 1)
             {
-                return null;
-            }
-            if (FindType(num) != typeof(string))
-            {
-                throw new InvalidOperationException(SystemResources.Format(SR.InvalidOperation_ResourceNotString_Type, FindType(num).FullName));
-            }
-            result = _store.ReadString();
-        }
-        else
-        {
-            var resourceTypeCode = (ResourceTypeCode)num;
-            if (resourceTypeCode != ResourceTypeCode.String && resourceTypeCode != 0)
-            {
-                throw new InvalidOperationException(SystemResources.Format(p1: (resourceTypeCode >= ResourceTypeCode.StartOfUserTypes) ? FindType((int)(resourceTypeCode - 64)).FullName : resourceTypeCode.ToString(), resourceFormat: SR.InvalidOperation_ResourceNotString_Type));
-            }
-            if (resourceTypeCode == ResourceTypeCode.String)
-            {
+                if (num == -1)
+                {
+                    return null;
+                }
+                if (FindType(num) != typeof(string))
+                {
+                    throw new InvalidOperationException(SystemResources.Format(SR.InvalidOperation_ResourceNotString_Type, FindType(num).FullName));
+                }
                 result = _store.ReadString();
+            }
+            else
+            {
+                var resourceTypeCode = (ResourceTypeCode)num;
+                if (resourceTypeCode != ResourceTypeCode.String && resourceTypeCode != 0)
+                {
+                    throw new InvalidOperationException(SystemResources.Format(p1: (resourceTypeCode >= ResourceTypeCode.StartOfUserTypes) ? FindType((int)(resourceTypeCode - 64)).FullName : resourceTypeCode.ToString(), resourceFormat: SR.InvalidOperation_ResourceNotString_Type));
+                }
+                if (resourceTypeCode == ResourceTypeCode.String)
+                {
+                    result = _store.ReadString();
+                }
             }
         }
 
@@ -300,286 +308,335 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         return GetEnumerator();
     }
 
-    private object _LoadObjectV1(int pos)
+    private object? _LoadObjectV1(int pos)
     {
-        _store.BaseStream.Seek(_dataSectionOffset + pos, SeekOrigin.Begin);
-        var num = _store.Read7BitEncodedInt();
-        if (num == -1)
+        _store?.BaseStream.Seek(_dataSectionOffset + pos, SeekOrigin.Begin);
+        if (_store != null)
         {
-            return null;
-        }
-        var type = FindType(num);
-        if (type == typeof(string))
-        {
-            return _store.ReadString();
-        }
-        if (type == typeof(int))
-        {
-            return _store.ReadInt32();
-        }
-        if (type == typeof(byte))
-        {
-            return _store.ReadByte();
-        }
-        if (type == typeof(sbyte))
-        {
-            return _store.ReadSByte();
-        }
-        if (type == typeof(short))
-        {
-            return _store.ReadInt16();
-        }
-        if (type == typeof(long))
-        {
-            return _store.ReadInt64();
-        }
-        if (type == typeof(ushort))
-        {
-            return _store.ReadUInt16();
-        }
-        if (type == typeof(uint))
-        {
-            return _store.ReadUInt32();
-        }
-        if (type == typeof(ulong))
-        {
-            return _store.ReadUInt64();
-        }
-        if (type == typeof(float))
-        {
-            return _store.ReadSingle();
-        }
-        if (type == typeof(double))
-        {
-            return _store.ReadDouble();
-        }
-        if (type == typeof(DateTime))
-        {
-            return new DateTime(_store.ReadInt64());
-        }
-        if (type == typeof(TimeSpan))
-        {
-            return new TimeSpan(_store.ReadInt64());
-        }
-        if (type == typeof(decimal))
-        {
-            var array = new int[4];
-            for (var i = 0; i < array.Length; i++)
+            var num = _store.Read7BitEncodedInt();
+            if (num == -1)
             {
-                array[i] = _store.ReadInt32();
+                return null;
             }
-            return new decimal(array);
-        }
+            var type = FindType(num);
+            if (type == typeof(string))
+            {
+                return _store.ReadString();
+            }
+            if (type == typeof(int))
+            {
+                return _store.ReadInt32();
+            }
+            if (type == typeof(byte))
+            {
+                return _store.ReadByte();
+            }
+            if (type == typeof(sbyte))
+            {
+                return _store.ReadSByte();
+            }
+            if (type == typeof(short))
+            {
+                return _store.ReadInt16();
+            }
+            if (type == typeof(long))
+            {
+                return _store.ReadInt64();
+            }
+            if (type == typeof(ushort))
+            {
+                return _store.ReadUInt16();
+            }
+            if (type == typeof(uint))
+            {
+                return _store.ReadUInt32();
+            }
+            if (type == typeof(ulong))
+            {
+                return _store.ReadUInt64();
+            }
+            if (type == typeof(float))
+            {
+                return _store.ReadSingle();
+            }
+            if (type == typeof(double))
+            {
+                return _store.ReadDouble();
+            }
+            if (type == typeof(DateTime))
+            {
+                return new DateTime(_store.ReadInt64());
+            }
+            if (type == typeof(TimeSpan))
+            {
+                return new TimeSpan(_store.ReadInt64());
+            }
+            if (type == typeof(decimal))
+            {
+                var array = new int[4];
+                for (var i = 0; i < array.Length; i++)
+                {
+                    array[i] = _store.ReadInt32();
+                }
+                return new decimal(array);
+            }
 
-        return DeserializeObject(num);
+            return DeserializeObject(num);
+        }
+        return null;
     }
 
-    private unsafe object _LoadObjectV2(int pos, out ResourceTypeCode typeCode)
+    private unsafe object? _LoadObjectV2(int pos, out ResourceTypeCode typeCode)
     {
-        _store.BaseStream.Seek(_dataSectionOffset + pos, SeekOrigin.Begin);
-        typeCode = (ResourceTypeCode)_store.Read7BitEncodedInt();
-        switch (typeCode)
+        _store?.BaseStream.Seek(_dataSectionOffset + pos, SeekOrigin.Begin);
+        if (_store != null)
         {
-            case ResourceTypeCode.Null:
-                return null;
-            case ResourceTypeCode.String:
-                return _store.ReadString();
-            case ResourceTypeCode.Boolean:
-                return _store.ReadBoolean();
-            case ResourceTypeCode.Char:
-                return (char)_store.ReadUInt16();
-            case ResourceTypeCode.Byte:
-                return _store.ReadByte();
-            case ResourceTypeCode.SByte:
-                return _store.ReadSByte();
-            case ResourceTypeCode.Int16:
-                return _store.ReadInt16();
-            case ResourceTypeCode.UInt16:
-                return _store.ReadUInt16();
-            case ResourceTypeCode.Int32:
-                return _store.ReadInt32();
-            case ResourceTypeCode.UInt32:
-                return _store.ReadUInt32();
-            case ResourceTypeCode.Int64:
-                return _store.ReadInt64();
-            case ResourceTypeCode.UInt64:
-                return _store.ReadUInt64();
-            case ResourceTypeCode.Single:
-                return _store.ReadSingle();
-            case ResourceTypeCode.Double:
-                return _store.ReadDouble();
-            case ResourceTypeCode.Decimal:
-                return _store.ReadDecimal();
-            case ResourceTypeCode.DateTime:
-                {
-                    var dateData = _store.ReadInt64();
-                    return DateTime.FromBinary(dateData);
-                }
-            case ResourceTypeCode.TimeSpan:
-                {
-                    var ticks = _store.ReadInt64();
-                    return new TimeSpan(ticks);
-                }
-            case ResourceTypeCode.ByteArray:
-                {
-                    var byteArrayLength = _store.ReadInt32();
-                    if (byteArrayLength < 0)
+            typeCode = (ResourceTypeCode)_store.Read7BitEncodedInt();
+            switch (typeCode)
+            {
+                case ResourceTypeCode.Null:
+                    return null;
+                case ResourceTypeCode.String:
+                    return _store.ReadString();
+                case ResourceTypeCode.Boolean:
+                    return _store.ReadBoolean();
+                case ResourceTypeCode.Char:
+                    return (char)_store.ReadUInt16();
+                case ResourceTypeCode.Byte:
+                    return _store.ReadByte();
+                case ResourceTypeCode.SByte:
+                    return _store.ReadSByte();
+                case ResourceTypeCode.Int16:
+                    return _store.ReadInt16();
+                case ResourceTypeCode.UInt16:
+                    return _store.ReadUInt16();
+                case ResourceTypeCode.Int32:
+                    return _store.ReadInt32();
+                case ResourceTypeCode.UInt32:
+                    return _store.ReadUInt32();
+                case ResourceTypeCode.Int64:
+                    return _store.ReadInt64();
+                case ResourceTypeCode.UInt64:
+                    return _store.ReadUInt64();
+                case ResourceTypeCode.Single:
+                    return _store.ReadSingle();
+                case ResourceTypeCode.Double:
+                    return _store.ReadDouble();
+                case ResourceTypeCode.Decimal:
+                    return _store.ReadDecimal();
+                case ResourceTypeCode.DateTime:
                     {
-                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, byteArrayLength));
+                        var dateData = _store.ReadInt64();
+                        return DateTime.FromBinary(dateData);
                     }
-                    if (_ums == null)
+                case ResourceTypeCode.TimeSpan:
                     {
-                        if (byteArrayLength > _store.BaseStream.Length)
+                        var ticks = _store.ReadInt64();
+                        return new TimeSpan(ticks);
+                    }
+                case ResourceTypeCode.ByteArray:
+                    {
+                        var byteArrayLength = _store.ReadInt32();
+                        if (byteArrayLength < 0)
                         {
-                            throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, byteArrayLength));
+                            throw new BadImageFormatException(
+                                SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, byteArrayLength));
                         }
-                        return _store.ReadBytes(byteArrayLength);
+
+                        if (_ums == null)
+                        {
+                            if (byteArrayLength > _store.BaseStream.Length)
+                            {
+                                throw new BadImageFormatException(
+                                    SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid,
+                                        byteArrayLength));
+                            }
+
+                            return _store.ReadBytes(byteArrayLength);
+                        }
+
+                        if (byteArrayLength > _ums.Length - _ums.Position)
+                        {
+                            throw new BadImageFormatException(
+                                SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, byteArrayLength));
+                        }
+
+                        var array2 = new byte[byteArrayLength];
+                        var num3 = _ums.Read(array2, 0, byteArrayLength);
+                        return array2;
                     }
-                    if (byteArrayLength > _ums.Length - _ums.Position)
+                case ResourceTypeCode.Stream:
                     {
-                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, byteArrayLength));
+                        var num = _store.ReadInt32();
+                        if (num < 0)
+                        {
+                            throw new BadImageFormatException(
+                                SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num));
+                        }
+
+                        if (_ums == null)
+                        {
+                            var array = _store.ReadBytes(num);
+                            return new PinnedBufferMemoryStream(array);
+                        }
+
+                        if (num > _ums.Length - _ums.Position)
+                        {
+                            throw new BadImageFormatException(
+                                SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num));
+                        }
+
+                        return new UnmanagedMemoryStream(_ums.PositionPointer, num, num, FileAccess.Read);
                     }
-                    var array2 = new byte[byteArrayLength];
-                    var num3 = _ums.Read(array2, 0, byteArrayLength);
-                    return array2;
-                }
-            case ResourceTypeCode.Stream:
-                {
-                    var num = _store.ReadInt32();
-                    if (num < 0)
+                default:
                     {
-                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num));
+                        if (typeCode < ResourceTypeCode.StartOfUserTypes)
+                        {
+                            throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch);
+                        }
+
+                        var typeIndex = (int)(typeCode - 64);
+                        return DeserializeObject(typeIndex);
                     }
-                    if (_ums == null)
-                    {
-                        var array = _store.ReadBytes(num);
-                        return new PinnedBufferMemoryStream(array);
-                    }
-                    if (num > _ums.Length - _ums.Position)
-                    {
-                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, num));
-                    }
-                    return new UnmanagedMemoryStream(_ums.PositionPointer, num, num, FileAccess.Read);
-                }
-            default:
-                {
-                    if (typeCode < ResourceTypeCode.StartOfUserTypes)
-                    {
-                        throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch);
-                    }
-                    var typeIndex = (int)(typeCode - 64);
-                    return DeserializeObject(typeIndex);
-                }
+            }
         }
+        typeCode = ResourceTypeCode.Null;
+        return null;
     }
 
     private unsafe void _ReadResources()
     {
-        var num = _store.ReadInt32();
-        if (num != ResourceManager.MagicNumber)
+        if (_store != null)
         {
-            throw new ArgumentException(SR.Resources_StreamNotValid);
-        }
-        var x = _store.ReadInt32();
-        var y = _store.ReadInt32();
-        if (y < 0 || x < 0)
-        {
-            throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
-        }
-        if (x > 1)
-        {
-            _store.BaseStream.Seek(y, SeekOrigin.Current);
-        }
-        else
-        {
-            var text = _store.ReadString();
-            if (!ValidateReaderType(text))
+            var num = _store.ReadInt32();
+            if (num != ResourceManager.MagicNumber)
             {
-                throw new NotSupportedException(SystemResources.Format(SR.NotSupported_WrongResourceReader_Type, text));
-            }
-            SkipString();
-        }
-        var w = _store.ReadInt32();
-        if (w != 2 && w != 1)
-        {
-            throw new ArgumentException(SystemResources.Format(SR.Arg_ResourceFileUnsupportedVersion, 2, w));
-        }
-        _version = w;
-        _numResources = _store.ReadInt32();
-        if (_numResources < 0)
-        {
-            throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
-        }
-        var z = _store.ReadInt32();
-        if (z < 0)
-        {
-            throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
-        }
-        _typeTable = new Type[z];
-        _typeNamePositions = new int[z];
-        for (var i = 0; i < z; i++)
-        {
-            _typeNamePositions[i] = (int)_store.BaseStream.Position;
-            SkipString();
-        }
-        var position = _store.BaseStream.Position;
-        var a = (int)position & 7;
-        if (a != 0)
-        {
-            for (var j = 0; j < 8 - a; j++)
-            {
-                _store.ReadByte();
+                throw new ArgumentException(SR.Resources_StreamNotValid);
             }
         }
-        if (_ums == null)
+
+        if (_store != null)
         {
-            _nameHashes = new int[_numResources];
-            for (var k = 0; k < _numResources; k++)
-            {
-                _nameHashes[k] = _store.ReadInt32();
-            }
-        }
-        else
-        {
-            var numResources = 4 * _numResources;
-            if (numResources < 0)
+            var x = _store.ReadInt32();
+            var y = _store.ReadInt32();
+            if (y < 0 || x < 0)
             {
                 throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
             }
-            _nameHashesPtr = (int*)_ums.PositionPointer;
-            _ums.Seek(numResources, SeekOrigin.Current);
-            var positionPointer = _ums.PositionPointer;
-        }
-        if (_ums == null)
-        {
-            _namePositions = new int[_numResources];
-            for (var l = 0; l < _numResources; l++)
+            if (x > 1)
             {
-                var c = _store.ReadInt32();
-                if (c < 0)
+                _store.BaseStream.Seek(y, SeekOrigin.Current);
+            }
+            else
+            {
+                var text = _store.ReadString();
+                if (!ValidateReaderType(text))
+                {
+                    throw new NotSupportedException(SystemResources.Format(SR.NotSupported_WrongResourceReader_Type, text));
+                }
+                SkipString();
+            }
+        }
+
+        if (_store != null)
+        {
+            var w = _store.ReadInt32();
+            if (w != 2 && w != 1)
+            {
+                throw new ArgumentException(SystemResources.Format(SR.Arg_ResourceFileUnsupportedVersion, 2, w));
+            }
+            _version = w;
+        }
+
+        if (_store != null)
+        {
+            _numResources = _store.ReadInt32();
+            if (_numResources < 0)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
+            }
+
+            var z = _store.ReadInt32();
+            if (z < 0)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
+            }
+
+            _typeTable = new Type[z];
+            _typeNamePositions = new int[z];
+            for (var i = 0; i < z; i++)
+            {
+                _typeNamePositions[i] = (int)_store.BaseStream.Position;
+                SkipString();
+            }
+
+            var position = _store.BaseStream.Position;
+            var a = (int)position & 7;
+            if (a != 0)
+            {
+                for (var j = 0; j < 8 - a; j++)
+                {
+                    _store.ReadByte();
+                }
+            }
+
+            if (_ums == null)
+            {
+                _nameHashes = new int[_numResources];
+                for (var k = 0; k < _numResources; k++)
+                {
+                    _nameHashes[k] = _store.ReadInt32();
+                }
+            }
+            else
+            {
+                var numResources = 4 * _numResources;
+                if (numResources < 0)
                 {
                     throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
                 }
-                _namePositions[l] = c;
+
+                _nameHashesPtr = (int*)_ums.PositionPointer;
+                _ums.Seek(numResources, SeekOrigin.Current);
+                var positionPointer = _ums.PositionPointer;
             }
-        }
-        else
-        {
-            var d = 4 * _numResources;
-            if (d < 0)
+
+            if (_ums == null)
+            {
+                _namePositions = new int[_numResources];
+                for (var l = 0; l < _numResources; l++)
+                {
+                    var c = _store.ReadInt32();
+                    if (c < 0)
+                    {
+                        throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
+                    }
+
+                    _namePositions[l] = c;
+                }
+            }
+            else
+            {
+                var d = 4 * _numResources;
+                if (d < 0)
+                {
+                    throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
+                }
+
+                _namePositionsPtr = (int*)_ums.PositionPointer;
+                _ums.Seek(d, SeekOrigin.Current);
+                var positionPointer2 = _ums.PositionPointer;
+            }
+
+            _dataSectionOffset = _store.ReadInt32();
+            if (_dataSectionOffset < 0)
             {
                 throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
             }
-            _namePositionsPtr = (int*)_ums.PositionPointer;
-            _ums.Seek(d, SeekOrigin.Current);
-            var positionPointer2 = _ums.PositionPointer;
+
+            _nameSectionOffset = _store.BaseStream.Position;
         }
-        _dataSectionOffset = _store.ReadInt32();
-        if (_dataSectionOffset < 0)
-        {
-            throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
-        }
-        _nameSectionOffset = _store.BaseStream.Position;
+
         if (_dataSectionOffset < _nameSectionOffset)
         {
             throw new BadImageFormatException(SR.BadImageFormat_ResourcesHeaderCorrupted);
@@ -593,44 +650,61 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         byte[] array;
         lock (this)
         {
-            _store.BaseStream.Seek(namePosition + _nameSectionOffset, SeekOrigin.Begin);
-            encodedInt = _store.Read7BitEncodedInt();
-            if (encodedInt < 0)
+            if (_store != null)
             {
-                throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
-            }
-            if (_ums != null)
-            {
-                if (_ums.Position > _ums.Length - encodedInt)
+                _store.BaseStream.Seek(namePosition + _nameSectionOffset, SeekOrigin.Begin);
+                encodedInt = _store.Read7BitEncodedInt();
+                if (encodedInt < 0)
                 {
-                    throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourcesIndexTooLong, index));
+                    throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
                 }
-                string text = null;
-                var positionPointer = (char*)_ums.PositionPointer;
-                text = new string(positionPointer, 0, encodedInt / 2);
-                _ums.Position += encodedInt;
+
+                if (_ums != null)
+                {
+                    if (_ums.Position > _ums.Length - encodedInt)
+                    {
+                        throw new BadImageFormatException(
+                            SystemResources.Format(SR.BadImageFormat_ResourcesIndexTooLong, index));
+                    }
+
+                    string? text = null;
+                    var positionPointer = (char*)_ums.PositionPointer;
+                    text = new string(positionPointer, 0, encodedInt / 2);
+                    _ums.Position += encodedInt;
+                    dataOffset = _store.ReadInt32();
+                    if (dataOffset < 0 || dataOffset >= _store.BaseStream.Length - _dataSectionOffset)
+                    {
+                        throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset,
+                            dataOffset));
+                    }
+
+                    return text;
+                }
+
+                array = new byte[encodedInt];
+                var count = encodedInt;
+                while (count > 0)
+                {
+                    var read = _store.Read(array, encodedInt - count, count);
+                    if (read == 0)
+                    {
+                        throw new EndOfStreamException(
+                            SystemResources.Format(SR.BadImageFormat_ResourceNameCorrupted_NameIndex, index));
+                    }
+
+                    count -= read;
+                }
+
                 dataOffset = _store.ReadInt32();
                 if (dataOffset < 0 || dataOffset >= _store.BaseStream.Length - _dataSectionOffset)
                 {
-                    throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
+                    throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset,
+                        dataOffset));
                 }
-                return text;
             }
-            array = new byte[encodedInt];
-            var count = encodedInt;
-            while (count > 0)
+            else
             {
-                var read = _store.Read(array, encodedInt - count, count);
-                if (read == 0)
-                {
-                    throw new EndOfStreamException(SystemResources.Format(SR.BadImageFormat_ResourceNameCorrupted_NameIndex, index));
-                }
-                count -= read;
-            }
-            dataOffset = _store.ReadInt32();
-            if (dataOffset < 0 || dataOffset >= _store.BaseStream.Length - _dataSectionOffset)
-            {
-                throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, dataOffset));
+                throw new InvalidOperationException(SR.ResourceReaderIsClosed);
             }
         }
 
@@ -639,131 +713,161 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
 
     private unsafe bool CompareStringEqualsName(string name)
     {
-        var num = _store.Read7BitEncodedInt();
-        if (num < 0)
+        if (_store != null)
         {
-            throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
-        }
-        if (_ums != null)
-        {
-            var positionPointer = _ums.PositionPointer;
-            _ums.Seek(num, SeekOrigin.Current);
-            if (_ums.Position > _ums.Length)
+            var num = _store.Read7BitEncodedInt();
+            if (num < 0)
             {
-                throw new BadImageFormatException(SR.BadImageFormat_ResourcesNameTooLong);
+                throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
             }
-            return FastResourceComparer.CompareOrdinal(positionPointer, num, name) == 0;
-        }
-        var array = new byte[num];
-        var count = num;
-        while (count > 0)
-        {
-            var read = _store.Read(array, num - count, count);
-            if (read == 0)
+            if (_ums != null)
             {
-                throw new BadImageFormatException(SR.BadImageFormat_ResourceNameCorrupted);
+                var positionPointer = _ums.PositionPointer;
+                _ums.Seek(num, SeekOrigin.Current);
+                if (_ums.Position > _ums.Length)
+                {
+                    throw new BadImageFormatException(SR.BadImageFormat_ResourcesNameTooLong);
+                }
+                return FastResourceComparer.CompareOrdinal(positionPointer, num, name) == 0;
             }
-            count -= read;
-        }
+            var array = new byte[num];
+            var count = num;
+            while (count > 0)
+            {
+                var read = _store.Read(array, num - count, count);
+                if (read == 0)
+                {
+                    throw new BadImageFormatException(SR.BadImageFormat_ResourceNameCorrupted);
+                }
+                count -= read;
+            }
 
-        return FastResourceComparer.CompareOrdinal(array, num / 2, name) == 0;
+            return FastResourceComparer.CompareOrdinal(array, num / 2, name) == 0;
+        }
+        else
+        {
+            throw new InvalidOperationException(SR.ResourceReaderIsClosed);
+        }
     }
 
-    private unsafe object DeserializeObject(int typeIndex)
+    private unsafe object? DeserializeObject(int typeIndex)
     {
         var type = FindType(typeIndex);
         if (_assumeBinaryFormatter)
         {
             return ReadBinaryFormattedObject();
         }
-        object obj;
-        switch (_store.Read7BitEncodedInt())
-        {
-            case 1:
-                {
-                    var size = _store.Read7BitEncodedInt();
-                    if (size < 0)
+        object? obj;
+        if (_store != null)
+            switch (_store.Read7BitEncodedInt())
+            {
+                case 1:
                     {
-                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
-                    }
-                    var position = _store.BaseStream.Position;
-                    if (type == typeof(System.Windows.Forms.ImageListStreamer))
-                    {
-                        var byteData = _store.ReadBytes(size);
+                        var size = _store.Read7BitEncodedInt();
+                        if (size < 0)
+                        {
+                            throw new BadImageFormatException(
+                                SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                        }
 
-                        obj = new ImageListStreamer(byteData);
+                        var position = _store.BaseStream.Position;
+                        if (type == typeof(System.Windows.Forms.ImageListStreamer))
+                        {
+                            var byteData = _store.ReadBytes(size);
+
+                            obj = new ImageListStreamer(byteData);
+                        }
+                        else
+                        {
+                            obj = ReadBinaryFormattedObject();
+                        }
+
+                        if (type == typeof(UnknownType))
+                        {
+                            type = obj?.GetType() ?? typeof(UnknownType);
+                        }
+
+                        var streamPosition = _store.BaseStream.Position - position;
+                        if (streamPosition != size)
+                        {
+                            throw new BadImageFormatException(
+                                SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                        }
+
+                        break;
                     }
-                    else
+                case 2:
                     {
-                        obj = ReadBinaryFormattedObject();
+                        var size = _store.Read7BitEncodedInt();
+                        if (size < 0)
+                        {
+                            throw new BadImageFormatException(
+                                SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                        }
+
+                        var value = _store.ReadBytes(size);
+                        var converter = TypeDescriptor.GetConverter(type) ??
+                                        throw new TypeLoadException(
+                                            SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, type));
+                        if (type == typeof(Icon))
+                        {
+                            obj = new System.Drawing.Icon((byte[])value);
+                        }
+                        else if (type == typeof(System.Drawing.Bitmap))
+                        {
+                            obj = new System.Drawing.Bitmap(value);
+                        }
+                        else
+                        {
+                            obj = converter.ConvertFrom(value);
+                        }
+
+                        break;
                     }
-                    if (type == typeof(UnknownType))
+                case 3:
                     {
-                        type = obj.GetType();
+                        var text = _store.ReadString();
+                        var converter = TypeDescriptor.GetConverter(type) ??
+                                        throw new TypeLoadException(
+                                            SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, type));
+                        obj = converter.ConvertFromInvariantString(text);
+                        break;
                     }
-                    var streamPosition = _store.BaseStream.Position - position;
-                    if (streamPosition != size)
+                case 4:
                     {
-                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                        var size = _store.Read7BitEncodedInt();
+                        if (size < 0)
+                        {
+                            throw new BadImageFormatException(
+                                SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
+                        }
+
+                        Stream stream;
+                        if (_store.BaseStream is UnmanagedMemoryStream unmanagedMemoryStream)
+                        {
+                            stream = new UnmanagedMemoryStream(unmanagedMemoryStream.PositionPointer, size, size,
+                                FileAccess.Read);
+                        }
+                        else
+                        {
+                            var buffer = _store.ReadBytes(size);
+                            stream = new MemoryStream(buffer, writable: false);
+                        }
+
+                        obj = Activator.CreateInstance(type, stream);
+                        break;
                     }
-                    break;
-                }
-            case 2:
-                {
-                    var size = _store.Read7BitEncodedInt();
-                    if (size < 0)
-                    {
-                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
-                    }
-                    var value = _store.ReadBytes(size);
-                    var converter = TypeDescriptor.GetConverter(type) ?? throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, type));
-                    if (type == typeof(Icon))
-                    {
-                        obj = new System.Drawing.Icon((byte[])value);
-                    }
-                    else if (type == typeof(System.Drawing.Bitmap))
-                    {
-                        obj = new System.Drawing.Bitmap(value);
-                    }
-                    else
-                    {
-                        obj = converter.ConvertFrom(value);
-                    }
-                    break;
-                }
-            case 3:
-                {
-                    var text = _store.ReadString();
-                    var converter = TypeDescriptor.GetConverter(type) ?? throw new TypeLoadException(SystemResources.Format(SR.TypeLoadException_CannotLoadConverter, type));
-                    obj = converter.ConvertFromInvariantString(text);
-                    break;
-                }
-            case 4:
-                {
-                    var size = _store.Read7BitEncodedInt();
-                    if (size < 0)
-                    {
-                        throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResourceDataLengthInvalid, size));
-                    }
-                    Stream stream;
-                    if (_store.BaseStream is UnmanagedMemoryStream unmanagedMemoryStream)
-                    {
-                        stream = new UnmanagedMemoryStream(unmanagedMemoryStream.PositionPointer, size, size, FileAccess.Read);
-                    }
-                    else
-                    {
-                        var buffer = _store.ReadBytes(size);
-                        stream = new MemoryStream(buffer, writable: false);
-                    }
-                    obj = Activator.CreateInstance(type, stream);
-                    break;
-                }
-            default:
-                throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch);
-        }
-        if (obj.GetType() != type)
+                default:
+                    throw new BadImageFormatException(SR.BadImageFormat_TypeMismatch);
+            }
+        else
         {
-            throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResType_SerBlobMismatch, type.FullName, obj.GetType().FullName));
+            throw new InvalidOperationException(SR.ResourceReaderIsClosed);
+        }
+
+        if (obj?.GetType() != type)
+        {
+            throw new BadImageFormatException(SystemResources.Format(SR.BadImageFormat_ResType_SerBlobMismatch, type.FullName, obj?.GetType().FullName));
         }
 
         return obj;
@@ -791,38 +895,41 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
 
     private Type FindType(int typeIndex)
     {
-        if (typeIndex < 0 || typeIndex >= _typeTable.Length)
+        if (typeIndex < 0 || typeIndex >= _typeTable?.Length || _typeTable == null)
         {
             throw new BadImageFormatException(SR.BadImageFormat_InvalidType);
         }
         if (_typeTable[typeIndex] == null)
         {
-            var position = _store.BaseStream.Position;
-            try
+            if (_store != null)
             {
-                _store.BaseStream.Position = _typeNamePositions[typeIndex];
-                var typeName = _store.ReadString();
-                if (typeName == "System.Resources.Extensions.UnknownType")
-                    _typeTable[typeIndex] = typeof(System.Windows.Forms.ImageListStreamer);
-                else
+                var position = _store.BaseStream.Position;
+                try
                 {
-                    if (typeName.Contains("System.Drawing"))
-                    {
-                        _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
-                    }
+                    if (_typeNamePositions != null) _store.BaseStream.Position = _typeNamePositions[typeIndex];
+                    var typeName = _store.ReadString();
+                    if (typeName == "System.Resources.Extensions.UnknownType")
+                        _typeTable[typeIndex] = typeof(System.Windows.Forms.ImageListStreamer);
                     else
                     {
-                        _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
+                        if (typeName.Contains("System.Drawing"))
+                        {
+                            _typeTable[typeIndex] = typeof(Bitmap).Assembly.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
+                        else
+                        {
+                            _typeTable[typeIndex] = Type.GetType(typeName.Split(',')[0], throwOnError: true);
+                        }
                     }
                 }
-            }
-            catch (FileNotFoundException)
-            {
-                throw new NotSupportedException(SR.NotSupported_ResourceObjectSerialization);
-            }
-            finally
-            {
-                _store.BaseStream.Position = position;
+                catch (FileNotFoundException)
+                {
+                    throw new NotSupportedException(SR.NotSupported_ResourceObjectSerialization);
+                }
+                finally
+                {
+                    _store.BaseStream.Position = position;
+                }
             }
         }
 
@@ -833,7 +940,7 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
     {
         if (_ums == null)
         {
-            return _nameHashes[index];
+            return _nameHashes?[index] ?? throw new InvalidOperationException(nameof(_nameHashes));
         }
 
         return ReadUnalignedI4(_nameHashesPtr + index);
@@ -841,7 +948,7 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
 
     private unsafe int GetNamePosition(int index)
     {
-        var num = ((_ums != null) ? ReadUnalignedI4(_namePositionsPtr + index) : _namePositions[index]);
+        var num = ((_ums != null) ? ReadUnalignedI4(_namePositionsPtr + index) : _namePositions?[index] ?? throw new InvalidOperationException(nameof(_namePositions)));
         if (num < 0 || num > _dataSectionOffset - _nameSectionOffset)
         {
             throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesNameInvalidOffset, num));
@@ -850,24 +957,28 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
         return num;
     }
 
-    private object GetValueForNameIndex(int index)
+    private object? GetValueForNameIndex(int index)
     {
         long num = GetNamePosition(index);
         lock (this)
         {
-            _store.BaseStream.Seek(num + _nameSectionOffset, SeekOrigin.Begin);
+            _store?.BaseStream.Seek(num + _nameSectionOffset, SeekOrigin.Begin);
             SkipString();
-            var i = _store.ReadInt32();
-            if (i < 0 || i >= _store.BaseStream.Length - _dataSectionOffset)
+            if (_store != null)
             {
-                throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, i));
+                var i = _store.ReadInt32();
+                if (i < 0 || i >= _store.BaseStream.Length - _dataSectionOffset)
+                {
+                    throw new FormatException(SystemResources.Format(SR.BadImageFormat_ResourcesDataInvalidOffset, i));
+                }
+                if (_version == 1)
+                {
+                    return LoadObjectV1(i);
+                }
+                return LoadObjectV2(i, out var typeCode);
             }
-            if (_version == 1)
-            {
-                return LoadObjectV1(i);
-            }
-            return LoadObjectV2(i, out var typeCode);
         }
+        throw new InvalidOperationException(SR.ResourceReaderIsClosed);
     }
 
     private object? ReadBinaryFormattedObject()
@@ -878,7 +989,8 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
 
         }
 
-        return _formatter.ReadObject(_store.BaseStream);
+        if (_store != null) return _formatter.ReadObject(_store.BaseStream);
+        throw new InvalidOperationException(SR.ResourceReaderIsClosed);
     }
 
     private void ReadResources()
@@ -899,12 +1011,15 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
 
     private void SkipString()
     {
-        var num = _store.Read7BitEncodedInt();
-        if (num < 0)
+        if (_store != null)
         {
-            throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
+            var num = _store.Read7BitEncodedInt();
+            if (num < 0)
+            {
+                throw new BadImageFormatException(SR.BadImageFormat_NegativeStringLength);
+            }
+            _store.BaseStream.Seek(num, SeekOrigin.Current);
         }
-        _store.BaseStream.Seek(num, SeekOrigin.Current);
     }
 
     private string TypeNameFromTypeCode(ResourceTypeCode typeCode)
@@ -914,16 +1029,20 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
             return "ResourceTypeCode." + typeCode;
         }
         var num = (int)(typeCode - 64);
-        var position = _store.BaseStream.Position;
-        try
+        if (_store != null)
         {
-            _store.BaseStream.Position = _typeNamePositions[num];
-            return _store.ReadString();
+            var position = _store.BaseStream.Position;
+            try
+            {
+                _store.BaseStream.Position = _typeNamePositions?[num] ?? throw new ArgumentException(nameof(_typeNamePositions));
+                return _store.ReadString();
+            }
+            finally
+            {
+                _store.BaseStream.Position = position;
+            }
         }
-        finally
-        {
-            _store.BaseStream.Position = position;
-        }
+        throw new InvalidOperationException(SR.ResourceReaderIsClosed);
     }
 
     private bool ValidateReaderType(string readerType)
@@ -989,7 +1108,7 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
                 {
                     throw new InvalidOperationException(SR.ResourceReaderIsClosed);
                 }
-                object obj = null;
+                object? obj = null;
                 string key;
                 lock (_reader)
                 {
@@ -1032,7 +1151,7 @@ public sealed class DeserializingResourceReader : IResourceReader, IEnumerable, 
             }
         }
 
-        public object Value
+        public object? Value
         {
             get
             {

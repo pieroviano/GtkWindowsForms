@@ -45,7 +45,7 @@ public class ResourceManagerTests
         {
             Assembly = Assembly.GetExecutingAssembly(),
             BaseName = "Base",
-            ImageBytes = new byte[] { 1, 2, 3 },
+            ImageBytes = [1, 2, 3],
             ResourceName = "ResName",
             SourceType = typeof(int)
         };

@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -14,7 +14,7 @@ public class DataGridViewRow
 
     private readonly DataGridViewCellCollection _cell;
 
-    private readonly DataGridViewRowCollection _children;
+    private readonly DataGridViewRowCollection? _children;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -31,7 +31,7 @@ public class DataGridViewRow
     /// <value>
     /// The accessibility object.
     /// </value>
-    public AccessibleObject AccessibilityObject { get; }
+    public AccessibleObject? AccessibilityObject { get; }
 
     /// <summary>
     /// Gets the cells.
@@ -55,7 +55,7 @@ public class DataGridViewRow
     /// <value>
     /// The context menu strip.
     /// </value>
-    public ContextMenuStrip ContextMenuStrip
+    public ContextMenuStrip? ContextMenuStrip
     {
         get;
         set;
@@ -67,7 +67,7 @@ public class DataGridViewRow
     /// <value>
     /// The data bound item.
     /// </value>
-    public object DataBoundItem { get; }
+    public object? DataBoundItem { get; }
 
     /// <summary>
     /// Gets or sets the data grid view.
@@ -75,7 +75,7 @@ public class DataGridViewRow
     /// <value>
     /// The data grid view.
     /// </value>
-    public DataGridView DataGridView
+    public DataGridView? DataGridView
     {
         get;
         set;
@@ -87,7 +87,7 @@ public class DataGridViewRow
     /// <value>
     /// The default cell style.
     /// </value>
-    public DataGridViewCellStyle DefaultCellStyle
+    public DataGridViewCellStyle? DefaultCellStyle
     {
         get;
         set;
@@ -125,7 +125,7 @@ public class DataGridViewRow
     /// <value>
     /// The error text.
     /// </value>
-    public string ErrorText
+    public string? ErrorText
     {
         get;
         set;
@@ -155,7 +155,7 @@ public class DataGridViewRow
     /// <value>
     /// The header cell.
     /// </value>
-    public DataGridViewRowHeaderCell HeaderCell
+    public DataGridViewRowHeaderCell? HeaderCell
     {
         get;
         set;
@@ -191,7 +191,7 @@ public class DataGridViewRow
     /// <value>
     /// The inherited style.
     /// </value>
-    public DataGridViewCellStyle InheritedStyle { get; }
+    public DataGridViewCellStyle? InheritedStyle { get; }
 
     /// <summary>
     /// Gets a value indicating whether this instance is new row.
@@ -261,8 +261,8 @@ public class DataGridViewRow
     /// </value>
     public bool Selected
     {
-        get => DataGridView.NativeRowGetSelected(Index);
-        set => DataGridView.NativeRowSetSelected(Index, value);
+        get => DataGridView?.NativeRowGetSelected(Index) ?? false;
+        set => DataGridView?.NativeRowSetSelected(Index, value);
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -32,7 +32,7 @@ public class LabelEditEventArgs : EventArgs
     /// being edited and the new text for the label of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" />.
     /// </summary>
-    public LabelEditEventArgs(int item, string label)
+    public LabelEditEventArgs(int item, string? label)
     {
         Item = item;
         Label = label;
@@ -58,5 +58,5 @@ public class LabelEditEventArgs : EventArgs
     /// Gets the new text assigned to the label of the
     /// <see cref="T:System.Windows.Forms.ListViewItem" />.
     /// </summary>
-    public string Label { get; }
+    public string? Label { get; }
 }

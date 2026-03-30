@@ -4,7 +4,10 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using Cairo;
 using Gdk;
+using Gtk;
 using Pango;
+using Context = Cairo.Context;
+using Matrix = System.Drawing.Drawing2D.Matrix;
 
 namespace System.Drawing;
 
@@ -24,21 +27,21 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// <summary>
     /// Global/static current Cairo context for convenience in some operations.
     /// </summary>
-    public static Cairo.Context Context;
+    public static Context? Context;
 
     private float _angle = 0;
 
-    private static Cairo.Context imagecontext;
+    private static Context? imagecontext;
 
-    private static Cairo.ImageSurface imagesurface;
+    private static ImageSurface? imagesurface;
 
-    private Gdk.Rectangle rectangle;
+    private readonly Gdk.Rectangle rectangle;
 
-    private static Cairo.Surface simisurface;
+    private static Surface? simisurface;
 
-    private readonly Gtk.Widget widget;
+    private readonly Widget? widget;
 
-    internal Graphics(Gtk.Widget widget, Cairo.Context context, Gdk.Rectangle rectangle)
+    internal Graphics(Widget? widget, Cairo.Context context, Gdk.Rectangle rectangle)
     {
         Graphics.Context = context;
 
@@ -881,7 +884,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// <summary>
     /// Draws the outline of a GraphicsPath.
     /// </summary>
-    public void DrawPath(Pen pen, GraphicsPath path)
+    public void DrawPath(Pen pen, GraphicsPath? path)
     {
         DrawPathCore(pen, path, false);
     }
@@ -971,7 +974,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void DrawRectangles(Pen pen, RectangleF[] rects)
     {
-        foreach (RectangleF rect in rects)
+        foreach (var rect in rects)
             DrawRectangle(pen, rect);
 
     }
@@ -981,7 +984,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void DrawRectangles(Pen pen, Rectangle[] rects)
     {
-        foreach (Rectangle rect in rects)
+        foreach (var rect in rects)
             DrawRectangle(pen, rect);
     }
 
@@ -1027,7 +1030,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         if (string.IsNullOrEmpty(text) == false)
         {
             this.context.Save();
-            string family = font?.Name;
+            var family = font?.Name;
             var textSize = 14f;
             if (font != null)
             {
@@ -1039,7 +1042,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
                 if (this.widget != null)
                 {
-                    Pango.Context pangocontext = this.widget.PangoContext;
+                    var pangocontext = this.widget.PangoContext;
                     if (string.IsNullOrWhiteSpace(family) || pangocontext.Families.Any(f => f.Name == family) == false)
                     {
                         family = pangocontext.FontDescription.Family;
@@ -1049,8 +1052,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             }
 
             this.context.SetFontSize(textSize);
-            this.context.SelectFontFace(family, font.Style.HasFlag(FontStyle.Italic) ? Cairo.FontSlant.Italic : Cairo.FontSlant.Normal, font.Style.HasFlag(FontStyle.Bold) ? Cairo.FontWeight.Bold : Cairo.FontWeight.Normal);
-            TextExtents textext = this.context.TextExtents(text);
+            this.context.SelectFontFace(family, font != null && font.Style.HasFlag(FontStyle.Italic) ? Cairo.FontSlant.Italic : Cairo.FontSlant.Normal, font != null && font.Style.HasFlag(FontStyle.Bold) ? Cairo.FontWeight.Bold : Cairo.FontWeight.Normal);
+            var textext = this.context.TextExtents(text);
             this.SetTranslateWithDifference(layoutRectangle.X, layoutRectangle.Y + textext.Height);
             this.SetSourcePen(new Pen(brush, 1), false);
             this.context.ShowText(text);
@@ -1530,7 +1533,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void FillRectangles(Brush brush, RectangleF[] rects)
     {
-        foreach (RectangleF rect in rects)
+        foreach (var rect in rects)
             FillRectangle(brush, rect);
     }
 
@@ -1539,7 +1542,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void FillRectangles(Brush brush, Rectangle[] rects)
     {
-        foreach (Rectangle rect in rects)
+        foreach (var rect in rects)
             FillRectangle(brush, rect);
     }
 
@@ -1638,8 +1641,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </exception>
     public static Graphics FromImage(Image image)
     {
-        int _width = image.Width;
-        int _height = image.Height;
+        var _width = image.Width;
+        var _height = image.Height;
 
         if (_width < 1)
             throw new ArgumentOutOfRangeException("Image.Width不能小于等于0");
@@ -1838,7 +1841,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public SizeF MeasureString(string text, Font font, int width, StringFormat format)
     {
         var textSize = 14f;
-        string family = font?.Name;
+        var family = font?.Name;
         if (font != null)
         {
             textSize = font.Size;
@@ -1849,7 +1852,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
             if (this.widget != null)
             {
-                Pango.Context pangocontext = this.widget.PangoContext;
+                var pangocontext = this.widget.PangoContext;
                 if (string.IsNullOrWhiteSpace(family) || pangocontext.Families.Any(f => f.Name == family) == false)
                 {
                     family = pangocontext.FontDescription.Family;
@@ -1858,7 +1861,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
         }
 
-        this.context.SelectFontFace(family, font.Italic ? Cairo.FontSlant.Italic : Cairo.FontSlant.Normal, font.Bold ? Cairo.FontWeight.Bold : Cairo.FontWeight.Normal);
+        this.context.SelectFontFace(family, font != null && font.Italic ? Cairo.FontSlant.Italic : Cairo.FontSlant.Normal, font != null && font.Bold ? Cairo.FontWeight.Bold : Cairo.FontWeight.Normal);
         this.context.SetFontSize(textSize);
         var extents = this.context.TextExtents(text);
 
@@ -2090,17 +2093,17 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
         else if (pen.Brush is LinearGradientBrush lbrush)
         {
-            double maxsize = Math.Max(diff_left + lbrush.Rectangle.Right, diff_top + lbrush.Rectangle.Bottom); //渐变角度定为方形45度
+            var maxsize = Math.Max(diff_left + lbrush.Rectangle.Right, diff_top + lbrush.Rectangle.Bottom); //渐变角度定为方形45度
             using var gradient = new Cairo.LinearGradient(diff_left + lbrush.Rectangle.Left, diff_top + lbrush.Rectangle.Top, maxsize, maxsize);
-            int linearcount = lbrush.LinearColors.Length;
+            var linearcount = lbrush.LinearColors.Length;
             var idx = 0;
-            foreach (Color color in lbrush.LinearColors)
+            foreach (var color in lbrush.LinearColors)
                 gradient.AddColorStop((++idx) / linearcount, new Cairo.Color(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
 
             var matrix = new Cairo.Matrix(1, 0, 0, 1, 0, 0);
             matrix.Rotate(Math.PI * 45 / 180);//弧度
             gradient.Matrix = matrix;
-            using Cairo.Pattern pattern = Cairo.Pattern.Lookup(gradient.Handle, false);
+            using var pattern = Cairo.Pattern.Lookup(gradient.Handle, false);
             this.context.SetSource(pattern);
         }
 
@@ -2111,23 +2114,26 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
         else if (pen.Brush is PathGradientBrush pbrush)
         {
-            double maxsize = Math.Max(diff_left + pbrush.Rectangle.Right, diff_top + pbrush.Rectangle.Bottom); //渐变角度定为方形45度
+            var maxsize = Math.Max(diff_left + pbrush.Rectangle.Right, diff_top + pbrush.Rectangle.Bottom); //渐变角度定为方形45度
             using var gradient = new Cairo.LinearGradient(diff_left + pbrush.Rectangle.Left, diff_top + pbrush.Rectangle.Top, maxsize, maxsize);
-            int linearcount = pbrush.SurroundColors.Length;
-            var centeridx = Math.Floor((double)linearcount / 2);
-            var idx = 0;
-            foreach (Color color in pbrush.SurroundColors)
+            if (pbrush.SurroundColors != null)
             {
-                if (idx == centeridx)
-                    gradient.AddColorStop((++idx) / linearcount, new Cairo.Color(pbrush.CenterColor.R / 255f, pbrush.CenterColor.G / 255f, pbrush.CenterColor.B / 255f, pbrush.CenterColor.A / 255f));
-                else
-                    gradient.AddColorStop((++idx) / linearcount, new Cairo.Color(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
+                var linearcount = pbrush.SurroundColors.Length;
+                var centeridx = Math.Floor((double)linearcount / 2);
+                var idx = 0;
+                foreach (var color in pbrush.SurroundColors)
+                {
+                    if (idx == centeridx)
+                        gradient.AddColorStop((++idx) / linearcount, new Cairo.Color(pbrush.CenterColor.R / 255f, pbrush.CenterColor.G / 255f, pbrush.CenterColor.B / 255f, pbrush.CenterColor.A / 255f));
+                    else
+                        gradient.AddColorStop((++idx) / linearcount, new Cairo.Color(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
+                }
             }
 
             var matrix = new Cairo.Matrix(1, 0, 0, 1, 0, 0);
             matrix.Rotate(Math.PI * 45 / 180);//弧度
             gradient.Matrix = matrix;
-            using Cairo.Pattern pattern = Cairo.Pattern.Lookup(gradient.Handle, false);
+            using var pattern = Cairo.Pattern.Lookup(gradient.Handle, false);
             this.context.SetSource(pattern);
         }
 
@@ -2172,16 +2178,16 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     private List<PointF> CalculateBezier(List<PointF> points, float time)
     {
         var nList = new List<PointF> { };
-        int listNum = points.Count;
+        var listNum = points.Count;
         if (listNum < 2)
         {
             return points.ToList();
         }
 
-        for (int n = 1; n < listNum; n++)
+        for (var n = 1; n < listNum; n++)
         {
-            float nowX = (points[n].X - points[n - 1].X) * time + points[n - 1].X;
-            float nowY = (points[n].Y - points[n - 1].Y) * time + points[n - 1].Y;
+            var nowX = (points[n].X - points[n - 1].X) * time + points[n - 1].X;
+            var nowY = (points[n].Y - points[n - 1].Y) * time + points[n - 1].Y;
             var nowP = new PointF(nowX, nowY);
             nList.Add(nowP);
         }
@@ -2191,19 +2197,24 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         return p;
     }
 
-    private Cairo.Matrix ConvertToMatrix(Drawing2D.Matrix matrix)
+    private Cairo.Matrix? ConvertToMatrix(Matrix? matrix)
     {
-        var CairoMatrix = new Cairo.Matrix(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
-        CairoMatrix.Init(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
+        if (matrix != null)
+        {
+            var cairoMatrix = new Cairo.Matrix(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
+            cairoMatrix.Init(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
 
-        CairoMatrix.Translate(matrix.OffsetX, matrix.OffsetY);
-        CairoMatrix.Scale(matrix.scaleX, matrix.scaleY);
-        CairoMatrix.Rotate(matrix.angle);
-        CairoMatrix.Multiply(ConvertToMatrix(matrix.multiply));
-        if (matrix.invert)
-            CairoMatrix.Invert();
+            cairoMatrix.Translate(matrix.OffsetX, matrix.OffsetY);
+            cairoMatrix.Scale(matrix.scaleX, matrix.scaleY);
+            cairoMatrix.Rotate(matrix.angle);
+            cairoMatrix.Multiply(ConvertToMatrix(matrix.multiply));
+            if (matrix.invert)
+                cairoMatrix.Invert();
 
-        return CairoMatrix;
+            return cairoMatrix;
+        }
+
+        return null;
     }
 
     private void DrawArcCore(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
@@ -2279,7 +2290,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         QueueDraw();
     }
 
-    private void DrawImageScaledCore(Image image, Rectangle destRect, float srcX, float srcY, float srcWidth, float srcHeight, GraphicsUnit srcUnit, ImageAttributes imageAttrs, DrawImageAbort callback, IntPtr callbackData)
+    private void DrawImageScaledCore(Image image, Rectangle destRect, float srcX, float srcY, float srcWidth, float srcHeight, GraphicsUnit srcUnit, ImageAttributes? imageAttrs, DrawImageAbort? callback, IntPtr callbackData)
     {
         var img = new Gdk.Pixbuf(image.PixbufData);
         if (srcWidth == 0)
@@ -2370,7 +2381,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             this.SetTranslateWithDifference(0, 0);
             this.SetSourcePen(pen, false);
             this.context.NewPath();
-            foreach (PointF p in points)
+            foreach (var p in points)
             {
                 this.context.LineTo(p.X, p.Y);
             }
@@ -2381,14 +2392,16 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         }
     }
 
-    private void DrawPathCore(Pen pen, GraphicsPath path, bool isfill)
+    private void DrawPathCore(Pen pen, GraphicsPath? path, bool isfill)
     {
+        if (path == null)
+            return;
         this.context.Save();
         path.Context = this.context;
         this.SetTranslateWithDifference(0, 0);
         this.SetSourcePen(pen, isfill);
         this.context.NewPath();
-        foreach (object o in path.list)
+        foreach (var o in path.list)
         {
             if (o is GraphicsPath.FigureMode start && start.start == true)
             {
@@ -2407,7 +2420,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             {
                 this.context.MoveTo(bezier.pt1.X, bezier.pt1.Y);
                 var data = GetBezierPoints(new List<PointF>() { bezier.pt1, bezier.pt2, bezier.pt3, bezier.pt4 });
-                foreach (PointF point in data)
+                foreach (var point in data)
                 {
                     this.context.LineTo(point.X, point.Y);
                 }
@@ -2416,7 +2429,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             else if (o is GraphicsPath.BeziersMode beziers)
             {
                 var data = GetBezierPoints(beziers.points.ToList());
-                foreach (PointF point in data)
+                foreach (var point in data)
                 {
                     this.context.LineTo(point.X, point.Y);
                 }
@@ -2424,7 +2437,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
             else if (o is GraphicsPath.ClosedCurveMode closedcurve)
             {
-                this.context.CurveTo(closedcurve.points[0].X, closedcurve.points[0].Y, closedcurve.points[1].X, closedcurve.points[1].Y, closedcurve.points[2].X, closedcurve.points[2].Y);
+                if (closedcurve.points != null)
+                    this.context.CurveTo(closedcurve.points[0].X, closedcurve.points[0].Y, closedcurve.points[1].X,
+                        closedcurve.points[1].Y, closedcurve.points[2].X, closedcurve.points[2].Y);
                 this.context.FillRule = closedcurve.fillmode == FillMode.Winding ? Cairo.FillRule.Winding : Cairo.FillRule.EvenOdd;
                 this.context.ClosePath();
                 this.context.NewSubPath();
@@ -2432,18 +2447,21 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
             else if (o is GraphicsPath.CurveMode curve)
             {
-                this.context.CurveTo(curve.points[0].X + curve.offset, curve.points[0].Y + curve.offset, curve.points[1].X + curve.offset, curve.points[1].Y + curve.offset, curve.points[2].X + curve.offset, curve.points[2].Y + curve.offset);
+                if (curve.points != null)
+                    this.context.CurveTo(curve.points[0].X + curve.offset, curve.points[0].Y + curve.offset,
+                        curve.points[1].X + curve.offset, curve.points[1].Y + curve.offset,
+                        curve.points[2].X + curve.offset, curve.points[2].Y + curve.offset);
             }
 
             else if (o is GraphicsPath.EllipseMode ellipse)
             {
                 this.context.NewSubPath();
-                float r = (ellipse.rect.Width + ellipse.rect.Height) / 4;
+                var r = (ellipse.rect.Width + ellipse.rect.Height) / 4;
                 var rs = Math.Min(0.1, 2 / r);
                 for (double t = 0; t < 2 * Math.PI; t += rs)
                 {
-                    double x2_1 = ellipse.rect.Width * Math.Cos(t) / 2;
-                    double y2_1 = ellipse.rect.Height * Math.Sin(t) / 2;
+                    var x2_1 = ellipse.rect.Width * Math.Cos(t) / 2;
+                    var y2_1 = ellipse.rect.Height * Math.Sin(t) / 2;
                     this.context.LineTo(x2_1 + ellipse.rect.X + ellipse.rect.Width / 2, y2_1 + ellipse.rect.Y + ellipse.rect.Height / 2);
                 }
 
@@ -2459,10 +2477,13 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
             else if (o is GraphicsPath.LinesMode lines)
             {
-                this.context.MoveTo(lines.points[0].X, lines.points[0].Y);
-                foreach (PointF p in lines.points)
+                if (lines.points != null)
                 {
-                    this.context.LineTo(p.X, p.Y);
+                    this.context.MoveTo(lines.points[0].X, lines.points[0].Y);
+                    foreach (var p in lines.points)
+                    {
+                        this.context.LineTo(p.X, p.Y);
+                    }
                 }
             }
 
@@ -2481,10 +2502,11 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             else if (o is GraphicsPath.PolygonMode polygon)
             {
                 this.context.NewSubPath();
-                foreach (PointF p in polygon.points)
-                {
-                    this.context.LineTo(p.X, p.Y);
-                }
+                if (polygon.points != null)
+                    foreach (var p in polygon.points)
+                    {
+                        this.context.LineTo(p.X, p.Y);
+                    }
 
                 this.context.ClosePath();
                 this.context.NewSubPath();
@@ -2497,27 +2519,28 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
             else if (o is GraphicsPath.RectanglesMode rectangles)
             {
-                foreach (RectangleF rect in rectangles.rects)
-                {
-                    this.context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
-                }
+                if (rectangles.rects != null)
+                    foreach (var rect in rectangles.rects)
+                    {
+                        this.context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+                    }
             }
 
             else if (o is GraphicsPath.StringMode str)
             {
-                string text = str.text;
+                var text = str.text;
                 if (str.layoutRect.Width > 0)
                 {
-                    while (text.Length > 0 && this.context.TextExtents(text).Width > str.layoutRect.Width)
+                    while (text?.Length > 0 && this.context.TextExtents(text).Width > str.layoutRect.Width)
                         text = text.Substring(0, text.Length - 1);
                 }
 
-                float textSize = str.emSize < 1 ? 14f : str.emSize;
-                FontFamily font = str.family;
-                string family = font?.Name;
+                var textSize = str.emSize < 1 ? 14f : str.emSize;
+                var font = str.family;
+                var family = font?.Name;
                 if (this.widget != null)
                 {
-                    Pango.Context pangocontext = this.widget.PangoContext;
+                    var pangocontext = this.widget.PangoContext;
                     if (string.IsNullOrWhiteSpace(family) || pangocontext.Families.Any(f => f.Name == family) == false)
                     {
                         family = pangocontext.FontDescription.Family;
@@ -2526,7 +2549,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
                 this.context.SelectFontFace(family, str.style == 2 ? Cairo.FontSlant.Italic : Cairo.FontSlant.Normal, str.style == 1 ? Cairo.FontWeight.Bold : Cairo.FontWeight.Normal);
                 this.context.SetFontSize(textSize);
-                TextExtents textext = this.context.TextExtents(text);
+                var textext = this.context.TextExtents(text);
                 this.context.MoveTo(str.layoutRect.X, str.layoutRect.Y + textext.Height);
                 this.context.ShowText(text);
             }
@@ -2581,7 +2604,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             this.SetTranslateWithDifference(0, 0);
             this.SetSourcePen(pen, isfill);
             this.context.NewPath();
-            foreach (PointF p in points)
+            foreach (var p in points)
             {
                 this.context.LineTo(p.X, p.Y);
             }
@@ -2624,7 +2647,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     private List<PointF> GetBezierPoints(List<PointF> points)
     {
         float seedNum = 0;
-        for (int i = 1; i < points.Count; i++)
+        for (var i = 1; i < points.Count; i++)
         {
             seedNum += Math.Abs(points[i].X - points[i - 1].X) + Math.Abs(points[i].Y - points[i - 1].Y);
         }
@@ -2635,7 +2658,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         for (float pTime = 0; pTime <= 1; pTime += pStep)
         {
             var lfpr = CalculateBezier(points, pTime);
-            PointF fpr = lfpr[0];
+            var fpr = lfpr[0];
             rpoint.Add(fpr);
         }
 

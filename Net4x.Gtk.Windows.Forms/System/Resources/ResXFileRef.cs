@@ -21,7 +21,7 @@ public partial class ResXFileRef
     /// The type refered to by typeName must support a constructor
     /// that accepts a System.IO.Stream as a parameter.
     /// </summary>
-    public ResXFileRef(string fileName, string typeName)
+    public ResXFileRef(string? fileName, string? typeName)
     {
         FileName = fileName.OrThrowIfNull();
         TypeName = typeName.OrThrowIfNull();
@@ -32,7 +32,7 @@ public partial class ResXFileRef
     /// The type refered to by typeName must support a constructor
     /// that accepts a System.IO.Stream as a parameter.
     /// </summary>
-    public ResXFileRef(string fileName, string typeName, Encoding textFileEncoding) : this(fileName, typeName)
+    public ResXFileRef(string fileName, string? typeName, Encoding? textFileEncoding) : this(fileName, typeName)
     {
         TextFileEncoding = textFileEncoding;
     }
@@ -55,7 +55,7 @@ public partial class ResXFileRef
     /// <value>
     /// The text file encoding.
     /// </value>
-    public Encoding TextFileEncoding { get; }
+    public Encoding? TextFileEncoding { get; }
 
     /// <summary>
     /// Gets the name of the type.
@@ -99,7 +99,7 @@ public partial class ResXFileRef
         return new ResXFileRef(FileName, TypeName, TextFileEncoding);
     }
 
-    internal void MakeFilePathRelative(string basePath)
+    internal void MakeFilePathRelative(string? basePath)
     {
         if (string.IsNullOrEmpty(basePath))
         {

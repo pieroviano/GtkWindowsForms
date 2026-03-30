@@ -23,7 +23,7 @@ public class Timer : Component
     /// <summary>
     /// Occurs when tick.
     /// </summary>
-    public virtual event EventHandler Tick;
+    public virtual event EventHandler? Tick;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -87,7 +87,7 @@ public class Timer : Component
     [DefaultValue(null)]
     [Localizable(false)]
     [TypeConverter(typeof(StringConverter))]
-    public object Tag
+    public object? Tag
     {
         get;
         set;

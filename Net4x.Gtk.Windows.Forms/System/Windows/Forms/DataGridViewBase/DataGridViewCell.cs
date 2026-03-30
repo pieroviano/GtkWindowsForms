@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -15,7 +15,7 @@ public abstract class DataGridViewCell
 
     private bool _Selected;
 
-    private Type _valueType;
+    private Type? _valueType;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -29,7 +29,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The accessibility object.
     /// </value>
-    public AccessibleObject AccessibilityObject { get; }
+    public AccessibleObject? AccessibilityObject { get; }
 
     /// <summary>
     /// Gets the index of the column.
@@ -58,7 +58,7 @@ public abstract class DataGridViewCell
     /// The context menu strip.
     /// </value>
     [DefaultValue(null)]
-    public virtual ContextMenuStrip ContextMenuStrip
+    public virtual ContextMenuStrip? ContextMenuStrip
     {
         get;
         set;
@@ -70,7 +70,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The data grid view.
     /// </value>
-    public DataGridView DataGridView
+    public DataGridView? DataGridView
     {
         get;
         set;
@@ -82,7 +82,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The default new row value.
     /// </value>
-    public virtual object DefaultNewRowValue { get; }
+    public virtual object? DefaultNewRowValue { get; }
 
     /// <summary>
     /// Gets a value indicating whether this
@@ -105,7 +105,7 @@ public abstract class DataGridViewCell
     /// The edited formatted value.
     /// </value>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public object EditedFormattedValue { get; }
+    public object? EditedFormattedValue { get; }
 
     /// <summary>
     /// Gets the type of the edit.
@@ -114,7 +114,7 @@ public abstract class DataGridViewCell
     /// The type of the edit.
     /// </value>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public virtual Type EditType { get; }
+    public virtual Type? EditType { get; }
 
     /// <summary>
     /// Gets the error icon bounds.
@@ -131,7 +131,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The error text.
     /// </value>
-    public string ErrorText
+    public string? ErrorText
     {
         get;
         set;
@@ -143,7 +143,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The formatted value.
     /// </value>
-    public object FormattedValue { get; }
+    public object? FormattedValue { get; }
 
     /// <summary>
     /// Gets the type of the formatted value.
@@ -151,7 +151,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The type of the formatted value.
     /// </value>
-    public virtual Type FormattedValueType { get; }
+    public virtual Type? FormattedValueType { get; }
 
     /// <summary>
     /// Gets a value indicating whether this
@@ -194,7 +194,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The inherited style.
     /// </value>
-    public DataGridViewCellStyle InheritedStyle { get => RowStyle; }
+    public DataGridViewCellStyle? InheritedStyle { get => RowStyle; }
 
     /// <summary>
     /// Gets a value indicating whether this instance is in edit mode.
@@ -216,7 +216,7 @@ public abstract class DataGridViewCell
     /// The owning column.
     /// </value>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public DataGridViewColumn OwningColumn { get; }
+    public DataGridViewColumn? OwningColumn { get; }
 
     /// <summary>
     /// Gets the owning row.
@@ -225,7 +225,7 @@ public abstract class DataGridViewCell
     /// The owning row.
     /// </value>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public DataGridViewRow OwningRow { get; }
+    public DataGridViewRow? OwningRow { get; }
 
     /// <summary>
     /// Gets the size of the preferred.
@@ -313,7 +313,7 @@ public abstract class DataGridViewCell
     /// The style.
     /// </value>
     [Browsable(true)]
-    public DataGridViewCellStyle Style
+    public DataGridViewCellStyle? Style
     {
         get;
         set;
@@ -329,7 +329,7 @@ public abstract class DataGridViewCell
     [DefaultValue(null)]
     [Localizable(false)]
     [TypeConverter(typeof(StringConverter))]
-    public object Tag
+    public object? Tag
     {
         get;
         set;
@@ -342,7 +342,7 @@ public abstract class DataGridViewCell
     /// The tool tip text.
     /// </value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string ToolTipText
+    public string? ToolTipText
     {
         get;
         set;
@@ -354,7 +354,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The value.
     /// </value>
-    public object Value
+    public object? Value
     {
         get;
         set;
@@ -366,7 +366,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The type of the value.
     /// </value>
-    public virtual Type ValueType
+    public virtual Type? ValueType
     {
         get { return _valueType ?? (Value?.GetType()); }
         set { _valueType = value; }
@@ -386,13 +386,13 @@ public abstract class DataGridViewCell
     /// </value>
     public virtual bool Visible { get; }
 
-    internal DataGridViewRow OwningRowInternal
+    internal DataGridViewRow? OwningRowInternal
     {
         get;
         set;
     }
 
-    internal DataGridViewCellStyle RowStyle
+    internal DataGridViewCellStyle? RowStyle
     {
         get;
         set;

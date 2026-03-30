@@ -154,7 +154,7 @@ public partial class ListBox
         /// <returns>
         /// System.Int32.
         /// </returns>
-        public int Add(object item)
+        public int Add(object? item)
         {
             _owner.CheckNoDataSource();
             var index = AddInternal(item);
@@ -437,7 +437,7 @@ public partial class ListBox
 
         void IList.Remove(object? value) => Remove(value!);
 
-        private int AddInternal(object item)
+        private int AddInternal(object? item)
         {
             item ??= "";
             var index = -1;

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+#pragma warning disable xUnit1012
 
 namespace System.Resources;
 

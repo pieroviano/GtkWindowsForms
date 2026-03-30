@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -39,7 +39,7 @@ public sealed class FolderBrowserDialog : FileDialog
     /// <value>
     /// The selected path.
     /// </value>
-    public string SelectedPath
+    public string? SelectedPath
     {
         get => SelectedDirectory;
         set => SelectedDirectory = value;
@@ -68,7 +68,7 @@ public sealed class FolderBrowserDialog : FileDialog
     /// <value>
     /// The selected paths.
     /// </value>
-    public string[] SelectedPaths => base.FileNames;
+    public string[]? SelectedPaths => base.FileNames;
 
     /// <summary>
     /// Gets or sets a value indicating whether show new folder button.
@@ -89,7 +89,7 @@ public sealed class FolderBrowserDialog : FileDialog
 
     private new bool Multiselect => base.Multiselect;
 
-    private new string Title => base.Title;
+    private new string? Title => base.Title;
 
     /// <summary>
     /// Resets this instance.
@@ -113,7 +113,7 @@ public sealed class FolderBrowserDialog : FileDialog
     /// <returns>
     /// DialogResult.
     /// </returns>
-    public override DialogResult ShowDialog(IWin32Window owner)
+    public override DialogResult ShowDialog(IWin32Window? owner)
     {
         ActionType = Gtk.FileChooserAction.SelectFolder;
 

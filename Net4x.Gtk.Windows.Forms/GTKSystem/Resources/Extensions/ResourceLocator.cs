@@ -1,13 +1,13 @@
-namespace GtkSystem.Resources.Extensions;
+﻿namespace GtkSystem.Resources.Extensions;
 
 internal struct ResourceLocator
 {
 
     internal int _dataPos;
 
-    internal object _value;
+    internal object? _value;
 
-    internal ResourceLocator(int dataPos, object value)
+    internal ResourceLocator(int dataPos, object? value)
     {
         _dataPos = dataPos;
         _value = value;
@@ -15,7 +15,7 @@ internal struct ResourceLocator
 
     internal int DataPosition => _dataPos;
 
-    internal object Value
+    internal object? Value
     {
         get
         {

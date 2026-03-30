@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -13,7 +13,7 @@ namespace System.Windows.Forms;
 /// </summary>
 public class DataGridViewRowPostPaintEventArgs : EventArgs
 {
-    private readonly DataGridView _dataGridView;
+    private readonly DataGridView? _dataGridView;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -111,7 +111,7 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The error text.
     /// </value>
-    public string ErrorText
+    public string? ErrorText
     {
         get;
         private set;
@@ -123,7 +123,7 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The graphics.
     /// </value>
-    public Graphics Graphics
+    public Graphics? Graphics
     {
         get;
         private set;
@@ -135,7 +135,7 @@ public class DataGridViewRowPostPaintEventArgs : EventArgs
     /// <value>
     /// The inherited row style.
     /// </value>
-    public DataGridViewCellStyle InheritedRowStyle
+    public DataGridViewCellStyle? InheritedRowStyle
     {
         get;
         private set;

@@ -25,7 +25,7 @@ public partial class SwitchBox : Control
     /// <summary>
     /// Occurs when checked changed.
     /// </summary>
-    public virtual event EventHandler CheckedChanged;
+    public virtual event EventHandler? CheckedChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -73,7 +73,7 @@ public partial class SwitchBox : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string Text
+    public override string? Text
     {
         get { return self.TooltipText; }
         set { self.TooltipText = value; }

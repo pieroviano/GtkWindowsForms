@@ -9,7 +9,7 @@ public class ResXDataNodeTests
     {
         var node = new ResXDataNode("testName", 123);
         Assert.Equal("testName", node.Name);
-        Assert.Equal(123, node.GetValue((ITypeResolutionService)null));
+        Assert.Equal(123, node.GetValue((ITypeResolutionService?)null));
     }
 
     [Fact]
@@ -37,8 +37,10 @@ public class ResXDataNodeTests
     [Fact]
     public void Comment_GetSet_Works()
     {
-        var node = new ResXDataNode("abc", 1);
-        node.Comment = "my comment";
+        var node = new ResXDataNode("abc", 1)
+        {
+            Comment = "my comment"
+        };
         Assert.Equal("my comment", node.Comment);
     }
 
@@ -53,15 +55,17 @@ public class ResXDataNodeTests
     public void GetValueTypeName_ReturnsTypeName()
     {
         var node = new ResXDataNode("abc", 1);
-        var typeName = node.GetValueTypeName((ITypeResolutionService)null);
+        var typeName = node.GetValueTypeName((ITypeResolutionService?)null);
         Assert.Contains("System.Int32", typeName);
     }
 
     [Fact]
     public void DeepClone_CopiesFields()
     {
-        var node = new ResXDataNode("abc", 1);
-        node.Comment = "c";
+        var node = new ResXDataNode("abc", 1)
+        {
+            Comment = "c"
+        };
         var clone = node.DeepClone();
         Assert.Equal(node.Name, clone.Name);
         Assert.Equal(node.Comment, clone.Comment);

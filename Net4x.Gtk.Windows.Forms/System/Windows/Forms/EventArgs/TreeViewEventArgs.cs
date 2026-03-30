@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -16,7 +16,7 @@ public class TreeViewEventArgs : EventArgs
 {
     readonly TreeViewAction action = TreeViewAction.Unknown;
 
-    readonly TreeNode node;
+    readonly TreeNode? node;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -25,7 +25,7 @@ public class TreeViewEventArgs : EventArgs
     /// <param name="node">
     /// The node.
     /// </param>
-    public TreeViewEventArgs(TreeNode node)
+    public TreeViewEventArgs(TreeNode? node)
     {
         this.node = node;
     }
@@ -40,7 +40,7 @@ public class TreeViewEventArgs : EventArgs
     /// <param name="action">
     /// The action.
     /// </param>
-    public TreeViewEventArgs(TreeNode node, TreeViewAction action)
+    public TreeViewEventArgs(TreeNode? node, TreeViewAction action)
     {
         this.node = node;
         this.action = action;
@@ -66,7 +66,7 @@ public class TreeViewEventArgs : EventArgs
     /// <value>
     /// The node.
     /// </value>
-    public TreeNode Node
+    public TreeNode? Node
     {
         get
         {

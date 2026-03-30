@@ -1,4 +1,4 @@
-using System.Buffers.Binary;
+﻿using System.Buffers.Binary;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Imaging;
@@ -89,7 +89,7 @@ public class ImageConverter : TypeConverter
     /// <see cref="T:System.Object">
     /// </see> that represents the converted value.
     /// </returns>
-    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    public override object? ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
         if (value is byte[] array)
         {
@@ -149,14 +149,14 @@ public class ImageConverter : TypeConverter
             }
             if (value is Image image)
             {
-                using (MemoryStream memoryStream = new MemoryStream())
+                using (var memoryStream = new MemoryStream())
                 {
-                    ImageFormat imageFormat = image.RawFormat;
+                    var imageFormat = image.RawFormat;
                     if (imageFormat == ImageFormat.Jpeg)
                     {
                         imageFormat = ImageFormat.Png;
                     }
-                    ImageCodecInfo encoder = FindEncoder(imageFormat) ?? FindEncoder(ImageFormat.Png);
+                    var encoder = FindEncoder(imageFormat) ?? FindEncoder(ImageFormat.Png);
                     image.Save(memoryStream, encoder, null);
                     return memoryStream.ToArray();
                 }
@@ -211,11 +211,11 @@ public class ImageConverter : TypeConverter
         return true;
     }
 
-    private static ImageCodecInfo FindEncoder(ImageFormat imageformat)
+    private static ImageCodecInfo? FindEncoder(ImageFormat imageformat)
     {
-        ImageCodecInfo[] imageEncoders = ImageCodecInfo.GetImageEncoders();
+        var imageEncoders = ImageCodecInfo.GetImageEncoders();
         var array = imageEncoders;
-        foreach (ImageCodecInfo imageCodecInfo in array)
+        foreach (var imageCodecInfo in array)
         {
             if (imageCodecInfo.FormatID.Equals(imageformat.Guid))
             {
@@ -226,7 +226,7 @@ public class ImageConverter : TypeConverter
         return null;
     }
 
-    private static Stream GetBitmapStream(ReadOnlySpan<byte> rawData)
+    private static Stream? GetBitmapStream(ReadOnlySpan<byte> rawData)
     {
         try
         {

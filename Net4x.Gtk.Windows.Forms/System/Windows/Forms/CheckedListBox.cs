@@ -7,6 +7,7 @@
 
 using System.Collections;
 using System.ComponentModel;
+using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -35,22 +36,22 @@ public partial class CheckedListBox : ContainerControl
     /// <summary>
     /// Occurs when an item's check state is changed.
     /// </summary>
-    public virtual event ItemCheckEventHandler ItemCheck;
+    public virtual event ItemCheckEventHandler? ItemCheck;
 
     /// <summary>
     /// Occurs when the selected index changes.
     /// </summary>
-    public virtual event EventHandler SelectedIndexChanged;
+    public virtual event EventHandler? SelectedIndexChanged;
 
     /// <summary>
     /// Occurs when the selected item changes.
     /// </summary>
-    public virtual event EventHandler SelectedItemChanged;
+    public virtual event EventHandler? SelectedItemChanged;
 
     /// <summary>
     /// Occurs when the selected value changes.
     /// </summary>
-    public virtual event EventHandler SelectedValueChanged;
+    public virtual event EventHandler? SelectedValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -257,11 +258,13 @@ public partial class CheckedListBox : ContainerControl
         checkbox.self.Toggled += (object sender, EventArgs e) =>
         {
             var box = (Gtk.CheckButton)sender;
-            var item = box.Parent as Gtk.FlowBoxChild;
-            if (this.ItemCheck != null)
+            if (this.ItemCheck != null && box.Parent is FlowBoxChild item)
             {
                 var checkBox = _items.GetCheckedListBoxItem(item.Index);
-                this.ItemCheck(checkBox, new ItemCheckEventArgs(item.Index, box.Active == true ? CheckState.Checked : CheckState.Unchecked, box.Active == false ? CheckState.Checked : CheckState.Unchecked));
+                if (checkBox != null)
+                {
+                    this.ItemCheck(checkBox, new ItemCheckEventArgs(item.Index, box.Active == true ? CheckState.Checked : CheckState.Unchecked, box.Active == false ? CheckState.Checked : CheckState.Unchecked));
+                }
             }
         };
         var boxitem = new Gtk.FlowBoxChild
@@ -382,10 +385,10 @@ public partial class CheckedListBox : ContainerControl
         /// <summary>
         /// Gets or sets the text of the item at the specified index.
         /// </summary>
-        public override object this[int index]
+        public override object? this[int index]
         {
             get => ((CheckBox)base[index]).Text;
-            set => ((CheckBox)base[index]).Text = value?.ToString();
+            set => ((CheckBox)base[index]).Text = value?.ToString() ?? string.Empty;
         }
 
         /// <summary>
@@ -484,7 +487,7 @@ public partial class CheckedListBox : ContainerControl
         /// <returns>
         /// The CheckBox instance or null if out of range.
         /// </returns>
-        public CheckBox GetCheckedListBoxItem(int index)
+        public CheckBox? GetCheckedListBoxItem(int index)
         {
             if (index < Count)
                 return base[index] as CheckBox;
