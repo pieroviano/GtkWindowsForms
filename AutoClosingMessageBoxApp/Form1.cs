@@ -1,21 +1,20 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
-namespace AutoClosingMessageBoxApp
+namespace AutoClosingMessageBoxApp;
+
+public partial class Form1 : Form
 {
-    public partial class Form1 : Form
+    public Form1()
     {
-        public Form1()
-        {
-            InitializeComponent();
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            MessageBox.ReplaceInstance(3000);
-            MessageBox.Show("Auto closing");
-            Close();
-        }
-
+        InitializeComponent();
     }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        MessageBox.ReplaceInstance(3000);
+        MessageBox.Show("Auto closing");
+        Close();
+    }
+
 }

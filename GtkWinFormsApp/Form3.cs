@@ -1,143 +1,135 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GtkWinFormsApp
+namespace GtkWinFormsApp;
+
+public partial class Form3 : Form
 {
-    public partial class Form3 : Form
+    public Form3()
     {
-        public Form3()
+        InitializeComponent();
+
+        var userControl11 = new UserControl11();
+        panel5.Controls.Add(userControl11);
+        this.SizeChanged += Form3_SizeChanged;
+
+        this.Shown += Form3_Shown;
+    }
+
+    private void Form3_Shown(object? sender, EventArgs e)
+    {
+        // SwitchBox switchBox = new SwitchBox();
+        //switchBox.Location = new Point(100, 100);
+        //panel1.Controls.Add(switchBox);
+    }
+
+    private void Form3_SizeChanged(object? sender, EventArgs e)
+    {
+        panel1.Refresh();
+        //GtkLogger.Info(Width);
+        // panel1.Refresh();
+        this.Refresh();
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        //button1.ForeColor=Color.Red;
+        //button1.BackColor=Color.Green;
+        var f = new Form1();
+        f.Show();
+    }
+
+    private void trackBar1_Scroll(object sender, EventArgs e)
+    {
+        label1.Text = trackBar1.Value.ToString();
+    }
+
+    private void Form3_Load(object sender, EventArgs e)
+    {
+        var result = this.BeginInvoke(new MethodInvoker(() =>
         {
-            InitializeComponent();
-
-            var userControl11 = new UserControl11();
-            panel5.Controls.Add(userControl11);
-            this.SizeChanged += Form3_SizeChanged;
-
-            this.Shown += Form3_Shown;
-        }
-
-        private void Form3_Shown(object sender, EventArgs e)
-        {
-            // SwitchBox switchBox = new SwitchBox();
-            //switchBox.Location = new Point(100, 100);
-            //panel1.Controls.Add(switchBox);
-        }
-
-        private void Form3_SizeChanged(object sender, EventArgs e)
-        {
-            panel1.Refresh();
-            //GtkLogger.Info(Width);
-            // panel1.Refresh();
-            this.Refresh();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //button1.ForeColor=Color.Red;
-            //button1.BackColor=Color.Green;
-            var f = new Form1();
-            f.Show();
-        }
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            label1.Text = trackBar1.Value.ToString();
-        }
-
-        private void Form3_Load(object sender, EventArgs e)
-        {
-            var result = this.BeginInvoke(new MethodInvoker(() =>
+            System.Threading.Thread.Sleep(1000);
+            for (var i = 1; i < 101; i++)
             {
-                System.Threading.Thread.Sleep(1000);
-                for (var i = 1; i < 101; i++)
+                progressBar1.Invoke(new MethodInvoker(() =>
                 {
-                    progressBar1.Invoke(new MethodInvoker(() =>
-                    {
-                        progressBar1.Value = i;
-                    }));
-                    System.Threading.Thread.Sleep(20);
-                }
-            }));
-        }
+                    progressBar1.Value = i;
+                }));
+                System.Threading.Thread.Sleep(20);
+            }
+        }));
+    }
 
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-            var g = e.Graphics;
+    private void panel3_Paint(object sender, PaintEventArgs e)
+    {
+        var g = e.Graphics;
 
-            var path = new GraphicsPath();
-            path.AddEllipse(90, 25, 40, 20);
+        var path = new GraphicsPath();
+        path.AddEllipse(90, 25, 40, 20);
 
-            path.StartFigure();
-            path.AddArc(5, 5, 6, 6, 180, 90);
-            path.AddArc(20, 5, 6, 6, 270, 90);
-            path.AddArc(20, 18, 6, 6, 0, 90);
-            path.AddArc(5, 18, 6, 6, 90, 90);
-            path.CloseFigure();
+        path.StartFigure();
+        path.AddArc(5, 5, 6, 6, 180, 90);
+        path.AddArc(20, 5, 6, 6, 270, 90);
+        path.AddArc(20, 18, 6, 6, 0, 90);
+        path.AddArc(5, 18, 6, 6, 90, 90);
+        path.CloseFigure();
 
-            path.StartFigure();
+        path.StartFigure();
 
-            path.AddLine(new Point(20, 40), new Point(60, 30));
-            path.AddPie(-10, 20, 60, 60, 10, 100);
-            //path.StartFigure();
-            path.AddBezier(new Point(60, 70), new Point(80, 120), new Point(110, 20), new Point(160, 80));
-            path.AddRectangle(new Rectangle(30, 10, 190, 30));
-            //path.CloseFigure();
+        path.AddLine(new(20, 40), new(60, 30));
+        path.AddPie(-10, 20, 60, 60, 10, 100);
+        //path.StartFigure();
+        path.AddBezier(new(60, 70), new(80, 120), new(110, 20), new(160, 80));
+        path.AddRectangle(new(30, 10, 190, 30));
+        //path.CloseFigure();
 
 
-            path.AddString(Properties.GtkWinFormsAppResources.Gtk_MainForm_panel3_Paint_testText, new FontFamily(GenericFontFamilies.Serif), (int)FontStyle.Italic, 16, new Point(1, 1), new StringFormat(StringFormatFlags.NoWrap));
+        path.AddString(Properties.GtkWinFormsAppResources.Gtk_MainForm_panel3_Paint_testText, new(GenericFontFamilies.Serif), (int)FontStyle.Italic, 16, new Point(1, 1), new(StringFormatFlags.NoWrap));
 
-            //path.CloseAllFigures();
+        //path.CloseAllFigures();
 
-            var brush = new LinearGradientBrush(new Point(0, 0), new Point(100, 30), Color.Red, Color.Blue);
-            //g.TranslateTransform(30, 0);
-            //g.RotateTransform(20);
-            g.DrawPath(new Pen(brush, 2), path);
+        var brush = new LinearGradientBrush(new(0, 0), new(100, 30), Color.Red, Color.Blue);
+        //g.TranslateTransform(30, 0);
+        //g.RotateTransform(20);
+        g?.DrawPath(new(brush, 2), path);
 
-            //PathGradientBrush gradientBrush = new PathGradientBrush(path);
-            //gradientBrush.CenterColor = Color.Red;
-            //gradientBrush.SurroundColors = new Color[] { Color.Yellow, Color.Blue };
-            //g.DrawPath(new Pen(gradientBrush, 2), path);
+        //PathGradientBrush gradientBrush = new PathGradientBrush(path);
+        //gradientBrush.CenterColor = Color.Red;
+        //gradientBrush.SurroundColors = new Color[] { Color.Yellow, Color.Blue };
+        //g.DrawPath(new Pen(gradientBrush, 2), path);
 
-            //g.FillPath(brush, path);
-        }
+        //g.FillPath(brush, path);
+    }
 
-        private void ssssToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            var f1 = new Form2();
-            f1.Show(this);
-        }
+    private void ssssToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+        var f1 = new Form2();
+        f1.Show(this);
+    }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            var f = new Form4();
-            var res = f.ShowDialog();
-            GtkLogger.Info(res.ToString());
-        }
+    private void button2_Click(object sender, EventArgs e)
+    {
+        var f = new Form4();
+        var res = f.ShowDialog();
+        GtkLogger.Info(res.ToString());
+    }
 
-        private void panel5_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
-        {
-            GtkLogger.Info($"panel5_Scroll:{e.OldValue},{e.NewValue};{e.ScrollOrientation}");
-        }
+    private void panel5_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
+    {
+        GtkLogger.Info($"panel5_Scroll:{e.OldValue},{e.NewValue};{e.ScrollOrientation}");
+    }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            // Print
-        }
+    private void button3_Click(object sender, EventArgs e)
+    {
+        // Print
+    }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            var f1 = new Form2();
-            f1.Show(this);
-        }
+    private void button4_Click(object sender, EventArgs e)
+    {
+        var f1 = new Form2();
+        f1.Show(this);
     }
 }

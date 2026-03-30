@@ -67,7 +67,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    public static void Critical(string message, Exception? exception = null)
+    public static void Critical(string? message, Exception? exception = null)
     {
         Log(LogLevel.Critical, message, exception);
     }
@@ -79,7 +79,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    public static void Debug(string message, Exception? exception = null)
+    public static void Debug(string? message, Exception? exception = null)
     {
         Log(LogLevel.Debug, message, exception);
     }
@@ -91,7 +91,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    public static void Error(string message, Exception? exception = null)
+    public static void Error(string? message, Exception? exception = null)
     {
         Log(LogLevel.Error, message, exception);
     }
@@ -118,7 +118,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    public static void Fatal(string message, Exception? exception = null)
+    public static void Fatal(string? message, Exception? exception = null)
     {
         Log(LogLevel.Critical, message, exception);
     }
@@ -130,7 +130,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    public static void Info(string message, Exception? exception = null)
+    public static void Info(string? message, Exception? exception = null)
     {
         Log(LogLevel.Information, message, exception);
     }
@@ -142,7 +142,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    public static void Information(string message, Exception? exception = null)
+    public static void Information(string? message, Exception? exception = null)
     {
         Log(LogLevel.Information, message, exception);
     }
@@ -164,7 +164,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    public static void Trace(string message, Exception? exception = null)
+    public static void Trace(string? message, Exception? exception = null)
     {
         Log(LogLevel.Trace, message, exception);
     }
@@ -176,7 +176,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    public static void Warn(string message, Exception? exception = null)
+    public static void Warn(string? message, Exception? exception = null)
     {
         Log(LogLevel.Warning, message, exception);
     }
@@ -188,7 +188,7 @@ public static class GtkLogger
     /// </param>
     /// <param name="exception">Optional exception to include in the log.
     /// </param>
-    public static void Warning(string message, Exception? exception = null)
+    public static void Warning(string? message, Exception? exception = null)
     {
         Log(LogLevel.Warning, message, exception);
     }

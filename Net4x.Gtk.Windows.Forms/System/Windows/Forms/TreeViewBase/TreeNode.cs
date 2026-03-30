@@ -52,7 +52,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <param name="text">
     /// The text.
     /// </param>
-    public TreeNode(string text) : this()
+    public TreeNode(string? text) : this()
     {
         Text = text;
     }

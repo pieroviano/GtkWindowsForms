@@ -73,7 +73,7 @@ public class ResourceManager : System.Resources.ResourceManager
     /// <see cref="T:System.Resources.ResourceSet">
     /// </see> object is used.
     /// </param>
-    public ResourceManager(string baseName, Assembly assembly, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : base(baseName, assembly, usingResourceSet)
+    public ResourceManager(string? baseName, Assembly? assembly, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : base(baseName, assembly, usingResourceSet)
     {
         this._baseName = baseName;
         this._assembly = assembly;

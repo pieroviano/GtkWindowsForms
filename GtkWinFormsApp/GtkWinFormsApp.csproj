@@ -3,13 +3,13 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>annotations</Nullable>
+    <Nullable>enable</Nullable>
     <UseWindowsForms>False</UseWindowsForms>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <IsPublishable>False</IsPublishable>
     <EnableUnsafeBinaryFormatterSerialization>True</EnableUnsafeBinaryFormatterSerialization>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    
+    <LangVersion>latest</LangVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
     <NoWarn>$(NoWarn);CS8002;CS0067;CS0169;CS0419;CS0436;CS0162;CS0168;CS0414;CS0612;CS0618;CS0649;CS1574;CS3021;CS8002;NU1603;MSB3825</NoWarn>
