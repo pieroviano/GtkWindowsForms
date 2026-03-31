@@ -1,0 +1,64 @@
+From 6d8b2660c4141b6fb0de20b9824b88403cf1de67 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Wed, 1 Apr 2026 01:24:51 +0300
+Subject: [PATCH] Fix BaseCollection
+
+---
+ .../Windows/Forms/Collection/BaseCollection.cs       | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs
+index 1b1887d..d466f4a 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs
+@@ -1,4 +1,4 @@
+-using System.Collections;
++﻿using System.Collections;
+ using System.ComponentModel;
+ 
+ namespace System.Windows.Forms;
+@@ -10,7 +10,7 @@ namespace System.Windows.Forms;
+ /// <filterpriority>
+ /// 2
+ /// </filterpriority>
+-public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
++public class BaseCollection : MarshalByRefObject, ICollection
+ {
+     /// <summary>
+     /// Initializes a new instance of the
+@@ -26,7 +26,7 @@ public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
+     /// </summary>
+     [Browsable(false)]
+     [EditorBrowsable(EditorBrowsableState.Advanced)]
+-    public virtual int Count => List!.Count;
++    public virtual int Count => List?.Count ?? 0;
+ 
+     /// <summary>
+     /// Gets a value indicating whether this instance is read only.
+@@ -69,7 +69,7 @@ public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
+     /// </value>
+     [Browsable(false)]
+     [EditorBrowsable(EditorBrowsableState.Advanced)]
+-    protected virtual ArrayList? List => null;
++    protected virtual ArrayList List => [];
+ 
+     /// <summary>
+     /// Copies to.
+@@ -82,11 +82,11 @@ public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
+     /// </param>
+     [Browsable(false)]
+     [EditorBrowsable(EditorBrowsableState.Advanced)]
+-    public void CopyTo(Array ar, int index) => List!.CopyTo(ar, index);
++    public void CopyTo(Array ar, int index) => List.CopyTo(ar, index);
+ 
+     /// <summary>
+     /// Gets an IEnumerator for the collection.
+     /// </summary>
+-    public virtual IEnumerator GetEnumerator() => List!.GetEnumerator();
++    public virtual IEnumerator GetEnumerator() => List.GetEnumerator();
+ 
+ }
+\ No newline at end of file
+-- 
+2.51.1.windows.1
+

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
@@ -10,7 +10,7 @@ namespace System.Windows.Forms;
 /// <filterpriority>
 /// 2
 /// </filterpriority>
-public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
+public class BaseCollection : MarshalByRefObject, ICollection
 {
     /// <summary>
     /// Initializes a new instance of the
@@ -26,7 +26,7 @@ public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public virtual int Count => List!.Count;
+    public virtual int Count => List?.Count ?? 0;
 
     /// <summary>
     /// Gets a value indicating whether this instance is read only.
@@ -69,7 +69,7 @@ public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
     /// </value>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    protected virtual ArrayList? List => null;
+    protected virtual ArrayList List => [];
 
     /// <summary>
     /// Copies to.
@@ -82,11 +82,11 @@ public class BaseCollection : MarshalByRefObject, ICollection, IEnumerable
     /// </param>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public void CopyTo(Array ar, int index) => List!.CopyTo(ar, index);
+    public void CopyTo(Array ar, int index) => List.CopyTo(ar, index);
 
     /// <summary>
     /// Gets an IEnumerator for the collection.
     /// </summary>
-    public virtual IEnumerator GetEnumerator() => List!.GetEnumerator();
+    public virtual IEnumerator GetEnumerator() => List.GetEnumerator();
 
 }
