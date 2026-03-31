@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -221,6 +221,6 @@ public struct Padding
     /// </returns>
     public override string ToString()
     {
-        return this.GetType().Name;
+        return $"{{Top: {Top}, Left: {Left}, Bottom: {Bottom}, Right: {Right}}}";
     }
 }
