@@ -38,6 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		Resources\ExtensionsMessageBox.Static.cs = Resources\ExtensionsMessageBox.Static.cs
 		Resources\FormExtension.cs = Resources\FormExtension.cs
 		Resources\GridCell.cs = Resources\GridCell.cs
+		Resources\Gtk.Windows.Forms.Article.md = Resources\Gtk.Windows.Forms.Article.md
 		Resources\GtkLogger.cs = Resources\GtkLogger.cs
 		Resources\GtkWinFormsAppResources.Designer.cs = Resources\GtkWinFormsAppResources.Designer.cs
 		Resources\GtkWinFormsAppResources.xml = Resources\GtkWinFormsAppResources.xml
@@ -45,9 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		Resources\IMessageBox.cs = Resources\IMessageBox.cs
 		Resources\IntermediatePostProcessing.xml = Resources\IntermediatePostProcessing.xml
 		Resources\LatestPostProcessing.xml = Resources\LatestPostProcessing.xml
-		Resources\Linux.png = Resources\Linux.png
 		Resources\MessageBoxResources.de.xml = Resources\MessageBoxResources.de.xml
-		Resources\MacOsX.png = Resources\MacOsX.png
 		Resources\MessageBoxResources.Designer.cs = Resources\MessageBoxResources.Designer.cs
 		Resources\MessageBoxResources.es.xml = Resources\MessageBoxResources.es.xml
 		Resources\MessageBoxResources.fr.xml = Resources\MessageBoxResources.fr.xml
@@ -81,7 +80,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		Resources\TestData1.json = Resources\TestData1.json
 		Resources\Translations.xml = Resources\Translations.xml
 		Resources\using-differences.json = Resources\using-differences.json
-		Resources\Windows.png = Resources\Windows.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D7319D5-CD89-414A-A0ED-922582376C27}"
