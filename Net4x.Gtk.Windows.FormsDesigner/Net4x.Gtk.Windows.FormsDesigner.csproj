@@ -62,8 +62,8 @@
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-        <Content Include="Net4x.Gtk.Windows.FormsDesigner.props" Pack="true" PackagePath="/build/Net4x.Gtk.Windows.FormsDesigner.props" />
-        <Content Include="Net4x.Gtk.Windows.FormsDesigner.targets" Pack="true" PackagePath="/build/Net4x.Gtk.Windows.FormsDesigner.targets" />
+        <Content Include="Gtk.Windows.FormsDesigner.props" Pack="true" PackagePath="/build/Gtk.Windows.FormsDesigner.props" />
+        <Content Include="Gtk.Windows.FormsDesigner.targets" Pack="true" PackagePath="/build/Gtk.Windows.FormsDesigner.targets" />
     </ItemGroup>
     <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
 </Project>

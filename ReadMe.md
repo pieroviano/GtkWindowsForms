@@ -8,5 +8,5 @@ Using this framework, projects can be developed in Visual Studio with the native
 Compile once and run across platforms.
 It makes cross-platform WinForms application development easy and enables existing C# WinForms applications to be upgraded to cross-platform applications with minimal effort.
 
-Project website:
-https://bitbucket.org/piero-viano/net4x.gtk.windows.forms
+Details:
+[Details](https://bitbucket.org/piero-viano/net4x.gtk.windows.forms/src/main/Resources/README.md)
