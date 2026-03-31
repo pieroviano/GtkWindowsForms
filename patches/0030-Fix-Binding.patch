@@ -1,0 +1,25 @@
+From 3ff935cfd17beda7f47fbc47681d46fc39cc2018 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Wed, 1 Apr 2026 02:31:32 +0300
+Subject: [PATCH] Fix Binding
+
+---
+ .../System/Windows/Forms/Collection/Binding.cs                  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
+index 917b2b9..62bcc6d 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
+@@ -886,7 +886,7 @@ public class Binding
+     /// A
+     /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" />  that contains the event data.
+     /// </param>
+-    protected virtual void OnBindingComplete(BindingCompleteEventArgs e)
++    protected internal virtual void OnBindingComplete(BindingCompleteEventArgs e)
+     {
+         if (!_inOnBindingComplete)
+         {
+-- 
+2.51.1.windows.1
+

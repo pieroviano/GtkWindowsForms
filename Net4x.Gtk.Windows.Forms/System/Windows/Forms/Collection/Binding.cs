@@ -886,7 +886,7 @@ public class Binding
     /// A
     /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" />  that contains the event data.
     /// </param>
-    protected virtual void OnBindingComplete(BindingCompleteEventArgs e)
+    protected internal virtual void OnBindingComplete(BindingCompleteEventArgs e)
     {
         if (!_inOnBindingComplete)
         {
