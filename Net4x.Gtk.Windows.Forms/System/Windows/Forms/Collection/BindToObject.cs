@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace System.Windows.Forms;
 
@@ -37,14 +37,28 @@ internal class BindToObject
     {
         get
         {
+            // If binding targets a specific field/property, try to return the property's type.
+            // Resolve from cached _fieldInfo if available; otherwise try to resolve directly
+            // from the active manager (explicit or owner's) so tests that only set the list manager still work.
             if (_dataMember.BindingField.Length != 0)
             {
-                return _fieldInfo?.PropertyType;
+                if (_fieldInfo != null)
+                {
+                    return _fieldInfo.PropertyType;
+                }
+
+                // fallback resolution using the manager regardless of control presence
+                var managerForType = _bindingManager ?? _owner?.BindingManagerBase;
+                var pd = managerForType?.GetItemProperties()?.Find(_dataMember.BindingField, true);
+                return pd?.PropertyType;
             }
-            var bindType = _bindingManager?.BindType;
-            if (typeof(Array).IsAssignableFrom(bindType))
+
+            // Otherwise return the list/item type from the manager (explicit manager preferred).
+            var manager = _bindingManager ?? _owner?.BindingManagerBase;
+            var bindType = manager?.BindType;
+            if (bindType != null && typeof(Array).IsAssignableFrom(bindType))
             {
-                bindType = bindType?.GetElementType();
+                bindType = bindType.GetElementType();
             }
 
             return bindType;
@@ -84,44 +98,45 @@ internal class BindToObject
 
     internal void CheckBinding()
     {
+        // If in design-time for a bindable component, leave behavior unchanged.
         if (_owner is { BindableComponent: not null } && _owner.ControlAtDesignTime())
         {
             return;
         }
 
-        var component = _owner?.BindingManagerBase?.Current;
-        if (_owner?.BindingManagerBase != null && _fieldInfo != null && _owner.BindingManagerBase.IsBinding && !(_owner.BindingManagerBase is CurrencyManager))
+        // Prefer the explicit manager set on this BindToObject; otherwise use the owner's manager.
+        var manager = _bindingManager ?? _owner?.BindingManagerBase;
+        var component = manager?.Current;
+
+        // We need a manager and an initialized data source before attempting to resolve field info.
+        if (manager == null || !IsDataSourceInitialized)
+        {
+            _fieldInfo = null;
+            return;
+        }
+
+        var bindingField = _dataMember.BindingField;
+        _fieldInfo = manager.GetItemProperties()?.Find(bindingField, true);
+
+        if (manager.DataSource != null && _fieldInfo == null && bindingField.Length > 0)
+        {
+            throw new ArgumentException(@"ListBindingBindField", nameof(_dataMember));
+        }
+
+        // Only wire change events when we have a concrete current instance and it's appropriate.
+        if (_fieldInfo != null && manager.IsBinding && !(manager is CurrencyManager))
         {
             if (component != null)
             {
-                _fieldInfo?.RemoveValueChanged(component, PropValueChanged);
-            }
-        }
-        if (_owner == null || _owner.BindingManagerBase == null || _owner.BindableComponent == null || !_owner.ComponentCreated || !IsDataSourceInitialized)
-        {
-            _fieldInfo = null;
-        }
-        else
-        {
-            var bindingField = _dataMember.BindingField;
-            _fieldInfo = _owner.BindingManagerBase.GetItemProperties()?.Find(bindingField, true);
-            if (_owner.BindingManagerBase.DataSource != null && _fieldInfo == null && bindingField.Length > 0)
-            {
-                throw new ArgumentException(@"ListBindingBindField", nameof(_dataMember));
-            }
-            if (_fieldInfo != null && _owner.BindingManagerBase.IsBinding && !(_owner.BindingManagerBase is CurrencyManager))
-            {
-                if (component != null)
-                {
-                    _fieldInfo.AddValueChanged(component, PropValueChanged);
-                }
+                _fieldInfo.AddValueChanged(component, PropValueChanged);
             }
         }
     }
 
     internal object? GetValue()
     {
-        var current = _bindingManager?.Current;
+        var manager = _bindingManager ?? _owner?.BindingManagerBase;
+        var current = manager?.Current;
         _errorText = GetErrorText(current);
         if (_fieldInfo != null)
         {
@@ -140,6 +155,8 @@ internal class BindToObject
         {
             return;
         }
+
+        // If we had previously wired event handlers against the old manager/current, remove them.
         if (_bindingManager != null && _fieldInfo != null && _bindingManager.IsBinding && !(_bindingManager is CurrencyManager))
         {
             if (_bindingManager.Current != null)
@@ -149,16 +166,18 @@ internal class BindToObject
 
             _fieldInfo = null;
         }
+
         _bindingManager = lManager;
         CheckBinding();
     }
 
     internal void SetValue(object? value)
     {
+        var manager = _bindingManager ?? _owner?.BindingManagerBase;
         object? current = null;
         if (_fieldInfo == null)
         {
-            if (_bindingManager is CurrencyManager currencyManager)
+            if (manager is CurrencyManager currencyManager)
             {
                 if (value != null)
                 {
@@ -169,7 +188,7 @@ internal class BindToObject
         }
         else
         {
-            current = _bindingManager?.Current;
+            current = manager?.Current;
             (current as IEditableObject)?.BeginEdit();
             if (!_fieldInfo.IsReadOnly)
             {
@@ -203,6 +222,7 @@ internal class BindToObject
 
     private void PropValueChanged(object? sender, EventArgs e)
     {
-        _bindingManager?.OnCurrentChanged(EventArgs.Empty);
+        var manager = _bindingManager ?? _owner?.BindingManagerBase;
+        manager?.OnCurrentChanged(EventArgs.Empty);
     }
 }

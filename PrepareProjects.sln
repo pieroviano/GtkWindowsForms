@@ -115,6 +115,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0028-Fix-BaseCollection.patch = patches\0028-Fix-BaseCollection.patch
 		patches\0029-Fix-Padding.patch = patches\0029-Fix-Padding.patch
 		patches\0030-Fix-Binding.patch = patches\0030-Fix-Binding.patch
+		patches\0031-Fix-BindToObject.patch = patches\0031-Fix-BindToObject.patch
 	EndProjectSection
 EndProject
 Global
