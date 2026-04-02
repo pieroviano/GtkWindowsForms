@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using System.Collections;
 using System.ComponentModel;
 
 namespace System.Windows.Forms;
@@ -53,20 +56,25 @@ public class CurrencyManager : BindingManagerBase
     /// </summary>
     public virtual event EventHandler<EventArgs>? CurrencyChanged;
 
-    /// <summary>
-    /// Occurs when current changed.
-    /// </summary>
-    public override event EventHandler? CurrentChanged;
+    // Forward the public events to the internal handlers declared in BindingManagerBase.
+    // The base class exposes virtual events that add/remove delegates to protected handler fields.
+    public override event EventHandler? CurrentChanged
+    {
+        add => OnCurrentChangedHandler += value;
+        remove => OnCurrentChangedHandler -= value;
+    }
 
-    /// <summary>
-    /// Occurs when current item changed.
-    /// </summary>
-    public override event EventHandler? CurrentItemChanged;
+    public override event EventHandler? CurrentItemChanged
+    {
+        add => OnCurrentItemChangedValueHandler += value;
+        remove => OnCurrentItemChangedValueHandler -= value;
+    }
 
-    /// <summary>
-    /// Occurs when position changed.
-    /// </summary>
-    public override event EventHandler? PositionChanged;
+    public override event EventHandler? PositionChanged
+    {
+        add => OnPositionChangedHandler += value;
+        remove => OnPositionChangedHandler -= value;
+    }
 
     /// <summary>
     /// Occurs when the current item has been altered.
@@ -559,7 +567,8 @@ public class CurrencyManager : BindingManagerBase
     /// </param>
     protected internal override void OnCurrentItemChanged(EventArgs e)
     {
-        OnCurrentItemChangedHandler?.Invoke(this, e);
+        // invoke the handler field that the public CurrentItemChanged event wires up to
+        OnCurrentItemChangedValueHandler?.Invoke(this, e);
     }
 
     /// <summary>
@@ -610,11 +619,32 @@ public class CurrencyManager : BindingManagerBase
     /// <exception cref="T:System.Exception">
     /// There is no list, or the list is empty.
     /// </exception>
-    protected void CheckEmpty()
+    protected internal void CheckEmpty()
     {
         if (_dataSource == null || _list == null || _list.Count == 0)
         {
             throw new InvalidOperationException("ListManagerEmptyList");
+        }
+    }
+
+    /// <summary>
+    /// Updates binding state.  Overload with bool allows callers to avoid triggering per-Binding UpdateIsBinding calls.
+    /// </summary>
+    /// <param name="updateBindings">When true, propagate the change to individual Binding instances.</param>
+    private void UpdateIsBinding(bool updateBindings)
+    {
+        var flag = _shouldBind && (_list != null && _list.Count > 0);
+        if (_bound != flag)
+        {
+            _bound = flag;
+            if (updateBindings)
+            {
+                var numLinks = Bindings.Count;
+                for (var i = 0; i < numLinks; i++)
+                {
+                    Bindings[i].UpdateIsBinding();
+                }
+            }
         }
     }
 
@@ -998,88 +1028,39 @@ public class CurrencyManager : BindingManagerBase
                         break;
                     }
             }
-            OnListChanged(listChangedEventArg);
         }
         finally
         {
             _suspendPushDataInCurrentChanged = false;
+            OnListChanged(listChangedEventArg);
         }
     }
 
-    private void OnListChanged(ListChangedEventArgs e)
+    private void OnListChanged(ListChangedEventArgs listChangedEventArg)
     {
-        _listChanged?.Invoke(this, e);
-    }
-
-    private void UpdateIsBinding(bool raiseItemChangedEvent)
-    {
-        var flag = _list == null || _list.Count <= 0 || !_shouldBind ? false : ListPosition != -1;
-        if (_list != null && _bound != flag)
-        {
-            _bound = flag;
-            var num = flag ? 0 : -1;
-            ChangeRecordState(num, _bound, Position != num, true, false);
-            var count = Bindings.Count;
-            for (var i = 0; i < count; i++)
-            {
-                Bindings[i].UpdateIsBinding();
-            }
-            if (raiseItemChangedEvent)
-            {
-                OnItemChanged(_resetEvent);
-            }
-        }
+        _listChanged?.Invoke(this, listChangedEventArg);
     }
 
     private void UpdateLastGoodKnownRow(ListChangedEventArgs e)
     {
-        switch (e.ListChangedType)
+        if ((_list?.Count ?? 0) >= 1)
         {
-            case ListChangedType.Reset:
-                {
-                    _lastGoodKnownRow = -1;
-                    return;
-                }
-            case ListChangedType.ItemAdded:
-                {
-                    if (e.NewIndex > _lastGoodKnownRow || _lastGoodKnownRow >= (List?.Count ?? 0) - 1)
-                    {
-                        break;
-                    }
-                    _lastGoodKnownRow++;
-                    return;
-                }
-            case ListChangedType.ItemDeleted:
-                {
-                    if (e.NewIndex != _lastGoodKnownRow)
-                    {
-                        break;
-                    }
-                    _lastGoodKnownRow = -1;
-                    return;
-                }
-            case ListChangedType.ItemMoved:
-                {
-                    if (e.OldIndex != _lastGoodKnownRow)
-                    {
-                        break;
-                    }
-                    _lastGoodKnownRow = e.NewIndex;
-                    return;
-                }
-            case ListChangedType.ItemChanged:
-                {
-                    if (e.NewIndex != _lastGoodKnownRow)
-                    {
-                        break;
-                    }
-                    _lastGoodKnownRow = -1;
-                    break;
-                }
-            default:
-                {
-                    return;
-                }
+            if (e.ListChangedType == ListChangedType.ItemAdded && ListPosition >= 0 && ListPosition <= _list!.Count - 2)
+            {
+                _lastGoodKnownRow = ListPosition;
+            }
+            else if (e.ListChangedType == ListChangedType.ItemDeleted && ListPosition >= 0 && ListPosition <= _list!.Count - 1)
+            {
+                _lastGoodKnownRow = ListPosition;
+            }
+            else
+            {
+                _lastGoodKnownRow = -1;
+            }
+        }
+        else
+        {
+            _lastGoodKnownRow = -1;
         }
     }
 }

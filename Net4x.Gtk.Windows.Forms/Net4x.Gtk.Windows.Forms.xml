@@ -8366,21 +8366,6 @@
             Occurs when currency changed.
             </summary>
         </member>
-        <member name="E:System.Windows.Forms.CurrencyManager.CurrentChanged">
-            <summary>
-            Occurs when current changed.
-            </summary>
-        </member>
-        <member name="E:System.Windows.Forms.CurrencyManager.CurrentItemChanged">
-            <summary>
-            Occurs when current item changed.
-            </summary>
-        </member>
-        <member name="E:System.Windows.Forms.CurrencyManager.PositionChanged">
-            <summary>
-            Occurs when position changed.
-            </summary>
-        </member>
         <member name="E:System.Windows.Forms.CurrencyManager.ItemChanged">
             <summary>
             Occurs when the current item has been altered.
@@ -8577,6 +8562,12 @@
             <exception cref="T:System.Exception">
             There is no list, or the list is empty.
             </exception>
+        </member>
+        <member name="M:System.Windows.Forms.CurrencyManager.UpdateIsBinding(System.Boolean)">
+            <summary>
+            Updates binding state.  Overload with bool allows callers to avoid triggering per-Binding UpdateIsBinding calls.
+            </summary>
+            <param name="updateBindings">When true, propagate the change to individual Binding instances.</param>
         </member>
         <member name="M:System.Windows.Forms.CurrencyManager.OnCurrencyChanged(System.EventArgs)">
             <summary>
