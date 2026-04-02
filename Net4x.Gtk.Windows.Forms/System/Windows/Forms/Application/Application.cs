@@ -236,7 +236,10 @@ public sealed class Application
 
                 Gtk.Application.Quit();
             }
-            finally { }
+            finally
+            {
+                GtkLogger.Info("Application quitting");
+            }
         }
     }
 

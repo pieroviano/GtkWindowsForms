@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
 using Gtk;
+using GtkSystem.Resources.Extensions;
 using Container = Gtk.Container;
 
 namespace System.Windows.Forms;
@@ -269,103 +270,45 @@ public partial class Control
             return IsValidIndex(IndexOfKey(key));
         }
 
-        /// <summary>
-        /// Finds child controls by name. When
-        /// <paramref name="searchAllChildren" /> is true
-        /// the search traverses internal arranged elements as well.
-        /// </summary>
-        /// <param name="key">
-        /// Name to search for.
-        /// </param>
-        /// <param name="searchAllChildren">
-        /// Whether to search nested children.
-        /// </param>
-        /// <returns>
-        /// Array of matching
-        /// <see cref="T:System.Windows.Forms.Control" /> instances (may be empty).
-        /// </returns>
         public Control?[] Find(string key, bool searchAllChildren)
         {
-            var foundControls = InnerList.FindAll(o =>
+            if (string.IsNullOrEmpty(key))
+                return Array.Empty<Control?>();
+
+            var results = new List<Control>();
+
+            // Iterate explicitly to avoid depending on InnerList helper methods
+            for (int i = 0; i < InnerList.Count; i++)
             {
+                var o = InnerList[i];
                 if (o is Control con)
                 {
-                    return con.Name == key;
+                    if (string.Equals(con.Name, key, StringComparison.Ordinal))
+                        results.Add(con);
                 }
                 else if (o is ArrangedElementWidget widget)
                 {
-                    return widget.GetWidget?.Name == key;
+                    var widgetName = widget.GetWidget?.Name;
+                    if (string.Equals(widgetName, key, StringComparison.Ordinal))
+                    {
+                        // If a Control instance is associated with this widget (rare),
+                        // try to find it in the collection by matching Parent and widget reference.
+                        // Otherwise, we can't return a Control instance, so skip adding nulls.
+                        for (int j = 0; j < InnerList.Count; j++)
+                        {
+                            if (InnerList[j] is Control candidate && candidate.Widget == widget.GetWidget)
+                            {
+                                results.Add(candidate);
+                                break;
+                            }
+                        }
+                    }
                 }
-                else { return false; }
-            });
-            if (foundControls == null)
-                return new Control?[0];
-            else
-                return foundControls.ConvertAll(o => o as Control).ToArray();
-        }
-
-        /// <summary>
-        /// Gets the child index for the specified control.
-        /// </summary>
-        /// <param name="child">
-        /// Child control.
-        /// </param>
-        /// <returns>
-        /// Index of the child.
-        /// </returns>
-        public int GetChildIndex(Control child) => GetChildIndex(child, true);
-
-        /// <summary>
-        /// Gets the child index for the specified control; optionally throw if not a child.
-        /// </summary>
-        /// <param name="child">
-        /// Child control.
-        /// </param>
-        /// <param name="throwException">
-        /// True to throw when control is not a child.
-        /// </param>
-        /// <returns>
-        /// Index of the child.
-        /// </returns>
-        public virtual int GetChildIndex(Control child, bool throwException)
-        {
-            var index = IndexOf(child);
-            if (index == -1 && throwException)
-            {
-                throw new ArgumentException("ControlNotChild");
             }
 
-            return index;
+            return results.ToArray();
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        public override IEnumerator GetEnumerator()
-        {
-            return InnerList.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns the index of the given control in this collection.
-        /// </summary>
-        /// <param name="control">
-        /// Control to locate.
-        /// </param>
-        /// <returns>
-        /// Zero-based index or -1 if not found.
-        /// </returns>
-        public int IndexOf(Control? control) => ((IList)InnerList).IndexOf(control);
-
-        /// <summary>
-        /// Returns the index of a child control by its key/name.
-        /// </summary>
-        /// <param name="key">
-        /// Key/name to find.
-        /// </param>
-        /// <returns>
-        /// Index of the matching child or -1 if not found.
-        /// </returns>
         public virtual int IndexOfKey(string? key)
         {
             if (string.IsNullOrEmpty(key))
@@ -373,18 +316,22 @@ public partial class Control
                 return -1;
             }
 
-            return InnerList.FindIndex(o =>
+            for (int i = 0; i < InnerList.Count; i++)
             {
+                var o = InnerList[i];
                 if (o is Control con)
                 {
-                    return con.Name == key;
+                    if (string.Equals(con.Name, key, StringComparison.Ordinal))
+                        return i;
                 }
                 else if (o is ArrangedElementWidget widget)
                 {
-                    return widget.GetWidget?.Name == key;
+                    if (string.Equals(widget.GetWidget?.Name, key, StringComparison.Ordinal))
+                        return i;
                 }
-                else { return false; }
-            });
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -452,16 +399,55 @@ public partial class Control
 
         }
 
+        /// <summary>
+        /// Returns the index of the given control in this collection.
+        /// </summary>
+        /// <param name="control">
+        /// Control to locate.
+        /// </param>
+        /// <returns>
+        /// Zero-based index or -1 if not found.
+        /// </returns>
+        public int IndexOf(Control? control) => ((IList)InnerList).IndexOf(control);
+
+        /// <summary>Retrieves the index of the specified child control within the control collection.</summary>
+        /// <returns>A zero-based index value that represents the location of the specified child control within the control collection.</returns>
+        /// <param name="child">The <see cref="T:System.Windows.Forms.Control" /> to search for in the control collection. </param>
+        /// <exception cref="T:System.ArgumentException">The <paramref name="child" /><see cref="T:System.Windows.Forms.Control" /> is not in the <see cref="T:System.Windows.Forms.Control.ControlCollection" />. </exception>
+        public int GetChildIndex(Control child)
+        {
+            return this.GetChildIndex(child, true);
+        }
+
+        /// <summary>
+        /// Gets the child index for the specified control.
+        /// Throws ArgumentException when throwException is true and control is not a child.
+        /// </summary>
+        /// <param name="child">Child control.</param>
+        /// <param name="throwException">True to throw when control is not a child.</param>
+        /// <returns>Index of the child.</returns>
+        public virtual int GetChildIndex(Control child, bool throwException)
+        {
+            var index = IndexOf(child);
+            if (index == -1 && throwException)
+            {
+                throw new ArgumentException("ControlNotChild");
+            }
+
+            return index;
+        }
+
         int IList.Add(object? control)
         {
             if (control is Control c)
             {
                 Add(c);
-                return IndexOf(c);
+                var idx = ((IList)InnerList).IndexOf(c);
+                return IsValidIndex(idx) ? idx : -1;
             }
             else
             {
-                throw new ArgumentException("ControlBadControl {0}", nameof(control));
+                throw new ArgumentException("ControlBadControl", nameof(control));
             }
         }
 

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+#pragma warning disable CS8618 
+#pragma warning disable CS0067 
 
 namespace System.Windows.Forms.Collection;
 
@@ -53,8 +55,8 @@ public class BindToObjectTests
 
         protected internal override void OnCurrentItemChanged(EventArgs e) => throw new NotImplementedException();
 
-        public override event EventHandler CurrentChanged;
-        public override event EventHandler CurrentItemChanged;
+        public override event EventHandler? CurrentChanged;
+        public override event EventHandler? CurrentItemChanged;
         private protected override void SetDataSource(object? source) => throw new NotImplementedException();
 
         protected override void UpdateIsBinding() { }

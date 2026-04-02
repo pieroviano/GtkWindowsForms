@@ -79,8 +79,7 @@ public class BindingsCollectionTests
     [Fact]
     public void Clear_ShouldEmptyCollection_AndRaiseRefreshEvents()
     {
-        var sut = new BindingsCollection();
-        sut.Add(CreateBinding());
+        var sut = new BindingsCollection { CreateBinding() };
 
         var events = new List<string>();
 
@@ -120,9 +119,7 @@ public class BindingsCollectionTests
     [Fact]
     public void ShouldSerializeMyAll_WhenHasItems_ReturnsTrue()
     {
-        var sut = new BindingsCollection();
-
-        sut.Add(CreateBinding());
+        var sut = new BindingsCollection { CreateBinding() };
 
         Assert.True(sut.ShouldSerializeMyAll());
     }
@@ -132,9 +129,7 @@ public class BindingsCollectionTests
     {
         var called = false;
 
-        var sut = new TestBindingsCollection(() => called = true);
-
-        sut.Add(CreateBinding());
+        var sut = new TestBindingsCollection(() => called = true) { CreateBinding() };
 
         Assert.True(called);
     }
@@ -158,8 +153,7 @@ public class BindingsCollectionTests
     {
         var called = false;
 
-        var sut = new TestBindingsCollection(onClear: () => called = true);
-        sut.Add(CreateBinding());
+        var sut = new TestBindingsCollection(onClear: () => called = true) { CreateBinding() };
 
         sut.Clear();
 

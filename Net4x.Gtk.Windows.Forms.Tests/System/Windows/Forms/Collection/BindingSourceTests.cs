@@ -15,7 +15,9 @@ public class BindingSourceTests
         var sut = new BindingSource();
 
         Assert.NotNull(sut.List);
+#pragma warning disable xUnit2013
         Assert.Equal(0, sut.Count);
+#pragma warning restore xUnit2013
         Assert.Null(sut.Current);
     }
 
@@ -34,7 +36,9 @@ public class BindingSourceTests
         var index = sut.Add(item);
 
         Assert.Equal(0, index);
+#pragma warning disable xUnit2013
         Assert.Equal(1, sut.Count);
+#pragma warning restore xUnit2013
         Assert.True(sut.Contains(item));
     }
 
@@ -49,8 +53,7 @@ public class BindingSourceTests
     [Fact]
     public void Add_WrongType_ShouldThrow()
     {
-        var sut = new BindingSource();
-        sut.Add(new TestItem());
+        var sut = new BindingSource { new TestItem() };
 
         Assert.Throws<InvalidOperationException>(() => sut.Add("wrong"));
     }
@@ -58,14 +61,17 @@ public class BindingSourceTests
     [Fact]
     public void Clear_ShouldRemoveAllItems()
     {
-        var sut = new BindingSource();
-
-        sut.Add(new TestItem());
-        sut.Add(new TestItem());
+        var sut = new BindingSource
+        {
+            new TestItem(),
+            new TestItem()
+        };
 
         sut.Clear();
 
+#pragma warning disable xUnit2013
         Assert.Equal(0, sut.Count);
+#pragma warning restore xUnit2013
     }
 
     [Fact]
@@ -104,10 +110,11 @@ public class BindingSourceTests
     [Fact]
     public void Position_ShouldUpdateCurrent()
     {
-        var sut = new BindingSource();
-
-        sut.Add(new TestItem { Name = "A" });
-        sut.Add(new TestItem { Name = "B" });
+        var sut = new BindingSource
+        {
+            new TestItem { Name = "A" },
+            new TestItem { Name = "B" }
+        };
 
         sut.Position = 1;
 
@@ -144,9 +151,11 @@ public class BindingSourceTests
     [Fact]
     public void AllowNew_SetSameValue_ShouldNotThrow()
     {
-        var sut = new BindingSource();
+        var sut = new BindingSource()
+        {
+            AllowNew = true
+        };
 
-        sut.AllowNew = true;
         sut.AllowNew = true;
 
         Assert.True(sut.AllowNew);
@@ -155,9 +164,10 @@ public class BindingSourceTests
     [Fact]
     public void RaiseListChangedEvents_CanBeToggled()
     {
-        var sut = new BindingSource();
-
-        sut.RaiseListChangedEvents = false;
+        var sut = new BindingSource()
+        {
+            RaiseListChangedEvents = false
+        };
 
         Assert.False(sut.RaiseListChangedEvents);
     }
@@ -194,6 +204,8 @@ public class BindingSourceTests
 
         sut.Dispose();
 
+#pragma warning disable xUnit2013
         Assert.Equal(0, sut.Count);
+#pragma warning restore xUnit2013
     }
 }

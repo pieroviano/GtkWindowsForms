@@ -7,6 +7,7 @@ using SolidBrush = gtk::System.Drawing.SolidBrush;
 
 namespace System.Drawing;
 
+[Collection("NonParallelCollection")]
 public class GraphicsTests
 {
     [Fact]

@@ -37,23 +37,19 @@ internal class BindToObject
     {
         get
         {
-            // If binding targets a specific field/property, try to return the property's type.
-            // Resolve from cached _fieldInfo if available; otherwise try to resolve directly
-            // from the active manager (explicit or owner's) so tests that only set the list manager still work.
+            // If a specific field is bound, prefer the resolved descriptor's type.
             if (_dataMember.BindingField.Length != 0)
             {
                 if (_fieldInfo != null)
-                {
                     return _fieldInfo.PropertyType;
-                }
 
-                // fallback resolution using the manager regardless of control presence
+                // Fallback: try to resolve the property descriptor from the active manager (explicit or owner's).
                 var managerForType = _bindingManager ?? _owner?.BindingManagerBase;
                 var pd = managerForType?.GetItemProperties()?.Find(_dataMember.BindingField, true);
                 return pd?.PropertyType;
             }
 
-            // Otherwise return the list/item type from the manager (explicit manager preferred).
+            // Otherwise return the managed list/item type.
             var manager = _bindingManager ?? _owner?.BindingManagerBase;
             var bindType = manager?.BindType;
             if (bindType != null && typeof(Array).IsAssignableFrom(bindType))
@@ -98,32 +94,40 @@ internal class BindToObject
 
     internal void CheckBinding()
     {
-        // If in design-time for a bindable component, leave behavior unchanged.
+        // Preserve legacy design-time early exit
         if (_owner is { BindableComponent: not null } && _owner.ControlAtDesignTime())
         {
             return;
         }
 
-        // Prefer the explicit manager set on this BindToObject; otherwise use the owner's manager.
+        // Prefer explicit manager on this BindToObject; otherwise use owner's manager.
         var manager = _bindingManager ?? _owner?.BindingManagerBase;
         var component = manager?.Current;
 
-        // We need a manager and an initialized data source before attempting to resolve field info.
+        // If no manager or data source not initialized yet, clear resolved info and return.
         if (manager == null || !IsDataSourceInitialized)
         {
             _fieldInfo = null;
             return;
         }
 
+        // Resolve field/property descriptor using the manager (works even when no control is attached).
         var bindingField = _dataMember.BindingField;
         _fieldInfo = manager.GetItemProperties()?.Find(bindingField, true);
 
+        // Do not throw in headless scenarios where a control isn't attached yet.
+        // Only validate/throw once a bindable component exists and is created (runtime behavior).
         if (manager.DataSource != null && _fieldInfo == null && bindingField.Length > 0)
         {
-            throw new ArgumentException(@"ListBindingBindField", nameof(_dataMember));
+            if ((_owner?.BindableComponent != null) && _owner.ComponentCreated)
+            {
+                throw new ArgumentException(@"ListBindingBindField", nameof(_dataMember));
+            }
+
+            // otherwise keep _fieldInfo null and defer throwing until a control is attached
         }
 
-        // Only wire change events when we have a concrete current instance and it's appropriate.
+        // Wire change events only when we have a concrete current component instance and manager indicates binding.
         if (_fieldInfo != null && manager.IsBinding && !(manager is CurrencyManager))
         {
             if (component != null)
@@ -155,8 +159,6 @@ internal class BindToObject
         {
             return;
         }
-
-        // If we had previously wired event handlers against the old manager/current, remove them.
         if (_bindingManager != null && _fieldInfo != null && _bindingManager.IsBinding && !(_bindingManager is CurrencyManager))
         {
             if (_bindingManager.Current != null)
@@ -166,18 +168,16 @@ internal class BindToObject
 
             _fieldInfo = null;
         }
-
         _bindingManager = lManager;
         CheckBinding();
     }
 
     internal void SetValue(object? value)
     {
-        var manager = _bindingManager ?? _owner?.BindingManagerBase;
         object? current = null;
         if (_fieldInfo == null)
         {
-            if (manager is CurrencyManager currencyManager)
+            if (_bindingManager is CurrencyManager currencyManager)
             {
                 if (value != null)
                 {
@@ -188,6 +188,7 @@ internal class BindToObject
         }
         else
         {
+            var manager = _bindingManager ?? _owner?.BindingManagerBase;
             current = manager?.Current;
             (current as IEditableObject)?.BeginEdit();
             if (!_fieldInfo.IsReadOnly)

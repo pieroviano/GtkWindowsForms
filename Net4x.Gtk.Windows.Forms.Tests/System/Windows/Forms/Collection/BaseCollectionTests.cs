@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using System.Linq;
+#pragma warning disable xUnit2003
+#pragma warning disable CS8601 // Possible null reference assignment.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 namespace System.Windows.Forms.Collection;
 
@@ -9,7 +12,7 @@ public class BaseCollectionTests
     {
         private readonly ArrayList _list;
 
-        public TestCollection(ArrayList list = null)
+        public TestCollection(ArrayList? list = null)
         {
             _list = list;
         }

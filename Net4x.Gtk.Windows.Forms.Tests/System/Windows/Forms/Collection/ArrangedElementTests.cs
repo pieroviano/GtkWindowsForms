@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms.Layout;
+#pragma warning disable CS0108, CS0114
 
 namespace System.Windows.Forms.Collection;
 
@@ -71,9 +72,8 @@ public class ArrangedElementTests
     [Fact]
     public void ParticipatesInLayout_ReturnsVisible()
     {
-        var sut = new TestArrangedElement();
+        var sut = new TestArrangedElement(){Visible = true};
 
-        sut.Visible = true;
         Assert.True(sut.ParticipatesInLayout);
 
         sut.Visible = false;

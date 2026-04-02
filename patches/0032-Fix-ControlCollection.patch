@@ -1,0 +1,372 @@
+From 0fddcb45a86dad8081d57ad24413dbddad0018b5 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Thu, 2 Apr 2026 05:04:06 +0300
+Subject: [PATCH] Fix ControlCollection
+
+---
+ .../Windows/Forms/Application/Application.cs  |   5 +-
+ .../Windows/Forms/Collection/BindToObject.cs  |  35 ++--
+ .../Windows/Forms/Collection/Control.cs       | 168 ++++++++----------
+ 3 files changed, 99 insertions(+), 109 deletions(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+index 614afdb..1081448 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+@@ -236,7 +236,10 @@ public sealed class Application
+ 
+                 Gtk.Application.Quit();
+             }
+-            finally { }
++            finally
++            {
++                GtkLogger.Info("Application quitting");
++            }
+         }
+     }
+ 
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
+index 26cf8a8..c4e6b5c 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
+@@ -37,23 +37,19 @@ internal class BindToObject
+     {
+         get
+         {
+-            // If binding targets a specific field/property, try to return the property's type.
+-            // Resolve from cached _fieldInfo if available; otherwise try to resolve directly
+-            // from the active manager (explicit or owner's) so tests that only set the list manager still work.
++            // If a specific field is bound, prefer the resolved descriptor's type.
+             if (_dataMember.BindingField.Length != 0)
+             {
+                 if (_fieldInfo != null)
+-                {
+                     return _fieldInfo.PropertyType;
+-                }
+ 
+-                // fallback resolution using the manager regardless of control presence
++                // Fallback: try to resolve the property descriptor from the active manager (explicit or owner's).
+                 var managerForType = _bindingManager ?? _owner?.BindingManagerBase;
+                 var pd = managerForType?.GetItemProperties()?.Find(_dataMember.BindingField, true);
+                 return pd?.PropertyType;
+             }
+ 
+-            // Otherwise return the list/item type from the manager (explicit manager preferred).
++            // Otherwise return the managed list/item type.
+             var manager = _bindingManager ?? _owner?.BindingManagerBase;
+             var bindType = manager?.BindType;
+             if (bindType != null && typeof(Array).IsAssignableFrom(bindType))
+@@ -98,32 +94,40 @@ internal class BindToObject
+ 
+     internal void CheckBinding()
+     {
+-        // If in design-time for a bindable component, leave behavior unchanged.
++        // Preserve legacy design-time early exit
+         if (_owner is { BindableComponent: not null } && _owner.ControlAtDesignTime())
+         {
+             return;
+         }
+ 
+-        // Prefer the explicit manager set on this BindToObject; otherwise use the owner's manager.
++        // Prefer explicit manager on this BindToObject; otherwise use owner's manager.
+         var manager = _bindingManager ?? _owner?.BindingManagerBase;
+         var component = manager?.Current;
+ 
+-        // We need a manager and an initialized data source before attempting to resolve field info.
++        // If no manager or data source not initialized yet, clear resolved info and return.
+         if (manager == null || !IsDataSourceInitialized)
+         {
+             _fieldInfo = null;
+             return;
+         }
+ 
++        // Resolve field/property descriptor using the manager (works even when no control is attached).
+         var bindingField = _dataMember.BindingField;
+         _fieldInfo = manager.GetItemProperties()?.Find(bindingField, true);
+ 
++        // Do not throw in headless scenarios where a control isn't attached yet.
++        // Only validate/throw once a bindable component exists and is created (runtime behavior).
+         if (manager.DataSource != null && _fieldInfo == null && bindingField.Length > 0)
+         {
+-            throw new ArgumentException(@"ListBindingBindField", nameof(_dataMember));
++            if ((_owner?.BindableComponent != null) && _owner.ComponentCreated)
++            {
++                throw new ArgumentException(@"ListBindingBindField", nameof(_dataMember));
++            }
++
++            // otherwise keep _fieldInfo null and defer throwing until a control is attached
+         }
+ 
+-        // Only wire change events when we have a concrete current instance and it's appropriate.
++        // Wire change events only when we have a concrete current component instance and manager indicates binding.
+         if (_fieldInfo != null && manager.IsBinding && !(manager is CurrencyManager))
+         {
+             if (component != null)
+@@ -155,8 +159,6 @@ internal class BindToObject
+         {
+             return;
+         }
+-
+-        // If we had previously wired event handlers against the old manager/current, remove them.
+         if (_bindingManager != null && _fieldInfo != null && _bindingManager.IsBinding && !(_bindingManager is CurrencyManager))
+         {
+             if (_bindingManager.Current != null)
+@@ -166,18 +168,16 @@ internal class BindToObject
+ 
+             _fieldInfo = null;
+         }
+-
+         _bindingManager = lManager;
+         CheckBinding();
+     }
+ 
+     internal void SetValue(object? value)
+     {
+-        var manager = _bindingManager ?? _owner?.BindingManagerBase;
+         object? current = null;
+         if (_fieldInfo == null)
+         {
+-            if (manager is CurrencyManager currencyManager)
++            if (_bindingManager is CurrencyManager currencyManager)
+             {
+                 if (value != null)
+                 {
+@@ -188,6 +188,7 @@ internal class BindToObject
+         }
+         else
+         {
++            var manager = _bindingManager ?? _owner?.BindingManagerBase;
+             current = manager?.Current;
+             (current as IEditableObject)?.BeginEdit();
+             if (!_fieldInfo.IsReadOnly)
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
+index f8c247b..3af5a8e 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
+@@ -10,6 +10,7 @@ using System.ComponentModel;
+ using System.Drawing;
+ using System.Windows.Forms.Layout;
+ using Gtk;
++using GtkSystem.Resources.Extensions;
+ using Container = Gtk.Container;
+ 
+ namespace System.Windows.Forms;
+@@ -269,103 +270,45 @@ public partial class Control
+             return IsValidIndex(IndexOfKey(key));
+         }
+ 
+-        /// <summary>
+-        /// Finds child controls by name. When
+-        /// <paramref name="searchAllChildren" /> is true
+-        /// the search traverses internal arranged elements as well.
+-        /// </summary>
+-        /// <param name="key">
+-        /// Name to search for.
+-        /// </param>
+-        /// <param name="searchAllChildren">
+-        /// Whether to search nested children.
+-        /// </param>
+-        /// <returns>
+-        /// Array of matching
+-        /// <see cref="T:System.Windows.Forms.Control" /> instances (may be empty).
+-        /// </returns>
+         public Control?[] Find(string key, bool searchAllChildren)
+         {
+-            var foundControls = InnerList.FindAll(o =>
++            if (string.IsNullOrEmpty(key))
++                return Array.Empty<Control?>();
++
++            var results = new List<Control>();
++
++            // Iterate explicitly to avoid depending on InnerList helper methods
++            for (int i = 0; i < InnerList.Count; i++)
+             {
++                var o = InnerList[i];
+                 if (o is Control con)
+                 {
+-                    return con.Name == key;
++                    if (string.Equals(con.Name, key, StringComparison.Ordinal))
++                        results.Add(con);
+                 }
+                 else if (o is ArrangedElementWidget widget)
+                 {
+-                    return widget.GetWidget?.Name == key;
++                    var widgetName = widget.GetWidget?.Name;
++                    if (string.Equals(widgetName, key, StringComparison.Ordinal))
++                    {
++                        // If a Control instance is associated with this widget (rare),
++                        // try to find it in the collection by matching Parent and widget reference.
++                        // Otherwise, we can't return a Control instance, so skip adding nulls.
++                        for (int j = 0; j < InnerList.Count; j++)
++                        {
++                            if (InnerList[j] is Control candidate && candidate.Widget == widget.GetWidget)
++                            {
++                                results.Add(candidate);
++                                break;
++                            }
++                        }
++                    }
+                 }
+-                else { return false; }
+-            });
+-            if (foundControls == null)
+-                return new Control?[0];
+-            else
+-                return foundControls.ConvertAll(o => o as Control).ToArray();
+-        }
+-
+-        /// <summary>
+-        /// Gets the child index for the specified control.
+-        /// </summary>
+-        /// <param name="child">
+-        /// Child control.
+-        /// </param>
+-        /// <returns>
+-        /// Index of the child.
+-        /// </returns>
+-        public int GetChildIndex(Control child) => GetChildIndex(child, true);
+-
+-        /// <summary>
+-        /// Gets the child index for the specified control; optionally throw if not a child.
+-        /// </summary>
+-        /// <param name="child">
+-        /// Child control.
+-        /// </param>
+-        /// <param name="throwException">
+-        /// True to throw when control is not a child.
+-        /// </param>
+-        /// <returns>
+-        /// Index of the child.
+-        /// </returns>
+-        public virtual int GetChildIndex(Control child, bool throwException)
+-        {
+-            var index = IndexOf(child);
+-            if (index == -1 && throwException)
+-            {
+-                throw new ArgumentException("ControlNotChild");
+             }
+ 
+-            return index;
++            return results.ToArray();
+         }
+ 
+-        /// <summary>
+-        /// Returns an enumerator that iterates through the collection.
+-        /// </summary>
+-        public override IEnumerator GetEnumerator()
+-        {
+-            return InnerList.GetEnumerator();
+-        }
+-
+-        /// <summary>
+-        /// Returns the index of the given control in this collection.
+-        /// </summary>
+-        /// <param name="control">
+-        /// Control to locate.
+-        /// </param>
+-        /// <returns>
+-        /// Zero-based index or -1 if not found.
+-        /// </returns>
+-        public int IndexOf(Control? control) => ((IList)InnerList).IndexOf(control);
+-
+-        /// <summary>
+-        /// Returns the index of a child control by its key/name.
+-        /// </summary>
+-        /// <param name="key">
+-        /// Key/name to find.
+-        /// </param>
+-        /// <returns>
+-        /// Index of the matching child or -1 if not found.
+-        /// </returns>
+         public virtual int IndexOfKey(string? key)
+         {
+             if (string.IsNullOrEmpty(key))
+@@ -373,18 +316,22 @@ public partial class Control
+                 return -1;
+             }
+ 
+-            return InnerList.FindIndex(o =>
++            for (int i = 0; i < InnerList.Count; i++)
+             {
++                var o = InnerList[i];
+                 if (o is Control con)
+                 {
+-                    return con.Name == key;
++                    if (string.Equals(con.Name, key, StringComparison.Ordinal))
++                        return i;
+                 }
+                 else if (o is ArrangedElementWidget widget)
+                 {
+-                    return widget.GetWidget?.Name == key;
++                    if (string.Equals(widget.GetWidget?.Name, key, StringComparison.Ordinal))
++                        return i;
+                 }
+-                else { return false; }
+-            });
++            }
++
++            return -1;
+         }
+ 
+         /// <summary>
+@@ -452,16 +399,55 @@ public partial class Control
+ 
+         }
+ 
++        /// <summary>
++        /// Returns the index of the given control in this collection.
++        /// </summary>
++        /// <param name="control">
++        /// Control to locate.
++        /// </param>
++        /// <returns>
++        /// Zero-based index or -1 if not found.
++        /// </returns>
++        public int IndexOf(Control? control) => ((IList)InnerList).IndexOf(control);
++
++        /// <summary>Retrieves the index of the specified child control within the control collection.</summary>
++        /// <returns>A zero-based index value that represents the location of the specified child control within the control collection.</returns>
++        /// <param name="child">The <see cref="T:System.Windows.Forms.Control" /> to search for in the control collection. </param>
++        /// <exception cref="T:System.ArgumentException">The <paramref name="child" /><see cref="T:System.Windows.Forms.Control" /> is not in the <see cref="T:System.Windows.Forms.Control.ControlCollection" />. </exception>
++        public int GetChildIndex(Control child)
++        {
++            return this.GetChildIndex(child, true);
++        }
++
++        /// <summary>
++        /// Gets the child index for the specified control.
++        /// Throws ArgumentException when throwException is true and control is not a child.
++        /// </summary>
++        /// <param name="child">Child control.</param>
++        /// <param name="throwException">True to throw when control is not a child.</param>
++        /// <returns>Index of the child.</returns>
++        public virtual int GetChildIndex(Control child, bool throwException)
++        {
++            var index = IndexOf(child);
++            if (index == -1 && throwException)
++            {
++                throw new ArgumentException("ControlNotChild");
++            }
++
++            return index;
++        }
++
+         int IList.Add(object? control)
+         {
+             if (control is Control c)
+             {
+                 Add(c);
+-                return IndexOf(c);
++                var idx = ((IList)InnerList).IndexOf(c);
++                return IsValidIndex(idx) ? idx : -1;
+             }
+             else
+             {
+-                throw new ArgumentException("ControlBadControl {0}", nameof(control));
++                throw new ArgumentException("ControlBadControl", nameof(control));
+             }
+         }
+ 
+-- 
+2.51.1.windows.1
+
