@@ -11,7 +11,6 @@ namespace System.Windows.Forms;
 /// This is similar to ArrayList except that it also
 /// maintains a bit-flag based state element for each item
 /// in the array.
-///
 /// The methods to enumerate, count and get data support
 /// virtualized indexes.  Indexes are virtualized according
 /// to the state mask passed in.  This allows ItemArray
@@ -97,6 +96,12 @@ internal partial class ItemArray : IComparer<Entry>
     {
         if (stateMask == 0)
         {
+            // When mask is zero, validate bounds for the direct mapping.
+            if (virtualIndex < 0 || virtualIndex >= Count)
+            {
+                return -1;
+            }
+
             return virtualIndex;
         }
 
@@ -205,7 +210,7 @@ internal partial class ItemArray : IComparer<Entry>
             if (stateMask == 0 || (entry.State & stateMask) != 0)
             {
                 virtualIndex++;
-                if ((item is Entry itemEntry && entry == itemEntry) || entry.Item.Equals(item))
+                if ((item is Entry itemEntry && entry == itemEntry) || Equals(entry.Item, item))
                 {
                     return virtualIndex;
                 }
@@ -257,6 +262,7 @@ internal partial class ItemArray : IComparer<Entry>
     public void SetItem(int index, object item)
     {
         _entries[index].Item = item;
+        Version++;
     }
 
     /// <summary>
