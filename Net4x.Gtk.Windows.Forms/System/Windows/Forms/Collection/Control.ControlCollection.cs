@@ -1,26 +1,11 @@
-﻿/*
- * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
- * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
- * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
- * author:chenhongjin
- */
-
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms.Layout;
 using Gtk;
-using GtkSystem.Resources.Extensions;
 using Container = Gtk.Container;
 
 namespace System.Windows.Forms;
 
-/// <summary>
-/// Represents the collection of data bindings for a control.
-/// </summary>
-/// <filterpriority>
-/// 2
-/// </filterpriority>
 public partial class Control
 {
     /// <summary>
@@ -267,7 +252,25 @@ public partial class Control
         /// </returns>
         public virtual bool ContainsKey(string? key)
         {
-            return IsValidIndex(IndexOfKey(key));
+            if (string.IsNullOrEmpty(key))
+                return false;
+
+            for (int i = 0; i < InnerList.Count; i++)
+            {
+                var o = InnerList[i];
+                if (o is Control con)
+                {
+                    if (string.Equals(con.Name, key, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+                else if (o is ArrangedElementWidget widget)
+                {
+                    if (string.Equals(widget.GetWidget?.Name, key, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         public Control?[] Find(string key, bool searchAllChildren)
@@ -283,17 +286,15 @@ public partial class Control
                 var o = InnerList[i];
                 if (o is Control con)
                 {
-                    if (string.Equals(con.Name, key, StringComparison.Ordinal))
+                    if (string.Equals(con.Name, key, StringComparison.OrdinalIgnoreCase))
                         results.Add(con);
                 }
                 else if (o is ArrangedElementWidget widget)
                 {
                     var widgetName = widget.GetWidget?.Name;
-                    if (string.Equals(widgetName, key, StringComparison.Ordinal))
+                    if (string.Equals(widgetName, key, StringComparison.OrdinalIgnoreCase))
                     {
-                        // If a Control instance is associated with this widget (rare),
-                        // try to find it in the collection by matching Parent and widget reference.
-                        // Otherwise, we can't return a Control instance, so skip adding nulls.
+                        // If a Control instance is associated with this widget, return that Control.
                         for (int j = 0; j < InnerList.Count; j++)
                         {
                             if (InnerList[j] is Control candidate && candidate.Widget == widget.GetWidget)
@@ -321,12 +322,12 @@ public partial class Control
                 var o = InnerList[i];
                 if (o is Control con)
                 {
-                    if (string.Equals(con.Name, key, StringComparison.Ordinal))
+                    if (string.Equals(con.Name, key, StringComparison.OrdinalIgnoreCase))
                         return i;
                 }
                 else if (o is ArrangedElementWidget widget)
                 {
-                    if (string.Equals(widget.GetWidget?.Name, key, StringComparison.Ordinal))
+                    if (string.Equals(widget.GetWidget?.Name, key, StringComparison.OrdinalIgnoreCase))
                         return i;
                 }
             }
@@ -410,22 +411,29 @@ public partial class Control
         /// </returns>
         public int IndexOf(Control? control) => ((IList)InnerList).IndexOf(control);
 
-        /// <summary>Retrieves the index of the specified child control within the control collection.</summary>
-        /// <returns>A zero-based index value that represents the location of the specified child control within the control collection.</returns>
-        /// <param name="child">The <see cref="T:System.Windows.Forms.Control" /> to search for in the control collection. </param>
-        /// <exception cref="T:System.ArgumentException">The <paramref name="child" /><see cref="T:System.Windows.Forms.Control" /> is not in the <see cref="T:System.Windows.Forms.Control.ControlCollection" />. </exception>
-        public int GetChildIndex(Control child)
-        {
-            return this.GetChildIndex(child, true);
-        }
-
         /// <summary>
         /// Gets the child index for the specified control.
-        /// Throws ArgumentException when throwException is true and control is not a child.
         /// </summary>
-        /// <param name="child">Child control.</param>
-        /// <param name="throwException">True to throw when control is not a child.</param>
-        /// <returns>Index of the child.</returns>
+        /// <param name="child">
+        /// Child control.
+        /// </param>
+        /// <returns>
+        /// Index of the child.
+        /// </returns>
+        public int GetChildIndex(Control child) => GetChildIndex(child, true);
+
+        /// <summary>
+        /// Gets the child index for the specified control; optionally throw if not a child.
+        /// </summary>
+        /// <param name="child">
+        /// Child control.
+        /// </param>
+        /// <param name="throwException">
+        /// True to throw when control is not a child.
+        /// </param>
+        /// <returns>
+        /// Index of the child.
+        /// </returns>
         public virtual int GetChildIndex(Control child, bool throwException)
         {
             var index = IndexOf(child);
@@ -730,92 +738,6 @@ public partial class Control
                     else
                         widget.MarginBottom = 0;
                 }
-            }
-        }
-    }
-
-    internal class ArrangedElementWidget : IArrangedElement
-    {
-        private Widget? _widget;
-
-        public virtual event EventHandler? Disposed;
-
-        internal ArrangedElementWidget(Gtk.Widget widget)
-        {
-            _widget = widget;
-        }
-
-        public Rectangle Bounds
-        {
-            get
-            {
-                var widgetAllocation = _widget?.Allocation;
-                if (widgetAllocation.HasValue)
-                {
-                    return new Rectangle(widgetAllocation.Value.X, widgetAllocation.Value.Y, widgetAllocation.Value.Width, widgetAllocation.Value.Height);
-                }
-                return Rectangle.Empty;
-            }
-        }
-
-        public ArrangedElementCollection Children => ArrangedElementCollection.Empty;
-
-        public IArrangedElement? Container => null;
-
-        public Rectangle DisplayRectangle
-        {
-            get
-            {
-                var widgetAllocation = _widget?.Allocation;
-                if (widgetAllocation.HasValue)
-                {
-                    return new Rectangle(widgetAllocation.Value.X, widgetAllocation.Value.Y, widgetAllocation.Value.Width, widgetAllocation.Value.Height);
-                }
-                return Rectangle.Empty;
-            }
-        }
-
-        public bool ParticipatesInLayout => _widget?.Visible ?? false;
-
-        public PropertyStore Properties { get; } = new PropertyStore();
-
-        public ISite? Site
-        {
-            get => null;
-            set { }
-        }
-
-        public Widget? GetWidget => _widget;
-
-        public void Dispose()
-        {
-            _widget?.Dispose();
-            _widget = null;
-            Disposed?.Invoke(this, EventArgs.Empty);
-        }
-
-        public Size GetPreferredSize(Size proposedSize)
-        {
-            // Return the widget's requested size or the proposed size as fallback
-            if (_widget != null)
-            {
-                _widget.GetPreferredSize(out var min, out var nat);
-                return new Size(nat.Width, nat.Height);
-            }
-            return proposedSize;
-        }
-
-        public void PerformLayout(IArrangedElement affectedElement, string? propertyName)
-        {
-            // No-op for widget wrapper
-        }
-
-        public void SetBounds(Rectangle bounds, BoundsSpecified specified)
-        {
-            if (_widget != null)
-            {
-                _widget.SetSizeRequest(bounds.Width, bounds.Height);
-                _widget.SetAllocation(new Gdk.Rectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height));
             }
         }
     }

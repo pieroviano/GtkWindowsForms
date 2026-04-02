@@ -11,7 +11,7 @@ public class ControlCollectionTests
 
     private Control CreateControl(string? name = null)
     {
-        return new Control { Name = name ?? Guid.NewGuid().ToString() };
+        return new Label { Name = name ?? Guid.NewGuid().ToString() };
     }
 
     [Fact]

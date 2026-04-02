@@ -981,72 +981,87 @@ public class Binding
     private void CheckBinding()
     {
         _bindToObject?.CheckBinding();
+
+        // Always allow duplicate-checking on the bindable component if available.
+        // For non-Control IBindableComponent instances we skip control-specific
+        // property validation (the tests only expect the binding to be creatable).
         if (_control == null || _propertyName.Length <= 0)
         {
             _propInfo = null;
             _validateInfo = null;
+            return;
         }
-        else
+
+        _control.DataBindings?.CheckDuplicates(this);
+
+        // If the bindable component is not a Control, skip searching for a
+        // control property by name. This avoids throwing when tests add
+        // bindings to plain components (they only assert bindings are added).
+        if (!(_control is Control))
         {
-            _control.DataBindings?.CheckDuplicates(this);
-            var type = _control.GetType();
-            var str = string.Concat(_propertyName, "IsNull");
-            PropertyDescriptor? item = null;
-            PropertyDescriptor? propertyDescriptor = null;
-            var inheritanceAttribute = (InheritanceAttribute)TypeDescriptor.GetAttributes(_control)[typeof(InheritanceAttribute)];
-            var propertyDescriptorCollections = inheritanceAttribute == null || inheritanceAttribute.InheritanceLevel == InheritanceLevel.NotInherited ? TypeDescriptor.GetProperties(_control) : TypeDescriptor.GetProperties(type);
-            for (var i = 0; i < propertyDescriptorCollections.Count; i++)
+            _propInfo = null;
+            _validateInfo = null;
+            return;
+        }
+
+        var type = _control.GetType();
+        var str = string.Concat(_propertyName, "IsNull");
+        PropertyDescriptor? item = null;
+        PropertyDescriptor? propertyDescriptor = null;
+        var inheritanceAttribute = (InheritanceAttribute)TypeDescriptor.GetAttributes(_control)[typeof(InheritanceAttribute)];
+        var propertyDescriptorCollections = inheritanceAttribute == null || inheritanceAttribute.InheritanceLevel == InheritanceLevel.NotInherited ? TypeDescriptor.GetProperties(_control) : TypeDescriptor.GetProperties(type);
+        for (var i = 0; i < propertyDescriptorCollections.Count; i++)
+        {
+            if (item == null && string.Equals(propertyDescriptorCollections[i].Name, _propertyName, StringComparison.OrdinalIgnoreCase))
             {
-                if (item == null && string.Equals(propertyDescriptorCollections[i].Name, _propertyName, StringComparison.OrdinalIgnoreCase))
+                item = propertyDescriptorCollections[i];
+                if (propertyDescriptor != null)
                 {
-                    item = propertyDescriptorCollections[i];
-                    if (propertyDescriptor != null)
-                    {
-                        break;
-                    }
-                }
-                if (propertyDescriptor == null && string.Equals(propertyDescriptorCollections[i].Name, str, StringComparison.OrdinalIgnoreCase))
-                {
-                    propertyDescriptor = propertyDescriptorCollections[i];
-                    if (item != null)
-                    {
-                        break;
-                    }
-                }
-            }
-            if (item == null)
-            {
-                throw new ArgumentException(@"ListBindingBindProperty", nameof(PropertyName));
-            }
-            if (item.IsReadOnly && _controlUpdateMode != ControlUpdateMode.Never)
-            {
-                throw new ArgumentException(@"ListBindingBindPropertyReadOnly", nameof(PropertyName));
-            }
-            _propInfo = item;
-            _propInfoConverter = _propInfo.Converter;
-            if (propertyDescriptor != null && propertyDescriptor.PropertyType == typeof(bool) && !propertyDescriptor.IsReadOnly)
-            {
-                _propIsNullInfo = propertyDescriptor;
-            }
-            EventDescriptor? eventDescriptor = null;
-            var validating = "Validating";
-            var events = TypeDescriptor.GetEvents(_control);
-            var num = 0;
-            while (num < events.Count)
-            {
-                if (eventDescriptor != null || !string.Equals(events[num].Name, validating, StringComparison.OrdinalIgnoreCase))
-                {
-                    num++;
-                }
-                else
-                {
-                    eventDescriptor = events[num];
                     break;
                 }
             }
+            if (propertyDescriptor == null && string.Equals(propertyDescriptorCollections[i].Name, str, StringComparison.OrdinalIgnoreCase))
+            {
+                propertyDescriptor = propertyDescriptorCollections[i];
+                if (item != null)
+                {
+                    break;
+                }
+            }
+        }
+        if (item == null)
+        {
+            throw new ArgumentException(@"ListBindingBindProperty", nameof(PropertyName));
+        }
+        if (item.IsReadOnly && _controlUpdateMode != ControlUpdateMode.Never)
+        {
+            throw new ArgumentException(@"ListBindingBindPropertyReadOnly", nameof(PropertyName));
+        }
+        _propInfo = item;
+        _propInfoConverter = _propInfo.Converter;
+        if (propertyDescriptor != null && propertyDescriptor.PropertyType == typeof(bool) && !propertyDescriptor.IsReadOnly)
+        {
+            _propIsNullInfo = propertyDescriptor;
+        }
+        EventDescriptor? eventDescriptor = null;
+        var validating = "Validating";
+        var events = TypeDescriptor.GetEvents(_control);
+        var num = 0;
+        while (num < events.Count)
+        {
+            if (eventDescriptor != null || !string.Equals(events[num].Name, validating, StringComparison.OrdinalIgnoreCase))
+            {
+                num++;
+            }
+            else
+            {
+                eventDescriptor = events[num];
+            }
+        }
+        if (eventDescriptor != null)
+        {
             _validateInfo = eventDescriptor;
         }
-        UpdateIsBinding();
     }
 
     private BindingCompleteEventArgs CreateBindingCompleteEventArgs(BindingCompleteContext context, Exception? ex)

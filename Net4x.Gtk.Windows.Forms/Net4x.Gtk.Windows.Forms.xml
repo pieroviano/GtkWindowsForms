@@ -6067,75 +6067,6 @@
             True if a control with the key exists; otherwise false.
             </returns>
         </member>
-        <member name="M:System.Windows.Forms.Control.ControlCollection.Find(System.String,System.Boolean)">
-            <summary>
-            Finds child controls by name. When
-            <paramref name="searchAllChildren" /> is true
-            the search traverses internal arranged elements as well.
-            </summary>
-            <param name="key">
-            Name to search for.
-            </param>
-            <param name="searchAllChildren">
-            Whether to search nested children.
-            </param>
-            <returns>
-            Array of matching
-            <see cref="T:System.Windows.Forms.Control" /> instances (may be empty).
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.Control.ControlCollection.GetChildIndex(System.Windows.Forms.Control)">
-            <summary>
-            Gets the child index for the specified control.
-            </summary>
-            <param name="child">
-            Child control.
-            </param>
-            <returns>
-            Index of the child.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.Control.ControlCollection.GetChildIndex(System.Windows.Forms.Control,System.Boolean)">
-            <summary>
-            Gets the child index for the specified control; optionally throw if not a child.
-            </summary>
-            <param name="child">
-            Child control.
-            </param>
-            <param name="throwException">
-            True to throw when control is not a child.
-            </param>
-            <returns>
-            Index of the child.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.Control.ControlCollection.GetEnumerator">
-            <summary>
-            Returns an enumerator that iterates through the collection.
-            </summary>
-        </member>
-        <member name="M:System.Windows.Forms.Control.ControlCollection.IndexOf(System.Windows.Forms.Control)">
-            <summary>
-            Returns the index of the given control in this collection.
-            </summary>
-            <param name="control">
-            Control to locate.
-            </param>
-            <returns>
-            Zero-based index or -1 if not found.
-            </returns>
-        </member>
-        <member name="M:System.Windows.Forms.Control.ControlCollection.IndexOfKey(System.String)">
-            <summary>
-            Returns the index of a child control by its key/name.
-            </summary>
-            <param name="key">
-            Key/name to find.
-            </param>
-            <returns>
-            Index of the matching child or -1 if not found.
-            </returns>
-        </member>
         <member name="M:System.Windows.Forms.Control.ControlCollection.Remove(System.Windows.Forms.Control)">
             <summary>
             Removes the specified child control from the collection and underlying GTK container.
@@ -6170,6 +6101,42 @@
             <param name="newIndex">
             New zero-based index.
             </param>
+        </member>
+        <member name="M:System.Windows.Forms.Control.ControlCollection.IndexOf(System.Windows.Forms.Control)">
+            <summary>
+            Returns the index of the given control in this collection.
+            </summary>
+            <param name="control">
+            Control to locate.
+            </param>
+            <returns>
+            Zero-based index or -1 if not found.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.Control.ControlCollection.GetChildIndex(System.Windows.Forms.Control)">
+            <summary>
+            Gets the child index for the specified control.
+            </summary>
+            <param name="child">
+            Child control.
+            </param>
+            <returns>
+            Index of the child.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.Control.ControlCollection.GetChildIndex(System.Windows.Forms.Control,System.Boolean)">
+            <summary>
+            Gets the child index for the specified control; optionally throw if not a child.
+            </summary>
+            <param name="child">
+            Child control.
+            </param>
+            <param name="throwException">
+            True to throw when control is not a child.
+            </param>
+            <returns>
+            Index of the child.
+            </returns>
         </member>
         <member name="E:System.Windows.Forms.Control.AnchorChanged">
             <summary>
