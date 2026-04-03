@@ -21,7 +21,7 @@ internal class RelatedCurrencyManager : CurrencyManager
 
     static RelatedCurrencyManager()
     {
-        s_ignoreItemChangedTable = [];
+        s_ignoreItemChangedTable = new List<BindingManagerBase?>();
     }
 
     public override PropertyDescriptorCollection? GetItemProperties()
@@ -41,7 +41,6 @@ internal class RelatedCurrencyManager : CurrencyManager
         }
         FinalType = _fieldInfo.PropertyType;
         WireParentManager(_parentManager);
-        ParentManager_CurrentItemChanged(manager, EventArgs.Empty);
     }
 
     internal override PropertyDescriptorCollection? GetItemProperties(PropertyDescriptor?[]? listAccessors)
