@@ -1,0 +1,95 @@
+From 0b4b196434839c98e8e378e5373ce78df33041f8 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 3 Apr 2026 03:33:30 +0300
+Subject: [PATCH] Fix PropertyManager
+
+---
+ .../Forms/Collection/PropertyManager.cs       | 38 ++++++++++---------
+ 1 file changed, 20 insertions(+), 18 deletions(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs
+index 313468a..21abc9e 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs
+@@ -97,9 +97,10 @@ public class PropertyManager : BindingManagerBase
+         throw new NotSupportedException("DataBindingAddNewNotSupportedOnPropertyManager");
+     }
+ 
+-    /// <filterpriority>
+-    /// 1
+-    /// </filterpriority>
++
++    /// <summary>
++    /// Cancels the current edit operation and restores the previous value.
++    /// </summary>
+     public override void CancelCurrentEdit()
+     {
+         var current = Current as IEditableObject;
+@@ -107,9 +108,9 @@ public class PropertyManager : BindingManagerBase
+         PushData();
+     }
+ 
+-    /// <filterpriority>
+-    /// 1
+-    /// </filterpriority>
++    /// <summary>
++    /// Commits the current edit operation.
++    /// </summary>
+     public override void EndCurrentEdit()
+     {
+         PullData(out var flag);
+@@ -120,20 +121,20 @@ public class PropertyManager : BindingManagerBase
+         }
+     }
+ 
+-    /// <param name="index">
+-    /// The index of the row to delete.
+-    /// </param>
+-    /// <filterpriority>
+-    /// 1
+-    /// </filterpriority>
++    /// <summary>
++    /// Removes the item at the specified index from the underlying list.
++    /// </summary>
++    /// <param name="index">Zero-based index of the item to remove.</param>
++    /// <exception cref="System.NotSupportedException">DataBindingRemoveAtNotSupportedOnPropertyManager</exception>
+     public override void RemoveAt(int index)
+     {
+         throw new NotSupportedException("DataBindingRemoveAtNotSupportedOnPropertyManager");
+     }
+ 
+-    /// <filterpriority>
+-    /// 1
+-    /// </filterpriority>
++    /// <summary>
++    /// Resumes data binding after a previous
++    /// <see cref="T:System.Windows.Forms.BindingManagerBase.SuspendBinding" /> call.
++    /// </summary>
+     public override void ResumeBinding()
+     {
+         OnCurrentChanged(new EventArgs());
+@@ -215,9 +216,9 @@ public class PropertyManager : BindingManagerBase
+     /// </param>
+     protected internal override void OnCurrentChanged(EventArgs e)
+     {
+-        PushData();
+-        OnCurrentChangedHandler?.Invoke(this, e);
++        OnCurrentItemChanged(e);
+         OnCurrentItemChangedHandler?.Invoke(this, e);
++        CurrentChanged?.Invoke(this, e);
+     }
+ 
+     /// <summary>
+@@ -231,7 +232,8 @@ public class PropertyManager : BindingManagerBase
+     protected internal override void OnCurrentItemChanged(EventArgs e)
+     {
+         PushData();
+-        OnCurrentItemChangedHandler?.Invoke(this, e);
++        OnCurrentChangedHandler?.Invoke(this, e);
++        CurrentItemChanged?.Invoke(this, e);
+     }
+ 
+     private protected override void SetDataSource(object? source)
+-- 
+2.51.1.windows.1
+

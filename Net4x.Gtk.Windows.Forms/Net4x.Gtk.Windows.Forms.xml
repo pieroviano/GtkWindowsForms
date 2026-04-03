@@ -9027,27 +9027,27 @@
             </filterpriority>
         </member>
         <member name="M:System.Windows.Forms.PropertyManager.CancelCurrentEdit">
-            <filterpriority>
-            1
-            </filterpriority>
+            <summary>
+            Cancels the current edit operation and restores the previous value.
+            </summary>
         </member>
         <member name="M:System.Windows.Forms.PropertyManager.EndCurrentEdit">
-            <filterpriority>
-            1
-            </filterpriority>
+            <summary>
+            Commits the current edit operation.
+            </summary>
         </member>
         <member name="M:System.Windows.Forms.PropertyManager.RemoveAt(System.Int32)">
-            <param name="index">
-            The index of the row to delete.
-            </param>
-            <filterpriority>
-            1
-            </filterpriority>
+            <summary>
+            Removes the item at the specified index from the underlying list.
+            </summary>
+            <param name="index">Zero-based index of the item to remove.</param>
+            <exception cref="T:System.NotSupportedException">DataBindingRemoveAtNotSupportedOnPropertyManager</exception>
         </member>
         <member name="M:System.Windows.Forms.PropertyManager.ResumeBinding">
-            <filterpriority>
-            1
-            </filterpriority>
+            <summary>
+            Resumes data binding after a previous
+            <see cref="T:System.Windows.Forms.BindingManagerBase.SuspendBinding" /> call.
+            </summary>
         </member>
         <member name="M:System.Windows.Forms.PropertyManager.SuspendBinding">
             <summary>

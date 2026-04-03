@@ -21,11 +21,14 @@ public class ListManagerBindingsCollectionTests
     private static void SetListManager(Binding binding, BindingManagerBase? manager)
     {
         var mi = typeof(Binding).GetMethod("SetListManager", BindingFlags.Instance | BindingFlags.NonPublic);
-        if (mi == null)
+        if (mi != null)
+        {
+            mi.Invoke(binding, new object?[] { manager });
+        }
+        else
         {
             throw new MissingMethodException("Binding.SetListManager not found");
         }
-        mi.Invoke(binding, new object?[] { manager });
     }
 
     // -------------------------
@@ -38,7 +41,9 @@ public class ListManagerBindingsCollectionTests
         var sut = new ListManagerBindingsCollection(_bindingManager);
 
         Assert.Throws<ArgumentNullException>(() =>
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             sut.Add(null));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
     }
 
     [Fact]

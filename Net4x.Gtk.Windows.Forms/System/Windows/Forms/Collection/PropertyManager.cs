@@ -97,9 +97,10 @@ public class PropertyManager : BindingManagerBase
         throw new NotSupportedException("DataBindingAddNewNotSupportedOnPropertyManager");
     }
 
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
+
+    /// <summary>
+    /// Cancels the current edit operation and restores the previous value.
+    /// </summary>
     public override void CancelCurrentEdit()
     {
         var current = Current as IEditableObject;
@@ -107,9 +108,9 @@ public class PropertyManager : BindingManagerBase
         PushData();
     }
 
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
+    /// <summary>
+    /// Commits the current edit operation.
+    /// </summary>
     public override void EndCurrentEdit()
     {
         PullData(out var flag);
@@ -120,20 +121,20 @@ public class PropertyManager : BindingManagerBase
         }
     }
 
-    /// <param name="index">
-    /// The index of the row to delete.
-    /// </param>
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
+    /// <summary>
+    /// Removes the item at the specified index from the underlying list.
+    /// </summary>
+    /// <param name="index">Zero-based index of the item to remove.</param>
+    /// <exception cref="System.NotSupportedException">DataBindingRemoveAtNotSupportedOnPropertyManager</exception>
     public override void RemoveAt(int index)
     {
         throw new NotSupportedException("DataBindingRemoveAtNotSupportedOnPropertyManager");
     }
 
-    /// <filterpriority>
-    /// 1
-    /// </filterpriority>
+    /// <summary>
+    /// Resumes data binding after a previous
+    /// <see cref="T:System.Windows.Forms.BindingManagerBase.SuspendBinding" /> call.
+    /// </summary>
     public override void ResumeBinding()
     {
         OnCurrentChanged(new EventArgs());
@@ -215,9 +216,9 @@ public class PropertyManager : BindingManagerBase
     /// </param>
     protected internal override void OnCurrentChanged(EventArgs e)
     {
-        PushData();
-        OnCurrentChangedHandler?.Invoke(this, e);
+        OnCurrentItemChanged(e);
         OnCurrentItemChangedHandler?.Invoke(this, e);
+        CurrentChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -231,7 +232,8 @@ public class PropertyManager : BindingManagerBase
     protected internal override void OnCurrentItemChanged(EventArgs e)
     {
         PushData();
-        OnCurrentItemChangedHandler?.Invoke(this, e);
+        OnCurrentChangedHandler?.Invoke(this, e);
+        CurrentItemChanged?.Invoke(this, e);
     }
 
     private protected override void SetDataSource(object? source)
