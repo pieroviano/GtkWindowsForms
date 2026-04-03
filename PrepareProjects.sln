@@ -123,6 +123,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0036-Fix-PropertyManager.patch = patches\0036-Fix-PropertyManager.patch
 		patches\0037-Fix-PropertyStore.patch = patches\0037-Fix-PropertyStore.patch
 		patches\0038-Fix-RelatedCurrencyManager.patch = patches\0038-Fix-RelatedCurrencyManager.patch
+		patches\0039-Fix-SecurityUtils.patch = patches\0039-Fix-SecurityUtils.patch
 	EndProjectSection
 EndProject
 Global
