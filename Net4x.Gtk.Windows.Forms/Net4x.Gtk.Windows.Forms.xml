@@ -3037,11 +3037,6 @@
             Used internally to add a Form to the FormCollection
             </summary>
         </member>
-        <member name="T:System.Windows.Forms.InitAppliction">
-            <summary>
-            InitAppliction is a static class that is used to initialize the application. It is used to set the application properties and to initialize the application. This class cannot be inherited.
-            </summary>
-        </member>
         <member name="T:System.Windows.Forms.InputLanguage">
             <summary>
             Provides methods and fields to manage the input language. This class cannot be inherited.

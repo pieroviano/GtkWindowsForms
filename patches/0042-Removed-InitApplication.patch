@@ -1,0 +1,36 @@
+From 47a63b17ab9debd4b99cd823efbf133f48f745ea Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 3 Apr 2026 05:49:57 +0300
+Subject: [PATCH] Removed InitApplication
+
+---
+ .../Windows/Forms/Application/InitAppliction.cs | 17 -----------------
+ 1 file changed, 17 deletions(-)
+ delete mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/InitAppliction.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/InitAppliction.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/InitAppliction.cs
+deleted file mode 100644
+index 07ee204..0000000
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/InitAppliction.cs
++++ /dev/null
+@@ -1,17 +0,0 @@
+-namespace System.Windows.Forms
+-{
+-
+-    /// <summary>
+-    /// InitAppliction is a static class that is used to initialize the application. It is used to set the application properties and to initialize the application. This class cannot be inherited.
+-    /// </summary>
+-    public static class InitAppliction
+-    {
+-
+-        private static readonly Gtk.Application app = Application.Init();
+-
+-        static InitAppliction()
+-        {
+-
+-        }
+-    }
+-}
+-- 
+2.51.1.windows.1
+
