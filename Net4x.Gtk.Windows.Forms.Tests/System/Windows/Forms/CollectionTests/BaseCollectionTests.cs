@@ -4,7 +4,7 @@
 #pragma warning disable CS8601 // Possible null reference assignment.
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 public class BaseCollectionTests
 {

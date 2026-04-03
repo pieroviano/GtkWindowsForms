@@ -4,7 +4,7 @@ using System.ComponentModel;
 #pragma warning disable CS8618
 #pragma warning disable CS0067
 
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 public class BindToObjectTests
 {

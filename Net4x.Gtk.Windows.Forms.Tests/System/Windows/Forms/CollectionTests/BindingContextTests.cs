@@ -3,7 +3,7 @@ using System.Reflection;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 public class BindingContextTests
 {

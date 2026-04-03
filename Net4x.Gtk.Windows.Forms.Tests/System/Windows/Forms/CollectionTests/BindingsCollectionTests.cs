@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 public class BindingsCollectionTests
 {

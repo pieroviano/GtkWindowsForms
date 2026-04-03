@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 public class BindingSourceTests
 {

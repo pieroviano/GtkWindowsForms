@@ -3,7 +3,7 @@ using System.Windows.Forms.Layout;
 
 #pragma warning disable CS0108, CS0114
 
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 public class ArrangedElementTests
 {

@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Reflection;
 
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 public class PropertyStoreTests
 {

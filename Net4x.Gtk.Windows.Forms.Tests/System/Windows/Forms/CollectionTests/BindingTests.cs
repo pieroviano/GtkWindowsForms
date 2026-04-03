@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Forms.Collection;
+﻿namespace System.Windows.Forms.CollectionTests;
 
 public class BindingTests
 {

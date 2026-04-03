@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 public class FormatterTests
 {

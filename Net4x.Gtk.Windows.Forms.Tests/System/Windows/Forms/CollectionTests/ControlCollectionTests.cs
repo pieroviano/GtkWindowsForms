@@ -1,5 +1,5 @@
 ﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 [Collection("NonParallelCollection")]
 public class ControlCollectionTests

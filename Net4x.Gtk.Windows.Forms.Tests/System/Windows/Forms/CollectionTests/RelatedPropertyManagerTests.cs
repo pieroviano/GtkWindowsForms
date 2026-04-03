@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+
 #pragma warning disable CS8610 // Nullability of reference types in type of parameter doesn't match overridden member.
 
-namespace System.Windows.Forms.Collection;
+namespace System.Windows.Forms.CollectionTests;
 
 public class RelatedPropertyManagerTests
 {

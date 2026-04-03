@@ -1044,7 +1044,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets a value indicating whether the control has been disposed.
     /// </summary>
-    public virtual bool IsDisposed { get; }
+    public virtual bool IsDisposed { get; internal set; }
 
     /// <summary>
     /// Gets the IControlGtk wrapper for the underlying GTK control.
@@ -1674,6 +1674,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         Dispose(true);
         base.Dispose();
+        IsDisposed = true;
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿#pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-namespace System.Windows.Forms.Controls;
+namespace System.Windows.Forms.ControlTests;
 
 public class ControlTests
 {
