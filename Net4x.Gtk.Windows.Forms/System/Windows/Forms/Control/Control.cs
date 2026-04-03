@@ -442,6 +442,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public Control()
     {
         this.unique_key = Guid.NewGuid().ToString().ToLower();
+
+        // Initialize child collection and arranged elements so tests using `control.Controls` work
+        // (tests expect Controls to be non-null).
+        arrangedElementCollection = new ArrangedElementCollection();
+        Controls = new ControlCollection(this);
+
         var widget = this.Widget;
         if (widget != null)
         {
