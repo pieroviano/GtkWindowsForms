@@ -16,6 +16,48 @@ public class PinnedBufferMemoryStreamTests
     }
 
     [Fact]
+    public void Dispose_CanBeCalledMultipleTimes()
+    {
+        var data = new byte[] { 1, 2, 3 };
+
+        var stream = new PinnedBufferMemoryStream(data);
+
+        stream.Dispose();
+        stream.Dispose(); // should not throw
+
+        // If no exception, test passes
+    }
+
+    [Fact]
+    public void Dispose_ReleasesResources_StreamBecomesUnusable()
+    {
+        var data = new byte[] { 1, 2, 3 };
+
+        var stream = new PinnedBufferMemoryStream(data);
+        stream.Dispose();
+
+        Assert.Throws<ObjectDisposedException>(() => stream.ReadByte());
+    }
+
+    [Fact]
+    public void LargeBuffer_ReadsCorrectly()
+    {
+        var data = new byte[10_000];
+        for (var i = 0; i < data.Length; i++)
+        {
+            data[i] = (byte)(i % 256);
+        }
+
+        using var stream = new PinnedBufferMemoryStream(data);
+
+        var buffer = new byte[data.Length];
+        var read = stream.Read(buffer, 0, buffer.Length);
+
+        Assert.Equal(data.Length, read);
+        Assert.Equal(data, buffer);
+    }
+
+    [Fact]
     public void Read_ReturnsCorrectData()
     {
         var data = Enumerable.Range(0, 10).Select(i => (byte)i).ToArray();
@@ -57,30 +99,6 @@ public class PinnedBufferMemoryStreamTests
     }
 
     [Fact]
-    public void Dispose_CanBeCalledMultipleTimes()
-    {
-        var data = new byte[] { 1, 2, 3 };
-
-        var stream = new PinnedBufferMemoryStream(data);
-
-        stream.Dispose();
-        stream.Dispose(); // should not throw
-
-        // If no exception, test passes
-    }
-
-    [Fact]
-    public void Dispose_ReleasesResources_StreamBecomesUnusable()
-    {
-        var data = new byte[] { 1, 2, 3 };
-
-        var stream = new PinnedBufferMemoryStream(data);
-        stream.Dispose();
-
-        Assert.Throws<ObjectDisposedException>(() => stream.ReadByte());
-    }
-
-    [Fact]
     public void Stream_ReflectsUnderlyingArrayChanges()
     {
         var data = new byte[] { 1, 2, 3 };
@@ -94,21 +112,5 @@ public class PinnedBufferMemoryStreamTests
         stream.Read(buffer, 0, 3);
 
         Assert.Equal(new byte[] { 1, 99, 3 }, buffer);
-    }
-
-    [Fact]
-    public void LargeBuffer_ReadsCorrectly()
-    {
-        var data = new byte[10_000];
-        for (var i = 0; i < data.Length; i++)
-            data[i] = (byte)(i % 256);
-
-        using var stream = new PinnedBufferMemoryStream(data);
-
-        var buffer = new byte[data.Length];
-        var read = stream.Read(buffer, 0, buffer.Length);
-
-        Assert.Equal(data.Length, read);
-        Assert.Equal(data, buffer);
     }
 }

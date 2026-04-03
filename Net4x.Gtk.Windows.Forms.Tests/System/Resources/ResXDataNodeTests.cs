@@ -5,36 +5,6 @@ namespace System.Resources;
 public class ResXDataNodeTests
 {
     [Fact]
-    public void Constructor_WithNameAndValue_SetsProperties()
-    {
-        var node = new ResXDataNode("testName", 123);
-        Assert.Equal("testName", node.Name);
-        Assert.Equal(123, node.GetValue((ITypeResolutionService?)null));
-    }
-
-    [Fact]
-    public void Constructor_WithEmptyName_ThrowsArgumentException()
-    {
-        Assert.Throws<ArgumentException>(() => new ResXDataNode("", 1));
-    }
-
-    [Fact]
-    public void Constructor_WithNonSerializableValue_ThrowsInvalidOperationException()
-    {
-        var nonSerializable = new object();
-        // object is serializable, so use a custom type
-        var value = new NonSerializableType();
-        Assert.Throws<InvalidOperationException>(() => new ResXDataNode("test", value));
-    }
-
-    [Fact]
-    public void Name_Setter_ThrowsArgumentException_OnEmpty()
-    {
-        var node = new ResXDataNode("abc", 1);
-        Assert.Throws<ArgumentException>(() => node.Name = "");
-    }
-
-    [Fact]
     public void Comment_GetSet_Works()
     {
         var node = new ResXDataNode("abc", 1)
@@ -45,18 +15,26 @@ public class ResXDataNodeTests
     }
 
     [Fact]
-    public void GetNodePosition_ReturnsDefaultPoint_WhenNodeInfoNull()
+    public void Constructor_WithEmptyName_ThrowsArgumentException()
     {
-        var node = new ResXDataNode("abc", 1);
-        Assert.Equal(default(System.Drawing.Point), node.GetNodePosition());
+        Assert.Throws<ArgumentException>(() => new ResXDataNode("", 1));
     }
 
     [Fact]
-    public void GetValueTypeName_ReturnsTypeName()
+    public void Constructor_WithNameAndValue_SetsProperties()
     {
-        var node = new ResXDataNode("abc", 1);
-        var typeName = node.GetValueTypeName((ITypeResolutionService?)null);
-        Assert.Contains("System.Int32", typeName);
+        var node = new ResXDataNode("testName", 123);
+        Assert.Equal("testName", node.Name);
+        Assert.Equal(123, node.GetValue((ITypeResolutionService?)null));
+    }
+
+    [Fact]
+    public void Constructor_WithNonSerializableValue_ThrowsInvalidOperationException()
+    {
+        var nonSerializable = new object();
+        // object is serializable, so use a custom type
+        var value = new NonSerializableType();
+        Assert.Throws<InvalidOperationException>(() => new ResXDataNode("test", value));
     }
 
     [Fact]
@@ -71,5 +49,29 @@ public class ResXDataNodeTests
         Assert.Equal(node.Comment, clone.Comment);
     }
 
-    private class NonSerializableType { }
+    [Fact]
+    public void GetNodePosition_ReturnsDefaultPoint_WhenNodeInfoNull()
+    {
+        var node = new ResXDataNode("abc", 1);
+        Assert.Equal(default, node.GetNodePosition());
+    }
+
+    [Fact]
+    public void GetValueTypeName_ReturnsTypeName()
+    {
+        var node = new ResXDataNode("abc", 1);
+        var typeName = node.GetValueTypeName((ITypeResolutionService?)null);
+        Assert.Contains("System.Int32", typeName);
+    }
+
+    [Fact]
+    public void Name_Setter_ThrowsArgumentException_OnEmpty()
+    {
+        var node = new ResXDataNode("abc", 1);
+        Assert.Throws<ArgumentException>(() => node.Name = "");
+    }
+
+    private class NonSerializableType
+    {
+    }
 }

@@ -9,9 +9,13 @@ public class ControlCollectionTests
         Application.Init();
     }
 
-    private Control CreateControl(string? name = null)
+    [Fact]
+    public void Add_Null_ShouldNotThrow()
     {
-        return new Label { Name = name ?? Guid.NewGuid().ToString() };
+        var owner = new Control();
+        var collection = new Control.ControlCollection(owner) { (Control?)null };
+
+        Assert.Empty(collection);
     }
 
     [Fact]
@@ -29,12 +33,12 @@ public class ControlCollectionTests
     }
 
     [Fact]
-    public void Add_Null_ShouldNotThrow()
+    public void AddRange_Null_ShouldThrow()
     {
         var owner = new Control();
-        var collection = new Control.ControlCollection(owner) { (Control?)null };
+        var collection = new Control.ControlCollection(owner);
 
-        Assert.Empty(collection);
+        Assert.Throws<ArgumentNullException>(() => collection.AddRange(null));
     }
 
     [Fact]
@@ -54,12 +58,33 @@ public class ControlCollectionTests
     }
 
     [Fact]
-    public void AddRange_Null_ShouldThrow()
+    public void Clear_ShouldRemoveAll()
+    {
+        var owner = new Control();
+        var collection = new Control.ControlCollection(owner)
+        {
+            CreateControl(),
+            CreateControl()
+        };
+
+        collection.Clear();
+
+        Assert.Empty(collection);
+    }
+
+    [Fact]
+    public void Clone_ShouldCopyElements()
     {
         var owner = new Control();
         var collection = new Control.ControlCollection(owner);
 
-        Assert.Throws<ArgumentNullException>(() => collection.AddRange(null));
+        var c1 = CreateControl("c1");
+        collection.Add(c1);
+
+        var clone = (Control.ControlCollection)collection.Clone();
+
+        Assert.Equal(collection.Count, clone.Count);
+        Assert.True(clone.Contains(c1));
     }
 
     [Fact]
@@ -76,21 +101,6 @@ public class ControlCollectionTests
     }
 
     [Fact]
-    public void IndexOfKey_ShouldReturnCorrectIndex()
-    {
-        var owner = new Control();
-        var collection = new Control.ControlCollection(owner);
-
-        var c1 = CreateControl("c1");
-        var c2 = CreateControl("c2");
-
-        collection.AddRange(c1, c2);
-
-        Assert.Equal(1, collection.IndexOfKey("c2"));
-        Assert.Equal(-1, collection.IndexOfKey("missing"));
-    }
-
-    [Fact]
     public void Find_ShouldReturnMatchingControls()
     {
         var owner = new Control();
@@ -104,6 +114,46 @@ public class ControlCollectionTests
         var result = collection.Find("same", false);
 
         Assert.Equal(2, result.Length);
+    }
+
+    [Fact]
+    public void GetChildIndex_NotFound_ShouldThrow()
+    {
+        var owner = new Control();
+        var collection = new Control.ControlCollection(owner);
+
+        var c1 = CreateControl("c1");
+
+        Assert.Throws<ArgumentException>(() => collection.GetChildIndex(c1));
+    }
+
+    [Fact]
+    public void GetChildIndex_ShouldReturnCorrectIndex()
+    {
+        var owner = new Control();
+        var collection = new Control.ControlCollection(owner);
+
+        var c1 = CreateControl("c1");
+        collection.Add(c1);
+
+        var index = collection.GetChildIndex(c1);
+
+        Assert.Equal(0, index);
+    }
+
+    [Fact]
+    public void IndexOfKey_ShouldReturnCorrectIndex()
+    {
+        var owner = new Control();
+        var collection = new Control.ControlCollection(owner);
+
+        var c1 = CreateControl("c1");
+        var c2 = CreateControl("c2");
+
+        collection.AddRange(c1, c2);
+
+        Assert.Equal(1, collection.IndexOfKey("c2"));
+        Assert.Equal(-1, collection.IndexOfKey("missing"));
     }
 
     [Fact]
@@ -151,58 +201,8 @@ public class ControlCollectionTests
         Assert.Empty(collection);
     }
 
-    [Fact]
-    public void Clear_ShouldRemoveAll()
+    private Control CreateControl(string? name = null)
     {
-        var owner = new Control();
-        var collection = new Control.ControlCollection(owner)
-        {
-            CreateControl(),
-            CreateControl()
-        };
-
-        collection.Clear();
-
-        Assert.Empty(collection);
-    }
-
-    [Fact]
-    public void Clone_ShouldCopyElements()
-    {
-        var owner = new Control();
-        var collection = new Control.ControlCollection(owner);
-
-        var c1 = CreateControl("c1");
-        collection.Add(c1);
-
-        var clone = (Control.ControlCollection)collection.Clone();
-
-        Assert.Equal(collection.Count, clone.Count);
-        Assert.True(clone.Contains(c1));
-    }
-
-    [Fact]
-    public void GetChildIndex_ShouldReturnCorrectIndex()
-    {
-        var owner = new Control();
-        var collection = new Control.ControlCollection(owner);
-
-        var c1 = CreateControl("c1");
-        collection.Add(c1);
-
-        var index = collection.GetChildIndex(c1);
-
-        Assert.Equal(0, index);
-    }
-
-    [Fact]
-    public void GetChildIndex_NotFound_ShouldThrow()
-    {
-        var owner = new Control();
-        var collection = new Control.ControlCollection(owner);
-
-        var c1 = CreateControl("c1");
-
-        Assert.Throws<ArgumentException>(() => collection.GetChildIndex(c1));
+        return new Label { Name = name ?? Guid.NewGuid().ToString() };
     }
 }

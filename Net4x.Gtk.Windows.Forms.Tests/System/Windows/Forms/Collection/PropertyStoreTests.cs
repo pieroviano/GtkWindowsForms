@@ -1,46 +1,10 @@
 ﻿using System.Drawing;
+using System.Reflection;
 
 namespace System.Windows.Forms.Collection;
 
 public class PropertyStoreTests
 {
-    private PropertyStore CreateStore() => new PropertyStore();
-
-    [Fact]
-    public void CreateKey_ShouldReturnUniqueKeys()
-    {
-        var k1 = PropertyStore.CreateKey();
-        var k2 = PropertyStore.CreateKey();
-
-        Assert.NotEqual(k1, k2);
-    }
-
-    [Fact]
-    public void GetInteger_NotFound_ReturnsDefaultAndFalse()
-    {
-        var store = CreateStore();
-        var key = PropertyStore.CreateKey();
-
-        var value = store.GetInteger(key, out var found);
-
-        Assert.False(found);
-        Assert.Equal(0, value);
-    }
-
-    [Fact]
-    public void SetInteger_ThenGetInteger_ReturnsValue()
-    {
-        var store = CreateStore();
-        var key = PropertyStore.CreateKey();
-
-        store.SetInteger(key, 42);
-
-        var value = store.GetInteger(key, out var found);
-
-        Assert.True(found);
-        Assert.Equal(42, value);
-    }
-
     [Fact]
     public void ContainsInteger_ReturnsCorrectValue()
     {
@@ -52,33 +16,6 @@ public class PropertyStoreTests
         store.SetInteger(key, 10);
 
         Assert.True(store.ContainsInteger(key));
-    }
-
-    [Fact]
-    public void GetObject_NotFound_ReturnsNullAndFalse()
-    {
-        var store = CreateStore();
-        var key = PropertyStore.CreateKey();
-
-        var obj = store.GetObject(key, out var found);
-
-        Assert.False(found);
-        Assert.Null(obj);
-    }
-
-    [Fact]
-    public void SetObject_ThenGetObject_ReturnsSameInstance()
-    {
-        var store = CreateStore();
-        var key = PropertyStore.CreateKey();
-        var value = new object();
-
-        store.SetObject(key, value);
-
-        var result = store.GetObject(key, out var found);
-
-        Assert.True(found);
-        Assert.Same(value, result);
     }
 
     [Fact]
@@ -107,6 +44,65 @@ public class PropertyStoreTests
     }
 
     [Fact]
+    public void CreateKey_ShouldReturnUniqueKeys()
+    {
+        var k1 = PropertyStore.CreateKey();
+        var k2 = PropertyStore.CreateKey();
+
+        Assert.NotEqual(k1, k2);
+    }
+
+    [Fact]
+    public void GetColor_NotFound_ReturnsEmpty()
+    {
+        var store = CreateStore();
+        var key = PropertyStore.CreateKey();
+
+        var result = store.GetColor(key, out var found);
+
+        Assert.False(found);
+        Assert.Equal(Color.Empty, result);
+    }
+
+    [Fact]
+    public void GetInteger_NotFound_ReturnsDefaultAndFalse()
+    {
+        var store = CreateStore();
+        var key = PropertyStore.CreateKey();
+
+        var value = store.GetInteger(key, out var found);
+
+        Assert.False(found);
+        Assert.Equal(0, value);
+    }
+
+    [Fact]
+    public void GetObject_NotFound_ReturnsNullAndFalse()
+    {
+        var store = CreateStore();
+        var key = PropertyStore.CreateKey();
+
+        var obj = store.GetObject(key, out var found);
+
+        Assert.False(found);
+        Assert.Null(obj);
+    }
+
+    [Fact]
+    public void RemoveObject_RemovesValue()
+    {
+        var store = CreateStore();
+        var key = PropertyStore.CreateKey();
+
+        store.SetObject(key, new object());
+        store.RemoveObject(key);
+
+        var found = store.ContainsObject(key);
+
+        Assert.False(found);
+    }
+
+    [Fact]
     public void SetColor_ThenGetColor_ReturnsValue()
     {
         var store = CreateStore();
@@ -122,15 +118,32 @@ public class PropertyStoreTests
     }
 
     [Fact]
-    public void GetColor_NotFound_ReturnsEmpty()
+    public void SetInteger_ThenGetInteger_ReturnsValue()
     {
         var store = CreateStore();
         var key = PropertyStore.CreateKey();
 
-        var result = store.GetColor(key, out var found);
+        store.SetInteger(key, 42);
 
-        Assert.False(found);
-        Assert.Equal(Color.Empty, result);
+        var value = store.GetInteger(key, out var found);
+
+        Assert.True(found);
+        Assert.Equal(42, value);
+    }
+
+    [Fact]
+    public void SetObject_ThenGetObject_ReturnsSameInstance()
+    {
+        var store = CreateStore();
+        var key = PropertyStore.CreateKey();
+        var value = new object();
+
+        store.SetObject(key, value);
+
+        var result = store.GetObject(key, out var found);
+
+        Assert.True(found);
+        Assert.Same(value, result);
     }
 
     [Fact]
@@ -179,6 +192,16 @@ public class PropertyStoreTests
     }
 
     [Fact]
+    public void SplitKey_SplitsCorrectly()
+    {
+        var key = 0b_101100; // example
+        var entry = InvokeSplitKey(key, out var element);
+
+        Assert.Equal((short)(key & 0xFFFFFFFC), entry);
+        Assert.Equal((short)(key & 0x3), element);
+    }
+
+    [Fact]
     public void TryGetObject_WithReferenceType_Works()
     {
         var store = CreateStore();
@@ -207,35 +230,13 @@ public class PropertyStoreTests
         Assert.Equal(123, result);
     }
 
-    [Fact]
-    public void RemoveObject_RemovesValue()
-    {
-        var store = CreateStore();
-        var key = PropertyStore.CreateKey();
-
-        store.SetObject(key, new object());
-        store.RemoveObject(key);
-
-        var found = store.ContainsObject(key);
-
-        Assert.False(found);
-    }
-
-    [Fact]
-    public void SplitKey_SplitsCorrectly()
-    {
-        var key = 0b_101100; // example
-        var entry = InvokeSplitKey(key, out var element);
-
-        Assert.Equal((short)(key & 0xFFFFFFFC), entry);
-        Assert.Equal((short)(key & 0x3), element);
-    }
+    private PropertyStore CreateStore() => new();
 
     // helper via reflection since SplitKey is private
     private static short InvokeSplitKey(int key, out short element)
     {
         var method = typeof(PropertyStore)
-            .GetMethod("SplitKey", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+            .GetMethod("SplitKey", BindingFlags.NonPublic | BindingFlags.Static)!;
 
         object[] args = { key, null! };
         var result = (short)method.Invoke(null, args)!;

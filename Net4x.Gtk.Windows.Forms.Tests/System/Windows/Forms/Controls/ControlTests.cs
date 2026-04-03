@@ -66,8 +66,10 @@ public class ControlTests
     public void Controls_Find_ByName_ReturnsControl()
     {
         var container = new ContainerControl();
-        var label = new Label();
-        label.Name = "findme";
+        var label = new Label
+        {
+            Name = "findme"
+        };
 
         container.Controls.Add(label);
 
@@ -129,10 +131,11 @@ public class ControlTests
     [Fact]
     public void Label_Text_And_Name_SetGet_Work()
     {
-        var label = new Label();
-
-        label.Text = "hello";
-        label.Name = "lbl1";
+        var label = new Label
+        {
+            Text = "hello",
+            Name = "lbl1"
+        };
 
         Assert.Equal("hello", label.Text);
         Assert.Equal("lbl1", label.Name);
@@ -152,10 +155,12 @@ public class ControlTests
     [Fact]
     public void Visible_SetGet_Works()
     {
-        var label = new Label();
+        var label = new Label
+        {
+            // default visible may be false; ensure we can set and read back
+            Visible = true
+        };
 
-        // default visible may be false; ensure we can set and read back
-        label.Visible = true;
         Assert.True(label.Visible);
 
         label.Visible = false;

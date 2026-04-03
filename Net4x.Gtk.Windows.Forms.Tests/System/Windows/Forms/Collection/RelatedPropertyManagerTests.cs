@@ -1,88 +1,39 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+#pragma warning disable CS8610 // Nullability of reference types in type of parameter doesn't match overridden member.
 
 namespace System.Windows.Forms.Collection;
 
 public class RelatedPropertyManagerTests
 {
-    private class TestBindingManager : BindingManagerBase
-    {
-        private readonly PropertyDescriptorCollection _properties;
-
-        public object? CurrentItem { get; set; }
-        public int PositionValue { get; set; }
-        public int CountValue { get; set; }
-
-        public TestBindingManager(PropertyDescriptorCollection properties)
-        {
-            _properties = properties;
-        }
-
-        public override object? Current => CurrentItem;
-
-        public override int Count => CountValue;
-
-        public override int Position
-        {
-            get => PositionValue;
-            set => PositionValue = value;
-        }
-
-        internal override Type? BindType { get; }
-        internal override object? DataSource { get; }
-        internal override bool IsBinding { get; }
-
-        public override void AddNew() { }
-        public override void CancelCurrentEdit() { }
-        public override void EndCurrentEdit() { }
-
-        public override PropertyDescriptorCollection GetItemProperties()
-            => _properties;
-
-        public override void RemoveAt(int index) => throw new NotImplementedException();
-
-        public override void ResumeBinding() => throw new NotImplementedException();
-
-        public override void SuspendBinding() => throw new NotImplementedException();
-
-        internal override PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[]? listAccessors)
-            => _properties;
-
-        internal override string? GetListName() => throw new NotImplementedException();
-
-        protected internal override string? GetListName(ArrayList? listAccessors)
-            => "TestList";
-
-        protected internal override void OnCurrentChanged(EventArgs e) => throw new NotImplementedException();
-
-        protected internal override void OnCurrentItemChanged(EventArgs e)
-        {
-            OnCurrentItemChangedValueHandler?.Invoke(this, e);
-        }
-
-        private protected override void SetDataSource(object? source) => throw new NotImplementedException();
-
-        protected override void UpdateIsBinding() => throw new NotImplementedException();
-
-        public void RaiseCurrentItemChanged()
-            => OnCurrentItemChanged(EventArgs.Empty);
-    }
-
-    private class TestItem
-    {
-        public string Name { get; set; } = "Hello";
-    }
-
     public RelatedPropertyManagerTests()
     {
         Application.Init();
     }
 
-    private static PropertyDescriptor CreateProperty()
-        => TypeDescriptor.GetProperties(typeof(TestItem))["Name"]!;
+    [Fact]
+    public void Bind_InvalidProperty_Throws()
+    {
+        var parent = new TestBindingManager(new PropertyDescriptorCollection(null));
 
-    private static PropertyDescriptorCollection CreateProperties()
-        => new PropertyDescriptorCollection(new[] { CreateProperty() });
+        Assert.Throws<ArgumentException>(() =>
+            new RelatedPropertyManager(parent, "Invalid"));
+    }
+
+    [Fact]
+    public void BindType_ReturnsPropertyType()
+    {
+        var parent = new TestBindingManager(CreateProperties())
+        {
+            CurrentItem = new TestItem(),
+            CountValue = 1,
+            PositionValue = 0
+        };
+
+        var manager = new RelatedPropertyManager(parent, "Name");
+
+        Assert.Equal(typeof(string), manager.BindType);
+    }
 
     [Fact]
     public void Ctor_WithValidParent_BindsSuccessfully()
@@ -97,15 +48,6 @@ public class RelatedPropertyManagerTests
         var manager = new RelatedPropertyManager(parent, "Name");
 
         Assert.NotNull(manager);
-    }
-
-    [Fact]
-    public void Bind_InvalidProperty_Throws()
-    {
-        var parent = new TestBindingManager(new PropertyDescriptorCollection(null));
-
-        Assert.Throws<ArgumentException>(() =>
-            new RelatedPropertyManager(parent, "Invalid"));
     }
 
     [Fact]
@@ -143,18 +85,18 @@ public class RelatedPropertyManagerTests
     }
 
     [Fact]
-    public void BindType_ReturnsPropertyType()
+    public void GetCurrentOrNull_OutOfBounds_ReturnsNull()
     {
         var parent = new TestBindingManager(CreateProperties())
         {
             CurrentItem = new TestItem(),
             CountValue = 1,
-            PositionValue = 0
+            PositionValue = 5 // invalid
         };
 
         var manager = new RelatedPropertyManager(parent, "Name");
 
-        Assert.Equal(typeof(string), manager.BindType);
+        Assert.Null(manager.Current);
     }
 
     [Fact]
@@ -170,6 +112,25 @@ public class RelatedPropertyManagerTests
         var manager = new RelatedPropertyManager(parent, "Name");
 
         var result = manager.GetItemProperties(null);
+
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void GetItemProperties_WithAccessors_PrependsField()
+    {
+        var parent = new TestBindingManager(CreateProperties())
+        {
+            CurrentItem = new TestItem(),
+            CountValue = 1,
+            PositionValue = 0
+        };
+
+        var manager = new RelatedPropertyManager(parent, "Name");
+
+        var accessor = CreateProperty();
+
+        var result = manager.GetItemProperties(new[] { accessor });
 
         Assert.NotNull(result);
     }
@@ -216,37 +177,84 @@ public class RelatedPropertyManagerTests
         Assert.Equal("Second", manager.Current);
     }
 
-    [Fact]
-    public void GetCurrentOrNull_OutOfBounds_ReturnsNull()
+    private static PropertyDescriptorCollection CreateProperties() => new(new[] { CreateProperty() });
+
+    private static PropertyDescriptor CreateProperty()
+        => TypeDescriptor.GetProperties(typeof(TestItem))["Name"]!;
+
+    private class TestBindingManager : BindingManagerBase
     {
-        var parent = new TestBindingManager(CreateProperties())
+        private readonly PropertyDescriptorCollection _properties;
+
+        public TestBindingManager(PropertyDescriptorCollection properties)
         {
-            CurrentItem = new TestItem(),
-            CountValue = 1,
-            PositionValue = 5 // invalid
-        };
+            _properties = properties;
+        }
 
-        var manager = new RelatedPropertyManager(parent, "Name");
+        public object? CurrentItem { get; set; }
+        public int PositionValue { get; set; }
+        public int CountValue { get; set; }
 
-        Assert.Null(manager.Current);
+        public override object? Current => CurrentItem;
+
+        public override int Count => CountValue;
+
+        public override int Position
+        {
+            get => PositionValue;
+            set => PositionValue = value;
+        }
+
+        internal override Type? BindType { get; }
+        internal override object? DataSource { get; }
+        internal override bool IsBinding { get; }
+
+        public override void AddNew()
+        {
+        }
+
+        public override void CancelCurrentEdit()
+        {
+        }
+
+        public override void EndCurrentEdit()
+        {
+        }
+
+        public override PropertyDescriptorCollection GetItemProperties()
+            => _properties;
+
+        public void RaiseCurrentItemChanged()
+            => OnCurrentItemChanged(EventArgs.Empty);
+
+        public override void RemoveAt(int index) => throw new NotImplementedException();
+
+        public override void ResumeBinding() => throw new NotImplementedException();
+
+        public override void SuspendBinding() => throw new NotImplementedException();
+
+        protected internal override string? GetListName(ArrayList? listAccessors)
+            => "TestList";
+
+        protected internal override void OnCurrentChanged(EventArgs e) => throw new NotImplementedException();
+
+        protected internal override void OnCurrentItemChanged(EventArgs e)
+        {
+            OnCurrentItemChangedValueHandler?.Invoke(this, e);
+        }
+
+        protected override void UpdateIsBinding() => throw new NotImplementedException();
+
+        internal override PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[]? listAccessors)
+            => _properties;
+
+        internal override string? GetListName() => throw new NotImplementedException();
+
+        private protected override void SetDataSource(object? source) => throw new NotImplementedException();
     }
 
-    [Fact]
-    public void GetItemProperties_WithAccessors_PrependsField()
+    private class TestItem
     {
-        var parent = new TestBindingManager(CreateProperties())
-        {
-            CurrentItem = new TestItem(),
-            CountValue = 1,
-            PositionValue = 0
-        };
-
-        var manager = new RelatedPropertyManager(parent, "Name");
-
-        var accessor = CreateProperty();
-
-        var result = manager.GetItemProperties(new[] { accessor });
-
-        Assert.NotNull(result);
+        public string Name { get; set; } = "Hello";
     }
 }

@@ -1,17 +1,11 @@
 ﻿using System.Globalization;
+
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
 namespace System.Resources;
 
 public class ResXFileRefConverterTests
 {
-    [Fact]
-    public void CanConvertFrom_StringType_ReturnsTrue()
-    {
-        var converter = new ResXFileRef.Converter();
-        Assert.True(converter.CanConvertFrom(null, typeof(string)));
-    }
-
     [Fact]
     public void CanConvertFrom_NonStringType_ReturnsFalse()
     {
@@ -20,10 +14,10 @@ public class ResXFileRefConverterTests
     }
 
     [Fact]
-    public void CanConvertTo_StringType_ReturnsTrue()
+    public void CanConvertFrom_StringType_ReturnsTrue()
     {
         var converter = new ResXFileRef.Converter();
-        Assert.True(converter.CanConvertTo(null, typeof(string)));
+        Assert.True(converter.CanConvertFrom(null, typeof(string)));
     }
 
     [Fact]
@@ -31,6 +25,13 @@ public class ResXFileRefConverterTests
     {
         var converter = new ResXFileRef.Converter();
         Assert.False(converter.CanConvertTo(null, typeof(int)));
+    }
+
+    [Fact]
+    public void CanConvertTo_StringType_ReturnsTrue()
+    {
+        var converter = new ResXFileRef.Converter();
+        Assert.True(converter.CanConvertTo(null, typeof(string)));
     }
 
     [Fact]

@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Resources;
 using System.Windows.Forms;
+
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 
@@ -39,24 +40,6 @@ public class ResourceManagerTests
     }
 
     [Fact]
-    public void ResourceInfo_Properties_CanBeSetAndGet()
-    {
-        var info = new ResourceManager.ResourceInfo
-        {
-            Assembly = Assembly.GetExecutingAssembly(),
-            BaseName = "Base",
-            ImageBytes = [1, 2, 3],
-            ResourceName = "ResName",
-            SourceType = typeof(int)
-        };
-        Assert.Equal(Assembly.GetExecutingAssembly(), info.Assembly);
-        Assert.Equal("Base", info.BaseName);
-        Assert.Equal(new byte[] { 1, 2, 3 }, info.ImageBytes);
-        Assert.Equal("ResName", info.ResourceName);
-        Assert.Equal(typeof(int), info.SourceType);
-    }
-
-    [Fact]
     public void GetObject_Throws_WhenAssemblyNull()
     {
         var mgr = (ResourceManager)Activator.CreateInstance(typeof(ResourceManager), true);
@@ -76,5 +59,23 @@ public class ResourceManagerTests
         // This will throw because _assembly is null, but we want to cover the method
         var mgr = (ResourceManager)Activator.CreateInstance(typeof(ResourceManager), true);
         Assert.ThrowsAny<Exception>(() => mgr.GetString("any", CultureInfo.InvariantCulture));
+    }
+
+    [Fact]
+    public void ResourceInfo_Properties_CanBeSetAndGet()
+    {
+        var info = new ResourceManager.ResourceInfo
+        {
+            Assembly = Assembly.GetExecutingAssembly(),
+            BaseName = "Base",
+            ImageBytes = [1, 2, 3],
+            ResourceName = "ResName",
+            SourceType = typeof(int)
+        };
+        Assert.Equal(Assembly.GetExecutingAssembly(), info.Assembly);
+        Assert.Equal("Base", info.BaseName);
+        Assert.Equal(new byte[] { 1, 2, 3 }, info.ImageBytes);
+        Assert.Equal("ResName", info.ResourceName);
+        Assert.Equal(typeof(int), info.SourceType);
     }
 }

@@ -1,11 +1,19 @@
 ﻿extern alias gtk;
-
 using ColorTable = gtk::System.Drawing.ColorTable;
 
 namespace System.Drawing;
 
 public class ColorTableTests
 {
+    [Fact]
+    public void Colors_ShouldBeCaseInsensitive()
+    {
+        var colors = ColorTable.Colors;
+
+        Assert.True(colors.ContainsKey("red"));
+        Assert.True(colors.ContainsKey("RED"));
+        Assert.Equal(colors["red"], colors["RED"]);
+    }
     // ----------------------------
     // Colors property (Lazy init)
     // ----------------------------
@@ -30,21 +38,32 @@ public class ColorTableTests
     }
 
     [Fact]
-    public void Colors_ShouldBeCaseInsensitive()
-    {
-        var colors = ColorTable.Colors;
-
-        Assert.True(colors.ContainsKey("red"));
-        Assert.True(colors.ContainsKey("RED"));
-        Assert.Equal(colors["red"], colors["RED"]);
-    }
-
-    [Fact]
     public void Colors_ShouldNotBeEmpty()
     {
         var colors = ColorTable.Colors;
 
         Assert.NotEmpty(colors);
+    }
+
+    // ----------------------------
+    // Lazy behavior (important)
+    // ----------------------------
+
+    [Fact]
+    public void Colors_ShouldReturnSameInstance()
+    {
+        var first = ColorTable.Colors;
+        var second = ColorTable.Colors;
+
+        Assert.Same(first, second);
+    }
+
+    [Fact]
+    public void IsKnownNamedColor_CaseInsensitive_ReturnsTrue()
+    {
+        var result = ColorTable.IsKnownNamedColor("rEd");
+
+        Assert.True(result);
     }
 
     // ----------------------------
@@ -60,19 +79,20 @@ public class ColorTableTests
     }
 
     [Fact]
-    public void IsKnownNamedColor_CaseInsensitive_ReturnsTrue()
-    {
-        var result = ColorTable.IsKnownNamedColor("rEd");
-
-        Assert.True(result);
-    }
-
-    [Fact]
     public void IsKnownNamedColor_NonExisting_ReturnsFalse()
     {
         var result = ColorTable.IsKnownNamedColor("NotAColor");
 
         Assert.False(result);
+    }
+
+    [Fact]
+    public void TryGetNamedColor_CaseInsensitive_ReturnsTrue()
+    {
+        var result = ColorTable.TryGetNamedColor("gReEn", out var color);
+
+        Assert.True(result);
+        Assert.Equal(Color.Green, color);
     }
 
     // ----------------------------
@@ -89,24 +109,6 @@ public class ColorTableTests
     }
 
     [Fact]
-    public void TryGetNamedColor_SystemColor_ReturnsTrueAndValue()
-    {
-        var result = ColorTable.TryGetNamedColor("Window", out var color);
-
-        Assert.True(result);
-        Assert.Equal(SystemColors.Window, color);
-    }
-
-    [Fact]
-    public void TryGetNamedColor_CaseInsensitive_ReturnsTrue()
-    {
-        var result = ColorTable.TryGetNamedColor("gReEn", out var color);
-
-        Assert.True(result);
-        Assert.Equal(Color.Green, color);
-    }
-
-    [Fact]
     public void TryGetNamedColor_NonExisting_ReturnsFalse()
     {
         var result = ColorTable.TryGetNamedColor("NotAColor", out var color);
@@ -115,16 +117,12 @@ public class ColorTableTests
         Assert.Equal(default, color);
     }
 
-    // ----------------------------
-    // Lazy behavior (important)
-    // ----------------------------
-
     [Fact]
-    public void Colors_ShouldReturnSameInstance()
+    public void TryGetNamedColor_SystemColor_ReturnsTrueAndValue()
     {
-        var first = ColorTable.Colors;
-        var second = ColorTable.Colors;
+        var result = ColorTable.TryGetNamedColor("Window", out var color);
 
-        Assert.Same(first, second);
+        Assert.True(result);
+        Assert.Equal(SystemColors.Window, color);
     }
 }

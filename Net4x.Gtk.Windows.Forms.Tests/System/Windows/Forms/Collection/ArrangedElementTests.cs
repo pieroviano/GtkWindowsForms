@@ -1,32 +1,18 @@
 ﻿using System.Drawing;
 using System.Windows.Forms.Layout;
+
 #pragma warning disable CS0108, CS0114
 
 namespace System.Windows.Forms.Collection;
 
 public class ArrangedElementTests
 {
-    private class TestArrangedElement : ArrangedElement
+    [Fact]
+    public void Bounds_InitiallyEmpty()
     {
-        public bool BoundsChangedCalled { get; internal set; }
-        public Rectangle OldBounds { get; private set; }
-        public Rectangle NewBounds { get; private set; }
+        var sut = new TestArrangedElement();
 
-        public ArrangedElementCollection Children { get; } = new ArrangedElementCollection();
-        public IArrangedElement? Container { get; set; }
-
-        public override LayoutEngine LayoutEngine => new LayoutEngine();
-
-        protected override ArrangedElementCollection GetChildren() => Children;
-
-        protected override IArrangedElement? GetContainer() => Container;
-
-        protected override void OnBoundsChanged(Rectangle oldBounds, Rectangle newBounds)
-        {
-            BoundsChangedCalled = true;
-            OldBounds = oldBounds;
-            NewBounds = newBounds;
-        }
+        Assert.Equal(Rectangle.Empty, sut.Bounds);
     }
 
     [Fact]
@@ -40,14 +26,6 @@ public class ArrangedElementTests
     }
 
     [Fact]
-    public void Bounds_InitiallyEmpty()
-    {
-        var sut = new TestArrangedElement();
-
-        Assert.Equal(Rectangle.Empty, sut.Bounds);
-    }
-
-    [Fact]
     public void DisplayRectangle_ReturnsBounds()
     {
         var sut = new TestArrangedElement();
@@ -56,6 +34,66 @@ public class ArrangedElementTests
         sut.SetBounds(rect, BoundsSpecified.All);
 
         Assert.Equal(rect, sut.DisplayRectangle);
+    }
+
+    [Fact]
+    public void ExplicitInterface_Children_ReturnsChildren()
+    {
+        var sut = new TestArrangedElement();
+        var element = (IArrangedElement)sut;
+
+        Assert.Equal(sut.Children, element.Children);
+    }
+
+    [Fact]
+    public void ExplicitInterface_Container_ReturnsContainer()
+    {
+        var sut = new TestArrangedElement();
+        var container = new TestArrangedElement();
+        sut.Container = container;
+
+        var element = (IArrangedElement)sut;
+
+        Assert.Equal(container, element.Container);
+    }
+
+    [Fact]
+    public void ExplicitInterface_Properties_ReturnsPropertyStore()
+    {
+        var sut = new TestArrangedElement();
+        var element = (IArrangedElement)sut;
+
+        Assert.NotNull(element.Properties);
+    }
+
+    [Fact]
+    public void GetPreferredSize_ReturnsInput()
+    {
+        var sut = new TestArrangedElement();
+        var size = new Size(100, 50);
+
+        var result = sut.GetPreferredSize(size);
+
+        Assert.Equal(size, result);
+    }
+
+    [Fact]
+    public void Handle_ThrowsNotImplemented()
+    {
+        var sut = new TestArrangedElement();
+
+        Assert.Throws<NotImplementedException>(() =>
+        {
+            var _ = sut.Handle;
+        });
+    }
+
+    [Fact]
+    public void LayoutEngine_ReturnsDefault()
+    {
+        var sut = new TestArrangedElement();
+
+        Assert.NotNull(sut.LayoutEngine);
     }
 
     [Fact]
@@ -72,7 +110,7 @@ public class ArrangedElementTests
     [Fact]
     public void ParticipatesInLayout_ReturnsVisible()
     {
-        var sut = new TestArrangedElement(){Visible = true};
+        var sut = new TestArrangedElement { Visible = true };
 
         Assert.True(sut.ParticipatesInLayout);
 
@@ -81,21 +119,10 @@ public class ArrangedElementTests
     }
 
     [Fact]
-    public void GetPreferredSize_ReturnsInput()
-    {
-        var sut = new TestArrangedElement();
-        var size = new Size(100, 50);
-
-        var result = sut.GetPreferredSize(size);
-
-        Assert.Equal(size, result);
-    }
-
-    [Fact]
     public void PerformLayout_RaisesLayoutEvent()
     {
         var sut = new TestArrangedElement();
-        bool called = false;
+        var called = false;
 
         sut.Layout += (s, e) =>
         {
@@ -136,52 +163,26 @@ public class ArrangedElementTests
         Assert.False(sut.BoundsChangedCalled);
     }
 
-    [Fact]
-    public void ExplicitInterface_Children_ReturnsChildren()
+    private class TestArrangedElement : ArrangedElement
     {
-        var sut = new TestArrangedElement();
-        var element = (IArrangedElement)sut;
+        public bool BoundsChangedCalled { get; internal set; }
+        public Rectangle OldBounds { get; private set; }
+        public Rectangle NewBounds { get; private set; }
 
-        Assert.Equal(sut.Children, element.Children);
-    }
+        public ArrangedElementCollection Children { get; } = new();
+        public IArrangedElement? Container { get; set; }
 
-    [Fact]
-    public void ExplicitInterface_Container_ReturnsContainer()
-    {
-        var sut = new TestArrangedElement();
-        var container = new TestArrangedElement();
-        sut.Container = container;
+        public override LayoutEngine LayoutEngine => new();
 
-        var element = (IArrangedElement)sut;
+        protected override ArrangedElementCollection GetChildren() => Children;
 
-        Assert.Equal(container, element.Container);
-    }
+        protected override IArrangedElement? GetContainer() => Container;
 
-    [Fact]
-    public void ExplicitInterface_Properties_ReturnsPropertyStore()
-    {
-        var sut = new TestArrangedElement();
-        var element = (IArrangedElement)sut;
-
-        Assert.NotNull(element.Properties);
-    }
-
-    [Fact]
-    public void LayoutEngine_ReturnsDefault()
-    {
-        var sut = new TestArrangedElement();
-
-        Assert.NotNull(sut.LayoutEngine);
-    }
-
-    [Fact]
-    public void Handle_ThrowsNotImplemented()
-    {
-        var sut = new TestArrangedElement();
-
-        Assert.Throws<NotImplementedException>(() =>
+        protected override void OnBoundsChanged(Rectangle oldBounds, Rectangle newBounds)
         {
-            var _ = sut.Handle;
-        });
+            BoundsChangedCalled = true;
+            OldBounds = oldBounds;
+            NewBounds = newBounds;
+        }
     }
 }

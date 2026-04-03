@@ -8,7 +8,8 @@ public class MessageBoxIntegrationTests
     [Fact]
     public void MessageBox_Show_LogsMessage_WhenFormRuns()
     {
-        async Task OnLoadAsync(Form form) {
+        async Task OnLoadAsync(Form form)
+        {
             await Task.Delay(1000); // Wait 1 second
             MessageBox.Show("Test message");
             await Task.Delay(500); // Wait 0.5 second
@@ -19,7 +20,7 @@ public class MessageBoxIntegrationTests
         var mockMessageBox = MockMessageBox.ReplaceMessageBoxWithMock();
 
         // Act
-        var thread=new Thread(() =>
+        var thread = new Thread(() =>
         {
             var form = new Form();
 

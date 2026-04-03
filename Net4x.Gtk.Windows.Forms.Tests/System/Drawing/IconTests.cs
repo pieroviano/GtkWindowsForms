@@ -1,11 +1,20 @@
 ﻿extern alias gtk;
-
 using Icon = gtk::System.Drawing.Icon;
 
 namespace System.Drawing;
 
 public class IconTests
 {
+    [Fact]
+    public void Clone_ReturnsNewIcon()
+    {
+        var icon = new Icon("test.ico");
+        var clone = (Icon)icon.Clone();
+        Assert.NotSame(icon, clone);
+        Assert.Equal(icon.Width, clone.Width);
+        Assert.Equal(icon.Height, clone.Height);
+    }
+
     [Fact]
     public void Constructor_ByteArray_CreatesIcon()
     {
@@ -22,6 +31,13 @@ public class IconTests
     }
 
     [Fact]
+    public void Constructor_FileName_CreatesIcon()
+    {
+        var icon = new Icon("test.ico");
+        Assert.NotNull(icon.Pixbuf);
+    }
+
+    [Fact]
     public void Constructor_Stream_CreatesIcon()
     {
         using var stream = File.OpenRead("test.ico");
@@ -31,10 +47,12 @@ public class IconTests
     }
 
     [Fact]
-    public void Constructor_FileName_CreatesIcon()
+    public void Dispose_ClearsPixbuf()
     {
         var icon = new Icon("test.ico");
-        Assert.NotNull(icon.Pixbuf);
+        icon.Dispose();
+        Assert.Null(icon.PixbufData);
+        Assert.Null(icon.Pixbuf);
     }
 
     [Fact]
@@ -44,24 +62,5 @@ public class IconTests
         using var ms = new MemoryStream();
         icon.Save(ms);
         Assert.True(ms.Length > 0);
-    }
-
-    [Fact]
-    public void Clone_ReturnsNewIcon()
-    {
-        var icon = new Icon("test.ico");
-        var clone = (Icon)icon.Clone();
-        Assert.NotSame(icon, clone);
-        Assert.Equal(icon.Width, clone.Width);
-        Assert.Equal(icon.Height, clone.Height);
-    }
-
-    [Fact]
-    public void Dispose_ClearsPixbuf()
-    {
-        var icon = new Icon("test.ico");
-        icon.Dispose();
-        Assert.Null(icon.PixbufData);
-        Assert.Null(icon.Pixbuf);
     }
 }

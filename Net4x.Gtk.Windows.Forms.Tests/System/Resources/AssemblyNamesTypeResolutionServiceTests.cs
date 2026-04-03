@@ -9,9 +9,6 @@ public class AssemblyNamesTypeResolutionServiceTests
         typeof(string).Assembly.GetName()
     ];
 
-    private AssemblyNamesTypeResolutionService CreateSut()
-        => new AssemblyNamesTypeResolutionService(_names);
-
     [Fact]
     public void Constructor_ShouldInitialize()
     {
@@ -45,6 +42,18 @@ public class AssemblyNamesTypeResolutionServiceTests
     }
 
     [Fact]
+    public void GetAssembly_ThrowOnErrorFalse_InvalidAssembly_ShouldNotThrow()
+    {
+        var sut = new AssemblyNamesTypeResolutionService([
+            new AssemblyName("Definitely.Does.Not.Exist")
+        ]);
+
+        var result = sut.GetAssembly(new AssemblyName("Definitely.Does.Not.Exist"), false);
+
+        Assert.Null(result);
+    }
+
+    [Fact]
     public void GetPathOfAssembly_ShouldReturnCodeBase()
     {
         var sut = CreateSut();
@@ -58,21 +67,21 @@ public class AssemblyNamesTypeResolutionServiceTests
     }
 
     [Fact]
-    public void GetType_SimpleTypeName_ShouldResolve()
-    {
-        var sut = CreateSut();
-
-        var result = sut.GetType(typeof(string).FullName);
-
-        Assert.Equal(typeof(string), result);
-    }
-
-    [Fact]
     public void GetType_AssemblyQualifiedName_ShouldResolve()
     {
         var sut = CreateSut();
 
         var result = sut.GetType(typeof(string).AssemblyQualifiedName);
+
+        Assert.Equal(typeof(string), result);
+    }
+
+    [Fact]
+    public void GetType_IgnoreCase_ShouldWork()
+    {
+        var sut = CreateSut();
+
+        var result = sut.GetType("system.string", true, true);
 
         Assert.Equal(typeof(string), result);
     }
@@ -90,11 +99,21 @@ public class AssemblyNamesTypeResolutionServiceTests
     }
 
     [Fact]
+    public void GetType_SimpleTypeName_ShouldResolve()
+    {
+        var sut = CreateSut();
+
+        var result = sut.GetType(typeof(string).FullName);
+
+        Assert.Equal(typeof(string), result);
+    }
+
+    [Fact]
     public void GetType_TypeNotFound_ThrowOnErrorFalse_ReturnsNull()
     {
         var sut = CreateSut();
 
-        var result = sut.GetType("Non.Existing.Type", throwOnError: false);
+        var result = sut.GetType("Non.Existing.Type", false);
 
         Assert.Null(result);
     }
@@ -105,17 +124,7 @@ public class AssemblyNamesTypeResolutionServiceTests
         var sut = CreateSut();
 
         Assert.Throws<ArgumentException>(() =>
-            sut.GetType("Non.Existing.Type", throwOnError: true));
-    }
-
-    [Fact]
-    public void GetType_IgnoreCase_ShouldWork()
-    {
-        var sut = CreateSut();
-
-        var result = sut.GetType("system.string", throwOnError: true, ignoreCase: true);
-
-        Assert.Equal(typeof(string), result);
+            sut.GetType("Non.Existing.Type", true));
     }
 
     [Fact]
@@ -127,15 +136,5 @@ public class AssemblyNamesTypeResolutionServiceTests
             sut.ReferenceAssembly(new AssemblyName("Test")));
     }
 
-    [Fact]
-    public void GetAssembly_ThrowOnErrorFalse_InvalidAssembly_ShouldNotThrow()
-    {
-        var sut = new AssemblyNamesTypeResolutionService([
-            new AssemblyName("Definitely.Does.Not.Exist")
-        ]);
-
-        var result = sut.GetAssembly(new AssemblyName("Definitely.Does.Not.Exist"), throwOnError: false);
-
-        Assert.Null(result);
-    }
+    private AssemblyNamesTypeResolutionService CreateSut() => new(_names);
 }

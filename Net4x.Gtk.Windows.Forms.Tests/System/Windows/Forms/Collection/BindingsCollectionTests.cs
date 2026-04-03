@@ -4,16 +4,6 @@ namespace System.Windows.Forms.Collection;
 
 public class BindingsCollectionTests
 {
-    private static Binding CreateBinding()
-    {
-        return new Binding("Text", new TestData(), "Name");
-    }
-
-    private class TestData
-    {
-        public string Name { get; set; } = "test";
-    }
-
     [Fact]
     public void Add_ShouldIncreaseCount_AndRaiseEvents()
     {
@@ -35,6 +25,77 @@ public class BindingsCollectionTests
             "changing:Add",
             "changed:Add"
         }, events);
+    }
+
+    [Fact]
+    public void AddCore_CanBeOverridden()
+    {
+        var called = false;
+
+        var sut = new TestBindingsCollection(() => called = true) { CreateBinding() };
+
+        Assert.True(called);
+    }
+
+    [Fact]
+    public void Clear_ShouldEmptyCollection_AndRaiseRefreshEvents()
+    {
+        var sut = new BindingsCollection { CreateBinding() };
+
+        var events = new List<string>();
+
+        sut.CollectionChanging += (_, e) => events.Add($"changing:{e.Action}");
+        sut.CollectionChanged += (_, e) => events.Add($"changed:{e.Action}");
+
+        sut.Clear();
+
+        Assert.Equal(0, sut.Count);
+
+        Assert.Equal(new[]
+        {
+            "changing:Refresh",
+            "changed:Refresh"
+        }, events);
+    }
+
+    [Fact]
+    public void ClearCore_CanBeOverridden()
+    {
+        var called = false;
+
+        var sut = new TestBindingsCollection(onClear: () => called = true) { CreateBinding() };
+
+        sut.Clear();
+
+        Assert.True(called);
+    }
+
+    [Fact]
+    public void Events_CanBeUnsubscribed()
+    {
+        var sut = new BindingsCollection();
+        var binding = CreateBinding();
+
+        var called = false;
+        CollectionChangeEventHandler handler = (_, _) => called = true;
+
+        sut.CollectionChanged += handler;
+        sut.CollectionChanged -= handler;
+
+        sut.Add(binding);
+
+        Assert.False(called);
+    }
+
+    [Fact]
+    public void Indexer_ShouldReturnCorrectItem()
+    {
+        var sut = new BindingsCollection();
+        var binding = CreateBinding();
+
+        sut.Add(binding);
+
+        Assert.Equal(binding, sut[0]);
     }
 
     [Fact]
@@ -77,35 +138,17 @@ public class BindingsCollectionTests
     }
 
     [Fact]
-    public void Clear_ShouldEmptyCollection_AndRaiseRefreshEvents()
+    public void RemoveCore_CanBeOverridden()
     {
-        var sut = new BindingsCollection { CreateBinding() };
+        var called = false;
 
-        var events = new List<string>();
-
-        sut.CollectionChanging += (_, e) => events.Add($"changing:{e.Action}");
-        sut.CollectionChanged += (_, e) => events.Add($"changed:{e.Action}");
-
-        sut.Clear();
-
-        Assert.Equal(0, sut.Count);
-
-        Assert.Equal(new[]
-        {
-            "changing:Refresh",
-            "changed:Refresh"
-        }, events);
-    }
-
-    [Fact]
-    public void Indexer_ShouldReturnCorrectItem()
-    {
-        var sut = new BindingsCollection();
+        var sut = new TestBindingsCollection(onRemove: () => called = true);
         var binding = CreateBinding();
 
         sut.Add(binding);
+        sut.Remove(binding);
 
-        Assert.Equal(binding, sut[0]);
+        Assert.True(called);
     }
 
     [Fact]
@@ -124,64 +167,21 @@ public class BindingsCollectionTests
         Assert.True(sut.ShouldSerializeMyAll());
     }
 
-    [Fact]
-    public void AddCore_CanBeOverridden()
+    private static Binding CreateBinding()
     {
-        var called = false;
-
-        var sut = new TestBindingsCollection(() => called = true) { CreateBinding() };
-
-        Assert.True(called);
+        return new Binding("Text", new TestData(), "Name");
     }
 
-    [Fact]
-    public void RemoveCore_CanBeOverridden()
+    private class TestData
     {
-        var called = false;
-
-        var sut = new TestBindingsCollection(onRemove: () => called = true);
-        var binding = CreateBinding();
-
-        sut.Add(binding);
-        sut.Remove(binding);
-
-        Assert.True(called);
-    }
-
-    [Fact]
-    public void ClearCore_CanBeOverridden()
-    {
-        var called = false;
-
-        var sut = new TestBindingsCollection(onClear: () => called = true) { CreateBinding() };
-
-        sut.Clear();
-
-        Assert.True(called);
-    }
-
-    [Fact]
-    public void Events_CanBeUnsubscribed()
-    {
-        var sut = new BindingsCollection();
-        var binding = CreateBinding();
-
-        bool called = false;
-        CollectionChangeEventHandler handler = (_, _) => called = true;
-
-        sut.CollectionChanged += handler;
-        sut.CollectionChanged -= handler;
-
-        sut.Add(binding);
-
-        Assert.False(called);
+        public string Name { get; set; } = "test";
     }
 
     private class TestBindingsCollection : BindingsCollection
     {
         private readonly Action? _onAdd;
-        private readonly Action? _onRemove;
         private readonly Action? _onClear;
+        private readonly Action? _onRemove;
 
         public TestBindingsCollection(
             Action? onAdd = null,
@@ -199,16 +199,16 @@ public class BindingsCollectionTests
             base.AddCore(dataBinding);
         }
 
-        protected override void RemoveCore(Binding dataBinding)
-        {
-            _onRemove?.Invoke();
-            base.RemoveCore(dataBinding);
-        }
-
         protected override void ClearCore()
         {
             _onClear?.Invoke();
             base.ClearCore();
+        }
+
+        protected override void RemoveCore(Binding dataBinding)
+        {
+            _onRemove?.Invoke();
+            base.RemoveCore(dataBinding);
         }
     }
 }

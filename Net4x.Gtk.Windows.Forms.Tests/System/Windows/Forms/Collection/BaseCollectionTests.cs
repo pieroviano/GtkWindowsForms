@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Linq;
+
 #pragma warning disable xUnit2003
 #pragma warning disable CS8601 // Possible null reference assignment.
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
@@ -8,65 +8,6 @@ namespace System.Windows.Forms.Collection;
 
 public class BaseCollectionTests
 {
-    private class TestCollection : System.Windows.Forms.BaseCollection
-    {
-        private readonly ArrayList _list;
-
-        public TestCollection(ArrayList? list = null)
-        {
-            _list = list;
-        }
-
-        protected override ArrayList List => _list;
-    }
-
-    [Fact]
-    public void Count_WhenListIsNull_ReturnsZero()
-    {
-        var sut = new TestCollection(null);
-
-        var result = sut.Count;
-
-        Assert.Equal(0, result);
-    }
-
-    [Fact]
-    public void Count_WhenListHasItems_ReturnsCorrectCount()
-    {
-        var list = new ArrayList { 1, 2, 3 };
-        var sut = new TestCollection(list);
-
-        var result = sut.Count;
-
-        Assert.Equal(3, result);
-    }
-
-    [Fact]
-    public void IsReadOnly_ShouldAlwaysReturnFalse()
-    {
-        var sut = new TestCollection();
-
-        Assert.False(sut.IsReadOnly);
-    }
-
-    [Fact]
-    public void IsSynchronized_ShouldAlwaysReturnFalse()
-    {
-        var sut = new TestCollection();
-
-        Assert.False(sut.IsSynchronized);
-    }
-
-    [Fact]
-    public void SyncRoot_ShouldReturnSameInstance()
-    {
-        var sut = new TestCollection();
-
-        var syncRoot = sut.SyncRoot;
-
-        Assert.Same(sut, syncRoot);
-    }
-
     [Fact]
     public void CopyTo_ShouldCopyElementsToArray()
     {
@@ -95,10 +36,69 @@ public class BaseCollectionTests
     }
 
     [Fact]
+    public void Count_WhenListHasItems_ReturnsCorrectCount()
+    {
+        var list = new ArrayList { 1, 2, 3 };
+        var sut = new TestCollection(list);
+
+        var result = sut.Count;
+
+        Assert.Equal(3, result);
+    }
+
+    [Fact]
+    public void Count_WhenListIsNull_ReturnsZero()
+    {
+        var sut = new TestCollection();
+
+        var result = sut.Count;
+
+        Assert.Equal(0, result);
+    }
+
+    [Fact]
     public void GetEnumerator_WhenListIsNull_ShouldThrow()
     {
-        var sut = new TestCollection(null);
+        var sut = new TestCollection();
 
         Assert.Throws<NullReferenceException>(() => sut.GetEnumerator());
+    }
+
+    [Fact]
+    public void IsReadOnly_ShouldAlwaysReturnFalse()
+    {
+        var sut = new TestCollection();
+
+        Assert.False(sut.IsReadOnly);
+    }
+
+    [Fact]
+    public void IsSynchronized_ShouldAlwaysReturnFalse()
+    {
+        var sut = new TestCollection();
+
+        Assert.False(sut.IsSynchronized);
+    }
+
+    [Fact]
+    public void SyncRoot_ShouldReturnSameInstance()
+    {
+        var sut = new TestCollection();
+
+        var syncRoot = sut.SyncRoot;
+
+        Assert.Same(sut, syncRoot);
+    }
+
+    private class TestCollection : BaseCollection
+    {
+        private readonly ArrayList _list;
+
+        public TestCollection(ArrayList? list = null)
+        {
+            _list = list;
+        }
+
+        protected override ArrayList List => _list;
     }
 }

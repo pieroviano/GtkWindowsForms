@@ -5,6 +5,29 @@ namespace GtkSystem.Resources.Extensions;
 public class ResXExtensionsTests
 {
     // ----------------------------
+    // OrThrowIfNull (ResXFileRef)
+    // ----------------------------
+
+    [Fact]
+    public void OrThrowIfNull_ResXFileRef_WhenNotNull_ReturnsValue()
+    {
+        var input = new ResXFileRef("file.txt", typeof(string).AssemblyQualifiedName);
+
+        var result = input.OrThrowIfNull();
+
+        Assert.Same(input, result);
+    }
+
+    [Fact]
+    public void OrThrowIfNull_ResXFileRef_WhenNull_Throws()
+    {
+        ResXFileRef? input = null;
+
+        var ex = Assert.Throws<ArgumentNullException>(() => { return input.OrThrowIfNull(); });
+
+        Assert.Equal("Value cannot be null. (Parameter 'ResXFileRef is null')", ex.Message);
+    }
+    // ----------------------------
     // OrThrowIfNull (string)
     // ----------------------------
 
@@ -27,31 +50,24 @@ public class ResXExtensionsTests
         Assert.Equal("Value cannot be null. (Parameter 'string Is Null Or Empty')", ex.Message);
     }
 
-    // ----------------------------
-    // OrThrowIfNull (ResXFileRef)
-    // ----------------------------
-
     [Fact]
-    public void OrThrowIfNull_ResXFileRef_WhenNotNull_ReturnsValue()
+    public void OrThrowIfNullOrEmpty_WhenEmpty_Throws()
     {
-        var input = new ResXFileRef("file.txt", typeof(string).AssemblyQualifiedName);
+        var input = string.Empty;
 
-        var result = input.OrThrowIfNull();
+        var ex = Assert.Throws<ArgumentException>(() => input.OrThrowIfNullOrEmpty());
 
-        Assert.Same(input, result);
+        Assert.Equal("string Is Null Or Empty", ex.Message);
     }
 
     [Fact]
-    public void OrThrowIfNull_ResXFileRef_WhenNull_Throws()
+    public void OrThrowIfNullOrEmpty_WhenNull_Throws()
     {
-        ResXFileRef? input = null;
+        string? input = null;
 
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-        {
-            return input.OrThrowIfNull();
-        });
+        var ex = Assert.Throws<ArgumentException>(() => input.OrThrowIfNullOrEmpty());
 
-        Assert.Equal("Value cannot be null. (Parameter 'ResXFileRef is null')", ex.Message);
+        Assert.Equal("string Is Null Or Empty", ex.Message);
     }
 
     // ----------------------------
@@ -66,25 +82,5 @@ public class ResXExtensionsTests
         var result = input.OrThrowIfNullOrEmpty();
 
         Assert.Equal(input, result);
-    }
-
-    [Fact]
-    public void OrThrowIfNullOrEmpty_WhenNull_Throws()
-    {
-        string? input = null;
-
-        var ex = Assert.Throws<ArgumentException>(() => input.OrThrowIfNullOrEmpty());
-
-        Assert.Equal("string Is Null Or Empty", ex.Message);
-    }
-
-    [Fact]
-    public void OrThrowIfNullOrEmpty_WhenEmpty_Throws()
-    {
-        var input = string.Empty;
-
-        var ex = Assert.Throws<ArgumentException>(() => input.OrThrowIfNullOrEmpty());
-
-        Assert.Equal("string Is Null Or Empty", ex.Message);
     }
 }

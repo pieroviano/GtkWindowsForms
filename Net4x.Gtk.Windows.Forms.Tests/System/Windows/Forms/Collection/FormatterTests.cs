@@ -5,26 +5,12 @@ namespace System.Windows.Forms.Collection;
 public class FormatterTests
 {
     [Fact]
-    public void FormatObject_NullValue_ReturnsFormattedNullValue()
+    public void FormatObject_AssignableType_ReturnsSameValue()
     {
-        var result = Formatter.FormatObject(
-            null,
-            typeof(string),
-            null,
-            null,
-            "",
-            CultureInfo.InvariantCulture,
-            "NULL",
-            DBNull.Value);
+        var value = "test";
 
-        Assert.Equal("NULL", result);
-    }
-
-    [Fact]
-    public void FormatObject_NullToString_ReturnsEmptyString_WhenNoFormattedNull()
-    {
         var result = Formatter.FormatObject(
-            null,
+            value,
             typeof(string),
             null,
             null,
@@ -33,7 +19,7 @@ public class FormatterTests
             null,
             DBNull.Value);
 
-        Assert.Equal(string.Empty, result);
+        Assert.Same(value, result);
     }
 
     [Fact]
@@ -80,24 +66,6 @@ public class FormatterTests
     }
 
     [Fact]
-    public void FormatObject_AssignableType_ReturnsSameValue()
-    {
-        var value = "test";
-
-        var result = Formatter.FormatObject(
-            value,
-            typeof(string),
-            null,
-            null,
-            "",
-            CultureInfo.InvariantCulture,
-            null,
-            DBNull.Value);
-
-        Assert.Same(value, result);
-    }
-
-    [Fact]
     public void FormatObject_InvalidConversion_ThrowsFormatException()
     {
         Assert.Throws<FormatException>(() =>
@@ -113,32 +81,94 @@ public class FormatterTests
     }
 
     [Fact]
-    public void ParseObject_StringToInt_UsesParse()
+    public void FormatObject_NullToString_ReturnsEmptyString_WhenNoFormattedNull()
     {
-        var result = Formatter.ParseObject(
-            "123",
-            typeof(int),
+        var result = Formatter.FormatObject(
+            null,
             typeof(string),
             null,
             null,
+            "",
             CultureInfo.InvariantCulture,
             null,
             DBNull.Value);
 
-        Assert.Equal(123, result);
+        Assert.Equal(string.Empty, result);
     }
 
     [Fact]
-    public void ParseObject_FormattedNullValue_ReturnsDBNull()
+    public void FormatObject_NullValue_ReturnsFormattedNullValue()
     {
-        var result = Formatter.ParseObject(
-            "NULL",
-            typeof(int),
+        var result = Formatter.FormatObject(
+            null,
             typeof(string),
             null,
             null,
+            "",
             CultureInfo.InvariantCulture,
             "NULL",
+            DBNull.Value);
+
+        Assert.Equal("NULL", result);
+    }
+
+    [Fact]
+    public void GetDefaultDataSourceNullValue_ReferenceType_ReturnsNull()
+    {
+        var result = Formatter.GetDefaultDataSourceNullValue(typeof(string));
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void GetDefaultDataSourceNullValue_ValueType_ReturnsDBNull()
+    {
+        var result = Formatter.GetDefaultDataSourceNullValue(typeof(int));
+        Assert.Equal(DBNull.Value, result);
+    }
+
+    [Fact]
+    public void InvokeStringParseMethod_InvalidParse_ThrowsFormatException()
+    {
+        Assert.Throws<FormatException>(() =>
+            Formatter.InvokeStringParseMethod("abc", typeof(int), CultureInfo.InvariantCulture));
+    }
+
+    [Fact]
+    public void InvokeStringParseMethod_ValidInt_ReturnsParsedValue()
+    {
+        var result = Formatter.InvokeStringParseMethod("42", typeof(int), CultureInfo.InvariantCulture);
+        Assert.Equal(42, result);
+    }
+
+    [Fact]
+    public void IsNullData_CustomNullValue_ReturnsTrue()
+    {
+        Assert.True(Formatter.IsNullData(0, 0));
+    }
+
+    [Fact]
+    public void IsNullData_DBNull_ReturnsTrue()
+    {
+        Assert.True(Formatter.IsNullData(DBNull.Value, DBNull.Value));
+    }
+
+    [Fact]
+    public void IsNullData_Null_ReturnsTrue()
+    {
+        Assert.True(Formatter.IsNullData(null, DBNull.Value));
+    }
+
+    [Fact]
+    public void ParseObject_CheckStateIndeterminate_ReturnsDBNull()
+    {
+        var result = Formatter.ParseObject(
+            CheckState.Indeterminate,
+            typeof(bool),
+            typeof(CheckState),
+            null,
+            null,
+            CultureInfo.InvariantCulture,
+            null,
             DBNull.Value);
 
         Assert.Equal(DBNull.Value, result);
@@ -163,64 +193,34 @@ public class FormatterTests
     }
 
     [Fact]
-    public void ParseObject_CheckStateIndeterminate_ReturnsDBNull()
+    public void ParseObject_FormattedNullValue_ReturnsDBNull()
     {
         var result = Formatter.ParseObject(
-            CheckState.Indeterminate,
-            typeof(bool),
-            typeof(CheckState),
+            "NULL",
+            typeof(int),
+            typeof(string),
             null,
             null,
             CultureInfo.InvariantCulture,
-            null,
+            "NULL",
             DBNull.Value);
 
         Assert.Equal(DBNull.Value, result);
     }
 
     [Fact]
-    public void GetDefaultDataSourceNullValue_ReferenceType_ReturnsNull()
+    public void ParseObject_StringToInt_UsesParse()
     {
-        var result = Formatter.GetDefaultDataSourceNullValue(typeof(string));
-        Assert.Null(result);
-    }
+        var result = Formatter.ParseObject(
+            "123",
+            typeof(int),
+            typeof(string),
+            null,
+            null,
+            CultureInfo.InvariantCulture,
+            null,
+            DBNull.Value);
 
-    [Fact]
-    public void GetDefaultDataSourceNullValue_ValueType_ReturnsDBNull()
-    {
-        var result = Formatter.GetDefaultDataSourceNullValue(typeof(int));
-        Assert.Equal(DBNull.Value, result);
-    }
-
-    [Fact]
-    public void IsNullData_Null_ReturnsTrue()
-    {
-        Assert.True(Formatter.IsNullData(null, DBNull.Value));
-    }
-
-    [Fact]
-    public void IsNullData_DBNull_ReturnsTrue()
-    {
-        Assert.True(Formatter.IsNullData(DBNull.Value, DBNull.Value));
-    }
-
-    [Fact]
-    public void IsNullData_CustomNullValue_ReturnsTrue()
-    {
-        Assert.True(Formatter.IsNullData(0, 0));
-    }
-
-    [Fact]
-    public void InvokeStringParseMethod_ValidInt_ReturnsParsedValue()
-    {
-        var result = Formatter.InvokeStringParseMethod("42", typeof(int), CultureInfo.InvariantCulture);
-        Assert.Equal(42, result);
-    }
-
-    [Fact]
-    public void InvokeStringParseMethod_InvalidParse_ThrowsFormatException()
-    {
-        Assert.Throws<FormatException>(() =>
-            Formatter.InvokeStringParseMethod("abc", typeof(int), CultureInfo.InvariantCulture));
+        Assert.Equal(123, result);
     }
 }

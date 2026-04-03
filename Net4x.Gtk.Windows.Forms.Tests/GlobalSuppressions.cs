@@ -5,4 +5,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Reliability", "CA2022:Avoid inexact read with 'Stream.Read'", Justification = "<Pending>", Scope = "member", Target = "~M:GtkSystem.IO.PinnedBufferMemoryStreamTests.Stream_ReflectsUnderlyingArrayChanges")]
+[assembly:
+    SuppressMessage("Reliability", "CA2022:Avoid inexact read with 'Stream.Read'", Justification = "<Pending>",
+        Scope = "member",
+        Target = "~M:GtkSystem.IO.PinnedBufferMemoryStreamTests.Stream_ReflectsUnderlyingArrayChanges")]

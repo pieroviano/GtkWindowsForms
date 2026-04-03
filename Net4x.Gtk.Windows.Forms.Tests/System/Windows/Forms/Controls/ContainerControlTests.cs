@@ -1,47 +1,18 @@
-﻿namespace System.Windows.Forms.Controls;
-
-using Control = System.Windows.Forms.Control;
+﻿#pragma warning disable CS8602 // Dereference of a possibly null reference.
+namespace System.Windows.Forms.Controls;
 
 public class ContainerControlTests
 {
-    private class TestControl : Label
-    {
-        public bool ActivateCalled { get; private set; }
-
-        public override bool Focus()
-        {
-            ActivateCalled = true;
-            return true;
-        }
-    }
-
     [Fact]
-    public void ActiveControl_Default_IsNull()
-    {
-        var container = new ContainerControl();
-
-        Assert.Null(container.ActiveControl);
-    }
-
-    [Fact]
-    public void ActiveControl_Setter_SetsValue()
+    public void ActivateControl_NoGtkWidget_ReturnsFalse()
     {
         var container = new ContainerControl();
         var child = new Label();
 
-        container.ActiveControl = child;
+        var result = container.ActivateControl(child);
 
+        Assert.False(result);
         Assert.Equal(child, container.ActiveControl);
-    }
-
-    [Fact]
-    public void ActiveControl_SetNull_ReturnsNull()
-    {
-        var container = new ContainerControl();
-
-        container.ActiveControl = null;
-
-        Assert.Null(container.ActiveControl);
     }
 
     [Fact]
@@ -56,18 +27,6 @@ public class ContainerControlTests
     }
 
     [Fact]
-    public void ActivateControl_NoGtkWidget_ReturnsFalse()
-    {
-        var container = new ContainerControl();
-        var child = new Label();
-
-        var result = container.ActivateControl(child);
-
-        Assert.False(result);
-        Assert.Equal(child, container.ActiveControl);
-    }
-
-    [Fact]
     public void ActivateControl_SetsActiveControl()
     {
         var container = new ContainerControl();
@@ -76,6 +35,14 @@ public class ContainerControlTests
         container.ActivateControl(child);
 
         Assert.Equal(child, container.ActiveControl);
+    }
+
+    [Fact]
+    public void ActiveControl_Default_IsNull()
+    {
+        var container = new ContainerControl();
+
+        Assert.Null(container.ActiveControl);
     }
 
     [Fact]
@@ -93,14 +60,25 @@ public class ContainerControlTests
     }
 
     [Fact]
-    public void StatusStrip_SetAndGet_Works()
+    public void ActiveControl_SetNull_ReturnsNull()
+    {
+        var container = new ContainerControl
+        {
+            ActiveControl = null
+        };
+
+        Assert.Null(container.ActiveControl);
+    }
+
+    [Fact]
+    public void ActiveControl_Setter_SetsValue()
     {
         var container = new ContainerControl();
-        var strip = new StatusStrip();
+        var child = new Label();
 
-        container.StatusStrip = strip;
+        container.ActiveControl = child;
 
-        Assert.Equal(strip, container.StatusStrip);
+        Assert.Equal(child, container.ActiveControl);
     }
 
     [Fact]
@@ -118,5 +96,27 @@ public class ContainerControlTests
 
         container.ActiveControl = c2;
         Assert.Equal(c2, container.ActiveControl);
+    }
+
+    [Fact]
+    public void StatusStrip_SetAndGet_Works()
+    {
+        var container = new ContainerControl();
+        var strip = new StatusStrip();
+
+        container.StatusStrip = strip;
+
+        Assert.Equal(strip, container.StatusStrip);
+    }
+
+    private class TestControl : Label
+    {
+        public bool ActivateCalled { get; private set; }
+
+        public override bool Focus()
+        {
+            ActivateCalled = true;
+            return true;
+        }
     }
 }

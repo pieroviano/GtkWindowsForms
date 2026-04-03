@@ -3,36 +3,14 @@
 public class MultitargetUtilTests
 {
     [Fact]
-    public void GetAssemblyQualifiedName_TypeIsNull_ReturnsNull()
-    {
-        var result = System.Resources.MultitargetUtil
-            .GetAssemblyQualifiedName(null, null);
-
-        Assert.Null(result);
-    }
-
-    [Fact]
     public void GetAssemblyQualifiedName_ConverterIsNull_ReturnsAssemblyQualifiedName()
     {
         var type = typeof(string);
 
-        var result = System.Resources.MultitargetUtil
+        var result = MultitargetUtil
             .GetAssemblyQualifiedName(type, null);
 
         Assert.Equal(type.AssemblyQualifiedName, result);
-    }
-
-    [Fact]
-    public void GetAssemblyQualifiedName_ConverterReturnsValue_UsesConverter()
-    {
-        var type = typeof(string);
-
-        string Converter(Type t) => "custom-name";
-
-        var result = System.Resources.MultitargetUtil
-            .GetAssemblyQualifiedName(type, Converter);
-
-        Assert.Equal("custom-name", result);
     }
 
     [Theory]
@@ -44,12 +22,46 @@ public class MultitargetUtilTests
     {
         var type = typeof(string);
 
-        string Converter(Type t) => converterResult;
+        string Converter(Type t)
+        {
+            return converterResult;
+        }
 
-        var result = System.Resources.MultitargetUtil
+        var result = MultitargetUtil
             .GetAssemblyQualifiedName(type, Converter);
 
         Assert.Equal(type.AssemblyQualifiedName, result);
+    }
+
+    [Fact]
+    public void GetAssemblyQualifiedName_ConverterReturnsValue_UsesConverter()
+    {
+        var type = typeof(string);
+
+        string Converter(Type t)
+        {
+            return "custom-name";
+        }
+
+        var result = MultitargetUtil
+            .GetAssemblyQualifiedName(type, Converter);
+
+        Assert.Equal("custom-name", result);
+    }
+
+    [Fact]
+    public void GetAssemblyQualifiedName_ConverterThrowsIndexOutOfRangeException_Rethrows()
+    {
+        var type = typeof(string);
+
+        string Converter(Type t)
+        {
+            throw new IndexOutOfRangeException();
+        }
+
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            MultitargetUtil
+                .GetAssemblyQualifiedName(type, Converter));
     }
 
     [Fact]
@@ -57,9 +69,12 @@ public class MultitargetUtilTests
     {
         var type = typeof(string);
 
-        string Converter(Type t) => throw new InvalidOperationException();
+        string Converter(Type t)
+        {
+            throw new InvalidOperationException();
+        }
 
-        var result = System.Resources.MultitargetUtil
+        var result = MultitargetUtil
             .GetAssemblyQualifiedName(type, Converter);
 
         Assert.Equal(type.AssemblyQualifiedName, result);
@@ -70,10 +85,13 @@ public class MultitargetUtilTests
     {
         var type = typeof(string);
 
-        string Converter(Type t) => throw new NullReferenceException();
+        string Converter(Type t)
+        {
+            throw new NullReferenceException();
+        }
 
         Assert.Throws<NullReferenceException>(() =>
-            System.Resources.MultitargetUtil
+            MultitargetUtil
                 .GetAssemblyQualifiedName(type, Converter));
     }
 
@@ -82,22 +100,22 @@ public class MultitargetUtilTests
     {
         var type = typeof(string);
 
-        string Converter(Type t) => throw new OutOfMemoryException();
+        string Converter(Type t)
+        {
+            throw new OutOfMemoryException();
+        }
 
         Assert.Throws<OutOfMemoryException>(() =>
-            System.Resources.MultitargetUtil
+            MultitargetUtil
                 .GetAssemblyQualifiedName(type, Converter));
     }
 
     [Fact]
-    public void GetAssemblyQualifiedName_ConverterThrowsIndexOutOfRangeException_Rethrows()
+    public void GetAssemblyQualifiedName_TypeIsNull_ReturnsNull()
     {
-        var type = typeof(string);
+        var result = MultitargetUtil
+            .GetAssemblyQualifiedName(null, null);
 
-        string Converter(Type t) => throw new IndexOutOfRangeException();
-
-        Assert.Throws<IndexOutOfRangeException>(() =>
-            System.Resources.MultitargetUtil
-                .GetAssemblyQualifiedName(type, Converter));
+        Assert.Null(result);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Windows.Forms;
+using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using NSubstitute;
-using Xunit;
+using Application = Gtk.Application;
+using Label = Gtk.Label;
 
 namespace GtkControls;
 
@@ -10,16 +12,16 @@ public class ControlExtensionTests
 {
     public ControlExtensionTests()
     {
-        Gtk.Application.Init();
+        Application.Init();
     }
 
     [Fact]
     public void GetGridCell_Returns_Cell_When_All_Properties_Are_Valid()
     {
         // Arrange
-        var grid = new Gtk.Grid();
-        var parent = new Gtk.Label();
-        var widget = new Gtk.Label();
+        var grid = new Grid();
+        var parent = new Label();
+        var widget = new Label();
 
         grid.Attach(parent, 1, 2, 3, 4);
         widget.Parent = parent;
@@ -38,12 +40,34 @@ public class ControlExtensionTests
     }
 
     [Fact]
+    public void GetGridCell_Returns_NotNull_When_Grid_Has_No_Attach_Properties()
+    {
+        // Arrange
+        var grid = new Grid();
+        var parent = new Label();
+        var widget = new Label();
+
+        // Add to grid WITHOUT Attach (no layout metadata)
+        grid.Add(parent);
+
+        widget.Parent = parent;
+
+        var control = new TestControl(widget);
+
+        // Act
+        var result = control.GetGridCell(grid);
+
+        // Assert
+        Assert.NotNull(result);
+    }
+
+    [Fact]
     public void GetGridCell_Returns_NotNull_When_Widget_Not_In_Grid()
     {
         // Arrange
-        var grid = new Gtk.Grid();
-        var parent = new Gtk.Label(); // NOT added to grid
-        var widget = new Gtk.Label
+        var grid = new Grid();
+        var parent = new Label(); // NOT added to grid
+        var widget = new Label
         {
             Parent = parent
         };
@@ -61,8 +85,8 @@ public class ControlExtensionTests
     public void GetGridCell_Returns_Null_When_Widget_Has_No_Parent()
     {
         // Arrange
-        var grid = new Gtk.Grid();
-        var widget = new Gtk.Label(); // no parent
+        var grid = new Grid();
+        var widget = new Label(); // no parent
 
         var control = new TestControl(widget);
 
@@ -73,32 +97,10 @@ public class ControlExtensionTests
         Assert.Null(result);
     }
 
-    [Fact]
-    public void GetGridCell_Returns_NotNull_When_Grid_Has_No_Attach_Properties()
-    {
-        // Arrange
-        var grid = new Gtk.Grid();
-        var parent = new Gtk.Label();
-        var widget = new Gtk.Label();
-
-        // Add to grid WITHOUT Attach (no layout metadata)
-        grid.Add(parent);
-
-        widget.Parent = parent;
-
-        var control = new TestControl(widget);
-
-        // Act
-        var result = control.GetGridCell(grid);
-
-        // Assert
-        Assert.NotNull(result);
-    }
-
     // Helper control
     private class TestControl : Control
     {
-        public TestControl(Gtk.Widget widget)
+        public TestControl(Widget widget)
         {
             Widget = widget;
             var iControlGtk = Substitute.For<IControlGtk>();
@@ -106,12 +108,8 @@ public class ControlExtensionTests
             GtkControl = iControlGtk;
         }
 
-        public override Gtk.Widget Widget { get; }
+        public override Widget Widget { get; }
 
-        public override object? GtkControl
-        {
-            get;
-            set;
-        }
+        public override object? GtkControl { get; set; }
     }
 }

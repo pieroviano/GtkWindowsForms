@@ -14,7 +14,7 @@ public class ColorExtensionTests
     {
         var result = gtk::System.Drawing.ColorExtension.FromName("Red");
 
-        Assert.Equal(Color.Red.ToArgb(), ((Color)result).ToArgb());
+        Assert.Equal(Color.Red.ToArgb(), result.ToArgb());
     }
 
     [Fact]

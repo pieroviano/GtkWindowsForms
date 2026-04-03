@@ -2,34 +2,6 @@
 
 public class BinaryReaderExtensionsTests
 {
-    private static BinaryReader CreateReader(params byte[] bytes)
-    {
-        return new BinaryReader(new MemoryStream(bytes));
-    }
-
-    [Fact]
-    public void Read7BitEncodedInt_SingleByteValue()
-    {
-        // value = 5
-        var reader = CreateReader(0x05);
-
-        var result = reader.Read7BitEncodedInt();
-
-        Assert.Equal(5, result);
-    }
-
-    [Fact]
-    public void Read7BitEncodedInt_MultiByteValue()
-    {
-        // value = 300 (0x012C)
-        // encoded: 0xAC 0x02
-        var reader = CreateReader(0xAC, 0x02);
-
-        var result = reader.Read7BitEncodedInt();
-
-        Assert.Equal(300, result);
-    }
-
     [Fact]
     public void Read7BitEncodedInt_MaxInt32()
     {
@@ -43,13 +15,15 @@ public class BinaryReaderExtensionsTests
     }
 
     [Fact]
-    public void Read7BitEncodedInt_Zero()
+    public void Read7BitEncodedInt_MultiByteValue()
     {
-        var reader = CreateReader(0x00);
+        // value = 300 (0x012C)
+        // encoded: 0xAC 0x02
+        var reader = CreateReader(0xAC, 0x02);
 
         var result = reader.Read7BitEncodedInt();
 
-        Assert.Equal(0, result);
+        Assert.Equal(300, result);
     }
 
     [Fact]
@@ -68,12 +42,14 @@ public class BinaryReaderExtensionsTests
     }
 
     [Fact]
-    public void Read7BitEncodedInt_ThrowsFormatException_OnTooManyBytes()
+    public void Read7BitEncodedInt_SingleByteValue()
     {
-        // 6 bytes with continuation bits -> invalid
-        var reader = CreateReader(0x80, 0x80, 0x80, 0x80, 0x80, 0x00);
+        // value = 5
+        var reader = CreateReader(0x05);
 
-        Assert.Throws<FormatException>(() => reader.Read7BitEncodedInt());
+        var result = reader.Read7BitEncodedInt();
+
+        Assert.Equal(5, result);
     }
 
     [Fact]
@@ -83,5 +59,29 @@ public class BinaryReaderExtensionsTests
         var reader = CreateReader(0x80);
 
         Assert.Throws<EndOfStreamException>(() => reader.Read7BitEncodedInt());
+    }
+
+    [Fact]
+    public void Read7BitEncodedInt_ThrowsFormatException_OnTooManyBytes()
+    {
+        // 6 bytes with continuation bits -> invalid
+        var reader = CreateReader(0x80, 0x80, 0x80, 0x80, 0x80, 0x00);
+
+        Assert.Throws<FormatException>(() => reader.Read7BitEncodedInt());
+    }
+
+    [Fact]
+    public void Read7BitEncodedInt_Zero()
+    {
+        var reader = CreateReader(0x00);
+
+        var result = reader.Read7BitEncodedInt();
+
+        Assert.Equal(0, result);
+    }
+
+    private static BinaryReader CreateReader(params byte[] bytes)
+    {
+        return new BinaryReader(new MemoryStream(bytes));
     }
 }

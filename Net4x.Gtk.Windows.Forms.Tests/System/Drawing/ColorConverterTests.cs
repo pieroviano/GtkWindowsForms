@@ -1,7 +1,7 @@
 ﻿extern alias gtk;
-
 using System.ComponentModel.Design.Serialization;
 using System.Globalization;
+
 #pragma warning disable CS8605 // Unboxing a possibly null value.
 
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -32,6 +32,15 @@ public class ColorConverterTests
         Assert.True(result);
     }
 
+    [Fact]
+    public void ConvertFrom_ArgbCommaSeparated_ReturnsCorrectColor()
+    {
+        var result = (Color)_sut.ConvertFrom(null, CultureInfo.InvariantCulture, "255, 0, 0");
+        var color = Color.FromArgb(255, 0, 0);
+
+        Assert.Equal(color.ToArgb(), result.ToArgb());
+    }
+
     // ----------------------------
     // ConvertFrom
     // ----------------------------
@@ -42,6 +51,23 @@ public class ColorConverterTests
         var result = (Color)_sut.ConvertFrom(null, CultureInfo.InvariantCulture, "");
 
         Assert.Equal(Color.Empty.ToArgb(), result.ToArgb());
+    }
+
+    [Fact]
+    public void ConvertFrom_HexColor_ReturnsCorrectColor()
+    {
+        var result = (Color)_sut.ConvertFrom(null, CultureInfo.InvariantCulture, "#FF0000");
+
+        Assert.Equal(Color.FromArgb(255, 255, 0, 0).ToArgb(), result.ToArgb());
+    }
+
+    [Fact]
+    public void ConvertFrom_InvalidColor_Throws()
+    {
+        Assert.Throws<ArgumentException>(() =>
+        {
+            return _sut.ConvertFrom(null, CultureInfo.InvariantCulture, "not-a-color");
+        });
     }
 
     [Fact]
@@ -61,29 +87,40 @@ public class ColorConverterTests
     }
 
     [Fact]
-    public void ConvertFrom_HexColor_ReturnsCorrectColor()
+    public void ConvertTo_InstanceDescriptor_ArgbColor_ReturnsDescriptor()
     {
-        var result = (Color)_sut.ConvertFrom(null, CultureInfo.InvariantCulture, "#FF0000");
+        var color = Color.FromArgb(1, 2, 3);
 
-        Assert.Equal(Color.FromArgb(255, 255, 0, 0).ToArgb(), result.ToArgb());
+        var result =
+            (InstanceDescriptor)_sut.ConvertTo(null, CultureInfo.InvariantCulture, color, typeof(InstanceDescriptor));
+
+        Assert.NotNull(result);
+    }
+
+    // ----------------------------
+    // ConvertTo (InstanceDescriptor)
+    // ----------------------------
+
+    [Fact]
+    public void ConvertTo_InstanceDescriptor_NamedColor_ReturnsDescriptor()
+    {
+        var result = (InstanceDescriptor)_sut.ConvertTo(null, CultureInfo.InvariantCulture, Color.Red,
+            typeof(InstanceDescriptor));
+
+        Assert.NotNull(result);
+        Assert.NotNull(result.MemberInfo);
     }
 
     [Fact]
-    public void ConvertFrom_ArgbCommaSeparated_ReturnsCorrectColor()
+    public void ConvertTo_String_ArgbColor_ReturnsCommaSeparated()
     {
-        var result = (Color)_sut.ConvertFrom(null, CultureInfo.InvariantCulture, "255, 0, 0");
-        var color = Color.FromArgb(255, 0, 0);
+        var color = Color.FromArgb(10, 20, 30);
 
-        Assert.Equal(color.ToArgb(), result.ToArgb());
-    }
+        var result = (string)_sut.ConvertTo(null, CultureInfo.InvariantCulture, color, typeof(string));
 
-    [Fact]
-    public void ConvertFrom_InvalidColor_Throws()
-    {
-        Assert.Throws<ArgumentException>(() =>
-        {
-            return _sut.ConvertFrom(null, CultureInfo.InvariantCulture, "not-a-color");
-        });
+        Assert.Contains("10", result);
+        Assert.Contains("20", result);
+        Assert.Contains("30", result);
     }
 
     // ----------------------------
@@ -106,43 +143,6 @@ public class ColorConverterTests
         Assert.Equal("Red", result);
     }
 
-    [Fact]
-    public void ConvertTo_String_ArgbColor_ReturnsCommaSeparated()
-    {
-        var color = Color.FromArgb(10, 20, 30);
-
-        var result = (string)_sut.ConvertTo(null, CultureInfo.InvariantCulture, color, typeof(string));
-
-        Assert.Contains("10", result);
-        Assert.Contains("20", result);
-        Assert.Contains("30", result);
-    }
-
-    // ----------------------------
-    // ConvertTo (InstanceDescriptor)
-    // ----------------------------
-
-    [Fact]
-    public void ConvertTo_InstanceDescriptor_NamedColor_ReturnsDescriptor()
-    {
-        var result = (InstanceDescriptor)_sut.ConvertTo(null, CultureInfo.InvariantCulture, Color.Red,
-            typeof(InstanceDescriptor));
-
-        Assert.NotNull(result);
-        Assert.NotNull(result.MemberInfo);
-    }
-
-    [Fact]
-    public void ConvertTo_InstanceDescriptor_ArgbColor_ReturnsDescriptor()
-    {
-        var color = Color.FromArgb(1, 2, 3);
-
-        var result =
-            (InstanceDescriptor)_sut.ConvertTo(null, CultureInfo.InvariantCulture, color, typeof(InstanceDescriptor));
-
-        Assert.NotNull(result);
-    }
-
     // ----------------------------
     // Standard values
     // ----------------------------
@@ -163,5 +163,4 @@ public class ColorConverterTests
 
         Assert.True(result);
     }
-
 }

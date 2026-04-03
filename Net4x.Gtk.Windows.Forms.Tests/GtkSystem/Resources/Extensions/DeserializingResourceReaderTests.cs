@@ -5,28 +5,14 @@ namespace GtkSystem.Resources.Extensions;
 public class DeserializingResourceReaderTests
 {
     [Fact]
-    public void Constructor_WithNullStream_Throws()
+    public void Close_CanBeCalledMultipleTimes()
     {
-        Assert.Throws<ArgumentNullException>(() => new DeserializingResourceReader((Stream)null));
-    }
-
-    [Fact]
-    public void Constructor_WithUnreadableStream_Throws()
-    {
-        var stream = new MemoryStream(new byte[1], writable: false);
-        stream.Close();
-        Assert.Throws<ArgumentException>(() => new DeserializingResourceReader(stream));
-    }
-
-    [Fact]
-    public void Dispose_CanBeCalledMultipleTimes()
-    {
-        var ms = new MemoryStream(new byte[1], writable: true);
+        var ms = new MemoryStream(new byte[1], true);
         try
         {
             var reader = new DeserializingResourceReader(ms);
-            reader.Dispose();
-            reader.Dispose();
+            reader.Close();
+            reader.Close();
         }
         catch (Exception ex)
         {
@@ -36,14 +22,28 @@ public class DeserializingResourceReaderTests
     }
 
     [Fact]
-    public void Close_CanBeCalledMultipleTimes()
+    public void Constructor_WithNullStream_Throws()
     {
-        var ms = new MemoryStream(new byte[1], writable: true);
+        Assert.Throws<ArgumentNullException>(() => new DeserializingResourceReader((Stream)null));
+    }
+
+    [Fact]
+    public void Constructor_WithUnreadableStream_Throws()
+    {
+        var stream = new MemoryStream(new byte[1], false);
+        stream.Close();
+        Assert.Throws<ArgumentException>(() => new DeserializingResourceReader(stream));
+    }
+
+    [Fact]
+    public void Dispose_CanBeCalledMultipleTimes()
+    {
+        var ms = new MemoryStream(new byte[1], true);
         try
         {
             var reader = new DeserializingResourceReader(ms);
-            reader.Close();
-            reader.Close();
+            reader.Dispose();
+            reader.Dispose();
         }
         catch (Exception ex)
         {
@@ -55,7 +55,7 @@ public class DeserializingResourceReaderTests
     [Fact]
     public void GetEnumerator_ThrowsIfDisposed()
     {
-        var ms = new MemoryStream(new byte[1], writable: true);
+        var ms = new MemoryStream(new byte[1], true);
         DeserializingResourceReader? reader = null;
         try
         {
@@ -65,6 +65,7 @@ public class DeserializingResourceReaderTests
         {
             // Ignore: may throw due to invalid resource format
         }
+
         if (reader != null)
         {
             reader.Dispose();

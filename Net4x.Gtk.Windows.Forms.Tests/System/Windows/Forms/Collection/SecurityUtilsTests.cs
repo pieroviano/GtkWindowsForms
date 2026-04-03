@@ -2,29 +2,25 @@
 
 public class SecurityUtilsTests
 {
-    private class PublicCtorClass
+    [Fact]
+    public void SecureCreateInstance_AllowNonPublic_IgnoredWhenFalse()
     {
-        public int Value { get; }
-
-        public PublicCtorClass()
-        {
-            Value = 1;
-        }
-
-        public PublicCtorClass(int value)
-        {
-            Value = value;
-        }
+        Assert.Throws<MissingMethodException>(() =>
+            SecurityUtils.SecureCreateInstance(
+                typeof(PrivateCtorClass),
+                null,
+                false));
     }
 
-    private class PrivateCtorClass
+    [Fact]
+    public void SecureCreateInstance_AllowNonPublic_UsesNonPublicBindingFlag()
     {
-        public int Value { get; }
+        var instance = SecurityUtils.SecureCreateInstance(
+            typeof(PrivateCtorClass),
+            null,
+            true);
 
-        private PrivateCtorClass()
-        {
-            Value = 42;
-        }
+        Assert.NotNull(instance);
     }
 
     [Fact]
@@ -32,6 +28,29 @@ public class SecurityUtilsTests
     {
         Assert.Throws<ArgumentNullException>(() =>
             SecurityUtils.SecureCreateInstance(null));
+    }
+
+    [Fact]
+    public void SecureCreateInstance_PrivateCtor_WithAllowNonPublic_CreatesInstance()
+    {
+        var instance = SecurityUtils.SecureCreateInstance(
+            typeof(PrivateCtorClass),
+            null,
+            true);
+
+        Assert.NotNull(instance);
+        Assert.IsType<PrivateCtorClass>(instance);
+        Assert.Equal(42, ((PrivateCtorClass)instance!).Value);
+    }
+
+    [Fact]
+    public void SecureCreateInstance_PrivateCtor_WithoutAllowNonPublic_Throws()
+    {
+        Assert.Throws<MissingMethodException>(() =>
+            SecurityUtils.SecureCreateInstance(
+                typeof(PrivateCtorClass),
+                null,
+                false));
     }
 
     [Fact]
@@ -50,54 +69,10 @@ public class SecurityUtilsTests
         var instance = SecurityUtils.SecureCreateInstance(
             typeof(PublicCtorClass),
             new object[] { 123 },
-            allowNonPublic: false);
+            false);
 
         Assert.NotNull(instance);
         Assert.Equal(123, ((PublicCtorClass)instance!).Value);
-    }
-
-    [Fact]
-    public void SecureCreateInstance_PrivateCtor_WithoutAllowNonPublic_Throws()
-    {
-        Assert.Throws<MissingMethodException>(() =>
-            SecurityUtils.SecureCreateInstance(
-                typeof(PrivateCtorClass),
-                null,
-                allowNonPublic: false));
-    }
-
-    [Fact]
-    public void SecureCreateInstance_PrivateCtor_WithAllowNonPublic_CreatesInstance()
-    {
-        var instance = SecurityUtils.SecureCreateInstance(
-            typeof(PrivateCtorClass),
-            null,
-            allowNonPublic: true);
-
-        Assert.NotNull(instance);
-        Assert.IsType<PrivateCtorClass>(instance);
-        Assert.Equal(42, ((PrivateCtorClass)instance!).Value);
-    }
-
-    [Fact]
-    public void SecureCreateInstance_AllowNonPublic_IgnoredWhenFalse()
-    {
-        Assert.Throws<MissingMethodException>(() =>
-            SecurityUtils.SecureCreateInstance(
-                typeof(PrivateCtorClass),
-                null,
-                allowNonPublic: false));
-    }
-
-    [Fact]
-    public void SecureCreateInstance_AllowNonPublic_UsesNonPublicBindingFlag()
-    {
-        var instance = SecurityUtils.SecureCreateInstance(
-            typeof(PrivateCtorClass),
-            null,
-            allowNonPublic: true);
-
-        Assert.NotNull(instance);
     }
 
     [Fact]
@@ -106,5 +81,30 @@ public class SecurityUtilsTests
         var instance = SecurityUtils.SecureCreateInstance(typeof(PrivateCtorClass));
 
         Assert.NotNull(instance); // still works via public path or fails gracefully
+    }
+
+    private class PublicCtorClass
+    {
+        public PublicCtorClass()
+        {
+            Value = 1;
+        }
+
+        public PublicCtorClass(int value)
+        {
+            Value = value;
+        }
+
+        public int Value { get; }
+    }
+
+    private class PrivateCtorClass
+    {
+        private PrivateCtorClass()
+        {
+            Value = 42;
+        }
+
+        public int Value { get; }
     }
 }

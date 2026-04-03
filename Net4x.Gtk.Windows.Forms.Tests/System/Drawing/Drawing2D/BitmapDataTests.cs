@@ -3,7 +3,6 @@
 namespace System.Drawing.Drawing2D;
 
 extern alias gtk;
-
 using BitmapData = gtk::System.Drawing.Imaging.BitmapData;
 using PixelFormat = gtk::System.Drawing.Imaging.PixelFormat;
 
@@ -23,14 +22,18 @@ public class BitmapDataTests
     }
 
     [Fact]
-    public void Width_Should_Set_And_Get()
+    public void GetPinnableReference_Should_Return_Reference_To_Width()
     {
         var data = new BitmapData
         {
-            Width = 123
+            Width = 10
         };
 
-        Assert.Equal(123, data.Width);
+        ref var reference = ref data.GetPinnableReference();
+
+        reference = 99;
+
+        Assert.Equal(99, data.Width);
     }
 
     [Fact]
@@ -42,39 +45,6 @@ public class BitmapDataTests
         };
 
         Assert.Equal(456, data.Height);
-    }
-
-    [Fact]
-    public void Stride_Should_Set_And_Get()
-    {
-        var data = new BitmapData
-        {
-            Stride = 789
-        };
-
-        Assert.Equal(789, data.Stride);
-    }
-
-    [Fact]
-    public void Reserved_Should_Set_And_Get()
-    {
-        var data = new BitmapData
-        {
-            Reserved = 42
-        };
-
-        Assert.Equal(42, data.Reserved);
-    }
-
-    [Fact]
-    public void Scan0_Should_Set_And_Get()
-    {
-        var data = new BitmapData();
-        var ptr = new IntPtr(123456);
-
-        data.Scan0 = ptr;
-
-        Assert.Equal(ptr, data.Scan0);
     }
 
     [Theory]
@@ -90,19 +60,6 @@ public class BitmapDataTests
         };
 
         Assert.Equal(format, data.PixelFormat);
-    }
-
-    [Fact]
-    public void PixelFormat_Should_Throw_On_Invalid_Value()
-    {
-        var data = new BitmapData();
-
-        var invalid = (PixelFormat)(-1);
-
-        Assert.Throws<InvalidEnumArgumentException>(() =>
-        {
-            data.PixelFormat = invalid;
-        });
     }
 
     [Fact]
@@ -127,17 +84,56 @@ public class BitmapDataTests
     }
 
     [Fact]
-    public void GetPinnableReference_Should_Return_Reference_To_Width()
+    public void PixelFormat_Should_Throw_On_Invalid_Value()
+    {
+        var data = new BitmapData();
+
+        var invalid = (PixelFormat)(-1);
+
+        Assert.Throws<InvalidEnumArgumentException>(() => { data.PixelFormat = invalid; });
+    }
+
+    [Fact]
+    public void Reserved_Should_Set_And_Get()
     {
         var data = new BitmapData
         {
-            Width = 10
+            Reserved = 42
         };
 
-        ref var reference = ref data.GetPinnableReference();
+        Assert.Equal(42, data.Reserved);
+    }
 
-        reference = 99;
+    [Fact]
+    public void Scan0_Should_Set_And_Get()
+    {
+        var data = new BitmapData();
+        var ptr = new IntPtr(123456);
 
-        Assert.Equal(99, data.Width);
+        data.Scan0 = ptr;
+
+        Assert.Equal(ptr, data.Scan0);
+    }
+
+    [Fact]
+    public void Stride_Should_Set_And_Get()
+    {
+        var data = new BitmapData
+        {
+            Stride = 789
+        };
+
+        Assert.Equal(789, data.Stride);
+    }
+
+    [Fact]
+    public void Width_Should_Set_And_Get()
+    {
+        var data = new BitmapData
+        {
+            Width = 123
+        };
+
+        Assert.Equal(123, data.Width);
     }
 }

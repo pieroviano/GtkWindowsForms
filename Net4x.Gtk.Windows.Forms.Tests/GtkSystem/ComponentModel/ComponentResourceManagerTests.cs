@@ -4,8 +4,6 @@ namespace GtkSystem.ComponentModel;
 
 public class ComponentResourceManagerTests
 {
-    private class DummyForm { }
-
     [Fact]
     public void Constructor_SetsTypeAndName()
     {
@@ -22,6 +20,13 @@ public class ComponentResourceManagerTests
     }
 
     [Fact]
+    public void GetObject_WithNameAndCulture_DelegatesToGetObject()
+    {
+        var mgr = new ComponentResourceManager(typeof(DummyForm));
+        Assert.ThrowsAny<Exception>(() => mgr.GetObject("any", CultureInfo.InvariantCulture));
+    }
+
+    [Fact]
     public void GetString_WithName_ThrowsOrReturns()
     {
         var mgr = new ComponentResourceManager(typeof(DummyForm));
@@ -29,10 +34,7 @@ public class ComponentResourceManagerTests
         Assert.ThrowsAny<Exception>(() => mgr.GetString("any"));
     }
 
-    [Fact]
-    public void GetObject_WithNameAndCulture_DelegatesToGetObject()
+    private class DummyForm
     {
-        var mgr = new ComponentResourceManager(typeof(DummyForm));
-        Assert.ThrowsAny<Exception>(() => mgr.GetObject("any", CultureInfo.InvariantCulture));
     }
 }

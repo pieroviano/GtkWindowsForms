@@ -3,33 +3,27 @@
 public class BindingMemberInfoTests
 {
     [Fact]
-    public void Constructor_NullInput_ShouldDefaultToEmpty()
+    public void BindingField_EmptyInput_ShouldBeEmpty()
     {
-        var sut = new BindingMemberInfo(null);
+        var sut = new BindingMemberInfo("");
 
         Assert.Equal(string.Empty, sut.BindingField);
-        Assert.Equal(string.Empty, sut.BindingPath);
-        Assert.Equal(string.Empty, sut.BindingMember);
     }
 
     [Fact]
-    public void Constructor_NoDot_ShouldSetFieldOnly()
+    public void BindingMember_WhenNoPath_ShouldReturnFieldOnly()
     {
         var sut = new BindingMemberInfo("Name");
 
-        Assert.Equal("Name", sut.BindingField);
-        Assert.Equal(string.Empty, sut.BindingPath);
         Assert.Equal("Name", sut.BindingMember);
     }
 
     [Fact]
-    public void Constructor_WithDot_ShouldSplitCorrectly()
+    public void BindingPath_EmptyInput_ShouldBeEmpty()
     {
-        var sut = new BindingMemberInfo("Customer.Name");
+        var sut = new BindingMemberInfo("");
 
-        Assert.Equal("Customer", sut.BindingPath);
-        Assert.Equal("Name", sut.BindingField);
-        Assert.Equal("Customer.Name", sut.BindingMember);
+        Assert.Equal(string.Empty, sut.BindingPath);
     }
 
     [Fact]
@@ -43,21 +37,33 @@ public class BindingMemberInfoTests
     }
 
     [Fact]
-    public void BindingMember_WhenNoPath_ShouldReturnFieldOnly()
+    public void Constructor_NoDot_ShouldSetFieldOnly()
     {
         var sut = new BindingMemberInfo("Name");
 
+        Assert.Equal("Name", sut.BindingField);
+        Assert.Equal(string.Empty, sut.BindingPath);
         Assert.Equal("Name", sut.BindingMember);
     }
 
     [Fact]
-    public void Equals_SameValues_ShouldBeTrue()
+    public void Constructor_NullInput_ShouldDefaultToEmpty()
     {
-        var a = new BindingMemberInfo("Customer.Name");
-        var b = new BindingMemberInfo("Customer.Name");
+        var sut = new BindingMemberInfo(null);
 
-        Assert.True(a.Equals(b));
-        Assert.True(a.Equals((object)b));
+        Assert.Equal(string.Empty, sut.BindingField);
+        Assert.Equal(string.Empty, sut.BindingPath);
+        Assert.Equal(string.Empty, sut.BindingMember);
+    }
+
+    [Fact]
+    public void Constructor_WithDot_ShouldSplitCorrectly()
+    {
+        var sut = new BindingMemberInfo("Customer.Name");
+
+        Assert.Equal("Customer", sut.BindingPath);
+        Assert.Equal("Name", sut.BindingField);
+        Assert.Equal("Customer.Name", sut.BindingMember);
     }
 
     [Fact]
@@ -87,6 +93,16 @@ public class BindingMemberInfoTests
     }
 
     [Fact]
+    public void Equals_SameValues_ShouldBeTrue()
+    {
+        var a = new BindingMemberInfo("Customer.Name");
+        var b = new BindingMemberInfo("Customer.Name");
+
+        Assert.True(a.Equals(b));
+        Assert.True(a.Equals((object)b));
+    }
+
+    [Fact]
     public void GetHashCode_ShouldReturnValue()
     {
         var sut = new BindingMemberInfo("Customer.Name");
@@ -94,21 +110,5 @@ public class BindingMemberInfoTests
         var hash = sut.GetHashCode();
 
         Assert.IsType<int>(hash);
-    }
-
-    [Fact]
-    public void BindingPath_EmptyInput_ShouldBeEmpty()
-    {
-        var sut = new BindingMemberInfo("");
-
-        Assert.Equal(string.Empty, sut.BindingPath);
-    }
-
-    [Fact]
-    public void BindingField_EmptyInput_ShouldBeEmpty()
-    {
-        var sut = new BindingMemberInfo("");
-
-        Assert.Equal(string.Empty, sut.BindingField);
     }
 }

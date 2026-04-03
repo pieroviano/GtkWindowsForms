@@ -1,5 +1,4 @@
 ﻿extern alias gtk;
-
 using LogLevel = gtk::System.Diagnostics.LogLevel;
 using GtkLogger = gtk::System.Diagnostics.GtkLogger;
 
@@ -8,9 +7,9 @@ namespace System.Diagnostics;
 [Collection("NonParallelCollection")]
 public class GtkLoggerTests
 {
-    private string? _capturedMessage;
-    private LogLevel _capturedLevel;
     private Exception? _capturedException;
+    private LogLevel _capturedLevel;
+    private string? _capturedMessage;
 
     public GtkLoggerTests()
     {
@@ -40,26 +39,6 @@ public class GtkLoggerTests
         Assert.NotNull(_capturedMessage);
         Assert.Contains("test", _capturedMessage);
         Assert.Equal(LogLevel.Debug, _capturedLevel);
-    }
-
-    [Fact]
-    public void Should_Not_Log_When_Below_MinimumLevel()
-    {
-        GtkLogger.MinimumLogLevel = LogLevel.Error;
-
-        GtkLogger.Info("ignored");
-
-        Assert.Null(_capturedMessage);
-    }
-
-    [Fact]
-    public void Should_Not_Log_When_Disabled()
-    {
-        GtkLogger.IsEnabled = false;
-
-        GtkLogger.Error("test");
-
-        Assert.Null(_capturedMessage);
     }
 
     [Fact]
@@ -96,15 +75,11 @@ public class GtkLoggerTests
     }
 
     [Fact]
-    public void Should_Log_Inner_Exceptions()
+    public void Fatal_Should_Map_To_Critical()
     {
-        var inner = new Exception("inner");
-        var outer = new Exception("outer", inner);
+        GtkLogger.Fatal("fatal");
 
-        GtkLogger.Error("fail", outer);
-
-        Assert.Contains("Inner Exception", _capturedMessage);
-        Assert.Contains("inner", _capturedMessage);
+        Assert.Equal(LogLevel.Critical, _capturedLevel);
     }
 
     [Fact]
@@ -123,50 +98,6 @@ public class GtkLoggerTests
     }
 
     [Fact]
-    public void Warn_And_Warning_Should_Be_Equivalent()
-    {
-        GtkLogger.Warn("warn");
-        var firstLevel = _capturedLevel;
-
-        GtkLogger.Warning("warn");
-        var secondLevel = _capturedLevel;
-
-        Assert.Equal(firstLevel, secondLevel);
-        Assert.Equal(LogLevel.Warning, firstLevel);
-    }
-
-    [Fact]
-    public void Fatal_Should_Map_To_Critical()
-    {
-        GtkLogger.Fatal("fatal");
-
-        Assert.Equal(LogLevel.Critical, _capturedLevel);
-    }
-
-    [Fact]
-    public void Trace_Should_Log_With_Trace_Level()
-    {
-        GtkLogger.Trace("trace");
-
-        Assert.Equal(LogLevel.Trace, _capturedLevel);
-    }
-
-    [Fact]
-    public void Should_Use_Custom_Log_Action()
-    {
-        var called = false;
-
-        GtkLogger.SetCustomLogAction((msg, lvl, ex) =>
-        {
-            called = true;
-        });
-
-        GtkLogger.Info("test");
-
-        Assert.True(called);
-    }
-
-    [Fact]
     public void Should_Fallback_To_Trace_When_No_Custom_Action()
     {
         GtkLogger.SetCustomLogAction(null);
@@ -179,6 +110,71 @@ public class GtkLoggerTests
         Trace.Listeners.Remove(listener);
 
         Assert.Contains("trace test", listener.Output);
+    }
+
+    [Fact]
+    public void Should_Log_Inner_Exceptions()
+    {
+        var inner = new Exception("inner");
+        var outer = new Exception("outer", inner);
+
+        GtkLogger.Error("fail", outer);
+
+        Assert.Contains("Inner Exception", _capturedMessage);
+        Assert.Contains("inner", _capturedMessage);
+    }
+
+    [Fact]
+    public void Should_Not_Log_When_Below_MinimumLevel()
+    {
+        GtkLogger.MinimumLogLevel = LogLevel.Error;
+
+        GtkLogger.Info("ignored");
+
+        Assert.Null(_capturedMessage);
+    }
+
+    [Fact]
+    public void Should_Not_Log_When_Disabled()
+    {
+        GtkLogger.IsEnabled = false;
+
+        GtkLogger.Error("test");
+
+        Assert.Null(_capturedMessage);
+    }
+
+    [Fact]
+    public void Should_Use_Custom_Log_Action()
+    {
+        var called = false;
+
+        GtkLogger.SetCustomLogAction((msg, lvl, ex) => { called = true; });
+
+        GtkLogger.Info("test");
+
+        Assert.True(called);
+    }
+
+    [Fact]
+    public void Trace_Should_Log_With_Trace_Level()
+    {
+        GtkLogger.Trace("trace");
+
+        Assert.Equal(LogLevel.Trace, _capturedLevel);
+    }
+
+    [Fact]
+    public void Warn_And_Warning_Should_Be_Equivalent()
+    {
+        GtkLogger.Warn("warn");
+        var firstLevel = _capturedLevel;
+
+        GtkLogger.Warning("warn");
+        var secondLevel = _capturedLevel;
+
+        Assert.Equal(firstLevel, secondLevel);
+        Assert.Equal(LogLevel.Warning, firstLevel);
     }
 
     private class TestTraceListener : TraceListener

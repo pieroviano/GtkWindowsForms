@@ -4,43 +4,26 @@ namespace System.ComponentModel.Design;
 
 public class ComponentDesignerTests
 {
-    // Subclass for NotImplementedException tests
-    internal class NotImplementedComponentDesigner : ComponentDesigner
-    {
-        public override System.Collections.ICollection Children => throw new NotImplementedException();
-        public override IComponent Component => throw new NotImplementedException();
-        public override IDesigner? Parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override DesignerVerbCollection Verbs => throw new NotImplementedException();
-    }
-
     private readonly ComponentDesigner _sut = new NotImplementedComponentDesigner();
 
     [Fact]
     public void Children_ShouldThrow_NotImplementedException()
     {
         var designer = new NotImplementedComponentDesigner();
-        Assert.Throws<NotImplementedException>(() => { var _ = designer.Children; });
+        Assert.Throws<NotImplementedException>(() =>
+        {
+            var _ = designer.Children;
+        });
     }
 
     [Fact]
     public void Component_ShouldThrow_NotImplementedException()
     {
         var designer = new NotImplementedComponentDesigner();
-        Assert.Throws<NotImplementedException>(() => { var _ = designer.Component; });
-    }
-
-    [Fact]
-    public void Parent_ShouldThrow_NotImplementedException()
-    {
-        var designer = new NotImplementedComponentDesigner();
-        Assert.Throws<NotImplementedException>(() => { var _ = designer.Parent; });
-    }
-
-    [Fact]
-    public void Verbs_ShouldThrow_NotImplementedException()
-    {
-        var designer = new NotImplementedComponentDesigner();
-        Assert.Throws<NotImplementedException>(() => { var _ = designer.Verbs; });
+        Assert.Throws<NotImplementedException>(() =>
+        {
+            var _ = designer.Component;
+        });
     }
 
     [Fact]
@@ -77,6 +60,16 @@ public class ComponentDesignerTests
         IDictionary dict = new Hashtable();
 
         _sut.InitializeNewComponent(dict);
+    }
+
+    [Fact]
+    public void Parent_ShouldThrow_NotImplementedException()
+    {
+        var designer = new NotImplementedComponentDesigner();
+        Assert.Throws<NotImplementedException>(() =>
+        {
+            var _ = designer.Parent;
+        });
     }
 
     [Fact]
@@ -125,6 +118,31 @@ public class ComponentDesignerTests
         IDictionary dict = new Hashtable();
 
         _sut.PreFilterProperties(dict);
+    }
+
+    [Fact]
+    public void Verbs_ShouldThrow_NotImplementedException()
+    {
+        var designer = new NotImplementedComponentDesigner();
+        Assert.Throws<NotImplementedException>(() =>
+        {
+            var _ = designer.Verbs;
+        });
+    }
+
+    // Subclass for NotImplementedException tests
+    internal class NotImplementedComponentDesigner : ComponentDesigner
+    {
+        public override ICollection Children => throw new NotImplementedException();
+        public override IComponent Component => throw new NotImplementedException();
+
+        public override IDesigner? Parent
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public override DesignerVerbCollection Verbs => throw new NotImplementedException();
     }
 
     private class TestComponent : IComponent
