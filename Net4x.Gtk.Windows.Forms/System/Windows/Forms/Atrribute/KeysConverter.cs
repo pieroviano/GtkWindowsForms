@@ -390,5 +390,40 @@ public class KeysConverter : TypeConverter, IComparer
         AddKey("7", Keys.D7);
         AddKey("8", Keys.D8);
         AddKey("9", Keys.D9);
+
+        // Modifiers and common named keys
+        AddKey("Control", Keys.Control);
+        AddKey("Ctrl", Keys.Control); // common synonym
+        AddKey("Shift", Keys.Shift);
+        AddKey("Alt", Keys.Alt);
+        AddKey("Menu", Keys.Menu); // alternate name for Alt on some platforms
+
+        // Letters A-Z
+        AddKey("A", Keys.A);
+        AddKey("B", Keys.B);
+        AddKey("C", Keys.C);
+        AddKey("D", Keys.D);
+        AddKey("E", Keys.E);
+        AddKey("F", Keys.F);
+        AddKey("G", Keys.G);
+        AddKey("H", Keys.H);
+        AddKey("I", Keys.I);
+        AddKey("J", Keys.J);
+        AddKey("K", Keys.K);
+        AddKey("L", Keys.L);
+        AddKey("M", Keys.M);
+        AddKey("N", Keys.N);
+        AddKey("O", Keys.O);
+        AddKey("P", Keys.P);
+        AddKey("Q", Keys.Q);
+        AddKey("R", Keys.R);
+        AddKey("S", Keys.S);
+        AddKey("T", Keys.T);
+        AddKey("U", Keys.U);
+        AddKey("V", Keys.V);
+        AddKey("W", Keys.W);
+        AddKey("X", Keys.X);
+        AddKey("Y", Keys.Y);
+        AddKey("Z", Keys.Z);
     }
 }
