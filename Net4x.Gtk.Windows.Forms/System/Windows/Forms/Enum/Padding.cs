@@ -182,6 +182,14 @@ public struct Padding
     /// </returns>
     public override bool Equals(object other)
     {
+        if (other is Padding p)
+        {
+            return Left == p.Left
+                && Top == p.Top
+                && Right == p.Right
+                && Bottom == p.Bottom;
+        }
+
         return false;
     }
 

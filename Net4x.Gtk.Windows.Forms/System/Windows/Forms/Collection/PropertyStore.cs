@@ -582,11 +582,39 @@ internal partial class PropertyStore
     /// </summary>
     private bool LocateIntegerEntry(short entryKey, out int index)
     {
+        if (_intEntries is null || _intEntries.Length == 0)
+        {
+            index = 0;
+            return false;
+        }
 
-        index = 0;
+        var low = 0;
+        var high = _intEntries.Length - 1;
 
+        while (low <= high)
+        {
+            var mid = (low + high) / 2;
+            var midKey = _intEntries[mid].Key;
+
+            if (midKey == entryKey)
+            {
+                index = mid;
+                return true;
+            }
+
+            if (midKey < entryKey)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+
+        // Not found → insertion index
+        index = low;
         return false;
-
     }
 
     /// <summary>
@@ -599,11 +627,38 @@ internal partial class PropertyStore
     /// </summary>
     private bool LocateObjectEntry(short entryKey, out int index)
     {
+        if (_objEntries is null || _objEntries.Length == 0)
+        {
+            index = 0;
+            return false;
+        }
 
-        index = 0;
+        var low = 0;
+        var high = _objEntries.Length - 1;
 
+        while (low <= high)
+        {
+            var mid = (low + high) / 2;
+            var midKey = _objEntries[mid].Key;
+
+            if (midKey == entryKey)
+            {
+                index = mid;
+                return true;
+            }
+
+            if (midKey < entryKey)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+
+        index = low;
         return false;
-
     }
 
     /// <summary>
