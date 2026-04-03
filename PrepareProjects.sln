@@ -128,6 +128,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0040-Fix-Label.patch = patches\0040-Fix-Label.patch
 		patches\0041-Fix-ApplicationContext.patch = patches\0041-Fix-ApplicationContext.patch
 		patches\0042-Removed-InitApplication.patch = patches\0042-Removed-InitApplication.patch
+		patches\0043-Fix-InputLanguage.patch = patches\0043-Fix-InputLanguage.patch
 	EndProjectSection
 EndProject
 Global

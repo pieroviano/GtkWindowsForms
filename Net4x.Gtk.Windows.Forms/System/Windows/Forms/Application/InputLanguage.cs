@@ -37,7 +37,13 @@ public sealed class InputLanguage
     {
         get
         {
-            return new InputLanguage(PangoHelper.ContextGet().Language.Handle);
+            var languageHandle = PangoHelper.ContextGet().Language?.Handle;
+            if (languageHandle != null)
+            {
+                return new InputLanguage(languageHandle.Value);
+            }
+
+            return InputLanguage.DefaultInputLanguage;
         }
         set
         {
@@ -55,7 +61,14 @@ public sealed class InputLanguage
     {
         get
         {
-            return new InputLanguage(PangoHelper.ContextGet().Language.Handle);
+            IntPtr handle = (IntPtr)0x0409; // en-US
+            var languageHandle = PangoHelper.ContextGet().Language?.Handle;
+            if (languageHandle != null)
+            {
+                return new InputLanguage(languageHandle.Value);
+            }
+
+            return new InputLanguage(handle);
         }
     }
 
@@ -76,7 +89,7 @@ public sealed class InputLanguage
 
             for (var i = 0; i < size; i++)
             {
-                ils[i] = new InputLanguage(PangoHelper.ContextGet().Language.Handle);
+                ils[i] = new InputLanguage(PangoHelper.ContextGet()?.Language?.Handle?? (IntPtr)0x0409);
             }
 
             return new InputLanguageCollection(ils);
@@ -91,8 +104,7 @@ public sealed class InputLanguage
     {
         get
         {
-
-            return PangoHelper.ContextGet().Language.ToString();
+            return PangoHelper.ContextGet().Language?.ToString()??nameof(CultureInfo.InvariantCulture);
         }
     }
 
