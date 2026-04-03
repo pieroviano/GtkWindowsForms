@@ -47086,15 +47086,5 @@
             we want to always late bind to the columns for greater flexibility.
             </summary>
         </member>
-        <member name="T:ApplicationConfiguration">
-            <summary>
-            ApplicationConfiguration is a static class that is used to configure the application. It is used to set the application properties and to configure the application. This class cannot be inherited.
-            </summary>
-        </member>
-        <member name="M:ApplicationConfiguration.Initialize">
-            <summary>
-            Initializes this instance.
-            </summary>
-        </member>
     </members>
 </doc>
