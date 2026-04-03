@@ -29269,7 +29269,9 @@
         </member>
         <member name="F:System.Windows.Forms.Label.self">
             <summary>
-            The self
+            Underlying GTK-backed label implementation used by this WinForms wrapper.
+            This field provides the actual GTK widget and properties that the Label
+            surface forwards to (text, alignment, direction, etc.).
             </summary>
         </member>
         <member name="M:System.Windows.Forms.Label.#ctor">
@@ -29285,6 +29287,12 @@
             <value>
             The GTK control.
             </value>
+        </member>
+        <member name="M:System.Windows.Forms.Label.Focus">
+            <summary>
+            Attempts to set focus to the label's underlying GTK widget.
+            Override ensures Focus() works for Label even if widget focus plumbing differs.
+            </summary>
         </member>
         <member name="P:System.Windows.Forms.Label.RightToLeft">
             <summary>

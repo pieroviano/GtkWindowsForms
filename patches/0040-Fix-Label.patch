@@ -1,0 +1,58 @@
+From 8de12476c1197fd3e28f650d0a78827d23f621fd Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 3 Apr 2026 05:01:36 +0300
+Subject: [PATCH] Fix Label
+
+---
+ .../System/Windows/Forms/Label.cs             | 28 ++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+index 393e429..dc5678d 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+@@ -16,7 +16,9 @@ namespace System.Windows.Forms;
+ public partial class Label : Control
+ {
+     /// <summary>
+-    /// The self
++    /// Underlying GTK-backed label implementation used by this WinForms wrapper.
++    /// This field provides the actual GTK widget and properties that the Label
++    /// surface forwards to (text, alignment, direction, etc.).
+     /// </summary>
+     public readonly LabelBase self = new();
+ 
+@@ -39,6 +41,30 @@ public partial class Label : Control
+     /// </value>
+     public override object GtkControl => self;
+ 
++    /// <summary>
++    /// Attempts to set focus to the label's underlying GTK widget.
++    /// Override ensures Focus() works for Label even if widget focus plumbing differs.
++    /// </summary>
++    public override bool Focus()
++    {
++        // If the underlying GTK-backed widget is available, request/mark focus on it.
++        if (self is Gtk.Widget w)
++        {
++            // Some GTK wrapper implementations expose explicit IsFocus flag; try to set it.
++            try
++            {
++                w.IsFocus = true;
++                return w.IsFocus;
++            }
++            catch
++            {
++                // Fall back to base behavior if direct set fails.
++            }
++        }
++
++        return base.Focus();
++    }
++
+     /// <summary>
+     /// Gets or sets the right to left.
+     /// </summary>
+-- 
+2.51.1.windows.1
+

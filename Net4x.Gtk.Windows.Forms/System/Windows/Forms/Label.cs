@@ -16,7 +16,9 @@ namespace System.Windows.Forms;
 public partial class Label : Control
 {
     /// <summary>
-    /// The self
+    /// Underlying GTK-backed label implementation used by this WinForms wrapper.
+    /// This field provides the actual GTK widget and properties that the Label
+    /// surface forwards to (text, alignment, direction, etc.).
     /// </summary>
     public readonly LabelBase self = new();
 
@@ -38,6 +40,30 @@ public partial class Label : Control
     /// The GTK control.
     /// </value>
     public override object GtkControl => self;
+
+    /// <summary>
+    /// Attempts to set focus to the label's underlying GTK widget.
+    /// Override ensures Focus() works for Label even if widget focus plumbing differs.
+    /// </summary>
+    public override bool Focus()
+    {
+        // If the underlying GTK-backed widget is available, request/mark focus on it.
+        if (self is Gtk.Widget w)
+        {
+            // Some GTK wrapper implementations expose explicit IsFocus flag; try to set it.
+            try
+            {
+                w.IsFocus = true;
+                return w.IsFocus;
+            }
+            catch
+            {
+                // Fall back to base behavior if direct set fails.
+            }
+        }
+
+        return base.Focus();
+    }
 
     /// <summary>
     /// Gets or sets the right to left.
