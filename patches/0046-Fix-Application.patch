@@ -73,7 +73,7 @@ index 1081448..a1bf8ea 100644
 +    {
 +        if (!DontQuit)
 +        {
-+#if DEBUG
++#if DEBUG_QUIT
 +            if (!Debugger.IsAttached)
 +            {
 +                Debugger.Launch();

@@ -9,7 +9,7 @@ namespace System.Windows.Forms;
 /// <summary>
 /// Prompts the user to select a location for saving a file. This class cannot be inherited.
 /// </summary>
-public sealed class SaveFileDialog : FileDialog
+public class SaveFileDialog : FileDialog
 {
     /// <summary>
     /// Initializes a new instance of the

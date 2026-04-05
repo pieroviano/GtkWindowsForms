@@ -9,7 +9,7 @@ namespace System.Windows.Forms;
 /// <summary>
 /// Prompts the user to open a file. This class cannot be inherited.
 /// </summary>
-public sealed class OpenFileDialog : FileDialog
+public class OpenFileDialog : FileDialog
 {
     /// <summary>
     /// Initializes a new instance of the
