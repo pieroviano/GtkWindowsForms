@@ -41,7 +41,7 @@ internal interface IArrangedElement : IComponent
     /// property store on this interface.  In Orcas, this will be
     /// replaced with a global PropertyManager for DPs.
     /// </summary>
-    PropertyStore Properties { get; }
+    PropertyStore? Properties { get; }
 
     /// <summary>
     /// Query element for its preferred size.  There is no guarantee
