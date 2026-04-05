@@ -1,19 +1,13 @@
 ﻿namespace System.Windows.Forms.ApplicationTests;
 
+[Collection("NonParallelCollection")]
 public class ApplicationContextTests
 {
     private class TestForm : Form
     {
-        public bool DestroyHandleCalled;
-
         public void TriggerHandleDestroyed()
         {
             OnHandleDestroyed(EventArgs.Empty);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
         }
     }
 
@@ -52,9 +46,10 @@ public class ApplicationContextTests
         var form1 = new Form();
         var form2 = new Form();
 
-        var context = new ApplicationContext(form1);
-
-        context.MainForm = form2;
+        var context = new ApplicationContext(form1)
+        {
+            MainForm = form2
+        };
 
         Assert.Equal(form2, context.MainForm);
     }
@@ -62,9 +57,10 @@ public class ApplicationContextTests
     [Fact]
     public void Tag_SetAndGet_Works()
     {
-        var context = new ApplicationContext();
-
-        context.Tag = "test";
+        var context = new ApplicationContext
+        {
+            Tag = "test"
+        };
 
         Assert.Equal("test", context.Tag);
     }
@@ -74,7 +70,7 @@ public class ApplicationContextTests
     {
         var context = new ApplicationContext();
 
-        bool called = false;
+        var called = false;
         context.ThreadExit += (_, _) => called = true;
 
         context.ExitThread();
@@ -120,7 +116,7 @@ public class ApplicationContextTests
         var form = new TestForm();
         var context = new ApplicationContext(form);
 
-        bool called = false;
+        var called = false;
         context.ThreadExit += (_, _) => called = true;
 
         form.TriggerHandleDestroyed();
@@ -134,7 +130,7 @@ public class ApplicationContextTests
         var form = new Form();
         var context = new ApplicationContext(form);
 
-        bool called = false;
+        var called = false;
         context.ThreadExit += (_, _) => called = true;
 
         // simulate recreating handle via reflection
@@ -153,7 +149,7 @@ public class ApplicationContextTests
     {
         var context = new ApplicationContext();
 
-        bool called = false;
+        var called = false;
         context.ThreadExit += (_, _) => called = true;
 
         // call protected via subclass
@@ -171,11 +167,12 @@ public class ApplicationContextTests
         var form1 = new TestForm();
         var form2 = new TestForm();
 
-        var context = new ApplicationContext(form1);
+        var context = new ApplicationContext(form1)
+        {
+            MainForm = form2
+        };
 
-        context.MainForm = form2;
-
-        bool called = false;
+        var called = false;
         context.ThreadExit += (_, _) => called = true;
 
         // trigger old form → should NOT fire

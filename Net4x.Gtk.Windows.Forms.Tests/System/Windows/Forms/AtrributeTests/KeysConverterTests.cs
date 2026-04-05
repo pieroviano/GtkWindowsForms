@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+#pragma warning disable CS8605 // Unboxing a possibly null value.
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 namespace System.Windows.Forms.AtrributeTests;
 

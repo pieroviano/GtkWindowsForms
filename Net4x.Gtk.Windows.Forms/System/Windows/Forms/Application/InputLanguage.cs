@@ -89,7 +89,7 @@ public sealed class InputLanguage
 
             for (var i = 0; i < size; i++)
             {
-                ils[i] = new InputLanguage(PangoHelper.ContextGet()?.Language?.Handle?? (IntPtr)0x0409);
+                ils[i] = new InputLanguage(PangoHelper.ContextGet()?.Language?.Handle ?? (IntPtr)0x0409);
             }
 
             return new InputLanguageCollection(ils);
@@ -104,7 +104,7 @@ public sealed class InputLanguage
     {
         get
         {
-            return PangoHelper.ContextGet().Language?.ToString()??nameof(CultureInfo.InvariantCulture);
+            return PangoHelper.ContextGet().Language?.ToString() ?? nameof(CultureInfo.InvariantCulture);
         }
     }
 

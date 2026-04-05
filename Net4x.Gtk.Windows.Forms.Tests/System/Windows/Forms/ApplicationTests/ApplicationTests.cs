@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable xUnit2009
 
 namespace System.Windows.Forms.ApplicationTests;
 
@@ -47,6 +50,7 @@ public class ApplicationTests
         var path = Application.LocalUserAppDataPath;
 
         Assert.False(string.IsNullOrEmpty(path));
+#pragma warning disable xUnit2009
         Assert.True(path.Contains(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
     }
 
@@ -96,7 +100,7 @@ public class ApplicationTests
     [Fact]
     public void Exit_WithNullEvent_DoesNotThrow()
     {
-        var ex = Record.Exception(() => Application.Exit((CancelEventArgs)null));
+        var ex = Record.Exception(() => Application.Exit((CancelEventArgs?)null));
 
         Assert.Null(ex);
     }

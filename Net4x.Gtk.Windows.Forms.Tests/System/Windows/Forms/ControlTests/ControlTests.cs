@@ -2,6 +2,7 @@
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 namespace System.Windows.Forms.ControlTests;
 
+[Collection("NonParallelCollection")]
 public class ControlTests
 {
     [Fact]
@@ -99,7 +100,6 @@ public class ControlTests
     [Fact]
     public void Focus_Sets_WidgetFocus_And_FocusedPropertyReflectsIt()
     {
-        Gtk.Application.Init();
         var textBox = new TextBox();
         var form = new Form();
         form.Controls?.Add(textBox);

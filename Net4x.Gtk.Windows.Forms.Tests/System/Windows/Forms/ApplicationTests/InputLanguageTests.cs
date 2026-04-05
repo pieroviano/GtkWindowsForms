@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 namespace System.Windows.Forms.ApplicationTests;
 
@@ -12,7 +13,7 @@ public class InputLanguageTests
     [Fact]
     public void Constructor_SetsHandleCorrectly()
     {
-        IntPtr handle = (IntPtr)0x0409; // en-US LCID
+        var handle = (IntPtr)0x0409; // en-US LCID
         var lang = new InputLanguage(handle);
 
         Assert.Equal(handle, lang.Handle);
@@ -21,7 +22,7 @@ public class InputLanguageTests
     [Fact]
     public void Culture_ReturnsCorrectCulture()
     {
-        IntPtr handle = (IntPtr)0x0409; // en-US
+        var handle = (IntPtr)0x0409; // en-US
         var lang = new InputLanguage(handle);
 
         Assert.Equal(0x0409, lang.Culture.LCID);

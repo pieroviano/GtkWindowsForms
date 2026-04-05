@@ -1,5 +1,6 @@
 ﻿namespace System.Windows.Forms.ApplicationTests;
 
+[Collection("NonParallelCollection")]
 public class FormCollectionTests
 {
     private static Form CreateForm(string name)
