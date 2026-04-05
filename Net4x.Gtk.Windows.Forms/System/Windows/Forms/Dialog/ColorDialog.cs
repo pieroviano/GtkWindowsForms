@@ -22,7 +22,7 @@ public class ColorDialog : CommonDialog
     /// </summary>
     public ColorDialog() : base()
     {
-
+        AllowFullOpen = true;
     }
 
     /// <summary>
