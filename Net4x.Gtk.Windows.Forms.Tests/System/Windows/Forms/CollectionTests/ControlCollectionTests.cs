@@ -8,7 +8,7 @@ public class ControlCollectionTests
 {
     public ControlCollectionTests()
     {
-        Application.Init(true);
+        Application.Init();
     }
 
     [Fact]

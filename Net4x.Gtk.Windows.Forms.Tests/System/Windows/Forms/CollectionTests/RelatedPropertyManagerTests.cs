@@ -10,7 +10,7 @@ public class RelatedPropertyManagerTests
 {
     public RelatedPropertyManagerTests()
     {
-        Application.Init(true);
+        Application.Init();
     }
 
     [Fact]

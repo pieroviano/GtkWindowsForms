@@ -93,4 +93,16 @@ public class FormCollection : ReadOnlyCollectionBase
             InnerList.Remove(form);
         }
     }
+
+    public void Clear()
+    {
+        lock (CollectionSyncRoot)
+        {
+            foreach (Form form in InnerList)
+            {
+                form.Dispose();
+            }
+            InnerList.Clear();
+        }
+    }
 }

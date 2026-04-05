@@ -9,7 +9,7 @@ public class InputLanguageTests
 {
     public InputLanguageTests()
     {
-        Application.Init(true);
+        Application.Init();
     }
 
     [Fact]

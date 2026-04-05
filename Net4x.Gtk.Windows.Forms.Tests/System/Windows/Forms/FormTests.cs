@@ -8,7 +8,7 @@ public class FormTests
 {
     public FormTests()
     {
-        Application.Init(true);
+        Application.Init();
     }
 
     [Fact]

@@ -132,6 +132,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0044-RemovedApplicationConfiguration.patch = patches\0044-RemovedApplicationConfiguration.patch
 		patches\0045-Fix-KeysConverter.patch = patches\0045-Fix-KeysConverter.patch
 		patches\0046-Fix-Application.patch = patches\0046-Fix-Application.patch
+		patches\0047-Added-Clear-to-FormCollection.patch = patches\0047-Added-Clear-to-FormCollection.patch
 	EndProjectSection
 EndProject
 Global

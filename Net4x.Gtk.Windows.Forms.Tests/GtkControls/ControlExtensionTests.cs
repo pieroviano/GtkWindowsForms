@@ -13,7 +13,7 @@ public class ControlExtensionTests
 {
     public ControlExtensionTests()
     {
-        Application.Init(true);
+        Application.Init();
     }
 
     [Fact]

@@ -11,7 +11,7 @@ public class RelatedCurrencyManagerTests
 {
     public RelatedCurrencyManagerTests()
     {
-        Application.Init(true);
+        Application.Init();
     }
 
     [Fact]
