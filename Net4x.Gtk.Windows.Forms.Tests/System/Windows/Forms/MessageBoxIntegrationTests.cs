@@ -1,4 +1,5 @@
-﻿using Mocks;
+﻿using System.Diagnostics;
+using Mocks;
 
 namespace System.Windows.Forms;
 
@@ -13,7 +14,9 @@ public class MessageBoxIntegrationTests
             await Task.Delay(1000); // Wait 1 second
             MessageBox.Show("Test message");
             await Task.Delay(500); // Wait 0.5 second
-            form.Close();
+            Application.DontQuit = false;
+            Application.Exit();
+            Application.DontQuit = true;
         }
 
         // Arrange

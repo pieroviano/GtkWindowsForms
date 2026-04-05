@@ -2,7 +2,8 @@
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using NSubstitute;
-using Application = Gtk.Application;
+
+using Application= System.Windows.Forms.Application;
 using Label = Gtk.Label;
 
 namespace GtkControls;
@@ -12,7 +13,7 @@ public class ControlExtensionTests
 {
     public ControlExtensionTests()
     {
-        Application.Init();
+        Application.Init(true);
     }
 
     [Fact]

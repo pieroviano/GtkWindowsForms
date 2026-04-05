@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 
+using Application = System.Windows.Forms.Application;
+
 #pragma warning disable CS8610 // Nullability of reference types in type of parameter doesn't match overridden member.
 
 namespace System.Windows.Forms.CollectionTests;
@@ -9,7 +11,7 @@ public class RelatedCurrencyManagerTests
 {
     public RelatedCurrencyManagerTests()
     {
-        Application.Init();
+        Application.Init(true);
     }
 
     [Fact]

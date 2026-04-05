@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Reflection;
+using Application = System.Windows.Forms.Application;
 
 namespace System.Windows.Forms;
 
@@ -7,7 +8,7 @@ public class FormTests
 {
     public FormTests()
     {
-        Application.Init();
+        Application.Init(true);
     }
 
     [Fact]

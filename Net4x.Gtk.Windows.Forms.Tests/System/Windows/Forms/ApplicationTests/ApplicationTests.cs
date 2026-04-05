@@ -6,6 +6,7 @@ using System.Globalization;
 
 namespace System.Windows.Forms.ApplicationTests;
 
+[Collection("NonParallelCollection")]
 public class ApplicationTests
 {
     [Fact]

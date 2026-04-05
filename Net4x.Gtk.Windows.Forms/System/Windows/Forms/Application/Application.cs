@@ -35,6 +35,8 @@ public sealed class Application
         private set;
     }
 
+    public static bool DontQuit { get; set; }
+
     /// <summary>
     /// Gets the common application data path.
     /// </summary>
@@ -208,18 +210,19 @@ public sealed class Application
             {
                 if (e == null)
                 {
-                    Gtk.Application.Quit();
+                    Quit();
                 }
                 else
                 {
                     if (e.Cancel == false)
                     {
-                        Gtk.Application.Quit();
+                        Quit();
                     }
                 }
             }
             finally
             {
+                GtkLogger.Info("Application quitting");
             }
         }
     }
@@ -233,8 +236,7 @@ public sealed class Application
         {
             try
             {
-
-                Gtk.Application.Quit();
+                Quit();
             }
             finally
             {
@@ -509,7 +511,7 @@ public sealed class Application
     private static void App_Shutdown(object sender, EventArgs e)
     {
         GtkLogger.Info("App_Shutdown");
-        Gtk.Application.Quit();
+        Quit();
     }
 
     private static void Control_Destroyed(object sender, EventArgs e)
@@ -519,6 +521,26 @@ public sealed class Application
 
     private static void QuitActivated(object sender, EventArgs e)
     {
-        Gtk.Application.Quit();
+        Quit();
+    }
+
+    public static void Quit()
+    {
+        if (!DontQuit)
+        {
+#if DEBUG_QUIT
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
+#endif
+            Gtk.Application.Quit();
+        }
+    }
+
+    public static void Init(bool dontQuit)
+    {
+        Forms.Application.DontQuit = dontQuit;
+        Application.Init();
     }
 }

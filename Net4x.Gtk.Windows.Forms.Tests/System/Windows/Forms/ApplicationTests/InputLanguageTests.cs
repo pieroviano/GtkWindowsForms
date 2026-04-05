@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using Application= System.Windows.Forms.Application;
+
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 namespace System.Windows.Forms.ApplicationTests;
@@ -7,7 +9,7 @@ public class InputLanguageTests
 {
     public InputLanguageTests()
     {
-        Application.Init();
+        Application.Init(true);
     }
 
     [Fact]

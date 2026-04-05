@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿extern alias gtk;
+using System.Windows.Forms;
+using gtk::System.Diagnostics;
 
 namespace Mocks;
 
@@ -113,6 +115,7 @@ public class MockMessageBox : IMessageBox, IDisposable
     /// </summary>
     public static MockMessageBox ReplaceMessageBoxWithMock()
     {
+        GtkLogger.IsEnabled = true;
         var mockMessageBox = new MockMessageBox();
         mockMessageBox.LoggedMessages.Clear();
         gtk::System.Diagnostics.GtkLogger.SetCustomLogAction((message, level, exception) =>
