@@ -22,13 +22,15 @@ public partial class DateTimePicker : MaskedTextBox
     /// <summary>
     /// The format
     /// </summary>
-    public DateTimePickerFormat _Format;
+    public DateTimePickerFormat _Format = DateTimePickerFormat.Short;
 
     readonly Gtk.Calendar calendar = new();
 
     readonly Gtk.Popover popver;
 
     private string _CustomFormat= System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd;
+    private DateTime maxDate = DateTime.MaxValue;
+    private DateTime minDate = DateTime.MinValue;
 
     /// <summary>
     /// ValueChanged event is raised when the Value property is changed, either by user action or programmatically.
@@ -196,9 +198,14 @@ public partial class DateTimePicker : MaskedTextBox
     /// </value>
     public DateTime MaxDate
     {
-        get;
-        set;
-    } = DateTime.MaxValue;
+        get => maxDate;
+        set
+        {
+            maxDate = value;
+            var dateTime = Value;
+            Value = dateTime;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the minimum date.
@@ -208,9 +215,14 @@ public partial class DateTimePicker : MaskedTextBox
     /// </value>
     public DateTime MinDate
     {
-        get;
-        set;
-    } = DateTime.MinValue;
+        get => minDate;
+        set
+        {
+            minDate = value;
+            var dateTime = Value;
+            Value = dateTime;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the value.
@@ -249,11 +261,11 @@ public partial class DateTimePicker : MaskedTextBox
         {
             if (value > MaxDate)
             {
-                value = MaxDate.AddDays(-1);
+                value = MaxDate;
             }
             if (value < MinDate)
             {
-                value = MinDate.AddDays(1);
+                value = MinDate;
             }
             if (Format == DateTimePickerFormat.Long)
                 base.Text = value.ToString(System.Properties.Resources.Gtk_DateTimePicker_Value_yyyy_MM_dd);
